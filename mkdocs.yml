@@ -71,8 +71,8 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - 📚 Documentation Hub: DOC-INDEX.md
-  - Getting Started:
+  # ── Getting Started (merged: Getting Started + Help) ──────────────
+  - ⚡ Getting Started:
       - 🎯 Choose Your Path: getting-started/choose-your-path.md
       - ⚡ Quick Start (5-min): getting-started/quick-start.md
       - 📦 Installation: getting-started/installation.md
@@ -81,29 +81,39 @@ nav:
       - ❓ FAQ: getting-started/faq.md
       - ❓ FAQ - Dependencies: getting-started/faq-dependencies.md
       - 🔄 Troubleshooting: getting-started/troubleshooting.md
+      - ⚡ Quick Reference: help/QUICK-REFERENCE.md
+      - 🔧 Common Workflows: help/WORKFLOWS.md
+      - 🩺 General Troubleshooting: help/TROUBLESHOOTING.md
+      - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md
       - 🎉 Release Notes: RELEASES.md
       - 📜 Changelog: CHANGELOG.md
-  - Tutorials:
+  # ── Learn (merged: Tutorials, grouped into subsections) ───────────
+  - 📖 Learn:
       - Overview & Learning Path: tutorials/index.md
-      - 1. Your First Session: tutorials/01-first-session.md
-      - 2. Multiple Projects: tutorials/02-multiple-projects.md
-      - 3. Status Visualizations: tutorials/03-status-visualizations.md
-      - 4. Web Dashboard: tutorials/04-web-dashboard.md
-      - 5. AI-Powered Commands: tutorials/05-ai-commands.md
-      - 6. Dopamine Features: tutorials/06-dopamine-features.md
-      - 7. Sync Command: tutorials/07-sync-command.md
-      - 8. Git Feature Workflow: tutorials/08-git-feature-workflow.md
-      - 9. Worktrees: tutorials/09-worktrees.md
-      - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
-      - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
-      - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
-      - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
-      - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
-      - 16. Vim Motions: tutorials/16-vim-motions.md
-      - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
-      - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
-      - 22. Plugin Optimization: tutorials/22-plugin-optimization.md
-      - 23. Token Automation: tutorials/23-token-automation.md
+      - Core Workflows:
+          - 1. Your First Session: tutorials/01-first-session.md
+          - 2. Multiple Projects: tutorials/02-multiple-projects.md
+          - 3. Status Visualizations: tutorials/03-status-visualizations.md
+          - 4. Web Dashboard: tutorials/04-web-dashboard.md
+          - 5. AI-Powered Commands: tutorials/05-ai-commands.md
+          - 6. Dopamine Features: tutorials/06-dopamine-features.md
+      - Git & Projects:
+          - 7. Sync Command: tutorials/07-sync-command.md
+          - 8. Git Feature Workflow: tutorials/08-git-feature-workflow.md
+          - 9. Worktrees: tutorials/09-worktrees.md
+          - 22. Plugin Optimization: tutorials/22-plugin-optimization.md
+          - 23. Token Automation: tutorials/23-token-automation.md
+      - Dispatchers:
+          - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
+          - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
+          - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
+          - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
+      - Editor (Neovim):
+          - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
+          - 16. Vim Motions: tutorials/16-vim-motions.md
+          - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
+          - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
+  # ── Teaching (kept as-is, already well-organized) ─────────────────
   - 🎓 Teaching:
       - Overview: teaching/index.md
       - Getting Started:
@@ -161,95 +171,93 @@ nav:
           - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
           - Dates Guide: guides/TEACHING-DATES-GUIDE.md
           - Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
-  - Workflows:
-      - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
-      - Git Feature Flow: tutorials/08-git-feature-workflow.md
-      - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
-      - Dotfile Workflow: guides/DOT-WORKFLOW.md
-      - Lint Integration: workflows/WORKFLOW-LINT.md
-      - Alias Management: guides/ALIAS-MANAGEMENT-WORKFLOW.md
-      - YOLO Mode: guides/YOLO-MODE-WORKFLOW.md
-      - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
-      - Plugin Management: guides/PLUGIN-MANAGEMENT-WORKFLOW.md
-      - Config Management: guides/CONFIG-MANAGEMENT-WORKFLOW.md
-  - Guides:
+  # ── Workflows & Guides (merged: Workflows + Guides) ──────────────
+  - 🔧 Workflows & Guides:
       - Start Here: guides/00-START-HERE.md
-      - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
-      - 🔐 Token Management Complete Guide: guides/TOKEN-MANAGEMENT-COMPLETE.md
-      - 🚀 Quarto Workflow Phase 2:
-          - Phase 2 Complete Guide: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
-      - 🛡️ Chezmoi Safety Features: guides/CHEZMOI-SAFETY-GUIDE.md
-      - 🔍 Lint Validation:
-          - User Guide: guides/LINT-GUIDE.md
-          - Migration Guide: guides/LINT-MIGRATION-GUIDE.md
-      - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
-      - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
-      - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
-      - Enhanced Help: guides/ENHANCED-HELP-QUICK-START.md
-      - Monorepo Commands: guides/MONOREPO-COMMANDS-TUTORIAL.md
-      - Project Scope: guides/PROJECT-SCOPE.md
-  - Visuals:
-      - Documentation Templates: conventions/adhd/README.md
-      - GIF Creation Guide: conventions/adhd/GIF-GUIDELINES.md
-  - Help & Quick Reference:
-      - 🏠 Start Here: help/00-START-HERE.md
-      - ⚡ Quick Reference: help/QUICK-REFERENCE.md
-      - 🔐 Token & Secrets Quick Ref: reference/REFCARD-TOKEN-SECRETS.md
-      - 🛡️ Chezmoi Safety Quick Ref: reference/REFCARD-DOT-SAFETY.md
-      - 🔧 Workflows: help/WORKFLOWS.md
-      - 🩺 Troubleshooting: help/TROUBLESHOOTING.md
-      - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md
-  - Reference:
-      - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
-      - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
-      - 🏗️ Master Architecture: reference/MASTER-ARCHITECTURE.md
-      - 🛡️ Chezmoi Safety API: reference/API-DOT-SAFETY.md
-      - 📊 Documentation Dashboard: DOC-DASHBOARD.md
-  - Commands:
-      - flow (main): commands/flow.md
-      - work: commands/work.md
-      - finish: commands/finish.md
-      - hop: commands/hop.md
-      - pick: commands/pick.md
-      - alias: commands/alias.md
-      - capture (win/yay/catch): commands/capture.md
-      - timer: commands/timer.md
-      - morning: commands/morning.md
-      - dash: commands/dash.md
-      - status: commands/status.md
-      - sync: commands/sync.md
-      - doctor: commands/doctor.md
-      - config: commands/config.md
-      - plugin: commands/plugin.md
-      - ai: commands/ai.md
-      - do: commands/do.md
-      - install: commands/install.md
-      - upgrade: commands/upgrade.md
-      - dashboard: commands/dashboard.md
-  - Testing:
-      - 🧪 Testing Guide: guides/TESTING.md
-      - Safe Testing (v5.9.0): guides/SAFE-TESTING-v5.9.0.md
-      - Interactive Dog Test: testing/DOG-FEEDING-TEST-README.md
-      - Interactive Test Guide: testing/INTERACTIVE-TEST-GUIDE.md
-  - Development:
+      - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
+      - Git & Branching:
+          - Git Feature Flow: tutorials/08-git-feature-workflow.md
+          - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
+      - Dotfiles & Config:
+          - Dotfile Workflow: guides/DOT-WORKFLOW.md
+          - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
+          - 🛡️ Chezmoi Safety Features: guides/CHEZMOI-SAFETY-GUIDE.md
+          - Config Management: guides/CONFIG-MANAGEMENT-WORKFLOW.md
+          - Alias Management: guides/ALIAS-MANAGEMENT-WORKFLOW.md
+      - Tools & Integrations:
+          - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
+          - 🔐 Token Management: guides/TOKEN-MANAGEMENT-COMPLETE.md
+          - 🚀 Quarto Workflow Phase 2: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
+          - 🔍 Lint Validation:
+              - User Guide: guides/LINT-GUIDE.md
+              - Migration Guide: guides/LINT-MIGRATION-GUIDE.md
+          - Lint Workflow: workflows/WORKFLOW-LINT.md
+          - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
+          - Enhanced Help: guides/ENHANCED-HELP-QUICK-START.md
+          - Monorepo Commands: guides/MONOREPO-COMMANDS-TUTORIAL.md
+          - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
+      - Advanced:
+          - YOLO Mode: guides/YOLO-MODE-WORKFLOW.md
+          - Plugin Management: guides/PLUGIN-MANAGEMENT-WORKFLOW.md
+          - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
+          - Project Scope: guides/PROJECT-SCOPE.md
+  # ── Reference (merged: Reference + Commands + Architecture + REFCARDs) ──
+  - 📚 Reference:
+      - API & Architecture:
+          - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
+          - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
+          - 🏗️ Master Architecture: reference/MASTER-ARCHITECTURE.md
+          - 📊 Documentation Dashboard: DOC-DASHBOARD.md
+      - Commands:
+          - flow (main): commands/flow.md
+          - work: commands/work.md
+          - finish: commands/finish.md
+          - hop: commands/hop.md
+          - pick: commands/pick.md
+          - alias: commands/alias.md
+          - capture (win/yay/catch): commands/capture.md
+          - timer: commands/timer.md
+          - morning: commands/morning.md
+          - dash: commands/dash.md
+          - status: commands/status.md
+          - sync: commands/sync.md
+          - doctor: commands/doctor.md
+          - config: commands/config.md
+          - plugin: commands/plugin.md
+          - ai: commands/ai.md
+          - do: commands/do.md
+          - install: commands/install.md
+          - upgrade: commands/upgrade.md
+          - dashboard: commands/dashboard.md
+      - Quick Reference Cards:
+          - 🔐 Token & Secrets: reference/REFCARD-TOKEN-SECRETS.md
+          - 🛡️ Chezmoi Safety: reference/REFCARD-DOT-SAFETY.md
+          - 🛡️ Chezmoi Safety API: reference/API-DOT-SAFETY.md
+      - Architecture Deep Dives:
+          - 🛡️ Chezmoi Safety: architecture/DOT-SAFETY-ARCHITECTURE.md
+          - 🔐 Doctor Token System: architecture/DOCTOR-TOKEN-ARCHITECTURE.md
+          - 📅 Teaching Dates: architecture/TEACHING-DATES-ARCHITECTURE.md
+          - 🎓 Scholar Enhancement: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
+  # ── Contributing (merged: Development + Testing + Visuals + Planning) ──
+  - 🛠️ Contributing:
       - 🛠️ Developer Guide: guides/DEVELOPER-GUIDE.md
       - Contributing: contributing/CONTRIBUTING.md
       - Branch Workflow: contributing/BRANCH-WORKFLOW.md
       - PR Workflow Guide: contributing/PR-WORKFLOW-GUIDE.md
       - Documentation Style Guide: contributing/DOCUMENTATION-STYLE-GUIDE.md
+      - Documentation Templates: conventions/adhd/README.md
+      - GIF Creation Guide: conventions/adhd/GIF-GUIDELINES.md
       - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
       - Conventions: CONVENTIONS.md
       - Philosophy: PHILOSOPHY.md
-  - Architecture:
-      - 🛡️ Chezmoi Safety: architecture/DOT-SAFETY-ARCHITECTURE.md
-      - 🔐 Doctor Token System: architecture/DOCTOR-TOKEN-ARCHITECTURE.md
-      - 📅 Teaching Dates: architecture/TEACHING-DATES-ARCHITECTURE.md
-      - 🎓 Scholar Enhancement: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
-  - Planning:
-      - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
-      - Install Improvements: planning/INSTALL-IMPROVEMENTS.md
-  # Project Status files removed - they're root-level project tracking docs
-  # with internal links that break in mkdocs context
+      - Testing:
+          - 🧪 Testing Guide: guides/TESTING.md
+          - Safe Testing (v5.9.0): guides/SAFE-TESTING-v5.9.0.md
+          - Interactive Dog Test: testing/DOG-FEEDING-TEST-README.md
+          - Interactive Test Guide: testing/INTERACTIVE-TEST-GUIDE.md
+      - Planning:
+          - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
+          - Install Improvements: planning/INSTALL-IMPROVEMENTS.md
 
 extra:
   social:
