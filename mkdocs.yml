@@ -100,6 +100,7 @@ nav:
   - Home: index.md
   # ── Getting Started (merged: Getting Started + Help) ──────────────
   - ⚡ Getting Started:
+      - getting-started/index.md
       - 🎯 Choose Your Path: getting-started/choose-your-path.md
       - ⚡ Quick Start (5-min): getting-started/quick-start.md
       - 📦 Installation: getting-started/installation.md
@@ -200,6 +201,7 @@ nav:
           - Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
   # ── Workflows & Guides (merged: Workflows + Guides) ──────────────
   - 🔧 Workflows & Guides:
+      - guides/index.md
       - Start Here: guides/00-START-HERE.md
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Git & Branching:
@@ -230,6 +232,7 @@ nav:
           - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
   # ── Reference (merged: Reference + Commands + Architecture) ───────
   - 📚 Reference:
+      - reference/index.md
       - API & Architecture:
           - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
           - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
@@ -267,6 +270,7 @@ nav:
           - 🎓 Scholar Enhancement: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
   # ── Contributing (merged: Development + Testing + Visuals + Planning)
   - 🛠️ Contributing:
+      - contributing/index.md
       - 🛠️ Developer Guide: guides/DEVELOPER-GUIDE.md
       - Contributing: contributing/CONTRIBUTING.md
       - Branch Workflow: contributing/BRANCH-WORKFLOW.md
