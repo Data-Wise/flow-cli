@@ -199,9 +199,9 @@ nav:
       - Advanced:
           - YOLO Mode: guides/YOLO-MODE-WORKFLOW.md
           - Plugin Management: guides/PLUGIN-MANAGEMENT-WORKFLOW.md
-          - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
           - Project Scope: guides/PROJECT-SCOPE.md
-  # ── Reference (merged: Reference + Commands + Architecture + REFCARDs) ──
+          - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
+  # ── Reference (merged: Reference + Commands + Architecture) ───────
   - 📚 Reference:
       - API & Architecture:
           - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
@@ -238,7 +238,7 @@ nav:
           - 🔐 Doctor Token System: architecture/DOCTOR-TOKEN-ARCHITECTURE.md
           - 📅 Teaching Dates: architecture/TEACHING-DATES-ARCHITECTURE.md
           - 🎓 Scholar Enhancement: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
-  # ── Contributing (merged: Development + Testing + Visuals + Planning) ──
+  # ── Contributing (merged: Development + Testing + Visuals + Planning)
   - 🛠️ Contributing:
       - 🛠️ Developer Guide: guides/DEVELOPER-GUIDE.md
       - Contributing: contributing/CONTRIBUTING.md
