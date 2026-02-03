@@ -56,7 +56,8 @@ plugins:
         - 'bugs/**'
         - 'diagrams/**'
         - 'releases/**'
-        - 'demos/**'
+        - 'demos/*.md'
+        - 'demos/**/*.md'
         - 'reference/.archive/**'
         - 'BRAINSTORM-*.md'
         - 'DECISION-*.md'
@@ -94,6 +95,9 @@ markdown_extensions:
   - tables
   - attr_list
   - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - toc:
       permalink: true
 

@@ -8,7 +8,8 @@ tags:
 > **Help make flow-cli better — code, docs, tests, or ideas.**
 
 !!! tldr "Quick Start"
-    Read the [Developer Guide](../guides/DEVELOPER-GUIDE.md) and [Branch Workflow](BRANCH-WORKFLOW.md) before your first PR.
+    Read the [Developer Guide](../guides/DEVELOPER-GUIDE.md) and [Branch Workflow](BRANCH-WORKFLOW.md)
+    before your first PR.
 
 ---
 
@@ -53,7 +54,7 @@ tags:
 ## What's Here
 
 | Page | Description |
-|------|-------------|
+| ---- | ----------- |
 | [Developer Guide](../guides/DEVELOPER-GUIDE.md) | Architecture and coding standards |
 | [Contributing](CONTRIBUTING.md) | Contribution guidelines |
 | [Branch Workflow](BRANCH-WORKFLOW.md) | Git workflow for contributors |

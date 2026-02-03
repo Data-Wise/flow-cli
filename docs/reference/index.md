@@ -55,7 +55,7 @@ tags:
 ### API & Architecture
 
 | Page | Description |
-|------|-------------|
+| ---- | ----------- |
 | [Master API Reference](MASTER-API-REFERENCE.md) | Function signatures and usage for all libraries |
 | [Master Dispatcher Guide](MASTER-DISPATCHER-GUIDE.md) | All 12 dispatchers documented |
 | [Master Architecture](MASTER-ARCHITECTURE.md) | System architecture with Mermaid diagrams |
@@ -64,7 +64,7 @@ tags:
 ### Commands
 
 | Page | Description |
-|------|-------------|
+| ---- | ----------- |
 | [flow](../commands/flow.md) | Main entry point |
 | [work](../commands/work.md) | Session management |
 | [finish](../commands/finish.md) | End session |
@@ -77,7 +77,7 @@ tags:
 ### Quick Reference Cards
 
 | Page | Description |
-|------|-------------|
+| ---- | ----------- |
 | [Token & Secrets](REFCARD-TOKEN-SECRETS.md) | Token management cheat sheet |
 | [Chezmoi Safety](REFCARD-DOT-SAFETY.md) | Dotfile safety quick reference |
 | [Chezmoi Safety API](API-DOT-SAFETY.md) | Safety feature API reference |
@@ -85,7 +85,7 @@ tags:
 ### Architecture Deep Dives
 
 | Page | Description |
-|------|-------------|
+| ---- | ----------- |
 | [Chezmoi Safety](../architecture/DOT-SAFETY-ARCHITECTURE.md) | Preview-before-add architecture |
 | [Doctor Token System](../architecture/DOCTOR-TOKEN-ARCHITECTURE.md) | Token automation internals |
 | [Teaching Dates](../architecture/TEACHING-DATES-ARCHITECTURE.md) | Date management system |

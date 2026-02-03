@@ -861,7 +861,6 @@ grep github-token ~/.gitconfig
 ## See Also
 
 - [DOT-DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher) - Complete command reference
-- [SECRET-MANAGEMENT.md](../SECRET-MANAGEMENT.md) - Deep dive into Bitwarden integration
 - [Chezmoi Documentation](https://www.chezmoi.io/) - Official chezmoi docs
 - [Bitwarden CLI Documentation](https://bitwarden.com/help/cli/) - Official Bitwarden CLI docs
 

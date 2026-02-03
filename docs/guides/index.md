@@ -61,7 +61,7 @@ tags:
 ## What's Here
 
 | Page | Description |
-|------|-------------|
+| ---- | ----------- |
 | [Start Here](00-START-HERE.md) | Orientation for new users |
 | [Quick Wins](WORKFLOWS-QUICK-WINS.md) | Low-effort, high-impact improvements |
 | [Git Feature Flow](../tutorials/08-git-feature-workflow.md) | Branch-based feature development |

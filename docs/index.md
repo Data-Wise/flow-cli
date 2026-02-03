@@ -7,7 +7,7 @@ tags:
 
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v6.1.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0)
+[![Version](https://img.shields.io/badge/version-v6.2.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -26,9 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New: v6.1.0 - Quarto Lint Validation"
-    Catch structural mistakes before production. 4 validation rules for teaching materials.
-    [→ See what's new](RELEASES.md#v610-quarto-lint-validation-2026-02-01){ .md-button }
+!!! success "🎉 What's New: v6.2.0 - Docs Overhaul + Website Reorganization"
+    Reduced navigation from 14 to 7 sections. Landing pages with grid cards. Tags for cross-cutting discovery.
+    [→ See what's new](RELEASES.md){ .md-button }
     [→ All releases](RELEASES.md){ .md-button }
 
 ---
@@ -144,7 +144,7 @@ Choose your path based on what you need right now:
 
 <div class="grid cards" markdown>
 
--   :rocket: { .lg .middle }
+-   :rocket:{ .lg .middle }
     **5-Minute Quick Start**
 
     ---
@@ -153,7 +153,7 @@ Choose your path based on what you need right now:
 
     [→ Quick Start](getting-started/quick-start.md)
 
--   :books: { .lg .middle }
+-   :books:{ .lg .middle }
     **Step-by-Step Tutorials**
 
     ---
@@ -162,7 +162,7 @@ Choose your path based on what you need right now:
 
     [→ Tutorial 01](tutorials/01-first-session.md)
 
--   :fire: { .lg .middle }
+-   :fire:{ .lg .middle }
     **Dopamine Features**
 
     ---
@@ -171,7 +171,7 @@ Choose your path based on what you need right now:
 
     [→ Dopamine Guide](tutorials/06-dopamine-features.md)
 
--   :compass: { .lg .middle }
+-   :compass:{ .lg .middle }
     **Command Reference**
 
     ---
@@ -180,7 +180,7 @@ Choose your path based on what you need right now:
 
     [→ Reference](help/QUICK-REFERENCE.md)
 
--   :teacher: { .lg .middle }
+-   :teacher:{ .lg .middle }
     **Teaching Workflow**
 
     ---
@@ -189,7 +189,7 @@ Choose your path based on what you need right now:
 
     [→ Teaching Guide](guides/TEACHING-SYSTEM-ARCHITECTURE.md)
 
--   :mag: { .lg .middle }
+-   :mag:{ .lg .middle }
     **Common Workflows**
 
     ---
@@ -266,4 +266,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v6.1.0** · Pure ZSH · Zero Dependencies · MIT License
+**v6.2.0** · Pure ZSH · Zero Dependencies · MIT License

@@ -660,12 +660,6 @@ You've mastered advanced Scholar Enhancement!
 - [API Reference](../../reference/MASTER-API-REFERENCE.md#teaching-libraries) - All 47 flags
 - [Architecture Guide](../../architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md) - How it works
 
-**Implementation Details:**
-
-- [Phases 1-2](../../reports/IMPLEMENTATION-PHASES-1-2.md) - Flag system
-- [Phases 3-4](../../reports/IMPLEMENTATION-PHASES-3-4.md) - Lesson plans
-- [Phases 5-6](../../reports/IMPLEMENTATION-PHASES-5-6.md) - Revision & polish
-
 ### Contribute
 
 Found a bug? Have an idea?

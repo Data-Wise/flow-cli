@@ -57,7 +57,7 @@ tags:
 ## What's Here
 
 | Page | Description |
-|------|-------------|
+| ---- | ----------- |
 | [Choose Your Path](choose-your-path.md) | Guided learning path selector |
 | [Quick Start](quick-start.md) | 5-minute install + first session |
 | [Installation](installation.md) | All installation methods |
