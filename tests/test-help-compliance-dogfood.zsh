@@ -145,7 +145,7 @@ _test_individual_rules() {
     assert_contains "$output" "📋" "$dispatcher: has 📋 categorized section"
 
     # Rule 6: TIP section
-    assert_grep "$output" "💡.*TIP" "$dispatcher: has 💡 TIP section"
+    assert_grep "$output" "💡 TIP" "$dispatcher: has 💡 TIP section"
 
     # Rule 7: See Also
     assert_grep "$output" "📚|See also" "$dispatcher: has 📚 See also"
@@ -489,6 +489,31 @@ _test_compliance_api() {
     local bad_rc=$?
     assert_exit_code "$bad_rc" "1" "invalid dispatcher returns exit 1"
     assert_contains "$bad_output" "FAIL" "invalid dispatcher produces FAIL output"
+
+    # --- Negative test: mock non-compliant dispatcher ---
+    # Create a deliberately broken help function missing required sections
+    _mock_broken_help() {
+        echo "This help has no box, no sections, no colors"
+    }
+
+    # Temporarily register mock in the compliance data structures
+    local _orig_fn="${_FLOW_HELP_FUNCTIONS[g]}"
+    _FLOW_HELP_FUNCTIONS[g]="_mock_broken_help"
+
+    local broken_output
+    broken_output="$(_flow_help_compliance_check "g" true 2>&1)"
+    local broken_rc=$?
+
+    assert_exit_code "$broken_rc" "1" "non-compliant mock returns exit 1"
+    assert_contains "$broken_output" "FAIL  rule1_box_header" "mock fails rule1 (box header)"
+    assert_contains "$broken_output" "FAIL  rule3_most_common" "mock fails rule3 (most common)"
+    assert_contains "$broken_output" "FAIL  rule4_quick_examples" "mock fails rule4 (quick examples)"
+    assert_contains "$broken_output" "FAIL  rule6_tip_section" "mock fails rule6 (TIP)"
+    assert_contains "$broken_output" "FAIL  rule8_color_codes" "mock fails rule8 (color codes)"
+
+    # Restore original
+    _FLOW_HELP_FUNCTIONS[g]="$_orig_fn"
+    unfunction _mock_broken_help 2>/dev/null
 }
 
 _test_compliance_api

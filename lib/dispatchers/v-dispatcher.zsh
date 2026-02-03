@@ -232,16 +232,16 @@ vibe() {
 # ═══════════════════════════════════════════════════════════════════
 
 _v_help() {
-    # Color fallbacks for standalone use
-    local _C_BOLD="${_C_BOLD:-\033[1m}"
-    local _C_DIM="${_C_DIM:-\033[2m}"
-    local _C_NC="${_C_NC:-\033[0m}"
-    local _C_RED="${_C_RED:-\033[31m}"
-    local _C_GREEN="${_C_GREEN:-\033[32m}"
-    local _C_YELLOW="${_C_YELLOW:-\033[33m}"
-    local _C_BLUE="${_C_BLUE:-\033[34m}"
-    local _C_MAGENTA="${_C_MAGENTA:-\033[35m}"
-    local _C_CYAN="${_C_CYAN:-\033[36m}"
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
+    fi
 
     echo -e "
 ${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}

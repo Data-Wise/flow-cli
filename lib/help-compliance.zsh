@@ -12,7 +12,7 @@
 #   3. MOST COMMON section (🔥)
 #   4. QUICK EXAMPLES section (💡.*QUICK EXAMPLES)
 #   5. Categorized actions (📋)
-#   6. TIP section (💡.*TIP)
+#   6. TIP section (💡 TIP)
 #   7. See Also section (📚|See also)
 #   8. Color codes (_C_ or \033[)
 #   9. Help function naming (_<cmd>_help)
@@ -109,7 +109,7 @@ _flow_help_compliance_check() {
     fi
 
     # Rule 6: TIP section
-    if echo "$output" | grep -q '💡.*TIP'; then
+    if echo "$output" | grep -q '💡 TIP'; then
         [[ "$verbose" == "true" ]] && echo "  PASS  rule6_tip_section"
     else
         echo "  FAIL  rule6_tip_section: missing 💡 TIP section"
@@ -195,7 +195,7 @@ _flow_help_compliance_rules() {
     echo "  3. most_common        🔥 MOST COMMON section (green)"
     echo "  4. quick_examples     💡 QUICK EXAMPLES section (yellow)"
     echo "  5. categorized        📋 categorized action section(s) (blue)"
-    echo "  6. tip_section        💡 TIP section (magenta)"
+    echo "  6. tip_section        💡 TIP section exact match (magenta)"
     echo "  7. see_also           📚 See also cross-references (dim)"
     echo "  8. color_codes        ANSI color codes present in output"
     echo "  9. function_naming    _<cmd>_help() naming convention"

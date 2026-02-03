@@ -4669,6 +4669,11 @@ ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
   ${_C_DIM}\$${_C_NC} teach validate --render           ${_C_DIM}# Full validation${_C_NC}
   ${_C_DIM}\$${_C_NC} teach deploy --preview            ${_C_DIM}# Preview deploy${_C_NC}
 
+  ${_C_DIM}── Workflows ──${_C_NC}
+  ${_C_DIM}Setup:${_C_NC}   teach init → teach config → teach analyze → teach deploy
+  ${_C_DIM}Content:${_C_NC} teach exam \"Regression\" → teach rubric → teach feedback
+  ${_C_DIM}Weekly:${_C_NC}  teach week → teach lec \"ANOVA\" --week 5 → teach sl 5
+
 ${_C_BLUE}📋 SETUP & CONFIGURATION${_C_NC}:
   ${_C_CYAN}teach init${_C_NC} [name]         Initialize teaching project
   ${_C_CYAN}teach config${_C_NC}              Edit configuration
@@ -4707,7 +4712,14 @@ ${_C_BLUE}📋 DEPLOYMENT & MANAGEMENT${_C_NC}:
 
 ${_C_MAGENTA}💡 TIP${_C_NC}: Content generation requires Scholar plugin
   ${_C_DIM}teach lecture → scholar:teaching:lecture (AI-powered)${_C_NC}
-  ${_C_DIM}Shortcuts: i=init lec=lecture e=exam d=deploy s=status${_C_NC}
+
+  ${_C_BOLD}Shortcuts${_C_NC} ${_C_DIM}(type shorter aliases for any command)${_C_NC}:
+  ${_C_DIM}  Setup:    i=init  c=config  doc=doctor  hook=hooks${_C_NC}
+  ${_C_DIM}  Content:  lec=lecture  sl=slides  e=exam  q=quiz${_C_NC}
+  ${_C_DIM}            hw=assignment  syl=syllabus  rb=rubric  fb=feedback${_C_NC}
+  ${_C_DIM}  Quality:  val=validate  concept=analyze  prof=profiles  cl=clean${_C_NC}
+  ${_C_DIM}  Manage:   d=deploy  s=status  w=week  bk=backup  a=archive${_C_NC}
+  ${_C_DIM}  Tools:    pl=plan  tmpl=templates  m=macros  pr=prompt  migrate=migrate-config${_C_NC}
 
 ${_C_DIM}📚 See also:${_C_NC}
   ${_C_CYAN}qu${_C_NC} - Quarto commands (qu preview, qu render)

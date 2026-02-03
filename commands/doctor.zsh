@@ -73,10 +73,15 @@ doctor() {
     local _hc_lib="${_DOCTOR_DIR}/../lib/help-compliance.zsh"
     if [[ -f "$_hc_lib" ]]; then
       source "$_hc_lib"
+      # Color fallbacks for standalone use
+      if [[ -z "$_C_BOLD" ]]; then
+          _C_BOLD='\033[1m'
+          _C_NC='\033[0m'
+      fi
       echo ""
-      echo "${FLOW_COLORS[header]:-}╭─────────────────────────────────────────────╮${FLOW_COLORS[reset]:-}"
-      echo "${FLOW_COLORS[header]:-}│${FLOW_COLORS[reset]:-}  ${FLOW_COLORS[bold]:-}📋 Help Function Compliance Check${FLOW_COLORS[reset]:-}           ${FLOW_COLORS[header]:-}│${FLOW_COLORS[reset]:-}"
-      echo "${FLOW_COLORS[header]:-}╰─────────────────────────────────────────────╯${FLOW_COLORS[reset]:-}"
+      echo -e "${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}"
+      echo -e "${_C_BOLD}│  📋 Help Function Compliance Check           │${_C_NC}"
+      echo -e "${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}"
       echo ""
       _flow_help_compliance_check_all "$verbose"
       return $?
