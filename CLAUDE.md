@@ -721,6 +721,10 @@ export FLOW_DEBUG=1
 - ✅ Website reorganization - 14 sections reduced to 7 (ADHD-friendly)
 - ✅ 11 new teaching docs - REFCARDs, guides, tutorials, schema reference
 - ✅ teach help system - 100% standards compliance
+- ✅ MkDocs tags plugin - 14 topic tags across ~39 pages
+- ✅ Section landing pages - Grid card navigation for all 4 main sections
+- ✅ Build warnings eliminated - 28 → 0 (broken links to excluded files)
+- ✅ Grid card emoji rendering - `pymdownx.emoji` + `attr_list` spacing fix
 
 ---
 
@@ -753,6 +757,17 @@ export FLOW_DEBUG=1
 - **Brainstorm files archived** - Cleaned repo root
 
 **Stats:** 27 files changed, +9,004 / -109 lines
+
+**Post-release fixes (PR #327, #329):**
+
+- Section landing pages with grid cards (Getting Started, Workflows, Reference, Contributing)
+- MkDocs Material tags plugin with 14 topic tags across ~39 pages
+- Tags index page at `/tags/`
+- Triage: deleted 7 orphaned files, expanded exclude globs, fixed broken links
+- `pymdownx.emoji` extension for grid card emoji rendering
+- `attr_list` spacing fix (`:emoji:{ .lg .middle }` — no space)
+- Version badges and What's New updated to v6.2.0
+- Resolved all 28 MkDocs build warnings (0 remaining)
 
 ---
 
