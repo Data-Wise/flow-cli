@@ -1,3 +1,9 @@
+---
+tags:
+  - guide
+  - git
+---
+
 # Git Worktrees with Claude Code
 
 **Level:** Intermediate

@@ -1,3 +1,10 @@
+---
+tags:
+  - guide
+  - security
+  - configuration
+---
+
 # Chezmoi Safety Features - User Guide
 
 **Version:** 6.0.0

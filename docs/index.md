@@ -1,3 +1,10 @@
+---
+tags:
+  - getting-started
+  - adhd
+  - commands
+---
+
 # Flow CLI
 
 [![Version](https://img.shields.io/badge/version-v6.1.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0)

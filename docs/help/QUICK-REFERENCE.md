@@ -1,3 +1,9 @@
+---
+tags:
+  - reference
+  - commands
+---
+
 # Quick Reference: flow-cli Commands
 
 **Purpose:** Single-page command lookup for all flow-cli features

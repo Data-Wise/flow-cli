@@ -1,3 +1,10 @@
+---
+tags:
+  - reference
+  - dispatchers
+  - commands
+---
+
 # Master Dispatcher Guide
 
 **Purpose:** Complete reference for all 12 flow-cli dispatchers

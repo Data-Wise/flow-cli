@@ -1,3 +1,9 @@
+---
+tags:
+  - reference
+  - security
+---
+
 # Token & Secret Management - Quick Reference
 
 **Version:** 5.18.0-dev

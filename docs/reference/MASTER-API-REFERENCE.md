@@ -1,3 +1,8 @@
+---
+tags:
+  - reference
+---
+
 # Master API Reference
 
 **Purpose:** Complete API documentation for all flow-cli library functions

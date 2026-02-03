@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v6.1.0
-- **Latest Release:** v6.1.0 (2026-01-31)
+- **Current Version:** v6.2.0
+- **Latest Release:** v6.2.0 (2026-02-02)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -707,23 +707,54 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v6.1.0
-**Latest Release:** v6.1.0 (2026-01-29)
+**Version:** v6.2.0
+**Latest Release:** v6.2.0 (2026-02-02)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 462 total tests
 
-**Recent Improvements (dev branch):**
+**Recent Improvements:**
 
-- ✅ Dispatcher routing - All 12 dispatchers accessible via `flow` command
-- ✅ teach help system - 100% standards compliance (⭐⭐⭐⭐⭐)
+- ✅ Website reorganization - 14 sections reduced to 7 (ADHD-friendly)
+- ✅ 11 new teaching docs - REFCARDs, guides, tutorials, schema reference
+- ✅ teach help system - 100% standards compliance
 
 ---
 
 ## Recent Releases
+
+### v6.2.0 - Docs Overhaul + Website Reorganization (2026-02-02)
+
+**Released:** 2026-02-02
+**PR #326:** https://github.com/Data-Wise/flow-cli/pull/326 (MERGED)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.0
+**Changes:** Documentation overhaul, no code changes
+
+**Major Features:**
+
+- **Website Reorganization** - Reduced top-level navigation from 14 to 7 sections
+  - Merged Getting Started + Help → "Getting Started"
+  - Grouped Tutorials into 4 subsections → "Learn"
+  - Merged Workflows + Guides → "Workflows & Guides"
+  - Merged Reference + Commands + Architecture → "Reference"
+  - Merged Development + Testing + Visuals + Planning → "Contributing"
+  - Removed Documentation Hub tab
+
+- **11 New Teaching Docs** - Filled documentation gaps across teach system
+  - 6 REFCARDs: TEACH-DISPATCHER, ANALYSIS, DATES, DOCTOR, SCHOLAR-FLAGS, TEACH-CONFIG-SCHEMA
+  - 3 Guides: SCHOLAR-WRAPPERS-GUIDE, TEACH-DEPLOY-GUIDE, TEACHING-TROUBLESHOOTING
+  - 2 Tutorials: First Exam Walkthrough (#29), New Instructor Workflow (#30)
+
+- **Index Page Redesign** - ADHD-friendly visual hierarchy
+- **Cross-references** - Bidirectional links added to 6 existing tutorials
+- **Brainstorm files archived** - Cleaned repo root
+
+**Stats:** 27 files changed, +9,004 / -109 lines
+
+---
 
 ### v6.1.0 - Comprehensive Chezmoi Safety Features (2026-01-31)
 
@@ -956,10 +987,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 5.23.0"
-git tag -a v6.1.0 -m "v6.1.0"
+git tag -a v6.2.0 -m "v6.2.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v6.1.0
+git push origin main && git push origin v6.2.0
 ```
 
 **Files updated by release script:**
@@ -979,5 +1010,5 @@ git push origin main && git push origin v6.1.0
 
 ---
 
-**Last Updated:** 2026-01-29
-**Status:** Production Ready (v6.1.0)
+**Last Updated:** 2026-02-02
+**Status:** Production Ready (v6.2.0)

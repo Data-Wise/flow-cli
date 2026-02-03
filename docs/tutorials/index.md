@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - getting-started
+---
+
 # Tutorials
 
 > **Learn flow-cli step by step** - From your first session to advanced workflows.

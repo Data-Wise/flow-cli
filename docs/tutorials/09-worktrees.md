@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - git
+---
+
 # Tutorial: Git Worktrees for Parallel Development
 
 > **What you'll learn:** Use git worktrees to work on multiple branches simultaneously

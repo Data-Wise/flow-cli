@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - git
+---
+
 # Tutorial: Git Feature Branch Workflow
 
 > **What you'll learn:** Use the feature branch workflow to safely develop and merge changes

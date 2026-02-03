@@ -1,3 +1,9 @@
+---
+tags:
+  - teaching
+  - getting-started
+---
+
 # Teaching Workflow Documentation
 
 > **Complete teaching workflow management for Quarto course websites**

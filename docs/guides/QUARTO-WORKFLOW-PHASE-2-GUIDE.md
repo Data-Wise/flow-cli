@@ -1,3 +1,9 @@
+---
+tags:
+  - guide
+  - quarto
+---
+
 # Quarto Workflow Phase 2 Guide
 
 **Version:** 5.14.0
