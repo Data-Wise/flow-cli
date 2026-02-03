@@ -8,19 +8,28 @@
 ## Priority: 1
 ## Progress: 100
 
-## ✅ Just Completed: v6.2.0 Release (2026-02-02)
+## ✅ Just Completed: v6.2.0 Post-Release Fixes (2026-02-02)
 
 **Released:** v6.2.0 — Docs Overhaul + Website Reorganization
 **PR #325:** Comprehensive teaching docs (11 new files, +8,712 lines)
 **PR #326:** Release to main (merged)
+**PR #327:** Tags plugin, landing pages, orphan triage (merged)
+**PR #329:** Emoji rendering, broken links, badges (merged)
 **Tag:** v6.2.0
 **Docs:** Deployed to GitHub Pages
+**Build warnings:** 0 (down from 28)
 
 **What shipped:**
 - Website reorganization: 14 → 7 top-level sections
 - 11 new teaching docs (REFCARDs, guides, tutorials)
 - Index page redesign (ADHD-friendly)
 - Brainstorm files archived from repo root
+- Section landing pages with grid card navigation (4 sections)
+- MkDocs Material tags plugin (14 tags, ~39 pages tagged)
+- Triage: 7 orphaned files deleted, exclude globs expanded
+- Grid card emoji rendering fixed (`pymdownx.emoji` + `attr_list`)
+- All 28 build warnings resolved (broken links to excluded files)
+- Version badges synced to v6.2.0
 
 ---
 
@@ -1699,7 +1708,7 @@ E) **Quarto Workflow Enhancements** (Additional validators)
 ---
 
 **Last Updated:** 2026-02-02
-**Status:** v6.2.0 Released ✅ | Docs deployed ✅ | Website reorganized (14→7 sections) ✅
-## wins: --category fix squashed the bug (2026-01-31), fixed the bug (2026-01-31), --category fix squashed the bug (2026-01-31), fixed the bug (2026-01-31), --category fix squashed the bug (2026-01-31)
+**Status:** v6.2.0 Released ✅ | Docs deployed ✅ | Website reorganized (14→7 sections) ✅ | 0 build warnings ✅
+## wins: --category fix squashed the bug (2026-02-02), fixed the bug (2026-02-02), --category fix squashed the bug (2026-01-31), fixed the bug (2026-01-31), --category fix squashed the bug (2026-01-31)
 ## streak: 0
-## last_active: 2026-01-31 16:21
+## last_active: 2026-02-02 17:08
