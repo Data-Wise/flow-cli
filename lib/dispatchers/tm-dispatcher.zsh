@@ -230,59 +230,58 @@ tm() {
 # ============================================================================
 
 _tm_help() {
-    # Use flow-cli colors if available
-    local _C_CYAN="${_C_CYAN:-\033[0;36m}"
-    local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
-    local _C_BLUE="${_C_BLUE:-\033[0;34m}"
-    local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
-    local _C_DIM="${_C_DIM:-\033[2m}"
-    local _C_NC="${_C_NC:-\033[0m}"
+    # Color fallbacks
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
+    fi
 
-    echo "
-${_C_YELLOW}╔════════════════════════════════════════════════════════════╗${_C_NC}
-${_C_YELLOW}║${_C_NC}  ${_C_CYAN}TM${_C_NC} - Terminal Manager (aiterm integration)              ${_C_YELLOW}║${_C_NC}
-${_C_YELLOW}╚════════════════════════════════════════════════════════════╝${_C_NC}
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ tm - Terminal Manager                        │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${_C_YELLOW}QUICK START${_C_NC}:
-  ${_C_DIM}\$${_C_NC} tm                     ${_C_DIM}# Show this help${_C_NC}
-  ${_C_DIM}\$${_C_NC} tm detect              ${_C_DIM}# Detect terminal + project${_C_NC}
-  ${_C_DIM}\$${_C_NC} tm switch              ${_C_DIM}# Apply context to terminal${_C_NC}
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}tm title <text>${_C_NC}     Set tab/window title
+  ${_C_CYAN}tm profile <name>${_C_NC}   Switch iTerm2 profile
+  ${_C_CYAN}tm which${_C_NC}            Show detected terminal
+  ${_C_CYAN}tm switch${_C_NC}           Apply terminal context
 
-${_C_BLUE}SHELL-NATIVE (instant)${_C_NC}:
-  ${_C_CYAN}tm title <text>${_C_NC}        Set tab/window title
-  ${_C_CYAN}tm profile <name>${_C_NC}      Switch iTerm2 profile
-  ${_C_CYAN}tm var <key> <val>${_C_NC}     Set iTerm2 status bar variable
-  ${_C_CYAN}tm which${_C_NC}               Show detected terminal
-
-${_C_BLUE}AITERM DELEGATION${_C_NC}:
-  ${_C_CYAN}tm ghost${_C_NC}               Ghostty status
-  ${_C_CYAN}tm ghost theme${_C_NC}         List/set Ghostty themes
-  ${_C_CYAN}tm ghost font${_C_NC}          Get/set Ghostty font
-  ${_C_CYAN}tm switch${_C_NC}              Apply terminal context
-  ${_C_CYAN}tm detect${_C_NC}              Detect project context
-  ${_C_CYAN}tm doctor${_C_NC}              Check terminal health
-  ${_C_CYAN}tm compare${_C_NC}             Compare terminal features
-
-${_C_MAGENTA}SHORTCUTS${_C_NC}:
-  t = title, p = profile, v = var, w = which
-  g = ghost, s = switch, d = detect
-
-${_C_MAGENTA}ALIASES${_C_NC}:
-  tmt = tm title, tmp = tm profile, tmg = tm ghost, tms = tm switch
-
-${_C_YELLOW}EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} tm title "Feature XYZ"    ${_C_DIM}# Set window title${_C_NC}
-  ${_C_DIM}\$${_C_NC} tm profile dev            ${_C_DIM}# Switch to dev profile (iTerm2)${_C_NC}
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} tm title \"Feature XYZ\"    ${_C_DIM}# Set window title${_C_NC}
+  ${_C_DIM}\$${_C_NC} tm profile dev            ${_C_DIM}# Switch to dev profile${_C_NC}
   ${_C_DIM}\$${_C_NC} tm which                  ${_C_DIM}# Detect current terminal${_C_NC}
   ${_C_DIM}\$${_C_NC} tm ghost theme catppuccin ${_C_DIM}# Set Ghostty theme${_C_NC}
-  ${_C_DIM}\$${_C_NC} tm switch                 ${_C_DIM}# Apply project terminal context${_C_NC}
+
+${_C_BLUE}📋 SHELL-NATIVE${_C_NC} ${_C_DIM}(instant)${_C_NC}:
+  ${_C_CYAN}tm title <text>${_C_NC}     Set tab/window title
+  ${_C_CYAN}tm profile <name>${_C_NC}   Switch iTerm2 profile
+  ${_C_CYAN}tm var <key> <val>${_C_NC}  Set iTerm2 status bar variable
+  ${_C_CYAN}tm which${_C_NC}            Show detected terminal
+
+${_C_BLUE}📋 AITERM DELEGATION${_C_NC}:
+  ${_C_CYAN}tm ghost${_C_NC}            Ghostty status
+  ${_C_CYAN}tm ghost theme${_C_NC}      List/set Ghostty themes
+  ${_C_CYAN}tm ghost font${_C_NC}       Get/set Ghostty font
+  ${_C_CYAN}tm switch${_C_NC}           Apply terminal context
+  ${_C_CYAN}tm detect${_C_NC}           Detect project context
+  ${_C_CYAN}tm doctor${_C_NC}           Check terminal health
+  ${_C_CYAN}tm compare${_C_NC}          Compare terminal features
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Shortcuts: t=title p=profile v=var w=which g=ghost s=switch d=detect
+  ${_C_DIM}Aliases: tmt=tm title, tmp=tm profile, tmg=tm ghost, tms=tm switch${_C_NC}
 
 ${_C_DIM}📚 See also:${_C_NC}
   ${_C_CYAN}work${_C_NC} - Start working (auto-sets terminal context)
   ${_C_CYAN}pick${_C_NC} - Project picker
   ${_C_CYAN}cc${_C_NC} - Launch Claude Code
-
-${_C_DIM}Full docs: ait --help${_C_NC}
+  ${_C_DIM}Full docs: ait --help${_C_NC}
 "
 }
 

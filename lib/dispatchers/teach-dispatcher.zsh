@@ -4639,149 +4639,93 @@ EOF
 }
 
 _teach_dispatcher_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach${FLOW_COLORS[reset]} - Teaching Workflow Commands                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    # Color fallbacks
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(3 commands to begin)${FLOW_COLORS[reset]}
-  $ teach init "STAT 440"           # Initialize teaching project
-  $ teach doctor --fix              # Verify and fix dependencies
-  $ teach lecture "Intro" --week 1  # Generate first lecture
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach - Teaching Workflow Commands            │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[success]}🔥 MOST COMMON${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(80% of daily use)${FLOW_COLORS[reset]}:
-  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} <topic>     Generate lecture notes
-  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]}              Deploy course website
-  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} --render   Full validation
-  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]}              Project dashboard
-  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} --fix        Fix dependency issues
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach lecture${_C_NC} <topic>     Generate lecture notes
+  ${_C_CYAN}teach deploy${_C_NC}              Deploy course website
+  ${_C_CYAN}teach validate${_C_NC} --render   Full validation
+  ${_C_CYAN}teach status${_C_NC}              Project dashboard
+  ${_C_CYAN}teach doctor${_C_NC} --fix        Fix dependency issues
 
-${FLOW_COLORS[warn]}💡 QUICK EXAMPLES${FLOW_COLORS[reset]}:
-  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach lecture "Intro" --week 1   ${FLOW_COLORS[muted]}# Create lecture notes${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach validate --render           ${FLOW_COLORS[muted]}# Full validation${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach deploy --preview            ${FLOW_COLORS[muted]}# Preview before deploy${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach doctor --fix                ${FLOW_COLORS[muted]}# Auto-fix issues${FLOW_COLORS[reset]}
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach init \"STAT 440\"           ${_C_DIM}# Initialize project${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach lecture \"Intro\" --week 1  ${_C_DIM}# Create lecture${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach validate --render           ${_C_DIM}# Full validation${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach deploy --preview            ${_C_DIM}# Preview deploy${_C_NC}
 
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-📋 SETUP & CONFIGURATION
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} [name]             Initialize teaching project
-    ${FLOW_COLORS[muted]}--config <file>${FLOW_COLORS[reset]}            Load external config
-    ${FLOW_COLORS[muted]}--github${FLOW_COLORS[reset]}                   Create GitHub repo
-  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]}                  Edit configuration
-  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]}                  Health checks (6 categories)
-    ${FLOW_COLORS[muted]}--fix${FLOW_COLORS[reset]}                       Auto-fix issues
-    ${FLOW_COLORS[muted]}--json${FLOW_COLORS[reset]}                      CI/CD output
-  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]}                    Git hook management
-    ${FLOW_COLORS[muted]}install | upgrade | status${FLOW_COLORS[reset]}  Hook operations
-  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]}                    Date management
-  ${FLOW_COLORS[cmd]}teach plan${FLOW_COLORS[reset]}                       Lesson plan management
-    ${FLOW_COLORS[muted]}create | list | show | edit | delete${FLOW_COLORS[reset]}  Plan operations
-  ${FLOW_COLORS[cmd]}teach migrate-config${FLOW_COLORS[reset]}           Extract lesson plans
-    ${FLOW_COLORS[muted]}--dry-run${FLOW_COLORS[reset]}                   Preview changes only
-  ${FLOW_COLORS[cmd]}teach templates${FLOW_COLORS[reset]}                Template management
-    ${FLOW_COLORS[muted]}list | new | validate | sync${FLOW_COLORS[reset]}  Template operations
-  ${FLOW_COLORS[cmd]}teach macros${FLOW_COLORS[reset]}                   LaTeX macro management
-    ${FLOW_COLORS[muted]}list | sync | export${FLOW_COLORS[reset]}        Macro operations
-  ${FLOW_COLORS[cmd]}teach prompt${FLOW_COLORS[reset]}                   AI prompt management
-    ${FLOW_COLORS[muted]}list | show | edit | validate | export${FLOW_COLORS[reset]}
+  ${_C_DIM}── Workflows ──${_C_NC}
+  ${_C_DIM}Setup:${_C_NC}   teach init → teach config → teach analyze → teach deploy
+  ${_C_DIM}Content:${_C_NC} teach exam \"Regression\" → teach rubric → teach feedback
+  ${_C_DIM}Weekly:${_C_NC}  teach week → teach lec \"ANOVA\" --week 5 → teach sl 5
 
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-✍️ CONTENT CREATION (Scholar AI)
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} <topic>          Generate lecture notes
-    ${FLOW_COLORS[muted]}--week N${FLOW_COLORS[reset]}                    Week-based naming
-    ${FLOW_COLORS[muted]}--template FORMAT${FLOW_COLORS[reset]}           markdown | quarto | pdf
-    ${FLOW_COLORS[muted]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} <topic>           Presentation slides
-  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} <topic>             Comprehensive exam
-  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} <topic>             Quiz questions
-    ${FLOW_COLORS[muted]}--questions N${FLOW_COLORS[reset]}               Number of questions
-  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} <topic>       Homework assignment
-  ${FLOW_COLORS[cmd]}teach syllabus${FLOW_COLORS[reset]} <course>        Course syllabus
-  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} <assignment>      Grading rubric
-  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} <work>          Student feedback
+${_C_BLUE}📋 SETUP & CONFIGURATION${_C_NC}:
+  ${_C_CYAN}teach init${_C_NC} [name]         Initialize teaching project
+  ${_C_CYAN}teach config${_C_NC}              Edit configuration
+  ${_C_CYAN}teach doctor${_C_NC}              Health checks (--fix to auto-fix)
+  ${_C_CYAN}teach hooks${_C_NC}               Git hook management
+  ${_C_CYAN}teach dates${_C_NC}               Date management
+  ${_C_CYAN}teach plan${_C_NC}                Lesson plan CRUD
+  ${_C_CYAN}teach templates${_C_NC}           Template management
+  ${_C_CYAN}teach macros${_C_NC}              LaTeX macro management
+  ${_C_CYAN}teach prompt${_C_NC}              AI prompt management
+  ${_C_CYAN}teach migrate-config${_C_NC}      Extract lesson plans
 
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-✅ VALIDATION & QUALITY
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach analyze${FLOW_COLORS[reset]} <file>            Validate content prerequisites
-    ${FLOW_COLORS[muted]}--mode strict|moderate${FLOW_COLORS[reset]}      Validation strictness
-    ${FLOW_COLORS[muted]}--ai${FLOW_COLORS[reset]}                        AI-powered analysis (Phase 3)
-  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} [files]          Validate .qmd files
-    ${FLOW_COLORS[muted]}--yaml${FLOW_COLORS[reset]}                       YAML frontmatter only
-    ${FLOW_COLORS[muted]}--syntax${FLOW_COLORS[reset]}                     YAML + syntax check
-    ${FLOW_COLORS[muted]}--render${FLOW_COLORS[reset]}                     Full render validation
-    ${FLOW_COLORS[muted]}--watch${FLOW_COLORS[reset]}                      Watch mode
-  ${FLOW_COLORS[cmd]}teach profiles${FLOW_COLORS[reset]}                  Profile management
-  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]}                     Cache operations
-    ${FLOW_COLORS[muted]}status | clear | rebuild${FLOW_COLORS[reset]}    Cache management
-  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]}                     Delete _freeze/ + _site/
+${_C_BLUE}📋 CONTENT CREATION${_C_NC} ${_C_DIM}(Scholar AI)${_C_NC}:
+  ${_C_CYAN}teach lecture${_C_NC} <topic>     Generate lecture notes
+  ${_C_CYAN}teach slides${_C_NC} <topic>      Presentation slides
+  ${_C_CYAN}teach exam${_C_NC} <topic>        Comprehensive exam
+  ${_C_CYAN}teach quiz${_C_NC} <topic>        Quiz questions
+  ${_C_CYAN}teach assignment${_C_NC} <topic>  Homework assignment
+  ${_C_CYAN}teach syllabus${_C_NC} <course>   Course syllabus
+  ${_C_CYAN}teach rubric${_C_NC} <assign>     Grading rubric
+  ${_C_CYAN}teach feedback${_C_NC} <work>     Student feedback
 
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-🚀 DEPLOYMENT & MANAGEMENT
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]} [files]            Deploy course website
-    ${FLOW_COLORS[muted]}--preview${FLOW_COLORS[reset]}                    Show changes before PR
-    ${FLOW_COLORS[muted]}--auto-commit${FLOW_COLORS[reset]}                Auto-commit rendered files
-    ${FLOW_COLORS[muted]}--auto-tag${FLOW_COLORS[reset]}                   Tag deployment
-  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]}                    Project dashboard
-  ${FLOW_COLORS[cmd]}teach week${FLOW_COLORS[reset]}                      Current week info
-  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]}                    Backup management
-    ${FLOW_COLORS[muted]}create | list | restore | delete${FLOW_COLORS[reset]}  Backup operations
-  ${FLOW_COLORS[cmd]}teach archive${FLOW_COLORS[reset]}                   Archive semester
+${_C_BLUE}📋 VALIDATION & QUALITY${_C_NC}:
+  ${_C_CYAN}teach analyze${_C_NC} <file>      Validate prerequisites
+  ${_C_CYAN}teach validate${_C_NC} [files]    Validate .qmd files
+  ${_C_CYAN}teach profiles${_C_NC}            Profile management
+  ${_C_CYAN}teach cache${_C_NC}               Cache operations
+  ${_C_CYAN}teach clean${_C_NC}               Delete _freeze/ + _site/
 
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-🔧 ADVANCED FEATURES
-${FLOW_COLORS[bold]}═══════════════════════════════════════════════════════════${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach demo${FLOW_COLORS[reset]} <topic>              Create demo course
-  ${FLOW_COLORS[cmd]}teach validate --custom${FLOW_COLORS[reset]}         Custom validators
-  ${FLOW_COLORS[cmd]}teach status --performance${FLOW_COLORS[reset]}      Performance metrics
-  ${FLOW_COLORS[cmd]}teach deploy --branch <name>${FLOW_COLORS[reset]}    Custom branches
+${_C_BLUE}📋 DEPLOYMENT & MANAGEMENT${_C_NC}:
+  ${_C_CYAN}teach deploy${_C_NC} [files]      Deploy course website
+  ${_C_CYAN}teach status${_C_NC}              Project dashboard
+  ${_C_CYAN}teach week${_C_NC}                Current week info
+  ${_C_CYAN}teach backup${_C_NC}              Backup management
+  ${_C_CYAN}teach archive${_C_NC}             Archive semester
 
-${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}i${FLOW_COLORS[reset]} → init      ${FLOW_COLORS[accent]}doc${FLOW_COLORS[reset]} → doctor  ${FLOW_COLORS[accent]}val${FLOW_COLORS[reset]} → validate
-  ${FLOW_COLORS[accent]}lec${FLOW_COLORS[reset]} → lecture  ${FLOW_COLORS[accent]}sl${FLOW_COLORS[reset]} → slides   ${FLOW_COLORS[accent]}e${FLOW_COLORS[reset]} → exam
-  ${FLOW_COLORS[accent]}q${FLOW_COLORS[reset]} → quiz      ${FLOW_COLORS[accent]}hw${FLOW_COLORS[reset]} → assign   ${FLOW_COLORS[accent]}syl${FLOW_COLORS[reset]} → syllabus
-  ${FLOW_COLORS[accent]}d${FLOW_COLORS[reset]} → deploy    ${FLOW_COLORS[accent]}bk${FLOW_COLORS[reset]} → backup  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status
-  ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week      ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config   ${FLOW_COLORS[accent]}tmpl${FLOW_COLORS[reset]} → templates
-  ${FLOW_COLORS[accent]}pl${FLOW_COLORS[reset]} → plan
+${_C_MAGENTA}💡 TIP${_C_NC}: Content generation requires Scholar plugin
+  ${_C_DIM}teach lecture → scholar:teaching:lecture (AI-powered)${_C_NC}
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Setup new course${FLOW_COLORS[reset]}
-  $ teach init "STAT 440" --github
-  $ teach doctor --fix
-  $ teach hooks install
+  ${_C_BOLD}Shortcuts${_C_NC} ${_C_DIM}(type shorter aliases for any command)${_C_NC}:
+  ${_C_DIM}  Setup:    i=init  c=config  doc=doctor  hook=hooks${_C_NC}
+  ${_C_DIM}  Content:  lec=lecture  sl=slides  e=exam  q=quiz${_C_NC}
+  ${_C_DIM}            hw=assignment  syl=syllabus  rb=rubric  fb=feedback${_C_NC}
+  ${_C_DIM}  Quality:  val=validate  concept=analyze  prof=profiles  cl=clean${_C_NC}
+  ${_C_DIM}  Manage:   d=deploy  s=status  w=week  bk=backup  a=archive${_C_NC}
+  ${_C_DIM}  Tools:    pl=plan  tmpl=templates  m=macros  pr=prompt  migrate=migrate-config${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Create content${FLOW_COLORS[reset]}
-  $ teach lecture "Linear Regression" --week 5 --template quarto
-  $ teach quiz "Hypothesis Testing" --questions 10 --week 4
-  $ teach exam "Midterm" --template quarto
-
-  ${FLOW_COLORS[muted]}# Validate before deploy${FLOW_COLORS[reset]}
-  $ teach validate --render
-  $ teach deploy --preview
-
-  ${FLOW_COLORS[muted]}# Deploy and backup${FLOW_COLORS[reset]}
-  $ teach deploy
-  $ teach backup create "After Week 5"
-
-${FLOW_COLORS[muted]}📚 SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands (qu preview, qu render)
-  ${FLOW_COLORS[cmd]}g${FLOW_COLORS[reset]} - Git commands (g status, g push)
-  ${FLOW_COLORS[cmd]}work${FLOW_COLORS[reset]} - Session management
-  docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[info]}💡 TIP${FLOW_COLORS[reset]}: Content generation requires Scholar plugin
-  ${FLOW_COLORS[muted]}teach lecture → scholar:teaching:lecture (AI-powered)${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}Validation commands are native to flow-cli${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}Unknown commands show: "Unknown command: <name>"${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-  📚 Tutorial: docs/tutorials/TEACHING-QUICK-START.md
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}qu${_C_NC} - Quarto commands (qu preview, qu render)
+  ${_C_CYAN}g${_C_NC} - Git commands (g status, g push)
+  ${_C_CYAN}work${_C_NC} - Session management
+"
 }
 
 teach() {

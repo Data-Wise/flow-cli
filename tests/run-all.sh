@@ -89,6 +89,11 @@ run_test ./tests/test-teach-plan.zsh
 run_test ./tests/test-teach-plan-security.zsh
 
 echo ""
+echo "Help compliance tests:"
+run_test ./tests/test-help-compliance.zsh
+run_test ./tests/test-help-compliance-dogfood.zsh
+
+echo ""
 echo "E2E tests:"
 run_test ./tests/e2e-teach-plan.zsh
 run_test ./tests/e2e-teach-analyze.zsh

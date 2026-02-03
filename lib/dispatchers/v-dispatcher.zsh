@@ -232,6 +232,17 @@ vibe() {
 # ═══════════════════════════════════════════════════════════════════
 
 _v_help() {
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
+    fi
+
     echo -e "
 ${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
 ${_C_BOLD}│ v / vibe - Workflow Automation              │${_C_NC}
@@ -293,8 +304,11 @@ ${_C_MAGENTA}💡 TIP${_C_NC}: Use \"vibe\" for full command name
   ${_C_DIM}vibe test        Same as \`v test\`${_C_NC}
   ${_C_DIM}vibe coord sync  Same as \`v coord sync\`${_C_NC}
 
-${_C_MAGENTA}🔗 EXISTING COMMANDS${_C_NC} ${_C_DIM}(still work)${_C_NC}:
-  ${_C_DIM}workflow, dash, status, work, r, qu, cc${_C_NC}
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}work${_C_NC} - Start session
+  ${_C_CYAN}dash${_C_NC} - Project dashboard
+  ${_C_CYAN}r${_C_NC} - R package development
+  ${_C_CYAN}cc${_C_NC} - Claude Code launcher
 "
 }
 

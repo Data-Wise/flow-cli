@@ -80,52 +80,60 @@ _log_verbose() {
 
 # --- Subcommands ---
 
-obs_help() {
-    local show_all=${1:-false}
-
-    echo "Obsidian CLI Ops (obs) v$VERSION"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo ""
-    echo "📖 Usage: obs [command] [options]"
-    echo ""
-
-    if [[ "$show_all" == "true" ]]; then
-        echo "🎯 PRIMARY COMMANDS"
-        echo "  obs                       List vaults (or show last vault stats)"
-        echo "  obs stats [vault]         Show vault statistics"
-        echo "  obs discover <path>       Find vaults in directory"
-        echo ""
-
-        echo "📊 GRAPH ANALYSIS"
-        echo "  obs analyze <vault_id>    Analyze vault graph metrics"
-        echo ""
-
-        echo "🤖 AI FEATURES"
-        echo "  obs ai status             Show AI provider status"
-        echo "  obs ai setup              Interactive AI setup wizard"
-        echo "  obs ai test               Test all AI providers"
-        echo "  obs ai similar <note>     Find similar notes"
-        echo "  obs ai analyze <note>     Analyze note with AI"
-        echo "  obs ai duplicates <vault> Find duplicate notes"
-        echo ""
-
-        echo "🔧 UTILITIES"
-        echo "  obs help [--all]          Show help"
-        echo "  obs version               Show version"
-        echo ""
-        echo "📍 DEFAULT ROOT: $ICLOUD_OBSIDIAN"
-    else
-        echo "🎯 QUICK START"
-        echo "  obs                       List your vaults"
-        echo "  obs stats <vault>         Show vault statistics"
-        echo "  obs discover <path>       Find new vaults"
-        echo ""
-        echo "💡 TIP: Use 'obs stats <vault_id>' to see vault details!"
-        echo ""
-        echo "More commands: obs help --all"
+_obs_help() {
+    # Color fallbacks (in case core.zsh not loaded)
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
     fi
-    echo ""
+
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ obs - Obsidian Vault Manager                │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}obs${_C_NC}                 List vaults
+  ${_C_CYAN}obs stats <vault>${_C_NC}   Show vault statistics
+  ${_C_CYAN}obs discover <path>${_C_NC} Find vaults in directory
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} obs                      ${_C_DIM}# List all vaults${_C_NC}
+  ${_C_DIM}\$${_C_NC} obs stats research       ${_C_DIM}# Stats for vault${_C_NC}
+  ${_C_DIM}\$${_C_NC} obs discover ~/Documents ${_C_DIM}# Find new vaults${_C_NC}
+  ${_C_DIM}\$${_C_NC} obs analyze research     ${_C_DIM}# Graph analysis${_C_NC}
+
+${_C_BLUE}📋 VAULT COMMANDS${_C_NC}:
+  ${_C_CYAN}obs vaults${_C_NC}           List all registered vaults
+  ${_C_CYAN}obs stats [vault]${_C_NC}    Show vault statistics
+  ${_C_CYAN}obs discover <path>${_C_NC}  Find vaults in directory
+  ${_C_CYAN}obs analyze <vault>${_C_NC}  Analyze vault graph metrics
+
+${_C_BLUE}📋 AI FEATURES${_C_NC}:
+  ${_C_CYAN}obs ai status${_C_NC}        Show AI provider status
+  ${_C_CYAN}obs ai setup${_C_NC}         Interactive AI setup wizard
+  ${_C_CYAN}obs ai test${_C_NC}          Test all AI providers
+  ${_C_CYAN}obs ai similar <n>${_C_NC}   Find similar notes
+  ${_C_CYAN}obs ai analyze <n>${_C_NC}   Analyze note with AI
+  ${_C_CYAN}obs ai duplicates${_C_NC}    Find duplicate notes
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Use ${_C_CYAN}obs stats <vault_id>${_C_NC} for detailed vault info
+  ${_C_DIM}Get vault IDs with: obs vaults${_C_NC}
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}dot${_C_NC} - Dotfile management
+  ${_C_CYAN}mcp${_C_NC} - MCP server management
+"
 }
+
+# Legacy alias for backward compatibility
+obs_help() { _obs_help "$@"; }
 
 obs_version() {
     echo "obs (Obsidian CLI Ops) version $VERSION"
@@ -321,6 +329,12 @@ obs_ai() {
 
 # --- Dispatch ---
 obs() {
+    # Handle help flags early (before global flag parser eats them)
+    if [[ "$1" == "help" || "$1" == "--help" || "$1" == "-h" ]]; then
+        _obs_help
+        return 0
+    fi
+
     # Parse global flags first
     while [[ "$1" == --* ]]; do
         case "$1" in
@@ -348,8 +362,8 @@ obs() {
 
     # Route to command handlers
     case "$cmd" in
-        "help")
-            [[ "$1" == "--all" ]] && obs_help true || obs_help false
+        "help"|"--help"|"-h")
+            _obs_help
             ;;
         "version")
             obs_version
@@ -372,7 +386,7 @@ obs() {
         *)
             _log "ERROR" "Unknown command: $cmd"
             echo ""
-            obs_help false
+            _obs_help
             return 1
             ;;
     esac
