@@ -144,7 +144,7 @@ Choose your path based on what you need right now:
 
 <div class="grid cards" markdown>
 
--   :rocket: { .lg .middle }
+-   :rocket:{ .lg .middle }
     **5-Minute Quick Start**
 
     ---
@@ -153,7 +153,7 @@ Choose your path based on what you need right now:
 
     [→ Quick Start](getting-started/quick-start.md)
 
--   :books: { .lg .middle }
+-   :books:{ .lg .middle }
     **Step-by-Step Tutorials**
 
     ---
@@ -162,7 +162,7 @@ Choose your path based on what you need right now:
 
     [→ Tutorial 01](tutorials/01-first-session.md)
 
--   :fire: { .lg .middle }
+-   :fire:{ .lg .middle }
     **Dopamine Features**
 
     ---
@@ -171,7 +171,7 @@ Choose your path based on what you need right now:
 
     [→ Dopamine Guide](tutorials/06-dopamine-features.md)
 
--   :compass: { .lg .middle }
+-   :compass:{ .lg .middle }
     **Command Reference**
 
     ---
@@ -180,7 +180,7 @@ Choose your path based on what you need right now:
 
     [→ Reference](help/QUICK-REFERENCE.md)
 
--   :teacher: { .lg .middle }
+-   :teacher:{ .lg .middle }
     **Teaching Workflow**
 
     ---
@@ -189,7 +189,7 @@ Choose your path based on what you need right now:
 
     [→ Teaching Guide](guides/TEACHING-SYSTEM-ARCHITECTURE.md)
 
--   :mag: { .lg .middle }
+-   :mag:{ .lg .middle }
     **Common Workflows**
 
     ---
