@@ -40,7 +40,7 @@ _teach_find_style_source() {
             local has_style
             has_style=$(yq '.teaching_style // ""' "$config_file" 2>/dev/null)
             if [[ -n "$has_style" && "$has_style" != "null" && "$has_style" != "" ]]; then
-                echo "$config_file:teach-config"
+                echo "${config_file}:teach-config"
                 return 0
             fi
         fi
@@ -49,7 +49,7 @@ _teach_find_style_source() {
     # Priority 2: Legacy .claude/teaching-style.local.md
     local legacy_file="$project_root/.claude/teaching-style.local.md"
     if [[ -f "$legacy_file" ]]; then
-        echo "$legacy_file:legacy-md"
+        echo "${legacy_file}:legacy-md"
         return 0
     fi
 
