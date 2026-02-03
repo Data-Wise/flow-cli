@@ -1,7 +1,0 @@
-{"version":3,"term":{"cols":80,"rows":24,"type":"xterm-ghostty"},"timestamp":1768706720,"command":"./demo-03-customize.sh","env":{"SHELL":"/bin/zsh"}}
-[0.623, "o", "\u001b[3J\u001b[H\u001b[2J"]
-[1.003, "o", "❯ teach quiz \"Hypothesis Testing\" --style rigorous --technical-depth high\r\n"]
-[2.517, "o", "\r\n🎓 Scholar Enhancement - Generating Quiz\r\n\r\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\r\n\r\nTopic:            Hypothesis Testing\r\nStyle Preset:     rigorous (definitions + explanation + math + proof)\r\nTechnical Depth:  high\r\n\r\n📝 Style Customization Applied:\r\n   ✓ Formal mathematical definitions\r\n   ✓ Statistical theory explanations\r\n   ✓ Proof-based questions\r\n   ✓ Advanced technical notation\r\n   ✓ Rigorous problem solving\r\n\r\n🎯 Question Types:\r\n   • Theoretical foundations (40%)\r\n   • Mathematical proofs (25%)\r\n   • Statistical derivations (20%)\r\n   • Applied problem solving (15%)\r\n\r\n📊 Content Characteristics:\r\n   • Graduate-level rigor\r\n   • Heavy mathematical notation\r\n   • Proof verification questions\r\n   • Multi-step derivations\r\n\r\n✅ Generated: quizzes/hypothesis-testing.qmd (15 questions)\r\n\r\n   Difficulty:  Advanced/Graduate\r\n   Duration:    60 min"]
-[0.000, "o", "utes\r\n   Topics:      Null hypothesis, Type I/II errors, p-values, power\r\n   Format:      Mix of theoretical and computational\r\n\r\n"]
-[7.009, "o", "❯ \r\n"]
-[1.012, "x", "0"]
