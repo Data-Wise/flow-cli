@@ -232,6 +232,17 @@ vibe() {
 # ═══════════════════════════════════════════════════════════════════
 
 _v_help() {
+    # Color fallbacks for standalone use
+    local _C_BOLD="${_C_BOLD:-\033[1m}"
+    local _C_DIM="${_C_DIM:-\033[2m}"
+    local _C_NC="${_C_NC:-\033[0m}"
+    local _C_RED="${_C_RED:-\033[31m}"
+    local _C_GREEN="${_C_GREEN:-\033[32m}"
+    local _C_YELLOW="${_C_YELLOW:-\033[33m}"
+    local _C_BLUE="${_C_BLUE:-\033[34m}"
+    local _C_MAGENTA="${_C_MAGENTA:-\033[35m}"
+    local _C_CYAN="${_C_CYAN:-\033[36m}"
+
     echo -e "
 ${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
 ${_C_BOLD}│ v / vibe - Workflow Automation              │${_C_NC}

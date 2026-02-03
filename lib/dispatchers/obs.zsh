@@ -329,6 +329,12 @@ obs_ai() {
 
 # --- Dispatch ---
 obs() {
+    # Handle help flags early (before global flag parser eats them)
+    if [[ "$1" == "help" || "$1" == "--help" || "$1" == "-h" ]]; then
+        _obs_help
+        return 0
+    fi
+
     # Parse global flags first
     while [[ "$1" == --* ]]; do
         case "$1" in

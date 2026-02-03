@@ -91,6 +91,7 @@ run_test ./tests/test-teach-plan-security.zsh
 echo ""
 echo "Help compliance tests:"
 run_test ./tests/test-help-compliance.zsh
+run_test ./tests/test-help-compliance-dogfood.zsh
 
 echo ""
 echo "E2E tests:"
