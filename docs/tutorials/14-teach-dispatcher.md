@@ -80,7 +80,6 @@ draft branch              production branch
 !!! info "Updated for v3.0"
     This tutorial covers the legacy workflow. For the current v3.0 workflow, see:
     - [Teaching Workflow v3.0 Guide](../guides/TEACHING-WORKFLOW-V3-GUIDE.md)
-    - [All 6 Tutorial GIFs](../demos/tutorials/TEACHING-V3-GIFS-README.md)
 
 ---
 
