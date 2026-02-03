@@ -159,41 +159,51 @@ _prompt_list() {
 
 # _prompt_help - Display help text
 _prompt_help() {
-    cat <<EOF
-🎨 PROMPT DISPATCHER v5.7.0
-   Manage multiple prompt engines: Powerlevel10k, Starship, OhMyPosh
+    # Color fallbacks
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
+    fi
 
-USAGE:
-   prompt [OPTIONS] [subcommand]
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ prompt - Prompt Engine Switcher              │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-OPTIONS:
-   --dry-run           Show what would happen without making changes
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}prompt status${_C_NC}       Show current engine
+  ${_C_CYAN}prompt toggle${_C_NC}       Switch engine (interactive)
+  ${_C_CYAN}prompt list${_C_NC}         List all available engines
 
-SUBCOMMANDS:
-   status              Show current engine and alternatives
-   toggle              Switch to another engine (interactive menu)
-   starship            Force switch to Starship
-   p10k                Force switch to Powerlevel10k
-   ohmyposh            Force switch to Oh My Posh
-   list                List all available engines with details
-   help                Show this help
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} prompt status             ${_C_DIM}# See what's active${_C_NC}
+  ${_C_DIM}\$${_C_NC} prompt toggle              ${_C_DIM}# Choose from menu${_C_NC}
+  ${_C_DIM}\$${_C_NC} prompt starship            ${_C_DIM}# Switch to Starship${_C_NC}
+  ${_C_DIM}\$${_C_NC} prompt --dry-run toggle    ${_C_DIM}# Preview without switching${_C_NC}
 
-SETUP & CONFIGURATION:
-   setup-ohmyposh      Interactive wizard for Oh My Posh configuration
+${_C_BLUE}📋 ALL COMMANDS${_C_NC}:
+  ${_C_CYAN}prompt status${_C_NC}              Show current engine and alternatives
+  ${_C_CYAN}prompt toggle${_C_NC}              Switch to another engine (menu)
+  ${_C_CYAN}prompt starship${_C_NC}            Force switch to Starship
+  ${_C_CYAN}prompt p10k${_C_NC}               Force switch to Powerlevel10k
+  ${_C_CYAN}prompt ohmyposh${_C_NC}            Force switch to Oh My Posh
+  ${_C_CYAN}prompt list${_C_NC}               List all engines with details
+  ${_C_CYAN}prompt setup-ohmyposh${_C_NC}      Oh My Posh configuration wizard
+  ${_C_CYAN}prompt --dry-run <cmd>${_C_NC}     Preview without making changes
 
-EXAMPLES:
-   prompt status                    # See what's active
-   prompt toggle                    # Choose engine from menu
-   prompt starship                  # Go straight to Starship
-   prompt --dry-run toggle          # Preview toggle without switching
-   prompt --dry-run starship        # Preview Starship switch
-   prompt list                      # See all engines
-   prompt setup-ohmyposh            # Configure Oh My Posh
+${_C_MAGENTA}💡 TIP${_C_NC}: Use ${_C_CYAN}--dry-run${_C_NC} to preview any switch safely
+  ${_C_DIM}prompt --dry-run starship → shows what would change${_C_NC}
 
-For more info:
-   https://data-wise.github.io/flow-cli/dispatchers/prompt/
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}tm${_C_NC} - Terminal manager
+  ${_C_CYAN}dot${_C_NC} - Dotfile management (for shell configs)
+"
 }
 
 # ============================================================================

@@ -1,9 +1,12 @@
 # commands/doctor.zsh - Health check for flow-cli
 # Checks installed dependencies and offers to fix issues
 
+# Resolve directory at source time (not inside functions where $0 = function name)
+_DOCTOR_DIR="${0:A:h}"
+
 # Load cache library for token validation caching
-if [[ -f "${0:A:h}/../lib/doctor-cache.zsh" ]]; then
-  source "${0:A:h}/../lib/doctor-cache.zsh" 2>/dev/null || true
+if [[ -f "${_DOCTOR_DIR}/../lib/doctor-cache.zsh" ]]; then
+  source "${_DOCTOR_DIR}/../lib/doctor-cache.zsh" 2>/dev/null || true
 fi
 
 # ============================================================================
@@ -19,6 +22,9 @@ doctor() {
   local dot_check=false          # --dot flag: check only DOT tokens
   local dot_token=""             # --dot=TOKEN: check specific token
   local fix_token_only=false     # --fix-token: fix only token issues
+
+  # Help compliance check
+  local help_check=false         # --help-check flag
 
   # Task 4: Verbosity levels
   local verbosity_level="normal" # quiet, normal, verbose
@@ -50,6 +56,7 @@ doctor() {
         shift
         ;;
 
+      --help-check)     help_check=true; shift; continue ;;
       --help|-h)        _doctor_help; return 0 ;;
       *)                shift ;;
     esac
@@ -59,6 +66,24 @@ doctor() {
   if [[ "$mode" == "update-docs" ]]; then
     _doctor_update_docs "$verbose"
     return $?
+  fi
+
+  # Handle --help-check: run help compliance validation
+  if [[ "$help_check" == true ]]; then
+    local _hc_lib="${_DOCTOR_DIR}/../lib/help-compliance.zsh"
+    if [[ -f "$_hc_lib" ]]; then
+      source "$_hc_lib"
+      echo ""
+      echo "${FLOW_COLORS[header]:-}╭─────────────────────────────────────────────╮${FLOW_COLORS[reset]:-}"
+      echo "${FLOW_COLORS[header]:-}│${FLOW_COLORS[reset]:-}  ${FLOW_COLORS[bold]:-}📋 Help Function Compliance Check${FLOW_COLORS[reset]:-}           ${FLOW_COLORS[header]:-}│${FLOW_COLORS[reset]:-}"
+      echo "${FLOW_COLORS[header]:-}╰─────────────────────────────────────────────╯${FLOW_COLORS[reset]:-}"
+      echo ""
+      _flow_help_compliance_check_all "$verbose"
+      return $?
+    else
+      echo "ERROR: lib/help-compliance.zsh not found"
+      return 1
+    fi
   fi
 
   # Initialize cache on doctor start

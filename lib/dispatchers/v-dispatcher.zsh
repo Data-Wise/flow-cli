@@ -293,8 +293,11 @@ ${_C_MAGENTA}💡 TIP${_C_NC}: Use \"vibe\" for full command name
   ${_C_DIM}vibe test        Same as \`v test\`${_C_NC}
   ${_C_DIM}vibe coord sync  Same as \`v coord sync\`${_C_NC}
 
-${_C_MAGENTA}🔗 EXISTING COMMANDS${_C_NC} ${_C_DIM}(still work)${_C_NC}:
-  ${_C_DIM}workflow, dash, status, work, r, qu, cc${_C_NC}
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}work${_C_NC} - Start session
+  ${_C_CYAN}dash${_C_NC} - Project dashboard
+  ${_C_CYAN}r${_C_NC} - R package development
+  ${_C_CYAN}cc${_C_NC} - Claude Code launcher
 "
 }
 
