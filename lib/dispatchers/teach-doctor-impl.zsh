@@ -77,6 +77,10 @@ _teach_doctor() {
         echo ""
     fi
     _teach_doctor_check_macros
+    if [[ "$json" == "false" ]]; then
+        echo ""
+    fi
+    _teach_doctor_check_teaching_style
 
     # Output results
     if [[ "$json" == "true" ]]; then
@@ -729,6 +733,79 @@ _teach_doctor_check_macros() {
             fi
         fi
     fi
+}
+
+# Check teaching style configuration (v6.3.0 - Teaching Style Consolidation)
+_teach_doctor_check_teaching_style() {
+    if [[ "$json" == "false" ]]; then
+        echo "Teaching Style:"
+    fi
+
+    # Ensure helpers are loaded
+    if ! typeset -f _teach_find_style_source >/dev/null 2>&1; then
+        _teach_doctor_warn "Teaching style helpers not loaded"
+        json_results+=("{\"check\":\"teaching_style\",\"status\":\"warn\",\"message\":\"helpers not loaded\"}")
+        return 0
+    fi
+
+    local source
+    source=$(_teach_find_style_source "." 2>/dev/null)
+
+    if [[ -z "$source" ]]; then
+        _teach_doctor_warn "No teaching style configured" "Add teaching_style section to .flow/teach-config.yml"
+        json_results+=("{\"check\":\"teaching_style\",\"status\":\"warn\",\"message\":\"not configured\"}")
+        return 0
+    fi
+
+    local path="${source%%:*}"
+    local type="${source##*:}"
+
+    case "$type" in
+        teach-config)
+            _teach_doctor_pass "Teaching style in .flow/teach-config.yml"
+            json_results+=("{\"check\":\"teaching_style_source\",\"status\":\"pass\",\"message\":\"teach-config.yml\"}")
+
+            # Check key sub-sections
+            local approach
+            approach=$(_teach_get_style "pedagogical_approach.primary" "." 2>/dev/null)
+            if [[ -n "$approach" && "$approach" != "null" ]]; then
+                _teach_doctor_pass "Pedagogical approach: $approach"
+                json_results+=("{\"check\":\"teaching_style_approach\",\"status\":\"pass\",\"message\":\"$approach\"}")
+            fi
+
+            # Check for command overrides
+            local overrides
+            overrides=$(yq '.teaching_style.command_overrides // ""' ".flow/teach-config.yml" 2>/dev/null)
+            if [[ -n "$overrides" && "$overrides" != "null" && "$overrides" != "" ]]; then
+                local override_count
+                override_count=$(yq '.teaching_style.command_overrides | keys | length' ".flow/teach-config.yml" 2>/dev/null)
+                _teach_doctor_pass "Command overrides: $override_count command(s)"
+                json_results+=("{\"check\":\"command_overrides\",\"status\":\"pass\",\"message\":\"$override_count commands\"}")
+            fi
+
+            # Check if legacy redirect shim exists
+            if _teach_style_is_redirect "."; then
+                _teach_doctor_pass "Legacy shim detected (redirect active)"
+                json_results+=("{\"check\":\"teaching_style_shim\",\"status\":\"pass\",\"message\":\"redirect active\"}")
+            elif [[ -f ".claude/teaching-style.local.md" ]]; then
+                _teach_doctor_warn "Legacy .claude/teaching-style.local.md exists without redirect" \
+                    "Consider migrating to .flow/teach-config.yml or adding _redirect: true"
+                json_results+=("{\"check\":\"teaching_style_shim\",\"status\":\"warn\",\"message\":\"no redirect\"}")
+            fi
+            ;;
+        legacy-md)
+            # Check if it's a redirect shim
+            if _teach_style_is_redirect "."; then
+                _teach_doctor_warn "Using redirect shim but .flow/teach-config.yml has no teaching_style" \
+                    "Add teaching_style section to .flow/teach-config.yml"
+                json_results+=("{\"check\":\"teaching_style_source\",\"status\":\"warn\",\"message\":\"shim without target\"}")
+            else
+                _teach_doctor_warn "Using legacy .claude/teaching-style.local.md" \
+                    "Migrate to .flow/teach-config.yml for unified config"
+                json_results+=("{\"check\":\"teaching_style_source\",\"status\":\"warn\",\"message\":\"legacy location\"}")
+            fi
+            ;;
+    esac
 }
 
 # Help function for teach doctor

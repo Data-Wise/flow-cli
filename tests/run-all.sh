@@ -87,6 +87,7 @@ echo ""
 echo "Teach command tests:"
 run_test ./tests/test-teach-plan.zsh
 run_test ./tests/test-teach-plan-security.zsh
+run_test ./tests/automated-teach-style-dogfood.zsh
 
 echo ""
 echo "Help compliance tests:"

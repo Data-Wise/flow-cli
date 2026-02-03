@@ -120,7 +120,7 @@ test_obs_help() {
 
     local output=$(obs help 2>&1)
 
-    if echo "$output" | grep -q "Obsidian CLI Ops"; then
+    if echo "$output" | grep -q "Obsidian Vault Manager"; then
         pass
     else
         fail "Help header not found"
@@ -132,7 +132,7 @@ test_obs_help_all() {
 
     local output=$(obs help --all 2>&1)
 
-    if echo "$output" | grep -q "PRIMARY COMMANDS"; then
+    if echo "$output" | grep -q "VAULT COMMANDS"; then
         pass
     else
         fail "--all flag doesn't show full help"

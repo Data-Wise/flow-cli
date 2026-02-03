@@ -50,6 +50,14 @@
     "workflow": {
       "$ref": "#/definitions/workflow",
       "description": "Workflow automation settings (flow-cli owns, v5.11.0+)"
+    },
+    "teaching_style": {
+      "$ref": "#/definitions/teaching_style",
+      "description": "Teaching style configuration (consolidated from .claude/teaching-style.local.md, v6.3.0+)"
+    },
+    "command_overrides": {
+      "$ref": "#/definitions/command_overrides",
+      "description": "Per-command generation overrides for Scholar (v6.3.0+)"
     }
   },
   "definitions": {
@@ -484,6 +492,168 @@
           "description": "External prerequisites assumed known"
         }
       }
+    },
+    "teaching_style": {
+      "type": "object",
+      "description": "Teaching style configuration (v6.3.0+). Consolidated from .claude/teaching-style.local.md.",
+      "properties": {
+        "pedagogical_approach": {
+          "type": "object",
+          "description": "Primary teaching methodology",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "description": "Primary approach (e.g., problem-based, lecture-based, active-learning)"
+            },
+            "secondary": {
+              "type": "string",
+              "description": "Secondary approach"
+            },
+            "structure": {
+              "type": "string",
+              "description": "Content flow pattern (e.g., problem-method-theory-application)"
+            }
+          }
+        },
+        "explanation_style": {
+          "type": "object",
+          "description": "How content is explained",
+          "properties": {
+            "formality": {
+              "type": "string",
+              "enum": ["formal", "balanced", "conversational"],
+              "description": "Level of formality"
+            },
+            "proof_style": {
+              "type": "string",
+              "description": "How proofs are presented (e.g., rigorous-with-intuition, sketch-only)"
+            },
+            "example_depth": {
+              "type": "string",
+              "description": "Depth of worked examples"
+            }
+          },
+          "additionalProperties": true
+        },
+        "assessment_philosophy": {
+          "type": "object",
+          "description": "Assessment and grading approach",
+          "properties": {
+            "balance": {
+              "type": "string",
+              "description": "Theory vs application balance"
+            },
+            "exam_format": {
+              "type": "string",
+              "description": "Default exam format"
+            },
+            "quiz_format": {
+              "type": "string",
+              "description": "Default quiz format"
+            }
+          },
+          "additionalProperties": true
+        },
+        "student_interaction": {
+          "type": "object",
+          "description": "Student engagement approach",
+          "properties": {
+            "questioning_style": {
+              "type": "string",
+              "description": "How questions are posed"
+            },
+            "group_work": {
+              "type": "string",
+              "description": "Group work approach"
+            },
+            "scaffolding": {
+              "type": "string",
+              "description": "Level of scaffolding"
+            }
+          },
+          "additionalProperties": true
+        },
+        "content_preferences": {
+          "type": "object",
+          "description": "Content generation preferences",
+          "properties": {
+            "computational_tools": {
+              "type": "string",
+              "description": "Tool integration (e.g., R-integrated, Python-focused)"
+            },
+            "code_style": {
+              "type": "string",
+              "description": "Code style preference (e.g., tidyverse-primary, base-R)"
+            },
+            "real_world_examples": {
+              "type": "string",
+              "description": "Frequency of real-world examples"
+            }
+          },
+          "additionalProperties": true
+        },
+        "notation_conventions": {
+          "type": "object",
+          "description": "Mathematical notation conventions",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "r_packages": {
+          "type": "object",
+          "description": "R package preferences by category",
+          "additionalProperties": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "command_overrides": {
+          "$ref": "#/definitions/command_overrides"
+        }
+      },
+      "additionalProperties": true
+    },
+    "command_overrides": {
+      "type": "object",
+      "description": "Per-command generation overrides for Scholar (v6.3.0+). Can be at top level or nested under teaching_style.",
+      "properties": {
+        "lecture": {
+          "type": "object",
+          "description": "Override defaults for teach lecture",
+          "additionalProperties": true
+        },
+        "slides": {
+          "type": "object",
+          "description": "Override defaults for teach slides",
+          "additionalProperties": true
+        },
+        "quiz": {
+          "type": "object",
+          "description": "Override defaults for teach quiz",
+          "additionalProperties": true
+        },
+        "exam": {
+          "type": "object",
+          "description": "Override defaults for teach exam",
+          "additionalProperties": true
+        },
+        "assignment": {
+          "type": "object",
+          "description": "Override defaults for teach assignment",
+          "additionalProperties": true
+        },
+        "rubric": {
+          "type": "object",
+          "description": "Override defaults for teach rubric",
+          "additionalProperties": true
+        },
+        "feedback": {
+          "type": "object",
+          "description": "Override defaults for teach feedback",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
     }
   }
 }
