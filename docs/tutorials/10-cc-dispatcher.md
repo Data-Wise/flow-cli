@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - dispatchers
+---
+
 # Tutorial: Mastering the CC Dispatcher
 
 > **What you'll learn:** Launch Claude Code efficiently with smart project selection and mode chaining

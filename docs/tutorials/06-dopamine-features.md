@@ -1,3 +1,10 @@
+---
+tags:
+  - tutorial
+  - dopamine
+  - adhd
+---
+
 # Tutorial: Dopamine Features for Motivation
 
 > **What you'll learn:** How to use win tracking, streaks, and goals to stay motivated

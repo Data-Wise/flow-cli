@@ -1,3 +1,9 @@
+---
+tags:
+  - guide
+  - configuration
+---
+
 # Dotfile Management Workflow
 
 **Level:** Beginner to Intermediate

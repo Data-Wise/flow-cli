@@ -1,3 +1,10 @@
+---
+tags:
+  - guide
+  - security
+  - configuration
+---
+
 # Complete Token & Secret Management Guide
 
 **Version:** 5.18.0-dev

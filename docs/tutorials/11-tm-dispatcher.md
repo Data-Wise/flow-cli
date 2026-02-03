@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - dispatchers
+---
+
 # Tutorial: Terminal Management with TM Dispatcher
 
 > **What you'll learn:** Control your terminal appearance and context with instant shell commands

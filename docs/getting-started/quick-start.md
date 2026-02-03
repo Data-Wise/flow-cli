@@ -1,3 +1,9 @@
+---
+tags:
+  - getting-started
+  - tutorial
+---
+
 # Quick Start Guide
 
 > **TL;DR:** Get up and running with Flow CLI in 5 minutes - install, start a session, log wins, finish.

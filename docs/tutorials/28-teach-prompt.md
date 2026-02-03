@@ -1,3 +1,9 @@
+---
+tags:
+  - tutorial
+  - teaching
+---
+
 # Tutorial 28: Managing AI Teaching Prompts
 
 > Learn to customize how Scholar generates content for your courses.

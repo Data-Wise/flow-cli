@@ -43,11 +43,39 @@ theme:
 
 plugins:
   - search
+  - tags
   - exclude:
       glob:
         - doc-index.md
         - '*.bak'
         - '*.tmp'
+        - 'specs/**'
+        - 'reports/**'
+        - 'plans/**'
+        - 'implementation/**'
+        - 'bugs/**'
+        - 'diagrams/**'
+        - 'releases/**'
+        - 'demos/**'
+        - 'reference/.archive/**'
+        - 'BRAINSTORM-*.md'
+        - 'DECISION-*.md'
+        - 'SESSION-*.md'
+        - 'IMPLEMENTATION-PLAN-*.md'
+        - 'DOCS-*.md'
+        - 'DOT-DISPATCHER-*.md'
+        - 'HOOK-SYSTEM-*.md'
+        - 'LINT-FEATURE-*.md'
+        - 'PHASE*-*.md'
+        - 'REFERENCE-CONSOLIDATION-*.md'
+        - 'SECRET-MANAGEMENT.md'
+        - 'TEACHING-SYSTEM-ARCHITECTURE.md'
+        - 'TUTORIAL-WORKFLOW-*.md'
+        - 'AWESOME-ZSH-PLUGINS-ENTRY.md'
+        - 'TEST-COMPLETION-REPORT.md'
+        - 'TEST-COVERAGE-*.md'
+        - 'teach-doctor-implementation.md'
+        - 'FEATURE-REQUEST-QUARTO-WORKFLOW-ENHANCEMENTS.md'
 
 markdown_extensions:
   - admonition
@@ -73,6 +101,7 @@ nav:
   - Home: index.md
   # ── Getting Started (merged: Getting Started + Help) ──────────────
   - ⚡ Getting Started:
+      - getting-started/index.md
       - 🎯 Choose Your Path: getting-started/choose-your-path.md
       - ⚡ Quick Start (5-min): getting-started/quick-start.md
       - 📦 Installation: getting-started/installation.md
@@ -173,6 +202,7 @@ nav:
           - Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
   # ── Workflows & Guides (merged: Workflows + Guides) ──────────────
   - 🔧 Workflows & Guides:
+      - guides/index.md
       - Start Here: guides/00-START-HERE.md
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Git & Branching:
@@ -203,6 +233,8 @@ nav:
           - Workflow Tutorial: guides/WORKFLOW-TUTORIAL.md
   # ── Reference (merged: Reference + Commands + Architecture) ───────
   - 📚 Reference:
+      - reference/index.md
+      - Tags Index: tags.md
       - API & Architecture:
           - 📚 Master API Reference: reference/MASTER-API-REFERENCE.md
           - 🎯 Master Dispatcher Guide: reference/MASTER-DISPATCHER-GUIDE.md
@@ -240,6 +272,7 @@ nav:
           - 🎓 Scholar Enhancement: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
   # ── Contributing (merged: Development + Testing + Visuals + Planning)
   - 🛠️ Contributing:
+      - contributing/index.md
       - 🛠️ Developer Guide: guides/DEVELOPER-GUIDE.md
       - Contributing: contributing/CONTRIBUTING.md
       - Branch Workflow: contributing/BRANCH-WORKFLOW.md
@@ -258,6 +291,10 @@ nav:
       - Planning:
           - v4.3.0+ Roadmap: planning/V4.3-ROADMAP.md
           - Install Improvements: planning/INSTALL-IMPROVEMENTS.md
+          - Feature Requests:
+              - Config Consolidation: FEATURE-REQUEST-config-consolidation.md
+              - Quarto Cache Clearing: FEATURE-REQUEST-qu-sass-cache-clearing.md
+              - Scholar Config: FEATURE-REQUEST-scholar-config-consolidation.md
 
 extra:
   social:

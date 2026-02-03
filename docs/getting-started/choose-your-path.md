@@ -89,7 +89,7 @@ description: Find the right starting point for your goals
 **Perfect if you:** Already using Flow CLI, need quick reference
 
 [→ Command Cheatsheet](../help/QUICK-REFERENCE.md){ .md-button }
-[→ Quick Reference Card](../quick-reference-card.md){ .md-button }
+[→ Quick Reference Card](../help/QUICK-REFERENCE.md){ .md-button }
 
 ---
 

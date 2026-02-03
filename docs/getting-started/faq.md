@@ -1,3 +1,9 @@
+---
+tags:
+  - troubleshooting
+  - getting-started
+---
+
 # Frequently Asked Questions
 
 Common questions and solutions for Flow CLI.

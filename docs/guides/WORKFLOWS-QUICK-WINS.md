@@ -1,3 +1,10 @@
+---
+tags:
+  - guide
+  - getting-started
+  - adhd
+---
+
 # 🧠 ADHD-Friendly Workflows - Quick Wins Guide
 
 > **Focus:** Top 10 highest-impact workflows for daily R package development

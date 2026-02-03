@@ -1,3 +1,9 @@
+---
+tags:
+  - guide
+  - teaching
+---
+
 # Teaching Workflow v3.0 Guide
 
 **Version:** v5.14.0

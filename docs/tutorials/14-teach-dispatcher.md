@@ -1,3 +1,10 @@
+---
+tags:
+  - tutorial
+  - teaching
+  - dispatchers
+---
+
 # Tutorial: Teaching Workflow with Teach Dispatcher
 
 > **What you'll learn:** Manage course websites with fast deployment, config validation, and AI-assisted content creation

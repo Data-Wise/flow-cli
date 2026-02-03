@@ -1,3 +1,10 @@
+---
+tags:
+  - tutorial
+  - getting-started
+  - commands
+---
+
 # Tutorial: Your First Flow Session
 
 > **What you'll build:** Track and complete your first focused work session using Flow CLI
