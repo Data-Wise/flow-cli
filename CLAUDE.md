@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v6.2.0
-- **Latest Release:** v6.2.0 (2026-02-02)
+- **Current Version:** v6.2.1
+- **Latest Release:** v6.2.1 (2026-02-03)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -707,11 +707,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v6.2.0
-**Latest Release:** v6.2.0 (2026-02-02)
+**Version:** v6.2.1
+**Latest Release:** v6.2.1 (2026-02-03)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.1
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 462 total tests
@@ -729,6 +729,37 @@ export FLOW_DEBUG=1
 ---
 
 ## Recent Releases
+
+### v6.2.1 - Help Compliance System (2026-02-03)
+
+**Released:** 2026-02-03
+**PR #332:** https://github.com/Data-Wise/flow-cli/pull/332 (MERGED)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.1
+**Changes:** Help compliance system, dispatcher standardization, infrastructure fixes
+
+**Major Features:**
+
+- **Help Compliance Checker** — 9-rule automated validator for all 12 dispatcher help functions
+  - `flow doctor --help-check` validates against CONVENTIONS.md
+  - `lib/help-compliance.zsh` — reusable compliance engine
+  - Rules: box header/footer, MOST COMMON, QUICK EXAMPLES, categorized actions, TIP, See Also, color codes, function naming
+
+- **Dispatcher Help Standardization** — All 12 dispatchers brought to full compliance
+  - cc, dot, obs, prompt, teach, tm, v dispatchers updated
+  - `teach help` expanded with 26-alias shortcuts table and workflow examples
+  - Color fallback pattern standardized (global `if [[ -z "$_C_BOLD" ]]` block)
+
+- **Infrastructure Fixes**
+  - `mkdocs.yml`: removed deprecated `tags_file` option (Material 9.6+)
+  - `package.json`: version synced to 6.2.0
+  - `doctor --help-check` header migrated from `FLOW_COLORS[]` to `_C_*`
+  - Color fallback canonical pattern documented in CONVENTIONS.md
+
+**Testing:** 356 new tests (14 core + 342 dogfooding suite with negative tests)
+
+**Stats:** 18 files changed, +1,653 / -422 lines
+
+---
 
 ### v6.2.0 - Docs Overhaul + Website Reorganization (2026-02-02)
 
@@ -1025,5 +1056,5 @@ git push origin main && git push origin v6.2.0
 
 ---
 
-**Last Updated:** 2026-02-02
-**Status:** Production Ready (v6.2.0)
+**Last Updated:** 2026-02-03
+**Status:** Production Ready (v6.2.1)
