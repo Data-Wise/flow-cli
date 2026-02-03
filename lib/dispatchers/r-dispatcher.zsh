@@ -86,7 +86,7 @@ r() {
         tree)        rpkgtree ;;
 
         # Help
-        help|h)
+        help|h|--help|-h)
             _r_help
             ;;
 

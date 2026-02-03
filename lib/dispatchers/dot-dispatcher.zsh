@@ -356,67 +356,71 @@ _dot_size() {
 # ═══════════════════════════════════════════════════════════════════
 
 _dot_help() {
-  echo ""
-  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}dot - Dotfile Management${FLOW_COLORS[reset]}                         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}COMMON COMMANDS${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot${FLOW_COLORS[reset]}              Show status + quick actions     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot add FILE${FLOW_COLORS[reset]}     Add file to chezmoi             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot edit FILE${FLOW_COLORS[reset]}    Edit dotfile (auto-add/create)  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}         Pull latest changes from remote ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot push${FLOW_COLORS[reset]}         Push local changes to remote    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot diff${FLOW_COLORS[reset]}         Show pending changes            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot apply${FLOW_COLORS[reset]}        Apply changes to home directory ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot apply -n${FLOW_COLORS[reset]}     Dry-run (preview without apply) ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}SECRET MANAGEMENT${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}       Unlock vault (15m timeout)      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot lock${FLOW_COLORS[reset]}         Lock vault immediately          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret NAME${FLOW_COLORS[reset]}  Retrieve secret (no echo)       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret list${FLOW_COLORS[reset]}  Show available secrets          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret add${FLOW_COLORS[reset]}   Store new secret                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret check${FLOW_COLORS[reset]} Show expiring secrets           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secrets${FLOW_COLORS[reset]}      Dashboard of all secrets        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}TOKEN MANAGEMENT${FLOW_COLORS[reset]}                              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]} GitHub PAT creation wizard      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token npm${FLOW_COLORS[reset]}    NPM token creation wizard       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token pypi${FLOW_COLORS[reset]}   PyPI token creation wizard      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token <name> --refresh${FLOW_COLORS[reset]} Rotate token       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}IGNORE PATTERNS${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot ignore add <pat>${FLOW_COLORS[reset]} Add ignore pattern           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot ignore list${FLOW_COLORS[reset]}      List all patterns            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot ignore remove${FLOW_COLORS[reset]}    Remove pattern               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot ignore edit${FLOW_COLORS[reset]}      Edit .chezmoiignore          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}REPOSITORY HEALTH${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot size${FLOW_COLORS[reset]}             Analyze repository size      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}INTEGRATION${FLOW_COLORS[reset]}                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secrets sync github${FLOW_COLORS[reset]}  Sync to GitHub repo    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot env init${FLOW_COLORS[reset]}         Generate .envrc for direnv  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}TROUBLESHOOTING${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot doctor${FLOW_COLORS[reset]}       Run diagnostics                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot undo${FLOW_COLORS[reset]}         Rollback last apply             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot help${FLOW_COLORS[reset]}         Show this help                  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[accent]}EXAMPLES${FLOW_COLORS[reset]}                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot edit .zshrc${FLOW_COLORS[reset]}           Edit shell config      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot edit ~/.newrc${FLOW_COLORS[reset]}         Create + add new file  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot add ~/.bashrc${FLOW_COLORS[reset]}         Start tracking file    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot sync${FLOW_COLORS[reset]}                  Pull from remote       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret github-token${FLOW_COLORS[reset]}   Get GitHub token       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 1: Status & help${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 2: Edit/sync workflows${FLOW_COLORS[reset]}                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓ Phase 3: Secret management${FLOW_COLORS[reset]}                  ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
-  echo ""
+  # Color fallbacks
+  if [[ -z "$_C_BOLD" ]]; then
+      _C_BOLD='\033[1m'
+      _C_DIM='\033[2m'
+      _C_NC='\033[0m'
+      _C_GREEN='\033[32m'
+      _C_YELLOW='\033[33m'
+      _C_BLUE='\033[34m'
+      _C_MAGENTA='\033[35m'
+      _C_CYAN='\033[36m'
+  fi
+
+  echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ dot - Dotfile & Secret Management            │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}dot${_C_NC}                 Status + quick actions
+  ${_C_CYAN}dot add FILE${_C_NC}        Add file to chezmoi
+  ${_C_CYAN}dot edit FILE${_C_NC}       Edit dotfile (auto-add/create)
+  ${_C_CYAN}dot sync${_C_NC}            Pull latest from remote
+  ${_C_CYAN}dot push${_C_NC}            Push changes to remote
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} dot edit .zshrc           ${_C_DIM}# Edit shell config${_C_NC}
+  ${_C_DIM}\$${_C_NC} dot add ~/.bashrc         ${_C_DIM}# Start tracking file${_C_NC}
+  ${_C_DIM}\$${_C_NC} dot secret github-token   ${_C_DIM}# Get GitHub token${_C_NC}
+  ${_C_DIM}\$${_C_NC} dot apply -n              ${_C_DIM}# Dry-run apply${_C_NC}
+
+${_C_BLUE}📋 FILE MANAGEMENT${_C_NC}:
+  ${_C_CYAN}dot add FILE${_C_NC}        Add file to chezmoi (with safety checks)
+  ${_C_CYAN}dot edit FILE${_C_NC}       Edit dotfile (auto-add/create)
+  ${_C_CYAN}dot diff${_C_NC}            Show pending changes
+  ${_C_CYAN}dot apply${_C_NC}           Apply changes to home directory
+  ${_C_CYAN}dot apply -n${_C_NC}        Dry-run (preview without apply)
+  ${_C_CYAN}dot undo${_C_NC}            Rollback last apply
+
+${_C_BLUE}📋 SECRET MANAGEMENT${_C_NC}:
+  ${_C_CYAN}dot unlock${_C_NC}          Unlock vault (15m timeout)
+  ${_C_CYAN}dot lock${_C_NC}            Lock vault immediately
+  ${_C_CYAN}dot secret NAME${_C_NC}     Retrieve secret (no echo)
+  ${_C_CYAN}dot secret list${_C_NC}     Show available secrets
+  ${_C_CYAN}dot secret add${_C_NC}      Store new secret
+  ${_C_CYAN}dot secrets${_C_NC}         Dashboard of all secrets
+
+${_C_BLUE}📋 TOKEN MANAGEMENT${_C_NC}:
+  ${_C_CYAN}dot token github${_C_NC}    GitHub PAT creation wizard
+  ${_C_CYAN}dot token npm${_C_NC}       NPM token wizard
+  ${_C_CYAN}dot token pypi${_C_NC}      PyPI token wizard
+  ${_C_CYAN}dot token <n> --refresh${_C_NC}  Rotate token
+
+${_C_BLUE}📋 IGNORE & HEALTH${_C_NC}:
+  ${_C_CYAN}dot ignore add <pat>${_C_NC} Add ignore pattern
+  ${_C_CYAN}dot ignore list${_C_NC}     List all patterns
+  ${_C_CYAN}dot size${_C_NC}            Analyze repository size
+  ${_C_CYAN}dot doctor${_C_NC}          Run diagnostics
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Unknown commands pass through to chezmoi
+  ${_C_DIM}dot managed → chezmoi managed${_C_NC}
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}flow doctor --dot${_C_NC} - Health check for dotfiles
+  ${_C_CYAN}g${_C_NC} - Git commands
+"
 }
 
 # ═══════════════════════════════════════════════════════════════════

@@ -262,98 +262,67 @@ _cc_dispatch_with_mode() {
 # ============================================================================
 
 _cc_help() {
-    # Use flow-cli colors if available, otherwise define fallbacks
-    local _C_CYAN="${_C_CYAN:-\033[0;36m}"
-    local _C_YELLOW="${_C_YELLOW:-\033[0;33m}"
-    local _C_BLUE="${_C_BLUE:-\033[0;34m}"
-    local _C_MAGENTA="${_C_MAGENTA:-\033[0;35m}"
-    local _C_DIM="${_C_DIM:-\033[2m}"
-    local _C_NC="${_C_NC:-\033[0m}"
+    # Color fallbacks
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
+    fi
 
-    echo "
-${_C_YELLOW}╔════════════════════════════════════════════════════════════╗${_C_NC}
-${_C_YELLOW}║${_C_NC}  ${_C_CYAN}CC${_C_NC} - Claude Code Dispatcher                              ${_C_YELLOW}║${_C_NC}
-${_C_YELLOW}╚════════════════════════════════════════════════════════════╝${_C_NC}
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ cc - Claude Code Dispatcher                  │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${_C_YELLOW}💡 QUICK START${_C_NC}:
-  ${_C_DIM}\$${_C_NC} cc                        ${_C_DIM}# Launch Claude HERE (current dir)${_C_NC}
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}cc${_C_NC}                 Launch Claude HERE
+  ${_C_CYAN}cc pick${_C_NC}            Pick project → Claude
+  ${_C_CYAN}cc yolo${_C_NC}            Launch in YOLO mode
+  ${_C_CYAN}cc resume${_C_NC}          Resume session picker
+  ${_C_CYAN}cc continue${_C_NC}        Continue most recent session
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} cc                        ${_C_DIM}# Launch Claude HERE${_C_NC}
   ${_C_DIM}\$${_C_NC} cc pick                   ${_C_DIM}# Pick project → Claude${_C_NC}
-  ${_C_DIM}\$${_C_NC} cc flow                   ${_C_DIM}# Direct jump to flow-cli → Claude${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc yolo pick              ${_C_DIM}# Pick → YOLO mode${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc opus flow              ${_C_DIM}# Direct jump → Opus${_C_NC}
+  ${_C_DIM}\$${_C_NC} cc wt feature/auth        ${_C_DIM}# Launch in worktree${_C_NC}
 
-${_C_BLUE}🚀 LAUNCH MODES${_C_NC} (Unified Grammar - Both Orders Work!):
-  ${_C_CYAN}cc${_C_NC}                 Launch Claude HERE (acceptEdits mode)
-  ${_C_CYAN}cc .${_C_NC}                Explicit HERE ${_C_DIM}(NEW v4.8.0!)${_C_NC}
-  ${_C_CYAN}cc here${_C_NC}             Explicit HERE (readable) ${_C_DIM}(NEW v4.8.0!)${_C_NC}
-  ${_C_CYAN}cc pick${_C_NC}            Pick project → Claude (acceptEdits)
-  ${_C_CYAN}cc <project>${_C_NC}       Direct jump → Claude (no picker!)
-  ${_C_CYAN}cc yolo${_C_NC}            Launch HERE in YOLO mode (skip permissions)
-  ${_C_CYAN}cc yolo pick${_C_NC}       Pick project → YOLO mode
-  ${_C_CYAN}cc pick yolo${_C_NC}       Pick → YOLO mode ${_C_DIM}(both orders work!)${_C_NC}
-  ${_C_CYAN}cc yolo wt <branch>${_C_NC} Worktree → YOLO mode
-  ${_C_CYAN}cc plan${_C_NC}            Launch HERE in Plan mode
-  ${_C_CYAN}cc plan pick${_C_NC}       Pick project → Plan mode
-  ${_C_CYAN}cc pick plan${_C_NC}       Pick → Plan mode ${_C_DIM}(both orders work!)${_C_NC}
-  ${_C_CYAN}cc plan wt pick${_C_NC}    Pick worktree → Plan mode
+${_C_BLUE}📋 LAUNCH MODES${_C_NC} ${_C_DIM}(both orders work!)${_C_NC}:
+  ${_C_CYAN}cc${_C_NC} / ${_C_CYAN}cc .${_C_NC} / ${_C_CYAN}cc here${_C_NC}   Launch HERE (acceptEdits)
+  ${_C_CYAN}cc pick${_C_NC}            Pick project → Claude
+  ${_C_CYAN}cc <project>${_C_NC}       Direct jump → Claude
+  ${_C_CYAN}cc yolo [target]${_C_NC}   YOLO mode (skip permissions)
+  ${_C_CYAN}cc plan [target]${_C_NC}   Plan mode
 
-${_C_BLUE}🔄 SESSION${_C_NC}:
-  ${_C_CYAN}cc resume${_C_NC}          Resume with Claude session picker
-  ${_C_CYAN}cc continue${_C_NC}        Continue most recent Claude conversation
+${_C_BLUE}📋 MODEL SELECTION${_C_NC}:
+  ${_C_CYAN}cc opus [target]${_C_NC}   Launch with Opus model
+  ${_C_CYAN}cc haiku [target]${_C_NC}  Launch with Haiku model
 
-${_C_BLUE}❓ QUICK ACTIONS${_C_NC}:
+${_C_BLUE}📋 WORKTREE INTEGRATION${_C_NC}:
+  ${_C_CYAN}cc wt <branch>${_C_NC}     Launch in worktree (creates if needed)
+  ${_C_CYAN}cc wt${_C_NC}              List worktrees
+  ${_C_CYAN}cc wt pick${_C_NC}         Pick worktree → Claude
+
+${_C_BLUE}📋 QUICK ACTIONS${_C_NC}:
   ${_C_CYAN}cc ask <question>${_C_NC}  Quick question (print mode)
   ${_C_CYAN}cc file <file>${_C_NC}     Analyze a file
   ${_C_CYAN}cc diff${_C_NC}            Review uncommitted changes
-  ${_C_CYAN}cc rpkg${_C_NC}            R package context helper
+  ${_C_CYAN}cc print <prompt>${_C_NC}  Non-interactive print mode
 
-${_C_BLUE}🎯 MODEL SELECTION${_C_NC} (Unified Grammar - Both Orders Work!):
-  ${_C_CYAN}cc opus${_C_NC}            Launch HERE with Opus model
-  ${_C_CYAN}cc opus pick${_C_NC}       Pick project → Opus model
-  ${_C_CYAN}cc pick opus${_C_NC}       Pick → Opus model ${_C_DIM}(both orders work!)${_C_NC}
-  ${_C_CYAN}cc opus .${_C_NC}           Explicit HERE → Opus ${_C_DIM}(NEW v4.8.0!)${_C_NC}
-  ${_C_CYAN}cc . opus${_C_NC}           HERE → Opus ${_C_DIM}(both orders work!)${_C_NC}
-  ${_C_CYAN}cc opus wt <branch>${_C_NC} Worktree → Opus model
-  ${_C_CYAN}cc haiku${_C_NC}           Launch HERE with Haiku model
-  ${_C_CYAN}cc haiku pick${_C_NC}      Pick project → Haiku model
-  ${_C_CYAN}cc pick haiku${_C_NC}      Pick → Haiku model ${_C_DIM}(both orders work!)${_C_NC}
-
-${_C_BLUE}📋 OTHER${_C_NC}:
-  ${_C_CYAN}cc print <prompt>${_C_NC}  Print mode (non-interactive)
-  ${_C_CYAN}cc help${_C_NC}            Show this help
-
-${_C_MAGENTA}💡 DIRECT JUMP EXAMPLES${_C_NC}:
-  cc flow           Direct → flow-cli + Claude
-  cc med            Direct → mediationverse + Claude
-  cc yolo stat      Direct → stat-440 + YOLO Claude
-
-${_C_BLUE}🌳 WORKTREE${_C_NC} (Unified Pattern):
-  ${_C_CYAN}cc wt <branch>${_C_NC}      Launch Claude in worktree (creates if needed)
-  ${_C_CYAN}cc wt${_C_NC}               List worktrees
-  ${_C_CYAN}cc wt pick${_C_NC}          Pick existing worktree → Claude
-  ${_C_CYAN}cc yolo wt <branch>${_C_NC} Worktree + YOLO mode ${_C_DIM}(unified!)${_C_NC}
-  ${_C_CYAN}cc plan wt <branch>${_C_NC} Worktree + Plan mode ${_C_DIM}(unified!)${_C_NC}
-  ${_C_CYAN}cc opus wt <branch>${_C_NC} Worktree + Opus model ${_C_DIM}(unified!)${_C_NC}
-  ${_C_CYAN}cc haiku wt <branch>${_C_NC} Worktree + Haiku model ${_C_DIM}(unified!)${_C_NC}
-
-${_C_MAGENTA}💡 SHORTCUTS${_C_NC}:
-  y = yolo, p = plan, r = resume, c = continue
-  a = ask, f = file, d = diff, o = opus, h = haiku, pr = print
-  w = wt (worktree)
-
-${_C_MAGENTA}💡 WORKTREE ALIASES${_C_NC}:
-  ccw = cc wt, ccwy = cc wt yolo, ccwp = cc wt pick
-  ccy = cc yolo (kept by user request!)
-
-${_C_YELLOW}★ Unified Grammar (v4.8.0)${_C_NC}: Both mode-first AND target-first work!
-  ${_C_CYAN}cc yolo pick${_C_NC}          ${_C_DIM}# Mode → target${_C_NC}
-  ${_C_CYAN}cc pick yolo${_C_NC}          ${_C_DIM}# Target → mode (both work!)${_C_NC}
-  ${_C_CYAN}cc opus flow${_C_NC}          ${_C_DIM}# Mode → project${_C_NC}
-  ${_C_CYAN}cc flow opus${_C_NC}          ${_C_DIM}# Project → mode (both work!)${_C_NC}
+${_C_MAGENTA}💡 TIP${_C_NC}: Both mode-first and target-first work!
+  ${_C_DIM}cc yolo pick = cc pick yolo${_C_NC}
+  ${_C_DIM}Shortcuts: y=yolo p=plan r=resume c=continue o=opus h=haiku w=wt${_C_NC}
 
 ${_C_DIM}📚 See also:${_C_NC}
   ${_C_CYAN}pick${_C_NC} - Project picker with Claude sessions
   ${_C_CYAN}work${_C_NC} - Start working on a project
   ${_C_CYAN}wt${_C_NC} - Manage git worktrees
-  ${_C_CYAN}g${_C_NC} - Git commands
 "
 }
 

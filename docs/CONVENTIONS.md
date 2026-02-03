@@ -216,6 +216,31 @@ _C_MAGENTA='\033[35m'  # Tips, related info
 _C_RED='\033[31m'      # Errors
 ```
 
+### Help Function Color Fallbacks
+
+Every `_<cmd>_help()` function **must** include color fallbacks for standalone use
+(when invoked outside the plugin context). Use the global block pattern:
+
+```bash
+# Canonical pattern — all dispatchers must match this exactly
+if [[ -z "$_C_BOLD" ]]; then
+    _C_BOLD='\033[1m'
+    _C_DIM='\033[2m'
+    _C_NC='\033[0m'
+    _C_GREEN='\033[32m'
+    _C_YELLOW='\033[33m'
+    _C_BLUE='\033[34m'
+    _C_MAGENTA='\033[35m'
+    _C_CYAN='\033[36m'
+fi
+```
+
+**Rules:**
+- Use `if [[ -z "$_C_BOLD" ]]` guard (NOT `local` scoped defaults)
+- Include exactly the 8 colors above (no `_C_RED`, no `_C_WHITE`)
+- Place immediately after the function opening brace
+- Validated by `flow doctor --help-check` (Rule 8)
+
 ### Usage
 
 ```bash
