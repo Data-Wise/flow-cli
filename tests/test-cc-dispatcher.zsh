@@ -41,8 +41,8 @@ setup() {
     echo ""
     echo "${YELLOW}Setting up test environment...${NC}"
 
-    # Get project root - try multiple methods
-    local project_root=""
+    # Get project root - try multiple methods (must be global for test functions)
+    typeset -g project_root=""
 
     # Method 1: From script location
     if [[ -n "${0:A}" ]]; then
@@ -86,8 +86,8 @@ test_cc_help() {
 
     local output=$(cc help 2>&1)
 
-    # Check for "CC" and "Claude Code" (may have ANSI codes between)
-    if echo "$output" | grep -q "CC" && echo "$output" | grep -q "Claude Code"; then
+    # Check for box header format (v6.2.1+)
+    if echo "$output" | grep -q "Claude Code Dispatcher"; then
         pass
     else
         fail "Help header not found"
@@ -99,7 +99,7 @@ test_cc_help_flag() {
 
     local output=$(cc --help 2>&1)
 
-    if echo "$output" | grep -q "CC" && echo "$output" | grep -q "Claude Code"; then
+    if echo "$output" | grep -q "Claude Code Dispatcher"; then
         pass
     else
         fail "--help flag not working"
@@ -111,7 +111,7 @@ test_cc_help_short_flag() {
 
     local output=$(cc -h 2>&1)
 
-    if echo "$output" | grep -q "CC" && echo "$output" | grep -q "Claude Code"; then
+    if echo "$output" | grep -q "Claude Code Dispatcher"; then
         pass
     else
         fail "-h flag not working"
@@ -238,7 +238,7 @@ test_help_shows_direct_jump() {
 
     local output=$(cc help 2>&1)
 
-    if echo "$output" | grep -q "DIRECT JUMP"; then
+    if echo "$output" | grep -qi "direct jump"; then
         pass
     else
         fail "direct jump not in help"
@@ -254,7 +254,7 @@ test_help_shows_shortcuts() {
 
     local output=$(cc help 2>&1)
 
-    if echo "$output" | grep -q "SHORTCUTS"; then
+    if echo "$output" | grep -qi "shortcut"; then
         pass
     else
         fail "shortcuts section not found"
@@ -266,7 +266,7 @@ test_shortcut_y_documented() {
 
     local output=$(cc help 2>&1)
 
-    if echo "$output" | grep -q "y = yolo"; then
+    if echo "$output" | grep -q "y=yolo"; then
         pass
     else
         fail "y shortcut not documented"
@@ -278,7 +278,7 @@ test_shortcut_p_documented() {
 
     local output=$(cc help 2>&1)
 
-    if echo "$output" | grep -q "p = plan"; then
+    if echo "$output" | grep -q "p=plan"; then
         pass
     else
         fail "p shortcut not documented"
@@ -290,7 +290,7 @@ test_shortcut_r_documented() {
 
     local output=$(cc help 2>&1)
 
-    if echo "$output" | grep -q "r = resume"; then
+    if echo "$output" | grep -q "r=resume"; then
         pass
     else
         fail "r shortcut not documented"
