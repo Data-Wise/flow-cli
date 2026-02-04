@@ -209,7 +209,7 @@ _deploy_direct_merge() {
         # If ff-only fails, try regular pull
         pull_err=$(git pull origin "$prod_branch" 2>&1) || {
             _teach_error "Failed to pull latest $prod_branch" "$pull_err"
-            git checkout "$draft_branch" 2>/dev/null
+            git checkout "$draft_branch" >/dev/null 2>&1
             return 1
         }
     }
@@ -220,7 +220,7 @@ _deploy_direct_merge() {
     if [[ $? -ne 0 ]]; then
         _teach_error "Merge conflict! Aborting merge." "$merge_err"
         git merge --abort 2>/dev/null
-        git checkout "$draft_branch" 2>/dev/null
+        git checkout "$draft_branch" >/dev/null 2>&1
         echo ""
         echo "${FLOW_COLORS[dim]}  Tip: Resolve conflicts manually or use PR mode${FLOW_COLORS[reset]}"
         return 1
@@ -232,7 +232,7 @@ _deploy_direct_merge() {
     push_prod_err=$(git push origin "$prod_branch" 2>&1)
     if [[ $? -ne 0 ]]; then
         _teach_error "Failed to push $prod_branch to origin" "$push_prod_err"
-        git checkout "$draft_branch" 2>/dev/null
+        git checkout "$draft_branch" >/dev/null 2>&1
         return 1
     fi
     _deploy_step 4 $total_steps "Push to origin/$prod_branch" done
@@ -241,7 +241,7 @@ _deploy_direct_merge() {
     local commit_after=$(git rev-parse HEAD 2>/dev/null)
 
     # Switch back to draft branch
-    git checkout "$draft_branch" 2>/dev/null || {
+    git checkout "$draft_branch" >/dev/null 2>&1 || {
         _deploy_step 5 $total_steps "Switch back to $draft_branch" fail
         _teach_error "Warning: Failed to switch back to $draft_branch"
     }
