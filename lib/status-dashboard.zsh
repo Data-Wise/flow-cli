@@ -210,6 +210,7 @@ _teach_show_status_dashboard() {
         local last_deploy_tag=$(git tag -l "deploy-*" --sort=-version:refname 2>/dev/null | head -1)
         if [[ -n "$last_deploy_tag" ]]; then
             local deploy_time=$(git log -1 --format=%ct "$last_deploy_tag" 2>/dev/null)
+            [[ "$deploy_time" =~ ^[0-9]+$ ]] || deploy_time=0
             if [[ -n "$deploy_time" && "$deploy_time" -gt 0 ]]; then
                 local time_ago=$(_status_time_ago $deploy_time)
                 deploy_label="Last $time_ago ($last_deploy_tag)"
@@ -219,6 +220,7 @@ _teach_show_status_dashboard() {
         else
             # Fallback to commit message search
             local last_deploy_commit=$(git log --all --grep="deploy" --grep="Publish" -i --format="%ct" --max-count=1 2>/dev/null)
+            [[ "$last_deploy_commit" =~ ^[0-9]+$ ]] || last_deploy_commit=0
             if [[ -n "$last_deploy_commit" && "$last_deploy_commit" -gt 0 ]]; then
                 local time_ago=$(_status_time_ago $last_deploy_commit)
                 deploy_label="Last $time_ago"
@@ -231,6 +233,8 @@ _teach_show_status_dashboard() {
     local assignment_count=0
     [[ -d "lectures" ]] && lecture_count=$(find lectures -maxdepth 2 \( -name "*.md" -o -name "*.qmd" \) 2>/dev/null | wc -l | tr -d ' ')
     [[ -d "assignments" ]] && assignment_count=$(find assignments -maxdepth 2 \( -name "*.md" -o -name "*.qmd" \) 2>/dev/null | wc -l | tr -d ' ')
+    [[ "$lecture_count" =~ ^[0-9]+$ ]] || lecture_count=0
+    [[ "$assignment_count" =~ ^[0-9]+$ ]] || assignment_count=0
 
     local index_label="No content indexed yet"
     if [[ $lecture_count -gt 0 || $assignment_count -gt 0 ]]; then
@@ -248,10 +252,12 @@ _teach_show_status_dashboard() {
                 for content_dir in "$dir"/*(/N); do
                     if [[ -d "$content_dir" ]]; then
                         local count=$(_teach_count_backups "$content_dir" 2>/dev/null)
+                        [[ "$count" =~ ^[0-9]+$ ]] || count=0
                         ((total_backups += count))
 
                         if [[ -d "$content_dir/.backups" ]]; then
                             local backup_size=$(du -sk "$content_dir/.backups" 2>/dev/null | awk '{print $1}')
+                            [[ "$backup_size" =~ ^[0-9]+$ ]] || backup_size=0
                             ((total_size += backup_size))
                         fi
                     fi
@@ -327,6 +333,8 @@ _teach_show_status_dashboard() {
         local concept_count=$(jq '.metadata.total_concepts // 0' "$concepts_file" 2>/dev/null)
         local week_count=$(jq '.metadata.weeks // 0' "$concepts_file" 2>/dev/null)
         local last_updated=$(jq -r '.metadata.last_updated // ""' "$concepts_file" 2>/dev/null)
+        [[ "$concept_count" =~ ^[0-9]+$ ]] || concept_count=0
+        [[ "$week_count" =~ ^[0-9]+$ ]] || week_count=0
 
         if [[ "$concept_count" -gt 0 ]]; then
             # Calculate time since last analysis
@@ -334,6 +342,7 @@ _teach_show_status_dashboard() {
             if [[ -n "$last_updated" && "$last_updated" != "null" ]]; then
                 local analysis_ts=$(date -jf "%Y-%m-%dT%H:%M:%SZ" "$last_updated" +%s 2>/dev/null || \
                                    date -d "$last_updated" +%s 2>/dev/null)
+                [[ "$analysis_ts" =~ ^[0-9]+$ ]] || analysis_ts=0
                 if [[ -n "$analysis_ts" && "$analysis_ts" -gt 0 ]]; then
                     analysis_label=" ($(_status_time_ago $analysis_ts))"
                 fi
