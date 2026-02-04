@@ -26,8 +26,8 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New: v6.4.0 - teach deploy v2"
-    Direct deploy in 8-15 seconds. Smart commit messages. Deploy history tracking. Safe rollback via `git revert`.
+!!! success "🎉 What's New: v6.4.1 - Deploy Progress & Summary"
+    Step-by-step progress `[1/5]..[5/5]` during direct deploy. Deployment summary box with files, duration, and commit info. Plus: deploy history, rollback, smart commits.
     [→ See what's new](CHANGELOG.md){ .md-button }
     [→ All releases](RELEASES.md){ .md-button }
 
