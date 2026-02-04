@@ -1144,217 +1144,183 @@ _teach_build_context() {
 
 # Help for teach validate command
 _teach_validate_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]} - Validate Quarto Files                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach validate [files...] [options]
-  ${FLOW_COLORS[cmd]}teach validate --yaml <file>
-  ${FLOW_COLORS[cmd]}teach validate --watch
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach validate - Validate Quarto Files       │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}val${FLOW_COLORS[reset]} → validate
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach validate --yaml${_C_NC}       Quick YAML frontmatter check
+  ${_C_CYAN}teach validate --render${_C_NC}     Full render validation
+  ${_C_CYAN}teach validate --watch${_C_NC}      Watch mode (auto-revalidate)
+  ${_C_DIM}Alias: teach val${_C_NC}
 
-${FLOW_COLORS[bold]}VALIDATION MODES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--yaml${FLOW_COLORS[reset]}         YAML frontmatter only (fast)
-  ${FLOW_COLORS[cmd]}--syntax${FLOW_COLORS[reset]}       YAML + syntax check
-  ${FLOW_COLORS[cmd]}--render${FLOW_COLORS[reset]}       Full render validation
-  ${FLOW_COLORS[cmd]}--custom${FLOW_COLORS[reset]}       Run custom validators
-  ${FLOW_COLORS[cmd]}--lint${FLOW_COLORS[reset]}         Run Quarto-aware lint rules (.teach/validators/lint-*.zsh)
-  ${FLOW_COLORS[cmd]}--quick-checks${FLOW_COLORS[reset]} Run fast lint subset only (Phase 1 rules)
-  ${FLOW_COLORS[cmd]}--deep${FLOW_COLORS[reset]}         Full validation + concept analysis (Layer 6)
-  ${FLOW_COLORS[cmd]}--concepts${FLOW_COLORS[reset]}     Concept prerequisite validation only
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach validate --yaml lectures/week-05/  ${_C_DIM}# Quick YAML check${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach validate --render                   ${_C_DIM}# Full render${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach validate --deep                     ${_C_DIM}# Deep + concepts${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach validate --watch                    ${_C_DIM}# Watch for changes${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach validate --custom                   ${_C_DIM}# Custom validators${_C_NC}
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--validators${FLOW_COLORS[reset]} <list>  Comma-separated validator list (with --custom)
-  ${FLOW_COLORS[cmd]}--watch, -w${FLOW_COLORS[reset]}          Watch mode (fswatch)
-  ${FLOW_COLORS[cmd]}--stats${FLOW_COLORS[reset]}              Show validation statistics
-  ${FLOW_COLORS[cmd]}--quiet, -q${FLOW_COLORS[reset]}          Minimal output
+${_C_BLUE}📋 VALIDATION MODES${_C_NC}:
+  ${_C_CYAN}--yaml${_C_NC}             YAML frontmatter only (fast)
+  ${_C_CYAN}--syntax${_C_NC}           YAML + syntax check
+  ${_C_CYAN}--render${_C_NC}           Full render validation
+  ${_C_CYAN}--custom${_C_NC}           Run custom validators
+  ${_C_CYAN}--lint${_C_NC}             Quarto-aware lint rules
+  ${_C_CYAN}--quick-checks${_C_NC}     Fast lint subset (Phase 1)
+  ${_C_CYAN}--deep${_C_NC}             Full validation + concept analysis
+  ${_C_CYAN}--concepts${_C_NC}         Concept prerequisite validation only
 
-${FLOW_COLORS[bold]}CUSTOM VALIDATORS${FLOW_COLORS[reset]}
-  Place scripts in ${FLOW_COLORS[accent]}.teach/validators/${FLOW_COLORS[reset]}
-  Built-in: check-citations, check-links, check-formatting
-  Run: teach validate --custom
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--validators <list>${_C_NC}  Comma-separated list (with --custom)
+  ${_C_CYAN}--watch, -w${_C_NC}          Watch mode (fswatch)
+  ${_C_CYAN}--stats${_C_NC}              Show validation statistics
+  ${_C_CYAN}--quiet, -q${_C_NC}          Minimal output
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Quick YAML check${FLOW_COLORS[reset]}
-  $ teach validate --yaml lectures/week-05/
+${_C_BLUE}📋 EXIT CODES${_C_NC}:
+  ${_C_GREEN}0${_C_NC} - All valid   ${_C_BOLD}1${_C_NC} - Warnings   ${_C_BOLD}2${_C_NC} - Errors
 
-  ${FLOW_COLORS[muted]}# Full render validation${FLOW_COLORS[reset]}
-  $ teach validate --render
+${_C_MAGENTA}💡 TIP${_C_NC}: Use ${_C_CYAN}--yaml${_C_NC} for fast iteration, ${_C_CYAN}--deep${_C_NC} before deploy.
+  ${_C_DIM}Custom validators go in .teach/validators/${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Deep validation with concept analysis${FLOW_COLORS[reset]}
-  $ teach validate --deep
-
-  ${FLOW_COLORS[muted]}# Watch for changes${FLOW_COLORS[reset]}
-  $ teach validate --watch
-
-  ${FLOW_COLORS[muted]}# Run custom validators${FLOW_COLORS[reset]}
-  $ teach validate --custom
-
-${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[success]}0${FLOW_COLORS[reset]} - All valid
-  ${FLOW_COLORS[error]}1${FLOW_COLORS[reset]} - Warnings
-  ${FLOW_COLORS[error]}2${FLOW_COLORS[reset]} - Errors
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Pre-commit hooks auto-validate on commit
-  • Use ${FLOW_COLORS[accent]}--yaml${FLOW_COLORS[reset]} for quick checks
-  • Install fswatch for --watch mode
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-QUARTO-WORKFLOW-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
-  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache management
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach doctor${_C_NC} - Health checks
+  ${_C_CYAN}teach cache${_C_NC} - Cache management
+  ${_C_DIM}Guide: docs/guides/TEACHING-QUARTO-WORKFLOW-GUIDE.md${_C_NC}
+"
 }
 
 # Help for teach cache command
 _teach_cache_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache Management                          ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach cache <command> [options]
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach cache - Cache Management               │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}status${FLOW_COLORS[reset]}              Show cache statistics
-  ${FLOW_COLORS[cmd]}clear${FLOW_COLORS[reset]}               Clear all cache
-  ${FLOW_COLORS[cmd]}rebuild${FLOW_COLORS[reset]}             Rebuild frozen content
-  ${FLOW_COLORS[cmd]}analyze${FLOW_COLORS[reset]}             Analyze cache usage
-  ${FLOW_COLORS[cmd]}clean${FLOW_COLORS[reset]}               Clean stale entries
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach cache status${_C_NC}       Show cache statistics
+  ${_C_CYAN}teach cache clear${_C_NC}        Clear all cache
+  ${_C_CYAN}teach cache rebuild${_C_NC}      Rebuild frozen content
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--lectures${FLOW_COLORS[reset]}          Target lectures only
-  ${FLOW_COLORS[cmd]}--assignments${FLOW_COLORS[reset]}       Target assignments only
-  ${FLOW_COLORS[cmd]}--old [days]${FLOW_COLORS[reset]}        Clear entries older than N days
-  ${FLOW_COLORS[cmd]}--unused${FLOW_COLORS[reset]}            Clear unused cache
-  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}              JSON output
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach cache status              ${_C_DIM}# Show stats${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach cache clear --lectures    ${_C_DIM}# Clear lectures only${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach cache rebuild             ${_C_DIM}# Rebuild frozen content${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach cache analyze             ${_C_DIM}# Analyze usage${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach cache clean --old 7       ${_C_DIM}# Clear entries > 7 days${_C_NC}
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Show cache status${FLOW_COLORS[reset]}
-  $ teach cache status
+${_C_BLUE}📋 COMMANDS${_C_NC}:
+  ${_C_CYAN}status${_C_NC}              Show cache statistics
+  ${_C_CYAN}clear${_C_NC}               Clear all cache
+  ${_C_CYAN}rebuild${_C_NC}             Rebuild frozen content
+  ${_C_CYAN}analyze${_C_NC}             Analyze cache usage
+  ${_C_CYAN}clean${_C_NC}               Clean stale entries
 
-  ${FLOW_COLORS[muted]}# Clear lecture cache only${FLOW_COLORS[reset]}
-  $ teach cache clear --lectures
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--lectures${_C_NC}          Target lectures only
+  ${_C_CYAN}--assignments${_C_NC}       Target assignments only
+  ${_C_CYAN}--old [days]${_C_NC}        Clear entries older than N days
+  ${_C_CYAN}--unused${_C_NC}            Clear unused cache
+  ${_C_CYAN}--json${_C_NC}              JSON output
 
-  ${FLOW_COLORS[muted]}# Rebuild frozen content${FLOW_COLORS[reset]}
-  $ teach cache rebuild
+${_C_MAGENTA}💡 TIP${_C_NC}: Cache is stored in ${_C_CYAN}_freeze/${_C_NC}. Use ${_C_CYAN}status${_C_NC} to diagnose,
+  ${_C_DIM}clear before re-rendering from scratch.${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Analyze cache usage${FLOW_COLORS[reset]}
-  $ teach cache analyze
-
-  ${FLOW_COLORS[muted]}# Clear entries older than 7 days${FLOW_COLORS[reset]}
-  $ teach cache clean --old 7
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Cache is stored in ${FLOW_COLORS[accent]}_freeze/${FLOW_COLORS[reset]}
-  • Use ${FLOW_COLORS[accent]}teach cache status${FLOW_COLORS[reset]} to diagnose issues
-  • Clear cache before re-rendering from scratch
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Delete _freeze/ and _site/
-  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach clean${_C_NC} - Delete _freeze/ and _site/
+  ${_C_CYAN}qu${_C_NC} - Quarto commands
+"
 }
 
 # Help for teach profiles command
 _teach_profiles_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach profiles${FLOW_COLORS[reset]} - Quarto Profile Management             ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach profiles [list|switch|create] [name]
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach profiles - Quarto Profile Management   │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
-  Manage Quarto profiles for different output formats:
-  • default     - Standard web output
-  • draft       - Draft mode (faster rendering)
-  • print       - Print-optimized
-  • slides      - Presentation mode
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach profiles list${_C_NC}          List available profiles
+  ${_C_CYAN}teach profiles switch${_C_NC}        Activate a profile
+  ${_C_CYAN}teach profiles create${_C_NC}        Create new profile
 
-${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}list, ls${FLOW_COLORS[reset]}             List available profiles
-  ${FLOW_COLORS[cmd]}switch <name>${FLOW_COLORS[reset]}        Activate profile
-  ${FLOW_COLORS[cmd]}create <name>${FLOW_COLORS[reset]}        Create new profile
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach profiles list             ${_C_DIM}# List profiles${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach profiles switch draft     ${_C_DIM}# Switch to draft${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach profiles create my-config ${_C_DIM}# Create custom${_C_NC}
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# List profiles${FLOW_COLORS[reset]}
-  $ teach profiles list
+${_C_BLUE}📋 AVAILABLE PROFILES${_C_NC}:
+  ${_C_CYAN}default${_C_NC}     Standard web output
+  ${_C_CYAN}draft${_C_NC}       Draft mode (faster rendering)
+  ${_C_CYAN}print${_C_NC}       Print-optimized
+  ${_C_CYAN}slides${_C_NC}      Presentation mode
 
-  ${FLOW_COLORS[muted]}# Switch to draft mode${FLOW_COLORS[reset]}
-  $ teach profiles switch draft
+${_C_MAGENTA}💡 TIP${_C_NC}: Profiles are defined in ${_C_CYAN}_quarto.yml${_C_NC}. Draft renders ~2x faster.
+  ${_C_DIM}Quarto profiles are separate from R package profiles.${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Create custom profile${FLOW_COLORS[reset]}
-  $ teach profiles create my-config
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Profiles defined in ${FLOW_COLORS[accent]}_quarto.yml${FLOW_COLORS[reset]}
-  • Draft mode renders ~2x faster
-  • Quarto profiles are separate from R package profiles
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
-  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache management
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}qu${_C_NC} - Quarto commands
+  ${_C_CYAN}teach cache${_C_NC} - Cache management
+"
 }
 
 # Help for teach clean command
 _teach_clean_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Clean Build Artifacts                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach clean [options]
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach clean - Clean Build Artifacts          │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
-  Remove Quarto build artifacts to start fresh:
-  • _freeze/     - Cached render output
-  • _site/       - Generated website files
-  • .quarto/     - Quarto cache
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach clean${_C_NC}               Clear all build artifacts
+  ${_C_CYAN}teach clean --freeze${_C_NC}      Clear _freeze/ only
+  ${_C_CYAN}teach clean --dry-run${_C_NC}     Preview what gets deleted
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--freeze${FLOW_COLORS[reset]}             Clear _freeze/ only
-  ${FLOW_COLORS[cmd]}--site${FLOW_COLORS[reset]}               Clear _site/ only
-  ${FLOW_COLORS[cmd]}--all${FLOW_COLORS[reset]}                Clear everything (default)
-  ${FLOW_COLORS[cmd]}--dry-run${FLOW_COLORS[reset]}            Show what would be deleted
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach clean                  ${_C_DIM}# Clear everything${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach clean --freeze         ${_C_DIM}# Clear cache only${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach clean --dry-run        ${_C_DIM}# Preview deletions${_C_NC}
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Clear everything${FLOW_COLORS[reset]}
-  $ teach clean
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--freeze${_C_NC}       Clear _freeze/ only (cached render output)
+  ${_C_CYAN}--site${_C_NC}         Clear _site/ only (generated website)
+  ${_C_CYAN}--all${_C_NC}          Clear everything: _freeze/, _site/, .quarto/ (default)
+  ${_C_CYAN}--dry-run${_C_NC}      Show what would be deleted
 
-  ${FLOW_COLORS[muted]}# Clear cache only${FLOW_COLORS[reset]}
-  $ teach clean --freeze
+${_C_YELLOW}WARNING${_C_NC}: This action cannot be undone! Use ${_C_CYAN}--dry-run${_C_NC} first.
 
-  ${FLOW_COLORS[muted]}# Preview what will be deleted${FLOW_COLORS[reset]}
-  $ teach clean --dry-run
+${_C_MAGENTA}💡 TIP${_C_NC}: Run ${_C_CYAN}teach clean${_C_NC} before full re-render.
+  ${_C_DIM}Use teach cache rebuild for smarter selective clear.${_C_NC}
 
-${FLOW_COLORS[bold]}WARNING${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[error]}This action cannot be undone!${FLOW_COLORS[reset]}
-  Use ${FLOW_COLORS[accent]}--dry-run${FLOW_COLORS[reset]} first to preview.
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Run ${FLOW_COLORS[accent]}teach clean${FLOW_COLORS[reset]} before full re-render
-  • Use ${FLOW_COLORS[accent]}teach cache rebuild${FLOW_COLORS[reset]} for smarter clear
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Selective cache management
-  ${FLOW_COLORS[cmd]}qu${FLOW_COLORS[reset]} - Quarto commands
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach cache${_C_NC} - Selective cache management
+  ${_C_CYAN}qu${_C_NC} - Quarto commands
+"
 }
 
 # ============================================================================
@@ -2763,146 +2729,125 @@ _teach_archive_command() {
 
 # Help for teach archive command (v5.14.0 - Task 5)
 _teach_archive_help() {
-    echo "${FLOW_COLORS[bold]}teach archive${FLOW_COLORS[reset]} - Archive semester backups"
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
+    echo -e "${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}"
+    echo -e "${_C_BOLD}│${_C_NC}  ${_C_CYAN}teach archive${_C_NC} - Archive Semester Backups  ${_C_BOLD}│${_C_NC}"
+    echo -e "${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}"
     echo ""
-    echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
-    echo "  teach archive [SEMESTER_NAME]"
+    echo -e "  ${_C_BOLD}USAGE${_C_NC}  teach archive [SEMESTER_NAME]"
     echo ""
-    echo "${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}"
-    echo "  Archives backups at the end of a semester based on retention policies:"
-    echo "    • Assessments (exams, quizzes, assignments) → archive"
-    echo "    • Syllabi & rubrics → archive"
-    echo "    • Lectures & slides → delete (semester retention)"
+    echo -e "  ${_C_BOLD}🔥 MOST COMMON${_C_NC}"
+    echo -e "  ${_C_CYAN}teach archive${_C_NC}              Archive current semester"
+    echo -e "  ${_C_CYAN}teach archive spring-2026${_C_NC}  Archive specific semester"
     echo ""
-    echo "  Archived backups are moved to .flow/archives/<semester>/"
+    echo -e "  ${_C_BOLD}💡 QUICK EXAMPLES${_C_NC}"
+    echo -e "  ${_C_DIM}# Archive current semester${_C_NC}"
+    echo -e "  teach archive"
+    echo -e "  ${_C_DIM}# Archive specific semester${_C_NC}"
+    echo -e "  teach archive spring-2026"
+    echo -e "  ${_C_DIM}# Short alias${_C_NC}"
+    echo -e "  teach a"
     echo ""
-    echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
-    echo "  teach archive                    # Archive current semester"
-    echo "  teach archive spring-2026        # Archive specific semester"
-    echo "  teach a                          # Short alias"
+    echo -e "  ${_C_BOLD}📋 RETENTION POLICIES${_C_NC}"
+    echo -e "  ${_C_CYAN}archive${_C_NC}    Assessments, syllabi, rubrics (keep forever)"
+    echo -e "  ${_C_CYAN}semester${_C_NC}   Lectures & slides (delete at semester end)"
+    echo -e "  ${_C_DIM}Archived backups → .flow/archives/<semester>/${_C_NC}"
+    echo -e "  ${_C_DIM}Configure in .flow/teach-config.yml${_C_NC}"
     echo ""
-    echo "${FLOW_COLORS[bold]}RETENTION POLICIES${FLOW_COLORS[reset]}"
-    echo "  Configure in .flow/teach-config.yml:"
+    echo -e "  ${_C_BOLD}💡 TIP${_C_NC}  Run at end of semester to auto-sort by retention policy"
     echo ""
-    echo "  backups:"
-    echo "    retention:"
-    echo "      assessments: archive    # Keep forever"
-    echo "      syllabi: archive        # Keep forever"
-    echo "      lectures: semester      # Delete at semester end"
-    echo ""
+    echo -e "  ${_C_BOLD}📚 See also${_C_NC}"
+    echo -e "  ${_C_CYAN}teach backup${_C_NC} - Backup management"
+    echo -e "  ${_C_CYAN}teach clean${_C_NC} - Clean build artifacts"
 }
 
 # Help for teach status command (v5.14.0 - Task 3, upgraded to box style)
 _teach_status_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]} - Show Teaching Project Status           ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach status [options]
-  ${FLOW_COLORS[cmd]}teach status --performance    # Performance dashboard
-  ${FLOW_COLORS[cmd]}teach status --full           # Detailed legacy view
-
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status
-
-${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
-  Displays comprehensive status of your teaching project including:
-  • Course information (name, semester, year)
-  • Current branch and git status
-  • Config validation status
-  • Content inventory (lectures, exams, assignments)
-  • Deployment status and open PRs
-  • Backup summary
-
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--performance${FLOW_COLORS[reset]}         Show performance trends and metrics (Phase 2 Wave 5)
-  ${FLOW_COLORS[cmd]}--full${FLOW_COLORS[reset]}                Show detailed status view (legacy)
-  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}                JSON output for scripting
-
-${FLOW_COLORS[bold]}PERFORMANCE DASHBOARD${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach status --performance${FLOW_COLORS[reset]}
-  Shows:
-  • Render times (last 7 days)
-  • Cache hit rates
-  • Trend analysis with ASCII graphs
-  • Optimization recommendations
-
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Show full project status${FLOW_COLORS[reset]}
-  $ teach status
-
-  ${FLOW_COLORS[muted]}# Performance dashboard${FLOW_COLORS[reset]}
-  $ teach status --performance
-
-  ${FLOW_COLORS[muted]}# Short alias${FLOW_COLORS[reset]}
-  $ teach s
-
-${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[success]}0${FLOW_COLORS[reset]} - Success
-  ${FLOW_COLORS[error]}1${FLOW_COLORS[reset]} - Not a teaching project
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Use ${FLOW_COLORS[accent]}--performance${FLOW_COLORS[reset]} to track render times
-  • Add to CI: ${FLOW_COLORS[cmd]}teach status --json${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
-  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]} - Backup management
-
-EOF
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
+    echo -e "${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}"
+    echo -e "${_C_BOLD}│${_C_NC}  ${_C_CYAN}teach status${_C_NC} - Teaching Project Status    ${_C_BOLD}│${_C_NC}"
+    echo -e "${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}"
+    echo ""
+    echo -e "  ${_C_BOLD}USAGE${_C_NC}  teach status [options]"
+    echo -e "  ${_C_BOLD}ALIAS${_C_NC}  ${_C_CYAN}s${_C_NC} → status"
+    echo ""
+    echo -e "  ${_C_BOLD}🔥 MOST COMMON${_C_NC}"
+    echo -e "  ${_C_CYAN}teach status${_C_NC}                Show project overview"
+    echo -e "  ${_C_CYAN}teach status --performance${_C_NC}  Performance dashboard"
+    echo -e "  ${_C_CYAN}teach s${_C_NC}                     Short alias"
+    echo ""
+    echo -e "  ${_C_BOLD}💡 QUICK EXAMPLES${_C_NC}"
+    echo -e "  ${_C_DIM}# Show full project status${_C_NC}"
+    echo -e "  teach status"
+    echo -e "  ${_C_DIM}# Performance dashboard${_C_NC}"
+    echo -e "  teach status --performance"
+    echo -e "  ${_C_DIM}# JSON output for CI${_C_NC}"
+    echo -e "  teach status --json"
+    echo ""
+    echo -e "  ${_C_BOLD}📋 OPTIONS${_C_NC}"
+    echo -e "  ${_C_CYAN}--performance${_C_NC}   Render times, cache hit rates, trend graphs"
+    echo -e "  ${_C_CYAN}--full${_C_NC}          Detailed status view (legacy)"
+    echo -e "  ${_C_CYAN}--json${_C_NC}          JSON output for scripting"
+    echo ""
+    echo -e "  ${_C_BOLD}📋 STATUS INCLUDES${_C_NC}"
+    echo -e "  Course info, git status, config validation,"
+    echo -e "  content inventory, deploy status, backup summary"
+    echo ""
+    echo -e "  ${_C_BOLD}💡 TIP${_C_NC}  Use ${_C_CYAN}--performance${_C_NC} to track render times;"
+    echo -e "         add ${_C_CYAN}--json${_C_NC} for CI pipelines"
+    echo ""
+    echo -e "  ${_C_BOLD}📚 See also${_C_NC}"
+    echo -e "  ${_C_CYAN}teach doctor${_C_NC} - Health checks"
+    echo -e "  ${_C_CYAN}teach backup${_C_NC} - Backup management"
+    echo -e "  ${_C_DIM}docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}"
 }
 
 # Help for teach week command (v5.14.0 - Task 3, upgraded to box style)
 _teach_week_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach week${FLOW_COLORS[reset]} - Show Current Week Information           ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach week [WEEK_NUMBER]
-  ${FLOW_COLORS[cmd]}teach week --current             # Show current week
-  ${FLOW_COLORS[cmd]}teach week --syllabus            # Show from syllabus
-
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}w${FLOW_COLORS[reset]} → week
-
-${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
-  Shows information about the current week or a specific week:
-  • Week number calculation from semester start
-  • Topics from lesson plan (if available)
-  • Content deadlines for the week
-  • Upcoming assessments and assignments
-
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--current, -c${FLOW_COLORS[reset]}          Show current week (default)
-  ${FLOW_COLORS[cmd]}--syllabus, -s${FLOW_COLORS[reset]}         Extract from syllabus dates
-  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}                 JSON output for scripting
-
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Show current week${FLOW_COLORS[reset]}
-  $ teach week
-
-  ${FLOW_COLORS[muted]}# Show week 8 info${FLOW_COLORS[reset]}
-  $ teach week 8
-
-  ${FLOW_COLORS[muted]}# Short alias${FLOW_COLORS[reset]}
-  $ teach w
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Configure semester dates in ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
-  • Create lesson plans in ${FLOW_COLORS[accent]}.flow/lesson-plans/${FLOW_COLORS[reset]} for detailed info
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach status${FLOW_COLORS[reset]} - Full project status
-  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]} - Date management
-
-EOF
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
+    echo -e "${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}"
+    echo -e "${_C_BOLD}│${_C_NC}  ${_C_CYAN}teach week${_C_NC} - Current Week Information     ${_C_BOLD}│${_C_NC}"
+    echo -e "${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}"
+    echo ""
+    echo -e "  ${_C_BOLD}USAGE${_C_NC}  teach week [WEEK_NUMBER]"
+    echo -e "  ${_C_BOLD}ALIAS${_C_NC}  ${_C_CYAN}w${_C_NC} → week"
+    echo ""
+    echo -e "  ${_C_BOLD}🔥 MOST COMMON${_C_NC}"
+    echo -e "  ${_C_CYAN}teach week${_C_NC}       Show current week info"
+    echo -e "  ${_C_CYAN}teach week 8${_C_NC}     Show specific week"
+    echo -e "  ${_C_CYAN}teach w${_C_NC}          Short alias"
+    echo ""
+    echo -e "  ${_C_BOLD}💡 QUICK EXAMPLES${_C_NC}"
+    echo -e "  ${_C_DIM}# Show current week${_C_NC}"
+    echo -e "  teach week"
+    echo -e "  ${_C_DIM}# Show week 8 info${_C_NC}"
+    echo -e "  teach week 8"
+    echo -e "  ${_C_DIM}# Extract from syllabus${_C_NC}"
+    echo -e "  teach week --syllabus"
+    echo ""
+    echo -e "  ${_C_BOLD}📋 OPTIONS${_C_NC}"
+    echo -e "  ${_C_CYAN}--current, -c${_C_NC}    Show current week (default)"
+    echo -e "  ${_C_CYAN}--syllabus, -s${_C_NC}   Extract from syllabus dates"
+    echo -e "  ${_C_CYAN}--json${_C_NC}           JSON output for scripting"
+    echo ""
+    echo -e "  ${_C_BOLD}💡 TIP${_C_NC}  Configure semester dates in ${_C_CYAN}.flow/teach-config.yml${_C_NC}"
+    echo -e "         and lesson plans in ${_C_CYAN}.flow/lesson-plans/${_C_NC}"
+    echo ""
+    echo -e "  ${_C_BOLD}📚 See also${_C_NC}"
+    echo -e "  ${_C_CYAN}teach status${_C_NC} - Full project status"
+    echo -e "  ${_C_CYAN}teach dates${_C_NC} - Date management"
 }
 
 # Help for Scholar commands
@@ -3311,57 +3256,43 @@ Initialized via: teach init" 2>/dev/null
 
 # Help for teach config
 _teach_config_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit Course Configuration            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} [options]
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach config - Edit Course Configuration     │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}c${FLOW_COLORS[reset]} → config
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach config${_C_NC}             Open config in editor
+  ${_C_CYAN}teach config --view${_C_NC}      View without editing
+  ${_C_CYAN}teach config --cat${_C_NC}       Print to stdout
+  ${_C_DIM}Alias: teach c${_C_NC}
 
-${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
-  Opens ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]} in your default editor for editing.
-  The file is created by ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} if it doesn't exist.
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach config              ${_C_DIM}# Edit in default editor${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach config --view       ${_C_DIM}# View without editing${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach config --cat        ${_C_DIM}# Print to terminal${_C_NC}
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--help, -h${FLOW_COLORS[reset]}          Show this help message
-  ${FLOW_COLORS[cmd]}--edit${FLOW_COLORS[reset]}              Open in editor (default behavior)
-  ${FLOW_COLORS[cmd]}--view${FLOW_COLORS[reset]}              View config without opening editor
-  ${FLOW_COLORS[cmd]}--cat${FLOW_COLORS[reset]}               Print to stdout
+${_C_BLUE}📋 CONFIG SECTIONS${_C_NC} ${_C_DIM}(.flow/teach-config.yml)${_C_NC}:
+  ${_C_CYAN}course${_C_NC}         Course name, semester, year
+  ${_C_CYAN}git${_C_NC}            Branch names, auto-commit settings
+  ${_C_CYAN}scholar${_C_NC}        Default Scholar settings
+  ${_C_CYAN}backup${_C_NC}         Retention policies
+  ${_C_CYAN}deploy${_C_NC}         Deployment settings
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Edit config in default editor${FLOW_COLORS[reset]}
-  $ teach config
+${_C_MAGENTA}💡 TIP${_C_NC}: Set ${_C_CYAN}EDITOR${_C_NC} env var for your preferred editor.
+  ${_C_DIM}Run teach doctor after editing to validate config.${_C_NC}
 
-  ${FLOW_COLORS[muted]}# View without editing${FLOW_COLORS[reset]}
-  $ teach config --view
-
-  ${FLOW_COLORS[muted]}# Print to terminal${FLOW_COLORS[reset]}
-  $ teach config --cat
-
-${FLOW_COLORS[bold]}CONFIG SECTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}course${FLOW_COLORS[reset]}         Course name, semester, year
-  ${FLOW_COLORS[accent]}git${FLOW_COLORS[reset]}            Branch names, auto-commit settings
-  ${FLOW_COLORS[accent]}scholar${FLOW_COLORS[reset]}        Default Scholar settings
-  ${FLOW_COLORS[accent]}backup${FLOW_COLORS[reset]}         Retention policies
-  ${FLOW_COLORS[accent]}deploy${FLOW_COLORS[reset]}         Deployment settings
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Set ${FLOW_COLORS[accent]}EDITOR${FLOW_COLORS[reset]} env var to prefer specific editor
-  • Use ${FLOW_COLORS[cmd]}yq${FLOW_COLORS[reset]} for CLI editing: yq eval '.course.name = "STAT 440"' -i
-  • Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} after editing to validate
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} - Initialize teaching project
-  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach init${_C_NC} - Initialize teaching project
+  ${_C_CYAN}teach doctor${_C_NC} - Health checks
+  ${_C_DIM}Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}
+"
 }
 
 _teach_config_edit() {
@@ -3397,72 +3328,53 @@ _teach_config_cat() {
 
 # Help for teach init
 _teach_init_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} - Initialize Teaching Project                ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} [course_name] [options]
-  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} --config <file>
-  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} --github
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach init - Initialize Teaching Project     │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}i${FLOW_COLORS[reset]} → init
+${_C_BOLD}Usage:${_C_NC} teach init [course_name] [options]
+${_C_BOLD}Alias:${_C_NC} ${_C_CYAN}i${_C_NC} → init
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--config FILE${FLOW_COLORS[reset]}       Load configuration from external file
-  ${FLOW_COLORS[cmd]}--github${FLOW_COLORS[reset]}            Create GitHub repository (requires gh CLI)
-  ${FLOW_COLORS[cmd]}--with-templates${FLOW_COLORS[reset]}    Initialize .flow/templates/ with defaults
-  ${FLOW_COLORS[cmd]}--help, -h${FLOW_COLORS[reset]}          Show this help message
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach init${_C_NC}                  Interactive setup (prompts all settings)
+  ${_C_CYAN}teach init \"STAT 545\"${_C_NC}       Pre-fill course name, prompt rest
+  ${_C_CYAN}teach init --with-templates${_C_NC}  Initialize with template directories
 
-${FLOW_COLORS[bold]}DESCRIPTION${FLOW_COLORS[reset]}
-  Creates ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]} with default settings for:
-    • Course information (name, semester, year)
-    • Git workflow (draft/production branches)
-    • Teaching mode settings (auto-commit, auto-push)
-    • Backup retention policies
-    • Template directories (with --with-templates)
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach init                              ${_C_DIM}# Interactive setup${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach init \"STAT 545\"                    ${_C_DIM}# Pre-fill course name${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach init --config ./my-config.yml      ${_C_DIM}# Load external config${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach init \"STAT 545\" --github           ${_C_DIM}# Also create GitHub repo${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach init \"STAT 545\" --with-templates   ${_C_DIM}# Include .flow/templates/${_C_NC}
 
-${FLOW_COLORS[bold]}INTERACTIVE SETUP${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]}          # Interactive prompts for all settings
-  ${FLOW_COLORS[cmd]}teach init "STAT 440"${FLOW_COLORS[reset]}  # Pre-fill course name, prompt rest
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--config FILE${_C_NC}        Load configuration from external file
+  ${_C_CYAN}--github${_C_NC}             Create GitHub repository (requires gh CLI)
+  ${_C_CYAN}--with-templates${_C_NC}     Initialize .flow/templates/ with defaults
+  ${_C_CYAN}--help, -h${_C_NC}           Show this help message
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Interactive setup${FLOW_COLORS[reset]}
-  $ teach init
+${_C_BLUE}📋 CREATES${_C_NC}:
+  ${_C_CYAN}.flow/teach-config.yml${_C_NC}  Course metadata, git workflow, teaching mode
+  ${_C_CYAN}.teach/lesson-plan.yml${_C_NC}  Content preferences (optional)
+  ${_C_CYAN}.flow/templates/${_C_NC}        Template directories (with --with-templates)
 
-  ${FLOW_COLORS[muted]}# With course name${FLOW_COLORS[reset]}
-  $ teach init "STAT 545"
+${_C_MAGENTA}💡 TIP${_C_NC}: Run ${_C_CYAN}teach doctor${_C_NC} after init to verify setup.
+  ${_C_DIM}Use teach config to edit settings later.${_C_NC}
+  ${_C_DIM}Configure .teach/lesson-plan.yml for customized Scholar output.${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Load external config${FLOW_COLORS[reset]}
-  $ teach init --config ./my-config.yml
-
-  ${FLOW_COLORS[muted]}# Create GitHub repo${FLOW_COLORS[reset]}
-  $ teach init "STAT 545" --github
-
-  ${FLOW_COLORS[muted]}# Initialize with templates${FLOW_COLORS[reset]}
-  $ teach init "STAT 545" --with-templates
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} (optional template)
-  Creates: ${FLOW_COLORS[accent]}.flow/templates/${FLOW_COLORS[reset]} (with --with-templates)
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} after init to verify setup
-  • Use ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} to edit settings later
-  • Configure ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} for customized Scholar output
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📚 Tutorial: docs/tutorials/TEACHING-QUICK-START.md
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit course configuration
-  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health checks
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach config${_C_NC} - Edit course configuration
+  ${_C_CYAN}teach doctor${_C_NC} - Health checks
+  ${_C_DIM}docs/tutorials/TEACHING-QUICK-START.md${_C_NC}
+  ${_C_DIM}docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}
+"
 }
 
 # ============================================================================
@@ -3539,674 +3451,471 @@ ${_C_DIM}📚 See also:${_C_NC}
 # ============================================================================
 
 _teach_lecture_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} - Generate Lecture Notes                   ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]} teach lecture <topic> [options]
-  ${FLOW_COLORS[cmd]} teach lecture --week N --topic "title"
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach lecture - Generate Lecture Notes        │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}lec${FLOW_COLORS[reset]} → lecture
+${_C_BOLD}Usage:${_C_NC} teach lecture <topic> [options]
+${_C_BOLD}Alias:${_C_NC} ${_C_CYAN}lec${_C_NC} → lecture
 
-${FLOW_COLORS[bold]}REQUIRED FILES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}      Course metadata (required)
-  ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} Content preferences (optional, improves output)
-  Run ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} to verify configuration
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach lecture \"Topic\" --week N${_C_NC}             Generate for specific week
+  ${_C_CYAN}teach lecture \"Topic\" --template quarto${_C_NC}    Quarto format (recommended)
+  ${_C_CYAN}teach lecture \"Topic\" --math --code${_C_NC}        With math + code examples
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Generate lecture for this week${FLOW_COLORS[reset]}
-  $ teach lecture "Linear Regression" --week 5
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach lecture \"Linear Regression\" --week 5          ${_C_DIM}# Week-based${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach lecture \"ANOVA\" --template quarto --week 6    ${_C_DIM}# Quarto format${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach lecture \"Neural Nets\" -w 10 --difficulty hard  ${_C_DIM}# Advanced${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach lecture \"ML Intro\" --math --code --examples 5  ${_C_DIM}# Full-featured${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Create with Quarto template (recommended)${FLOW_COLORS[reset]}
-  $ teach lecture "ANOVA" --template quarto --week 6
+${_C_BLUE}📋 TOPIC & STYLE${_C_NC}:
+  ${_C_CYAN}<topic>${_C_NC}                   Lecture topic or title
+  ${_C_CYAN}--week N, -w N${_C_NC}            Week number (for file naming)
+  ${_C_CYAN}--topic \"text\", -t${_C_NC}        Override topic in prompts
+  ${_C_CYAN}--template FORMAT${_C_NC}         markdown | quarto | typst | pdf | docx
+  ${_C_CYAN}--style formal|casual${_C_NC}     Writing tone
+  ${_C_CYAN}--length N${_C_NC}                Target page count (20-40)
+  ${_C_CYAN}--difficulty easy|medium|hard${_C_NC}  Content depth
 
-  ${FLOW_COLORS[muted]}# Customized for your course${FLOW_COLORS[reset]}
-  $ teach lecture "ML Intro" --template quarto --difficulty medium
+${_C_BLUE}📋 CONTENT FLAGS${_C_NC}:
+  ${_C_CYAN}--explanation, -e${_C_NC}          Include detailed explanations
+  ${_C_CYAN}--no-explanation${_C_NC}            Skip explanations
+  ${_C_CYAN}--proof, -p${_C_NC}                Include mathematical proofs
+  ${_C_CYAN}--math, -m${_C_NC}                 Include math notation
+  ${_C_CYAN}--code, -c${_C_NC}                 Include code examples
+  ${_C_CYAN}--diagrams, -d${_C_NC}             Include diagrams
+  ${_C_CYAN}--practice-problems, -pp${_C_NC}   Add practice problems
+  ${_C_CYAN}--examples N, -e N${_C_NC}         Number of examples
 
-${FLOW_COLORS[bold]}TOPIC SELECTION${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}<topic>${FLOW_COLORS[reset]}                  Lecture topic or title
-  ${FLOW_COLORS[cmd]}--week N, -w N${FLOW_COLORS[reset]}           Week number (for file naming)
-  ${FLOW_COLORS[cmd]}--topic "text", -t${FLOW_COLORS[reset]}       Override topic in prompts
+${_C_BLUE}📋 TROUBLESHOOTING${_C_NC}:
+  ${_C_BOLD}\"YAML parse error\"${_C_NC}     → ${_C_CYAN}teach validate --yaml <file>${_C_NC}
+  ${_C_BOLD}\"Scholar API timeout\"${_C_NC}   → ${_C_CYAN}teach doctor --check scholar${_C_NC}
+  ${_C_BOLD}\"File not staged\"${_C_NC}       → ${_C_CYAN}git add lectures/week-NN/${_C_NC}
 
-${FLOW_COLORS[bold]}CONTENT STYLE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--template FORMAT${FLOW_COLORS[reset]}        markdown | quarto | typst | pdf | docx
-  ${FLOW_COLORS[cmd]}--style formal|casual${FLOW_COLORS[reset]}    Writing tone
-  ${FLOW_COLORS[cmd]}--length N${FLOW_COLORS[reset]}               Target page count (20-40)
+${_C_MAGENTA}💡 TIP${_C_NC}: Create ${_C_CYAN}.teach/lesson-plan.yml${_C_NC} first for customized output.
+  ${_C_DIM}Use --week for consistent file naming. Preview with quarto preview.${_C_NC}
+  ${_C_DIM}Requires .flow/teach-config.yml — run teach doctor to verify.${_C_NC}
 
-${FLOW_COLORS[bold]}DIFFICULTY & DETAIL${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
-  ${FLOW_COLORS[cmd]}--examples N, -e N${FLOW_COLORS[reset]}            Number of examples
-  ${FLOW_COLORS[cmd]}--math-notation LaTeX|unicode|text${FLOW_COLORS[reset]}  Math display
-
-${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include detailed explanations
-  ${FLOW_COLORS[cmd]}--no-explanation${FLOW_COLORS[reset]}             Skip detailed explanations
-  ${FLOW_COLORS[cmd]}--proof, -p${FLOW_COLORS[reset]}                 Include mathematical proofs
-  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
-  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code examples
-  ${FLOW_COLORS[cmd]}--diagrams, -d${FLOW_COLORS[reset]}              Include diagrams
-  ${FLOW_COLORS[cmd]}--practice-problems, -pp${FLOW_COLORS[reset]}    Add practice problems
-
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic lecture generation${FLOW_COLORS[reset]}
-  $ teach lecture "Multiple Regression"
-
-  ${FLOW_COLORS[muted]}# Week-based with consistent naming${FLOW_COLORS[reset]}
-  $ teach lecture "Logistic Regression" --week 8
-
-  ${FLOW_COLORS[muted]}# Full-featured lecture${FLOW_COLORS[reset]}
-  $ teach lecture "Neural Networks" --week 10 --template quarto --difficulty hard --examples 5 --math --code
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}lectures/week-NN/lecture-NN-<topic>.${FLOW_COLORS[reset]}
-  Auto-backs up existing files before overwriting
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Create ${FLOW_COLORS[accent]}.teach/lesson-plan.yml${FLOW_COLORS[reset]} first for customized output
-  • Use ${FLOW_COLORS[accent]}--week${FLOW_COLORS[reset]} for consistent file naming
-  • Preview generated content with ${FLOW_COLORS[cmd]}quarto preview${FLOW_COLORS[reset]}
-  • Auto-staged for git after generation
-
-${FLOW_COLORS[bold]}TROUBLESHOOTING${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[error]}"YAML parse error"${FLOW_COLORS[reset]}
-    → Run: teach validate --yaml <file>
-    → Check: .flow/teach-config.yml syntax
-
-  ${FLOW_COLORS[error]}"Scholar API timeout"${FLOW_COLORS[reset]}
-    → Check connection: teach doctor --check scholar
-    → Retry with: teach lecture "topic" --retry
-
-  ${FLOW_COLORS[error]}"File not staged"${FLOW_COLORS[reset]}
-    → Manual stage: git add lectures/week-NN/
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} - Presentation slides
-  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Generate assessments
-  docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach slides${_C_NC} - Presentation slides
+  ${_C_CYAN}teach exam${_C_NC} - Generate assessments
+  ${_C_DIM}docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}
+"
 }
 
 _teach_doctor_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach doctor${FLOW_COLORS[reset]} - Health Checks & Diagnostics           ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]} teach doctor [options]
-  ${FLOW_COLORS[cmd]} teach doctor --fix          # Auto-fix issues
-  ${FLOW_COLORS[cmd]} teach doctor --json         # CI/CD output
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach doctor - Health Checks & Diagnostics   │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}doc${FLOW_COLORS[reset]} → doctor
+${_C_BOLD}Usage:${_C_NC} teach doctor [options]
+${_C_BOLD}Alias:${_C_NC} ${_C_CYAN}doc${_C_NC} → doctor
 
-${FLOW_COLORS[bold]}HEALTH CHECK CATEGORIES${FLOW_COLORS[reset]}
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach doctor${_C_NC}              Run all health checks
+  ${_C_CYAN}teach doctor --fix${_C_NC}        Auto-fix missing dependencies
+  ${_C_CYAN}teach doctor --check git${_C_NC}  Check specific category
 
-  ${FLOW_COLORS[accent]}1. Dependencies${FLOW_COLORS[reset]}
-     Verifies: yq, git, quarto, gh, examark, claude, fswatch
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach doctor                     ${_C_DIM}# Full health check${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --fix                ${_C_DIM}# Auto-fix issues${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --json --quiet       ${_C_DIM}# CI/CD output${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --verbose            ${_C_DIM}# Detailed diagnostics${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --check git          ${_C_DIM}# Specific category${_C_NC}
 
-  ${FLOW_COLORS[accent]}2. Project Configuration${FLOW_COLORS[reset]}
-     Checks: .flow/teach-config.yml, course.yml, lesson-plan.yml
+${_C_BLUE}📋 CHECK CATEGORIES${_C_NC}:
+  1. ${_C_CYAN}Dependencies${_C_NC}      yq, git, quarto, gh, examark, claude, fswatch
+  2. ${_C_CYAN}Configuration${_C_NC}     .flow/teach-config.yml, course.yml, lesson-plan.yml
+  3. ${_C_CYAN}Git Setup${_C_NC}         branches, remote, clean state, commit history
+  4. ${_C_CYAN}Scholar${_C_NC}           API access, template availability, config loading
+  5. ${_C_CYAN}Hooks${_C_NC}             pre-commit, pre-push, prepare-commit-msg
+  6. ${_C_CYAN}Cache${_C_NC}             _freeze/ directory, _site/ state, validity
 
-  ${FLOW_COLORS[accent]}3. Git Setup${FLOW_COLORS[reset]}
-     Validates: branches, remote, clean state, commit history
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--fix${_C_NC}                Interactive fix mode (install missing tools)
+  ${_C_CYAN}--json${_C_NC}               JSON output for CI/CD pipelines
+  ${_C_CYAN}--quiet, -q${_C_NC}          Minimal output (show only errors)
+  ${_C_CYAN}--verbose, -v${_C_NC}        Detailed diagnostics
+  ${_C_CYAN}--check <category>${_C_NC}   Run specific check only
 
-  ${FLOW_COLORS[accent]}4. Scholar Integration${FLOW_COLORS[reset]}
-     Tests: API access, template availability, config loading
+${_C_BLUE}📋 EXIT CODES${_C_NC}:
+  ${_C_GREEN}0${_C_NC} - All checks pass
+  ${_C_YELLOW}1${_C_NC} - Warnings found (non-critical)
+  ${_C_BOLD}2${_C_NC} - Critical errors (must fix)
 
-  ${FLOW_COLORS[accent]}5. Hook Installation${FLOW_COLORS[reset]}
-     Status: pre-commit, pre-push, prepare-commit-msg hooks
+${_C_MAGENTA}💡 TIP${_C_NC}: Run ${_C_CYAN}teach doctor${_C_NC} after fresh clone or init.
+  ${_C_DIM}Use --fix for automated remediation.${_C_NC}
+  ${_C_DIM}Add to CI: teach doctor --json --quiet${_C_NC}
 
-  ${FLOW_COLORS[accent]}6. Cache Health${FLOW_COLORS[reset]}
-     Checks: _freeze/ directory, _site/ state, cache validity
-
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--fix${FLOW_COLORS[reset]}                Interactive fix mode (install missing tools)
-  ${FLOW_COLORS[cmd]}--json${FLOW_COLORS[reset]}               JSON output for CI/CD pipelines
-  ${FLOW_COLORS[cmd]}--quiet, -q${FLOW_COLORS[reset]}          Minimal output (show only errors)
-  ${FLOW_COLORS[cmd]}--verbose, -v${FLOW_COLORS[reset]}        Detailed diagnostics
-  ${FLOW_COLORS[cmd]}--check <category>${FLOW_COLORS[reset]}   Run specific check only
-
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic health check${FLOW_COLORS[reset]}
-  $ teach doctor
-
-  ${FLOW_COLORS[muted]}# Auto-fix missing dependencies${FLOW_COLORS[reset]}
-  $ teach doctor --fix
-
-  ${FLOW_COLORS[muted]}# CI/CD output (no colors, machine-readable)${FLOW_COLORS[reset]}
-  $ teach doctor --json --quiet
-
-  ${FLOW_COLORS[muted]}# Verbose mode with all details${FLOW_COLORS[reset]}
-  $ teach doctor --verbose
-
-  ${FLOW_COLORS[muted]}# Check specific category${FLOW_COLORS[reset]}
-  $ teach doctor --check git
-
-${FLOW_COLORS[bold]}EXIT CODES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[success]}0${FLOW_COLORS[reset]} - All checks pass
-  ${FLOW_COLORS[warning]}1${FLOW_COLORS[reset]} - Warnings found (non-critical)
-  ${FLOW_COLORS[error]}2${FLOW_COLORS[reset]} - Critical errors (must fix)
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Run ${FLOW_COLORS[accent]}teach doctor${FLOW_COLORS[reset]} after fresh clone
-  • Use ${FLOW_COLORS[accent]}--fix${FLOW_COLORS[reset]} for automated remediation
-  • Add to CI: ${FLOW_COLORS[cmd]}teach doctor --json${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} - Hook management
-  ${FLOW_COLORS[cmd]}teach cache${FLOW_COLORS[reset]} - Cache operations
-  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Project config
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach hooks${_C_NC} - Hook management
+  ${_C_CYAN}teach cache${_C_NC} - Cache operations
+  ${_C_CYAN}teach config${_C_NC} - Project config
+  ${_C_DIM}docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}
+"
 }
 
 _teach_slides_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach slides${FLOW_COLORS[reset]} - Generate Presentation Slides            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach slides <topic> [options]
-  ${FLOW_COLORS[cmd]}teach slides --week N --topic "title"
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach slides - Generate Presentation Slides  │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}sl${FLOW_COLORS[reset]} → slides
+${_C_BOLD}Usage:${_C_NC} teach slides <topic> [options]
+${_C_BOLD}Alias:${_C_NC} ${_C_CYAN}sl${_C_NC} → slides
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Generate slides for this week${FLOW_COLORS[reset]}
-  $ teach slides "Linear Regression" --week 5
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach slides \"Topic\" --week N${_C_NC}              Generate for specific week
+  ${_C_CYAN}teach slides \"Topic\" --template quarto${_C_NC}     Quarto revealjs (recommended)
+  ${_C_CYAN}teach slides --from-lecture FILE${_C_NC}            Convert lecture to slides
 
-  ${FLOW_COLORS[muted]}# Create with Quarto revealjs (recommended)${FLOW_COLORS[reset]}
-  $ teach slides "ANOVA" --template quarto --week 6
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach slides \"Linear Regression\" --week 5            ${_C_DIM}# Week-based${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach slides \"ANOVA\" --template quarto --week 6      ${_C_DIM}# Quarto revealjs${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach slides --from-lecture week-05.qmd --optimize    ${_C_DIM}# From lecture${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach slides \"ML\" --theme academic --math --code     ${_C_DIM}# Themed + code${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Customized slides with theme${FLOW_COLORS[reset]}
-  $ teach slides "ML Intro" --template quarto --theme academic --difficulty medium
+${_C_BLUE}📋 TOPIC & TEMPLATE${_C_NC}:
+  ${_C_CYAN}<topic>${_C_NC}                   Slides topic or title
+  ${_C_CYAN}--week N, -w N${_C_NC}            Week number (for file naming)
+  ${_C_CYAN}--topic \"text\", -t${_C_NC}        Override topic in prompts
+  ${_C_CYAN}--template FORMAT${_C_NC}         markdown | quarto
+  ${_C_CYAN}--theme NAME${_C_NC}              default | academic | minimal
 
-${FLOW_COLORS[bold]}TOPIC SELECTION${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}<topic>${FLOW_COLORS[reset]}                  Slides topic or title
-  ${FLOW_COLORS[cmd]}--week N, -w N${FLOW_COLORS[reset]}           Week number (for file naming)
-  ${FLOW_COLORS[cmd]}--topic "text", -t${FLOW_COLORS[reset]}       Override topic in prompts
+${_C_BLUE}📋 CONTENT FLAGS${_C_NC}:
+  ${_C_CYAN}--explanation, -e${_C_NC}          Include detailed explanations
+  ${_C_CYAN}--no-explanation${_C_NC}            Skip explanations
+  ${_C_CYAN}--math, -m${_C_NC}                 Include math notation
+  ${_C_CYAN}--code, -c${_C_NC}                 Include code examples
+  ${_C_CYAN}--diagrams, -d${_C_NC}             Include diagrams
 
-${FLOW_COLORS[bold]}TEMPLATE OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--template FORMAT${FLOW_COLORS[reset]}        markdown | quarto
-  ${FLOW_COLORS[cmd]}--theme NAME${FLOW_COLORS[reset]}             default | academic | minimal
+${_C_BLUE}📋 OPTIMIZATION (from lecture)${_C_NC}:
+  ${_C_CYAN}--from-lecture FILE${_C_NC}        Convert lecture .qmd to slides
+  ${_C_CYAN}--optimize${_C_NC}                AI-powered slide structure analysis
+  ${_C_CYAN}--preview-breaks${_C_NC}          Show suggested breaks before generating
+  ${_C_CYAN}--apply-suggestions${_C_NC}       Auto-apply slide break suggestions
+  ${_C_CYAN}--key-concepts${_C_NC}            Emphasize key concepts with callouts
 
-${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include detailed explanations
-  ${FLOW_COLORS[cmd]}--no-explanation${FLOW_COLORS[reset]}             Skip detailed explanations
-  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
-  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code examples
-  ${FLOW_COLORS[cmd]}--diagrams, -d${FLOW_COLORS[reset]}              Include diagrams
+${_C_MAGENTA}💡 TIP${_C_NC}: Use ${_C_CYAN}--template quarto${_C_NC} for revealjs slides.
+  ${_C_DIM}Use --theme academic for professional look.${_C_NC}
+  ${_C_DIM}Use --optimize for AI-powered slide structure.${_C_NC}
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic slides generation${FLOW_COLORS[reset]}
-  $ teach slides "Multiple Regression"
-
-  ${FLOW_COLORS[muted]}# Week-based with consistent naming${FLOW_COLORS[reset]}
-  $ teach slides "Logistic Regression" --week 8
-
-  ${FLOW_COLORS[muted]}# Full-featured slides${FLOW_COLORS[reset]}
-  $ teach slides "Neural Networks" --week 10 --template quarto --theme academic --difficulty hard --math --code
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}slides/week-NN/slides-NN-<topic>.${FLOW_COLORS[reset]}
-  Auto-backs up existing files before overwriting
-
-${FLOW_COLORS[bold]}FROM-LECTURE MODE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--from-lecture FILE${FLOW_COLORS[reset]}     Convert lecture .qmd to slides
-  ${FLOW_COLORS[cmd]}--week N${FLOW_COLORS[reset]}                 Auto-detect lecture files for week
-
-${FLOW_COLORS[bold]}OPTIMIZATION FLAGS (Phase 4)${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--optimize${FLOW_COLORS[reset]}               AI-powered slide structure analysis
-  ${FLOW_COLORS[cmd]}--preview-breaks${FLOW_COLORS[reset]}         Show suggested breaks before generating
-  ${FLOW_COLORS[cmd]}--apply-suggestions${FLOW_COLORS[reset]}      Auto-apply slide break suggestions
-  ${FLOW_COLORS[cmd]}--key-concepts${FLOW_COLORS[reset]}           Emphasize key concepts with callouts
-
-  ${FLOW_COLORS[muted]}# Convert lecture to optimized slides${FLOW_COLORS[reset]}
-  $ teach slides --from-lecture week-05.qmd --optimize
-  $ teach slides --week 5 --optimize --preview-breaks
-  $ teach slides --week 5 --optimize --apply-suggestions
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Use ${FLOW_COLORS[accent]}--template quarto${FLOW_COLORS[reset]} for revealjs slides
-  • Use ${FLOW_COLORS[accent]}--theme academic${FLOW_COLORS[reset]} for professional look
-  • Use ${FLOW_COLORS[accent]}--optimize${FLOW_COLORS[reset]} for AI-powered slide structure
-  • Preview with ${FLOW_COLORS[cmd]}quarto preview${FLOW_COLORS[reset]}
-  • Auto-staged for git after generation
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach lecture${FLOW_COLORS[reset]} - Lecture notes
-  ${FLOW_COLORS[cmd]}teach analyze --slide-breaks${FLOW_COLORS[reset]} - Slide optimization analysis
-  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Quiz questions
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach lecture${_C_NC} - Lecture notes
+  ${_C_CYAN}teach analyze --slide-breaks${_C_NC} - Slide optimization analysis
+  ${_C_CYAN}teach quiz${_C_NC} - Quiz questions
+  ${_C_DIM}docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}
+"
 }
 
 _teach_exam_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Generate Exam Questions               ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach exam <topic> [options]
-  ${FLOW_COLORS[cmd]}teach exam --questions N --duration minutes
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach exam - Generate Exam Questions         │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}e${FLOW_COLORS[reset]} → exam
+${_C_BOLD}Usage:${_C_NC} teach exam <topic> [options]
+${_C_BOLD}Alias:${_C_NC} ${_C_CYAN}e${_C_NC} → exam
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Generate exam on topic${FLOW_COLORS[reset]}
-  $ teach exam "Linear Regression"
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach exam \"Topic\"${_C_NC}                        Generate exam on topic
+  ${_C_CYAN}teach exam \"Topic\" --questions 10${_C_NC}          Set question count
+  ${_C_CYAN}teach exam \"Topic\" --explanation --math${_C_NC}    With solutions + math
 
-  ${FLOW_COLORS[muted]}# Specific number of questions${FLOW_COLORS[reset]}
-  $ teach exam "Hypothesis Testing" --questions 10
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach exam \"Linear Regression\"                           ${_C_DIM}# Basic exam${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach exam \"Hypothesis Testing\" --questions 10           ${_C_DIM}# 10 questions${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach exam \"ANOVA\" -q 8 --duration 60 --types \"short:5,problem:3\"  ${_C_DIM}# Timed${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach exam \"Basics Review\" --questions 20 --format qti   ${_C_DIM}# QTI format${_C_NC}
 
-  ${FLOW_COLORS[muted]}# With time limit and question types${FLOW_COLORS[reset]}
-  $ teach exam "ANOVA" --questions 8 --duration 60 --types "short answer:5,problem:3"
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--questions N${_C_NC}             Number of questions (default: 5)
+  ${_C_CYAN}--duration N${_C_NC}              Duration in minutes
+  ${_C_CYAN}--types TYPES${_C_NC}             Question type breakdown
+  ${_C_CYAN}--format FORMAT${_C_NC}           quarto | qti | markdown
+  ${_C_CYAN}--difficulty easy|medium|hard${_C_NC}  Content depth
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--questions N${FLOW_COLORS[reset]}            Number of questions (default: 5)
-  ${FLOW_COLORS[cmd]}--duration N${FLOW_COLORS[reset]}             Duration in minutes
-  ${FLOW_COLORS[cmd]}--types TYPES${FLOW_COLORS[reset]}            Question type breakdown
-  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | qti | markdown
-  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
+${_C_BLUE}📋 CONTENT FLAGS${_C_NC}:
+  ${_C_CYAN}--explanation, -e${_C_NC}          Include answer explanations
+  ${_C_CYAN}--math, -m${_C_NC}                 Include math notation
+  ${_C_CYAN}--code, -c${_C_NC}                 Include code problems
 
-${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include answer explanations
-  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
-  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code problems
+${_C_MAGENTA}💡 TIP${_C_NC}: Use ${_C_CYAN}--types${_C_NC} to control question mix.
+  ${_C_DIM}Preview with --format markdown first.${_C_NC}
+  ${_C_DIM}Output: exams/exam-<topic>-YYYY-MM-DD. Auto-staged for git.${_C_NC}
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic exam generation${FLOW_COLORS[reset]}
-  $ teach exam "Multiple Regression"
-
-  ${FLOW_COLORS[muted]}# Detailed exam with explanations${FLOW_COLORS[reset]}
-  $ teach exam "Logistic Regression" --questions 10 --explanation --math
-
-  ${FLOW_COLORS[muted]}# Quiz-style format${FLOW_COLORS[reset]}
-  $ teach exam "Basics Review" --questions 20 --duration 30 --format qti
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}exams/exam-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
-  Auto-backs up existing files before overwriting
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Use ${FLOW_COLORS[accent]}--types${FLOW_COLORS[reset]} to control question mix
-  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
-  • Auto-staged for git after generation
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Quiz questions
-  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
-
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach quiz${_C_NC} - Quiz questions
+  ${_C_CYAN}teach rubric${_C_NC} - Grading rubric
+  ${_C_DIM}docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}
+"
 }
 
 _teach_quiz_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach quiz${FLOW_COLORS[reset]} - Generate Quiz Questions                  ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach quiz <topic> [options]
-  ${FLOW_COLORS[cmd]}teach quiz --questions N --time-limit minutes
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach quiz - Generate Quiz Questions          │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}q${FLOW_COLORS[reset]} → quiz
+${_C_GREEN}🔥 MOST COMMON${_C_NC}:
+  ${_C_CYAN}teach quiz${_C_NC} <topic>        Generate quiz on topic
+  ${_C_CYAN}teach q${_C_NC} <topic>            Alias for quiz
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Generate quiz on topic${FLOW_COLORS[reset]}
-  $ teach quiz "Linear Regression"
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach quiz \"Linear Regression\"             ${_C_DIM}# Basic quiz${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach quiz \"ANOVA\" --questions 10           ${_C_DIM}# 10 questions${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach quiz \"ANOVA\" -q 5 --time-limit 15     ${_C_DIM}# Timed quiz${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach quiz \"ANOVA\" --explanation --math      ${_C_DIM}# With solutions${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Specific number of questions${FLOW_COLORS[reset]}
-  $ teach quiz "Hypothesis Testing" --questions 10
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--questions N${_C_NC}            Number of questions (default: 5)
+  ${_C_CYAN}--time-limit N${_C_NC}           Time limit in minutes
+  ${_C_CYAN}--format FORMAT${_C_NC}          quarto | qti | markdown
+  ${_C_CYAN}--difficulty LEVEL${_C_NC}       easy | medium | hard
 
-  ${FLOW_COLORS[muted]}# Timed quiz${FLOW_COLORS[reset]}
-  $ teach quiz "ANOVA" --questions 5 --time-limit 15
+${_C_BLUE}📋 CONTENT FLAGS${_C_NC}:
+  ${_C_CYAN}--explanation, -e${_C_NC}        Include answer explanations
+  ${_C_CYAN}--math, -m${_C_NC}              Include math notation
+  ${_C_CYAN}--code, -c${_C_NC}              Include code questions
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--questions N${FLOW_COLORS[reset]}            Number of questions (default: 5)
-  ${FLOW_COLORS[cmd]}--time-limit N${FLOW_COLORS[reset]}           Time limit in minutes
-  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | qti | markdown
-  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
-
-${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include answer explanations
-  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math notation
-  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include code questions
-
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic quiz generation${FLOW_COLORS[reset]}
-  $ teach quiz "Multiple Regression"
-
-  ${FLOW_COLORS[muted]}# Quick check quiz${FLOW_COLORS[reset]}
-  $ teach quiz "Logistic Regression" --questions 5 --time-limit 10
-
-  ${FLOW_COLORS[muted]}# Detailed quiz with explanations${FLOW_COLORS[reset]}
-  $ teach quiz "ANOVA" --questions 10 --explanation --math
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}quizzes/quiz-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+${_C_BOLD}OUTPUT${_C_NC}: quizzes/quiz-<topic>-YYYY-MM-DD.*
   Auto-backs up existing files before overwriting
 
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Use ${FLOW_COLORS[accent]}--time-limit${FLOW_COLORS[reset]} for practice quizzes
-  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
-  • Auto-staged for git after generation
+${_C_YELLOW}💡 TIP${_C_NC}: Preview with ${_C_CYAN}--format markdown${_C_NC} before generating final format.
 
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach exam${FLOW_COLORS[reset]} - Exam questions
-  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Homework assignments
-
-EOF
+${_C_DIM}📚 See also: teach exam, teach assignment${_C_NC}
+"
 }
 
 _teach_assignment_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate Homework Assignment        ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach assignment <topic> [options]
-  ${FLOW_COLORS[cmd]}teach assignment --due-date "YYYY-MM-DD" --points N
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach assignment - Generate Homework          │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}hw${FLOW_COLORS[reset]} → assignment
+${_C_GREEN}🔥 MOST COMMON${_C_NC}:
+  ${_C_CYAN}teach assignment${_C_NC} <topic>  Generate assignment
+  ${_C_CYAN}teach hw${_C_NC} <topic>           Alias for assignment
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Generate assignment on topic${FLOW_COLORS[reset]}
-  $ teach assignment "Linear Regression"
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach hw \"Linear Regression\"                      ${_C_DIM}# Basic${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach hw \"ANOVA\" --due-date \"2024-02-15\" --points 100  ${_C_DIM}# With due date${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach hw \"Data Wrangling\" --code --practice-problems    ${_C_DIM}# Code-focused${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Assignment with due date${FLOW_COLORS[reset]}
-  $ teach assignment "ANOVA" --due-date "2024-02-15" --points 100
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--due-date DATE${_C_NC}          Due date (YYYY-MM-DD or \"Week N\")
+  ${_C_CYAN}--points N${_C_NC}               Total points
+  ${_C_CYAN}--format FORMAT${_C_NC}          quarto | markdown
+  ${_C_CYAN}--difficulty LEVEL${_C_NC}       easy | medium | hard
 
-  ${FLOW_COLORS[muted]}# Detailed assignment${FLOW_COLORS[reset]}
-  $ teach assignment "ML Intro" --due-date "2024-02-20" --points 50 --explanation
+${_C_BLUE}📋 CONTENT FLAGS${_C_NC}:
+  ${_C_CYAN}--explanation, -e${_C_NC}        Include solution explanations
+  ${_C_CYAN}--math, -m${_C_NC}              Include math problems
+  ${_C_CYAN}--code, -c${_C_NC}              Include programming problems
+  ${_C_CYAN}--practice-problems, -p${_C_NC} Include practice problems
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--due-date DATE${FLOW_COLORS[reset]}          Due date (YYYY-MM-DD or "Week N")
-  ${FLOW_COLORS[cmd]}--points N${FLOW_COLORS[reset]}               Total points
-  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown
-  ${FLOW_COLORS[cmd]}--difficulty easy|medium|hard${FLOW_COLORS[reset]}  Content depth
-
-${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include solution explanations
-  ${FLOW_COLORS[cmd]}--math, -m${FLOW_COLORS[reset]}                  Include math problems
-  ${FLOW_COLORS[cmd]}--code, -c${FLOW_COLORS[reset]}                  Include programming problems
-  ${FLOW_COLORS[cmd]}--practice-problems, -p${FLOW_COLORS[reset]}     Include practice problems
-
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic assignment generation${FLOW_COLORS[reset]}
-  $ teach assignment "Multiple Regression"
-
-  ${FLOW_COLORS[muted]}# Complete assignment with due date${FLOW_COLORS[reset]}
-  $ teach assignment "Logistic Regression" --due-date "2024-02-15" --points 100
-
-  ${FLOW_COLORS[muted]}# Programming-focused assignment${FLOW_COLORS[reset]}
-  $ teach assignment "Data Wrangling" --code --practice-problems --points 50
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}assignments/assignment-<topic>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+${_C_BOLD}OUTPUT${_C_NC}: assignments/assignment-<topic>-YYYY-MM-DD.*
   Auto-backs up existing files before overwriting
 
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Use ${FLOW_COLORS[accent]}--due-date${FLOW_COLORS[reset]} for semester planning
-  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
-  • Auto-staged for git after generation
+${_C_YELLOW}💡 TIP${_C_NC}: Use ${_C_CYAN}--due-date${_C_NC} for semester planning and ${_C_CYAN}--format markdown${_C_NC} to preview.
 
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
-  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Student feedback
-
-EOF
+${_C_DIM}📚 See also: teach rubric, teach feedback${_C_NC}
+"
 }
 
 _teach_syllabus_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach syllabus${FLOW_COLORS[reset]} - Generate Course Syllabus             ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach syllabus [course_name] [options]
-  ${FLOW_COLORS[cmd]}teach syllabus --format quarto
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach syllabus - Generate Course Syllabus     │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}syl${FLOW_COLORS[reset]} → syllabus
+${_C_GREEN}🔥 MOST COMMON${_C_NC}:
+  ${_C_CYAN}teach syllabus${_C_NC}            Generate from config
+  ${_C_CYAN}teach syl${_C_NC}                 Alias for syllabus
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Generate syllabus from config${FLOW_COLORS[reset]}
-  $ teach syllabus
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach syllabus                   ${_C_DIM}# From config${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach syllabus \"STAT 440\"        ${_C_DIM}# Specific course${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach syllabus --format pdf       ${_C_DIM}# PDF for printing${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Generate for specific course${FLOW_COLORS[reset]}
-  $ teach syllabus "STAT 440"
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--format FORMAT${_C_NC}          quarto | markdown | pdf
+  ${_C_CYAN}--template TYPE${_C_NC}          default | detailed
 
-  ${FLOW_COLORS[muted]}# PDF format${FLOW_COLORS[reset]}
-  $ teach syllabus --format pdf
+${_C_BOLD}OUTPUT${_C_NC}: syllabus.md or syllabus.pdf
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown | pdf
-  ${FLOW_COLORS[cmd]}--template TYPE${FLOW_COLORS[reset]}          default | detailed
+${_C_YELLOW}💡 TIP${_C_NC}: Run ${_C_CYAN}teach init${_C_NC} first to set up course config, then
+  preview with ${_C_CYAN}quarto preview syllabus.*${_C_NC}.
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic syllabus generation${FLOW_COLORS[reset]}
-  $ teach syllabus
-
-  ${FLOW_COLORS[muted]}# With course name${FLOW_COLORS[reset]}
-  $ teach syllabus "STAT 545"
-
-  ${FLOW_COLORS[muted]}# PDF format for printing${FLOW_COLORS[reset]}
-  $ teach syllabus --format pdf
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}syllabus.md${FLOW_COLORS[reset]} or ${FLOW_COLORS[accent]}syllabus.pdf${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Uses course info from ${FLOW_COLORS[accent]}.flow/teach-config.yml${FLOW_COLORS[reset]}
-  • Run ${FLOW_COLORS[cmd]}teach init${FLOW_COLORS[reset]} first to set up config
-  • Preview with ${FLOW_COLORS[cmd]}quarto preview syllabus.${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach config${FLOW_COLORS[reset]} - Edit course configuration
-  ${FLOW_COLORS[cmd]}teach dates${FLOW_COLORS[reset]} - Date management
-
-EOF
+${_C_DIM}📚 See also: teach config, teach dates${_C_NC}
+"
 }
 
 _teach_rubric_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Generate Grading Rubric               ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach rubric <assignment_name> [options]
-  ${FLOW_COLORS[cmd]}teach rubric --criteria N
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach rubric - Generate Grading Rubric        │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}rb${FLOW_COLORS[reset]} → rubric
+${_C_GREEN}🔥 MOST COMMON${_C_NC}:
+  ${_C_CYAN}teach rubric${_C_NC} <name>       Generate rubric for assignment
+  ${_C_CYAN}teach rb${_C_NC} <name>            Alias for rubric
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Generate rubric for assignment${FLOW_COLORS[reset]}
-  $ teach rubric "Final Project"
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach rubric \"Final Project\"                ${_C_DIM}# Basic rubric${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach rubric \"Lab Report\" --criteria 5      ${_C_DIM}# 5 criteria${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach rubric \"Homework 5\" --week 10         ${_C_DIM}# Week-based${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach rubric \"Paper\" --criteria 6 -e        ${_C_DIM}# With explanations${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Rubric with specific criteria${FLOW_COLORS[reset]}
-  $ teach rubric "Lab Report" --criteria 4
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--criteria N${_C_NC}             Number of criteria (default: 4)
+  ${_C_CYAN}--format FORMAT${_C_NC}          quarto | markdown
+  ${_C_CYAN}--week N${_C_NC}                 Week number (for lesson plan)
+  ${_C_CYAN}--explanation, -e${_C_NC}        Include grading explanations
 
-  ${FLOW_COLORS[muted]}# Week-based rubric${FLOW_COLORS[reset]}
-  $ teach rubric "Homework 5" --week 10
-
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--criteria N${FLOW_COLORS[reset]}             Number of criteria (default: 4)
-  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          quarto | markdown
-  ${FLOW_COLORS[cmd]}--week N${FLOW_COLORS[reset]}                 Week number (for lesson plan)
-
-${FLOW_COLORS[bold]}CONTENT FLAGS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--explanation, -e${FLOW_COLORS[reset]}           Include grading explanations
-
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic rubric generation${FLOW_COLORS[reset]}
-  $ teach rubric "Final Project"
-
-  ${FLOW_COLORS[muted]}# Custom criteria count${FLOW_COLORS[reset]}
-  $ teach rubric "Lab Report" --criteria 5
-
-  ${FLOW_COLORS[muted]}# Detailed rubric${FLOW_COLORS[reset]}
-  $ teach rubric "Research Paper" --criteria 6 --explanation
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}rubrics/rubric-<assignment_name>-YYYY-MM-DD.${FLOW_COLORS[reset]}
+${_C_BOLD}OUTPUT${_C_NC}: rubrics/rubric-<name>-YYYY-MM-DD.*
   Auto-backs up existing files before overwriting
 
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Use ${FLOW_COLORS[accent]}--criteria${FLOW_COLORS[reset]} to control rubric detail
-  • Preview with ${FLOW_COLORS[cmd]}--format markdown${FLOW_COLORS[reset]} first
-  • Auto-staged for git after generation
+${_C_YELLOW}💡 TIP${_C_NC}: Use ${_C_CYAN}--criteria${_C_NC} to control rubric detail level.
 
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate assignment
-  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Student feedback
-
-EOF
+${_C_DIM}📚 See also: teach assignment, teach feedback${_C_NC}
+"
 }
 
 _teach_feedback_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach feedback${FLOW_COLORS[reset]} - Generate Student Feedback            ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach feedback <student_work> [options]
-  ${FLOW_COLORS[cmd]}teach feedback "homework3-smith.pdf"
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach feedback - Generate Student Feedback    │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[bold]}ALIASES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}fb${FLOW_COLORS[reset]} → feedback
+${_C_GREEN}🔥 MOST COMMON${_C_NC}:
+  ${_C_CYAN}teach feedback${_C_NC} <file>     Generate feedback on student work
+  ${_C_CYAN}teach fb${_C_NC} <file>            Alias for feedback
 
-${FLOW_COLORS[bold]}QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Generate feedback on student work${FLOW_COLORS[reset]}
-  $ teach feedback "homework3-smith.pdf"
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach fb \"homework3-smith.pdf\"               ${_C_DIM}# Basic feedback${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach fb \"project.R\" --tone supportive       ${_C_DIM}# Supportive tone${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach fb \"essay.docx\" --tone detailed        ${_C_DIM}# Detailed review${_C_NC}
 
-  ${FLOW_COLORS[muted]}# Supportive tone feedback${FLOW_COLORS[reset]}
-  $ teach feedback "project.R" --tone supportive
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--tone TONE${_C_NC}              supportive | direct | detailed
+  ${_C_CYAN}--format FORMAT${_C_NC}          markdown | text
 
-  ${FLOW_COLORS[muted]}# Detailed feedback${FLOW_COLORS[reset]}
-  $ teach feedback "essay.docx" --tone detailed
+${_C_BOLD}OUTPUT${_C_NC}: feedback/feedback-<file>-YYYY-MM-DD.*
+  Supports PDF, DOCX, R, MD input files
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--tone TONE${FLOW_COLORS[reset]}              supportive | direct | detailed
-  ${FLOW_COLORS[cmd]}--format FORMAT${FLOW_COLORS[reset]}          markdown | text
+${_C_YELLOW}💡 TIP${_C_NC}: Use ${_C_CYAN}--tone${_C_NC} to match feedback style to context
+  (supportive for struggling students, detailed for advanced).
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Basic feedback generation${FLOW_COLORS[reset]}
-  $ teach feedback "homework3-smith.pdf"
-
-  ${FLOW_COLORS[muted]}# Supportive tone${FLOW_COLORS[reset]}
-  $ teach feedback "project.R" --tone supportive
-
-  ${FLOW_COLORS[muted]}# Detailed feedback${FLOW_COLORS[reset]}
-  $ teach feedback "essay.docx" --tone detailed --format markdown
-
-${FLOW_COLORS[bold]}OUTPUT${FLOW_COLORS[reset]}
-  Creates: ${FLOW_COLORS[accent]}feedback/feedback-<student_work>-YYYY-MM-DD.${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}TIPS${FLOW_COLORS[reset]}
-  • Use ${FLOW_COLORS[accent]}--tone${FLOW_COLORS[reset]} to match feedback style
-  • Supports PDF, DOCX, R, MD files
-  • Preview with ${FLOW_COLORS[cmd]}--format text${FLOW_COLORS[reset]} first
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach rubric${FLOW_COLORS[reset]} - Grading rubric
-  ${FLOW_COLORS[cmd]}teach assignment${FLOW_COLORS[reset]} - Generate assignment
-
-EOF
+${_C_DIM}📚 See also: teach rubric, teach assignment${_C_NC}
+"
 }
 
 # Help for hooks command (v5.14.0 - PR #277 Task 2)
 _teach_hooks_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} - Git Hook Management                      ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach hooks${FLOW_COLORS[reset]} <command> [options]
-
-${FLOW_COLORS[bold]}COMMANDS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}install${FLOW_COLORS[reset]}              Install git hooks for teaching workflow
-    ${FLOW_COLORS[muted]}--force, -f${FLOW_COLORS[reset]}       Force reinstall (overwrite existing)
-
-  ${FLOW_COLORS[cmd]}upgrade${FLOW_COLORS[reset]}              Upgrade hooks to latest version
-    ${FLOW_COLORS[muted]}--force, -f${FLOW_COLORS[reset]}       Force upgrade even if newer version installed
-
-  ${FLOW_COLORS[cmd]}status${FLOW_COLORS[reset]}               Check hook installation status
-
-  ${FLOW_COLORS[cmd]}uninstall${FLOW_COLORS[reset]}            Remove teaching workflow hooks
-
-${FLOW_COLORS[bold]}HOOKS INSTALLED${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}pre-commit${FLOW_COLORS[reset]}         Validate YAML, check dependencies
-  ${FLOW_COLORS[accent]}pre-push${FLOW_COLORS[reset]}           Check for uncommitted changes
-  ${FLOW_COLORS[accent]}prepare-commit-msg${FLOW_COLORS[reset]}  Auto-format commit messages
-
-${FLOW_COLORS[bold]}SHORTCUTS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}i${FLOW_COLORS[reset]} → install      ${FLOW_COLORS[accent]}up, u${FLOW_COLORS[reset]} → upgrade
-  ${FLOW_COLORS[accent]}s${FLOW_COLORS[reset]} → status       ${FLOW_COLORS[accent]}rm${FLOW_COLORS[reset]} → uninstall
-
-${FLOW_COLORS[success]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Install hooks in current project${FLOW_COLORS[reset]}
-  teach hooks install
-
-  ${FLOW_COLORS[muted]}# Check hook status${FLOW_COLORS[reset]}
-  teach hooks status
-
-  ${FLOW_COLORS[muted]}# Upgrade to latest version${FLOW_COLORS[reset]}
-  teach hooks upgrade
-
-  ${FLOW_COLORS[muted]}# Force reinstall${FLOW_COLORS[reset]}
-  teach hooks install --force
-
-${FLOW_COLORS[muted]}See also: teach doctor (includes hook checks)${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}LEARN MORE${FLOW_COLORS[reset]}
-  📖 Guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md
-
-EOF
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
+    echo -e "${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}"
+    echo -e "${_C_BOLD}│${_C_NC}  ${_C_CYAN}teach hooks${_C_NC} - Git Hook Management        ${_C_BOLD}│${_C_NC}"
+    echo -e "${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}"
+    echo ""
+    echo -e "  ${_C_BOLD}USAGE${_C_NC}  teach hooks <command> [options]"
+    echo ""
+    echo -e "  ${_C_BOLD}🔥 MOST COMMON${_C_NC}"
+    echo -e "  ${_C_CYAN}install${_C_NC}              Install git hooks for teaching workflow"
+    echo -e "  ${_C_CYAN}status${_C_NC}               Check hook installation status"
+    echo -e "  ${_C_CYAN}upgrade${_C_NC}              Upgrade hooks to latest version"
+    echo ""
+    echo -e "  ${_C_BOLD}💡 QUICK EXAMPLES${_C_NC}"
+    echo -e "  ${_C_DIM}# Install hooks in current project${_C_NC}"
+    echo -e "  teach hooks install"
+    echo -e "  ${_C_DIM}# Check hook status${_C_NC}"
+    echo -e "  teach hooks status"
+    echo -e "  ${_C_DIM}# Force reinstall${_C_NC}"
+    echo -e "  teach hooks install --force"
+    echo ""
+    echo -e "  ${_C_BOLD}📋 COMMANDS${_C_NC}"
+    echo -e "  ${_C_CYAN}install${_C_NC}              Install git hooks"
+    echo -e "    ${_C_DIM}--force, -f${_C_NC}       Force reinstall (overwrite existing)"
+    echo -e "  ${_C_CYAN}upgrade${_C_NC}              Upgrade to latest version"
+    echo -e "    ${_C_DIM}--force, -f${_C_NC}       Force upgrade even if newer"
+    echo -e "  ${_C_CYAN}status${_C_NC}               Check installation status"
+    echo -e "  ${_C_CYAN}uninstall${_C_NC}            Remove teaching workflow hooks"
+    echo ""
+    echo -e "  ${_C_BOLD}📋 HOOKS INSTALLED${_C_NC}"
+    echo -e "  ${_C_CYAN}pre-commit${_C_NC}           Validate YAML, check dependencies"
+    echo -e "  ${_C_CYAN}pre-push${_C_NC}             Check for uncommitted changes"
+    echo -e "  ${_C_CYAN}prepare-commit-msg${_C_NC}   Auto-format commit messages"
+    echo ""
+    echo -e "  ${_C_BOLD}📋 SHORTCUTS${_C_NC}"
+    echo -e "  ${_C_CYAN}i${_C_NC} → install      ${_C_CYAN}up, u${_C_NC} → upgrade"
+    echo -e "  ${_C_CYAN}s${_C_NC} → status       ${_C_CYAN}rm${_C_NC} → uninstall"
+    echo ""
+    echo -e "  ${_C_BOLD}💡 TIP${_C_NC}  Run ${_C_CYAN}teach doctor${_C_NC} to verify hook health"
+    echo ""
+    echo -e "  ${_C_BOLD}📚 See also${_C_NC}"
+    echo -e "  ${_C_CYAN}teach doctor${_C_NC} - Health checks (includes hook checks)"
+    echo -e "  ${_C_DIM}docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}"
 }
 
 # =============================================================================
@@ -5619,51 +5328,48 @@ EOF
 
 # Backup help (upgraded to FLOW_COLORS)
 _teach_backup_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach backup${FLOW_COLORS[reset]} - Content Backup System                    ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach backup <subcommand> [args]
-
-${FLOW_COLORS[bold]}SUBCOMMANDS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}create [path]${FLOW_COLORS[reset]}          Create timestamped backup
-  ${FLOW_COLORS[cmd]}list [path]${FLOW_COLORS[reset]}            List all backups
-  ${FLOW_COLORS[cmd]}restore <name>${FLOW_COLORS[reset]}         Restore from backup
-  ${FLOW_COLORS[cmd]}delete <name>${FLOW_COLORS[reset]}          Delete backup (with confirmation)
-  ${FLOW_COLORS[cmd]}archive <semester>${FLOW_COLORS[reset]}     Archive semester backups
-
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}# Create backup${FLOW_COLORS[reset]}
-  $ teach backup create lectures/week-01
-
-  ${FLOW_COLORS[muted]}# List all backups${FLOW_COLORS[reset]}
-  $ teach backup list
-
-  ${FLOW_COLORS[muted]}# Restore from backup${FLOW_COLORS[reset]}
-  $ teach backup restore lectures.2026-01-20-1430
-
-  ${FLOW_COLORS[muted]}# Archive semester (end of semester)${FLOW_COLORS[reset]}
-  $ teach backup archive spring-2026
-
-${FLOW_COLORS[bold]}BACKUP STRUCTURE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}.backups/${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}├── lectures.2026-01-20-1430/${FLOW_COLORS[reset]}    Timestamped snapshots
-  ${FLOW_COLORS[muted]}├── lectures.2026-01-19-0900/${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}└── metadata.json${FLOW_COLORS[reset]}                Backup metadata
-
-${FLOW_COLORS[bold]}RETENTION POLICIES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[accent]}archive${FLOW_COLORS[reset]}    Keep forever (exams, syllabi)
-  ${FLOW_COLORS[accent]}semester${FLOW_COLORS[reset]}   Delete at semester end (lectures)
-
-${FLOW_COLORS[muted]}Get subcommand help: teach backup <subcommand> --help${FLOW_COLORS[reset]}
-
-${FLOW_COLORS[bold]}SEE ALSO${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach clean${FLOW_COLORS[reset]} - Clean build artifacts
-  ${FLOW_COLORS[cmd]}teach deploy${FLOW_COLORS[reset]} - Deploy course website
-
-EOF
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
+    echo -e "${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}"
+    echo -e "${_C_BOLD}│${_C_NC}  ${_C_CYAN}teach backup${_C_NC} - Content Backup System      ${_C_BOLD}│${_C_NC}"
+    echo -e "${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}"
+    echo ""
+    echo -e "  ${_C_BOLD}USAGE${_C_NC}  teach backup <subcommand> [args]"
+    echo ""
+    echo -e "  ${_C_BOLD}🔥 MOST COMMON${_C_NC}"
+    echo -e "  ${_C_CYAN}create [path]${_C_NC}          Create timestamped backup"
+    echo -e "  ${_C_CYAN}list [path]${_C_NC}            List all backups"
+    echo -e "  ${_C_CYAN}restore <name>${_C_NC}         Restore from backup"
+    echo ""
+    echo -e "  ${_C_BOLD}💡 QUICK EXAMPLES${_C_NC}"
+    echo -e "  ${_C_DIM}# Create backup${_C_NC}"
+    echo -e "  teach backup create lectures/week-01"
+    echo -e "  ${_C_DIM}# List all backups${_C_NC}"
+    echo -e "  teach backup list"
+    echo -e "  ${_C_DIM}# Restore from backup${_C_NC}"
+    echo -e "  teach backup restore lectures.2026-01-20-1430"
+    echo ""
+    echo -e "  ${_C_BOLD}📋 SUBCOMMANDS${_C_NC}"
+    echo -e "  ${_C_CYAN}create [path]${_C_NC}          Create timestamped backup"
+    echo -e "  ${_C_CYAN}list [path]${_C_NC}            List all backups"
+    echo -e "  ${_C_CYAN}restore <name>${_C_NC}         Restore from backup"
+    echo -e "  ${_C_CYAN}delete <name>${_C_NC}          Delete backup (with confirmation)"
+    echo -e "  ${_C_CYAN}archive <semester>${_C_NC}     Archive semester backups"
+    echo ""
+    echo -e "  ${_C_BOLD}📋 RETENTION POLICIES${_C_NC}"
+    echo -e "  ${_C_CYAN}archive${_C_NC}    Keep forever (exams, syllabi)"
+    echo -e "  ${_C_CYAN}semester${_C_NC}   Delete at semester end (lectures)"
+    echo -e "  ${_C_DIM}Structure: .backups/<name>.<timestamp>/${_C_NC}"
+    echo ""
+    echo -e "  ${_C_BOLD}💡 TIP${_C_NC}  Use ${_C_CYAN}teach backup <subcommand> --help${_C_NC} for details"
+    echo ""
+    echo -e "  ${_C_BOLD}📚 See also${_C_NC}"
+    echo -e "  ${_C_CYAN}teach clean${_C_NC} - Clean build artifacts"
+    echo -e "  ${_C_CYAN}teach deploy${_C_NC} - Deploy course website"
+    echo -e "  ${_C_CYAN}teach archive${_C_NC} - Archive semester backups"
 }
 
 # Update backup metadata
