@@ -90,7 +90,7 @@ teach deploy --rollback 1      # Most recent deploy
 teach deploy --rollback 2 --ci # 2nd most recent, non-interactive
 ```
 
-Uses `git revert` (forward rollback, not destructive reset). Rollback is recorded in history with `mode: "rollback"`.
+Uses `git revert` (forward rollback, not destructive reset). Merge commits are detected automatically and reverted with `-m 1` (parent specification). Rollback is recorded in history with `mode: "rollback"`.
 
 ## CI Mode
 

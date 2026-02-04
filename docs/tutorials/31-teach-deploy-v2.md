@@ -198,11 +198,11 @@ Safety guarantees:
 - ✅ **Traceable** - Rollback recorded in deploy history
 - ✅ **Safe for collaboration** - Works even if others have pulled
 
-Roll back multiple deployments:
+Roll back an older deployment:
 
 ```bash
 teach deploy --rollback 3
-# Reverts the last 3 deployments
+# Reverts deployment #3 from history (use --history to see index)
 ```
 
 ## Step 6: CI Mode for Automation

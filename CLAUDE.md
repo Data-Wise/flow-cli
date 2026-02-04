@@ -455,12 +455,12 @@ flow-cli/
 ├── completions/             # ZSH completions
 ├── hooks/                   # ZSH hooks
 ├── docs/                    # Documentation (MkDocs)
-├── tests/                   # Test suite (538+ tests)
+├── tests/                   # Test suite (543+ tests)
 │   ├── fixtures/            # Test fixtures
 │   │   └── demo-course/     # STAT-101 demo course for E2E
-│   ├── test-teach-deploy-v2-unit.zsh        # Deploy v2 unit: 34 tests
+│   ├── test-teach-deploy-v2-unit.zsh        # Deploy v2 unit: 36 tests
 │   ├── test-teach-deploy-v2-integration.zsh # Deploy v2 integration: 22 tests
-│   ├── e2e-teach-deploy-v2.zsh              # Deploy v2 E2E: 20 tests
+│   ├── e2e-teach-deploy-v2.zsh              # Deploy v2 E2E: 23 tests
 │   ├── e2e-teach-analyze.zsh                # E2E: 29 tests
 │   └── interactive-dog-teaching.zsh         # Interactive: 10 tasks
 └── .archive/               # Archived Node.js CLI
@@ -602,7 +602,7 @@ teach exam "Topic"  # Generate exam via Scholar
 
 ### Test Suite Overview
 
-**Status:** ✅ 538+ tests total
+**Status:** ✅ 543+ tests total
 **Documentation:** [Complete Testing Guide](docs/guides/TESTING.md)
 
 ```bash
@@ -726,7 +726,7 @@ export FLOW_DEBUG=1
 **Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 538+ total tests (462 existing + 76 new teach deploy v2 tests)
+**Tests:** 543+ total tests (462 existing + 81 new teach deploy v2 tests)
 
 **Recent Improvements:**
 

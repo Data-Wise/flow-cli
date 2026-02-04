@@ -949,8 +949,11 @@ teach scholar status
 teach analyze lectures/      # Analyze content
 teach exam "Midterm Topics"  # Generate exam
 
-# Deployment
-teach deploy                 # Publish site
+# Deployment (v6.4.0)
+teach deploy --direct        # Direct merge deploy
+teach deploy --dry-run       # Preview deploy
+teach deploy --rollback 1    # Undo last deploy
+teach deploy --history       # Show deploy log
 teach status                 # Verify
 ```
 
