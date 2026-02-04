@@ -3470,77 +3470,68 @@ EOF
 # ============================================================================
 
 _teach_analyze_help() {
-    cat <<EOF
-${FLOW_COLORS[header]}╔════════════════════════════════════════════════════════════╗${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}  ${FLOW_COLORS[cmd]}teach analyze${FLOW_COLORS[reset]} - Intelligent Content Analysis              ${FLOW_COLORS[header]}║${FLOW_COLORS[reset]}
-${FLOW_COLORS[header]}╚════════════════════════════════════════════════════════════╝${FLOW_COLORS[reset]}
+    # Color fallbacks for standalone use
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
+    fi
 
-${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach analyze${FLOW_COLORS[reset]} <file>
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach analyze - Content Analysis             │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
-${FLOW_COLORS[success]}🔥 QUICK START${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze lectures/week-05-regression.qmd
-  ${FLOW_COLORS[dim]}# Validates concepts and prerequisites${FLOW_COLORS[reset]}
+${_C_BOLD}Usage:${_C_NC} teach analyze <file> [options]
 
-${FLOW_COLORS[bold]}WHAT IT DOES${FLOW_COLORS[reset]}
-  1. Extracts concepts from frontmatter (concepts: field)
-  2. Builds concept graph across all lectures
-  3. Validates prerequisite ordering (earlier weeks only)
-  4. Reports violations with suggestions
-  5. (--ai) AI-powered concept enhancement via Claude
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach analyze <file>${_C_NC}         Validate concepts & prerequisites
+  ${_C_CYAN}teach analyze --ai <file>${_C_NC}    AI-powered deep analysis
+  ${_C_CYAN}teach analyze -i <file>${_C_NC}      Guided interactive mode
 
-${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}--mode${FLOW_COLORS[reset]} strict|moderate|relaxed   Strictness level
-  ${FLOW_COLORS[cmd]}--report${FLOW_COLORS[reset]} [FILE]                  Generate report
-  ${FLOW_COLORS[cmd]}--format${FLOW_COLORS[reset]} markdown|json            Report format
-  ${FLOW_COLORS[cmd]}--interactive${FLOW_COLORS[reset]}, -i                 Guided interactive mode
-  ${FLOW_COLORS[cmd]}--ai${FLOW_COLORS[reset]}                             AI-powered analysis (Phase 3)
-  ${FLOW_COLORS[cmd]}--costs${FLOW_COLORS[reset]}                          Show AI usage costs
-  ${FLOW_COLORS[cmd]}--slide-breaks${FLOW_COLORS[reset]}                   Analyze slide structure (Phase 4)
-  ${FLOW_COLORS[cmd]}--preview-breaks${FLOW_COLORS[reset]}                 Show slide break preview (then exit)
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach analyze lectures/week-05.qmd           ${_C_DIM}# Check prerequisites${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach analyze --ai lectures/week-05.qmd      ${_C_DIM}# AI: bloom, load, relations${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach analyze --slide-breaks lectures/w05.qmd ${_C_DIM}# Slide structure${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach analyze --report out.md lectures/w05.qmd ${_C_DIM}# Save report${_C_NC}
 
-${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[info]}Basic analysis:${FLOW_COLORS[reset]}
-    ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze lectures/week-05-regression.qmd
-    ${FLOW_COLORS[dim]}# Checks prerequisites for Week 5${FLOW_COLORS[reset]}
+${_C_BLUE}📋 ANALYSIS MODES${_C_NC}:
+  ${_C_CYAN}teach analyze <file>${_C_NC}                  Basic prerequisite validation
+  ${_C_CYAN}teach analyze --ai <file>${_C_NC}             AI-powered (bloom, cognitive load)
+  ${_C_CYAN}teach analyze --slide-breaks <file>${_C_NC}   Slide structure analysis
+  ${_C_CYAN}teach analyze --preview-breaks <file>${_C_NC} Preview slide breaks (no changes)
+  ${_C_CYAN}teach analyze -i <file>${_C_NC}               Guided interactive walkthrough
 
-  ${FLOW_COLORS[info]}AI-powered:${FLOW_COLORS[reset]}
-    ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze --ai lectures/week-05-regression.qmd
-    ${FLOW_COLORS[dim]}# Adds bloom levels, cognitive load, related concepts${FLOW_COLORS[reset]}
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--mode${_C_NC} strict|moderate|relaxed   Strictness level
+  ${_C_CYAN}--report${_C_NC} [FILE]                  Generate report file
+  ${_C_CYAN}--format${_C_NC} markdown|json            Report format
+  ${_C_CYAN}--interactive, -i${_C_NC}                 Guided interactive mode
+  ${_C_CYAN}--ai${_C_NC}                             AI-powered analysis (Claude)
+  ${_C_CYAN}--costs${_C_NC}                          Show AI usage costs
+  ${_C_CYAN}--slide-breaks${_C_NC}                   Analyze slide structure
+  ${_C_CYAN}--preview-breaks${_C_NC}                 Preview slide breaks (then exit)
 
-  ${FLOW_COLORS[info]}Slide optimization:${FLOW_COLORS[reset]}
-    ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze --slide-breaks lectures/week-05-regression.qmd
-    ${FLOW_COLORS[dim]}# Suggests optimal slide structure, key concepts${FLOW_COLORS[reset]}
+${_C_BLUE}📋 WHAT IT CHECKS${_C_NC}:
+  1. Concepts defined in frontmatter (${_C_CYAN}concepts:${_C_NC} field)
+  2. Prerequisite ordering (earlier weeks only)
+  3. No future-week dependencies
+  4. ${_C_DIM}(--ai)${_C_NC} Bloom levels, cognitive load, relationships
 
-  ${FLOW_COLORS[info]}What gets checked:${FLOW_COLORS[reset]}
-    • Concepts are defined in frontmatter
-    • Prerequisites exist in earlier weeks
-    • No future-week dependencies
-    • (--ai) Bloom level, cognitive load, relationships
+${_C_MAGENTA}💡 TIP${_C_NC}: Add ${_C_CYAN}concepts:${_C_NC} to lecture frontmatter for analysis.
+  ${_C_DIM}Run before 'teach deploy' to catch ordering issues.${_C_NC}
+  ${_C_DIM}Use --ai for deeper insights (requires Claude CLI).${_C_NC}
 
-${FLOW_COLORS[info]}💡 TIPS${FLOW_COLORS[reset]}
-  • Add ${FLOW_COLORS[cmd]}concepts:${FLOW_COLORS[reset]} field to lecture frontmatter
-  • Use concept IDs consistently across lectures
-  • Run before deployment to catch ordering issues
-  • Use ${FLOW_COLORS[cmd]}--ai${FLOW_COLORS[reset]} for deeper analysis (requires Claude CLI)
-
-${FLOW_COLORS[bold]}FRONTMATTER EXAMPLE${FLOW_COLORS[reset]}
-  ---
-  title: "Linear Regression"
-  week: 5
-  concepts:
-    introduces:
-      - id: simple-regression
-      - id: r-squared
-    requires:
-      - correlation  # From Week 3
-      - variance     # From Week 1
-  ---
-
-${FLOW_COLORS[dim]}📚 See also:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[cmd]}teach validate${FLOW_COLORS[reset]}   Run quality checks
-  ${FLOW_COLORS[dim]}docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md${FLOW_COLORS[reset]}
-EOF
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach validate${_C_NC} - Run quality checks
+  ${_C_CYAN}teach deploy --check-prereqs${_C_NC} - Validate before deploy
+  ${_C_DIM}docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md${_C_NC}
+"
 }
 
 # ============================================================================
