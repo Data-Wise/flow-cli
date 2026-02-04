@@ -2170,6 +2170,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/31-teach-deploy-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy v2 (Direct, History, Rollback)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../tutorials/19-teaching-git-integration/" class="md-nav__link">
         
   
@@ -3043,6 +3071,34 @@
     
   
     Prompts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/REFCARD-DEPLOY-V2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy v2
   
 
     
@@ -8377,7 +8433,7 @@
 <hr />
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>The <strong>Teaching Workflow</strong> is a deployment-focused workflow system designed to solve the 5-15 minute deployment pain point for course websites. It provides:</p>
-<p>✅ <strong>Fast Deployment</strong> - Typo to live in &lt; 2 minutes
+<p>✅ <strong>Fast Deployment</strong> - Typo to live in 8-15 seconds (<code>teach deploy -d</code>)
 ✅ <strong>Branch Safety</strong> - Prevents accidental edits to production branch
 ✅ <strong>Course Context</strong> - Teaching-aware work sessions
 ✅ <strong>Automation Scripts</strong> - One-command deployment and archival
@@ -8411,7 +8467,7 @@
 - Merges <code>draft</code> → <code>production</code>
 - Pushes to GitHub
 - GitHub Actions deploys to GitHub Pages
-- <strong>Completes in &lt; 2 minutes</strong></p>
+- <strong>Completes in 8-15 seconds</strong> (direct mode) or &lt; 2 minutes (PR mode)</p>
 <hr />
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
 <h3 id="branch-workflow">Branch Workflow<a class="headerlink" href="#branch-workflow" title="Permanent link">&para;</a></h3>
@@ -8821,7 +8877,7 @@
 <a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="c1"># 5. Verify live</span>
 <a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="c1"># Visit course website</span>
 <a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>
-<a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="c1"># Total time: &lt; 2 minutes from typo discovery to live fix</span>
+<a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="c1"># Total time: ~15 seconds with teach deploy -d (or &lt; 2 min via PR)</span>
 </code></pre></div>
 <hr />
 <h3 id="weekly-lecture-publishing">Weekly Lecture Publishing<a class="headerlink" href="#weekly-lecture-publishing" title="Permanent link">&para;</a></h3>

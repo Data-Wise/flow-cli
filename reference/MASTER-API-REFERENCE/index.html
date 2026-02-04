@@ -2161,6 +2161,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/31-teach-deploy-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy v2 (Direct, History, Rollback)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../tutorials/19-teaching-git-integration/" class="md-nav__link">
         
   
@@ -3025,6 +3053,34 @@
     
   
     Prompts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFCARD-DEPLOY-V2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy v2
   
 
     
@@ -8587,6 +8643,56 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#teach-deploy-v2-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        teach-deploy v2 Helpers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="teach-deploy v2 Helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-history-libdeploy-history-helperszsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy History (lib/deploy-history-helpers.zsh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-rollback-libdeploy-rollback-helperszsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Rollback (lib/deploy-rollback-helpers.zsh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-orchestration-libdispatchersteach-deploy-enhancedzsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Orchestration (lib/dispatchers/teach-deploy-enhanced.zsh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -14046,6 +14152,56 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#teach-deploy-v2-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        teach-deploy v2 Helpers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="teach-deploy v2 Helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-history-libdeploy-history-helperszsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy History (lib/deploy-history-helpers.zsh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-rollback-libdeploy-rollback-helperszsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Rollback (lib/deploy-rollback-helpers.zsh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-orchestration-libdispatchersteach-deploy-enhancedzsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Orchestration (lib/dispatchers/teach-deploy-enhanced.zsh)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -18588,6 +18744,122 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <div class="highlight"><pre><span></span><code><a id="__codelineno-384-1" name="__codelineno-384-1" href="#__codelineno-384-1"></a>_teach_plan_help
 </code></pre></div>
 <p><strong>Output:</strong> Usage, actions, options, shortcuts, examples, file locations, see-also references.</p>
+<hr />
+<h3 id="teach-deploy-v2-helpers">teach-deploy v2 Helpers<a class="headerlink" href="#teach-deploy-v2-helpers" title="Permanent link">&para;</a></h3>
+<p><strong>Source:</strong> <code>lib/deploy-history-helpers.zsh</code>, <code>lib/deploy-rollback-helpers.zsh</code>, <code>lib/dispatchers/teach-deploy-enhanced.zsh</code>
+<strong>Added:</strong> v6.4.0</p>
+<h4 id="deploy-history-libdeploy-history-helperszsh">Deploy History (<code>lib/deploy-history-helpers.zsh</code>)<a class="headerlink" href="#deploy-history-libdeploy-history-helperszsh" title="Permanent link">&para;</a></h4>
+<p>Append-only YAML deploy history tracking at <code>.flow/deploy-history.yml</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_deploy_history_append</code></td>
+<td><code>&lt;mode&gt; &lt;commit_hash&gt; &lt;commit_before&gt; &lt;branch_from&gt; &lt;branch_to&gt; &lt;file_count&gt; &lt;commit_message&gt; [pr_number] [tag] [duration]</code></td>
+<td>Append deploy entry (never rewrites file)</td>
+</tr>
+<tr>
+<td><code>_deploy_history_list</code></td>
+<td><code>[count]</code></td>
+<td>Display recent deploys as formatted table (default: 5)</td>
+</tr>
+<tr>
+<td><code>_deploy_history_get</code></td>
+<td><code>&lt;display_index&gt;</code></td>
+<td>Retrieve entry by display index (1=most recent). Sets <code>DEPLOY_HIST_*</code> variables</td>
+</tr>
+<tr>
+<td><code>_deploy_history_count</code></td>
+<td>(none)</td>
+<td>Print total number of recorded deploys</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Exported variables</strong> (from <code>_deploy_history_get</code>):</p>
+<p><code>DEPLOY_HIST_TIMESTAMP</code>, <code>DEPLOY_HIST_MODE</code>, <code>DEPLOY_HIST_COMMIT</code>, <code>DEPLOY_HIST_COMMIT_BEFORE</code>, <code>DEPLOY_HIST_BRANCH_FROM</code>, <code>DEPLOY_HIST_BRANCH_TO</code>, <code>DEPLOY_HIST_FILE_COUNT</code>, <code>DEPLOY_HIST_MESSAGE</code>, <code>DEPLOY_HIST_PR</code>, <code>DEPLOY_HIST_TAG</code>, <code>DEPLOY_HIST_USER</code>, <code>DEPLOY_HIST_DURATION</code></p>
+<h4 id="deploy-rollback-libdeploy-rollback-helperszsh">Deploy Rollback (<code>lib/deploy-rollback-helpers.zsh</code>)<a class="headerlink" href="#deploy-rollback-libdeploy-rollback-helperszsh" title="Permanent link">&para;</a></h4>
+<p>Forward rollback via <code>git revert</code> with history tracking.</p>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_deploy_rollback</code></td>
+<td><code>[N] [--ci]</code></td>
+<td>Main rollback with interactive picker. N=display index (1=most recent)</td>
+</tr>
+<tr>
+<td><code>_deploy_perform_rollback</code></td>
+<td><code>&lt;commit_hash&gt; &lt;branch&gt; &lt;original_message&gt; &lt;ci_mode&gt;</code></td>
+<td>Execute forward rollback. Detects merge commits (parent count &gt; 1) and uses <code>-m 1</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="deploy-orchestration-libdispatchersteach-deploy-enhancedzsh">Deploy Orchestration (<code>lib/dispatchers/teach-deploy-enhanced.zsh</code>)<a class="headerlink" href="#deploy-orchestration-libdispatchersteach-deploy-enhancedzsh" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_deploy_preflight_checks</code></td>
+<td><code>&lt;ci_mode&gt;</code></td>
+<td>Validate git state, config, branches. Sets <code>DEPLOY_*</code> variables</td>
+</tr>
+<tr>
+<td><code>_deploy_direct_merge</code></td>
+<td><code>&lt;draft_branch&gt; &lt;prod_branch&gt; &lt;commit_message&gt; &lt;ci_mode&gt;</code></td>
+<td>Direct merge deploy (push draft, checkout prod, merge, push)</td>
+</tr>
+<tr>
+<td><code>_deploy_dry_run_report</code></td>
+<td>(reads <code>DEPLOY_*</code> globals)</td>
+<td>Preview deploy without side effects</td>
+</tr>
+<tr>
+<td><code>_deploy_update_status_file</code></td>
+<td>(reads <code>.STATUS</code> + history)</td>
+<td>Update <code>.STATUS</code> with <code>last_deploy</code>, <code>deploy_count</code>, <code>teaching_week</code></td>
+</tr>
+<tr>
+<td><code>_teach_deploy_enhanced</code></td>
+<td><code>[flags...]</code></td>
+<td>Main entry point. Parses flags, dispatches to deploy/rollback/history/dry-run</td>
+</tr>
+<tr>
+<td><code>_deploy_cleanup_globals</code></td>
+<td>(none)</td>
+<td>Unset <code>DEPLOY_COMMIT_BEFORE</code>, <code>DEPLOY_COMMIT_AFTER</code>, <code>DEPLOY_DURATION</code>, <code>DEPLOY_MODE</code></td>
+</tr>
+<tr>
+<td><code>_teach_deploy_enhanced_help</code></td>
+<td>(none)</td>
+<td>Print formatted help output</td>
+</tr>
+<tr>
+<td><code>_check_prerequisites_for_deploy</code></td>
+<td>(none)</td>
+<td>Verify <code>git</code> and optional <code>yq</code> are available</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Exported variables</strong> (from <code>_deploy_direct_merge</code> and <code>_deploy_perform_rollback</code>):</p>
+<p><code>DEPLOY_COMMIT_BEFORE</code>, <code>DEPLOY_COMMIT_AFTER</code>, <code>DEPLOY_DURATION</code>, <code>DEPLOY_MODE</code></p>
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>

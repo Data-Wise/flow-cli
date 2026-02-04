@@ -2517,6 +2517,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../tutorials/31-teach-deploy-v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy v2 (Direct, History, Rollback)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tutorials/19-teaching-git-integration/" class="md-nav__link">
         
   
@@ -3390,6 +3418,34 @@
     
   
     Prompts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/REFCARD-DEPLOY-V2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy v2
   
 
     
@@ -7668,11 +7724,12 @@
 <p>The flow-cli teaching workflow provides a complete solution for managing Quarto-based course websites:</p>
 <h3 id="key-capabilities">Key Capabilities<a class="headerlink" href="#key-capabilities" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Fast Deployment</strong> (&lt; 2 minutes)</li>
-<li>Branch-based draft/production workflow</li>
-<li>Preview changes before publishing</li>
+<li><strong>Fast Deployment</strong> (8-15 seconds with direct mode)</li>
+<li>Direct merge: <code>teach deploy -d</code> (8-15s, no PR)</li>
+<li>PR workflow: <code>teach deploy</code> (45-90s, review + checks)</li>
+<li>Deploy history tracking and safe rollback</li>
 <li>
-<p>Automated GitHub Pages deployment</p>
+<p>Preview with <code>--dry-run</code> before deploying</p>
 </li>
 <li>
 <p><strong>Health Monitoring</strong></p>
@@ -7737,8 +7794,10 @@
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Topic Name&quot;</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Topic Name&quot;</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Deploy to production</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>teach<span class="w"> </span>deploy
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Deploy to production (fast direct mode)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># Or via PR workflow</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>teach<span class="w"> </span>deploy
 </code></pre></div>
 <h3 id="semester-management">Semester Management<a class="headerlink" href="#semester-management" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Create weekly lesson plan</span>
@@ -7806,8 +7865,8 @@
 <li>Contribute to the project on <strong><a href="https://github.com/Data-Wise/flow-cli">GitHub</a></strong></li>
 </ol>
 <hr />
-<p><strong>Last Updated:</strong> 2026-01-31
-<strong>Version:</strong> v6.2.0</p>
+<p><strong>Last Updated:</strong> 2026-02-04
+<strong>Version:</strong> v6.4.0</p>
 
 
 
