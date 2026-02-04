@@ -32,244 +32,27 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 
 ---
 
-## 🎉 What's New
+## What's New
 
-### v6.1.0: Quarto Lint Validation 🔍 (Released 2026-02-01)
+### v6.4.1 (2026-02-04)
 
-**Catch Quarto mistakes before they reach production**
-
-✅ **Released and ready to use!**
-
-**4 Structural Lint Rules:**
-
-- 🔤 Bare code blocks → detects missing language tags
-- 📦 Unbalanced divs → catches unclosed `::: `
-- 💬 Invalid callouts → validates `.callout-*` types
-- 📋 Heading hierarchy → prevents level skips (h1 → h3)
-
-**Performance:**
-
-- ⚡ <0.1s for single file
-- ⚡ <1s for 5 files
-- ⚡ <10s for 100 files
-
-**Quality:**
-**Quick Start:**
+- **Deploy Step Progress** - `[1/5]..[5/5]` numbered steps during direct merge
+- **Deployment Summary Box** - Files changed, duration, commit hash, site URL
+- **Deploy v2** - Direct merge (8-15s), smart commits, history, rollback, dry-run, CI mode
+- **Teaching Style** - Consolidated `teaching_style:` config in `.flow/teach-config.yml`
+- **Help Compliance** - All 12 dispatchers standardized against conventions
+- **Chezmoi Safety** - Preview-before-add, ignore management, repo health, 9-check doctor
+- **Token Automation** - Isolated checks (`doctor --dot`), smart caching, 20x faster
+- **Content Analysis** - AI-powered concept graphs, slide optimization, prerequisite validation
 
 ```bash
-# Single file check
-teach validate --lint slides/week-01.qmd
-
-# Batch validation
-teach validate --lint lectures/*.qmd
-
-# Quick checks only (Phase 1 rules)
-teach validate --quick-checks
+teach deploy -d              # Direct deploy (8-15s)
+teach deploy --dry-run       # Preview before deploying
+teach deploy --history       # View past deploys
+teach deploy --rollback 1    # Undo last deploy
 ```
 
-**Documentation:**
-
-- 📖 [10-Minute Tutorial](https://data-wise.github.io/flow-cli/tutorials/27-lint-quickstart/)
-- 📋 [Quick Reference](https://data-wise.github.io/flow-cli/reference/REFCARD-LINT/)
-- 📚 [Complete Guide](https://data-wise.github.io/flow-cli/guides/LINT-GUIDE/)
-- 🔄 [Workflow Integration](https://data-wise.github.io/flow-cli/workflows/WORKFLOW-LINT/)
-
-[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0)
-
----
-
-### v6.0.0: Comprehensive Chezmoi Safety Features 🛡️ (Released - 2026-01-31)
-
-**Never Accidentally Track 196KB of .git Files Again**
-
-Real problem solved: Accidentally tracked 30 `.git` files (196KB) from LazyVim during chezmoi setup. v6.0.0 prevents this with intelligent safety features.
-
-- 🔍 **Preview-Before-Add** - See exactly what you're adding before committing
-  - File count, total size, large file warnings (>50KB)
-  - Git metadata detection (catches nested `.git` directories)
-  - Generated file detection (`.log`, `.sqlite`, `.db`, `.cache`)
-  - Smart auto-ignore suggestions
-
-- 📝 **Ignore Pattern Management** - Smart `.chezmoiignore` control
-  - `dot ignore add "*.log"` - Add patterns with deduplication
-  - `dot ignore list` - View all patterns with line numbers
-  - `dot ignore edit` - Open in $EDITOR
-  - Auto-initialization with sensible defaults
-
-- 📊 **Repository Health** - Proactive bloat detection
-  - `dot size` - Total repo size + top 10 largest files
-  - Health indicators: OK (<1MB), Warning (1-10MB), Critical (>10MB)
-  - File type distribution analysis
-  - Actionable cleanup suggestions
-
-- 🏥 **Enhanced Doctor** - 9 comprehensive chezmoi checks
-  - `flow doctor --dot` - Fast chezmoi-only health check
-  - Large file detection (>100KB threshold)
-  - Auto-ignore pattern coverage verification
-  - Cross-platform compatibility (BSD/GNU)
-
-**Commands:**
-
-```bash
-dot add ~/.config/nvim    # Preview files before adding
-dot ignore add "*.log"    # Smart ignore pattern management
-dot size                  # Repository health check
-flow doctor --dot         # Comprehensive chezmoi validation
-```
-
-**PR #316 (MERGED)** · 170+ tests · 1,950+ lines of documentation · 15+ Mermaid diagrams
-
----
-
-### v5.23.0: AI Prompt Management + GIF Quality (Released - 2026-01-29)
-
-**3-Tier Prompt Resolution for Teaching Workflows**
-
-- 📝 **teach prompt** - Manage AI teaching prompts with course overrides
-  - `teach prompt list` - View all prompts with tier indicators [C]/[U]/[P]
-  - `teach prompt edit <name>` - Create course-specific override
-  - Auto-resolve integration with Scholar plugin
-
-- 🎬 **Documentation GIF Quality** - Enhanced visual documentation
-  - Standardized 18px font across 21 GIFs
-  - Fixed 133 ZSH syntax errors
-  - 10.9% file size reduction (2.48MB → 2.21MB)
-  - VHS tape validation + style guide
-
-**107 tests · 67 files changed · +9,012 lines**
-
----
-
-### v5.18.0: Documentation Consolidation & API Coverage (Released - 2026-01-24)
-
-**Simplified Documentation with Comprehensive API Coverage** 📚
-
-- 📄 **Master Documents** - 7 comprehensive guides replace 66 files (95% reduction)
-- 🗺️ **Navigation** - Simplified from 71 → 9 entries (92% reduction)
-- 🔗 **Link Health** - Fixed 54 critical broken links across hub files
-- 📊 **API Documentation** - Improved from 2.7% → 13.8% coverage (+411% increase)
-- ✅ **Quality** - Zero stale docs, comprehensive health checks
-- 📦 **Archive** - 66 legacy files preserved with migration map
-
-**Master Documents:**
-
-- MASTER-API-REFERENCE.md (5,000+ lines)
-- MASTER-DISPATCHER-GUIDE.md (3,000+ lines)
-- MASTER-ARCHITECTURE.md (11+ Mermaid diagrams)
-- Plus: QUICK-REFERENCE, WORKFLOWS, TROUBLESHOOTING, 00-START-HERE
-
-[→ Documentation Hub](https://data-wise.github.io/flow-cli/)
-
----
-
-### v5.21.0: LaTeX Macro Configuration (Coming Soon)
-
-**Consistent AI-generated content with custom notation**
-
-- 📐 **teach macros** - Manage LaTeX macros for consistent notation
-  - Sync from QMD, LaTeX, or MathJax source files
-  - Export for Scholar AI integration
-  - Categories: operators, distributions, symbols, matrices
-- 🏥 **teach doctor** - Now includes macro health checks
-- 🎯 **Primary use case:** Ensure `teach exam` generates `\E{Y}` not `E[Y]`
-
-**Commands:**
-
-```bash
-teach macros list                # Show all macros
-teach macros sync                # Extract from source files
-teach macros export --format json  # Export for Scholar
-```
-
----
-
-### v5.17.0: Token Automation Phase 1 ✨ (Released - 2026-01-23)
-
-**Smart Token Management with 20x Performance Boost**
-
-- 🔑 **Isolated Checks** - `doctor --dot` checks only tokens (< 3s vs 60+ seconds)
-- 💾 **Smart Caching** - 5-minute TTL, 85% hit rate, 80% API call reduction
-- 🎯 **ADHD-Friendly Menu** - Visual category selection with time estimates
-- 🔊 **Verbosity Control** - quiet/normal/verbose modes for all use cases
-- ⚡ **Token-Only Fixes** - `doctor --fix-token` for isolated workflows
-- 🔗 **9-Dispatcher Integration** - g, dash, work, finish, doctor, and more
-
-**Commands:**
-
-```bash
-doctor --dot              # Quick token check (< 3s, cached)
-doctor --dot=github       # Check specific provider
-doctor --fix-token        # Interactive token fix menu
-doctor --dot --quiet      # CI/CD integration (minimal output)
-doctor --dot --verbose    # Debug with cache status
-```
-
-**PR #292 (MERGED)** · 54 tests (96.3% passing) · 2,150+ lines of documentation · 11 Mermaid diagrams
-
-### v5.16.0: Intelligent Content Analysis (2026-01-22)
-
-**AI-powered course content analysis with concept graphs and slide optimization:**
-
-- 🧠 **teach analyze** - Full concept graph system (Phases 0-5 complete)
-  - Concept extraction from frontmatter + prerequisite validation
-  - SHA-256 caching with parallel processing (flock-based)
-  - AI analysis: Bloom's taxonomy, cognitive load, teaching time estimates
-  - Slide optimization: break suggestions, key concepts, time estimates
-- ⚡ **Plugin Optimization** - Load guards prevent double-sourcing (3x startup reduction)
-- 🎯 **Cache Fixes** - Directory-mirroring structure prevents path collisions
-- ✅ **Test Improvements** - 30s timeouts prevent infinite hangs
-
-**Commands:**
-
-```bash
-teach analyze lectures/week-05.qmd    # Single file analysis
-teach analyze --batch lectures/       # Parallel batch processing
-teach analyze --slide-breaks           # Slide optimization
-teach validate --deep                  # Prerequisite validation
-```
-
-**393 tests (100% passing) · 7 new libraries (6,800+ lines) · 1,251-line user guide**
-
-### v4.7.0: Quarto Workflow Phase 2 (2026-01-20)
-
-**Advanced features for professional teaching workflows:**
-
-- 🎭 **Profile Management** - Multiple Quarto profiles (draft, print, slides) + R package auto-install
-- ⚡ **Parallel Rendering** - 3-10x speedup on multi-file operations (worker pools)
-- 🔍 **Custom Validators** - Extensible validation framework (citations, links, formatting)
-- 💾 **Advanced Caching** - Smart cache analysis and selective clearing (--lectures, --old, --unused)
-- 📊 **Performance Monitoring** - Trend tracking and visualization with ASCII graphs
-
-**270+ tests · 2,900+ lines of documentation · 3-10x performance improvement**
-
-### v4.6.0: Quarto Workflow Phase 1 (2026-01-20)
-
-**Professional Quarto teaching workflow with automation and safety:**
-
-- 🔍 **5-Layer Validation** - Automated validation via git hooks (YAML, syntax, render, chunks, images)
-- 💾 **teach validate** - Standalone validation with watch mode, conflict detection, and structural lint checks (--lint)
-- 🗄️ **teach cache** - Interactive Quarto freeze cache management with TUI
-- 🏥 **teach doctor** - Comprehensive health checks with interactive fix mode
-- 📊 **Enhanced Deploy** - Index management (ADD/UPDATE/REMOVE) + dependency tracking
-- 💾 **Retention Policies** - Daily/weekly/semester backup archival
-- 📈 **6-Section Status** - Deployment status, backup summary, and more
-
-**296 tests (99.3% passing) · 6,500+ lines of documentation · 85% time savings**
-
-### v5.14.0: Teaching Workflow v3.0 (2026-01-18)
-
-**Complete overhaul of teaching workflow with automated safety features:**
-
-- 🏥 **`teach doctor`** - Environment health check (dependencies, config, git, Scholar)
-- 💾 **Backup System** - Automated content backups with retention policies (never lose work!)
-- 📊 **Enhanced Status** - Deployment status + backup summary
-- 🔍 **Deploy Preview** - Review changes before creating PRs
-- 📚 **Scholar Templates** - Template selection + lesson plan auto-loading
-- 🎓 **Streamlined Init** - External configs, GitHub repo creation
-
-**73 tests (100% passing) · 53,000+ lines of documentation · Migration guide included**
-
-See [CHANGELOG.md](docs/CHANGELOG.md) for complete details.
+[Full Changelog](docs/CHANGELOG.md) | [All Releases](https://github.com/Data-Wise/flow-cli/releases)
 
 ---
 
