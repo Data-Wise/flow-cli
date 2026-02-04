@@ -48,19 +48,29 @@ teach deploy --direct
 Expected output:
 
 ```
-🚀 Direct Deploy to gh-pages
+  Pre-flight Checks
+─────────────────────────────────────────────────
+  [ok] Git repository
+  [ok] Config file found
+  [ok] On draft branch
+  [ok] Working tree clean
 
-Changes to deploy:
-  M lectures/week-05.qmd
-  M _quarto.yml
+  Smart commit: content: week-05 lecture
 
-Commit message: content: week-05 lecture
+  Direct merge: draft -> gh-pages
+  ✓ [1/5] Push draft to origin
+  ✓ [2/5] Switch to gh-pages
+  ✓ [3/5] Merge draft → gh-pages
+  ✓ [4/5] Push gh-pages to origin
+  ✓ [5/5] Switch back to draft
 
-[✓] All safety checks passed
-[✓] Pushed to gh-pages
-[✓] Deployment recorded
-
-🎉 Deploy complete in 12s
+╭─ Deployment Summary ─────────────────────────────────╮
+│  🚀 Mode:     Direct merge                            │
+│  📦 Files:    2 changed (+45 / -12)                   │
+│  ⏱  Duration: 12s                                     │
+│  🔀 Commit:   a3f8d92                                 │
+│  🌐 URL:      https://example.github.io/stat-101/    │
+╰──────────────────────────────────────────────────────╯
 ```
 
 Use `-d` as a shortcut for `--direct`.
@@ -335,4 +345,4 @@ teach dep -d -m "msg"     # Custom message
 
 ---
 
-*v6.4.0 - teach deploy v2 command*
+*v6.4.1 - teach deploy v2 command*

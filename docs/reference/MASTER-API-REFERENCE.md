@@ -6813,16 +6813,39 @@ Forward rollback via `git revert` with history tracking.
 |----------|-----------|---------|
 | `_deploy_preflight_checks` | `<ci_mode>` | Validate git state, config, branches. Sets `DEPLOY_*` variables |
 | `_deploy_direct_merge` | `<draft_branch> <prod_branch> <commit_message> <ci_mode>` | Direct merge deploy (push draft, checkout prod, merge, push) |
+| `_deploy_step` | `<step> <total> <label> <step_status>` | Print numbered step progress line (v6.4.1) |
+| `_deploy_summary_box` | `<mode> <file_count> <insertions> <deletions> <duration> <commit_hash> [url]` | Print deployment summary box (v6.4.1) |
 | `_deploy_dry_run_report` | (reads `DEPLOY_*` globals) | Preview deploy without side effects |
 | `_deploy_update_status_file` | (reads `.STATUS` + history) | Update `.STATUS` with `last_deploy`, `deploy_count`, `teaching_week` |
 | `_teach_deploy_enhanced` | `[flags...]` | Main entry point. Parses flags, dispatches to deploy/rollback/history/dry-run |
-| `_deploy_cleanup_globals` | (none) | Unset `DEPLOY_COMMIT_BEFORE`, `DEPLOY_COMMIT_AFTER`, `DEPLOY_DURATION`, `DEPLOY_MODE` |
+| `_deploy_cleanup_globals` | (none) | Unset all `DEPLOY_*` exported variables |
 | `_teach_deploy_enhanced_help` | (none) | Print formatted help output |
 | `_check_prerequisites_for_deploy` | (none) | Verify `git` and optional `yq` are available |
 
+**`_deploy_step`** (v6.4.1)
+
+```zsh
+_deploy_step <step> <total> <label> <step_status>
+# step_status: "done" (✓), "active" (⏳), "fail" (✗)
+
+_deploy_step 1 5 "Push draft to origin" done
+# Output: ✓ [1/5] Push draft to origin
+```
+
+**`_deploy_summary_box`** (v6.4.1)
+
+```zsh
+_deploy_summary_box <mode> <file_count> <insertions> <deletions> <duration> <commit_hash> [url]
+
+_deploy_summary_box "Direct merge" 3 45 12 11 "a1b2c3d4" "https://example.github.io/stat-545/"
+# Output: Unicode box with mode, files, duration, commit, URL
+```
+
+URL line is omitted when `$url` is empty or `"null"`.
+
 **Exported variables** (from `_deploy_direct_merge` and `_deploy_perform_rollback`):
 
-`DEPLOY_COMMIT_BEFORE`, `DEPLOY_COMMIT_AFTER`, `DEPLOY_DURATION`, `DEPLOY_MODE`
+`DEPLOY_COMMIT_BEFORE`, `DEPLOY_COMMIT_AFTER`, `DEPLOY_DURATION`, `DEPLOY_MODE`, `DEPLOY_FILE_COUNT`, `DEPLOY_INSERTIONS`, `DEPLOY_DELETIONS`, `DEPLOY_SHORT_HASH`
 
 ---
 
