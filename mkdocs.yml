@@ -157,6 +157,7 @@ nav:
           - Content Creation: guides/INTELLIGENT-CONTENT-ANALYSIS.md
           - Scholar Wrappers: guides/SCHOLAR-WRAPPERS-GUIDE.md
           - Deployment: guides/TEACH-DEPLOY-GUIDE.md
+          - Deploy v2 (Direct, History, Rollback): tutorials/31-teach-deploy-v2.md
           - Git Integration: tutorials/19-teaching-git-integration.md
           - Visual Workflow Guide: guides/TEACHING-WORKFLOW-VISUAL.md
       - Features:
@@ -184,6 +185,7 @@ nav:
               - LaTeX Macros: reference/REFCARD-MACROS.md
               - Lesson Plans: reference/REFCARD-TEACH-PLAN.md
               - Prompts: reference/REFCARD-PROMPTS.md
+              - Deploy v2: reference/REFCARD-DEPLOY-V2.md
               - Scholar Flags: reference/REFCARD-SCHOLAR-FLAGS.md
           - Troubleshooting: guides/TEACHING-TROUBLESHOOTING.md
           - Help System: guides/HELP-SYSTEM-GUIDE.md
