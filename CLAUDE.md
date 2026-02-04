@@ -283,7 +283,7 @@ v <cmd>       # Vibe coding mode (v on, v off, v status)
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `cc help`, `teach help`)
 
-### Template Management (v6.1.0) ✨
+### Template Management (v6.4.0) ✨
 
 **Project-local templates at `.flow/templates/`**
 
@@ -297,7 +297,7 @@ teach templates sync         # Update from plugin defaults
 teach init --with-templates  # Initialize with templates
 ```
 
-### LaTeX Macro Management (v6.1.0) ✨
+### LaTeX Macro Management (v6.4.0) ✨
 
 **Consistent notation for AI-generated content**
 
@@ -328,7 +328,7 @@ teach macros export --format json  # Export as JSON
 
 **Documentation:** `docs/reference/REFCARD-TEMPLATES.md`
 
-### Lesson Plan Management (v6.1.0) ✨
+### Lesson Plan Management (v6.4.0) ✨
 
 **CRUD management of lesson plan weeks**
 
@@ -351,7 +351,7 @@ teach plan delete 3 --force              # Remove week
 
 **Documentation:** `docs/reference/REFCARD-TEACH-PLAN.md`
 
-### Token Management (v6.1.0 Phase 1) ✨
+### Token Management (v6.4.0 Phase 1) ✨
 
 **Isolated Token Checks & Smart Caching**
 
@@ -609,11 +609,11 @@ teach exam "Topic"  # Generate exam via Scholar
 # Core test suites
 tests/test-pick-command.zsh         # Pick: 39 tests
 tests/test-cc-dispatcher.zsh        # CC: 37 tests
-tests/test-dot-v6.1.0-unit.zsh     # DOT: 112+ tests
+tests/test-dot-v6.4.0-unit.zsh     # DOT: 112+ tests
 tests/test-teach-dates-unit.zsh     # Teaching dates: 33 tests
 tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 
-# Teach plan tests (v6.1.0)
+# Teach plan tests (v6.4.0)
 tests/test-teach-plan.zsh           # Unit: 32 tests
 tests/test-teach-plan-security.zsh  # Security: 24 tests (YAML injection, edge cases)
 tests/e2e-teach-plan.zsh            # E2E: 15 tests (CRUD workflows)
@@ -755,7 +755,7 @@ export FLOW_DEBUG=1
 
 - **Smart Commit Messages** — Auto-categorized from file paths
   - `_generate_smart_commit_message()` in `lib/git-helpers.zsh`
-  - Categories: content (lectures, assignments), config (_quarto.yml), style (CSS), data, deploy
+  - Categories: content (lectures, assignments), config (\_quarto.yml), style (CSS), data, deploy
   - Overridable with `--message "text"`
 
 - **Deploy History Tracking** — Append-only `.flow/deploy-history.yml`
@@ -809,11 +809,11 @@ export FLOW_DEBUG=1
 
 ---
 
-### v6.3.0 - Teaching Style Consolidation + Help Compliance (2026-02-03)
+### v6.4.0 - Teaching Style Consolidation + Help Compliance (2026-02-03)
 
 **Released:** 2026-02-03
 **PR #334:** https://github.com/Data-Wise/flow-cli/pull/334 (MERGED)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.3.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
 **Changes:** Teaching style consolidation, help compliance system, docs overhaul, test fixes
 
 **Major Features:**
@@ -841,11 +841,11 @@ export FLOW_DEBUG=1
 
 ---
 
-### v6.2.1 - Help Compliance System (2026-02-03)
+### v6.4.0 - Help Compliance System (2026-02-03)
 
 **Released:** 2026-02-03
 **PR #332:** https://github.com/Data-Wise/flow-cli/pull/332 (MERGED)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.1
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
 **Changes:** Help compliance system, dispatcher standardization, infrastructure fixes
 
 **Major Features:**
@@ -872,11 +872,11 @@ export FLOW_DEBUG=1
 
 ---
 
-### v6.2.0 - Docs Overhaul + Website Reorganization (2026-02-02)
+### v6.4.0 - Docs Overhaul + Website Reorganization (2026-02-02)
 
 **Released:** 2026-02-02
 **PR #326:** https://github.com/Data-Wise/flow-cli/pull/326 (MERGED)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
 **Changes:** Documentation overhaul, no code changes
 
 **Major Features:**
@@ -908,16 +908,16 @@ export FLOW_DEBUG=1
 - Triage: deleted 7 orphaned files, expanded exclude globs, fixed broken links
 - `pymdownx.emoji` extension for grid card emoji rendering
 - `attr_list` spacing fix (`:emoji:{ .lg .middle }` — no space)
-- Version badges and What's New updated to v6.2.0
+- Version badges and What's New updated to v6.4.0
 - Resolved all 28 MkDocs build warnings (0 remaining)
 
 ---
 
-### v6.1.0 - Comprehensive Chezmoi Safety Features (2026-01-31)
+### v6.4.0 - Comprehensive Chezmoi Safety Features (2026-01-31)
 
 **Released:** 2026-01-31
 **PR #316:** https://github.com/Data-Wise/flow-cli/pull/316 (MERGED)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
 **Changes:** Major safety enhancements to dot dispatcher
 
 **Major Features:**
@@ -979,12 +979,12 @@ export FLOW_DEBUG=1
 
 ---
 
-### v6.1.0 - AI Prompt Management + GIF Quality Enhancement (2026-01-29)
+### v6.4.0 - AI Prompt Management + GIF Quality Enhancement (2026-01-29)
 
 **Released:** 2026-01-29
 **PR #313:** https://github.com/Data-Wise/flow-cli/pull/313 (MERGED - AI Prompts)
 **PR #315:** https://github.com/Data-Wise/flow-cli/pull/315 (MERGED - GIF Quality)
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
 **Changes:** 67 files changed, +9,012 / -44 lines
 
 **Major Features:**
@@ -1022,13 +1022,13 @@ export FLOW_DEBUG=1
   - Tutorial 28: teach-prompt.md (step-by-step guide)
   - REFCARD-PROMPTS.md (quick reference)
   - VHS-TAPE-STYLE-GUIDE.md (complete standards)
-  - Demo course v6.1.0 with prompts + lesson plans + macros
+  - Demo course v6.4.0 with prompts + lesson plans + macros
 
 **Combined Stats:** 67 files, +9,012 / -44 lines
 
 ---
 
-### v6.1.0 - Template Management & Lesson Plan Migration (2026-01-28)
+### v6.4.0 - Template Management & Lesson Plan Migration (2026-01-28)
 
 **Released:** 2026-01-28
 **Changes:** 88 commits, 51 files changed, +12,341 / -1,977 lines
@@ -1071,7 +1071,7 @@ export FLOW_DEBUG=1
 
 ---
 
-### v6.1.0 - Token Automation Phase 1 (2026-01-23)
+### v6.4.0 - Token Automation Phase 1 (2026-01-23)
 
 **Released:** 2026-01-23
 **PR #292:** https://github.com/Data-Wise/flow-cli/pull/292 (MERGED)
@@ -1095,7 +1095,7 @@ export FLOW_DEBUG=1
 
 ---
 
-### v6.1.0 - Intelligent Content Analysis (2026-01-22)
+### v6.4.0 - Intelligent Content Analysis (2026-01-22)
 
 **Released:** 2026-01-22
 **PR #291:** https://github.com/Data-Wise/flow-cli/pull/291
@@ -1144,10 +1144,10 @@ git diff
 
 # Commit and tag
 git add -A && git commit -m "chore: bump version to 5.23.0"
-git tag -a v6.2.0 -m "v6.2.0"
+git tag -a v6.4.0 -m "v6.4.0"
 
 # Push (requires PR for protected branch)
-git push origin main && git push origin v6.2.0
+git push origin main && git push origin v6.4.0
 ```
 
 **Files updated by release script:**

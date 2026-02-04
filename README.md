@@ -72,7 +72,7 @@ teach validate --quick-checks
 - 📚 [Complete Guide](https://data-wise.github.io/flow-cli/guides/LINT-GUIDE/)
 - 🔄 [Workflow Integration](https://data-wise.github.io/flow-cli/workflows/WORKFLOW-LINT/)
 
-[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0)
+[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0)
 
 ---
 
