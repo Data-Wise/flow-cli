@@ -49,10 +49,10 @@ All three formats work: `--help`, `-h`, `help`
 
 ```bash
 # Open the quick-start tutorial
-cat docs/tutorials/TEACHING-QUICK-START.md
+cat docs/tutorials/14-teach-dispatcher.md
 
 # Or visit on the website
-open https://Data-Wise.github.io/flow-cli/tutorials/TEACHING-QUICK-START/
+open https://Data-Wise.github.io/flow-cli/tutorials/14-teach-dispatcher/
 ```
 
 15-minute walkthrough from setup to deployment.
@@ -418,7 +418,7 @@ Each example should include:
 
 ## Quick-Start Tutorial
 
-The **15-minute tutorial** (`docs/tutorials/TEACHING-QUICK-START.md`) provides:
+The **15-minute tutorial** (`docs/tutorials/14-teach-dispatcher.md`) provides:
 
 ### Step-by-Step Walkthrough
 
@@ -610,8 +610,7 @@ typeset -gA FLOW_COLORS=(
 
 ### Tutorials
 
-- **[Teaching Quick Start (15 min)](../tutorials/TEACHING-QUICK-START.md)** - Beginner walkthrough
-- **[Teach Dispatcher Tutorial](../tutorials/14-teach-dispatcher.md)** - Detailed tutorial
+- **[Teach Dispatcher Tutorial](../tutorials/14-teach-dispatcher.md)** - Beginner walkthrough & detailed tutorial
 
 ---
 

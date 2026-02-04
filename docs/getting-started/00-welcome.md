@@ -93,7 +93,7 @@
 ### Phase 2: Customization & Extension (30-60 min)
 
 1. [Contributing Guide](../contributing/CONTRIBUTING.md) - How to contribute
-2. [Testing Guide](../testing/TESTING.md) - 150+ ZSH tests
+2. [Testing Guide](../guides/TESTING.md) - 150+ ZSH tests
 3. [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) - Project overview
 
 **Time investment:** 1-2 hours
@@ -133,7 +133,7 @@
 
 1. Read: [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) (10 min)
 2. Browse: [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md) (15 min)
-3. Review: [Testing Guide](../testing/TESTING.md) (15 min)
+3. Review: [Testing Guide](../guides/TESTING.md) (15 min)
 4. Run: `flow doctor` to check your setup
 
 **Total time:** 45 minutes
@@ -141,7 +141,7 @@
 ### "I Want to Contribute"
 
 1. Read: [Contributing Guide](../contributing/CONTRIBUTING.md) (15 min)
-2. Review: [Testing Guide](../testing/TESTING.md) (15 min)
+2. Review: [Testing Guide](../guides/TESTING.md) (15 min)
 3. Run: `zsh tests/test-cc-dispatcher.zsh` (5 min)
 4. Build: Pick a [good first issue](https://github.com/Data-Wise/flow-cli/labels/good%20first%20issue)
 

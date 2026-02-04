@@ -98,7 +98,7 @@ description: Find the right starting point for your goals
 **Perfect if you:** Want to know *why* Flow CLI works this way
 
 [→ Design Philosophy](../PHILOSOPHY.md){ .md-button }
-[→ ADHD-Optimized Design](../conventions/adhd/){ .md-button }
+[→ ADHD-Optimized Design](../internal/conventions/adhd/){ .md-button }
 
 ---
 

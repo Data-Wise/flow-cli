@@ -846,7 +846,7 @@ work <Tab>
 3. **Check documentation:**
    - [Quick Reference](QUICK-REFERENCE.md)
    - [Workflows](WORKFLOWS.md)
-   - [00-START-HERE](00-START-HERE.md)
+   - [Start Here](../guides/00-START-HERE.md)
 
 ---
 
