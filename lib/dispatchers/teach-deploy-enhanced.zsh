@@ -1083,122 +1083,70 @@ _deploy_cleanup_globals() {
 
 # Help for enhanced teach deploy
 _teach_deploy_enhanced_help() {
-    echo "teach deploy - Deploy teaching content to production"
-    echo ""
-    echo "Usage:"
-    echo "  teach deploy [files...] [options]"
-    echo ""
-    echo "Arguments:"
-    echo "  files            Files or directories to deploy (partial deploy mode)"
-    echo ""
-    echo "Options:"
-    echo "  --direct, -d        Direct merge (no PR, fast path: 8-15s)"
-    echo "  --message, -m MSG   Custom commit message for deploy"
-    echo "  --ci                Force non-interactive (CI) mode"
-    echo "  --auto-commit       Auto-commit uncommitted changes"
-    echo "  --auto-tag          Auto-tag deployment with timestamp"
-    echo "  --skip-index        Skip index management prompts"
-    echo "  --check-prereqs     Run prerequisite validation before deploy (blocks on errors)"
-    echo "  --dry-run, --preview Preview what would happen without making changes"
-    echo "  --rollback [N]      Rollback deployment N (1=most recent, interactive if omitted)"
-    echo "  --history [N]       Show last N deployments (default: 10)"
-    echo "  --direct-push       Alias for --direct (backward compatible)"
-    echo "  --help, -h          Show this help message"
-    echo ""
-    echo "Deployment Modes:"
-    echo "  Full Site (default):"
-    echo "    teach deploy                    # Deploy all changes via PR"
-    echo ""
-    echo "  Direct Merge (fast path):"
-    echo "    teach deploy -d                 # Direct merge, no PR (8-15s)"
-    echo "    teach deploy --direct           # Same as -d"
-    echo "    teach deploy -d -m \"Week 5\"    # Direct merge with message"
-    echo "    teach deploy -d --auto-tag      # Direct merge + tag"
-    echo ""
-    echo "  Partial Deploy:"
-    echo "    teach deploy lectures/week-05.qmd    # Deploy single file"
-    echo "    teach deploy lectures/               # Deploy entire directory"
-    echo "    teach deploy file1.qmd file2.qmd     # Deploy multiple files"
-    echo ""
-    echo "  CI Mode:"
-    echo "    teach deploy --ci                    # Non-interactive (auto-yes)"
-    echo "    teach deploy --ci -d                 # CI + direct merge"
-    echo "    echo | teach deploy                  # Auto-detected (no TTY)"
-    echo ""
-    echo "  Dry Run (preview):"
-    echo "    teach deploy --dry-run               # Preview full site deploy"
-    echo "    teach deploy --preview -d            # Preview direct merge"
-    echo "    teach deploy --dry-run lectures/     # Preview partial deploy"
-    echo ""
-    echo "Features:"
-    echo "  • Direct merge mode (--direct): merge draft->prod without PR (8-15s)"
-    echo "  • PR workflow (default): create PR for review (45-90s)"
-    echo "  • Dependency tracking (sourced files, cross-references)"
-    echo "  • Index management (ADD/UPDATE/REMOVE links)"
-    echo "  • Cross-reference validation"
-    echo "  • Auto-commit with custom message"
-    echo "  • Auto-tag with timestamp"
-    echo "  • CI mode for automated pipelines"
-    echo "  • Smart commit messages (auto-generated from changes)"
-    echo "  • Dry-run mode (--dry-run/--preview): preview without changes"
-    echo "  • Rollback (--rollback): forward rollback via git revert"
-    echo "  • Deploy history (--history): track all deployments"
-    echo "  • .STATUS file auto-update after deploy"
-    echo ""
-    echo "Direct Merge vs PR:"
-    echo "  --direct    Merge draft->prod locally, push (8-15s, solo instructor)"
-    echo "  (default)   Create GitHub PR for review (45-90s, team workflow)"
-    echo ""
-    echo "CI Mode Behavior:"
-    echo "  When --ci is passed (or no TTY detected):"
-    echo "    • Branch switch       → fail (must be on correct branch)"
-    echo "    • Push confirmation   → auto-yes"
-    echo "    • PR creation         → auto-yes"
-    echo "    • Include deps        → auto-yes"
-    echo "    • Commit message      → auto-generate"
-    echo "    • Broken references   → fail"
-    echo "    • Production conflict → fail"
-    echo ""
-    echo "Examples:"
-    echo "  # Quick deploy (direct merge, no PR)"
-    echo "  teach deploy -d"
-    echo ""
-    echo "  # Direct deploy with custom message"
-    echo "  teach deploy -d -m \"Add Week 5 lecture on ANOVA\""
-    echo ""
-    echo "  # Direct deploy with auto-tag"
-    echo "  teach deploy --direct --auto-tag"
-    echo ""
-    echo "  # Partial deploy with auto features"
-    echo "  teach deploy lectures/week-05.qmd --auto-commit --auto-tag"
-    echo ""
-    echo "  # Deploy directory with index updates"
-    echo "  teach deploy lectures/"
-    echo ""
-    echo "  # Full site deploy via PR (traditional workflow)"
-    echo "  teach deploy"
-    echo ""
-    echo "  # Deploy with prerequisite validation"
-    echo "  teach deploy --check-prereqs"
-    echo ""
-    echo "  # CI pipeline deploy (direct, no interaction)"
-    echo "  teach deploy --ci -d --auto-commit --auto-tag"
-    echo ""
-    echo "  # Dry run (preview what would happen)"
-    echo "  teach deploy --dry-run"
-    echo "  teach deploy --preview -d"
-    echo ""
-    echo "  # Dry run partial deploy"
-    echo "  teach deploy --dry-run lectures/week-05.qmd"
-    echo ""
-    echo "  # Rollback"
-    echo "  teach deploy --rollback           # Interactive picker"
-    echo "  teach deploy --rollback 1         # Rollback most recent"
-    echo "  teach deploy --rollback 2 --ci    # Rollback 2nd most recent (CI)"
-    echo ""
-    echo "  # History"
-    echo "  teach deploy --history            # Show last 10 deploys"
-    echo "  teach deploy --history 20         # Show last 20 deploys"
+    # Color fallbacks for standalone use
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'
+        _C_DIM='\033[2m'
+        _C_NC='\033[0m'
+        _C_GREEN='\033[32m'
+        _C_YELLOW='\033[33m'
+        _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'
+        _C_CYAN='\033[36m'
+    fi
+
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach deploy - Course Site Deployment        │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_BOLD}Usage:${_C_NC} teach deploy [files...] [options]
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}teach deploy -d${_C_NC}              Direct merge (fast, no PR)
+  ${_C_CYAN}teach deploy${_C_NC}                 Full site deploy via PR
+  ${_C_CYAN}teach deploy -d -m \"msg\"${_C_NC}   Direct merge with message
+  ${_C_CYAN}teach deploy --dry-run${_C_NC}       Preview without changes
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach deploy -d                          ${_C_DIM}# Quick deploy (8-15s)${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach deploy -d -m \"Week 5 ANOVA\"       ${_C_DIM}# Direct + message${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach deploy lectures/week-05.qmd        ${_C_DIM}# Partial deploy${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach deploy --preview -d                ${_C_DIM}# Dry run direct${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach deploy --rollback 1                ${_C_DIM}# Undo last deploy${_C_NC}
+
+${_C_BLUE}📋 DEPLOY MODES${_C_NC}:
+  ${_C_CYAN}teach deploy${_C_NC}                 Full site via PR (team review)
+  ${_C_CYAN}teach deploy -d${_C_NC}              Direct merge, no PR (solo)
+  ${_C_CYAN}teach deploy <files>${_C_NC}         Partial deploy (specific files)
+  ${_C_CYAN}teach deploy --ci${_C_NC}            Non-interactive (CI pipelines)
+  ${_C_CYAN}teach deploy --ci -d${_C_NC}         CI + direct merge
+
+${_C_BLUE}📋 OPTIONS${_C_NC}:
+  ${_C_CYAN}--direct, -d${_C_NC}          Direct merge (draft -> prod, 8-15s)
+  ${_C_CYAN}--message, -m MSG${_C_NC}     Custom commit message
+  ${_C_CYAN}--dry-run, --preview${_C_NC}  Preview without making changes
+  ${_C_CYAN}--ci${_C_NC}                  Force non-interactive mode
+  ${_C_CYAN}--auto-commit${_C_NC}         Auto-commit uncommitted changes
+  ${_C_CYAN}--auto-tag${_C_NC}            Auto-tag with timestamp
+  ${_C_CYAN}--skip-index${_C_NC}          Skip index management prompts
+  ${_C_CYAN}--check-prereqs${_C_NC}       Validate prerequisites first
+
+${_C_BLUE}📋 HISTORY & ROLLBACK${_C_NC}:
+  ${_C_CYAN}teach deploy --history${_C_NC}       Show last 10 deployments
+  ${_C_CYAN}teach deploy --history 20${_C_NC}    Show last 20 deployments
+  ${_C_CYAN}teach deploy --rollback${_C_NC}      Interactive rollback picker
+  ${_C_CYAN}teach deploy --rollback 1${_C_NC}    Rollback most recent deploy
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Direct merge (-d) is best for solo instructors.
+  ${_C_DIM}PR mode (default) is better for team-reviewed courses.${_C_NC}
+  ${_C_DIM}Smart commit messages auto-generate from changed files.${_C_NC}
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}teach analyze${_C_NC} - Validate content before deploy
+  ${_C_CYAN}teach status${_C_NC} - Check course status
+  ${_C_CYAN}teach config${_C_NC} - View deploy configuration
+"
 }
 
 # ============================================================================
