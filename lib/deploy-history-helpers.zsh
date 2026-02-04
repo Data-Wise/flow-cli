@@ -45,22 +45,26 @@ _deploy_history_append() {
         echo "deploys:" > "$history_file"
     fi
 
-    # Escape single quotes inside commit message so YAML stays valid
+    # Escape single quotes in all string fields so YAML stays valid
     local safe_message="${commit_message//\'/\'\'}"
+    local safe_mode="${mode//\'/\'\'}"
+    local safe_branch_from="${branch_from//\'/\'\'}"
+    local safe_branch_to="${branch_to//\'/\'\'}"
+    local safe_user="${user//\'/\'\'}"
 
     # Append entry using heredoc — no yq rewrite
     cat >> "$history_file" << EOF
   - timestamp: '${timestamp}'
-    mode: '${mode}'
+    mode: '${safe_mode}'
     commit_hash: '${commit_hash:0:8}'
     commit_before: '${commit_before:0:8}'
-    branch_from: '${branch_from}'
-    branch_to: '${branch_to}'
+    branch_from: '${safe_branch_from}'
+    branch_to: '${safe_branch_to}'
     file_count: ${file_count}
     commit_message: '${safe_message}'
     pr_number: ${pr_number}
     tag: ${tag}
-    user: '${user}'
+    user: '${safe_user}'
     duration_seconds: ${duration}
 EOF
 

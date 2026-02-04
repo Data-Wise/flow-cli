@@ -126,13 +126,14 @@ _deploy_perform_rollback() {
     echo "${FLOW_COLORS[info]}  Rolling back...${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
 
-    # Save state for history
-    local commit_before=$(git rev-parse HEAD 2>/dev/null)
+    # Save state for history — capture the TARGET branch HEAD (not current branch)
+    local commit_before=$(git rev-parse "$target_branch" 2>/dev/null)
 
     # Switch to target branch (usually production)
     if [[ "$current_branch" != "$target_branch" ]]; then
-        git checkout "$target_branch" 2>/dev/null || {
-            _teach_error "Failed to switch to $target_branch"
+        local checkout_err
+        checkout_err=$(git checkout "$target_branch" 2>&1) || {
+            _teach_error "Failed to switch to $target_branch" "$checkout_err"
             return 1
         }
         echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Switched to $target_branch"
@@ -151,9 +152,21 @@ _deploy_perform_rollback() {
     fi
 
     # Perform git revert (forward rollback)
+    # Detect merge commits (>1 parent) — git revert requires -m 1 for merges
     local revert_message="revert: rollback deploy ($original_message)"
-    if ! git revert "$full_hash" --no-edit 2>/dev/null; then
-        _teach_error "Revert failed — conflicts detected"
+    local parent_count
+    parent_count=$(git cat-file -p "$full_hash" 2>/dev/null | grep -c "^parent ")
+
+    local revert_err
+    if [[ $parent_count -gt 1 ]]; then
+        # Merge commit: specify parent 1 (the branch merged INTO)
+        revert_err=$(git revert "$full_hash" -m 1 --no-edit 2>&1)
+    else
+        revert_err=$(git revert "$full_hash" --no-edit 2>&1)
+    fi
+
+    if [[ $? -ne 0 ]]; then
+        _teach_error "Revert failed" "$revert_err"
         echo ""
         echo "${FLOW_COLORS[dim]}  Tip: Resolve conflicts manually, then commit${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[dim]}  Or abort with: git revert --abort${FLOW_COLORS[reset]}"
@@ -162,12 +175,14 @@ _deploy_perform_rollback() {
     fi
 
     # Amend the revert commit message to be more descriptive
-    git commit --amend -m "$revert_message" --no-edit 2>/dev/null
+    git commit --amend -m "$revert_message" 2>/dev/null
     echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Reverted commit $commit_hash"
 
     # Push to origin
-    if ! git push origin "$target_branch" 2>/dev/null; then
-        _teach_error "Failed to push revert to origin"
+    local push_err
+    push_err=$(git push origin "$target_branch" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        _teach_error "Failed to push revert to origin" "$push_err"
         git checkout "$current_branch" 2>/dev/null
         return 1
     fi

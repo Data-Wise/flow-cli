@@ -123,38 +123,51 @@ _deploy_direct_merge() {
     echo "${FLOW_COLORS[info]}  Direct merge: $draft_branch -> $prod_branch${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
 
-    # Save current commit for rollback reference
-    local commit_before=$(git rev-parse HEAD 2>/dev/null)
+    # Guard: working tree must be clean before branch switch
+    if ! _git_is_clean; then
+        _teach_error "Working tree must be clean for direct merge" \
+            "Commit or stash changes first"
+        return 1
+    fi
+
+    # Save the PRODUCTION branch HEAD for rollback reference (not current branch)
+    local commit_before=$(git rev-parse "$prod_branch" 2>/dev/null)
 
     # Ensure draft is pushed to remote first
-    if ! git push origin "$draft_branch" 2>/dev/null; then
+    local push_err
+    push_err=$(git push origin "$draft_branch" 2>&1)
+    if [[ $? -ne 0 ]]; then
         # If push fails, might be nothing to push (ok) or real error
         if ! _git_is_synced 2>/dev/null; then
-            _teach_error "Failed to push $draft_branch to origin"
+            _teach_error "Failed to push $draft_branch to origin" "$push_err"
             return 1
         fi
     fi
     echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} $draft_branch pushed to origin"
 
     # Switch to production branch
-    git checkout "$prod_branch" 2>/dev/null || {
-        _teach_error "Failed to switch to $prod_branch"
+    local checkout_err
+    checkout_err=$(git checkout "$prod_branch" 2>&1) || {
+        _teach_error "Failed to switch to $prod_branch" "$checkout_err"
         return 1
     }
 
     # Pull latest production
-    git pull origin "$prod_branch" --ff-only 2>/dev/null || {
+    local pull_err
+    pull_err=$(git pull origin "$prod_branch" --ff-only 2>&1) || {
         # If ff-only fails, try regular pull
-        git pull origin "$prod_branch" 2>/dev/null || {
-            _teach_error "Failed to pull latest $prod_branch"
+        pull_err=$(git pull origin "$prod_branch" 2>&1) || {
+            _teach_error "Failed to pull latest $prod_branch" "$pull_err"
             git checkout "$draft_branch" 2>/dev/null
             return 1
         }
     }
 
     # Merge draft into production
-    if ! git merge "$draft_branch" --no-edit -m "$commit_message" 2>/dev/null; then
-        _teach_error "Merge conflict! Aborting merge."
+    local merge_err
+    merge_err=$(git merge "$draft_branch" --no-edit -m "$commit_message" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        _teach_error "Merge conflict! Aborting merge." "$merge_err"
         git merge --abort 2>/dev/null
         git checkout "$draft_branch" 2>/dev/null
         echo ""
@@ -164,8 +177,10 @@ _deploy_direct_merge() {
     echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Merged successfully"
 
     # Push production to origin
-    if ! git push origin "$prod_branch" 2>/dev/null; then
-        _teach_error "Failed to push $prod_branch to origin"
+    local push_prod_err
+    push_prod_err=$(git push origin "$prod_branch" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        _teach_error "Failed to push $prod_branch to origin" "$push_prod_err"
         git checkout "$draft_branch" 2>/dev/null
         return 1
     fi
@@ -552,8 +567,8 @@ _teach_deploy_enhanced() {
             fi
         fi
 
-        # Dry-run: show what would happen and exit
-        if [[ "$dry_run" == "true" && "$partial_deploy" != "true" ]]; then
+        # Dry-run: show what would happen and exit (partial deploy)
+        if [[ "$dry_run" == "true" ]]; then
             echo ""
             echo "${FLOW_COLORS[warn]}  DRY RUN — No changes will be made${FLOW_COLORS[reset]}"
             echo ""
@@ -562,7 +577,7 @@ _teach_deploy_enhanced() {
                 echo "    $file"
             done
             echo ""
-            echo "  Run without --dry-run to execute"
+            echo "${FLOW_COLORS[dim]}  Run without --dry-run to execute${FLOW_COLORS[reset]}"
             return 0
         fi
 
@@ -767,6 +782,7 @@ _teach_deploy_enhanced() {
             echo "  Site: $site_url"
         fi
 
+        _deploy_cleanup_globals
         return 0
     fi
 
@@ -964,6 +980,19 @@ _teach_deploy_enhanced() {
 
     # Update .STATUS file
     _deploy_update_status_file 2>/dev/null
+
+    _deploy_cleanup_globals
+}
+
+# Clean up DEPLOY_* global variables to avoid polluting the shell environment
+_deploy_cleanup_globals() {
+    unset DEPLOY_DRAFT_BRANCH DEPLOY_PROD_BRANCH DEPLOY_COURSE_NAME
+    unset DEPLOY_AUTO_PR DEPLOY_REQUIRE_CLEAN
+    unset DEPLOY_COMMIT_BEFORE DEPLOY_COMMIT_AFTER DEPLOY_DURATION DEPLOY_MODE
+    unset DEPLOY_HIST_TIMESTAMP DEPLOY_HIST_MODE DEPLOY_HIST_COMMIT
+    unset DEPLOY_HIST_COMMIT_BEFORE DEPLOY_HIST_BRANCH_FROM DEPLOY_HIST_BRANCH_TO
+    unset DEPLOY_HIST_FILE_COUNT DEPLOY_HIST_MESSAGE DEPLOY_HIST_PR
+    unset DEPLOY_HIST_TAG DEPLOY_HIST_USER DEPLOY_HIST_DURATION
 }
 
 # Help for enhanced teach deploy
