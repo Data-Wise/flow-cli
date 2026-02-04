@@ -105,6 +105,53 @@ _deploy_preflight_checks() {
 }
 
 # ============================================================================
+# DEPLOY PROGRESS HELPERS
+# ============================================================================
+
+# Step progress indicator for deploy operations
+# Usage: _deploy_step <step> <total> <label> <status>
+# Status: done (green ✓), active (blue ⏳), fail (red ✗)
+_deploy_step() {
+    local step="$1" total="$2" label="$3" step_status="${4:-pending}"
+    case "$step_status" in
+        done)    printf "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
+        active)  printf "  ${FLOW_COLORS[info]}⏳${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
+        fail)    printf "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
+    esac
+}
+
+# Deployment summary box shown after successful deploy
+# Usage: _deploy_summary_box <mode> <file_count> <insertions> <deletions> <duration> <commit_hash> <url>
+_deploy_summary_box() {
+    local mode="$1"
+    local file_count="$2"
+    local insertions="$3"
+    local deletions="$4"
+    local duration="$5"
+    local commit_hash="$6"
+    local url="$7"
+    local width=54
+
+    echo ""
+    printf "╭─ Deployment Summary "
+    printf '─%.0s' {1..33}
+    printf "╮\n"
+
+    printf "│  🚀 %-8s %-42s│\n" "Mode:" "$mode"
+    printf "│  📦 %-8s %-42s│\n" "Files:" "${file_count} changed (+${insertions} / -${deletions})"
+    printf "│  ⏱  %-8s %-42s│\n" "Duration:" "${duration}s"
+    printf "│  🔀 %-8s %-42s│\n" "Commit:" "${commit_hash}"
+
+    if [[ -n "$url" && "$url" != "null" ]]; then
+        printf "│  🌐 %-8s %-42s│\n" "URL:" "$url"
+    fi
+
+    printf "╰"
+    printf '─%.0s' {1..${width}}
+    printf "╯\n"
+}
+
+# ============================================================================
 # DIRECT MERGE MODE
 # ============================================================================
 
@@ -118,6 +165,8 @@ _deploy_direct_merge() {
     local commit_message="$3"
     local ci_mode="${4:-false}"
     local start_time=$SECONDS
+
+    local total_steps=5
 
     echo ""
     echo "${FLOW_COLORS[info]}  Direct merge: $draft_branch -> $prod_branch${FLOW_COLORS[reset]}"
@@ -143,14 +192,16 @@ _deploy_direct_merge() {
             return 1
         fi
     fi
-    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} $draft_branch pushed to origin"
+    _deploy_step 1 $total_steps "Push $draft_branch to origin" done
 
     # Switch to production branch
     local checkout_err
     checkout_err=$(git checkout "$prod_branch" 2>&1) || {
+        _deploy_step 2 $total_steps "Switch to $prod_branch" fail
         _teach_error "Failed to switch to $prod_branch" "$checkout_err"
         return 1
     }
+    _deploy_step 2 $total_steps "Switch to $prod_branch" done
 
     # Pull latest production
     local pull_err
@@ -174,7 +225,7 @@ _deploy_direct_merge() {
         echo "${FLOW_COLORS[dim]}  Tip: Resolve conflicts manually or use PR mode${FLOW_COLORS[reset]}"
         return 1
     fi
-    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Merged successfully"
+    _deploy_step 3 $total_steps "Merge $draft_branch into $prod_branch" done
 
     # Push production to origin
     local push_prod_err
@@ -184,26 +235,37 @@ _deploy_direct_merge() {
         git checkout "$draft_branch" 2>/dev/null
         return 1
     fi
-    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Pushed to origin/$prod_branch"
+    _deploy_step 4 $total_steps "Push to origin/$prod_branch" done
 
     # Get the new commit hash
     local commit_after=$(git rev-parse HEAD 2>/dev/null)
 
     # Switch back to draft branch
     git checkout "$draft_branch" 2>/dev/null || {
+        _deploy_step 5 $total_steps "Switch back to $draft_branch" fail
         _teach_error "Warning: Failed to switch back to $draft_branch"
     }
+    _deploy_step 5 $total_steps "Switch back to $draft_branch" done
 
     local elapsed=$(( SECONDS - start_time ))
 
-    echo ""
-    echo "${FLOW_COLORS[success]}  Done in ${elapsed}s${FLOW_COLORS[reset]}"
+    # Collect diff stats for summary
+    local _diff_stat _insertions _deletions _file_ct
+    _diff_stat=$(git diff --stat "$commit_before".."$commit_after" 2>/dev/null | tail -1)
+    _file_ct=$(echo "$_diff_stat" | grep -oE '[0-9]+ files?' | grep -oE '[0-9]+' || echo "0")
+    _insertions=$(echo "$_diff_stat" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo "0")
+    _deletions=$(echo "$_diff_stat" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo "0")
+    local _short_hash=$(git rev-parse --short=8 "$commit_after" 2>/dev/null)
 
     # Export for history tracking
     DEPLOY_COMMIT_BEFORE="$commit_before"
     DEPLOY_COMMIT_AFTER="$commit_after"
     DEPLOY_DURATION="$elapsed"
     DEPLOY_MODE="direct"
+    DEPLOY_FILE_COUNT="${_file_ct:-0}"
+    DEPLOY_INSERTIONS="${_insertions:-0}"
+    DEPLOY_DELETIONS="${_deletions:-0}"
+    DEPLOY_SHORT_HASH="${_short_hash}"
 
     return 0
 }
@@ -763,7 +825,7 @@ _teach_deploy_enhanced() {
         if typeset -f _deploy_history_append >/dev/null 2>&1; then
             local _commit_after="${DEPLOY_COMMIT_AFTER:-$(git rev-parse --short=8 HEAD 2>/dev/null)}"
             local _commit_before="${DEPLOY_COMMIT_BEFORE:-}"
-            local _file_count=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | wc -l | tr -d ' ')
+            local _file_count="${DEPLOY_FILE_COUNT:-$(git diff --name-only HEAD~1 HEAD 2>/dev/null | wc -l | tr -d ' ')}"
             local _elapsed="${DEPLOY_DURATION:-0}"
             _deploy_history_append "direct" "$_commit_after" "$_commit_before" "$draft_branch" "$prod_branch" "$_file_count" "$smart_message" "null" "null" "$_elapsed"
             echo "  ${FLOW_COLORS[dim]}History logged: #$(( $(_deploy_history_count) )) ($(date '+%Y-%m-%d %H:%M'))${FLOW_COLORS[reset]}"
@@ -772,19 +834,24 @@ _teach_deploy_enhanced() {
         # Update .STATUS file
         _deploy_update_status_file 2>/dev/null
 
-        echo ""
-        echo "${FLOW_COLORS[success]}  Direct deployment complete${FLOW_COLORS[reset]}"
-
-        # Show site URL if available
+        # Show deployment summary box
         local site_url
         site_url=$(yq '.site.url // ""' .flow/teach-config.yml 2>/dev/null)
-        if [[ -n "$site_url" && "$site_url" != "null" ]]; then
-            echo "  Site: $site_url"
-        fi
+        _deploy_summary_box \
+            "Direct merge" \
+            "${DEPLOY_FILE_COUNT:-0}" \
+            "${DEPLOY_INSERTIONS:-0}" \
+            "${DEPLOY_DELETIONS:-0}" \
+            "${DEPLOY_DURATION:-0}" \
+            "${DEPLOY_SHORT_HASH:-$(git rev-parse --short=8 HEAD 2>/dev/null)}" \
+            "$site_url"
 
         _deploy_cleanup_globals
         return 0
     fi
+
+    # Track PR deploy timing
+    local pr_deploy_start=$SECONDS
 
     # Check 2: Verify no uncommitted changes (if required)
     if [[ "$require_clean" == "true" ]]; then
@@ -969,17 +1036,35 @@ _teach_deploy_enhanced() {
         fi
     fi
 
+    # Collect PR deploy stats
+    local pr_deploy_elapsed=$(( SECONDS - pr_deploy_start ))
+    local _pr_commit=$(git rev-parse --short=8 HEAD 2>/dev/null)
+    local _pr_diff_stat=$(git diff --stat "$prod_branch"..."$draft_branch" 2>/dev/null | tail -1)
+    local _pr_file_count=$(echo "$_pr_diff_stat" | grep -oE '[0-9]+ files?' | grep -oE '[0-9]+' || echo "0")
+    local _pr_insertions=$(echo "$_pr_diff_stat" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo "0")
+    local _pr_deletions=$(echo "$_pr_diff_stat" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo "0")
+
     # Record PR deploy in history
     if typeset -f _deploy_history_append >/dev/null 2>&1; then
-        local _pr_commit=$(git rev-parse --short=8 HEAD 2>/dev/null)
-        local _pr_file_count=$(git diff --name-only "$prod_branch"..."$draft_branch" 2>/dev/null | wc -l | tr -d ' ')
         local _pr_message="deploy: $course_name PR update"
-        _deploy_history_append "pr" "$_pr_commit" "" "$draft_branch" "$prod_branch" "$_pr_file_count" "$_pr_message" "null" "null" "0"
+        _deploy_history_append "pr" "$_pr_commit" "" "$draft_branch" "$prod_branch" "${_pr_file_count:-0}" "$_pr_message" "null" "null" "$pr_deploy_elapsed"
         echo "  ${FLOW_COLORS[dim]}History logged: #$(( $(_deploy_history_count) )) ($(date '+%Y-%m-%d %H:%M'))${FLOW_COLORS[reset]}"
     fi
 
     # Update .STATUS file
     _deploy_update_status_file 2>/dev/null
+
+    # Show deployment summary box (PR mode)
+    local pr_url
+    pr_url=$(gh pr list --head "$draft_branch" --base "$prod_branch" --json url --jq '.[0].url' 2>/dev/null)
+    _deploy_summary_box \
+        "Pull request" \
+        "${_pr_file_count:-0}" \
+        "${_pr_insertions:-0}" \
+        "${_pr_deletions:-0}" \
+        "$pr_deploy_elapsed" \
+        "$_pr_commit" \
+        "$pr_url"
 
     _deploy_cleanup_globals
 }
@@ -989,6 +1074,7 @@ _deploy_cleanup_globals() {
     unset DEPLOY_DRAFT_BRANCH DEPLOY_PROD_BRANCH DEPLOY_COURSE_NAME
     unset DEPLOY_AUTO_PR DEPLOY_REQUIRE_CLEAN
     unset DEPLOY_COMMIT_BEFORE DEPLOY_COMMIT_AFTER DEPLOY_DURATION DEPLOY_MODE
+    unset DEPLOY_FILE_COUNT DEPLOY_INSERTIONS DEPLOY_DELETIONS DEPLOY_SHORT_HASH
     unset DEPLOY_HIST_TIMESTAMP DEPLOY_HIST_MODE DEPLOY_HIST_COMMIT
     unset DEPLOY_HIST_COMMIT_BEFORE DEPLOY_HIST_BRANCH_FROM DEPLOY_HIST_BRANCH_TO
     unset DEPLOY_HIST_FILE_COUNT DEPLOY_HIST_MESSAGE DEPLOY_HIST_PR
