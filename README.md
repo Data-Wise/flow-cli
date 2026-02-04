@@ -1,8 +1,10 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-6.4.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0)
-[![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
-[![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
+[![Version](https://img.shields.io/github/v/release/Data-Wise/flow-cli?label=version&color=blue)](https://github.com/Data-Wise/flow-cli/releases/latest)
+[![CI](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=CI&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
+[![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Data-Wise/flow-cli/blob/main/LICENSE)
+[![Pure ZSH](https://img.shields.io/badge/pure-ZSH-1f425f)](https://www.zsh.org/)
 
 > **ZSH workflow tools designed for ADHD brains.**
 > Start working in 10 seconds. Stay motivated with visible wins.
