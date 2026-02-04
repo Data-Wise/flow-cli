@@ -7439,19 +7439,29 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct
 </code></pre></div>
 <p>Expected output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>🚀 Direct Deploy to gh-pages
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Changes to deploy:
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  M lectures/week-05.qmd
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  M _quarto.yml
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>Commit message: content: week-05 lecture
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>[✓] All safety checks passed
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>[✓] Pushed to gh-pages
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>[✓] Deployment recorded
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>🎉 Deploy complete in 12s
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>  Pre-flight Checks
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>─────────────────────────────────────────────────
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  [ok] Git repository
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  [ok] Config file found
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  [ok] On draft branch
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  [ok] Working tree clean
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  Smart commit: content: week-05 lecture
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  Direct merge: draft -&gt; gh-pages
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>  ✓ [1/5] Push draft to origin
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>  ✓ [2/5] Switch to gh-pages
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  ✓ [3/5] Merge draft → gh-pages
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>  ✓ [4/5] Push gh-pages to origin
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>  ✓ [5/5] Switch back to draft
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>╭─ Deployment Summary ─────────────────────────────────╮
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>│  🚀 Mode:     Direct merge                            │
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>│  📦 Files:    2 changed (+45 / -12)                   │
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>│  ⏱  Duration: 12s                                     │
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>│  🔀 Commit:   a3f8d92                                 │
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>│  🌐 URL:      https://example.github.io/stat-101/    │
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>╰──────────────────────────────────────────────────────╯
 </code></pre></div>
 <p>Use <code>-d</code> as a shortcut for <code>--direct</code>.</p>
 <h2 id="step-2-smart-commit-messages">Step 2: Smart Commit Messages<a class="headerlink" href="#step-2-smart-commit-messages" title="Permanent link">&para;</a></h2>
@@ -7669,7 +7679,7 @@
 <li>Explore <code>teach deploy --rollback</code> for safe recovery</li>
 </ul>
 <hr />
-<p><em>v6.4.0 - teach deploy v2 command</em></p>
+<p><em>v6.4.1 - teach deploy v2 command</em></p>
 
 
 

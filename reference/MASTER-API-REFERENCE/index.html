@@ -18827,6 +18827,16 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <td>Direct merge deploy (push draft, checkout prod, merge, push)</td>
 </tr>
 <tr>
+<td><code>_deploy_step</code></td>
+<td><code>&lt;step&gt; &lt;total&gt; &lt;label&gt; &lt;step_status&gt;</code></td>
+<td>Print numbered step progress line (v6.4.1)</td>
+</tr>
+<tr>
+<td><code>_deploy_summary_box</code></td>
+<td><code>&lt;mode&gt; &lt;file_count&gt; &lt;insertions&gt; &lt;deletions&gt; &lt;duration&gt; &lt;commit_hash&gt; [url]</code></td>
+<td>Print deployment summary box (v6.4.1)</td>
+</tr>
+<tr>
 <td><code>_deploy_dry_run_report</code></td>
 <td>(reads <code>DEPLOY_*</code> globals)</td>
 <td>Preview deploy without side effects</td>
@@ -18844,7 +18854,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <tr>
 <td><code>_deploy_cleanup_globals</code></td>
 <td>(none)</td>
-<td>Unset <code>DEPLOY_COMMIT_BEFORE</code>, <code>DEPLOY_COMMIT_AFTER</code>, <code>DEPLOY_DURATION</code>, <code>DEPLOY_MODE</code></td>
+<td>Unset all <code>DEPLOY_*</code> exported variables</td>
 </tr>
 <tr>
 <td><code>_teach_deploy_enhanced_help</code></td>
@@ -18858,8 +18868,22 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 </tr>
 </tbody>
 </table>
+<p><strong><code>_deploy_step</code></strong> (v6.4.1)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-385-1" name="__codelineno-385-1" href="#__codelineno-385-1"></a>_deploy_step<span class="w"> </span>&lt;step&gt;<span class="w"> </span>&lt;total&gt;<span class="w"> </span>&lt;label&gt;<span class="w"> </span>&lt;step_status&gt;
+<a id="__codelineno-385-2" name="__codelineno-385-2" href="#__codelineno-385-2"></a><span class="c1"># step_status: &quot;done&quot; (✓), &quot;active&quot; (⏳), &quot;fail&quot; (✗)</span>
+<a id="__codelineno-385-3" name="__codelineno-385-3" href="#__codelineno-385-3"></a>
+<a id="__codelineno-385-4" name="__codelineno-385-4" href="#__codelineno-385-4"></a>_deploy_step<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;Push draft to origin&quot;</span><span class="w"> </span><span class="k">done</span>
+<a id="__codelineno-385-5" name="__codelineno-385-5" href="#__codelineno-385-5"></a><span class="c1"># Output: ✓ [1/5] Push draft to origin</span>
+</code></pre></div>
+<p><strong><code>_deploy_summary_box</code></strong> (v6.4.1)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-386-1" name="__codelineno-386-1" href="#__codelineno-386-1"></a>_deploy_summary_box<span class="w"> </span>&lt;mode&gt;<span class="w"> </span>&lt;file_count&gt;<span class="w"> </span>&lt;insertions&gt;<span class="w"> </span>&lt;deletions&gt;<span class="w"> </span>&lt;duration&gt;<span class="w"> </span>&lt;commit_hash&gt;<span class="w"> </span><span class="o">[</span>url<span class="o">]</span>
+<a id="__codelineno-386-2" name="__codelineno-386-2" href="#__codelineno-386-2"></a>
+<a id="__codelineno-386-3" name="__codelineno-386-3" href="#__codelineno-386-3"></a>_deploy_summary_box<span class="w"> </span><span class="s2">&quot;Direct merge&quot;</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">45</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="s2">&quot;a1b2c3d4&quot;</span><span class="w"> </span><span class="s2">&quot;https://example.github.io/stat-545/&quot;</span>
+<a id="__codelineno-386-4" name="__codelineno-386-4" href="#__codelineno-386-4"></a><span class="c1"># Output: Unicode box with mode, files, duration, commit, URL</span>
+</code></pre></div>
+<p>URL line is omitted when <code>$url</code> is empty or <code>"null"</code>.</p>
 <p><strong>Exported variables</strong> (from <code>_deploy_direct_merge</code> and <code>_deploy_perform_rollback</code>):</p>
-<p><code>DEPLOY_COMMIT_BEFORE</code>, <code>DEPLOY_COMMIT_AFTER</code>, <code>DEPLOY_DURATION</code>, <code>DEPLOY_MODE</code></p>
+<p><code>DEPLOY_COMMIT_BEFORE</code>, <code>DEPLOY_COMMIT_AFTER</code>, <code>DEPLOY_DURATION</code>, <code>DEPLOY_MODE</code>, <code>DEPLOY_FILE_COUNT</code>, <code>DEPLOY_INSERTIONS</code>, <code>DEPLOY_DELETIONS</code>, <code>DEPLOY_SHORT_HASH</code></p>
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
