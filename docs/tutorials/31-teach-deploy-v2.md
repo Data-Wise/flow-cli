@@ -18,6 +18,8 @@ tags:
 - Rollback problematic deployments
 - Run deployments in CI/automation
 
+![teach deploy v2 Demo](../demos/tutorials/tutorial-teach-deploy.gif)
+
 ## Prerequisites
 
 - flow-cli v6.4.0+

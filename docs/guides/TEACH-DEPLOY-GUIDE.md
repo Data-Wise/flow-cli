@@ -10,6 +10,8 @@ tags:
 >
 > **Version:** v6.4.0+ | **Command:** `teach deploy`
 
+![teach deploy v2 Demo](../demos/tutorials/tutorial-teach-deploy.gif)
+
 ---
 
 ## Table of Contents
