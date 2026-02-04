@@ -398,16 +398,10 @@ count_before=$(_deploy_history_count)
 # Now rollback
 output=$(_deploy_rollback 1 --ci 2>&1)
 ret=$?
-# Rollback may fail due to revert complexity in test, but should attempt it
 if [[ $ret -eq 0 ]]; then
     _test_pass "rollback with explicit index succeeds"
 else
-    # If it failed due to merge commit, that's acceptable in test env
-    if echo "$output" | grep -qi "Revert failed\|merge commit\|conflict"; then
-        _test_skip "rollback attempt (merge commit revert not supported in test)"
-    else
-        _test_fail "rollback with explicit index" "ret=$ret"
-    fi
+    _test_fail "rollback with explicit index" "ret=$ret output=$(echo "$output" | tail -3)"
 fi
 
 # Test 20: rollback records in history with mode=rollback
@@ -426,6 +420,74 @@ if [[ $ret -eq 0 ]]; then
     fi
 else
     _test_skip "rollback history recording (rollback did not complete)"
+fi
+
+# ============================================================================
+# SECTION 10: Merge Commit Rollback (regression test for -m 1 fix)
+# ============================================================================
+echo ""
+echo "--- Merge Commit Rollback ---"
+
+# Test 21: deploy with diverged branches creates a merge commit
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+# Create divergence: add a commit directly to main that draft doesn't have
+(
+    cd "$test_repo"
+    git checkout -q main 2>/dev/null
+    echo "# Hotfix content" > lectures/hotfix.qmd
+    git add -A && git commit -q -m "hotfix: main-only change" 2>/dev/null
+    git push -q origin main 2>/dev/null
+    git checkout -q draft 2>/dev/null
+) >/dev/null 2>&1
+
+# Deploy — draft and main have diverged, so merge creates 2-parent commit
+_deploy_direct_merge "draft" "main" "deploy: merge commit test" "true" >/dev/null 2>&1
+ret_deploy=$?
+
+if [[ $ret_deploy -ne 0 ]]; then
+    _test_fail "merge commit deploy" "deploy failed ret=$ret_deploy"
+    _test_skip "merge commit rollback (deploy failed)"
+    _test_skip "merge commit rollback history (deploy failed)"
+else
+    merge_hash="${DEPLOY_COMMIT_AFTER}"
+    parent_count=$(git cat-file -p "$merge_hash" 2>/dev/null | grep -c "^parent ")
+
+    if [[ $parent_count -ge 2 ]]; then
+        _test_pass "diverged deploy creates merge commit ($parent_count parents)"
+    else
+        _test_fail "diverged deploy creates merge commit" "expected >=2 parents, got $parent_count"
+    fi
+
+    # Test 22: rollback of merge commit succeeds (exercises -m 1 code path)
+    _deploy_history_append "direct" "$merge_hash" "${DEPLOY_COMMIT_BEFORE}" "draft" "main" "2" "deploy: merge commit test" "null" "null" "3" >/dev/null 2>&1
+    mc_count_before=$(_deploy_history_count)
+
+    mc_output=$(_deploy_rollback 1 --ci 2>&1)
+    mc_ret=$?
+
+    if [[ $mc_ret -eq 0 ]]; then
+        _test_pass "merge commit rollback succeeds via -m 1"
+    else
+        _test_fail "merge commit rollback" "ret=$mc_ret output=$(echo "$mc_output" | tail -3)"
+    fi
+
+    # Test 23: merge commit rollback recorded in history with mode=rollback
+    if [[ $mc_ret -eq 0 ]]; then
+        mc_count_after=$(_deploy_history_count)
+        if [[ "$mc_count_after" -gt "$mc_count_before" ]]; then
+            _deploy_history_get 1
+            if [[ "$DEPLOY_HIST_MODE" == "rollback" ]]; then
+                _test_pass "merge commit rollback records with mode=rollback"
+            else
+                _test_fail "merge commit rollback history" "mode=$DEPLOY_HIST_MODE"
+            fi
+        else
+            _test_fail "merge commit rollback history" "count unchanged"
+        fi
+    else
+        _test_skip "merge commit rollback history (rollback failed)"
+    fi
 fi
 
 # ============================================================================

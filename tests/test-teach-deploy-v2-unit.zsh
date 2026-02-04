@@ -530,6 +530,47 @@ else
 fi
 
 # ============================================================================
+# SECTION 8: Merge Commit Detection (regression for -m 1 rollback fix)
+# ============================================================================
+echo ""
+echo "--- Merge Commit Detection ---"
+
+# Test 35: merge commit has 2 parents (validates detection logic)
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+# Create diverging branches
+(
+    cd "$test_repo"
+    git checkout -q -b feature 2>/dev/null
+    echo "feature work" > feature.txt
+    git add -A && git commit -q -m "feat: feature work" 2>/dev/null
+    git checkout -q main 2>/dev/null
+    echo "main work" > main.txt
+    git add -A && git commit -q -m "fix: main work" 2>/dev/null
+    git merge feature --no-ff -m "merge: feature into main" 2>/dev/null
+) >/dev/null 2>&1
+merge_hash=$(git rev-parse HEAD)
+parent_count=$(git cat-file -p "$merge_hash" 2>/dev/null | grep -c "^parent ")
+if [[ $parent_count -eq 2 ]]; then
+    _test_pass "merge commit detected with 2 parents"
+else
+    _test_fail "merge commit detected with 2 parents" "got $parent_count"
+fi
+
+# Test 36: regular commit has 1 parent
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+echo "extra" > extra.txt
+git add -A && git commit -q -m "add extra" >/dev/null 2>&1
+regular_hash=$(git rev-parse HEAD)
+parent_count=$(git cat-file -p "$regular_hash" 2>/dev/null | grep -c "^parent ")
+if [[ $parent_count -eq 1 ]]; then
+    _test_pass "regular commit detected with 1 parent"
+else
+    _test_fail "regular commit detected with 1 parent" "got $parent_count"
+fi
+
+# ============================================================================
 # SUMMARY
 # ============================================================================
 echo ""
