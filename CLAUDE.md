@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v6.2.1
-- **Latest Release:** v6.2.1 (2026-02-03)
+- **Current Version:** v6.3.0
+- **Latest Release:** v6.3.0 (2026-02-03)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -276,7 +276,7 @@ cc [cmd]      # Claude Code launcher (cc, cc pick, cc yolo)
 tm <cmd>      # Terminal manager (tm title, tm profile, tm ghost)
 wt <cmd>      # Worktree management (wt create, wt status, wt prune)
 dot <cmd>     # Dotfile management (dot edit, dot sync, dot secret)
-teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam, teach macros, teach plan)
+teach <cmd>   # Teaching workflow (teach analyze, teach init, teach deploy, teach exam, teach macros, teach plan, teach style)
 prompt <cmd>  # Prompt engine switcher (prompt status, prompt toggle)
 v <cmd>       # Vibe coding mode (v on, v off, v status)
 ```
@@ -707,14 +707,14 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v6.2.1
-**Latest Release:** v6.2.1 (2026-02-03)
+**Version:** v6.3.0
+**Latest Release:** v6.3.0 (2026-02-03)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.1
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.3.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 462 total tests
+**Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 34 teach style dogfood tests + 462 total tests
 
 **Recent Improvements:**
 
@@ -729,6 +729,38 @@ export FLOW_DEBUG=1
 ---
 
 ## Recent Releases
+
+### v6.3.0 - Teaching Style Consolidation + Help Compliance (2026-02-03)
+
+**Released:** 2026-02-03
+**PR #334:** https://github.com/Data-Wise/flow-cli/pull/334 (MERGED)
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.3.0
+**Changes:** Teaching style consolidation, help compliance system, docs overhaul, test fixes
+
+**Major Features:**
+
+- **Teaching Style Consolidation (#298)** — Read `teaching_style:` and `command_overrides:` from `.flow/teach-config.yml`
+  - `lib/teach-style-helpers.zsh` — 4 helper functions (`_teach_find_style_source`, `_teach_get_style`, `_teach_get_command_override`, `_teach_style_is_redirect`)
+  - `teach style` / `teach style show` — display current teaching style config
+  - `teach style check` — validate teaching style configuration
+  - `teach doctor` — new "Teaching Style" section reports source and config status
+  - Schema: `teaching_style` + `command_overrides` definitions added to `teach-config.schema.json`
+  - Resolution order: `.flow/teach-config.yml` (preferred) → `.claude/teaching-style.local.md` (legacy fallback)
+  - Redirect shim detection (`_redirect: true` in legacy frontmatter)
+
+- **Help Compliance System (#328)** — 9-rule automated validator for all 12 dispatchers
+  - `flow doctor --help-check` validates against CONVENTIONS.md standards
+  - All 12 dispatchers brought to full compliance (box header, MOST COMMON, QUICK EXAMPLES, TIP, See Also)
+
+- **Documentation Overhaul** — Website reorganized (14→7 sections), 11 new teaching docs, section landing pages, MkDocs tags
+
+- **Test Fixes** — Repaired 3 pre-existing failures (cc-dispatcher scope bug, obs-dispatcher stale assertions, e2e-dot-safety sandbox guard)
+
+**Testing:** 21 passed in run-all.sh, 34-test dogfooding suite for teach style helpers
+
+**Stats:** 82 files changed, +3,628 / -4,251 lines
+
+---
 
 ### v6.2.1 - Help Compliance System (2026-02-03)
 
@@ -1056,5 +1088,5 @@ git push origin main && git push origin v6.2.0
 
 ---
 
-**Last Updated:** 2026-02-03
-**Status:** Production Ready (v6.2.1)
+**Last Updated:** 2026-02-03 (v6.3.0)
+**Status:** Production Ready (v6.3.0)
