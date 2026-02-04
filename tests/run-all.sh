@@ -88,6 +88,8 @@ echo "Teach command tests:"
 run_test ./tests/test-teach-plan.zsh
 run_test ./tests/test-teach-plan-security.zsh
 run_test ./tests/automated-teach-style-dogfood.zsh
+run_test ./tests/test-teach-deploy-v2-unit.zsh
+run_test ./tests/test-teach-deploy-v2-integration.zsh
 
 echo ""
 echo "Help compliance tests:"
@@ -99,6 +101,7 @@ echo "E2E tests:"
 run_test ./tests/e2e-teach-plan.zsh
 run_test ./tests/e2e-teach-analyze.zsh
 run_test ./tests/e2e-dot-safety.zsh
+run_test ./tests/e2e-teach-deploy-v2.zsh
 
 echo ""
 echo "========================================="
