@@ -458,9 +458,9 @@ flow-cli/
 ├── tests/                   # Test suite (543+ tests)
 │   ├── fixtures/            # Test fixtures
 │   │   └── demo-course/     # STAT-101 demo course for E2E
-│   ├── test-teach-deploy-v2-unit.zsh        # Deploy v2 unit: 36 tests
+│   ├── test-teach-deploy-v2-unit.zsh        # Deploy v2 unit: 50 tests
 │   ├── test-teach-deploy-v2-integration.zsh # Deploy v2 integration: 22 tests
-│   ├── e2e-teach-deploy-v2.zsh              # Deploy v2 E2E: 23 tests
+│   ├── e2e-teach-deploy-v2.zsh              # Deploy v2 E2E: 29 tests
 │   ├── e2e-teach-analyze.zsh                # E2E: 29 tests
 │   └── interactive-dog-teaching.zsh         # Interactive: 10 tasks
 └── .archive/               # Archived Node.js CLI
@@ -619,9 +619,9 @@ tests/test-teach-plan-security.zsh  # Security: 24 tests (YAML injection, edge c
 tests/e2e-teach-plan.zsh            # E2E: 15 tests (CRUD workflows)
 
 # Teach deploy v2 tests (v6.4.0)
-tests/test-teach-deploy-v2-unit.zsh        # Unit: 34 tests
+tests/test-teach-deploy-v2-unit.zsh        # Unit: 50 tests
 tests/test-teach-deploy-v2-integration.zsh # Integration: 22 tests
-tests/e2e-teach-deploy-v2.zsh             # E2E: 20 tests
+tests/e2e-teach-deploy-v2.zsh             # E2E: 29 tests
 
 # E2E tests (teach analyze)
 tests/e2e-teach-analyze.zsh         # E2E: 29 tests (8 sections)
@@ -726,15 +726,17 @@ export FLOW_DEBUG=1
 **Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 543+ total tests (462 existing + 81 new teach deploy v2 tests)
+**Tests:** 563+ total tests (462 existing + 101 teach deploy v2 tests)
 
 **Recent Improvements:**
 
+- ✅ Deploy progress bar - 5-step `[1/5]..[5/5]` progress in direct merge mode
+- ✅ Deployment summary box - Unicode box with mode, files, duration, commit, URL
 - ✅ teach deploy v2 - Direct merge (8-15s), smart commits, history, rollback, dry-run, CI mode
 - ✅ Deploy history tracking - Append-only `.flow/deploy-history.yml`
 - ✅ Forward rollback - `teach deploy --rollback` via git revert
 - ✅ Legacy dead code removed - ~400 lines of old `_teach_deploy()` + `_teach_deploy_help()`
-- ✅ 76 new tests - 34 unit + 22 integration + 20 E2E
+- ✅ 96 new tests - 50 unit + 22 integration + 29 E2E (deploy v2 + progress/summary)
 
 ---
 
@@ -782,7 +784,18 @@ export FLOW_DEBUG=1
 - **Shared Preflight** — Extracted `_deploy_preflight_checks()`
   - Git repo check, config validation, branch detection
   - Sets `DEPLOY_*` exported variables for all deploy modes
-  - `[ok]`/`[!!]` marker format
+
+- **Deploy Progress Bar** — Step-based progress in direct merge mode
+  - `_deploy_step()` — `[1/5]..[5/5]` with ✓/⏳/✗ status icons
+  - Replaces inline `[ok]` markers with numbered step counters
+  - Steps: push draft, switch to production, merge, push production, switch back
+
+- **Deployment Summary Box** — Unicode box after both deploy modes
+  - `_deploy_summary_box()` — mode, files (+/-), duration, commit hash, URL
+  - Direct merge: shows site URL from `.flow/teach-config.yml`
+  - PR mode: shows PR URL from `gh pr list`
+  - Collects stats via `git diff --stat` (insertions/deletions)
+  - Exports `DEPLOY_FILE_COUNT`, `DEPLOY_INSERTIONS`, `DEPLOY_DELETIONS`, `DEPLOY_SHORT_HASH`
 
 - **.STATUS Auto-Updates** — `_deploy_update_status_file()`
   - Updates `last_deploy`, `deploy_count`, `teaching_week`
@@ -799,11 +812,11 @@ export FLOW_DEBUG=1
 
 - `lib/deploy-history-helpers.zsh` (185 lines)
 - `lib/deploy-rollback-helpers.zsh` (214 lines)
-- `tests/test-teach-deploy-v2-unit.zsh` (34 tests)
+- `tests/test-teach-deploy-v2-unit.zsh` (50 tests)
 - `tests/test-teach-deploy-v2-integration.zsh` (22 tests)
-- `tests/e2e-teach-deploy-v2.zsh` (20 tests)
+- `tests/e2e-teach-deploy-v2.zsh` (29 tests)
 
-**Testing:** 76 new tests (34 unit + 22 integration + 20 E2E), all passing
+**Testing:** 101 tests (50 unit + 22 integration + 29 E2E), all passing
 
 **Stats:** 9 files changed, +2,687 / -581 lines
 
