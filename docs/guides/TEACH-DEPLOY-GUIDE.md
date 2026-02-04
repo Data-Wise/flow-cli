@@ -8,7 +8,7 @@ tags:
 
 > Deploy your course website from local preview to production with confidence.
 >
-> **Version:** v6.4.0+ | **Command:** `teach deploy`
+> **Version:** v6.4.1+ | **Command:** `teach deploy`
 
 ![teach deploy v2 Demo](../demos/tutorials/tutorial-teach-deploy.gif)
 
@@ -188,13 +188,27 @@ teach deploy -d -m "Week 5 lecture updates"
 teach deploy --ci -d
 ```
 
-**Process:**
-1. Run preflight checks
-2. Generate smart commit message (or use `--message`)
-3. Merge draft → production directly
-4. Push to remote
-5. Log in deploy history
-6. Update .STATUS
+**Process (with step progress):**
+
+```
+  ✓ [1/5] Push draft to origin
+  ✓ [2/5] Switch to production
+  ✓ [3/5] Merge draft → production
+  ✓ [4/5] Push production to origin
+  ✓ [5/5] Switch back to draft
+```
+
+After completion, a deployment summary box is displayed:
+
+```
+╭─ Deployment Summary ─────────────────────────────────╮
+│  🚀 Mode:     Direct merge                            │
+│  📦 Files:    3 changed (+45 / -12)                   │
+│  ⏱  Duration: 11s                                     │
+│  🔀 Commit:   a1b2c3d4                                │
+│  🌐 URL:      https://example.github.io/stat-545/    │
+╰──────────────────────────────────────────────────────╯
+```
 
 **When to use:**
 - Solo instructor (no review needed)
@@ -1090,5 +1104,5 @@ git push origin main
 
 ---
 
-**Last Updated:** 2026-02-03
-**Version:** v6.4.0
+**Last Updated:** 2026-02-04
+**Version:** v6.4.1

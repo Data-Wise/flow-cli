@@ -6,6 +6,37 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [6.4.1] - 2026-02-04
+
+### Added
+
+- **Deploy Step Progress** - 5-step progress indicator for direct merge mode
+  - Replaces inline `[ok]` markers with numbered `[1/5]..[5/5]` steps
+  - States: ✓ done, ⏳ active, ✗ fail
+  - `_deploy_step()` helper function
+
+- **Deployment Summary Box** - Post-deploy summary for both modes
+  - Shows mode, files changed (+/-), duration, commit hash, site URL
+  - Direct mode: site URL from config
+  - PR mode: PR URL from GitHub API
+  - `_deploy_summary_box()` helper function
+
+### Fixed
+
+- Git checkout stdout noise suppressed during deploy steps (`>/dev/null 2>&1`)
+
+### Documentation
+
+- Updated `REFCARD-DEPLOY-V2.md` output format section
+- Updated `31-teach-deploy-v2.md` tutorial expected output
+- Updated `TEACH-DEPLOY-GUIDE.md` with step progress and summary box
+
+### Tests
+
+- 20 new tests: 14 unit (step progress + summary box) + 6 E2E assertions
+
+---
+
 ## [6.4.0] - 2026-02-03
 
 ### Added

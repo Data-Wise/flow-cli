@@ -125,14 +125,19 @@ Skips if `.STATUS` absent.
   Smart commit: content: week-05 lecture
 
   Direct merge: draft -> production
-    [ok] Merged successfully
-    [ok] Pushed to origin/production
+  ✓ [1/5] Push draft to origin
+  ✓ [2/5] Switch to production
+  ✓ [3/5] Merge draft → production
+  ✓ [4/5] Push production to origin
+  ✓ [5/5] Switch back to draft
 
-  History logged: #12 (2026-02-03 14:30)
-  .STATUS updated
-
-  Direct deployment complete
-  Site: https://example.github.io/stat-545/
+╭─ Deployment Summary ─────────────────────────────────╮
+│  🚀 Mode:     Direct merge                            │
+│  📦 Files:    3 changed (+45 / -12)                   │
+│  ⏱  Duration: 11s                                     │
+│  🔀 Commit:   a1b2c3d4                                │
+│  🌐 URL:      https://example.github.io/stat-545/    │
+╰──────────────────────────────────────────────────────╯
 ```
 
 ## Configuration
@@ -213,4 +218,4 @@ teach deploy --ci -d -m "Auto-deploy from GitHub Actions"
 
 ---
 
-*v6.4.0 - teach deploy v2 command*
+*v6.4.1 - teach deploy v2 command*
