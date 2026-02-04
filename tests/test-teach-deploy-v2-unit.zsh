@@ -530,12 +530,132 @@ else
 fi
 
 # ============================================================================
-# SECTION 8: Merge Commit Detection (regression for -m 1 rollback fix)
+# SECTION 8: Deploy Step Progress
+# ============================================================================
+echo ""
+echo "--- Deploy Step Progress ---"
+
+# Test 35: _deploy_step done shows checkmark and step counter
+output=$(_deploy_step 1 5 "Push draft to origin" done 2>&1)
+if echo "$output" | grep -qE '\[1/5\].*Push draft to origin'; then
+    _test_pass "_deploy_step done shows [N/M] counter"
+else
+    _test_fail "_deploy_step done shows [N/M] counter" "output: $output"
+fi
+
+# Test 36: _deploy_step fail shows X marker
+output=$(_deploy_step 3 5 "Merge failed" fail 2>&1)
+if echo "$output" | grep -qE '\[3/5\].*Merge failed'; then
+    _test_pass "_deploy_step fail shows [N/M] counter"
+else
+    _test_fail "_deploy_step fail shows [N/M] counter" "output: $output"
+fi
+
+# Test 37: _deploy_step active shows spinner icon
+output=$(_deploy_step 2 5 "Switching branch" active 2>&1)
+if echo "$output" | grep -qE '\[2/5\].*Switching branch'; then
+    _test_pass "_deploy_step active shows [N/M] counter"
+else
+    _test_fail "_deploy_step active shows [N/M] counter" "output: $output"
+fi
+
+# Test 38: _deploy_step handles step equal to total
+output=$(_deploy_step 5 5 "Final step" done 2>&1)
+if echo "$output" | grep -qE '\[5/5\].*Final step'; then
+    _test_pass "_deploy_step handles final step [5/5]"
+else
+    _test_fail "_deploy_step handles final step [5/5]" "output: $output"
+fi
+
+# ============================================================================
+# SECTION 9: Deploy Summary Box
+# ============================================================================
+echo ""
+echo "--- Deploy Summary Box ---"
+
+# Test 39: summary box shows Deployment Summary header
+output=$(_deploy_summary_box "Direct merge" "12" "234" "56" "11" "a1b2c3d4" "" 2>&1)
+if echo "$output" | grep -q "Deployment Summary"; then
+    _test_pass "summary box shows Deployment Summary header"
+else
+    _test_fail "summary box shows Deployment Summary header" "not found"
+fi
+
+# Test 40: summary box shows mode
+if echo "$output" | grep -q "Direct merge"; then
+    _test_pass "summary box shows deploy mode"
+else
+    _test_fail "summary box shows deploy mode" "not found"
+fi
+
+# Test 41: summary box shows file stats with +/-
+if echo "$output" | grep -q "+234 / -56"; then
+    _test_pass "summary box shows file change stats"
+else
+    _test_fail "summary box shows file change stats" "not found"
+fi
+
+# Test 42: summary box shows duration
+if echo "$output" | grep -q "11s"; then
+    _test_pass "summary box shows duration"
+else
+    _test_fail "summary box shows duration" "not found"
+fi
+
+# Test 43: summary box shows commit hash
+if echo "$output" | grep -q "a1b2c3d4"; then
+    _test_pass "summary box shows commit hash"
+else
+    _test_fail "summary box shows commit hash" "not found"
+fi
+
+# Test 44: summary box shows URL when provided
+output=$(_deploy_summary_box "Direct merge" "5" "50" "10" "8" "abcd1234" "https://example.github.io/stat-101" 2>&1)
+if echo "$output" | grep -q "https://example.github.io/stat-101"; then
+    _test_pass "summary box shows URL when provided"
+else
+    _test_fail "summary box shows URL when provided" "not found"
+fi
+
+# Test 45: summary box hides URL when empty
+output=$(_deploy_summary_box "PR" "3" "30" "5" "20" "efgh5678" "" 2>&1)
+if echo "$output" | grep -q "URL:"; then
+    _test_fail "summary box hides URL when empty" "URL row should be absent"
+else
+    _test_pass "summary box hides URL when empty"
+fi
+
+# Test 46: summary box hides URL when null
+output=$(_deploy_summary_box "PR" "3" "30" "5" "20" "efgh5678" "null" 2>&1)
+if echo "$output" | grep -q "URL:"; then
+    _test_fail "summary box hides URL when null" "URL row should be absent"
+else
+    _test_pass "summary box hides URL when null"
+fi
+
+# Test 47: summary box has box-drawing characters
+output=$(_deploy_summary_box "Direct merge" "1" "10" "2" "3" "hash1234" "" 2>&1)
+if echo "$output" | grep -q "╭" && echo "$output" | grep -q "╰"; then
+    _test_pass "summary box has box-drawing borders"
+else
+    _test_fail "summary box has box-drawing borders" "missing ╭ or ╰"
+fi
+
+# Test 48: summary box Pull request mode label
+output=$(_deploy_summary_box "Pull request" "6" "80" "20" "45" "pr123456" "https://github.com/org/repo/pull/42" 2>&1)
+if echo "$output" | grep -q "Pull request"; then
+    _test_pass "summary box shows Pull request mode"
+else
+    _test_fail "summary box shows Pull request mode" "not found"
+fi
+
+# ============================================================================
+# SECTION 10: Merge Commit Detection (regression for -m 1 rollback fix)
 # ============================================================================
 echo ""
 echo "--- Merge Commit Detection ---"
 
-# Test 35: merge commit has 2 parents (validates detection logic)
+# Test 49: merge commit has 2 parents (validates detection logic)
 test_repo=$(setup_git_repo)
 cd "$test_repo"
 # Create diverging branches
@@ -557,7 +677,7 @@ else
     _test_fail "merge commit detected with 2 parents" "got $parent_count"
 fi
 
-# Test 36: regular commit has 1 parent
+# Test 50: regular commit has 1 parent
 test_repo=$(setup_git_repo)
 cd "$test_repo"
 echo "extra" > extra.txt
