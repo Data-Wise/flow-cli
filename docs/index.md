@@ -7,7 +7,7 @@ tags:
 
 # Flow CLI
 
-[![Version](https://img.shields.io/badge/version-v6.2.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.0)
+[![Version](https://img.shields.io/badge/version-v6.4.0-blue)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
 [![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
@@ -26,9 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New: v6.2.0 - Docs Overhaul + Website Reorganization"
-    Reduced navigation from 14 to 7 sections. Landing pages with grid cards. Tags for cross-cutting discovery.
-    [→ See what's new](RELEASES.md){ .md-button }
+!!! success "🎉 What's New: v6.4.0 - teach deploy v2"
+    Direct deploy in 8-15 seconds. Smart commit messages. Deploy history tracking. Safe rollback via `git revert`.
+    [→ See what's new](CHANGELOG.md){ .md-button }
     [→ All releases](RELEASES.md){ .md-button }
 
 ---
@@ -185,7 +185,7 @@ Choose your path based on what you need right now:
 
     ---
 
-    Deploy courses in < 2 minutes
+    Deploy courses in 8-15 seconds
 
     [→ Teaching Guide](guides/TEACHING-SYSTEM-ARCHITECTURE.md)
 
@@ -266,4 +266,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v6.2.0** · Pure ZSH · Zero Dependencies · MIT License
+**v6.4.0** · Pure ZSH · Zero Dependencies · MIT License
