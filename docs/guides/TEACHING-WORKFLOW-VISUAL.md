@@ -252,7 +252,7 @@ Insertions: 45
 ✅ Deployed in 12 seconds
 
 🌐 Site: https://yourname.github.io/stat-545
-⏳ GitHub Actions deploying... (usually < 2 minutes)
+⏳ Direct mode: live in ~15 seconds | PR mode: GitHub Actions (< 2 minutes)
 
 💡 Tip: Check Actions tab to monitor build progress
 ```

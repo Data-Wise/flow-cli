@@ -62,6 +62,220 @@ EOF
 }
 
 # =============================================================================
+# Function: _generate_smart_commit_message
+# Purpose: Generate descriptive commit message from changed files
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Draft branch name
+#   $2 - (optional) Production branch name
+#   If both given, diffs between branches; otherwise uses staged/modified files
+#
+# Returns:
+#   0 - Always succeeds
+#
+# Output:
+#   stdout - Single-line commit message like "content: week-05 lecture, assignment 3"
+#
+# Categories:
+#   lectures/*.qmd     → "lecture" (extracts week number)
+#   labs/*.qmd          → "lab"
+#   assignments/*.qmd   → "assignment" (extracts number)
+#   exams/*.qmd         → "exam"
+#   projects/*.qmd      → "project"
+#   scripts/*.R|*.py    → "script"
+#   home_*.qmd          → "index"
+#   _quarto.yml         → "config"
+#   _metadata.yml       → "config"
+#   .flow/*.yml         → "config"
+#   .STATUS             → "config"
+#   *.css|*.scss        → "style"
+#   images/*|img/*      → "media"
+#   data/*              → "data"
+#   *.qmd               → "content" (catch-all)
+#   *                   → "misc" (catch-all)
+#
+# Prefix logic:
+#   If >50% files are one category, use that as prefix
+#   Otherwise use "deploy"
+#
+# Example:
+#   msg=$(_generate_smart_commit_message "draft" "gh-pages")
+#   # → "content: week-05 lecture, assignment 3"
+#
+#   msg=$(_generate_smart_commit_message)
+#   # Uses staged files → "config: quarto settings, metadata"
+#
+# Notes:
+#   - Pure ZSH implementation (no external tools except git)
+#   - Messages truncated to 72 characters
+#   - Ported from STAT-545's generate_smart_message() logic
+# =============================================================================
+_generate_smart_commit_message() {
+    local draft_branch="${1:-}"
+    local prod_branch="${2:-}"
+    local changed_files=()
+
+    # Get changed files
+    if [[ -n "$draft_branch" && -n "$prod_branch" ]]; then
+        # Files different between branches
+        changed_files=(${(f)"$(git diff --name-only "$prod_branch"..."$draft_branch" 2>/dev/null)"})
+    else
+        # Staged files
+        changed_files=(${(f)"$(git diff --cached --name-only 2>/dev/null)"})
+        # If nothing staged, use modified files
+        if [[ ${#changed_files[@]} -eq 0 ]]; then
+            changed_files=(${(f)"$(git diff --name-only 2>/dev/null)"})
+        fi
+    fi
+
+    # If no files, generic message
+    if [[ ${#changed_files[@]} -eq 0 ]]; then
+        echo "deploy: update"
+        return 0
+    fi
+
+    # Categorize files
+    local -A categories  # category -> count
+    local -a descriptions  # human-readable descriptions
+    local total=${#changed_files[@]}
+
+    for file in "${changed_files[@]}"; do
+        [[ -z "$file" ]] && continue
+        local basename="${file:t}"   # filename only
+        local dirname="${file:h}"    # directory only
+        local ext="${file:e}"        # extension
+
+        case "$file" in
+            lectures/*.qmd)
+                categories[content]=$(( ${categories[content]:-0} + 1 ))
+                # Extract week number
+                if [[ "$basename" =~ "week-([0-9]+)" ]]; then
+                    descriptions+=("week-${match[1]} lecture")
+                else
+                    descriptions+=("${basename%.qmd} lecture")
+                fi
+                ;;
+            labs/*.qmd)
+                categories[content]=$(( ${categories[content]:-0} + 1 ))
+                if [[ "$basename" =~ "week-([0-9]+)" ]]; then
+                    descriptions+=("week-${match[1]} lab")
+                else
+                    descriptions+=("${basename%.qmd} lab")
+                fi
+                ;;
+            assignments/*.qmd)
+                categories[content]=$(( ${categories[content]:-0} + 1 ))
+                if [[ "$basename" =~ "([0-9]+)" ]]; then
+                    descriptions+=("assignment ${match[1]}")
+                else
+                    descriptions+=("${basename%.qmd} assignment")
+                fi
+                ;;
+            exams/*.qmd)
+                categories[content]=$(( ${categories[content]:-0} + 1 ))
+                descriptions+=("${basename%.qmd} exam")
+                ;;
+            projects/*.qmd)
+                categories[content]=$(( ${categories[content]:-0} + 1 ))
+                descriptions+=("${basename%.qmd} project")
+                ;;
+            scripts/*.R|scripts/*.py)
+                categories[content]=$(( ${categories[content]:-0} + 1 ))
+                descriptions+=("${basename} script")
+                ;;
+            home_*.qmd)
+                categories[config]=$(( ${categories[config]:-0} + 1 ))
+                descriptions+=("index update")
+                ;;
+            _quarto.yml|_metadata.yml)
+                categories[config]=$(( ${categories[config]:-0} + 1 ))
+                descriptions+=("${basename}")
+                ;;
+            .flow/*.yml)
+                categories[config]=$(( ${categories[config]:-0} + 1 ))
+                descriptions+=("flow config")
+                ;;
+            .STATUS)
+                categories[config]=$(( ${categories[config]:-0} + 1 ))
+                descriptions+=("status")
+                ;;
+            *.css|*.scss)
+                categories[style]=$(( ${categories[style]:-0} + 1 ))
+                descriptions+=("style")
+                ;;
+            images/*|img/*)
+                categories[content]=$(( ${categories[content]:-0} + 1 ))
+                descriptions+=("media")
+                ;;
+            data/*)
+                categories[data]=$(( ${categories[data]:-0} + 1 ))
+                descriptions+=("data")
+                ;;
+            *.qmd)
+                categories[content]=$(( ${categories[content]:-0} + 1 ))
+                descriptions+=("${basename%.qmd}")
+                ;;
+            *)
+                categories[misc]=$(( ${categories[misc]:-0} + 1 ))
+                ;;
+        esac
+    done
+
+    # Determine prefix from dominant category
+    local prefix="deploy"
+    local max_count=0
+    for cat count in ${(kv)categories}; do
+        if [[ $count -gt $max_count ]]; then
+            max_count=$count
+            prefix="$cat"
+        fi
+    done
+
+    # If dominant is >50% of total, use it; otherwise "deploy"
+    if [[ $max_count -le $(( total / 2 )) ]]; then
+        prefix="deploy"
+    fi
+
+    # "misc" isn't a good prefix
+    [[ "$prefix" == "misc" ]] && prefix="deploy"
+
+    # Deduplicate descriptions
+    local -a unique_descs=()
+    local -A seen_descs
+    for desc in "${descriptions[@]}"; do
+        [[ -z "$desc" ]] && continue
+        if [[ -z "${seen_descs[$desc]:-}" ]]; then
+            seen_descs[$desc]=1
+            unique_descs+=("$desc")
+        fi
+    done
+
+    # Build message body
+    local body=""
+    if [[ ${#unique_descs[@]} -eq 0 ]]; then
+        body="update"
+    elif [[ $total -gt 10 && ${#unique_descs[@]} -gt 5 ]]; then
+        body="full site update ($total files)"
+    elif [[ ${#unique_descs[@]} -le 3 ]]; then
+        body="${(j:, :)unique_descs}"
+    else
+        # Take first 3, add "+N more"
+        local first_three=("${unique_descs[@]:0:3}")
+        local remaining=$(( ${#unique_descs[@]} - 3 ))
+        body="${(j:, :)first_three} +${remaining} more"
+    fi
+
+    # Truncate to 72 chars
+    local message="${prefix}: ${body}"
+    if [[ ${#message} -gt 72 ]]; then
+        message="${message:0:69}..."
+    fi
+
+    echo "$message"
+    return 0
+}
+
+# =============================================================================
 # Function: _git_is_clean
 # Purpose: Check if working directory has no uncommitted changes
 # =============================================================================

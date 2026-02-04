@@ -6778,6 +6778,54 @@ _teach_plan_help
 
 ---
 
+### teach-deploy v2 Helpers
+
+**Source:** `lib/deploy-history-helpers.zsh`, `lib/deploy-rollback-helpers.zsh`, `lib/dispatchers/teach-deploy-enhanced.zsh`
+**Added:** v6.4.0
+
+#### Deploy History (`lib/deploy-history-helpers.zsh`)
+
+Append-only YAML deploy history tracking at `.flow/deploy-history.yml`.
+
+| Function | Signature | Purpose |
+|----------|-----------|---------|
+| `_deploy_history_append` | `<mode> <commit_hash> <commit_before> <branch_from> <branch_to> <file_count> <commit_message> [pr_number] [tag] [duration]` | Append deploy entry (never rewrites file) |
+| `_deploy_history_list` | `[count]` | Display recent deploys as formatted table (default: 5) |
+| `_deploy_history_get` | `<display_index>` | Retrieve entry by display index (1=most recent). Sets `DEPLOY_HIST_*` variables |
+| `_deploy_history_count` | (none) | Print total number of recorded deploys |
+
+**Exported variables** (from `_deploy_history_get`):
+
+`DEPLOY_HIST_TIMESTAMP`, `DEPLOY_HIST_MODE`, `DEPLOY_HIST_COMMIT`, `DEPLOY_HIST_COMMIT_BEFORE`, `DEPLOY_HIST_BRANCH_FROM`, `DEPLOY_HIST_BRANCH_TO`, `DEPLOY_HIST_FILE_COUNT`, `DEPLOY_HIST_MESSAGE`, `DEPLOY_HIST_PR`, `DEPLOY_HIST_TAG`, `DEPLOY_HIST_USER`, `DEPLOY_HIST_DURATION`
+
+#### Deploy Rollback (`lib/deploy-rollback-helpers.zsh`)
+
+Forward rollback via `git revert` with history tracking.
+
+| Function | Signature | Purpose |
+|----------|-----------|---------|
+| `_deploy_rollback` | `[N] [--ci]` | Main rollback with interactive picker. N=display index (1=most recent) |
+| `_deploy_perform_rollback` | `<commit_hash> <branch> <original_message> <ci_mode>` | Execute forward rollback. Detects merge commits (parent count > 1) and uses `-m 1` |
+
+#### Deploy Orchestration (`lib/dispatchers/teach-deploy-enhanced.zsh`)
+
+| Function | Signature | Purpose |
+|----------|-----------|---------|
+| `_deploy_preflight_checks` | `<ci_mode>` | Validate git state, config, branches. Sets `DEPLOY_*` variables |
+| `_deploy_direct_merge` | `<draft_branch> <prod_branch> <commit_message> <ci_mode>` | Direct merge deploy (push draft, checkout prod, merge, push) |
+| `_deploy_dry_run_report` | (reads `DEPLOY_*` globals) | Preview deploy without side effects |
+| `_deploy_update_status_file` | (reads `.STATUS` + history) | Update `.STATUS` with `last_deploy`, `deploy_count`, `teaching_week` |
+| `_teach_deploy_enhanced` | `[flags...]` | Main entry point. Parses flags, dispatches to deploy/rollback/history/dry-run |
+| `_deploy_cleanup_globals` | (none) | Unset `DEPLOY_COMMIT_BEFORE`, `DEPLOY_COMMIT_AFTER`, `DEPLOY_DURATION`, `DEPLOY_MODE` |
+| `_teach_deploy_enhanced_help` | (none) | Print formatted help output |
+| `_check_prerequisites_for_deploy` | (none) | Verify `git` and optional `yq` are available |
+
+**Exported variables** (from `_deploy_direct_merge` and `_deploy_perform_rollback`):
+
+`DEPLOY_COMMIT_BEFORE`, `DEPLOY_COMMIT_AFTER`, `DEPLOY_DURATION`, `DEPLOY_MODE`
+
+---
+
 ## See Also
 
 - [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) - Complete dispatcher reference

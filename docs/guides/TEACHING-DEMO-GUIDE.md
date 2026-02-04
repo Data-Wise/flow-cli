@@ -347,7 +347,7 @@ sleep 1
 teach deploy
 
 echo ""
-echo "✓ Materials live in < 2 minutes!"
+echo "✓ Materials live in seconds with teach deploy -d!"
 ```
 
 ---

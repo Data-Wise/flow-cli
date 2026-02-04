@@ -1,6 +1,6 @@
 # flow-cli
 
-[![Version](https://img.shields.io/badge/version-6.2.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.2.0)
+[![Version](https://img.shields.io/badge/version-6.4.0-blue.svg)](https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0)
 [![Tests](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml/badge.svg)](https://github.com/Data-Wise/flow-cli/actions)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen.svg)](https://data-wise.github.io/flow-cli/)
 
@@ -72,7 +72,7 @@ teach validate --quick-checks
 - 📚 [Complete Guide](https://data-wise.github.io/flow-cli/guides/LINT-GUIDE/)
 - 🔄 [Workflow Integration](https://data-wise.github.io/flow-cli/workflows/WORKFLOW-LINT/)
 
-[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v6.1.0)
+[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0)
 
 ---
 

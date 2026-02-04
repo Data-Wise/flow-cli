@@ -40,7 +40,7 @@ By the end of this tutorial, you will:
 
 1. Initialize a teaching workflow for your course
 2. Understand config validation and fix common errors
-3. Deploy changes to production in < 2 minutes
+3. Deploy changes to production in seconds (`-d`) or via PR
 4. Use the branch-based draft/production workflow
 5. Generate teaching content with Scholar integration
 6. Archive semesters for future reference
@@ -250,7 +250,7 @@ teach deploy
 2. Merges `draft` → `production`
 3. Pushes to GitHub
 4. GitHub Actions builds the site
-5. Students see updates in < 2 minutes
+5. Students see updates in seconds (direct) or < 2 minutes (PR)
 
 ### Step 4.4: Check Current Week
 

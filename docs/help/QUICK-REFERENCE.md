@@ -8,7 +8,7 @@ tags:
 
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
-**Version:** v6.2.0
+**Version:** v6.4.0
 **Last Updated:** 2026-02-02
 
 ---
@@ -949,8 +949,11 @@ teach scholar status
 teach analyze lectures/      # Analyze content
 teach exam "Midterm Topics"  # Generate exam
 
-# Deployment
-teach deploy                 # Publish site
+# Deployment (v6.4.0)
+teach deploy --direct        # Direct merge deploy
+teach deploy --dry-run       # Preview deploy
+teach deploy --rollback 1    # Undo last deploy
+teach deploy --history       # Show deploy log
 teach status                 # Verify
 ```
 
@@ -1022,6 +1025,6 @@ mcp help
 
 ---
 
-**Version:** v6.2.0
+**Version:** v6.4.0
 **Last Updated:** 2026-02-02
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

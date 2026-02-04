@@ -10,7 +10,7 @@
 
 The **Teaching Workflow** is a deployment-focused workflow system designed to solve the 5-15 minute deployment pain point for course websites. It provides:
 
-✅ **Fast Deployment** - Typo to live in < 2 minutes
+✅ **Fast Deployment** - Typo to live in 8-15 seconds (`teach deploy -d`)
 ✅ **Branch Safety** - Prevents accidental edits to production branch
 ✅ **Course Context** - Teaching-aware work sessions
 ✅ **Automation Scripts** - One-command deployment and archival
@@ -58,7 +58,7 @@ work stat-545
 - Merges `draft` → `production`
 - Pushes to GitHub
 - GitHub Actions deploys to GitHub Pages
-- **Completes in < 2 minutes**
+- **Completes in 8-15 seconds** (direct mode) or < 2 minutes (PR mode)
 
 ---
 
@@ -554,7 +554,7 @@ s545d
 # 5. Verify live
 # Visit course website
 
-# Total time: < 2 minutes from typo discovery to live fix
+# Total time: ~15 seconds with teach deploy -d (or < 2 min via PR)
 ```
 
 ---

@@ -72,10 +72,11 @@ The flow-cli teaching workflow provides a complete solution for managing Quarto-
 
 ### Key Capabilities
 
-1. **Fast Deployment** (< 2 minutes)
-   - Branch-based draft/production workflow
-   - Preview changes before publishing
-   - Automated GitHub Pages deployment
+1. **Fast Deployment** (8-15 seconds with direct mode)
+   - Direct merge: `teach deploy -d` (8-15s, no PR)
+   - PR workflow: `teach deploy` (45-90s, review + checks)
+   - Deploy history tracking and safe rollback
+   - Preview with `--dry-run` before deploying
 
 2. **Health Monitoring**
    - Dependency verification (`teach doctor`)
@@ -136,7 +137,9 @@ teach exam "Topic Name"
 teach quiz "Topic Name"
 teach slides "Topic Name"
 
-# Deploy to production
+# Deploy to production (fast direct mode)
+teach deploy -d
+# Or via PR workflow
 teach deploy
 ```
 
@@ -224,5 +227,5 @@ teach plan help
 
 ---
 
-**Last Updated:** 2026-01-31
-**Version:** v6.2.0
+**Last Updated:** 2026-02-04
+**Version:** v6.4.0

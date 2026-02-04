@@ -2096,7 +2096,7 @@ git commit -m "Restore introduction section with #sec-introduction label"
 teach deploy
 
 # Output:
-# ✓ Fix deployed in < 2 minutes
+# ✓ Fix deployed in ~15 seconds (direct mode)
 # ✓ Student can access corrected content
 ```
 
