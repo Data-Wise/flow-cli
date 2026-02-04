@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v6.4.0
-- **Latest Release:** v6.4.0 (2026-02-03)
+- **Current Version:** v6.4.1
+- **Latest Release:** v6.4.1 (2026-02-04)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -719,11 +719,11 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v6.4.0
-**Latest Release:** v6.4.0 (2026-02-03)
+**Version:** v6.4.1
+**Latest Release:** v6.4.1 (2026-02-04)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.1
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
 **Tests:** 563+ total tests (462 existing + 101 teach deploy v2 tests)
@@ -741,6 +741,34 @@ export FLOW_DEBUG=1
 ---
 
 ## Recent Releases
+
+### v6.4.1 - Deploy Progress Bar & Summary Box (2026-02-04)
+
+**Released:** 2026-02-04
+**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.1
+
+**Features:**
+
+- **Deploy Step Progress** — 5-step numbered progress `[1/5]..[5/5]` in direct merge mode
+  - `_deploy_step()` helper with done/active/fail states
+  - Replaces inline `[ok]` markers
+
+- **Deployment Summary Box** — Unicode box after both deploy modes
+  - Shows mode, files changed (+/-), duration, commit hash, URL
+  - `_deploy_summary_box()` helper
+  - Direct mode: site URL from config; PR mode: PR URL from GitHub API
+
+- **New exports:** `DEPLOY_FILE_COUNT`, `DEPLOY_INSERTIONS`, `DEPLOY_DELETIONS`, `DEPLOY_SHORT_HASH`
+
+**Fixes:**
+
+- Git checkout stdout noise suppressed during deploy steps (`>/dev/null 2>&1`)
+
+**Tests:** 20 new tests (14 unit + 6 E2E)
+
+**Docs:** Updated REFCARD, tutorial, guide, CHANGELOG, API reference; consolidated README What's New
+
+---
 
 ### v6.4.0 - Teach Deploy v2: Direct Merge, History, Rollback (2026-02-03)
 
@@ -1180,5 +1208,5 @@ git push origin main && git push origin v6.4.0
 
 ---
 
-**Last Updated:** 2026-02-03 (v6.4.0)
-**Status:** Production Ready (v6.4.0)
+**Last Updated:** 2026-02-04 (v6.4.1)
+**Status:** Production Ready (v6.4.1)
