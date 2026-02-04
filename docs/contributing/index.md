@@ -60,8 +60,8 @@ tags:
 | [Branch Workflow](BRANCH-WORKFLOW.md) | Git workflow for contributors |
 | [PR Workflow Guide](PR-WORKFLOW-GUIDE.md) | Pull request process |
 | [Documentation Style Guide](DOCUMENTATION-STYLE-GUIDE.md) | Writing standards |
-| [Documentation Templates](../conventions/adhd/README.md) | ADHD-friendly doc templates |
-| [GIF Creation Guide](../conventions/adhd/GIF-GUIDELINES.md) | Terminal recording guidelines |
+| [Documentation Templates](../internal/conventions/adhd/README.md) | ADHD-friendly doc templates |
+| [GIF Creation Guide](../internal/conventions/adhd/GIF-GUIDELINES.md) | Terminal recording guidelines |
 | [ZSH Development Guidelines](../ZSH-DEVELOPMENT-GUIDELINES.md) | ZSH coding standards |
 | [Conventions](../CONVENTIONS.md) | Project conventions |
 | [Philosophy](../PHILOSOPHY.md) | Design principles |

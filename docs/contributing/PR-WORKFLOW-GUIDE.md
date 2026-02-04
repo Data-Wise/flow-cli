@@ -81,7 +81,7 @@ feature/* ──► dev ──► main
 
 - [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) - Architecture overview
 - [CONTRIBUTING.md](../contributing/CONTRIBUTING.md) - Contribution guidelines
-- [Testing Guide](../testing/TESTING.md) - Test requirements
+- [Testing Guide](../guides/TESTING.md) - Test requirements
 
 ### 3. Understand the Architecture
 
@@ -262,7 +262,7 @@ zsh tests/run-tests.zsh
 - [ ] Integration tests for commands
 - [ ] All tests pass
 
-**See:** [Testing Guide](../testing/TESTING.md)
+**See:** [Testing Guide](../guides/TESTING.md)
 
 ### Step 4: Commit Your Changes
 
@@ -724,7 +724,7 @@ git push origin --delete feature/name
 ## Related Documentation
 
 - [Contributing Guide](../contributing/CONTRIBUTING.md) - High-level contribution guidelines
-- [Testing Guide](../testing/TESTING.md) - How to write and run tests
+- [Testing Guide](../guides/TESTING.md) - How to write and run tests
 - [CLAUDE.md](https://github.com/Data-Wise/flow-cli/blob/main/CLAUDE.md) - Architecture overview
 
 ---

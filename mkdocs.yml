@@ -77,6 +77,11 @@ plugins:
         - 'TEST-COVERAGE-*.md'
         - 'teach-doctor-implementation.md'
         - 'FEATURE-REQUEST-QUARTO-WORKFLOW-ENHANCEMENTS.md'
+        - 'internal/conventions/code/**'
+        - 'internal/conventions/documentation/**'
+        - 'internal/conventions/project/**'
+        - 'internal/VHS-TAPE-STYLE-GUIDE.md'
+        - 'assets/gifs/nvim/README.md'
 
 markdown_extensions:
   - admonition
@@ -159,6 +164,7 @@ nav:
           - Deployment: guides/TEACH-DEPLOY-GUIDE.md
           - Deploy v2 (Direct, History, Rollback): tutorials/31-teach-deploy-v2.md
           - Git Integration: tutorials/19-teaching-git-integration.md
+          - Date Automation: tutorials/20-teaching-dates-automation.md
           - Visual Workflow Guide: guides/TEACHING-WORKFLOW-VISUAL.md
       - Features:
           - Content Analysis: tutorials/21-teach-analyze.md
@@ -223,12 +229,14 @@ nav:
       - Tools & Integrations:
           - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
           - 🔐 Token Management: guides/TOKEN-MANAGEMENT-COMPLETE.md
+          - 🩺 Doctor Token Guide: guides/DOCTOR-TOKEN-USER-GUIDE.md
           - 🚀 Quarto Workflow Phase 2: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
           - 🔍 Lint Validation:
               - User Guide: guides/LINT-GUIDE.md
               - Migration Guide: guides/LINT-MIGRATION-GUIDE.md
           - Lint Workflow: workflows/WORKFLOW-LINT.md
           - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
+          - 🎯 Prompt Dispatcher Guide: guides/PROMPT-DISPATCHER-GUIDE.md
           - Enhanced Help: guides/ENHANCED-HELP-QUICK-START.md
           - Monorepo Commands: guides/MONOREPO-COMMANDS-TUTORIAL.md
           - Dopamine Features: guides/DOPAMINE-FEATURES-GUIDE.md
@@ -284,8 +292,8 @@ nav:
       - Branch Workflow: contributing/BRANCH-WORKFLOW.md
       - PR Workflow Guide: contributing/PR-WORKFLOW-GUIDE.md
       - Documentation Style Guide: contributing/DOCUMENTATION-STYLE-GUIDE.md
-      - Documentation Templates: conventions/adhd/README.md
-      - GIF Creation Guide: conventions/adhd/GIF-GUIDELINES.md
+      - Documentation Templates: internal/conventions/adhd/README.md
+      - GIF Creation Guide: internal/conventions/adhd/GIF-GUIDELINES.md
       - Guidelines: ZSH-DEVELOPMENT-GUIDELINES.md
       - Conventions: CONVENTIONS.md
       - Philosophy: PHILOSOPHY.md

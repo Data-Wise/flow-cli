@@ -232,7 +232,7 @@ result = process_data()
 **Use relative links for internal docs:**
 
 ```markdown
-✅ See [Testing Guide](../testing/TESTING.md)
+✅ See [Testing Guide](../guides/TESTING.md)
 ✅ Read the [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 ❌ See [Testing Guide](https://data-wise.github.io/flow-cli/testing/TESTING/)
 ````
