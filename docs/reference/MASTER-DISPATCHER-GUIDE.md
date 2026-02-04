@@ -1641,26 +1641,28 @@ Creates comprehensive course analysis.
 
 #### Deployment Workflows
 
+**Quick direct deploy (v6.4.0):**
+```bash
+teach deploy --direct          # Merge draft → main, push
+teach deploy -d -m "week 5"   # Direct with custom message
+teach deploy --dry-run         # Preview first
+```
+
+**Deploy with rollback safety:**
+```bash
+teach deploy --direct          # Deploy
+teach deploy --history         # Check history
+teach deploy --rollback 1      # Undo most recent deploy
+```
+
 **Preview before deploy:**
 ```bash
 qu preview
 # Review site locally
 # Fix any issues
 
-teach deploy
+teach deploy --direct
 # Deploy to production
-```
-
-**Deploy with validation:**
-```bash
-# Check for broken links
-markdown-link-check lectures/**/*.md
-
-# Deploy
-teach deploy
-
-# Verify
-curl -I https://username.github.io/stat-440/
 ```
 
 ---
@@ -1981,8 +1983,14 @@ qu preview
 - `teach exam --template <name> <topic>` - Use template
 - `teach quiz <topic>` - Generate quiz
 
-**Deployment:**
-- `teach deploy` - Deploy to GitHub Pages
+**Deployment (v6.4.0):**
+- `teach deploy` - Deploy via PR (default)
+- `teach deploy --direct` / `teach dep -d` - Direct merge deploy
+- `teach deploy --dry-run` / `teach dep --dry` - Preview without deploying
+- `teach deploy --rollback [N]` / `teach dep --rb [N]` - Rollback deployment N (1=most recent)
+- `teach deploy --history` / `teach dep --hist` - Show deploy history
+- `teach deploy --ci` - CI/non-interactive mode
+- `teach deploy -m "msg"` - Custom commit message
 
 **Migration (v5.20.0):**
 - `teach migrate-config` - Extract lesson plans from config

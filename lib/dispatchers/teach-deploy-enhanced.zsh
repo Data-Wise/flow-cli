@@ -9,7 +9,327 @@
 # - Index management (ADD/UPDATE/REMOVE)
 # - Auto-commit + Auto-tag
 # - Cross-reference validation
+# - CI mode (--ci flag or auto-detect non-TTY)
 #
+
+# ============================================================================
+# SHARED PREFLIGHT CHECKS
+# ============================================================================
+
+# Shared preflight checks for all deploy modes
+# Returns 0 if all checks pass
+# Sets: DEPLOY_DRAFT_BRANCH, DEPLOY_PROD_BRANCH, DEPLOY_COURSE_NAME, DEPLOY_AUTO_PR, DEPLOY_REQUIRE_CLEAN
+_deploy_preflight_checks() {
+    local ci_mode="${1:-false}"
+
+    # Check if in git repo
+    if ! _git_in_repo; then
+        _teach_error "Not in a git repository" \
+            "Initialize git first with: git init"
+        return 1
+    fi
+
+    # Check config file
+    local config_file=".flow/teach-config.yml"
+    if [[ ! -f "$config_file" ]]; then
+        _teach_error ".flow/teach-config.yml not found" \
+            "Run 'teach init' to create the configuration"
+        return 1
+    fi
+
+    # Read config (export for caller)
+    DEPLOY_DRAFT_BRANCH=$(yq '.git.draft_branch // .branches.draft // "draft"' "$config_file" 2>/dev/null) || DEPLOY_DRAFT_BRANCH="draft"
+    DEPLOY_PROD_BRANCH=$(yq '.git.production_branch // .branches.production // "main"' "$config_file" 2>/dev/null) || DEPLOY_PROD_BRANCH="main"
+    DEPLOY_AUTO_PR=$(yq '.git.auto_pr // true' "$config_file" 2>/dev/null) || DEPLOY_AUTO_PR="true"
+    DEPLOY_REQUIRE_CLEAN=$(yq '.git.require_clean // true' "$config_file" 2>/dev/null) || DEPLOY_REQUIRE_CLEAN="true"
+    DEPLOY_COURSE_NAME=$(yq '.course.name // "Teaching Project"' "$config_file" 2>/dev/null) || DEPLOY_COURSE_NAME="Teaching Project"
+
+    # Output header
+    echo ""
+    echo "${FLOW_COLORS[info]}  Pre-flight Checks${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Check: git repo
+    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Git repository"
+
+    # Check: config
+    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Config file found"
+
+    # Check: on draft branch
+    local current_branch=$(_git_current_branch)
+    if [[ "$current_branch" != "$DEPLOY_DRAFT_BRANCH" ]]; then
+        if [[ "$ci_mode" == "true" ]]; then
+            echo "${FLOW_COLORS[error]}  [!!]${FLOW_COLORS[reset]} Not on $DEPLOY_DRAFT_BRANCH branch (on: $current_branch)"
+            _teach_error "Not on $DEPLOY_DRAFT_BRANCH branch (on: $current_branch)" \
+                "CI mode cannot switch branches. Ensure correct branch before running."
+            return 1
+        fi
+        echo "${FLOW_COLORS[error]}  [!!]${FLOW_COLORS[reset]} Not on $DEPLOY_DRAFT_BRANCH branch (on: $current_branch)"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}  Switch to $DEPLOY_DRAFT_BRANCH? [Y/n]:${FLOW_COLORS[reset]} "
+        read -r switch_confirm
+        case "$switch_confirm" in
+            n|N|no|No|NO) return 1 ;;
+            *)
+                git checkout "$DEPLOY_DRAFT_BRANCH" || {
+                    _teach_error "Failed to switch to $DEPLOY_DRAFT_BRANCH"
+                    return 1
+                }
+                echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Switched to $DEPLOY_DRAFT_BRANCH"
+                ;;
+        esac
+    else
+        echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} On $DEPLOY_DRAFT_BRANCH branch"
+    fi
+
+    # Check: working tree clean
+    if [[ "$DEPLOY_REQUIRE_CLEAN" == "true" ]] && ! _git_is_clean; then
+        echo "${FLOW_COLORS[error]}  [!!]${FLOW_COLORS[reset]} Working tree dirty"
+        return 1
+    else
+        echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Working tree clean"
+    fi
+
+    # Check: no conflicts with production
+    if _git_detect_production_conflicts "$DEPLOY_DRAFT_BRANCH" "$DEPLOY_PROD_BRANCH" 2>/dev/null; then
+        echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} No production conflicts"
+    else
+        echo "${FLOW_COLORS[warn]}  [!!]${FLOW_COLORS[reset]} Production has new commits"
+        if [[ "$ci_mode" == "true" ]]; then
+            _teach_error "CI mode: production conflicts detected. Resolve manually."
+            return 1
+        fi
+    fi
+
+    return 0
+}
+
+# ============================================================================
+# DIRECT MERGE MODE
+# ============================================================================
+
+# Direct merge mode: merge draft -> production without PR
+# Usage: _deploy_direct_merge <draft_branch> <prod_branch> <commit_message> <ci_mode>
+# Returns: 0 on success, 1 on failure
+# This is the fast path (8-15s vs 45-90s for PR mode)
+_deploy_direct_merge() {
+    local draft_branch="$1"
+    local prod_branch="$2"
+    local commit_message="$3"
+    local ci_mode="${4:-false}"
+    local start_time=$SECONDS
+
+    echo ""
+    echo "${FLOW_COLORS[info]}  Direct merge: $draft_branch -> $prod_branch${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Guard: working tree must be clean before branch switch
+    if ! _git_is_clean; then
+        _teach_error "Working tree must be clean for direct merge" \
+            "Commit or stash changes first"
+        return 1
+    fi
+
+    # Save the PRODUCTION branch HEAD for rollback reference (not current branch)
+    local commit_before=$(git rev-parse "$prod_branch" 2>/dev/null)
+
+    # Ensure draft is pushed to remote first
+    local push_err
+    push_err=$(git push origin "$draft_branch" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        # If push fails, might be nothing to push (ok) or real error
+        if ! _git_is_synced 2>/dev/null; then
+            _teach_error "Failed to push $draft_branch to origin" "$push_err"
+            return 1
+        fi
+    fi
+    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} $draft_branch pushed to origin"
+
+    # Switch to production branch
+    local checkout_err
+    checkout_err=$(git checkout "$prod_branch" 2>&1) || {
+        _teach_error "Failed to switch to $prod_branch" "$checkout_err"
+        return 1
+    }
+
+    # Pull latest production
+    local pull_err
+    pull_err=$(git pull origin "$prod_branch" --ff-only 2>&1) || {
+        # If ff-only fails, try regular pull
+        pull_err=$(git pull origin "$prod_branch" 2>&1) || {
+            _teach_error "Failed to pull latest $prod_branch" "$pull_err"
+            git checkout "$draft_branch" 2>/dev/null
+            return 1
+        }
+    }
+
+    # Merge draft into production
+    local merge_err
+    merge_err=$(git merge "$draft_branch" --no-edit -m "$commit_message" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        _teach_error "Merge conflict! Aborting merge." "$merge_err"
+        git merge --abort 2>/dev/null
+        git checkout "$draft_branch" 2>/dev/null
+        echo ""
+        echo "${FLOW_COLORS[dim]}  Tip: Resolve conflicts manually or use PR mode${FLOW_COLORS[reset]}"
+        return 1
+    fi
+    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Merged successfully"
+
+    # Push production to origin
+    local push_prod_err
+    push_prod_err=$(git push origin "$prod_branch" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        _teach_error "Failed to push $prod_branch to origin" "$push_prod_err"
+        git checkout "$draft_branch" 2>/dev/null
+        return 1
+    fi
+    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Pushed to origin/$prod_branch"
+
+    # Get the new commit hash
+    local commit_after=$(git rev-parse HEAD 2>/dev/null)
+
+    # Switch back to draft branch
+    git checkout "$draft_branch" 2>/dev/null || {
+        _teach_error "Warning: Failed to switch back to $draft_branch"
+    }
+
+    local elapsed=$(( SECONDS - start_time ))
+
+    echo ""
+    echo "${FLOW_COLORS[success]}  Done in ${elapsed}s${FLOW_COLORS[reset]}"
+
+    # Export for history tracking
+    DEPLOY_COMMIT_BEFORE="$commit_before"
+    DEPLOY_COMMIT_AFTER="$commit_after"
+    DEPLOY_DURATION="$elapsed"
+    DEPLOY_MODE="direct"
+
+    return 0
+}
+
+# ============================================================================
+# DRY-RUN REPORT
+# ============================================================================
+
+# Dry-run report: preview deploy without executing
+# Usage: _deploy_dry_run_report <draft_branch> <prod_branch> <course_name> <direct_mode> <commit_message>
+_deploy_dry_run_report() {
+    local draft_branch="$1"
+    local prod_branch="$2"
+    local course_name="$3"
+    local direct_mode="${4:-false}"
+    local commit_message="${5:-}"
+
+    echo ""
+    echo "${FLOW_COLORS[warn]}  DRY RUN — No changes will be made${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # Show files that would be deployed
+    local files_changed
+    files_changed=$(git diff --name-status "$prod_branch"..."$draft_branch" 2>/dev/null)
+
+    if [[ -n "$files_changed" ]]; then
+        local file_count=$(echo "$files_changed" | wc -l | tr -d ' ')
+        echo ""
+        echo "  Would deploy $file_count files:"
+
+        while IFS=$'\t' read -r fstatus file; do
+            case "$fstatus" in
+                M)  echo "    ${FLOW_COLORS[warn]}M${FLOW_COLORS[reset]} $file" ;;
+                A)  echo "    ${FLOW_COLORS[success]}A${FLOW_COLORS[reset]} $file" ;;
+                D)  echo "    ${FLOW_COLORS[error]}D${FLOW_COLORS[reset]} $file" ;;
+                R*) echo "    ${FLOW_COLORS[info]}R${FLOW_COLORS[reset]} $file" ;;
+                *)  echo "    $fstatus $file" ;;
+            esac
+        done <<< "$files_changed"
+    else
+        echo ""
+        echo "  No changes to deploy."
+        return 0
+    fi
+
+    # Show commit message
+    echo ""
+    if [[ -n "$commit_message" ]]; then
+        echo "  Would commit: \"$commit_message\""
+    elif typeset -f _generate_smart_commit_message >/dev/null 2>&1; then
+        local smart_msg=$(_generate_smart_commit_message "$draft_branch" "$prod_branch")
+        echo "  Would commit: \"$smart_msg\""
+    else
+        echo "  Would commit: \"deploy: $course_name update\""
+    fi
+
+    # Show mode
+    echo ""
+    if [[ "$direct_mode" == "true" ]]; then
+        echo "  Would merge: $draft_branch -> $prod_branch (direct mode)"
+    else
+        echo "  Would create: PR from $draft_branch -> $prod_branch"
+    fi
+
+    # Show history entry
+    local deploy_count=0
+    if typeset -f _deploy_history_count >/dev/null 2>&1; then
+        deploy_count=$(_deploy_history_count)
+    fi
+    local next_num=$(( deploy_count + 1 ))
+    echo "  Would log: deploy #$next_num to .flow/deploy-history.yml"
+
+    # Show .STATUS update hint
+    if [[ -f ".STATUS" ]]; then
+        echo "  Would update: .STATUS"
+    fi
+
+    echo ""
+    echo "${FLOW_COLORS[dim]}  Run without --dry-run to execute${FLOW_COLORS[reset]}"
+
+    return 0
+}
+
+# ============================================================================
+# .STATUS FILE UPDATE
+# ============================================================================
+
+# Update .STATUS file after deployment
+# Sets deploy_count, last_deploy, and teaching_week (if determinable)
+_deploy_update_status_file() {
+    local status_file=".STATUS"
+    [[ ! -f "$status_file" ]] && return 0  # Non-destructive: skip if absent
+
+    local deploy_count
+    if typeset -f _deploy_history_count >/dev/null 2>&1; then
+        deploy_count=$(_deploy_history_count)
+    else
+        deploy_count=""
+    fi
+
+    # Update last_deploy
+    if command -v yq >/dev/null 2>&1; then
+        local today=$(date '+%Y-%m-%d')
+        yq -i ".last_deploy = \"$today\"" "$status_file" 2>/dev/null
+        if [[ -n "$deploy_count" ]]; then
+            yq -i ".deploy_count = $deploy_count" "$status_file" 2>/dev/null
+        fi
+
+        # Attempt teaching_week from semester_info.start_date
+        local start_date
+        start_date=$(yq '.semester_info.start_date // ""' .flow/teach-config.yml 2>/dev/null)
+        if [[ -n "$start_date" && "$start_date" != "null" ]]; then
+            local start_epoch today_epoch week_num
+            start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s" 2>/dev/null)
+            today_epoch=$(date "+%s")
+            if [[ -n "$start_epoch" ]]; then
+                week_num=$(( (today_epoch - start_epoch) / 604800 + 1 ))
+                if [[ $week_num -ge 1 && $week_num -le 20 ]]; then
+                    yq -i ".teaching_week = $week_num" "$status_file" 2>/dev/null
+                fi
+            fi
+        fi
+
+        echo "  ${FLOW_COLORS[dim]}.STATUS updated${FLOW_COLORS[reset]}"
+    fi
+}
 
 # ============================================================================
 # ENHANCED TEACH DEPLOY - WITH PARTIAL DEPLOYMENT SUPPORT
@@ -23,12 +343,29 @@ _teach_deploy_enhanced() {
     local auto_tag=false
     local skip_index=false
     local check_prereqs=false
+    local ci_mode=false
+    local custom_message=""
+    local dry_run=false
+
+    # Auto-detect CI mode: no TTY means non-interactive
+    if [[ ! -t 0 ]]; then
+        ci_mode=true
+    fi
 
     # Parse flags and files
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --direct-push)
+            --ci)
+                ci_mode=true
+                shift
+                ;;
+            --direct|-d|--direct-push)
                 direct_push=true
+                shift
+                ;;
+            --message|-m)
+                shift
+                custom_message="$1"
                 shift
                 ;;
             --auto-commit)
@@ -46,6 +383,36 @@ _teach_deploy_enhanced() {
             --check-prereqs|--check-prerequisites)
                 check_prereqs=true
                 shift
+                ;;
+            --dry-run|--preview)
+                dry_run=true
+                shift
+                ;;
+            --rollback)
+                shift
+                local rollback_idx=""
+                # Check if next arg is a number (optional index)
+                if [[ $# -gt 0 && "$1" =~ ^[0-9]+$ ]]; then
+                    rollback_idx="$1"
+                    shift
+                fi
+                # Dispatch to rollback immediately (no preflight needed)
+                if [[ "$ci_mode" == "true" ]]; then
+                    _deploy_rollback "$rollback_idx" --ci
+                else
+                    _deploy_rollback "$rollback_idx"
+                fi
+                return $?
+                ;;
+            --history)
+                shift
+                local history_count=10
+                if [[ $# -gt 0 && "$1" =~ ^[0-9]+$ ]]; then
+                    history_count="$1"
+                    shift
+                fi
+                _deploy_history_list "$history_count"
+                return $?
                 ;;
             --help|-h|help)
                 _teach_deploy_enhanced_help
@@ -76,61 +443,28 @@ _teach_deploy_enhanced() {
     done
 
     # ============================================
-    # PRE-FLIGHT CHECKS
+    # PRE-FLIGHT CHECKS (shared function)
     # ============================================
 
-    # Check if in git repo
-    if ! _git_in_repo; then
-        _teach_error "Not in a git repository" \
-            "Initialize git first with: git init"
-        return 1
-    fi
+    _deploy_preflight_checks "$ci_mode" || return 1
 
-    # Check if config file exists
-    local config_file=".flow/teach-config.yml"
-    if [[ ! -f "$config_file" ]]; then
-        _teach_error ".flow/teach-config.yml not found" \
-            "Run 'teach init' to create the configuration"
-        return 1
-    fi
+    # Read exported variables from preflight
+    local draft_branch="$DEPLOY_DRAFT_BRANCH"
+    local prod_branch="$DEPLOY_PROD_BRANCH"
+    local course_name="$DEPLOY_COURSE_NAME"
+    local auto_pr="$DEPLOY_AUTO_PR"
+    local require_clean="$DEPLOY_REQUIRE_CLEAN"
 
-    # Read git configuration from teach-config.yml
-    local draft_branch prod_branch auto_pr require_clean
-    draft_branch=$(yq '.git.draft_branch // .branches.draft // "draft"' "$config_file" 2>/dev/null) || draft_branch="draft"
-    prod_branch=$(yq '.git.production_branch // .branches.production // "main"' "$config_file" 2>/dev/null) || prod_branch="main"
-    auto_pr=$(yq '.git.auto_pr // true' "$config_file" 2>/dev/null) || auto_pr="true"
-    require_clean=$(yq '.git.require_clean // true' "$config_file" 2>/dev/null) || require_clean="true"
-
-    # Read course info
-    local course_name
-    course_name=$(yq '.course.name // "Teaching Project"' "$config_file" 2>/dev/null) || course_name="Teaching Project"
-
-    echo ""
-    echo "${FLOW_COLORS[info]}🔍 Pre-flight Checks${FLOW_COLORS[reset]}"
-    echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
-
-    # Check 1: Verify we're on draft branch
-    local current_branch=$(_git_current_branch)
-    if [[ "$current_branch" != "$draft_branch" ]]; then
-        echo "${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Not on $draft_branch branch (currently on: $current_branch)"
-        echo ""
-        echo -n "${FLOW_COLORS[prompt]}Switch to $draft_branch branch? [Y/n]:${FLOW_COLORS[reset]} "
-        read -r switch_confirm
-
-        case "$switch_confirm" in
-            n|N|no|No|NO)
-                return 1
-                ;;
-            *)
-                git checkout "$draft_branch" || {
-                    _teach_error "Failed to switch to $draft_branch"
-                    return 1
-                }
-                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Switched to $draft_branch"
-                ;;
-        esac
-    else
-        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} On $draft_branch branch"
+    # ============================================
+    # DRY-RUN MODE
+    # ============================================
+    if [[ "$dry_run" == "true" && "$partial_deploy" != "true" ]]; then
+        local smart_msg=""
+        if [[ -n "$custom_message" ]]; then
+            smart_msg="$custom_message"
+        fi
+        _deploy_dry_run_report "$draft_branch" "$prod_branch" "$course_name" "$direct_push" "$smart_msg"
+        return 0
     fi
 
     # ============================================
@@ -173,6 +507,10 @@ _teach_deploy_enhanced() {
         if _validate_cross_references "${deploy_files[@]}"; then
             echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} All cross-references valid"
         else
+            if [[ "$ci_mode" == "true" ]]; then
+                _teach_error "CI mode: broken cross-references detected. Fix before deploying."
+                return 1
+            fi
             echo ""
             echo -n "${FLOW_COLORS[prompt]}Continue with broken references? [y/N]:${FLOW_COLORS[reset]} "
             read -r continue_confirm
@@ -210,18 +548,37 @@ _teach_deploy_enhanced() {
         if [[ $dep_count -gt 0 ]]; then
             echo ""
             echo "${FLOW_COLORS[info]}Found $dep_count additional dependencies${FLOW_COLORS[reset]}"
-            echo -n "${FLOW_COLORS[prompt]}Include dependencies in deployment? [Y/n]:${FLOW_COLORS[reset]} "
-            read -r include_deps
-            case "$include_deps" in
-                n|N|no|No|NO)
-                    # Keep only original files
-                    all_files=("${deploy_files[@]}")
-                    ;;
-                *)
-                    # Use all files including dependencies
-                    deploy_files=("${all_files[@]}")
-                    ;;
-            esac
+            if [[ "$ci_mode" == "true" ]]; then
+                # CI mode: auto-include dependencies
+                deploy_files=("${all_files[@]}")
+            else
+                echo -n "${FLOW_COLORS[prompt]}Include dependencies in deployment? [Y/n]:${FLOW_COLORS[reset]} "
+                read -r include_deps
+                case "$include_deps" in
+                    n|N|no|No|NO)
+                        # Keep only original files
+                        all_files=("${deploy_files[@]}")
+                        ;;
+                    *)
+                        # Use all files including dependencies
+                        deploy_files=("${all_files[@]}")
+                        ;;
+                esac
+            fi
+        fi
+
+        # Dry-run: show what would happen and exit (partial deploy)
+        if [[ "$dry_run" == "true" ]]; then
+            echo ""
+            echo "${FLOW_COLORS[warn]}  DRY RUN — No changes will be made${FLOW_COLORS[reset]}"
+            echo ""
+            echo "  Would deploy ${#deploy_files[@]} files:"
+            for file in "${deploy_files[@]}"; do
+                echo "    $file"
+            done
+            echo ""
+            echo "${FLOW_COLORS[dim]}  Run without --dry-run to execute${FLOW_COLORS[reset]}"
+            return 0
         fi
 
         # Check for uncommitted changes in deploy files
@@ -242,8 +599,8 @@ _teach_deploy_enhanced() {
             done
             echo ""
 
-            if [[ "$auto_commit" == "true" ]]; then
-                # Auto-commit mode
+            if [[ "$auto_commit" == "true" || "$ci_mode" == "true" ]]; then
+                # Auto-commit mode (or CI mode)
                 echo "${FLOW_COLORS[info]}Auto-commit mode enabled${FLOW_COLORS[reset]}"
                 local commit_msg="Update: $(date +%Y-%m-%d)"
 
@@ -290,23 +647,32 @@ _teach_deploy_enhanced() {
         fi
 
         # Push to remote
-        echo ""
-        echo -n "${FLOW_COLORS[prompt]}Push to origin/$draft_branch? [Y/n]:${FLOW_COLORS[reset]} "
-        read -r push_confirm
-
-        case "$push_confirm" in
-            n|N|no|No|NO)
-                echo "Deployment cancelled"
+        if [[ "$ci_mode" == "true" ]]; then
+            # CI mode: auto-push
+            if _git_push_current_branch; then
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+            else
                 return 1
-                ;;
-            *)
-                if _git_push_current_branch; then
-                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
-                else
+            fi
+        else
+            echo ""
+            echo -n "${FLOW_COLORS[prompt]}Push to origin/$draft_branch? [Y/n]:${FLOW_COLORS[reset]} "
+            read -r push_confirm
+
+            case "$push_confirm" in
+                n|N|no|No|NO)
+                    echo "Deployment cancelled"
                     return 1
-                fi
-                ;;
-        esac
+                    ;;
+                *)
+                    if _git_push_current_branch; then
+                        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+                    else
+                        return 1
+                    fi
+                    ;;
+            esac
+        fi
 
         # Auto-tag if requested
         if [[ "$auto_tag" == "true" ]]; then
@@ -324,23 +690,33 @@ _teach_deploy_enhanced() {
                 pr_body+="- $file\n"
             done
 
-            echo ""
-            echo -n "${FLOW_COLORS[prompt]}Create pull request? [Y/n]:${FLOW_COLORS[reset]} "
-            read -r pr_confirm
+            if [[ "$ci_mode" == "true" ]]; then
+                # CI mode: auto-create PR
+                if _git_create_deploy_pr "$draft_branch" "$prod_branch" "$pr_title" "$pr_body"; then
+                    echo ""
+                    echo "${FLOW_COLORS[success]}✅ Pull Request Created${FLOW_COLORS[reset]}"
+                else
+                    return 1
+                fi
+            else
+                echo ""
+                echo -n "${FLOW_COLORS[prompt]}Create pull request? [Y/n]:${FLOW_COLORS[reset]} "
+                read -r pr_confirm
 
-            case "$pr_confirm" in
-                n|N|no|No|NO)
-                    echo "PR creation skipped"
-                    ;;
-                *)
-                    if _git_create_deploy_pr "$draft_branch" "$prod_branch" "$pr_title" "$pr_body"; then
-                        echo ""
-                        echo "${FLOW_COLORS[success]}✅ Pull Request Created${FLOW_COLORS[reset]}"
-                    else
-                        return 1
-                    fi
-                    ;;
-            esac
+                case "$pr_confirm" in
+                    n|N|no|No|NO)
+                        echo "PR creation skipped"
+                        ;;
+                    *)
+                        if _git_create_deploy_pr "$draft_branch" "$prod_branch" "$pr_title" "$pr_body"; then
+                            echo ""
+                            echo "${FLOW_COLORS[success]}✅ Pull Request Created${FLOW_COLORS[reset]}"
+                        else
+                            return 1
+                        fi
+                        ;;
+                esac
+            fi
         fi
 
         echo ""
@@ -354,6 +730,61 @@ _teach_deploy_enhanced() {
 
     # Fall back to original _teach_deploy implementation
     # This preserves the existing full-site deployment workflow
+
+    # ============================================
+    # DEPLOY MODE DISPATCH
+    # ============================================
+
+    if [[ "$direct_push" == "true" ]]; then
+        # Direct merge mode (fast path, 8-15s)
+        local smart_message
+        if [[ -n "$custom_message" ]]; then
+            smart_message="$custom_message"
+        elif typeset -f _generate_smart_commit_message >/dev/null 2>&1; then
+            smart_message=$(_generate_smart_commit_message "$draft_branch" "$prod_branch")
+        else
+            smart_message="deploy: $course_name update"
+        fi
+
+        echo ""
+        echo "${FLOW_COLORS[info]}  Smart commit: $smart_message${FLOW_COLORS[reset]}"
+
+        _deploy_direct_merge "$draft_branch" "$prod_branch" "$smart_message" "$ci_mode" || return 1
+
+        # Auto-tag if requested
+        if [[ "$auto_tag" == "true" ]]; then
+            local tag="deploy-$(date +%Y-%m-%d-%H%M)"
+            git tag "$tag" 2>/dev/null
+            git push origin "$tag" 2>/dev/null
+            echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Tagged as $tag"
+        fi
+
+        # Record in deploy history
+        if typeset -f _deploy_history_append >/dev/null 2>&1; then
+            local _commit_after="${DEPLOY_COMMIT_AFTER:-$(git rev-parse --short=8 HEAD 2>/dev/null)}"
+            local _commit_before="${DEPLOY_COMMIT_BEFORE:-}"
+            local _file_count=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | wc -l | tr -d ' ')
+            local _elapsed="${DEPLOY_DURATION:-0}"
+            _deploy_history_append "direct" "$_commit_after" "$_commit_before" "$draft_branch" "$prod_branch" "$_file_count" "$smart_message" "null" "null" "$_elapsed"
+            echo "  ${FLOW_COLORS[dim]}History logged: #$(( $(_deploy_history_count) )) ($(date '+%Y-%m-%d %H:%M'))${FLOW_COLORS[reset]}"
+        fi
+
+        # Update .STATUS file
+        _deploy_update_status_file 2>/dev/null
+
+        echo ""
+        echo "${FLOW_COLORS[success]}  Direct deployment complete${FLOW_COLORS[reset]}"
+
+        # Show site URL if available
+        local site_url
+        site_url=$(yq '.site.url // ""' .flow/teach-config.yml 2>/dev/null)
+        if [[ -n "$site_url" && "$site_url" != "null" ]]; then
+            echo "  Site: $site_url"
+        fi
+
+        _deploy_cleanup_globals
+        return 0
+    fi
 
     # Check 2: Verify no uncommitted changes (if required)
     if [[ "$require_clean" == "true" ]]; then
@@ -371,22 +802,31 @@ _teach_deploy_enhanced() {
     # Check 3: Check for unpushed commits
     if _git_has_unpushed_commits; then
         echo "${FLOW_COLORS[warn]}⚠️  ${FLOW_COLORS[reset]} Unpushed commits detected"
-        echo ""
-        echo -n "${FLOW_COLORS[prompt]}Push to origin/$draft_branch first? [Y/n]:${FLOW_COLORS[reset]} "
-        read -r push_confirm
+        if [[ "$ci_mode" == "true" ]]; then
+            # CI mode: auto-push
+            if _git_push_current_branch; then
+                echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+            else
+                return 1
+            fi
+        else
+            echo ""
+            echo -n "${FLOW_COLORS[prompt]}Push to origin/$draft_branch first? [Y/n]:${FLOW_COLORS[reset]} "
+            read -r push_confirm
 
-        case "$push_confirm" in
-            n|N|no|No|NO)
-                echo "${FLOW_COLORS[warn]}Continuing without push...${FLOW_COLORS[reset]}"
-                ;;
-            *)
-                if _git_push_current_branch; then
-                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
-                else
-                    return 1
-                fi
-                ;;
-        esac
+            case "$push_confirm" in
+                n|N|no|No|NO)
+                    echo "${FLOW_COLORS[warn]}Continuing without push...${FLOW_COLORS[reset]}"
+                    ;;
+                *)
+                    if _git_push_current_branch; then
+                        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+                    else
+                        return 1
+                    fi
+                    ;;
+            esac
+        fi
     else
         echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Remote is up-to-date"
     fi
@@ -396,6 +836,10 @@ _teach_deploy_enhanced() {
         echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No conflicts with production"
     else
         echo "${FLOW_COLORS[warn]}⚠️  ${FLOW_COLORS[reset]} Production ($prod_branch) has new commits"
+        if [[ "$ci_mode" == "true" ]]; then
+            _teach_error "CI mode: production conflicts detected. Resolve manually."
+            return 1
+        fi
         echo ""
         echo "${FLOW_COLORS[prompt]}Production branch has updates. Rebase first?${FLOW_COLORS[reset]}"
         echo ""
@@ -473,38 +917,49 @@ _teach_deploy_enhanced() {
     # Create PR
     echo ""
     if [[ "$auto_pr" == "true" ]]; then
-        echo "${FLOW_COLORS[prompt]}Create pull request?${FLOW_COLORS[reset]}"
-        echo ""
-        echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Yes - Create PR (Recommended)"
-        echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} Push to $draft_branch only (no PR)"
-        echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} Cancel"
-        echo ""
-        echo -n "${FLOW_COLORS[prompt]}Your choice [1-3]:${FLOW_COLORS[reset]} "
-        read -r pr_choice
-
-        case "$pr_choice" in
-            1)
+        if [[ "$ci_mode" == "true" ]]; then
+            # CI mode: auto-create PR
+            echo ""
+            if _git_create_deploy_pr "$draft_branch" "$prod_branch" "$pr_title" "$pr_body"; then
                 echo ""
-                if _git_create_deploy_pr "$draft_branch" "$prod_branch" "$pr_title" "$pr_body"; then
-                    echo ""
-                    echo "${FLOW_COLORS[success]}✅ Pull Request Created${FLOW_COLORS[reset]}"
-                else
-                    return 1
-                fi
-                ;;
-            2)
-                if _git_push_current_branch; then
-                    echo ""
-                    echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
-                else
-                    return 1
-                fi
-                ;;
-            3|*)
-                echo "Deployment cancelled"
+                echo "${FLOW_COLORS[success]}✅ Pull Request Created${FLOW_COLORS[reset]}"
+            else
                 return 1
-                ;;
-        esac
+            fi
+        else
+            echo "${FLOW_COLORS[prompt]}Create pull request?${FLOW_COLORS[reset]}"
+            echo ""
+            echo "  ${FLOW_COLORS[dim]}[1]${FLOW_COLORS[reset]} Yes - Create PR (Recommended)"
+            echo "  ${FLOW_COLORS[dim]}[2]${FLOW_COLORS[reset]} Push to $draft_branch only (no PR)"
+            echo "  ${FLOW_COLORS[dim]}[3]${FLOW_COLORS[reset]} Cancel"
+            echo ""
+            echo -n "${FLOW_COLORS[prompt]}Your choice [1-3]:${FLOW_COLORS[reset]} "
+            read -r pr_choice
+
+            case "$pr_choice" in
+                1)
+                    echo ""
+                    if _git_create_deploy_pr "$draft_branch" "$prod_branch" "$pr_title" "$pr_body"; then
+                        echo ""
+                        echo "${FLOW_COLORS[success]}✅ Pull Request Created${FLOW_COLORS[reset]}"
+                    else
+                        return 1
+                    fi
+                    ;;
+                2)
+                    if _git_push_current_branch; then
+                        echo ""
+                        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Pushed to origin/$draft_branch"
+                    else
+                        return 1
+                    fi
+                    ;;
+                3|*)
+                    echo "Deployment cancelled"
+                    return 1
+                    ;;
+            esac
+        fi
     else
         if _git_push_current_branch; then
             echo ""
@@ -513,11 +968,36 @@ _teach_deploy_enhanced() {
             return 1
         fi
     fi
+
+    # Record PR deploy in history
+    if typeset -f _deploy_history_append >/dev/null 2>&1; then
+        local _pr_commit=$(git rev-parse --short=8 HEAD 2>/dev/null)
+        local _pr_file_count=$(git diff --name-only "$prod_branch"..."$draft_branch" 2>/dev/null | wc -l | tr -d ' ')
+        local _pr_message="deploy: $course_name PR update"
+        _deploy_history_append "pr" "$_pr_commit" "" "$draft_branch" "$prod_branch" "$_pr_file_count" "$_pr_message" "null" "null" "0"
+        echo "  ${FLOW_COLORS[dim]}History logged: #$(( $(_deploy_history_count) )) ($(date '+%Y-%m-%d %H:%M'))${FLOW_COLORS[reset]}"
+    fi
+
+    # Update .STATUS file
+    _deploy_update_status_file 2>/dev/null
+
+    _deploy_cleanup_globals
+}
+
+# Clean up DEPLOY_* global variables to avoid polluting the shell environment
+_deploy_cleanup_globals() {
+    unset DEPLOY_DRAFT_BRANCH DEPLOY_PROD_BRANCH DEPLOY_COURSE_NAME
+    unset DEPLOY_AUTO_PR DEPLOY_REQUIRE_CLEAN
+    unset DEPLOY_COMMIT_BEFORE DEPLOY_COMMIT_AFTER DEPLOY_DURATION DEPLOY_MODE
+    unset DEPLOY_HIST_TIMESTAMP DEPLOY_HIST_MODE DEPLOY_HIST_COMMIT
+    unset DEPLOY_HIST_COMMIT_BEFORE DEPLOY_HIST_BRANCH_FROM DEPLOY_HIST_BRANCH_TO
+    unset DEPLOY_HIST_FILE_COUNT DEPLOY_HIST_MESSAGE DEPLOY_HIST_PR
+    unset DEPLOY_HIST_TAG DEPLOY_HIST_USER DEPLOY_HIST_DURATION
 }
 
 # Help for enhanced teach deploy
 _teach_deploy_enhanced_help() {
-    echo "teach deploy - Deploy teaching content via PR workflow"
+    echo "teach deploy - Deploy teaching content to production"
     echo ""
     echo "Usage:"
     echo "  teach deploy [files...] [options]"
@@ -526,41 +1006,113 @@ _teach_deploy_enhanced_help() {
     echo "  files            Files or directories to deploy (partial deploy mode)"
     echo ""
     echo "Options:"
+    echo "  --direct, -d        Direct merge (no PR, fast path: 8-15s)"
+    echo "  --message, -m MSG   Custom commit message for deploy"
+    echo "  --ci                Force non-interactive (CI) mode"
     echo "  --auto-commit       Auto-commit uncommitted changes"
     echo "  --auto-tag          Auto-tag deployment with timestamp"
     echo "  --skip-index        Skip index management prompts"
     echo "  --check-prereqs     Run prerequisite validation before deploy (blocks on errors)"
-    echo "  --direct-push       Bypass PR and push directly to production (advanced)"
+    echo "  --dry-run, --preview Preview what would happen without making changes"
+    echo "  --rollback [N]      Rollback deployment N (1=most recent, interactive if omitted)"
+    echo "  --history [N]       Show last N deployments (default: 10)"
+    echo "  --direct-push       Alias for --direct (backward compatible)"
     echo "  --help, -h          Show this help message"
     echo ""
     echo "Deployment Modes:"
     echo "  Full Site (default):"
-    echo "    teach deploy                    # Deploy all changes"
+    echo "    teach deploy                    # Deploy all changes via PR"
+    echo ""
+    echo "  Direct Merge (fast path):"
+    echo "    teach deploy -d                 # Direct merge, no PR (8-15s)"
+    echo "    teach deploy --direct           # Same as -d"
+    echo "    teach deploy -d -m \"Week 5\"    # Direct merge with message"
+    echo "    teach deploy -d --auto-tag      # Direct merge + tag"
     echo ""
     echo "  Partial Deploy:"
     echo "    teach deploy lectures/week-05.qmd    # Deploy single file"
     echo "    teach deploy lectures/               # Deploy entire directory"
     echo "    teach deploy file1.qmd file2.qmd     # Deploy multiple files"
     echo ""
+    echo "  CI Mode:"
+    echo "    teach deploy --ci                    # Non-interactive (auto-yes)"
+    echo "    teach deploy --ci -d                 # CI + direct merge"
+    echo "    echo | teach deploy                  # Auto-detected (no TTY)"
+    echo ""
+    echo "  Dry Run (preview):"
+    echo "    teach deploy --dry-run               # Preview full site deploy"
+    echo "    teach deploy --preview -d            # Preview direct merge"
+    echo "    teach deploy --dry-run lectures/     # Preview partial deploy"
+    echo ""
     echo "Features:"
+    echo "  • Direct merge mode (--direct): merge draft->prod without PR (8-15s)"
+    echo "  • PR workflow (default): create PR for review (45-90s)"
     echo "  • Dependency tracking (sourced files, cross-references)"
     echo "  • Index management (ADD/UPDATE/REMOVE links)"
     echo "  • Cross-reference validation"
     echo "  • Auto-commit with custom message"
     echo "  • Auto-tag with timestamp"
+    echo "  • CI mode for automated pipelines"
+    echo "  • Smart commit messages (auto-generated from changes)"
+    echo "  • Dry-run mode (--dry-run/--preview): preview without changes"
+    echo "  • Rollback (--rollback): forward rollback via git revert"
+    echo "  • Deploy history (--history): track all deployments"
+    echo "  • .STATUS file auto-update after deploy"
+    echo ""
+    echo "Direct Merge vs PR:"
+    echo "  --direct    Merge draft->prod locally, push (8-15s, solo instructor)"
+    echo "  (default)   Create GitHub PR for review (45-90s, team workflow)"
+    echo ""
+    echo "CI Mode Behavior:"
+    echo "  When --ci is passed (or no TTY detected):"
+    echo "    • Branch switch       → fail (must be on correct branch)"
+    echo "    • Push confirmation   → auto-yes"
+    echo "    • PR creation         → auto-yes"
+    echo "    • Include deps        → auto-yes"
+    echo "    • Commit message      → auto-generate"
+    echo "    • Broken references   → fail"
+    echo "    • Production conflict → fail"
     echo ""
     echo "Examples:"
+    echo "  # Quick deploy (direct merge, no PR)"
+    echo "  teach deploy -d"
+    echo ""
+    echo "  # Direct deploy with custom message"
+    echo "  teach deploy -d -m \"Add Week 5 lecture on ANOVA\""
+    echo ""
+    echo "  # Direct deploy with auto-tag"
+    echo "  teach deploy --direct --auto-tag"
+    echo ""
     echo "  # Partial deploy with auto features"
     echo "  teach deploy lectures/week-05.qmd --auto-commit --auto-tag"
     echo ""
     echo "  # Deploy directory with index updates"
     echo "  teach deploy lectures/"
     echo ""
-    echo "  # Full site deploy (traditional workflow)"
+    echo "  # Full site deploy via PR (traditional workflow)"
     echo "  teach deploy"
     echo ""
     echo "  # Deploy with prerequisite validation"
     echo "  teach deploy --check-prereqs"
+    echo ""
+    echo "  # CI pipeline deploy (direct, no interaction)"
+    echo "  teach deploy --ci -d --auto-commit --auto-tag"
+    echo ""
+    echo "  # Dry run (preview what would happen)"
+    echo "  teach deploy --dry-run"
+    echo "  teach deploy --preview -d"
+    echo ""
+    echo "  # Dry run partial deploy"
+    echo "  teach deploy --dry-run lectures/week-05.qmd"
+    echo ""
+    echo "  # Rollback"
+    echo "  teach deploy --rollback           # Interactive picker"
+    echo "  teach deploy --rollback 1         # Rollback most recent"
+    echo "  teach deploy --rollback 2 --ci    # Rollback 2nd most recent (CI)"
+    echo ""
+    echo "  # History"
+    echo "  teach deploy --history            # Show last 10 deploys"
+    echo "  teach deploy --history 20         # Show last 20 deploys"
 }
 
 # ============================================================================

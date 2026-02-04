@@ -6,6 +6,55 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [6.4.0] - 2026-02-03
+
+### Added
+
+- **Teach Deploy v2** (`teach deploy --direct`) - Direct merge deployment with 8-15s cycle time
+  - `--direct` / `-d` - Direct merge deploy (draft → main, push)
+  - `--dry-run` / `--dry` - Preview deploy without side effects
+  - `--rollback [N]` / `--rb [N]` - Forward rollback via `git revert` (N=display index)
+  - `--history` / `--hist` - View deploy history table
+  - `--ci` - Non-interactive CI mode (auto-detected when no TTY)
+  - `-m "message"` - Custom commit message
+  - Smart commit messages - auto-categorize by file type (content, config, infra, deploy)
+  - `.STATUS` auto-update - Sets `last_deploy`, `deploy_count`, `teaching_week`
+
+- **Deploy History Tracking** (`.flow/deploy-history.yml`) - Append-only YAML history
+  - Records timestamp, mode, commit hashes, branch, file count, user, duration
+  - `yq`-based reading for list/get/count operations
+  - YAML injection prevention via single-quote escaping
+
+- **Deploy Rollback** - Forward rollback via `git revert`
+  - Interactive picker or explicit index (`--rollback 1`)
+  - Merge commit detection with `-m 1` parent specification
+  - Rollback recorded in history with `mode: "rollback"`
+  - CI mode requires explicit index (no interactive picker)
+
+### Fixed
+
+- Merge commit rollback now detects parent count and uses `git revert -m 1`
+- `commit_before` captures target branch HEAD (not current branch)
+- Dirty worktree guard prevents deploy with uncommitted changes
+- Stderr capture pattern prevents silent failures (replaced `2>/dev/null` with `$(cmd 2>&1)`)
+- Dead dry-run code path fixed (was unreachable due to wrong condition)
+- `_deploy_cleanup_globals` prevents variable leakage between calls
+
+### Documentation
+
+- `docs/guides/TEACH-DEPLOY-GUIDE.md` (1,092 lines) - Complete user guide
+- `docs/reference/REFCARD-DEPLOY-V2.md` (216 lines) - Quick reference card
+- `docs/tutorials/31-teach-deploy-v2.md` (336 lines) - Step-by-step tutorial
+- `docs/reference/MASTER-API-REFERENCE.md` - 14 new function entries
+
+### Tests
+
+- 81 new tests: 36 unit + 22 integration + 23 E2E
+- 51-test dogfooding suite against demo-course fixture
+- Merge commit rollback regression tests (diverged branches, parent detection)
+
+---
+
 ## [5.20.0] - 2026-01-28
 
 ### Added

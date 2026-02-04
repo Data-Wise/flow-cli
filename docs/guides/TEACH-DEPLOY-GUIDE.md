@@ -8,7 +8,9 @@ tags:
 
 > Deploy your course website from local preview to production with confidence.
 >
-> **Version:** v6.1.0+ | **Command:** `teach deploy`
+> **Version:** v6.4.0+ | **Command:** `teach deploy`
+
+![teach deploy v2 Demo](../demos/tutorials/tutorial-teach-deploy.gif)
 
 ---
 
@@ -36,6 +38,12 @@ The `teach deploy` command provides a safe, validated deployment workflow that:
 - **Manages indexes** - Updates navigation links (ADD/UPDATE/REMOVE)
 - **Creates PRs** - Uses draft → production branch workflow (no direct pushes)
 - **Validates prerequisites** - Ensures concepts are introduced before use (optional)
+- **Direct merge mode** - 8-15s deploys without PR overhead (`--direct`)
+- **Smart commit messages** - Auto-categorized from changed file paths
+- **Deploy history** - Tracks every deployment in `.flow/deploy-history.yml`
+- **Rollback** - Forward rollback via `git revert` (`--rollback`)
+- **Dry-run preview** - Preview without mutation (`--dry-run`)
+- **CI mode** - Non-interactive for automated pipelines (`--ci`)
 
 ### Design Philosophy
 
@@ -115,12 +123,14 @@ git checkout draft
 
 ## Deployment Modes
 
-`teach deploy` supports two modes:
+`teach deploy` supports multiple modes:
 
-| Mode | Trigger | Use Case |
-|------|---------|----------|
-| **Full Site** | `teach deploy` | Deploy all changes from draft → production |
-| **Partial** | `teach deploy <files>` | Deploy specific files/directories |
+| Mode | Trigger | Speed | Use Case |
+|------|---------|-------|----------|
+| **Full Site (PR)** | `teach deploy` | 45-90s | Review before production |
+| **Direct Merge** | `teach deploy -d` | 8-15s | Quick fixes, solo instructor |
+| **Partial** | `teach deploy <files>` | Varies | Deploy specific files/directories |
+| **Dry-Run** | `teach deploy --dry-run` | <1s | Preview all operations |
 
 ### Full Site Deployment
 
@@ -160,6 +170,126 @@ teach deploy lectures/
 4. Update index files (navigation)
 5. Push to draft branch
 6. Create PR to main (optional)
+
+---
+
+## Direct Merge Mode (v6.4.0)
+
+Skip the PR workflow for fast, direct deployment:
+
+```bash
+# Basic direct deploy
+teach deploy --direct
+
+# With custom commit message
+teach deploy -d -m "Week 5 lecture updates"
+
+# CI-friendly direct deploy
+teach deploy --ci -d
+```
+
+**Process:**
+1. Run preflight checks
+2. Generate smart commit message (or use `--message`)
+3. Merge draft → production directly
+4. Push to remote
+5. Log in deploy history
+6. Update .STATUS
+
+**When to use:**
+- Solo instructor (no review needed)
+- Quick fixes (typos, minor updates)
+- CI/CD pipelines
+- When 45-90s PR workflow is too slow
+
+---
+
+## Deploy History & Rollback (v6.4.0)
+
+### Viewing History
+
+```bash
+# Show last 10 deployments
+teach deploy --history
+
+# Show last 20
+teach deploy --history 20
+```
+
+**Output:**
+```
+Recent deployments:
+
+#  When              Mode     Files  Message
+1  2026-02-03 14:30  direct   3      content: week-05 lecture
+2  2026-02-02 09:15  pr       15     deploy: full site update
+3  2026-02-01 16:45  partial  2      content: assignment 3
+```
+
+### Rollback
+
+Revert any deployment safely using forward rollback (`git revert`):
+
+```bash
+# Interactive picker
+teach deploy --rollback
+
+# Rollback most recent deployment
+teach deploy --rollback 1
+
+# Rollback 2nd most recent (CI mode)
+teach deploy --rollback 2 --ci
+```
+
+**Safety:** Rollback uses `git revert` (not `git reset`), preserving full history. The rollback itself is recorded in deploy history with mode "rollback".
+
+### History File
+
+Stored at `.flow/deploy-history.yml` (git-tracked, append-only):
+
+```yaml
+deploys:
+  - timestamp: '2026-02-03T14:30:22-06:00'
+    mode: 'direct'
+    commit_hash: 'a1b2c3d4'
+    commit_before: 'e5f6g7h8'
+    branch_from: 'draft'
+    branch_to: 'main'
+    file_count: 15
+    commit_message: 'content: week-05 lecture'
+```
+
+---
+
+## Dry-Run Preview (v6.4.0)
+
+Preview deployment without making any changes:
+
+```bash
+# Preview full site deploy
+teach deploy --dry-run
+
+# Preview direct merge
+teach deploy --dry-run --direct
+
+# Preview with custom message
+teach deploy --preview -m "Week 5"
+```
+
+**Output:**
+```
+DRY RUN — No changes will be made
+
+Would deploy 3 files:
+  lectures/week-05.qmd
+  scripts/analysis.R (dependency)
+  home_lectures.qmd (index update)
+
+Would commit: "content: week-05 lecture, analysis script"
+Would merge: draft -> production (direct mode)
+Would log: deploy #12 to .flow/deploy-history.yml
+Would update: .STATUS (teaching_week: 5)
+```
 
 ---
 
@@ -927,34 +1057,25 @@ https://deploy-preview-42--course-site.netlify.app
 
 ### Rollback Procedure
 
-If deployment breaks production:
-
-**1. Revert merge commit:**
+**Using teach deploy (v6.4.0+):**
 
 ```bash
-# Find merge commit
-git log --oneline main | head -5
+# View recent deployments
+teach deploy --history
 
-# Revert
+# Rollback most recent
+teach deploy --rollback 1
+
+# Verify site
+open https://username.github.io/course-repo/
+```
+
+**Manual rollback (if needed):**
+
+```bash
+git log --oneline main | head -5
 git revert -m 1 <merge-commit-hash>
 git push origin main
-```
-
-**2. Wait for GitHub Pages redeploy**
-
-**3. Fix issue on draft branch:**
-
-```bash
-git checkout draft
-# Fix broken content
-git add .
-git commit -m "Fix deployment issue"
-```
-
-**4. Re-deploy:**
-
-```bash
-teach deploy
 ```
 
 ---
@@ -969,5 +1090,5 @@ teach deploy
 
 ---
 
-**Last Updated:** 2026-02-02
-**Version:** v6.1.0
+**Last Updated:** 2026-02-03
+**Version:** v6.4.0

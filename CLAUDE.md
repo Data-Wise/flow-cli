@@ -8,8 +8,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Dependencies:** **ZERO** - No dependencies on Oh-My-Zsh, antidote, or any framework
-- **Current Version:** v6.3.0
-- **Latest Release:** v6.3.0 (2026-02-03)
+- **Current Version:** v6.4.0
+- **Latest Release:** v6.4.0 (2026-02-03)
 - **Install:** Homebrew (recommended), or any plugin manager (antidote, zinit, oh-my-zsh, manual)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -427,7 +427,9 @@ flow-cli/
 │   ├── inventory.zsh         # Tool inventory generator
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── config-validator.zsh  # Config validation
-│   ├── git-helpers.zsh       # Git integration utilities
+│   ├── git-helpers.zsh       # Git integration + smart commits
+│   ├── deploy-history-helpers.zsh  # Deploy history (append-only YAML)
+│   ├── deploy-rollback-helpers.zsh # Forward rollback (git revert)
 │   └── dispatchers/          # Smart command dispatchers (12)
 │       ├── cc-dispatcher.zsh     # Claude Code
 │       ├── dot-dispatcher.zsh    # Dotfiles + Secrets
@@ -453,11 +455,14 @@ flow-cli/
 ├── completions/             # ZSH completions
 ├── hooks/                   # ZSH hooks
 ├── docs/                    # Documentation (MkDocs)
-├── tests/                   # Test suite (462 tests)
+├── tests/                   # Test suite (543+ tests)
 │   ├── fixtures/            # Test fixtures
 │   │   └── demo-course/     # STAT-101 demo course for E2E
-│   ├── e2e-teach-analyze.zsh           # E2E: 29 tests
-│   └── interactive-dog-teaching.zsh    # Interactive: 10 tasks
+│   ├── test-teach-deploy-v2-unit.zsh        # Deploy v2 unit: 36 tests
+│   ├── test-teach-deploy-v2-integration.zsh # Deploy v2 integration: 22 tests
+│   ├── e2e-teach-deploy-v2.zsh              # Deploy v2 E2E: 23 tests
+│   ├── e2e-teach-analyze.zsh                # E2E: 29 tests
+│   └── interactive-dog-teaching.zsh         # Interactive: 10 tasks
 └── .archive/               # Archived Node.js CLI
 ```
 
@@ -472,7 +477,9 @@ flow-cli/
 | `lib/atlas-bridge.zsh`                      | Atlas integration        | Optional state engine    |
 | `lib/keychain-helpers.zsh`                  | macOS Keychain secrets   | Touch ID support         |
 | `lib/config-validator.zsh`                  | Config validation        | Schema + hash validation |
-| `lib/git-helpers.zsh`                       | Git integration          | Teaching workflow        |
+| `lib/git-helpers.zsh`                       | Git integration          | Smart commits, teaching  |
+| `lib/deploy-history-helpers.zsh`            | Deploy history           | Append-only YAML         |
+| `lib/deploy-rollback-helpers.zsh`           | Deploy rollback          | Forward rollback         |
 | `lib/dispatchers/*.zsh`                     | Smart dispatchers        | 12 active dispatchers    |
 | `commands/*.zsh`                            | Core commands            | work, dash, finish, etc. |
 | `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs | All 12 dispatchers       |
@@ -595,7 +602,7 @@ teach exam "Topic"  # Generate exam via Scholar
 
 ### Test Suite Overview
 
-**Status:** ✅ 462 tests total
+**Status:** ✅ 543+ tests total
 **Documentation:** [Complete Testing Guide](docs/guides/TESTING.md)
 
 ```bash
@@ -610,6 +617,11 @@ tests/test-teach-dates-integration.zsh  # Integration: 16 tests
 tests/test-teach-plan.zsh           # Unit: 32 tests
 tests/test-teach-plan-security.zsh  # Security: 24 tests (YAML injection, edge cases)
 tests/e2e-teach-plan.zsh            # E2E: 15 tests (CRUD workflows)
+
+# Teach deploy v2 tests (v6.4.0)
+tests/test-teach-deploy-v2-unit.zsh        # Unit: 34 tests
+tests/test-teach-deploy-v2-integration.zsh # Integration: 22 tests
+tests/e2e-teach-deploy-v2.zsh             # E2E: 20 tests
 
 # E2E tests (teach analyze)
 tests/e2e-teach-analyze.zsh         # E2E: 29 tests (8 sections)
@@ -707,28 +719,95 @@ export FLOW_DEBUG=1
 
 ## Current Status
 
-**Version:** v6.3.0
-**Latest Release:** v6.3.0 (2026-02-03)
+**Version:** v6.4.0
+**Latest Release:** v6.4.0 (2026-02-03)
 **Status:** Production
 **Branch:** `dev`
-**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.3.0
+**Release (latest):** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.0
 **Performance:** Sub-10ms for core commands, 3-10x speedup from optimization
 **Documentation:** https://Data-Wise.github.io/flow-cli/
-**Tests:** 107 tests (62 unit + 33 E2E + 12 interactive) for teach prompt + 34 teach style dogfood tests + 462 total tests
+**Tests:** 543+ total tests (462 existing + 81 new teach deploy v2 tests)
 
 **Recent Improvements:**
 
-- ✅ Website reorganization - 14 sections reduced to 7 (ADHD-friendly)
-- ✅ 11 new teaching docs - REFCARDs, guides, tutorials, schema reference
-- ✅ teach help system - 100% standards compliance
-- ✅ MkDocs tags plugin - 14 topic tags across ~39 pages
-- ✅ Section landing pages - Grid card navigation for all 4 main sections
-- ✅ Build warnings eliminated - 28 → 0 (broken links to excluded files)
-- ✅ Grid card emoji rendering - `pymdownx.emoji` + `attr_list` spacing fix
+- ✅ teach deploy v2 - Direct merge (8-15s), smart commits, history, rollback, dry-run, CI mode
+- ✅ Deploy history tracking - Append-only `.flow/deploy-history.yml`
+- ✅ Forward rollback - `teach deploy --rollback` via git revert
+- ✅ Legacy dead code removed - ~400 lines of old `_teach_deploy()` + `_teach_deploy_help()`
+- ✅ 76 new tests - 34 unit + 22 integration + 20 E2E
 
 ---
 
 ## Recent Releases
+
+### v6.4.0 - Teach Deploy v2: Direct Merge, History, Rollback (2026-02-03)
+
+**Released:** 2026-02-03
+**Branch:** `feature/teach-deploy-v2`
+**Changes:** 8 features, 1 refactor, 76 new tests
+
+**Major Features:**
+
+- **Direct Merge Mode** (`--direct/-d`) — 8-15s deploys vs 45-90s PR workflow
+  - `_deploy_direct_merge()` — merge draft→production, push, no PR
+  - `--direct-push` kept as backward-compatible alias
+  - Smart commit messages auto-generated from changed file categories
+
+- **Smart Commit Messages** — Auto-categorized from file paths
+  - `_generate_smart_commit_message()` in `lib/git-helpers.zsh`
+  - Categories: content (lectures, assignments), config (_quarto.yml), style (CSS), data, deploy
+  - Overridable with `--message "text"`
+
+- **Deploy History Tracking** — Append-only `.flow/deploy-history.yml`
+  - `lib/deploy-history-helpers.zsh` — 4 functions (append, list, get, count)
+  - `cat >>` for writes (fast), `yq` for reads only
+  - Records: mode, commit hash, branch, file count, message, duration
+  - `teach deploy --history [N]` — show last N deploys
+
+- **Forward Rollback** (`--rollback [N]`) — Revert via `git revert`
+  - `lib/deploy-rollback-helpers.zsh` — 2 functions (rollback, perform_rollback)
+  - Interactive picker or explicit index
+  - Records rollback in history with mode "rollback"
+  - CI mode requires explicit index (no interactive picker)
+
+- **Dry-Run Preview** (`--dry-run`/`--preview`) — Preview without mutation
+  - `_deploy_dry_run_report()` — shows files, commit message, merge direction
+  - Works with both direct merge and PR mode
+
+- **CI Mode** (`--ci`) — Non-interactive deployment
+  - Auto-detect from TTY (`[[ ! -t 0 ]]`)
+  - 18 CI guards on all `read -r` prompts
+  - Explicit `--ci` flag override
+
+- **Shared Preflight** — Extracted `_deploy_preflight_checks()`
+  - Git repo check, config validation, branch detection
+  - Sets `DEPLOY_*` exported variables for all deploy modes
+  - `[ok]`/`[!!]` marker format
+
+- **.STATUS Auto-Updates** — `_deploy_update_status_file()`
+  - Updates `last_deploy`, `deploy_count`, `teaching_week`
+  - Teaching week calculated from `semester_info.start_date`
+  - Non-destructive: skips if `.STATUS` absent
+
+**Refactoring:**
+
+- Deleted legacy `_teach_deploy()` (~313 lines) from `teach-dispatcher.zsh`
+- Deleted legacy `_teach_deploy_help()` (~85 lines) from `teach-dispatcher.zsh`
+- All deploy routing uses `_teach_deploy_enhanced()` exclusively
+
+**New Files:**
+
+- `lib/deploy-history-helpers.zsh` (185 lines)
+- `lib/deploy-rollback-helpers.zsh` (214 lines)
+- `tests/test-teach-deploy-v2-unit.zsh` (34 tests)
+- `tests/test-teach-deploy-v2-integration.zsh` (22 tests)
+- `tests/e2e-teach-deploy-v2.zsh` (20 tests)
+
+**Testing:** 76 new tests (34 unit + 22 integration + 20 E2E), all passing
+
+**Stats:** 9 files changed, +2,687 / -581 lines
+
+---
 
 ### v6.3.0 - Teaching Style Consolidation + Help Compliance (2026-02-03)
 
@@ -1088,5 +1167,5 @@ git push origin main && git push origin v6.2.0
 
 ---
 
-**Last Updated:** 2026-02-03 (v6.3.0)
-**Status:** Production Ready (v6.3.0)
+**Last Updated:** 2026-02-03 (v6.4.0)
+**Status:** Production Ready (v6.4.0)

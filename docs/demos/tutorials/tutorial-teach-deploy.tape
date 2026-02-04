@@ -1,6 +1,6 @@
-# VHS Demo: teach deploy - Preview Deployment
-# Part of flow-cli Teaching Workflow v3.0
-# Tutorial: Deploy with preview workflow and status checking
+# VHS Demo: teach deploy v2 - Direct Merge, History, Rollback
+# Part of flow-cli v6.4.0
+# Tutorial 31: Fast Deployments with teach deploy v2
 
 Output tutorial-teach-deploy.gif
 
@@ -23,48 +23,47 @@ Type "clear" Enter
 Show
 
 # Title
-Type "echo 'Teaching Workflow v3.0: teach deploy'" Enter
-Sleep 1s
-Type "echo 'Preview Deployment Workflow'" Enter
+Type "echo '=== teach deploy v2 (flow-cli v6.4.0) ==='" Enter
 Sleep 2s
 
-Type "" Enter
+# Step 1: Dry-run preview
+Type "echo ''" Enter
+Type "echo '1. Preview before deploying (dry-run):'" Enter
 Sleep 1s
-
-# Show help
-Type "echo 'Available options:'" Enter
-Sleep 1s
-Type "teach deploy --help | head -20" Enter
+Type "teach deploy --dry-run --direct" Enter
 Sleep 4s
 
-Type "" Enter
+Type "echo ''" Enter
 Type "clear" Enter
 Sleep 1s
 
-# Check status before deploy
-Type "echo 'Check deployment status:'" Enter
+# Step 2: Direct deploy
+Type "echo '2. Fast direct deploy (8-15s):'" Enter
 Sleep 1s
-Type "teach status" Enter
-Sleep 3s
-
-Type "" Enter
-Sleep 1s
-
-# Preview deployment
-Type "echo 'Deploy to preview branch:'" Enter
-Sleep 1s
-Type "teach deploy --preview" Enter
+Type "teach deploy --direct -m 'content: week-05 lecture'" Enter
 Sleep 5s
 
-Type "" Enter
+Type "echo ''" Enter
+Type "clear" Enter
 Sleep 1s
 
-# Show what happened
-Type "echo 'Preview deployed to gh-pages-preview branch'" Enter
-Sleep 2s
-Type "echo 'Review at: https://username.github.io/course/preview/'" Enter
-Sleep 2s
+# Step 3: Check history
+Type "echo '3. View deployment history:'" Enter
+Sleep 1s
+Type "teach deploy --history" Enter
+Sleep 4s
 
-Type "" Enter
-Type "echo '✓ Preview deployment complete!'" Enter
-Sleep 2s
+Type "echo ''" Enter
+Type "clear" Enter
+Sleep 1s
+
+# Step 4: Rollback
+Type "echo '4. Rollback if something goes wrong:'" Enter
+Sleep 1s
+Type "teach deploy --rollback 1 --ci" Enter
+Sleep 4s
+
+Type "echo ''" Enter
+Sleep 1s
+Type "echo 'Done! Deploy, track, rollback — all in seconds.'" Enter
+Sleep 3s
