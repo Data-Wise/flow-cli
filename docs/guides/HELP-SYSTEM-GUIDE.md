@@ -148,7 +148,7 @@ AI-powered content generation:
 
 | Command | Help Function | Purpose |
 |---------|---------------|---------|
-| `teach deploy` | `_teach_deploy_help()` | Deploy to GitHub Pages |
+| `teach deploy` | `_teach_deploy_enhanced_help()` | Deploy course site (direct merge, PR, rollback) |
 
 ### Project Management (3)
 
