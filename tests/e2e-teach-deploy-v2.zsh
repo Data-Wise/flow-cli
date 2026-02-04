@@ -382,18 +382,78 @@ else
 fi
 
 # ============================================================================
-# SECTION 9: Rollback E2E
+# SECTION 9: Step Progress & Summary Box E2E
+# ============================================================================
+echo ""
+echo "--- Step Progress & Summary Box ---"
+
+# Test 19: direct merge output contains step progress [1/5]..[5/5]
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+output=$(_deploy_direct_merge "draft" "main" "deploy: step test" "true" 2>&1)
+ret=$?
+if [[ $ret -eq 0 ]] && echo "$output" | grep -qE '\[1/5\]' && echo "$output" | grep -qE '\[5/5\]'; then
+    _test_pass "direct merge shows step progress [1/5]..[5/5]"
+else
+    _test_fail "direct merge shows step progress" "ret=$ret, missing step markers"
+fi
+
+# Test 20: direct merge output no longer contains [ok] markers
+if echo "$output" | grep -q "\[ok\]"; then
+    _test_fail "direct merge replaced [ok] with step progress" "still contains [ok]"
+else
+    _test_pass "direct merge replaced [ok] with step progress"
+fi
+
+# Test 21: direct merge exports DEPLOY_FILE_COUNT
+if [[ -n "$DEPLOY_FILE_COUNT" ]]; then
+    _test_pass "direct merge exports DEPLOY_FILE_COUNT ($DEPLOY_FILE_COUNT)"
+else
+    _test_fail "direct merge exports DEPLOY_FILE_COUNT" "empty"
+fi
+
+# Test 22: direct merge exports DEPLOY_SHORT_HASH
+if [[ -n "$DEPLOY_SHORT_HASH" && ${#DEPLOY_SHORT_HASH} -eq 8 ]]; then
+    _test_pass "direct merge exports DEPLOY_SHORT_HASH (8 chars)"
+else
+    _test_fail "direct merge exports DEPLOY_SHORT_HASH" "got: ${DEPLOY_SHORT_HASH:-empty}"
+fi
+
+# Test 23: direct merge exports DEPLOY_INSERTIONS and DEPLOY_DELETIONS
+if [[ -n "$DEPLOY_INSERTIONS" && -n "$DEPLOY_DELETIONS" ]]; then
+    _test_pass "direct merge exports DEPLOY_INSERTIONS/DELETIONS"
+else
+    _test_fail "direct merge exports DEPLOY_INSERTIONS/DELETIONS" "ins=$DEPLOY_INSERTIONS del=$DEPLOY_DELETIONS"
+fi
+
+# Test 24: summary box renders with correct data after direct merge
+summary_output=$(_deploy_summary_box \
+    "Direct merge" \
+    "${DEPLOY_FILE_COUNT:-0}" \
+    "${DEPLOY_INSERTIONS:-0}" \
+    "${DEPLOY_DELETIONS:-0}" \
+    "${DEPLOY_DURATION:-0}" \
+    "${DEPLOY_SHORT_HASH:-unknown}" \
+    "" 2>&1)
+if echo "$summary_output" | grep -q "Deployment Summary" && echo "$summary_output" | grep -q "Direct merge"; then
+    _test_pass "summary box renders with deploy data"
+else
+    _test_fail "summary box renders with deploy data" "missing header or mode"
+fi
+
+# ============================================================================
+# SECTION 10: Rollback E2E
 # ============================================================================
 echo ""
 echo "--- Rollback E2E ---"
 
-# Test 19: rollback with explicit index on valid history
+# Test 25: rollback with explicit index on valid history
 test_repo=$(setup_e2e_repo)
 cd "$test_repo"
 # Do a deploy first
 _deploy_direct_merge "draft" "main" "deploy: to be rolled back" "true" >/dev/null 2>&1
 _deploy_history_append "direct" "${DEPLOY_COMMIT_AFTER}" "${DEPLOY_COMMIT_BEFORE}" "draft" "main" "1" "deploy: to be rolled back" "null" "null" "5" >/dev/null 2>&1
-# Capture count BEFORE rollback for Test 20
+# Capture count BEFORE rollback for Test 26
 count_before=$(_deploy_history_count)
 # Now rollback
 output=$(_deploy_rollback 1 --ci 2>&1)
@@ -404,7 +464,7 @@ else
     _test_fail "rollback with explicit index" "ret=$ret output=$(echo "$output" | tail -3)"
 fi
 
-# Test 20: rollback records in history with mode=rollback
+# Test 26: rollback records in history with mode=rollback
 # If rollback succeeded, check that history count increased
 if [[ $ret -eq 0 ]]; then
     count_after=$(_deploy_history_count)
@@ -423,12 +483,12 @@ else
 fi
 
 # ============================================================================
-# SECTION 10: Merge Commit Rollback (regression test for -m 1 fix)
+# SECTION 11: Merge Commit Rollback (regression test for -m 1 fix)
 # ============================================================================
 echo ""
 echo "--- Merge Commit Rollback ---"
 
-# Test 21: deploy with diverged branches creates a merge commit
+# Test 27: deploy with diverged branches creates a merge commit
 test_repo=$(setup_e2e_repo)
 cd "$test_repo"
 # Create divergence: add a commit directly to main that draft doesn't have
@@ -459,7 +519,7 @@ else
         _test_fail "diverged deploy creates merge commit" "expected >=2 parents, got $parent_count"
     fi
 
-    # Test 22: rollback of merge commit succeeds (exercises -m 1 code path)
+    # Test 28: rollback of merge commit succeeds (exercises -m 1 code path)
     _deploy_history_append "direct" "$merge_hash" "${DEPLOY_COMMIT_BEFORE}" "draft" "main" "2" "deploy: merge commit test" "null" "null" "3" >/dev/null 2>&1
     mc_count_before=$(_deploy_history_count)
 
@@ -472,7 +532,7 @@ else
         _test_fail "merge commit rollback" "ret=$mc_ret output=$(echo "$mc_output" | tail -3)"
     fi
 
-    # Test 23: merge commit rollback recorded in history with mode=rollback
+    # Test 29: merge commit rollback recorded in history with mode=rollback
     if [[ $mc_ret -eq 0 ]]; then
         mc_count_after=$(_deploy_history_count)
         if [[ "$mc_count_after" -gt "$mc_count_before" ]]; then
