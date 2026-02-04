@@ -776,7 +776,7 @@ git commit -m "chore: extend hw3 deadline by 2 days"
 teach deploy
 ```
 
-**Time:** < 2 minutes from edit to live
+**Time:** ~15 seconds with `teach deploy -d` (or < 2 min via PR)
 
 ### Semester Rollover: New Semester Setup
 

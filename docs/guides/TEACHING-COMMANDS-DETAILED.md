@@ -1008,7 +1008,7 @@ teach deploy
 # → Validates branch
 # → Merges to production
 # → Deploys to students
-# → Takes < 2 minutes
+# → Takes ~15 seconds (direct) or < 2 min (PR)
 
 # 5. Verify live
 open https://yoursite.github.io/stat-545

@@ -8,7 +8,7 @@ tags:
 
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
-**Version:** v6.2.0
+**Version:** v6.4.0
 **Last Updated:** 2026-02-02
 
 ---
@@ -1025,6 +1025,6 @@ mcp help
 
 ---
 
-**Version:** v6.2.0
+**Version:** v6.4.0
 **Last Updated:** 2026-02-02
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)
