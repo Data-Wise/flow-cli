@@ -34,16 +34,14 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 
 ## What's New
 
-### v6.4.1 (2026-02-04)
+### v6.4.2 (2026-02-04)
 
-- **Deploy Step Progress** - `[1/5]..[5/5]` numbered steps during direct merge
-- **Deployment Summary Box** - Files changed, duration, commit hash, site URL
+- **Docs Cleanup** - Removed 54 orphaned pages, created `docs/internal/` for conventions
+- **Deploy Progress** - `[1/5]..[5/5]` numbered steps + deployment summary box
 - **Deploy v2** - Direct merge (8-15s), smart commits, history, rollback, dry-run, CI mode
-- **Teaching Style** - Consolidated `teaching_style:` config in `.flow/teach-config.yml`
 - **Help Compliance** - All 12 dispatchers standardized against conventions
-- **Chezmoi Safety** - Preview-before-add, ignore management, repo health, 9-check doctor
+- **Teaching Style** - Consolidated `teaching_style:` config in `.flow/teach-config.yml`
 - **Token Automation** - Isolated checks (`doctor --dot`), smart caching, 20x faster
-- **Content Analysis** - AI-powered concept graphs, slide optimization, prerequisite validation
 
 ```bash
 teach deploy -d              # Direct deploy (8-15s)
