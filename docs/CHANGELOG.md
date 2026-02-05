@@ -6,6 +6,30 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [6.4.2] - 2026-02-04
+
+### Removed
+
+- **54 orphaned doc pages** — planning archives, obsolete guides, duplicate tutorials, stale implementation notes (32,636 lines removed)
+
+### Added
+
+- **`docs/internal/` directory** — conventions and contributor templates organized into internal/
+- **3 nav entries** — Doctor Token Guide, Prompt Dispatcher Guide, Date Automation tutorial
+
+### Fixed
+
+- 10 broken cross-references across testing, teaching, and help docs
+- `mkdocs.yml` exclude globs updated for internal/ subdirectories
+
+### Documentation
+
+- CLAUDE.md updated with accurate file counts (62 lib, 31 commands, 126 test files)
+- CHANGELOG.md rewritten to Keep a Changelog format (2442 → 576 lines)
+- Zero MkDocs build warnings
+
+---
+
 ## [6.4.1] - 2026-02-04
 
 ### Added

@@ -26,8 +26,8 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New: v6.4.1 - Deploy Progress & Summary"
-    Step-by-step progress `[1/5]..[5/5]` during direct deploy. Deployment summary box with files, duration, and commit info. Plus: deploy history, rollback, smart commits.
+!!! success "🎉 What's New: v6.4.2 - Docs Cleanup & Reorganization"
+    Removed 54 orphaned doc pages. Created `docs/internal/` for conventions and contributor templates. Fixed 10 broken cross-references. Clean MkDocs build with zero warnings.
     [→ See what's new](CHANGELOG.md){ .md-button }
     [→ All releases](RELEASES.md){ .md-button }
 
