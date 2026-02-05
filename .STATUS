@@ -15,21 +15,27 @@
 **Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.2
 **Docs:** https://data-wise.github.io/flow-cli/
 
-**What shipped:**
+**What shipped (v6.4.2 release):**
 - **54 orphaned doc pages removed** — planning archives, obsolete guides, duplicate tutorials, stale implementation notes
 - **docs/internal/ created** — conventions and contributor templates moved to internal/
 - **3 nav entries added** — Doctor Token Guide, Prompt Dispatcher Guide, Date Automation tutorial
 - **10 broken cross-references fixed** — testing/TESTING.md, TEACHING-QUICK-START.md, help/00-START-HERE.md
 - **mkdocs.yml exclude globs updated** — internal/ subdirectories properly excluded
-- **CLAUDE.md updated** — accurate file counts (62 lib, 31 commands, 126 test files, 2400+ test functions)
-- **Zero MkDocs warnings** — clean build verified
+
+**Post-release docs sync (this session):**
+- Site content synced to v6.4.2 (changelog entry, what's new banner, version refs)
+- Version footers updated v6.4.0 → v6.4.2 across 4 index pages
+- File counts corrected: 63 lib, 159 tests, 3500+ test functions
+- README "What's New" updated to v6.4.2
+- 4 broken links fixed (tutorials/index.md, teaching/index.md)
+- MkDocs warnings reduced from 9 to 5
 
 **Session activity:**
-- docs: clean up 54 orphaned pages, reorganize internal docs
-- docs: update CLAUDE.md with accurate file counts and docs/internal/
+- docs: sync site content to v6.4.2 (changelog, version refs, what's new)
+- docs: update version refs, file counts, and fix broken links
 
-**PRs merged:** #344, #345
-**Docs deployed:** 2x
+**PRs merged:** #344, #345, #346, #347
+**Docs deployed:** 4x
 
 ---
 
@@ -92,7 +98,7 @@ Session complete. Possible next steps:
 ---
 
 **Last Updated:** 2026-02-04
-**Status:** v6.4.2 Released | Docs deployed | All tests passing | 2400+ test functions
+**Status:** v6.4.2 Released | Docs synced & deployed | All tests passing | 3500+ test functions
 ## wins: --category fix squashed the bug (2026-02-04), fixed the bug (2026-02-04), --category fix squashed the bug (2026-02-04), fixed the bug (2026-02-04), --category fix squashed the bug (2026-02-04)
 ## streak: 0
 ## last_active: 2026-02-04 15:49
