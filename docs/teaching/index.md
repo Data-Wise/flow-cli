@@ -215,7 +215,7 @@ teach plan help
 
 ### For Intermediate Users
 
-1. Explore **[Features](#-features)** to enhance your workflow
+1. Explore **[Features](#features)** to enhance your workflow
 2. Set up **[Scholar Integration](../tutorials/scholar-enhancement/index.md)** for AI assistance
 3. Learn **[Course Planning Best Practices](../guides/COURSE-PLANNING-BEST-PRACTICES.md)**
 
@@ -228,4 +228,4 @@ teach plan help
 ---
 
 **Last Updated:** 2026-02-04
-**Version:** v6.4.0
+**Version:** v6.4.2

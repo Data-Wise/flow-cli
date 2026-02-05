@@ -183,9 +183,8 @@ flow doctor
 
 Once you've completed the tutorials, explore:
 
-- **[Workflows](../workflows/)** - Real-world workflow patterns
-- **[Guides](../guides/)** - In-depth feature guides
-- **[Reference](../reference/)** - Complete command reference
+- **[Guides](../guides/index.md)** - In-depth feature guides
+- **[Reference](../reference/index.md)** - Complete command reference
 
 ---
 

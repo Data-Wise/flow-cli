@@ -164,7 +164,7 @@ v <cmd>       # Vibe coding mode
 ```
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
-├── lib/                      # Core libraries (62 files)
+├── lib/                      # Core libraries (63 files)
 │   ├── core.zsh              # Colors, logging, utilities
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
@@ -176,7 +176,7 @@ flow-cli/
 ├── hooks/                    # ZSH hooks
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
-├── tests/                    # 126 test files, 2400+ test functions
+├── tests/                    # 159 test files, 3500+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -242,7 +242,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**126 test files, 2400+ test functions.** Run: `./tests/run-all.sh` or individual suites in `tests/`.
+**159 test files, 3500+ test functions.** Run: `./tests/run-all.sh` or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -270,7 +270,7 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v6.4.2 | **Tests:** 2400+ | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v6.4.2 | **Tests:** 3500+ | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
