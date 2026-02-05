@@ -164,31 +164,24 @@ v <cmd>       # Vibe coding mode
 ```
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
-├── lib/
+├── lib/                      # Core libraries (62 files)
 │   ├── core.zsh              # Colors, logging, utilities
-│   ├── atlas-bridge.zsh      # Atlas integration
-│   ├── project-detector.zsh  # Project type detection
-│   ├── tui.zsh               # Terminal UI components
-│   ├── inventory.zsh         # Tool inventory generator
-│   ├── keychain-helpers.zsh  # macOS Keychain secrets
-│   ├── config-validator.zsh  # Config validation
 │   ├── git-helpers.zsh       # Git integration + smart commits
-│   ├── deploy-history-helpers.zsh  # Deploy history (append-only YAML)
-│   ├── deploy-rollback-helpers.zsh # Forward rollback (git revert)
+│   ├── keychain-helpers.zsh  # macOS Keychain secrets
+│   ├── tui.zsh               # Terminal UI components
 │   └── dispatchers/          # 12 smart command dispatchers
-├── commands/                 # work, dash, capture, adhd, flow, doctor, pick
+├── commands/                 # 31 command files (work, dash, doctor, teach-*, etc.)
 ├── setup/                    # Installation & setup
 ├── completions/              # ZSH completions
 ├── hooks/                    # ZSH hooks
 ├── docs/                     # Documentation (MkDocs)
-├── tests/                    # Test suite (563+ tests)
+│   └── internal/             # Internal conventions & contributor templates
+├── tests/                    # 126 test files, 2400+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
 
----
-
-## Key Files
+### Key Files
 
 | File                                        | Purpose                                   |
 | ------------------------------------------- | ----------------------------------------- |
@@ -226,6 +219,16 @@ x() {
 
 Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
+### Common Tasks
+
+| Task              | Steps                                                                                          |
+| ----------------- | ---------------------------------------------------------------------------------------------- |
+| Update dispatcher | Edit `lib/dispatchers/<name>-dispatcher.zsh` -> update `_<name>_help()` -> test -> update docs |
+| Deploy docs       | `mkdocs gh-deploy --force`                                                                     |
+| Create release    | `./scripts/release.sh X.Y.Z` -> commit -> tag -> push                                          |
+
+**Release script updates:** `package.json`, `README.md`, `CLAUDE.md`, `CC-DISPATCHER-REFERENCE.md`
+
 ---
 
 ## Architecture Principles
@@ -239,7 +242,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**563+ tests total.** Run: `./tests/run-all.sh` or individual suites in `tests/`.
+**126 test files, 2400+ test functions.** Run: `./tests/run-all.sh` or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -250,6 +253,7 @@ See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 **Site:** https://Data-Wise.github.io/flow-cli/
 **Build:** `mkdocs serve` (local) | `mkdocs gh-deploy --force` (deploy)
 **Key docs:** `docs/guides/`, `docs/reference/`, `docs/help/QUICK-REFERENCE.md`, `docs/CONVENTIONS.md`
+**Internal:** `docs/internal/` (conventions, contributor templates — excluded from site nav)
 
 ---
 
@@ -264,23 +268,9 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ---
 
-## Common Tasks
-
-| Task              | Steps                                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------------- |
-| Update dispatcher | Edit `lib/dispatchers/<name>-dispatcher.zsh` -> update `_<name>_help()` -> test -> update docs |
-| Deploy docs       | `mkdocs gh-deploy --force`                                                                     |
-| Create release    | `./scripts/release.sh X.Y.Z` -> commit -> tag -> push                                          |
-
-**Release script updates:** `package.json`, `README.md`, `CLAUDE.md`, `CC-DISPATCHER-REFERENCE.md`
-
----
-
 ## Current Status
 
-**Version:** v6.4.2 | **Status:** Production | **Branch:** `dev`
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.2
-**Tests:** 563+ | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v6.4.2 | **Tests:** 2400+ | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
