@@ -27,7 +27,7 @@ tags:
     **That's it!** No configuration required.
 
 !!! success "🎉 What's New: v6.4.3 - Bug Fix + Test Coverage"
-    Fixed ZSH `local path=` bug that silently broke external commands inside functions. Added 106 new test assertions across 4 test files (regression, dogfood, e2e). Test suite now at 34 passing.
+    Fixed ZSH `local path=` bug that silently broke external commands inside functions. Added 106 new test assertions across 4 test files. Converted 6 timeout tests to non-interactive — test suite now at **40/40 passing** (0 timeouts).
     [→ See what's new](CHANGELOG.md){ .md-button }
     [→ All releases](RELEASES.md){ .md-button }
 
