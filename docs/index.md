@@ -26,8 +26,8 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New: v6.4.2 - Docs Cleanup & Reorganization"
-    Removed 54 orphaned doc pages. Created `docs/internal/` for conventions and contributor templates. Fixed 10 broken cross-references. Clean MkDocs build with zero warnings.
+!!! success "🎉 What's New: v6.4.3 - Bug Fix + Test Coverage"
+    Fixed ZSH `local path=` bug that silently broke external commands inside functions. Added 106 new test assertions across 4 test files (regression, dogfood, e2e). Test suite now at 34 passing.
     [→ See what's new](CHANGELOG.md){ .md-button }
     [→ All releases](RELEASES.md){ .md-button }
 
@@ -266,4 +266,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v6.4.2** · Pure ZSH · Zero Dependencies · MIT License
+**v6.4.3** · Pure ZSH · Zero Dependencies · MIT License
