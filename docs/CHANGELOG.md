@@ -6,6 +6,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [6.4.3] - 2026-02-06
+
+### Fixed
+
+- **ZSH `local path=` bug** — `local path=` inside functions shadows ZSH's `$path` array (tied to `$PATH`), silently breaking all external command calls (yq, sed, jq, etc.). Renamed 20+ instances across lib/ and commands/ to safe names (`src_path`, `project_path`, `plugin_path`, etc.)
+- **`teach style show` error** — "yq required" false error caused by the `local path=` shadowing bug
+- **Missing teaching style config** — added `teaching_style` section to `.flow/teach-config.yml`
+
+### Added
+
+- **Regression test** — scans all production code for `local path=`, `for path in`, `local fpath=`, `local cdpath=` patterns (10 assertions)
+- **Full-plugin dogfood test** — sources `flow.plugin.zsh` and verifies all 12 dispatchers, core commands, help output, library functions, plugin system, and runtime safety (56 assertions)
+- **Core commands e2e test** — status CRUD, catch, win/yay, doctor, project type detection for Node/R/Python/Quarto (22 assertions)
+- **Plugin system e2e test** — full lifecycle: create, install, list, dev-mode symlink, remove (18 assertions)
+- **run-all.sh expanded** — 26 to 34 passing tests (8 new + 4 existing wired in)
+
+---
+
 ## [6.4.2] - 2026-02-04
 
 ### Removed
