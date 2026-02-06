@@ -27,8 +27,8 @@
 #
 # Example:
 #   local source=$(_teach_find_style_source)
-#   local path="${source%%:*}"
-#   local type="${source##*:}"
+#   local src_path="${source%%:*}"
+#   local src_type="${source##*:}"
 # =============================================================================
 _teach_find_style_source() {
     local project_root="${1:-.}"
@@ -89,13 +89,15 @@ _teach_get_style() {
     local source
     source=$(_teach_find_style_source "$project_root") || return 1
 
-    local path="${source%%:*}"
-    local type="${source##*:}"
+    # IMPORTANT: Do NOT use "local path" in ZSH — it shadows the $path array
+    # (tied to $PATH), breaking command lookup within this scope.
+    local src_path="${source%%:*}"
+    local src_type="${source##*:}"
 
-    case "$type" in
+    case "$src_type" in
         teach-config)
             local value
-            value=$(yq ".teaching_style.$key" "$path" 2>/dev/null)
+            value=$(yq ".teaching_style.$key" "$src_path" 2>/dev/null)
             if [[ -n "$value" && "$value" != "null" ]]; then
                 echo "$value"
                 return 0
@@ -104,7 +106,7 @@ _teach_get_style() {
         legacy-md)
             # Extract YAML frontmatter and query it
             local frontmatter
-            frontmatter=$(sed -n '/^---$/,/^---$/p' "$path" 2>/dev/null | sed '1d;$d')
+            frontmatter=$(sed -n '/^---$/,/^---$/p' "$src_path" 2>/dev/null | sed '1d;$d')
             if [[ -n "$frontmatter" ]]; then
                 local value
                 value=$(echo "$frontmatter" | yq ".teaching_style.$key" 2>/dev/null)
@@ -157,8 +159,8 @@ _teach_get_command_override() {
     local source
     source=$(_teach_find_style_source "$project_root") || return 1
 
-    local path="${source%%:*}"
-    local type="${source##*:}"
+    local src_path="${source%%:*}"
+    local src_type="${source##*:}"
 
     local yq_path
     if [[ -n "$key" ]]; then
@@ -167,10 +169,10 @@ _teach_get_command_override() {
         yq_path=".teaching_style.command_overrides.$cmd"
     fi
 
-    case "$type" in
+    case "$src_type" in
         teach-config)
             local value
-            value=$(yq "$yq_path" "$path" 2>/dev/null)
+            value=$(yq "$yq_path" "$src_path" 2>/dev/null)
             if [[ -n "$value" && "$value" != "null" ]]; then
                 echo "$value"
                 return 0
@@ -178,7 +180,7 @@ _teach_get_command_override() {
             ;;
         legacy-md)
             local frontmatter
-            frontmatter=$(sed -n '/^---$/,/^---$/p' "$path" 2>/dev/null | sed '1d;$d')
+            frontmatter=$(sed -n '/^---$/,/^---$/p' "$src_path" 2>/dev/null | sed '1d;$d')
             if [[ -n "$frontmatter" ]]; then
                 local value
                 value=$(echo "$frontmatter" | yq "$yq_path" 2>/dev/null)

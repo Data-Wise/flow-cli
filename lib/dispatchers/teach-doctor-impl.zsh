@@ -757,10 +757,11 @@ _teach_doctor_check_teaching_style() {
         return 0
     fi
 
-    local path="${source%%:*}"
-    local type="${source##*:}"
+    # Do NOT use "local path" — shadows ZSH's $path array (tied to $PATH)
+    local src_path="${source%%:*}"
+    local src_type="${source##*:}"
 
-    case "$type" in
+    case "$src_type" in
         teach-config)
             _teach_doctor_pass "Teaching style in .flow/teach-config.yml"
             json_results+=("{\"check\":\"teaching_style_source\",\"status\":\"pass\",\"message\":\"teach-config.yml\"}")

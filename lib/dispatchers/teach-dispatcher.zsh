@@ -3979,12 +3979,13 @@ _teach_style_show() {
         return 0
     fi
 
-    local path="${source%%:*}"
-    local type="${source##*:}"
+    # IMPORTANT: Do NOT use "local path" — it shadows ZSH's $path array (tied to $PATH)
+    local src_path="${source%%:*}"
+    local src_type="${source##*:}"
 
     # Source info
-    echo -e "  ${_C_BOLD}Source:${_C_NC} $path"
-    case "$type" in
+    echo -e "  ${_C_BOLD}Source:${_C_NC} $src_path"
+    case "$src_type" in
         teach-config)
             echo -e "  ${_C_BOLD}Type:${_C_NC}   ${_C_GREEN}Unified config${_C_NC} (recommended)"
             ;;
@@ -4001,6 +4002,7 @@ _teach_style_show() {
     # Display key settings
     if ! command -v yq &>/dev/null; then
         echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} yq required to display settings"
+        echo "  ${FLOW_COLORS[muted]}Install: brew install yq${FLOW_COLORS[reset]}"
         return 1
     fi
 
@@ -4021,7 +4023,7 @@ _teach_style_show() {
     echo ""
 
     # Show command overrides summary
-    if [[ "$type" == "teach-config" && -f ".flow/teach-config.yml" ]]; then
+    if [[ "$src_type" == "teach-config" && -f ".flow/teach-config.yml" ]]; then
         local overrides
         overrides=$(yq '.teaching_style.command_overrides // ""' ".flow/teach-config.yml" 2>/dev/null)
         if [[ -n "$overrides" && "$overrides" != "null" && "$overrides" != "" ]]; then
@@ -4058,14 +4060,15 @@ _teach_style_check() {
         echo "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  No teaching style configured"
         ((issues++))
     else
-        local path="${source%%:*}"
-        local type="${source##*:}"
-        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Source: $path ($type)"
+        # Do NOT use "local path" — shadows ZSH's $path array (tied to $PATH)
+        local src_path="${source%%:*}"
+        local src_type="${source##*:}"
+        echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Source: $src_path ($src_type)"
 
         # 2. Check yq can parse it
         if command -v yq &>/dev/null; then
-            if [[ "$type" == "teach-config" ]]; then
-                if yq '.teaching_style' "$path" &>/dev/null; then
+            if [[ "$src_type" == "teach-config" ]]; then
+                if yq '.teaching_style' "$src_path" &>/dev/null; then
                     echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} YAML syntax valid"
                 else
                     echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} YAML parse error in teaching_style"
@@ -4103,7 +4106,7 @@ _teach_style_check() {
         fi
 
         # 4. Check redirect shim consistency
-        if [[ "$type" == "teach-config" && -f ".claude/teaching-style.local.md" ]]; then
+        if [[ "$src_type" == "teach-config" && -f ".claude/teaching-style.local.md" ]]; then
             if _teach_style_is_redirect "."; then
                 echo "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Legacy shim has redirect"
             else

@@ -218,18 +218,18 @@ ${_C_DIM}See also:${_C_NC} finish help, hop help, pick help, dash help
 # Show work context when starting
 _flow_show_work_context() {
   local project="$1"
-  local path="$2"
-  
-  local type=$(_flow_detect_project_type "$path")
+  local project_path="$2"
+
+  local type=$(_flow_detect_project_type "$project_path")
   local icon=$(_flow_project_icon "$type")
-  
+
   echo ""
   echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
   echo "$icon ${FLOW_COLORS[bold]}$project${FLOW_COLORS[reset]} ($type)"
   echo "${FLOW_COLORS[header]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
-  
+
   # Show status file info (simplified - pure ZSH)
-  if [[ -f "$path/.STATUS" ]]; then
+  if [[ -f "$project_path/.STATUS" ]]; then
     local -i count=0
     local line
     while IFS= read -r line && (( count++ < 10 )); do
@@ -238,16 +238,16 @@ _flow_show_work_context() {
         "## Phase:"*)  echo "📍 Phase:${line#*:}" ;;
         "## Focus:"*)  echo "🎯 Focus:${line#*:}" ;;
       esac
-    done < "$path/.STATUS"
+    done < "$project_path/.STATUS"
   fi
-  
+
   echo ""
 }
 
 # Open editor with project
 _flow_open_editor() {
   local editor="$1"
-  local path="$2"
+  local project_path="$2"
   local editor_cmd="${editor%% *}"  # Get first word if editor has args
 
   # Check if editor exists
@@ -260,7 +260,7 @@ _flow_open_editor() {
   case "$editor_cmd" in
     code|vscode)
       if command -v code &>/dev/null; then
-        { command code "$path" &>/dev/null & } 2>/dev/null
+        { command code "$project_path" &>/dev/null & } 2>/dev/null
         disown 2>/dev/null
       else
         _flow_log_warning "VS Code not found in PATH"
@@ -268,7 +268,7 @@ _flow_open_editor() {
       ;;
     cursor)
       if command -v cursor &>/dev/null; then
-        { command cursor "$path" &>/dev/null & } 2>/dev/null
+        { command cursor "$project_path" &>/dev/null & } 2>/dev/null
         disown 2>/dev/null
       else
         _flow_log_warning "Cursor not found in PATH"
@@ -276,16 +276,16 @@ _flow_open_editor() {
       ;;
     vim|nvim)
       if command -v "$editor_cmd" &>/dev/null; then
-        command $editor "$path"
+        command $editor "$project_path"
       else
         _flow_log_warning "$editor_cmd not found in PATH"
       fi
       ;;
     emacs|spacemacs|emacsclient)
       if command -v emacsclient &>/dev/null; then
-        command emacsclient -n "$path" 2>/dev/null
+        command emacsclient -n "$project_path" 2>/dev/null
       elif command -v emacs &>/dev/null; then
-        { command emacs "$path" & } 2>/dev/null
+        { command emacs "$project_path" & } 2>/dev/null
         disown 2>/dev/null
       fi
       # Silently skip if not available (user likely has GUI emacs)
@@ -294,7 +294,7 @@ _flow_open_editor() {
       # Positron uses AppleScript on macOS
       if [[ "$OSTYPE" == darwin* ]]; then
         osascript -e "tell application \"Positron\" to activate" \
-                  -e "tell application \"Positron\" to open POSIX file \"$path\"" 2>/dev/null &
+                  -e "tell application \"Positron\" to open POSIX file \"$project_path\"" 2>/dev/null &
         disown 2>/dev/null
       else
         _flow_log_warning "Positron only supported on macOS"
@@ -303,7 +303,7 @@ _flow_open_editor() {
     *)
       # For other editors, check if command exists first
       if command -v "$editor_cmd" &>/dev/null; then
-        { eval "$editor \"$path\"" &>/dev/null & } 2>/dev/null
+        { eval "$editor \"$project_path\"" &>/dev/null & } 2>/dev/null
         disown 2>/dev/null
       else
         _flow_log_muted "Editor '$editor_cmd' not found - skipping"

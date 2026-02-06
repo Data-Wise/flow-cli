@@ -193,9 +193,9 @@ _flow_plugin_version() {
 #   stdout - Full path to plugin directory/file, or empty if not found
 #
 # Example:
-#   local path=$(_flow_plugin_path "my-plugin")
-#   if [[ -n "$path" ]]; then
-#     ls "$path"
+#   local plugin_path=$(_flow_plugin_path "my-plugin")
+#   if [[ -n "$plugin_path" ]]; then
+#     ls "$plugin_path"
 #   fi
 #
 # Dependencies:
@@ -960,7 +960,7 @@ _flow_plugin_list() {
   else
     for name in "${_FLOW_PLUGIN_LOAD_ORDER[@]}"; do
       local version="${_FLOW_PLUGIN_VERSIONS[$name]:-?}"
-      local path="${_FLOW_PLUGINS[$name]:-?}"
+      local plugin_path="${_FLOW_PLUGINS[$name]:-?}"
       local enabled="${_FLOW_PLUGIN_ENABLED[$name]:-1}"
 
       local status_icon="✓"
@@ -974,7 +974,7 @@ _flow_plugin_list() {
         "$status_icon" \
         "$status_color" "$name" "${FLOW_COLORS[reset]}" \
         "$version" \
-        "${FLOW_COLORS[muted]}" "$path" "${FLOW_COLORS[reset]}"
+        "${FLOW_COLORS[muted]}" "$plugin_path" "${FLOW_COLORS[reset]}"
     done
   fi
 

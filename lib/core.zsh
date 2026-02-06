@@ -228,8 +228,8 @@ _flow_status_icon() {
 #   - Does not validate path exists
 # =============================================================================
 _flow_project_name() {
-  local path="${1:-$PWD}"
-  echo "${path:t}"  # ZSH builtin: :t = tail (basename equivalent)
+  local dir_path="${1:-$PWD}"
+  echo "${dir_path:t}"  # ZSH builtin: :t = tail (basename equivalent)
 }
 
 # =============================================================================

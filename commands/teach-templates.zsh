@@ -400,9 +400,9 @@ _teach_templates_validate() {
     local templates
     if [[ -n "$target" ]]; then
         # Validate specific template
-        local path="$(_teach_resolve_template "$target")"
-        if [[ -n "$path" ]]; then
-            templates="project|content|${target}|${path}"
+        local tpl_path="$(_teach_resolve_template "$target")"
+        if [[ -n "$tpl_path" ]]; then
+            templates="project|content|${target}|${tpl_path}"
         else
             _flow_log_error "Template not found: $target"
             return 1
@@ -412,7 +412,7 @@ _teach_templates_validate() {
         templates=$(_teach_get_template_sources --source project)
     fi
 
-    while IFS='|' read -r source type name path; do
+    while IFS='|' read -r source type name tpl_path; do
         [[ -z "$source" ]] && continue
 
         ((total++))
@@ -424,7 +424,7 @@ _teach_templates_validate() {
 
         # Check YAML frontmatter exists
         typeset -A metadata
-        if _teach_parse_template_metadata "$path" metadata; then
+        if _teach_parse_template_metadata "$tpl_path" metadata; then
             printf "    \033[32m  Valid YAML frontmatter\033[0m\n"
         else
             printf "    \033[31m  Missing or invalid YAML frontmatter\033[0m\n"
@@ -456,7 +456,7 @@ _teach_templates_validate() {
 
         # Check for undocumented variables
         local used_vars
-        used_vars=($(_teach_extract_variables "$path"))
+        used_vars=($(_teach_extract_variables "$tpl_path"))
 
         if [[ ${#used_vars[@]} -gt 0 ]]; then
             local documented_vars="${metadata[template_variables]:-}"

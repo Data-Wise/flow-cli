@@ -1,6 +1,6 @@
 course:
-  name: "STAT 440"
-  semester: "January 2026"
+  name: 'STAT 440'
+  semester: 'January 2026'
   year: 2026
 
 git:
@@ -14,9 +14,22 @@ workflow:
   auto_commit: false
   auto_push: false
 
+teaching_style:
+  pedagogical_approach:
+    primary: 'active-learning'
+    secondary: 'problem-based'
+  explanation_style:
+    formality: 'semi-formal'
+    proof_style: 'balanced'
+  content_preferences:
+    code_style: 'tidyverse-primary'
+    computational_tools: 'R-integrated'
+  assessment_philosophy:
+    exam_format: 'mixed'
+
 backups:
   retention:
-    assessments: archive    # Keep exam/quiz backups forever
-    syllabi: archive        # Keep syllabus backups forever
-    lectures: semester      # Delete lecture backups at semester end
+    assessments: archive # Keep exam/quiz backups forever
+    syllabi: archive # Keep syllabus backups forever
+    lectures: semester # Delete lecture backups at semester end
   archive_dir: .flow/archives

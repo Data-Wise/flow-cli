@@ -98,11 +98,28 @@ run_test ./tests/test-help-compliance.zsh
 run_test ./tests/test-help-compliance-dogfood.zsh
 
 echo ""
+echo "Regression tests:"
+run_test ./tests/test-local-path-regression.zsh
+
+echo ""
+echo "Dogfooding tests:"
+run_test ./tests/automated-plugin-dogfood.zsh
+
+echo ""
 echo "E2E tests:"
 run_test ./tests/e2e-teach-plan.zsh
 run_test ./tests/e2e-teach-analyze.zsh
 run_test ./tests/e2e-dot-safety.zsh
 run_test ./tests/e2e-teach-deploy-v2.zsh
+run_test ./tests/e2e-core-commands.zsh
+run_test ./tests/e2e-plugin-system.zsh
+run_test ./tests/e2e-teach-prompt.zsh
+
+echo ""
+echo "Additional unit tests:"
+run_test ./tests/test-status-fields.zsh
+run_test ./tests/test-lint-e2e.zsh
+run_test ./tests/test-teach-prompt-unit.zsh
 
 echo ""
 echo "========================================="

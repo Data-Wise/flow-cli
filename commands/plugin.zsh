@@ -306,7 +306,7 @@ _flow_plugin_cmd_info() {
     return 1
   fi
 
-  local path="${_FLOW_PLUGINS[$name]}"
+  local plugin_path="${_FLOW_PLUGINS[$name]}"
   local version="${_FLOW_PLUGIN_VERSIONS[$name]}"
   local enabled="${_FLOW_PLUGIN_ENABLED[$name]:-1}"
 
@@ -314,15 +314,15 @@ _flow_plugin_cmd_info() {
   echo "${FLOW_COLORS[header]}PLUGIN: $name${FLOW_COLORS[reset]}"
   echo ""
   echo "  Version:  $version"
-  echo "  Path:     $path"
+  echo "  Path:     $plugin_path"
   echo "  Enabled:  $([[ "$enabled" == "1" ]] && echo "yes" || echo "no")"
 
   # Show plugin.json info if available
-  if [[ -f "$path/plugin.json" ]] && command -v jq >/dev/null 2>&1; then
-    local description=$(jq -r '.description // empty' "$path/plugin.json")
-    local author=$(jq -r '.author // empty' "$path/plugin.json")
-    local -a commands=($(jq -r '.commands[]? // empty' "$path/plugin.json"))
-    local -a tools=($(jq -r '.dependencies.tools[]? // empty' "$path/plugin.json"))
+  if [[ -f "$plugin_path/plugin.json" ]] && command -v jq >/dev/null 2>&1; then
+    local description=$(jq -r '.description // empty' "$plugin_path/plugin.json")
+    local author=$(jq -r '.author // empty' "$plugin_path/plugin.json")
+    local -a commands=($(jq -r '.commands[]? // empty' "$plugin_path/plugin.json"))
+    local -a tools=($(jq -r '.dependencies.tools[]? // empty' "$plugin_path/plugin.json"))
 
     [[ -n "$description" ]] && echo "  Desc:     $description"
     [[ -n "$author" ]] && echo "  Author:   $author"
@@ -364,17 +364,17 @@ _flow_plugin_cmd_path() {
   echo ""
 
   local idx=1
-  for path in "${FLOW_PLUGIN_PATHS[@]}"; do
-    [[ -z "$path" ]] && continue
+  for plugin_path in "${FLOW_PLUGIN_PATHS[@]}"; do
+    [[ -z "$plugin_path" ]] && continue
 
     local status="✓"
     local color="${FLOW_COLORS[success]}"
-    if [[ ! -d "$path" ]]; then
+    if [[ ! -d "$plugin_path" ]]; then
       status="○"
       color="${FLOW_COLORS[muted]}"
     fi
 
-    echo "  $idx. $status $color$path${FLOW_COLORS[reset]}"
+    echo "  $idx. $status $color$plugin_path${FLOW_COLORS[reset]}"
     ((idx++))
   done
 
