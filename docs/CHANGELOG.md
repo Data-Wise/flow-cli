@@ -21,6 +21,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 - **Core commands e2e test** — status CRUD, catch, win/yay, doctor, project type detection for Node/R/Python/Quarto (22 assertions)
 - **Plugin system e2e test** — full lifecycle: create, install, list, dev-mode symlink, remove (18 assertions)
 - **run-all.sh expanded** — 26 to 34 passing tests (8 new + 4 existing wired in)
+- **Non-interactive test conversion** — converted 6 timeout tests (test-dash, test-work, test-doctor, test-adhd, test-flow, e2e-teach-analyze) to non-interactive sourcing pattern. Test suite now at 40/40 passing with 0 timeouts
 
 ---
 
