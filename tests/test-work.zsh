@@ -35,31 +35,40 @@ fail() {
 # SETUP
 # ============================================================================
 
+# Resolve project root at top level (${0:A} doesn't work inside functions)
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+
 setup() {
     echo ""
     echo "${YELLOW}Setting up test environment...${NC}"
 
-    # Get project root
-    local project_root=""
-    if [[ -n "${0:A}" ]]; then
-        project_root="${0:A:h:h}"
-    fi
-    if [[ -z "$project_root" || ! -f "$project_root/commands/work.zsh" ]]; then
-        if [[ -f "$PWD/commands/work.zsh" ]]; then
-            project_root="$PWD"
-        elif [[ -f "$PWD/../commands/work.zsh" ]]; then
-            project_root="$PWD/.."
-        fi
-    fi
-    if [[ -z "$project_root" || ! -f "$project_root/commands/work.zsh" ]]; then
+    if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
         echo "${RED}ERROR: Cannot find project root${NC}"
         exit 1
     fi
 
-    echo "  Project root: $project_root"
+    echo "  Project root: $PROJECT_ROOT"
 
-    # Source the plugin
-    source "$project_root/flow.plugin.zsh" 2>/dev/null
+    # Source the plugin (non-interactive mode, no Atlas)
+    FLOW_QUIET=1
+    FLOW_ATLAS_ENABLED=no
+    FLOW_PLUGIN_DIR="$PROJECT_ROOT"
+    source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
+        echo "${RED}Plugin failed to load${NC}"
+        exit 1
+    }
+
+    # Close stdin to prevent any interactive commands from blocking
+    exec < /dev/null
+
+    # Create isolated test project root (avoids scanning real ~/projects)
+    TEST_ROOT=$(mktemp -d)
+    mkdir -p "$TEST_ROOT/dev-tools/mock-dev" "$TEST_ROOT/apps/test-app"
+    for dir in "$TEST_ROOT"/dev-tools/mock-dev "$TEST_ROOT"/apps/test-app; do
+        echo "## Status: active\n## Progress: 50" > "$dir/.STATUS"
+    done
+    FLOW_PROJECTS_ROOT="$TEST_ROOT"
 
     echo ""
 }
@@ -203,11 +212,16 @@ test_pick_project_exists() {
 test_work_no_args_returns_error() {
     log_test "work (no args, no fzf) shows error or picker"
 
-    # This test just verifies it doesn't crash
-    local output=$(work 2>&1 < /dev/null)
+    # Override _flow_has_fzf so work doesn't launch fzf (opens /dev/tty, blocks)
+    _flow_has_fzf() { return 1; }
+
+    local output=$(work 2>&1)
     local exit_code=$?
 
-    # It should either show picker (exit 0) or show usage/error (exit 1)
+    # Restore original
+    unfunction _flow_has_fzf 2>/dev/null
+
+    # Without fzf and not in a project dir, should show usage/error (exit 1)
     if [[ $exit_code -eq 0 || $exit_code -eq 1 ]]; then
         pass
     else
@@ -252,8 +266,13 @@ test_finish_no_session() {
 test_hop_help() {
     log_test "hop without args shows help or picker"
 
-    local output=$(hop 2>&1 < /dev/null)
+    # Override _flow_has_fzf so hop doesn't launch fzf (opens /dev/tty, blocks)
+    _flow_has_fzf() { return 1; }
+
+    local output=$(hop 2>&1)
     local exit_code=$?
+
+    unfunction _flow_has_fzf 2>/dev/null
 
     # Should either show picker or usage
     if [[ $exit_code -eq 0 || $exit_code -eq 1 ]]; then
@@ -391,6 +410,11 @@ main() {
 
     setup
 
+    echo "${CYAN}--- Environment tests ---${NC}"
+    test_flow_projects_root_defined
+    test_flow_projects_root_exists
+
+    echo ""
     echo "${CYAN}--- Command existence tests ---${NC}"
     test_work_exists
     test_finish_exists
@@ -439,11 +463,6 @@ main() {
     test_detect_project_type_exists
     test_project_icon_exists
 
-    echo ""
-    echo "${CYAN}--- Environment tests ---${NC}"
-    test_flow_projects_root_defined
-    test_flow_projects_root_exists
-
     # Summary
     echo ""
     echo "${YELLOW}========================================${NC}"
@@ -453,6 +472,9 @@ main() {
     echo "  ${RED}Failed:${NC} $TESTS_FAILED"
     echo "  Total:  $((TESTS_PASSED + TESTS_FAILED))"
     echo ""
+
+    # Cleanup temp dir (no trap — subshells can fire EXIT traps prematurely)
+    [[ -n "$TEST_ROOT" ]] && rm -rf "$TEST_ROOT"
 
     if [[ $TESTS_FAILED -gt 0 ]]; then
         exit 1

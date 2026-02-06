@@ -63,8 +63,8 @@ run_test ./tests/test-dot-chezmoi-safety.zsh
 
 echo ""
 echo "Core command tests:"
-# Note: test-dash, test-work, test-doctor, test-adhd, test-flow may timeout
-# These source flow.plugin.zsh which requires interactive/tmux context
+# These tests source flow.plugin.zsh in non-interactive mode
+# (FLOW_PLUGIN_DIR, FLOW_QUIET, FLOW_ATLAS_ENABLED=no, exec < /dev/null)
 run_test ./tests/test-dash.zsh
 run_test ./tests/test-work.zsh
 run_test ./tests/test-doctor.zsh
