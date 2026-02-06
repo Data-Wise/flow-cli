@@ -35,31 +35,41 @@ fail() {
 # SETUP
 # ============================================================================
 
+# Resolve project root at top level (${0:A} doesn't work inside functions)
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+
 setup() {
     echo ""
     echo "${YELLOW}Setting up test environment...${NC}"
 
-    # Get project root
-    local project_root=""
-    if [[ -n "${0:A}" ]]; then
-        project_root="${0:A:h:h}"
-    fi
-    if [[ -z "$project_root" || ! -f "$project_root/commands/flow.zsh" ]]; then
-        if [[ -f "$PWD/commands/flow.zsh" ]]; then
-            project_root="$PWD"
-        elif [[ -f "$PWD/../commands/flow.zsh" ]]; then
-            project_root="$PWD/.."
-        fi
-    fi
-    if [[ -z "$project_root" || ! -f "$project_root/commands/flow.zsh" ]]; then
+    if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
         echo "${RED}ERROR: Cannot find project root${NC}"
         exit 1
     fi
 
-    echo "  Project root: $project_root"
+    echo "  Project root: $PROJECT_ROOT"
 
-    # Source the plugin
-    source "$project_root/flow.plugin.zsh" 2>/dev/null
+    # Source the plugin (non-interactive mode, no Atlas)
+    FLOW_QUIET=1
+    FLOW_ATLAS_ENABLED=no
+    FLOW_PLUGIN_DIR="$PROJECT_ROOT"
+    source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
+        echo "${RED}Plugin failed to load${NC}"
+        exit 1
+    }
+
+    # Close stdin to prevent any interactive commands from blocking
+    exec < /dev/null
+
+    # Create isolated test project root (avoids scanning real ~/projects)
+    TEST_ROOT=$(mktemp -d)
+    trap "rm -rf '$TEST_ROOT'" EXIT
+    mkdir -p "$TEST_ROOT/dev-tools/mock-dev" "$TEST_ROOT/apps/test-app"
+    for dir in "$TEST_ROOT"/dev-tools/mock-dev "$TEST_ROOT"/apps/test-app; do
+        echo "## Status: active\n## Progress: 50" > "$dir/.STATUS"
+    done
+    FLOW_PROJECTS_ROOT="$TEST_ROOT"
 
     echo ""
 }
