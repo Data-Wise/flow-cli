@@ -387,9 +387,9 @@ _wt_move() {
 }
 
 _wt_remove() {
-    local path="$1"
+    local wt_path="$1"
 
-    if [[ -z "$path" ]]; then
+    if [[ -z "$wt_path" ]]; then
         echo -e "${_C_RED}✗ Worktree path required${_C_NC}"
         echo "Usage: wt remove <path>"
         echo ""
@@ -398,9 +398,9 @@ _wt_remove() {
         return 1
     fi
 
-    git worktree remove "$path"
+    git worktree remove "$wt_path"
     if [[ $? -eq 0 ]]; then
-        echo -e "${_C_GREEN}✓ Removed worktree: $path${_C_NC}"
+        echo -e "${_C_GREEN}✓ Removed worktree: $wt_path${_C_NC}"
 
         # Invalidate project cache so removed worktree disappears immediately
         if type _proj_cache_invalidate &>/dev/null; then
@@ -591,9 +591,9 @@ _wt_prune() {
     else
         echo -e "\n  ${_C_BOLD}Worktrees with merged branches:${_C_NC}"
         for entry in "${worktrees_to_remove[@]}"; do
-            local path="${entry%%|*}"
+            local wt_path="${entry%%|*}"
             local branch="${entry##*|}"
-            local short_path="${path/#$HOME/~}"
+            local short_path="${wt_path/#$HOME/~}"
             echo -e "    ${_C_DIM}•${_C_NC} $short_path ${_C_DIM}[$branch]${_C_NC}"
         done
 
@@ -614,12 +614,12 @@ _wt_prune() {
             # Remove worktrees
             local removed=0
             for entry in "${worktrees_to_remove[@]}"; do
-                local path="${entry%%|*}"
-                if git worktree remove "$path" 2>/dev/null; then
-                    echo -e "  ${_C_GREEN}✓ Removed${_C_NC} $path"
+                local wt_path="${entry%%|*}"
+                if git worktree remove "$wt_path" 2>/dev/null; then
+                    echo -e "  ${_C_GREEN}✓ Removed${_C_NC} $wt_path"
                     ((removed++))
                 else
-                    echo -e "  ${_C_RED}✗ Failed${_C_NC} $path"
+                    echo -e "  ${_C_RED}✗ Failed${_C_NC} $wt_path"
                 fi
             done
             echo -e "\n  ${_C_GREEN}Removed $removed worktree(s)${_C_NC}"

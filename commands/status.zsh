@@ -54,18 +54,18 @@ status() {
   fi
 
   # Find project
-  local path=$(_flow_find_project_path "$project")
-  if [[ -z "$path" ]]; then
+  local project_path=$(_flow_find_project_path "$project")
+  if [[ -z "$project_path" ]]; then
     _flow_log_error "Project not found: $project"
     return 1
   fi
 
-  local status_file="$path/.STATUS"
+  local status_file="$project_path/.STATUS"
 
   # Handle subcommands
   case "$subcmd" in
     --create|create)
-      _flow_status_create "$path"
+      _flow_status_create "$project_path"
       return $?
       ;;
     --edit|edit)
@@ -73,18 +73,18 @@ status() {
       return $?
       ;;
     --set|set)
-      _flow_status_set "$path" "${subcmd_args[@]}"
+      _flow_status_set "$project_path" "${subcmd_args[@]}"
       return $?
       ;;
     --tag|tag)
-      _flow_status_tags "${subcmd_args[1]}" "$path" "${subcmd_args[2]}"
+      _flow_status_tags "${subcmd_args[1]}" "$project_path" "${subcmd_args[2]}"
       return $?
       ;;
     *)
       # Default: Show status
-      _flow_status_show "$path"
+      _flow_status_show "$project_path"
       if [[ $show_extended -eq 1 ]]; then
-        _flow_status_extended "$path"
+        _flow_status_extended "$project_path"
       fi
       ;;
   esac
@@ -95,22 +95,22 @@ status() {
 # ============================================================================
 
 _flow_status_show() {
-  local path="$1"
-  local name=$(_flow_project_name "$path")
-  local status_file="$path/.STATUS"
-  
+  local project_path="$1"
+  local name=$(_flow_project_name "$project_path")
+  local status_file="$project_path/.STATUS"
+
   if [[ ! -f "$status_file" ]]; then
     _flow_log_warning "No .STATUS file in $name"
     echo "Create one with: status $name --create"
     return 1
   fi
-  
+
   # Use atlas if available for rich display
   if _flow_has_atlas; then
     _flow_atlas status "$name"
   else
     # Pure shell display
-    local type=$(_flow_detect_project_type "$path")
+    local type=$(_flow_detect_project_type "$project_path")
     local icon=$(_flow_project_icon "$type")
     
     echo ""
@@ -146,28 +146,28 @@ _flow_status_show() {
 # ============================================================================
 
 _flow_status_create() {
-  local path="$1"
-  local name=$(_flow_project_name "$path")
-  local status_file="$path/.STATUS"
-  
+  local project_path="$1"
+  local name=$(_flow_project_name "$project_path")
+  local status_file="$project_path/.STATUS"
+
   if [[ -f "$status_file" ]]; then
     if ! _flow_confirm ".STATUS exists. Overwrite?"; then
       return 1
     fi
   fi
-  
+
   # Detect project type
   local proj_type="project"
-  if [[ -f "$path/DESCRIPTION" ]]; then
+  if [[ -f "$project_path/DESCRIPTION" ]]; then
     proj_type="r-package"
-  elif [[ -f "$path/_quarto.yml" ]]; then
+  elif [[ -f "$project_path/_quarto.yml" ]]; then
     proj_type="quarto"
-  elif [[ -f "$path/package.json" ]]; then
+  elif [[ -f "$project_path/package.json" ]]; then
     proj_type="node-package"
-  elif [[ -d "$path/.obsidian" ]]; then
+  elif [[ -d "$project_path/.obsidian" ]]; then
     proj_type="obsidian-vault"
   fi
-  
+
   # Create status file with v3.5.0 extended fields
   cat > "$status_file" << EOF
 ## Project: $name
@@ -194,17 +194,17 @@ $name is a $proj_type project.
 None
 
 ## Links
-- Path: $path
+- Path: $project_path
 
 ## Session Log
 - $(date '+%Y-%m-%d'): Project initialized
 EOF
 
   _flow_log_success "Created .STATUS for $name"
-  
+
   # Register with atlas if available
   if _flow_has_atlas; then
-    _flow_atlas_async project add "$path"
+    _flow_atlas_async project add "$project_path"
   fi
 }
 
@@ -213,16 +213,16 @@ EOF
 # ============================================================================
 
 _flow_status_set() {
-  local path="$1"
+  local project_path="$1"
   shift
-  local name=$(_flow_project_name "$path")
-  
+  local name=$(_flow_project_name "$project_path")
+
   # Use atlas if available
   if _flow_has_atlas; then
     _flow_atlas status "$name" "$@"
   else
     # Parse arguments and update file
-    local status_file="$path/.STATUS"
+    local status_file="$project_path/.STATUS"
     [[ ! -f "$status_file" ]] && { _flow_log_error "No .STATUS file"; return 1; }
     
     while [[ $# -gt 0 ]]; do
@@ -419,16 +419,16 @@ _flow_status_set_field() {
 
 # Update last_active timestamp
 _flow_status_touch() {
-  local path="${1:-}"
+  local project_path="${1:-}"
 
   # Use current project if not specified
-  if [[ -z "$path" ]] && _flow_in_project; then
-    path=$(_flow_find_project_root)
+  if [[ -z "$project_path" ]] && _flow_in_project; then
+    project_path=$(_flow_find_project_root)
   fi
 
-  [[ -z "$path" ]] && return 1
+  [[ -z "$project_path" ]] && return 1
 
-  local status_file="$path/.STATUS"
+  local status_file="$project_path/.STATUS"
   [[ ! -f "$status_file" ]] && return 1
 
   zmodload -F zsh/datetime b:strftime
@@ -440,15 +440,15 @@ _flow_status_touch() {
 # Get/set tags
 _flow_status_tags() {
   local action="${1:-get}"
-  local path="${2:-}"
+  local project_path="${2:-}"
 
-  if [[ -z "$path" ]] && _flow_in_project; then
-    path=$(_flow_find_project_root)
+  if [[ -z "$project_path" ]] && _flow_in_project; then
+    project_path=$(_flow_find_project_root)
   fi
 
-  [[ -z "$path" ]] && return 1
+  [[ -z "$project_path" ]] && return 1
 
-  local status_file="$path/.STATUS"
+  local status_file="$project_path/.STATUS"
 
   case "$action" in
     get)
@@ -473,17 +473,17 @@ _flow_status_tags() {
 
 # Record a win to .STATUS file
 _flow_status_add_win() {
-  local path="${1:-}"
+  local project_path="${1:-}"
   local win_text="$2"
   local category="${3:-other}"
 
-  if [[ -z "$path" ]] && _flow_in_project; then
-    path=$(_flow_find_project_root)
+  if [[ -z "$project_path" ]] && _flow_in_project; then
+    project_path=$(_flow_find_project_root)
   fi
 
-  [[ -z "$path" ]] && return 1
+  [[ -z "$project_path" ]] && return 1
 
-  local status_file="$path/.STATUS"
+  local status_file="$project_path/.STATUS"
   [[ ! -f "$status_file" ]] && return 1
 
   zmodload -F zsh/datetime b:strftime
@@ -508,16 +508,16 @@ _flow_status_add_win() {
   fi
 
   # Update streak
-  _flow_status_update_streak "$path"
+  _flow_status_update_streak "$project_path"
 
   # Update last_active
-  _flow_status_touch "$path"
+  _flow_status_touch "$project_path"
 }
 
 # Update streak count
 _flow_status_update_streak() {
-  local path="$1"
-  local status_file="$path/.STATUS"
+  local project_path="$1"
+  local status_file="$project_path/.STATUS"
 
   [[ ! -f "$status_file" ]] && return 1
 
@@ -545,18 +545,18 @@ _flow_status_update_streak() {
 
 # Show extended status info
 _flow_status_extended() {
-  local path="${1:-}"
+  local project_path="${1:-}"
 
-  if [[ -z "$path" ]] && _flow_in_project; then
-    path=$(_flow_find_project_root)
+  if [[ -z "$project_path" ]] && _flow_in_project; then
+    project_path=$(_flow_find_project_root)
   fi
 
-  [[ -z "$path" ]] && return 1
+  [[ -z "$project_path" ]] && return 1
 
-  local status_file="$path/.STATUS"
+  local status_file="$project_path/.STATUS"
   [[ ! -f "$status_file" ]] && return 1
 
-  local name=$(_flow_project_name "$path")
+  local name=$(_flow_project_name "$project_path")
 
   echo ""
   echo "  ${FLOW_COLORS[header]}Extended Status: $name${FLOW_COLORS[reset]}"

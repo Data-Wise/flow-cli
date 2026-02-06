@@ -200,13 +200,13 @@ _teach_get_all_prompts() {
 # Returns: Prints "course", "user", or "plugin"
 # =============================================================================
 _teach_prompt_tier() {
-    local path="$1"
+    local file_path="$1"
     local course_dir="$(_teach_prompt_course_dir)"
     local user_dir="$(_teach_prompt_user_dir)"
 
-    if [[ "$path" == "$course_dir"/* ]]; then
+    if [[ "$file_path" == "$course_dir"/* ]]; then
         echo "course"
-    elif [[ "$path" == "$user_dir"/* ]]; then
+    elif [[ "$file_path" == "$user_dir"/* ]]; then
         echo "user"
     else
         echo "plugin"

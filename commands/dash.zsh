@@ -1285,9 +1285,9 @@ _dash_find_project_path() {
 
 # Detect category from path
 _dash_detect_category() {
-  local path="$1"
+  local dir_path="$1"
 
-  case "$path" in
+  case "$dir_path" in
     */dev-tools/*) echo "dev" ;;
     */r-packages/*) echo "r" ;;
     */research/*) echo "research" ;;

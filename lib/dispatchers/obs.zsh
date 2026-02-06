@@ -174,12 +174,12 @@ _get_python_cli() {
 
 obs_discover() {
     local python_cli=$(_get_python_cli) || return 1
-    local path=${1:-.}  # Default to current directory
+    local vault_path=${1:-.}  # Default to current directory
 
-    _log_verbose "Running vault discovery in: $path"
+    _log_verbose "Running vault discovery in: $vault_path"
 
     # Build command
-    local cmd=("$python_cli" "discover" "$path")
+    local cmd=("$python_cli" "discover" "$vault_path")
 
     # Add verbose flag if enabled
     if [[ "$VERBOSE" == "true" ]]; then
