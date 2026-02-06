@@ -364,17 +364,17 @@ _flow_plugin_cmd_path() {
   echo ""
 
   local idx=1
-  for path in "${FLOW_PLUGIN_PATHS[@]}"; do
-    [[ -z "$path" ]] && continue
+  for plugin_path in "${FLOW_PLUGIN_PATHS[@]}"; do
+    [[ -z "$plugin_path" ]] && continue
 
     local status="✓"
     local color="${FLOW_COLORS[success]}"
-    if [[ ! -d "$path" ]]; then
+    if [[ ! -d "$plugin_path" ]]; then
       status="○"
       color="${FLOW_COLORS[muted]}"
     fi
 
-    echo "  $idx. $status $color$path${FLOW_COLORS[reset]}"
+    echo "  $idx. $status $color$plugin_path${FLOW_COLORS[reset]}"
     ((idx++))
   done
 
