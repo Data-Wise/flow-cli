@@ -4,6 +4,7 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
+## Focus: --help
 ## Phase: v6.4.3 Released & Deployed
 ## Priority: 1
 ## Progress: 100
@@ -107,6 +108,6 @@ Session complete. Possible next steps:
 
 **Last Updated:** 2026-02-06
 **Status:** v6.4.3 Released | Docs deployed | 34 tests passing | 3500+ test functions
-## wins: Fixed the regression bug (2026-02-05), --category fix squashed the bug (2026-02-05), fixed the bug (2026-02-05), Fixed the regression bug (2026-02-05), Fixed the regression bug (2026-02-05)
+## wins: Fixed the regression bug (2026-02-06), --category fix squashed the bug (2026-02-06), fixed the bug (2026-02-06), Fixed the regression bug (2026-02-06), --category fix squashed the bug (2026-02-06)
 ## streak: 1
-## last_active: 2026-02-06 05:15
+## last_active: 2026-02-06 11:43
