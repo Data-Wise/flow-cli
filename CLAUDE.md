@@ -147,15 +147,21 @@ v <cmd>       # Vibe coding mode
 
 ### Teaching Subcommands
 
-`teach analyze`, `teach init`, `teach deploy`, `teach exam`, `teach macros`, `teach plan`, `teach style`, `teach templates`, `teach prompt`
+`teach analyze`, `teach init`, `teach deploy`, `teach doctor`, `teach exam`, `teach macros`, `teach plan`, `teach style`, `teach templates`, `teach prompt`
 
+- **Doctor (v2):** Two-mode architecture — quick (default, < 3s) and full (`--full`)
+  - Quick mode: CLI deps, R availability + renv status, config, git
+  - Full mode: adds per-package R checks, quarto ext, scholar, hooks, cache, macros, style
+  - Flags: `--full`, `--brief`, `--fix`, `--json`, `--ci`, `--verbose`
+  - `--fix` offers renv vs system install choice for R packages
+  - `--ci` exits non-zero on failure, no color, machine-readable output
+  - Health dot (green/yellow/red) shown on `teach` startup from `.flow/doctor-status.json`
 - **Deploy:** `teach deploy --direct` (8-15s direct merge) or `teach deploy` (PR workflow)
 - **Deploy extras:** `--dry-run`, `--ci`, `--history [N]`, `--rollback [N]`
 - **Templates:** `.flow/templates/` (content, prompts, metadata, checklists)
 - **Macros:** `teach macros list|sync|export` (LaTeX notation consistency)
 - **Plans:** `teach plan create|list|show|edit|delete` (lesson plan CRUD)
 - **Prompts:** `teach prompt list|show|edit|validate|export` (3-tier resolution)
-- **Token checks:** `doctor --dot` (< 3s, cached), `doctor --fix-token`
 
 ---
 
