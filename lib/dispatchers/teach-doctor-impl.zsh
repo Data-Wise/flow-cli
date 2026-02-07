@@ -108,18 +108,33 @@ _teach_doctor() {
     # ── Full mode checks (--full only) ──────────────────────────────────
     if [[ "$full" == "true" ]]; then
         _teach_doctor_section_gap
+
+        _teach_doctor_spinner_start "Checking R packages..."
         _teach_doctor_check_r_packages
+        _teach_doctor_spinner_stop
         _teach_doctor_section_gap
+
+        _teach_doctor_spinner_start "Checking Quarto extensions..."
         _teach_doctor_check_quarto_extensions
+        _teach_doctor_spinner_stop
         _teach_doctor_section_gap
+
         _teach_doctor_check_scholar
         _teach_doctor_section_gap
+
         _teach_doctor_check_hooks
         _teach_doctor_section_gap
+
+        _teach_doctor_spinner_start "Checking cache..."
         _teach_doctor_check_cache
+        _teach_doctor_spinner_stop
         _teach_doctor_section_gap
+
+        _teach_doctor_spinner_start "Checking macros..."
         _teach_doctor_check_macros
+        _teach_doctor_spinner_stop
         _teach_doctor_section_gap
+
         _teach_doctor_check_teaching_style
     fi
 
@@ -155,6 +170,62 @@ _teach_doctor() {
 # Helper: emit section gap (respects json mode)
 _teach_doctor_section_gap() {
     [[ "$json" == "false" ]] && echo ""
+}
+
+# ── Spinner UX ──────────────────────────────────────────────────
+# Background spinner with elapsed time (shown after 5s threshold)
+# Uses temp file as stop signal for cross-process communication.
+
+typeset -g _DOCTOR_SPINNER_PID=0
+typeset -g _DOCTOR_SPINNER_STOP=""
+
+_teach_doctor_spinner_start() {
+    local label="$1"
+
+    # Skip spinners in quiet/json/ci modes
+    [[ "$quiet" == "true" || "$json" == "true" || "$ci" == "true" ]] && return
+
+    # Create stop signal file
+    _DOCTOR_SPINNER_STOP=$(mktemp -t doctor-spin.XXXXXX 2>/dev/null || echo "/tmp/doctor-spin.$$")
+    rm -f "$_DOCTOR_SPINNER_STOP"  # File absence = keep spinning
+
+    # Start background spinner
+    (
+        local chars=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+        local i=0
+        local start=$EPOCHSECONDS
+        local elapsed=0
+
+        while [[ ! -f "$_DOCTOR_SPINNER_STOP" ]]; do
+            elapsed=$(( EPOCHSECONDS - start ))
+            local time_str=""
+            (( elapsed >= 5 )) && time_str=" (${elapsed}s)"
+
+            printf "\r  ${chars[$((i % ${#chars[@]}))]} %s%s" "$label" "$time_str" > /dev/tty 2>/dev/null
+            ((i++))
+            sleep 0.1
+        done
+
+        # Clear spinner line
+        printf "\r\033[K" > /dev/tty 2>/dev/null
+    ) &
+    _DOCTOR_SPINNER_PID=$!
+}
+
+_teach_doctor_spinner_stop() {
+    # Signal spinner to stop
+    if [[ -n "$_DOCTOR_SPINNER_STOP" ]]; then
+        touch "$_DOCTOR_SPINNER_STOP" 2>/dev/null
+        # Wait briefly for spinner to clear
+        if [[ $_DOCTOR_SPINNER_PID -gt 0 ]]; then
+            sleep 0.15
+            kill $_DOCTOR_SPINNER_PID 2>/dev/null
+            wait $_DOCTOR_SPINNER_PID 2>/dev/null
+        fi
+        rm -f "$_DOCTOR_SPINNER_STOP" 2>/dev/null
+        _DOCTOR_SPINNER_PID=0
+        _DOCTOR_SPINNER_STOP=""
+    fi
 }
 
 # Quick R check: is R available, renv status summary, package count hint
