@@ -1,35 +1,66 @@
 # ==============================================================================
-# TEACH DOCTOR - Environment Health Check (v5.14.0 - Task 2)
+# TEACH DOCTOR - Environment Health Check (v6.5.0)
 # ==============================================================================
 #
-# Basic implementation (Task 2): dependency checks + config validation
-# Full implementation (Task 4): git checks, --fix, --json
+# Two-mode architecture:
+#   Quick (default): CLI deps, R available, config, git — target < 3s
+#   Full (--full):   Everything above + per-package R, quarto ext, scholar,
+#                    hooks, cache, macros, teaching style
 #
 # Usage:
-#   teach doctor              # Check environment
-#   teach doctor --quiet      # Only show warnings/failures (Task 4)
-#   teach doctor --fix        # Auto-fix issues (Task 4)
-#   teach doctor --json       # JSON output (Task 4)
+#   teach doctor              # Quick check (default, < 3s)
+#   teach doctor --full       # Full comprehensive check
+#   teach doctor --brief      # Only show warnings/failures
+#   teach doctor --fix        # Auto-fix issues
+#   teach doctor --json       # JSON output
+#   teach doctor --ci         # CI mode (no color, exit 1 on failure)
+#   teach doctor --verbose    # Expanded detail for every check
 
 _teach_doctor() {
     local quiet=false fix=false json=false
+    local full=false brief=false ci=false verbose=false
     local -i passed=0 warnings=0 failures=0
     local -a json_results=()
+    local -a failure_details=()
+    local start_time=$EPOCHSECONDS
 
     # Parse flags
     while [[ $# -gt 0 ]]; do
         case "$1" in
+            --full)
+                full=true
+                shift
+                ;;
+            --brief)
+                brief=true
+                quiet=true
+                shift
+                ;;
             --quiet|-q)
+                # Deprecated alias for --brief
+                brief=true
                 quiet=true
                 shift
                 ;;
             --fix)
                 fix=true
+                full=true  # --fix implies full mode
                 shift
                 ;;
             --json)
                 json=true
-                quiet=true  # JSON mode implies quiet
+                quiet=true
+                shift
+                ;;
+            --ci)
+                ci=true
+                json=false
+                quiet=true
+                shift
+                ;;
+            --verbose)
+                verbose=true
+                full=true  # --verbose implies full mode
                 shift
                 ;;
             --help|-h)
@@ -42,72 +73,125 @@ _teach_doctor() {
         esac
     done
 
+    # CI mode: disable colors
+    if [[ "$ci" == "true" ]]; then
+        local -A FLOW_COLORS=([reset]="" [bold]="" [dim]="" [success]="" [warning]="" [error]="" [info]="" [muted]="")
+    fi
+
+    # Determine mode label
+    local mode_label="quick check"
+    [[ "$full" == "true" ]] && mode_label="full check"
+
     # Header
     if [[ "$quiet" == "false" ]]; then
         echo ""
         echo "╭────────────────────────────────────────────────────────────╮"
-        echo "│  📚 Teaching Environment Health Check                       │"
+        echo "│  Teaching Environment ($mode_label)                        │"
         echo "╰────────────────────────────────────────────────────────────╯"
         echo ""
     fi
 
-    # Run checks
+    # ── Quick mode checks (always run) ──────────────────────────────────
+    _teach_doctor_section_gap
     _teach_doctor_check_dependencies
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
-    # R packages (promoted from inside dependencies - top-level section)
-    if command -v R &>/dev/null; then
-        _teach_doctor_check_r_packages
-        if [[ "$json" == "false" ]]; then
-            echo ""
-        fi
-    fi
+    _teach_doctor_section_gap
+
+    # R quick check: is R available? (quick mode = summary only)
+    _teach_doctor_check_r_quick
+    _teach_doctor_section_gap
+
     _teach_doctor_check_config
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
+    _teach_doctor_section_gap
+
     _teach_doctor_check_git
-    if [[ "$json" == "false" ]]; then
-        echo ""
+
+    # ── Full mode checks (--full only) ──────────────────────────────────
+    if [[ "$full" == "true" ]]; then
+        _teach_doctor_section_gap
+        _teach_doctor_check_r_packages
+        _teach_doctor_section_gap
+        _teach_doctor_check_quarto_extensions
+        _teach_doctor_section_gap
+        _teach_doctor_check_scholar
+        _teach_doctor_section_gap
+        _teach_doctor_check_hooks
+        _teach_doctor_section_gap
+        _teach_doctor_check_cache
+        _teach_doctor_section_gap
+        _teach_doctor_check_macros
+        _teach_doctor_section_gap
+        _teach_doctor_check_teaching_style
     fi
-    _teach_doctor_check_scholar
-    if [[ "$json" == "false" ]]; then
+
+    # Skipped sections hint (quick mode only)
+    if [[ "$full" == "false" && "$quiet" == "false" && "$json" == "false" ]]; then
         echo ""
+        echo "  ${FLOW_COLORS[muted]}Skipped (run --full): R packages, quarto extensions, hooks, cache, macros, style${FLOW_COLORS[reset]}"
     fi
-    # Quarto extensions (promoted from inside dependencies - top-level section)
-    _teach_doctor_check_quarto_extensions
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
-    _teach_doctor_check_hooks
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
-    _teach_doctor_check_cache
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
-    _teach_doctor_check_macros
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
-    _teach_doctor_check_teaching_style
+
+    # Elapsed time
+    local elapsed=$(( EPOCHSECONDS - start_time ))
 
     # Output results
     if [[ "$json" == "true" ]]; then
         _teach_doctor_json_output
+    elif [[ "$ci" == "true" ]]; then
+        # CI mode: machine-readable summary
+        echo "doctor:status=$([ $failures -eq 0 ] && echo 'pass' || echo 'fail')"
+        echo "doctor:passed=$passed"
+        echo "doctor:warnings=$warnings"
+        echo "doctor:failures=$failures"
+        echo "doctor:mode=$([[ "$full" == "true" ]] && echo 'full' || echo 'quick')"
+        echo "doctor:elapsed=${elapsed}s"
     else
         # Summary
-        echo ""
-        echo "────────────────────────────────────────────────────────────"
-        echo "Summary: $passed passed, $warnings warnings, $failures failures"
-        echo "────────────────────────────────────────────────────────────"
-        echo ""
+        _teach_doctor_summary
     fi
 
     [[ $failures -gt 0 ]] && return 1
     return 0
+}
+
+# Helper: emit section gap (respects json mode)
+_teach_doctor_section_gap() {
+    [[ "$json" == "false" ]] && echo ""
+}
+
+# Quick R check: is R available, renv status, package count hint
+_teach_doctor_check_r_quick() {
+    if [[ "$json" == "false" ]]; then
+        echo "R Environment:"
+    fi
+
+    if ! command -v R &>/dev/null; then
+        _teach_doctor_warn "R not found" "Install R: brew install --cask r"
+        json_results+=("{\"check\":\"r_available\",\"status\":\"warn\",\"message\":\"not found\"}")
+        return
+    fi
+
+    # R version
+    local r_version
+    r_version=$(R --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+    _teach_doctor_pass "R ($r_version)"
+    json_results+=("{\"check\":\"r_available\",\"status\":\"pass\",\"message\":\"$r_version\"}")
+
+    # renv status (quick: just detect active/inactive)
+    local renv_info=""
+    if [[ -f "renv.lock" && -f "renv/activate.R" ]]; then
+        renv_info="renv active"
+    elif [[ -f "renv.lock" ]]; then
+        renv_info="renv.lock found (not activated)"
+    fi
+
+    if [[ -n "$renv_info" ]]; then
+        _teach_doctor_pass "$renv_info"
+        json_results+=("{\"check\":\"renv_status\",\"status\":\"pass\",\"message\":\"$renv_info\"}")
+    fi
+
+    # Inline hint for full mode
+    if [[ "$full" == "false" && "$quiet" == "false" && "$json" == "false" ]]; then
+        echo "     ${FLOW_COLORS[muted]}-> Run --full for package details${FLOW_COLORS[reset]}"
+    fi
 }
 
 # Check required and optional dependencies
@@ -247,6 +331,12 @@ _teach_doctor_warn() {
 # Helper: Failure
 _teach_doctor_fail() {
     ((failures++))
+    # Record for severity-grouped summary
+    if [[ -n "${2:-}" ]]; then
+        failure_details+=("$1\n    -> $2")
+    else
+        failure_details+=("$1")
+    fi
     if [[ "$json" == "false" ]]; then
         echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} $1"
         if [[ -n "${2:-}" ]]; then
@@ -346,14 +436,19 @@ _teach_doctor_check_scholar() {
     fi
 }
 
-# Output results as JSON (Task 4)
+# Output results as JSON
 _teach_doctor_json_output() {
+    local mode_str="quick"
+    [[ "$full" == "true" ]] && mode_str="full"
+
     echo "{"
+    echo "  \"version\": 1,"
+    echo "  \"mode\": \"$mode_str\","
     echo "  \"summary\": {"
     echo "    \"passed\": $passed,"
     echo "    \"warnings\": $warnings,"
     echo "    \"failures\": $failures,"
-    echo "    \"status\": \"$([ $failures -eq 0 ] && echo 'healthy' || echo 'unhealthy')\""
+    echo "    \"status\": \"$([ $failures -eq 0 ] && [ $warnings -eq 0 ] && echo 'green' || [ $failures -eq 0 ] && echo 'yellow' || echo 'red')\""
     echo "  },"
     echo "  \"checks\": ["
 
@@ -370,6 +465,33 @@ _teach_doctor_json_output() {
     echo ""
     echo "  ]"
     echo "}"
+}
+
+# Severity-grouped summary output
+_teach_doctor_summary() {
+    echo ""
+    echo "────────────────────────────────────────────────────────────"
+
+    if [[ $failures -gt 0 ]]; then
+        echo "${FLOW_COLORS[error]}Failures ($failures):${FLOW_COLORS[reset]}"
+        for detail in "${failure_details[@]}"; do
+            echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} $detail"
+        done
+        echo ""
+    fi
+
+    local summary_parts=()
+    [[ $failures -gt 0 ]] && summary_parts+=("${FLOW_COLORS[error]}$failures failed${FLOW_COLORS[reset]}")
+    [[ $warnings -gt 0 ]] && summary_parts+=("${FLOW_COLORS[warning]}$warnings warnings${FLOW_COLORS[reset]}")
+    summary_parts+=("${FLOW_COLORS[success]}$passed passed${FLOW_COLORS[reset]}")
+
+    local elapsed=$(( EPOCHSECONDS - start_time ))
+    local time_display=""
+    (( elapsed > 0 )) && time_display="  [${elapsed}s]"
+
+    echo -e "Summary: ${(j: | :)summary_parts}${time_display}"
+    echo "────────────────────────────────────────────────────────────"
+    echo ""
 }
 
 # Interactive fix helper
@@ -402,10 +524,9 @@ _teach_doctor_interactive_fix() {
     fi
 }
 
-# Check R packages
+# Check R packages (full mode only — per-package batch check)
 _teach_doctor_check_r_packages() {
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "R Packages:"
     fi
 
@@ -491,14 +612,13 @@ rmarkdown"
     fi
 }
 
-# Check Quarto extensions
+# Check Quarto extensions (full mode only)
 _teach_doctor_check_quarto_extensions() {
     if [[ ! -d "_extensions" ]]; then
         return 0  # No extensions directory, skip check
     fi
 
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "Quarto Extensions:"
     fi
 
@@ -524,10 +644,9 @@ _teach_doctor_check_quarto_extensions() {
     fi
 }
 
-# Check hook status
+# Check hook status (full mode only)
 _teach_doctor_check_hooks() {
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "Git Hooks:"
     fi
 
@@ -567,10 +686,9 @@ _teach_doctor_check_hooks() {
     done
 }
 
-# Check cache health
+# Check cache health (full mode only)
 _teach_doctor_check_cache() {
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "Cache Health:"
     fi
 
@@ -628,10 +746,9 @@ _teach_doctor_check_cache() {
     fi
 }
 
-# Check LaTeX macro health
+# Check LaTeX macro health (full mode only)
 _teach_doctor_check_macros() {
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "LaTeX Macros:"
     fi
 
