@@ -256,8 +256,9 @@ typeset -g _DOCTOR_SPINNER_STOP=""
 _teach_doctor_spinner_start() {
     local label="$1"
 
-    # Skip spinners in quiet/json/ci modes
+    # Skip spinners in quiet/json/ci modes or when no tty available
     [[ "$quiet" == "true" || "$json" == "true" || "$ci" == "true" ]] && return
+    { true > /dev/tty } 2>/dev/null || return
 
     # Create stop signal file
     _DOCTOR_SPINNER_STOP=$(mktemp -t doctor-spin.XXXXXX 2>/dev/null || echo "/tmp/doctor-spin.$$")
@@ -275,13 +276,13 @@ _teach_doctor_spinner_start() {
             local time_str=""
             (( elapsed >= 5 )) && time_str=" (${elapsed}s)"
 
-            printf "\r  ${chars[$((i % ${#chars[@]}))]} %s%s" "$label" "$time_str" > /dev/tty 2>/dev/null
+            printf "\r  ${chars[$((i % ${#chars[@]}))]} %s%s" "$label" "$time_str" > /dev/tty
             ((i++))
             sleep 0.1
         done
 
         # Clear spinner line
-        printf "\r\033[K" > /dev/tty 2>/dev/null
+        printf "\r\033[K" > /dev/tty
     ) &
     _DOCTOR_SPINNER_PID=$!
 }
