@@ -157,7 +157,7 @@ _teach_doctor_section_gap() {
     [[ "$json" == "false" ]] && echo ""
 }
 
-# Quick R check: is R available, renv status, package count hint
+# Quick R check: is R available, renv status summary, package count hint
 _teach_doctor_check_r_quick() {
     if [[ "$json" == "false" ]]; then
         echo "R Environment:"
@@ -172,20 +172,48 @@ _teach_doctor_check_r_quick() {
     # R version
     local r_version
     r_version=$(R --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-    _teach_doctor_pass "R ($r_version)"
-    json_results+=("{\"check\":\"r_available\",\"status\":\"pass\",\"message\":\"$r_version\"}")
 
-    # renv status (quick: just detect active/inactive)
-    local renv_info=""
+    # renv detection
+    local renv_active=false
+    local renv_summary=""
+
     if [[ -f "renv.lock" && -f "renv/activate.R" ]]; then
-        renv_info="renv active"
+        renv_active=true
+
+        # Quick sync check: count packages in renv.lock
+        if command -v jq &>/dev/null; then
+            local lock_count
+            lock_count=$(jq -r '.Packages | length' renv.lock 2>/dev/null)
+            renv_summary=" | renv active | ${lock_count} packages locked"
+        else
+            renv_summary=" | renv active"
+        fi
     elif [[ -f "renv.lock" ]]; then
-        renv_info="renv.lock found (not activated)"
+        renv_summary=" | renv.lock found (not activated)"
     fi
 
-    if [[ -n "$renv_info" ]]; then
-        _teach_doctor_pass "$renv_info"
-        json_results+=("{\"check\":\"renv_status\",\"status\":\"pass\",\"message\":\"$renv_info\"}")
+    # Single summary line: "R (4.4.2) | renv active | 27 packages locked"
+    _teach_doctor_pass "R ($r_version)${renv_summary}"
+    json_results+=("{\"check\":\"r_available\",\"status\":\"pass\",\"message\":\"$r_version\"}")
+
+    if [[ "$renv_active" == "true" ]]; then
+        json_results+=("{\"check\":\"renv_status\",\"status\":\"pass\",\"message\":\"active\"}")
+
+        # renv.lock freshness
+        if [[ "$verbose" == "true" && "$quiet" == "false" && "$json" == "false" ]]; then
+            local lock_mtime
+            lock_mtime=$(stat -f %m renv.lock 2>/dev/null || stat -c %Y renv.lock 2>/dev/null)
+            if [[ -n "$lock_mtime" ]]; then
+                local age_days=$(( (EPOCHSECONDS - lock_mtime) / 86400 ))
+                if [[ $age_days -eq 0 ]]; then
+                    echo "    ${FLOW_COLORS[muted]}renv.lock updated today${FLOW_COLORS[reset]}"
+                else
+                    echo "    ${FLOW_COLORS[muted]}renv.lock updated $age_days days ago${FLOW_COLORS[reset]}"
+                fi
+            fi
+        fi
+    elif [[ -f "renv.lock" ]]; then
+        json_results+=("{\"check\":\"renv_status\",\"status\":\"warn\",\"message\":\"lock without activate\"}")
     fi
 
     # Inline hint for full mode
@@ -472,24 +500,30 @@ _teach_doctor_summary() {
     echo ""
     echo "────────────────────────────────────────────────────────────"
 
+    # Failures with fix commands (shown first, most important)
     if [[ $failures -gt 0 ]]; then
-        echo "${FLOW_COLORS[error]}Failures ($failures):${FLOW_COLORS[reset]}"
+        echo -e "${FLOW_COLORS[error]}Failures ($failures):${FLOW_COLORS[reset]}"
         for detail in "${failure_details[@]}"; do
-            echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} $detail"
+            echo -e "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} $detail"
         done
         echo ""
     fi
 
+    # Compact summary line
     local summary_parts=()
-    [[ $failures -gt 0 ]] && summary_parts+=("${FLOW_COLORS[error]}$failures failed${FLOW_COLORS[reset]}")
-    [[ $warnings -gt 0 ]] && summary_parts+=("${FLOW_COLORS[warning]}$warnings warnings${FLOW_COLORS[reset]}")
-    summary_parts+=("${FLOW_COLORS[success]}$passed passed${FLOW_COLORS[reset]}")
+    if [[ $failures -gt 0 ]]; then
+        summary_parts+=("${FLOW_COLORS[error]}$failures failed${FLOW_COLORS[reset]}")
+    fi
+    if [[ $warnings -gt 0 ]]; then
+        summary_parts+=("${FLOW_COLORS[warning]}Warnings: $warnings${FLOW_COLORS[reset]}")
+    fi
+    summary_parts+=("${FLOW_COLORS[success]}Passed: $passed${FLOW_COLORS[reset]}")
 
     local elapsed=$(( EPOCHSECONDS - start_time ))
     local time_display=""
     (( elapsed > 0 )) && time_display="  [${elapsed}s]"
 
-    echo -e "Summary: ${(j: | :)summary_parts}${time_display}"
+    echo -e "${(j: | :)summary_parts}${time_display}"
     echo "────────────────────────────────────────────────────────────"
     echo ""
 }
@@ -524,7 +558,7 @@ _teach_doctor_interactive_fix() {
     fi
 }
 
-# Check R packages (full mode only — per-package batch check)
+# Check R packages (full mode only — per-package batch check with renv details)
 _teach_doctor_check_r_packages() {
     if [[ "$json" == "false" ]]; then
         echo "R Packages:"
@@ -535,6 +569,44 @@ _teach_doctor_check_r_packages() {
         _teach_doctor_warn "R not found" "Install R to use R packages"
         json_results+=("{\"check\":\"r_packages\",\"status\":\"warn\",\"message\":\"R not installed\"}")
         return
+    fi
+
+    # renv detailed status (full mode)
+    local renv_active=false
+    if [[ -f "renv.lock" && -f "renv/activate.R" ]]; then
+        renv_active=true
+
+        # Library path
+        local renv_lib=""
+        local -a lib_dirs=(renv/library/*/R-*/*(/N))
+        if [[ ${#lib_dirs} -gt 0 ]]; then
+            renv_lib="${lib_dirs[1]}"
+        fi
+        if [[ -n "$renv_lib" ]]; then
+            _teach_doctor_pass "renv active ($renv_lib)"
+            json_results+=("{\"check\":\"renv_library\",\"status\":\"pass\",\"message\":\"$renv_lib\"}")
+        else
+            _teach_doctor_pass "renv active"
+            json_results+=("{\"check\":\"renv_library\",\"status\":\"pass\",\"message\":\"active\"}")
+        fi
+
+        # Lock file freshness
+        local lock_mtime
+        lock_mtime=$(stat -f %m renv.lock 2>/dev/null || stat -c %Y renv.lock 2>/dev/null)
+        if [[ -n "$lock_mtime" ]]; then
+            local age_days=$(( (EPOCHSECONDS - lock_mtime) / 86400 ))
+            if [[ $age_days -eq 0 ]]; then
+                _teach_doctor_pass "renv.lock updated today"
+            elif [[ $age_days -lt 30 ]]; then
+                _teach_doctor_pass "renv.lock updated $age_days days ago"
+            else
+                _teach_doctor_warn "renv.lock is $age_days days old" "Consider: renv::snapshot()"
+            fi
+            json_results+=("{\"check\":\"renv_lock_age\",\"status\":\"pass\",\"message\":\"${age_days} days\"}")
+        fi
+    elif [[ -f "renv.lock" ]]; then
+        _teach_doctor_warn "renv.lock exists but renv not activated" "Run: renv::activate()"
+        json_results+=("{\"check\":\"renv_status\",\"status\":\"warn\",\"message\":\"not activated\"}")
     fi
 
     # Get packages from all sources (teaching.yml, renv.lock, DESCRIPTION)
@@ -591,22 +663,54 @@ rmarkdown"
         fi
     done <<< "$packages"
 
-    # Interactive fix for missing packages
+    # Summary line: "R: 25/27 installed | Missing: pkgA, pkgB"
+    if [[ "$json" == "false" && $total_count -gt 0 ]]; then
+        if [[ ${#missing_packages[@]} -gt 0 ]]; then
+            echo "  ${FLOW_COLORS[warning]}R: ${installed_count}/${total_count} installed${FLOW_COLORS[reset]} | Missing: ${missing_packages[*]}"
+        else
+            echo "  ${FLOW_COLORS[success]}R: ${installed_count}/${total_count} installed${FLOW_COLORS[reset]}"
+        fi
+    fi
+
+    # Interactive fix for missing packages (renv-aware)
     if [[ "$fix" == "true" && ${#missing_packages[@]} -gt 0 ]]; then
         echo ""
         echo -e "${FLOW_COLORS[warning]}Missing R packages: ${missing_packages[*]}${FLOW_COLORS[reset]}"
-        echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install all missing packages? [Y/n] "
-        read -r response
-        response=${response:-y}
 
-        if [[ "$response" =~ ^[Yy] ]]; then
-            _flow_log_info "Installing missing R packages..."
-            _install_r_packages --yes "${missing_packages[@]}"
+        if [[ "$renv_active" == "true" ]]; then
+            # Offer renv vs system install choice
+            echo "  Install via renv or system?"
+            echo "    r) renv::install() — project-local"
+            echo "    s) install.packages() — system-wide"
+            echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} [r/s] "
+            read -r response
+            response=${response:-r}
 
-            if [[ $? -eq 0 ]]; then
-                _flow_log_success "All R packages installed successfully"
+            local pkg_str=$(printf "'%s', " "${missing_packages[@]}")
+            pkg_str="${pkg_str%, }"  # Remove trailing comma
+
+            if [[ "$response" =~ ^[Rr] ]]; then
+                _flow_log_info "Installing via renv..."
+                R --quiet --slave -e "renv::install(c(${pkg_str}))" 2>&1
             else
-                _flow_log_error "Some packages failed to install"
+                _flow_log_info "Installing system-wide..."
+                R --quiet --slave -e "install.packages(c(${pkg_str}), repos='https://cloud.r-project.org')" 2>&1
+            fi
+        else
+            # Standard install
+            echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install all missing packages? [Y/n] "
+            read -r response
+            response=${response:-y}
+
+            if [[ "$response" =~ ^[Yy] ]]; then
+                _flow_log_info "Installing missing R packages..."
+                _install_r_packages --yes "${missing_packages[@]}"
+
+                if [[ $? -eq 0 ]]; then
+                    _flow_log_success "All R packages installed successfully"
+                else
+                    _flow_log_error "Some packages failed to install"
+                fi
             fi
         fi
     fi
