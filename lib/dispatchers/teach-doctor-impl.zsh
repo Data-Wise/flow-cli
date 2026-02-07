@@ -56,6 +56,13 @@ _teach_doctor() {
     if [[ "$json" == "false" ]]; then
         echo ""
     fi
+    # R packages (promoted from inside dependencies - top-level section)
+    if command -v R &>/dev/null; then
+        _teach_doctor_check_r_packages
+        if [[ "$json" == "false" ]]; then
+            echo ""
+        fi
+    fi
     _teach_doctor_check_config
     if [[ "$json" == "false" ]]; then
         echo ""
@@ -65,6 +72,11 @@ _teach_doctor() {
         echo ""
     fi
     _teach_doctor_check_scholar
+    if [[ "$json" == "false" ]]; then
+        echo ""
+    fi
+    # Quarto extensions (promoted from inside dependencies - top-level section)
+    _teach_doctor_check_quarto_extensions
     if [[ "$json" == "false" ]]; then
         echo ""
     fi
@@ -114,13 +126,6 @@ _teach_doctor_check_dependencies() {
     _teach_doctor_check_dep "examark" "examark" "npm install -g examark" "false"
     _teach_doctor_check_dep "claude" "claude" "Follow: https://code.claude.com" "false"
 
-    # R packages (if R is available)
-    if command -v R &>/dev/null; then
-        _teach_doctor_check_r_packages
-    fi
-
-    # Quarto extensions
-    _teach_doctor_check_quarto_extensions
 }
 
 # Check project configuration
@@ -428,23 +433,40 @@ rmarkdown"
         fi
     fi
 
-    # Check each package
-    local all_installed=1
+    # Batch check: single R invocation for ALL packages (fast, renv-safe)
+    local installed_list
+    installed_list=$(_get_installed_r_packages 2>/dev/null)
+
+    if [[ -z "$installed_list" ]]; then
+        _teach_doctor_warn "Could not query installed R packages"
+        json_results+=("{\"check\":\"r_packages\",\"status\":\"warn\",\"message\":\"query failed\"}")
+        return
+    fi
+
+    # Build lookup set from installed packages
+    local -A installed_set=()
+    local pkg_name
+    while IFS= read -r pkg_name; do
+        [[ -n "$pkg_name" ]] && installed_set[$pkg_name]=1
+    done <<< "$installed_list"
+
+    # Compare expected vs installed
     local missing_packages=()
+    local installed_count=0
+    local total_count=0
 
     while IFS= read -r pkg; do
         [[ -z "$pkg" ]] && continue
+        ((total_count++))
 
-        if _check_r_package_installed "$pkg"; then
-            local version
-            version=$(_get_r_package_version "$pkg")
-            _teach_doctor_pass "R package: $pkg" "$version"
-            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"pass\",\"message\":\"installed\",\"version\":\"$version\"}")
+        if (( ${+installed_set[$pkg]} )); then
+            ((installed_count++))
+            _teach_doctor_pass "R package: $pkg"
+            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"pass\",\"message\":\"installed\"}")
         else
             _teach_doctor_warn "R package '$pkg' not found"
             json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"warn\",\"message\":\"not installed\"}")
             missing_packages+=("$pkg")
-            all_installed=0
         fi
     done <<< "$packages"
 
@@ -480,8 +502,9 @@ _teach_doctor_check_quarto_extensions() {
         echo "Quarto Extensions:"
     fi
 
-    # Count installed extensions
-    local ext_count=$(find _extensions -mindepth 2 -maxdepth 2 -type d 2>/dev/null | wc -l | tr -d ' ')
+    # Count installed extensions using pure ZSH glob (avoids find|wc arithmetic bug)
+    local -a ext_dirs=(_extensions/*/*(/N))
+    local ext_count=${#ext_dirs}
 
     if [[ "$ext_count" -gt 0 ]]; then
         _teach_doctor_pass "$ext_count Quarto extensions installed"
@@ -489,8 +512,9 @@ _teach_doctor_check_quarto_extensions() {
 
         # List extensions
         if [[ "$json" == "false" && "$quiet" == "false" ]]; then
-            find _extensions -mindepth 2 -maxdepth 2 -type d 2>/dev/null | while read ext_dir; do
-                local ext_name=$(basename "$(dirname "$ext_dir")")/$(basename "$ext_dir")
+            local ext_dir
+            for ext_dir in "${ext_dirs[@]}"; do
+                local ext_name="${ext_dir:h:t}/${ext_dir:t}"
                 echo "    ${FLOW_COLORS[muted]}→ $ext_name${FLOW_COLORS[reset]}"
             done
         fi
