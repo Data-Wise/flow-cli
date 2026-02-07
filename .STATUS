@@ -4,21 +4,32 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: --help
-## Phase: v6.4.3 Released & Deployed
+## Focus: teach-doctor-v2
+## Phase: Planning complete, worktree ready
 ## Priority: 1
-## Progress: 100
+## Progress: 15
 
-## Just Completed: Non-Interactive Test Conversion + Docs Sync (2026-02-06)
+## Current: Teach Doctor v2 — Fast Default, renv-Aware (2026-02-07)
 
-**Converted 6 timeout tests to non-interactive** — test suite now 40/40 passing (0 timeouts)
+**Deep brainstorm (20 questions) + spec captured** for teach doctor redesign.
 
 **Session activity:**
-- test: convert test-dash, test-work, test-doctor, test-adhd, test-flow to non-interactive sourcing
-- test: rewrite e2e-teach-analyze with output caching (18 assertions, <30s)
-- test: fix fzf /dev/tty hang (mock `_flow_has_fzf`), ZSH EXIT trap in subshells
-- docs: sync site content — file counts (66 lib, 176 test), test results (40/40), changelog
-- docs: update CLAUDE.md with current metrics and last-updated date
+- review: analyzed teach doctor output, found 3 bugs (quarto arithmetic, R renv false negatives, section nesting)
+- brainstorm: deep mode (20 interactive questions) exploring UX, speed, renv, CI, summary format
+- spec: SPEC-teach-doctor-v2-2026-02-07.md (8 increments, full sections)
+- worktree: created feature/teach-doctor-v2 at ~/.git-worktrees/flow-cli/
+
+**Spec highlights:**
+- Two-mode: quick (default, <3s) + full (--full, comprehensive)
+- Batch R check (single R invocation vs 27)
+- renv detection (status, library path, sync)
+- Spinner UX with elapsed time
+- Severity-grouped summary with fix commands
+- Status line health indicator on teach startup
+
+## Previous: Non-Interactive Test Conversion + Docs Sync (2026-02-06)
+
+**Converted 6 timeout tests to non-interactive** — test suite now 40/40 passing (0 timeouts)
 
 **PRs merged:** #353, #354, #355
 **Docs deployed:** 1x
@@ -58,6 +69,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | Clean (v6.4.3 released) |
+| feature-teach-doctor-v2 | `feature/teach-doctor-v2` | WIP — spec ready, implementation pending |
 
 ---
 
@@ -81,15 +93,15 @@
 
 ## Next Action
 
-Session complete. Possible next steps:
-- Implement Scholar config sync (#299)
-- Continue API documentation toward 80% coverage
-- Token automation Phases 2-4
+Start implementation in worktree:
+- `cd ~/.git-worktrees/flow-cli/feature-teach-doctor-v2 && claude`
+- Begin with Increment 1: fix 3 bugs (quarto arithmetic, R batch, section nesting)
+- Then Increment 2: two-mode architecture (quick/full split)
 
 ---
 
-**Last Updated:** 2026-02-06
-**Status:** v6.4.3 Released | Docs deployed | 40/40 tests passing | 3500+ test functions | 0 timeouts
+**Last Updated:** 2026-02-07
+**Status:** v6.4.3 Released | teach-doctor-v2 spec ready | Worktree created | 40/40 tests passing
 ## wins: Fixed the regression bug (2026-02-06), --category fix squashed the bug (2026-02-06), fixed the bug (2026-02-06), Fixed the regression bug (2026-02-06), --category fix squashed the bug (2026-02-06)
 ## streak: 1
 ## last_active: 2026-02-06 11:43
