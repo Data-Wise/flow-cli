@@ -621,7 +621,10 @@ _teach_doctor_json_output() {
     echo "    \"passed\": $passed,"
     echo "    \"warnings\": $warnings,"
     echo "    \"failures\": $failures,"
-    echo "    \"status\": \"$([ $failures -eq 0 ] && [ $warnings -eq 0 ] && echo 'green' || [ $failures -eq 0 ] && echo 'yellow' || echo 'red')\""
+    local status_color="green"
+    [[ $warnings -gt 0 ]] && status_color="yellow"
+    [[ $failures -gt 0 ]] && status_color="red"
+    echo "    \"status\": \"$status_color\""
     echo "  },"
     echo "  \"checks\": ["
 
