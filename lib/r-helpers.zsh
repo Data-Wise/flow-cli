@@ -183,6 +183,33 @@ _list_r_packages_from_sources() {
 # ============================================================================
 
 # =============================================================================
+# Function: _get_installed_r_packages
+# Purpose: Get all installed R package names in a single batch R call
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Package list retrieved
+#   1 - R is not available
+#
+# Output:
+#   stdout - Installed package names, one per line
+#
+# Notes:
+#   - Single R invocation (fast: ~1s vs N × 0.5s for per-package checks)
+#   - Works correctly under renv (checks active library)
+# =============================================================================
+_get_installed_r_packages() {
+    if ! command -v R &>/dev/null; then
+        return 1
+    fi
+
+    R --quiet --slave -e "cat(rownames(installed.packages()), sep='\n')" 2>/dev/null
+    return $?
+}
+
+# =============================================================================
 # Function: _check_r_package_installed
 # Purpose: Verify if a specific R package is installed in the R environment
 # =============================================================================
