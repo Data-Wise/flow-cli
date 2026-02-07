@@ -163,8 +163,82 @@ _teach_doctor() {
         _teach_doctor_summary
     fi
 
+    # Write status file for health indicator
+    _teach_doctor_write_status
+
     [[ $failures -gt 0 ]] && return 1
     return 0
+}
+
+# Write .flow/doctor-status.json for health indicator on teach startup
+_teach_doctor_write_status() {
+    local status_dir=".flow"
+    local status_file="$status_dir/doctor-status.json"
+
+    # Only write if .flow directory exists (we're in a teaching project)
+    [[ ! -d "$status_dir" ]] && return
+
+    local status_color="green"
+    [[ $warnings -gt 0 ]] && status_color="yellow"
+    [[ $failures -gt 0 ]] && status_color="red"
+
+    local mode_str="quick"
+    [[ "$full" == "true" ]] && mode_str="full"
+
+    local timestamp
+    timestamp=$(date -u "+%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date "+%Y-%m-%dT%H:%M:%S")
+
+    cat > "$status_file" <<STATUSEOF
+{
+    "version": 1,
+    "timestamp": "$timestamp",
+    "mode": "$mode_str",
+    "totals": {"passed": $passed, "warnings": $warnings, "failures": $failures},
+    "status": "$status_color"
+}
+STATUSEOF
+}
+
+# Read health indicator from last doctor run
+# Returns: "green", "yellow", "red", or empty string
+_teach_health_indicator() {
+    local status_file=".flow/doctor-status.json"
+
+    # No status file = no indicator
+    [[ ! -f "$status_file" ]] && return
+
+    # Check freshness (stale if > 1 hour)
+    local file_mtime
+    file_mtime=$(stat -f %m "$status_file" 2>/dev/null || stat -c %Y "$status_file" 2>/dev/null)
+
+    if [[ -n "$file_mtime" ]]; then
+        local age=$(( EPOCHSECONDS - file_mtime ))
+        if (( age > 3600 )); then
+            # Stale: run quick doctor silently to refresh
+            _teach_doctor --brief >/dev/null 2>&1
+        fi
+    fi
+
+    # Read status from file
+    if command -v jq &>/dev/null; then
+        jq -r '.status // empty' "$status_file" 2>/dev/null
+    else
+        # Fallback: grep for status field
+        grep -o '"status": *"[^"]*"' "$status_file" 2>/dev/null | head -1 | grep -o '"[^"]*"$' | tr -d '"'
+    fi
+}
+
+# Format health dot for display
+_teach_health_dot() {
+    local status
+    status=$(_teach_health_indicator)
+
+    case "$status" in
+        green)  echo -e "\033[32m●\033[0m" ;;
+        yellow) echo -e "\033[33m●\033[0m" ;;
+        red)    echo -e "\033[31m●\033[0m" ;;
+        *)      echo "" ;;
+    esac
 }
 
 # Helper: emit section gap (respects json mode)
