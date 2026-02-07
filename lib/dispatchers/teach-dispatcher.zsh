@@ -4275,6 +4275,13 @@ teach() {
     local cmd="$1"
     shift
 
+    # Health indicator dot (from last doctor run)
+    local _health_dot
+    _health_dot=$(_teach_health_dot 2>/dev/null)
+    if [[ -n "$_health_dot" ]]; then
+        echo -e "${_health_dot} teach ${cmd}" >&2
+    fi
+
     case "$cmd" in
         # ============================================
         # SCHOLAR WRAPPERS (invoke Claude + Scholar)
