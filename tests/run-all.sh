@@ -104,6 +104,7 @@ run_test ./tests/test-local-path-regression.zsh
 echo ""
 echo "Dogfooding tests:"
 run_test ./tests/automated-plugin-dogfood.zsh
+run_test ./tests/dogfood-teach-doctor-v2.zsh
 
 echo ""
 echo "E2E tests:"
@@ -114,6 +115,7 @@ run_test ./tests/e2e-teach-deploy-v2.zsh
 run_test ./tests/e2e-core-commands.zsh
 run_test ./tests/e2e-plugin-system.zsh
 run_test ./tests/e2e-teach-prompt.zsh
+run_test ./tests/e2e-teach-doctor-v2.zsh
 
 echo ""
 echo "Additional unit tests:"

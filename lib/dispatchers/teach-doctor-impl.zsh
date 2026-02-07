@@ -230,10 +230,10 @@ _teach_health_indicator() {
 
 # Format health dot for display
 _teach_health_dot() {
-    local status
-    status=$(_teach_health_indicator)
+    local health_status
+    health_status=$(_teach_health_indicator)
 
-    case "$status" in
+    case "$health_status" in
         green)  echo -e "\033[32m●\033[0m" ;;
         yellow) echo -e "\033[33m●\033[0m" ;;
         red)    echo -e "\033[31m●\033[0m" ;;
