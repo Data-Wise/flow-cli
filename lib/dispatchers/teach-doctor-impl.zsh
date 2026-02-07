@@ -1007,10 +1007,10 @@ _teach_doctor_check_macros() {
 
     # Check if macro parser library is available
     if ! typeset -f _flow_discover_macro_sources >/dev/null 2>&1; then
-        # Try to source it
-        local lib_dir="${0:A:h}"
-        if [[ -f "$lib_dir/../macro-parser.zsh" ]]; then
-            source "$lib_dir/../macro-parser.zsh" 2>/dev/null
+        # Try to source it via FLOW_PLUGIN_DIR (reliable) or fallback
+        local macro_path="${FLOW_PLUGIN_DIR:-}/lib/macro-parser.zsh"
+        if [[ -f "$macro_path" ]]; then
+            source "$macro_path" 2>/dev/null
         fi
     fi
 
@@ -1136,6 +1136,14 @@ _teach_doctor_check_teaching_style() {
     fi
 
     # Ensure helpers are loaded
+    if ! typeset -f _teach_find_style_source >/dev/null 2>&1; then
+        # Try to source it via FLOW_PLUGIN_DIR
+        local style_path="${FLOW_PLUGIN_DIR:-}/lib/teach-style-helpers.zsh"
+        if [[ -f "$style_path" ]]; then
+            source "$style_path" 2>/dev/null
+        fi
+    fi
+
     if ! typeset -f _teach_find_style_source >/dev/null 2>&1; then
         _teach_doctor_warn "Teaching style helpers not loaded"
         json_results+=("{\"check\":\"teaching_style\",\"status\":\"warn\",\"message\":\"helpers not loaded\"}")
