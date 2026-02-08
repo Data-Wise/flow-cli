@@ -151,6 +151,11 @@ source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
 }
 echo "${GREEN}Plugin loaded (v${FLOW_VERSION:-unknown})${RESET}"
 
+# Save full test output for debugging
+LOGFILE="/tmp/interactive-dogfood-v2.log"
+exec > >(tee "$LOGFILE") 2>&1
+echo "${DIM}Full output saved to: $LOGFILE${RESET}"
+
 # =============================================================================
 # PHASE 1: Sandbox Tests
 # =============================================================================
@@ -515,6 +520,7 @@ if [[ -d "$DEMO_COURSE" ]]; then
     cd "$demo_tmp"
 
     echo "${GREEN}Demo course copied to: $demo_tmp${RESET}"
+    echo "${YELLOW}NOTE: Demo fixture is intentionally minimal — warnings for hooks, cache, CLAUDE.md, teaching style are EXPECTED.${RESET}"
 
     # ── Test 21: Doctor on demo fixture ──
 
