@@ -587,12 +587,12 @@ _teach_doctor_check_scholar() {
         _teach_doctor_pass "Claude Code available"
         json_results+=("{\"check\":\"claude_code\",\"status\":\"pass\",\"message\":\"available\"}")
 
-        # Check if scholar skills are accessible (check for scholar: prefix)
-        if claude --list-skills 2>/dev/null | grep -q "scholar:"; then
-            _teach_doctor_pass "Scholar skills accessible"
-            json_results+=("{\"check\":\"scholar_skills\",\"status\":\"pass\",\"message\":\"accessible\"}")
+        # Check if scholar plugin is installed
+        if [[ -d "${HOME}/.claude/plugins/scholar" ]]; then
+            _teach_doctor_pass "Scholar plugin installed"
+            json_results+=("{\"check\":\"scholar_skills\",\"status\":\"pass\",\"message\":\"installed\"}")
         else
-            _teach_doctor_warn "Scholar skills not detected" "Install Scholar plugin"
+            _teach_doctor_warn "Scholar plugin not detected" "Install Scholar plugin"
             json_results+=("{\"check\":\"scholar_skills\",\"status\":\"warn\",\"message\":\"not detected\"}")
         fi
     else
