@@ -17,6 +17,9 @@
 #   teach doctor --verbose    # Expanded detail for every check
 
 _teach_doctor() {
+    # Suppress ZSH job control messages from background spinners
+    setopt local_options no_monitor
+
     local quiet=false fix=false json=false
     local full=false brief=false ci=false verbose=false
     local -i passed=0 warnings=0 failures=0
@@ -315,9 +318,9 @@ _teach_doctor_check_r_quick() {
         return
     fi
 
-    # R version
+    # R version (use 'command' to bypass aliases, grep for 'R version' to skip renv messages)
     local r_version
-    r_version=$(R --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+    r_version=$(command R --version 2>/dev/null | grep -m1 'R version' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 
     # renv detection
     local renv_active=false
@@ -963,7 +966,7 @@ _teach_doctor_check_cache() {
     # Check if _freeze directory exists
     if [[ -d "_freeze" ]]; then
         # Calculate cache size
-        local cache_size=$(du -sh _freeze 2>/dev/null | cut -f1)
+        local cache_size=$(command du -sh _freeze 2>/dev/null | cut -f1)
         _teach_doctor_pass "Freeze cache exists ($cache_size)"
         json_results+=("{\"check\":\"cache_exists\",\"status\":\"pass\",\"message\":\"$cache_size\"}")
 
@@ -1036,9 +1039,12 @@ _teach_doctor_check_macros() {
         return 0
     fi
 
-    # 1. Check for source files
-    local -a sources
-    sources=($(cd "$PWD" && _flow_discover_macro_sources 2>/dev/null))
+    # 1. Check for source files (filter to real paths only — renv may print to stdout)
+    local -a sources=()
+    local _src_line
+    while IFS= read -r _src_line; do
+        [[ -f "$_src_line" ]] && sources+=("$_src_line")
+    done < <(_flow_discover_macro_sources 2>/dev/null)
 
     if (( ${#sources} == 0 )); then
         _teach_doctor_warn "No macro source files found" "Create _macros.qmd or configure in teach-config.yml"
