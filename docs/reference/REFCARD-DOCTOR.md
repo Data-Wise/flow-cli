@@ -42,7 +42,7 @@ teach doctor --full --verbose
 
 | Flag | Description |
 |------|-------------|
-| `--full` | Full comprehensive check (all 10 categories) |
+| `--full` | Full comprehensive check (all 11 categories) |
 | `--brief` | Show only warnings and failures |
 | `--fix` | Interactive fix mode (implies --full) |
 | `--verbose` | Detailed output: per-package R, full macro list (implies --full) |
@@ -239,7 +239,7 @@ cd tests/fixtures/demo-course
 # Quick check (deps, R, config, git)
 teach doctor
 
-# Full check (all 10 categories)
+# Full check (all 11 categories)
 teach doctor --full
 
 # Auto-fix issues

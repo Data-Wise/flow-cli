@@ -27,6 +27,9 @@ _teach_doctor() {
     local -a failure_details=()
     local start_time=$EPOCHSECONDS
 
+    # Cleanup spinner on unexpected exit (INT/TERM/ERR)
+    trap '_teach_doctor_spinner_stop 2>/dev/null' INT TERM
+
     # Parse flags
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -210,19 +213,8 @@ _teach_health_indicator() {
     # No status file = no indicator
     [[ ! -f "$status_file" ]] && return
 
-    # Check freshness (stale if > 1 hour)
-    local file_mtime
-    file_mtime=$(stat -f %m "$status_file" 2>/dev/null || stat -c %Y "$status_file" 2>/dev/null)
-
-    if [[ -n "$file_mtime" ]]; then
-        local age=$(( EPOCHSECONDS - file_mtime ))
-        if (( age > 3600 )); then
-            # Stale: run quick doctor silently to refresh
-            _teach_doctor --brief >/dev/null 2>&1
-        fi
-    fi
-
-    # Read status from file
+    # Read status from file (show stale indicator as-is — don't auto-refresh
+    # to avoid adding latency to every teach subcommand)
     if command -v jq &>/dev/null; then
         jq -r '.status // empty' "$status_file" 2>/dev/null
     else

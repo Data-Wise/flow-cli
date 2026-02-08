@@ -12,7 +12,7 @@
 
 ## Overview
 
-`teach doctor` is a two-mode health check system for teaching environments. Quick mode (default, < 3s) checks essentials; full mode (`--full`) runs all 10 check categories.
+`teach doctor` is a two-mode health check system for teaching environments. Quick mode (default, < 3s) checks essentials; full mode (`--full`) runs all 11 check categories.
 
 ### Key Features
 

@@ -383,7 +383,7 @@ graph TD
 
 **4. Doctor Status (v6.5.0)**
 - **File:** `.flow/doctor-status.json`
-- **TTL:** 1 hour (health dot auto-refreshes)
+- **TTL:** None (refreshed on next `teach doctor` run)
 - **Content:** Last check results (passed/warnings/failures count, status color)
 - **Invalidation:** On next `teach doctor` run
 

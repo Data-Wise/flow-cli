@@ -788,7 +788,7 @@ Two-mode health check for teaching projects (v6.5.0).
 
 ```bash
 teach doctor              # Quick check: deps, R, config, git (< 3s)
-teach doctor --full       # Full: all 10 categories
+teach doctor --full       # Full: all 11 categories
 teach doctor --fix        # Auto-fix issues (implies --full)
 teach doctor --verbose    # Detailed: per-package R, full macro list
 teach doctor --brief      # Warnings and failures only

@@ -253,20 +253,25 @@ test_suite_r_packages() {
         return 0
     fi
 
-    # Reset counters
+    # Reset counters and set v2 mode variables
     passed=0
     warnings=0
+    failures=0
     json_results=()
     quiet=false
     json=false
+    full=true
+    verbose=false
+    fix=false
+    ci=false
 
     # Test: R package check function exists
     assert_success "R package check function exists" "typeset -f _teach_doctor_check_r_packages"
 
-    # Test: Check common packages
+    # Test: Check common packages (v2 uses batch check + summary line)
     _teach_doctor_check_r_packages
     local total_checks=$((passed + warnings))
-    assert_success "R package checks run" "[[ $total_checks -ge 5 ]]"
+    assert_success "R package checks run" "[[ $total_checks -ge 1 ]]"
 }
 
 # ==============================================================================

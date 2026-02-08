@@ -807,7 +807,7 @@ After each run, `teach doctor` writes `.flow/doctor-status.json`. The `teach` co
 | Yellow | Warnings | Non-blocking issues found |
 | Red | Failures | Critical issues need attention |
 
-The dot auto-refreshes if the status file is older than 1 hour.
+Run `teach doctor` to refresh the dot.
 
 ### Real-World Scenarios
 
