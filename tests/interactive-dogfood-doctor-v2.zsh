@@ -471,7 +471,7 @@ MD
     # ── Test 16: Macros check (opt-in via scholar.latex_macros.enabled) ──
 
     print_test "Macro checks fire (scholar.latex_macros.enabled=true in fixture)"
-    print_expect "Shows macro source files, macro cache status, and unused macro count"
+    print_expect "Shows macro source files, macro registry status, and unused macro count"
     print_cmd "teach doctor --full 2>&1 | grep -iE 'macro|Source file|cache'"
     echo ""
     echo "$full_out" | grep -iE "macro|Source file|cache"

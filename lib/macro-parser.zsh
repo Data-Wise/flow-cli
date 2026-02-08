@@ -112,7 +112,7 @@ _macro_ensure_cache_dir() {
 
     if [[ ! -d "$cache_dir" ]]; then
         mkdir -p "$cache_dir" 2>/dev/null || {
-            _flow_log_error "Failed to create macro cache directory: $cache_dir"
+            _flow_log_error "Failed to create macro registry directory: $cache_dir"
             return 1
         }
     fi

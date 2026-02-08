@@ -273,20 +273,20 @@ echo "-- Sync Command --"
 # Ensure cache directory exists
 mkdir -p "$PROJECT_ROOT/$DEMO_COURSE/.flow/macros" 2>/dev/null
 
-test_start "teach macros sync creates cache file"
+test_start "teach macros sync creates registry file"
 (cd "$PROJECT_ROOT/$DEMO_COURSE" && _teach_macros_sync 2>&1) >/dev/null
-if [[ -f "$PROJECT_ROOT/$DEMO_COURSE/.flow/macros/cache.yml" ]]; then
+if [[ -f "$PROJECT_ROOT/$DEMO_COURSE/.flow/macros/registry.yml" ]]; then
     test_pass
 else
-    test_fail "Cache file not created"
+    test_fail "Registry file not created"
 fi
 
-test_start "Cache file contains macro definitions"
-cache_content=$(cat "$PROJECT_ROOT/$DEMO_COURSE/.flow/macros/cache.yml" 2>/dev/null)
+test_start "Registry file contains macro definitions"
+cache_content=$(cat "$PROJECT_ROOT/$DEMO_COURSE/.flow/macros/registry.yml" 2>/dev/null)
 if [[ "$cache_content" == *"macros:"* && "$cache_content" == *"E:"* ]]; then
     test_pass
 else
-    test_fail "Cache file missing expected content"
+    test_fail "Registry file missing expected content"
 fi
 
 # ============================================================================
