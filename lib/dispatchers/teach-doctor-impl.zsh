@@ -1059,18 +1059,23 @@ _teach_doctor_check_macros() {
         json_results+=("{\"check\":\"macro_sources\",\"status\":\"pass\",\"message\":\"${#sources} source(s) found\"}")
     fi
 
-    # 2. Check config sync (.flow/macros/cache.yml) — only if scholar.latex_macros is configured
+    # 2. Check macro registry (.flow/macros/registry.yml) — only if scholar.latex_macros is configured
     local cache_dir=".flow/macros"
-    local cache_file="$cache_dir/cache.yml"
+    local cache_file="$cache_dir/registry.yml"
     local macros_configured=false
 
-    # Only check cache if the user opted into the teach macros sync workflow
+    # Backwards compat: if old cache.yml exists, use it
+    if [[ ! -f "$cache_file" && -f "$cache_dir/cache.yml" ]]; then
+        cache_file="$cache_dir/cache.yml"
+    fi
+
+    # Only check registry if the user opted into the teach macros sync workflow
     if [[ -f ".flow/teach-config.yml" ]] && command -v yq &>/dev/null; then
         local macro_cfg
         macro_cfg=$(yq '.scholar.latex_macros.enabled // ""' .flow/teach-config.yml 2>/dev/null)
         [[ "$macro_cfg" == "true" ]] && macros_configured=true
     fi
-    # Also consider it configured if cache already exists
+    # Also consider it configured if registry already exists
     [[ -f "$cache_file" ]] && macros_configured=true
 
     if [[ "$macros_configured" == "true" ]]; then
@@ -1091,15 +1096,15 @@ _teach_doctor_check_macros() {
             done
 
             if (( stale )); then
-                _teach_doctor_warn "Macro cache out of date" "Run: teach macros sync"
-                json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"out of date\"}")
+                _teach_doctor_warn "Macro registry out of date" "Run: teach macros sync"
+                json_results+=("{\"check\":\"macro_registry\",\"status\":\"warn\",\"message\":\"out of date\"}")
             else
-                _teach_doctor_pass "Macro cache up to date"
-                json_results+=("{\"check\":\"macro_cache\",\"status\":\"pass\",\"message\":\"up to date\"}")
+                _teach_doctor_pass "Macro registry up to date"
+                json_results+=("{\"check\":\"macro_registry\",\"status\":\"pass\",\"message\":\"up to date\"}")
             fi
         else
-            _teach_doctor_warn "No macro cache found" "Run: teach macros sync"
-            json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"not found\"}")
+            _teach_doctor_warn "No macro registry found" "Run: teach macros sync"
+            json_results+=("{\"check\":\"macro_registry\",\"status\":\"warn\",\"message\":\"not found\"}")
         fi
     fi
 
