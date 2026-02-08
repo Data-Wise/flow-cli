@@ -221,11 +221,11 @@ semester_info:
 ### ✅ Verification: Checkpoint 2
 
 ```bash
-# Validate your configuration
+# Validate your configuration (quick check)
 teach doctor
 
 # Expected output: All checks should be green
-# If errors, fix them and run teach doctor again
+# If errors, fix them: teach doctor --fix
 ```
 
 **Expected result:**

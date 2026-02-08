@@ -630,7 +630,7 @@ But the file is empty or contains only frontmatter.
 
 ```bash
 # 1. Check Scholar plugin status
-teach doctor --check scholar
+teach doctor --full
 
 # 2. Verify API key
 echo $ANTHROPIC_API_KEY
