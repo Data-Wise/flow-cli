@@ -169,6 +169,7 @@ nav:
       - Features:
           - Content Analysis: tutorials/21-teach-analyze.md
           - AI-Powered Prompts: tutorials/28-teach-prompt.md
+          - Health Check (Doctor v2): tutorials/32-teach-doctor.md
           - Lint Validation: tutorials/27-lint-quickstart.md
           - Template Management: tutorials/24-template-management.md
           - LaTeX Macros: tutorials/26-latex-macros.md

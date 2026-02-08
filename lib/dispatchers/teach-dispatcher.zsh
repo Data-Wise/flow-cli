@@ -3526,47 +3526,54 @@ ${_C_BOLD}╰──────────────────────�
 ${_C_BOLD}Usage:${_C_NC} teach doctor [options]
 ${_C_BOLD}Alias:${_C_NC} ${_C_CYAN}doc${_C_NC} → doctor
 
-${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
-  ${_C_CYAN}teach doctor${_C_NC}              Run all health checks
-  ${_C_CYAN}teach doctor --fix${_C_NC}        Auto-fix missing dependencies
-  ${_C_CYAN}teach doctor --check git${_C_NC}  Check specific category
+${_C_GREEN}MODES${_C_NC}:
+  ${_C_CYAN}teach doctor${_C_NC}              Quick check (< 3s, default)
+  ${_C_CYAN}teach doctor --full${_C_NC}       Full comprehensive check
 
-${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
-  ${_C_DIM}\$${_C_NC} teach doctor                     ${_C_DIM}# Full health check${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach doctor --fix                ${_C_DIM}# Auto-fix issues${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach doctor --json --quiet       ${_C_DIM}# CI/CD output${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach doctor --verbose            ${_C_DIM}# Detailed diagnostics${_C_NC}
-  ${_C_DIM}\$${_C_NC} teach doctor --check git          ${_C_DIM}# Specific category${_C_NC}
+${_C_YELLOW}QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach doctor                     ${_C_DIM}# Quick: deps, R, config, git${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --full               ${_C_DIM}# Full: all checks${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --fix                ${_C_DIM}# Fix issues (implies --full)${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --ci                 ${_C_DIM}# CI mode (no color, exit code)${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --json               ${_C_DIM}# Machine-readable JSON${_C_NC}
+  ${_C_DIM}\$${_C_NC} teach doctor --brief              ${_C_DIM}# Failures and warnings only${_C_NC}
 
-${_C_BLUE}📋 CHECK CATEGORIES${_C_NC}:
-  1. ${_C_CYAN}Dependencies${_C_NC}      yq, git, quarto, gh, examark, claude, fswatch
-  2. ${_C_CYAN}Configuration${_C_NC}     .flow/teach-config.yml, course.yml, lesson-plan.yml
-  3. ${_C_CYAN}Git Setup${_C_NC}         branches, remote, clean state, commit history
-  4. ${_C_CYAN}Scholar${_C_NC}           API access, template availability, config loading
-  5. ${_C_CYAN}Hooks${_C_NC}             pre-commit, pre-push, prepare-commit-msg
-  6. ${_C_CYAN}Cache${_C_NC}             _freeze/ directory, _site/ state, validity
+${_C_BLUE}QUICK MODE CHECKS${_C_NC} (default, < 3s):
+  1. ${_C_CYAN}Dependencies${_C_NC}      yq, git, quarto, gh, examark, claude
+  2. ${_C_CYAN}R Environment${_C_NC}     R available, renv status
+  3. ${_C_CYAN}Configuration${_C_NC}     .flow/teach-config.yml
+  4. ${_C_CYAN}Git Setup${_C_NC}         branches, remote, working tree
 
-${_C_BLUE}📋 OPTIONS${_C_NC}:
-  ${_C_CYAN}--fix${_C_NC}                Interactive fix mode (install missing tools)
-  ${_C_CYAN}--json${_C_NC}               JSON output for CI/CD pipelines
-  ${_C_CYAN}--quiet, -q${_C_NC}          Minimal output (show only errors)
-  ${_C_CYAN}--verbose, -v${_C_NC}        Detailed diagnostics
-  ${_C_CYAN}--check <category>${_C_NC}   Run specific check only
+${_C_BLUE}FULL MODE CHECKS${_C_NC} (--full, adds):
+  5. ${_C_CYAN}R Packages${_C_NC}        Per-package install check (batch)
+  6. ${_C_CYAN}Quarto Extensions${_C_NC} Installed extensions
+  7. ${_C_CYAN}Scholar${_C_NC}           Claude Code, scholar skills
+  8. ${_C_CYAN}Hooks${_C_NC}             pre-commit, pre-push
+  9. ${_C_CYAN}Cache${_C_NC}             _freeze/ freshness
+ 10. ${_C_CYAN}Macros${_C_NC}            LaTeX macro sources and usage
+ 11. ${_C_CYAN}Teaching Style${_C_NC}    Style config location
 
-${_C_BLUE}📋 EXIT CODES${_C_NC}:
-  ${_C_GREEN}0${_C_NC} - All checks pass
-  ${_C_YELLOW}1${_C_NC} - Warnings found (non-critical)
-  ${_C_BOLD}2${_C_NC} - Critical errors (must fix)
+${_C_BLUE}OPTIONS${_C_NC}:
+  ${_C_CYAN}--full${_C_NC}               Run all checks (comprehensive)
+  ${_C_CYAN}--brief${_C_NC}              Show only failures and warnings
+  ${_C_CYAN}--fix${_C_NC}               Interactive fix mode (implies --full)
+  ${_C_CYAN}--json${_C_NC}               JSON output (machine-readable)
+  ${_C_CYAN}--ci${_C_NC}                CI mode (no color, no spinner, exit 1 on fail)
+  ${_C_CYAN}--verbose${_C_NC}            Expanded detail (implies --full)
+  ${_C_CYAN}--quiet, -q${_C_NC}          ${_C_DIM}Deprecated alias for --brief${_C_NC}
 
-${_C_MAGENTA}💡 TIP${_C_NC}: Run ${_C_CYAN}teach doctor${_C_NC} after fresh clone or init.
-  ${_C_DIM}Use --fix for automated remediation.${_C_NC}
-  ${_C_DIM}Add to CI: teach doctor --json --quiet${_C_NC}
+${_C_BLUE}EXIT CODES${_C_NC}:
+  ${_C_GREEN}0${_C_NC} - All checks pass (no failures)
+  ${_C_BOLD}1${_C_NC} - One or more failures found
 
-${_C_DIM}📚 See also:${_C_NC}
+${_C_MAGENTA}TIP${_C_NC}: Quick mode runs by default for fast feedback.
+  ${_C_DIM}Use --full when setting up or troubleshooting.${_C_NC}
+  ${_C_DIM}Add to CI: teach doctor --ci --full${_C_NC}
+
+${_C_DIM}See also:${_C_NC}
   ${_C_CYAN}teach hooks${_C_NC} - Hook management
   ${_C_CYAN}teach cache${_C_NC} - Cache operations
   ${_C_CYAN}teach config${_C_NC} - Project config
-  ${_C_DIM}docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md${_C_NC}
 "
 }
 
@@ -4267,6 +4274,13 @@ teach() {
 
     local cmd="$1"
     shift
+
+    # Health indicator dot (from last doctor run)
+    local _health_dot
+    _health_dot=$(_teach_health_dot 2>/dev/null)
+    if [[ -n "$_health_dot" ]]; then
+        echo -e "${_health_dot} teach ${cmd}" >&2
+    fi
 
     case "$cmd" in
         # ============================================

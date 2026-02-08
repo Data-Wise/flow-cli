@@ -83,11 +83,14 @@ teach deploy --help           # Usage, examples, flags
 **Purpose:** Validate your teaching environment before you start working.
 
 ```bash
-# Basic check
+# Quick check (deps, R, config, git)
 teach doctor
 
-# Quiet mode (CI/CD)
-teach doctor --quiet
+# Full check (all 11 categories)
+teach doctor --full
+
+# Brief mode (warnings/failures only)
+teach doctor --brief
 
 # JSON output (automation)
 teach doctor --json

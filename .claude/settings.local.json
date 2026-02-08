@@ -106,7 +106,24 @@
       "Bash(pkill:*)",
       "Bash(./scripts/lint-docs.sh:*)",
       "Bash(./scripts/generate-doc-dashboard.sh:*)",
-      "Bash(./scripts/check-doc-updates.sh:*)"
+      "Bash(./scripts/check-doc-updates.sh:*)",
+      "Bash(command find ~/projects/teaching/stat-545 -maxdepth 3 -name '*lesson*' -o -name '*plan*')",
+      "Bash(command find /Users/dt/.git-worktrees/flow-cli/feature-teach-doctor-v2/tests/fixtures/demo-course -maxdepth 3 -name '*lesson*' -o -name '*macro*' -o -name '*plan*')",
+      "Bash(git rm:*)",
+      "Bash(brew:*)",
+      "Bash(brew info:*)",
+      "Bash(git -C ~/projects/dev-tools/scholar branch --show-current)",
+      "Bash(git -C ~/projects/dev-tools/scholar remote -v)",
+      "Bash(git -C ~/projects/dev-tools/scholar pull origin dev)",
+      "Bash(git -C:*)",
+      "Bash(while read link)",
+      "Bash(if [[ ! -f \"$target\" ]])",
+      "Bash(then echo \"  BROKEN: $link\")",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(tr:*)",
+      "Bash(if [ ! -f \"$target\" ])",
+      "Bash(then echo \"  BROKEN: $link -> $target\")"
     ]
   }
 }

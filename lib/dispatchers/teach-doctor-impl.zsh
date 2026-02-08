@@ -1,35 +1,72 @@
 # ==============================================================================
-# TEACH DOCTOR - Environment Health Check (v5.14.0 - Task 2)
+# TEACH DOCTOR - Environment Health Check (v6.5.0)
 # ==============================================================================
 #
-# Basic implementation (Task 2): dependency checks + config validation
-# Full implementation (Task 4): git checks, --fix, --json
+# Two-mode architecture:
+#   Quick (default): CLI deps, R available, config, git — target < 3s
+#   Full (--full):   Everything above + per-package R, quarto ext, scholar,
+#                    hooks, cache, macros, teaching style
 #
 # Usage:
-#   teach doctor              # Check environment
-#   teach doctor --quiet      # Only show warnings/failures (Task 4)
-#   teach doctor --fix        # Auto-fix issues (Task 4)
-#   teach doctor --json       # JSON output (Task 4)
+#   teach doctor              # Quick check (default, < 3s)
+#   teach doctor --full       # Full comprehensive check
+#   teach doctor --brief      # Only show warnings/failures
+#   teach doctor --fix        # Auto-fix issues
+#   teach doctor --json       # JSON output
+#   teach doctor --ci         # CI mode (no color, exit 1 on failure)
+#   teach doctor --verbose    # Expanded detail for every check
 
 _teach_doctor() {
+    # Suppress ZSH job control messages from background spinners
+    setopt local_options no_monitor
+
     local quiet=false fix=false json=false
+    local full=false brief=false ci=false verbose=false
     local -i passed=0 warnings=0 failures=0
     local -a json_results=()
+    local -a failure_details=()
+    local start_time=$EPOCHSECONDS
+
+    # Cleanup spinner on unexpected exit (INT/TERM/ERR)
+    trap '_teach_doctor_spinner_stop 2>/dev/null' INT TERM
 
     # Parse flags
     while [[ $# -gt 0 ]]; do
         case "$1" in
+            --full)
+                full=true
+                shift
+                ;;
+            --brief)
+                brief=true
+                quiet=true
+                shift
+                ;;
             --quiet|-q)
+                # Deprecated alias for --brief
+                brief=true
                 quiet=true
                 shift
                 ;;
             --fix)
                 fix=true
+                full=true  # --fix implies full mode
                 shift
                 ;;
             --json)
                 json=true
-                quiet=true  # JSON mode implies quiet
+                quiet=true
+                shift
+                ;;
+            --ci)
+                ci=true
+                json=false
+                quiet=true
+                shift
+                ;;
+            --verbose)
+                verbose=true
+                full=true  # --verbose implies full mode
                 shift
                 ;;
             --help|-h)
@@ -42,60 +79,288 @@ _teach_doctor() {
         esac
     done
 
+    # CI mode: disable colors
+    if [[ "$ci" == "true" ]]; then
+        local -A FLOW_COLORS=([reset]="" [bold]="" [dim]="" [success]="" [warning]="" [error]="" [info]="" [muted]="")
+    fi
+
+    # Determine mode label
+    local mode_label="quick check"
+    [[ "$full" == "true" ]] && mode_label="full check"
+
     # Header
     if [[ "$quiet" == "false" ]]; then
         echo ""
         echo "╭────────────────────────────────────────────────────────────╮"
-        echo "│  📚 Teaching Environment Health Check                       │"
+        echo "│  Teaching Environment ($mode_label)                        │"
         echo "╰────────────────────────────────────────────────────────────╯"
         echo ""
     fi
 
-    # Run checks
+    # ── Quick mode checks (always run) ──────────────────────────────────
+    _teach_doctor_section_gap
     _teach_doctor_check_dependencies
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
+    _teach_doctor_section_gap
+
+    # R quick check: is R available? (quick mode = summary only)
+    _teach_doctor_check_r_quick
+    _teach_doctor_section_gap
+
     _teach_doctor_check_config
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
+    _teach_doctor_section_gap
+
     _teach_doctor_check_git
-    if [[ "$json" == "false" ]]; then
-        echo ""
+
+    # ── Full mode checks (--full only) ──────────────────────────────────
+    if [[ "$full" == "true" ]]; then
+        _teach_doctor_section_gap
+
+        _teach_doctor_spinner_start "Checking R packages..."
+        _teach_doctor_check_r_packages
+        _teach_doctor_spinner_stop
+        _teach_doctor_section_gap
+
+        _teach_doctor_spinner_start "Checking Quarto extensions..."
+        _teach_doctor_check_quarto_extensions
+        _teach_doctor_spinner_stop
+        _teach_doctor_section_gap
+
+        _teach_doctor_check_scholar
+        _teach_doctor_section_gap
+
+        _teach_doctor_check_hooks
+        _teach_doctor_section_gap
+
+        _teach_doctor_spinner_start "Checking cache..."
+        _teach_doctor_check_cache
+        _teach_doctor_spinner_stop
+        _teach_doctor_section_gap
+
+        _teach_doctor_spinner_start "Checking macros..."
+        _teach_doctor_check_macros
+        _teach_doctor_spinner_stop
+        _teach_doctor_section_gap
+
+        _teach_doctor_check_teaching_style
     fi
-    _teach_doctor_check_scholar
-    if [[ "$json" == "false" ]]; then
+
+    # Skipped sections hint (quick mode only)
+    if [[ "$full" == "false" && "$quiet" == "false" && "$json" == "false" ]]; then
         echo ""
+        echo "  ${FLOW_COLORS[muted]}Skipped (run --full): R packages, quarto extensions, hooks, cache, macros, style${FLOW_COLORS[reset]}"
     fi
-    _teach_doctor_check_hooks
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
-    _teach_doctor_check_cache
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
-    _teach_doctor_check_macros
-    if [[ "$json" == "false" ]]; then
-        echo ""
-    fi
-    _teach_doctor_check_teaching_style
+
+    # Elapsed time
+    local elapsed=$(( EPOCHSECONDS - start_time ))
 
     # Output results
     if [[ "$json" == "true" ]]; then
         _teach_doctor_json_output
+    elif [[ "$ci" == "true" ]]; then
+        # CI mode: machine-readable summary
+        echo "doctor:status=$([ $failures -eq 0 ] && echo 'pass' || echo 'fail')"
+        echo "doctor:passed=$passed"
+        echo "doctor:warnings=$warnings"
+        echo "doctor:failures=$failures"
+        echo "doctor:mode=$([[ "$full" == "true" ]] && echo 'full' || echo 'quick')"
+        echo "doctor:elapsed=${elapsed}s"
     else
         # Summary
-        echo ""
-        echo "────────────────────────────────────────────────────────────"
-        echo "Summary: $passed passed, $warnings warnings, $failures failures"
-        echo "────────────────────────────────────────────────────────────"
-        echo ""
+        _teach_doctor_summary
     fi
+
+    # Write status file for health indicator
+    _teach_doctor_write_status
 
     [[ $failures -gt 0 ]] && return 1
     return 0
+}
+
+# Write .flow/doctor-status.json for health indicator on teach startup
+_teach_doctor_write_status() {
+    local status_dir=".flow"
+    local status_file="$status_dir/doctor-status.json"
+
+    # Only write if .flow directory exists (we're in a teaching project)
+    [[ ! -d "$status_dir" ]] && return
+
+    local status_color="green"
+    [[ $warnings -gt 0 ]] && status_color="yellow"
+    [[ $failures -gt 0 ]] && status_color="red"
+
+    local mode_str="quick"
+    [[ "$full" == "true" ]] && mode_str="full"
+
+    local timestamp
+    timestamp=$(date -u "+%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date "+%Y-%m-%dT%H:%M:%S")
+
+    cat > "$status_file" <<STATUSEOF
+{
+    "version": 1,
+    "timestamp": "$timestamp",
+    "mode": "$mode_str",
+    "totals": {"passed": $passed, "warnings": $warnings, "failures": $failures},
+    "status": "$status_color"
+}
+STATUSEOF
+}
+
+# Read health indicator from last doctor run
+# Returns: "green", "yellow", "red", or empty string
+_teach_health_indicator() {
+    local status_file=".flow/doctor-status.json"
+
+    # No status file = no indicator
+    [[ ! -f "$status_file" ]] && return
+
+    # Read status from file (show stale indicator as-is — don't auto-refresh
+    # to avoid adding latency to every teach subcommand)
+    if command -v jq &>/dev/null; then
+        jq -r '.status // empty' "$status_file" 2>/dev/null
+    else
+        # Fallback: grep for status field
+        grep -o '"status": *"[^"]*"' "$status_file" 2>/dev/null | head -1 | grep -o '"[^"]*"$' | tr -d '"'
+    fi
+}
+
+# Format health dot for display
+_teach_health_dot() {
+    local health_status
+    health_status=$(_teach_health_indicator)
+
+    case "$health_status" in
+        green)  echo -e "\033[32m●\033[0m" ;;
+        yellow) echo -e "\033[33m●\033[0m" ;;
+        red)    echo -e "\033[31m●\033[0m" ;;
+        *)      echo "" ;;
+    esac
+}
+
+# Helper: emit section gap (respects json mode)
+_teach_doctor_section_gap() {
+    [[ "$json" == "false" ]] && echo ""
+}
+
+# ── Spinner UX ──────────────────────────────────────────────────
+# Background spinner with elapsed time (shown after 5s threshold)
+# Uses temp file as stop signal for cross-process communication.
+
+typeset -g _DOCTOR_SPINNER_PID=0
+typeset -g _DOCTOR_SPINNER_STOP=""
+
+_teach_doctor_spinner_start() {
+    local label="$1"
+
+    # Skip spinners in quiet/json/ci modes or when no tty available
+    [[ "$quiet" == "true" || "$json" == "true" || "$ci" == "true" ]] && return
+    { true > /dev/tty } 2>/dev/null || return
+
+    # Create stop signal file
+    _DOCTOR_SPINNER_STOP=$(mktemp -t doctor-spin.XXXXXX 2>/dev/null || echo "/tmp/doctor-spin.$$")
+    rm -f "$_DOCTOR_SPINNER_STOP"  # File absence = keep spinning
+
+    # Start background spinner
+    (
+        local chars=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
+        local i=0
+        local start=$EPOCHSECONDS
+        local elapsed=0
+
+        while [[ ! -f "$_DOCTOR_SPINNER_STOP" ]]; do
+            elapsed=$(( EPOCHSECONDS - start ))
+            local time_str=""
+            (( elapsed >= 5 )) && time_str=" (${elapsed}s)"
+
+            printf "\r  ${chars[$((i % ${#chars[@]}))]} %s%s" "$label" "$time_str" > /dev/tty
+            ((i++))
+            sleep 0.1
+        done
+
+        # Clear spinner line
+        printf "\r\033[K" > /dev/tty
+    ) &
+    _DOCTOR_SPINNER_PID=$!
+}
+
+_teach_doctor_spinner_stop() {
+    # Signal spinner to stop
+    if [[ -n "$_DOCTOR_SPINNER_STOP" ]]; then
+        touch "$_DOCTOR_SPINNER_STOP" 2>/dev/null
+        # Wait briefly for spinner to clear
+        if [[ $_DOCTOR_SPINNER_PID -gt 0 ]]; then
+            sleep 0.15
+            kill $_DOCTOR_SPINNER_PID 2>/dev/null
+            wait $_DOCTOR_SPINNER_PID 2>/dev/null
+        fi
+        rm -f "$_DOCTOR_SPINNER_STOP" 2>/dev/null
+        _DOCTOR_SPINNER_PID=0
+        _DOCTOR_SPINNER_STOP=""
+    fi
+}
+
+# Quick R check: is R available, renv status summary, package count hint
+_teach_doctor_check_r_quick() {
+    if [[ "$json" == "false" ]]; then
+        echo "R Environment:"
+    fi
+
+    if ! command -v R &>/dev/null; then
+        _teach_doctor_warn "R not found" "Install R: brew install --cask r"
+        json_results+=("{\"check\":\"r_available\",\"status\":\"warn\",\"message\":\"not found\"}")
+        return
+    fi
+
+    # R version (use 'command' to bypass aliases, grep for 'R version' to skip renv messages)
+    local r_version
+    r_version=$(command R --version 2>/dev/null | grep -m1 'R version' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+
+    # renv detection
+    local renv_active=false
+    local renv_summary=""
+
+    if [[ -f "renv.lock" && -f "renv/activate.R" ]]; then
+        renv_active=true
+
+        # Quick sync check: count packages in renv.lock
+        if command -v jq &>/dev/null; then
+            local lock_count
+            lock_count=$(jq -r '.Packages | length' renv.lock 2>/dev/null)
+            renv_summary=" | renv active | ${lock_count} packages locked"
+        else
+            renv_summary=" | renv active"
+        fi
+    elif [[ -f "renv.lock" ]]; then
+        renv_summary=" | renv.lock found (not activated)"
+    fi
+
+    # Single summary line: "R (4.4.2) | renv active | 27 packages locked"
+    _teach_doctor_pass "R ($r_version)${renv_summary}"
+    json_results+=("{\"check\":\"r_available\",\"status\":\"pass\",\"message\":\"$r_version\"}")
+
+    if [[ "$renv_active" == "true" ]]; then
+        json_results+=("{\"check\":\"renv_status\",\"status\":\"pass\",\"message\":\"active\"}")
+
+        # renv.lock freshness
+        if [[ "$verbose" == "true" && "$quiet" == "false" && "$json" == "false" ]]; then
+            local lock_mtime
+            lock_mtime=$(stat -f %m renv.lock 2>/dev/null || stat -c %Y renv.lock 2>/dev/null)
+            if [[ -n "$lock_mtime" ]]; then
+                local age_days=$(( (EPOCHSECONDS - lock_mtime) / 86400 ))
+                if [[ $age_days -eq 0 ]]; then
+                    echo "    ${FLOW_COLORS[muted]}renv.lock updated today${FLOW_COLORS[reset]}"
+                else
+                    echo "    ${FLOW_COLORS[muted]}renv.lock updated $age_days days ago${FLOW_COLORS[reset]}"
+                fi
+            fi
+        fi
+    elif [[ -f "renv.lock" ]]; then
+        json_results+=("{\"check\":\"renv_status\",\"status\":\"warn\",\"message\":\"lock without activate\"}")
+    fi
+
+    # Inline hint for full mode
+    if [[ "$full" == "false" && "$quiet" == "false" && "$json" == "false" ]]; then
+        echo "     ${FLOW_COLORS[muted]}-> Run --full for package details${FLOW_COLORS[reset]}"
+    fi
 }
 
 # Check required and optional dependencies
@@ -114,13 +379,6 @@ _teach_doctor_check_dependencies() {
     _teach_doctor_check_dep "examark" "examark" "npm install -g examark" "false"
     _teach_doctor_check_dep "claude" "claude" "Follow: https://code.claude.com" "false"
 
-    # R packages (if R is available)
-    if command -v R &>/dev/null; then
-        _teach_doctor_check_r_packages
-    fi
-
-    # Quarto extensions
-    _teach_doctor_check_quarto_extensions
 }
 
 # Check project configuration
@@ -142,7 +400,7 @@ _teach_doctor_check_config() {
                 _teach_doctor_pass "Config validates against schema"
                 json_results+=("{\"check\":\"config_valid\",\"status\":\"pass\",\"message\":\"valid\"}")
             else
-                _teach_doctor_warn "Config validation failed" "Check syntax with: yq eval '$config_file'"
+                _teach_doctor_warn "Config validation failed" "Fix with: teach validate"
                 json_results+=("{\"check\":\"config_valid\",\"status\":\"warn\",\"message\":\"invalid\"}")
             fi
         fi
@@ -179,7 +437,7 @@ _teach_doctor_check_config() {
             fi
         fi
     else
-        _teach_doctor_fail ".flow/teach-config.yml not found" "Run: teach init"
+        _teach_doctor_fail ".flow/teach-config.yml not found" "Create with: teach init"
         json_results+=("{\"check\":\"config_exists\",\"status\":\"fail\",\"message\":\"not found\"}")
     fi
 }
@@ -242,6 +500,12 @@ _teach_doctor_warn() {
 # Helper: Failure
 _teach_doctor_fail() {
     ((failures++))
+    # Record for severity-grouped summary
+    if [[ -n "${2:-}" ]]; then
+        failure_details+=("$1\n    -> $2")
+    else
+        failure_details+=("$1")
+    fi
     if [[ "$json" == "false" ]]; then
         echo "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} $1"
         if [[ -n "${2:-}" ]]; then
@@ -256,8 +520,8 @@ _teach_doctor_check_git() {
         echo "Git Setup:"
     fi
 
-    # Check if in git repo
-    if [[ -d .git ]]; then
+    # Check if in git repo (use git rev-parse; .git can be a file in worktrees)
+    if git rev-parse --is-inside-work-tree &>/dev/null; then
         _teach_doctor_pass "Git repository initialized"
         json_results+=("{\"check\":\"git_repo\",\"status\":\"pass\",\"message\":\"initialized\"}")
 
@@ -292,12 +556,14 @@ _teach_doctor_check_git() {
             json_results+=("{\"check\":\"remote\",\"status\":\"warn\",\"message\":\"not configured\"}")
         fi
 
-        # Check working tree status
-        if [[ -z "$(git status --porcelain 2>/dev/null)" ]]; then
+        # Check working tree status (exclude doctor-status.json — generated artifact)
+        local porcelain
+        porcelain=$(git status --porcelain 2>/dev/null | grep -v 'doctor-status\.json')
+        if [[ -z "$porcelain" ]]; then
             _teach_doctor_pass "Working tree clean"
             json_results+=("{\"check\":\"working_tree\",\"status\":\"pass\",\"message\":\"clean\"}")
         else
-            local changes=$(git status --porcelain | wc -l | tr -d ' ')
+            local changes=$(echo "$porcelain" | wc -l | tr -d ' ')
             _teach_doctor_warn "$changes uncommitted changes"
             json_results+=("{\"check\":\"working_tree\",\"status\":\"warn\",\"message\":\"$changes uncommitted\"}")
         fi
@@ -318,12 +584,12 @@ _teach_doctor_check_scholar() {
         _teach_doctor_pass "Claude Code available"
         json_results+=("{\"check\":\"claude_code\",\"status\":\"pass\",\"message\":\"available\"}")
 
-        # Check if scholar skills are accessible (check for scholar: prefix)
-        if claude --list-skills 2>/dev/null | grep -q "scholar:"; then
-            _teach_doctor_pass "Scholar skills accessible"
-            json_results+=("{\"check\":\"scholar_skills\",\"status\":\"pass\",\"message\":\"accessible\"}")
+        # Check if scholar plugin is installed
+        if [[ -d "${HOME}/.claude/plugins/scholar" ]]; then
+            _teach_doctor_pass "Scholar plugin installed"
+            json_results+=("{\"check\":\"scholar_skills\",\"status\":\"pass\",\"message\":\"installed\"}")
         else
-            _teach_doctor_warn "Scholar skills not detected" "Install Scholar plugin"
+            _teach_doctor_warn "Scholar plugin not detected" "Install Scholar plugin"
             json_results+=("{\"check\":\"scholar_skills\",\"status\":\"warn\",\"message\":\"not detected\"}")
         fi
     else
@@ -331,24 +597,35 @@ _teach_doctor_check_scholar() {
         json_results+=("{\"check\":\"claude_code\",\"status\":\"warn\",\"message\":\"not found\"}")
     fi
 
-    # Check for lesson plan file
-    if [[ -f "lesson-plan.yml" ]]; then
+    # Check for lesson plan file (root or .flow/)
+    if [[ -f ".flow/lesson-plans.yml" ]]; then
+        _teach_doctor_pass "Lesson plans found: .flow/lesson-plans.yml"
+        json_results+=("{\"check\":\"lesson_plan\",\"status\":\"pass\",\"message\":\"found\"}")
+    elif [[ -f "lesson-plan.yml" ]]; then
         _teach_doctor_pass "Lesson plan found: lesson-plan.yml"
         json_results+=("{\"check\":\"lesson_plan\",\"status\":\"pass\",\"message\":\"found\"}")
     else
-        _teach_doctor_warn "No lesson-plan.yml found (optional)" "Create for better context"
+        _teach_doctor_warn "No lesson plans found (optional)" "Create with: teach plan create"
         json_results+=("{\"check\":\"lesson_plan\",\"status\":\"warn\",\"message\":\"not found (optional)\"}")
     fi
 }
 
-# Output results as JSON (Task 4)
+# Output results as JSON
 _teach_doctor_json_output() {
+    local mode_str="quick"
+    [[ "$full" == "true" ]] && mode_str="full"
+
     echo "{"
+    echo "  \"version\": 1,"
+    echo "  \"mode\": \"$mode_str\","
     echo "  \"summary\": {"
     echo "    \"passed\": $passed,"
     echo "    \"warnings\": $warnings,"
     echo "    \"failures\": $failures,"
-    echo "    \"status\": \"$([ $failures -eq 0 ] && echo 'healthy' || echo 'unhealthy')\""
+    local status_color="green"
+    [[ $warnings -gt 0 ]] && status_color="yellow"
+    [[ $failures -gt 0 ]] && status_color="red"
+    echo "    \"status\": \"$status_color\""
     echo "  },"
     echo "  \"checks\": ["
 
@@ -365,6 +642,46 @@ _teach_doctor_json_output() {
     echo ""
     echo "  ]"
     echo "}"
+}
+
+# Severity-grouped summary output
+_teach_doctor_summary() {
+    echo ""
+    echo "────────────────────────────────────────────────────────────"
+
+    # Failures with fix commands (shown first, most important)
+    if [[ $failures -gt 0 ]]; then
+        echo -e "${FLOW_COLORS[error]}Failures ($failures):${FLOW_COLORS[reset]}"
+        for detail in "${failure_details[@]}"; do
+            echo -e "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} $detail"
+        done
+        echo ""
+    fi
+
+    # Compact summary line
+    local summary_parts=()
+    if [[ $failures -gt 0 ]]; then
+        summary_parts+=("${FLOW_COLORS[error]}$failures failed${FLOW_COLORS[reset]}")
+    fi
+    if [[ $warnings -gt 0 ]]; then
+        summary_parts+=("${FLOW_COLORS[warning]}Warnings: $warnings${FLOW_COLORS[reset]}")
+    fi
+    summary_parts+=("${FLOW_COLORS[success]}Passed: $passed${FLOW_COLORS[reset]}")
+
+    local elapsed=$(( EPOCHSECONDS - start_time ))
+    local time_display=""
+    (( elapsed > 0 )) && time_display="  [${elapsed}s]"
+
+    echo -e "${(j: | :)summary_parts}${time_display}"
+
+    # Fix hint: offer --fix when there are fixable issues
+    if [[ "$fix" == "false" && $(( failures + warnings )) -gt 0 ]]; then
+        echo ""
+        echo "  ${FLOW_COLORS[muted]}Run ${FLOW_COLORS[reset]}teach doctor --fix${FLOW_COLORS[muted]} to auto-fix issues${FLOW_COLORS[reset]}"
+    fi
+
+    echo "────────────────────────────────────────────────────────────"
+    echo ""
 }
 
 # Interactive fix helper
@@ -397,10 +714,9 @@ _teach_doctor_interactive_fix() {
     fi
 }
 
-# Check R packages
+# Check R packages (full mode only — per-package batch check with renv details)
 _teach_doctor_check_r_packages() {
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "R Packages:"
     fi
 
@@ -409,6 +725,44 @@ _teach_doctor_check_r_packages() {
         _teach_doctor_warn "R not found" "Install R to use R packages"
         json_results+=("{\"check\":\"r_packages\",\"status\":\"warn\",\"message\":\"R not installed\"}")
         return
+    fi
+
+    # renv detailed status (full mode)
+    local renv_active=false
+    if [[ -f "renv.lock" && -f "renv/activate.R" ]]; then
+        renv_active=true
+
+        # Library path
+        local renv_lib=""
+        local -a lib_dirs=(renv/library/*/R-*/*(/N))
+        if [[ ${#lib_dirs} -gt 0 ]]; then
+            renv_lib="${lib_dirs[1]}"
+        fi
+        if [[ -n "$renv_lib" ]]; then
+            _teach_doctor_pass "renv active ($renv_lib)"
+            json_results+=("{\"check\":\"renv_library\",\"status\":\"pass\",\"message\":\"$renv_lib\"}")
+        else
+            _teach_doctor_pass "renv active"
+            json_results+=("{\"check\":\"renv_library\",\"status\":\"pass\",\"message\":\"active\"}")
+        fi
+
+        # Lock file freshness
+        local lock_mtime
+        lock_mtime=$(stat -f %m renv.lock 2>/dev/null || stat -c %Y renv.lock 2>/dev/null)
+        if [[ -n "$lock_mtime" ]]; then
+            local age_days=$(( (EPOCHSECONDS - lock_mtime) / 86400 ))
+            if [[ $age_days -eq 0 ]]; then
+                _teach_doctor_pass "renv.lock updated today"
+            elif [[ $age_days -lt 30 ]]; then
+                _teach_doctor_pass "renv.lock updated $age_days days ago"
+            else
+                _teach_doctor_warn "renv.lock is $age_days days old" "Consider: renv::snapshot()"
+            fi
+            json_results+=("{\"check\":\"renv_lock_age\",\"status\":\"pass\",\"message\":\"${age_days} days\"}")
+        fi
+    elif [[ -f "renv.lock" ]]; then
+        _teach_doctor_warn "renv.lock exists but renv not activated" "Run: renv::activate()"
+        json_results+=("{\"check\":\"renv_status\",\"status\":\"warn\",\"message\":\"not activated\"}")
     fi
 
     # Get packages from all sources (teaching.yml, renv.lock, DESCRIPTION)
@@ -428,60 +782,112 @@ rmarkdown"
         fi
     fi
 
-    # Check each package
-    local all_installed=1
+    # Batch check: single R invocation for ALL packages (fast, renv-safe)
+    local installed_list
+    installed_list=$(_get_installed_r_packages 2>/dev/null)
+
+    if [[ -z "$installed_list" ]]; then
+        _teach_doctor_warn "Could not query installed R packages"
+        json_results+=("{\"check\":\"r_packages\",\"status\":\"warn\",\"message\":\"query failed\"}")
+        return
+    fi
+
+    # Build lookup set from installed packages
+    local -A installed_set=()
+    local pkg_name
+    while IFS= read -r pkg_name; do
+        [[ -n "$pkg_name" ]] && installed_set[$pkg_name]=1
+    done <<< "$installed_list"
+
+    # Compare expected vs installed
     local missing_packages=()
+    local installed_count=0
+    local total_count=0
 
     while IFS= read -r pkg; do
         [[ -z "$pkg" ]] && continue
+        ((total_count++))
 
-        if _check_r_package_installed "$pkg"; then
-            local version
-            version=$(_get_r_package_version "$pkg")
-            _teach_doctor_pass "R package: $pkg" "$version"
-            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"pass\",\"message\":\"installed\",\"version\":\"$version\"}")
+        if (( ${+installed_set[$pkg]} )); then
+            ((installed_count++))
+            # Only list individual packages in verbose mode
+            if [[ "$verbose" == "true" ]]; then
+                _teach_doctor_pass "R package: $pkg"
+            fi
+            json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"pass\",\"message\":\"installed\"}")
         else
-            _teach_doctor_warn "R package '$pkg' not found"
+            _teach_doctor_warn "R package missing: $pkg" "Install: R -e \"install.packages('$pkg')\""
             json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"warn\",\"message\":\"not installed\"}")
             missing_packages+=("$pkg")
-            all_installed=0
         fi
     done <<< "$packages"
 
-    # Interactive fix for missing packages
+    # Summary line
+    if [[ $total_count -gt 0 ]]; then
+        if [[ ${#missing_packages[@]} -gt 0 ]]; then
+            _teach_doctor_warn "${installed_count}/${total_count} R packages installed" "Missing: ${missing_packages[*]}"
+        else
+            _teach_doctor_pass "${installed_count}/${total_count} R packages installed"
+        fi
+    fi
+
+    # Interactive fix for missing packages (renv-aware)
     if [[ "$fix" == "true" && ${#missing_packages[@]} -gt 0 ]]; then
         echo ""
         echo -e "${FLOW_COLORS[warning]}Missing R packages: ${missing_packages[*]}${FLOW_COLORS[reset]}"
-        echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install all missing packages? [Y/n] "
-        read -r response
-        response=${response:-y}
 
-        if [[ "$response" =~ ^[Yy] ]]; then
-            _flow_log_info "Installing missing R packages..."
-            _install_r_packages --yes "${missing_packages[@]}"
+        if [[ "$renv_active" == "true" ]]; then
+            # Offer renv vs system install choice
+            echo "  Install via renv or system?"
+            echo "    r) renv::install() — project-local"
+            echo "    s) install.packages() — system-wide"
+            echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} [r/s] "
+            read -r response
+            response=${response:-r}
 
-            if [[ $? -eq 0 ]]; then
-                _flow_log_success "All R packages installed successfully"
+            local pkg_str=$(printf "'%s', " "${missing_packages[@]}")
+            pkg_str="${pkg_str%, }"  # Remove trailing comma
+
+            if [[ "$response" =~ ^[Rr] ]]; then
+                _flow_log_info "Installing via renv..."
+                R --quiet --slave -e "renv::install(c(${pkg_str}))" 2>&1
             else
-                _flow_log_error "Some packages failed to install"
+                _flow_log_info "Installing system-wide..."
+                R --quiet --slave -e "install.packages(c(${pkg_str}), repos='https://cloud.r-project.org')" 2>&1
+            fi
+        else
+            # Standard install
+            echo -n "  ${FLOW_COLORS[info]}→${FLOW_COLORS[reset]} Install all missing packages? [Y/n] "
+            read -r response
+            response=${response:-y}
+
+            if [[ "$response" =~ ^[Yy] ]]; then
+                _flow_log_info "Installing missing R packages..."
+                _install_r_packages --yes "${missing_packages[@]}"
+
+                if [[ $? -eq 0 ]]; then
+                    _flow_log_success "All R packages installed successfully"
+                else
+                    _flow_log_error "Some packages failed to install"
+                fi
             fi
         fi
     fi
 }
 
-# Check Quarto extensions
+# Check Quarto extensions (full mode only)
 _teach_doctor_check_quarto_extensions() {
     if [[ ! -d "_extensions" ]]; then
         return 0  # No extensions directory, skip check
     fi
 
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "Quarto Extensions:"
     fi
 
-    # Count installed extensions
-    local ext_count=$(find _extensions -mindepth 2 -maxdepth 2 -type d 2>/dev/null | wc -l | tr -d ' ')
+    # Count installed extensions using pure ZSH glob (avoids find|wc arithmetic bug)
+    local -a ext_dirs=(_extensions/*/*(/N))
+    local ext_count=${#ext_dirs}
 
     if [[ "$ext_count" -gt 0 ]]; then
         _teach_doctor_pass "$ext_count Quarto extensions installed"
@@ -489,8 +895,9 @@ _teach_doctor_check_quarto_extensions() {
 
         # List extensions
         if [[ "$json" == "false" && "$quiet" == "false" ]]; then
-            find _extensions -mindepth 2 -maxdepth 2 -type d 2>/dev/null | while read ext_dir; do
-                local ext_name=$(basename "$(dirname "$ext_dir")")/$(basename "$ext_dir")
+            local ext_dir
+            for ext_dir in "${ext_dirs[@]}"; do
+                local ext_name="${ext_dir:h:t}/${ext_dir:t}"
                 echo "    ${FLOW_COLORS[muted]}→ $ext_name${FLOW_COLORS[reset]}"
             done
         fi
@@ -500,10 +907,9 @@ _teach_doctor_check_quarto_extensions() {
     fi
 }
 
-# Check hook status
+# Check hook status (full mode only)
 _teach_doctor_check_hooks() {
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "Git Hooks:"
     fi
 
@@ -543,17 +949,16 @@ _teach_doctor_check_hooks() {
     done
 }
 
-# Check cache health
+# Check cache health (full mode only)
 _teach_doctor_check_cache() {
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "Cache Health:"
     fi
 
     # Check if _freeze directory exists
     if [[ -d "_freeze" ]]; then
         # Calculate cache size
-        local cache_size=$(du -sh _freeze 2>/dev/null | cut -f1)
+        local cache_size=$(command du -sh _freeze 2>/dev/null | cut -f1)
         _teach_doctor_pass "Freeze cache exists ($cache_size)"
         json_results+=("{\"check\":\"cache_exists\",\"status\":\"pass\",\"message\":\"$cache_size\"}")
 
@@ -604,19 +1009,18 @@ _teach_doctor_check_cache() {
     fi
 }
 
-# Check LaTeX macro health
+# Check LaTeX macro health (full mode only)
 _teach_doctor_check_macros() {
     if [[ "$json" == "false" ]]; then
-        echo ""
         echo "LaTeX Macros:"
     fi
 
     # Check if macro parser library is available
     if ! typeset -f _flow_discover_macro_sources >/dev/null 2>&1; then
-        # Try to source it
-        local lib_dir="${0:A:h}"
-        if [[ -f "$lib_dir/../macro-parser.zsh" ]]; then
-            source "$lib_dir/../macro-parser.zsh" 2>/dev/null
+        # Try to source it via FLOW_PLUGIN_DIR (reliable) or fallback
+        local macro_path="${FLOW_PLUGIN_DIR:-}/lib/macro-parser.zsh"
+        if [[ -f "$macro_path" ]]; then
+            source "$macro_path" 2>/dev/null
         fi
     fi
 
@@ -627,9 +1031,12 @@ _teach_doctor_check_macros() {
         return 0
     fi
 
-    # 1. Check for source files
-    local -a sources
-    sources=($(cd "$PWD" && _flow_discover_macro_sources 2>/dev/null))
+    # 1. Check for source files (filter to real paths only — renv may print to stdout)
+    local -a sources=()
+    local _src_line
+    while IFS= read -r _src_line; do
+        [[ -f "$_src_line" ]] && sources+=("$_src_line")
+    done < <(_flow_discover_macro_sources 2>/dev/null)
 
     if (( ${#sources} == 0 )); then
         _teach_doctor_warn "No macro source files found" "Create _macros.qmd or configure in teach-config.yml"
@@ -644,40 +1051,52 @@ _teach_doctor_check_macros() {
         json_results+=("{\"check\":\"macro_sources\",\"status\":\"pass\",\"message\":\"${#sources} source(s) found\"}")
     fi
 
-    # 2. Check config sync (.flow/macros.yml cache)
+    # 2. Check macro registry (.flow/macros/registry.yml) — only if scholar.latex_macros is configured
     local cache_dir=".flow/macros"
-    local cache_file="$cache_dir/macros.yml"
+    local cache_file="$cache_dir/registry.yml"
+    local macros_configured=false
 
-    if [[ -f "$cache_file" ]]; then
-        # Check if cache is up to date by comparing mtime with source files
-        local cache_mtime=0
+    # Backwards compat: if old cache.yml exists, use it
+    if [[ ! -f "$cache_file" && -f "$cache_dir/cache.yml" ]]; then
+        cache_file="$cache_dir/cache.yml"
+    fi
+
+    # Only check registry if the user opted into the teach macros sync workflow
+    if [[ -f ".flow/teach-config.yml" ]] && command -v yq &>/dev/null; then
+        local macro_cfg
+        macro_cfg=$(yq '.scholar.latex_macros.enabled // ""' .flow/teach-config.yml 2>/dev/null)
+        [[ "$macro_cfg" == "true" ]] && macros_configured=true
+    fi
+    # Also consider it configured if registry already exists
+    [[ -f "$cache_file" ]] && macros_configured=true
+
+    if [[ "$macros_configured" == "true" ]]; then
         if [[ -f "$cache_file" ]]; then
+            local cache_mtime=0
             cache_mtime=$(stat -f %m "$cache_file" 2>/dev/null || stat -c %Y "$cache_file" 2>/dev/null || echo 0)
-        fi
 
-        local stale=0
-        for src in "${sources[@]}"; do
-            if [[ -f "$src" ]]; then
-                local src_mtime
-                src_mtime=$(stat -f %m "$src" 2>/dev/null || stat -c %Y "$src" 2>/dev/null || echo 0)
-                if (( src_mtime > cache_mtime )); then
-                    stale=1
-                    break
+            local stale=0
+            for src in "${sources[@]}"; do
+                if [[ -f "$src" ]]; then
+                    local src_mtime
+                    src_mtime=$(stat -f %m "$src" 2>/dev/null || stat -c %Y "$src" 2>/dev/null || echo 0)
+                    if (( src_mtime > cache_mtime )); then
+                        stale=1
+                        break
+                    fi
                 fi
-            fi
-        done
+            done
 
-        if (( stale )); then
-            _teach_doctor_warn "Config cache out of date" "Run: teach macros sync"
-            json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"out of date\"}")
+            if (( stale )); then
+                _teach_doctor_warn "Macro registry out of date" "Run: teach macros sync"
+                json_results+=("{\"check\":\"macro_registry\",\"status\":\"warn\",\"message\":\"out of date\"}")
+            else
+                _teach_doctor_pass "Macro registry up to date"
+                json_results+=("{\"check\":\"macro_registry\",\"status\":\"pass\",\"message\":\"up to date\"}")
+            fi
         else
-            _teach_doctor_pass "Config cache up to date"
-            json_results+=("{\"check\":\"macro_cache\",\"status\":\"pass\",\"message\":\"up to date\"}")
-        fi
-    else
-        if (( ${#sources} > 0 )); then
-            _teach_doctor_warn "No macro cache found" "Run: teach macros sync"
-            json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"not found\"}")
+            _teach_doctor_warn "No macro registry found" "Run: teach macros sync"
+            json_results+=("{\"check\":\"macro_registry\",\"status\":\"warn\",\"message\":\"not found\"}")
         fi
     fi
 
@@ -695,8 +1114,8 @@ _teach_doctor_check_macros() {
         json_results+=("{\"check\":\"claudemd_macros\",\"status\":\"warn\",\"message\":\"file not found\"}")
     fi
 
-    # 4. Check for unused macros (optional warning)
-    if (( ${#sources} > 0 )); then
+    # 4. Check for unused macros — only if scholar.latex_macros workflow is configured
+    if [[ "$macros_configured" == "true" ]] && (( ${#sources} > 0 )); then
         # Load macros first
         _flow_clear_macros 2>/dev/null
         for src in "${sources[@]}"; do
@@ -716,12 +1135,19 @@ _teach_doctor_check_macros() {
             fi
 
             if (( unused_count > 0 )); then
-                _teach_doctor_warn "$unused_count macro(s) unused in content"
+                _teach_doctor_warn "$unused_count/$macro_count macros unused in content"
                 json_results+=("{\"check\":\"macro_usage\",\"status\":\"warn\",\"message\":\"$unused_count unused\"}")
 
-                # Show unused macros in verbose mode
+                # Show unused macros: first 5 by default, all in verbose
                 if [[ "$quiet" == "false" ]]; then
-                    echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                    if [[ "$verbose" == "true" ]]; then
+                        echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                    elif (( unused_count > 5 )); then
+                        local preview=$(echo "$unused" | head -5 | tr '\n' ' ' | sed 's/ $//')
+                        echo "    ${FLOW_COLORS[muted]}→ $preview ... (+$((unused_count - 5)) more, use --verbose)${FLOW_COLORS[reset]}"
+                    else
+                        echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                    fi
                 fi
             else
                 _teach_doctor_pass "All $macro_count macros in use"
@@ -742,6 +1168,14 @@ _teach_doctor_check_teaching_style() {
     fi
 
     # Ensure helpers are loaded
+    if ! typeset -f _teach_find_style_source >/dev/null 2>&1; then
+        # Try to source it via FLOW_PLUGIN_DIR
+        local style_path="${FLOW_PLUGIN_DIR:-}/lib/teach-style-helpers.zsh"
+        if [[ -f "$style_path" ]]; then
+            source "$style_path" 2>/dev/null
+        fi
+    fi
+
     if ! typeset -f _teach_find_style_source >/dev/null 2>&1; then
         _teach_doctor_warn "Teaching style helpers not loaded"
         json_results+=("{\"check\":\"teaching_style\",\"status\":\"warn\",\"message\":\"helpers not loaded\"}")

@@ -154,7 +154,7 @@ Found 12 macros:
   + \indep, \iid                    (2 symbols)
   + \bX, \bY, \bbeta, \bepsilon     (4 matrices)
 
-Updated .flow/macros/cache.yml
+Updated .flow/macros/registry.yml
 Done in 0.23s
 ```
 
@@ -284,10 +284,10 @@ scholar:
 
 ## Step 6: Check Macro Health
 
-The `teach doctor` command now includes macro health checks:
+The `teach doctor --full` command includes macro health checks (macros are a full-mode check):
 
 ```bash
-teach doctor
+teach doctor --full
 ```
 
 **Macros section output:**
@@ -295,7 +295,7 @@ teach doctor
 ```
 MACROS
   Source file     ✓ _macros.qmd exists
-  Config sync     ✓ .flow/macros/cache.yml up to date
+  Config sync     ✓ .flow/macros/registry.yml up to date
   Macro count     ✓ 12 macros defined
   CLAUDE.md       ⚠ Macro section not found
                     Consider adding to CLAUDE.md for AI context

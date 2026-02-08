@@ -1,0 +1,6 @@
+title: Lightbox
+author: quarto-ext
+version: 0.1.2
+contributes:
+  filters:
+    - lightbox.lua
