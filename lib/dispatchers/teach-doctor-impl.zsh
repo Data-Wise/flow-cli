@@ -405,7 +405,7 @@ _teach_doctor_check_config() {
                 _teach_doctor_pass "Config validates against schema"
                 json_results+=("{\"check\":\"config_valid\",\"status\":\"pass\",\"message\":\"valid\"}")
             else
-                _teach_doctor_warn "Config validation failed" "Check syntax with: yq eval '$config_file'"
+                _teach_doctor_warn "Config validation failed" "Fix with: teach validate"
                 json_results+=("{\"check\":\"config_valid\",\"status\":\"warn\",\"message\":\"invalid\"}")
             fi
         fi
@@ -442,7 +442,7 @@ _teach_doctor_check_config() {
             fi
         fi
     else
-        _teach_doctor_fail ".flow/teach-config.yml not found" "Run: teach init"
+        _teach_doctor_fail ".flow/teach-config.yml not found" "Create with: teach init"
         json_results+=("{\"check\":\"config_exists\",\"status\":\"fail\",\"message\":\"not found\"}")
     fi
 }
@@ -561,12 +561,14 @@ _teach_doctor_check_git() {
             json_results+=("{\"check\":\"remote\",\"status\":\"warn\",\"message\":\"not configured\"}")
         fi
 
-        # Check working tree status
-        if [[ -z "$(git status --porcelain 2>/dev/null)" ]]; then
+        # Check working tree status (exclude doctor-status.json — generated artifact)
+        local porcelain
+        porcelain=$(git status --porcelain 2>/dev/null | grep -v 'doctor-status\.json')
+        if [[ -z "$porcelain" ]]; then
             _teach_doctor_pass "Working tree clean"
             json_results+=("{\"check\":\"working_tree\",\"status\":\"pass\",\"message\":\"clean\"}")
         else
-            local changes=$(git status --porcelain | wc -l | tr -d ' ')
+            local changes=$(echo "$porcelain" | wc -l | tr -d ' ')
             _teach_doctor_warn "$changes uncommitted changes"
             json_results+=("{\"check\":\"working_tree\",\"status\":\"warn\",\"message\":\"$changes uncommitted\"}")
         fi
@@ -600,12 +602,15 @@ _teach_doctor_check_scholar() {
         json_results+=("{\"check\":\"claude_code\",\"status\":\"warn\",\"message\":\"not found\"}")
     fi
 
-    # Check for lesson plan file
-    if [[ -f "lesson-plan.yml" ]]; then
+    # Check for lesson plan file (root or .flow/)
+    if [[ -f ".flow/lesson-plans.yml" ]]; then
+        _teach_doctor_pass "Lesson plans found: .flow/lesson-plans.yml"
+        json_results+=("{\"check\":\"lesson_plan\",\"status\":\"pass\",\"message\":\"found\"}")
+    elif [[ -f "lesson-plan.yml" ]]; then
         _teach_doctor_pass "Lesson plan found: lesson-plan.yml"
         json_results+=("{\"check\":\"lesson_plan\",\"status\":\"pass\",\"message\":\"found\"}")
     else
-        _teach_doctor_warn "No lesson-plan.yml found (optional)" "Create for better context"
+        _teach_doctor_warn "No lesson plans found (optional)" "Create with: teach plan create"
         json_results+=("{\"check\":\"lesson_plan\",\"status\":\"warn\",\"message\":\"not found (optional)\"}")
     fi
 }
@@ -803,21 +808,24 @@ rmarkdown"
 
         if (( ${+installed_set[$pkg]} )); then
             ((installed_count++))
-            _teach_doctor_pass "R package: $pkg"
+            # Only list individual packages in verbose mode
+            if [[ "$verbose" == "true" ]]; then
+                _teach_doctor_pass "R package: $pkg"
+            fi
             json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"pass\",\"message\":\"installed\"}")
         else
-            _teach_doctor_warn "R package '$pkg' not found"
+            _teach_doctor_warn "R package missing: $pkg" "Install: R -e \"install.packages('$pkg')\""
             json_results+=("{\"check\":\"r_pkg_$pkg\",\"status\":\"warn\",\"message\":\"not installed\"}")
             missing_packages+=("$pkg")
         fi
     done <<< "$packages"
 
-    # Summary line: "R: 25/27 installed | Missing: pkgA, pkgB"
-    if [[ "$json" == "false" && $total_count -gt 0 ]]; then
+    # Summary line
+    if [[ $total_count -gt 0 ]]; then
         if [[ ${#missing_packages[@]} -gt 0 ]]; then
-            echo "  ${FLOW_COLORS[warning]}R: ${installed_count}/${total_count} installed${FLOW_COLORS[reset]} | Missing: ${missing_packages[*]}"
+            _teach_doctor_warn "${installed_count}/${total_count} R packages installed" "Missing: ${missing_packages[*]}"
         else
-            echo "  ${FLOW_COLORS[success]}R: ${installed_count}/${total_count} installed${FLOW_COLORS[reset]}"
+            _teach_doctor_pass "${installed_count}/${total_count} R packages installed"
         fi
     fi
 
