@@ -784,23 +784,22 @@ teach feedback "Assignment 3"
 
 ### `teach doctor`
 
-Comprehensive health check for teaching projects.
+Two-mode health check for teaching projects (v6.5.0).
 
 ```bash
-teach doctor              # Full health check
-teach doctor --fix        # Interactive fix mode
-teach doctor --json       # JSON output for automation
-teach doctor --quiet      # Minimal output
+teach doctor              # Quick check: deps, R, config, git (< 3s)
+teach doctor --full       # Full: all 10 categories
+teach doctor --fix        # Auto-fix issues (implies --full)
+teach doctor --verbose    # Detailed: per-package R, full macro list
+teach doctor --brief      # Warnings and failures only
+teach doctor --json       # Machine-readable JSON
+teach doctor --ci         # CI mode: no color, exit 1 on failure
 ```
 
-**Check categories:**
-- Dependencies (yq, git, quarto, gh, claude, examark)
-- Configuration validation
-- Git status and branch setup
-- Scholar integration
-- Hook installation
-- Cache health
-- **Macro health** (v5.21.0) - Source files, cache sync, usage
+**Quick mode checks:** Dependencies, R environment + renv, config, git setup
+**Full mode adds:** R packages, Quarto extensions, Scholar, hooks, cache, macros, teaching style
+
+**Health indicator:** Shows green/yellow/red dot on `teach` startup from `.flow/doctor-status.json`
 
 ### `teach validate`
 

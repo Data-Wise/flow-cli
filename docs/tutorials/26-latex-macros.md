@@ -284,10 +284,10 @@ scholar:
 
 ## Step 6: Check Macro Health
 
-The `teach doctor` command now includes macro health checks:
+The `teach doctor --full` command includes macro health checks (macros are a full-mode check):
 
 ```bash
-teach doctor
+teach doctor --full
 ```
 
 **Macros section output:**
