@@ -72,7 +72,7 @@ All quick mode checks plus:
 | Scholar Integration | Claude Code, Scholar plugin, lesson plans |
 | Git Hooks | pre-commit, pre-push, prepare-commit-msg |
 | Cache Health | Freeze cache size, freshness, file count |
-| LaTeX Macros | Sources, cache sync, CLAUDE.md docs, usage |
+| LaTeX Macros | Sources, registry sync, CLAUDE.md docs, unused (opt-in) |
 | Teaching Style | Style config, approach, overrides, legacy shim |
 
 ## Health Indicator
@@ -303,4 +303,4 @@ teach doctor --verbose
 ---
 
 **Version:** v6.5.0
-**Last Updated:** 2026-02-07
+**Last Updated:** 2026-02-08

@@ -797,7 +797,7 @@ teach doctor --ci         # CI mode: no color, exit 1 on failure
 ```
 
 **Quick mode checks:** Dependencies, R environment + renv, config, git setup
-**Full mode adds:** R packages, Quarto extensions, Scholar, hooks, cache, macros, teaching style
+**Full mode adds:** R packages, Quarto extensions, Scholar, hooks, cache, macros (opt-in), teaching style
 
 **Health indicator:** Shows green/yellow/red dot on `teach` startup from `.flow/doctor-status.json`
 
