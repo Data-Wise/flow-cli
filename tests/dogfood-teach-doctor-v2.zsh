@@ -328,6 +328,94 @@ run_test "--quiet is deprecated alias for --brief" '
     ! echo "$output" | grep -q "Teaching Environment" || return 1
 '
 
+run_test "--ci mode does not show fix hint" '
+    local output
+    output=$(_teach_doctor --ci 2>&1)
+    ! echo "$output" | grep -q "teach doctor --fix" || return 1
+'
+
+run_test "--json does not show fix hint" '
+    local output
+    output=$(_teach_doctor --json 2>&1)
+    ! echo "$output" | grep -q "teach doctor --fix" || return 1
+'
+
+cd "$ORIG_DIR"
+rm -rf "$TEMP_TEST_DIR"
+
+echo ""
+
+# ============================================================================
+# SECTION 10: Verbose Mode Behavior
+# ============================================================================
+
+echo "${CYAN}--- Section 10: Verbose Mode ---${RESET}"
+
+TEMP_TEST_DIR=$(mktemp -d)
+mkdir -p "$TEMP_TEST_DIR/.flow" "$TEMP_TEST_DIR/.git"
+cat > "$TEMP_TEST_DIR/.flow/teach-config.yml" <<'YAML'
+course:
+  name: "VERBOSE-TEST"
+  semester: "Spring 2026"
+YAML
+cd "$TEMP_TEST_DIR"
+
+run_test "--verbose shows full check header" '
+    local output
+    output=$(_teach_doctor --verbose 2>&1)
+    echo "$output" | grep -q "full check" || return 1
+'
+
+run_test "--verbose shows renv.lock age detail (if renv present)" '
+    # Create minimal renv setup
+    echo "{\"R\":{\"Version\":\"4.4.2\"},\"Packages\":{}}" > renv.lock
+    mkdir -p renv
+    echo "# activate" > renv/activate.R
+    local output
+    output=$(_teach_doctor --verbose 2>&1)
+    echo "$output" | grep -q "renv.lock updated" || return 1
+    rm -f renv.lock renv/activate.R
+    rmdir renv 2>/dev/null
+'
+
+cd "$ORIG_DIR"
+rm -rf "$TEMP_TEST_DIR"
+
+echo ""
+
+# ============================================================================
+# SECTION 11: Fix Hint in Summary
+# ============================================================================
+
+echo "${CYAN}--- Section 11: Fix Hint Behavior ---${RESET}"
+
+TEMP_TEST_DIR=$(mktemp -d)
+mkdir -p "$TEMP_TEST_DIR/.flow" "$TEMP_TEST_DIR/.git"
+cat > "$TEMP_TEST_DIR/.flow/teach-config.yml" <<'YAML'
+course:
+  name: "FIXHINT-TEST"
+  semester: "Spring 2026"
+YAML
+cd "$TEMP_TEST_DIR"
+
+run_test "Summary shows fix hint when warnings exist" '
+    local output
+    output=$(_teach_doctor 2>&1)
+    echo "$output" | grep -q "teach doctor --fix" || return 1
+'
+
+run_test "Fix hint not shown with --fix flag" '
+    local output
+    output=$(_teach_doctor --fix 2>&1 < /dev/null)
+    ! echo "$output" | grep -q "teach doctor --fix" || return 1
+'
+
+run_test "Fix hint shown even in --brief mode (summary always shows)" '
+    local output
+    output=$(_teach_doctor --brief 2>&1)
+    echo "$output" | grep -q "teach doctor --fix" || return 1
+'
+
 cd "$ORIG_DIR"
 rm -rf "$TEMP_TEST_DIR"
 

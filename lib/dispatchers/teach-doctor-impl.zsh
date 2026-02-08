@@ -678,6 +678,13 @@ _teach_doctor_summary() {
     (( elapsed > 0 )) && time_display="  [${elapsed}s]"
 
     echo -e "${(j: | :)summary_parts}${time_display}"
+
+    # Fix hint: offer --fix when there are fixable issues
+    if [[ "$fix" == "false" && $(( failures + warnings )) -gt 0 ]]; then
+        echo ""
+        echo "  ${FLOW_COLORS[muted]}Run ${FLOW_COLORS[reset]}teach doctor --fix${FLOW_COLORS[muted]} to auto-fix issues${FLOW_COLORS[reset]}"
+    fi
+
     echo "────────────────────────────────────────────────────────────"
     echo ""
 }
@@ -1118,12 +1125,19 @@ _teach_doctor_check_macros() {
             fi
 
             if (( unused_count > 0 )); then
-                _teach_doctor_warn "$unused_count macro(s) unused in content"
+                _teach_doctor_warn "$unused_count/$macro_count macros unused in content"
                 json_results+=("{\"check\":\"macro_usage\",\"status\":\"warn\",\"message\":\"$unused_count unused\"}")
 
-                # Show unused macros in verbose mode
+                # Show unused macros: first 5 by default, all in verbose
                 if [[ "$quiet" == "false" ]]; then
-                    echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                    if [[ "$verbose" == "true" ]]; then
+                        echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                    elif (( unused_count > 5 )); then
+                        local preview=$(echo "$unused" | head -5 | tr '\n' ' ' | sed 's/ $//')
+                        echo "    ${FLOW_COLORS[muted]}→ $preview ... (+$((unused_count - 5)) more, use --verbose)${FLOW_COLORS[reset]}"
+                    else
+                        echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                    fi
                 fi
             else
                 _teach_doctor_pass "All $macro_count macros in use"
