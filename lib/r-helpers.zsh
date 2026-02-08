@@ -205,8 +205,11 @@ _get_installed_r_packages() {
         return 1
     fi
 
-    R --quiet --slave -e "cat(rownames(installed.packages()), sep='\n')" 2>/dev/null
-    return $?
+    # Use 'command R' to bypass aliases; grep filters out renv/startup noise
+    # R package names are alphanumeric with dots (e.g., "ggplot2", "data.table")
+    command R --quiet --slave -e "cat(rownames(installed.packages()), sep='\n')" 2>/dev/null \
+        | command grep -E '^[a-zA-Z][a-zA-Z0-9.]*$'
+    return ${pipestatus[1]}
 }
 
 # =============================================================================
