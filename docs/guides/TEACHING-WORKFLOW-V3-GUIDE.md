@@ -42,18 +42,15 @@ Teaching Workflow v3.0 provides a complete solution for managing course content 
 
 ## What's New in v3.0
 
-### 1. Environment Health Checks
+### 1. Environment Health Checks (v2)
 
 ```bash
-teach doctor
+teach doctor            # Quick check (< 3s): deps, R, config, git
+teach doctor --full     # Full check: all 11 categories
 ```
 
-Validates your entire teaching environment:
-- Required dependencies (yq, git, quarto, gh)
-- Optional tools (examark, claude)
-- Project configuration
-- Git setup (branches, remote)
-- Scholar integration
+Quick mode validates essentials: dependencies, R environment + renv, project configuration, and git setup.
+Full mode adds: R packages, Quarto extensions, Scholar integration, hooks, cache, macros (opt-in), teaching style.
 
 **Why it matters:** Catch setup issues before they cause problems during content creation.
 
@@ -696,20 +693,27 @@ Content Inventory:
 
 ---
 
-## Health Checks
+## Health Checks (v2)
 
-![teach doctor demo](../demos/tutorials/tutorial-teach-doctor.gif)
+### Two-Mode Architecture
 
-*Demo: Running teach doctor to validate teaching environment*
+`teach doctor` v2 uses a two-mode design for fast feedback:
+
+| Mode | Command | Time | Categories |
+|------|---------|------|------------|
+| **Quick** (default) | `teach doctor` | < 1s | Dependencies, R environment, config, git |
+| **Full** | `teach doctor --full` | 3-5s | All 11 categories |
+
+Quick mode runs 4 essential categories. Full mode adds R packages, Quarto extensions, Scholar integration, git hooks, cache health, macros (opt-in), and teaching style.
 
 ### When to Run
 
-- **Initial setup** - Before creating content
-- **Semester start** - Verify environment ready
-- **After system updates** - Check dependencies still work
-- **Troubleshooting** - Diagnose issues
+- **Initial setup** - `teach doctor --fix` (installs missing tools)
+- **Semester start** - `teach doctor --full` (verify everything ready)
+- **Pre-deploy** - `teach doctor --brief` (quick warnings check)
+- **Troubleshooting** - `teach doctor --verbose` (detailed output)
 
-### Basic Health Check
+### Quick Check (Default)
 
 ```bash
 teach doctor
@@ -719,51 +723,55 @@ Output:
 
 ```
 ╭────────────────────────────────────────────────────────────╮
-│  📚 Teaching Environment Health Check                       │
+│  Teaching Environment (quick check)                        │
 ╰────────────────────────────────────────────────────────────╯
 
 Dependencies:
-  ✓ yq (4.35.1)
-  ✓ git (2.43.0)
-  ✓ quarto (1.4.550)
-  ✓ gh (2.42.1)
-  ⚠ examark (not found - optional)
-  ✓ claude (2.1.12)
+  ✓ yq (4.52.2)
+  ✓ git (2.52.0)
+  ✓ quarto (1.8.27)
+  ✓ gh (2.86.0)
+  ✓ examark (0.6.6)
+  ✓ claude (2.1.37)
+
+R Environment:
+  ✓ R (4.5.2) | renv active | 27 packages locked
 
 Project Configuration:
   ✓ .flow/teach-config.yml exists
-  ✓ Config validates against schema
-  ✓ Course name: STAT 440
-  ✓ Semester: Spring 2026
-  ✓ Dates configured (2026-01-13 - 2026-05-01)
+  ✓ Course name: STAT 545
+  ✓ Semester: spring
+  ✓ Dates configured (2026-01-19 - 2026-05-16)
 
 Git Setup:
   ✓ Git repository initialized
   ✓ Draft branch exists
-  ✓ Production branch exists: main
+  ✓ Production branch exists: production
   ✓ Remote configured: origin
   ✓ Working tree clean
 
-Scholar Integration:
-  ✓ Claude Code available
-  ⚠ Scholar skills not detected
-  ✓ Lesson plan found: lesson-plan.yml
+  Skipped (run --full): R packages, quarto extensions, hooks, cache, macros, style
 
 ────────────────────────────────────────────────────────────
-Summary: 15 passed, 2 warnings, 0 failures
+Passed: 17  [0s]
 ────────────────────────────────────────────────────────────
 ```
 
-### CI/CD Mode
-
-For scripts and automation:
+### Full Check
 
 ```bash
-# Only show problems
-teach doctor --quiet
+teach doctor --full
+```
 
-# Machine-readable output
-teach doctor --json | jq '.summary.status'
+Adds 7 more categories with a spinner for slower checks (R packages, cache analysis).
+
+### Output Modes
+
+```bash
+teach doctor --brief      # Warnings and failures only
+teach doctor --verbose    # Detailed: per-package R, full macro list (implies --full)
+teach doctor --json       # Machine-readable JSON
+teach doctor --ci         # CI mode: no color, key=value, exit 1 on failure
 ```
 
 ### Interactive Fix Mode
@@ -772,142 +780,85 @@ teach doctor --json | jq '.summary.status'
 teach doctor --fix
 ```
 
-**Real-world example - Missing dependencies:**
+Implies `--full` and prompts for each fixable issue:
 
 ```bash
 $ teach doctor --fix
 
-╭────────────────────────────────────────────────────────────╮
-│  📚 Teaching Environment Health Check                       │
-╰────────────────────────────────────────────────────────────╯
-
 Dependencies:
-  ✓ yq (4.35.1)
-  ✓ git (2.43.0)
   ✗ quarto (not found)
-  ✗ gh (not found)
-  ⚠ examark (not found - optional)
+    Install quarto? [y/N]: y
+    → brew install --cask quarto
+    ✓ Installed quarto
 
-Found 2 missing required dependencies.
-
-Install missing dependencies? [Y/n] y
-
-Installing quarto...
-  → brew install quarto
-  ✓ Installed quarto 1.4.550
-
-Installing gh...
-  → brew install gh
-  ✓ Installed gh 2.42.1
-
-Re-running health check...
-
-Dependencies:
-  ✓ yq (4.35.1)
-  ✓ git (2.43.0)
-  ✓ quarto (1.4.550)
-  ✓ gh (2.42.1)
-  ⚠ examark (not found - optional)
-
-✓ All required dependencies installed!
-
-Summary: 4 passed, 1 warning, 0 failures
+R Packages:
+  ⚠ 3/5 R packages installed | Missing: tidyr, knitr
+    Install via renv or system? [r/s]: r
+    → renv::install(c("tidyr", "knitr"))
 ```
+
+### Health Indicator
+
+After each run, `teach doctor` writes `.flow/doctor-status.json`. The `teach` command shows a colored dot on startup:
+
+| Dot | Status | Meaning |
+|-----|--------|---------|
+| Green | All passed | No warnings or failures |
+| Yellow | Warnings | Non-blocking issues found |
+| Red | Failures | Critical issues need attention |
+
+The dot auto-refreshes if the status file is older than 1 hour.
 
 ### Real-World Scenarios
 
 **Scenario 1: New machine setup**
 
 ```bash
-# Fresh macOS installation
-teach doctor
-
-# Output shows missing: yq, quarto, gh
 teach doctor --fix
-
-# Installs everything automatically
+# Installs missing: yq, quarto, gh, R packages
 # Ready to start teaching!
 ```
 
 **Scenario 2: Semester preparation**
 
 ```bash
-# Week before classes start
 cd ~/teaching/stat-440
+teach doctor --full
 
-teach doctor
-
-# Check output:
 # ✓ All dependencies present
-# ✗ ERROR: Config missing required field: 'semester'
-# ✗ ERROR: Draft branch not found
+# ✗ Config missing required field: 'semester'
+# ✗ Draft branch not found
 
-# Fix configuration
+# Fix and verify
 vim .flow/teach-config.yml
-# Add: semester: "Spring 2026"
-
-# Create draft branch
 git checkout -b draft
-
-# Verify fixes
 teach doctor
-# ✓ All checks passed
 ```
 
 **Scenario 3: CI/CD integration**
 
 ```bash
-# In GitHub Actions workflow
-- name: Validate environment
-  run: |
-    teach doctor --json > health.json
-    if [[ $(jq '.summary.failures' health.json) -gt 0 ]]; then
-      echo "Health check failed"
-      jq '.failures[]' health.json
-      exit 1
-    fi
+# CI mode: no color, exit 1 on failure
+teach doctor --ci --full || exit 1
 
-# Fails build if environment has issues
+# Or with JSON parsing
+status=$(teach doctor --json --full | jq -r '.summary.status')
+if [ "$status" = "red" ]; then
+  echo "Health check failed"
+  exit 1
+fi
 ```
 
-**Scenario 4: Troubleshooting deployment issues**
+**Scenario 4: Troubleshooting deployment**
 
 ```bash
-# Student reports broken website
-teach doctor --quiet
-
-# Output:
+teach doctor --brief
 # ✗ Working tree not clean: 3 uncommitted files
 # ✗ Remote not configured
 
-# Fix issues
 git add -A && git commit -m "Update content"
 git remote add origin https://github.com/user/stat-440
-
-# Verify
-teach doctor
-# ✓ All checks passed
-
-# Deploy successfully
 teach deploy
-```
-
-**Scenario 5: Post-system-upgrade check**
-
-```bash
-# After macOS upgrade or Homebrew update
-teach doctor
-
-# Output:
-# ⚠ quarto (1.4.550) - newer version available: 1.5.0
-# ⚠ gh (2.42.1) - newer version available: 2.43.0
-
-# Optional: update tools
-brew upgrade quarto gh
-
-# Verify
-teach doctor
-# ✓ All up to date
 ```
 
 ### Common Issues and Solutions
@@ -922,6 +873,9 @@ teach doctor
 | Remote not configured | Add remote: `git remote add origin <url>` |
 | Working tree not clean | Commit changes: `git add -A && git commit` |
 | Scholar skills not found | Install Scholar plugin in Claude Desktop |
+
+!!! tip "See also"
+    [Tutorial 32: Health Check](../tutorials/32-teach-doctor.md) for a complete step-by-step guide.
 
 ---
 
@@ -1400,7 +1354,7 @@ teach plan list
 
 ```bash
 # Weekly check (Friday before deploy)
-teach doctor --quiet
+teach doctor --brief
 
 # Monthly full check
 teach doctor
@@ -1633,7 +1587,7 @@ teach exam "Topic" --context
 # weekly-deploy.sh
 
 # Health check
-teach doctor --quiet || exit 1
+teach doctor --brief || exit 1
 
 # Ensure clean state
 if [[ -n "$(git status --porcelain)" ]]; then

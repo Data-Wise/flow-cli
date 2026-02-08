@@ -130,10 +130,10 @@ Cache Health:
   → Clear stale cache? [y/N] n
 ```
 
-### Quiet Mode
+### Brief Mode
 
 ```bash
-teach doctor --quiet
+teach doctor --brief
 ```
 
 **Only shows warnings and failures:**
@@ -294,7 +294,7 @@ teach doctor --json
 
 ```
 teach doctor
-  ├── Flag parsing (--quiet, --fix, --json, --help)
+  ├── Flag parsing (--brief, --fix, --json, --help)
   ├── Header output
   ├── Check runners (6 categories)
   │   ├── _teach_doctor_check_dependencies()
@@ -310,7 +310,7 @@ teach doctor
 ### State Variables
 
 ```zsh
-local quiet=false      # --quiet flag
+local brief=false      # --brief flag
 local fix=false        # --fix flag
 local json=false       # --json flag
 local -i passed=0      # Pass counter
@@ -550,7 +550,7 @@ _teach_doctor [OPTIONS]
 ```
 
 **Options:**
-- `--quiet`, `-q` - Only show warnings and failures
+- `--brief` - Only show warnings and failures
 - `--fix` - Interactive fix mode
 - `--json` - JSON output for CI/CD
 - `--help`, `-h` - Show help
