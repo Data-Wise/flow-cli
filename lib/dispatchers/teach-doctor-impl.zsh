@@ -528,8 +528,8 @@ _teach_doctor_check_git() {
         echo "Git Setup:"
     fi
 
-    # Check if in git repo
-    if [[ -d .git ]]; then
+    # Check if in git repo (use git rev-parse; .git can be a file in worktrees)
+    if git rev-parse --is-inside-work-tree &>/dev/null; then
         _teach_doctor_pass "Git repository initialized"
         json_results+=("{\"check\":\"git_repo\",\"status\":\"pass\",\"message\":\"initialized\"}")
 
