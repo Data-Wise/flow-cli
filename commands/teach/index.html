@@ -2403,6 +2403,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/32-teach-doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health Check (Doctor v2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../tutorials/27-lint-quickstart/" class="md-nav__link">
         
   
@@ -8947,20 +8975,18 @@ Templates use <code>{{VARIABLE}}</code> syntax. Auto-filled from config:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>teach<span class="w"> </span>feedback<span class="w"> </span><span class="s2">&quot;Assignment 3&quot;</span>
 </code></pre></div>
 <h3 id="teach-doctor"><code>teach doctor</code><a class="headerlink" href="#teach-doctor" title="Permanent link">&para;</a></h3>
-<p>Comprehensive health check for teaching projects.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>teach<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Full health check</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Interactive fix mode</span>
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--json<span class="w">       </span><span class="c1"># JSON output for automation</span>
-<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--quiet<span class="w">      </span><span class="c1"># Minimal output</span>
+<p>Two-mode health check for teaching projects (v6.5.0).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>teach<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Quick check: deps, R, config, git (&lt; 3s)</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--full<span class="w">       </span><span class="c1"># Full: all 10 categories</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Auto-fix issues (implies --full)</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--verbose<span class="w">    </span><span class="c1"># Detailed: per-package R, full macro list</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--brief<span class="w">      </span><span class="c1"># Warnings and failures only</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--json<span class="w">       </span><span class="c1"># Machine-readable JSON</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--ci<span class="w">         </span><span class="c1"># CI mode: no color, exit 1 on failure</span>
 </code></pre></div>
-<p><strong>Check categories:</strong>
-- Dependencies (yq, git, quarto, gh, claude, examark)
-- Configuration validation
-- Git status and branch setup
-- Scholar integration
-- Hook installation
-- Cache health
-- <strong>Macro health</strong> (v5.21.0) - Source files, cache sync, usage</p>
+<p><strong>Quick mode checks:</strong> Dependencies, R environment + renv, config, git setup
+<strong>Full mode adds:</strong> R packages, Quarto extensions, Scholar, hooks, cache, macros (opt-in), teaching style</p>
+<p><strong>Health indicator:</strong> Shows green/yellow/red dot on <code>teach</code> startup from <code>.flow/doctor-status.json</code></p>
 <h3 id="teach-validate"><code>teach validate</code><a class="headerlink" href="#teach-validate" title="Permanent link">&para;</a></h3>
 <p>Validate .qmd files for syntax and content issues.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>teach<span class="w"> </span>validate<span class="w">                    </span><span class="c1"># Validate all files</span>

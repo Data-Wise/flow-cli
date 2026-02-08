@@ -12,13 +12,13 @@
         <meta name="author" content="DT">
       
       
-        <link rel="canonical" href="https://data-wise.github.io/flow-cli/tutorials/24-template-management/">
+        <link rel="canonical" href="https://data-wise.github.io/flow-cli/tutorials/32-teach-doctor/">
       
       
-        <link rel="prev" href="../27-lint-quickstart/">
+        <link rel="prev" href="../28-teach-prompt/">
       
       
-        <link rel="next" href="../26-latex-macros/">
+        <link rel="next" href="../27-lint-quickstart/">
       
       
         
@@ -29,7 +29,7 @@
     
     
       
-        <title>Template Management - Flow CLI Documentation</title>
+        <title>Health Check (Doctor v2) - Flow CLI Documentation</title>
       
     
     
@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tutorial-template-management" class="md-skip">
+        <a href="#tutorial-32-teaching-environment-health-check" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Template Management
+              Health Check (Doctor v2)
             
           </span>
         </div>
@@ -2400,10 +2400,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../32-teach-doctor/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health Check (Doctor v2)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2419,6 +2446,419 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What You'll Learn
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-quick-check-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Quick Check (Default)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-full-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Full Check
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-understanding-status-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Understanding Status Levels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-auto-fix-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Auto-Fix Issues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-output-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Output Modes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Output Modes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brief-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brief Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verbose-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verbose Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-health-indicator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Health Indicator
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit-quick-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Commit Quick Check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-deploy-full-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Deploy Full Audit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicd-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#first-time-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First-Time Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debugging Issues
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Check Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-mode-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Mode Checks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Mode Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-mode-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Mode Checks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full Mode Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#r-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R Packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quarto-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quarto Extensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scholar-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scholar Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latex-macros-opt-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LaTeX Macros (opt-in)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teaching-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teaching Style
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2456,37 +2896,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Template Management
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../24-template-management/" class="md-nav__link">
         
   
   
@@ -2502,258 +2915,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-youll-learn" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What You'll Learn
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#learning-path" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Learning Path
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-1-understanding-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 1: Understanding Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-2-list-available-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 2: List Available Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-3-create-content-from-template" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3: Create Content from Template
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-4-variable-substitution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 4: Variable Substitution
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-5-customize-project-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 5: Customize Project Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-6-sync-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 6: Sync Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-7-validate-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 7: Validate Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-8-initialize-course-with-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 8: Initialize Course with Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Patterns
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#weekly-content-creation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Weekly Content Creation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#template-customization-workflow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Template Customization Workflow
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#template-not-found" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        "Template not found"
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#variables-not-substituted" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Variables not substituted
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sync-not-updating" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sync not updating
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next Steps
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -7338,17 +7499,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#what-youll-learn" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7360,10 +7510,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#learning-path" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Learning Path
+        Prerequisites
       
     </span>
   </a>
@@ -7371,10 +7521,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-1-understanding-templates" class="md-nav__link">
+  <a href="#step-1-quick-check-default" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: Understanding Templates
+        Step 1: Quick Check (Default)
       
     </span>
   </a>
@@ -7382,10 +7532,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2-list-available-templates" class="md-nav__link">
+  <a href="#step-2-full-check" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2: List Available Templates
+        Step 2: Full Check
       
     </span>
   </a>
@@ -7393,10 +7543,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-3-create-content-from-template" class="md-nav__link">
+  <a href="#step-3-understanding-status-levels" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3: Create Content from Template
+        Step 3: Understanding Status Levels
       
     </span>
   </a>
@@ -7404,10 +7554,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4-variable-substitution" class="md-nav__link">
+  <a href="#step-4-auto-fix-issues" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 4: Variable Substitution
+        Step 4: Auto-Fix Issues
       
     </span>
   </a>
@@ -7415,77 +7565,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-5-customize-project-templates" class="md-nav__link">
+  <a href="#step-5-output-modes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 5: Customize Project Templates
+        Step 5: Output Modes
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-6-sync-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 6: Sync Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-7-validate-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 7: Validate Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#step-8-initialize-course-with-templates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 8: Initialize Course with Templates
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Common Patterns
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Patterns">
+    <nav class="md-nav" aria-label="Step 5: Output Modes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#weekly-content-creation" class="md-nav__link">
+  <a href="#brief-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Weekly Content Creation
+        Brief Mode
       
     </span>
   </a>
@@ -7493,10 +7588,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#template-customization-workflow" class="md-nav__link">
+  <a href="#verbose-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Template Customization Workflow
+        Verbose Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#json-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ci-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI Mode
       
     </span>
   </a>
@@ -7509,22 +7626,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
+  <a href="#step-6-health-indicator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Troubleshooting
+        Step 6: Health Indicator
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Troubleshooting">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#template-not-found" class="md-nav__link">
+  <a href="#pre-commit-quick-check" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "Template not found"
+        Pre-Commit Quick Check
       
     </span>
   </a>
@@ -7532,10 +7660,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#variables-not-substituted" class="md-nav__link">
+  <a href="#pre-deploy-full-audit" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Variables not substituted
+        Pre-Deploy Full Audit
       
     </span>
   </a>
@@ -7543,10 +7671,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sync-not-updating" class="md-nav__link">
+  <a href="#cicd-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sync not updating
+        CI/CD Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#first-time-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        First-Time Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debugging Issues
       
     </span>
   </a>
@@ -7559,10 +7709,182 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#check-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        Check Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Check Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-mode-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Mode Checks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Mode Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#r-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-mode-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Mode Checks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full Mode Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#r-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        R Packages
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quarto-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quarto Extensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scholar-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scholar Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#git-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git Hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latex-macros-opt-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LaTeX Macros (opt-in)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teaching-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Teaching Style
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
       
     </span>
   </a>
@@ -7584,27 +7906,9 @@
                 
                   
 
-  <nav class="md-tags" >
-    
-      
-      
-      
-      
-        <a href="../../tags/#tag:teaching" class="md-tag">teaching</a>
-      
-    
-      
-      
-      
-      
-        <a href="../../tags/#tag:tutorial" class="md-tag">tutorial</a>
-      
-    
-  </nav>
-
 
   
-    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/tutorials/24-template-management.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/data-wise/flow-cli/edit/main/docs/tutorials/32-teach-doctor.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -7612,427 +7916,440 @@
   
 
 
-<h1 id="tutorial-template-management">Tutorial: Template Management<a class="headerlink" href="#tutorial-template-management" title="Permanent link">&para;</a></h1>
+<h1 id="tutorial-32-teaching-environment-health-check">Tutorial 32: Teaching Environment Health Check<a class="headerlink" href="#tutorial-32-teaching-environment-health-check" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p><strong>What you'll learn:</strong> Create and manage teaching content templates with <code>teach templates</code></p>
-<p><strong>Time:</strong> ~15 minutes | <strong>Level:</strong> Beginner → Intermediate
-<strong>Version:</strong> v5.20.0</p>
+<p>A step-by-step guide to <code>teach doctor</code> v2 — the two-mode health check for teaching projects.</p>
 </blockquote>
 <hr />
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
-<p>Before starting, you should:</p>
-<ul>
-<li>[ ] Have an initialized course (<code>teach init</code>)</li>
-<li>[ ] Have flow-cli v5.20.0+ installed</li>
-</ul>
-<p><strong>Verify your setup:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check version</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span>--version<span class="w">  </span><span class="c1"># Should show 5.20.0+</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Check you&#39;re in a course directory</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>ls<span class="w"> </span>.flow/teach-config.yml
-</code></pre></div>
-<hr />
 <h2 id="what-youll-learn">What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
-<p>By the end of this tutorial, you will:</p>
-<ol>
-<li>List available templates</li>
-<li>Create content from templates</li>
-<li>Use variable substitution</li>
-<li>Customize project templates</li>
-<li>Sync templates from plugin defaults</li>
-<li>Validate template syntax</li>
-</ol>
+<ul>
+<li>Run quick and full health checks on your teaching project</li>
+<li>Understand each check category and what it validates</li>
+<li>Use output modes (brief, verbose, JSON, CI) for different workflows</li>
+<li>Auto-fix common issues with <code>--fix</code></li>
+<li>Integrate health checks into your CI/CD pipeline</li>
+</ul>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<ul>
+<li>flow-cli v6.5.0+ installed</li>
+<li>A teaching project initialized with <code>teach init</code></li>
+</ul>
 <hr />
-<h2 id="learning-path">Learning Path<a class="headerlink" href="#learning-path" title="Permanent link">&para;</a></h2>
-<pre class="mermaid"><code>flowchart LR
-    subgraph Phase1["Phase 1: Basics"]
-        A[List Templates] --&gt; B[Create Content]
-    end
-
-    subgraph Phase2["Phase 2: Variables"]
-        C[Auto-Fill] --&gt; D[Custom Values]
-    end
-
-    subgraph Phase3["Phase 3: Customize"]
-        E[Edit Templates] --&gt; F[Sync &amp; Validate]
-    end
-
-    Phase1 --&gt; Phase2 --&gt; Phase3
-
-    style Phase1 fill:#2ecc71,color:#fff
-    style Phase2 fill:#e67e22,color:#fff
-    style Phase3 fill:#e74c3c,color:#fff</code></pre>
-<hr />
-<h2 id="step-1-understanding-templates">Step 1: Understanding Templates<a class="headerlink" href="#step-1-understanding-templates" title="Permanent link">&para;</a></h2>
-<p>Templates are reusable starting points for course content. They save time by:</p>
-<ol>
-<li><strong>Pre-filling</strong> common structure (YAML frontmatter, sections)</li>
-<li><strong>Auto-substituting</strong> variables like <code>{{WEEK}}</code> and <code>{{TOPIC}}</code></li>
-<li><strong>Ensuring consistency</strong> across lectures, labs, and assignments</li>
-</ol>
-<p><strong>Template types:</strong></p>
+<h2 id="step-1-quick-check-default">Step 1: Quick Check (Default)<a class="headerlink" href="#step-1-quick-check-default" title="Permanent link">&para;</a></h2>
+<p>The default <code>teach doctor</code> runs a <strong>quick check</strong> targeting &lt; 3 seconds:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>teach<span class="w"> </span>doctor
+</code></pre></div>
+<p><strong>Output:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>╭────────────────────────────────────────────────────────────╮
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│  Teaching Environment (quick check)                        │
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>╰────────────────────────────────────────────────────────────╯
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Dependencies:
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  ✓ yq (4.52.2)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  ✓ git (2.52.0)
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  ✓ quarto (1.8.27)
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  ✓ gh (2.86.0)
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  ✓ examark (0.6.6)
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  ✓ claude (2.1.37)
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>R Environment:
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>  ✓ R (4.5.2) | renv active | 27 packages locked
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>Project Configuration:
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>  ✓ .flow/teach-config.yml exists
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>  ✓ Course name: STAT 545
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>  ✓ Semester: spring
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>  ✓ Dates configured (2026-01-19 - 2026-05-16)
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>Git Setup:
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>  ✓ Git repository initialized
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>  ✓ Draft branch exists
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>  ✓ Production branch exists: production
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>  ✓ Remote configured: origin
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>  ✓ Working tree clean
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>  Skipped (run --full): R packages, quarto extensions, hooks, cache, macros, style
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>────────────────────────────────────────────────────────────
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>Passed: 17  [0s]
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>────────────────────────────────────────────────────────────
+</code></pre></div></p>
+<p><strong>Quick mode checks 4 categories:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Type</th>
-<th>Directory</th>
-<th>Purpose</th>
+<th>Category</th>
+<th>What It Validates</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>content</code></td>
-<td><code>.flow/templates/content/</code></td>
-<td>.qmd starters</td>
+<td>Dependencies</td>
+<td>Required: yq, git, quarto, gh. Optional: examark, claude</td>
 </tr>
 <tr>
-<td><code>prompts</code></td>
-<td><code>.flow/templates/prompts/</code></td>
-<td>AI generation prompts</td>
+<td>R Environment</td>
+<td>R version, renv status, package count summary</td>
 </tr>
 <tr>
-<td><code>metadata</code></td>
-<td><code>.flow/templates/metadata/</code></td>
-<td>_metadata.yml files</td>
+<td>Configuration</td>
+<td><code>.flow/teach-config.yml</code> exists, course name, semester, dates</td>
 </tr>
 <tr>
-<td><code>checklists</code></td>
-<td><code>.flow/templates/checklists/</code></td>
-<td>QA checklists</td>
+<td>Git Setup</td>
+<td>Repo initialized, draft/production branches, remote, working tree</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="step-2-list-available-templates">Step 2: List Available Templates<a class="headerlink" href="#step-2-list-available-templates" title="Permanent link">&para;</a></h2>
-<p>See what templates are available:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># List all templates</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>teach<span class="w"> </span>templates
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Or use the full command</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>list
+<h2 id="step-2-full-check">Step 2: Full Check<a class="headerlink" href="#step-2-full-check" title="Permanent link">&para;</a></h2>
+<p>Add <code>--full</code> to run all 11 check categories:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--full
 </code></pre></div>
-<p><strong>Example output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>╭─────────────────────────────────────────────────────────────╮
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>│ AVAILABLE TEMPLATES                                         │
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>├─────────────────────────────────────────────────────────────┤
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│ CONTENT (.flow/templates/content/)                          │
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│   lecture.qmd     v1.0  Standard lecture template       [P] │
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│   lab.qmd         v1.0  R lab exercise template         [P] │
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│   slides.qmd      v1.0  RevealJS slides template            │
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│   assignment.qmd  v1.0  Homework assignment                 │
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│                                                             │
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>│ PROMPTS (.flow/templates/prompts/)                          │
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>│   generate-exam.md    v1.0  Scholar exam generation         │
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>│   enhance-lecture.md  v1.0  Scholar lecture enhancement     │
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>│                                                             │
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>│ Legend: [P] = Project override exists                       │
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>╰─────────────────────────────────────────────────────────────╯
-</code></pre></div>
-<p><strong>Filter by type:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Only content templates</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--type<span class="w"> </span>content
+<p>This adds 7 more categories with a spinner for slower checks:</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>What It Validates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R Packages</td>
+<td>Per-package install verification (single R invocation)</td>
+</tr>
+<tr>
+<td>Quarto Extensions</td>
+<td>Extension count and listing</td>
+</tr>
+<tr>
+<td>Scholar Integration</td>
+<td>Claude Code, Scholar plugin, lesson plans</td>
+</tr>
+<tr>
+<td>Git Hooks</td>
+<td>pre-commit, pre-push, prepare-commit-msg</td>
+</tr>
+<tr>
+<td>Cache Health</td>
+<td><code>_freeze/</code> size, freshness, file count</td>
+</tr>
+<tr>
+<td>LaTeX Macros</td>
+<td>Sources, registry sync, CLAUDE.md docs, unused macros</td>
+</tr>
+<tr>
+<td>Teaching Style</td>
+<td>Config location, pedagogical approach, command overrides</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Macro and registry checks are opt-in</p>
+<p>The macro registry and unused macro checks only run when
+<code>scholar.latex_macros.enabled: true</code> is set in your teach-config.yml.
+Projects using direct Quarto <code>include-in-header</code> won't see false positives.</p>
+</div>
+<hr />
+<h2 id="step-3-understanding-status-levels">Step 3: Understanding Status Levels<a class="headerlink" href="#step-3-understanding-status-levels" title="Permanent link">&para;</a></h2>
+<p>Each check returns one of three statuses:</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>✓</code> (green)</td>
+<td>Pass</td>
+<td>Check succeeded</td>
+</tr>
+<tr>
+<td><code>⚠</code> (yellow)</td>
+<td>Warning</td>
+<td>Non-blocking issue, fix suggested</td>
+</tr>
+<tr>
+<td><code>✗</code> (red)</td>
+<td>Failure</td>
+<td>Critical issue, must fix</td>
+</tr>
+</tbody>
+</table>
+<p>The summary footer shows totals:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>────────────────────────────────────────────────────────────
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Warnings: 3 | Passed: 28  [5s]
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Only project templates (your overrides)</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--source<span class="w"> </span>project
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Only plugin defaults</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--source<span class="w"> </span>plugin
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  Run teach doctor --fix to auto-fix issues
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>────────────────────────────────────────────────────────────
 </code></pre></div>
 <hr />
-<h2 id="step-3-create-content-from-template">Step 3: Create Content from Template<a class="headerlink" href="#step-3-create-content-from-template" title="Permanent link">&para;</a></h2>
-<p>Use <code>teach templates new</code> to create files:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Create a lecture for week 5</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Create a lab for week 3</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lab<span class="w"> </span>week-03
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Create slides</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>slides<span class="w"> </span>week-05
+<h2 id="step-4-auto-fix-issues">Step 4: Auto-Fix Issues<a class="headerlink" href="#step-4-auto-fix-issues" title="Permanent link">&para;</a></h2>
+<p>Use <code>--fix</code> to interactively resolve issues:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix
 </code></pre></div>
-<p><strong>What happens:</strong></p>
-<ol>
-<li>Template is copied to destination</li>
-<li>Variables are substituted (see next step)</li>
-<li>File is ready to edit</li>
-</ol>
-<p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>✓<span class="w"> </span>Created:<span class="w"> </span>lectures/week-05.qmd
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>From:<span class="w"> </span>.flow/templates/content/lecture.qmd
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>Variables<span class="w"> </span>filled:
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="o">{{</span>WEEK<span class="o">}}</span><span class="w"> </span>→<span class="w"> </span><span class="m">05</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="o">{{</span>DATE<span class="o">}}</span><span class="w"> </span>→<span class="w"> </span><span class="m">2026</span>-01-28
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="o">{{</span>COURSE<span class="o">}}</span><span class="w"> </span>→<span class="w"> </span>STAT-545
+<p>This implies <code>--full</code> and prompts for each fixable issue:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Dependencies:
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  ✗ examark (not found)
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    Install examark? [y/N]: y
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    → npm install -g examark
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    ✓ examark installed
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>R Packages:
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  ⚠ 3/5 R packages installed | Missing: tidyr, knitr
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    Install via renv or system? [r/s]: r
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    → renv::install(c(&quot;tidyr&quot;, &quot;knitr&quot;))
+</code></pre></div>
+<p><strong>What <code>--fix</code> can resolve:</strong></p>
+<ul>
+<li>Missing dependencies (brew/npm install)</li>
+<li>Missing R packages (renv or system install)</li>
+<li>Missing git hooks (<code>teach hooks install</code>)</li>
+<li>Stale freeze cache (clear and re-render)</li>
+</ul>
+<hr />
+<h2 id="step-5-output-modes">Step 5: Output Modes<a class="headerlink" href="#step-5-output-modes" title="Permanent link">&para;</a></h2>
+<h3 id="brief-mode">Brief Mode<a class="headerlink" href="#brief-mode" title="Permanent link">&para;</a></h3>
+<p>Show only warnings and failures:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--brief
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>  ⚠ Config validation failed
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    → Fix with: teach validate
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  ⚠ Hook not installed: prepare-commit-msg
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    → Install with: teach hooks install
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>────────────────────────────────────────────────────────────
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Warnings: 2  [0s]
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>────────────────────────────────────────────────────────────
+</code></pre></div>
+<h3 id="verbose-mode">Verbose Mode<a class="headerlink" href="#verbose-mode" title="Permanent link">&para;</a></h3>
+<p>Show expanded detail for every check (implies <code>--full</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--verbose
+</code></pre></div>
+<p>Verbose adds:</p>
+<ul>
+<li><strong>R packages</strong>: Individual <code>✓ R package: ggplot2</code> lines for each package</li>
+<li><strong>renv.lock age</strong>: <code>renv.lock updated 2 days ago</code></li>
+<li><strong>Unused macros</strong>: Full list instead of truncated <code>(+N more, use --verbose)</code></li>
+</ul>
+<h3 id="json-output">JSON Output<a class="headerlink" href="#json-output" title="Permanent link">&para;</a></h3>
+<p>Machine-readable output for scripting:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--json<span class="w"> </span>--full<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.summary&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">&quot;passed&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">&quot;warnings&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">&quot;failures&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;yellow&quot;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="ci-mode">CI Mode<a class="headerlink" href="#ci-mode" title="Permanent link">&para;</a></h3>
+<p>No colors, machine-readable key=value, exits with code 1 on failure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--ci<span class="w"> </span>--full
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>doctor:status=pass
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>doctor:passed=28
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>doctor:warnings=3
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>doctor:failures=0
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>doctor:mode=full
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>doctor:elapsed=5s
 </code></pre></div>
 <hr />
-<h2 id="step-4-variable-substitution">Step 4: Variable Substitution<a class="headerlink" href="#step-4-variable-substitution" title="Permanent link">&para;</a></h2>
-<p>Templates use <code>{{VARIABLE}}</code> syntax. Variables are auto-filled from:</p>
+<h2 id="step-6-health-indicator">Step 6: Health Indicator<a class="headerlink" href="#step-6-health-indicator" title="Permanent link">&para;</a></h2>
+<p>After each run, <code>teach doctor</code> writes <code>.flow/doctor-status.json</code>. The <code>teach</code> command shows a colored dot on startup:</p>
 <table>
 <thead>
 <tr>
-<th>Variable</th>
-<th>Source</th>
-<th>Example</th>
+<th>Dot Color</th>
+<th>Status</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>{{WEEK}}</code></td>
-<td>CLI argument</td>
-<td><code>05</code></td>
+<td>Green <code>●</code></td>
+<td>All passed</td>
+<td>No warnings or failures</td>
 </tr>
 <tr>
-<td><code>{{TOPIC}}</code></td>
-<td>CLI argument or prompt</td>
-<td><code>Linear Regression</code></td>
+<td>Yellow <code>●</code></td>
+<td>Warnings</td>
+<td>Non-blocking issues found</td>
 </tr>
 <tr>
-<td><code>{{COURSE}}</code></td>
-<td>teach-config.yml</td>
-<td><code>STAT-545</code></td>
-</tr>
-<tr>
-<td><code>{{DATE}}</code></td>
-<td>Auto-generated</td>
-<td><code>2026-01-28</code></td>
-</tr>
-<tr>
-<td><code>{{INSTRUCTOR}}</code></td>
-<td>teach-config.yml</td>
-<td><code>Dr. Smith</code></td>
-</tr>
-<tr>
-<td><code>{{SEMESTER}}</code></td>
-<td>teach-config.yml</td>
-<td><code>Spring 2026</code></td>
+<td>Red <code>●</code></td>
+<td>Failures</td>
+<td>Critical issues need attention</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Specify topic explicitly:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Pass topic as argument</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Linear Regression&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Or be prompted</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># → Enter topic (or press Enter to skip): Linear Regression</span>
+<p>The dot auto-refreshes if the status file is older than 1 hour.</p>
+<hr />
+<h2 id="common-workflows">Common Workflows<a class="headerlink" href="#common-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="pre-commit-quick-check">Pre-Commit Quick Check<a class="headerlink" href="#pre-commit-quick-check" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--brief
 </code></pre></div>
-<p><strong>Example template content:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nn">---</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Week</span><span class="nv"> </span><span class="s">{{WEEK}}:</span><span class="nv"> </span><span class="s">{{TOPIC}}&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nt">course</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{COURSE}}&quot;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{DATE}}&quot;</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nt">instructor</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{INSTRUCTOR}}&quot;</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nn">---</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Learning Objectives</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="l l-Scalar l-Scalar-Plain">By the end of this lecture, students will be able to</span><span class="p p-Indicator">:</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="l l-Scalar l-Scalar-Plain">1. [First objective for {{TOPIC}}]</span>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="l l-Scalar l-Scalar-Plain">2. [Second objective]</span>
+<h3 id="pre-deploy-full-audit">Pre-Deploy Full Audit<a class="headerlink" href="#pre-deploy-full-audit" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--full
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># Fix any issues before deploying</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct
+</code></pre></div>
+<h3 id="cicd-pipeline">CI/CD Pipeline<a class="headerlink" href="#cicd-pipeline" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># GitHub Actions example</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Health check</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">teach doctor --ci --full || exit 1</span>
+</code></pre></div>
+<p>Or with JSON parsing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nv">status</span><span class="o">=</span><span class="k">$(</span>teach<span class="w"> </span>doctor<span class="w"> </span>--json<span class="w"> </span>--full<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.summary.status&#39;</span><span class="k">)</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$status</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Health check failed&quot;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">fi</span>
+</code></pre></div>
+<h3 id="first-time-setup">First-Time Setup<a class="headerlink" href="#first-time-setup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>teach<span class="w"> </span>init
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix
+</code></pre></div>
+<h3 id="debugging-issues">Debugging Issues<a class="headerlink" href="#debugging-issues" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Full detail on every check</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--verbose
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># JSON for programmatic analysis</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--json<span class="w"> </span>--full<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">&#39;.checks[] | select(.status == &quot;warn&quot;)&#39;</span>
 </code></pre></div>
 <hr />
-<h2 id="step-5-customize-project-templates">Step 5: Customize Project Templates<a class="headerlink" href="#step-5-customize-project-templates" title="Permanent link">&para;</a></h2>
-<p>Override plugin defaults with project-specific templates.</p>
-<p><strong>Resolution order:</strong></p>
-<ol>
-<li><strong>Project</strong> (<code>.flow/templates/</code>) - highest priority</li>
-<li><strong>Plugin</strong> (<code>lib/templates/teaching/</code>) - fallback</li>
-</ol>
-<p><strong>To customize a template:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 1. Copy plugin template to project</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>cp<span class="w"> </span>~/.flow-cli/lib/templates/teaching/content/lecture.qmd<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">   </span>.flow/templates/content/lecture.qmd
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># 2. Edit your copy</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>edit<span class="w"> </span>.flow/templates/content/lecture.qmd
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1"># 3. Your version is now used for all new lectures</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-06<span class="w">  </span><span class="c1"># Uses YOUR template</span>
-</code></pre></div>
-<p><strong>Verify override:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>teach<span class="w"> </span>templates<span class="w"> </span>list
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># Look for [P] marker indicating project override</span>
-</code></pre></div>
-<hr />
-<h2 id="step-6-sync-templates">Step 6: Sync Templates<a class="headerlink" href="#step-6-sync-templates" title="Permanent link">&para;</a></h2>
-<p>Update your project templates from plugin defaults:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Preview what would change</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--dry-run
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Apply updates</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync
-</code></pre></div>
-<p><strong>Example output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>╭─────────────────────────────────────────────────────────────╮
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>│ TEMPLATE SYNC                                               │
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├─────────────────────────────────────────────────────────────┤
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>│ Checking for updates...                                     │
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>│                                                             │
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>│ Updates available:                                          │
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>│   lecture.qmd: v1.0 → v1.1 (new sections added)            │
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>│   slides.qmd: v1.0 → v1.2 (RevealJS 5 support)             │
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>│                                                             │
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>│ No changes:                                                 │
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>│   lab.qmd: v1.0 (up to date)                               │
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>│                                                             │
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>│ Skipped (project override):                                 │
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>│   assignment.qmd: [P] won&#39;t overwrite your customizations   │
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>╰─────────────────────────────────────────────────────────────╯
-</code></pre></div>
-<p><strong>Force sync (overwrite project templates):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--force
-</code></pre></div>
-<hr />
-<h2 id="step-7-validate-templates">Step 7: Validate Templates<a class="headerlink" href="#step-7-validate-templates" title="Permanent link">&para;</a></h2>
-<p>Check template syntax and metadata:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Validate all templates</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Validate specific template</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate<span class="w"> </span>lecture.qmd
-</code></pre></div>
-<p><strong>What's checked:</strong></p>
-<ul>
-<li>YAML frontmatter is valid</li>
-<li>Required metadata present (template_version, template_type)</li>
-<li>Variables use correct syntax (<code>{{VARIABLE}}</code>)</li>
-<li>No undefined variables</li>
-</ul>
-<p><strong>Example output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>✓ lecture.qmd - Valid
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>✓ lab.qmd - Valid
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>✗ slides.qmd - Invalid
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    Line 15: Unknown variable {{WEEK_NUM}} (did you mean {{WEEK}}?)
-</code></pre></div>
-<hr />
-<h2 id="step-8-initialize-course-with-templates">Step 8: Initialize Course with Templates<a class="headerlink" href="#step-8-initialize-course-with-templates" title="Permanent link">&para;</a></h2>
-<p>When creating a new course:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Create course with full template structure</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w"> </span>--with-templates
-</code></pre></div>
-<p><strong>Creates:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>.flow/
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>├── teach-config.yml
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>├── templates/
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>│   ├── content/
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>│   │   ├── lecture.qmd
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>│   │   ├── lab.qmd
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>│   │   └── slides.qmd
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>│   ├── prompts/
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>│   │   └── generate-exam.md
-<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>│   ├── metadata/
-<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>│   │   └── _metadata.yml
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>│   └── checklists/
-<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>│       └── pre-publish.md
-</code></pre></div>
-<hr />
-<h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
+<h2 id="check-reference">Check Reference<a class="headerlink" href="#check-reference" title="Permanent link">&para;</a></h2>
+<h3 id="quick-mode-checks">Quick Mode Checks<a class="headerlink" href="#quick-mode-checks" title="Permanent link">&para;</a></h3>
+<h4 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
 <tr>
-<th>Command</th>
-<th>Description</th>
+<th>Tool</th>
+<th>Required</th>
+<th>Install</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>teach templates</code></td>
-<td>List all templates</td>
+<td>yq</td>
+<td>Yes</td>
+<td><code>brew install yq</code></td>
 </tr>
 <tr>
-<td><code>teach templates list --type content</code></td>
-<td>Filter by type</td>
+<td>git</td>
+<td>Yes</td>
+<td><code>xcode-select --install</code></td>
 </tr>
 <tr>
-<td><code>teach templates new lecture week-05</code></td>
-<td>Create from template</td>
+<td>quarto</td>
+<td>Yes</td>
+<td><code>brew install --cask quarto</code></td>
 </tr>
 <tr>
-<td><code>teach templates new lab week-03 --topic "ANOVA"</code></td>
-<td>With topic</td>
+<td>gh</td>
+<td>Yes</td>
+<td><code>brew install gh</code></td>
 </tr>
 <tr>
-<td><code>teach templates sync --dry-run</code></td>
-<td>Preview sync</td>
+<td>examark</td>
+<td>No</td>
+<td><code>npm install -g examark</code></td>
 </tr>
 <tr>
-<td><code>teach templates validate</code></td>
-<td>Check syntax</td>
-</tr>
-<tr>
-<td><code>teach tmpl</code></td>
-<td>Shortcut</td>
+<td>claude</td>
+<td>No</td>
+<td><a href="https://code.claude.com">code.claude.com</a></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h2>
-<h3 id="weekly-content-creation">Weekly Content Creation<a class="headerlink" href="#weekly-content-creation" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Create all materials for week 5</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Hypothesis Testing&quot;</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lab<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;t-tests in R&quot;</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>slides<span class="w"> </span>week-05
-</code></pre></div>
-<h3 id="template-customization-workflow">Template Customization Workflow<a class="headerlink" href="#template-customization-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># 1. Copy default</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>cp<span class="w"> </span>~/.flow-cli/lib/templates/teaching/content/lecture.qmd<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">   </span>.flow/templates/content/lecture.qmd
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># 2. Edit</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>edit<span class="w"> </span>.flow/templates/content/lecture.qmd
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="c1"># 3. Validate</span>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
-<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="c1"># 4. Use</span>
-<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-06
-</code></pre></div>
-<hr />
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<h3 id="template-not-found">"Template not found"<a class="headerlink" href="#template-not-found" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Check template exists</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>list
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Check path</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>ls<span class="w"> </span>.flow/templates/content/
-</code></pre></div>
-<h3 id="variables-not-substituted">Variables not substituted<a class="headerlink" href="#variables-not-substituted" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Check variable syntax (must be {{VAR}} not ${VAR})</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>grep<span class="w"> </span><span class="s1">&#39;{{&#39;</span><span class="w"> </span>.flow/templates/content/lecture.qmd
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Validate template</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate<span class="w"> </span>lecture.qmd
-</code></pre></div>
-<h3 id="sync-not-updating">Sync not updating<a class="headerlink" href="#sync-not-updating" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Force sync (overwrites project templates)</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--force
-</code></pre></div>
-<hr />
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h4 id="r-environment">R Environment<a class="headerlink" href="#r-environment" title="Permanent link">&para;</a></h4>
 <ul>
-<li><strong>Customize templates</strong> for your teaching style</li>
-<li><strong>Create prompts</strong> for Scholar integration</li>
-<li><strong>Add checklists</strong> for content QA</li>
-<li>See <a href="../../reference/REFCARD-TEMPLATES/">REFCARD-TEMPLATES.md</a> for quick reference</li>
-<li>See how templates feed into Scholar generation: <a href="../../guides/SCHOLAR-WRAPPERS-GUIDE/">Scholar Wrappers Guide</a></li>
-<li>All teach commands at a glance: <a href="../../reference/REFCARD-TEACH-DISPATCHER/">REFCARD-TEACH-DISPATCHER.md</a></li>
+<li>Checks R availability and version (<code>R --version</code>)</li>
+<li>Detects renv activation (<code>renv.lock</code> + <code>renv/activate.R</code>)</li>
+<li>Counts locked packages from <code>renv.lock</code></li>
+<li>Verbose mode: shows renv.lock age</li>
+</ul>
+<h4 id="project-configuration">Project Configuration<a class="headerlink" href="#project-configuration" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>.flow/teach-config.yml</code> exists</li>
+<li>Config schema validation (if <code>_teach_validate_config</code> available)</li>
+<li>Course name, semester, and date fields populated</li>
+</ul>
+<h4 id="git-setup">Git Setup<a class="headerlink" href="#git-setup" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Git repo initialized (works in worktrees too)</li>
+<li>Draft and production branches exist</li>
+<li>Remote origin configured</li>
+<li>Working tree status (excludes <code>doctor-status.json</code>)</li>
+</ul>
+<h3 id="full-mode-checks">Full Mode Checks<a class="headerlink" href="#full-mode-checks" title="Permanent link">&para;</a></h3>
+<h4 id="r-packages">R Packages<a class="headerlink" href="#r-packages" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Single R invocation to query all installed packages (fast, renv-safe)</li>
+<li>Compares against packages defined in teach-config.yml, renv.lock, or DESCRIPTION</li>
+<li>Falls back to common teaching packages: ggplot2, dplyr, tidyr, knitr, rmarkdown</li>
+<li><code>--fix</code> mode: offers renv or system install</li>
+</ul>
+<h4 id="quarto-extensions">Quarto Extensions<a class="headerlink" href="#quarto-extensions" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Counts extensions in <code>_extensions/*/*</code> directories</li>
+<li>Lists each extension by <code>org/name</code> format</li>
+</ul>
+<h4 id="scholar-integration">Scholar Integration<a class="headerlink" href="#scholar-integration" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Claude Code CLI available</li>
+<li>Scholar plugin installed at <code>~/.claude/plugins/scholar</code></li>
+<li>Lesson plans at <code>.flow/lesson-plans.yml</code> (optional)</li>
+</ul>
+<h4 id="git-hooks">Git Hooks<a class="headerlink" href="#git-hooks" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Checks: pre-commit, pre-push, prepare-commit-msg</li>
+<li>Distinguishes flow-cli managed vs custom hooks</li>
+<li><code>--fix</code> mode: offers <code>teach hooks install</code></li>
+</ul>
+<h4 id="cache-health">Cache Health<a class="headerlink" href="#cache-health" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>_freeze/</code> directory existence and size</li>
+<li>Cache freshness: today, &lt; 7 days, &lt; 30 days, 30+ days (stale)</li>
+<li>File count in cache</li>
+<li><code>--fix</code> mode: offers to clear stale cache</li>
+</ul>
+<h4 id="latex-macros-opt-in">LaTeX Macros (opt-in)<a class="headerlink" href="#latex-macros-opt-in" title="Permanent link">&para;</a></h4>
+<p>Only runs when <code>scholar.latex_macros.enabled: true</code> in teach-config.yml:</p>
+<ol>
+<li><strong>Source files</strong>: Discovers and lists macro source files</li>
+<li><strong>Registry sync</strong>: Checks <code>.flow/macros/registry.yml</code> freshness vs sources</li>
+<li><strong>CLAUDE.md</strong>: Verifies macro documentation exists for AI context</li>
+<li><strong>Unused macros</strong>: Scans content files for macro usage, reports unused count</li>
+</ol>
+<h4 id="teaching-style">Teaching Style<a class="headerlink" href="#teaching-style" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Detects style source (teach-config.yml or legacy .md file)</li>
+<li>Reports pedagogical approach, command overrides count</li>
+<li>Detects legacy shim redirect</li>
+<li>Warns on unconfigured style</li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v5.20.0
-<strong>Last Updated:</strong> 2026-01-28</p>
+<h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../reference/REFCARD-DOCTOR/">Health Check Refcard</a> — Quick reference card</li>
+<li><a href="../../commands/doctor/">Doctor Command</a> — <code>flow doctor</code> (not teach doctor)</li>
+<li><a href="../../guides/DOCTOR-TOKEN-USER-GUIDE/">Token Management</a> — GitHub token checks</li>
+<li><a href="../26-latex-macros/">LaTeX Macros Tutorial</a> — Macro system setup</li>
+</ul>
+<hr />
+<p><strong>Version:</strong> v6.5.0
+<strong>Last Updated:</strong> 2026-02-08</p>
 
 
 
 
 
 
-
-  
-  
 
 
 

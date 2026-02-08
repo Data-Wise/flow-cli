@@ -2403,6 +2403,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../32-teach-doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health Check (Doctor v2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../27-lint-quickstart/" class="md-nav__link">
         
   
@@ -7687,7 +7715,7 @@ EOF
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  + \indep, \iid                    (2 symbols)
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  + \bX, \bY, \bbeta, \bepsilon     (4 matrices)
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Updated .flow/macros/cache.yml
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>Updated .flow/macros/registry.yml
 <a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>Done in 0.23s
 </code></pre></div>
 <hr />
@@ -7808,13 +7836,13 @@ EOF
 </table>
 <hr />
 <h2 id="step-6-check-macro-health">Step 6: Check Macro Health<a class="headerlink" href="#step-6-check-macro-health" title="Permanent link">&para;</a></h2>
-<p>The <code>teach doctor</code> command now includes macro health checks:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>teach<span class="w"> </span>doctor
+<p>The <code>teach doctor --full</code> command includes macro health checks (macros are a full-mode check):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--full
 </code></pre></div>
 <p><strong>Macros section output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>MACROS
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>  Source file     ✓ _macros.qmd exists
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>  Config sync     ✓ .flow/macros/cache.yml up to date
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>  Config sync     ✓ .flow/macros/registry.yml up to date
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>  Macro count     ✓ 12 macros defined
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>  CLAUDE.md       ⚠ Macro section not found
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>                    Consider adding to CLAUDE.md for AI context

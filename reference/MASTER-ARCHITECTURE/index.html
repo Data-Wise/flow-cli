@@ -2391,6 +2391,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/32-teach-doctor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Health Check (Doctor v2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../tutorials/27-lint-quickstart/" class="md-nav__link">
         
   
@@ -5388,6 +5416,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#teach-doctor-v2-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        teach doctor v2 Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -7691,6 +7730,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#teach-doctor-v2-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        teach doctor v2 Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -8341,6 +8391,55 @@
 - <strong>TTL:</strong> 24 hours
 - <strong>Content:</strong> AI analysis results
 - <strong>Invalidation:</strong> On file content change (SHA-256 hash)</p>
+<p><strong>4. Doctor Status (v6.5.0)</strong>
+- <strong>File:</strong> <code>.flow/doctor-status.json</code>
+- <strong>TTL:</strong> 1 hour (health dot auto-refreshes)
+- <strong>Content:</strong> Last check results (passed/warnings/failures count, status color)
+- <strong>Invalidation:</strong> On next <code>teach doctor</code> run</p>
+<p><strong>5. Macro Registry (v6.5.0)</strong>
+- <strong>File:</strong> <code>.flow/macros/registry.yml</code>
+- <strong>Content:</strong> Extracted LaTeX macro definitions from source files
+- <strong>Invalidation:</strong> Manual via <code>teach macros sync</code></p>
+<hr />
+<h3 id="teach-doctor-v2-architecture">teach doctor v2 Architecture<a class="headerlink" href="#teach-doctor-v2-architecture" title="Permanent link">&para;</a></h3>
+<p>Two-mode health check for teaching projects.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>teach doctor                    teach doctor --full
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    │                               │
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    ▼                               ▼
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>┌─────────────┐             ┌─────────────────┐
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│ Quick Mode  │             │   Full Mode      │
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│ (&lt; 1s)      │             │   (3-5s)         │
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>├─────────────┤             ├─────────────────┤
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│ Dependencies│             │ Quick checks +   │
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>│ R Environ   │             │ R Packages       │
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│ Config      │             │ Quarto Exts      │
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>│ Git Setup   │             │ Scholar          │
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>└──────┬──────┘             │ Git Hooks        │
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>       │                    │ Cache Health     │
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>       │                    │ Macros (opt-in)  │
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>       │                    │ Teaching Style   │
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>       ▼                    └──────┬──────────┘
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>┌──────────────┐                   │
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>│ Status File  │◄──────────────────┘
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>│ .flow/       │
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>│ doctor-      │
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>│ status.json  │
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>└──────┬───────┘
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>       │
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>       ▼
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>┌──────────────┐
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>│ Health Dot   │  Green/Yellow/Red on `teach` startup
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>└──────────────┘
+</code></pre></div>
+<p><strong>Key design decisions:</strong></p>
+<ul>
+<li><strong>Quick by default:</strong> 4 categories, &lt; 1s. No R subprocess needed.</li>
+<li><strong>Full opt-in:</strong> <code>--full</code>, <code>--fix</code>, <code>--verbose</code> all trigger full mode.</li>
+<li><strong>Macro checks gated:</strong> Only run when <code>scholar.latex_macros.enabled: true</code> in config. Prevents false positives.</li>
+<li><strong><code>command</code> prefix:</strong> All external tool calls use <code>command R</code>, <code>command du</code> etc. to bypass user aliases.</li>
+<li><strong>Spinner for slow ops:</strong> R package query and cache analysis show elapsed time after 5s.</li>
+<li><strong>Exit codes:</strong> 0 = all pass, 1 = failures detected or user cancelled.</li>
+</ul>
 <hr />
 <h2 id="data-flow">Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h2>
 <h3 id="session-lifecycle">Session Lifecycle<a class="headerlink" href="#session-lifecycle" title="Permanent link">&para;</a></h3>
@@ -8525,12 +8624,12 @@
 <h3 id="git-token-security">Git Token Security<a class="headerlink" href="#git-token-security" title="Permanent link">&para;</a></h3>
 <p><strong>Problem:</strong> Git credentials exposed in environment or config</p>
 <p><strong>Solution:</strong> Keychain-backed token retrieval</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Before (insecure):</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;ghp_hardcoded_in_zshrc&quot;</span><span class="w">  </span><span class="c1"># ❌ Plain text</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># After (secure):</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Token stored in keychain via Touch ID</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>g<span class="w"> </span>push<span class="w">  </span><span class="c1"># ✅ Retrieves token from keychain, validates, uses, discards</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Before (insecure):</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;ghp_hardcoded_in_zshrc&quot;</span><span class="w">  </span><span class="c1"># ❌ Plain text</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># After (secure):</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Token stored in keychain via Touch ID</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>g<span class="w"> </span>push<span class="w">  </span><span class="c1"># ✅ Retrieves token from keychain, validates, uses, discards</span>
 </code></pre></div>
 <p><strong>Benefits:</strong>
 - Tokens never in plain text files
@@ -8543,33 +8642,33 @@
 <p><strong>Constraint:</strong> Core commands must respond &lt; 10ms for ADHD-friendly UX</p>
 <p><strong>Optimizations:</strong></p>
 <p><strong>1. Cache Everything:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Project list cached (1 hour TTL)</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>_flow_cache_get<span class="w"> </span><span class="s2">&quot;projects&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_flow_scan_projects<span class="k">)</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span>_flow_cache_set<span class="w"> </span><span class="s2">&quot;projects&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">3600</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Project list cached (1 hour TTL)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>_flow_cache_get<span class="w"> </span><span class="s2">&quot;projects&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_flow_scan_projects<span class="k">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span>_flow_cache_set<span class="w"> </span><span class="s2">&quot;projects&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">3600</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="o">}</span>
 </code></pre></div></p>
 <p><strong>2. Lazy Loading:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Don&#39;t load all dispatchers upfront</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># Load on first use</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>g<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$_G_LOADED</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">        </span><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FLOW_PLUGIN_DIR</span><span class="si">}</span><span class="s2">/lib/dispatchers/g-dispatcher.zsh&quot;</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="nv">_G_LOADED</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="k">fi</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span>_g_dispatch<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Don&#39;t load all dispatchers upfront</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># Load on first use</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>g<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$_G_LOADED</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">        </span><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FLOW_PLUGIN_DIR</span><span class="si">}</span><span class="s2">/lib/dispatchers/g-dispatcher.zsh&quot;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="nv">_G_LOADED</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span>_g_dispatch<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="o">}</span>
 </code></pre></div></p>
 <p><strong>3. Background Processes:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Slow operations in background</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>_flow_update_cache<span class="w"> </span><span class="p">&amp;</span>!<span class="w">  </span><span class="c1"># zsh disown syntax</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Slow operations in background</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>_flow_update_cache<span class="w"> </span><span class="p">&amp;</span>!<span class="w">  </span><span class="c1"># zsh disown syntax</span>
 </code></pre></div></p>
 <p><strong>4. Minimal External Calls:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Avoid:</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>modified<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span><span class="w">  </span><span class="c1"># 3 processes</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Prefer:</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span>--porcelain<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;/^ M/ {count++} END {print count}&#39;</span><span class="k">)</span><span class="w">  </span><span class="c1"># 2 processes</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Avoid:</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>modified<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span><span class="w">  </span><span class="c1"># 3 processes</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Prefer:</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>git<span class="w"> </span>status<span class="w"> </span>--porcelain<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;/^ M/ {count++} END {print count}&#39;</span><span class="k">)</span><span class="w">  </span><span class="c1"># 2 processes</span>
 </code></pre></div></p>
 <hr />
 <h3 id="performance-metrics-v5170">Performance Metrics (v5.17.0)<a class="headerlink" href="#performance-metrics-v5170" title="Permanent link">&para;</a></h3>
@@ -8634,15 +8733,15 @@
 <hr />
 <h2 id="testing-strategy">Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
 <h3 id="test-pyramid">Test Pyramid<a class="headerlink" href="#test-pyramid" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>        ┌─────────────┐
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>        │   Manual    │  10% - Real user testing
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>        └─────────────┘
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>       ┌───────────────┐
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>       │  Integration  │  20% - E2E workflows
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>       └───────────────┘
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>      ┌─────────────────┐
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>      │      Unit       │  70% - Function-level tests
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>      └─────────────────┘
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>        ┌─────────────┐
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>        │   Manual    │  10% - Real user testing
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>        └─────────────┘
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>       ┌───────────────┐
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>       │  Integration  │  20% - E2E workflows
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>       └───────────────┘
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>      ┌─────────────────┐
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>      │      Unit       │  70% - Function-level tests
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>      └─────────────────┘
 </code></pre></div>
 <p><strong>423 Total Tests:</strong>
 - <strong>70% Unit:</strong> Function-level (296 tests)
@@ -8651,49 +8750,49 @@
 <hr />
 <h3 id="test-structure">Test Structure<a class="headerlink" href="#test-structure" title="Permanent link">&para;</a></h3>
 <p><strong>Test Files:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>tests/
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── test-pick-command.zsh           # Unit: 39 tests
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├── test-cc-dispatcher.zsh          # Unit: 37 tests
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>├── test-dot-v5.16.0-unit.zsh       # Unit: 112 tests
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>├── test-teach-dates-unit.zsh       # Unit: 33 tests
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>├── test-teach-dates-integration.zsh # Integration: 16 tests
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>├── e2e-teach-analyze.zsh           # E2E: 29 tests
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>├── interactive-dog-teaching.zsh    # Interactive: 10 tasks
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>└── run-all.sh                      # Test runner
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>tests/
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├── test-pick-command.zsh           # Unit: 39 tests
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├── test-cc-dispatcher.zsh          # Unit: 37 tests
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>├── test-dot-v5.16.0-unit.zsh       # Unit: 112 tests
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>├── test-teach-dates-unit.zsh       # Unit: 33 tests
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>├── test-teach-dates-integration.zsh # Integration: 16 tests
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>├── e2e-teach-analyze.zsh           # E2E: 29 tests
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>├── interactive-dog-teaching.zsh    # Interactive: 10 tasks
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>└── run-all.sh                      # Test runner
 </code></pre></div></p>
 <hr />
 <h3 id="test-patterns">Test Patterns<a class="headerlink" href="#test-patterns" title="Permanent link">&para;</a></h3>
 <p><strong>Unit Test Pattern:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Test setup</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>setup_test<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">TEST_DIR</span><span class="o">=</span><span class="s2">&quot;/tmp/flow-test-</span><span class="nv">$$</span><span class="s2">&quot;</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_DIR</span><span class="s2">&quot;</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="o">}</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Test function</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>test_project_detection<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_DIR</span><span class="s2">&quot;</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;name&quot;: &quot;test&quot;}&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>package.json
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_flow_detect_project_type<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_DIR</span><span class="s2">&quot;</span><span class="k">)</span>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">    </span>assert_equals<span class="w"> </span><span class="s2">&quot;node&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;Should detect Node.js project&quot;</span>
-<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="o">}</span>
-<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
-<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="c1"># Teardown</span>
-<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>teardown_test<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_DIR</span><span class="s2">&quot;</span>
-<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Test setup</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>setup_test<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">TEST_DIR</span><span class="o">=</span><span class="s2">&quot;/tmp/flow-test-</span><span class="nv">$$</span><span class="s2">&quot;</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_DIR</span><span class="s2">&quot;</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="o">}</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Test function</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>test_project_detection<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_DIR</span><span class="s2">&quot;</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;{&quot;name&quot;: &quot;test&quot;}&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>package.json
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_flow_detect_project_type<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_DIR</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span>assert_equals<span class="w"> </span><span class="s2">&quot;node&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;Should detect Node.js project&quot;</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="o">}</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="c1"># Teardown</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>teardown_test<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_DIR</span><span class="s2">&quot;</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="o">}</span>
 </code></pre></div></p>
 <p><strong>Integration Test Pattern:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>test_full_workflow<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span>work<span class="w"> </span>test-project
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="c1"># ... make changes ...</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span>finish<span class="w"> </span><span class="s2">&quot;Test commit&quot;</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span>assert_git_clean
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span>assert_session_complete
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>test_full_workflow<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span>work<span class="w"> </span>test-project
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="c1"># ... make changes ...</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span>finish<span class="w"> </span><span class="s2">&quot;Test commit&quot;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span>assert_git_clean
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span>assert_session_complete
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="o">}</span>
 </code></pre></div></p>
 <hr />
 <h2 id="future-architecture">Future Architecture<a class="headerlink" href="#future-architecture" title="Permanent link">&para;</a></h2>
@@ -8726,17 +8825,17 @@
 - Sandboxed execution</p>
 <hr />
 <p><strong>3. Web Dashboard (v6.1.0)</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>┌─────────────────────────────────────┐
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>│  flow-cli Web Dashboard             │
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>│                                     │
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>│  📊 Projects    🎯 Goals   ⚡ Wins  │
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>│  ├─ Active: 5                       │
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>│  ├─ Paused: 2                       │
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>│  └─ Archive: 12                     │
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>│                                     │
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>│  📈 Progress Charts                 │
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>│  🔥 Streak: 15 days                 │
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>└─────────────────────────────────────┘
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>┌─────────────────────────────────────┐
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>│  flow-cli Web Dashboard             │
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>│                                     │
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>│  📊 Projects    🎯 Goals   ⚡ Wins  │
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>│  ├─ Active: 5                       │
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>│  ├─ Paused: 2                       │
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>│  └─ Archive: 12                     │
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>│                                     │
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>│  📈 Progress Charts                 │
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>│  🔥 Streak: 15 days                 │
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>└─────────────────────────────────────┘
 </code></pre></div>
 <hr />
 <h2 id="design-decisions-log">Design Decisions Log<a class="headerlink" href="#design-decisions-log" title="Permanent link">&para;</a></h2>
