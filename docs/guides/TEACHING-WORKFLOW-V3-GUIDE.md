@@ -17,7 +17,7 @@ tags:
 1. [Overview](#overview)
 2. [What's New in v3.0](#whats-new-in-v30)
 3. [Getting Started](#getting-started)
-4. [Health Checks](#health-checks)
+4. [Health Checks](#health-checks-v2)
 5. [Content Creation Workflow](#content-creation-workflow)
 6. [Deployment Workflow](#deployment-workflow)
 7. [Backup Management](#backup-management)
