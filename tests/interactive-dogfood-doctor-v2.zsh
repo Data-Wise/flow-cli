@@ -151,10 +151,8 @@ source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
 }
 echo "${GREEN}Plugin loaded (v${FLOW_VERSION:-unknown})${RESET}"
 
-# Save full test output for debugging
+# Log file path (output saved via script command, not exec/tee which breaks read)
 LOGFILE="/tmp/interactive-dogfood-v2.log"
-exec > >(tee "$LOGFILE") 2>&1
-echo "${DIM}Full output saved to: $LOGFILE${RESET}"
 
 # =============================================================================
 # PHASE 1: Sandbox Tests
@@ -178,7 +176,34 @@ semester_info:
   start_date: "2026-01-12"
   end_date: "2026-05-01"
   total_weeks: 15
+teaching_style:
+  pedagogical_approach: "problem-based"
+  tone: "conversational"
 YAML
+
+# Git hooks (executable stubs)
+mkdir -p "$SANDBOX_BASE/sandbox/.git/hooks"
+echo '#!/bin/sh' > "$SANDBOX_BASE/sandbox/.git/hooks/pre-commit"
+echo '#!/bin/sh' > "$SANDBOX_BASE/sandbox/.git/hooks/pre-push"
+chmod +x "$SANDBOX_BASE/sandbox/.git/hooks/pre-commit" "$SANDBOX_BASE/sandbox/.git/hooks/pre-push"
+
+# Freeze cache stub
+mkdir -p "$SANDBOX_BASE/sandbox/_freeze/site-libs"
+echo '{}' > "$SANDBOX_BASE/sandbox/_freeze/site-libs/data.json"
+
+# CLAUDE.md with macro mention
+cat > "$SANDBOX_BASE/sandbox/CLAUDE.md" <<'MD'
+# DOGFOOD-101
+## LaTeX Macros
+Use \E for expectation.
+MD
+
+# Macro source file
+cat > "$SANDBOX_BASE/sandbox/_macros.qmd" <<'QMD'
+```{=tex}
+\newcommand{\E}{\mathbb{E}}
+```
+QMD
 
 echo "${GREEN}Sandbox created: $SANDBOX_BASE/sandbox${RESET}"
 cd "$SANDBOX_BASE/sandbox"
