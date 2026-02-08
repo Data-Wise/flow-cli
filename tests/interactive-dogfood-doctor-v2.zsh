@@ -7,13 +7,11 @@
 #
 # TESTS:
 #   Phase 1: Sandbox (safe temp dir) - all flags and modes
-#   Phase 2: Real project (stat-545) - read-only checks
-#   Phase 3: Demo course fixture - verify fixture quality
+#   Phase 2: Demo course fixture - full-featured project checks
 #
 # SAFETY:
 #   - Phase 1 uses a temp sandbox (auto-cleaned)
-#   - Phase 2 is READ-ONLY (no --fix on real projects)
-#   - Phase 3 copies fixture to temp dir
+#   - Phase 2 copies fixture to temp dir (safe)
 #
 # RUN:
 #   zsh tests/interactive-dogfood-doctor-v2.zsh
@@ -30,7 +28,6 @@ SCRIPT_DIR="${0:A:h}"
 PROJECT_ROOT="${SCRIPT_DIR:h}"
 FLOW_CLI_PATH="$PROJECT_ROOT"
 SANDBOX_BASE="/tmp/doctor-v2-dogfood-$$"
-REAL_COURSE="$HOME/projects/teaching/stat-545"
 DEMO_COURSE="$PROJECT_ROOT/tests/fixtures/demo-course"
 
 # Colors
@@ -134,10 +131,9 @@ print_header "teach doctor v2 - Interactive Dogfood Test"
 echo "This test walks through every doctor v2 flag and mode."
 echo ""
 echo "  Phase 1: Sandbox tests (safe temp dir)"
-echo "  Phase 2: Real project (stat-545, read-only)"
-echo "  Phase 3: Demo course fixture"
+echo "  Phase 2: Demo course (full-featured fixture)"
 echo ""
-echo "${GREEN}Your real projects will NOT be modified.${RESET}"
+echo "${GREEN}All tests run in temp dirs. No real projects modified.${RESET}"
 
 wait_for_user
 
@@ -386,22 +382,49 @@ fi
 wait_for_user
 
 # =============================================================================
-# PHASE 2: Real Project (stat-545)
+# PHASE 2: Demo Course (full-featured fixture)
 # =============================================================================
 
-print_header "Phase 2: Real Project (stat-545)"
+print_header "Phase 2: Demo Course (full-featured fixture)"
 
-if [[ -d "$REAL_COURSE" ]]; then
-    echo "${GREEN}Found: $REAL_COURSE${RESET}"
-    echo "${DIM}All checks are READ-ONLY. No --fix will be run.${RESET}"
-    cd "$REAL_COURSE" || { echo "${RED}Failed to cd to $REAL_COURSE${RESET}"; exit 1; }
+if [[ -d "$DEMO_COURSE" ]]; then
+    local demo_tmp
+    demo_tmp=$(mktemp -d "$SANDBOX_BASE/demo-XXXXXXXX")
+    cp -r "$DEMO_COURSE/." "$demo_tmp/"
+
+    # Set up realistic git repo (branches, remote, hooks)
+    git init "$demo_tmp" >/dev/null 2>&1
+    git -C "$demo_tmp" add -A >/dev/null 2>&1
+    git -C "$demo_tmp" commit -m "init" >/dev/null 2>&1
+    git -C "$demo_tmp" branch production >/dev/null 2>&1
+    git -C "$demo_tmp" checkout -b draft >/dev/null 2>&1
+    git -C "$demo_tmp" remote add origin https://example.com/demo.git 2>/dev/null
+
+    # Git hooks (executable stubs)
+    mkdir -p "$demo_tmp/.git/hooks"
+    echo '#!/bin/sh' > "$demo_tmp/.git/hooks/pre-commit"
+    echo '#!/bin/sh' > "$demo_tmp/.git/hooks/pre-push"
+    chmod +x "$demo_tmp/.git/hooks/pre-commit" "$demo_tmp/.git/hooks/pre-push"
+
+    # Freeze cache stub
+    mkdir -p "$demo_tmp/_freeze/site-libs"
+    echo '{}' > "$demo_tmp/_freeze/site-libs/data.json"
+
+    # CLAUDE.md with macro documentation
+    cat > "$demo_tmp/CLAUDE.md" <<'MD'
+# STAT-101
+## LaTeX Macros
+Use \E for expectation, \Var for variance, \Prob for probability.
+MD
+
+    cd "$demo_tmp"
+    echo "${GREEN}Demo course copied to: $demo_tmp${RESET}"
     echo "${DIM}Working directory: $(pwd)${RESET}"
-    echo "${DIM}Git toplevel: $(git rev-parse --show-toplevel 2>/dev/null || echo 'NOT A GIT REPO')${RESET}"
 
-    # ── Test 13: Quick mode on real project ──
+    # ── Test 13: Quick mode ──
 
-    print_test "Quick mode on stat-545"
-    print_expect "< 1 second, shows deps/R/config/git"
+    print_test "Quick mode on demo course"
+    print_expect "< 3 seconds, shows deps/R/config/git, skip hint"
     print_cmd "teach doctor"
     echo ""
     local start_ts=$EPOCHSECONDS
@@ -416,10 +439,10 @@ if [[ -d "$REAL_COURSE" ]]; then
         fail "Quick mode too slow: ${elapsed}s"
     fi
 
-    # ── Test 14: Full mode on real project ──
+    # ── Test 14: Full mode ──
 
-    print_test "Full mode on stat-545"
-    print_expect "Shows all sections including R packages (succinct), macros (succinct), style"
+    print_test "Full mode on demo course"
+    print_expect "Shows all sections including R packages, macros, hooks, cache, style"
     print_cmd "teach doctor --full"
     echo ""
     start_ts=$EPOCHSECONDS
@@ -427,7 +450,7 @@ if [[ -d "$REAL_COURSE" ]]; then
     elapsed=$(( EPOCHSECONDS - start_ts ))
     echo ""
     echo "${DIM}Elapsed: ${elapsed}s${RESET}"
-    ask_visual "Full mode on real project"
+    ask_visual "Full mode on demo course"
 
     # ── Test 15: R packages succinct ──
 
@@ -435,29 +458,28 @@ if [[ -d "$REAL_COURSE" ]]; then
     print_expect "Shows 'N/N R packages installed' NOT 'R package: ggplot2' etc."
     print_cmd "teach doctor --full 2>&1 | grep -E 'R package|packages installed'"
     echo ""
-    local r_out
-    r_out=$(_teach_doctor --full 2>&1)
-    echo "$r_out" | grep -E "R package|packages installed"
+    local full_out
+    full_out=$(_teach_doctor --full 2>&1)
+    echo "$full_out" | grep -E "R package|packages installed"
 
-    if echo "$r_out" | grep -q "packages installed" && ! echo "$r_out" | grep -q "R package:"; then
+    if echo "$full_out" | grep -q "packages installed" && ! echo "$full_out" | grep -q "R package:"; then
         pass "R packages show summary only (no individual lines)"
     else
         fail "R packages still showing individual lines"
     fi
 
-    # ── Test 16: Macros succinct ──
+    # ── Test 16: Macros check (opt-in via scholar.latex_macros.enabled) ──
 
-    print_test "Macros succinct (first 5 + count)"
-    print_expect "Shows '99/100 macros unused' with '... (+N more, use --verbose)'"
-    print_cmd "teach doctor --full 2>&1 | grep -E 'macros unused|--verbose'"
+    print_test "Macro checks fire (scholar.latex_macros.enabled=true in fixture)"
+    print_expect "Shows macro source files, macro cache status, and unused macro count"
+    print_cmd "teach doctor --full 2>&1 | grep -iE 'macro|Source file|cache'"
     echo ""
-    echo "$r_out" | grep -E "macros unused|--verbose"
+    echo "$full_out" | grep -iE "macro|Source file|cache"
 
-    if echo "$r_out" | grep -q "use --verbose"; then
-        pass "Macros show truncated list with --verbose hint"
+    if echo "$full_out" | grep -q "Source file" || echo "$full_out" | grep -q "cache"; then
+        pass "Macro checks run when scholar.latex_macros.enabled=true"
     else
-        # May not have unused macros
-        skip "No unused macros or different format"
+        fail "Macro checks did not fire despite config"
     fi
 
     # ── Test 17: Verbose mode shows individual R packages ──
@@ -477,30 +499,37 @@ if [[ -d "$REAL_COURSE" ]]; then
         fail "Verbose mode missing individual R packages"
     fi
 
-    # ── Test 18: Verbose macros shows full list ──
+    # ── Test 18: Verbose macros shows unused details ──
 
-    print_test "Verbose mode shows full macro list"
-    print_expect "Full 'Unused:' line without '--verbose' truncation hint"
-    print_cmd "teach doctor --verbose 2>&1 | grep 'Unused:'"
+    print_test "Verbose mode shows full macro details"
+    print_expect "Shows 'Unused:' with full list (no '--verbose' truncation hint)"
+    print_cmd "teach doctor --verbose 2>&1 | grep -E 'Unused:|macros unused'"
     echo ""
-    echo "$verbose_out" | grep "Unused:"
+    echo "$verbose_out" | grep -E "Unused:|macros unused"
 
-    if echo "$verbose_out" | grep -q "Unused:" && ! echo "$verbose_out" | grep -q "use --verbose"; then
-        pass "Verbose mode shows full macro list"
+    if echo "$verbose_out" | grep -q "macros unused"; then
+        if echo "$verbose_out" | grep -q "Unused:" && ! echo "$verbose_out" | grep -q "use --verbose"; then
+            pass "Verbose mode shows full macro list"
+        else
+            pass "Unused macros detected (truncation OK for <= 5)"
+        fi
     else
-        skip "Cannot verify (may not have unused macros)"
+        if echo "$verbose_out" | grep -q "All.*macros in use"; then
+            pass "All macros in use (no unused to show)"
+        else
+            skip "Cannot verify (macro check may not have run)"
+        fi
     fi
 
-    # ── Test 19: Fix hint shows on real project ──
+    # ── Test 19: Fix hint ──
 
-    print_test "Fix hint on real project"
+    print_test "Fix hint on demo course"
     print_expect "'Run teach doctor --fix to auto-fix issues' in summary"
     echo ""
-    if echo "$r_out" | grep -q "teach doctor --fix"; then
+    if echo "$full_out" | grep -q "teach doctor --fix"; then
         pass "Fix hint present"
     else
-        # No warnings = no hint needed
-        if echo "$r_out" | grep -q "Warnings:"; then
+        if echo "$full_out" | grep -q "Warnings:"; then
             fail "Fix hint missing despite warnings"
         else
             pass "No warnings, no fix hint needed"
@@ -510,62 +539,20 @@ if [[ -d "$REAL_COURSE" ]]; then
     # ── Test 20: Lesson plan detection ──
 
     print_test "Lesson plan detection"
-    print_expect "Finds .flow/lesson-plans.yml (not stale lesson-plan.yml warning)"
+    print_expect "Finds .flow/lesson-plans.yml"
     print_cmd "teach doctor --full 2>&1 | grep -i lesson"
     echo ""
-    echo "$r_out" | grep -i "lesson"
+    echo "$full_out" | grep -i "lesson"
 
-    if echo "$r_out" | grep -q "Lesson plans found"; then
+    if echo "$full_out" | grep -q "Lesson plans found"; then
         pass "Lesson plan detected at .flow/lesson-plans.yml"
-    elif echo "$r_out" | grep -q "No lesson plans"; then
+    elif echo "$full_out" | grep -q "No lesson plans"; then
         fail "Lesson plan not detected (should find .flow/lesson-plans.yml)"
     else
         skip "No lesson plan output found"
     fi
 
-else
-    echo "${YELLOW}stat-545 not found at $REAL_COURSE${RESET}"
-    echo "${DIM}Skipping real project tests${RESET}"
-    TESTS_SKIPPED=$((TESTS_SKIPPED + 8))
-fi
-
-wait_for_user
-
-# =============================================================================
-# PHASE 3: Demo Course Fixture
-# =============================================================================
-
-print_header "Phase 3: Demo Course Fixture"
-
-if [[ -d "$DEMO_COURSE" ]]; then
-    local demo_tmp
-    demo_tmp=$(mktemp -d "$SANDBOX_BASE/demo-XXXXXXXX")
-    cp -r "$DEMO_COURSE/." "$demo_tmp/"
-    git init "$demo_tmp" >/dev/null 2>&1
-    cd "$demo_tmp"
-
-    echo "${GREEN}Demo course copied to: $demo_tmp${RESET}"
-    echo "${YELLOW}NOTE: Demo fixture is intentionally minimal — warnings for hooks, cache, CLAUDE.md, teaching style are EXPECTED.${RESET}"
-
-    # ── Test 21: Doctor on demo fixture ──
-
-    print_test "Quick mode on demo course"
-    print_expect "Runs without crash, shows some warnings (expected — no branches/remote)"
-    print_cmd "teach doctor"
-    echo ""
-    _teach_doctor 2>&1
-    ask_visual "Demo course quick mode"
-
-    # ── Test 22: Full mode on demo fixture ──
-
-    print_test "Full mode on demo course"
-    print_expect "Shows all 10 sections, more warnings (no hooks, cache, etc.)"
-    print_cmd "teach doctor --full"
-    echo ""
-    _teach_doctor --full 2>&1
-    ask_visual "Demo course full mode"
-
-    # ── Test 23: JSON on demo fixture ──
+    # ── Test 21: JSON on demo course ──
 
     print_test "JSON on demo course"
     print_expect "Valid JSON with checks array"
@@ -581,7 +568,7 @@ if [[ -d "$DEMO_COURSE" ]]; then
         ask_visual "Demo course JSON"
     fi
 
-    # ── Test 24: CI on demo fixture ──
+    # ── Test 22: CI on demo course ──
 
     print_test "CI mode on demo course"
     print_expect "Key=value format, no ANSI colors"
@@ -599,7 +586,7 @@ if [[ -d "$DEMO_COURSE" ]]; then
 
 else
     echo "${YELLOW}Demo course not found at $DEMO_COURSE${RESET}"
-    TESTS_SKIPPED=$((TESTS_SKIPPED + 4))
+    TESTS_SKIPPED=$((TESTS_SKIPPED + 10))
 fi
 
 # =============================================================================

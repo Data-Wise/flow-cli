@@ -1059,9 +1059,9 @@ _teach_doctor_check_macros() {
         json_results+=("{\"check\":\"macro_sources\",\"status\":\"pass\",\"message\":\"${#sources} source(s) found\"}")
     fi
 
-    # 2. Check config sync (.flow/macros.yml cache) — only if scholar.latex_macros is configured
+    # 2. Check config sync (.flow/macros/cache.yml) — only if scholar.latex_macros is configured
     local cache_dir=".flow/macros"
-    local cache_file="$cache_dir/macros.yml"
+    local cache_file="$cache_dir/cache.yml"
     local macros_configured=false
 
     # Only check cache if the user opted into the teach macros sync workflow
