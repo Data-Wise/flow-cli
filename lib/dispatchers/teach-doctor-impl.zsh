@@ -1117,8 +1117,8 @@ _teach_doctor_check_macros() {
         json_results+=("{\"check\":\"claudemd_macros\",\"status\":\"warn\",\"message\":\"file not found\"}")
     fi
 
-    # 4. Check for unused macros (optional warning)
-    if (( ${#sources} > 0 )); then
+    # 4. Check for unused macros — only if scholar.latex_macros workflow is configured
+    if [[ "$macros_configured" == "true" ]] && (( ${#sources} > 0 )); then
         # Load macros first
         _flow_clear_macros 2>/dev/null
         for src in "${sources[@]}"; do
