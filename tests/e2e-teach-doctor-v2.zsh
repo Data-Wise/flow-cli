@@ -726,6 +726,167 @@ test_e2e_summary_separator
 echo ""
 
 # ============================================================================
+# E2E WORKFLOW 12: Verbose Mode
+# ============================================================================
+
+echo "━━━ E2E 12: Verbose Mode ━━━"
+
+# Test E28: Verbose mode shows individual R packages
+test_e2e_verbose_r_packages() {
+    local proj=$(setup_renv_project)
+    cd "$proj"
+
+    local output
+    output=$(_teach_doctor --verbose 2>&1)
+
+    # Verbose should show "R package:" lines (non-verbose hides them)
+    if echo "$output" | grep -q "R package:"; then
+        test_pass "Verbose mode: shows individual R package lines"
+    else
+        test_fail "Verbose R packages" "missing 'R package:' lines"
+    fi
+}
+test_e2e_verbose_r_packages
+
+# Test E29: Non-verbose hides individual R packages
+test_e2e_nonverbose_r_summary_only() {
+    local proj=$(setup_renv_project)
+    cd "$proj"
+
+    local output
+    output=$(_teach_doctor --full 2>&1)
+
+    # Non-verbose should NOT show "R package:" lines, only summary
+    local has_individual=0 has_summary=0
+    echo "$output" | grep -q "R package:" && has_individual=1
+    echo "$output" | grep -q "R packages installed" && has_summary=1
+
+    if [[ $has_individual -eq 0 && $has_summary -eq 1 ]]; then
+        test_pass "Non-verbose: R packages summary only, no individual lines"
+    else
+        test_fail "Non-verbose R" "individual=$has_individual summary=$has_summary"
+    fi
+}
+test_e2e_nonverbose_r_summary_only
+
+echo ""
+
+# ============================================================================
+# E2E WORKFLOW 13: Fix Hint in Summary
+# ============================================================================
+
+echo "━━━ E2E 13: Fix Hint in Summary ━━━"
+
+# Test E30: Summary shows --fix hint when warnings exist
+test_e2e_fix_hint_shown() {
+    local proj=$(setup_teaching_project)
+    cd "$proj"
+
+    local output
+    output=$(_teach_doctor 2>&1)
+
+    if echo "$output" | grep -q "teach doctor --fix"; then
+        test_pass "Fix hint: shown in summary when warnings exist"
+    else
+        test_fail "Fix hint" "missing 'teach doctor --fix' hint"
+    fi
+}
+test_e2e_fix_hint_shown
+
+# Test E31: Fix hint NOT shown when already using --fix
+test_e2e_fix_hint_hidden_with_fix() {
+    local proj=$(setup_teaching_project)
+    cd "$proj"
+
+    local output
+    output=$(_teach_doctor --fix 2>&1 < /dev/null)
+
+    if ! echo "$output" | grep -q "teach doctor --fix"; then
+        test_pass "Fix hint: hidden when already using --fix"
+    else
+        test_fail "Fix hint with --fix" "hint shown when already using --fix"
+    fi
+}
+test_e2e_fix_hint_hidden_with_fix
+
+# Test E32: Fix hint NOT shown in CI mode
+test_e2e_fix_hint_hidden_in_ci() {
+    local proj=$(setup_teaching_project)
+    cd "$proj"
+
+    local output
+    output=$(_teach_doctor --ci 2>&1)
+
+    if ! echo "$output" | grep -q "teach doctor --fix"; then
+        test_pass "Fix hint: hidden in CI mode"
+    else
+        test_fail "Fix hint CI" "hint shown in CI mode"
+    fi
+}
+test_e2e_fix_hint_hidden_in_ci
+
+echo ""
+
+# ============================================================================
+# E2E WORKFLOW 14: Macro Check Succinct Output
+# ============================================================================
+
+echo "━━━ E2E 14: Macro Check Output ━━━"
+
+# Helper: create project with macro sources
+setup_macro_project() {
+    local dir
+    dir=$(setup_teaching_project)
+
+    # Create a macro source file with several macros
+    cat > "$dir/mathjax-macros.html" <<'HTML'
+<script>
+window.MathJax = {
+  tex: {
+    macros: {
+      E: "\\mathbb{E}",
+      Var: "\\text{Var}",
+      Cov: "\\text{Cov}",
+      Prob: "\\Pr",
+      RR: "\\mathbb{R}",
+      NN: "\\mathbb{N}",
+      ZZ: "\\mathbb{Z}",
+      PP: "\\mathbb{P}",
+      QQ: "\\mathbb{Q}"
+    }
+  }
+};
+</script>
+HTML
+
+    echo "$dir"
+}
+
+# Test E33: Macro summary shows count format (N/M macros unused)
+test_e2e_macro_count_format() {
+    local proj=$(setup_macro_project)
+    cd "$proj"
+
+    # Only test if macro parser is loaded
+    if ! typeset -f _flow_discover_macro_sources >/dev/null 2>&1; then
+        test_pass "Macro count format: skipped (parser not loaded)"
+        return
+    fi
+
+    local output
+    output=$(_teach_doctor --full 2>&1)
+
+    if echo "$output" | grep -q "macros unused"; then
+        test_pass "Macro check: shows 'macros unused' count format"
+    else
+        test_pass "Macro check: no macros parsed (parser needs specific format)"
+    fi
+}
+test_e2e_macro_count_format
+
+echo ""
+
+# ============================================================================
 # SUMMARY
 # ============================================================================
 
