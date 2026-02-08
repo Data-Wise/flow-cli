@@ -157,10 +157,13 @@ echo "${GREEN}Plugin loaded (v${FLOW_VERSION:-unknown})${RESET}"
 
 print_header "Phase 1: Sandbox Tests (all flags)"
 
-# Create sandbox
+# Create sandbox (need initial commit before checkout -b works)
 mkdir -p "$SANDBOX_BASE/sandbox/.flow"
 git init "$SANDBOX_BASE/sandbox" >/dev/null 2>&1
+git -C "$SANDBOX_BASE/sandbox" commit --allow-empty -m "init" >/dev/null 2>&1
+git -C "$SANDBOX_BASE/sandbox" branch production >/dev/null 2>&1
 git -C "$SANDBOX_BASE/sandbox" checkout -b draft >/dev/null 2>&1
+git -C "$SANDBOX_BASE/sandbox" remote add origin https://example.com/test.git 2>/dev/null
 
 cat > "$SANDBOX_BASE/sandbox/.flow/teach-config.yml" <<'YAML'
 course:
@@ -361,7 +364,9 @@ print_header "Phase 2: Real Project (stat-545)"
 if [[ -d "$REAL_COURSE" ]]; then
     echo "${GREEN}Found: $REAL_COURSE${RESET}"
     echo "${DIM}All checks are READ-ONLY. No --fix will be run.${RESET}"
-    cd "$REAL_COURSE"
+    cd "$REAL_COURSE" || { echo "${RED}Failed to cd to $REAL_COURSE${RESET}"; exit 1; }
+    echo "${DIM}Working directory: $(pwd)${RESET}"
+    echo "${DIM}Git toplevel: $(git rev-parse --show-toplevel 2>/dev/null || echo 'NOT A GIT REPO')${RESET}"
 
     # ── Test 13: Quick mode on real project ──
 
