@@ -29,6 +29,17 @@ scholar:
         format: "qmd"
     auto_discover: false
 
+teaching_style:
+  pedagogical_approach:
+    primary: "conceptual"
+    methods:
+      - "worked-examples"
+      - "think-pair-share"
+  tone: "encouraging"
+  command_overrides:
+    exam: "Focus on conceptual understanding over computation"
+    quiz: "Include real-world examples"
+
 semester_info:
   start_date: '2026-08-26'
   end_date: '2026-12-15'

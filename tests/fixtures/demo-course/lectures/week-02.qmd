@@ -47,9 +47,10 @@ Probability quantifies the likelihood of events occurring.
 
 ### Fundamental Rules
 
-- **Range**: $0 \leq P(A) \leq 1$
-- **Complement**: $P(\text{not } A) = 1 - P(A)$
-- **Addition**: $P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$
+- **Range**: $0 \leq \Prob{A} \leq 1$
+- **Complement**: $\Prob{\text{not } A} = 1 - \Prob{A}$
+- **Conditional**: $\Prob{A \given B} = \frac{\Prob{A \text{ and } B}}{\Prob{B}}$
+- **Addition**: $\Prob{A \text{ or } B} = \Prob{A} + \Prob{B} - \Prob{A \text{ and } B}$
 
 ```{r}
 # Simulate coin flips
@@ -80,9 +81,9 @@ Making conclusions about populations based on sample data.
 
 ### Key Concepts
 
-- **Point Estimation**: Single best guess
+- **Point Estimation**: Single best guess for $\E{X}$
 - **Confidence Intervals**: Range of plausible values
-- **Hypothesis Testing**: Evaluating claims
+- **Hypothesis Testing**: Evaluating $\Ho$ vs $\Ha$
 
 ```{r}
 # Confidence interval for mean

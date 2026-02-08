@@ -163,13 +163,12 @@ run_test "Load guard variable set" '
 echo ""
 
 # ============================================================================
-# SECTION 2: _teach_find_style_source (no teaching_style in demo)
+# SECTION 2: _teach_find_style_source (style detection in demo)
 # ============================================================================
 echo "${CYAN}━━━ Section 2: Style Source Detection ━━━${RESET}"
 
-run_test "Demo course: no teaching_style returns failure" '
-    _teach_find_style_source "$DEMO_COURSE" &>/dev/null && return 1
-    return 0
+run_test "Demo course: teaching_style detected in config" '
+    _teach_find_style_source "$DEMO_COURSE" &>/dev/null
 '
 
 run_test "Nonexistent dir returns failure" '
