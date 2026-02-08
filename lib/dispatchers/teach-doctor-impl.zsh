@@ -1059,38 +1059,45 @@ _teach_doctor_check_macros() {
         json_results+=("{\"check\":\"macro_sources\",\"status\":\"pass\",\"message\":\"${#sources} source(s) found\"}")
     fi
 
-    # 2. Check config sync (.flow/macros.yml cache)
+    # 2. Check config sync (.flow/macros.yml cache) — only if scholar.latex_macros is configured
     local cache_dir=".flow/macros"
     local cache_file="$cache_dir/macros.yml"
+    local macros_configured=false
 
-    if [[ -f "$cache_file" ]]; then
-        # Check if cache is up to date by comparing mtime with source files
-        local cache_mtime=0
+    # Only check cache if the user opted into the teach macros sync workflow
+    if [[ -f ".flow/teach-config.yml" ]] && command -v yq &>/dev/null; then
+        local macro_cfg
+        macro_cfg=$(yq '.scholar.latex_macros.enabled // ""' .flow/teach-config.yml 2>/dev/null)
+        [[ "$macro_cfg" == "true" ]] && macros_configured=true
+    fi
+    # Also consider it configured if cache already exists
+    [[ -f "$cache_file" ]] && macros_configured=true
+
+    if [[ "$macros_configured" == "true" ]]; then
         if [[ -f "$cache_file" ]]; then
+            local cache_mtime=0
             cache_mtime=$(stat -f %m "$cache_file" 2>/dev/null || stat -c %Y "$cache_file" 2>/dev/null || echo 0)
-        fi
 
-        local stale=0
-        for src in "${sources[@]}"; do
-            if [[ -f "$src" ]]; then
-                local src_mtime
-                src_mtime=$(stat -f %m "$src" 2>/dev/null || stat -c %Y "$src" 2>/dev/null || echo 0)
-                if (( src_mtime > cache_mtime )); then
-                    stale=1
-                    break
+            local stale=0
+            for src in "${sources[@]}"; do
+                if [[ -f "$src" ]]; then
+                    local src_mtime
+                    src_mtime=$(stat -f %m "$src" 2>/dev/null || stat -c %Y "$src" 2>/dev/null || echo 0)
+                    if (( src_mtime > cache_mtime )); then
+                        stale=1
+                        break
+                    fi
                 fi
-            fi
-        done
+            done
 
-        if (( stale )); then
-            _teach_doctor_warn "Config cache out of date" "Run: teach macros sync"
-            json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"out of date\"}")
+            if (( stale )); then
+                _teach_doctor_warn "Macro cache out of date" "Run: teach macros sync"
+                json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"out of date\"}")
+            else
+                _teach_doctor_pass "Macro cache up to date"
+                json_results+=("{\"check\":\"macro_cache\",\"status\":\"pass\",\"message\":\"up to date\"}")
+            fi
         else
-            _teach_doctor_pass "Config cache up to date"
-            json_results+=("{\"check\":\"macro_cache\",\"status\":\"pass\",\"message\":\"up to date\"}")
-        fi
-    else
-        if (( ${#sources} > 0 )); then
             _teach_doctor_warn "No macro cache found" "Run: teach macros sync"
             json_results+=("{\"check\":\"macro_cache\",\"status\":\"warn\",\"message\":\"not found\"}")
         fi
