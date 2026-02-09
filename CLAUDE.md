@@ -147,7 +147,7 @@ v <cmd>       # Vibe coding mode
 
 ### Teaching Subcommands
 
-`teach analyze`, `teach init`, `teach deploy`, `teach doctor`, `teach exam`, `teach macros`, `teach plan`, `teach style`, `teach templates`, `teach prompt`
+`teach analyze`, `teach init`, `teach deploy`, `teach doctor`, `teach exam`, `teach macros`, `teach map`, `teach plan`, `teach style`, `teach templates`, `teach prompt`
 
 - **Doctor (v2):** Two-mode architecture — quick (default, < 3s) and full (`--full`, 11 categories)
   - Quick mode: CLI deps, R + renv, config, git (4 categories)

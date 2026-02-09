@@ -661,6 +661,12 @@ teach deploy
 # Show help
 teach help
 # Output: [Teaching dispatcher help]
+
+# Ecosystem map (v6.6.0) — all commands across flow-cli + Scholar + Craft
+teach map
+# Output: Grouped view of all teaching commands by workflow phase
+#         Shows which tool provides each command
+#         Dims commands from uninstalled tools
 ```
 
 ---

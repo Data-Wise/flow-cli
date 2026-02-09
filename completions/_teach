@@ -56,6 +56,8 @@ _teach() {
     # AI prompt management (v5.23.0)
     'prompt:Manage AI teaching prompts'
     'pr:Prompt (alias)'
+    # Ecosystem discovery (v6.6.0)
+    'map:Show teaching ecosystem map'
   )
 
   # Universal flags for Scholar commands (v5.13.0+ with Phases 1-6)
@@ -193,7 +195,7 @@ _teach() {
         deploy|d|archive|a)
           # No additional arguments
           ;;
-        config|c|status|s|week|w|help)
+        config|c|status|s|week|w|help|map)
           # No additional arguments
           ;;
         # Template management (v5.20.0)

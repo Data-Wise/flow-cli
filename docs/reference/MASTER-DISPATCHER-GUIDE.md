@@ -1435,6 +1435,8 @@ Forces fresh token check on next `flow doctor --dot`.
 
 > **Quick Links:** [All Commands Reference](REFCARD-TEACH-DISPATCHER.md) | [Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md) | [Config Schema](TEACH-CONFIG-SCHEMA.md) | [Deploy Guide](../guides/TEACH-DEPLOY-GUIDE.md)
 
+> **Tip:** Run `teach map` to see every teaching command across flow-cli, Scholar, and Craft in one view.
+
 ### Basics (Beginner)
 
 **What it does:** Manages teaching workflow with AI-powered course tools via Scholar integration.
@@ -1492,6 +1494,42 @@ Deploys to GitHub Pages.
 ---
 
 ### Intermediate
+
+#### Ecosystem Map (v6.6.0)
+
+**Discover all teaching commands across tools:**
+```bash
+teach map
+```
+
+Output:
+```
+╭─────────────────────────────────────────────╮
+│ teach map -- Teaching Ecosystem              │
+╰─────────────────────────────────────────────╯
+
+ Tools: flow-cli  scholar  craft
+
+ SETUP & CONFIGURATION
+  teach init [name]           Initialize project          [flow-cli]
+  teach config                Edit configuration          [flow-cli]
+  teach doctor [--fix]        Health check                [flow-cli]
+  ...
+
+ CONTENT GENERATION                              [scholar]
+  teach lecture <topic>     Lecture notes
+  teach slides <topic>      Presentation slides
+  ...
+
+ DEPLOYMENT
+  teach deploy [--preview]    Deploy course site          [flow-cli]
+  /craft:site:publish         Full publish workflow       [craft]
+  ...
+```
+
+Shows commands grouped by workflow phase. Commands from uninstalled tools appear dimmed with install hints. Slash commands (`/craft:*`, `/scholar:*`) run inside Claude Code.
+
+---
 
 #### Content Analysis (AI-Powered)
 
@@ -2067,6 +2105,9 @@ qu preview
 - `teach doctor --brief` - Warnings and failures only
 - `teach doctor --json` - Machine-readable JSON
 - `teach doctor --ci` - CI mode: no color, exit 1 on failure
+
+**Ecosystem Map (v6.6.0):**
+- `teach map` - Show all teaching commands across flow-cli, Scholar, and Craft
 
 **Help:**
 - `teach help` - Show help
