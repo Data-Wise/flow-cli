@@ -34,20 +34,20 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 
 ## What's New
 
-### v6.4.2 (2026-02-04)
+### Teach Doctor v2
 
-- **Docs Cleanup** - Removed 54 orphaned pages, created `docs/internal/` for conventions
-- **Deploy Progress** - `[1/5]..[5/5]` numbered steps + deployment summary box
-- **Deploy v2** - Direct merge (8-15s), smart commits, history, rollback, dry-run, CI mode
-- **Help Compliance** - All 12 dispatchers standardized against conventions
-- **Teaching Style** - Consolidated `teaching_style:` config in `.flow/teach-config.yml`
-- **Token Automation** - Isolated checks (`doctor --dot`), smart caching, 20x faster
+- **Two-Mode Health Check** - Quick (< 3s, 4 categories) or full (`--full`, 11 categories)
+- **Health Indicator** - Green/yellow/red dot on `teach` startup
+- **Smart Fixes** - `--fix` with renv vs system install choice for R packages
+- **CI Mode** - `--ci` for pipelines (no color, exit 1 on failure)
+- **Batch R Checks** - Single R call instead of N individual checks
+- **renv-Aware** - Detects renv activation, reports lockfile package count
 
 ```bash
-teach deploy -d              # Direct deploy (8-15s)
-teach deploy --dry-run       # Preview before deploying
-teach deploy --history       # View past deploys
-teach deploy --rollback 1    # Undo last deploy
+teach doctor                 # Quick check (< 3s)
+teach doctor --full          # All 11 categories
+teach doctor --fix           # Interactive fix mode
+teach doctor --ci --full     # CI pipeline mode
 ```
 
 [Full Changelog](docs/CHANGELOG.md) | [All Releases](https://github.com/Data-Wise/flow-cli/releases)

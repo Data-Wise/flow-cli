@@ -10,8 +10,8 @@ tags:
 **Purpose:** Complete reference for all 12 flow-cli dispatchers
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v6.4.3
+**Last Updated:** 2026-02-08
 
 ---
 
@@ -2464,7 +2464,7 @@ als           # List all aliases by category
 
 ---
 
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v6.4.3
+**Last Updated:** 2026-02-08
 **Total:** 12 dispatchers fully documented
 **Lines:** 3,000+ lines
