@@ -228,4 +228,4 @@ teach plan help
 ---
 
 **Last Updated:** 2026-02-08
-**Version:** v6.4.3
+**Version:** v6.5.0
