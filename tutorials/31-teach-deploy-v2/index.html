@@ -2368,6 +2368,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#step-8-safety-features-v660" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8: Safety Features (v6.6.0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 8: Safety Features (v6.6.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-with-uncommitted-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy with Uncommitted Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recover-from-hook-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recover from Hook Failures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-with-actions-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitor with Actions Link
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branch-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branch Safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-you-learned" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7426,6 +7487,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#step-8-safety-features-v660" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8: Safety Features (v6.6.0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 8: Safety Features (v6.6.0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deploy-with-uncommitted-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy with Uncommitted Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recover-from-hook-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recover from Hook Failures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-with-actions-link" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitor with Actions Link
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branch-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Branch Safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-you-learned" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7573,7 +7695,8 @@
 <a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>│  ⏱  Duration: 12s                                     │
 <a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>│  🔀 Commit:   a3f8d92                                 │
 <a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>│  🌐 URL:      https://example.github.io/stat-101/    │
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>╰──────────────────────────────────────────────────────╯
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>│  ⚙  Actions:  https://github.com/user/stat-101/actions│
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>╰──────────────────────────────────────────────────────╯
 </code></pre></div>
 <p>Use <code>-d</code> as a shortcut for <code>--direct</code>.</p>
 <h2 id="step-2-smart-commit-messages">Step 2: Smart Commit Messages<a class="headerlink" href="#step-2-smart-commit-messages" title="Permanent link">&para;</a></h2>
@@ -7756,6 +7879,36 @@
 </tr>
 </tbody>
 </table>
+<h2 id="step-8-safety-features-v660">Step 8: Safety Features (v6.6.0)<a class="headerlink" href="#step-8-safety-features-v660" title="Permanent link">&para;</a></h2>
+<h3 id="deploy-with-uncommitted-changes">Deploy with Uncommitted Changes<a class="headerlink" href="#deploy-with-uncommitted-changes" title="Permanent link">&para;</a></h3>
+<p>No need to commit manually first. If you have unsaved work:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Edit a file, then deploy without committing</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>vim<span class="w"> </span>lectures/week-05.qmd
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d
+</code></pre></div>
+<p>Deploy detects the dirty tree and prompts:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>  Uncommitted changes detected
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>  Suggested: content: week-05 lecture
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>  Commit and continue? [Y/n]:
+</code></pre></div>
+<p>Press Enter to auto-commit and deploy in one step.</p>
+<h3 id="recover-from-hook-failures">Recover from Hook Failures<a class="headerlink" href="#recover-from-hook-failures" title="Permanent link">&para;</a></h3>
+<p>If your Quarto pre-commit hook fails during the auto-commit:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>  ERROR: Commit failed (likely pre-commit hook)
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>  Options:
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>    1. Fix issues, then teach deploy again
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>    2. Skip: QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>    3. Force: git commit --no-verify -m &quot;message&quot;
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>  Changes are still staged.
+</code></pre></div>
+<p>Option 2 is useful for urgent deploys when you know the content is correct.</p>
+<h3 id="monitor-with-actions-link">Monitor with Actions Link<a class="headerlink" href="#monitor-with-actions-link" title="Permanent link">&para;</a></h3>
+<p>After deploying, click the <strong>Actions</strong> link in the summary box to monitor your GitHub Actions pipeline directly.</p>
+<h3 id="branch-safety">Branch Safety<a class="headerlink" href="#branch-safety" title="Permanent link">&para;</a></h3>
+<p>If you press Ctrl+C mid-deploy or an error occurs, you're automatically returned to your draft branch. No manual recovery needed.</p>
 <h2 id="what-you-learned">What You Learned<a class="headerlink" href="#what-you-learned" title="Permanent link">&para;</a></h2>
 <p>You now know how to:</p>
 <ol>
@@ -7767,6 +7920,9 @@
 <li>✅ Automate deployments with <code>--ci</code></li>
 <li>✅ Combine flags for powerful workflows</li>
 <li>✅ Choose between direct and PR modes</li>
+<li>✅ Deploy with uncommitted changes (auto-commit prompt)</li>
+<li>✅ Recover from pre-commit hook failures</li>
+<li>✅ Monitor deployments via GitHub Actions link</li>
 </ol>
 <h2 id="tips">Tips<a class="headerlink" href="#tips" title="Permanent link">&para;</a></h2>
 <ul>
@@ -7776,12 +7932,12 @@
 <li><strong>Automate wisely.</strong> Use <code>--ci</code> for scripts, but keep <code>--direct</code> for manual deploys.</li>
 </ul>
 <h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>teach<span class="w"> </span>dep<span class="w"> </span>-d<span class="w">              </span><span class="c1"># Fast direct deploy</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>teach<span class="w"> </span>dep<span class="w"> </span>--dry-run<span class="w">       </span><span class="c1"># Preview changes</span>
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>teach<span class="w"> </span>dep<span class="w"> </span>--history<span class="w">       </span><span class="c1"># View past deploys</span>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>teach<span class="w"> </span>dep<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">    </span><span class="c1"># Undo last deploy</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>teach<span class="w"> </span>dep<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w">         </span><span class="c1"># CI mode</span>
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>teach<span class="w"> </span>dep<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">     </span><span class="c1"># Custom message</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>teach<span class="w"> </span>dep<span class="w"> </span>-d<span class="w">              </span><span class="c1"># Fast direct deploy</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>teach<span class="w"> </span>dep<span class="w"> </span>--dry-run<span class="w">       </span><span class="c1"># Preview changes</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>teach<span class="w"> </span>dep<span class="w"> </span>--history<span class="w">       </span><span class="c1"># View past deploys</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>teach<span class="w"> </span>dep<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">    </span><span class="c1"># Undo last deploy</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>teach<span class="w"> </span>dep<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w">         </span><span class="c1"># CI mode</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>teach<span class="w"> </span>dep<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">     </span><span class="c1"># Custom message</span>
 </code></pre></div>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
@@ -7791,7 +7947,7 @@
 <li>Explore <code>teach deploy --rollback</code> for safe recovery</li>
 </ul>
 <hr />
-<p><em>v6.4.1 - teach deploy v2 command</em></p>
+<p><em>v6.6.0 - teach deploy v2 with safety enhancements</em></p>
 
 
 
