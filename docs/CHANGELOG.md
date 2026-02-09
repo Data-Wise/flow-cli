@@ -6,6 +6,33 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **Teach Doctor v2** — two-mode health check architecture (PR #360)
+  - Quick mode (default, < 3s): CLI deps, R + renv, config, git (4 categories)
+  - Full mode (`--full`): all 11 categories including per-package R checks, quarto ext, scholar, hooks, cache, macros, style
+  - Health indicator (green/yellow/red dot) on `teach` startup
+  - `--fix`, `--ci`, `--json`, `--verbose`, `--brief` flags
+  - Batch R package check, renv-aware detection
+- **Macro registry rename** — `cache.yml` → `registry.yml` (backwards compatible)
+- **162 new test assertions** across 3 new suites (unit, e2e, dogfood)
+- **New tutorial** — Doctor v2 walkthrough (`tutorials/32-teach-doctor.md`)
+- **New refcard** — Doctor quick reference (`reference/REFCARD-DOCTOR.md`)
+
+### Fixed
+
+- Spinner cleanup trap on unexpected exit (INT/TERM)
+- Health indicator auto-refresh removed (was adding latency)
+- Doc count consistency: "10 categories" → "11 categories"
+
+### Changed
+
+- Test suite: 40/40 → 42/42 passing
+
+---
+
 ## [6.4.3] - 2026-02-06
 
 ### Fixed

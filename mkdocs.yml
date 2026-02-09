@@ -75,7 +75,6 @@ plugins:
         - 'AWESOME-ZSH-PLUGINS-ENTRY.md'
         - 'TEST-COMPLETION-REPORT.md'
         - 'TEST-COVERAGE-*.md'
-        - 'teach-doctor-implementation.md'
         - 'FEATURE-REQUEST-QUARTO-WORKFLOW-ENHANCEMENTS.md'
         - 'internal/conventions/code/**'
         - 'internal/conventions/documentation/**'

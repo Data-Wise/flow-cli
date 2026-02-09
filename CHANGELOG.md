@@ -9,14 +9,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Teach Doctor v2** — two-mode health check architecture (PR #360)
+  - Quick mode (default, < 3s): CLI deps, R + renv, config, git (4 categories)
+  - Full mode (`--full`): all 11 categories including per-package R checks, quarto ext, scholar, hooks, cache, macros, style
+  - Health indicator (green/yellow/red dot) on `teach` startup from `.flow/doctor-status.json`
+  - `--fix` flag with interactive renv vs system install choice for R packages
+  - `--ci` flag for CI/CD: no color, key=value output, exit 1 on failure
+  - `--json` flag for structured output
+  - `--verbose` flag for detailed check information
+  - `--brief` flag for summary-only output
+  - Batch R package check (single `R --quiet --slave` call instead of N individual)
+  - renv-aware: detects renv activation, reports package count from lockfile
+- **Macro registry rename** — `cache.yml` → `registry.yml` with backwards compatibility
+- **New test suites** — teach-doctor-unit (86 tests), e2e-teach-doctor-v2 (33 tests), dogfood-teach-doctor-v2 (43 tests)
+- **New tutorial** — `docs/tutorials/32-teach-doctor.md` (Doctor v2 walkthrough)
+- **New refcard** — `docs/reference/REFCARD-DOCTOR.md` (Doctor quick reference)
+- **Demo course fixtures** — renv.lock, renv/activate.R, quarto lightbox extension for full doctor E2E coverage
+
 ### Fixed
 
 - Standardized `teach analyze --help` to match help compliance conventions
 - Standardized `teach deploy --help` to match help compliance conventions
+- Spinner cleanup trap on unexpected exit (INT/TERM)
+- Health indicator no longer auto-refreshes (removed latency from `teach` subcommands)
+- Doc count consistency: "10 categories" → "11 categories" across all docs
 
 ### Changed
 
 - Optimized CLAUDE.md for context efficiency (1212 to 287 lines)
+- Test suite: 40/40 → 42/42 passing (2 new suites)
 
 ---
 
