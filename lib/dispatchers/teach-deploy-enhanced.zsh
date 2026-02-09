@@ -82,10 +82,9 @@ _deploy_preflight_checks() {
         echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} On $DEPLOY_DRAFT_BRANCH branch"
     fi
 
-    # Check: working tree clean
-    if [[ "$DEPLOY_REQUIRE_CLEAN" == "true" ]] && ! _git_is_clean; then
-        echo "${FLOW_COLORS[error]}  [!!]${FLOW_COLORS[reset]} Working tree dirty"
-        return 1
+    # Check: working tree status (report only; prompting handled after preflight)
+    if ! _git_is_clean; then
+        echo "${FLOW_COLORS[warn]}  [--]${FLOW_COLORS[reset]} Working tree has uncommitted changes"
     else
         echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Working tree clean"
     fi
@@ -146,6 +145,14 @@ _deploy_summary_box() {
         printf "│  🌐 %-8s %-42s│\n" "URL:" "$url"
     fi
 
+    # GitHub Actions monitoring link
+    local repo_slug
+    repo_slug=$(git config --get remote.origin.url 2>/dev/null | \
+        sed 's|.*github\.com[:/]\(.*\)\.git$|\1|; s|.*github\.com[:/]\(.*\)$|\1|')
+    if [[ -n "$repo_slug" && "$repo_slug" != "$(git config --get remote.origin.url 2>/dev/null)" ]]; then
+        printf "│  ⚙  %-8s %-42s│\n" "Actions:" "https://github.com/${repo_slug}/actions"
+    fi
+
     printf "╰"
     printf '─%.0s' {1..${width}}
     printf "╯\n"
@@ -167,6 +174,9 @@ _deploy_direct_merge() {
     local start_time=$SECONDS
 
     local total_steps=5
+
+    # Safety: always return to draft branch on error or signal
+    trap "git checkout '$draft_branch' 2>/dev/null" EXIT INT TERM
 
     echo ""
     echo "${FLOW_COLORS[info]}  Direct merge: $draft_branch -> $prod_branch${FLOW_COLORS[reset]}"
@@ -267,6 +277,8 @@ _deploy_direct_merge() {
     DEPLOY_DELETIONS="${_deletions:-0}"
     DEPLOY_SHORT_HASH="${_short_hash}"
 
+    # Clear trap before normal return (don't interfere with caller)
+    trap - EXIT INT TERM
     return 0
 }
 
@@ -518,6 +530,52 @@ _teach_deploy_enhanced() {
     local require_clean="$DEPLOY_REQUIRE_CLEAN"
 
     # ============================================
+    # UNCOMMITTED CHANGES HANDLER (all modes)
+    # ============================================
+    if [[ "$require_clean" != "false" ]] && ! _git_is_clean; then
+        if [[ "$ci_mode" == "true" ]]; then
+            _teach_error "Uncommitted changes detected" \
+                "Commit changes before deploying in CI mode"
+            return 1
+        fi
+
+        echo ""
+        echo "${FLOW_COLORS[warn]}  Uncommitted changes detected${FLOW_COLORS[reset]}"
+
+        local smart_msg
+        smart_msg=$(_generate_smart_commit_message 2>/dev/null)
+        [[ -z "$smart_msg" ]] && smart_msg="deploy: update content"
+
+        echo "  ${FLOW_COLORS[info]}Suggested:${FLOW_COLORS[reset]} $smart_msg"
+        echo ""
+        echo -n "${FLOW_COLORS[prompt]}  Commit and continue? [Y/n]:${FLOW_COLORS[reset]} "
+        read -r commit_confirm
+
+        case "$commit_confirm" in
+            n|N|no|No|NO)
+                echo "  Deploy cancelled."
+                return 1
+                ;;
+            *)
+                git add -A
+                if ! git commit -m "$smart_msg"; then
+                    echo ""
+                    _teach_error "Commit failed (likely pre-commit hook)"
+                    echo ""
+                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
+                    echo "    1. Fix issues, then ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
+                    echo "    2. Skip: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
+                    echo "    3. Force: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
+                    echo ""
+                    echo "  ${FLOW_COLORS[dim]}Changes are still staged.${FLOW_COLORS[reset]}"
+                    return 1
+                fi
+                echo "  ${FLOW_COLORS[success]}[ok]${FLOW_COLORS[reset]} Committed: $smart_msg"
+                ;;
+        esac
+    fi
+
+    # ============================================
     # DRY-RUN MODE
     # ============================================
     if [[ "$dry_run" == "true" && "$partial_deploy" != "true" ]]; then
@@ -667,7 +725,18 @@ _teach_deploy_enhanced() {
                 local commit_msg="Update: $(date +%Y-%m-%d)"
 
                 git add "${uncommitted_files[@]}"
-                git commit -m "$commit_msg"
+                if ! git commit -m "$commit_msg"; then
+                    echo ""
+                    _teach_error "Commit failed (likely pre-commit hook)"
+                    echo ""
+                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
+                    echo "    1. Fix the issues above, then run ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
+                    echo "    2. Skip validation: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
+                    echo "    3. Force commit: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
+                    echo ""
+                    echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
+                    return 1
+                fi
 
                 echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Auto-committed changes"
             else
@@ -680,7 +749,18 @@ _teach_deploy_enhanced() {
                 fi
 
                 git add "${uncommitted_files[@]}"
-                git commit -m "$commit_msg"
+                if ! git commit -m "$commit_msg"; then
+                    echo ""
+                    _teach_error "Commit failed (likely pre-commit hook)"
+                    echo ""
+                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
+                    echo "    1. Fix the issues above, then run ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
+                    echo "    2. Skip validation: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
+                    echo "    3. Force commit: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
+                    echo ""
+                    echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
+                    return 1
+                fi
 
                 echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Committed changes"
             fi
@@ -853,17 +933,17 @@ _teach_deploy_enhanced() {
     # Track PR deploy timing
     local pr_deploy_start=$SECONDS
 
-    # Check 2: Verify no uncommitted changes (if required)
-    if [[ "$require_clean" == "true" ]]; then
-        if ! _git_is_clean; then
-            echo "${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Uncommitted changes detected"
-            echo ""
-            echo "  ${FLOW_COLORS[dim]}Commit or stash changes before deploying${FLOW_COLORS[reset]}"
-            echo "  ${FLOW_COLORS[dim]}Or disable with: git.require_clean: false${FLOW_COLORS[reset]}"
-            return 1
-        else
-            echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No uncommitted changes"
-        fi
+    # Safety: always return to draft branch on error or signal (PR mode)
+    trap "git checkout '$draft_branch' 2>/dev/null" EXIT INT TERM
+
+    # Check 2: Verify clean (should be clean after uncommitted handler above)
+    if ! _git_is_clean; then
+        echo "${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Uncommitted changes detected"
+        echo ""
+        echo "  ${FLOW_COLORS[dim]}Commit or stash changes before deploying${FLOW_COLORS[reset]}"
+        return 1
+    else
+        echo "${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} No uncommitted changes"
     fi
 
     # Check 3: Check for unpushed commits
@@ -1066,6 +1146,8 @@ _teach_deploy_enhanced() {
         "$_pr_commit" \
         "$pr_url"
 
+    # Clear trap before normal return (don't interfere with caller)
+    trap - EXIT INT TERM
     _deploy_cleanup_globals
 }
 

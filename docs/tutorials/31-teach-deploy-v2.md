@@ -70,6 +70,7 @@ Expected output:
 │  ⏱  Duration: 12s                                     │
 │  🔀 Commit:   a3f8d92                                 │
 │  🌐 URL:      https://example.github.io/stat-101/    │
+│  ⚙  Actions:  https://github.com/user/stat-101/actions│
 ╰──────────────────────────────────────────────────────╯
 ```
 
@@ -305,6 +306,54 @@ Choose based on your needs:
 | New semester | PR | `teach deploy` |
 | Major redesign | PR | `teach deploy` |
 
+## Step 8: Safety Features (v6.6.0)
+
+### Deploy with Uncommitted Changes
+
+No need to commit manually first. If you have unsaved work:
+
+```bash
+# Edit a file, then deploy without committing
+vim lectures/week-05.qmd
+teach deploy -d
+```
+
+Deploy detects the dirty tree and prompts:
+
+```
+  Uncommitted changes detected
+  Suggested: content: week-05 lecture
+
+  Commit and continue? [Y/n]:
+```
+
+Press Enter to auto-commit and deploy in one step.
+
+### Recover from Hook Failures
+
+If your Quarto pre-commit hook fails during the auto-commit:
+
+```
+  ERROR: Commit failed (likely pre-commit hook)
+
+  Options:
+    1. Fix issues, then teach deploy again
+    2. Skip: QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...
+    3. Force: git commit --no-verify -m "message"
+
+  Changes are still staged.
+```
+
+Option 2 is useful for urgent deploys when you know the content is correct.
+
+### Monitor with Actions Link
+
+After deploying, click the **Actions** link in the summary box to monitor your GitHub Actions pipeline directly.
+
+### Branch Safety
+
+If you press Ctrl+C mid-deploy or an error occurs, you're automatically returned to your draft branch. No manual recovery needed.
+
 ## What You Learned
 
 You now know how to:
@@ -317,6 +366,9 @@ You now know how to:
 6. ✅ Automate deployments with `--ci`
 7. ✅ Combine flags for powerful workflows
 8. ✅ Choose between direct and PR modes
+9. ✅ Deploy with uncommitted changes (auto-commit prompt)
+10. ✅ Recover from pre-commit hook failures
+11. ✅ Monitor deployments via GitHub Actions link
 
 ## Tips
 
@@ -345,4 +397,4 @@ teach dep -d -m "msg"     # Custom message
 
 ---
 
-*v6.4.1 - teach deploy v2 command*
+*v6.6.0 - teach deploy v2 with safety enhancements*

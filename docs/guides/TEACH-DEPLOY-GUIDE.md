@@ -8,7 +8,7 @@ tags:
 
 > Deploy your course website from local preview to production with confidence.
 >
-> **Version:** v6.4.1+ | **Command:** `teach deploy`
+> **Version:** v6.6.0+ | **Command:** `teach deploy`
 
 ![teach deploy v2 Demo](../demos/tutorials/tutorial-teach-deploy.gif)
 
@@ -44,6 +44,10 @@ The `teach deploy` command provides a safe, validated deployment workflow that:
 - **Rollback** - Forward rollback via `git revert` (`--rollback`)
 - **Dry-run preview** - Preview without mutation (`--dry-run`)
 - **CI mode** - Non-interactive for automated pipelines (`--ci`)
+- **Branch safety** - Trap handler auto-returns to draft on error/signal (v6.6.0)
+- **Uncommitted changes prompt** - Commit-and-continue instead of blocking (v6.6.0)
+- **Hook failure recovery** - 3-option actionable message on pre-commit failures (v6.6.0)
+- **GitHub Actions link** - Direct link to Actions in deployment summary (v6.6.0)
 
 ### Design Philosophy
 
@@ -207,8 +211,11 @@ After completion, a deployment summary box is displayed:
 │  ⏱  Duration: 11s                                     │
 │  🔀 Commit:   a1b2c3d4                                │
 │  🌐 URL:      https://example.github.io/stat-545/    │
+│  ⚙  Actions:  https://github.com/user/stat-545/actions│
 ╰──────────────────────────────────────────────────────╯
 ```
+
+The **Actions** line links directly to your GitHub Actions page for monitoring the deployment pipeline. It's auto-detected from your remote URL and skipped for non-GitHub remotes.
 
 **When to use:**
 - Solo instructor (no review needed)
@@ -525,28 +532,57 @@ Switch to draft branch? [Y/n]: y
 ✓ Switched to draft
 ```
 
-### Check 2: Uncommitted Changes
+### Check 2: Uncommitted Changes (v6.6.0 Enhanced)
 
-Ensures working directory is clean (configurable):
-
-```
-✓ No uncommitted changes
-```
-
-If uncommitted changes exist:
+Pre-flight reports working tree status:
 
 ```
-✗ Uncommitted changes detected
+  [ok] Working tree clean
+```
 
-  Commit or stash changes before deploying
-  Or disable with: git.require_clean: false
+If uncommitted changes exist, the pre-flight reports a warning:
+
+```
+  [--] Working tree has uncommitted changes
+```
+
+Then, after pre-flight, an **interactive prompt** offers to commit:
+
+```
+  Uncommitted changes detected
+  Suggested: content: week-05 lecture
+
+  Commit and continue? [Y/n]:
+```
+
+- Press **Enter** or **Y** — stages all files (`git add -A`), commits with the smart message, continues deploy
+- Press **N** — cancels deploy, nothing changed
+
+**If the commit fails** (e.g., pre-commit hook):
+
+```
+  ERROR: Commit failed (likely pre-commit hook)
+
+  Options:
+    1. Fix issues, then teach deploy again
+    2. Skip: QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...
+    3. Force: git commit --no-verify -m "message"
+
+  Changes are still staged.
+```
+
+**CI mode:** Uncommitted changes fail immediately:
+
+```
+ERROR: Uncommitted changes detected
+  Commit changes before deploying in CI mode
 ```
 
 **Disable check** in `.flow/teach-config.yml`:
 
 ```yaml
 git:
-  require_clean: false  # Allow deploying with uncommitted changes
+  require_clean: false  # Skip uncommitted changes handling entirely
 ```
 
 ### Check 3: Unpushed Commits
@@ -1094,15 +1130,57 @@ git push origin main
 
 ---
 
+## Safety Features (v6.6.0)
+
+Four safety and DX enhancements ported from battle-tested `quick-deploy.sh`:
+
+### Branch Safety (Trap Handler)
+
+Both direct merge and PR modes set a trap on `EXIT`, `INT`, and `TERM` signals. If anything goes wrong mid-deploy (error, Ctrl+C, kill), you're automatically returned to your draft branch. No more getting stuck on production.
+
+This is a belt-and-suspenders approach — existing manual checkout-on-error calls remain, but the trap guarantees recovery even for unexpected failures.
+
+### Uncommitted Changes: Commit-and-Continue
+
+Instead of blocking with "working tree dirty", deploy now prompts:
+
+```
+  Uncommitted changes detected
+  Suggested: content: week-05 lecture
+
+  Commit and continue? [Y/n]:
+```
+
+The smart commit message is auto-generated from changed file paths (same as `_generate_smart_commit_message()`). All files are staged with `git add -A`.
+
+**CI mode:** No prompt — fails immediately with a clear error.
+
+### Pre-Commit Hook Failure Recovery
+
+If your Quarto pre-commit hook (or any pre-commit hook) fails during commit, you get three concrete options:
+
+1. **Fix and retry** — Fix the issues the hook reported, run `teach deploy` again
+2. **Skip validation** — `QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...` disables the render check
+3. **Force commit** — `git commit --no-verify -m "message"` bypasses all hooks
+
+Your changes remain staged — nothing is lost.
+
+### GitHub Actions Link
+
+The deployment summary box now includes a direct link to your GitHub Actions page. The repo slug is extracted from `remote.origin.url`, supporting both SSH and HTTPS formats. Non-GitHub remotes are silently skipped.
+
+---
+
 ## See Also
 
 - [Teaching Workflow v3.0 Guide](TEACHING-WORKFLOW-V3-GUIDE.md) - Complete workflow overview
 - [Teach Dispatcher Reference](../reference/REFCARD-TEACH-DISPATCHER.md) - Command reference
+- [Deploy Refcard](../reference/REFCARD-DEPLOY-V2.md) - Quick reference card
 - [Validation Guide](../reference/REFCARD-LINT.md) - Content validation
 - [GitHub Pages Documentation](https://docs.github.com/en/pages) - Official GitHub Pages docs
 - [Quarto Publishing](https://quarto.org/docs/publishing/github-pages.html) - Quarto GitHub Pages guide
 
 ---
 
-**Last Updated:** 2026-02-04
-**Version:** v6.4.1
+**Last Updated:** 2026-02-09
+**Version:** v6.6.0

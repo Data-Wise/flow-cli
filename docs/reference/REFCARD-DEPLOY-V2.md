@@ -92,6 +92,64 @@ teach deploy --rollback 2 --ci # 2nd most recent, non-interactive
 
 Uses `git revert` (forward rollback, not destructive reset). Merge commits are detected automatically and reverted with `-m 1` (parent specification). Rollback is recorded in history with `mode: "rollback"`.
 
+## Safety Features (v6.6.0)
+
+### Uncommitted Changes Prompt
+
+With a dirty working tree, deploy prompts to commit instead of blocking:
+
+```
+  Uncommitted changes detected
+  Suggested: content: week-05 lecture
+  Commit and continue? [Y/n]:
+```
+
+Press Enter (or Y) to auto-commit with the smart message. Press N to cancel.
+
+**CI mode:** Fails immediately with `"Commit changes before deploying in CI mode"`.
+
+### Pre-Commit Hook Failure Recovery
+
+If a commit fails (e.g., Quarto pre-commit hook), you get 3 actionable options:
+
+```
+  ERROR: Commit failed (likely pre-commit hook)
+
+  Options:
+    1. Fix the issues above, then teach deploy again
+    2. Skip validation: QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...
+    3. Force commit: git commit --no-verify -m "message"
+
+  Your changes are still staged. Nothing was lost.
+```
+
+### Trap Handler (Branch Safety)
+
+Both direct merge and PR modes set a trap: if an error or signal (Ctrl+C, kill) occurs mid-deploy, you're automatically returned to your draft branch. No more getting stuck on production.
+
+### GitHub Actions Link
+
+The deployment summary box now includes a direct link to GitHub Actions:
+
+```
+╭─ Deployment Summary ─────────────────────────────────╮
+│  🚀 Mode:     Direct merge                            │
+│  📦 Files:    3 changed (+45 / -12)                   │
+│  ⏱  Duration: 8s                                      │
+│  🔀 Commit:   a1b2c3d4                                │
+│  🌐 URL:      https://example.github.io/stat-545/    │
+│  ⚙  Actions:  https://github.com/user/stat-545/actions│  ← NEW
+╰──────────────────────────────────────────────────────╯
+```
+
+Automatically detected from `remote.origin.url`. Skipped for non-GitHub remotes.
+
+### Environment Variables
+
+| Variable | Purpose |
+|----------|---------|
+| `QUARTO_PRE_COMMIT_RENDER=0` | Skip Quarto pre-commit render validation |
+
 ## CI Mode
 
 Auto-detected when no TTY (`[[ ! -t 0 ]]`), or forced with `--ci`:
@@ -100,6 +158,15 @@ Auto-detected when no TTY (`[[ ! -t 0 ]]`), or forced with `--ci`:
 teach deploy --ci -d           # Direct merge, no prompts
 echo | teach deploy            # Auto-detected (piped input)
 ```
+
+**CI behavior for safety features:**
+
+| Feature | Interactive | CI Mode |
+|---------|-------------|---------|
+| Uncommitted changes | Prompts to commit | Fails with error |
+| Hook failure | Shows 3 options | Exits non-zero |
+| Trap handler | Returns to draft | Returns to draft |
+| Actions link | Shown in summary | Shown in summary |
 
 ## .STATUS Auto-Updates
 
@@ -137,6 +204,7 @@ Skips if `.STATUS` absent.
 │  ⏱  Duration: 11s                                     │
 │  🔀 Commit:   a1b2c3d4                                │
 │  🌐 URL:      https://example.github.io/stat-545/    │
+│  ⚙  Actions:  https://github.com/user/stat-545/actions│
 ╰──────────────────────────────────────────────────────╯
 ```
 
@@ -215,7 +283,8 @@ teach deploy --ci -d -m "Auto-deploy from GitHub Actions"
 - `teach init` - Initialize teaching project
 - Guide: `docs/guides/TEACH-DEPLOY-GUIDE.md`
 - Spec: `docs/specs/SPEC-teach-deploy-v2-2026-02-03.md`
+- Spec: `docs/specs/SPEC-teach-deploy-safety-2026-02-08.md`
 
 ---
 
-*v6.4.1 - teach deploy v2 command*
+*v6.6.0 - teach deploy v2 with safety enhancements*
