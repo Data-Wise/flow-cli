@@ -1,14 +1,16 @@
 # Teach Dispatcher Quick Reference
 
-> All 29 `teach` subcommands at a glance. For detailed guides, see linked documentation.
+> All 30 `teach` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v6.1.0+ | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh`
+> **Version:** v6.6.0+ | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh`
 
 ## Command Taxonomy
 
 ```mermaid
 mindmap
-  root((teach<br/>29 commands))
+  root((teach<br/>30 commands))
+    Discovery<br/>1 command
+      map
     Scholar Wrappers<br/>9 commands
       lecture
       slides
@@ -43,6 +45,18 @@ mindmap
       hooks
       profiles
 ```
+
+## Discovery (v6.6.0)
+
+Ecosystem-wide command discovery across all teaching tools.
+
+| Command | Aliases | Synopsis | Description |
+|---------|---------|----------|-------------|
+| `teach map` | — | `teach map` | Show all teaching commands across flow-cli, Scholar, and Craft grouped by workflow phase |
+
+Shows commands from three tools in one view: flow-cli (shell), Scholar (Claude Code plugin), and Craft (Claude Code plugin). Commands from uninstalled tools appear dimmed with install hints. Slash commands (`/craft:*`, `/scholar:*`) are shown for Claude Code users.
+
+---
 
 ## Scholar Wrappers (AI Content Generation)
 
