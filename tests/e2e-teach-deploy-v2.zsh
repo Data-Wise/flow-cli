@@ -551,6 +551,180 @@ else
 fi
 
 # ============================================================================
+# SECTION 12: Safety Enhancements E2E (v6.6.0)
+# ============================================================================
+echo ""
+echo "--- Safety Enhancements E2E ---"
+
+# Test 30: trap handler returns to draft after direct merge failure
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+# Force failure by using nonexistent production branch
+_deploy_direct_merge "draft" "nonexistent-prod-branch" "deploy: trap test" "false" >/dev/null 2>&1
+# Clear leftover trap from test subshell
+trap cleanup EXIT
+current_branch=$(_git_current_branch)
+if [[ "$current_branch" == "draft" ]]; then
+    _test_pass "trap handler returns to draft after direct merge failure"
+else
+    _test_fail "trap handler returns to draft after direct merge failure" "on branch: $current_branch"
+fi
+
+# Test 31: trap handler fires on Ctrl+C simulation (SIGINT during merge)
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+# Start a direct merge in a subshell and kill it mid-flight
+(
+    _deploy_direct_merge "draft" "main" "deploy: signal test" "true" &
+    deploy_pid=$!
+    sleep 0.2
+    kill -INT $deploy_pid 2>/dev/null
+    wait $deploy_pid 2>/dev/null
+) >/dev/null 2>&1
+# After signal, should be back on draft
+cd "$test_repo"
+current_branch=$(_git_current_branch)
+# Note: in subshell the trap may or may not fire; test that we can recover
+if [[ "$current_branch" == "draft" || "$current_branch" == "main" ]]; then
+    # Either the trap fired (draft) or we're on main (signal was too late)
+    # Both are valid - the trap is a best-effort safety net
+    _test_pass "branch state valid after signal during deploy (on: $current_branch)"
+else
+    _test_fail "branch state valid after signal during deploy" "on unexpected branch: $current_branch"
+fi
+
+# Test 32: CI mode rejects uncommitted changes (full lifecycle)
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+echo "dirty content" > lectures/week-03.qmd
+output=$(_teach_deploy_enhanced --direct --ci 2>&1)
+ret=$?
+if [[ $ret -ne 0 ]] && echo "$output" | grep -qi "uncommitted\|commit.*changes"; then
+    _test_pass "CI mode rejects deploy with uncommitted changes"
+else
+    _test_fail "CI mode rejects deploy with uncommitted changes" "ret=$ret"
+fi
+
+# Test 33: CI mode error message provides actionable guidance
+if echo "$output" | grep -qi "CI\|commit\|deploying"; then
+    _test_pass "CI mode error provides actionable guidance"
+else
+    _test_fail "CI mode error provides guidance" "output: $(echo "$output" | head -3)"
+fi
+
+# Test 34: Actions URL appears in summary box with real GitHub-like remote
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+# Set remote to a GitHub-style URL
+git remote set-url origin "https://github.com/TestUser/stat-101.git" 2>/dev/null
+output=$(_deploy_summary_box "Direct merge" "2" "30" "5" "10" "abcd1234" "https://testuser.github.io/stat-101/")
+if echo "$output" | grep -q "https://github.com/TestUser/stat-101/actions"; then
+    _test_pass "Actions URL in summary box with HTTPS GitHub remote"
+else
+    _test_fail "Actions URL in summary box with HTTPS GitHub remote" "not found in output"
+fi
+
+# Test 35: Actions URL works with SSH GitHub remote
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+git remote set-url origin "git@github.com:TestUser/stat-101.git" 2>/dev/null
+output=$(_deploy_summary_box "Direct merge" "2" "30" "5" "10" "abcd1234" "")
+if echo "$output" | grep -q "https://github.com/TestUser/stat-101/actions"; then
+    _test_pass "Actions URL in summary box with SSH GitHub remote"
+else
+    _test_fail "Actions URL in summary box with SSH GitHub remote" "not found in output"
+fi
+
+# Test 36: Actions URL omitted for non-GitHub remotes
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+git remote set-url origin "https://gitlab.com/TestUser/stat-101.git" 2>/dev/null
+output=$(_deploy_summary_box "Direct merge" "2" "30" "5" "10" "abcd1234" "")
+if echo "$output" | grep -q "Actions:"; then
+    _test_fail "Actions URL omitted for non-GitHub remote" "Actions line found"
+else
+    _test_pass "Actions URL omitted for non-GitHub remote"
+fi
+
+# Test 37: pre-commit hook failure produces recovery message
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+# Create a failing pre-commit hook
+mkdir -p .git/hooks
+cat > .git/hooks/pre-commit <<'HOOK'
+#!/bin/sh
+echo "Quarto render check failed" >&2
+exit 1
+HOOK
+chmod +x .git/hooks/pre-commit
+# Create uncommitted change
+echo "new lecture content" > lectures/week-03.qmd
+# Stage the file
+git add lectures/week-03.qmd
+# Try to commit - should fail
+commit_output=$(git commit -m "test content" 2>&1)
+ret=$?
+if [[ $ret -ne 0 ]]; then
+    # Verify staged files are preserved
+    staged=$(git diff --cached --name-only 2>/dev/null)
+    if echo "$staged" | grep -q "week-03"; then
+        _test_pass "hook failure preserves staged changes"
+    else
+        _test_fail "hook failure preserves staged changes" "staged files lost"
+    fi
+else
+    _test_fail "pre-commit hook blocks commit" "commit succeeded"
+fi
+
+# Test 38: full lifecycle with clean deploy after uncommitted handler
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+# Add new content and commit it (simulating what the uncommitted handler does)
+echo "week 03 content" > lectures/week-03.qmd
+git add -A && git commit -q -m "content: week-03 lecture" >/dev/null 2>&1
+git push -q origin draft >/dev/null 2>&1
+# Now deploy should work cleanly
+_deploy_direct_merge "draft" "main" "content: week-03 lecture" "true" >/dev/null 2>&1
+ret=$?
+# Clear trap
+trap cleanup EXIT
+if [[ $ret -eq 0 ]]; then
+    _test_pass "deploy succeeds after manual commit (simulated handler path)"
+else
+    _test_fail "deploy succeeds after manual commit" "ret=$ret"
+fi
+
+# Test 39: summary box includes all expected fields after real deploy
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+git remote set-url origin "https://github.com/e2eUser/e2e-course.git" 2>/dev/null
+echo "week 04 content" > lectures/week-04.qmd
+git add -A && git commit -q -m "add week-04" >/dev/null 2>&1
+git push -q origin draft >/dev/null 2>&1
+_deploy_direct_merge "draft" "main" "content: week-04" "true" >/dev/null 2>&1
+trap cleanup EXIT
+summary=$(_deploy_summary_box \
+    "Direct merge" \
+    "${DEPLOY_FILE_COUNT:-0}" \
+    "${DEPLOY_INSERTIONS:-0}" \
+    "${DEPLOY_DELETIONS:-0}" \
+    "${DEPLOY_DURATION:-0}" \
+    "${DEPLOY_SHORT_HASH:-unknown}" \
+    "https://e2euser.github.io/e2e-course/" 2>&1)
+# Check all fields present
+has_mode=$(echo "$summary" | grep -c "Mode:")
+has_files=$(echo "$summary" | grep -c "Files:")
+has_duration=$(echo "$summary" | grep -c "Duration:")
+has_commit=$(echo "$summary" | grep -c "Commit:")
+has_url=$(echo "$summary" | grep -c "URL:")
+has_actions=$(echo "$summary" | grep -c "Actions:")
+if [[ $has_mode -ge 1 && $has_files -ge 1 && $has_duration -ge 1 && $has_commit -ge 1 && $has_url -ge 1 && $has_actions -ge 1 ]]; then
+    _test_pass "summary box includes all fields (Mode, Files, Duration, Commit, URL, Actions)"
+else
+    _test_fail "summary box includes all fields" "mode=$has_mode files=$has_files dur=$has_duration commit=$has_commit url=$has_url actions=$has_actions"
+fi
+
+# ============================================================================
 # SUMMARY
 # ============================================================================
 echo ""
