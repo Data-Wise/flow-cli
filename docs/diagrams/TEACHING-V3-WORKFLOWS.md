@@ -399,8 +399,78 @@ flowchart TD
 
 ---
 
-**Generated:** 2026-01-18
-**Version:** Teaching Workflow v3.0
-**Total Diagrams:** 7
+## teach deploy - Safety Enhancement Flow (v6.6.0)
 
-These diagrams provide comprehensive visual documentation for all major Teaching Workflow v3.0 features.
+```mermaid
+flowchart TD
+    Start([teach deploy]) --> Preflight[Pre-flight Checks]
+
+    Preflight --> |Pass| DirtyCheck{Working<br/>tree dirty?}
+    Preflight --> |Fail| Abort[❌ Pre-flight<br/>Failed]
+
+    DirtyCheck --> |Clean| ModeDispatch{Deploy<br/>Mode?}
+    DirtyCheck --> |Dirty| CICheck{CI Mode?}
+
+    CICheck --> |Yes| CIFail[❌ Uncommitted changes<br/>Fail immediately]
+    CICheck --> |No| Prompt[Uncommitted changes detected<br/>Suggested: content: week-05<br/>Commit and continue? Y/n]
+
+    Prompt --> |N| Cancel[Deploy cancelled]
+    Prompt --> |Y/Enter| GitAdd[git add -A]
+
+    GitAdd --> Commit[git commit -m smart_msg]
+    Commit --> |Success| CommitOK[✅ Committed]
+    Commit --> |Fail| HookFail[❌ Commit failed<br/>likely pre-commit hook]
+
+    HookFail --> Options[Options:<br/>1. Fix + retry<br/>2. QUARTO_PRE_COMMIT_RENDER=0<br/>3. git commit --no-verify<br/>Changes still staged]
+    Options --> Return1[return 1]
+
+    CommitOK --> ModeDispatch
+
+    ModeDispatch --> |--direct| DirectMode
+    ModeDispatch --> |PR default| PRMode
+
+    subgraph DirectMode [Direct Merge Mode]
+        TrapD[trap: checkout draft<br/>on EXIT/INT/TERM]
+        TrapD --> Push[Push draft → origin]
+        Push --> Switch[Checkout production]
+        Switch --> Merge[Merge draft → production]
+        Merge --> PushProd[Push production → origin]
+        PushProd --> SwitchBack[Checkout draft]
+        SwitchBack --> ClearTrapD[trap - EXIT INT TERM]
+    end
+
+    subgraph PRMode [PR Mode]
+        TrapP[trap: checkout draft<br/>on EXIT/INT/TERM]
+        TrapP --> PRChecks[Check uncommitted<br/>Check unpushed<br/>Check conflicts]
+        PRChecks --> CreatePR[Create Pull Request]
+        CreatePR --> ClearTrapP[trap - EXIT INT TERM]
+    end
+
+    DirectMode --> Summary
+    PRMode --> Summary
+
+    Summary[Deployment Summary Box<br/>Mode / Files / Duration / Commit<br/>URL / Actions link]
+
+    style Start fill:#e3f2fd
+    style Summary fill:#c8e6c9
+    style Abort fill:#ffcdd2
+    style CIFail fill:#ffcdd2
+    style Cancel fill:#fff9c4
+    style Return1 fill:#ffcdd2
+    style HookFail fill:#ffcdd2
+    style CommitOK fill:#c8e6c9
+    style TrapD fill:#fff3cd
+    style TrapP fill:#fff3cd
+    style ClearTrapD fill:#c8e6c9
+    style ClearTrapP fill:#c8e6c9
+    style Prompt fill:#e1f5fe
+    style Options fill:#fff9c4
+```
+
+---
+
+**Generated:** 2026-02-09
+**Version:** Teaching Workflow v3.0 + v6.6.0 Safety Enhancements
+**Total Diagrams:** 8
+
+These diagrams provide comprehensive visual documentation for all major Teaching Workflow features.
