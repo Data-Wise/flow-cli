@@ -5930,6 +5930,14 @@ fi
 
 ---
 
+### v6.6.0
+
+**Added:**
+- `_teach_map` - Display unified teaching ecosystem map (flow-cli + Scholar + Craft)
+- `_teach_map_detect_tools` - Detect available teaching ecosystem tools (sets `_TEACH_MAP_TOOLS` associative array)
+
+---
+
 ### v5.16.0
 
 **Added:**

@@ -44,6 +44,7 @@ By the end of this tutorial, you will:
 4. Use the branch-based draft/production workflow
 5. Generate teaching content with Scholar integration
 6. Archive semesters for future reference
+7. Discover available teaching tools with `teach map`
 
 ---
 
@@ -587,7 +588,7 @@ cat .flow/teach-config.yml
 - **[Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md)** - Complete guide to all 9 AI content generation commands
 - **[Teaching System Architecture](../guides/TEACHING-SYSTEM-ARCHITECTURE.md)** - How flow-cli and Scholar work together
 - **[Teach Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher)** - Complete command reference
-- **[All Commands Quick Reference](../reference/REFCARD-TEACH-DISPATCHER.md)** - All 29 teach subcommands at a glance
+- **[All Commands Quick Reference](../reference/REFCARD-TEACH-DISPATCHER.md)** - All 30 teach subcommands at a glance
 - **[Config Schema Reference](../reference/TEACH-CONFIG-SCHEMA.md)** - Every teach-config.yml field documented
 - **[Deployment Guide](../guides/TEACH-DEPLOY-GUIDE.md)** - Local preview to production deployment
 

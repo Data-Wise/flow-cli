@@ -33,6 +33,9 @@ tests/
 ├── test-dot-v5.1.1-unit.zsh      # DOT dispatcher
 ├── test-pick-smart-defaults.zsh  # Pick defaults
 ├── test-pick-wt.zsh              # Pick worktrees
+├── test-teach-map-unit.zsh       # Teach map: 20 unit tests
+├── e2e-teach-map.zsh             # Teach map: 18 E2E tests
+├── dogfood-teach-map.zsh         # Teach map: 31 dogfooding tests
 ├── interactive-dot-dogfooding.zsh # Interactive DOT tests
 └── run-all.sh                     # Master test runner
 ```
@@ -44,7 +47,10 @@ tests/
 | test-pick-command.zsh | 39 | 556 | Pick core functionality |
 | test-cc-dispatcher.zsh | 37 | 722 | CC dispatcher + grammar |
 | test-dot-v5.1.1-unit.zsh | 112+ | ~800 | DOT dispatcher |
-| **Total** | **76+** | **2000+** | **Core commands** |
+| test-teach-map-unit.zsh | 20 | ~300 | Teach map unit |
+| e2e-teach-map.zsh | 18 | ~350 | Teach map E2E |
+| dogfood-teach-map.zsh | 31 | ~500 | Teach map dogfooding |
+| **Total** | **145+** | **3200+** | **Core commands** |
 
 ---
 

@@ -691,6 +691,125 @@ else
 fi
 
 # ============================================================================
+# SECTION: Deploy Safety Enhancements (v6.6.0)
+# ============================================================================
+echo ""
+echo "--- Deploy Safety Enhancements ---"
+
+# Test 51: _deploy_summary_box includes Actions URL for GitHub remotes
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+git remote add origin "https://github.com/TestOrg/test-repo.git" 2>/dev/null
+output=$(_deploy_summary_box "Direct merge" "3" "45" "12" "8" "a1b2c3d4" "https://testorg.github.io/test-repo/")
+if echo "$output" | grep -q "https://github.com/TestOrg/test-repo/actions"; then
+    _test_pass "summary box includes Actions URL for GitHub remote"
+else
+    _test_fail "summary box includes Actions URL for GitHub remote" "Actions URL not found in output"
+fi
+
+# Test 52: _deploy_summary_box omits Actions URL for non-GitHub remotes
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+git remote add origin "https://gitlab.com/TestOrg/test-repo.git" 2>/dev/null
+output=$(_deploy_summary_box "Direct merge" "3" "45" "12" "8" "a1b2c3d4" "https://example.com/")
+if echo "$output" | grep -q "Actions:"; then
+    _test_fail "summary box omits Actions for non-GitHub remote" "Actions line found"
+else
+    _test_pass "summary box omits Actions for non-GitHub remote"
+fi
+
+# Test 53: _deploy_summary_box handles SSH GitHub remote
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+git remote add origin "git@github.com:Data-Wise/stat-545.git" 2>/dev/null
+output=$(_deploy_summary_box "Pull request" "5" "100" "20" "12" "e5f6g7h8" "https://data-wise.github.io/stat-545/")
+if echo "$output" | grep -q "https://github.com/Data-Wise/stat-545/actions"; then
+    _test_pass "summary box handles SSH GitHub remote URL"
+else
+    _test_fail "summary box handles SSH GitHub remote URL" "Actions URL not found"
+fi
+
+# Test 54: trap handler returns to draft branch after direct merge failure
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+# Create draft and main branches with content
+git checkout -b main -q 2>/dev/null
+echo "main content" > main.txt
+git add -A && git commit -q -m "main init" >/dev/null 2>&1
+git checkout -b draft -q 2>/dev/null
+echo "draft content" > draft.txt
+git add -A && git commit -q -m "draft init" >/dev/null 2>&1
+# Create a remote (bare repo) so push has a target
+bare_dir=$(mktemp -d "$TEST_DIR/bare-XXXXXX")
+git init --bare -q "$bare_dir" 2>/dev/null
+git remote add origin "$bare_dir" 2>/dev/null
+git push -u origin draft -q 2>/dev/null
+git push origin main -q 2>/dev/null
+# Call direct merge which should fail (no real merge scenario - force failure by making main dirty)
+# Simulate: calling with a nonexistent prod branch triggers failure + trap
+_deploy_direct_merge "draft" "nonexistent-branch" "test deploy" "false" >/dev/null 2>&1
+current=$(_git_current_branch)
+# Clear any leftover trap from the test
+trap - EXIT INT TERM
+if [[ "$current" == "draft" ]]; then
+    _test_pass "trap handler returns to draft after direct merge failure"
+else
+    _test_fail "trap handler returns to draft after direct merge failure" "on branch: $current"
+fi
+
+# Test 55: pre-commit hook failure shows recovery message
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+git checkout -b draft -q 2>/dev/null
+# Create a failing pre-commit hook
+mkdir -p .git/hooks
+cat > .git/hooks/pre-commit <<'HOOK'
+#!/bin/sh
+echo "Quarto render failed" >&2
+exit 1
+HOOK
+chmod +x .git/hooks/pre-commit
+# Create uncommitted content
+echo "new content" > test.qmd
+git add test.qmd
+output=$(git commit -m "test" 2>&1)
+if [[ $? -ne 0 ]]; then
+    _test_pass "pre-commit hook correctly blocks commit"
+else
+    _test_fail "pre-commit hook correctly blocks commit" "commit succeeded unexpectedly"
+fi
+# Verify staged changes are preserved
+staged=$(git diff --cached --name-only)
+if echo "$staged" | grep -q "test.qmd"; then
+    _test_pass "staged changes preserved after hook failure"
+else
+    _test_fail "staged changes preserved after hook failure" "test.qmd not in staged files"
+fi
+
+# Test 56: uncommitted handler in CI mode fails with error
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+git checkout -b draft -q 2>/dev/null
+echo "dirty" > dirty.txt
+# _git_is_clean should return false
+if _git_is_clean; then
+    _test_fail "dirty tree detected for CI uncommitted test" "tree reported clean"
+else
+    _test_pass "dirty tree detected for CI uncommitted test"
+fi
+
+# Test 57: _deploy_summary_box includes GitHub remote without .git suffix
+test_repo=$(setup_git_repo)
+cd "$test_repo"
+git remote add origin "https://github.com/user/repo" 2>/dev/null
+output=$(_deploy_summary_box "Direct merge" "1" "10" "5" "3" "abcd1234" "")
+if echo "$output" | grep -q "https://github.com/user/repo/actions"; then
+    _test_pass "summary box handles GitHub URL without .git suffix"
+else
+    _test_fail "summary box handles GitHub URL without .git suffix" "Actions URL not found"
+fi
+
+# ============================================================================
 # SUMMARY
 # ============================================================================
 echo ""

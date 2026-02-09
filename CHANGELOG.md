@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **`teach map`** — unified ecosystem discovery command (v6.6.0)
+  - Shows all teaching commands across flow-cli, Scholar, and Craft
+  - Commands grouped by workflow phase (setup, content, validation, deployment, tracking)
+  - Tool detection: dims commands from uninstalled tools with install hints
+  - `_teach_map_detect_tools()` extracted for reuse by future `teach check`
+  - 69 new tests (20 unit + 18 e2e + 31 dogfooding)
+  - `teach help` footer updated with "See also: teach map"
+
+---
+
 ## [6.5.0] - 2026-02-08
 
 ### Added

@@ -6,6 +6,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [6.6.0] - 2026-02-09
+
+### Added
+
+- **Deploy safety: trap handler** — direct merge and PR modes now auto-return to draft branch on any error or signal (EXIT, INT, TERM)
+- **Deploy safety: uncommitted changes prompt** — `teach deploy` with dirty tree offers smart commit-and-continue instead of blocking; CI mode fails fast with clear error
+- **Deploy safety: pre-commit hook recovery** — 3-option actionable message on commit failure (fix & retry, skip validation with `QUARTO_PRE_COMMIT_RENDER=0`, force with `--no-verify`)
+- **Deploy summary: GitHub Actions link** — deployment summary box now includes a direct link to GitHub Actions (supports SSH and HTTPS remotes)
+- **7 new test assertions** for deploy safety features (trap handler, Actions URL variants, hook failure, dirty tree detection)
+
+### Changed
+
+- Pre-flight check no longer hard-fails on dirty working tree; delegates to new uncommitted changes handler
+- Test suite: 42/42 passing (58 deploy-v2 unit tests, up from 50)
+
+---
+
 ## [6.5.0] - 2026-02-08
 
 ### Added

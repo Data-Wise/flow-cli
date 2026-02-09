@@ -16,7 +16,8 @@
 #   8. .STATUS Updates                 (4 tests)
 #   9. Flag Parsing                    (5 tests)
 #  10. Full Deploy Lifecycle E2E       (4 tests)
-# Total: ~51 tests
+#  11. Safety Enhancements (v6.6.0)   (10 tests)
+# Total: ~61 tests
 
 # Colors
 RED='\033[0;31m'
@@ -927,6 +928,143 @@ run_test "Dry-run does NOT create history entry" '
         [[ "$count" == "0" ]] || return 1
     fi
     return 0
+'
+
+echo ""
+
+# ============================================================================
+# SECTION 11: Safety Enhancements (v6.6.0)
+# ============================================================================
+echo "${CYAN}--- Section 11: Safety Enhancements (v6.6.0) ---${RESET}"
+
+run_test "CI mode rejects deploy with uncommitted changes" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    # Dirty the working tree
+    echo "unsaved edit" >> "$tmpdir/lectures/week-01.qmd"
+    local output
+    output=$(cd "$tmpdir" && _teach_deploy_enhanced --direct --ci 2>&1)
+    local rc=$?
+    [[ $rc -ne 0 ]] || return 1
+    [[ "$output" == *"Uncommitted"* || "$output" == *"uncommitted"* || "$output" == *"Commit changes"* ]] || return 1
+'
+
+run_test "CI mode uncommitted error mentions CI mode" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    echo "dirty" >> "$tmpdir/lectures/week-01.qmd"
+    local output
+    output=$(cd "$tmpdir" && _teach_deploy_enhanced --direct --ci 2>&1)
+    [[ "$output" == *"CI"* || "$output" == *"ci"* ]] || return 1
+'
+
+run_test "Summary box contains Actions link for GitHub remote" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    (cd "$tmpdir" && git remote set-url origin "https://github.com/TestOrg/stat-101.git") 2>/dev/null
+    local output
+    output=$(
+        cd "$tmpdir"
+        _deploy_summary_box "Direct merge" "2" "30" "5" "8" "abcd1234" "https://testorg.github.io/stat-101/"
+    )
+    [[ "$output" == *"Actions:"* ]] || return 1
+    [[ "$output" == *"github.com/TestOrg/stat-101/actions"* ]] || return 1
+'
+
+run_test "Summary box omits Actions for non-GitHub remote" '
+    local tmpdir=$(_create_demo_repo)
+    (cd "$tmpdir" && git remote set-url origin "https://gitlab.com/TestOrg/stat-101.git") 2>/dev/null
+    local output
+    output=$(
+        cd "$tmpdir"
+        _deploy_summary_box "Direct merge" "2" "30" "5" "8" "abcd1234" ""
+    )
+    [[ "$output" != *"Actions:"* ]] || return 1
+'
+
+run_test "Summary box handles SSH GitHub remote" '
+    local tmpdir=$(_create_demo_repo)
+    (cd "$tmpdir" && git remote set-url origin "git@github.com:Data-Wise/stat-545.git") 2>/dev/null
+    local output
+    output=$(
+        cd "$tmpdir"
+        _deploy_summary_box "Pull request" "5" "100" "20" "12" "e5f6g7h8" ""
+    )
+    [[ "$output" == *"Data-Wise/stat-545/actions"* ]] || return 1
+'
+
+run_test "Trap handler returns to draft after direct merge failure" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    # Run in subshell to isolate trap side-effects
+    (
+        cd "$tmpdir"
+        # Force failure by targeting nonexistent production branch
+        _deploy_direct_merge "draft" "nonexistent-prod" "test" "false" 2>/dev/null
+        # Check branch after trap fires (trap fires on EXIT of _deploy_direct_merge)
+        local branch_after=$(git branch --show-current 2>/dev/null)
+        # Clean up trap before exiting subshell
+        trap - EXIT INT TERM
+        [[ "$branch_after" == "draft" ]] && exit 0 || exit 1
+    )
+'
+
+run_test "Pre-commit hook failure preserves staged changes" '
+    local tmpdir=$(_create_demo_repo)
+    (
+        cd "$tmpdir"
+        # Create a failing pre-commit hook
+        mkdir -p .git/hooks
+        printf "#!/bin/sh\nexit 1\n" > .git/hooks/pre-commit
+        chmod +x .git/hooks/pre-commit
+        # Stage a change
+        echo "new content" > lectures/week-02.qmd
+        git add lectures/week-02.qmd
+        # Commit should fail
+        git commit -m "test" 2>/dev/null
+    ) >/dev/null 2>&1
+    # Check that the file is still staged
+    local staged
+    staged=$(cd "$tmpdir" && git diff --cached --name-only 2>/dev/null)
+    [[ "$staged" == *"week-02"* ]] || return 1
+'
+
+run_test "Deploy with clean tree succeeds (no uncommitted prompt)" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    local output
+    output=$(cd "$tmpdir" && _teach_deploy_enhanced --direct --ci 2>&1)
+    local rc=$?
+    [[ $rc -eq 0 ]] || return 1
+    # Should NOT mention uncommitted changes
+    [[ "$output" != *"Uncommitted changes detected"* ]] || return 1
+'
+
+run_test "Direct deploy lifecycle with demo course produces history" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    (cd "$tmpdir" && _teach_deploy_enhanced --direct --ci) >/dev/null 2>&1
+    [[ -f "$tmpdir/.flow/deploy-history.yml" ]] || return 1
+    local count
+    count=$(cd "$tmpdir" && _deploy_history_count 2>/dev/null)
+    [[ "$count" == "1" ]] || return 1
+'
+
+run_test "Full deploy summary box has Mode, Files, Duration, Commit fields" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    (cd "$tmpdir" && git remote set-url origin "https://github.com/TestOrg/stat-101.git") 2>/dev/null
+    # Generate a summary box directly (not via full deploy, to avoid subshell trap issues)
+    local output
+    output=$(
+        cd "$tmpdir"
+        _deploy_summary_box "Direct merge" "3" "45" "12" "8" "a1b2c3d4" "https://testorg.github.io/stat-101/"
+    )
+    [[ "$output" == *"Mode:"* ]] || return 1
+    [[ "$output" == *"Files:"* ]] || return 1
+    [[ "$output" == *"Duration:"* ]] || return 1
+    [[ "$output" == *"Commit:"* ]] || return 1
+    [[ "$output" == *"Actions:"* ]] || return 1
 '
 
 echo ""

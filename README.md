@@ -259,6 +259,7 @@ teach exam "Hypothesis Testing"  # Generate exam via Scholar plugin
 teach quiz "Chapter Review"      # Generate quiz
 teach slides "Regression"        # Generate lecture slides
 teach --dry-run exam "Topic"     # Preview without writing files
+teach map                        # Show full ecosystem overview
 ```
 
 **Learn More:**
