@@ -1,125 +1,89 @@
 # Health Check Quick Reference Card
 
-> Quick reference for `teach doctor` and `flow doctor` commands (v5.14.0+)
+> Quick reference for `teach doctor` and `flow doctor` commands (v6.5.0+)
 
 ## Commands
 
-| Command | Alias | Description |
-|---------|-------|-------------|
-| `teach doctor` | - | Check teaching environment health |
-| `flow doctor` | `doctor` | Check flow-cli environment health |
-| `flow doctor --dot` | - | Check only DOT tokens (isolated, fast) |
-| `flow doctor --fix` | - | Interactive install missing tools |
-| `flow doctor --fix-token` | - | Fix only token issues |
+| Command | Description |
+|---------|-------------|
+| `teach doctor` | Quick teaching environment check (< 3s) |
+| `teach doctor --full` | Full comprehensive check (all categories) |
+| `teach doctor --fix` | Auto-fix issues (implies --full) |
+| `flow doctor` | Check flow-cli environment health |
+| `flow doctor --dot` | Check only DOT tokens (isolated, fast) |
 
-## Quick Examples
+## teach doctor Quick Examples
 
 ```bash
-# Full health check
+# Quick check: deps, R, config, git (< 3s)
 teach doctor
-flow doctor
 
-# Check only tokens (< 3s)
-flow doctor --dot
+# Full check: all categories including packages, macros, hooks
+teach doctor --full
 
-# Check specific token
-flow doctor --dot=github
+# Auto-fix issues (interactive)
+teach doctor --fix
 
-# Interactive fix
-flow doctor --fix
+# Warnings/failures only
+teach doctor --brief
 
-# Auto-install all
-flow doctor --fix -y
+# Individual R package listing + full macro list
+teach doctor --verbose
 
-# Fix only token issues
-flow doctor --fix-token
+# Machine-readable output for CI/CD
+teach doctor --ci
+teach doctor --json
 
-# Minimal output
-flow doctor --quiet
-
-# Detailed output
-flow doctor --verbose
-
-# JSON output
-flow doctor --json
+# Combine flags
+teach doctor --full --verbose
 ```
 
-## Options
+## teach doctor Options
 
-| Flag | Short | Description |
-|------|-------|-------------|
-| `--fix` | `-f` | Interactive install missing tools |
-| `--fix-token` | - | Fix only token issues (< 60s) |
-| `--yes` | `-y` | Skip confirmations (use with --fix) |
-| `--quiet` | `-q` | Minimal output (errors only) |
-| `--verbose` | `-v` | Detailed output + cache status |
-| `--dot` | - | Check only DOT tokens (isolated check) |
-| `--dot=TOKEN` | - | Check specific token (e.g., github) |
-| `--json` | - | Machine-readable JSON output |
-| `--ai` | `-a` | AI-assisted troubleshooting (Claude CLI) |
-| `--update-docs` | `-u` | Regenerate help files and docs |
-| `--help` | `-h` | Show help |
+| Flag | Description |
+|------|-------------|
+| `--full` | Full comprehensive check (all 11 categories) |
+| `--brief` | Show only warnings and failures |
+| `--fix` | Interactive fix mode (implies --full) |
+| `--verbose` | Detailed output: per-package R, full macro list (implies --full) |
+| `--json` | Machine-readable JSON output |
+| `--ci` | CI mode: no color, exit 1 on failure |
+| `--help` | Show help |
 
-## teach doctor Check Categories
+## teach doctor Two-Mode Architecture
 
-### 1. Dependencies
+### Quick Mode (default, < 3s)
 
-Required:
-- `yq` - YAML processing
-- `git` - Version control
-- `quarto` - Document rendering
-- `gh` - GitHub CLI
+| Category | Checks |
+|----------|--------|
+| Dependencies | yq, git, quarto, gh, examark, claude |
+| R Environment | R version, renv status, package count |
+| Config | .flow/teach-config.yml, schema, course, semester, dates |
+| Git Setup | repo, branches, remote, working tree |
 
-Optional:
-- `examark` - Exam generation
-- `claude` - Claude Code integration
+### Full Mode (--full)
 
-### 2. Project Configuration
+All quick mode checks plus:
 
-Checks:
-- `.flow/teach-config.yml` exists
-- Config validates against schema
-- Course name configured
-- Semester configured
-- Dates configured
+| Category | Checks |
+|----------|--------|
+| R Packages | Per-package install verification (batch check) |
+| Quarto Extensions | Extension count and listing |
+| Scholar Integration | Claude Code, Scholar plugin, lesson plans |
+| Git Hooks | pre-commit, pre-push, prepare-commit-msg |
+| Cache Health | Freeze cache size, freshness, file count |
+| LaTeX Macros | Sources, registry sync, CLAUDE.md docs, unused (opt-in) |
+| Teaching Style | Style config, approach, overrides, legacy shim |
 
-### 3. Git Setup
+## Health Indicator
 
-Checks:
-- Git repository initialized
-- Draft branch exists
-- Production branch exists (main/production)
-- Remote configured
-- Working tree status
+After each run, teach doctor writes `.flow/doctor-status.json`. The health dot shows on `teach` startup:
 
-### 4. Scholar Integration
-
-Checks:
-- Claude Code available
-- Scholar skills accessible
-- Lesson plan file (optional)
-
-### 5. Git Hooks
-
-Checks:
-- pre-commit hook
-- pre-push hook
-- prepare-commit-msg hook
-
-### 6. Cache Health
-
-Checks:
-- Freeze cache exists
-- Cache freshness (age in days)
-- Cache file count
-
-### 7. LaTeX Macros
-
-Checks:
-- Macro source files exist
-- Config cache up to date
-- CLAUDE.md has macro documentation
-- Macro usage (unused macros warning)
+| Dot | Status | Meaning |
+|-----|--------|---------|
+| Green | All passed | No warnings or failures |
+| Yellow | Warnings | Non-blocking issues found |
+| Red | Failures | Critical issues need fixing |
 
 ## flow doctor Check Categories
 
@@ -211,26 +175,28 @@ Interactive menu when running `--fix`:
 | 0 | All checks passed OR no issues found |
 | 1 | Failures detected OR user cancelled |
 
-## JSON Output Format
+## teach doctor JSON Output Format
 
 ```json
 {
+  "version": 1,
+  "mode": "quick",
   "summary": {
     "passed": 12,
     "warnings": 3,
-    "failures": 1,
-    "status": "unhealthy"
+    "failures": 0,
+    "status": "yellow"
   },
   "checks": [
     {
-      "check": "dep_fzf",
+      "check": "dep_yq",
       "status": "pass",
-      "message": "4.0.0"
+      "message": "4.52.2"
     },
     {
-      "check": "github_token",
+      "check": "config_valid",
       "status": "warn",
-      "message": "expiring in 5 days"
+      "message": "invalid"
     }
   ]
 }
@@ -255,31 +221,14 @@ Output:
   ⚠  Expiring in 7 days
 ```
 
-## Performance
+## teach doctor Performance
 
 | Operation | Time |
 |-----------|------|
-| Full check | ~2-5 seconds |
-| Token check (--dot) | < 3 seconds |
-| Token check (cached) | < 100ms |
-| Fix all | Varies by tools |
-
-## Cache Behavior
-
-Token checks use 5-minute cache:
-
-```bash
-# First call: validates via API (~2s)
-flow doctor --dot
-
-# Subsequent calls: uses cache (<100ms)
-flow doctor --dot
-
-# Show cache status
-flow doctor --dot --verbose
-```
-
-Cache hit rate: ~85%
+| Quick check (default) | < 1 second |
+| Full check (--full) | 3-5 seconds |
+| Full + verbose | 3-5 seconds |
+| Fix mode | Varies by issues |
 
 ## STAT-101 Demo Example
 
@@ -287,32 +236,52 @@ Cache hit rate: ~85%
 # Navigate to demo course
 cd tests/fixtures/demo-course
 
-# Full teaching environment check
+# Quick check (deps, R, config, git)
 teach doctor
 
-# Install missing tools
+# Full check (all 11 categories)
+teach doctor --full
+
+# Auto-fix issues
 teach doctor --fix
 
-# Validate configuration
-teach doctor --quiet
+# CI pipeline
+teach doctor --ci --full
 ```
 
 ## Common Workflows
 
 ```bash
 # First-time setup
-flow doctor --fix
 teach doctor --fix
 
-# Pre-commit check
-teach doctor --quiet
+# Quick pre-commit check
+teach doctor --brief
 
-# Token rotation
-flow doctor --fix-token
+# Full audit before deploy
+teach doctor --full
 
-# Quick status
-flow doctor --dot
+# CI/CD pipeline
+teach doctor --ci --full || exit 1
+
+# JSON for automation
+teach doctor --json --full | jq '.summary.status'
+
+# Detailed debugging
+teach doctor --verbose
 ```
+
+## flow doctor Options
+
+| Flag | Short | Description |
+|------|-------|-------------|
+| `--fix` | `-f` | Interactive install missing tools |
+| `--fix-token` | - | Fix only token issues (< 60s) |
+| `--dot` | - | Check only DOT tokens (isolated check) |
+| `--quiet` | `-q` | Minimal output (errors only) |
+| `--verbose` | `-v` | Detailed output + cache status |
+| `--json` | - | Machine-readable JSON output |
+| `--help` | `-h` | Show help |
 
 ## Integration
 
@@ -320,9 +289,9 @@ flow doctor --dot
 |------|---------------------|
 | `teach init` | Validates dependencies before setup |
 | `teach deploy` | Pre-deployment health check |
+| `teach` startup | Shows health dot (green/yellow/red) |
 | `g push/pull` | Validates token before remote ops |
 | `work` | Checks token on session start |
-| `finish` | Validates before push |
 
 ## See Also
 
@@ -333,5 +302,5 @@ flow doctor --dot
 
 ---
 
-**Version:** v5.14.0
-**Last Updated:** 2026-02-02
+**Version:** v6.5.0
+**Last Updated:** 2026-02-08

@@ -10,8 +10,8 @@ tags:
 **Purpose:** Complete reference for all 12 flow-cli dispatchers
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v6.5.0
+**Last Updated:** 2026-02-08
 
 ---
 
@@ -1573,6 +1573,47 @@ Similar to exam but shorter, focused on single week.
 
 ---
 
+#### Health Check (v6.5.0)
+
+Two-mode environment validation for teaching projects.
+
+**Quick check (default, < 1s):**
+```bash
+teach doctor
+```
+
+Checks 4 categories: dependencies, R environment + renv, project config, git setup.
+
+**Full check (3-5s):**
+```bash
+teach doctor --full
+```
+
+Adds 7 categories: R packages, Quarto extensions, Scholar integration, git hooks, cache health, LaTeX macros (opt-in), teaching style.
+
+**Output modes:**
+```bash
+teach doctor --brief      # Warnings/failures only
+teach doctor --verbose    # Per-package R detail, full macro list
+teach doctor --json       # Machine-readable JSON
+teach doctor --ci         # No color, exit 1 on failure
+```
+
+**Auto-fix:**
+```bash
+teach doctor --fix        # Interactive fix (implies --full)
+```
+
+Prompts for each fixable issue: missing deps, R packages, git hooks, stale cache.
+
+**Health indicator:** Writes `.flow/doctor-status.json` — shows green/yellow/red dot on `teach` startup.
+
+!!! note "Macro checks are opt-in"
+    LaTeX macro registry and unused macro checks only run when
+    `scholar.latex_macros.enabled: true` in teach-config.yml.
+
+---
+
 ### Advanced
 
 #### Scholar Configuration
@@ -2008,7 +2049,7 @@ qu preview
 **Macros (v5.21.0):**
 - `teach macros` - List all macros
 - `teach macros list` - List with filtering/JSON
-- `teach macros sync` - Extract from source files
+- `teach macros sync` - Extract from source files to `.flow/macros/registry.yml`
 - `teach macros export` - Export for Scholar
 
 **Lesson Plans (v5.22.0):**
@@ -2017,6 +2058,15 @@ qu preview
 - `teach plan show <week>` - Display week details
 - `teach plan edit <week>` - Open in $EDITOR at correct line
 - `teach plan delete <week>` - Remove week entry (with confirmation)
+
+**Health Check (v6.5.0):**
+- `teach doctor` - Quick check: deps, R, config, git (< 1s)
+- `teach doctor --full` - Full: all 11 categories (3-5s)
+- `teach doctor --fix` - Auto-fix issues (implies --full)
+- `teach doctor --verbose` - Detailed output (implies --full)
+- `teach doctor --brief` - Warnings and failures only
+- `teach doctor --json` - Machine-readable JSON
+- `teach doctor --ci` - CI mode: no color, exit 1 on failure
 
 **Help:**
 - `teach help` - Show help
@@ -2414,7 +2464,7 @@ als           # List all aliases by category
 
 ---
 
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v6.5.0
+**Last Updated:** 2026-02-08
 **Total:** 12 dispatchers fully documented
 **Lines:** 3,000+ lines

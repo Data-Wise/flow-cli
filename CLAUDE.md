@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v6.4.3
+- **Current Version:** v6.5.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -147,15 +147,21 @@ v <cmd>       # Vibe coding mode
 
 ### Teaching Subcommands
 
-`teach analyze`, `teach init`, `teach deploy`, `teach exam`, `teach macros`, `teach plan`, `teach style`, `teach templates`, `teach prompt`
+`teach analyze`, `teach init`, `teach deploy`, `teach doctor`, `teach exam`, `teach macros`, `teach plan`, `teach style`, `teach templates`, `teach prompt`
 
+- **Doctor (v2):** Two-mode architecture — quick (default, < 3s) and full (`--full`, 11 categories)
+  - Quick mode: CLI deps, R + renv, config, git (4 categories)
+  - Full mode: + per-package R checks, quarto ext, scholar, hooks, cache, macros, style
+  - Flags: `--full`, `--brief`, `--fix`, `--json`, `--ci`, `--verbose`
+  - `--fix` offers renv vs system install choice for R packages
+  - `--ci` exits non-zero on failure, no color, machine-readable output
+  - Health dot shown on `teach` startup (refreshed on next `teach doctor` run)
 - **Deploy:** `teach deploy --direct` (8-15s direct merge) or `teach deploy` (PR workflow)
 - **Deploy extras:** `--dry-run`, `--ci`, `--history [N]`, `--rollback [N]`
 - **Templates:** `.flow/templates/` (content, prompts, metadata, checklists)
 - **Macros:** `teach macros list|sync|export` (LaTeX notation consistency)
 - **Plans:** `teach plan create|list|show|edit|delete` (lesson plan CRUD)
 - **Prompts:** `teach prompt list|show|edit|validate|export` (3-tier resolution)
-- **Token checks:** `doctor --dot` (< 3s, cached), `doctor --fix-token`
 
 ---
 
@@ -164,7 +170,7 @@ v <cmd>       # Vibe coding mode
 ```
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
-├── lib/                      # Core libraries (66 files)
+├── lib/                      # Core libraries (63 files)
 │   ├── core.zsh              # Colors, logging, utilities
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
@@ -176,7 +182,7 @@ flow-cli/
 ├── hooks/                    # ZSH hooks
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
-├── tests/                    # 176 test files, 3500+ test functions
+├── tests/                    # 137 test files, 8000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -242,7 +248,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**176 test files, 3500+ test functions.** Run: `./tests/run-all.sh` (40/40 passing, 0 timeouts) or individual suites in `tests/`.
+**137 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (42/42 passing, 0 timeouts) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -270,8 +276,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v6.4.3 | **Tests:** 3500+ (40/40 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v6.5.0 | **Tests:** 8000+ (42/42 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-06 (v6.4.3)
+**Last Updated:** 2026-02-08 (v6.5.0)

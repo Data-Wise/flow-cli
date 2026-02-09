@@ -8,8 +8,8 @@ tags:
 
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
-**Version:** v6.4.2
-**Last Updated:** 2026-02-04
+**Version:** v6.5.0
+**Last Updated:** 2026-02-08
 
 ---
 
@@ -665,6 +665,36 @@ teach help
 
 ---
 
+### Health Check (Doctor v2)
+
+```bash
+# Quick check (default, < 3s) — deps, R, config, git
+teach doctor
+# Output: ✅ Dependencies   yq, git, quarto, gh, claude
+#         ✅ R Environment  R 4.4.2, renv active (48 packages)
+#         ✅ Configuration  .flow/teach-config.yml
+#         ✅ Git Setup      main + gh-pages, clean
+
+# Full check (all 11 categories)
+teach doctor --full
+# Output: [Quick checks + R packages, quarto ext, scholar, hooks, cache, macros, style]
+
+# Fix issues interactively (implies --full)
+teach doctor --fix
+# Output: [Prompts to install missing R packages via renv or system]
+
+# CI mode (no color, exit 1 on failure)
+teach doctor --ci --full
+
+# Machine-readable JSON output
+teach doctor --json
+
+# Summary only (failures and warnings)
+teach doctor --brief
+```
+
+---
+
 ### Scholar Integration
 
 ```bash
@@ -1025,6 +1055,6 @@ mcp help
 
 ---
 
-**Version:** v6.4.2
-**Last Updated:** 2026-02-04
+**Version:** v6.5.0
+**Last Updated:** 2026-02-08
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

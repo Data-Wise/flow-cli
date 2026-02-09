@@ -1,25 +1,31 @@
 # Teach Doctor Implementation Guide
 
-**Version:** v4.6.0
+**Version:** v6.5.0 (Doctor v2)
 **Status:** ✅ Complete Implementation
 **Files:**
-- `lib/dispatchers/teach-doctor-impl.zsh` (620 lines)
-- `tests/test-teach-doctor-unit.zsh` (585 lines, 39 tests)
+- `lib/dispatchers/teach-doctor-impl.zsh` (~1220 lines)
+- `tests/test-teach-doctor-unit.zsh` (86 assertions, 19 suites)
+- `tests/e2e-teach-doctor-v2.zsh` (33 tests, 14 workflows)
+- `tests/dogfood-teach-doctor-v2.zsh` (43 tests, 11 sections)
 
 ---
 
 ## Overview
 
-`teach doctor` is a comprehensive health check system for teaching environments that validates dependencies, configuration, git setup, Scholar integration, git hooks, and cache health.
+`teach doctor` is a two-mode health check system for teaching environments. Quick mode (default, < 3s) checks essentials; full mode (`--full`) runs all 11 check categories.
 
 ### Key Features
 
-1. **6 Check Categories** - Dependencies, Config, Git, Scholar, Hooks, Cache
-2. **Interactive Fix Mode** (`--fix`) - Prompt user to install missing dependencies
-3. **JSON Output** (`--json`) - CI/CD integration support
-4. **Quiet Mode** (`--quiet`) - Only show warnings/failures
-5. **Performance** - Complete check in <5 seconds
-6. **Non-destructive** - All checks are read-only (except with `--fix`)
+1. **Two-Mode Architecture** - Quick (< 3s) and Full (`--full`) checks
+2. **10 Check Categories** - Dependencies, R env, Config, Git, R packages, Quarto ext, Scholar, Hooks, Cache, Macros, Teaching Style
+3. **Interactive Fix Mode** (`--fix`) - Auto-fix missing deps, hooks, R packages
+4. **CI/CD Mode** (`--ci`) - No color, machine-readable, exit 1 on failure
+5. **JSON Output** (`--json`) - Machine-readable structured output
+6. **Brief Mode** (`--brief`) - Only warnings/failures
+7. **Verbose Mode** (`--verbose`) - Per-package R listing, full macro list
+8. **Health Indicator** - Green/yellow/red dot on `teach` startup via `.flow/doctor-status.json`
+9. **Spinner UX** - Background spinner for slow checks (> 5s shows elapsed)
+10. **Non-destructive** - All checks are read-only (except with `--fix`)
 
 ---
 
@@ -124,10 +130,10 @@ Cache Health:
   → Clear stale cache? [y/N] n
 ```
 
-### Quiet Mode
+### Brief Mode
 
 ```bash
-teach doctor --quiet
+teach doctor --brief
 ```
 
 **Only shows warnings and failures:**
@@ -288,7 +294,7 @@ teach doctor --json
 
 ```
 teach doctor
-  ├── Flag parsing (--quiet, --fix, --json, --help)
+  ├── Flag parsing (--brief, --fix, --json, --help)
   ├── Header output
   ├── Check runners (6 categories)
   │   ├── _teach_doctor_check_dependencies()
@@ -304,7 +310,7 @@ teach doctor
 ### State Variables
 
 ```zsh
-local quiet=false      # --quiet flag
+local brief=false      # --brief flag
 local fix=false        # --fix flag
 local json=false       # --json flag
 local -i passed=0      # Pass counter
@@ -544,7 +550,7 @@ _teach_doctor [OPTIONS]
 ```
 
 **Options:**
-- `--quiet`, `-q` - Only show warnings and failures
+- `--brief` - Only show warnings and failures
 - `--fix` - Interactive fix mode
 - `--json` - JSON output for CI/CD
 - `--help`, `-h` - Show help

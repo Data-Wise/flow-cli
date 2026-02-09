@@ -8,7 +8,7 @@ tags:
 
 > **Learn flow-cli step by step** - From your first session to advanced workflows.
 >
-> **Total time:** ~4 hours | **17 tutorials** | **Beginner → Intermediate**
+> **Total time:** ~6 hours | **21 tutorials** | **Beginner → Intermediate**
 
 ---
 
@@ -153,9 +153,13 @@ flowchart TD
 | 14 | [Teach Dispatcher](14-teach-dispatcher.md) | 20 min | 🟡 Intermediate | Teaching workflow (v5.9.0+) |
 | 21 | [Teach Analyze](21-teach-analyze.md) | 25 min | 🟡 Intermediate | AI content analysis (v5.16.0) |
 | 22 | [Plugin Optimization](22-plugin-optimization.md) | 20 min | 🟡 Intermediate | Load guards & performance |
-| 23 | [Token Automation](23-token-automation.md) | 15 min | 🟡 Intermediate | Smart token management (v5.17.0) ⭐ **NEW** |
+| 23 | [Token Automation](23-token-automation.md) | 15 min | 🟡 Intermediate | Smart token management (v5.17.0) |
+| 26 | [LaTeX Macros](26-latex-macros.md) | 20 min | 🟡 Intermediate | Macro management for courses |
+| 29 | [First Exam Walkthrough](29-first-exam-walkthrough.md) | 25 min | 🟡 Intermediate | End-to-end exam creation |
+| 30 | [New Instructor Workflow](30-new-instructor-complete-workflow.md) | 30 min | 🟢 Beginner | Complete setup for new instructors |
+| 32 | [Health Check (Doctor v2)](32-teach-doctor.md) | 20 min | 🟡 Intermediate | Two-mode health check ⭐ **NEW** |
 
-**Total estimated time:** ~5 hours (all tutorials)
+**Total estimated time:** ~6 hours (all tutorials)
 
 ---
 

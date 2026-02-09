@@ -227,5 +227,5 @@ teach plan help
 
 ---
 
-**Last Updated:** 2026-02-04
-**Version:** v6.4.2
+**Last Updated:** 2026-02-08
+**Version:** v6.5.0

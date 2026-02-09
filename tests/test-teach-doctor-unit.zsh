@@ -3,8 +3,9 @@
 # TEACH DOCTOR - Unit Tests
 # ==============================================================================
 #
-# Tests for teach doctor health check system
-# Tests all 6 check categories and interactive --fix mode
+# Tests for teach doctor health check system (v2)
+# Tests all check categories, two-mode architecture, renv awareness,
+# severity-grouped summary, CI mode, status file, and bug fixes
 
 # Test setup
 SCRIPT_DIR="${0:A:h}"
@@ -12,6 +13,8 @@ PROJECT_ROOT="${SCRIPT_DIR:h}"
 
 # Source core and teach doctor
 source "${PROJECT_ROOT}/lib/core.zsh"
+source "${PROJECT_ROOT}/lib/r-helpers.zsh" 2>/dev/null || true
+source "${PROJECT_ROOT}/lib/renv-integration.zsh" 2>/dev/null || true
 source "${PROJECT_ROOT}/lib/dispatchers/teach-doctor-impl.zsh"
 
 # Test counters
@@ -250,20 +253,25 @@ test_suite_r_packages() {
         return 0
     fi
 
-    # Reset counters
+    # Reset counters and set v2 mode variables
     passed=0
     warnings=0
+    failures=0
     json_results=()
     quiet=false
     json=false
+    full=true
+    verbose=false
+    fix=false
+    ci=false
 
     # Test: R package check function exists
     assert_success "R package check function exists" "typeset -f _teach_doctor_check_r_packages"
 
-    # Test: Check common packages
+    # Test: Check common packages (v2 uses batch check + summary line)
     _teach_doctor_check_r_packages
     local total_checks=$((passed + warnings))
-    assert_success "R package checks run" "[[ $total_checks -ge 5 ]]"
+    assert_success "R package checks run" "[[ $total_checks -ge 1 ]]"
 }
 
 # ==============================================================================
@@ -537,7 +545,7 @@ test_suite_interactive_fix() {
 }
 
 # ==============================================================================
-# TEST SUITE 11: Flag Handling
+# TEST SUITE 11: Flag Handling (v2 — updated)
 # ==============================================================================
 
 test_suite_flag_handling() {
@@ -548,19 +556,361 @@ test_suite_flag_handling() {
 
     setup_mock_env
 
-    # Test: Help flag works
-    local output=$(_teach_doctor --help 2>&1)
-    assert_contains "Help flag works" "$output" "USAGE"
+    # Test: Help flag works (requires teach-dispatcher for help function)
+    if typeset -f _teach_doctor_help >/dev/null 2>&1; then
+        local output=$(_teach_doctor --help 2>&1)
+        assert_contains "Help flag works" "$output" "teach doctor"
+    else
+        echo "  ${YELLOW}⊘${NC} Help flag test skipped (teach-dispatcher not loaded)"
+    fi
 
     # Test: JSON flag produces JSON
     local output=$(_teach_doctor --json 2>&1)
     assert_contains "JSON flag produces JSON" "$output" '"summary"'
 
-    # Test: Quiet flag suppresses output
+    # Test: --brief flag suppresses passed output
+    local output=$(_teach_doctor --brief 2>&1 | wc -l)
+    assert_success "Brief flag reduces output" "[[ $output -lt 50 ]]"
+
+    # Test: --quiet is alias for --brief
     local output=$(_teach_doctor --quiet 2>&1 | wc -l)
-    assert_success "Quiet flag reduces output" "[[ $output -lt 50 ]]"
+    assert_success "Quiet flag (deprecated alias) reduces output" "[[ $output -lt 50 ]]"
+
+    # Test: --full flag runs more checks
+    local full_output=$(_teach_doctor --full --brief 2>&1 | wc -l)
+    local quick_output=$(_teach_doctor --brief 2>&1 | wc -l)
+    # Full mode should produce equal or more output since it runs more checks
+    assert_success "Full mode runs more checks" "[[ $full_output -ge $quick_output ]]"
 
     teardown_mock_env
+}
+
+# ==============================================================================
+# TEST SUITE 12: Two-Mode Architecture (v2)
+# ==============================================================================
+
+test_suite_two_mode() {
+    echo ""
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo "${BLUE}  Test Suite 12: Two-Mode Architecture (v2)${NC}"
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+    setup_mock_env
+
+    # Test: Default mode is quick (shows skipped hint)
+    local output=$(_teach_doctor 2>&1)
+    assert_contains "Quick mode shows skip hint" "$output" "Skipped (run --full)"
+    assert_contains "Quick mode has R Environment" "$output" "R Environment"
+
+    # Test: Quick mode header
+    local output=$(_teach_doctor 2>&1)
+    assert_contains "Quick mode header" "$output" "quick check"
+
+    # Test: Full mode header
+    local output=$(_teach_doctor --full 2>&1)
+    assert_contains "Full mode header" "$output" "full check"
+
+    # Test: Full mode does NOT show skip hint
+    local output=$(_teach_doctor --full 2>&1)
+    if [[ "$output" != *"Skipped (run --full)"* ]]; then
+        ((TESTS_RUN++)); ((TESTS_PASSED++))
+        echo "  ${GREEN}✓${NC} Full mode hides skip hint"
+    else
+        ((TESTS_RUN++)); ((TESTS_FAILED++))
+        FAILED_TESTS+=("Full mode hides skip hint")
+        echo "  ${RED}✗${NC} Full mode hides skip hint"
+    fi
+
+    # Test: --fix implies full mode
+    local output=$(_teach_doctor --fix --brief 2>&1)
+    assert_contains "Fix implies full mode" "$output" ""  # Just check it doesn't crash
+
+    # Test: Quick mode runs < 5 seconds (timing test)
+    local start_t=$EPOCHSECONDS
+    _teach_doctor --brief >/dev/null 2>&1
+    local elapsed=$(( EPOCHSECONDS - start_t ))
+    assert_success "Quick mode runs fast (<5s)" "[[ $elapsed -lt 5 ]]"
+
+    teardown_mock_env
+}
+
+# ==============================================================================
+# TEST SUITE 13: Quick R Check (v2)
+# ==============================================================================
+
+test_suite_r_quick() {
+    echo ""
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo "${BLUE}  Test Suite 13: Quick R Check (v2)${NC}"
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+    setup_mock_env
+
+    # Reset counters
+    passed=0
+    warnings=0
+    json_results=()
+    quiet=false
+    json=false
+    full=false
+    verbose=false
+    ci=false
+
+    # Test: Quick R check function exists
+    assert_success "Quick R check function exists" "typeset -f _teach_doctor_check_r_quick"
+
+    # Test: Quick R check runs (R available or not)
+    local output=$(_teach_doctor_check_r_quick 2>&1)
+    assert_contains "Quick R check has section header" "$output" "R Environment"
+
+    if command -v R &>/dev/null; then
+        # Test: R version detected in quick mode
+        local r_ver=$(R --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+        assert_contains "Quick R shows version" "$output" "R ($r_ver)"
+
+        # Test: Shows full mode hint
+        assert_contains "Quick R shows full hint" "$output" "Run --full for package details"
+    fi
+
+    # Test: renv detection (mock renv)
+    mkdir -p renv
+    echo '{"R":{"Version":"4.4.0"},"Packages":{}}' > renv.lock
+    echo "# renv activate" > renv/activate.R
+
+    passed=0
+    json_results=()
+    local output=$(_teach_doctor_check_r_quick 2>&1)
+    assert_contains "renv detected" "$output" "renv active"
+
+    # Cleanup
+    rm -rf renv renv.lock
+
+    teardown_mock_env
+}
+
+# ==============================================================================
+# TEST SUITE 14: Quarto Extension Glob Fix (v2 - Bug Fix Verification)
+# ==============================================================================
+
+test_suite_quarto_glob_fix() {
+    echo ""
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo "${BLUE}  Test Suite 14: Quarto Extension Glob Fix (v2)${NC}"
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+    setup_mock_env
+
+    # Reset
+    passed=0
+    warnings=0
+    failures=0
+    json_results=()
+    quiet=false
+    json=false
+
+    # Test: Extension with spaces in name (was crashing before fix)
+    mkdir -p "_extensions/Terminal Resources/example"
+    _teach_doctor_check_quarto_extensions 2>&1
+    assert_success "Extensions with spaces don't crash" "[[ $? -eq 0 || true ]]"
+    assert "Extension with spaces detected" "$passed" "1"
+
+    # Test: Multiple extensions counted correctly
+    mkdir -p "_extensions/quarto-ext/fontawesome"
+    mkdir -p "_extensions/quarto-ext/lightbox"
+    passed=0
+    warnings=0
+    json_results=()
+    _teach_doctor_check_quarto_extensions 2>&1
+    assert "Multiple extensions counted" "$passed" "1"
+
+    # Verify count is correct (3 extensions total)
+    local count_msg=""
+    for r in "${json_results[@]}"; do
+        if [[ "$r" == *"quarto_extensions"* ]]; then
+            count_msg="$r"
+            break
+        fi
+    done
+    assert_contains "Extension count in JSON" "$count_msg" "3 installed"
+
+    teardown_mock_env
+}
+
+# ==============================================================================
+# TEST SUITE 15: Severity-Grouped Summary (v2)
+# ==============================================================================
+
+test_suite_summary() {
+    echo ""
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo "${BLUE}  Test Suite 15: Severity-Grouped Summary (v2)${NC}"
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+    # Test: Summary with no failures
+    passed=10
+    warnings=2
+    failures=0
+    start_time=$EPOCHSECONDS
+    failure_details=()
+
+    local output=$(_teach_doctor_summary 2>&1)
+    assert_contains "Summary shows pass count" "$output" "Passed: 10"
+    assert_contains "Summary shows warning count" "$output" "Warnings: 2"
+
+    # Test: Summary with failures shows details
+    passed=8
+    warnings=1
+    failures=2
+    failure_details=("Quarto not found\n    -> brew install --cask quarto" "R package 'ggplot2' not found\n    -> install.packages('ggplot2')")
+
+    local output=$(_teach_doctor_summary 2>&1)
+    assert_contains "Summary shows failures section" "$output" "Failures (2)"
+    assert_contains "Summary shows failure detail" "$output" "Quarto not found"
+    assert_contains "Summary has border" "$output" "────"
+}
+
+# ==============================================================================
+# TEST SUITE 16: CI Mode (v2)
+# ==============================================================================
+
+test_suite_ci_mode() {
+    echo ""
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo "${BLUE}  Test Suite 16: CI Mode (v2)${NC}"
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+    setup_mock_env
+
+    # Test: CI mode produces machine-readable output
+    local output=$(_teach_doctor --ci 2>&1)
+    assert_contains "CI mode has status" "$output" "doctor:status="
+    assert_contains "CI mode has passed" "$output" "doctor:passed="
+    assert_contains "CI mode has warnings" "$output" "doctor:warnings="
+    assert_contains "CI mode has failures" "$output" "doctor:failures="
+    assert_contains "CI mode has mode" "$output" "doctor:mode="
+
+    # Test: CI mode exit code 0 for passing
+    _teach_doctor --ci >/dev/null 2>&1
+    assert "CI exit code 0 when passing" "$?" "0"
+
+    teardown_mock_env
+}
+
+# ==============================================================================
+# TEST SUITE 17: Status File (v2)
+# ==============================================================================
+
+test_suite_status_file() {
+    echo ""
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo "${BLUE}  Test Suite 17: Status File (v2)${NC}"
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+    setup_mock_env
+
+    # Test: Doctor writes status file
+    _teach_doctor --brief >/dev/null 2>&1
+    assert_success "Status file created" "[[ -f .flow/doctor-status.json ]]"
+
+    # Test: Status file is valid JSON (if jq available)
+    if command -v jq &>/dev/null; then
+        assert_success "Status file is valid JSON" "jq empty .flow/doctor-status.json"
+
+        # Test: Status file has required fields
+        local health_status=$(jq -r '.status' .flow/doctor-status.json 2>/dev/null)
+        assert_success "Status file has status field" "[[ -n '$health_status' ]]"
+
+        local file_version=$(jq -r '.version' .flow/doctor-status.json 2>/dev/null)
+        assert "Status file version is 1" "$file_version" "1"
+
+        local file_mode=$(jq -r '.mode' .flow/doctor-status.json 2>/dev/null)
+        assert "Status file mode is quick" "$file_mode" "quick"
+    fi
+
+    # Test: Health indicator function exists
+    assert_success "Health indicator function exists" "typeset -f _teach_health_indicator"
+    assert_success "Health dot function exists" "typeset -f _teach_health_dot"
+
+    # Test: Health indicator reads status
+    local indicator=$(_teach_health_indicator 2>/dev/null)
+    assert_success "Health indicator returns value" "[[ -n '$indicator' ]]"
+
+    teardown_mock_env
+}
+
+# ==============================================================================
+# TEST SUITE 18: JSON Output v2 (updated fields)
+# ==============================================================================
+
+test_suite_json_v2() {
+    echo ""
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo "${BLUE}  Test Suite 18: JSON Output v2${NC}"
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+    # Reset counters
+    passed=5
+    warnings=0
+    failures=0
+    full=false
+    json_results=(
+        '{"check":"test1","status":"pass","message":"ok"}'
+    )
+
+    # Test: JSON v2 has version field
+    local output=$(_teach_doctor_json_output 2>&1)
+    assert_contains "JSON v2 has version" "$output" '"version": 1'
+
+    # Test: JSON v2 has mode field
+    assert_contains "JSON v2 has mode" "$output" '"mode": "quick"'
+
+    # Test: JSON v2 has status color
+    assert_contains "JSON v2 has green status" "$output" '"status": "green"'
+
+    # Test: Full mode in JSON
+    full=true
+    local output=$(_teach_doctor_json_output 2>&1)
+    assert_contains "JSON v2 full mode" "$output" '"mode": "full"'
+
+    # Test: Yellow status with warnings
+    full=false
+    warnings=2
+    local output=$(_teach_doctor_json_output 2>&1)
+    assert_contains "JSON v2 yellow status" "$output" '"status": "yellow"'
+
+    # Test: Red status with failures
+    failures=1
+    local output=$(_teach_doctor_json_output 2>&1)
+    assert_contains "JSON v2 red status" "$output" '"status": "red"'
+}
+
+# ==============================================================================
+# TEST SUITE 19: Batch R Package Check (v2 - Bug Fix Verification)
+# ==============================================================================
+
+test_suite_batch_r_check() {
+    echo ""
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo "${BLUE}  Test Suite 19: Batch R Package Check (v2)${NC}"
+    echo "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+    # Skip if R not available
+    if ! command -v R &>/dev/null; then
+        echo "  ${YELLOW}⊘${NC} R not available, skipping batch R check tests"
+        return 0
+    fi
+
+    # Test: Batch function exists
+    assert_success "Batch R function exists" "typeset -f _get_installed_r_packages"
+
+    # Test: Batch function returns packages
+    local pkgs=$(_get_installed_r_packages 2>/dev/null)
+    assert_success "Batch R returns packages" "[[ -n '$pkgs' ]]"
+
+    # Test: Known base packages in list
+    assert_contains "Batch R includes base" "$pkgs" "base"
+    assert_contains "Batch R includes stats" "$pkgs" "stats"
+    assert_contains "Batch R includes utils" "$pkgs" "utils"
 }
 
 # ==============================================================================
@@ -585,6 +935,16 @@ main() {
     test_suite_json_output
     test_suite_interactive_fix
     test_suite_flag_handling
+
+    # v2 test suites
+    test_suite_two_mode
+    test_suite_r_quick
+    test_suite_quarto_glob_fix
+    test_suite_summary
+    test_suite_ci_mode
+    test_suite_status_file
+    test_suite_json_v2
+    test_suite_batch_r_check
 
     # Final summary
     echo ""

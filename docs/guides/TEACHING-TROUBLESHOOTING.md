@@ -2,8 +2,8 @@
 
 > Quick fixes for common issues with the teach dispatcher.
 >
-> **Version:** v6.1.0+
-> **Last Updated:** 2026-02-02
+> **Version:** v6.5.0+
+> **Last Updated:** 2026-02-08
 
 ---
 
@@ -12,17 +12,17 @@
 **First steps for any issue:**
 
 ```bash
-teach doctor                 # Full health check
-teach doctor --fix           # Auto-fix common issues
-teach doctor --json          # Machine-readable output
+teach doctor                 # Quick check: deps, R, config, git (< 1s)
+teach doctor --full          # Full: all 11 categories (3-5s)
+teach doctor --fix           # Auto-fix common issues (implies --full)
 ```
 
-**Category-specific checks:**
+**Output options:**
 
 ```bash
-teach doctor --dot           # Check only dependencies
-teach doctor --quiet         # Show only warnings/failures
-teach doctor --verbose       # Detailed debug output
+teach doctor --brief         # Show only warnings/failures
+teach doctor --verbose       # Detailed: per-package R, full macro list
+teach doctor --json          # Machine-readable JSON output
 ```
 
 ---
@@ -90,7 +90,7 @@ course:
 
 ```bash
 teach validate --config       # Run full config validation
-teach doctor --quiet          # Check for remaining issues
+teach doctor --brief          # Check for remaining issues
 ```
 
 ---

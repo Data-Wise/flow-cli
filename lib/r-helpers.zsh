@@ -183,6 +183,36 @@ _list_r_packages_from_sources() {
 # ============================================================================
 
 # =============================================================================
+# Function: _get_installed_r_packages
+# Purpose: Get all installed R package names in a single batch R call
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Package list retrieved
+#   1 - R is not available
+#
+# Output:
+#   stdout - Installed package names, one per line
+#
+# Notes:
+#   - Single R invocation (fast: ~1s vs N × 0.5s for per-package checks)
+#   - Works correctly under renv (checks active library)
+# =============================================================================
+_get_installed_r_packages() {
+    if ! command -v R &>/dev/null; then
+        return 1
+    fi
+
+    # Use 'command R' to bypass aliases; grep filters out renv/startup noise
+    # R package names are alphanumeric with dots (e.g., "ggplot2", "data.table")
+    command R --quiet --slave -e "cat(rownames(installed.packages()), sep='\n')" 2>/dev/null \
+        | command grep -E '^[a-zA-Z][a-zA-Z0-9.]*$'
+    return ${pipestatus[1]}
+}
+
+# =============================================================================
 # Function: _check_r_package_installed
 # Purpose: Verify if a specific R package is installed in the R environment
 # =============================================================================

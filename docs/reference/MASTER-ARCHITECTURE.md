@@ -381,6 +381,62 @@ graph TD
 - **Content:** AI analysis results
 - **Invalidation:** On file content change (SHA-256 hash)
 
+**4. Doctor Status (v6.5.0)**
+- **File:** `.flow/doctor-status.json`
+- **TTL:** None (refreshed on next `teach doctor` run)
+- **Content:** Last check results (passed/warnings/failures count, status color)
+- **Invalidation:** On next `teach doctor` run
+
+**5. Macro Registry (v6.5.0)**
+- **File:** `.flow/macros/registry.yml`
+- **Content:** Extracted LaTeX macro definitions from source files
+- **Invalidation:** Manual via `teach macros sync`
+
+---
+
+### teach doctor v2 Architecture
+
+Two-mode health check for teaching projects.
+
+```
+teach doctor                    teach doctor --full
+    │                               │
+    ▼                               ▼
+┌─────────────┐             ┌─────────────────┐
+│ Quick Mode  │             │   Full Mode      │
+│ (< 1s)      │             │   (3-5s)         │
+├─────────────┤             ├─────────────────┤
+│ Dependencies│             │ Quick checks +   │
+│ R Environ   │             │ R Packages       │
+│ Config      │             │ Quarto Exts      │
+│ Git Setup   │             │ Scholar          │
+└──────┬──────┘             │ Git Hooks        │
+       │                    │ Cache Health     │
+       │                    │ Macros (opt-in)  │
+       │                    │ Teaching Style   │
+       ▼                    └──────┬──────────┘
+┌──────────────┐                   │
+│ Status File  │◄──────────────────┘
+│ .flow/       │
+│ doctor-      │
+│ status.json  │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│ Health Dot   │  Green/Yellow/Red on `teach` startup
+└──────────────┘
+```
+
+**Key design decisions:**
+
+- **Quick by default:** 4 categories, < 1s. No R subprocess needed.
+- **Full opt-in:** `--full`, `--fix`, `--verbose` all trigger full mode.
+- **Macro checks gated:** Only run when `scholar.latex_macros.enabled: true` in config. Prevents false positives.
+- **`command` prefix:** All external tool calls use `command R`, `command du` etc. to bypass user aliases.
+- **Spinner for slow ops:** R package query and cache analysis show elapsed time after 5s.
+- **Exit codes:** 0 = all pass, 1 = failures detected or user cancelled.
+
 ---
 
 ## Data Flow

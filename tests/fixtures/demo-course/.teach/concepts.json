@@ -2,8 +2,8 @@
   "version": "1.0",
   "schema_version": "concept-graph-v1",
   "metadata": {
-    "last_updated": "2026-02-06T18:43:46Z",
-    "course_hash": "361ea9220e2ff2b6771468e18cddb45b5465b3a2",
+    "last_updated": "2026-02-09T00:23:41Z",
+    "course_hash": "f1d6eb285878575aa9936f3b487679c672f95ce1",
     "total_concepts": 12,
     "weeks": 5,
     "extraction_method": "frontmatter"
