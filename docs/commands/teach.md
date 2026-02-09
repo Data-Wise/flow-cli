@@ -133,6 +133,7 @@ teach <command> [args]
 | `cache` | `c` | Cache operations |
 | `clean` | `cl` | Delete build artifacts |
 | `backup` | `bk` | Backup management |
+| `map` | - | Show teaching ecosystem map (v6.6.0) |
 | `--help` | `-h` | Show help |
 
 ---
@@ -922,6 +923,28 @@ teach backup archive spring-2026       # Archive semester
 - Daily backups: 7 days
 - Weekly backups: 4 weeks
 - Semester archives: Indefinite
+
+### `teach map` (v6.6.0)
+
+Display a unified ecosystem map showing all teaching commands across flow-cli,
+Scholar, and Craft — grouped by workflow phase.
+
+```bash
+teach map    # Shows the full ecosystem map
+```
+
+**Workflow Phases:**
+
+| Phase | Tools |
+|-------|-------|
+| Setup & Config | `teach init`, `teach config`, `teach doctor` |
+| Content Generation | `teach exam`, `teach slides`, `/scholar:teaching:*` |
+| Validation & QA | `teach macros sync`, `teach analyze`, `/craft:site:check` |
+| Deployment | `teach deploy`, `/craft:site:publish`, `/craft:site:deploy` |
+| Semester Tracking | `teach status`, `teach week`, `/craft:site:progress` |
+
+Tool availability is auto-detected with green/dim badges indicating what's
+installed.
 
 ---
 
