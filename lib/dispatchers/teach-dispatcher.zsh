@@ -4337,12 +4337,12 @@ _teach_map() {
     [[ "${_TEACH_MAP_TOOLS[scholar]}" != "1" ]] && sc="${_C_DIM}"
 
     # Craft command color (dim if not installed)
-    local cc="${_C_CYAN}"
-    [[ "${_TEACH_MAP_TOOLS[craft]}" != "1" ]] && cc="${_C_DIM}"
+    local crc="${_C_CYAN}"
+    [[ "${_TEACH_MAP_TOOLS[craft]}" != "1" ]] && crc="${_C_DIM}"
 
     echo -e "
 ${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
-${_C_BOLD}│ teach map -- Teaching Ecosystem              │${_C_NC}
+${_C_BOLD}│ teach map -- Teaching Ecosystem             │${_C_NC}
 ${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
 
  Tools: ${_C_GREEN}flow-cli${_C_NC}  ${scholar_status}  ${craft_status}
@@ -4376,21 +4376,21 @@ ${_C_BLUE} VALIDATION & QUALITY${_C_NC}
   ${_C_CYAN}teach profiles${_C_NC}              Profile management          ${flow_badge}
   ${_C_CYAN}teach cache${_C_NC}                 Cache operations            ${flow_badge}
   ${_C_CYAN}teach clean${_C_NC}                 Delete _freeze/ + _site/    ${flow_badge}
-  ${cc}/scholar:teaching:validate${_C_NC}  Schema validation           ${scholar_badge}
-  ${cc}/craft:site:check${_C_NC}           Content + link check        ${craft_badge}
+  ${crc}/scholar:teaching:validate${_C_NC}  Schema validation           ${scholar_badge}
+  ${crc}/craft:site:check${_C_NC}           Content + link check        ${craft_badge}
 
 ${_C_BLUE} DEPLOYMENT${_C_NC}
   ${_C_CYAN}teach deploy${_C_NC} [--preview]    Deploy course site          ${flow_badge}
-  ${cc}/craft:site:publish${_C_NC}         Full publish workflow       ${craft_badge}
-  ${cc}/craft:site:build${_C_NC}           Build site locally          ${craft_badge}
-  ${cc}/craft:site:deploy${_C_NC}          Deploy to GitHub Pages      ${craft_badge}
+  ${crc}/craft:site:publish${_C_NC}         Full publish workflow       ${craft_badge}
+  ${crc}/craft:site:build${_C_NC}           Build site locally          ${craft_badge}
+  ${crc}/craft:site:deploy${_C_NC}          Deploy to GitHub Pages      ${craft_badge}
 
 ${_C_BLUE} SEMESTER TRACKING${_C_NC}
   ${_C_CYAN}teach status${_C_NC}                Project dashboard           ${flow_badge}
   ${_C_CYAN}teach week${_C_NC}                  Current week info           ${flow_badge}
   ${_C_CYAN}teach backup${_C_NC}                Backup management           ${flow_badge}
   ${_C_CYAN}teach archive${_C_NC}               Archive semester            ${flow_badge}
-  ${cc}/craft:site:progress${_C_NC}        Semester progress           ${craft_badge}
+  ${crc}/craft:site:progress${_C_NC}        Semester progress           ${craft_badge}
 
 ${_C_DIM} Slash commands (/craft:*, /scholar:*) run inside Claude Code${_C_NC}
 ${_C_DIM} For usage details: teach <command> --help${_C_NC}
