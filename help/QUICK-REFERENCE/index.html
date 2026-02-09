@@ -1075,6 +1075,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#health-check-doctor-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Check (Doctor v2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#scholar-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7884,6 +7895,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#health-check-doctor-v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Health Check (Doctor v2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#scholar-integration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8206,8 +8228,8 @@
 <h1 id="quick-reference-flow-cli-commands">Quick Reference: flow-cli Commands<a class="headerlink" href="#quick-reference-flow-cli-commands" title="Permanent link">&para;</a></h1>
 <p><strong>Purpose:</strong> Single-page command lookup for all flow-cli features
 <strong>Format:</strong> Copy-paste ready with expected outputs
-<strong>Version:</strong> v6.4.2
-<strong>Last Updated:</strong> 2026-02-04</p>
+<strong>Version:</strong> v6.5.0
+<strong>Last Updated:</strong> 2026-02-08</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
 <ul>
@@ -8788,275 +8810,301 @@
 <a id="__codelineno-16-51" name="__codelineno-16-51" href="#__codelineno-16-51"></a><span class="c1"># Output: [Teaching dispatcher help]</span>
 </code></pre></div>
 <hr />
+<h3 id="health-check-doctor-v2">Health Check (Doctor v2)<a class="headerlink" href="#health-check-doctor-v2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Quick check (default, &lt; 3s) — deps, R, config, git</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>doctor
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1"># Output: ✅ Dependencies   yq, git, quarto, gh, claude</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1">#         ✅ R Environment  R 4.4.2, renv active (48 packages)</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1">#         ✅ Configuration  .flow/teach-config.yml</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1">#         ✅ Git Setup      main + gh-pages, clean</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># Full check (all 11 categories)</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--full
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># Output: [Quick checks + R packages, quarto ext, scholar, hooks, cache, macros, style]</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="c1"># Fix issues interactively (implies --full)</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="c1"># Output: [Prompts to install missing R packages via renv or system]</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="c1"># CI mode (no color, exit 1 on failure)</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--ci<span class="w"> </span>--full
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="c1"># Machine-readable JSON output</span>
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--json
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>
+<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="c1"># Summary only (failures and warnings)</span>
+<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--brief
+</code></pre></div>
+<hr />
 <h3 id="scholar-integration">Scholar Integration<a class="headerlink" href="#scholar-integration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Check Scholar status</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1"># Output: Scholar CLI: ✅ Installed</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1">#         Version: 2.1.0</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1">#         Templates: 12 available</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Use Scholar template</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>teach<span class="w"> </span>exam<span class="w"> </span>--template<span class="w"> </span>scholar/midterm
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>teach<span class="w"> </span>quiz<span class="w"> </span>--template<span class="w"> </span>scholar/weekly
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
-<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="c1"># Analyze with Scholar</span>
-<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>teach<span class="w"> </span>analyze<span class="w"> </span>--ai
-<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="c1"># Output: [Uses Scholar AI analysis]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Check Scholar status</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="c1"># Output: Scholar CLI: ✅ Installed</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1">#         Version: 2.1.0</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1">#         Templates: 12 available</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Use Scholar template</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>teach<span class="w"> </span>exam<span class="w"> </span>--template<span class="w"> </span>scholar/midterm
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>teach<span class="w"> </span>quiz<span class="w"> </span>--template<span class="w"> </span>scholar/weekly
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="c1"># Analyze with Scholar</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>teach<span class="w"> </span>analyze<span class="w"> </span>--ai
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="c1"># Output: [Uses Scholar AI analysis]</span>
 </code></pre></div>
 <hr />
 <h2 id="terminal-tm">Terminal (tm)<a class="headerlink" href="#terminal-tm" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Set terminal title</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli dev&quot;</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="c1"># Output: [Terminal title updated]</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># Switch profile</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Output: ✅ Switched to profile: Solarized Dark</span>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="c1"># Ghost mode (hide from Alfred/Spotlight)</span>
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
-<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>tm<span class="w"> </span>ghost<span class="w"> </span>off
-<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="c1"># Output: ✅ Ghost mode enabled</span>
-<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>
-<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="c1"># Show current settings</span>
-<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>tm<span class="w"> </span>status
-<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="c1"># Output: Profile: Solarized Dark</span>
-<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="c1">#         Title: flow-cli dev</span>
-<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="c1">#         Ghost: enabled</span>
-<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>
-<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="c1"># Show help</span>
-<a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>tm<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a><span class="c1"># Output: [Terminal dispatcher help]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Set terminal title</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli dev&quot;</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="c1"># Output: [Terminal title updated]</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="c1"># Switch profile</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># Output: ✅ Switched to profile: Solarized Dark</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1"># Ghost mode (hide from Alfred/Spotlight)</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>tm<span class="w"> </span>ghost<span class="w"> </span>off
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="c1"># Output: ✅ Ghost mode enabled</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="c1"># Show current settings</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>tm<span class="w"> </span>status
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="c1"># Output: Profile: Solarized Dark</span>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="c1">#         Title: flow-cli dev</span>
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="c1">#         Ghost: enabled</span>
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a><span class="c1"># Show help</span>
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>tm<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a><span class="c1"># Output: [Terminal dispatcher help]</span>
 </code></pre></div>
 <hr />
 <h2 id="prompt-prompt">Prompt (prompt)<a class="headerlink" href="#prompt-prompt" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Show current prompt engine</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>prompt<span class="w"> </span>status
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="c1"># Output: Current engine: claude (Anthropic)</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1">#         Available: claude, gemini</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="c1"># Switch to Gemini</span>
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>prompt<span class="w"> </span>toggle
-<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
-<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1"># Output: ✅ Switched to gemini</span>
-<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
-<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="c1"># Switch to Claude</span>
-<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
-<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="c1"># Output: ✅ Switched to claude</span>
-<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>
-<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="c1"># Show help</span>
-<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>prompt<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="c1"># Output: [Prompt dispatcher help]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Show current prompt engine</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>prompt<span class="w"> </span>status
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># Output: Current engine: claude (Anthropic)</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1">#         Available: claude, gemini</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="c1"># Switch to Gemini</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>prompt<span class="w"> </span>toggle
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="c1"># Output: ✅ Switched to gemini</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="c1"># Switch to Claude</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="c1"># Output: ✅ Switched to claude</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="c1"># Show help</span>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>prompt<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="c1"># Output: [Prompt dispatcher help]</span>
 </code></pre></div>
 <hr />
 <h2 id="vibe-v">Vibe (v)<a class="headerlink" href="#vibe-v" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Enable vibe coding mode</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>v<span class="w"> </span>on
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># Output: 🎵 Vibe coding mode: ON</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1">#         Music: ✅</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1">#         Do Not Disturb: ✅</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="c1">#         Focus: Maximum</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="c1"># Disable vibe mode</span>
-<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>v<span class="w"> </span>off
-<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="c1"># Output: 🎵 Vibe coding mode: OFF</span>
-<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>
-<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="c1"># Show status</span>
-<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>v<span class="w"> </span>status
-<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="c1"># Output: Vibe mode: ON</span>
-<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="c1">#         Started: 2h ago</span>
-<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="c1">#         Sessions: 3</span>
-<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>
-<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a><span class="c1"># Show help</span>
-<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>v<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="c1"># Output: [Vibe dispatcher help]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Enable vibe coding mode</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>v<span class="w"> </span>on
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1"># Output: 🎵 Vibe coding mode: ON</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1">#         Music: ✅</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1">#         Do Not Disturb: ✅</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="c1">#         Focus: Maximum</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># Disable vibe mode</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>v<span class="w"> </span>off
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="c1"># Output: 🎵 Vibe coding mode: OFF</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="c1"># Show status</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>v<span class="w"> </span>status
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="c1"># Output: Vibe mode: ON</span>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="c1">#         Started: 2h ago</span>
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="c1">#         Sessions: 3</span>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="c1"># Show help</span>
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>v<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="c1"># Output: [Vibe dispatcher help]</span>
 </code></pre></div>
 <hr />
 <h2 id="dopamine-features">Dopamine Features<a class="headerlink" href="#dopamine-features" title="Permanent link">&para;</a></h2>
 <h3 id="win-logging-adhd-motivation">Win Logging (ADHD Motivation)<a class="headerlink" href="#win-logging-adhd-motivation" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Log a win</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>win<span class="w"> </span><span class="s2">&quot;Implemented user authentication&quot;</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1"># Output: 🎉 Win logged!</span>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1">#         Category: 💻 code</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1">#         Streak: 5 days</span>
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="c1">#         Daily goal: 2/3</span>
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># Show recent wins</span>
-<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>yay
-<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="c1"># Output: 🎉 Recent Wins (Last 24h):</span>
-<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="c1">#         💻 Implemented user authentication (14:32)</span>
-<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="c1">#         📝 Updated documentation (12:15)</span>
-<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="c1">#         🔧 Fixed login bug (10:30)</span>
-<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>
-<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="c1"># Show weekly summary</span>
-<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>yay<span class="w"> </span>--week
-<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="c1"># Output: 📊 Week Summary:</span>
-<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="c1">#         Total wins: 15</span>
-<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a><span class="c1">#         💻 code: 8</span>
-<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="c1">#         📝 docs: 4</span>
-<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a><span class="c1">#         🔧 fix: 3</span>
-<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a><span class="c1">#         [ASCII graph]</span>
-<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a>
-<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a><span class="c1"># Show monthly summary</span>
-<a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a>yay<span class="w"> </span>--month
-<a id="__codelineno-21-26" name="__codelineno-21-26" href="#__codelineno-21-26"></a><span class="c1"># Output: [Monthly statistics]</span>
-<a id="__codelineno-21-27" name="__codelineno-21-27" href="#__codelineno-21-27"></a>
-<a id="__codelineno-21-28" name="__codelineno-21-28" href="#__codelineno-21-28"></a><span class="c1"># Win categories</span>
-<a id="__codelineno-21-29" name="__codelineno-21-29" href="#__codelineno-21-29"></a><span class="c1"># 💻 code    - Code written</span>
-<a id="__codelineno-21-30" name="__codelineno-21-30" href="#__codelineno-21-30"></a><span class="c1"># 📝 docs    - Documentation</span>
-<a id="__codelineno-21-31" name="__codelineno-21-31" href="#__codelineno-21-31"></a><span class="c1"># 👀 review  - Code reviews</span>
-<a id="__codelineno-21-32" name="__codelineno-21-32" href="#__codelineno-21-32"></a><span class="c1"># 🚀 ship    - Deployed features</span>
-<a id="__codelineno-21-33" name="__codelineno-21-33" href="#__codelineno-21-33"></a><span class="c1"># 🔧 fix     - Bug fixes</span>
-<a id="__codelineno-21-34" name="__codelineno-21-34" href="#__codelineno-21-34"></a><span class="c1"># 🧪 test    - Tests written</span>
-<a id="__codelineno-21-35" name="__codelineno-21-35" href="#__codelineno-21-35"></a><span class="c1"># ✨ other   - Miscellaneous</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Log a win</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>win<span class="w"> </span><span class="s2">&quot;Implemented user authentication&quot;</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># Output: 🎉 Win logged!</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1">#         Category: 💻 code</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1">#         Streak: 5 days</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1">#         Daily goal: 2/3</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="c1"># Show recent wins</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>yay
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="c1"># Output: 🎉 Recent Wins (Last 24h):</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="c1">#         💻 Implemented user authentication (14:32)</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="c1">#         📝 Updated documentation (12:15)</span>
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="c1">#         🔧 Fixed login bug (10:30)</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a><span class="c1"># Show weekly summary</span>
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>yay<span class="w"> </span>--week
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="c1"># Output: 📊 Week Summary:</span>
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a><span class="c1">#         Total wins: 15</span>
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="c1">#         💻 code: 8</span>
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a><span class="c1">#         📝 docs: 4</span>
+<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a><span class="c1">#         🔧 fix: 3</span>
+<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a><span class="c1">#         [ASCII graph]</span>
+<a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a>
+<a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a><span class="c1"># Show monthly summary</span>
+<a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a>yay<span class="w"> </span>--month
+<a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a><span class="c1"># Output: [Monthly statistics]</span>
+<a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a>
+<a id="__codelineno-22-28" name="__codelineno-22-28" href="#__codelineno-22-28"></a><span class="c1"># Win categories</span>
+<a id="__codelineno-22-29" name="__codelineno-22-29" href="#__codelineno-22-29"></a><span class="c1"># 💻 code    - Code written</span>
+<a id="__codelineno-22-30" name="__codelineno-22-30" href="#__codelineno-22-30"></a><span class="c1"># 📝 docs    - Documentation</span>
+<a id="__codelineno-22-31" name="__codelineno-22-31" href="#__codelineno-22-31"></a><span class="c1"># 👀 review  - Code reviews</span>
+<a id="__codelineno-22-32" name="__codelineno-22-32" href="#__codelineno-22-32"></a><span class="c1"># 🚀 ship    - Deployed features</span>
+<a id="__codelineno-22-33" name="__codelineno-22-33" href="#__codelineno-22-33"></a><span class="c1"># 🔧 fix     - Bug fixes</span>
+<a id="__codelineno-22-34" name="__codelineno-22-34" href="#__codelineno-22-34"></a><span class="c1"># 🧪 test    - Tests written</span>
+<a id="__codelineno-22-35" name="__codelineno-22-35" href="#__codelineno-22-35"></a><span class="c1"># ✨ other   - Miscellaneous</span>
 </code></pre></div>
 <hr />
 <h3 id="goal-tracking">Goal Tracking<a class="headerlink" href="#goal-tracking" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Show daily goal</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>flow<span class="w"> </span>goal
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># Output: Daily Goal: 2/3 wins ⚡⚡○</span>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1">#         Streak: 5 days 🔥</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># Set daily goal</span>
-<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span>
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="c1"># Output: ✅ Daily goal set to 3 wins</span>
-<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
-<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="c1"># Show streak</span>
-<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>flow<span class="w"> </span>streak
-<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="c1"># Output: Current streak: 5 days 🔥</span>
-<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="c1">#         Best streak: 12 days</span>
-<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="c1">#         Total days: 45</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Show daily goal</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>flow<span class="w"> </span>goal
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1"># Output: Daily Goal: 2/3 wins ⚡⚡○</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1">#         Streak: 5 days 🔥</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="c1"># Set daily goal</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="c1"># Output: ✅ Daily goal set to 3 wins</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="c1"># Show streak</span>
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>flow<span class="w"> </span>streak
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="c1"># Output: Current streak: 5 days 🔥</span>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="c1">#         Best streak: 12 days</span>
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="c1">#         Total days: 45</span>
 </code></pre></div>
 <hr />
 <h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
 <h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Set in ~/.zshrc BEFORE sourcing flow.plugin.zsh:</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1"># Project root directory</span>
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROJECTS_ROOT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/projects&quot;</span>
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
-<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="c1"># Atlas integration (auto|yes|no)</span>
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
-<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>
-<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="c1"># Quiet mode (suppress welcome message)</span>
-<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_QUIET</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>
-<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a><span class="c1"># Debug mode (verbose logging)</span>
-<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_DEBUG</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>
-<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="c1"># Default editor for dotfiles</span>
-<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;nvim&quot;</span>
-<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a>
-<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="c1"># GitHub token (for git operations)</span>
-<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;ghp_xxxx&quot;</span><span class="w">  </span><span class="c1"># Or use keychain</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Set in ~/.zshrc BEFORE sourcing flow.plugin.zsh:</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="c1"># Project root directory</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROJECTS_ROOT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/projects&quot;</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="c1"># Atlas integration (auto|yes|no)</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="c1"># Quiet mode (suppress welcome message)</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_QUIET</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="c1"># Debug mode (verbose logging)</span>
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_DEBUG</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>
+<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a><span class="c1"># Default editor for dotfiles</span>
+<a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;nvim&quot;</span>
+<a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>
+<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a><span class="c1"># GitHub token (for git operations)</span>
+<a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;ghp_xxxx&quot;</span><span class="w">  </span><span class="c1"># Or use keychain</span>
 </code></pre></div>
 <hr />
 <h3 id="feature-flags">Feature Flags<a class="headerlink" href="#feature-flags" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Enable experimental features</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EXPERIMENTAL</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Enable performance profiling</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROFILE</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
-<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="c1"># Cache timeout (seconds)</span>
-<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_CACHE_TTL</span><span class="o">=</span><span class="m">300</span>
-<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>
-<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="c1"># Token cache timeout (seconds)</span>
-<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_TOKEN_CACHE_TTL</span><span class="o">=</span><span class="m">300</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Enable experimental features</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EXPERIMENTAL</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Enable performance profiling</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROFILE</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="c1"># Cache timeout (seconds)</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_CACHE_TTL</span><span class="o">=</span><span class="m">300</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="c1"># Token cache timeout (seconds)</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_TOKEN_CACHE_TTL</span><span class="o">=</span><span class="m">300</span>
 </code></pre></div>
 <hr />
 <h2 id="keyboard-shortcuts">Keyboard Shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permanent link">&para;</a></h2>
 <h3 id="terminal-shortcuts">Terminal Shortcuts<a class="headerlink" href="#terminal-shortcuts" title="Permanent link">&para;</a></h3>
 <p>These work if configured in your terminal app (iTerm2, Terminal.app):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Ctrl+R<span class="w">    </span><span class="c1"># Reverse search history (fzf if installed)</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>Ctrl+T<span class="w">    </span><span class="c1"># File fuzzy finder (fzf)</span>
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>Ctrl+Alt+F<span class="w">  </span><span class="c1"># Project switcher (custom binding)</span>
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1"># In flow-cli commands:</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>Tab<span class="w">       </span><span class="c1"># Auto-completion</span>
-<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>Ctrl+C<span class="w">    </span><span class="c1"># Cancel operation</span>
-<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>Ctrl+D<span class="w">    </span><span class="c1"># Exit interactive mode</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>Ctrl+R<span class="w">    </span><span class="c1"># Reverse search history (fzf if installed)</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>Ctrl+T<span class="w">    </span><span class="c1"># File fuzzy finder (fzf)</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>Ctrl+Alt+F<span class="w">  </span><span class="c1"># Project switcher (custom binding)</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="c1"># In flow-cli commands:</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>Tab<span class="w">       </span><span class="c1"># Auto-completion</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>Ctrl+C<span class="w">    </span><span class="c1"># Cancel operation</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>Ctrl+D<span class="w">    </span><span class="c1"># Exit interactive mode</span>
 </code></pre></div>
 <hr />
 <h2 id="common-workflows">Common Workflows<a class="headerlink" href="#common-workflows" title="Permanent link">&para;</a></h2>
 <h3 id="daily-development-workflow">Daily Development Workflow<a class="headerlink" href="#daily-development-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Morning routine</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>work<span class="w"> </span>my-project<span class="w">          </span><span class="c1"># Start session</span>
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>dash<span class="w">                     </span><span class="c1"># Check status</span>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>g<span class="w"> </span>pull<span class="w">                   </span><span class="c1"># Sync with remote</span>
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>
-<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="c1"># During work</span>
-<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>catch<span class="w"> </span><span class="s2">&quot;Implement X&quot;</span><span class="w">      </span><span class="c1"># Quick notes</span>
-<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>win<span class="w"> </span><span class="s2">&quot;Fixed bug&quot;</span><span class="w">          </span><span class="c1"># Log progress</span>
-<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>crumb<span class="w"> </span><span class="s2">&quot;Important decision&quot;</span><span class="w"> </span><span class="c1"># Leave breadcrumb</span>
-<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
-<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="c1"># End of day</span>
-<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>finish<span class="w"> </span><span class="s2">&quot;Daily progress&quot;</span><span class="w">  </span><span class="c1"># Commit &amp; end session</span>
-<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>yay<span class="w">                      </span><span class="c1"># Review wins</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Morning routine</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>work<span class="w"> </span>my-project<span class="w">          </span><span class="c1"># Start session</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>dash<span class="w">                     </span><span class="c1"># Check status</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>g<span class="w"> </span>pull<span class="w">                   </span><span class="c1"># Sync with remote</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1"># During work</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>catch<span class="w"> </span><span class="s2">&quot;Implement X&quot;</span><span class="w">      </span><span class="c1"># Quick notes</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>win<span class="w"> </span><span class="s2">&quot;Fixed bug&quot;</span><span class="w">          </span><span class="c1"># Log progress</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>crumb<span class="w"> </span><span class="s2">&quot;Important decision&quot;</span><span class="w"> </span><span class="c1"># Leave breadcrumb</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="c1"># End of day</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>finish<span class="w"> </span><span class="s2">&quot;Daily progress&quot;</span><span class="w">  </span><span class="c1"># Commit &amp; end session</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>yay<span class="w">                      </span><span class="c1"># Review wins</span>
 </code></pre></div>
 <hr />
 <h3 id="feature-development-workflow">Feature Development Workflow<a class="headerlink" href="#feature-development-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Start feature</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>my-feature<span class="w">    </span><span class="c1"># Create feature branch</span>
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>wt<span class="w"> </span>create<span class="w"> </span>feature/my-feature<span class="w">  </span><span class="c1"># OR use worktree</span>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="c1"># Work</span>
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>work<span class="w"> </span>my-project
-<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1"># ... code ...</span>
-<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>win<span class="w"> </span><span class="s2">&quot;Implemented X&quot;</span>
-<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
-<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="c1"># Finish</span>
-<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>g<span class="w"> </span>feature<span class="w"> </span>push<span class="w">               </span><span class="c1"># Push feature</span>
-<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>g<span class="w"> </span>feature<span class="w"> </span>pr<span class="w">                 </span><span class="c1"># Create PR</span>
-<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="c1"># ... after PR merge ...</span>
-<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>g<span class="w"> </span>feature<span class="w"> </span>finish<span class="w">             </span><span class="c1"># Cleanup</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Start feature</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>my-feature<span class="w">    </span><span class="c1"># Create feature branch</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>wt<span class="w"> </span>create<span class="w"> </span>feature/my-feature<span class="w">  </span><span class="c1"># OR use worktree</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># Work</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>work<span class="w"> </span>my-project
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="c1"># ... code ...</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>win<span class="w"> </span><span class="s2">&quot;Implemented X&quot;</span>
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="c1"># Finish</span>
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>g<span class="w"> </span>feature<span class="w"> </span>push<span class="w">               </span><span class="c1"># Push feature</span>
+<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>g<span class="w"> </span>feature<span class="w"> </span>pr<span class="w">                 </span><span class="c1"># Create PR</span>
+<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a><span class="c1"># ... after PR merge ...</span>
+<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>g<span class="w"> </span>feature<span class="w"> </span>finish<span class="w">             </span><span class="c1"># Cleanup</span>
 </code></pre></div>
 <hr />
 <h3 id="teaching-workflow">Teaching Workflow<a class="headerlink" href="#teaching-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Setup</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>teach<span class="w"> </span>init<span class="w"> </span>--config<span class="w"> </span>course.yml
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
-<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># Content creation</span>
-<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/<span class="w">      </span><span class="c1"># Analyze content</span>
-<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm Topics&quot;</span><span class="w">  </span><span class="c1"># Generate exam</span>
-<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>
-<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="c1"># Deployment (v6.4.0)</span>
-<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct<span class="w">        </span><span class="c1"># Direct merge deploy</span>
-<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run<span class="w">       </span><span class="c1"># Preview deploy</span>
-<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">    </span><span class="c1"># Undo last deploy</span>
-<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--history<span class="w">       </span><span class="c1"># Show deploy log</span>
-<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>teach<span class="w"> </span>status<span class="w">                 </span><span class="c1"># Verify</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Setup</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>teach<span class="w"> </span>init<span class="w"> </span>--config<span class="w"> </span>course.yml
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="c1"># Content creation</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/<span class="w">      </span><span class="c1"># Analyze content</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm Topics&quot;</span><span class="w">  </span><span class="c1"># Generate exam</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="c1"># Deployment (v6.4.0)</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct<span class="w">        </span><span class="c1"># Direct merge deploy</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run<span class="w">       </span><span class="c1"># Preview deploy</span>
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">    </span><span class="c1"># Undo last deploy</span>
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--history<span class="w">       </span><span class="c1"># Show deploy log</span>
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>teach<span class="w"> </span>status<span class="w">                 </span><span class="c1"># Verify</span>
 </code></pre></div>
 <hr />
 <h2 id="tips-tricks">Tips &amp; Tricks<a class="headerlink" href="#tips-tricks" title="Permanent link">&para;</a></h2>
 <h3 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h3>
 <p>flow-cli integrates with 22 ZSH plugins providing 351 aliases. See <a href="../../tutorials/17-lazyvim-basics/">Tutorial 24: Git Workflow</a> for complete guide.</p>
 <p><strong>Most useful git aliases:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>gst<span class="w">     </span>→<span class="w"> </span>git<span class="w"> </span>status
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>ga<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>add
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>gcmsg<span class="w">   </span>→<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m
-<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>gp<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>push
-<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>gl<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>pull
-<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>glog<span class="w">    </span>→<span class="w"> </span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>gst<span class="w">     </span>→<span class="w"> </span>git<span class="w"> </span>status
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>ga<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>add
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>gcmsg<span class="w">   </span>→<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>gp<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>push
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>gl<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>pull
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>glog<span class="w">    </span>→<span class="w"> </span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph
 </code></pre></div>
 <hr />
 <h3 id="tab-completion">Tab Completion<a class="headerlink" href="#tab-completion" title="Permanent link">&para;</a></h3>
 <p>All commands support tab completion:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>work<span class="w"> </span>&lt;Tab&gt;<span class="w">        </span><span class="c1"># List all projects</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>g<span class="w"> </span>&lt;Tab&gt;<span class="w">           </span><span class="c1"># List all git subcommands</span>
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>teach<span class="w"> </span>&lt;Tab&gt;<span class="w">       </span><span class="c1"># List all teach subcommands</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>work<span class="w"> </span>&lt;Tab&gt;<span class="w">        </span><span class="c1"># List all projects</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>g<span class="w"> </span>&lt;Tab&gt;<span class="w">           </span><span class="c1"># List all git subcommands</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>teach<span class="w"> </span>&lt;Tab&gt;<span class="w">       </span><span class="c1"># List all teach subcommands</span>
 </code></pre></div>
 <hr />
 <h3 id="help-system">Help System<a class="headerlink" href="#help-system" title="Permanent link">&para;</a></h3>
 <p>Every dispatcher has help:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>&lt;dispatcher&gt;<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="c1"># Examples:</span>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>g<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>r<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>teach<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>mcp<span class="w"> </span><span class="nb">help</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>&lt;dispatcher&gt;<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1"># Examples:</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>g<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>r<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>teach<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>mcp<span class="w"> </span><span class="nb">help</span>
 </code></pre></div>
 <hr />
 <h3 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h3>
@@ -9076,8 +9124,8 @@
 <li><strong>Reference:</strong> <a href="../../reference/MASTER-DISPATCHER-GUIDE/">Master Dispatcher Guide</a></li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v6.4.2
-<strong>Last Updated:</strong> 2026-02-04
+<p><strong>Version:</strong> v6.5.0
+<strong>Last Updated:</strong> 2026-02-08
 <strong>Contributors:</strong> See <a href="../../CHANGELOG/">CHANGELOG.md</a></p>
 
 
