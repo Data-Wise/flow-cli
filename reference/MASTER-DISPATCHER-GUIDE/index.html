@@ -8408,6 +8408,7 @@
 <strong>Most Used:</strong> Yes (if teaching)</p>
 <blockquote>
 <p><strong>Quick Links:</strong> <a href="../REFCARD-TEACH-DISPATCHER/">All Commands Reference</a> | <a href="../../guides/SCHOLAR-WRAPPERS-GUIDE/">Scholar Wrappers Guide</a> | <a href="../TEACH-CONFIG-SCHEMA/">Config Schema</a> | <a href="../../guides/TEACH-DEPLOY-GUIDE/">Deploy Guide</a></p>
+<p><strong>Tip:</strong> Run <code>teach map</code> to see every teaching command across flow-cli, Scholar, and Craft in one view.</p>
 </blockquote>
 <h3 id="basics-beginner_8">Basics (Beginner)<a class="headerlink" href="#basics-beginner_8" title="Permanent link">&para;</a></h3>
 <p><strong>What it does:</strong> Manages teaching workflow with AI-powered course tools via Scholar integration.</p>
@@ -8451,40 +8452,69 @@
 <p>Deploys to GitHub Pages.</p>
 <hr />
 <h3 id="intermediate_7">Intermediate<a class="headerlink" href="#intermediate_7" title="Permanent link">&para;</a></h3>
+<h4 id="ecosystem-map-v660">Ecosystem Map (v6.6.0)<a class="headerlink" href="#ecosystem-map-v660" title="Permanent link">&para;</a></h4>
+<p><strong>Discover all teaching commands across tools:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a>teach<span class="w"> </span>map
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>╭─────────────────────────────────────────────╮
+<a id="__codelineno-125-2" name="__codelineno-125-2" href="#__codelineno-125-2"></a>│ teach map -- Teaching Ecosystem              │
+<a id="__codelineno-125-3" name="__codelineno-125-3" href="#__codelineno-125-3"></a>╰─────────────────────────────────────────────╯
+<a id="__codelineno-125-4" name="__codelineno-125-4" href="#__codelineno-125-4"></a>
+<a id="__codelineno-125-5" name="__codelineno-125-5" href="#__codelineno-125-5"></a> Tools: flow-cli  scholar  craft
+<a id="__codelineno-125-6" name="__codelineno-125-6" href="#__codelineno-125-6"></a>
+<a id="__codelineno-125-7" name="__codelineno-125-7" href="#__codelineno-125-7"></a> SETUP &amp; CONFIGURATION
+<a id="__codelineno-125-8" name="__codelineno-125-8" href="#__codelineno-125-8"></a>  teach init [name]           Initialize project          [flow-cli]
+<a id="__codelineno-125-9" name="__codelineno-125-9" href="#__codelineno-125-9"></a>  teach config                Edit configuration          [flow-cli]
+<a id="__codelineno-125-10" name="__codelineno-125-10" href="#__codelineno-125-10"></a>  teach doctor [--fix]        Health check                [flow-cli]
+<a id="__codelineno-125-11" name="__codelineno-125-11" href="#__codelineno-125-11"></a>  ...
+<a id="__codelineno-125-12" name="__codelineno-125-12" href="#__codelineno-125-12"></a>
+<a id="__codelineno-125-13" name="__codelineno-125-13" href="#__codelineno-125-13"></a> CONTENT GENERATION                              [scholar]
+<a id="__codelineno-125-14" name="__codelineno-125-14" href="#__codelineno-125-14"></a>  teach lecture &lt;topic&gt;     Lecture notes
+<a id="__codelineno-125-15" name="__codelineno-125-15" href="#__codelineno-125-15"></a>  teach slides &lt;topic&gt;      Presentation slides
+<a id="__codelineno-125-16" name="__codelineno-125-16" href="#__codelineno-125-16"></a>  ...
+<a id="__codelineno-125-17" name="__codelineno-125-17" href="#__codelineno-125-17"></a>
+<a id="__codelineno-125-18" name="__codelineno-125-18" href="#__codelineno-125-18"></a> DEPLOYMENT
+<a id="__codelineno-125-19" name="__codelineno-125-19" href="#__codelineno-125-19"></a>  teach deploy [--preview]    Deploy course site          [flow-cli]
+<a id="__codelineno-125-20" name="__codelineno-125-20" href="#__codelineno-125-20"></a>  /craft:site:publish         Full publish workflow       [craft]
+<a id="__codelineno-125-21" name="__codelineno-125-21" href="#__codelineno-125-21"></a>  ...
+</code></pre></div></p>
+<p>Shows commands grouped by workflow phase. Commands from uninstalled tools appear dimmed with install hints. Slash commands (<code>/craft:*</code>, <code>/scholar:*</code>) run inside Claude Code.</p>
+<hr />
 <h4 id="content-analysis-ai-powered">Content Analysis (AI-Powered)<a class="headerlink" href="#content-analysis-ai-powered" title="Permanent link">&para;</a></h4>
 <p><strong>Analyze lecture content:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a>teach<span class="w"> </span>analyze
-<a id="__codelineno-124-2" name="__codelineno-124-2" href="#__codelineno-124-2"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/week-01/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>teach<span class="w"> </span>analyze
+<a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/week-01/
 </code></pre></div></p>
 <p>Output (AI-powered via Scholar):
-<div class="highlight"><pre><span></span><code><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>Analysis: lectures/week-01/01-introduction.qmd
-<a id="__codelineno-125-2" name="__codelineno-125-2" href="#__codelineno-125-2"></a>
-<a id="__codelineno-125-3" name="__codelineno-125-3" href="#__codelineno-125-3"></a>Concepts Identified:
-<a id="__codelineno-125-4" name="__codelineno-125-4" href="#__codelineno-125-4"></a>  1. Linear Regression (Bloom: Understand)
-<a id="__codelineno-125-5" name="__codelineno-125-5" href="#__codelineno-125-5"></a>     Prerequisites: Basic statistics, algebra
-<a id="__codelineno-125-6" name="__codelineno-125-6" href="#__codelineno-125-6"></a>     Complexity: Medium
-<a id="__codelineno-125-7" name="__codelineno-125-7" href="#__codelineno-125-7"></a>
-<a id="__codelineno-125-8" name="__codelineno-125-8" href="#__codelineno-125-8"></a>  2. Least Squares Method (Bloom: Apply)
-<a id="__codelineno-125-9" name="__codelineno-125-9" href="#__codelineno-125-9"></a>     Prerequisites: Linear regression
-<a id="__codelineno-125-10" name="__codelineno-125-10" href="#__codelineno-125-10"></a>     Complexity: Medium
-<a id="__codelineno-125-11" name="__codelineno-125-11" href="#__codelineno-125-11"></a>
-<a id="__codelineno-125-12" name="__codelineno-125-12" href="#__codelineno-125-12"></a>Content Quality:
-<a id="__codelineno-125-13" name="__codelineno-125-13" href="#__codelineno-125-13"></a>  ✅ Clear learning objectives
-<a id="__codelineno-125-14" name="__codelineno-125-14" href="#__codelineno-125-14"></a>  ✅ Appropriate complexity progression
-<a id="__codelineno-125-15" name="__codelineno-125-15" href="#__codelineno-125-15"></a>  ⚠️  Missing worked example for concept 2
-<a id="__codelineno-125-16" name="__codelineno-125-16" href="#__codelineno-125-16"></a>
-<a id="__codelineno-125-17" name="__codelineno-125-17" href="#__codelineno-125-17"></a>Recommendations:
-<a id="__codelineno-125-18" name="__codelineno-125-18" href="#__codelineno-125-18"></a>  - Add worked example: Calculating least squares by hand
-<a id="__codelineno-125-19" name="__codelineno-125-19" href="#__codelineno-125-19"></a>  - Consider visual: Residual plot explanation
+<div class="highlight"><pre><span></span><code><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a>Analysis: lectures/week-01/01-introduction.qmd
+<a id="__codelineno-127-2" name="__codelineno-127-2" href="#__codelineno-127-2"></a>
+<a id="__codelineno-127-3" name="__codelineno-127-3" href="#__codelineno-127-3"></a>Concepts Identified:
+<a id="__codelineno-127-4" name="__codelineno-127-4" href="#__codelineno-127-4"></a>  1. Linear Regression (Bloom: Understand)
+<a id="__codelineno-127-5" name="__codelineno-127-5" href="#__codelineno-127-5"></a>     Prerequisites: Basic statistics, algebra
+<a id="__codelineno-127-6" name="__codelineno-127-6" href="#__codelineno-127-6"></a>     Complexity: Medium
+<a id="__codelineno-127-7" name="__codelineno-127-7" href="#__codelineno-127-7"></a>
+<a id="__codelineno-127-8" name="__codelineno-127-8" href="#__codelineno-127-8"></a>  2. Least Squares Method (Bloom: Apply)
+<a id="__codelineno-127-9" name="__codelineno-127-9" href="#__codelineno-127-9"></a>     Prerequisites: Linear regression
+<a id="__codelineno-127-10" name="__codelineno-127-10" href="#__codelineno-127-10"></a>     Complexity: Medium
+<a id="__codelineno-127-11" name="__codelineno-127-11" href="#__codelineno-127-11"></a>
+<a id="__codelineno-127-12" name="__codelineno-127-12" href="#__codelineno-127-12"></a>Content Quality:
+<a id="__codelineno-127-13" name="__codelineno-127-13" href="#__codelineno-127-13"></a>  ✅ Clear learning objectives
+<a id="__codelineno-127-14" name="__codelineno-127-14" href="#__codelineno-127-14"></a>  ✅ Appropriate complexity progression
+<a id="__codelineno-127-15" name="__codelineno-127-15" href="#__codelineno-127-15"></a>  ⚠️  Missing worked example for concept 2
+<a id="__codelineno-127-16" name="__codelineno-127-16" href="#__codelineno-127-16"></a>
+<a id="__codelineno-127-17" name="__codelineno-127-17" href="#__codelineno-127-17"></a>Recommendations:
+<a id="__codelineno-127-18" name="__codelineno-127-18" href="#__codelineno-127-18"></a>  - Add worked example: Calculating least squares by hand
+<a id="__codelineno-127-19" name="__codelineno-127-19" href="#__codelineno-127-19"></a>  - Consider visual: Residual plot explanation
 </code></pre></div></p>
 <p><strong>Batch analysis:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>teach<span class="w"> </span>analyze<span class="w"> </span>--batch
+<div class="highlight"><pre><span></span><code><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a>teach<span class="w"> </span>analyze<span class="w"> </span>--batch
 </code></pre></div></p>
 <p>Analyzes all lectures, generates report.</p>
 <hr />
 <h4 id="exam-generation-scholar-integration">Exam Generation (Scholar Integration)<a class="headerlink" href="#exam-generation-scholar-integration" title="Permanent link">&para;</a></h4>
 <p><strong>Generate exam:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1: Chapters 1-4&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1: Chapters 1-4&quot;</span>
 </code></pre></div></p>
 <p>Scholar workflow:
 1. Analyzes course content (lectures, assignments)
@@ -8493,39 +8523,39 @@
 4. Creates answer key
 5. Outputs markdown file</p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a>✅ Generated: exams/midterm-1.md
-<a id="__codelineno-128-2" name="__codelineno-128-2" href="#__codelineno-128-2"></a>   - 10 questions (3 Remember, 4 Apply, 3 Analyze)
-<a id="__codelineno-128-3" name="__codelineno-128-3" href="#__codelineno-128-3"></a>   - Answer key included
-<a id="__codelineno-128-4" name="__codelineno-128-4" href="#__codelineno-128-4"></a>   - Estimated time: 50 minutes
+<div class="highlight"><pre><span></span><code><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a>✅ Generated: exams/midterm-1.md
+<a id="__codelineno-130-2" name="__codelineno-130-2" href="#__codelineno-130-2"></a>   - 10 questions (3 Remember, 4 Apply, 3 Analyze)
+<a id="__codelineno-130-3" name="__codelineno-130-3" href="#__codelineno-130-3"></a>   - Answer key included
+<a id="__codelineno-130-4" name="__codelineno-130-4" href="#__codelineno-130-4"></a>   - Estimated time: 50 minutes
 </code></pre></div></p>
 <p><strong>With custom template:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a>teach<span class="w"> </span>exam<span class="w"> </span>--template<span class="w"> </span>scholar/midterm<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a>teach<span class="w"> </span>exam<span class="w"> </span>--template<span class="w"> </span>scholar/midterm<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span>
 </code></pre></div></p>
 <hr />
 <h4 id="quiz-generation">Quiz Generation<a class="headerlink" href="#quiz-generation" title="Permanent link">&para;</a></h4>
 <p><strong>Weekly quiz:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Week 5: Regression Diagnostics&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Week 5: Regression Diagnostics&quot;</span>
 </code></pre></div></p>
 <p>Similar to exam but shorter, focused on single week.</p>
 <hr />
 <h4 id="health-check-v650">Health Check (v6.5.0)<a class="headerlink" href="#health-check-v650" title="Permanent link">&para;</a></h4>
 <p>Two-mode environment validation for teaching projects.</p>
 <p><strong>Quick check (default, &lt; 1s):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a>teach<span class="w"> </span>doctor
+<div class="highlight"><pre><span></span><code><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>teach<span class="w"> </span>doctor
 </code></pre></div></p>
 <p>Checks 4 categories: dependencies, R environment + renv, project config, git setup.</p>
 <p><strong>Full check (3-5s):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--full
+<div class="highlight"><pre><span></span><code><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--full
 </code></pre></div></p>
 <p>Adds 7 categories: R packages, Quarto extensions, Scholar integration, git hooks, cache health, LaTeX macros (opt-in), teaching style.</p>
 <p><strong>Output modes:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--brief<span class="w">      </span><span class="c1"># Warnings/failures only</span>
-<a id="__codelineno-133-2" name="__codelineno-133-2" href="#__codelineno-133-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--verbose<span class="w">    </span><span class="c1"># Per-package R detail, full macro list</span>
-<a id="__codelineno-133-3" name="__codelineno-133-3" href="#__codelineno-133-3"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--json<span class="w">       </span><span class="c1"># Machine-readable JSON</span>
-<a id="__codelineno-133-4" name="__codelineno-133-4" href="#__codelineno-133-4"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--ci<span class="w">         </span><span class="c1"># No color, exit 1 on failure</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--brief<span class="w">      </span><span class="c1"># Warnings/failures only</span>
+<a id="__codelineno-135-2" name="__codelineno-135-2" href="#__codelineno-135-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--verbose<span class="w">    </span><span class="c1"># Per-package R detail, full macro list</span>
+<a id="__codelineno-135-3" name="__codelineno-135-3" href="#__codelineno-135-3"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--json<span class="w">       </span><span class="c1"># Machine-readable JSON</span>
+<a id="__codelineno-135-4" name="__codelineno-135-4" href="#__codelineno-135-4"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--ci<span class="w">         </span><span class="c1"># No color, exit 1 on failure</span>
 </code></pre></div></p>
 <p><strong>Auto-fix:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Interactive fix (implies --full)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Interactive fix (implies --full)</span>
 </code></pre></div></p>
 <p>Prompts for each fixable issue: missing deps, R packages, git hooks, stale cache.</p>
 <p><strong>Health indicator:</strong> Writes <code>.flow/doctor-status.json</code> — shows green/yellow/red dot on <code>teach</code> startup.</p>
@@ -8538,148 +8568,148 @@
 <h3 id="advanced_4">Advanced<a class="headerlink" href="#advanced_4" title="Permanent link">&para;</a></h3>
 <h4 id="scholar-configuration">Scholar Configuration<a class="headerlink" href="#scholar-configuration" title="Permanent link">&para;</a></h4>
 <p><strong>Check Scholar status:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a>Scholar CLI: ✅ Installed
-<a id="__codelineno-136-2" name="__codelineno-136-2" href="#__codelineno-136-2"></a>Version: 2.1.0
-<a id="__codelineno-136-3" name="__codelineno-136-3" href="#__codelineno-136-3"></a>Path: /opt/homebrew/bin/scholar
-<a id="__codelineno-136-4" name="__codelineno-136-4" href="#__codelineno-136-4"></a>
-<a id="__codelineno-136-5" name="__codelineno-136-5" href="#__codelineno-136-5"></a>Templates Available:
-<a id="__codelineno-136-6" name="__codelineno-136-6" href="#__codelineno-136-6"></a>  - midterm (comprehensive exam)
-<a id="__codelineno-136-7" name="__codelineno-136-7" href="#__codelineno-136-7"></a>  - final (cumulative exam)
-<a id="__codelineno-136-8" name="__codelineno-136-8" href="#__codelineno-136-8"></a>  - weekly-quiz (10-15 min quiz)
-<a id="__codelineno-136-9" name="__codelineno-136-9" href="#__codelineno-136-9"></a>  - homework (problem set)
-<a id="__codelineno-136-10" name="__codelineno-136-10" href="#__codelineno-136-10"></a>
-<a id="__codelineno-136-11" name="__codelineno-136-11" href="#__codelineno-136-11"></a>Course Config: ✅ Found
-<a id="__codelineno-136-12" name="__codelineno-136-12" href="#__codelineno-136-12"></a>  File: .scholar-config.yml
-<a id="__codelineno-136-13" name="__codelineno-136-13" href="#__codelineno-136-13"></a>  Course: STAT-440
-<a id="__codelineno-136-14" name="__codelineno-136-14" href="#__codelineno-136-14"></a>  Level: Undergraduate
+<div class="highlight"><pre><span></span><code><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a>Scholar CLI: ✅ Installed
+<a id="__codelineno-138-2" name="__codelineno-138-2" href="#__codelineno-138-2"></a>Version: 2.1.0
+<a id="__codelineno-138-3" name="__codelineno-138-3" href="#__codelineno-138-3"></a>Path: /opt/homebrew/bin/scholar
+<a id="__codelineno-138-4" name="__codelineno-138-4" href="#__codelineno-138-4"></a>
+<a id="__codelineno-138-5" name="__codelineno-138-5" href="#__codelineno-138-5"></a>Templates Available:
+<a id="__codelineno-138-6" name="__codelineno-138-6" href="#__codelineno-138-6"></a>  - midterm (comprehensive exam)
+<a id="__codelineno-138-7" name="__codelineno-138-7" href="#__codelineno-138-7"></a>  - final (cumulative exam)
+<a id="__codelineno-138-8" name="__codelineno-138-8" href="#__codelineno-138-8"></a>  - weekly-quiz (10-15 min quiz)
+<a id="__codelineno-138-9" name="__codelineno-138-9" href="#__codelineno-138-9"></a>  - homework (problem set)
+<a id="__codelineno-138-10" name="__codelineno-138-10" href="#__codelineno-138-10"></a>
+<a id="__codelineno-138-11" name="__codelineno-138-11" href="#__codelineno-138-11"></a>Course Config: ✅ Found
+<a id="__codelineno-138-12" name="__codelineno-138-12" href="#__codelineno-138-12"></a>  File: .scholar-config.yml
+<a id="__codelineno-138-13" name="__codelineno-138-13" href="#__codelineno-138-13"></a>  Course: STAT-440
+<a id="__codelineno-138-14" name="__codelineno-138-14" href="#__codelineno-138-14"></a>  Level: Undergraduate
 </code></pre></div></p>
 <p><strong>Select template:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a>teach<span class="w"> </span>exam<span class="w"> </span>--template<span class="w"> </span>scholar/final<span class="w"> </span><span class="s2">&quot;Final Exam&quot;</span>
-<a id="__codelineno-137-2" name="__codelineno-137-2" href="#__codelineno-137-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span>--template<span class="w"> </span>scholar/weekly<span class="w"> </span><span class="s2">&quot;Week 10 Quiz&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-139-1" name="__codelineno-139-1" href="#__codelineno-139-1"></a>teach<span class="w"> </span>exam<span class="w"> </span>--template<span class="w"> </span>scholar/final<span class="w"> </span><span class="s2">&quot;Final Exam&quot;</span>
+<a id="__codelineno-139-2" name="__codelineno-139-2" href="#__codelineno-139-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span>--template<span class="w"> </span>scholar/weekly<span class="w"> </span><span class="s2">&quot;Week 10 Quiz&quot;</span>
 </code></pre></div></p>
 <hr />
 <h4 id="content-analysis-workflows">Content Analysis Workflows<a class="headerlink" href="#content-analysis-workflows" title="Permanent link">&para;</a></h4>
 <p><strong>Pre-lecture analysis:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a><span class="c1"># Before creating lecture</span>
-<a id="__codelineno-138-2" name="__codelineno-138-2" href="#__codelineno-138-2"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/week-05/
-<a id="__codelineno-138-3" name="__codelineno-138-3" href="#__codelineno-138-3"></a>
-<a id="__codelineno-138-4" name="__codelineno-138-4" href="#__codelineno-138-4"></a><span class="c1"># Review recommendations</span>
-<a id="__codelineno-138-5" name="__codelineno-138-5" href="#__codelineno-138-5"></a><span class="c1"># Create lecture with improvements</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-140-1" name="__codelineno-140-1" href="#__codelineno-140-1"></a><span class="c1"># Before creating lecture</span>
+<a id="__codelineno-140-2" name="__codelineno-140-2" href="#__codelineno-140-2"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/week-05/
+<a id="__codelineno-140-3" name="__codelineno-140-3" href="#__codelineno-140-3"></a>
+<a id="__codelineno-140-4" name="__codelineno-140-4" href="#__codelineno-140-4"></a><span class="c1"># Review recommendations</span>
+<a id="__codelineno-140-5" name="__codelineno-140-5" href="#__codelineno-140-5"></a><span class="c1"># Create lecture with improvements</span>
 </code></pre></div></p>
 <p><strong>Post-lecture analysis:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-139-1" name="__codelineno-139-1" href="#__codelineno-139-1"></a><span class="c1"># After creating lecture</span>
-<a id="__codelineno-139-2" name="__codelineno-139-2" href="#__codelineno-139-2"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/week-05/regression.qmd
-<a id="__codelineno-139-3" name="__codelineno-139-3" href="#__codelineno-139-3"></a>
-<a id="__codelineno-139-4" name="__codelineno-139-4" href="#__codelineno-139-4"></a><span class="c1"># Check:</span>
-<a id="__codelineno-139-5" name="__codelineno-139-5" href="#__codelineno-139-5"></a><span class="c1"># - Bloom level distribution</span>
-<a id="__codelineno-139-6" name="__codelineno-139-6" href="#__codelineno-139-6"></a><span class="c1"># - Prerequisite coverage</span>
-<a id="__codelineno-139-7" name="__codelineno-139-7" href="#__codelineno-139-7"></a><span class="c1"># - Complexity progression</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-141-1" name="__codelineno-141-1" href="#__codelineno-141-1"></a><span class="c1"># After creating lecture</span>
+<a id="__codelineno-141-2" name="__codelineno-141-2" href="#__codelineno-141-2"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/week-05/regression.qmd
+<a id="__codelineno-141-3" name="__codelineno-141-3" href="#__codelineno-141-3"></a>
+<a id="__codelineno-141-4" name="__codelineno-141-4" href="#__codelineno-141-4"></a><span class="c1"># Check:</span>
+<a id="__codelineno-141-5" name="__codelineno-141-5" href="#__codelineno-141-5"></a><span class="c1"># - Bloom level distribution</span>
+<a id="__codelineno-141-6" name="__codelineno-141-6" href="#__codelineno-141-6"></a><span class="c1"># - Prerequisite coverage</span>
+<a id="__codelineno-141-7" name="__codelineno-141-7" href="#__codelineno-141-7"></a><span class="c1"># - Complexity progression</span>
 </code></pre></div></p>
 <p><strong>Batch report:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-140-1" name="__codelineno-140-1" href="#__codelineno-140-1"></a>teach<span class="w"> </span>analyze<span class="w"> </span>--batch<span class="w"> </span>&gt;<span class="w"> </span>analysis-report.md
+<div class="highlight"><pre><span></span><code><a id="__codelineno-142-1" name="__codelineno-142-1" href="#__codelineno-142-1"></a>teach<span class="w"> </span>analyze<span class="w"> </span>--batch<span class="w"> </span>&gt;<span class="w"> </span>analysis-report.md
 </code></pre></div></p>
 <p>Creates comprehensive course analysis.</p>
 <hr />
 <h4 id="deployment-workflows">Deployment Workflows<a class="headerlink" href="#deployment-workflows" title="Permanent link">&para;</a></h4>
 <p><strong>Quick direct deploy (v6.4.0):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-141-1" name="__codelineno-141-1" href="#__codelineno-141-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct<span class="w">          </span><span class="c1"># Merge draft → main, push</span>
-<a id="__codelineno-141-2" name="__codelineno-141-2" href="#__codelineno-141-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;week 5&quot;</span><span class="w">   </span><span class="c1"># Direct with custom message</span>
-<a id="__codelineno-141-3" name="__codelineno-141-3" href="#__codelineno-141-3"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run<span class="w">         </span><span class="c1"># Preview first</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-143-1" name="__codelineno-143-1" href="#__codelineno-143-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct<span class="w">          </span><span class="c1"># Merge draft → main, push</span>
+<a id="__codelineno-143-2" name="__codelineno-143-2" href="#__codelineno-143-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;week 5&quot;</span><span class="w">   </span><span class="c1"># Direct with custom message</span>
+<a id="__codelineno-143-3" name="__codelineno-143-3" href="#__codelineno-143-3"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run<span class="w">         </span><span class="c1"># Preview first</span>
 </code></pre></div></p>
 <p><strong>Deploy with rollback safety:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-142-1" name="__codelineno-142-1" href="#__codelineno-142-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct<span class="w">          </span><span class="c1"># Deploy</span>
-<a id="__codelineno-142-2" name="__codelineno-142-2" href="#__codelineno-142-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--history<span class="w">         </span><span class="c1"># Check history</span>
-<a id="__codelineno-142-3" name="__codelineno-142-3" href="#__codelineno-142-3"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">      </span><span class="c1"># Undo most recent deploy</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct<span class="w">          </span><span class="c1"># Deploy</span>
+<a id="__codelineno-144-2" name="__codelineno-144-2" href="#__codelineno-144-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--history<span class="w">         </span><span class="c1"># Check history</span>
+<a id="__codelineno-144-3" name="__codelineno-144-3" href="#__codelineno-144-3"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">      </span><span class="c1"># Undo most recent deploy</span>
 </code></pre></div></p>
 <p><strong>Preview before deploy:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-143-1" name="__codelineno-143-1" href="#__codelineno-143-1"></a>qu<span class="w"> </span>preview
-<a id="__codelineno-143-2" name="__codelineno-143-2" href="#__codelineno-143-2"></a><span class="c1"># Review site locally</span>
-<a id="__codelineno-143-3" name="__codelineno-143-3" href="#__codelineno-143-3"></a><span class="c1"># Fix any issues</span>
-<a id="__codelineno-143-4" name="__codelineno-143-4" href="#__codelineno-143-4"></a>
-<a id="__codelineno-143-5" name="__codelineno-143-5" href="#__codelineno-143-5"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct
-<a id="__codelineno-143-6" name="__codelineno-143-6" href="#__codelineno-143-6"></a><span class="c1"># Deploy to production</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-145-1" name="__codelineno-145-1" href="#__codelineno-145-1"></a>qu<span class="w"> </span>preview
+<a id="__codelineno-145-2" name="__codelineno-145-2" href="#__codelineno-145-2"></a><span class="c1"># Review site locally</span>
+<a id="__codelineno-145-3" name="__codelineno-145-3" href="#__codelineno-145-3"></a><span class="c1"># Fix any issues</span>
+<a id="__codelineno-145-4" name="__codelineno-145-4" href="#__codelineno-145-4"></a>
+<a id="__codelineno-145-5" name="__codelineno-145-5" href="#__codelineno-145-5"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct
+<a id="__codelineno-145-6" name="__codelineno-145-6" href="#__codelineno-145-6"></a><span class="c1"># Deploy to production</span>
 </code></pre></div></p>
 <hr />
 <h4 id="configuration-migration-v5200">Configuration Migration (v5.20.0)<a class="headerlink" href="#configuration-migration-v5200" title="Permanent link">&para;</a></h4>
 <p><strong>Extract lesson plans to separate file:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a><span class="c1"># Preview what will be migrated</span>
-<a id="__codelineno-144-2" name="__codelineno-144-2" href="#__codelineno-144-2"></a>teach<span class="w"> </span>migrate-config<span class="w"> </span>--dry-run
-<a id="__codelineno-144-3" name="__codelineno-144-3" href="#__codelineno-144-3"></a>
-<a id="__codelineno-144-4" name="__codelineno-144-4" href="#__codelineno-144-4"></a><span class="c1"># Run migration (creates backup)</span>
-<a id="__codelineno-144-5" name="__codelineno-144-5" href="#__codelineno-144-5"></a>teach<span class="w"> </span>migrate-config
-<a id="__codelineno-144-6" name="__codelineno-144-6" href="#__codelineno-144-6"></a>
-<a id="__codelineno-144-7" name="__codelineno-144-7" href="#__codelineno-144-7"></a><span class="c1"># Force overwrite existing lesson-plans.yml</span>
-<a id="__codelineno-144-8" name="__codelineno-144-8" href="#__codelineno-144-8"></a>teach<span class="w"> </span>migrate-config<span class="w"> </span>--force
+<div class="highlight"><pre><span></span><code><a id="__codelineno-146-1" name="__codelineno-146-1" href="#__codelineno-146-1"></a><span class="c1"># Preview what will be migrated</span>
+<a id="__codelineno-146-2" name="__codelineno-146-2" href="#__codelineno-146-2"></a>teach<span class="w"> </span>migrate-config<span class="w"> </span>--dry-run
+<a id="__codelineno-146-3" name="__codelineno-146-3" href="#__codelineno-146-3"></a>
+<a id="__codelineno-146-4" name="__codelineno-146-4" href="#__codelineno-146-4"></a><span class="c1"># Run migration (creates backup)</span>
+<a id="__codelineno-146-5" name="__codelineno-146-5" href="#__codelineno-146-5"></a>teach<span class="w"> </span>migrate-config
+<a id="__codelineno-146-6" name="__codelineno-146-6" href="#__codelineno-146-6"></a>
+<a id="__codelineno-146-7" name="__codelineno-146-7" href="#__codelineno-146-7"></a><span class="c1"># Force overwrite existing lesson-plans.yml</span>
+<a id="__codelineno-146-8" name="__codelineno-146-8" href="#__codelineno-146-8"></a>teach<span class="w"> </span>migrate-config<span class="w"> </span>--force
 </code></pre></div></p>
 <p><strong>Before migration:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-145-1" name="__codelineno-145-1" href="#__codelineno-145-1"></a>.flow/
-<a id="__codelineno-145-2" name="__codelineno-145-2" href="#__codelineno-145-2"></a>└── teach-config.yml    # 657 lines (course + 14 weeks)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-147-1" name="__codelineno-147-1" href="#__codelineno-147-1"></a>.flow/
+<a id="__codelineno-147-2" name="__codelineno-147-2" href="#__codelineno-147-2"></a>└── teach-config.yml    # 657 lines (course + 14 weeks)
 </code></pre></div></p>
 <p><strong>After migration:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-146-1" name="__codelineno-146-1" href="#__codelineno-146-1"></a>.flow/
-<a id="__codelineno-146-2" name="__codelineno-146-2" href="#__codelineno-146-2"></a>├── teach-config.yml      # ~50 lines (course meta)
-<a id="__codelineno-146-3" name="__codelineno-146-3" href="#__codelineno-146-3"></a>├── teach-config.yml.bak  # Backup
-<a id="__codelineno-146-4" name="__codelineno-146-4" href="#__codelineno-146-4"></a>└── lesson-plans.yml      # ~600 lines (weeks)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-148-1" name="__codelineno-148-1" href="#__codelineno-148-1"></a>.flow/
+<a id="__codelineno-148-2" name="__codelineno-148-2" href="#__codelineno-148-2"></a>├── teach-config.yml      # ~50 lines (course meta)
+<a id="__codelineno-148-3" name="__codelineno-148-3" href="#__codelineno-148-3"></a>├── teach-config.yml.bak  # Backup
+<a id="__codelineno-148-4" name="__codelineno-148-4" href="#__codelineno-148-4"></a>└── lesson-plans.yml      # ~600 lines (weeks)
 </code></pre></div></p>
 <p><strong>Rollback if needed:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-147-1" name="__codelineno-147-1" href="#__codelineno-147-1"></a>cp<span class="w"> </span>.flow/teach-config.yml.bak<span class="w"> </span>.flow/teach-config.yml
-<a id="__codelineno-147-2" name="__codelineno-147-2" href="#__codelineno-147-2"></a>rm<span class="w"> </span>.flow/lesson-plans.yml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-149-1" name="__codelineno-149-1" href="#__codelineno-149-1"></a>cp<span class="w"> </span>.flow/teach-config.yml.bak<span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-149-2" name="__codelineno-149-2" href="#__codelineno-149-2"></a>rm<span class="w"> </span>.flow/lesson-plans.yml
 </code></pre></div></p>
 <hr />
 <h4 id="template-management-v5200">Template Management (v5.20.0)<a class="headerlink" href="#template-management-v5200" title="Permanent link">&para;</a></h4>
 <p><strong>List available templates:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-148-1" name="__codelineno-148-1" href="#__codelineno-148-1"></a>teach<span class="w"> </span>templates<span class="w">                        </span><span class="c1"># List all templates</span>
-<a id="__codelineno-148-2" name="__codelineno-148-2" href="#__codelineno-148-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--type<span class="w"> </span>content<span class="w">    </span><span class="c1"># Filter by type</span>
-<a id="__codelineno-148-3" name="__codelineno-148-3" href="#__codelineno-148-3"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--source<span class="w"> </span>project<span class="w">  </span><span class="c1"># Show only project templates</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-150-1" name="__codelineno-150-1" href="#__codelineno-150-1"></a>teach<span class="w"> </span>templates<span class="w">                        </span><span class="c1"># List all templates</span>
+<a id="__codelineno-150-2" name="__codelineno-150-2" href="#__codelineno-150-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--type<span class="w"> </span>content<span class="w">    </span><span class="c1"># Filter by type</span>
+<a id="__codelineno-150-3" name="__codelineno-150-3" href="#__codelineno-150-3"></a>teach<span class="w"> </span>templates<span class="w"> </span>list<span class="w"> </span>--source<span class="w"> </span>project<span class="w">  </span><span class="c1"># Show only project templates</span>
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-149-1" name="__codelineno-149-1" href="#__codelineno-149-1"></a>┌──────────────────────────────────────────────────────────────┐
-<a id="__codelineno-149-2" name="__codelineno-149-2" href="#__codelineno-149-2"></a>│ 📁 Teaching Templates                                        │
-<a id="__codelineno-149-3" name="__codelineno-149-3" href="#__codelineno-149-3"></a>├──────────────────────────────────────────────────────────────┤
-<a id="__codelineno-149-4" name="__codelineno-149-4" href="#__codelineno-149-4"></a>│                                                              │
-<a id="__codelineno-149-5" name="__codelineno-149-5" href="#__codelineno-149-5"></a>│ CONTENT (.flow/templates/content/)                           │
-<a id="__codelineno-149-6" name="__codelineno-149-6" href="#__codelineno-149-6"></a>│   lecture.qmd      v1.0  Standard lecture with concepts      │
-<a id="__codelineno-149-7" name="__codelineno-149-7" href="#__codelineno-149-7"></a>│   lab.qmd          v1.0  R lab exercise template         [P] │
-<a id="__codelineno-149-8" name="__codelineno-149-8" href="#__codelineno-149-8"></a>│   slides.qmd       v1.0  RevealJS slides template            │
-<a id="__codelineno-149-9" name="__codelineno-149-9" href="#__codelineno-149-9"></a>│                                                              │
-<a id="__codelineno-149-10" name="__codelineno-149-10" href="#__codelineno-149-10"></a>│ PROMPTS (.flow/templates/prompts/)                           │
-<a id="__codelineno-149-11" name="__codelineno-149-11" href="#__codelineno-149-11"></a>│   lecture-notes.md    v1.0  AI lecture notes generator       │
-<a id="__codelineno-149-12" name="__codelineno-149-12" href="#__codelineno-149-12"></a>│   revealjs-slides.md  v1.0  AI slides generator          [D] │
-<a id="__codelineno-149-13" name="__codelineno-149-13" href="#__codelineno-149-13"></a>│                                                              │
-<a id="__codelineno-149-14" name="__codelineno-149-14" href="#__codelineno-149-14"></a>│ Legend: [P] = Project, [D] = Default (plugin)                │
-<a id="__codelineno-149-15" name="__codelineno-149-15" href="#__codelineno-149-15"></a>└──────────────────────────────────────────────────────────────┘
+<div class="highlight"><pre><span></span><code><a id="__codelineno-151-1" name="__codelineno-151-1" href="#__codelineno-151-1"></a>┌──────────────────────────────────────────────────────────────┐
+<a id="__codelineno-151-2" name="__codelineno-151-2" href="#__codelineno-151-2"></a>│ 📁 Teaching Templates                                        │
+<a id="__codelineno-151-3" name="__codelineno-151-3" href="#__codelineno-151-3"></a>├──────────────────────────────────────────────────────────────┤
+<a id="__codelineno-151-4" name="__codelineno-151-4" href="#__codelineno-151-4"></a>│                                                              │
+<a id="__codelineno-151-5" name="__codelineno-151-5" href="#__codelineno-151-5"></a>│ CONTENT (.flow/templates/content/)                           │
+<a id="__codelineno-151-6" name="__codelineno-151-6" href="#__codelineno-151-6"></a>│   lecture.qmd      v1.0  Standard lecture with concepts      │
+<a id="__codelineno-151-7" name="__codelineno-151-7" href="#__codelineno-151-7"></a>│   lab.qmd          v1.0  R lab exercise template         [P] │
+<a id="__codelineno-151-8" name="__codelineno-151-8" href="#__codelineno-151-8"></a>│   slides.qmd       v1.0  RevealJS slides template            │
+<a id="__codelineno-151-9" name="__codelineno-151-9" href="#__codelineno-151-9"></a>│                                                              │
+<a id="__codelineno-151-10" name="__codelineno-151-10" href="#__codelineno-151-10"></a>│ PROMPTS (.flow/templates/prompts/)                           │
+<a id="__codelineno-151-11" name="__codelineno-151-11" href="#__codelineno-151-11"></a>│   lecture-notes.md    v1.0  AI lecture notes generator       │
+<a id="__codelineno-151-12" name="__codelineno-151-12" href="#__codelineno-151-12"></a>│   revealjs-slides.md  v1.0  AI slides generator          [D] │
+<a id="__codelineno-151-13" name="__codelineno-151-13" href="#__codelineno-151-13"></a>│                                                              │
+<a id="__codelineno-151-14" name="__codelineno-151-14" href="#__codelineno-151-14"></a>│ Legend: [P] = Project, [D] = Default (plugin)                │
+<a id="__codelineno-151-15" name="__codelineno-151-15" href="#__codelineno-151-15"></a>└──────────────────────────────────────────────────────────────┘
 </code></pre></div></p>
 <p><strong>Create file from template:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-150-1" name="__codelineno-150-1" href="#__codelineno-150-1"></a><span class="c1"># Create lecture for week 5</span>
-<a id="__codelineno-150-2" name="__codelineno-150-2" href="#__codelineno-150-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05
-<a id="__codelineno-150-3" name="__codelineno-150-3" href="#__codelineno-150-3"></a>
-<a id="__codelineno-150-4" name="__codelineno-150-4" href="#__codelineno-150-4"></a><span class="c1"># Create lab with topic</span>
-<a id="__codelineno-150-5" name="__codelineno-150-5" href="#__codelineno-150-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lab<span class="w"> </span>week-03<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span>
-<a id="__codelineno-150-6" name="__codelineno-150-6" href="#__codelineno-150-6"></a>
-<a id="__codelineno-150-7" name="__codelineno-150-7" href="#__codelineno-150-7"></a><span class="c1"># Preview without creating</span>
-<a id="__codelineno-150-8" name="__codelineno-150-8" href="#__codelineno-150-8"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>slides<span class="w"> </span>week-06<span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-152-1" name="__codelineno-152-1" href="#__codelineno-152-1"></a><span class="c1"># Create lecture for week 5</span>
+<a id="__codelineno-152-2" name="__codelineno-152-2" href="#__codelineno-152-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05
+<a id="__codelineno-152-3" name="__codelineno-152-3" href="#__codelineno-152-3"></a>
+<a id="__codelineno-152-4" name="__codelineno-152-4" href="#__codelineno-152-4"></a><span class="c1"># Create lab with topic</span>
+<a id="__codelineno-152-5" name="__codelineno-152-5" href="#__codelineno-152-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lab<span class="w"> </span>week-03<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span>
+<a id="__codelineno-152-6" name="__codelineno-152-6" href="#__codelineno-152-6"></a>
+<a id="__codelineno-152-7" name="__codelineno-152-7" href="#__codelineno-152-7"></a><span class="c1"># Preview without creating</span>
+<a id="__codelineno-152-8" name="__codelineno-152-8" href="#__codelineno-152-8"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>slides<span class="w"> </span>week-06<span class="w"> </span>--dry-run
 </code></pre></div></p>
 <p><strong>Validate templates:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-151-1" name="__codelineno-151-1" href="#__codelineno-151-1"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate<span class="w">                  </span><span class="c1"># Validate all project templates</span>
-<a id="__codelineno-151-2" name="__codelineno-151-2" href="#__codelineno-151-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate<span class="w"> </span>lecture.qmd<span class="w">      </span><span class="c1"># Validate specific template</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-153-1" name="__codelineno-153-1" href="#__codelineno-153-1"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate<span class="w">                  </span><span class="c1"># Validate all project templates</span>
+<a id="__codelineno-153-2" name="__codelineno-153-2" href="#__codelineno-153-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate<span class="w"> </span>lecture.qmd<span class="w">      </span><span class="c1"># Validate specific template</span>
 </code></pre></div></p>
 <p><strong>Sync from plugin defaults:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-152-1" name="__codelineno-152-1" href="#__codelineno-152-1"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--dry-run<span class="w">    </span><span class="c1"># Preview what would change</span>
-<a id="__codelineno-152-2" name="__codelineno-152-2" href="#__codelineno-152-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w">              </span><span class="c1"># Update project templates</span>
-<a id="__codelineno-152-3" name="__codelineno-152-3" href="#__codelineno-152-3"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--force<span class="w">      </span><span class="c1"># Overwrite even if newer</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-154-1" name="__codelineno-154-1" href="#__codelineno-154-1"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--dry-run<span class="w">    </span><span class="c1"># Preview what would change</span>
+<a id="__codelineno-154-2" name="__codelineno-154-2" href="#__codelineno-154-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w">              </span><span class="c1"># Update project templates</span>
+<a id="__codelineno-154-3" name="__codelineno-154-3" href="#__codelineno-154-3"></a>teach<span class="w"> </span>templates<span class="w"> </span>sync<span class="w"> </span>--force<span class="w">      </span><span class="c1"># Overwrite even if newer</span>
 </code></pre></div></p>
 <p><strong>Initialize with templates:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-153-1" name="__codelineno-153-1" href="#__codelineno-153-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT-545&quot;</span><span class="w"> </span>--with-templates
+<div class="highlight"><pre><span></span><code><a id="__codelineno-155-1" name="__codelineno-155-1" href="#__codelineno-155-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT-545&quot;</span><span class="w"> </span>--with-templates
 </code></pre></div></p>
 <p>Creates:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-154-1" name="__codelineno-154-1" href="#__codelineno-154-1"></a>.flow/templates/
-<a id="__codelineno-154-2" name="__codelineno-154-2" href="#__codelineno-154-2"></a>├── content/     (4 templates)
-<a id="__codelineno-154-3" name="__codelineno-154-3" href="#__codelineno-154-3"></a>├── prompts/     (3 templates)
-<a id="__codelineno-154-4" name="__codelineno-154-4" href="#__codelineno-154-4"></a>├── metadata/    (3 templates)
-<a id="__codelineno-154-5" name="__codelineno-154-5" href="#__codelineno-154-5"></a>└── checklists/  (2 templates)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-156-1" name="__codelineno-156-1" href="#__codelineno-156-1"></a>.flow/templates/
+<a id="__codelineno-156-2" name="__codelineno-156-2" href="#__codelineno-156-2"></a>├── content/     (4 templates)
+<a id="__codelineno-156-3" name="__codelineno-156-3" href="#__codelineno-156-3"></a>├── prompts/     (3 templates)
+<a id="__codelineno-156-4" name="__codelineno-156-4" href="#__codelineno-156-4"></a>├── metadata/    (3 templates)
+<a id="__codelineno-156-5" name="__codelineno-156-5" href="#__codelineno-156-5"></a>└── checklists/  (2 templates)
 </code></pre></div></p>
 <p><strong>Resolution order:</strong> Project templates override plugin defaults:
 1. <code>.flow/templates/&lt;type&gt;/&lt;name&gt;</code> (highest priority)
@@ -8691,54 +8721,54 @@
 <p>Manage LaTeX macros for consistent AI-generated notation.</p>
 <p><strong>Primary use case:</strong> Ensure Scholar generates <code>\E{Y}</code> instead of <code>E[Y]</code>.</p>
 <p><strong>List macros:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-155-1" name="__codelineno-155-1" href="#__codelineno-155-1"></a>teach<span class="w"> </span>macros<span class="w">                         </span><span class="c1"># Show all macros</span>
-<a id="__codelineno-155-2" name="__codelineno-155-2" href="#__codelineno-155-2"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w">                    </span><span class="c1"># Same with more options</span>
-<a id="__codelineno-155-3" name="__codelineno-155-3" href="#__codelineno-155-3"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w"> </span>--category<span class="w"> </span>operators<span class="w">  </span><span class="c1"># Filter by category</span>
-<a id="__codelineno-155-4" name="__codelineno-155-4" href="#__codelineno-155-4"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w"> </span>--format<span class="w"> </span>json<span class="w">      </span><span class="c1"># JSON output</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-157-1" name="__codelineno-157-1" href="#__codelineno-157-1"></a>teach<span class="w"> </span>macros<span class="w">                         </span><span class="c1"># Show all macros</span>
+<a id="__codelineno-157-2" name="__codelineno-157-2" href="#__codelineno-157-2"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w">                    </span><span class="c1"># Same with more options</span>
+<a id="__codelineno-157-3" name="__codelineno-157-3" href="#__codelineno-157-3"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w"> </span>--category<span class="w"> </span>operators<span class="w">  </span><span class="c1"># Filter by category</span>
+<a id="__codelineno-157-4" name="__codelineno-157-4" href="#__codelineno-157-4"></a>teach<span class="w"> </span>macros<span class="w"> </span>list<span class="w"> </span>--format<span class="w"> </span>json<span class="w">      </span><span class="c1"># JSON output</span>
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-156-1" name="__codelineno-156-1" href="#__codelineno-156-1"></a>LaTeX Macros (14 available)
-<a id="__codelineno-156-2" name="__codelineno-156-2" href="#__codelineno-156-2"></a>
-<a id="__codelineno-156-3" name="__codelineno-156-3" href="#__codelineno-156-3"></a>OPERATORS
-<a id="__codelineno-156-4" name="__codelineno-156-4" href="#__codelineno-156-4"></a>  \E             → \mathbb{E}           Expectation
-<a id="__codelineno-156-5" name="__codelineno-156-5" href="#__codelineno-156-5"></a>  \Var           → \text{Var}           Variance
-<a id="__codelineno-156-6" name="__codelineno-156-6" href="#__codelineno-156-6"></a>  \Cov           → \text{Cov}           Covariance
-<a id="__codelineno-156-7" name="__codelineno-156-7" href="#__codelineno-156-7"></a>
-<a id="__codelineno-156-8" name="__codelineno-156-8" href="#__codelineno-156-8"></a>DISTRIBUTIONS
-<a id="__codelineno-156-9" name="__codelineno-156-9" href="#__codelineno-156-9"></a>  \Normal        → \mathcal{N}          Normal distribution
-<a id="__codelineno-156-10" name="__codelineno-156-10" href="#__codelineno-156-10"></a>  \Binomial      → \text{Bin}           Binomial distribution
-<a id="__codelineno-156-11" name="__codelineno-156-11" href="#__codelineno-156-11"></a>
-<a id="__codelineno-156-12" name="__codelineno-156-12" href="#__codelineno-156-12"></a>SYMBOLS
-<a id="__codelineno-156-13" name="__codelineno-156-13" href="#__codelineno-156-13"></a>  \indep         → \perp\!\!\!\perp     Independence
-<a id="__codelineno-156-14" name="__codelineno-156-14" href="#__codelineno-156-14"></a>  \iid           → \text{i.i.d.}        IID notation
-<a id="__codelineno-156-15" name="__codelineno-156-15" href="#__codelineno-156-15"></a>
-<a id="__codelineno-156-16" name="__codelineno-156-16" href="#__codelineno-156-16"></a>Source: _macros.qmd (synced 2h ago)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-158-1" name="__codelineno-158-1" href="#__codelineno-158-1"></a>LaTeX Macros (14 available)
+<a id="__codelineno-158-2" name="__codelineno-158-2" href="#__codelineno-158-2"></a>
+<a id="__codelineno-158-3" name="__codelineno-158-3" href="#__codelineno-158-3"></a>OPERATORS
+<a id="__codelineno-158-4" name="__codelineno-158-4" href="#__codelineno-158-4"></a>  \E             → \mathbb{E}           Expectation
+<a id="__codelineno-158-5" name="__codelineno-158-5" href="#__codelineno-158-5"></a>  \Var           → \text{Var}           Variance
+<a id="__codelineno-158-6" name="__codelineno-158-6" href="#__codelineno-158-6"></a>  \Cov           → \text{Cov}           Covariance
+<a id="__codelineno-158-7" name="__codelineno-158-7" href="#__codelineno-158-7"></a>
+<a id="__codelineno-158-8" name="__codelineno-158-8" href="#__codelineno-158-8"></a>DISTRIBUTIONS
+<a id="__codelineno-158-9" name="__codelineno-158-9" href="#__codelineno-158-9"></a>  \Normal        → \mathcal{N}          Normal distribution
+<a id="__codelineno-158-10" name="__codelineno-158-10" href="#__codelineno-158-10"></a>  \Binomial      → \text{Bin}           Binomial distribution
+<a id="__codelineno-158-11" name="__codelineno-158-11" href="#__codelineno-158-11"></a>
+<a id="__codelineno-158-12" name="__codelineno-158-12" href="#__codelineno-158-12"></a>SYMBOLS
+<a id="__codelineno-158-13" name="__codelineno-158-13" href="#__codelineno-158-13"></a>  \indep         → \perp\!\!\!\perp     Independence
+<a id="__codelineno-158-14" name="__codelineno-158-14" href="#__codelineno-158-14"></a>  \iid           → \text{i.i.d.}        IID notation
+<a id="__codelineno-158-15" name="__codelineno-158-15" href="#__codelineno-158-15"></a>
+<a id="__codelineno-158-16" name="__codelineno-158-16" href="#__codelineno-158-16"></a>Source: _macros.qmd (synced 2h ago)
 </code></pre></div></p>
 <p><strong>Sync from source files:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-157-1" name="__codelineno-157-1" href="#__codelineno-157-1"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w">              </span><span class="c1"># Extract from configured sources</span>
-<a id="__codelineno-157-2" name="__codelineno-157-2" href="#__codelineno-157-2"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w"> </span>--dry-run<span class="w">    </span><span class="c1"># Preview without changes</span>
-<a id="__codelineno-157-3" name="__codelineno-157-3" href="#__codelineno-157-3"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w"> </span>--force<span class="w">      </span><span class="c1"># Overwrite existing cache</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-159-1" name="__codelineno-159-1" href="#__codelineno-159-1"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w">              </span><span class="c1"># Extract from configured sources</span>
+<a id="__codelineno-159-2" name="__codelineno-159-2" href="#__codelineno-159-2"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w"> </span>--dry-run<span class="w">    </span><span class="c1"># Preview without changes</span>
+<a id="__codelineno-159-3" name="__codelineno-159-3" href="#__codelineno-159-3"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w"> </span>--force<span class="w">      </span><span class="c1"># Overwrite existing cache</span>
 </code></pre></div></p>
 <p><strong>Export for Scholar:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-158-1" name="__codelineno-158-1" href="#__codelineno-158-1"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w">                 </span><span class="c1"># Default JSON to stdout</span>
-<a id="__codelineno-158-2" name="__codelineno-158-2" href="#__codelineno-158-2"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>json<span class="w">   </span><span class="c1"># JSON format</span>
-<a id="__codelineno-158-3" name="__codelineno-158-3" href="#__codelineno-158-3"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>mathjax<span class="w">  </span><span class="c1"># MathJax config</span>
-<a id="__codelineno-158-4" name="__codelineno-158-4" href="#__codelineno-158-4"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>latex<span class="w">  </span><span class="c1"># LaTeX \newcommand</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-160-1" name="__codelineno-160-1" href="#__codelineno-160-1"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w">                 </span><span class="c1"># Default JSON to stdout</span>
+<a id="__codelineno-160-2" name="__codelineno-160-2" href="#__codelineno-160-2"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>json<span class="w">   </span><span class="c1"># JSON format</span>
+<a id="__codelineno-160-3" name="__codelineno-160-3" href="#__codelineno-160-3"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>mathjax<span class="w">  </span><span class="c1"># MathJax config</span>
+<a id="__codelineno-160-4" name="__codelineno-160-4" href="#__codelineno-160-4"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>latex<span class="w">  </span><span class="c1"># LaTeX \newcommand</span>
 </code></pre></div></p>
 <p><strong>Configuration:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-159-1" name="__codelineno-159-1" href="#__codelineno-159-1"></a><span class="nt">scholar</span><span class="p">:</span>
-<a id="__codelineno-159-2" name="__codelineno-159-2" href="#__codelineno-159-2"></a><span class="w">  </span><span class="nt">latex_macros</span><span class="p">:</span>
-<a id="__codelineno-159-3" name="__codelineno-159-3" href="#__codelineno-159-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-159-4" name="__codelineno-159-4" href="#__codelineno-159-4"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
-<a id="__codelineno-159-5" name="__codelineno-159-5" href="#__codelineno-159-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;_macros.qmd&quot;</span>
-<a id="__codelineno-159-6" name="__codelineno-159-6" href="#__codelineno-159-6"></a><span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qmd&quot;</span>
-<a id="__codelineno-159-7" name="__codelineno-159-7" href="#__codelineno-159-7"></a><span class="w">    </span><span class="nt">auto_discover</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-159-8" name="__codelineno-159-8" href="#__codelineno-159-8"></a><span class="w">    </span><span class="nt">validation</span><span class="p">:</span>
-<a id="__codelineno-159-9" name="__codelineno-159-9" href="#__codelineno-159-9"></a><span class="w">      </span><span class="nt">warn_undefined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-159-10" name="__codelineno-159-10" href="#__codelineno-159-10"></a><span class="w">      </span><span class="nt">warn_unused</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<a id="__codelineno-159-11" name="__codelineno-159-11" href="#__codelineno-159-11"></a><span class="w">    </span><span class="nt">export</span><span class="p">:</span>
-<a id="__codelineno-159-12" name="__codelineno-159-12" href="#__codelineno-159-12"></a><span class="w">      </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;json&quot;</span>
-<a id="__codelineno-159-13" name="__codelineno-159-13" href="#__codelineno-159-13"></a><span class="w">      </span><span class="nt">include_in_prompts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-161-1" name="__codelineno-161-1" href="#__codelineno-161-1"></a><span class="nt">scholar</span><span class="p">:</span>
+<a id="__codelineno-161-2" name="__codelineno-161-2" href="#__codelineno-161-2"></a><span class="w">  </span><span class="nt">latex_macros</span><span class="p">:</span>
+<a id="__codelineno-161-3" name="__codelineno-161-3" href="#__codelineno-161-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-161-4" name="__codelineno-161-4" href="#__codelineno-161-4"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
+<a id="__codelineno-161-5" name="__codelineno-161-5" href="#__codelineno-161-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;_macros.qmd&quot;</span>
+<a id="__codelineno-161-6" name="__codelineno-161-6" href="#__codelineno-161-6"></a><span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qmd&quot;</span>
+<a id="__codelineno-161-7" name="__codelineno-161-7" href="#__codelineno-161-7"></a><span class="w">    </span><span class="nt">auto_discover</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-161-8" name="__codelineno-161-8" href="#__codelineno-161-8"></a><span class="w">    </span><span class="nt">validation</span><span class="p">:</span>
+<a id="__codelineno-161-9" name="__codelineno-161-9" href="#__codelineno-161-9"></a><span class="w">      </span><span class="nt">warn_undefined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-161-10" name="__codelineno-161-10" href="#__codelineno-161-10"></a><span class="w">      </span><span class="nt">warn_unused</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-161-11" name="__codelineno-161-11" href="#__codelineno-161-11"></a><span class="w">    </span><span class="nt">export</span><span class="p">:</span>
+<a id="__codelineno-161-12" name="__codelineno-161-12" href="#__codelineno-161-12"></a><span class="w">      </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;json&quot;</span>
+<a id="__codelineno-161-13" name="__codelineno-161-13" href="#__codelineno-161-13"></a><span class="w">      </span><span class="nt">include_in_prompts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div></p>
 <p><strong>Supported formats:</strong>
 - QMD (Quarto) - <code>{=tex}</code> blocks with <code>\newcommand</code>
@@ -8758,67 +8788,67 @@
 <p>CRUD management of individual week entries in <code>.flow/lesson-plans.yml</code>.</p>
 <p><strong>Primary use case:</strong> Create and manage lesson plans that feed into Scholar content generation (<code>teach slides --week N</code>, <code>teach lecture --week N</code>).</p>
 <p><strong>Create a week:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-160-1" name="__codelineno-160-1" href="#__codelineno-160-1"></a><span class="c1"># With options</span>
-<a id="__codelineno-160-2" name="__codelineno-160-2" href="#__codelineno-160-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">3</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Probability&quot;</span><span class="w"> </span>--style<span class="w"> </span>rigorous
-<a id="__codelineno-160-3" name="__codelineno-160-3" href="#__codelineno-160-3"></a>
-<a id="__codelineno-160-4" name="__codelineno-160-4" href="#__codelineno-160-4"></a><span class="c1"># Interactive (prompted for details)</span>
-<a id="__codelineno-160-5" name="__codelineno-160-5" href="#__codelineno-160-5"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">5</span>
-<a id="__codelineno-160-6" name="__codelineno-160-6" href="#__codelineno-160-6"></a>
-<a id="__codelineno-160-7" name="__codelineno-160-7" href="#__codelineno-160-7"></a><span class="c1"># Auto-populates topic from teach-config.yml if available</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-162-1" name="__codelineno-162-1" href="#__codelineno-162-1"></a><span class="c1"># With options</span>
+<a id="__codelineno-162-2" name="__codelineno-162-2" href="#__codelineno-162-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">3</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Probability&quot;</span><span class="w"> </span>--style<span class="w"> </span>rigorous
+<a id="__codelineno-162-3" name="__codelineno-162-3" href="#__codelineno-162-3"></a>
+<a id="__codelineno-162-4" name="__codelineno-162-4" href="#__codelineno-162-4"></a><span class="c1"># Interactive (prompted for details)</span>
+<a id="__codelineno-162-5" name="__codelineno-162-5" href="#__codelineno-162-5"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-162-6" name="__codelineno-162-6" href="#__codelineno-162-6"></a>
+<a id="__codelineno-162-7" name="__codelineno-162-7" href="#__codelineno-162-7"></a><span class="c1"># Auto-populates topic from teach-config.yml if available</span>
 </code></pre></div></p>
 <p><strong>List all weeks:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-161-1" name="__codelineno-161-1" href="#__codelineno-161-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-163-1" name="__codelineno-163-1" href="#__codelineno-163-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>list
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-162-1" name="__codelineno-162-1" href="#__codelineno-162-1"></a>  Week   Topic                               Style           Objectives
-<a id="__codelineno-162-2" name="__codelineno-162-2" href="#__codelineno-162-2"></a>  ────   ───────────────────────────────────  ───────────────  ──────────
-<a id="__codelineno-162-3" name="__codelineno-162-3" href="#__codelineno-162-3"></a>  1      Introduction to Statistics           conceptual       2
-<a id="__codelineno-162-4" name="__codelineno-162-4" href="#__codelineno-162-4"></a>  3      Probability Foundations              rigorous         1
-<a id="__codelineno-162-5" name="__codelineno-162-5" href="#__codelineno-162-5"></a>  5      Sampling Distributions              computational    0
-<a id="__codelineno-162-6" name="__codelineno-162-6" href="#__codelineno-162-6"></a>
-<a id="__codelineno-162-7" name="__codelineno-162-7" href="#__codelineno-162-7"></a>  3 week(s) total
-<a id="__codelineno-162-8" name="__codelineno-162-8" href="#__codelineno-162-8"></a>  Gaps: weeks 2 4
+<div class="highlight"><pre><span></span><code><a id="__codelineno-164-1" name="__codelineno-164-1" href="#__codelineno-164-1"></a>  Week   Topic                               Style           Objectives
+<a id="__codelineno-164-2" name="__codelineno-164-2" href="#__codelineno-164-2"></a>  ────   ───────────────────────────────────  ───────────────  ──────────
+<a id="__codelineno-164-3" name="__codelineno-164-3" href="#__codelineno-164-3"></a>  1      Introduction to Statistics           conceptual       2
+<a id="__codelineno-164-4" name="__codelineno-164-4" href="#__codelineno-164-4"></a>  3      Probability Foundations              rigorous         1
+<a id="__codelineno-164-5" name="__codelineno-164-5" href="#__codelineno-164-5"></a>  5      Sampling Distributions              computational    0
+<a id="__codelineno-164-6" name="__codelineno-164-6" href="#__codelineno-164-6"></a>
+<a id="__codelineno-164-7" name="__codelineno-164-7" href="#__codelineno-164-7"></a>  3 week(s) total
+<a id="__codelineno-164-8" name="__codelineno-164-8" href="#__codelineno-164-8"></a>  Gaps: weeks 2 4
 </code></pre></div></p>
 <p><strong>Show week details:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-163-1" name="__codelineno-163-1" href="#__codelineno-163-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>show<span class="w"> </span><span class="m">1</span>
-<a id="__codelineno-163-2" name="__codelineno-163-2" href="#__codelineno-163-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>show<span class="w"> </span><span class="m">1</span><span class="w"> </span>--json<span class="w">     </span><span class="c1"># JSON output</span>
-<a id="__codelineno-163-3" name="__codelineno-163-3" href="#__codelineno-163-3"></a>teach<span class="w"> </span>plan<span class="w"> </span><span class="m">1</span><span class="w">                 </span><span class="c1"># Shortcut (bare number)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-165-1" name="__codelineno-165-1" href="#__codelineno-165-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>show<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-165-2" name="__codelineno-165-2" href="#__codelineno-165-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>show<span class="w"> </span><span class="m">1</span><span class="w"> </span>--json<span class="w">     </span><span class="c1"># JSON output</span>
+<a id="__codelineno-165-3" name="__codelineno-165-3" href="#__codelineno-165-3"></a>teach<span class="w"> </span>plan<span class="w"> </span><span class="m">1</span><span class="w">                 </span><span class="c1"># Shortcut (bare number)</span>
 </code></pre></div></p>
 <p><strong>Edit in $EDITOR:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-164-1" name="__codelineno-164-1" href="#__codelineno-164-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>edit<span class="w"> </span><span class="m">3</span><span class="w">            </span><span class="c1"># Opens at correct line number</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-166-1" name="__codelineno-166-1" href="#__codelineno-166-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>edit<span class="w"> </span><span class="m">3</span><span class="w">            </span><span class="c1"># Opens at correct line number</span>
 </code></pre></div></p>
 <p><strong>Delete a week:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-165-1" name="__codelineno-165-1" href="#__codelineno-165-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>delete<span class="w"> </span><span class="m">3</span><span class="w">          </span><span class="c1"># With confirmation</span>
-<a id="__codelineno-165-2" name="__codelineno-165-2" href="#__codelineno-165-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>delete<span class="w"> </span><span class="m">3</span><span class="w"> </span>--force<span class="w">  </span><span class="c1"># Skip confirmation</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-167-1" name="__codelineno-167-1" href="#__codelineno-167-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>delete<span class="w"> </span><span class="m">3</span><span class="w">          </span><span class="c1"># With confirmation</span>
+<a id="__codelineno-167-2" name="__codelineno-167-2" href="#__codelineno-167-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>delete<span class="w"> </span><span class="m">3</span><span class="w"> </span>--force<span class="w">  </span><span class="c1"># Skip confirmation</span>
 </code></pre></div></p>
 <p><strong>YAML schema:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-166-1" name="__codelineno-166-1" href="#__codelineno-166-1"></a><span class="c1"># .flow/lesson-plans.yml</span>
-<a id="__codelineno-166-2" name="__codelineno-166-2" href="#__codelineno-166-2"></a><span class="nt">weeks</span><span class="p">:</span>
-<a id="__codelineno-166-3" name="__codelineno-166-3" href="#__codelineno-166-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<a id="__codelineno-166-4" name="__codelineno-166-4" href="#__codelineno-166-4"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Statistics&quot;</span>
-<a id="__codelineno-166-5" name="__codelineno-166-5" href="#__codelineno-166-5"></a><span class="w">    </span><span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;conceptual&quot;</span>
-<a id="__codelineno-166-6" name="__codelineno-166-6" href="#__codelineno-166-6"></a><span class="w">    </span><span class="nt">objectives</span><span class="p">:</span>
-<a id="__codelineno-166-7" name="__codelineno-166-7" href="#__codelineno-166-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Define</span><span class="nv"> </span><span class="s">descriptive</span><span class="nv"> </span><span class="s">statistics&quot;</span>
-<a id="__codelineno-166-8" name="__codelineno-166-8" href="#__codelineno-166-8"></a><span class="w">    </span><span class="nt">subtopics</span><span class="p">:</span>
-<a id="__codelineno-166-9" name="__codelineno-166-9" href="#__codelineno-166-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Measures</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">central</span><span class="nv"> </span><span class="s">tendency&quot;</span>
-<a id="__codelineno-166-10" name="__codelineno-166-10" href="#__codelineno-166-10"></a><span class="w">    </span><span class="nt">key_concepts</span><span class="p">:</span>
-<a id="__codelineno-166-11" name="__codelineno-166-11" href="#__codelineno-166-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;descriptive-stats&quot;</span>
-<a id="__codelineno-166-12" name="__codelineno-166-12" href="#__codelineno-166-12"></a><span class="w">    </span><span class="nt">prerequisites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-168-1" name="__codelineno-168-1" href="#__codelineno-168-1"></a><span class="c1"># .flow/lesson-plans.yml</span>
+<a id="__codelineno-168-2" name="__codelineno-168-2" href="#__codelineno-168-2"></a><span class="nt">weeks</span><span class="p">:</span>
+<a id="__codelineno-168-3" name="__codelineno-168-3" href="#__codelineno-168-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<a id="__codelineno-168-4" name="__codelineno-168-4" href="#__codelineno-168-4"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Statistics&quot;</span>
+<a id="__codelineno-168-5" name="__codelineno-168-5" href="#__codelineno-168-5"></a><span class="w">    </span><span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;conceptual&quot;</span>
+<a id="__codelineno-168-6" name="__codelineno-168-6" href="#__codelineno-168-6"></a><span class="w">    </span><span class="nt">objectives</span><span class="p">:</span>
+<a id="__codelineno-168-7" name="__codelineno-168-7" href="#__codelineno-168-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Define</span><span class="nv"> </span><span class="s">descriptive</span><span class="nv"> </span><span class="s">statistics&quot;</span>
+<a id="__codelineno-168-8" name="__codelineno-168-8" href="#__codelineno-168-8"></a><span class="w">    </span><span class="nt">subtopics</span><span class="p">:</span>
+<a id="__codelineno-168-9" name="__codelineno-168-9" href="#__codelineno-168-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Measures</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">central</span><span class="nv"> </span><span class="s">tendency&quot;</span>
+<a id="__codelineno-168-10" name="__codelineno-168-10" href="#__codelineno-168-10"></a><span class="w">    </span><span class="nt">key_concepts</span><span class="p">:</span>
+<a id="__codelineno-168-11" name="__codelineno-168-11" href="#__codelineno-168-11"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;descriptive-stats&quot;</span>
+<a id="__codelineno-168-12" name="__codelineno-168-12" href="#__codelineno-168-12"></a><span class="w">    </span><span class="nt">prerequisites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 </code></pre></div></p>
 <p><strong>Styles:</strong> <code>conceptual</code>, <code>computational</code>, <code>rigorous</code>, <code>applied</code></p>
 <p><strong>Shortcuts:</strong> <code>teach pl</code>, <code>teach plan c</code>, <code>teach plan ls</code>, <code>teach plan s</code></p>
 <hr />
 <h4 id="integration-with-quarto">Integration with Quarto<a class="headerlink" href="#integration-with-quarto" title="Permanent link">&para;</a></h4>
 <p><strong>Render specific lecture:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-167-1" name="__codelineno-167-1" href="#__codelineno-167-1"></a>qu<span class="w"> </span>render<span class="w"> </span>lectures/week-05/regression.qmd
+<div class="highlight"><pre><span></span><code><a id="__codelineno-169-1" name="__codelineno-169-1" href="#__codelineno-169-1"></a>qu<span class="w"> </span>render<span class="w"> </span>lectures/week-05/regression.qmd
 </code></pre></div></p>
 <p><strong>Render all lectures:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-168-1" name="__codelineno-168-1" href="#__codelineno-168-1"></a>qu<span class="w"> </span>render<span class="w"> </span>--website
+<div class="highlight"><pre><span></span><code><a id="__codelineno-170-1" name="__codelineno-170-1" href="#__codelineno-170-1"></a>qu<span class="w"> </span>render<span class="w"> </span>--website
 </code></pre></div></p>
 <p><strong>Preview live:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-169-1" name="__codelineno-169-1" href="#__codelineno-169-1"></a>qu<span class="w"> </span>preview
-<a id="__codelineno-169-2" name="__codelineno-169-2" href="#__codelineno-169-2"></a><span class="c1"># Edit files</span>
-<a id="__codelineno-169-3" name="__codelineno-169-3" href="#__codelineno-169-3"></a><span class="c1"># Auto-refresh in browser</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-171-1" name="__codelineno-171-1" href="#__codelineno-171-1"></a>qu<span class="w"> </span>preview
+<a id="__codelineno-171-2" name="__codelineno-171-2" href="#__codelineno-171-2"></a><span class="c1"># Edit files</span>
+<a id="__codelineno-171-3" name="__codelineno-171-3" href="#__codelineno-171-3"></a><span class="c1"># Auto-refresh in browser</span>
 </code></pre></div></p>
 <hr />
 <h3 id="reference_8">Reference<a class="headerlink" href="#reference_8" title="Permanent link">&para;</a></h3>
@@ -8887,6 +8917,9 @@
 - `teach doctor --json` - Machine-readable JSON
 - `teach doctor --ci` - CI mode: no color, exit 1 on failure
 
+**Ecosystem Map (v6.6.0):**
+- `teach map` - Show all teaching commands across flow-cli, Scholar, and Craft
+
 **Help:**
 - `teach help` - Show help
 
@@ -8901,53 +8934,53 @@
 <p><strong>What it does:</strong> Manages terminal window settings (title, profile, visibility).</p>
 <h4 id="essential-commands_8">Essential Commands<a class="headerlink" href="#essential-commands_8" title="Permanent link">&para;</a></h4>
 <p><strong>Set terminal title:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-170-1" name="__codelineno-170-1" href="#__codelineno-170-1"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli development&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-172-1" name="__codelineno-172-1" href="#__codelineno-172-1"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli development&quot;</span>
 </code></pre></div></p>
 <p>Window title updates to "flow-cli development".</p>
 <p><strong>Switch profile:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-171-1" name="__codelineno-171-1" href="#__codelineno-171-1"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
-<a id="__codelineno-171-2" name="__codelineno-171-2" href="#__codelineno-171-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Nord&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-173-1" name="__codelineno-173-1" href="#__codelineno-173-1"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
+<a id="__codelineno-173-2" name="__codelineno-173-2" href="#__codelineno-173-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Nord&quot;</span>
 </code></pre></div></p>
 <p>Changes iTerm2/Terminal.app color profile.</p>
 <p><strong>Ghost mode (hide from Spotlight/Alfred):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-172-1" name="__codelineno-172-1" href="#__codelineno-172-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
+<div class="highlight"><pre><span></span><code><a id="__codelineno-174-1" name="__codelineno-174-1" href="#__codelineno-174-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
 </code></pre></div></p>
 <p>Hides terminal from application switchers.</p>
 <p><strong>Disable ghost mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-173-1" name="__codelineno-173-1" href="#__codelineno-173-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>off
+<div class="highlight"><pre><span></span><code><a id="__codelineno-175-1" name="__codelineno-175-1" href="#__codelineno-175-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>off
 </code></pre></div></p>
 <p><strong>Show current settings:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-174-1" name="__codelineno-174-1" href="#__codelineno-174-1"></a>tm<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-176-1" name="__codelineno-176-1" href="#__codelineno-176-1"></a>tm<span class="w"> </span>status
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-175-1" name="__codelineno-175-1" href="#__codelineno-175-1"></a>Profile: Solarized Dark
-<a id="__codelineno-175-2" name="__codelineno-175-2" href="#__codelineno-175-2"></a>Title: flow-cli development
-<a id="__codelineno-175-3" name="__codelineno-175-3" href="#__codelineno-175-3"></a>Ghost: enabled
+<div class="highlight"><pre><span></span><code><a id="__codelineno-177-1" name="__codelineno-177-1" href="#__codelineno-177-1"></a>Profile: Solarized Dark
+<a id="__codelineno-177-2" name="__codelineno-177-2" href="#__codelineno-177-2"></a>Title: flow-cli development
+<a id="__codelineno-177-3" name="__codelineno-177-3" href="#__codelineno-177-3"></a>Ghost: enabled
 </code></pre></div></p>
 <hr />
 <h3 id="intermediate_8">Intermediate<a class="headerlink" href="#intermediate_8" title="Permanent link">&para;</a></h3>
 <h4 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h4>
 <p><strong>1. Project-specific profiles:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-176-1" name="__codelineno-176-1" href="#__codelineno-176-1"></a><span class="c1"># In work session</span>
-<a id="__codelineno-176-2" name="__codelineno-176-2" href="#__codelineno-176-2"></a>work<span class="w"> </span>flow-cli
-<a id="__codelineno-176-3" name="__codelineno-176-3" href="#__codelineno-176-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli dev&quot;</span>
-<a id="__codelineno-176-4" name="__codelineno-176-4" href="#__codelineno-176-4"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
-<a id="__codelineno-176-5" name="__codelineno-176-5" href="#__codelineno-176-5"></a>
-<a id="__codelineno-176-6" name="__codelineno-176-6" href="#__codelineno-176-6"></a><span class="c1"># Switch projects</span>
-<a id="__codelineno-176-7" name="__codelineno-176-7" href="#__codelineno-176-7"></a>work<span class="w"> </span>teaching
-<a id="__codelineno-176-8" name="__codelineno-176-8" href="#__codelineno-176-8"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;teaching work&quot;</span>
-<a id="__codelineno-176-9" name="__codelineno-176-9" href="#__codelineno-176-9"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Nord&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-178-1" name="__codelineno-178-1" href="#__codelineno-178-1"></a><span class="c1"># In work session</span>
+<a id="__codelineno-178-2" name="__codelineno-178-2" href="#__codelineno-178-2"></a>work<span class="w"> </span>flow-cli
+<a id="__codelineno-178-3" name="__codelineno-178-3" href="#__codelineno-178-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli dev&quot;</span>
+<a id="__codelineno-178-4" name="__codelineno-178-4" href="#__codelineno-178-4"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Solarized Dark&quot;</span>
+<a id="__codelineno-178-5" name="__codelineno-178-5" href="#__codelineno-178-5"></a>
+<a id="__codelineno-178-6" name="__codelineno-178-6" href="#__codelineno-178-6"></a><span class="c1"># Switch projects</span>
+<a id="__codelineno-178-7" name="__codelineno-178-7" href="#__codelineno-178-7"></a>work<span class="w"> </span>teaching
+<a id="__codelineno-178-8" name="__codelineno-178-8" href="#__codelineno-178-8"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;teaching work&quot;</span>
+<a id="__codelineno-178-9" name="__codelineno-178-9" href="#__codelineno-178-9"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Nord&quot;</span>
 </code></pre></div></p>
 <p><strong>2. Focus mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-177-1" name="__codelineno-177-1" href="#__codelineno-177-1"></a><span class="c1"># Deep work session</span>
-<a id="__codelineno-177-2" name="__codelineno-177-2" href="#__codelineno-177-2"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
-<a id="__codelineno-177-3" name="__codelineno-177-3" href="#__codelineno-177-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;🎯 Focus Mode&quot;</span>
-<a id="__codelineno-177-4" name="__codelineno-177-4" href="#__codelineno-177-4"></a><span class="c1"># No interruptions from app switcher</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-179-1" name="__codelineno-179-1" href="#__codelineno-179-1"></a><span class="c1"># Deep work session</span>
+<a id="__codelineno-179-2" name="__codelineno-179-2" href="#__codelineno-179-2"></a>tm<span class="w"> </span>ghost<span class="w"> </span>on
+<a id="__codelineno-179-3" name="__codelineno-179-3" href="#__codelineno-179-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;🎯 Focus Mode&quot;</span>
+<a id="__codelineno-179-4" name="__codelineno-179-4" href="#__codelineno-179-4"></a><span class="c1"># No interruptions from app switcher</span>
 </code></pre></div></p>
 <p><strong>3. Presentation mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-178-1" name="__codelineno-178-1" href="#__codelineno-178-1"></a><span class="c1"># Before demo</span>
-<a id="__codelineno-178-2" name="__codelineno-178-2" href="#__codelineno-178-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;High Contrast&quot;</span>
-<a id="__codelineno-178-3" name="__codelineno-178-3" href="#__codelineno-178-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;Demo - flow-cli&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-180-1" name="__codelineno-180-1" href="#__codelineno-180-1"></a><span class="c1"># Before demo</span>
+<a id="__codelineno-180-2" name="__codelineno-180-2" href="#__codelineno-180-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;High Contrast&quot;</span>
+<a id="__codelineno-180-3" name="__codelineno-180-3" href="#__codelineno-180-3"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;Demo - flow-cli&quot;</span>
 </code></pre></div></p>
 <hr />
 <h3 id="reference_9">Reference<a class="headerlink" href="#reference_9" title="Permanent link">&para;</a></h3>
@@ -8972,42 +9005,42 @@
 <p><strong>What it does:</strong> Switches between Claude (Anthropic) and Gemini (Google) prompt engines.</p>
 <h4 id="essential-commands_9">Essential Commands<a class="headerlink" href="#essential-commands_9" title="Permanent link">&para;</a></h4>
 <p><strong>Show current engine:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-179-1" name="__codelineno-179-1" href="#__codelineno-179-1"></a>prompt<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-181-1" name="__codelineno-181-1" href="#__codelineno-181-1"></a>prompt<span class="w"> </span>status
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-180-1" name="__codelineno-180-1" href="#__codelineno-180-1"></a>Current engine: claude (Anthropic)
-<a id="__codelineno-180-2" name="__codelineno-180-2" href="#__codelineno-180-2"></a>Available: claude, gemini
+<div class="highlight"><pre><span></span><code><a id="__codelineno-182-1" name="__codelineno-182-1" href="#__codelineno-182-1"></a>Current engine: claude (Anthropic)
+<a id="__codelineno-182-2" name="__codelineno-182-2" href="#__codelineno-182-2"></a>Available: claude, gemini
 </code></pre></div></p>
 <p><strong>Toggle engine:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-181-1" name="__codelineno-181-1" href="#__codelineno-181-1"></a>prompt<span class="w"> </span>toggle
+<div class="highlight"><pre><span></span><code><a id="__codelineno-183-1" name="__codelineno-183-1" href="#__codelineno-183-1"></a>prompt<span class="w"> </span>toggle
 </code></pre></div></p>
 <p>Switches to other engine (claude ↔ gemini).</p>
 <p><strong>Set specific engine:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-182-1" name="__codelineno-182-1" href="#__codelineno-182-1"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
-<a id="__codelineno-182-2" name="__codelineno-182-2" href="#__codelineno-182-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<div class="highlight"><pre><span></span><code><a id="__codelineno-184-1" name="__codelineno-184-1" href="#__codelineno-184-1"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
+<a id="__codelineno-184-2" name="__codelineno-184-2" href="#__codelineno-184-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
 </code></pre></div></p>
 <hr />
 <h3 id="intermediate_9">Intermediate<a class="headerlink" href="#intermediate_9" title="Permanent link">&para;</a></h3>
 <h4 id="use-cases_1">Use Cases<a class="headerlink" href="#use-cases_1" title="Permanent link">&para;</a></h4>
 <p><strong>1. Compare responses:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-183-1" name="__codelineno-183-1" href="#__codelineno-183-1"></a><span class="c1"># Try Claude</span>
-<a id="__codelineno-183-2" name="__codelineno-183-2" href="#__codelineno-183-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
-<a id="__codelineno-183-3" name="__codelineno-183-3" href="#__codelineno-183-3"></a><span class="c1"># Ask question, see response</span>
-<a id="__codelineno-183-4" name="__codelineno-183-4" href="#__codelineno-183-4"></a>
-<a id="__codelineno-183-5" name="__codelineno-183-5" href="#__codelineno-183-5"></a><span class="c1"># Try Gemini</span>
-<a id="__codelineno-183-6" name="__codelineno-183-6" href="#__codelineno-183-6"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
-<a id="__codelineno-183-7" name="__codelineno-183-7" href="#__codelineno-183-7"></a><span class="c1"># Ask same question, compare</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-185-1" name="__codelineno-185-1" href="#__codelineno-185-1"></a><span class="c1"># Try Claude</span>
+<a id="__codelineno-185-2" name="__codelineno-185-2" href="#__codelineno-185-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
+<a id="__codelineno-185-3" name="__codelineno-185-3" href="#__codelineno-185-3"></a><span class="c1"># Ask question, see response</span>
+<a id="__codelineno-185-4" name="__codelineno-185-4" href="#__codelineno-185-4"></a>
+<a id="__codelineno-185-5" name="__codelineno-185-5" href="#__codelineno-185-5"></a><span class="c1"># Try Gemini</span>
+<a id="__codelineno-185-6" name="__codelineno-185-6" href="#__codelineno-185-6"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<a id="__codelineno-185-7" name="__codelineno-185-7" href="#__codelineno-185-7"></a><span class="c1"># Ask same question, compare</span>
 </code></pre></div></p>
 <p><strong>2. Cost optimization:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-184-1" name="__codelineno-184-1" href="#__codelineno-184-1"></a><span class="c1"># Use Gemini for simple queries (cheaper)</span>
-<a id="__codelineno-184-2" name="__codelineno-184-2" href="#__codelineno-184-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
-<a id="__codelineno-184-3" name="__codelineno-184-3" href="#__codelineno-184-3"></a>
-<a id="__codelineno-184-4" name="__codelineno-184-4" href="#__codelineno-184-4"></a><span class="c1"># Use Claude for complex tasks (better quality)</span>
-<a id="__codelineno-184-5" name="__codelineno-184-5" href="#__codelineno-184-5"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
+<div class="highlight"><pre><span></span><code><a id="__codelineno-186-1" name="__codelineno-186-1" href="#__codelineno-186-1"></a><span class="c1"># Use Gemini for simple queries (cheaper)</span>
+<a id="__codelineno-186-2" name="__codelineno-186-2" href="#__codelineno-186-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<a id="__codelineno-186-3" name="__codelineno-186-3" href="#__codelineno-186-3"></a>
+<a id="__codelineno-186-4" name="__codelineno-186-4" href="#__codelineno-186-4"></a><span class="c1"># Use Claude for complex tasks (better quality)</span>
+<a id="__codelineno-186-5" name="__codelineno-186-5" href="#__codelineno-186-5"></a>prompt<span class="w"> </span>use<span class="w"> </span>claude
 </code></pre></div></p>
 <p><strong>3. Availability:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-185-1" name="__codelineno-185-1" href="#__codelineno-185-1"></a><span class="c1"># If Claude is down</span>
-<a id="__codelineno-185-2" name="__codelineno-185-2" href="#__codelineno-185-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
+<div class="highlight"><pre><span></span><code><a id="__codelineno-187-1" name="__codelineno-187-1" href="#__codelineno-187-1"></a><span class="c1"># If Claude is down</span>
+<a id="__codelineno-187-2" name="__codelineno-187-2" href="#__codelineno-187-2"></a>prompt<span class="w"> </span>use<span class="w"> </span>gemini
 </code></pre></div></p>
 <hr />
 <h3 id="reference_10">Reference<a class="headerlink" href="#reference_10" title="Permanent link">&para;</a></h3>
@@ -9030,7 +9063,7 @@
 <p><strong>What it does:</strong> Enables "vibe coding mode" - focus environment for deep work.</p>
 <h4 id="essential-commands_10">Essential Commands<a class="headerlink" href="#essential-commands_10" title="Permanent link">&para;</a></h4>
 <p><strong>Enable vibe mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-186-1" name="__codelineno-186-1" href="#__codelineno-186-1"></a>v<span class="w"> </span>on
+<div class="highlight"><pre><span></span><code><a id="__codelineno-188-1" name="__codelineno-188-1" href="#__codelineno-188-1"></a>v<span class="w"> </span>on
 </code></pre></div></p>
 <p>Activates:
 - 🎵 Music playlist (Spotify/Apple Music)
@@ -9038,70 +9071,70 @@
 - 🎯 Focus settings
 - 📱 Hide notifications</p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-187-1" name="__codelineno-187-1" href="#__codelineno-187-1"></a>🎵 Vibe coding mode: ON
-<a id="__codelineno-187-2" name="__codelineno-187-2" href="#__codelineno-187-2"></a>Music: ✅ Started &quot;Lo-Fi Beats&quot; playlist
-<a id="__codelineno-187-3" name="__codelineno-187-3" href="#__codelineno-187-3"></a>Do Not Disturb: ✅ Enabled
-<a id="__codelineno-187-4" name="__codelineno-187-4" href="#__codelineno-187-4"></a>Focus: Maximum
-<a id="__codelineno-187-5" name="__codelineno-187-5" href="#__codelineno-187-5"></a>Terminal: Ghost mode enabled
+<div class="highlight"><pre><span></span><code><a id="__codelineno-189-1" name="__codelineno-189-1" href="#__codelineno-189-1"></a>🎵 Vibe coding mode: ON
+<a id="__codelineno-189-2" name="__codelineno-189-2" href="#__codelineno-189-2"></a>Music: ✅ Started &quot;Lo-Fi Beats&quot; playlist
+<a id="__codelineno-189-3" name="__codelineno-189-3" href="#__codelineno-189-3"></a>Do Not Disturb: ✅ Enabled
+<a id="__codelineno-189-4" name="__codelineno-189-4" href="#__codelineno-189-4"></a>Focus: Maximum
+<a id="__codelineno-189-5" name="__codelineno-189-5" href="#__codelineno-189-5"></a>Terminal: Ghost mode enabled
 </code></pre></div></p>
 <p><strong>Disable vibe mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-188-1" name="__codelineno-188-1" href="#__codelineno-188-1"></a>v<span class="w"> </span>off
+<div class="highlight"><pre><span></span><code><a id="__codelineno-190-1" name="__codelineno-190-1" href="#__codelineno-190-1"></a>v<span class="w"> </span>off
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-189-1" name="__codelineno-189-1" href="#__codelineno-189-1"></a>🎵 Vibe coding mode: OFF
-<a id="__codelineno-189-2" name="__codelineno-189-2" href="#__codelineno-189-2"></a>Music: ⏸️  Paused
-<a id="__codelineno-189-3" name="__codelineno-189-3" href="#__codelineno-189-3"></a>Do Not Disturb: ✅ Disabled
-<a id="__codelineno-189-4" name="__codelineno-189-4" href="#__codelineno-189-4"></a>Focus: Normal
+<div class="highlight"><pre><span></span><code><a id="__codelineno-191-1" name="__codelineno-191-1" href="#__codelineno-191-1"></a>🎵 Vibe coding mode: OFF
+<a id="__codelineno-191-2" name="__codelineno-191-2" href="#__codelineno-191-2"></a>Music: ⏸️  Paused
+<a id="__codelineno-191-3" name="__codelineno-191-3" href="#__codelineno-191-3"></a>Do Not Disturb: ✅ Disabled
+<a id="__codelineno-191-4" name="__codelineno-191-4" href="#__codelineno-191-4"></a>Focus: Normal
 </code></pre></div></p>
 <p><strong>Show status:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-190-1" name="__codelineno-190-1" href="#__codelineno-190-1"></a>v<span class="w"> </span>status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-192-1" name="__codelineno-192-1" href="#__codelineno-192-1"></a>v<span class="w"> </span>status
 </code></pre></div></p>
 <p>Output:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-191-1" name="__codelineno-191-1" href="#__codelineno-191-1"></a>Vibe mode: ON
-<a id="__codelineno-191-2" name="__codelineno-191-2" href="#__codelineno-191-2"></a>Started: 2h 15m ago
-<a id="__codelineno-191-3" name="__codelineno-191-3" href="#__codelineno-191-3"></a>Sessions today: 3
-<a id="__codelineno-191-4" name="__codelineno-191-4" href="#__codelineno-191-4"></a>Total time: 6h 45m
-<a id="__codelineno-191-5" name="__codelineno-191-5" href="#__codelineno-191-5"></a>Current playlist: Lo-Fi Beats
+<div class="highlight"><pre><span></span><code><a id="__codelineno-193-1" name="__codelineno-193-1" href="#__codelineno-193-1"></a>Vibe mode: ON
+<a id="__codelineno-193-2" name="__codelineno-193-2" href="#__codelineno-193-2"></a>Started: 2h 15m ago
+<a id="__codelineno-193-3" name="__codelineno-193-3" href="#__codelineno-193-3"></a>Sessions today: 3
+<a id="__codelineno-193-4" name="__codelineno-193-4" href="#__codelineno-193-4"></a>Total time: 6h 45m
+<a id="__codelineno-193-5" name="__codelineno-193-5" href="#__codelineno-193-5"></a>Current playlist: Lo-Fi Beats
 </code></pre></div></p>
 <hr />
 <h3 id="intermediate_10">Intermediate<a class="headerlink" href="#intermediate_10" title="Permanent link">&para;</a></h3>
 <h4 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h4>
 <p><strong>Custom playlist:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-192-1" name="__codelineno-192-1" href="#__codelineno-192-1"></a><span class="c1"># Set in ~/.zshrc</span>
-<a id="__codelineno-192-2" name="__codelineno-192-2" href="#__codelineno-192-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_PLAYLIST</span><span class="o">=</span><span class="s2">&quot;My Coding Playlist&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-194-1" name="__codelineno-194-1" href="#__codelineno-194-1"></a><span class="c1"># Set in ~/.zshrc</span>
+<a id="__codelineno-194-2" name="__codelineno-194-2" href="#__codelineno-194-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_PLAYLIST</span><span class="o">=</span><span class="s2">&quot;My Coding Playlist&quot;</span>
 </code></pre></div></p>
 <p><strong>Auto-enable ghost mode:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-193-1" name="__codelineno-193-1" href="#__codelineno-193-1"></a><span class="c1"># Set in ~/.zshrc</span>
-<a id="__codelineno-193-2" name="__codelineno-193-2" href="#__codelineno-193-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_GHOST</span><span class="o">=</span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-195-1" name="__codelineno-195-1" href="#__codelineno-195-1"></a><span class="c1"># Set in ~/.zshrc</span>
+<a id="__codelineno-195-2" name="__codelineno-195-2" href="#__codelineno-195-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_GHOST</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div></p>
 <p><strong>Disable music (DND only):</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-194-1" name="__codelineno-194-1" href="#__codelineno-194-1"></a><span class="c1"># Set in ~/.zshrc</span>
-<a id="__codelineno-194-2" name="__codelineno-194-2" href="#__codelineno-194-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_MUSIC</span><span class="o">=</span><span class="m">0</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-196-1" name="__codelineno-196-1" href="#__codelineno-196-1"></a><span class="c1"># Set in ~/.zshrc</span>
+<a id="__codelineno-196-2" name="__codelineno-196-2" href="#__codelineno-196-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_VIBE_MUSIC</span><span class="o">=</span><span class="m">0</span>
 </code></pre></div></p>
 <hr />
 <h4 id="use-cases_2">Use Cases<a class="headerlink" href="#use-cases_2" title="Permanent link">&para;</a></h4>
 <p><strong>1. Deep work sessions:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-195-1" name="__codelineno-195-1" href="#__codelineno-195-1"></a><span class="c1"># Start focused work</span>
-<a id="__codelineno-195-2" name="__codelineno-195-2" href="#__codelineno-195-2"></a>v<span class="w"> </span>on
-<a id="__codelineno-195-3" name="__codelineno-195-3" href="#__codelineno-195-3"></a>work<span class="w"> </span>my-project
-<a id="__codelineno-195-4" name="__codelineno-195-4" href="#__codelineno-195-4"></a>
-<a id="__codelineno-195-5" name="__codelineno-195-5" href="#__codelineno-195-5"></a><span class="c1"># Code for 2 hours</span>
-<a id="__codelineno-195-6" name="__codelineno-195-6" href="#__codelineno-195-6"></a>
-<a id="__codelineno-195-7" name="__codelineno-195-7" href="#__codelineno-195-7"></a><span class="c1"># Take break</span>
-<a id="__codelineno-195-8" name="__codelineno-195-8" href="#__codelineno-195-8"></a>v<span class="w"> </span>off
+<div class="highlight"><pre><span></span><code><a id="__codelineno-197-1" name="__codelineno-197-1" href="#__codelineno-197-1"></a><span class="c1"># Start focused work</span>
+<a id="__codelineno-197-2" name="__codelineno-197-2" href="#__codelineno-197-2"></a>v<span class="w"> </span>on
+<a id="__codelineno-197-3" name="__codelineno-197-3" href="#__codelineno-197-3"></a>work<span class="w"> </span>my-project
+<a id="__codelineno-197-4" name="__codelineno-197-4" href="#__codelineno-197-4"></a>
+<a id="__codelineno-197-5" name="__codelineno-197-5" href="#__codelineno-197-5"></a><span class="c1"># Code for 2 hours</span>
+<a id="__codelineno-197-6" name="__codelineno-197-6" href="#__codelineno-197-6"></a>
+<a id="__codelineno-197-7" name="__codelineno-197-7" href="#__codelineno-197-7"></a><span class="c1"># Take break</span>
+<a id="__codelineno-197-8" name="__codelineno-197-8" href="#__codelineno-197-8"></a>v<span class="w"> </span>off
 </code></pre></div></p>
 <p><strong>2. Flow state:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-196-1" name="__codelineno-196-1" href="#__codelineno-196-1"></a><span class="c1"># When you hit flow state, lock it in</span>
-<a id="__codelineno-196-2" name="__codelineno-196-2" href="#__codelineno-196-2"></a>v<span class="w"> </span>on
-<a id="__codelineno-196-3" name="__codelineno-196-3" href="#__codelineno-196-3"></a><span class="c1"># No interruptions for next 1-2 hours</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-198-1" name="__codelineno-198-1" href="#__codelineno-198-1"></a><span class="c1"># When you hit flow state, lock it in</span>
+<a id="__codelineno-198-2" name="__codelineno-198-2" href="#__codelineno-198-2"></a>v<span class="w"> </span>on
+<a id="__codelineno-198-3" name="__codelineno-198-3" href="#__codelineno-198-3"></a><span class="c1"># No interruptions for next 1-2 hours</span>
 </code></pre></div></p>
 <p><strong>3. Pomodoro integration:</strong>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-197-1" name="__codelineno-197-1" href="#__codelineno-197-1"></a><span class="c1"># 25-min work</span>
-<a id="__codelineno-197-2" name="__codelineno-197-2" href="#__codelineno-197-2"></a>v<span class="w"> </span>on
-<a id="__codelineno-197-3" name="__codelineno-197-3" href="#__codelineno-197-3"></a>sleep<span class="w"> </span><span class="m">1500</span><span class="w">  </span><span class="c1"># 25 minutes</span>
-<a id="__codelineno-197-4" name="__codelineno-197-4" href="#__codelineno-197-4"></a>v<span class="w"> </span>off
-<a id="__codelineno-197-5" name="__codelineno-197-5" href="#__codelineno-197-5"></a>
-<a id="__codelineno-197-6" name="__codelineno-197-6" href="#__codelineno-197-6"></a><span class="c1"># 5-min break</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-199-1" name="__codelineno-199-1" href="#__codelineno-199-1"></a><span class="c1"># 25-min work</span>
+<a id="__codelineno-199-2" name="__codelineno-199-2" href="#__codelineno-199-2"></a>v<span class="w"> </span>on
+<a id="__codelineno-199-3" name="__codelineno-199-3" href="#__codelineno-199-3"></a>sleep<span class="w"> </span><span class="m">1500</span><span class="w">  </span><span class="c1"># 25 minutes</span>
+<a id="__codelineno-199-4" name="__codelineno-199-4" href="#__codelineno-199-4"></a>v<span class="w"> </span>off
+<a id="__codelineno-199-5" name="__codelineno-199-5" href="#__codelineno-199-5"></a>
+<a id="__codelineno-199-6" name="__codelineno-199-6" href="#__codelineno-199-6"></a><span class="c1"># 5-min break</span>
 </code></pre></div></p>
 <hr />
 <h3 id="reference_11">Reference<a class="headerlink" href="#reference_11" title="Permanent link">&para;</a></h3>
@@ -9244,14 +9277,14 @@
 </table>
 <h3 id="dispatcher-shortcuts">Dispatcher Shortcuts<a class="headerlink" href="#dispatcher-shortcuts" title="Permanent link">&para;</a></h3>
 <p>Each dispatcher has built-in shortcuts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-198-1" name="__codelineno-198-1" href="#__codelineno-198-1"></a>g<span class="w"> </span>st<span class="w">          </span><span class="c1"># git status</span>
-<a id="__codelineno-198-2" name="__codelineno-198-2" href="#__codelineno-198-2"></a>g<span class="w"> </span>co<span class="w">          </span><span class="c1"># git checkout</span>
-<a id="__codelineno-198-3" name="__codelineno-198-3" href="#__codelineno-198-3"></a>r<span class="w"> </span>t<span class="w">           </span><span class="c1"># r test</span>
-<a id="__codelineno-198-4" name="__codelineno-198-4" href="#__codelineno-198-4"></a>qu<span class="w"> </span>p<span class="w">          </span><span class="c1"># qu preview</span>
-<a id="__codelineno-198-5" name="__codelineno-198-5" href="#__codelineno-198-5"></a>cc<span class="w"> </span>y<span class="w">          </span><span class="c1"># cc yolo</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-200-1" name="__codelineno-200-1" href="#__codelineno-200-1"></a>g<span class="w"> </span>st<span class="w">          </span><span class="c1"># git status</span>
+<a id="__codelineno-200-2" name="__codelineno-200-2" href="#__codelineno-200-2"></a>g<span class="w"> </span>co<span class="w">          </span><span class="c1"># git checkout</span>
+<a id="__codelineno-200-3" name="__codelineno-200-3" href="#__codelineno-200-3"></a>r<span class="w"> </span>t<span class="w">           </span><span class="c1"># r test</span>
+<a id="__codelineno-200-4" name="__codelineno-200-4" href="#__codelineno-200-4"></a>qu<span class="w"> </span>p<span class="w">          </span><span class="c1"># qu preview</span>
+<a id="__codelineno-200-5" name="__codelineno-200-5" href="#__codelineno-200-5"></a>cc<span class="w"> </span>y<span class="w">          </span><span class="c1"># cc yolo</span>
 </code></pre></div>
 <h3 id="quick-access">Quick Access<a class="headerlink" href="#quick-access" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-199-1" name="__codelineno-199-1" href="#__codelineno-199-1"></a>als<span class="w">           </span><span class="c1"># List all aliases by category</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-201-1" name="__codelineno-201-1" href="#__codelineno-201-1"></a>als<span class="w">           </span><span class="c1"># List all aliases by category</span>
 </code></pre></div>
 <blockquote>
 <p><strong>Full Reference:</strong> See archived <a href="./#aliases">ALIAS-REFERENCE-CARD.md</a> for complete alias list with frequencies and descriptions.</p>

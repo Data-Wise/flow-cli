@@ -2966,6 +2966,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#discovery-v660" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery (v6.6.0)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#scholar-wrappers-ai-content-generation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7377,6 +7388,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#discovery-v660" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery (v6.6.0)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#scholar-wrappers-ai-content-generation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7652,12 +7674,14 @@
 
 <h1 id="teach-dispatcher-quick-reference">Teach Dispatcher Quick Reference<a class="headerlink" href="#teach-dispatcher-quick-reference" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>All 29 <code>teach</code> subcommands at a glance. For detailed guides, see linked documentation.</p>
-<p><strong>Version:</strong> v6.1.0+ | <strong>Dispatcher:</strong> <code>lib/dispatchers/teach-dispatcher.zsh</code></p>
+<p>All 30 <code>teach</code> subcommands at a glance. For detailed guides, see linked documentation.</p>
+<p><strong>Version:</strong> v6.6.0+ | <strong>Dispatcher:</strong> <code>lib/dispatchers/teach-dispatcher.zsh</code></p>
 </blockquote>
 <h2 id="command-taxonomy">Command Taxonomy<a class="headerlink" href="#command-taxonomy" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>mindmap
-  root((teach&lt;br/&gt;29 commands))
+  root((teach&lt;br/&gt;30 commands))
+    Discovery&lt;br/&gt;1 command
+      map
     Scholar Wrappers&lt;br/&gt;9 commands
       lecture
       slides
@@ -7691,6 +7715,28 @@
       archive
       hooks
       profiles</code></pre>
+<h2 id="discovery-v660">Discovery (v6.6.0)<a class="headerlink" href="#discovery-v660" title="Permanent link">&para;</a></h2>
+<p>Ecosystem-wide command discovery across all teaching tools.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Aliases</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>teach map</code></td>
+<td>—</td>
+<td><code>teach map</code></td>
+<td>Show all teaching commands across flow-cli, Scholar, and Craft grouped by workflow phase</td>
+</tr>
+</tbody>
+</table>
+<p>Shows commands from three tools in one view: flow-cli (shell), Scholar (Claude Code plugin), and Craft (Claude Code plugin). Commands from uninstalled tools appear dimmed with install hints. Slash commands (<code>/craft:*</code>, <code>/scholar:*</code>) are shown for Claude Code users.</p>
+<hr />
 <h2 id="scholar-wrappers-ai-content-generation">Scholar Wrappers (AI Content Generation)<a class="headerlink" href="#scholar-wrappers-ai-content-generation" title="Permanent link">&para;</a></h2>
 <p>AI-powered content creation via Scholar plugin. All commands require Scholar to be available.</p>
 <table>
@@ -8354,9 +8400,9 @@
 <li><a href="../MASTER-ARCHITECTURE/">MASTER-ARCHITECTURE.md</a> — System design with Mermaid diagrams</li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v6.1.0
-<strong>Last Updated:</strong> 2026-02-02
-<strong>Commands:</strong> 29 total (9 Scholar wrappers + 5 course mgmt + 6 content mgmt + 9 infrastructure)</p>
+<p><strong>Version:</strong> v6.6.0
+<strong>Last Updated:</strong> 2026-02-08
+<strong>Commands:</strong> 30 total (9 Scholar wrappers + 5 course mgmt + 6 content mgmt + 9 infrastructure + 1 discovery)</p>
 
 
 
