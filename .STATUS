@@ -20,10 +20,13 @@
 - merge: PR #365 squash-merged to dev with --admin (CI passed)
 - merge: PR #363 (dependabot @semantic-release/github 12.0.2 → 12.0.5)
 - close: PR #364 (eslint 10.0.0 major — deferred, needs config review)
+- check: /craft:check all 5 checks passed (git, source, tests, docs, completions)
+- deploy: docs deployed to GitHub Pages (teach map content live)
 
 **PRs merged:** #365, #363
 **PRs closed:** #364
 **Test suite:** 42/42 passing, 0 timeouts
+**Docs:** https://Data-Wise.github.io/flow-cli/ (deployed 2026-02-09)
 
 ---
 
@@ -47,7 +50,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | teach map merged, deploy safety spec committed |
+| Main repo | `dev` | Clean — teach map merged, docs deployed |
 | `~/.git-worktrees/flow-cli/feature-teach-deploy-safety` | `feature/teach-deploy-safety` | Ready for implementation |
 
 ---
@@ -79,7 +82,7 @@
 ---
 
 **Last Updated:** 2026-02-09
-**Status:** teach map merged to dev | deploy safety spec ready | 42/42 tests passing | 8000+ test functions | 0 timeouts
-## wins: teach map merged (2026-02-09), Fixed the regression bug (2026-02-08), --category fix squashed the bug (2026-02-08)
-## streak: 2
-## last_active: 2026-02-09
+**Status:** teach map merged | docs deployed | deploy safety spec ready | 42/42 tests passing | 8000+ test functions | 0 timeouts
+## wins: Fixed the regression bug (2026-02-09), --category fix squashed the bug (2026-02-09), fixed the bug (2026-02-09), teach map merged (2026-02-09), Fixed the regression bug (2026-02-08)
+## streak: 1
+## last_active: 2026-02-09 11:40
