@@ -4,50 +4,37 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: --help
-## Phase: v6.6.0 Planning — teach map ecosystem discovery
-## Priority: 1
-## Progress: 10
+## Focus: PR #368 Review — Math Blanks Preflight
+## Phase: Active Development
+## Priority: 2
+## Progress: 30
 
-## Just Completed: v6.5.0 Release — Teach Doctor v2 (2026-02-08)
-
-**v6.5.0 released** — two-mode health check architecture
+## Current Session (2026-02-09)
 
 **Session activity:**
-- review: code review of PR #360 (teach doctor v2, 38 files, 3918 insertions)
-- fix: removed auto-refresh, spinner cleanup trap, doc count consistency, unit test vars
-- merge: PR #360 merged to dev with --admin (CI passed)
-- docs: post-merge sync (CLAUDE.md, CHANGELOG, site content, tutorial index)
-- docs: site content sync (version footers, quick reference, dispatcher guide)
-- release: v6.5.0 version bump, release PR #361 → main, tag, GitHub release
-- deploy: docs deployed to GitHub Pages
-- homebrew: formula updated to v6.5.0
+- review: code review of PR #368 (math blank-line preflight, +37/-0)
+- found: 5 issues — Python dep violates pure-ZSH, missing path resolution, no CI mode, nonexistent script ref, no tests
+- plan: fix all issues in existing worktree `feature-math-blanks-preflight`
 
-**PRs merged:** #360, #361
+**PR open:** #368 (needs changes)
 **Test suite:** 42/42 passing, 0 timeouts
-**Release:** https://github.com/Data-Wise/flow-cli/releases/tag/v6.5.0
 
 ---
 
 ## Recent Releases
 
+### v6.6.0 (2026-02-09) — Teach Map + Deploy Safety
+- `teach map` — unified ecosystem discovery command
+- Deploy safety: trap handler, uncommitted prompt, hook recovery, Actions link
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.6.0
+
+### v6.5.0 (2026-02-08) — Teach Doctor v2
+- Two-mode health check architecture (quick + full)
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.5.0
+
 ### v6.4.3 (2026-02-06) — Bug Fix + Test Coverage
 - ZSH `local path=` bug fixed (20+ instances renamed)
-- 106 new test assertions (regression, dogfood, e2e)
-- run-all.sh: 26 → 34 passing tests
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.3
-
-### v6.4.2 (2026-02-04) — Docs Cleanup & Reorganization
-- 54 orphaned doc pages removed (32,636 lines)
-- docs/internal/ for conventions and contributor templates
-- 3 new nav entries, 10 cross-reference fixes
-- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.2
-
-### v6.4.1 (2026-02-04) — Deploy Progress & Summary
-- Step-by-step progress `[1/5]..[5/5]` during direct deploy
-- Deployment summary box with files, duration, commit info
-- 20 new tests (14 unit + 6 E2E)
-- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.4.1
 
 ---
 
@@ -55,8 +42,9 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean (v6.5.0 released) |
-| `~/.git-worktrees/flow-cli/feature-teach-map` | `feature/teach-map` | WIP — spec + brainstorm ready |
+| Main repo | `dev` | Clean |
+| `feature-math-blanks-preflight` | `feature/math-blanks-preflight` | PR #368 open — needs fixes |
+| `feature-teach-map` | `feature/teach-map` | Stale (already merged) |
 
 ---
 
@@ -80,15 +68,15 @@
 
 ## Next Action
 
-Feature `teach map` (#358) planned and spec'd. Worktree ready for implementation.
-- `cd ~/.git-worktrees/flow-cli/feature-teach-map && claude`
-- Spec: `docs/specs/SPEC-teach-map-2026-02-08.md`
-- Plan: `~/.claude/plans/cryptic-crafting-acorn.md`
+1. **Fix PR #368** — `cd ~/.git-worktrees/flow-cli/feature-math-blanks-preflight && claude`
+2. Clean up stale `feature-teach-map` worktree
+3. Scholar Config Sync (#299) — next feature candidate
+4. API documentation push (50% → 80%)
 
 ---
 
-**Last Updated:** 2026-02-08
-**Status:** v6.5.0 Released | Docs deployed | 42/42 tests passing | 8000+ test functions | 0 timeouts
-## wins: Fixed the regression bug (2026-02-09), --category fix squashed the bug (2026-02-09), fixed the bug (2026-02-09), Fixed the regression bug (2026-02-09), --category fix squashed the bug (2026-02-09)
+**Last Updated:** 2026-02-09
+**Status:** v6.6.0 released | PR #368 under review | 42/42 tests passing | 8000+ test functions
+## wins: v6.6.0 released (2026-02-09), deploy safety merged (2026-02-09), teach map merged (2026-02-09), Fixed the regression bug (2026-02-09), --category fix squashed the bug (2026-02-09)
 ## streak: 1
 ## last_active: 2026-02-09 13:52

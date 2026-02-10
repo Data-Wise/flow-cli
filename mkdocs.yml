@@ -235,6 +235,7 @@ nav:
               - User Guide: guides/LINT-GUIDE.md
               - Migration Guide: guides/LINT-MIGRATION-GUIDE.md
           - Lint Workflow: workflows/WORKFLOW-LINT.md
+          - Quality Gates: guides/QUALITY-GATES.md
           - Mermaid Diagrams: guides/MERMAID-DIAGRAMS-QUICK-START.md
           - 🎯 Prompt Dispatcher Guide: guides/PROMPT-DISPATCHER-GUIDE.md
           - Enhanced Help: guides/ENHANCED-HELP-QUICK-START.md

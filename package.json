@@ -1,6 +1,6 @@
 {
   "name": "flow-cli",
-  "version": "6.6.0",
+  "version": "6.7.0",
   "description": "ADHD-optimized ZSH workflow plugin",
   "private": true,
   "scripts": {
@@ -40,6 +40,9 @@
   "lint-staged": {
     "*.{json,md,yml,yaml}": [
       "prettier --write"
+    ],
+    "*.qmd": [
+      "zsh scripts/check-math.zsh"
     ]
   }
 }
