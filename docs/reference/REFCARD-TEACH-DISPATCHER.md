@@ -449,6 +449,6 @@ teach status --performance        # Review metrics
 
 ---
 
-**Version:** v6.6.0
-**Last Updated:** 2026-02-08
+**Version:** v6.7.0
+**Last Updated:** 2026-02-10
 **Commands:** 30 total (9 Scholar wrappers + 5 course mgmt + 6 content mgmt + 9 infrastructure + 1 discovery)

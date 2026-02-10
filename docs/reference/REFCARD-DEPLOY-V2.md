@@ -303,4 +303,4 @@ teach deploy --ci -d -m "Auto-deploy from GitHub Actions"
 
 ---
 
-*v6.6.0 - teach deploy v2 with safety enhancements*
+*v6.7.0 - teach deploy v2 with math preflight + quality gates*

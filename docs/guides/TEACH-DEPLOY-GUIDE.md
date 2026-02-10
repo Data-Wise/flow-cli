@@ -1224,5 +1224,5 @@ The deployment summary box now includes a direct link to your GitHub Actions pag
 
 ---
 
-**Last Updated:** 2026-02-09
-**Version:** v6.6.0
+**Last Updated:** 2026-02-10
+**Version:** v6.7.0

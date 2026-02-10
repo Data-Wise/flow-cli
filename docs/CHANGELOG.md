@@ -6,6 +6,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [6.7.0] - 2026-02-10
+
+### Added
+
+- **Display math validation** — pure ZSH state machine (`_check_math_blanks`) detects blank lines and unclosed `$$` blocks in `.qmd` files (PR #368)
+- **Pre-commit gate** — lint-staged validates `.qmd` files at commit time via `scripts/check-math.zsh`
+- **Deploy preflight: math check** — display math validation runs as check 3 of 5 during `teach deploy`; CI mode blocks, interactive warns
+- **Quality Gates documentation** — new `docs/guides/QUALITY-GATES.md` mapping every validation layer from keystroke to production
+- **41 new test assertions** across 3 suites (unit, E2E with sandboxed repos, dogfood against demo course)
+
+### Changed
+
+- Deploy preflight checks renumbered: unpushed commits → check 4, production conflicts → check 5
+- Test suite: 42/42 passing (143 test files, up from 140)
+
+---
+
 ## [6.6.0] - 2026-02-09
 
 ### Added

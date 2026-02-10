@@ -247,4 +247,4 @@ Areas where validation could be added in the future:
 ---
 
 **Last Updated:** 2026-02-10
-**Version:** v6.6.0
+**Version:** v6.7.0
