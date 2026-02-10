@@ -594,6 +594,9 @@ Scans `.qmd` files changed between draft and production for two issues that brea
 
 Only files in the `git diff` between branches are checked (not the entire course).
 
+!!! tip "Early feedback via pre-commit"
+    This same validation also runs at **commit time** via lint-staged. Any staged `.qmd` file is checked automatically — no need to wait for deploy to catch math issues. See [Quality Gates](QUALITY-GATES.md) for all validation layers.
+
 ```
   [ok] Display math blocks valid
 ```

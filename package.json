@@ -40,6 +40,9 @@
   "lint-staged": {
     "*.{json,md,yml,yaml}": [
       "prettier --write"
+    ],
+    "*.qmd": [
+      "zsh scripts/check-math.zsh"
     ]
   }
 }
