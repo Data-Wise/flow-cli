@@ -585,7 +585,49 @@ git:
   require_clean: false  # Skip uncommitted changes handling entirely
 ```
 
-### Check 3: Unpushed Commits
+### Check 3: Display Math Validation
+
+Scans `.qmd` files changed between draft and production for two issues that break Quarto renders:
+
+1. **Blank lines inside `$$` blocks** — breaks PDF rendering
+2. **Unclosed `$$` blocks** — breaks page rendering entirely
+
+Only files in the `git diff` between branches are checked (not the entire course).
+
+!!! tip "Early feedback via pre-commit"
+    This same validation also runs at **commit time** via lint-staged. Any staged `.qmd` file is checked automatically — no need to wait for deploy to catch math issues. See [Quality Gates](QUALITY-GATES.md) for all validation layers.
+
+```
+  [ok] Display math blocks valid
+```
+
+If blank lines are found:
+
+```
+  [!!] Blank lines in display math (breaks PDF):
+       lectures/week-05.qmd
+       Remove blank lines between $$ delimiters in the files above
+```
+
+If an unclosed `$$` block is found:
+
+```
+  [!!] Unclosed $$ block (breaks render):
+       lectures/week-03.qmd
+       Add missing closing $$ delimiter in the files above
+```
+
+**Interactive mode:** Warns but continues (non-blocking).
+
+**CI mode:** Fails immediately — math issues block deployment.
+
+**How to fix:**
+
+- Open the reported file and find `$$` blocks
+- Remove any blank lines between the opening `$$` and closing `$$`
+- If unclosed, add the missing `$$` delimiter
+
+### Check 4: Unpushed Commits
 
 Ensures draft branch is synced with remote:
 
@@ -602,7 +644,7 @@ Push to origin/draft first? [Y/n]: y
 ✓ Pushed to origin/draft
 ```
 
-### Check 4: Production Conflicts
+### Check 5: Production Conflicts
 
 Detects if production has diverged:
 
