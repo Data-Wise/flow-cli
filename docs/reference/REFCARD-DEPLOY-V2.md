@@ -92,7 +92,21 @@ teach deploy --rollback 2 --ci # 2nd most recent, non-interactive
 
 Uses `git revert` (forward rollback, not destructive reset). Merge commits are detected automatically and reverted with `-m 1` (parent specification). Rollback is recorded in history with `mode: "rollback"`.
 
-## Safety Features (v6.6.0)
+## Safety Features (v6.6.0+)
+
+### Display Math Validation
+
+Scans changed `.qmd` files for blank lines and unclosed `$$` blocks (both break Quarto renders):
+
+```
+  [ok] Display math blocks valid          ← all clean
+  [!!] Blank lines in display math        ← blank line inside $$
+  [!!] Unclosed $$ block (breaks render)  ← missing closing $$
+```
+
+**CI mode:** Math issues block deployment. **Interactive:** Warns only.
+
+Uses pure ZSH state machine (`_check_math_blanks`) — no Python dependency.
 
 ### Uncommitted Changes Prompt
 
@@ -163,6 +177,7 @@ echo | teach deploy            # Auto-detected (piped input)
 
 | Feature | Interactive | CI Mode |
 |---------|-------------|---------|
+| Display math issues | Warns, continues | Blocks deploy |
 | Uncommitted changes | Prompts to commit | Fails with error |
 | Hook failure | Shows 3 options | Exits non-zero |
 | Trap handler | Returns to draft | Returns to draft |
@@ -187,6 +202,7 @@ Skips if `.STATUS` absent.
   [ok] Config file found
   [ok] On draft branch
   [ok] Working tree clean
+  [ok] Display math blocks valid
   [ok] No production conflicts
 
   Smart commit: content: week-05 lecture

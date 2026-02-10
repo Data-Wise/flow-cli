@@ -13,6 +13,35 @@
 #
 
 # ============================================================================
+# MATH BLANK-LINE DETECTOR (pure ZSH)
+# ============================================================================
+
+# Check a single file for blank lines or unclosed $$ display-math blocks.
+# Returns: 0 = clean, 1 = blank line inside $$ block, 2 = unclosed $$ block.
+# Usage: _check_math_blanks /path/to/file.qmd
+_check_math_blanks() {
+    setopt LOCAL_OPTIONS EXTENDED_GLOB
+    local filepath="$1"
+    [[ ! -f "$filepath" ]] && return 0
+    local _in_math=0
+    while IFS= read -r _line || [[ -n "$_line" ]]; do
+        local _stripped="${_line##[[:space:]]#}"
+        _stripped="${_stripped%%[[:space:]]#}"
+        if [[ "$_stripped" == '$$' ]]; then
+            if (( _in_math )); then
+                _in_math=0
+            else
+                _in_math=1
+            fi
+        elif (( _in_math )) && [[ -z "$_stripped" ]]; then
+            return 1
+        fi
+    done < "$filepath"
+    (( _in_math )) && return 2
+    return 0
+}
+
+# ============================================================================
 # SHARED PREFLIGHT CHECKS
 # ============================================================================
 
@@ -87,6 +116,53 @@ _deploy_preflight_checks() {
         echo "${FLOW_COLORS[warn]}  [--]${FLOW_COLORS[reset]} Working tree has uncommitted changes"
     else
         echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Working tree clean"
+    fi
+
+    # Check: display math issues (blank lines + unclosed blocks)
+    # Only check .qmd files changed between draft and production
+    local _math_blanks_files _repo_root
+    _repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
+    _math_blanks_files=$(git diff --name-only "$DEPLOY_PROD_BRANCH".."$DEPLOY_DRAFT_BRANCH" -- '*.qmd' 2>/dev/null)
+    if [[ -n "$_math_blanks_files" ]]; then
+        local _math_blank_files=() _math_unclosed_files=()
+        while IFS= read -r _qmd_file; do
+            local _abs_path="${_repo_root}/${_qmd_file}"
+            _check_math_blanks "$_abs_path"
+            case $? in
+                1) _math_blank_files+=("$_qmd_file") ;;
+                2) _math_unclosed_files+=("$_qmd_file") ;;
+            esac
+        done <<< "$_math_blanks_files"
+
+        local _has_math_issues=0
+
+        if [[ ${#_math_blank_files[@]} -gt 0 ]]; then
+            _has_math_issues=1
+            echo "${FLOW_COLORS[warn]}  [!!]${FLOW_COLORS[reset]} Blank lines in display math (breaks PDF):"
+            for _mf in "${_math_blank_files[@]}"; do
+                echo "       ${FLOW_COLORS[dim]}$_mf${FLOW_COLORS[reset]}"
+            done
+            echo "       ${FLOW_COLORS[dim]}Remove blank lines between \$\$ delimiters in the files above${FLOW_COLORS[reset]}"
+        fi
+
+        if [[ ${#_math_unclosed_files[@]} -gt 0 ]]; then
+            _has_math_issues=1
+            echo "${FLOW_COLORS[warn]}  [!!]${FLOW_COLORS[reset]} Unclosed \$\$ block (breaks render):"
+            for _mf in "${_math_unclosed_files[@]}"; do
+                echo "       ${FLOW_COLORS[dim]}$_mf${FLOW_COLORS[reset]}"
+            done
+            echo "       ${FLOW_COLORS[dim]}Add missing closing \$\$ delimiter in the files above${FLOW_COLORS[reset]}"
+        fi
+
+        if [[ $_has_math_issues -eq 1 ]]; then
+            if [[ "$ci_mode" == "true" ]]; then
+                _teach_error "Display math issues detected" \
+                    "Fix math block issues in .qmd files before deploying"
+                return 1
+            fi
+        else
+            echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Display math blocks valid"
+        fi
     fi
 
     # Check: no conflicts with production

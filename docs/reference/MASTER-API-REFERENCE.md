@@ -6819,7 +6819,8 @@ Forward rollback via `git revert` with history tracking.
 
 | Function | Signature | Purpose |
 |----------|-----------|---------|
-| `_deploy_preflight_checks` | `<ci_mode>` | Validate git state, config, branches. Sets `DEPLOY_*` variables |
+| `_check_math_blanks` | `<filepath>` | Check file for blank lines (rc=1) or unclosed blocks (rc=2) inside `$$`. Returns 0 if clean. Pure ZSH state machine |
+| `_deploy_preflight_checks` | `<ci_mode>` | Validate git state, config, branches, display math. Sets `DEPLOY_*` variables |
 | `_deploy_direct_merge` | `<draft_branch> <prod_branch> <commit_message> <ci_mode>` | Direct merge deploy (push draft, checkout prod, merge, push) |
 | `_deploy_step` | `<step> <total> <label> <step_status>` | Print numbered step progress line (v6.4.1) |
 | `_deploy_summary_box` | `<mode> <file_count> <insertions> <deletions> <duration> <commit_hash> [url]` | Print deployment summary box (v6.4.1) |
