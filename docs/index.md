@@ -26,8 +26,8 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New: Teach Doctor v2"
-    Two-mode health check: quick (< 3s, 4 categories) or full (`--full`, 11 categories). Health indicator dot on `teach` startup. Batch R package checks, renv-aware, `--fix`, `--ci`, `--json` flags. Test suite at **42/42 passing**.
+!!! success "🎉 What's New in v6.7.0: Math Preflight + Quality Gates"
+    Pre-commit validation catches broken `$$` math blocks before they reach your course site. Deploy preflight, lint-staged integration, and a new [Quality Gates](guides/QUALITY-GATES.md) doc mapping every validation layer from keystroke to production.
     [→ See what's new](CHANGELOG.md){ .md-button }
     [→ All releases](RELEASES.md){ .md-button }
 
