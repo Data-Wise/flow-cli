@@ -3276,13 +3276,24 @@
   <a href="#safety-features-v660" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Safety Features (v6.6.0)
+        Safety Features (v6.6.0+)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Safety Features (v6.6.0)">
+    <nav class="md-nav" aria-label="Safety Features (v6.6.0+)">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#display-math-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Math Validation
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#uncommitted-changes-prompt" class="md-nav__link">
@@ -4984,6 +4995,34 @@
     
   
     Lint Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/QUALITY-GATES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality Gates
   
 
     
@@ -7462,13 +7501,24 @@
   <a href="#safety-features-v660" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Safety Features (v6.6.0)
+        Safety Features (v6.6.0+)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Safety Features (v6.6.0)">
+    <nav class="md-nav" aria-label="Safety Features (v6.6.0+)">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#display-math-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Math Validation
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#uncommitted-changes-prompt" class="md-nav__link">
@@ -7911,38 +7961,46 @@
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback<span class="w"> </span><span class="m">2</span><span class="w"> </span>--ci<span class="w"> </span><span class="c1"># 2nd most recent, non-interactive</span>
 </code></pre></div>
 <p>Uses <code>git revert</code> (forward rollback, not destructive reset). Merge commits are detected automatically and reverted with <code>-m 1</code> (parent specification). Rollback is recorded in history with <code>mode: "rollback"</code>.</p>
-<h2 id="safety-features-v660">Safety Features (v6.6.0)<a class="headerlink" href="#safety-features-v660" title="Permanent link">&para;</a></h2>
+<h2 id="safety-features-v660">Safety Features (v6.6.0+)<a class="headerlink" href="#safety-features-v660" title="Permanent link">&para;</a></h2>
+<h3 id="display-math-validation">Display Math Validation<a class="headerlink" href="#display-math-validation" title="Permanent link">&para;</a></h3>
+<p>Scans changed <code>.qmd</code> files for blank lines and unclosed <code>$$</code> blocks (both break Quarto renders):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>  [ok] Display math blocks valid          ← all clean
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  [!!] Blank lines in display math        ← blank line inside $$
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  [!!] Unclosed $$ block (breaks render)  ← missing closing $$
+</code></pre></div>
+<p><strong>CI mode:</strong> Math issues block deployment. <strong>Interactive:</strong> Warns only.</p>
+<p>Uses pure ZSH state machine (<code>_check_math_blanks</code>) — no Python dependency.</p>
 <h3 id="uncommitted-changes-prompt">Uncommitted Changes Prompt<a class="headerlink" href="#uncommitted-changes-prompt" title="Permanent link">&para;</a></h3>
 <p>With a dirty working tree, deploy prompts to commit instead of blocking:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>  Uncommitted changes detected
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  Suggested: content: week-05 lecture
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  Commit and continue? [Y/n]:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>  Uncommitted changes detected
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  Suggested: content: week-05 lecture
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  Commit and continue? [Y/n]:
 </code></pre></div>
 <p>Press Enter (or Y) to auto-commit with the smart message. Press N to cancel.</p>
 <p><strong>CI mode:</strong> Fails immediately with <code>"Commit changes before deploying in CI mode"</code>.</p>
 <h3 id="pre-commit-hook-failure-recovery">Pre-Commit Hook Failure Recovery<a class="headerlink" href="#pre-commit-hook-failure-recovery" title="Permanent link">&para;</a></h3>
 <p>If a commit fails (e.g., Quarto pre-commit hook), you get 3 actionable options:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>  ERROR: Commit failed (likely pre-commit hook)
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  Options:
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    1. Fix the issues above, then teach deploy again
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    2. Skip validation: QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    3. Force commit: git commit --no-verify -m &quot;message&quot;
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>  Your changes are still staged. Nothing was lost.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>  ERROR: Commit failed (likely pre-commit hook)
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  Options:
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    1. Fix the issues above, then teach deploy again
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    2. Skip validation: QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    3. Force commit: git commit --no-verify -m &quot;message&quot;
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>  Your changes are still staged. Nothing was lost.
 </code></pre></div>
 <h3 id="trap-handler-branch-safety">Trap Handler (Branch Safety)<a class="headerlink" href="#trap-handler-branch-safety" title="Permanent link">&para;</a></h3>
 <p>Both direct merge and PR modes set a trap: if an error or signal (Ctrl+C, kill) occurs mid-deploy, you're automatically returned to your draft branch. No more getting stuck on production.</p>
 <h3 id="github-actions-link">GitHub Actions Link<a class="headerlink" href="#github-actions-link" title="Permanent link">&para;</a></h3>
 <p>The deployment summary box now includes a direct link to GitHub Actions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>╭─ Deployment Summary ─────────────────────────────────╮
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>│  🚀 Mode:     Direct merge                            │
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>│  📦 Files:    3 changed (+45 / -12)                   │
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>│  ⏱  Duration: 8s                                      │
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>│  🔀 Commit:   a1b2c3d4                                │
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>│  🌐 URL:      https://example.github.io/stat-545/    │
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>│  ⚙  Actions:  https://github.com/user/stat-545/actions│  ← NEW
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>╰──────────────────────────────────────────────────────╯
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>╭─ Deployment Summary ─────────────────────────────────╮
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>│  🚀 Mode:     Direct merge                            │
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>│  📦 Files:    3 changed (+45 / -12)                   │
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>│  ⏱  Duration: 8s                                      │
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>│  🔀 Commit:   a1b2c3d4                                │
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>│  🌐 URL:      https://example.github.io/stat-545/    │
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>│  ⚙  Actions:  https://github.com/user/stat-545/actions│  ← NEW
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>╰──────────────────────────────────────────────────────╯
 </code></pre></div>
 <p>Automatically detected from <code>remote.origin.url</code>. Skipped for non-GitHub remotes.</p>
 <h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
@@ -7962,8 +8020,8 @@
 </table>
 <h2 id="ci-mode">CI Mode<a class="headerlink" href="#ci-mode" title="Permanent link">&para;</a></h2>
 <p>Auto-detected when no TTY (<code>[[ ! -t 0 ]]</code>), or forced with <code>--ci</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w">           </span><span class="c1"># Direct merge, no prompts</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">echo</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>teach<span class="w"> </span>deploy<span class="w">            </span><span class="c1"># Auto-detected (piped input)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w">           </span><span class="c1"># Direct merge, no prompts</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">echo</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>teach<span class="w"> </span>deploy<span class="w">            </span><span class="c1"># Auto-detected (piped input)</span>
 </code></pre></div>
 <p><strong>CI behavior for safety features:</strong></p>
 <table>
@@ -7975,6 +8033,11 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Display math issues</td>
+<td>Warns, continues</td>
+<td>Blocks deploy</td>
+</tr>
 <tr>
 <td>Uncommitted changes</td>
 <td>Prompts to commit</td>
@@ -8006,66 +8069,67 @@
 </ul>
 <p>Skips if <code>.STATUS</code> absent.</p>
 <h2 id="output-format-direct-mode">Output Format (Direct Mode)<a class="headerlink" href="#output-format-direct-mode" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>  Pre-flight Checks
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>─────────────────────────────────────────────────
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  [ok] Git repository
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  [ok] Config file found
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  [ok] On draft branch
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  [ok] Working tree clean
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  [ok] No production conflicts
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>  Smart commit: content: week-05 lecture
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>  Direct merge: draft -&gt; production
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>  ✓ [1/5] Push draft to origin
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>  ✓ [2/5] Switch to production
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>  ✓ [3/5] Merge draft → production
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>  ✓ [4/5] Push production to origin
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>  ✓ [5/5] Switch back to draft
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
-<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>╭─ Deployment Summary ─────────────────────────────────╮
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>│  🚀 Mode:     Direct merge                            │
-<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>│  📦 Files:    3 changed (+45 / -12)                   │
-<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>│  ⏱  Duration: 11s                                     │
-<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>│  🔀 Commit:   a1b2c3d4                                │
-<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>│  🌐 URL:      https://example.github.io/stat-545/    │
-<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>│  ⚙  Actions:  https://github.com/user/stat-545/actions│
-<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>╰──────────────────────────────────────────────────────╯
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>  Pre-flight Checks
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>─────────────────────────────────────────────────
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  [ok] Git repository
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  [ok] Config file found
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>  [ok] On draft branch
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>  [ok] Working tree clean
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>  [ok] Display math blocks valid
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>  [ok] No production conflicts
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>  Smart commit: content: week-05 lecture
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>  Direct merge: draft -&gt; production
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>  ✓ [1/5] Push draft to origin
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>  ✓ [2/5] Switch to production
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>  ✓ [3/5] Merge draft → production
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>  ✓ [4/5] Push production to origin
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>  ✓ [5/5] Switch back to draft
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>╭─ Deployment Summary ─────────────────────────────────╮
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>│  🚀 Mode:     Direct merge                            │
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>│  📦 Files:    3 changed (+45 / -12)                   │
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>│  ⏱  Duration: 11s                                     │
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>│  🔀 Commit:   a1b2c3d4                                │
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>│  🌐 URL:      https://example.github.io/stat-545/    │
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>│  ⚙  Actions:  https://github.com/user/stat-545/actions│
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>╰──────────────────────────────────────────────────────╯
 </code></pre></div>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>In <code>.flow/teach-config.yml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">git</span><span class="p">:</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">draft_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">draft</span><span class="w">         </span><span class="c1"># Default: &quot;draft&quot;</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">production_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">     </span><span class="c1"># Default: &quot;main&quot;</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">auto_pr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">               </span><span class="c1"># Default: true</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">require_clean</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">         </span><span class="c1"># Default: true</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">git</span><span class="p">:</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">draft_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">draft</span><span class="w">         </span><span class="c1"># Default: &quot;draft&quot;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">production_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">     </span><span class="c1"># Default: &quot;main&quot;</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">auto_pr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">               </span><span class="c1"># Default: true</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="nt">require_clean</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">         </span><span class="c1"># Default: true</span>
 </code></pre></div>
 <h2 id="workflows">Workflows<a class="headerlink" href="#workflows" title="Permanent link">&para;</a></h2>
 <h3 id="quick-deploy-direct-merge">Quick deploy (direct merge)<a class="headerlink" href="#quick-deploy-direct-merge" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Make changes on draft branch</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># 8-15 seconds → live</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Make changes on draft branch</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># 8-15 seconds → live</span>
 </code></pre></div>
 <h3 id="deploy-via-pr-default">Deploy via PR (default)<a class="headerlink" href="#deploy-via-pr-default" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Make changes on draft branch</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>teach<span class="w"> </span>deploy
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># Opens PR → review → merge → live</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Make changes on draft branch</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>deploy
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># Opens PR → review → merge → live</span>
 </code></pre></div>
 <h3 id="partial-deploy-specific-files">Partial deploy (specific files)<a class="headerlink" href="#partial-deploy-specific-files" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>lectures/week-05.qmd
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>lectures/<span class="w"> </span>assignments/hw-03.qmd
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>lectures/week-05.qmd
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>lectures/<span class="w"> </span>assignments/hw-03.qmd
 </code></pre></div>
 <h3 id="preview-before-deploying">Preview before deploying<a class="headerlink" href="#preview-before-deploying" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># Shows what would happen without executing</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># Shows what would happen without executing</span>
 </code></pre></div>
 <h3 id="rollback-to-previous-version">Rollback to previous version<a class="headerlink" href="#rollback-to-previous-version" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># Interactive picker shows recent deploys</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># Select deployment to revert</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1"># Interactive picker shows recent deploys</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1"># Select deployment to revert</span>
 </code></pre></div>
 <h3 id="non-interactive-cicd">Non-interactive (CI/CD)<a class="headerlink" href="#non-interactive-cicd" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Auto-deploy from GitHub Actions&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Auto-deploy from GitHub Actions&quot;</span>
 </code></pre></div>
 <h2 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h2>
 <table>

@@ -4646,6 +4646,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../guides/QUALITY-GATES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quality Gates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../guides/MERMAID-DIAGRAMS-QUICK-START/" class="md-nav__link">
         
   
@@ -18956,9 +18984,14 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 </thead>
 <tbody>
 <tr>
+<td><code>_check_math_blanks</code></td>
+<td><code>&lt;filepath&gt;</code></td>
+<td>Check file for blank lines (rc=1) or unclosed blocks (rc=2) inside <code>$$</code>. Returns 0 if clean. Pure ZSH state machine</td>
+</tr>
+<tr>
 <td><code>_deploy_preflight_checks</code></td>
 <td><code>&lt;ci_mode&gt;</code></td>
-<td>Validate git state, config, branches. Sets <code>DEPLOY_*</code> variables</td>
+<td>Validate git state, config, branches, display math. Sets <code>DEPLOY_*</code> variables</td>
 </tr>
 <tr>
 <td><code>_deploy_direct_merge</code></td>
