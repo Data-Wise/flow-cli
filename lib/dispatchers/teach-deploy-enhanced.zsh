@@ -23,9 +23,9 @@ _check_math_blanks() {
     setopt LOCAL_OPTIONS EXTENDED_GLOB
     local filepath="$1"
     [[ ! -f "$filepath" ]] && return 0
-    local _in_math=0
+    local _in_math=0 _line _stripped
     while IFS= read -r _line || [[ -n "$_line" ]]; do
-        local _stripped="${_line##[[:space:]]#}"
+        _stripped="${_line##[[:space:]]#}"
         _stripped="${_stripped%%[[:space:]]#}"
         if [[ "$_stripped" == '$$' ]]; then
             if (( _in_math )); then
@@ -124,9 +124,9 @@ _deploy_preflight_checks() {
     _repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
     _math_blanks_files=$(git diff --name-only "$DEPLOY_PROD_BRANCH".."$DEPLOY_DRAFT_BRANCH" -- '*.qmd' 2>/dev/null)
     if [[ -n "$_math_blanks_files" ]]; then
-        local _math_blank_files=() _math_unclosed_files=()
+        local _math_blank_files=() _math_unclosed_files=() _abs_path _qmd_file
         while IFS= read -r _qmd_file; do
-            local _abs_path="${_repo_root}/${_qmd_file}"
+            _abs_path="${_repo_root}/${_qmd_file}"
             _check_math_blanks "$_abs_path"
             case $? in
                 1) _math_blank_files+=("$_qmd_file") ;;
@@ -163,6 +163,8 @@ _deploy_preflight_checks() {
         else
             echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Display math blocks valid"
         fi
+    else
+        echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Display math blocks valid"
     fi
 
     # Check: no conflicts with production
