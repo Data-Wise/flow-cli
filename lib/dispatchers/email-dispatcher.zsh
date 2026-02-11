@@ -283,7 +283,7 @@ _em_read() {
         local html_content
         html_content=$(_em_hml_read "$msg_id" html 2>/dev/null)
         if [[ -z "$html_content" ]]; then
-            _flow_log_warn "No HTML part — falling back to plain text"
+            _flow_log_warning "No HTML part — falling back to plain text"
             _em_hml_read "$msg_id" | _em_render_email_body
         else
             _em_render "$html_content" "html"
@@ -563,28 +563,57 @@ _em_pick() {
 
     local folder="${1:-$FLOW_EMAIL_FOLDER}"
 
-    # Pre-compute stats for header
+    # [1] Pre-fetch envelopes once (reused for list + preview)
+    local cache_file
+    cache_file=$(mktemp "${TMPDIR:-/tmp}/em-pick-XXXXXX.json")
+    _em_hml_list "$folder" 50 > "$cache_file" 2>/dev/null
+
+    if [[ ! -s "$cache_file" ]]; then
+        _flow_log_error "Could not fetch emails"
+        rm -f "$cache_file"
+        return 1
+    fi
+
+    # Count unread from cached data
     local unread_count
-    unread_count=$(_em_hml_unread_count "$folder" 2>/dev/null)
+    unread_count=$(jq '[.[] | select(.flags | contains(["Seen"]) | not)] | length' "$cache_file" 2>/dev/null)
 
     local header_line
     header_line="Folder: ${folder}  |  Unread: ${unread_count:-?}
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
 * = unread  + = attachment"
 
+    # [2] Build preview command (reads cached JSON for headers, body live)
+    local preview_cmd
+    preview_cmd="id={1}; "
+    preview_cmd+="env=\$(jq -r \".[] | select(.id == (\\\$id | tonumber))\" \"$cache_file\" 2>/dev/null); "
+    preview_cmd+="if [ -n \"\$env\" ]; then "
+    preview_cmd+="  subj=\$(echo \"\$env\" | jq -r '.subject // \"(no subject)\"'); "
+    preview_cmd+="  from=\$(echo \"\$env\" | jq -r '.from.name // .from.addr // \"unknown\"'); "
+    preview_cmd+="  dt=\$(echo \"\$env\" | jq -r '.date // \"\"' | cut -dT -f1); "
+    preview_cmd+="  flags=\$(echo \"\$env\" | jq -r '.flags // [] | join(\", \")'); "
+    preview_cmd+="  badge=''; "
+    preview_cmd+="  echo \"\$flags\" | grep -qv Seen && badge=\"[NEW] \"; "
+    preview_cmd+="  printf '\\033[1m  %s %s\\033[0m\\n' \"\$subj\" \"\$badge\"; "
+    preview_cmd+="  printf '\\033[2m  From: %s  •  %s\\033[0m\\n' \"\$from\" \"\$dt\"; "
+    preview_cmd+="  printf '\\033[2m  ─────────────────────────────────────────────────\\033[0m\\n'; "
+    preview_cmd+="  echo ''; "
+    preview_cmd+="fi; "
+    preview_cmd+="himalaya message read \"\$id\" 2>/dev/null | head -60"
+
+    # [3] Render list from cached JSON + launch fzf
     local selected
-    selected=$(_em_hml_list "$folder" 50 \
-        | jq -r '.[] | [
+    selected=$(jq -r '.[] | [
             .id,
             (if (.flags | contains(["Seen"])) then " " else "*" end),
             (if .has_attachment then "+" else " " end),
             ((.from.name // .from.addr // "unknown") | if length > 20 then .[:17] + "..." else . end),
             ((.subject // "(no subject)") | if length > 50 then .[:47] + "..." else . end),
             (.date | split("T")[0] // .date)
-          ] | @tsv' \
+          ] | @tsv' "$cache_file" \
         | fzf --delimiter='\t' \
               --with-nth='2..' \
-              --preview='himalaya message read {1} 2>/dev/null | head -80' \
+              --preview="$preview_cmd" \
               --preview-window='right:60%:wrap' \
               --header="$header_line" \
               --header-lines=0 \
@@ -594,6 +623,9 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
               --bind='ctrl-d:become(echo DELETE:{1})' \
               --no-multi \
               --ansi)
+
+    # [4] Cleanup temp file
+    rm -f "$cache_file"
 
     # Handle selection
     if [[ -z "$selected" ]]; then
