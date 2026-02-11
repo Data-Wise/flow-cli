@@ -208,13 +208,24 @@ ${_C_DIM}See also: em doctor (check deps), flow doctor (full health)${_C_NC}
 # ═══════════════════════════════════════════════════════════════════
 
 _em_require_himalaya() {
-    if ! command -v himalaya &>/dev/null; then
-        _flow_log_error "himalaya not found"
-        echo "Install: ${_C_CYAN}brew install himalaya${_C_NC} or ${_C_CYAN}cargo install himalaya${_C_NC}"
-        echo "Setup:   ${_C_CYAN}em doctor${_C_NC} for full dependency check"
-        return 1
+    if command -v himalaya &>/dev/null; then
+        return 0
     fi
-    return 0
+
+    # Check common install locations not in PATH
+    local loc
+    for loc in "$HOME/.cargo/bin/himalaya" /opt/homebrew/bin/himalaya /usr/local/bin/himalaya; do
+        if [[ -x "$loc" ]]; then
+            # Add to PATH for this session so subsequent calls find it
+            export PATH="${loc:h}:$PATH"
+            return 0
+        fi
+    done
+
+    _flow_log_error "himalaya not found"
+    echo "Install: ${_C_CYAN}brew install himalaya${_C_NC} or ${_C_CYAN}cargo install himalaya${_C_NC}"
+    echo "Setup:   ${_C_CYAN}em doctor${_C_NC} for full dependency check"
+    return 1
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -792,6 +803,10 @@ _em_summarize() {
 _em_respond() {
     # Batch respond: classify → draft → edit in $EDITOR → confirm send
     # Same flow as `em reply` but loops through actionable emails
+
+    # Help check before dependency gate (help should always work)
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_respond_help; return; }
+
     _em_require_himalaya || return 1
     local count=10
     local folder="$FLOW_EMAIL_FOLDER"
@@ -806,7 +821,6 @@ _em_respond() {
             --dry-run)     dry_run=true; shift ;;
             --review|-R)   review_mode=true; shift ;;
             --clear)       _em_cache_clear; return ;;
-            --help|-h)     _em_respond_help; return ;;
             *)             shift ;;
         esac
     done
