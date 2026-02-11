@@ -731,28 +731,30 @@ em classify 42
 ✅ **Expected output:**
 
 ```
-  Q student-question
+  S student
 ```
 
-**Categories:**
-- **student-question** — Academic query, assignment, grade
-- **admin-important** — Department notice, deadline, action required
-- **admin-info** — FYI notices, newsletters
-- **scheduling** — Meeting request, calendar, office hours
-- **newsletter** — External newsletter, marketing
-- **personal** — Colleague, friend, non-work
-- **automated** — CI/CD, GitHub, system alerts
-- **urgent** — Deadline today, emergency
+**Categories (9 types):**
+- **student** — Student email: absence, question, grade inquiry, accommodation
+- **colleague** — Faculty/staff: hiring committee, research, departmental threads
+- **admin-action** — Requires YOUR action: accommodation letter, form, review request
+- **scheduling** — Meeting request, calendar invite, event RSVP, office hours
+- **urgent** — Deadline today, emergency, escalation, time-sensitive
+- **admin-info** — FYI only: university blast, mailing list, policy notice
+- **newsletter** — Professional journal, academic association digest
+- **vendor** — Commercial marketing, textbook promo, EdTech sales
+- **automated** — CI/CD, GitHub, system alerts, delivery receipts
 
 **Category icons:**
-- `Q` = student-question (blue)
-- `!` = admin-important (red)
-- `i` = admin-info (dim)
-- `S` = scheduling (cyan)
-- `N` = newsletter (dim)
-- `P` = personal (green)
-- `A` = automated (dim)
+- `S` = student (blue)
+- `C` = colleague (green)
+- `!` = admin-action (red)
+- `@` = scheduling (cyan)
 - `U` = urgent (red)
+- `i` = admin-info (dim)
+- `N` = newsletter (dim)
+- `V` = vendor (dim)
+- `A` = automated (dim)
 
 ### Summarize Email
 
@@ -785,7 +787,8 @@ em respond
 
 1. Analyzes latest 20 emails (default)
 2. Classifies each email
-3. Skips non-actionable (newsletters, automated, admin-info)
+3. Skips non-actionable (newsletter, automated, admin-info, vendor)
+3a. Auto-skips listserv emails (e.g., `@LIST.UNM.EDU`) before classification
 4. Generates AI drafts for actionable emails
 5. Saves drafts to cache
 
@@ -806,7 +809,7 @@ Analyzing 20 emails for actionable messages...
 **Adjust count:**
 
 ```bash
-em respond --count 50
+em respond -n 50
 ```
 
 **Specific folder:**
@@ -879,15 +882,45 @@ export FLOW_EMAIL_AI=gemini
 em doctor
 ```
 
+### Dry Run (Preview Only)
+
+Preview which emails are actionable without generating any drafts:
+
+```bash
+em respond --dry-run
+```
+
+✅ **Expected output:**
+
+```
+em respond — scanning 10 emails in INBOX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [1/10] Amy Hathaway              C colleague  Re: zoom links
+  [2/10] Yan Lu                    C colleague  Re: Data science hiring
+  [3/10] Google Cloud              V vendor — skip
+  [4/10] graduation@unm.edu        i admin-info — skip
+  [5/10] Newsletter Digest         N newsletter — skip
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2 actionable  3 skipped  of 5 total
+ℹ Dry run — no drafts generated
+```
+
+This is the safest way to start — see what the AI thinks before committing to drafts.
+
 ### 💡 What You Learned
 
-- `em classify <ID>` categorizes email (8 types)
+- `em classify <ID>` categorizes email (9 types)
 - `em summarize <ID>` one-line summary (who/what/when)
 - `em respond` batch generates AI drafts for actionable emails
-- Skips newsletters, automated, admin-info
+- Skips newsletter, automated, admin-info, vendor
+- Auto-skips listserv/mailing list emails before classification
+- `em respond --dry-run` preview classification without drafts
 - `em respond --review` interactive draft browser
-- `em respond --count N` processes N emails (default 20)
+- `em respond -n N` processes N emails (default: 10)
 - `em respond --clear` clears cached drafts
+- Discarding a draft in the editor is tracked separately from sending
 - AI backend: claude (default) or gemini
 - Timeout: 30s default (configure with `$FLOW_EMAIL_AI_TIMEOUT`)
 
@@ -1226,7 +1259,7 @@ em respond --review
 
 ```bash
 # Batch 1: Generate drafts (no decisions)
-em respond --count 50
+em respond -n 50
 
 # Break time (5-10 min)
 

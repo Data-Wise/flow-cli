@@ -427,18 +427,32 @@ Run `em doctor` for dependency health:
 
 AI classification categories (for `em classify`, `em respond`):
 
-| Category | Icon | Actionable | Description |
-|----------|------|-----------|-------------|
-| `student-question` | Q | ✓ | Academic query, assignment question, grade inquiry |
-| `admin-important` | ! | ✓ | Department notice, policy, deadline — requires action |
-| `admin-info` | i | ✗ | FYI notices, institutional newsletters |
-| `scheduling` | S | ✓ | Meeting request, calendar invite, office hours |
-| `newsletter` | N | ✗ | External newsletter, marketing, mailing list |
-| `personal` | P | ✓ | Colleague, friend, non-work context |
-| `automated` | A | ✗ | CI/CD, GitHub, system alerts, receipts |
-| `urgent` | U | ✓ | Deadline today, emergency, escalation |
+| Category | Icon | Color | Actionable | Description |
+|----------|------|-------|-----------|-------------|
+| `student` | S | blue | ✓ | Student email: absence, question, grade inquiry, accommodation |
+| `colleague` | C | green | ✓ | Faculty/staff: hiring committee, research, departmental threads |
+| `admin-action` | ! | red | ✓ | Requires YOUR action: accommodation letter, form, review request |
+| `scheduling` | @ | cyan | ✓ | Meeting request, event RSVP, calendar invite, office hours |
+| `urgent` | U | red | ✓ | Deadline today, emergency, escalation, time-sensitive |
+| `admin-info` | i | dim | ✗ | FYI only: university blast, mailing list, policy notice |
+| `newsletter` | N | dim | ✗ | Professional journal, academic association digest |
+| `vendor` | V | dim | ✗ | Commercial marketing, textbook promo, EdTech sales |
+| `automated` | A | dim | ✗ | CI/CD, GitHub, system alerts, delivery receipts |
 
-**Non-actionable emails skipped by `em respond`** (admin-info, newsletter, automated)
+**Non-actionable emails skipped by `em respond`:** admin-info, newsletter, vendor, automated
+
+### Listserv Safety
+
+Emails to mailing lists (`*@LIST.*`, `*-L@*`) are auto-skipped in `em respond` with an `L` icon. If a listserv email passes classification, a warning banner appears before drafting:
+
+```
+⚠ WARNING: This email was sent to a mailing list
+  Replying may go to ALL list members. Review carefully.
+```
+
+### Discard Detection
+
+When reviewing drafts (`em respond --review`), himalaya's "Discard" action is properly detected. Discarded drafts are counted as skipped, not as sent replies.
 
 ---
 

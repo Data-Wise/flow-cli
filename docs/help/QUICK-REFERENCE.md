@@ -853,7 +853,7 @@ em reply 42 --batch
 ```bash
 # Classify email category
 em classify 42
-# Output: student-question
+# Output: student
 
 # One-line summary
 em summarize 42
@@ -861,9 +861,9 @@ em summarize 42
 
 # Batch AI drafts for actionable emails
 em respond
-
-# Review and send generated drafts
-em respond --review
+em respond --dry-run      # Classify only (no drafts)
+em respond -n 50          # Process 50 emails
+em respond --review       # Review/send cached drafts
 ```
 
 ### Browse & Search
@@ -896,8 +896,10 @@ em attach 42
 em doctor
 
 # Cache management
-em cache stats
-em cache clear
+em cache stats                # Show cache size, TTLs, counts
+em cache clear                # Remove all cached AI results
+em cache prune                # Remove expired entries only
+em cache warm 20              # Pre-warm latest 20 emails (background)
 
 # Configuration
 export FLOW_EMAIL_AI=claude     # AI backend (claude/gemini/none)

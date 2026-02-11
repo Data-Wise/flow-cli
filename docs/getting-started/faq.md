@@ -502,6 +502,54 @@ flow doctor --fix  # Interactive install
 
 ---
 
+## Email (em dispatcher)
+
+### How do I set up email?
+
+1. Install himalaya: `brew install himalaya`
+2. Configure an account: `himalaya account add` (or edit `~/.config/himalaya/config.toml`)
+3. Test connection: `himalaya envelope list`
+4. Check health: `em doctor`
+
+For Gmail/Outlook with OAuth2, see the [Himalaya Setup Guide](../guides/HIMALAYA-SETUP.md).
+
+### Which email providers does em support?
+
+Any provider that supports IMAP/SMTP. Gmail, Outlook, Fastmail, ProtonMail Bridge, and self-hosted are all tested. OAuth2 providers require [email-oauth2-proxy](https://github.com/simonrob/email-oauth2-proxy) unless himalaya is built with native OAuth2 support.
+
+### How does AI email classification work?
+
+`em respond` uses AI (Claude or Gemini) to classify emails into 9 categories:
+
+- **Actionable** (you respond): student, colleague, admin-action, scheduling, urgent
+- **Auto-skip** (noise filtered): admin-info, newsletter, vendor, automated
+
+Mailing list emails (`@LIST.*`) are auto-skipped before classification to save API calls.
+
+### em respond says "AI timed out"
+
+Increase the timeout:
+
+```bash
+export FLOW_EMAIL_AI_TIMEOUT=60  # seconds
+```
+
+Or skip AI for a single reply: `em reply 42 --no-ai`
+
+### Can I use em without AI?
+
+Yes. Core commands (`em inbox`, `em read`, `em send`, `em reply --no-ai`, `em pick`, `em find`) work without any AI backend. AI is only needed for `em respond`, `em classify`, and `em summarize`.
+
+### How do I clear cached AI results?
+
+```bash
+em cache clear    # Remove all cached results
+em cache prune    # Remove expired entries only
+em cache stats    # See cache size and counts
+```
+
+---
+
 ## Still Stuck?
 
 1. Run `flow doctor` to check for issues

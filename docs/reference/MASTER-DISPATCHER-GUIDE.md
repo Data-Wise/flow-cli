@@ -2525,7 +2525,7 @@ The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management: 
 | `em folders` | | List mail folders |
 | `em html <ID>` | | Render HTML email in terminal |
 | `em attach <ID>` | | Download attachments |
-| `em cache stats\|clear` | | Manage AI cache |
+| `em cache stats\|prune\|clear\|warm` | | Manage AI cache |
 | `em doctor` | | Check dependencies |
 | `em help` | | Show help |
 
@@ -2554,7 +2554,10 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 
 ### Safety
 
-Every send operation requires explicit `[y/N]` confirmation (default: No). No auto-send, no silent delivery.
+- Every send requires explicit `[y/N]` confirmation (default: No). No auto-send.
+- Listserv emails (`@LIST.*`) auto-skipped in `em respond`; warning shown if actionable.
+- Discarded drafts tracked separately from sent replies (via `script(1)` detection).
+- 9-category AI classification: student, colleague, admin-action, scheduling, urgent (actionable) + admin-info, newsletter, vendor, automated (auto-skip).
 
 > **Full Reference:** [REFCARD-EMAIL-DISPATCHER.md](REFCARD-EMAIL-DISPATCHER.md)
 > **User Guide:** [EMAIL-DISPATCHER-GUIDE.md](../guides/EMAIL-DISPATCHER-GUIDE.md)
