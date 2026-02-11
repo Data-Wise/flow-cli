@@ -278,19 +278,38 @@ _em_read() {
         echo ""
     fi
 
-    # [2] Render body
+    # [2] Render body — capture content and errors separately
+    local body="" hml_err=""
     if [[ "$fmt" == "html" ]]; then
-        local html_content
-        html_content=$(_em_hml_read "$msg_id" html 2>/dev/null)
-        if [[ -z "$html_content" ]]; then
-            _flow_log_warning "No HTML part — falling back to plain text"
-            _em_hml_read "$msg_id" | _em_render_email_body
-        else
-            _em_render "$html_content" "html"
+        body=$(himalaya message read --html "$msg_id" 2>/tmp/.em-read-err)
+        if [[ -z "$body" ]]; then
+            # HTML part missing — try plain text
+            body=$(himalaya message read "$msg_id" 2>/tmp/.em-read-err)
+        fi
+        if [[ -n "$body" ]]; then
+            # Render HTML through w3m/pandoc
+            _em_render "$body" "html"
         fi
     else
-        _em_hml_read "$msg_id" | _em_render_email_body
+        body=$(himalaya message read "$msg_id" 2>/tmp/.em-read-err)
+        if [[ -n "$body" ]]; then
+            echo "$body" | _em_render_email_body
+        fi
     fi
+
+    # Show error if body is empty
+    if [[ -z "$body" ]]; then
+        hml_err=$(</tmp/.em-read-err 2>/dev/null)
+        if [[ -n "$hml_err" ]]; then
+            _flow_log_error "Could not read email #${msg_id}"
+            echo -e "  ${_C_DIM}${hml_err}${_C_NC}"
+        else
+            echo -e "  ${_C_DIM}(no content)${_C_NC}"
+        fi
+        rm -f /tmp/.em-read-err
+        return 1
+    fi
+    rm -f /tmp/.em-read-err
 }
 
 _em_send() {
