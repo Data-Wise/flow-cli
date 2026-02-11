@@ -55,6 +55,15 @@ test_em_help_function_exists() {
     fi
 }
 
+test_em_preview_message_exists() {
+    log_test "_em_preview_message function exists"
+    if (( ${+functions[_em_preview_message]} )); then
+        pass
+    else
+        fail "_em_preview_message function not defined"
+    fi
+}
+
 # ═══════════════════════════════════════════════════════════════
 # Section 2: Help Output
 # ═══════════════════════════════════════════════════════════════
@@ -840,6 +849,7 @@ main() {
     echo "${YELLOW}Section 1: Dispatcher Function Existence${NC}"
     test_em_dispatcher_exists
     test_em_help_function_exists
+    test_em_preview_message_exists
     echo ""
 
     echo "${YELLOW}Section 2: Help Output${NC}"

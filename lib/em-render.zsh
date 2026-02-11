@@ -11,6 +11,9 @@
 #
 # Detection:
 #   text/html + w3m available     → w3m -dump | pager
+#   text/html + lynx available    → lynx -dump | pager
+#   text/html + pandoc available  → pandoc html→plain | pager
+#   text/html + bat available     → bat (syntax highlighted)
 #   text/plain + markdown markers → glow
 #   text/plain                    → bat --style=plain
 #   fallback                      → cat
@@ -57,6 +60,8 @@ _em_render_with() {
                 echo "$content" | w3m -dump -T text/html | _em_pager
             elif command -v lynx &>/dev/null; then
                 echo "$content" | lynx -stdin -dump | _em_pager
+            elif command -v pandoc &>/dev/null; then
+                echo "$content" | pandoc -f html -t plain --wrap=auto | _em_pager
             elif command -v bat &>/dev/null; then
                 echo "$content" | bat --style=plain --color=always --language=html
             else
