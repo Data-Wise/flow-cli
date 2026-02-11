@@ -16,7 +16,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 12 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`, `prompt`, `v`
+- 13 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`, `prompt`, `v`, `em`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
 - Teaching workflow with Scholar integration
@@ -126,7 +126,7 @@ yay --week        # Weekly summary + graph
 flow goal set 3   # Set daily win target
 ```
 
-### Active Dispatchers (12)
+### Active Dispatchers (13)
 
 ```bash
 g <cmd>       # Git workflows
@@ -141,6 +141,7 @@ dot <cmd>     # Dotfile management
 teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
+em <cmd>      # Email management (himalaya)
 ```
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
@@ -196,7 +197,7 @@ flow-cli/
 | ------------------------------------------- | ----------------------------------------- |
 | `flow.plugin.zsh`                           | Plugin entry point (source to load)       |
 | `lib/core.zsh`                              | Core utilities (logging, colors, helpers) |
-| `lib/dispatchers/*.zsh`                     | 12 smart dispatchers                      |
+| `lib/dispatchers/*.zsh`                     | 13 smart dispatchers                      |
 | `commands/*.zsh`                            | Core commands (work, dash, finish, etc.)  |
 | `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs                  |
 | `docs/reference/MASTER-API-REFERENCE.md`    | API function reference                    |
