@@ -145,7 +145,7 @@ ${_C_BOLD}Usage:${_C_NC} em [subcommand] [args]
 
 ${_C_GREEN}MOST COMMON${_C_NC} ${_C_DIM}(daily workflow)${_C_NC}:
   ${_C_CYAN}em${_C_NC}                 Quick pulse (unread + 10 latest)
-  ${_C_CYAN}em read <ID>${_C_NC}      Read email
+  ${_C_CYAN}em read <ID>${_C_NC}      Read email (--html, --raw)
   ${_C_CYAN}em reply <ID>${_C_NC}     AI-draft reply in \$EDITOR
   ${_C_CYAN}em send${_C_NC}           Compose new email
   ${_C_CYAN}em pick${_C_NC}           fzf email browser
@@ -153,6 +153,7 @@ ${_C_GREEN}MOST COMMON${_C_NC} ${_C_DIM}(daily workflow)${_C_NC}:
 ${_C_YELLOW}QUICK EXAMPLES${_C_NC}:
   ${_C_DIM}\$${_C_NC} em                      ${_C_DIM}# Quick pulse check${_C_NC}
   ${_C_DIM}\$${_C_NC} em r 42                 ${_C_DIM}# Read email #42${_C_NC}
+  ${_C_DIM}\$${_C_NC} em r --html 42          ${_C_DIM}# Read HTML version${_C_NC}
   ${_C_DIM}\$${_C_NC} em re 42                ${_C_DIM}# Reply with AI draft${_C_NC}
   ${_C_DIM}\$${_C_NC} em re 42 --all          ${_C_DIM}# Reply-all${_C_NC}
   ${_C_DIM}\$${_C_NC} em re 42 --batch        ${_C_DIM}# Non-interactive (preview+confirm)${_C_NC}
@@ -164,8 +165,10 @@ ${_C_YELLOW}QUICK EXAMPLES${_C_NC}:
 ${_C_BLUE}INBOX & READING${_C_NC}:
   ${_C_CYAN}em inbox [N]${_C_NC}      List N recent emails (default: ${FLOW_EMAIL_PAGE_SIZE})
   ${_C_CYAN}em read <ID>${_C_NC}      Read email (smart rendering)
+  ${_C_CYAN}em read --html <ID>${_C_NC} Read HTML version (w3m/lynx)
+  ${_C_CYAN}em read --raw <ID>${_C_NC}  Dump raw MIME source
   ${_C_CYAN}em unread${_C_NC}         Show unread count
-  ${_C_CYAN}em html <ID>${_C_NC}      Render HTML email in terminal
+  ${_C_CYAN}em html <ID>${_C_NC}      Render HTML email ${_C_DIM}(alias for read --html)${_C_NC}
 
 ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
   ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR)
@@ -228,11 +231,27 @@ _em_inbox() {
 
 _em_read() {
     _em_require_himalaya || return 1
-    local msg_id="$1"
+    local msg_id="" fmt="plain" raw=false
+
+    # Parse flags: em read [--html|--raw] <ID>
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --html|-H) fmt="html"; shift ;;
+            --raw)     raw=true; shift ;;
+            *)         msg_id="$1"; shift ;;
+        esac
+    done
+
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em read <ID>${_C_NC}"
+        echo "Usage: ${_C_CYAN}em read [--html|--raw] <ID>${_C_NC}"
         return 1
+    fi
+
+    # --raw: dump raw MIME source (for debugging/piping)
+    if [[ "$raw" == true ]]; then
+        _em_hml_read "$msg_id" raw
+        return
     fi
 
     # [1] Fetch envelope for header display
@@ -259,8 +278,19 @@ _em_read() {
         echo ""
     fi
 
-    # [2] Render body with email-specific formatting
-    _em_hml_read "$msg_id" | _em_render_email_body
+    # [2] Render body
+    if [[ "$fmt" == "html" ]]; then
+        local html_content
+        html_content=$(_em_hml_read "$msg_id" html 2>/dev/null)
+        if [[ -z "$html_content" ]]; then
+            _flow_log_warn "No HTML part — falling back to plain text"
+            _em_hml_read "$msg_id" | _em_render_email_body
+        else
+            _em_render "$html_content" "html"
+        fi
+    else
+        _em_hml_read "$msg_id" | _em_render_email_body
+    fi
 }
 
 _em_send() {
