@@ -618,17 +618,19 @@ _em_summarize() {
 _em_respond() {
     _em_require_himalaya || return 1
     local review_mode=false
-    local count=20
+    local count=10
     local folder="$FLOW_EMAIL_FOLDER"
+    local auto_review=true
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --review|-r)   review_mode=true; shift ;;
-            --count|-n)    shift; count="$1"; shift ;;
-            --folder|-f)   shift; folder="$1"; shift ;;
-            --clear)       _em_cache_clear; return ;;
-            --help|-h)     _em_respond_help; return ;;
-            *)             shift ;;
+            --review|-r)     review_mode=true; shift ;;
+            --count|-n)      shift; count="$1"; shift ;;
+            --folder|-f)     shift; folder="$1"; shift ;;
+            --no-review)     auto_review=false; shift ;;
+            --clear)         _em_cache_clear; return ;;
+            --help|-h)       _em_respond_help; return ;;
+            *)               shift ;;
         esac
     done
 
@@ -637,8 +639,9 @@ _em_respond() {
         return
     fi
 
-    # Batch draft generation
-    _flow_log_info "Analyzing ${count} emails for actionable messages..."
+    # Batch draft generation with progress
+    echo -e "${_C_BOLD}em respond${_C_NC} ${_C_DIM}— scanning ${count} emails in ${folder}${_C_NC}"
+    echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
 
     local messages
     messages=$(_em_hml_list "$folder" "$count")
@@ -647,90 +650,200 @@ _em_respond() {
         return 0
     fi
 
-    local total=0 drafted=0 skipped=0
+    # Collect message IDs into array (avoids subshell variable loss)
+    local -a msg_ids=()
+    local -a msg_subjects=()
+    local -a msg_froms=()
+    local msg_count
+    msg_count=$(echo "$messages" | jq 'length')
 
-    echo "$messages" | jq -c '.[]' | while IFS= read -r msg; do
-        local msg_id
-        msg_id=$(echo "$msg" | jq -r '.id')
-        (( total++ ))
+    local i
+    for (( i=0; i < msg_count; i++ )); do
+        msg_ids+=($(echo "$messages" | jq -r ".[$i].id"))
+        msg_subjects+=($(echo "$messages" | jq -r ".[$i].subject // \"(no subject)\"" | head -c 50))
+        msg_froms+=($(echo "$messages" | jq -r ".[$i].from.name // .[$i].from.addr // \"unknown\"" | head -c 20))
+    done
+
+    local total=${#msg_ids[@]} drafted=0 skipped=0 non_actionable=0
+    echo ""
+
+    local idx
+    for (( idx=1; idx <= total; idx++ )); do
+        local mid="${msg_ids[$idx]}"
+        local subj="${msg_subjects[$idx]}"
+        local from="${msg_froms[$idx]}"
+
+        # Progress indicator
+        printf "  ${_C_DIM}[%d/%d]${_C_NC} #%-6s %-20s " "$idx" "$total" "$mid" "$from"
 
         # Skip if draft already cached
-        if _em_cache_get "drafts" "$msg_id" &>/dev/null; then
+        if _em_cache_get "drafts" "$mid" &>/dev/null; then
+            echo -e "${_C_DIM}cached${_C_NC}"
             (( skipped++ ))
             continue
         fi
 
-        # Classify first
+        # Read email content
         local content
-        content=$(_em_hml_read "$msg_id" plain 2>/dev/null)
-        [[ -z "$content" ]] && continue
+        content=$(_em_hml_read "$mid" plain 2>/dev/null)
+        if [[ -z "$content" ]]; then
+            echo -e "${_C_DIM}empty${_C_NC}"
+            continue
+        fi
 
+        # Classify
         local category
-        category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$msg_id" 2>/dev/null)
+        category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$mid" 2>/dev/null)
+        local icon=$(_em_category_icon "$category")
 
         # Skip non-actionable categories
         case "$category" in
-            newsletter|automated|admin-info)
-                (( skipped++ ))
+            newsletter|automated|admin-info|spam)
+                echo -e "${_C_DIM}${icon} ${category}${_C_NC}"
+                (( non_actionable++ ))
                 continue
                 ;;
         esac
 
-        # Generate draft
+        # Generate draft for actionable email
         local draft
-        draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$msg_id" 2>/dev/null)
+        draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$mid" 2>/dev/null)
         if [[ -n "$draft" ]]; then
             (( drafted++ ))
-            local subject
-            subject=$(echo "$msg" | jq -r '.subject // "(no subject)"')
-            echo -e "  ${_C_GREEN}drafted${_C_NC} #${msg_id}: ${subject:0:50}"
+            echo -e "${_C_GREEN}${icon} drafted${_C_NC} ${_C_DIM}(${category})${_C_NC}"
+        else
+            echo -e "${_C_YELLOW}${icon} no draft${_C_NC} ${_C_DIM}(AI failed)${_C_NC}"
         fi
     done
 
+    # Summary
     echo ""
-    _flow_log_success "${drafted} drafts generated (${skipped} skipped)"
-    echo -e "  Review: ${_C_CYAN}em respond --review${_C_NC}"
+    echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
+    echo -e "  ${_C_GREEN}${drafted} drafted${_C_NC}  ${_C_DIM}${non_actionable} skipped (non-actionable)  ${skipped} cached${_C_NC}"
+
+    # Auto-enter review if we have drafts
+    if [[ "$auto_review" == "true" && "$drafted" -gt 0 ]]; then
+        echo ""
+        printf "  Review drafts now? [Y/n] "
+        local response
+        read -r response
+        if [[ ! "$response" =~ ^[Nn]$ ]]; then
+            _em_respond_review
+        fi
+    elif [[ "$drafted" -gt 0 ]]; then
+        echo -e "  Review: ${_C_CYAN}em respond --review${_C_NC}"
+    fi
 }
 
 _em_respond_review() {
-    # Review generated drafts via fzf
+    # Review and act on generated drafts
     local cache_base="$(_em_cache_dir)/drafts"
     if [[ ! -d "$cache_base" ]] || [[ -z "$(ls -A "$cache_base" 2>/dev/null)" ]]; then
         _flow_log_info "No drafts to review. Run ${_C_CYAN}em respond${_C_NC} first."
         return 0
     fi
 
-    if ! command -v fzf &>/dev/null; then
-        _flow_log_error "fzf required for draft review"
-        return 1
+    echo -e "\n${_C_BOLD}Draft Review${_C_NC}"
+    echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}\n"
+
+    # Iterate through drafts one by one
+    local draft_file sent=0 edited=0 discarded=0 remaining=0
+    local -a draft_files=("$cache_base"/*.txt(N))
+    local total_drafts=${#draft_files[@]}
+
+    if [[ $total_drafts -eq 0 ]]; then
+        _flow_log_info "No drafts to review."
+        return 0
     fi
 
-    _flow_log_info "Loading drafts for review..."
-
-    # List drafts with original email context
-    local draft_file
-    for draft_file in "$cache_base"/*.txt(N); do
+    local idx=0
+    for draft_file in "${draft_files[@]}"; do
+        (( idx++ ))
         local draft_content
-        draft_content=$(cat "$draft_file")
-        local fname="${draft_file:t:r}"
-        echo -e "${fname}\t${draft_content:0:80}"
-    done | fzf --delimiter='\t' \
-               --with-nth='2..' \
-               --preview='cat '"$cache_base"'/{1}.txt' \
-               --preview-window='right:60%:wrap' \
-               --header='Enter=send  Ctrl-E=edit  Ctrl-D=discard'
+        draft_content=$(< "$draft_file")
+        local cache_key="${draft_file:t:r}"
 
-    _flow_log_info "Draft review complete"
+        # Try to find the original message ID from cache key
+        # Cache key is md5 hash — look up classification for context
+        local class_content=""
+        local class_file="$(_em_cache_dir)/classifications/${cache_key}.txt"
+        [[ -f "$class_file" ]] && class_content=$(< "$class_file")
+
+        echo -e "  ${_C_BOLD}Draft ${idx}/${total_drafts}${_C_NC}${class_content:+  ${_C_DIM}($class_content)${_C_NC}}"
+        echo -e "  ${_C_DIM}$(printf '%.0s─' {1..56})${_C_NC}"
+        echo "$draft_content" | head -10
+        [[ $(echo "$draft_content" | wc -l) -gt 10 ]] && echo -e "  ${_C_DIM}... ($(echo "$draft_content" | wc -l | tr -d ' ') lines total)${_C_NC}"
+        echo -e "  ${_C_DIM}$(printf '%.0s─' {1..56})${_C_NC}"
+        echo ""
+
+        # Action prompt
+        printf "  [${_C_GREEN}s${_C_NC}]end  [${_C_CYAN}e${_C_NC}]dit  [${_C_RED}d${_C_NC}]iscard  [${_C_DIM}n${_C_NC}]ext  [${_C_DIM}q${_C_NC}]uit: "
+        local action
+        read -r -k1 action
+        echo ""
+
+        case "$action" in
+            s|S)
+                # Send: get original msg ID, construct reply, confirm
+                echo -e "  ${_C_YELLOW}Send not yet wired — use ${_C_CYAN}em reply <ID> --batch${_C_NC} with the draft${_C_NC}"
+                echo -e "  ${_C_DIM}Draft preserved in cache for manual send${_C_NC}"
+                (( remaining++ ))
+                ;;
+            e|E)
+                # Edit in $EDITOR then keep
+                local tmpfile
+                tmpfile=$(mktemp "${TMPDIR:-/tmp}/em-draft-XXXXXX.txt")
+                echo "$draft_content" > "$tmpfile"
+                ${EDITOR:-nvim} "$tmpfile"
+                # Save edited draft back to cache
+                local edited_content
+                edited_content=$(< "$tmpfile")
+                if [[ "$edited_content" != "$draft_content" ]]; then
+                    echo "$edited_content" > "$draft_file"
+                    echo -e "  ${_C_GREEN}Draft updated${_C_NC}"
+                    (( edited++ ))
+                else
+                    echo -e "  ${_C_DIM}No changes${_C_NC}"
+                fi
+                rm -f "$tmpfile"
+                (( remaining++ ))
+                ;;
+            d|D)
+                # Discard draft
+                rm -f "$draft_file"
+                echo -e "  ${_C_RED}Discarded${_C_NC}"
+                (( discarded++ ))
+                ;;
+            q|Q)
+                (( remaining += total_drafts - idx ))
+                break
+                ;;
+            *)
+                # Skip/next
+                (( remaining++ ))
+                ;;
+        esac
+        echo ""
+    done
+
+    # Summary
+    echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
+    echo -e "  ${_C_GREEN}${edited} edited${_C_NC}  ${_C_RED}${discarded} discarded${_C_NC}  ${_C_DIM}${remaining} remaining${_C_NC}"
 }
 
 _em_respond_help() {
     echo -e "
 ${_C_BOLD}em respond${_C_NC} — Batch AI draft generation
 
-${_C_CYAN}em respond${_C_NC}              Generate AI drafts for actionable emails
-${_C_CYAN}em respond --review${_C_NC}     Review and send generated drafts
-${_C_CYAN}em respond -n 50${_C_NC}        Process 50 emails (default: 20)
+${_C_CYAN}em respond${_C_NC}              Scan emails → classify → draft → review
+${_C_CYAN}em respond --review${_C_NC}     Review cached drafts (edit/discard)
+${_C_CYAN}em respond -n 15${_C_NC}        Process 15 emails (default: 10)
+${_C_CYAN}em respond --no-review${_C_NC}  Generate drafts without auto-review
 ${_C_CYAN}em respond --clear${_C_NC}      Clear all cached drafts
+
+${_C_DIM}Workflow: scan → classify → skip non-actionable → AI draft → review${_C_NC}
+${_C_DIM}Categories: student-question, admin-important, scheduling, etc.${_C_NC}
+${_C_DIM}Non-actionable (auto-skipped): newsletter, automated, admin-info${_C_NC}
 "
 }
 
