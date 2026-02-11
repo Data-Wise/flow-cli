@@ -194,6 +194,7 @@ _deploy_step() {
         done)    printf "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
         active)  printf "  ${FLOW_COLORS[info]}⏳${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
         fail)    printf "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
+        skip)    printf "  ${FLOW_COLORS[warn]}—${FLOW_COLORS[reset]} [%d/%d] %s ${FLOW_COLORS[dim]}(skipped)${FLOW_COLORS[reset]}\n" "$step" "$total" "$label" ;;
     esac
 }
 
@@ -251,7 +252,7 @@ _deploy_direct_merge() {
     local ci_mode="${4:-false}"
     local start_time=$SECONDS
 
-    local total_steps=5
+    local total_steps=6
 
     # Safety: always return to draft branch on error or signal
     trap "git checkout '$draft_branch' 2>/dev/null" EXIT INT TERM
@@ -334,6 +335,15 @@ _deploy_direct_merge() {
         _teach_error "Warning: Failed to switch back to $draft_branch"
     }
     _deploy_step 5 $total_steps "Switch back to $draft_branch" done
+
+    # Back-merge: keep draft in sync with production (prevents #372 recurrence)
+    git fetch origin "$prod_branch" --quiet 2>/dev/null
+    if git merge "origin/$prod_branch" --ff-only 2>/dev/null; then
+        _deploy_step 6 $total_steps "Sync $draft_branch with $prod_branch" done
+    else
+        _deploy_step 6 $total_steps "Sync $draft_branch with $prod_branch" skip
+        echo "       ${FLOW_COLORS[dim]}Draft has new commits — run 'teach deploy --sync' later${FLOW_COLORS[reset]}"
+    fi
 
     local elapsed=$(( SECONDS - start_time ))
 
