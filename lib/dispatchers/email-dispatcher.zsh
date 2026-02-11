@@ -1000,6 +1000,10 @@ _em_dash() {
 
     echo ""
     echo -e "${_C_DIM}Full inbox:${_C_NC} ${_C_CYAN}em i${_C_NC}  ${_C_DIM}Browse:${_C_NC} ${_C_CYAN}em p${_C_NC}  ${_C_DIM}Help:${_C_NC} ${_C_CYAN}em h${_C_NC}"
+
+    # Background maintenance: prune expired + warm AI cache
+    _em_cache_prune &>/dev/null &
+    _em_cache_warm 10 &>/dev/null &
 }
 
 _em_folders() {
