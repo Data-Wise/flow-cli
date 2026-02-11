@@ -26,8 +26,8 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v6.7.0: Math Preflight + Quality Gates"
-    Pre-commit validation catches broken `$$` math blocks before they reach your course site. Deploy preflight, lint-staged integration, and a new [Quality Gates](guides/QUALITY-GATES.md) doc mapping every validation layer from keystroke to production.
+!!! success "🎉 What's New in v6.7.1: Fix #372 + Branch Sync"
+    False-positive production conflict detection fixed — `--no-ff` merge commits no longer block deploys. Auto back-merge keeps branches in sync, and `teach deploy --sync` provides manual synchronization.
     [→ See what's new](CHANGELOG.md){ .md-button }
     [→ All releases](RELEASES.md){ .md-button }
 
