@@ -392,8 +392,8 @@ test_repo=$(setup_e2e_repo)
 cd "$test_repo"
 output=$(_deploy_direct_merge "draft" "main" "deploy: step test" "true" 2>&1)
 ret=$?
-if [[ $ret -eq 0 ]] && echo "$output" | grep -qE '\[1/5\]' && echo "$output" | grep -qE '\[5/5\]'; then
-    _test_pass "direct merge shows step progress [1/5]..[5/5]"
+if [[ $ret -eq 0 ]] && echo "$output" | grep -qE '\[1/6\]' && echo "$output" | grep -qE '\[6/6\]'; then
+    _test_pass "direct merge shows step progress [1/6]..[6/6]"
 else
     _test_fail "direct merge shows step progress" "ret=$ret, missing step markers"
 fi
