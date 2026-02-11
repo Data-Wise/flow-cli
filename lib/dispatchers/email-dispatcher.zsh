@@ -589,6 +589,8 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
     cat > "$preview_script" <<PREVIEW_EOF
 #!/bin/sh
 id="\$1"
+
+# ── Header (from cached envelope JSON) ──
 env=\$(jq -r ".[] | select(.id == (\$id | tonumber))" "$cache_file" 2>/dev/null)
 if [ -n "\$env" ]; then
   subj=\$(echo "\$env" | jq -r '.subject // "(no subject)"')
@@ -599,7 +601,26 @@ if [ -n "\$env" ]; then
   printf '\033[2m  ─────────────────────────────────────────────────\033[0m\n'
   echo ''
 fi
-himalaya message read "\$id" 2>/dev/null | head -60
+
+# ── Body: try plain text, fall back to HTML rendered via w3m/pandoc ──
+body=\$(himalaya message read "\$id" 2>/dev/null)
+if [ -n "\$body" ]; then
+  echo "\$body" | head -60
+else
+  # Plain text empty → try HTML part
+  html=\$(himalaya message read --html "\$id" 2>/dev/null)
+  if [ -n "\$html" ]; then
+    if command -v w3m >/dev/null 2>&1; then
+      echo "\$html" | w3m -dump -T text/html 2>/dev/null | head -60
+    elif command -v pandoc >/dev/null 2>&1; then
+      echo "\$html" | pandoc -f html -t plain --wrap=auto 2>/dev/null | head -60
+    else
+      echo "\$html" | sed 's/<[^>]*>//g' | head -60
+    fi
+  else
+    echo "  (no content)"
+  fi
+fi
 PREVIEW_EOF
     chmod +x "$preview_script"
 
