@@ -6,6 +6,30 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [6.7.1] - 2026-02-10
+
+### Fixed
+
+- **False positive production conflicts (#372)** — `_git_detect_production_conflicts()` now uses `--is-ancestor` fast path and `git log --no-merges` to ignore `--no-ff` merge commits from previous deploys; accumulated merge commits (60+ in STAT-545) no longer permanently block `teach deploy`
+- **Three-dot diff syntax** — deploy preflight math check now uses `...` (symmetric difference) instead of `..` for correct "what's new on draft" semantics
+
+### Added
+
+- **Auto back-merge** — after `teach deploy --direct`, draft branch is automatically synced with production via fast-forward merge (step 6/6); prevents #372 recurrence
+- **`teach deploy --sync`** — manual branch sync command: merges production into draft (ff-only first, falls back to regular merge)
+- **`_deploy_commit_failure_guidance()` helper** — DRY extraction of 3-option commit failure message (replaces 3 duplicate blocks)
+- **ZSH `always` block cleanup** — deploy body wrapped in `{ } always { _deploy_cleanup_globals }` for guaranteed global cleanup on all exit paths
+- **7 dedicated conflict detection tests** — unit tests for `_git_detect_production_conflicts` covering merge commits, ancestry, back-merge, and accumulation scenarios
+- **16 new E2E + dogfood test assertions** for back-merge sync, `--sync` flag, skip status, and three-dot diff verification
+
+### Changed
+
+- Direct merge deploy: 5 steps → 6 steps (new sync step)
+- `_deploy_step()` now supports `skip` status for reporting skipped steps
+- Test suite: 43/43 passing (144 test files, up from 143)
+
+---
+
 ## [6.7.0] - 2026-02-10
 
 ### Added
