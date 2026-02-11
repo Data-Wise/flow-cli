@@ -153,25 +153,55 @@ _em_hml_read() {
 }
 
 _em_hml_send() {
-    # Send a message (from file or stdin)
-    # Args: file_path (or reads stdin)
-    local msg_file="$1"
-    if [[ -n "$msg_file" ]]; then
-        himalaya message send < "$msg_file"
+    # Compose new message interactively (opens $EDITOR)
+    # Args: body_lines... (optional, pre-fills body via [BODY] positional arg)
+    # If body args provided, $EDITOR opens with body pre-populated
+    # If no args, $EDITOR opens with blank body
+    if [[ $# -gt 0 ]]; then
+        himalaya message write "$@"
     else
-        himalaya message send
+        himalaya message write
     fi
 }
 
 _em_hml_reply() {
-    # Create reply draft
+    # Reply to message interactively (opens $EDITOR)
+    # Args: message_id, body (optional AI draft), reply_all (bool)
+    # If body provided, $EDITOR opens with draft pre-populated via [BODY] arg
+    # If no body, $EDITOR opens with blank reply
+    local msg_id="$1" body="$2" reply_all="${3:-false}"
+    local -a flags=()
+    [[ "$reply_all" == "true" ]] && flags+=(--all)
+
+    if [[ -n "$body" ]]; then
+        himalaya message reply "${flags[@]}" "$msg_id" "$body"
+    else
+        himalaya message reply "${flags[@]}" "$msg_id"
+    fi
+}
+
+_em_hml_template_reply() {
+    # Get reply template as MML (no $EDITOR, for scripting/batch)
     # Args: message_id, reply_all (bool)
+    # Returns: MML template on stdout (headers + empty body)
     local msg_id="$1" reply_all="${2:-false}"
     if [[ "$reply_all" == "true" ]]; then
-        himalaya message reply --all "$msg_id"
+        himalaya template reply --all "$msg_id" 2>/dev/null
     else
-        himalaya message reply "$msg_id"
+        himalaya template reply "$msg_id" 2>/dev/null
     fi
+}
+
+_em_hml_template_write() {
+    # Get compose template as MML (no $EDITOR, for scripting)
+    # Returns: MML template on stdout
+    himalaya template write 2>/dev/null
+}
+
+_em_hml_template_send() {
+    # Send MML template from stdin (no $EDITOR)
+    # Used for batch/non-interactive send after AI draft + user confirm
+    himalaya template send 2>/dev/null
 }
 
 _em_hml_search() {
@@ -813,7 +843,9 @@ _em_respond_review()
     |               [a]pprove  [e]dit  [s]kip  [r]egenerate  [q]uit
     |               |
     |               +--[approve]--> Mark for send queue
-    |               +--[edit]-----> Open in $EDITOR, then mark for send
+    |               +--[edit]-----> himalaya message reply <ID> "$draft"
+    |               |               (opens $EDITOR with AI draft pre-filled via [BODY] arg)
+    |               |               himalaya sends on save+quit
     |               +--[skip]-----> Next draft
     |               +--[regen]----> _em_ai_query("draft", ...) again
     |               +--[quit]-----> Exit review
@@ -821,8 +853,10 @@ _em_respond_review()
     +---> Show send queue summary:
     |       "Ready to send 5 of 8 drafts. Confirm? [y/N]"
     |
-    +--[confirmed]--> For each approved:
-    |                   _em_hml_reply(msg_id)  -- send via himalaya
+    +--[confirmed]--> For each approved (non-interactive path):
+    |                   _em_hml_template_reply(msg_id) -- get MML template
+    |                   inject AI draft body into MML
+    |                   echo "$mml" | _em_hml_template_send  -- send via stdin
     |                   _em_cache_invalidate(msg_id)
     |
     +---> _flow_log_success "5 replies sent"
