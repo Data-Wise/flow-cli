@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/dispatchers/email-dispatcher.zsh
-# Version:      0.3 (Phase 3 — fzf picker + smart rendering)
+# Version:      0.5 (Phase 4+5 — AI pipeline + config + doctor)
 # Date:         2026-02-10
 # Pattern:      command + keyword + options
 #
@@ -48,6 +48,10 @@ fi
 : ${FLOW_EMAIL_AI:=claude}           # AI backend: claude | gemini | none
 : ${FLOW_EMAIL_PAGE_SIZE:=25}        # Default inbox page size
 : ${FLOW_EMAIL_FOLDER:=INBOX}        # Default folder
+: ${FLOW_EMAIL_AI_TIMEOUT:=30}       # AI draft timeout in seconds
+
+# Load config file overrides (project .flow/email.conf > global)
+_em_load_config 2>/dev/null
 
 # ═══════════════════════════════════════════════════════════════════
 # MAIN EM() DISPATCHER
@@ -152,7 +156,9 @@ ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
 ${_C_MAGENTA}SAFETY${_C_NC}: Every send requires explicit ${_C_YELLOW}[y/N]${_C_NC} confirmation (default: No)
 
 ${_C_MAGENTA}AI BACKEND${_C_NC}: \$FLOW_EMAIL_AI=${_C_CYAN}${FLOW_EMAIL_AI}${_C_NC} ${_C_DIM}(claude | gemini | none)${_C_NC}
+${_C_MAGENTA}AI TIMEOUT${_C_NC}: \$FLOW_EMAIL_AI_TIMEOUT=${_C_CYAN}${FLOW_EMAIL_AI_TIMEOUT}s${_C_NC}
 
+${_C_DIM}Config: \$FLOW_CONFIG_DIR/email.conf or .flow/email.conf (project)${_C_NC}
 ${_C_DIM}Backend: himalaya CLI | Editor: \${EDITOR:-nvim}${_C_NC}
 ${_C_DIM}See also: em doctor (check deps), flow doctor (full health)${_C_NC}
 "
@@ -449,9 +455,9 @@ _em_dash() {
 
     echo ""
 
-    # Latest 5 subjects
+    # Latest 10 subjects
     echo -e "${_C_DIM}Recent:${_C_NC}"
-    himalaya envelope list --page-size 5 --output json 2>/dev/null | _em_render_inbox_json
+    himalaya envelope list --page-size 10 --output json 2>/dev/null | _em_render_inbox_json
 
     echo ""
     echo -e "${_C_DIM}Full inbox:${_C_NC} ${_C_CYAN}em i${_C_NC}  ${_C_DIM}Browse:${_C_NC} ${_C_CYAN}em p${_C_NC}  ${_C_DIM}Help:${_C_NC} ${_C_CYAN}em h${_C_NC}"
@@ -515,10 +521,14 @@ _em_doctor() {
     _em_doctor_check "jq"         "required" "JSON processing"     "brew install jq"
 
     # Recommended
-    _em_doctor_check "fzf"        "recommended" "Interactive picker"  "brew install fzf"
-    _em_doctor_check "bat"        "recommended" "Syntax highlighting" "brew install bat"
-    _em_doctor_check "w3m"        "recommended" "HTML rendering"      "brew install w3m"
-    _em_doctor_check "glow"       "recommended" "Markdown rendering"  "brew install glow"
+    _em_doctor_check "fzf"               "recommended" "Interactive picker"  "brew install fzf"
+    _em_doctor_check "bat"               "recommended" "Syntax highlighting" "brew install bat"
+    _em_doctor_check "w3m"               "recommended" "HTML rendering"      "brew install w3m"
+    _em_doctor_check "glow"              "recommended" "Markdown rendering"  "brew install glow"
+
+    # Infrastructure
+    _em_doctor_check "email-oauth2-proxy" "recommended" "OAuth2 IMAP/SMTP proxy" "pip install email-oauth2-proxy"
+    _em_doctor_check "terminal-notifier"  "optional"    "Desktop notifications"   "brew install terminal-notifier"
 
     # Optional (AI)
     if [[ "$FLOW_EMAIL_AI" == "claude" ]]; then
@@ -529,6 +539,19 @@ _em_doctor() {
 
     echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
     echo -e "${_C_GREEN}$ok passed${_C_NC}  ${_C_YELLOW}$warn warnings${_C_NC}  ${_C_RED}$fail failed${_C_NC}"
+
+    # Config info
+    echo ""
+    echo -e "${_C_DIM}Config:${_C_NC}"
+    echo -e "  AI backend:  ${_C_CYAN}${FLOW_EMAIL_AI}${_C_NC}"
+    echo -e "  AI timeout:  ${_C_CYAN}${FLOW_EMAIL_AI_TIMEOUT}s${_C_NC}"
+    echo -e "  Page size:   ${_C_CYAN}${FLOW_EMAIL_PAGE_SIZE}${_C_NC}"
+    echo -e "  Folder:      ${_C_CYAN}${FLOW_EMAIL_FOLDER}${_C_NC}"
+    if [[ -f "${FLOW_CONFIG_DIR}/email.conf" ]]; then
+        echo -e "  Config file: ${_C_GREEN}${FLOW_CONFIG_DIR}/email.conf${_C_NC}"
+    else
+        echo -e "  Config file: ${_C_DIM}(none — using env defaults)${_C_NC}"
+    fi
 }
 
 _em_doctor_check() {

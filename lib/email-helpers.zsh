@@ -4,13 +4,48 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/email-helpers.zsh
-# Version:      0.3 (Phase 3 — fzf picker + smart rendering)
+# Version:      0.5 (Phase 4+5 — AI pipeline + config + doctor)
 # Date:         2026-02-10
 #
 # Used by:      lib/dispatchers/email-dispatcher.zsh
 # Backend:      himalaya CLI
 #
 # ══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════
+# CONFIGURATION LOADER
+# ═══════════════════════════════════════════════════════════════════
+#
+# Loads .flow/email.conf (shell key=value format) from project root.
+# Falls back to env vars which are already set by email-dispatcher.zsh.
+#
+# Example .flow/email.conf:
+#   FLOW_EMAIL_AI=claude         # claude | gemini | none
+#   FLOW_EMAIL_PAGE_SIZE=25      # Inbox page size
+#   FLOW_EMAIL_FOLDER=INBOX      # Default folder
+#   FLOW_EMAIL_AI_TIMEOUT=30     # AI draft timeout in seconds
+
+_em_load_config() {
+    local config_file="${FLOW_CONFIG_DIR}/email.conf"
+    local project_config=""
+
+    # Project-level config takes priority
+    if typeset -f _flow_find_project_root &>/dev/null; then
+        local proj_root
+        proj_root=$(_flow_find_project_root 2>/dev/null)
+        if [[ -n "$proj_root" && -f "${proj_root}/.flow/email.conf" ]]; then
+            project_config="${proj_root}/.flow/email.conf"
+        fi
+    fi
+
+    # Source global config first, then project override
+    if [[ -f "$config_file" ]]; then
+        source "$config_file"
+    fi
+    if [[ -n "$project_config" ]]; then
+        source "$project_config"
+    fi
+}
 
 # ═══════════════════════════════════════════════════════════════════
 # SMART RENDERING PIPELINE
@@ -196,6 +231,7 @@ _em_confirm_send() {
 _em_ai_draft() {
     local original_email="$1"
     local ai_backend="${FLOW_EMAIL_AI:-claude}"
+    local ai_timeout="${FLOW_EMAIL_AI_TIMEOUT:-30}"
 
     case "$ai_backend" in
         claude)
@@ -203,16 +239,28 @@ _em_ai_draft() {
                 _flow_log_warning "claude CLI not found, skipping AI draft"
                 return 1
             fi
-            echo "$original_email" | claude -p \
+            echo "$original_email" | timeout "$ai_timeout" claude -p \
                 "Draft a professional reply to this email. Be concise. Only output the reply body, no headers."
+            local rc=$?
+            if [[ $rc -eq 124 ]]; then
+                _flow_log_warning "AI draft timed out after ${ai_timeout}s"
+                return 1
+            fi
+            return $rc
             ;;
         gemini)
             if ! command -v gemini &>/dev/null; then
                 _flow_log_warning "gemini CLI not found, skipping AI draft"
                 return 1
             fi
-            echo "$original_email" | gemini \
+            echo "$original_email" | timeout "$ai_timeout" gemini \
                 "Draft a professional reply to this email. Be concise. Only output the reply body, no headers."
+            local rc=$?
+            if [[ $rc -eq 124 ]]; then
+                _flow_log_warning "AI draft timed out after ${ai_timeout}s"
+                return 1
+            fi
+            return $rc
             ;;
         none|off)
             return 1  # No AI — user writes from scratch
