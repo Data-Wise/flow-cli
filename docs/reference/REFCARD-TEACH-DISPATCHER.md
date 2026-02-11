@@ -81,7 +81,7 @@ Project lifecycle and workflow commands.
 | Command | Aliases | Synopsis | Description | Docs |
 |---------|---------|----------|-------------|------|
 | `teach init` | `i` | `teach init [name] [--config <file>] [--github]` | Initialize teaching project | [teach init](../commands/teach-init.md) |
-| `teach deploy` | `d` | `teach deploy [files] [-d] [--dry-run] [--rollback N] [--history N]` | Deploy course site (direct merge, PR, rollback) | [Deploy Guide](../guides/TEACH-DEPLOY-GUIDE.md) |
+| `teach deploy` | `d` | `teach deploy [files] [-d] [--dry-run] [--rollback N] [--history N] [--sync]` | Deploy course site (direct merge, PR, rollback, sync) | [Deploy Guide](../guides/TEACH-DEPLOY-GUIDE.md) |
 | `teach config` | `c` | `teach config [--view\|--cat]` | Edit or view configuration | [TEACH-CONFIG-SCHEMA.md](TEACH-CONFIG-SCHEMA.md) |
 | `teach status` | `s` | `teach status [--full\|--performance]` | Project dashboard | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
 | `teach week` | `w` | `teach week` | Current week info | [Tutorial 20](../tutorials/20-teaching-dates-automation.md) |
@@ -449,6 +449,6 @@ teach status --performance        # Review metrics
 
 ---
 
-**Version:** v6.7.0
+**Version:** v6.7.1
 **Last Updated:** 2026-02-10
 **Commands:** 30 total (9 Scholar wrappers + 5 course mgmt + 6 content mgmt + 9 infrastructure + 1 discovery)
