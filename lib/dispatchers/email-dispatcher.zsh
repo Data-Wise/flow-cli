@@ -583,23 +583,25 @@ _em_pick() {
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
 * = unread  + = attachment"
 
-    # [2] Build preview command (reads cached JSON for headers, body live)
-    local preview_cmd
-    preview_cmd="id={1}; "
-    preview_cmd+="env=\$(jq -r \".[] | select(.id == (\\\$id | tonumber))\" \"$cache_file\" 2>/dev/null); "
-    preview_cmd+="if [ -n \"\$env\" ]; then "
-    preview_cmd+="  subj=\$(echo \"\$env\" | jq -r '.subject // \"(no subject)\"'); "
-    preview_cmd+="  from=\$(echo \"\$env\" | jq -r '.from.name // .from.addr // \"unknown\"'); "
-    preview_cmd+="  dt=\$(echo \"\$env\" | jq -r '.date // \"\"' | cut -dT -f1); "
-    preview_cmd+="  flags=\$(echo \"\$env\" | jq -r '.flags // [] | join(\", \")'); "
-    preview_cmd+="  badge=''; "
-    preview_cmd+="  echo \"\$flags\" | grep -qv Seen && badge=\"[NEW] \"; "
-    preview_cmd+="  printf '\\033[1m  %s %s\\033[0m\\n' \"\$subj\" \"\$badge\"; "
-    preview_cmd+="  printf '\\033[2m  From: %s  •  %s\\033[0m\\n' \"\$from\" \"\$dt\"; "
-    preview_cmd+="  printf '\\033[2m  ─────────────────────────────────────────────────\\033[0m\\n'; "
-    preview_cmd+="  echo ''; "
-    preview_cmd+="fi; "
-    preview_cmd+="himalaya message read \"\$id\" 2>/dev/null | head -60"
+    # [2] Write preview script (avoids shell escaping nightmare)
+    local preview_script
+    preview_script=$(mktemp "${TMPDIR:-/tmp}/em-preview-XXXXXX.sh")
+    cat > "$preview_script" <<PREVIEW_EOF
+#!/bin/sh
+id="\$1"
+env=\$(jq -r ".[] | select(.id == (\$id | tonumber))" "$cache_file" 2>/dev/null)
+if [ -n "\$env" ]; then
+  subj=\$(echo "\$env" | jq -r '.subject // "(no subject)"')
+  from=\$(echo "\$env" | jq -r '.from.name // .from.addr // "unknown"')
+  dt=\$(echo "\$env" | jq -r '.date // ""' | cut -dT -f1)
+  printf '\033[1m  %s\033[0m\n' "\$subj"
+  printf '\033[2m  From: %s  •  %s\033[0m\n' "\$from" "\$dt"
+  printf '\033[2m  ─────────────────────────────────────────────────\033[0m\n'
+  echo ''
+fi
+himalaya message read "\$id" 2>/dev/null | head -60
+PREVIEW_EOF
+    chmod +x "$preview_script"
 
     # [3] Render list from cached JSON + launch fzf
     local selected
@@ -613,7 +615,7 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
           ] | @tsv' "$cache_file" \
         | fzf --delimiter='\t' \
               --with-nth='2..' \
-              --preview="$preview_cmd" \
+              --preview="$preview_script {1}" \
               --preview-window='right:60%:wrap' \
               --header="$header_line" \
               --header-lines=0 \
@@ -624,8 +626,8 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
               --no-multi \
               --ansi)
 
-    # [4] Cleanup temp file
-    rm -f "$cache_file"
+    # [4] Cleanup temp files
+    rm -f "$cache_file" "$preview_script"
 
     # Handle selection
     if [[ -z "$selected" ]]; then
