@@ -201,7 +201,8 @@ run_test "AI op timeouts config exists" '
 run_test "Classify prompt returns content" '
     local prompt=$(_em_ai_classify_prompt)
     [[ "$prompt" == *"Classify"* ]] || return 1
-    [[ "$prompt" == *"student-question"* ]] || return 1
+    [[ "$prompt" == *"student"* ]] || return 1
+    [[ "$prompt" == *"vendor"* ]] || return 1
 '
 
 run_test "Summarize prompt returns content" '
@@ -215,7 +216,7 @@ run_test "Schedule prompt returns content" '
 '
 
 run_test "Category icons return non-empty" '
-    for cat in student-question admin-important scheduling newsletter personal automated urgent; do
+    for cat in student colleague admin-action admin-info scheduling newsletter vendor automated urgent; do
         local icon=$(_em_category_icon "$cat")
         [[ -n "$icon" ]] || { echo "No icon for $cat"; return 1; }
     done

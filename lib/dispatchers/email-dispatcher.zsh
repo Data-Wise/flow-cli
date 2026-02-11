@@ -840,7 +840,7 @@ _em_respond() {
     fi
 
     # Collect into arrays (avoids subshell variable loss)
-    local -a msg_ids=() msg_subjects=() msg_froms=()
+    local -a msg_ids=() msg_subjects=() msg_froms=() msg_tos=()
     local msg_count
     msg_count=$(echo "$messages" | jq 'length')
 
@@ -849,14 +849,16 @@ _em_respond() {
         msg_ids+=($(echo "$messages" | jq -r ".[$i].id"))
         msg_subjects+=("$(echo "$messages" | jq -r ".[$i].subject // \"(no subject)\"" | head -c 50)")
         msg_froms+=("$(echo "$messages" | jq -r ".[$i].from.name // .[$i].from.addr // \"unknown\"" | head -c 25)")
+        msg_tos+=("$(echo "$messages" | jq -r '[.[$i].to[]?.addr // empty] | join(",")' 2>/dev/null)")
     done
 
     local -a actionable_ids=() actionable_cats=()
     local total=${#msg_ids[@]}
 
     # Declare all loop variables once to avoid ZSH local re-declaration leak
-    local idx mid from subj content category icon cached_draft
+    local idx mid from subj content category icon cached_draft to_addrs
     local found=0 non_actionable=0 actionable_count=0 proceed
+    local -a listserv_flags=()
 
     if [[ "$review_mode" == "true" ]]; then
         # Review mode: skip classification, find emails with cached drafts
@@ -893,8 +895,16 @@ _em_respond() {
             mid="${msg_ids[$idx]}"
             from="${msg_froms[$idx]}"
             subj="${msg_subjects[$idx]}"
+            to_addrs="${msg_tos[$idx]}"
 
             printf "  ${_C_DIM}[%d/%d]${_C_NC} %-25s " "$idx" "$total" "$from"
+
+            # Skip listserv / campus-wide emails (never auto-respond)
+            if [[ "$to_addrs" == *"@LIST."* || "$to_addrs" == *"@list."* || "$to_addrs" == *"-L@"* ]]; then
+                echo -e "${_C_DIM}${_C_YELLOW}L${_C_NC} ${_C_DIM}listserv — skip${_C_NC}"
+                (( non_actionable++ ))
+                continue
+            fi
 
             content=$(_em_hml_read "$mid" plain 2>/dev/null)
             if [[ -z "$content" ]]; then
@@ -906,7 +916,7 @@ _em_respond() {
             icon=$(_em_category_icon "$category")
 
             case "$category" in
-                newsletter|automated|admin-info|spam)
+                newsletter|automated|admin-info|vendor|spam)
                     echo -e "${_C_DIM}${icon} ${category} — skip${_C_NC}"
                     (( non_actionable++ ))
                     ;;
@@ -914,6 +924,12 @@ _em_respond() {
                     echo -e "${_C_GREEN}${icon} ${category}${_C_NC} ${_C_DIM}${subj:0:30}${_C_NC}"
                     actionable_ids+=("$mid")
                     actionable_cats+=("$category")
+                    # Track if To: was a listserv (for warning in Phase 2)
+                    if [[ "$to_addrs" == *"LIST"* || "$to_addrs" == *"list"* ]]; then
+                        listserv_flags+=("true")
+                    else
+                        listserv_flags+=("false")
+                    fi
                     ;;
             esac
         done
@@ -957,6 +973,12 @@ _em_respond() {
         echo -e "${_C_BOLD}Reply ${idx}/${actionable_count}${_C_NC}  ${icon} ${cat}  ${_C_DIM}#${mid}${_C_NC}"
         echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
 
+        # Warn about listserv replies
+        if [[ "${listserv_flags[$idx]}" == "true" ]]; then
+            echo -e "  ${_C_YELLOW}⚠ WARNING: This email was sent to a mailing list${_C_NC}"
+            echo -e "  ${_C_YELLOW}  Replying may go to ALL list members. Review carefully.${_C_NC}"
+        fi
+
         # Show original email snippet
         content=$(_em_hml_read "$mid" plain 2>/dev/null)
         echo -e "${_C_DIM}$(echo "$content" | head -5)${_C_NC}"
@@ -982,9 +1004,13 @@ _em_respond() {
         _em_hml_reply "$mid" "$draft"
         rc=$?
 
-        if [[ $rc -eq 0 ]]; then
-            (( sent++ ))
-        fi
+        case $rc in
+            0) (( sent++ )) ;;
+            2) _flow_log_info "Draft discarded"
+               (( skipped_drafts++ )) ;;
+            *) _flow_log_warning "Reply failed (rc=$rc)"
+               (( skipped_drafts++ )) ;;
+        esac
 
         # Continue prompt (unless last one)
         if [[ $idx -lt $actionable_count ]]; then
@@ -1016,7 +1042,8 @@ ${_C_CYAN}em respond --clear${_C_NC}      Clear AI cache
 
 ${_C_DIM}Flow: scan → classify → [actionable?] → AI draft → \$EDITOR → confirm send${_C_NC}
 ${_C_DIM}Review: scan → find cached drafts → \$EDITOR → confirm send${_C_NC}
-${_C_DIM}Non-actionable (auto-skipped): newsletter, automated, admin-info${_C_NC}
+${_C_DIM}Non-actionable (auto-skipped): newsletter, automated, admin-info, vendor${_C_NC}
+${_C_DIM}Listserv emails (*@LIST.*) are always skipped; warnings shown if actionable${_C_NC}
 ${_C_DIM}Safety: every send requires explicit [y/N] confirmation${_C_NC}
 "
 }
