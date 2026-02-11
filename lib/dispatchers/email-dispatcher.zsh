@@ -1094,6 +1094,7 @@ _em_doctor() {
 
     # Required
     _em_doctor_check "himalaya"   "required" "Email CLI backend"   "cargo install himalaya"
+    _em_doctor_version_check "himalaya" "1.0.0"
     _em_doctor_check "jq"         "required" "JSON processing"     "brew install jq"
 
     # Recommended
@@ -1154,4 +1155,42 @@ _em_doctor_check() {
         printf "  ${_C_YELLOW}%-3s${_C_NC} %-20s ${_C_DIM}%s${_C_NC}\n" "---" "$cmd ($desc)" "$install"
         (( warn++ ))
     fi
+}
+
+_em_doctor_version_check() {
+    # Compare installed version against minimum required
+    # Args: command, min_version (e.g., "1.0.0")
+    # Prints warning if outdated, skips silently if command missing
+    local cmd="$1" min_ver="$2"
+    command -v "$cmd" &>/dev/null || return 0
+
+    local raw_ver
+    raw_ver=$("$cmd" --version 2>/dev/null | head -1)
+    # Extract semver digits (e.g., "himalaya 1.1.0" -> "1.1.0")
+    local cur_ver="${raw_ver//[^0-9.]}"
+    [[ -z "$cur_ver" ]] && return 0
+
+    if _em_semver_lt "$cur_ver" "$min_ver"; then
+        printf "  ${_C_YELLOW}%-3s${_C_NC} %-20s ${_C_DIM}%s${_C_NC}\n" \
+            "!!!" "$cmd version" "v${cur_ver} < v${min_ver} (upgrade: brew upgrade $cmd)"
+        (( warn++ ))
+    fi
+}
+
+_em_semver_lt() {
+    # Returns 0 if $1 < $2 (semver comparison), 1 otherwise
+    local a="$1" b="$2"
+    local a_major a_minor a_patch b_major b_minor b_patch
+    a_major="${a%%.*}"; a="${a#*.}"; a_minor="${a%%.*}"; a_patch="${a#*.}"
+    b_major="${b%%.*}"; b="${b#*.}"; b_minor="${b%%.*}"; b_patch="${b#*.}"
+    # Default missing components to 0
+    : "${a_major:=0}" "${a_minor:=0}" "${a_patch:=0}"
+    : "${b_major:=0}" "${b_minor:=0}" "${b_patch:=0}"
+
+    (( a_major < b_major )) && return 0
+    (( a_major > b_major )) && return 1
+    (( a_minor < b_minor )) && return 0
+    (( a_minor > b_minor )) && return 1
+    (( a_patch < b_patch )) && return 0
+    return 1
 }
