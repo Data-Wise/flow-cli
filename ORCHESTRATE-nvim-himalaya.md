@@ -25,10 +25,10 @@ Add Neovim/LazyVim email integration via himalaya-vim + a custom Lua AI wrapper.
 
 | Phase | Task | Priority | Status |
 |-------|------|----------|--------|
-| 1 | Install + configure himalaya-vim in LazyVim | High | |
-| 2 | Write Lua AI wrapper (~50 lines) | High | |
-| 3 | Test with real email account | High | |
-| 4 | Document keybinds + setup in flow-cli docs | Medium | |
+| 1 | Install + configure himalaya-vim in LazyVim | High | Done |
+| 2 | Write Lua AI wrapper (~50 lines) | High | Done |
+| 3 | Test with real email account | High | Manual |
+| 4 | Document keybinds + setup in flow-cli docs | Medium | Done |
 
 ---
 
@@ -36,11 +36,11 @@ Add Neovim/LazyVim email integration via himalaya-vim + a custom Lua AI wrapper.
 
 ### Tasks
 
-- [ ] Add himalaya-vim to lazy.nvim plugin spec
-- [ ] Configure `g:himalaya_executable` path
-- [ ] Configure `g:himalaya_folder_picker` (telescope or fzf)
+- [x] Add himalaya-vim to lazy.nvim plugin spec
+- [x] Configure `g:himalaya_executable` path
+- [x] Configure `g:himalaya_folder_picker` (telescope or fzf)
 - [ ] Verify envelope listing, read, reply, forward work
-- [ ] Test mountaineer.nvim for Telescope fuzzy search
+- [x] ~~Test mountaineer.nvim~~ (archived Jan 2024, not usable)
 
 ### Key Config
 
@@ -73,12 +73,12 @@ Add Neovim/LazyVim email integration via himalaya-vim + a custom Lua AI wrapper.
 
 ### Tasks
 
-- [ ] Create `lua/himalaya-ai.lua` (~50 lines)
-- [ ] Implement `summarize()` — pipe buffer to `claude -p`
-- [ ] Implement `extract_todos()` — extract action items
-- [ ] Implement `draft_reply()` — generate reply draft
-- [ ] Display AI response in floating window
-- [ ] Add keybinds: `<leader>ms`, `<leader>mt`, `<leader>mr`
+- [x] Create `lua/himalaya-ai.lua` (~88 lines)
+- [x] Implement `summarize()` — pipe buffer to `claude -p`
+- [x] Implement `extract_todos()` — extract action items
+- [x] Implement `draft_reply()` — generate reply draft
+- [x] Display AI response in floating window
+- [x] Add keybinds: `<leader>ms`, `<leader>mt`, `<leader>mr`, `<leader>mc`
 
 ### Design
 

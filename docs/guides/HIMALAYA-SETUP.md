@@ -1,337 +1,215 @@
-# Himalaya Email Setup
+# Himalaya Email in Neovim
 
-**Required for:** `em` email dispatcher
-**Time:** 15-20 minutes
-**Last Updated:** 2026-02-10
+Neovim integration for himalaya email client with AI-powered email assistance.
 
----
+## Quick Reference
 
-## Overview
+| Action | Keybind | Description |
+|--------|---------|-------------|
+| **Email Actions** | | |
+| Write new email | `gw` | Compose new message |
+| Reply | `gr` | Reply to sender |
+| Reply all | `gR` | Reply to all recipients |
+| Forward | `gf` | Forward message |
+| Add attachment | `ga` | Attach file to message |
+| Copy message | `gC` | Copy to another folder |
+| Move message | `gM` | Move to another folder |
+| **AI Actions** | | |
+| Summarize email | `<leader>ms` | AI summary in float |
+| Extract todos | `<leader>mt` | Parse action items |
+| Draft reply | `<leader>mr` | AI-generated reply |
+| Classify email | `<leader>mc` | Categorize message |
 
-The `em` dispatcher uses [himalaya](https://github.com/pimalaya/himalaya) as its email backend. Himalaya is a CLI email client that talks IMAP/SMTP, supports OAuth2 (via proxy), and outputs JSON for scripting.
+## Prerequisites
 
-### Architecture
+1. **himalaya CLI** (v1.1.0+)
+   ```bash
+   # macOS
+   brew install himalaya
 
-```
-em (flow-cli dispatcher)
-  |
-  v
-himalaya (CLI email client)
-  |
-  v
-email-oauth2-proxy (localhost)     <-- Only needed for OAuth2 providers
-  IMAP: 127.0.0.1:1993 --> outlook.office365.com:993 (OAuth2/TLS)
-  SMTP: 127.0.0.1:1587 --> smtp.office365.com:587  (OAuth2/STARTTLS)
-```
+   # Or via Cargo
+   cargo install himalaya
+   ```
 
-**For app-password providers** (Gmail with app passwords, Fastmail, etc.), you connect himalaya directly — no proxy needed.
+2. **Configure email account**
+   ```bash
+   himalaya account configure
+   ```
 
----
+3. **Claude CLI** (for AI features)
+   ```bash
+   # Verify installation
+   claude --version
+   ```
 
-## Step 1: Install Himalaya
+4. **Neovim with LazyVim**
 
-=== "Homebrew (macOS)"
+## Quick Start
 
-    ```bash
-    brew install himalaya
-    ```
+### 1. Install himalaya-vim Plugin
 
-    Tracks stable releases. Easy upgrades via `brew upgrade himalaya`.
+Create `~/.config/nvim/lua/plugins/himalaya.lua`:
 
-=== "Cargo (stable)"
-
-    ```bash
-    cargo install himalaya
-    ```
-
-    Same stable release as Homebrew. Cross-platform.
-
-=== "Cargo (latest dev)"
-
-    ```bash
-    cargo install --git https://github.com/pimalaya/himalaya.git
-    ```
-
-    Bleeding-edge from git. May have newer features but less tested.
-
-**Minimum version:** v1.0.0 (required for JSON output and template subsystem). Run `em doctor` to check.
-
-Verify:
-
-```bash
-himalaya --version
-```
-
----
-
-## Step 2: Install Supporting Tools
-
-| Tool | Purpose | Install |
-|------|---------|---------|
-| **jq** | JSON parsing (required) | `brew install jq` |
-| **fzf** | Interactive picker (`em pick`) | `brew install fzf` |
-| **bat** | Syntax highlighting | `brew install bat` |
-| **w3m** | HTML email rendering | `brew install w3m` |
-
----
-
-## Step 3: Configure Himalaya
-
-Create `~/.config/himalaya/config.toml`:
-
-### Option A: App Password (Simple)
-
-For providers supporting app passwords (Gmail, Fastmail, etc.):
-
-```toml
-display-name = "Your Name"
-downloads-dir = "~/Downloads"
-
-[accounts.main]
-default = true
-email = "you@example.com"
-display-name = "Your Name"
-
-# Folder aliases
-folder.aliases.inbox = "INBOX"
-folder.aliases.sent = "Sent"
-folder.aliases.drafts = "Drafts"
-folder.aliases.trash = "Trash"
-
-# Display
-envelope.list.page-size = 25
-envelope.list.datetime-fmt = "%F %R"
-envelope.list.datetime-local-tz = true
-
-# Message settings
-message.read.headers = ["From", "To", "Cc", "Subject", "Date"]
-message.write.headers = ["From", "To", "Cc", "Subject"]
-message.send.save-copy = true
-message.delete.style = "folder"
-
-# IMAP
-backend.type = "imap"
-backend.host = "imap.example.com"
-backend.port = 993
-backend.encryption.type = "tls"
-backend.login = "you@example.com"
-backend.auth.type = "password"
-backend.auth.cmd = "security find-generic-password -a you@example.com -s himalaya -w"
-
-# SMTP
-message.send.backend.type = "smtp"
-message.send.backend.host = "smtp.example.com"
-message.send.backend.port = 465
-message.send.backend.encryption.type = "tls"
-message.send.backend.login = "you@example.com"
-message.send.backend.auth.type = "password"
-message.send.backend.auth.cmd = "security find-generic-password -a you@example.com -s himalaya -w"
+```lua
+return {
+  {
+    "pimalaya/himalaya-vim",
+    cmd = { "Himalaya" },
+    dependencies = {
+      { "nvim-telescope/telescope.nvim", optional = true },
+    },
+    init = function()
+      vim.g.himalaya_executable = "/Users/dt/.cargo/bin/himalaya"
+      vim.g.himalaya_folder_picker = "telescope"
+      vim.g.himalaya_always_confirm = 1
+    end,
+    keys = {
+      { "<leader>eM", "<cmd>Himalaya<cr>", desc = "Open Himalaya (Email)" },
+    },
+  },
+}
 ```
 
-Store your app password in macOS Keychain:
+### 2. Add AI Wrapper Module
 
-```bash
-security add-generic-password -a you@example.com -s himalaya -w "your-app-password"
+Create `~/.config/nvim/lua/himalaya-ai.lua` (~80 lines). The module:
+
+- Pipes buffer content to `claude -p` asynchronously via `vim.fn.jobstart()`
+- Displays results in a centered floating window (rounded border, auto-sized)
+- Float is closeable with `q` or `<Esc>`
+
+See the full module at `~/.config/nvim/lua/himalaya-ai.lua`.
+
+### 3. Add Keybinds
+
+Add to `~/.config/nvim/lua/config/keymaps.lua`:
+
+```lua
+-- Himalaya AI email actions
+vim.keymap.set("n", "<leader>ms", function() require("himalaya-ai").summarize() end, { desc = "AI: Summarize email" })
+vim.keymap.set("n", "<leader>mt", function() require("himalaya-ai").extract_todos() end, { desc = "AI: Extract action items" })
+vim.keymap.set("n", "<leader>mr", function() require("himalaya-ai").draft_reply() end, { desc = "AI: Draft reply" })
+vim.keymap.set("n", "<leader>mc", function() require("himalaya-ai").classify() end, { desc = "AI: Classify email" })
 ```
 
-### Option B: OAuth2 via Proxy (Microsoft 365, Google Workspace)
+Restart Neovim.
 
-For providers requiring OAuth2, use [email-oauth2-proxy](https://github.com/simonrob/email-oauth2-proxy):
+## Usage
 
-**1. Install the proxy:**
+### Reading Email
 
-```bash
-pip install emailproxy
+```vim
+:Himalaya
 ```
 
-**2. Configure the proxy** at `~/.config/email-oauth2-proxy/emailproxy.config`:
+Opens email list in telescope picker. Select message to read.
 
-```ini
-[Server setup]
-local_address = 127.0.0.1
+### Composing Email
 
-[you@example.com]
-permission_url = https://login.microsoftonline.com/common/oauth2/v2.0/authorize
-token_url = https://login.microsoftonline.com/common/oauth2/v2.0/token
-oauth2_scope = https://outlook.office365.com/IMAP.AccessAsUser.All https://outlook.office365.com/SMTP.Send offline_access
-redirect_uri = http://localhost:11434/redirect
-client_id = 08162f7c-0fd2-4200-a84a-f25a4db0b584
-client_secret =
+- **New:** Press `gw` in email list
+- **Reply:** Press `gr` when viewing message
+- **Reply all:** Press `gR`
+- **Forward:** Press `gf`
 
-server_address = outlook.office365.com
-server_port = 993
-local_address = 127.0.0.1:1993
+### AI-Powered Actions
 
-[you@example.com - SMTP]
-permission_url = https://login.microsoftonline.com/common/oauth2/v2.0/authorize
-token_url = https://login.microsoftonline.com/common/oauth2/v2.0/token
-oauth2_scope = https://outlook.office365.com/SMTP.Send offline_access
-redirect_uri = http://localhost:11434/redirect
-client_id = 08162f7c-0fd2-4200-a84a-f25a4db0b584
-client_secret =
+Open an email, then:
 
-server_address = smtp.office365.com
-server_port = 587
-local_address = 127.0.0.1:1587
+- `<leader>ms` - Get AI summary
+- `<leader>mt` - Extract todos
+- `<leader>mr` - Generate reply draft
+- `<leader>mc` - Classify email priority
+
+Results appear in floating window.
+
+## Configuration Options
+
+### Plugin Variables
+
+```vim
+" Executable path (if not in PATH)
+let g:himalaya_executable = '/usr/local/bin/himalaya'
+
+" Folder picker (telescope, fzf, or native)
+let g:himalaya_folder_picker = 'telescope'
+
+" Default account
+let g:himalaya_account = 'personal'
 ```
 
-**3. Configure himalaya** to connect through the proxy (no TLS — proxy handles it):
+### Customize AI Prompts
 
-```toml
-# IMAP via proxy
-backend.type = "imap"
-backend.host = "127.0.0.1"
-backend.port = 1993
-backend.encryption.type = "none"
-backend.login = "you@example.com"
-backend.auth.type = "password"
-backend.auth.cmd = "echo you@example.com"
-
-# SMTP via proxy
-message.send.backend.type = "smtp"
-message.send.backend.host = "127.0.0.1"
-message.send.backend.port = 1587
-message.send.backend.encryption.type = "none"
-message.send.backend.login = "you@example.com"
-message.send.backend.auth.type = "password"
-message.send.backend.auth.cmd = "echo you@example.com"
-```
-
-**4. Set up the proxy as a LaunchAgent** (starts on login):
-
-```bash
-cat > ~/Library/LaunchAgents/com.emailproxy.plist << 'EOF'
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>com.emailproxy</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/usr/bin/python3</string>
-        <string>-m</string>
-        <string>emailproxy</string>
-        <string>--config-file</string>
-        <string>/Users/YOU/.config/email-oauth2-proxy/emailproxy.config</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>KeepAlive</key>
-    <true/>
-    <key>StandardOutPath</key>
-    <string>/Users/YOU/.local/share/email-oauth2-proxy/proxy.log</string>
-    <key>StandardErrorPath</key>
-    <string>/Users/YOU/.local/share/email-oauth2-proxy/proxy.log</string>
-</dict>
-</plist>
-EOF
-
-# Load it
-launchctl load ~/Library/LaunchAgents/com.emailproxy.plist
-```
-
-**5. Initial OAuth2 authentication:**
-
-```bash
-# Trigger first auth
-himalaya envelope list
-
-# Watch proxy log for device code
-tail -f ~/.local/share/email-oauth2-proxy/proxy.log
-# You'll see: "Visit https://microsoft.com/devicelogin and use code XXXXXXXX"
-# Open that URL and enter the code
-```
-
----
-
-## Step 4: Verify
-
-```bash
-# Check himalaya can connect
-himalaya account doctor
-
-# List inbox
-himalaya envelope list
-
-# Check em dispatcher
-em doctor
-```
-
-You should see your inbox. If everything works, `em` commands are ready.
-
----
+Edit `~/.config/nvim/lua/himalaya-ai.lua` and modify prompt strings in each function.
 
 ## Troubleshooting
 
-### OAuth2 Token Expired
+### Plugin not loading
 
-If you see auth errors after a long period:
-
-```bash
-# Check proxy log
-tail -20 ~/.local/share/email-oauth2-proxy/proxy.log
-
-# Trigger re-auth
-himalaya envelope list
-# Follow the device code instructions in the log
+Check plugin installed:
+```vim
+:Lazy
 ```
 
-### Restart the Proxy
+Verify `himalaya-vim` is listed and loaded.
+
+### "himalaya not found"
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/com.emailproxy.plist
-launchctl load ~/Library/LaunchAgents/com.emailproxy.plist
+# Verify installation
+which himalaya
+
+# Set explicit path in Neovim
+let g:himalaya_executable = '/path/to/himalaya'
 ```
 
-### Check Proxy Status
+### AI commands fail
 
 ```bash
-ps aux | grep emailproxy | grep -v grep
-tail -20 ~/.local/share/email-oauth2-proxy/proxy.log
+# Test claude CLI
+echo "test email" | claude -p "summarize this"
+
+# Check PATH in Neovim
+:echo $PATH
 ```
 
-### Common Issues
+### Telescope picker not working
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| Connection refused | Proxy not running | `launchctl load` the plist |
-| Auth error | Token expired | Follow device code flow |
-| Timeout on send | SMTP port blocked | Check proxy SMTP config |
-| Empty inbox | Wrong folder name | Check `folder.aliases` in config |
-| `em` says "himalaya not found" | Not in PATH | `brew install himalaya` or check PATH |
-
----
-
-## Optional: Display Enhancements
-
-### HTML Email Rendering
-
-Install a terminal HTML renderer for rich email display:
-
-```bash
-brew install w3m    # Best table rendering
-# or
-brew install lynx   # Fastest, good charset support
+Install telescope:
+```lua
+-- In lazy.nvim plugins
+{ "nvim-telescope/telescope.nvim" }
 ```
 
-The `em read` command automatically detects and uses these for HTML emails.
+### Performance issues
 
-### Neovim Integration
+Disable AI wrapper if Claude is slow:
+```lua
+-- Comment out in init.lua
+-- require('himalaya-ai').setup()
+```
 
-Himalaya has a Vim/Neovim plugin for in-editor email:
+## Fallback: Terminal Mode
+
+If himalaya-vim stalls (plugin maintenance risk as of Feb 2026), use flow-cli's `em` dispatcher in a terminal split:
 
 ```vim
--- lazy.nvim
-{ "pimalaya/himalaya-vim" }
+:split | terminal em list
 ```
 
-Key bindings: `gm` (folder select), `g/` (search), `gw` (write), `gr` (reply).
+Navigate with `em` commands directly.
+
+## Known Issues
+
+- **Maintenance status:** himalaya-vim seeking new maintainers (Feb 2026)
+- **AI latency:** Claude API calls may take 2-5s depending on email length
+- **Attachment preview:** Limited support for binary attachments
+
+## Related
+
+- `em` dispatcher: Terminal-based email workflow
+- flow-cli email docs: `docs/reference/DISPATCHERS.md`
+- himalaya docs: https://pimalaya.org/himalaya/
 
 ---
 
-## Next Steps
-
-- [Email Dispatcher Guide](EMAIL-DISPATCHER-GUIDE.md) - Full `em` command reference
-- [Email Tutorial](EMAIL-TUTORIAL.md) - 60-minute hands-on walkthrough
-- [Email Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) - Quick reference card
+**Last Updated:** 2026-02-11
