@@ -39,13 +39,15 @@ mindmap
 | Command | Aliases | Synopsis | Description |
 |---------|---------|----------|-------------|
 | **em** | — | `em` | Quick pulse (unread + 10 latest) |
+| **em \<N\>** | — | `em 42` | Shorthand: read email by number |
+| **em -n N** | — | `em -n 5` | Shorthand: list N emails (= `em inbox N`) |
 | **em inbox** | `i` | `em inbox [N] [FOLDER]` | List N recent emails (default: 25) |
-| **em read** | `r` | `em read <ID>` | Read email with smart rendering |
+| **em read** | `r` | `em read [--html\|--raw] <ID>` | Read email with smart rendering |
 | **em send** | `s` | `em send [--ai] [to] [subject]` | Compose new email |
 | **em reply** | `re` | `em reply <ID> [--no-ai] [--all] [--batch]` | Reply with optional AI draft |
 | **em find** | `f` | `em find <query>` | Search emails (subject, from, body) |
 | **em pick** | `p` | `em pick [FOLDER]` | fzf browser with preview & actions |
-| **em respond** | `resp` | `em respond [--review] [-n COUNT] [--folder F] [--clear]` | Batch AI draft generation |
+| **em respond** | `resp` | `em respond [--review] [--dry-run] [-n N] [--folder F] [--clear]` | Batch AI draft generation |
 | **em classify** | `cl` | `em classify <ID>` | Classify email (AI) |
 | **em summarize** | `sum` | `em summarize <ID>` | One-line summary (AI) |
 | **em unread** | `u` | `em unread [FOLDER]` | Show unread count |
@@ -173,6 +175,73 @@ em cache clear         # Clear all cached drafts if needed
 
 ---
 
+## Shorthands
+
+Quick access patterns built into the dispatcher:
+
+```bash
+em 42              # Same as: em read 42
+em -n 5            # Same as: em inbox 5
+em                 # Same as: em dash (quick pulse)
+```
+
+---
+
+## Read Flags
+
+```bash
+em read <ID>            # Smart rendering (auto-detect content type)
+em read --html <ID>     # Force HTML rendering (w3m/lynx/pandoc)
+em read --raw <ID>      # Dump raw MIME source (.eml export)
+em html <ID>            # Alias for: em read --html <ID>
+```
+
+---
+
+## Respond Flags
+
+```bash
+em respond              # Full flow: classify → draft → $EDITOR → send
+em respond --review     # Review cached drafts (skip classification)
+em respond --dry-run    # Classify only (no drafts, no $EDITOR)
+em respond -n 50        # Process 50 emails (default: 10)
+em respond --folder F   # Process folder F (default: INBOX)
+em respond --clear      # Clear AI cache
+```
+
+---
+
+## Email Noise Cleanup
+
+Emails are auto-cleaned before display (6 patterns stripped):
+
+| Pattern | Example | Action |
+|---------|---------|--------|
+| CID image refs | `[cid:image001.png@...]` | Removed |
+| Microsoft Safe Links | `https://nam02.safelinks.protection...` | Removed |
+| MIME markers | `<#part type=...>` | Removed |
+| Angle-bracket URLs | `<https://example.com>` | Removed |
+| Mailto inline | `(mailto:user@example.com)` | Removed |
+| Quoted lines | `> original text` | Dimmed |
+
+---
+
+## Auto-Prune & Warm
+
+`em dash` and `em inbox` trigger background housekeeping:
+
+- **Auto-prune**: removes expired cache entries (non-blocking)
+- **Auto-warm**: pre-classifies + summarizes latest 10 emails (background)
+
+Manual triggers:
+
+```bash
+em cache prune          # Remove expired entries only
+em cache warm 20        # Pre-warm latest 20 emails
+```
+
+---
+
 ## fzf Key Bindings (em pick)
 
 Interactive fzf email browser with preview:
@@ -237,15 +306,17 @@ TTL-based AI result caching (project-local):
 ### Cache Commands
 
 ```bash
-em cache stats                  # Show cache size, TTLs, expired count
-em cache prune                  # Remove expired entries only
-em cache clear                  # Clear entire cache
-em cache warm                   # Pre-warm cache (background)
+em cache stats                  # Show cache size, per-op counts, expired count
+em cache prune                  # Remove expired entries only (report count)
+em cache clear                  # Clear entire cache (report freed space)
+em cache warm [N]               # Pre-warm latest N emails (default: 10, background)
 ```
 
-### Size Cap
+### Size Cap (LRU Eviction)
 
-Max cache size defaults to `FLOW_EMAIL_CACHE_MAX_MB=50`. When exceeded, oldest files are evicted (LRU). Set to `0` to disable.
+Max cache size: `FLOW_EMAIL_CACHE_MAX_MB=50` (default). When exceeded, oldest files are evicted first (LRU). Set to `0` to disable size cap.
+
+Eviction runs automatically after every cache write (non-blocking background process).
 
 ---
 
@@ -257,10 +328,13 @@ Max cache size defaults to `FLOW_EMAIL_CACHE_MAX_MB=50`. When exceeded, oldest f
 # ─────────────────────────────────────────────────────────────
 # Quick pulse check
 em                              # Unread count + 10 latest
+em 42                           # Shorthand: read email #42
+em -n 5                         # Shorthand: list 5 emails
 
 # ─────────────────────────────────────────────────────────────
 # Reading & replying
 em r 42                         # Read email #42
+em r --raw 42                   # Dump raw MIME (.eml)
 em re 42                        # Reply with AI draft
 em re 42 --no-ai                # Reply without AI
 em re 42 --all                  # Reply-all
@@ -284,7 +358,8 @@ em f "quarterly report"         # Search emails
 em classify 42                  # Classify email (AI)
 em sum 42                       # One-line summary (AI)
 em respond                      # Batch draft generation
-em respond --review             # Review + send drafts
+em respond --review             # Review/send cached drafts
+em respond --dry-run            # Classify only (no drafts)
 em respond -n 50                # Process 50 emails
 
 # ─────────────────────────────────────────────────────────────
@@ -387,8 +462,9 @@ em p                            # Browse with fzf
 ### Batch Draft Generation
 
 ```bash
-em respond                      # Generate AI drafts for actionable emails
-em respond --review             # Review and send generated drafts
+em respond                      # Classify → draft → $EDITOR → send (full flow)
+em respond --review             # Review cached drafts (skip classification)
+em respond --dry-run            # Classify only (see what's actionable)
 em respond --clear              # Clear all cached drafts
 ```
 

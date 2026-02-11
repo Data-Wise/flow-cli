@@ -265,11 +265,19 @@ em pick Sent
 
 Read emails with smart content rendering.
 
-### Command 1: Read an Email
+### Command 1: Read an Email (Shorthand)
 
-**From the inbox list, pick an email ID (e.g., 42):**
+The fastest way to read an email — just type the number:
 
 **Try it now!**
+
+```bash
+em 42
+```
+
+This is shorthand for `em read 42`. Both work identically.
+
+**Long form:**
 
 ```bash
 em read 42
@@ -321,7 +329,17 @@ em html 42
 - Email looks garbled in plain text
 - You know it's HTML (newsletters, formatted emails)
 
-### Command 3: Download Attachments
+### Command 3: Raw MIME Export
+
+**Try it now!**
+
+```bash
+em read --raw 42
+```
+
+This exports the full `.eml` MIME source — useful for debugging email formatting or archiving.
+
+### Command 4: Download Attachments
 
 **Try it now!**
 
@@ -346,11 +364,14 @@ em attach 42 ~/Desktop/project-files
 
 ### 💡 What You Learned
 
+- `em 42` shorthand reads email #42 (same as `em read 42`)
 - `em read <ID>` reads an email with smart rendering
+- `em read --raw <ID>` exports full MIME source
 - Plain text → bat, Markdown → glow, HTML → w3m
 - `em html <ID>` forces HTML rendering
 - `em attach <ID>` downloads attachments to ~/Downloads
 - Content type is auto-detected
+- Email noise (CID refs, safelinks, MIME markers) auto-stripped
 
 ---
 
@@ -1058,6 +1079,22 @@ ls $FLOW_DATA_DIR/email-cache/
 - Next call re-queries AI
 - Result cached again
 
+### Prune Expired Entries
+
+**Try it now!**
+
+```bash
+em cache prune
+```
+
+✅ **Expected output:**
+
+```
+✓ Pruned 4 expired cache entries
+```
+
+Prune only removes entries past their TTL. Fresh items stay untouched. This is gentler than `em cache clear`.
+
 ### Clear Cache
 
 **Try it now!**
@@ -1077,6 +1114,17 @@ em cache clear
 - Disk space concerns
 - Testing fresh AI responses
 
+### Cache Size Cap
+
+The cache enforces a maximum size to prevent unbounded growth:
+
+```bash
+export FLOW_EMAIL_CACHE_MAX_MB=50   # Default: 50 MB
+export FLOW_EMAIL_CACHE_MAX_MB=0    # Disable size cap
+```
+
+When exceeded, the oldest files are evicted first (LRU). This runs automatically in the background after every cache write.
+
 ### Pre-warm Cache (Background)
 
 **Manually warm cache:**
@@ -1090,19 +1138,23 @@ em cache warm 20
 - Background-classifies + summarizes
 - Runs asynchronously (doesn't block)
 
-**Auto-warm triggers:**
-- `em dash` (background warms latest 10)
-- `em inbox` (background warms latest 10)
+**Auto-warm & auto-prune triggers:**
+- `em dash` → auto-prunes expired entries + warms latest 10
+- `em inbox` → auto-prunes expired entries + warms latest 10
+
+These run in the background and don't slow down the command.
 
 ### 💡 What You Learned
 
-- `em cache stats` shows cached AI results
+- `em cache stats` shows cached AI results (with expired count)
+- `em cache prune` removes only expired entries
+- `em cache clear` deletes all cached results
 - Cache stored in `.flow/email-cache/` (project) or `$FLOW_DATA_DIR/` (global)
 - TTLs: summaries 24h, classifications 24h, drafts 1h
 - Cache hit → <1s, cache miss → ~15s (AI query)
-- `em cache clear` deletes all cached results
+- Size cap: 50MB default (`FLOW_EMAIL_CACHE_MAX_MB`), LRU eviction
 - `em cache warm N` pre-warms latest N emails
-- Auto-warming on `em dash` and `em inbox`
+- Auto-prune + auto-warm on `em dash` and `em inbox`
 - Cache keys use md5 hash of message ID
 
 ---
@@ -1376,8 +1428,9 @@ export FLOW_EMAIL_PAGE_SIZE=50
 
 | Command                | Purpose                          |
 | ---------------------- | -------------------------------- |
-| `em respond`           | Batch AI drafts                  |
-| `em respond --review`  | Review generated drafts          |
+| `em respond`           | Batch AI drafts (full flow)      |
+| `em respond --review`  | Review/send cached drafts        |
+| `em respond --dry-run` | Classify only (no drafts)        |
 | `em classify <ID>`     | Categorize email                 |
 | `em summarize <ID>`    | One-line summary                 |
 
@@ -1397,7 +1450,9 @@ export FLOW_EMAIL_PAGE_SIZE=50
 | `em html <ID>`         | Force HTML rendering             |
 | `em attach <ID>`       | Download attachments             |
 | `em cache stats`       | Show cache statistics            |
-| `em cache clear`       | Clear cache                      |
+| `em cache prune`       | Remove expired entries only      |
+| `em cache clear`       | Clear entire cache               |
+| `em cache warm [N]`    | Pre-warm latest N emails         |
 | `em doctor`            | Check dependencies               |
 
 **Shortcuts:**
@@ -1442,6 +1497,24 @@ A: `em` is a wrapper with AI features, smart rendering, caching, and flow-cli in
 
 **Q: Can I customize AI prompts?**
 A: Yes, but it requires editing `lib/em-ai.zsh`. Future versions will support templates.
+
+**Q: Can I read email by typing just the number?**
+A: Yes! `em 42` is shorthand for `em read 42`. Similarly, `em -n 5` = `em inbox 5`.
+
+**Q: How big can the cache get?**
+A: By default, 50 MB max (`FLOW_EMAIL_CACHE_MAX_MB`). Oldest files are evicted (LRU) when exceeded. Set to `0` to disable the cap.
+
+**Q: Can I auto-prune old cache entries?**
+A: Yes — `em dash` and `em inbox` auto-prune expired entries in the background. Manual: `em cache prune`.
+
+**Q: How do I read raw MIME source?**
+A: `em read --raw <ID>` exports the full `.eml` file. Useful for debugging or archiving.
+
+**Q: What email noise gets cleaned automatically?**
+A: Six patterns: CID image refs, Microsoft Safe Links, MIME markers, angle-bracket URLs, mailto inline links, and quoted lines (dimmed). This runs on all read operations.
+
+**Q: How does `em respond --review` differ from `em respond`?**
+A: `em respond` classifies and generates new AI drafts. `em respond --review` skips classification and only shows emails with cached drafts — perfect for resuming where you left off.
 
 **Q: How do I report bugs?**
 A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues

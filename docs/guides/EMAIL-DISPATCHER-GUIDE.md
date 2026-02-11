@@ -311,6 +311,16 @@ $ em respond --review
 
 ## Reading Email
 
+### Shorthands
+
+The dispatcher accepts convenient shorthand patterns:
+
+```bash
+em 42               # Shorthand for: em read 42
+em -n 5             # Shorthand for: em inbox 5
+em                  # Shorthand for: em dash (quick pulse)
+```
+
 ### Quick Dashboard
 
 ```bash
@@ -325,6 +335,7 @@ Shows unread count + latest 10 emails. Perfect for a quick pulse check between t
 em inbox            # Default page size (25)
 em inbox 50         # Show 50 emails
 em i                # Shortcut
+em -n 10            # Shorthand for inbox 10
 ```
 
 Output shows structured table with indicators:
@@ -387,6 +398,28 @@ em html <ID>
 ```
 
 Explicitly renders HTML emails in the terminal. Useful for HTML-heavy newsletters.
+
+### Raw MIME Export
+
+```bash
+em read --raw <ID>
+```
+
+Exports the full `.eml` MIME source. Useful for debugging email formatting, forwarding to other tools, or archiving.
+
+### Email Noise Cleanup
+
+When displaying emails, `em` automatically strips common noise patterns from Microsoft/Outlook and other clients:
+
+- **CID image references** (`[cid:image001.png@...]`) — removed
+- **Microsoft Safe Links** (`https://nam02.safelinks.protection...`) — removed
+- **MIME markers** (`<#part type=...>`) — removed
+- **Angle-bracket URLs** (`<https://...>`) — removed
+- **Mailto inline** (`(mailto:user@example.com)`) — removed
+- **Quoted lines** (`> original text`) — dimmed for visual separation
+- **Signature blocks** (`-- ` separator onwards) — dimmed
+
+This cleanup runs on all read operations, including the fzf preview in `em pick`.
 
 ### Unread Count
 
@@ -644,21 +677,22 @@ done
 ### Batch Draft Generation
 
 ```bash
-em respond                  # Process latest 20 emails
-em respond -n 50            # Process latest 50 emails
-em respond --review         # Review generated drafts
+em respond                  # Full flow: classify → draft → $EDITOR → send
+em respond -n 50            # Process latest 50 emails (default: 10)
+em respond --review         # Review/send cached drafts (skip classification)
+em respond --dry-run        # Classify only (see what's actionable, no drafts)
+em respond --folder Sent    # Process specific folder
 em respond --clear          # Clear draft cache
 ```
 
 **How it works:**
 
 1. Fetches latest N emails from inbox
-2. Skips emails already drafted (cached)
-3. Classifies each email (AI)
-4. Skips non-actionable categories (newsletters, automated, admin-info)
-5. Generates draft reply for actionable emails (AI)
-6. Caches drafts for later review
-7. Shows summary
+2. Classifies each email (AI)
+3. Skips non-actionable categories (newsletters, automated, admin-info)
+4. For each actionable email: generates AI draft, opens in `$EDITOR`, confirms send
+5. You can quit partway through (`q`) — remaining drafts stay cached
+6. Come back later with `em respond --review` to continue
 
 **Example:**
 
@@ -674,17 +708,35 @@ Analyzing 20 emails for actionable messages...
   Review: em respond --review
 ```
 
-**Review Drafts:**
+**Review Cached Drafts:**
 
 ```bash
 $ em respond --review
 
-# Opens fzf picker with cached drafts
+em respond --review — reviewing cached drafts in INBOX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✓ #142  Alice Johnson  Re: STAT-101 Exam Grading Question
+  ✓ #140  Carol Davis    Urgent: Grant Proposal Deadline
+  ✓ #136  Bob Smith      Office Hours Request
+
+  3 cached drafts found in 20 emails
+  Review 3 cached drafts? [Y/n] y
+
 # For each draft:
-#   - Preview in right panel
-#   - Enter = send draft
-#   - Ctrl-E = edit in $EDITOR
-#   - Ctrl-D = discard draft
+#   - Shows original email snippet
+#   - Loads cached draft into $EDITOR
+#   - Confirm send [y/N]
+#   - Continue to next? [Y/n/q]
+```
+
+**Dry Run (Classify Only):**
+
+```bash
+$ em respond --dry-run
+
+# Shows classification results without generating drafts
+# Useful to preview what's actionable before committing time
 ```
 
 **Clear Draft Cache:**
@@ -922,9 +974,10 @@ $FLOW_DATA_DIR/email-cache/
 ### Cache Commands
 
 ```bash
-em cache stats         # Show cache statistics
-em cache clear         # Clear all cached AI results
-em cache warm          # Pre-warm cache (background)
+em cache stats         # Show cache size, per-op counts, expired count
+em cache prune         # Remove expired entries only (report count)
+em cache clear         # Clear all cached AI results (report freed space)
+em cache warm [N]      # Pre-warm latest N emails (default: 10, background)
 ```
 
 **Stats Output:**
@@ -933,11 +986,21 @@ em cache warm          # Pre-warm cache (background)
 $ em cache stats
 
 Email Cache
-  summaries          42 items  128K
-  classifications    38 items   12K
+  summaries          42 items  128K  (3 expired)
+  classifications    38 items   12K  (1 expired)
   drafts             5 items    24K
   schedules          8 items    16K
+  Location: .flow/email-cache
 ```
+
+**Prune Expired Entries:**
+
+```bash
+$ em cache prune
+✅ Pruned 4 expired cache entries
+```
+
+Prune only removes entries past their TTL — fresh items are untouched.
 
 **Clear Cache:**
 
@@ -961,11 +1024,32 @@ $ em cache warm 20
 
 > **Tip:** Run `em cache warm` at the start of your work session to pre-populate summaries for faster browsing.
 
+### Auto-Prune & Auto-Warm
+
+`em dash` and `em inbox` automatically trigger background housekeeping on startup:
+
+- **Auto-prune**: removes expired cache entries (non-blocking)
+- **Auto-warm**: pre-classifies + summarizes latest 10 emails (background)
+
+This means your cache stays clean and pre-warmed without manual intervention.
+
+### Cache Size Cap
+
+The cache enforces a maximum size to prevent unbounded growth:
+
+```bash
+FLOW_EMAIL_CACHE_MAX_MB=50      # Default: 50 MB
+FLOW_EMAIL_CACHE_MAX_MB=0       # Disable size cap
+```
+
+When the cache exceeds this limit, the oldest files are evicted first (LRU — Least Recently Used). Eviction runs automatically after every cache write as a non-blocking background process.
+
 ### Cache Invalidation
 
 Cache is automatically invalidated when:
 - You reply to an email (draft cache cleared for that message)
-- TTL expires
+- TTL expires (pruned on next access or `em cache prune`)
+- Cache exceeds size cap (LRU eviction)
 - You explicitly run `em cache clear`
 
 ## Configuration Reference
@@ -978,6 +1062,7 @@ Cache is automatically invalidated when:
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | AI timeout in seconds |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | Default inbox page size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | Default folder |
+| `FLOW_EMAIL_CACHE_MAX_MB` | `50` | Max cache size in MB (0 = no limit) |
 | `EDITOR` | `nvim` | Editor for composing emails |
 
 ### Config Files
@@ -1249,7 +1334,18 @@ Every send operation requires explicit confirmation:
 - **Must type 'y' or 'Y'** - Any other input cancels
 - **Always shown** - Even in batch mode
 
-### 2. Preview Before Send
+### 2. Draft Preservation
+
+Rejected sends automatically preserve the draft for later:
+
+```bash
+# Drafts saved to:
+$FLOW_DATA_DIR/email-drafts/    # Global draft storage
+```
+
+AI-generated drafts are also cached in `.flow/email-cache/drafts/` with a 1-hour TTL. Use `em respond --review` to come back to cached drafts.
+
+### 3. Preview Before Send
 
 In batch mode, draft is previewed before confirmation:
 
@@ -1266,7 +1362,7 @@ Subject: Re: STAT-101 Exam Grading Question
   Send this reply? [y/N]
 ```
 
-### 3. Editor Interception
+### 4. Editor Interception
 
 In interactive mode, you always edit in $EDITOR before send:
 
@@ -1280,7 +1376,7 @@ em reply 42
 # 5. Only then: confirmation prompt
 ```
 
-### 4. Batch Mode Safety
+### 5. Batch Mode Safety
 
 Even `em respond` (batch draft generation) doesn't auto-send:
 
@@ -1297,7 +1393,7 @@ $ em respond --review
 # Each draft requires individual confirmation
 ```
 
-### 5. No Auto-Reply
+### 6. No Auto-Reply
 
 There is **no** auto-reply feature. Every reply requires:
 1. Manual invocation (`em reply`)
