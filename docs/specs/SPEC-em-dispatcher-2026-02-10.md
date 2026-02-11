@@ -1097,7 +1097,103 @@ _em_pick() {
 }
 ```
 
-### 7.3 Category Icons
+### 7.3 Reply with AI Draft Pre-population
+
+```zsh
+_em_reply() {
+    local msg_id="$1"
+    local no_ai=false
+    local reply_all=false
+    local batch_mode=false
+
+    [[ -z "$msg_id" ]] && _flow_log_error "Message ID required" && return 1
+
+    # Parse flags (shift past msg_id first)
+    shift
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --no-ai)     no_ai=true; shift ;;
+            --all|-a)    reply_all=true; shift ;;
+            --batch|-b)  batch_mode=true; shift ;;
+            *)           shift ;;
+        esac
+    done
+
+    # --- Path 1: Interactive reply (opens $EDITOR) ---
+    if [[ "$batch_mode" != "true" ]]; then
+        local body=""
+
+        # Generate AI draft if available and enabled
+        if [[ "$no_ai" != "true" ]] && [[ -n "$(_em_ai_available)" ]]; then
+            _flow_log_info "Generating reply draft..."
+            local content=$(_em_hml_read "$msg_id" plain)
+            local context_file=$(_em_project_context_file)
+            local template=$(_em_find_template "$msg_id")
+            local prompt=$(_em_ai_draft_prompt "$context_file" "$template")
+            body=$(_em_ai_query "draft" "$prompt" "$content" "" "$msg_id")
+        fi
+
+        # Open $EDITOR with draft pre-populated via [BODY] arg
+        # If body is empty, opens with blank reply (same as himalaya default)
+        _em_hml_reply "$msg_id" "$body" "$reply_all"
+        return $?
+    fi
+
+    # --- Path 2: Batch/non-interactive (preview + confirm + send) ---
+    local content=$(_em_hml_read "$msg_id" plain)
+    local context_file=$(_em_project_context_file)
+    local prompt=$(_em_ai_draft_prompt "$context_file" "")
+    local draft=$(_em_ai_query "draft" "$prompt" "$content" "" "$msg_id")
+
+    if [[ -z "$draft" ]]; then
+        _flow_log_error "Could not generate draft"
+        return 1
+    fi
+
+    # Get MML template (headers pre-filled, no $EDITOR)
+    local mml=$(_em_hml_template_reply "$msg_id" "$reply_all")
+
+    # Inject AI draft body into MML template
+    local mml_with_body=$(_em_mml_inject_body "$mml" "$draft")
+
+    # Preview
+    echo ""
+    echo "${FLOW_COLORS[header]}Draft Reply${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[muted]}$(printf '%.0s-' {1..60})${FLOW_COLORS[reset]}"
+    # Show To/Subject from MML headers
+    echo "$mml_with_body" | head -5
+    echo "${FLOW_COLORS[muted]}---${FLOW_COLORS[reset]}"
+    echo "$draft"
+    echo "${FLOW_COLORS[muted]}$(printf '%.0s-' {1..60})${FLOW_COLORS[reset]}"
+    echo ""
+
+    # Safety gate: explicit confirmation, default NO
+    if _flow_confirm "Send this reply? [y/N]"; then
+        echo "$mml_with_body" | _em_hml_template_send
+        _em_cache_invalidate "$msg_id"
+        _flow_log_success "Reply sent"
+    else
+        # Save draft for later
+        _em_cache_set "drafts" "$msg_id" "$draft"
+        _flow_log_info "Draft saved. Review with: em respond --review"
+    fi
+}
+
+_em_mml_inject_body() {
+    # Inject body text into an MML template
+    # MML format: headers (From, To, Subject, etc.) then blank line then body
+    # Args: mml_template, body_text
+    local mml="$1" body="$2"
+
+    # Find the blank line separating headers from body, inject after it
+    echo "$mml" | awk -v body="$body" '
+        /^$/ && !found { found=1; print; print body; next }
+        { print }
+    '
+}
+```
+
+### 7.4 Category Icons
 
 ```zsh
 _em_category_icon() {
@@ -1725,9 +1821,12 @@ _em_doc_check() {
 
 ### 14.3 Send Confirmation
 
-- `em send` and `em reply` always require explicit confirmation
+Two send paths, both require explicit user action:
+
+- **Interactive path** (`em reply <ID>`): AI draft pre-populates `$EDITOR` via `[BODY]` arg. User must save+quit to send. Canceling (`:q!`) aborts.
+- **Batch path** (`em reply <ID> --batch` or `em respond`): AI draft shown in terminal preview. Explicit `[y/N]` confirmation required (default NO). Uses `himalaya template reply/send` pipeline.
 - `em respond` drafts are never sent without review
-- The dispatch chain: AI draft -> user review -> explicit confirm -> himalaya send
+- The dispatch chain: AI draft -> preview/edit -> explicit confirm -> himalaya sends
 
 ---
 
