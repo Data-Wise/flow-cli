@@ -26,6 +26,13 @@ _em() {
     'html:Render HTML email'
     'attach:Download attachments'
     'a:Attachments (alias)'
+    'respond:Batch AI draft generation'
+    'resp:Batch draft (alias)'
+    'classify:AI-classify email'
+    'cl:Classify (alias)'
+    'summarize:AI-summarize email'
+    'sum:Summarize (alias)'
+    'cache:Cache management'
     'doctor:Check dependencies'
     'dr:Check dependencies (alias)'
     'help:Show help'
@@ -42,7 +49,7 @@ _em() {
       ;;
     args)
       case "$line[1]" in
-        read|r|reply|re|html|attach|a)
+        read|r|reply|re|html|attach|a|classify|cl|summarize|sum)
           # These take an email ID
           _message "email ID"
           ;;
@@ -61,6 +68,18 @@ _em() {
         send|s)
           # Optional recipient
           _message "recipient email"
+          ;;
+        respond|resp)
+          # Optional flags
+          _arguments '--review[Review drafts with fzf]' '--all[Process all, not just unread]'
+          ;;
+        cache)
+          local -a cache_cmds=(
+            'stats:Show cache statistics'
+            'clear:Clear entire cache'
+            'warm:Background-warm cache'
+          )
+          _describe -t cache_cmds 'cache command' cache_cmds
           ;;
       esac
       ;;

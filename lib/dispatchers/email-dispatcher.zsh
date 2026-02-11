@@ -4,24 +4,28 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/dispatchers/email-dispatcher.zsh
-# Version:      0.5 (Phase 4+5 — AI pipeline + config + doctor)
+# Version:      1.0 (Full spec — adapter layer + AI + cache)
 # Date:         2026-02-10
 # Pattern:      command + keyword + options
 #
 # Usage:        em <action> [args]
 #
 # Examples:
-#   em                  # Inbox (default)
+#   em                  # Quick dashboard
 #   em inbox            # List recent emails
 #   em read <ID>        # Read email
 #   em reply <ID>       # AI-draft reply in $EDITOR
 #   em send             # Compose new email
 #   em pick             # fzf email browser
+#   em respond          # Batch AI draft generation
 #   em help             # Show all commands
 #
 # Backend:      himalaya CLI (https://github.com/pimalaya/himalaya)
+# Adapter:      lib/em-himalaya.zsh (isolates CLI specifics)
+# AI:           lib/em-ai.zsh (claude / gemini / fallback chain)
+# Cache:        lib/em-cache.zsh (TTL-based AI result caching)
+# Render:       lib/em-render.zsh (HTML/markdown/plain detection)
 # Editor:       $EDITOR (nvim recommended)
-# AI:           claude -p / gemini (configurable)
 #
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -80,6 +84,13 @@ em() {
         pick|p)       shift; _em_pick "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
+        # AI FEATURES
+        # ─────────────────────────────────────────────────────────────
+        respond|resp) shift; _em_respond "$@" ;;
+        classify|cl)  shift; _em_classify "$@" ;;
+        summarize|sum) shift; _em_summarize "$@" ;;
+
+        # ─────────────────────────────────────────────────────────────
         # QUICK INFO
         # ─────────────────────────────────────────────────────────────
         unread|u)     shift; _em_unread "$@" ;;
@@ -91,6 +102,7 @@ em() {
         # ─────────────────────────────────────────────────────────────
         html)         shift; _em_html "$@" ;;
         attach|a)     shift; _em_attach "$@" ;;
+        cache)        shift; _em_cache_cmd "$@" ;;
         doctor|dr)    shift; _em_doctor "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
@@ -119,7 +131,7 @@ ${_C_BOLD}╰──────────────────────�
 ${_C_BOLD}Usage:${_C_NC} em [subcommand] [args]
 
 ${_C_GREEN}MOST COMMON${_C_NC} ${_C_DIM}(daily workflow)${_C_NC}:
-  ${_C_CYAN}em${_C_NC}                 Quick pulse (unread + 5 latest)
+  ${_C_CYAN}em${_C_NC}                 Quick pulse (unread + 10 latest)
   ${_C_CYAN}em read <ID>${_C_NC}      Read email
   ${_C_CYAN}em reply <ID>${_C_NC}     AI-draft reply in \$EDITOR
   ${_C_CYAN}em send${_C_NC}           Compose new email
@@ -129,9 +141,12 @@ ${_C_YELLOW}QUICK EXAMPLES${_C_NC}:
   ${_C_DIM}\$${_C_NC} em                      ${_C_DIM}# Quick pulse check${_C_NC}
   ${_C_DIM}\$${_C_NC} em r 42                 ${_C_DIM}# Read email #42${_C_NC}
   ${_C_DIM}\$${_C_NC} em re 42                ${_C_DIM}# Reply with AI draft${_C_NC}
+  ${_C_DIM}\$${_C_NC} em re 42 --all          ${_C_DIM}# Reply-all${_C_NC}
+  ${_C_DIM}\$${_C_NC} em re 42 --batch        ${_C_DIM}# Non-interactive (preview+confirm)${_C_NC}
   ${_C_DIM}\$${_C_NC} em s                    ${_C_DIM}# Compose new email${_C_NC}
   ${_C_DIM}\$${_C_NC} em p                    ${_C_DIM}# Browse with fzf${_C_NC}
   ${_C_DIM}\$${_C_NC} em f \"quarterly report\" ${_C_DIM}# Search emails${_C_NC}
+  ${_C_DIM}\$${_C_NC} em resp                 ${_C_DIM}# Batch AI drafts for actionable emails${_C_NC}
 
 ${_C_BLUE}INBOX & READING${_C_NC}:
   ${_C_CYAN}em inbox [N]${_C_NC}      List N recent emails (default: ${FLOW_EMAIL_PAGE_SIZE})
@@ -141,8 +156,14 @@ ${_C_BLUE}INBOX & READING${_C_NC}:
 
 ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
   ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR)
-  ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft
+  ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch)
   ${_C_CYAN}em attach <ID>${_C_NC}    Download attachments
+
+${_C_BLUE}AI FEATURES${_C_NC}:
+  ${_C_CYAN}em respond${_C_NC}        Batch AI drafts for actionable emails
+  ${_C_CYAN}em respond --review${_C_NC} Review/send generated drafts
+  ${_C_CYAN}em classify <ID>${_C_NC}  Classify email (AI)
+  ${_C_CYAN}em summarize <ID>${_C_NC} One-line summary (AI)
 
 ${_C_BLUE}SEARCH & BROWSE${_C_NC}:
   ${_C_CYAN}em find <query>${_C_NC}   Search emails
@@ -151,6 +172,8 @@ ${_C_BLUE}SEARCH & BROWSE${_C_NC}:
 ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
   ${_C_CYAN}em dash${_C_NC}           Quick dashboard (unread + recent)
   ${_C_CYAN}em folders${_C_NC}        List mail folders
+  ${_C_CYAN}em cache stats${_C_NC}    Show AI cache statistics
+  ${_C_CYAN}em cache clear${_C_NC}    Clear AI cache
   ${_C_CYAN}em doctor${_C_NC}         Check dependencies
 
 ${_C_MAGENTA}SAFETY${_C_NC}: Every send requires explicit ${_C_YELLOW}[y/N]${_C_NC} confirmation (default: No)
@@ -165,7 +188,7 @@ ${_C_DIM}See also: em doctor (check deps), flow doctor (full health)${_C_NC}
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# HIMALAYA DEPENDENCY CHECK
+# HIMALAYA DEPENDENCY CHECK (quick gate)
 # ═══════════════════════════════════════════════════════════════════
 
 _em_require_himalaya() {
@@ -179,7 +202,7 @@ _em_require_himalaya() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# SUBCOMMAND STUBS (Phase 2-5 implementation)
+# CORE SUBCOMMANDS
 # ═══════════════════════════════════════════════════════════════════
 
 _em_inbox() {
@@ -187,8 +210,7 @@ _em_inbox() {
     local page_size="${1:-$FLOW_EMAIL_PAGE_SIZE}"
     local folder="${2:-$FLOW_EMAIL_FOLDER}"
 
-    himalaya envelope list -f "$folder" --page-size "$page_size" --output json 2>/dev/null \
-        | _em_render_inbox_json
+    _em_hml_list "$folder" "$page_size" | _em_render_inbox_json
 }
 
 _em_read() {
@@ -199,7 +221,8 @@ _em_read() {
         echo "Usage: ${_C_CYAN}em read <ID>${_C_NC}"
         return 1
     fi
-    himalaya message read "$msg_id" | _em_smart_render
+
+    _em_hml_read "$msg_id" | _em_smart_render
 }
 
 _em_send() {
@@ -240,7 +263,9 @@ _em_send() {
     local ai_body=""
     if [[ "$use_ai" == true && -n "$subject" && "$FLOW_EMAIL_AI" != "none" ]]; then
         _flow_log_info "Generating AI draft from subject..."
-        ai_body=$(_em_ai_draft "Compose a professional email about: $subject" 2>/dev/null)
+        ai_body=$(_em_ai_query "draft" \
+            "$(_em_ai_draft_prompt)" \
+            "Compose a professional email about: $subject" 2>/dev/null)
         if [[ -n "$ai_body" ]]; then
             _flow_log_success "AI draft ready — edit in \$EDITOR"
         fi
@@ -267,68 +292,104 @@ _em_send() {
 
 _em_reply() {
     _em_require_himalaya || return 1
-    local msg_id="$1"
+    local msg_id=""
     local skip_ai=false
+    local reply_all=false
+    local batch_mode=false
 
     # Parse flags
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --no-ai) skip_ai=true; shift ;;
-            *) msg_id="$1"; shift ;;
+            --no-ai)     skip_ai=true; shift ;;
+            --all|-a)    reply_all=true; shift ;;
+            --batch|-b)  batch_mode=true; shift ;;
+            *)           msg_id="$1"; shift ;;
         esac
     done
 
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em reply <ID>${_C_NC}  ${_C_DIM}(--no-ai to skip AI draft)${_C_NC}"
+        echo "Usage: ${_C_CYAN}em reply <ID>${_C_NC}  ${_C_DIM}(--no-ai --all --batch)${_C_NC}"
         return 1
     fi
 
-    # [1] Fetch original email
+    # --- Path 1: Interactive reply (opens $EDITOR via himalaya) ---
+    if [[ "$batch_mode" != "true" ]]; then
+        local body=""
+
+        # Generate AI draft if available and enabled
+        if [[ "$skip_ai" != true && "$FLOW_EMAIL_AI" != "none" && "$FLOW_EMAIL_AI" != "off" ]]; then
+            _flow_log_info "Generating AI draft..."
+            local original
+            original=$(_em_hml_read "$msg_id" plain)
+            if [[ -n "$original" ]]; then
+                body=$(_em_ai_query "draft" \
+                    "$(_em_ai_draft_prompt)" \
+                    "$original" "" "$msg_id" 2>/dev/null)
+                if [[ -n "$body" ]]; then
+                    _flow_log_success "AI draft ready — edit in \$EDITOR"
+                else
+                    _flow_log_warning "AI draft unavailable — composing from scratch"
+                fi
+            fi
+        fi
+
+        # Open $EDITOR with draft pre-populated via himalaya [BODY] arg
+        _em_hml_reply "$msg_id" "$body" "$reply_all"
+        return $?
+    fi
+
+    # --- Path 2: Batch/non-interactive (preview + confirm + send) ---
     _flow_log_info "Fetching email #${msg_id}..."
-    local original
-    original=$(himalaya message read "$msg_id" 2>/dev/null)
-    if [[ -z "$original" ]]; then
+    local content
+    content=$(_em_hml_read "$msg_id" plain)
+    if [[ -z "$content" ]]; then
         _flow_log_error "Could not read email #${msg_id}"
         return 1
     fi
 
-    # [2] Extract reply headers from original
-    local from_addr subject
-    from_addr=$(echo "$original" | grep -m1 '^From:' | sed 's/^From: *//')
-    subject=$(echo "$original" | grep -m1 '^Subject:' | sed 's/^Subject: *//')
-    [[ "$subject" != Re:* ]] && subject="Re: $subject"
-
-    # [3] AI draft (with spinner, graceful fallback)
-    local ai_body=""
-    if [[ "$skip_ai" != true && "$FLOW_EMAIL_AI" != "none" && "$FLOW_EMAIL_AI" != "off" ]]; then
-        _flow_log_info "Generating AI draft..."
-        ai_body=$(_em_ai_draft "$original" 2>/dev/null)
-        if [[ -n "$ai_body" ]]; then
-            _flow_log_success "AI draft ready — edit in \$EDITOR"
-        else
-            _flow_log_warning "AI draft unavailable — composing from scratch"
-        fi
+    local draft
+    draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$msg_id")
+    if [[ -z "$draft" ]]; then
+        _flow_log_error "Could not generate draft"
+        return 1
     fi
 
-    # [4] Create temp file + open in $EDITOR
-    local draft_file
-    draft_file=$(_em_create_draft_file "$from_addr" "$subject" "$ai_body")
-    _em_open_in_editor "$draft_file"
+    # Get MML template (headers pre-filled, no $EDITOR)
+    local mml
+    mml=$(_em_hml_template_reply "$msg_id" "$reply_all")
 
-    # [5] SAFETY GATE — preview + confirm
-    if _em_confirm_send "$draft_file"; then
-        # [6] Send via himalaya
-        himalaya message send < "$draft_file"
-        if [[ $? -eq 0 ]]; then
-            _flow_log_success "Reply sent"
-            rm -f "$draft_file"
-        else
-            _flow_log_error "Failed to send — draft preserved: $draft_file"
-            return 1
-        fi
+    # Inject AI draft body into MML template
+    local mml_with_body
+    mml_with_body=$(_em_mml_inject_body "$mml" "$draft")
+
+    # Preview
+    echo ""
+    echo -e "${_C_BOLD}Draft Reply${_C_NC}"
+    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+    echo "$mml_with_body" | head -5
+    echo -e "${_C_DIM}---${_C_NC}"
+    echo "$draft"
+    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+    echo ""
+
+    # Safety gate: explicit confirmation, default NO
+    printf "  Send this reply? [y/N] "
+    local response
+    read -r response
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+        echo "$mml_with_body" | _em_hml_template_send
+        _em_cache_invalidate "$msg_id"
+        _flow_log_success "Reply sent"
+    else
+        _em_cache_set "drafts" "$msg_id" "$draft"
+        _flow_log_info "Draft saved. Review with: ${_C_CYAN}em respond --review${_C_NC}"
     fi
 }
+
+# ═══════════════════════════════════════════════════════════════════
+# SEARCH & BROWSE
+# ═══════════════════════════════════════════════════════════════════
 
 _em_find() {
     _em_require_himalaya || return 1
@@ -340,23 +401,26 @@ _em_find() {
     fi
 
     _flow_log_info "Searching: $query"
-    himalaya envelope list --output json 2>/dev/null \
-        | jq -r --arg q "$query" '
-            [.[] | select(
-                (.subject | ascii_downcase | contains($q | ascii_downcase)) or
-                (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
-                (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
-            )] | .[] | [.id, .from.name // .from.addr, .subject, (.date | split("T")[0] // .date)] | @tsv' \
+
+    # Single fetch, filter client-side
+    local json
+    json=$(_em_hml_list "$FLOW_EMAIL_FOLDER" 100)
+
+    echo "$json" | jq -r --arg q "$query" '
+        [.[] | select(
+            (.subject | ascii_downcase | contains($q | ascii_downcase)) or
+            (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
+            (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
+        )] | .[] | [.id, .from.name // .from.addr, .subject, (.date | split("T")[0] // .date)] | @tsv' \
         | column -t -s $'\t'
 
     local result_count
-    result_count=$(himalaya envelope list --output json 2>/dev/null \
-        | jq --arg q "$query" '
-            [.[] | select(
-                (.subject | ascii_downcase | contains($q | ascii_downcase)) or
-                (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
-                (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
-            )] | length')
+    result_count=$(echo "$json" | jq --arg q "$query" '
+        [.[] | select(
+            (.subject | ascii_downcase | contains($q | ascii_downcase)) or
+            (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
+            (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
+        )] | length')
     echo ""
     echo -e "${_C_DIM}${result_count:-0} results${_C_NC}"
 }
@@ -376,10 +440,8 @@ _em_pick() {
 
     local folder="${1:-$FLOW_EMAIL_FOLDER}"
 
-    # Build fzf input from himalaya JSON output
-    # Schema: {id, flags, subject, from: {name, addr}, date, has_attachment}
     local selected
-    selected=$(himalaya envelope list -f "$folder" --page-size 50 --output json 2>/dev/null \
+    selected=$(_em_hml_list "$folder" 50 \
         | jq -r '.[] | [
             .id,
             (if (.flags | contains(["Seen"])) then " " else "*" end),
@@ -413,7 +475,7 @@ _em_pick() {
         local confirm
         read -r confirm
         if [[ "$confirm" =~ ^[Yy]$ ]]; then
-            himalaya flag add "$action_id" Deleted
+            _em_hml_flags add "$action_id" Deleted
             _flow_log_success "Email #${action_id} flagged as deleted"
         fi
     else
@@ -423,12 +485,190 @@ _em_pick() {
     fi
 }
 
+# ═══════════════════════════════════════════════════════════════════
+# AI FEATURES
+# ═══════════════════════════════════════════════════════════════════
+
+_em_classify() {
+    _em_require_himalaya || return 1
+    local msg_id="$1"
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em classify <ID>${_C_NC}"
+        return 1
+    fi
+
+    local content
+    content=$(_em_hml_read "$msg_id" plain)
+    if [[ -z "$content" ]]; then
+        _flow_log_error "Could not read email #${msg_id}"
+        return 1
+    fi
+
+    local category
+    category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$msg_id")
+    if [[ -n "$category" ]]; then
+        local icon
+        icon=$(_em_category_icon "$category")
+        echo -e "  ${icon} ${_C_BOLD}${category}${_C_NC}"
+    else
+        _flow_log_warning "Classification failed (no AI backend available?)"
+    fi
+}
+
+_em_summarize() {
+    _em_require_himalaya || return 1
+    local msg_id="$1"
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em summarize <ID>${_C_NC}"
+        return 1
+    fi
+
+    local content
+    content=$(_em_hml_read "$msg_id" plain)
+    if [[ -z "$content" ]]; then
+        _flow_log_error "Could not read email #${msg_id}"
+        return 1
+    fi
+
+    local summary
+    summary=$(_em_ai_query "summarize" "$(_em_ai_summarize_prompt)" "$content" "" "$msg_id")
+    if [[ -n "$summary" ]]; then
+        echo -e "  ${_C_DIM}Summary:${_C_NC} $summary"
+    else
+        _flow_log_warning "Summarization failed (no AI backend available?)"
+    fi
+}
+
+_em_respond() {
+    _em_require_himalaya || return 1
+    local review_mode=false
+    local count=20
+    local folder="$FLOW_EMAIL_FOLDER"
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --review|-r)   review_mode=true; shift ;;
+            --count|-n)    shift; count="$1"; shift ;;
+            --folder|-f)   shift; folder="$1"; shift ;;
+            --clear)       _em_cache_clear; return ;;
+            --help|-h)     _em_respond_help; return ;;
+            *)             shift ;;
+        esac
+    done
+
+    if [[ "$review_mode" == "true" ]]; then
+        _em_respond_review
+        return
+    fi
+
+    # Batch draft generation
+    _flow_log_info "Analyzing ${count} emails for actionable messages..."
+
+    local messages
+    messages=$(_em_hml_list "$folder" "$count")
+    if [[ -z "$messages" || "$messages" == "[]" ]]; then
+        _flow_log_info "No messages in $folder"
+        return 0
+    fi
+
+    local total=0 drafted=0 skipped=0
+
+    echo "$messages" | jq -c '.[]' | while IFS= read -r msg; do
+        local msg_id
+        msg_id=$(echo "$msg" | jq -r '.id')
+        (( total++ ))
+
+        # Skip if draft already cached
+        if _em_cache_get "drafts" "$msg_id" &>/dev/null; then
+            (( skipped++ ))
+            continue
+        fi
+
+        # Classify first
+        local content
+        content=$(_em_hml_read "$msg_id" plain 2>/dev/null)
+        [[ -z "$content" ]] && continue
+
+        local category
+        category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$msg_id" 2>/dev/null)
+
+        # Skip non-actionable categories
+        case "$category" in
+            newsletter|automated|admin-info)
+                (( skipped++ ))
+                continue
+                ;;
+        esac
+
+        # Generate draft
+        local draft
+        draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$msg_id" 2>/dev/null)
+        if [[ -n "$draft" ]]; then
+            (( drafted++ ))
+            local subject
+            subject=$(echo "$msg" | jq -r '.subject // "(no subject)"')
+            echo -e "  ${_C_GREEN}drafted${_C_NC} #${msg_id}: ${subject:0:50}"
+        fi
+    done
+
+    echo ""
+    _flow_log_success "${drafted} drafts generated (${skipped} skipped)"
+    echo -e "  Review: ${_C_CYAN}em respond --review${_C_NC}"
+}
+
+_em_respond_review() {
+    # Review generated drafts via fzf
+    local cache_base="$(_em_cache_dir)/drafts"
+    if [[ ! -d "$cache_base" ]] || [[ -z "$(ls -A "$cache_base" 2>/dev/null)" ]]; then
+        _flow_log_info "No drafts to review. Run ${_C_CYAN}em respond${_C_NC} first."
+        return 0
+    fi
+
+    if ! command -v fzf &>/dev/null; then
+        _flow_log_error "fzf required for draft review"
+        return 1
+    fi
+
+    _flow_log_info "Loading drafts for review..."
+
+    # List drafts with original email context
+    local draft_file
+    for draft_file in "$cache_base"/*.txt(N); do
+        local draft_content
+        draft_content=$(cat "$draft_file")
+        local fname="${draft_file:t:r}"
+        echo -e "${fname}\t${draft_content:0:80}"
+    done | fzf --delimiter='\t' \
+               --with-nth='2..' \
+               --preview='cat '"$cache_base"'/{1}.txt' \
+               --preview-window='right:60%:wrap' \
+               --header='Enter=send  Ctrl-E=edit  Ctrl-D=discard'
+
+    _flow_log_info "Draft review complete"
+}
+
+_em_respond_help() {
+    echo -e "
+${_C_BOLD}em respond${_C_NC} — Batch AI draft generation
+
+${_C_CYAN}em respond${_C_NC}              Generate AI drafts for actionable emails
+${_C_CYAN}em respond --review${_C_NC}     Review and send generated drafts
+${_C_CYAN}em respond -n 50${_C_NC}        Process 50 emails (default: 20)
+${_C_CYAN}em respond --clear${_C_NC}      Clear all cached drafts
+"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# QUICK INFO
+# ═══════════════════════════════════════════════════════════════════
+
 _em_unread() {
     _em_require_himalaya || return 1
     local folder="${1:-INBOX}"
     local unread_count
-    unread_count=$(himalaya envelope list -f "$folder" --output json 2>/dev/null \
-        | jq '[.[] | select(.flags | contains(["Seen"]) | not)] | length' 2>/dev/null)
+    unread_count=$(_em_hml_unread_count "$folder")
 
     if [[ -n "$unread_count" && "$unread_count" -gt 0 ]]; then
         echo -e "${_C_YELLOW}${unread_count}${_C_NC} unread in ${folder}"
@@ -443,10 +683,9 @@ _em_dash() {
     echo -e "${_C_BOLD}em${_C_NC} ${_C_DIM}— quick pulse${_C_NC}"
     echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
 
-    # Unread count
+    # Unread count (via adapter)
     local unread_count
-    unread_count=$(himalaya envelope list -f INBOX --output json 2>/dev/null \
-        | jq '[.[] | select(.flags | contains(["Seen"]) | not)] | length' 2>/dev/null)
+    unread_count=$(_em_hml_unread_count)
     if [[ -n "$unread_count" && "$unread_count" -gt 0 ]]; then
         echo -e "  ${_C_YELLOW}${unread_count} unread${_C_NC}"
     else
@@ -455,9 +694,9 @@ _em_dash() {
 
     echo ""
 
-    # Latest 10 subjects
+    # Latest 10 subjects (via adapter)
     echo -e "${_C_DIM}Recent:${_C_NC}"
-    himalaya envelope list --page-size 10 --output json 2>/dev/null | _em_render_inbox_json
+    _em_hml_list INBOX 10 | _em_render_inbox_json
 
     echo ""
     echo -e "${_C_DIM}Full inbox:${_C_NC} ${_C_CYAN}em i${_C_NC}  ${_C_DIM}Browse:${_C_NC} ${_C_CYAN}em p${_C_NC}  ${_C_DIM}Help:${_C_NC} ${_C_CYAN}em h${_C_NC}"
@@ -465,8 +704,12 @@ _em_dash() {
 
 _em_folders() {
     _em_require_himalaya || return 1
-    himalaya folder list
+    _em_hml_folders
 }
+
+# ═══════════════════════════════════════════════════════════════════
+# UTILITIES
+# ═══════════════════════════════════════════════════════════════════
 
 _em_html() {
     _em_require_himalaya || return 1
@@ -484,7 +727,7 @@ _em_html() {
         return 1
     fi
 
-    himalaya message read --html "$msg_id" 2>/dev/null \
+    _em_hml_read "$msg_id" html \
         | w3m -dump -T text/html \
         | _em_pager
 }
@@ -502,13 +745,33 @@ _em_attach() {
     [[ -d "$download_dir" ]] || mkdir -p "$download_dir"
 
     _flow_log_info "Downloading attachments from email #${msg_id}..."
-    himalaya attachment download -f INBOX "$msg_id" --dir "$download_dir" 2>&1
+    _em_hml_attachments "$msg_id" "$download_dir"
     if [[ $? -eq 0 ]]; then
         _flow_log_success "Attachments saved to: $download_dir"
     else
         _flow_log_error "No attachments or download failed"
     fi
 }
+
+_em_cache_cmd() {
+    # Cache management subcommand
+    case "$1" in
+        stats|status)  _em_cache_stats ;;
+        clear|flush)   _em_cache_clear ;;
+        warm)          _em_cache_warm "${2:-10}" ;;
+        *)
+            echo -e "${_C_BOLD}em cache${_C_NC} — AI Cache Management"
+            echo ""
+            echo -e "  ${_C_CYAN}em cache stats${_C_NC}    Show cache statistics"
+            echo -e "  ${_C_CYAN}em cache clear${_C_NC}    Clear all cached AI results"
+            echo -e "  ${_C_CYAN}em cache warm${_C_NC}     Pre-warm cache for latest emails"
+            ;;
+    esac
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# DOCTOR — DEPENDENCY HEALTH CHECK
+# ═══════════════════════════════════════════════════════════════════
 
 _em_doctor() {
     echo -e "${_C_BOLD}em doctor${_C_NC} — Email Dependency Check"
