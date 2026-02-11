@@ -45,16 +45,16 @@ Install and configure the email stack so `em` commands work.
 
 himalaya is the email CLI backend that `em` uses.
 
-**Option A: Cargo (recommended)**
-
-```bash
-cargo install himalaya
-```
-
-**Option B: Homebrew**
+**Option A: Homebrew (recommended)**
 
 ```bash
 brew install himalaya
+```
+
+**Option B: Cargo**
+
+```bash
+cargo install himalaya
 ```
 
 **Verify installation:**

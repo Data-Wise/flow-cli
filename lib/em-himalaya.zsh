@@ -25,7 +25,7 @@ _em_hml_check() {
     # Returns: 0 on success, 1 on failure
     if ! command -v himalaya &>/dev/null; then
         _flow_log_error "himalaya not installed"
-        echo "Install: ${_C_CYAN}cargo install himalaya${_C_NC} or ${_C_CYAN}brew install himalaya${_C_NC}"
+        echo "Install: ${_C_CYAN}brew install himalaya${_C_NC} or ${_C_CYAN}cargo install himalaya${_C_NC}"
         return 1
     fi
 

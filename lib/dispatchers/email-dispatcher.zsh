@@ -210,7 +210,7 @@ ${_C_DIM}See also: em doctor (check deps), flow doctor (full health)${_C_NC}
 _em_require_himalaya() {
     if ! command -v himalaya &>/dev/null; then
         _flow_log_error "himalaya not found"
-        echo "Install: ${_C_CYAN}cargo install himalaya${_C_NC} or ${_C_CYAN}brew install himalaya${_C_NC}"
+        echo "Install: ${_C_CYAN}brew install himalaya${_C_NC} or ${_C_CYAN}cargo install himalaya${_C_NC}"
         echo "Setup:   ${_C_CYAN}em doctor${_C_NC} for full dependency check"
         return 1
     fi
@@ -1093,7 +1093,7 @@ _em_doctor() {
     local ok=0 warn=0 fail=0
 
     # Required
-    _em_doctor_check "himalaya"   "required" "Email CLI backend"   "cargo install himalaya"
+    _em_doctor_check "himalaya"   "required" "Email CLI backend"   "brew install himalaya"
     _em_doctor_version_check "himalaya" "1.0.0"
     _em_doctor_check "jq"         "required" "JSON processing"     "brew install jq"
 
