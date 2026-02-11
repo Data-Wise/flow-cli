@@ -235,7 +235,32 @@ _em_read() {
         return 1
     fi
 
-    _em_hml_read "$msg_id" | _em_smart_render
+    # [1] Fetch envelope for header display
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+    local envelope
+    envelope=$(_em_hml_list "$folder" 100 2>/dev/null \
+        | jq -r ".[] | select(.id == ($msg_id | tonumber))" 2>/dev/null)
+
+    if [[ -n "$envelope" ]]; then
+        local from_name from_addr subject edate
+        from_name=$(echo "$envelope" | jq -r '.from.name // empty' 2>/dev/null)
+        from_addr=$(echo "$envelope" | jq -r '.from.addr // empty' 2>/dev/null)
+        subject=$(echo "$envelope" | jq -r '.subject // "(no subject)"' 2>/dev/null)
+        edate=$(echo "$envelope" | jq -r '.date // empty' 2>/dev/null)
+
+        local from_display="${from_name:-$from_addr}"
+        [[ -n "$from_name" && -n "$from_addr" ]] && from_display="$from_name <$from_addr>"
+
+        echo ""
+        echo -e "  ${_C_BOLD}${subject}${_C_NC}"
+        echo -e "  ${_C_DIM}From: ${from_display}${_C_NC}"
+        echo -e "  ${_C_DIM}Date: ${edate%%T*}${_C_NC}"
+        echo -e "  ${_C_DIM}─────────────────────────────────────────────────${_C_NC}"
+        echo ""
+    fi
+
+    # [2] Render body with email-specific formatting
+    _em_hml_read "$msg_id" | _em_render_email_body
 }
 
 _em_send() {

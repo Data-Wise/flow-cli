@@ -79,12 +79,50 @@ _em_render_with() {
             ;;
         plain)
             if command -v bat &>/dev/null; then
-                echo "$content" | bat --style=plain --color=always --paging=never
+                echo "$content" | bat --style=plain --color=always --paging=never --language=txt
             else
                 echo "$content"
             fi
             ;;
     esac
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# EMAIL BODY RENDERER (stdin pipeline)
+# ═══════════════════════════════════════════════════════════════════
+
+_em_render_email_body() {
+    # Email-specific body renderer — formats plain text, delegates HTML
+    # Dims quoted lines (>) and signature blocks (-- )
+    # Indents body for clean terminal display
+    local content
+    content=$(cat)
+    [[ -z "$content" ]] && return 0
+
+    # HTML → delegate to existing renderer
+    if echo "$content" | grep -qi '<html\|<body\|<div\|<table\|<p>'; then
+        _em_render_with "html" "$content"
+        return
+    fi
+
+    # Plain text email formatting
+    local line in_signature=false
+    while IFS= read -r line; do
+        if [[ "$in_signature" == false && ( "$line" == "-- " || "$line" == "--" ) ]]; then
+            in_signature=true
+            echo -e "  ${_C_DIM}${line}${_C_NC}"
+        elif [[ "$in_signature" == true ]]; then
+            echo -e "  ${_C_DIM}${line}${_C_NC}"
+        elif [[ "$line" == ">"* ]]; then
+            # Quoted reply text
+            echo -e "  ${_C_DIM}${line}${_C_NC}"
+        elif [[ -z "$line" ]]; then
+            echo ""
+        else
+            echo "  $line"
+        fi
+    done <<< "$content"
+    echo ""
 }
 
 # ═══════════════════════════════════════════════════════════════════
