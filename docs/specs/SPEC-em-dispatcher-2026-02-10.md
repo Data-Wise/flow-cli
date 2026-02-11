@@ -16,7 +16,7 @@ The `em` dispatcher is a pure ZSH email command dispatcher that wraps himalaya C
 
 1. **Pure ZSH** -- Sub-10ms for non-AI operations. No Node.js/Python runtime.
 2. **AI as a pipeline stage** -- Email always works without AI. AI enriches, never gates.
-3. **himalaya as the transport abstraction** -- All IMAP/SMTP goes through himalaya. When himalaya's API changes (pre-1.0), only the adapter layer changes.
+3. **himalaya as the transport abstraction** -- All IMAP/SMTP goes through himalaya. himalaya is post-1.0 (v1.0.0 Dec 2024, v1.1.0 Jan 2025) with semver guarantees, but the adapter layer still isolates CLI specifics for clean separation.
 4. **Explicit send only** -- Nothing ever sends without the user pressing a confirm key. AI drafts are always review-first.
 5. **Project-context-aware** -- When a `work` session is active, `em` filters and contextualizes automatically.
 
@@ -120,7 +120,7 @@ flow-cli/
 
 ### 3.1 Design Rationale
 
-himalaya is pre-1.0. Its CLI surface area will change. The adapter layer isolates all himalaya-specific command syntax behind stable internal functions. When himalaya ships breaking changes, only `lib/em-himalaya.zsh` needs updating.
+himalaya reached v1.0.0 (Dec 2024) with semver guarantees -- breaking changes now require a major version bump. The adapter layer still isolates all himalaya-specific command syntax behind stable internal functions for clean architecture. himalaya also ships native OAuth2/XOAUTH2, potentially eliminating the need for `email-oauth2-proxy`.
 
 ### 3.2 Adapter API
 

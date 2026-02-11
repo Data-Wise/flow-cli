@@ -96,7 +96,7 @@ The illusion of "zero context switching" is misleading. Mode switching within nv
 
 - himalaya-vim seeking new maintainers = abandoned within 6 months
 - LazyVim update breaks plugin = user cannot debug Lua
-- himalaya CLI pre-1.0 API change = plugin breaks silently
+- himalaya CLI API change (post-1.0 semver reduces this risk, but nvim plugins are deeper integrations)
 - IMAP connection timeout = cryptic buffer error, no spinner, no feedback
 
 ### 7. Configuration Burden

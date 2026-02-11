@@ -64,7 +64,7 @@ Everything in Option B, plus:
 - Per-project email filters in `.flow/email-config.yml`
 
 **Pros:** Complete email workflow, deep flow-cli integration
-**Cons:** Massive scope, himalaya pre-1.0 risk, launchd complexity
+**Cons:** Massive scope, launchd complexity
 
 ---
 

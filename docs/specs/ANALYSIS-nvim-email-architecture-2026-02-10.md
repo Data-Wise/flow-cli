@@ -38,14 +38,14 @@ A LazyVim plugin written in Lua that wraps himalaya CLI. Inbox renders in a buff
 
 - **himalaya-vim** is seeking new maintainers. The official plugin is effectively abandonware.
 - **himalaya.nvim** (JostBrand fork) has 20 commits and unclear future. You would be building on top of something that may disappear.
-- **himalaya itself** is pre-1.0. Its CLI interface (`himalaya envelope list`, `himalaya message read`) has changed across versions and will change again. A full nvim plugin hard-couples to these CLI arguments.
+- **himalaya itself** reached v1.0.0 (Dec 2024) with semver guarantees, but its CLI interface changed significantly across pre-1.0 versions. A full nvim plugin hard-couples to CLI arguments and would have broken with each past release.
 - **LazyVim updates** can break plugin assumptions. LazyVim is opinionated about window management, which-key bindings, and plugin loading order.
-- **Real-world failure mode:** himalaya releases v1.0, changes envelope output format, your custom Lua plugin silently shows garbled data or crashes. You must debug Lua code you wrote months ago under time pressure.
+- **Real-world failure mode:** himalaya releases a new version, changes envelope output format, your custom Lua plugin silently shows garbled data or crashes. You must debug Lua code you wrote months ago under time pressure. (Note: v1.0+ semver reduces this risk for CLI wrappers, but nvim plugins are deeper integrations.)
 
 ### 3. ADHD Impact: NEGATIVE
 
 - **Massive context switch:** You would need to learn Lua, neovim plugin architecture, and maintain a separate codebase. This is a multi-week project before you can even send your first email.
-- **Cognitive load:** When email breaks (and it will, given the pre-1.0 dependency chain), you must debug in a language and environment you are not fluent in.
+- **Cognitive load:** When email breaks (the nvim plugin ecosystem is fragile regardless of himalaya's stability), you must debug in a language and environment you are not fluent in.
 - **Delayed gratification:** The "fun" part (AI-assisted replies) cannot happen until the entire buffer management layer works. High risk of abandonment.
 
 ### 4. AI Integration Feasibility
@@ -56,7 +56,7 @@ A LazyVim plugin written in Lua that wraps himalaya CLI. Inbox renders in a buff
 
 ### 5. Maintenance Burden: VERY HIGH
 
-- You become the sole maintainer of a Lua plugin that wraps a pre-1.0 Rust CLI
+- You become the sole maintainer of a Lua plugin that wraps a Rust CLI (post-1.0 but single maintainer)
 - Every himalaya update requires testing and potentially rewriting Lua code
 - Every LazyVim major update may break plugin loading or keybinding assumptions
 - No community to share maintenance (himalaya-vim's maintainer already stepped back)
@@ -296,7 +296,7 @@ Approaches A and C introduce Lua as a second language in a pure-ZSH project. The
 
 4. **Register in `flow.plugin.zsh`** alongside the other 12 dispatchers
 
-5. **Add `em doctor`** checking himalaya, email-oauth2-proxy, and optionally claude/gemini CLI availability
+5. **Add `em doctor`** checking himalaya, OAuth2 config (native XOAUTH2), and optionally claude/gemini CLI availability
 
 6. **Ship as v6.8.0** (new dispatcher = minor version bump per existing convention)
 
