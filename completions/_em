@@ -1,0 +1,70 @@
+#compdef em
+
+# Completion for em command - email dispatcher (himalaya wrapper)
+
+_em() {
+  local -a subcommands
+
+  subcommands=(
+    'inbox:List recent emails'
+    'i:List recent emails (alias)'
+    'read:Read email by ID'
+    'r:Read email (alias)'
+    'send:Compose new email'
+    's:Compose new email (alias)'
+    'reply:Reply with AI draft'
+    're:Reply (alias)'
+    'find:Search emails'
+    'f:Search emails (alias)'
+    'pick:fzf email browser'
+    'p:fzf browser (alias)'
+    'unread:Show unread count'
+    'u:Unread count (alias)'
+    'dash:Quick dashboard'
+    'd:Dashboard (alias)'
+    'folders:List mail folders'
+    'html:Render HTML email'
+    'attach:Download attachments'
+    'a:Attachments (alias)'
+    'doctor:Check dependencies'
+    'dr:Check dependencies (alias)'
+    'help:Show help'
+  )
+
+  _arguments -C \
+    '1:subcommand:->subcommand' \
+    '*::arg:->args' \
+  && return 0
+
+  case "$state" in
+    subcommand)
+      _describe -t subcommands 'em subcommand' subcommands
+      ;;
+    args)
+      case "$line[1]" in
+        read|r|reply|re|html|attach|a)
+          # These take an email ID
+          _message "email ID"
+          ;;
+        inbox|i)
+          # Optional page size
+          _message "page size (default: 25)"
+          ;;
+        find|f)
+          # Search query
+          _message "search query"
+          ;;
+        pick|p)
+          # Optional folder name
+          _message "folder (default: INBOX)"
+          ;;
+        send|s)
+          # Optional recipient
+          _message "recipient email"
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_em "$@"
