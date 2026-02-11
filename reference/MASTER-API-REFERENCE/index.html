@@ -16330,18 +16330,19 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - <code>$1</code> - Draft/development branch name
 - <code>$2</code> - Production branch name</p>
 <p><strong>Returns:</strong>
-- 0 - No conflicts (production hasn't diverged)
-- 1 - Potential conflicts (production has new commits)</p>
+- 0 - No conflicts (safe to deploy)
+- 1 - Potential conflicts (production has non-merge content commits)</p>
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-170-1" name="__codelineno-170-1" href="#__codelineno-170-1"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_git_detect_production_conflicts<span class="w"> </span><span class="s2">&quot;draft&quot;</span><span class="w"> </span><span class="s2">&quot;main&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-170-2" name="__codelineno-170-2" href="#__codelineno-170-2"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Warning: Production has new commits&quot;</span>
-<a id="__codelineno-170-3" name="__codelineno-170-3" href="#__codelineno-170-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Consider rebasing before PR&quot;</span>
+<a id="__codelineno-170-3" name="__codelineno-170-3" href="#__codelineno-170-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Run &#39;teach deploy --sync&#39; to synchronize&quot;</span>
 <a id="__codelineno-170-4" name="__codelineno-170-4" href="#__codelineno-170-4"></a><span class="k">fi</span>
 </code></pre></div>
 <p><strong>Notes:</strong>
 - Fetches from remote before checking
-- Uses merge-base to find common ancestor
-- Returns 1 if production has commits since divergence</p>
+- Fast path: returns 0 immediately if draft is an ancestor of production (<code>--is-ancestor</code>)
+- Uses <code>git log --no-merges</code> to detect only real content commits, ignoring <code>--no-ff</code> merge commits (fixes #372)
+- <code>--no-ff</code> merge commits from <code>teach deploy --direct</code> no longer trigger false positives</p>
 <hr />
 <h4 id="_git_get_commit_count"><code>_git_get_commit_count</code><a class="headerlink" href="#_git_get_commit_count" title="Permanent link">&para;</a></h4>
 <p>Count commits in draft branch not yet in production.</p>

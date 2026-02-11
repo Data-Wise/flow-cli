@@ -7819,6 +7819,11 @@
 <td>Show last N deploys (default: 10)</td>
 </tr>
 <tr>
+<td><code>teach deploy --sync</code></td>
+<td><code>teach dep --sync</code></td>
+<td>Sync draft with production branch</td>
+</tr>
+<tr>
 <td><code>teach deploy &lt;files&gt;</code></td>
 <td><code>teach dep &lt;files&gt;</code></td>
 <td>Partial deploy (specific files/dirs)</td>
@@ -7921,6 +7926,11 @@
 <td><code>--check-prereqs</code></td>
 <td></td>
 <td>Validate prerequisites</td>
+</tr>
+<tr>
+<td><code>--sync</code></td>
+<td></td>
+<td>Sync draft branch with production</td>
 </tr>
 <tr>
 <td><code>--direct-push</code></td>
@@ -8081,20 +8091,21 @@
 <a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>  Smart commit: content: week-05 lecture
 <a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>  Direct merge: draft -&gt; production
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>  ✓ [1/5] Push draft to origin
-<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>  ✓ [2/5] Switch to production
-<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>  ✓ [3/5] Merge draft → production
-<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>  ✓ [4/5] Push production to origin
-<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>  ✓ [5/5] Switch back to draft
-<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
-<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>╭─ Deployment Summary ─────────────────────────────────╮
-<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>│  🚀 Mode:     Direct merge                            │
-<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>│  📦 Files:    3 changed (+45 / -12)                   │
-<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>│  ⏱  Duration: 11s                                     │
-<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>│  🔀 Commit:   a1b2c3d4                                │
-<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>│  🌐 URL:      https://example.github.io/stat-545/    │
-<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>│  ⚙  Actions:  https://github.com/user/stat-545/actions│
-<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>╰──────────────────────────────────────────────────────╯
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>  ✓ [1/6] Push draft to origin
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>  ✓ [2/6] Switch to production
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>  ✓ [3/6] Merge draft → production
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>  ✓ [4/6] Push production to origin
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>  ✓ [5/6] Switch back to draft
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>  ✓ [6/6] Sync draft with main
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>╭─ Deployment Summary ─────────────────────────────────╮
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>│  🚀 Mode:     Direct merge                            │
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>│  📦 Files:    3 changed (+45 / -12)                   │
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>│  ⏱  Duration: 11s                                     │
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>│  🔀 Commit:   a1b2c3d4                                │
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>│  🌐 URL:      https://example.github.io/stat-545/    │
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>│  ⚙  Actions:  https://github.com/user/stat-545/actions│
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>╰──────────────────────────────────────────────────────╯
 </code></pre></div>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>In <code>.flow/teach-config.yml</code>:</p>
