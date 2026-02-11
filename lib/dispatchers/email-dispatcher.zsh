@@ -840,10 +840,13 @@ _em_respond() {
     local -a actionable_ids=() actionable_cats=()
     local total=${#msg_ids[@]}
 
+    # Declare all loop variables once to avoid ZSH local re-declaration leak
+    local idx mid from subj content category icon cached_draft
+    local found=0 non_actionable=0 actionable_count=0 proceed
+
     if [[ "$review_mode" == "true" ]]; then
         # Review mode: skip classification, find emails with cached drafts
         echo ""
-        local found=0 idx mid from subj cached_draft
         for (( idx=1; idx <= total; idx++ )); do
             mid="${msg_ids[$idx]}"
             from="${msg_froms[$idx]}"
@@ -858,7 +861,7 @@ _em_respond() {
             fi
         done
 
-        local actionable_count=${#actionable_ids[@]}
+        actionable_count=${#actionable_ids[@]}
         echo ""
         echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
         echo -e "  ${_C_GREEN}${actionable_count} cached drafts${_C_NC} found in ${total} emails"
@@ -871,8 +874,6 @@ _em_respond() {
     else
         # Normal mode: classify all emails (Phase 1)
         echo ""
-        local non_actionable=0
-        local idx mid from subj content category icon
 
         for (( idx=1; idx <= total; idx++ )); do
             mid="${msg_ids[$idx]}"
@@ -903,7 +904,7 @@ _em_respond() {
             esac
         done
 
-        local actionable_count=${#actionable_ids[@]}
+        actionable_count=${#actionable_ids[@]}
         echo ""
         echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
         echo -e "  ${_C_GREEN}${actionable_count} actionable${_C_NC}  ${_C_DIM}${non_actionable} skipped${_C_NC}  of ${total} total"
@@ -926,29 +927,27 @@ _em_respond() {
     else
         printf "  Proceed to draft ${actionable_count} replies? [Y/n] "
     fi
-    local proceed
     read -r proceed
     if [[ "$proceed" =~ ^[Nn]$ ]]; then
         return 0
     fi
 
     local sent=0 skipped_drafts=0
+    local cat draft rc cont
     for (( idx=1; idx <= actionable_count; idx++ )); do
-        local mid="${actionable_ids[$idx]}"
-        local cat="${actionable_cats[$idx]}"
-        local icon=$(_em_category_icon "$cat")
+        mid="${actionable_ids[$idx]}"
+        cat="${actionable_cats[$idx]}"
+        icon=$(_em_category_icon "$cat")
 
         echo ""
         echo -e "${_C_BOLD}Reply ${idx}/${actionable_count}${_C_NC}  ${icon} ${cat}  ${_C_DIM}#${mid}${_C_NC}"
         echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
 
         # Show original email snippet
-        local content
         content=$(_em_hml_read "$mid" plain 2>/dev/null)
         echo -e "${_C_DIM}$(echo "$content" | head -5)${_C_NC}"
         echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
 
-        local draft
         if [[ "$review_mode" == "true" ]]; then
             # Review mode: use cached draft (already verified to exist)
             draft=$(_em_cache_get "drafts" "$mid" 2>/dev/null)
@@ -967,7 +966,7 @@ _em_respond() {
 
         # Open reply in $EDITOR (same as em reply)
         _em_hml_reply "$mid" "$draft"
-        local rc=$?
+        rc=$?
 
         if [[ $rc -eq 0 ]]; then
             (( sent++ ))
@@ -977,7 +976,6 @@ _em_respond() {
         if [[ $idx -lt $actionable_count ]]; then
             echo ""
             printf "  Continue to next? [Y/n/q] "
-            local cont
             read -r cont
             if [[ "$cont" =~ ^[NnQq]$ ]]; then
                 (( skipped_drafts += actionable_count - idx ))
