@@ -797,18 +797,25 @@ _em_respond() {
     local folder="$FLOW_EMAIL_FOLDER"
     local dry_run=false
 
+    local review_mode=false
+
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --count|-n)    shift; count="$1"; shift ;;
             --folder|-f)   shift; folder="$1"; shift ;;
             --dry-run)     dry_run=true; shift ;;
+            --review|-R)   review_mode=true; shift ;;
             --clear)       _em_cache_clear; return ;;
             --help|-h)     _em_respond_help; return ;;
             *)             shift ;;
         esac
     done
 
-    echo -e "${_C_BOLD}em respond${_C_NC} ${_C_DIM}— scanning ${count} emails in ${folder}${_C_NC}"
+    if [[ "$review_mode" == "true" ]]; then
+        echo -e "${_C_BOLD}em respond --review${_C_NC} ${_C_DIM}— reviewing cached drafts in ${folder}${_C_NC}"
+    else
+        echo -e "${_C_BOLD}em respond${_C_NC} ${_C_DIM}— scanning ${count} emails in ${folder}${_C_NC}"
+    fi
     echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
 
     local messages
@@ -830,61 +837,99 @@ _em_respond() {
         msg_froms+=("$(echo "$messages" | jq -r ".[$i].from.name // .[$i].from.addr // \"unknown\"" | head -c 25)")
     done
 
-    # Phase 1: Classify all emails (quick scan)
-    echo ""
     local -a actionable_ids=() actionable_cats=()
-    local total=${#msg_ids[@]} non_actionable=0
+    local total=${#msg_ids[@]}
 
-    local idx
-    for (( idx=1; idx <= total; idx++ )); do
-        local mid="${msg_ids[$idx]}"
-        local from="${msg_froms[$idx]}"
-        local subj="${msg_subjects[$idx]}"
+    if [[ "$review_mode" == "true" ]]; then
+        # Review mode: skip classification, find emails with cached drafts
+        echo ""
+        local found=0
+        local idx
+        for (( idx=1; idx <= total; idx++ )); do
+            local mid="${msg_ids[$idx]}"
+            local from="${msg_froms[$idx]}"
+            local subj="${msg_subjects[$idx]}"
 
-        printf "  ${_C_DIM}[%d/%d]${_C_NC} %-25s " "$idx" "$total" "$from"
+            local cached_draft
+            cached_draft=$(_em_cache_get "drafts" "$mid" 2>/dev/null)
+            if [[ $? -eq 0 && -n "$cached_draft" ]]; then
+                (( found++ ))
+                echo -e "  ${_C_GREEN}✓${_C_NC} #${mid}  ${from}  ${_C_DIM}${subj:0:35}${_C_NC}"
+                actionable_ids+=("$mid")
+                actionable_cats+=("cached")
+            fi
+        done
 
-        local content
-        content=$(_em_hml_read "$mid" plain 2>/dev/null)
-        if [[ -z "$content" ]]; then
-            echo -e "${_C_DIM}(empty)${_C_NC}"
-            continue
+        local actionable_count=${#actionable_ids[@]}
+        echo ""
+        echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
+        echo -e "  ${_C_GREEN}${actionable_count} cached drafts${_C_NC} found in ${total} emails"
+
+        if [[ $actionable_count -eq 0 ]]; then
+            _flow_log_info "No cached drafts to review"
+            _flow_log_info "Generate drafts first: ${_C_CYAN}em respond${_C_NC}"
+            return 0
+        fi
+    else
+        # Normal mode: classify all emails (Phase 1)
+        echo ""
+        local non_actionable=0
+
+        local idx
+        for (( idx=1; idx <= total; idx++ )); do
+            local mid="${msg_ids[$idx]}"
+            local from="${msg_froms[$idx]}"
+            local subj="${msg_subjects[$idx]}"
+
+            printf "  ${_C_DIM}[%d/%d]${_C_NC} %-25s " "$idx" "$total" "$from"
+
+            local content
+            content=$(_em_hml_read "$mid" plain 2>/dev/null)
+            if [[ -z "$content" ]]; then
+                echo -e "${_C_DIM}(empty)${_C_NC}"
+                continue
+            fi
+
+            local category
+            category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$mid" 2>/dev/null)
+            local icon=$(_em_category_icon "$category")
+
+            case "$category" in
+                newsletter|automated|admin-info|spam)
+                    echo -e "${_C_DIM}${icon} ${category} — skip${_C_NC}"
+                    (( non_actionable++ ))
+                    ;;
+                *)
+                    echo -e "${_C_GREEN}${icon} ${category}${_C_NC} ${_C_DIM}${subj:0:30}${_C_NC}"
+                    actionable_ids+=("$mid")
+                    actionable_cats+=("$category")
+                    ;;
+            esac
+        done
+
+        local actionable_count=${#actionable_ids[@]}
+        echo ""
+        echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
+        echo -e "  ${_C_GREEN}${actionable_count} actionable${_C_NC}  ${_C_DIM}${non_actionable} skipped${_C_NC}  of ${total} total"
+
+        if [[ $actionable_count -eq 0 ]]; then
+            _flow_log_info "Nothing to respond to"
+            return 0
         fi
 
-        local category
-        category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$mid" 2>/dev/null)
-        local icon=$(_em_category_icon "$category")
-
-        case "$category" in
-            newsletter|automated|admin-info|spam)
-                echo -e "${_C_DIM}${icon} ${category} — skip${_C_NC}"
-                (( non_actionable++ ))
-                ;;
-            *)
-                echo -e "${_C_GREEN}${icon} ${category}${_C_NC} ${_C_DIM}${subj:0:30}${_C_NC}"
-                actionable_ids+=("$mid")
-                actionable_cats+=("$category")
-                ;;
-        esac
-    done
-
-    local actionable_count=${#actionable_ids[@]}
-    echo ""
-    echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
-    echo -e "  ${_C_GREEN}${actionable_count} actionable${_C_NC}  ${_C_DIM}${non_actionable} skipped${_C_NC}  of ${total} total"
-
-    if [[ $actionable_count -eq 0 ]]; then
-        _flow_log_info "Nothing to respond to"
-        return 0
-    fi
-
-    if [[ "$dry_run" == "true" ]]; then
-        _flow_log_info "Dry run — no drafts generated"
-        return 0
+        if [[ "$dry_run" == "true" ]]; then
+            _flow_log_info "Dry run — no drafts generated"
+            return 0
+        fi
     fi
 
     # Phase 2: For each actionable email → draft → $EDITOR → confirm send
     echo ""
-    printf "  Proceed to draft ${actionable_count} replies? [Y/n] "
+    if [[ "$review_mode" == "true" ]]; then
+        printf "  Review ${actionable_count} cached drafts? [Y/n] "
+    else
+        printf "  Proceed to draft ${actionable_count} replies? [Y/n] "
+    fi
     local proceed
     read -r proceed
     if [[ "$proceed" =~ ^[Nn]$ ]]; then
@@ -907,15 +952,21 @@ _em_respond() {
         echo -e "${_C_DIM}$(echo "$content" | head -5)${_C_NC}"
         echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
 
-        # Generate AI draft
-        _flow_log_info "Generating AI draft..."
         local draft
-        draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$mid" 2>/dev/null)
-
-        if [[ -z "$draft" ]]; then
-            _flow_log_warning "AI draft unavailable — opening blank reply"
+        if [[ "$review_mode" == "true" ]]; then
+            # Review mode: use cached draft (already verified to exist)
+            draft=$(_em_cache_get "drafts" "$mid" 2>/dev/null)
+            _flow_log_success "Cached draft loaded — opening in \$EDITOR"
         else
-            _flow_log_success "Draft ready — opening in \$EDITOR"
+            # Normal mode: generate AI draft
+            _flow_log_info "Generating AI draft..."
+            draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$mid" 2>/dev/null)
+
+            if [[ -z "$draft" ]]; then
+                _flow_log_warning "AI draft unavailable — opening blank reply"
+            else
+                _flow_log_success "Draft ready — opening in \$EDITOR"
+            fi
         fi
 
         # Open reply in $EDITOR (same as em reply)
@@ -950,11 +1001,13 @@ _em_respond_help() {
 ${_C_BOLD}em respond${_C_NC} — Batch reply to actionable emails
 
 ${_C_CYAN}em respond${_C_NC}              Classify → draft → edit in \$EDITOR → send
+${_C_CYAN}em respond --review${_C_NC}     Review/send cached drafts (skip classification)
 ${_C_CYAN}em respond -n 5${_C_NC}         Process 5 emails (default: 10)
-${_C_CYAN}em respond --dry-run${_C_NC}    Classify only (no drafts, no $EDITOR)
+${_C_CYAN}em respond --dry-run${_C_NC}    Classify only (no drafts, no \$EDITOR)
 ${_C_CYAN}em respond --clear${_C_NC}      Clear AI cache
 
 ${_C_DIM}Flow: scan → classify → [actionable?] → AI draft → \$EDITOR → confirm send${_C_NC}
+${_C_DIM}Review: scan → find cached drafts → \$EDITOR → confirm send${_C_NC}
 ${_C_DIM}Non-actionable (auto-skipped): newsletter, automated, admin-info${_C_NC}
 ${_C_DIM}Safety: every send requires explicit [y/N] confirmation${_C_NC}
 "
