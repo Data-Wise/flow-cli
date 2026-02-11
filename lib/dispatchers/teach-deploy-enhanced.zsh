@@ -627,6 +627,7 @@ _teach_deploy_enhanced() {
     # ============================================
     # PRE-FLIGHT CHECKS (shared function)
     # ============================================
+    {
 
     _deploy_preflight_checks "$ci_mode" || return 1
 
@@ -1034,7 +1035,6 @@ _teach_deploy_enhanced() {
             "${DEPLOY_SHORT_HASH:-$(git rev-parse --short=8 HEAD 2>/dev/null)}" \
             "$site_url"
 
-        _deploy_cleanup_globals
         return 0
     fi
 
@@ -1256,7 +1256,10 @@ _teach_deploy_enhanced() {
 
     # Clear trap before normal return (don't interfere with caller)
     trap - EXIT INT TERM
-    _deploy_cleanup_globals
+
+    } always {
+        _deploy_cleanup_globals
+    }
 }
 
 # Clean up DEPLOY_* global variables to avoid polluting the shell environment
