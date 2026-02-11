@@ -656,26 +656,27 @@ _git_push_current_branch() {
 
 # =============================================================================
 # Function: _git_detect_production_conflicts
-# Purpose: Check if production branch has commits that could cause conflicts
+# Purpose: Check if production branch has real content divergence from draft
 # =============================================================================
 # Arguments:
 #   $1 - (required) Draft/development branch name
 #   $2 - (required) Production branch name
 #
 # Returns:
-#   0 - No conflicts (production hasn't diverged)
-#   1 - Potential conflicts (production has new commits)
+#   0 - No conflicts (production has no new content commits)
+#   1 - Potential conflicts (production has non-merge commits not in draft)
 #
 # Example:
 #   if ! _git_detect_production_conflicts "draft" "main"; then
 #       echo "Warning: Production has new commits"
-#       echo "Consider rebasing before PR"
+#       echo "Consider running 'teach deploy --sync'"
 #   fi
 #
 # Notes:
 #   - Fetches from remote before checking
-#   - Uses merge-base to find common ancestor
-#   - Returns 1 if production has commits since divergence
+#   - Uses --is-ancestor fast path when draft is already merged
+#   - Excludes merge commits (--no-merges) to avoid false positives
+#     from --no-ff merge commits created by direct deploy
 # =============================================================================
 _git_detect_production_conflicts() {
     local draft_branch="$1"
@@ -684,17 +685,18 @@ _git_detect_production_conflicts() {
     # Fetch latest from remote
     git fetch origin "$prod_branch" --quiet 2>/dev/null || return 1
 
-    # Get merge base (common ancestor)
-    local merge_base=$(git merge-base "$draft_branch" "origin/$prod_branch" 2>/dev/null)
-
-    # Check if production branch has commits ahead of merge base
-    local commits_ahead=$(git rev-list --count "${merge_base}..origin/${prod_branch}" 2>/dev/null || echo 0)
-
-    if [[ $commits_ahead -gt 0 ]]; then
-        return 1  # Conflicts detected (production has new commits)
-    else
-        return 0  # No conflicts
+    # Fast path: draft already merged into production — no conflicts possible
+    if git merge-base --is-ancestor "$draft_branch" "origin/$prod_branch" 2>/dev/null; then
+        return 0
     fi
+
+    # Only flag actual content commits, not merge commits from --no-ff deploys
+    local prod_only
+    prod_only=$(git log --oneline --no-merges "origin/${prod_branch}" --not "$draft_branch" 2>/dev/null)
+
+    [[ -z "$prod_only" ]] && return 0
+
+    return 1
 }
 
 # =============================================================================

@@ -1070,6 +1070,113 @@ run_test "Full deploy summary box has Mode, Files, Duration, Commit fields" '
 echo ""
 
 # ============================================================================
+# SECTION 12: Back-Merge, --sync & Conflict Detection (#372)
+# ============================================================================
+echo "${CYAN}--- Section 12: Back-Merge, --sync & Conflict Detection (#372) ---${RESET}"
+
+run_test "New helper _deploy_commit_failure_guidance is loaded" '
+    typeset -f _deploy_commit_failure_guidance >/dev/null 2>&1 || return 1
+'
+
+run_test "Help output includes --sync flag" '
+    local output
+    output=$(_teach_deploy_enhanced_help 2>&1)
+    [[ "$output" == *"--sync"* ]] || return 1
+'
+
+run_test "_deploy_step supports skip status" '
+    local output
+    output=$(_deploy_step 1 3 "Sync branch" skip 2>&1)
+    [[ "$output" == *"skipped"* ]] || return 1
+'
+
+run_test "_deploy_commit_failure_guidance produces expected output" '
+    local output
+    output=$(_deploy_commit_failure_guidance 2>&1)
+    [[ "$output" == *"Commit failed"* ]] || return 1
+    [[ "$output" == *"QUARTO_PRE_COMMIT_RENDER"* ]] || return 1
+    [[ "$output" == *"still staged"* ]] || return 1
+'
+
+run_test "--sync flag is accepted (no Unknown flag error)" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    local output
+    output=$(cd "$tmpdir" && _teach_deploy_enhanced --sync 2>&1)
+    [[ "$output" != *"Unknown flag"* ]] || return 1
+'
+
+run_test "--sync on already-synced branches succeeds (ff-only)" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    # Deploy first so branches have something to sync
+    (cd "$tmpdir" && _teach_deploy_enhanced --direct --ci) >/dev/null 2>&1
+    local output
+    output=$(cd "$tmpdir" && _teach_deploy_enhanced --sync 2>&1)
+    [[ "$output" == *"[ok]"* ]] || return 1
+'
+
+run_test "Direct deploy with demo course includes back-merge step" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    local output
+    output=$(cd "$tmpdir" && _teach_deploy_enhanced --direct --ci 2>&1)
+    local rc=$?
+    [[ $rc -eq 0 ]] || return 1
+    # Output should contain step 6/6 (the back-merge sync step)
+    [[ "$output" == *"[6/6]"* ]] || return 1
+    [[ "$output" == *"Sync"* ]] || return 1
+'
+
+run_test "Conflict detection returns 0 after demo course deploy" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    (cd "$tmpdir" && _teach_deploy_enhanced --direct --ci) >/dev/null 2>&1
+    local result
+    result=$(
+        cd "$tmpdir"
+        _git_detect_production_conflicts "draft" "main"
+        echo $?
+    )
+    [[ "$result" == "0" ]] || return 1
+'
+
+_test_multiple_deploys() {
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
+    local tmpdir=$(_create_demo_repo)
+    # Deploy once
+    (cd "$tmpdir" && _teach_deploy_enhanced --direct --ci) >/dev/null 2>&1
+    # Add more content and deploy again
+    (
+        cd "$tmpdir"
+        echo "## Week 2 update" >> lectures/week-01.qmd
+        git add -A && git commit -q -m "update week-01"
+    ) >/dev/null 2>&1
+    (cd "$tmpdir" && _teach_deploy_enhanced --direct --ci) >/dev/null 2>&1
+    # After two deploys, conflict detection should pass
+    local result
+    result=$(
+        cd "$tmpdir"
+        _git_detect_production_conflicts "draft" "main"
+        echo $?
+    )
+    [[ "$result" == "0" ]] || return 1
+}
+run_test "Multiple deploys of demo course produce no false positives" '_test_multiple_deploys'
+
+_test_three_dot_diff() {
+    local src="${PROJECT_ROOT}/lib/dispatchers/teach-deploy-enhanced.zsh"
+    local line
+    line=$(grep "math_blanks_files.*git diff" "$src" 2>/dev/null)
+    [[ -n "$line" ]] || return 1
+    # Must contain three-dot syntax
+    [[ "$line" == *'...'* ]] || return 1
+}
+run_test "Three-dot diff in preflight uses correct syntax" '_test_three_dot_diff'
+
+echo ""
+
+# ============================================================================
 # Summary
 # ============================================================================
 echo "================================================="

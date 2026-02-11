@@ -122,7 +122,7 @@ _deploy_preflight_checks() {
     # Only check .qmd files changed between draft and production
     local _math_blanks_files _repo_root
     _repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
-    _math_blanks_files=$(git diff --name-only "$DEPLOY_PROD_BRANCH".."$DEPLOY_DRAFT_BRANCH" -- '*.qmd' 2>/dev/null)
+    _math_blanks_files=$(git diff --name-only "$DEPLOY_PROD_BRANCH"..."$DEPLOY_DRAFT_BRANCH" -- '*.qmd' 2>/dev/null)
     if [[ -n "$_math_blanks_files" ]]; then
         local _math_blank_files=() _math_unclosed_files=() _abs_path _qmd_file
         while IFS= read -r _qmd_file; do
@@ -194,6 +194,7 @@ _deploy_step() {
         done)    printf "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
         active)  printf "  ${FLOW_COLORS[info]}⏳${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
         fail)    printf "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} [%d/%d] %s\n" "$step" "$total" "$label" ;;
+        skip)    printf "  ${FLOW_COLORS[warn]}—${FLOW_COLORS[reset]} [%d/%d] %s ${FLOW_COLORS[dim]}(skipped)${FLOW_COLORS[reset]}\n" "$step" "$total" "$label" ;;
     esac
 }
 
@@ -237,6 +238,22 @@ _deploy_summary_box() {
 }
 
 # ============================================================================
+# COMMIT FAILURE GUIDANCE (DRY helper)
+# ============================================================================
+
+_deploy_commit_failure_guidance() {
+    echo ""
+    _teach_error "Commit failed (likely pre-commit hook)"
+    echo ""
+    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
+    echo "    1. Fix the issues above, then run ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
+    echo "    2. Skip validation: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
+    echo "    3. Force commit: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
+}
+
+# ============================================================================
 # DIRECT MERGE MODE
 # ============================================================================
 
@@ -251,7 +268,7 @@ _deploy_direct_merge() {
     local ci_mode="${4:-false}"
     local start_time=$SECONDS
 
-    local total_steps=5
+    local total_steps=6
 
     # Safety: always return to draft branch on error or signal
     trap "git checkout '$draft_branch' 2>/dev/null" EXIT INT TERM
@@ -334,6 +351,15 @@ _deploy_direct_merge() {
         _teach_error "Warning: Failed to switch back to $draft_branch"
     }
     _deploy_step 5 $total_steps "Switch back to $draft_branch" done
+
+    # Back-merge: keep draft in sync with production (prevents #372 recurrence)
+    git fetch origin "$prod_branch" --quiet 2>/dev/null
+    if git merge "origin/$prod_branch" --ff-only 2>/dev/null; then
+        _deploy_step 6 $total_steps "Sync $draft_branch with $prod_branch" done
+    else
+        _deploy_step 6 $total_steps "Sync $draft_branch with $prod_branch" skip
+        echo "       ${FLOW_COLORS[dim]}Draft has new commits — run 'teach deploy --sync' later${FLOW_COLORS[reset]}"
+    fi
 
     local elapsed=$(( SECONDS - start_time ))
 
@@ -566,6 +592,26 @@ _teach_deploy_enhanced() {
                 _deploy_history_list "$history_count"
                 return $?
                 ;;
+            --sync)
+                shift
+                # Quick branch sync: merge production into draft (ff-only first, then regular)
+                local _sync_config=".flow/teach-config.yml"
+                local _sync_prod
+                _sync_prod=$(yq '.git.production_branch // .branches.production // "main"' "$_sync_config" 2>/dev/null) || _sync_prod="main"
+                echo ""
+                echo "${FLOW_COLORS[info]}  Syncing with $_sync_prod...${FLOW_COLORS[reset]}"
+                git fetch origin "$_sync_prod" --quiet 2>/dev/null
+                if git merge "origin/$_sync_prod" --ff-only 2>/dev/null; then
+                    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Fast-forward sync with $_sync_prod"
+                elif git merge "origin/$_sync_prod" --no-edit 2>/dev/null; then
+                    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Merged $_sync_prod (merge commit created)"
+                else
+                    _teach_error "Sync failed — merge conflicts" \
+                        "Resolve conflicts manually, then commit"
+                    return 1
+                fi
+                return 0
+                ;;
             --help|-h|help)
                 _teach_deploy_enhanced_help
                 return 0
@@ -597,6 +643,7 @@ _teach_deploy_enhanced() {
     # ============================================
     # PRE-FLIGHT CHECKS (shared function)
     # ============================================
+    {
 
     _deploy_preflight_checks "$ci_mode" || return 1
 
@@ -637,15 +684,7 @@ _teach_deploy_enhanced() {
             *)
                 git add -A
                 if ! git commit -m "$smart_msg"; then
-                    echo ""
-                    _teach_error "Commit failed (likely pre-commit hook)"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
-                    echo "    1. Fix issues, then ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
-                    echo "    2. Skip: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
-                    echo "    3. Force: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Changes are still staged.${FLOW_COLORS[reset]}"
+                    _deploy_commit_failure_guidance
                     return 1
                 fi
                 echo "  ${FLOW_COLORS[success]}[ok]${FLOW_COLORS[reset]} Committed: $smart_msg"
@@ -804,15 +843,7 @@ _teach_deploy_enhanced() {
 
                 git add "${uncommitted_files[@]}"
                 if ! git commit -m "$commit_msg"; then
-                    echo ""
-                    _teach_error "Commit failed (likely pre-commit hook)"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
-                    echo "    1. Fix the issues above, then run ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
-                    echo "    2. Skip validation: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
-                    echo "    3. Force commit: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
+                    _deploy_commit_failure_guidance
                     return 1
                 fi
 
@@ -828,15 +859,7 @@ _teach_deploy_enhanced() {
 
                 git add "${uncommitted_files[@]}"
                 if ! git commit -m "$commit_msg"; then
-                    echo ""
-                    _teach_error "Commit failed (likely pre-commit hook)"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
-                    echo "    1. Fix the issues above, then run ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
-                    echo "    2. Skip validation: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
-                    echo "    3. Force commit: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
+                    _deploy_commit_failure_guidance
                     return 1
                 fi
 
@@ -1004,7 +1027,6 @@ _teach_deploy_enhanced() {
             "${DEPLOY_SHORT_HASH:-$(git rev-parse --short=8 HEAD 2>/dev/null)}" \
             "$site_url"
 
-        _deploy_cleanup_globals
         return 0
     fi
 
@@ -1226,7 +1248,10 @@ _teach_deploy_enhanced() {
 
     # Clear trap before normal return (don't interfere with caller)
     trap - EXIT INT TERM
-    _deploy_cleanup_globals
+
+    } always {
+        _deploy_cleanup_globals
+    }
 }
 
 # Clean up DEPLOY_* global variables to avoid polluting the shell environment
@@ -1297,6 +1322,7 @@ ${_C_BLUE}📋 HISTORY & ROLLBACK${_C_NC}:
   ${_C_CYAN}teach deploy --history 20${_C_NC}    Show last 20 deployments
   ${_C_CYAN}teach deploy --rollback${_C_NC}      Interactive rollback picker
   ${_C_CYAN}teach deploy --rollback 1${_C_NC}    Rollback most recent deploy
+  ${_C_CYAN}teach deploy --sync${_C_NC}          Sync draft with production
 
 ${_C_MAGENTA}💡 TIP${_C_NC}: Direct merge (-d) is best for solo instructors.
   ${_C_DIM}PR mode (default) is better for team-reviewed courses.${_C_NC}
