@@ -134,10 +134,12 @@ run_test "em folders returns folder list" "test_em_folders"
 
 test_em_unread() {
     local output=$(em unread 2>&1)
-    if [[ "$output" =~ ^[0-9]+$ ]]; then
+    # Strip ANSI codes, then check for "<number> unread in <folder>"
+    local clean=$(echo "$output" | sed $'s/\033\\[[0-9;]*m//g')
+    if [[ "$clean" =~ ^[0-9]+\ unread\ in\  ]]; then
         return 0
     else
-        echo "Unread count not numeric: $output"
+        echo "Unexpected format: $clean"
         return 1
     fi
 }
@@ -198,22 +200,20 @@ run_test "em find runs without error" "test_em_find"
 echo ""
 echo "${CYAN}Section 4: Email Reading${RESET}"
 
-# Get first email ID
+# Get first email ID (run directly — not in run_test subshell — so variable propagates)
 FIRST_EMAIL_ID=""
-test_get_first_email() {
-    local email_data=$(_em_hml_list INBOX 1 2>/dev/null)
-    if [[ -z "$email_data" ]]; then
-        echo "No emails in inbox"
-        exit 77
-    fi
-    FIRST_EMAIL_ID=$(echo "$email_data" | jq -r '.[0].id // empty' 2>/dev/null)
-    if [[ -z "$FIRST_EMAIL_ID" ]]; then
-        echo "Could not extract email ID"
-        exit 77
-    fi
-    return 0
-}
-run_test "get first email ID" "test_get_first_email"
+TESTS_RUN=$((TESTS_RUN + 1))
+echo -n "  ${CYAN}[$TESTS_RUN] get first email ID...${RESET} "
+_e2e_email_data=$(_em_hml_list INBOX 1 2>/dev/null)
+if [[ -n "$_e2e_email_data" ]]; then
+    FIRST_EMAIL_ID=$(echo "$_e2e_email_data" | jq -r '.[0].id // empty' 2>/dev/null)
+fi
+if [[ -n "$FIRST_EMAIL_ID" ]]; then
+    echo "${GREEN}PASS${RESET} ${DIM}(id=$FIRST_EMAIL_ID)${RESET}"
+    TESTS_PASSED=$((TESTS_PASSED + 1))
+else
+    echo "${YELLOW}SKIP${RESET} ${DIM}(no emails)${RESET}"
+fi
 
 if [[ -z "$FIRST_EMAIL_ID" ]]; then
     echo "${YELLOW}  Skipping email reading tests (no emails)${RESET}"
@@ -232,7 +232,13 @@ else
 
     test_em_read_html() {
         local output=$(_em_hml_read "$FIRST_EMAIL_ID" html 2>/dev/null)
-        [[ -n "$output" ]] && return 0 || return 1
+        if [[ -n "$output" ]]; then
+            return 0
+        else
+            # Not all emails have HTML parts — skip, not fail
+            echo "No HTML part (plain-text email)"
+            return 77
+        fi
     }
     run_test "_em_hml_read html returns content" "test_em_read_html"
 fi
