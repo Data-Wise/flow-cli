@@ -618,22 +618,23 @@ em cl <ID>             # Shortcut
 
 Categorizes an email into one of these types:
 
-| Category | Description | Icon |
-|----------|-------------|------|
-| `student-question` | Academic query, assignment question, grade inquiry | Q |
-| `admin-important` | Department notice, policy change, deadline | ! |
-| `admin-info` | FYI notices, newsletters from institution | i |
-| `scheduling` | Meeting request, calendar invite, office hours | S |
-| `newsletter` | External newsletter, marketing, mailing list | N |
-| `personal` | Colleague, friend, non-work | P |
-| `automated` | CI/CD, GitHub, system alerts, receipts | A |
-| `urgent` | Deadline today, emergency, escalation | U |
+| Category | Description | Icon | Color |
+|----------|-------------|------|-------|
+| `student` | Student email: absence, question, grade inquiry, accommodation | S | blue |
+| `colleague` | Faculty/staff discussion: hiring committee, research, departmental | C | green |
+| `admin-action` | Requires YOUR action: accommodation letter, form, review request | ! | red |
+| `scheduling` | Meeting request, calendar invite, event RSVP, office hours | @ | cyan |
+| `urgent` | Deadline today, emergency, escalation, time-sensitive | U | red |
+| `admin-info` | FYI only: university blast, mailing list, policy notice | i | dim |
+| `newsletter` | Professional journal, academic association digest | N | dim |
+| `vendor` | Commercial marketing, textbook promo, EdTech sales pitch | V | dim |
+| `automated` | CI/CD, GitHub, system alerts, delivery receipts | A | dim |
 
 **Example:**
 
 ```bash
 $ em classify 142
-  Q student-question
+  S student
 ```
 
 **Use Case:**
@@ -689,7 +690,9 @@ em respond --clear          # Clear draft cache
 
 1. Fetches latest N emails from inbox
 2. Classifies each email (AI)
-3. Skips non-actionable categories (newsletters, automated, admin-info)
+3. Skips non-actionable categories (newsletter, automated, admin-info, vendor)
+3a. Auto-skips listserv emails (`@LIST.*`, `*-L@*`) before classification
+3b. Shows warning banner if actionable email was sent to a mailing list
 4. For each actionable email: generates AI draft, opens in `$EDITOR`, confirms send
 5. You can quit partway through (`q`) — remaining drafts stay cached
 6. Come back later with `em respond --review` to continue
@@ -745,6 +748,33 @@ $ em respond --dry-run
 $ em respond --clear
 ✅ Email cache cleared (2.4M freed)
 ```
+
+### Listserv Safety
+
+`em respond` includes two layers of protection against accidentally replying to mailing lists:
+
+**Layer 1: Pre-classification skip.** Emails addressed to `*@LIST.*`, `*@list.*`, or `*-L@*` are auto-skipped before AI classification. They appear as:
+
+```
+  [3/10] graduation@unm.edu        L listserv — skip
+```
+
+**Layer 2: Warning banner.** If an actionable email was sent to a list-like address, a warning appears before drafting:
+
+```
+  ⚠ WARNING: This email was sent to a mailing list
+    Replying may go to ALL list members. Review carefully.
+```
+
+### Discard Detection
+
+When reviewing drafts, himalaya offers "Send it" and "Discard it" options. `em` properly detects both outcomes using `script(1)` to capture the interactive terminal output:
+
+- **Send** — Counted as replied, marked in cache
+- **Discard** — Counted as skipped, not marked as replied
+- **Error** — Logged as warning, counted as skipped
+
+This prevents the counter from showing "1 replied" when you actually chose to discard.
 
 ### AI Timeouts
 
