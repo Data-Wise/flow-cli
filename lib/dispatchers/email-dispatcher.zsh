@@ -68,6 +68,19 @@ em() {
         return
     fi
 
+    # Bare number → read that email (em 42 = em read 42)
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
+        _em_read "$@"
+        return
+    fi
+
+    # Top-level flags → route to inbox (em -n 5 = em inbox 5)
+    if [[ "$1" == "-n" ]]; then
+        shift
+        _em_inbox "$@"
+        return
+    fi
+
     case "$1" in
         # ─────────────────────────────────────────────────────────────
         # CORE EMAIL OPERATIONS
@@ -86,7 +99,7 @@ em() {
         # ─────────────────────────────────────────────────────────────
         # AI FEATURES
         # ─────────────────────────────────────────────────────────────
-        respond|resp) shift; _em_respond "$@" ;;
+        respond|resp|repond) shift; _em_respond "$@" ;;
         classify|cl)  shift; _em_classify "$@" ;;
         summarize|sum) shift; _em_summarize "$@" ;;
 
@@ -616,30 +629,24 @@ _em_summarize() {
 }
 
 _em_respond() {
+    # Batch respond: classify → draft → edit in $EDITOR → confirm send
+    # Same flow as `em reply` but loops through actionable emails
     _em_require_himalaya || return 1
-    local review_mode=false
     local count=10
     local folder="$FLOW_EMAIL_FOLDER"
-    local auto_review=true
+    local dry_run=false
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --review|-r)     review_mode=true; shift ;;
-            --count|-n)      shift; count="$1"; shift ;;
-            --folder|-f)     shift; folder="$1"; shift ;;
-            --no-review)     auto_review=false; shift ;;
-            --clear)         _em_cache_clear; return ;;
-            --help|-h)       _em_respond_help; return ;;
-            *)               shift ;;
+            --count|-n)    shift; count="$1"; shift ;;
+            --folder|-f)   shift; folder="$1"; shift ;;
+            --dry-run)     dry_run=true; shift ;;
+            --clear)       _em_cache_clear; return ;;
+            --help|-h)     _em_respond_help; return ;;
+            *)             shift ;;
         esac
     done
 
-    if [[ "$review_mode" == "true" ]]; then
-        _em_respond_review
-        return
-    fi
-
-    # Batch draft generation with progress
     echo -e "${_C_BOLD}em respond${_C_NC} ${_C_DIM}— scanning ${count} emails in ${folder}${_C_NC}"
     echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
 
@@ -650,200 +657,145 @@ _em_respond() {
         return 0
     fi
 
-    # Collect message IDs into array (avoids subshell variable loss)
-    local -a msg_ids=()
-    local -a msg_subjects=()
-    local -a msg_froms=()
+    # Collect into arrays (avoids subshell variable loss)
+    local -a msg_ids=() msg_subjects=() msg_froms=()
     local msg_count
     msg_count=$(echo "$messages" | jq 'length')
 
     local i
     for (( i=0; i < msg_count; i++ )); do
         msg_ids+=($(echo "$messages" | jq -r ".[$i].id"))
-        msg_subjects+=($(echo "$messages" | jq -r ".[$i].subject // \"(no subject)\"" | head -c 50))
-        msg_froms+=($(echo "$messages" | jq -r ".[$i].from.name // .[$i].from.addr // \"unknown\"" | head -c 20))
+        msg_subjects+=("$(echo "$messages" | jq -r ".[$i].subject // \"(no subject)\"" | head -c 50)")
+        msg_froms+=("$(echo "$messages" | jq -r ".[$i].from.name // .[$i].from.addr // \"unknown\"" | head -c 25)")
     done
 
-    local total=${#msg_ids[@]} drafted=0 skipped=0 non_actionable=0
+    # Phase 1: Classify all emails (quick scan)
     echo ""
+    local -a actionable_ids=() actionable_cats=()
+    local total=${#msg_ids[@]} non_actionable=0
 
     local idx
     for (( idx=1; idx <= total; idx++ )); do
         local mid="${msg_ids[$idx]}"
-        local subj="${msg_subjects[$idx]}"
         local from="${msg_froms[$idx]}"
+        local subj="${msg_subjects[$idx]}"
 
-        # Progress indicator
-        printf "  ${_C_DIM}[%d/%d]${_C_NC} #%-6s %-20s " "$idx" "$total" "$mid" "$from"
+        printf "  ${_C_DIM}[%d/%d]${_C_NC} %-25s " "$idx" "$total" "$from"
 
-        # Skip if draft already cached
-        if _em_cache_get "drafts" "$mid" &>/dev/null; then
-            echo -e "${_C_DIM}cached${_C_NC}"
-            (( skipped++ ))
-            continue
-        fi
-
-        # Read email content
         local content
         content=$(_em_hml_read "$mid" plain 2>/dev/null)
         if [[ -z "$content" ]]; then
-            echo -e "${_C_DIM}empty${_C_NC}"
+            echo -e "${_C_DIM}(empty)${_C_NC}"
             continue
         fi
 
-        # Classify
         local category
         category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$mid" 2>/dev/null)
         local icon=$(_em_category_icon "$category")
 
-        # Skip non-actionable categories
         case "$category" in
             newsletter|automated|admin-info|spam)
-                echo -e "${_C_DIM}${icon} ${category}${_C_NC}"
+                echo -e "${_C_DIM}${icon} ${category} — skip${_C_NC}"
                 (( non_actionable++ ))
-                continue
+                ;;
+            *)
+                echo -e "${_C_GREEN}${icon} ${category}${_C_NC} ${_C_DIM}${subj:0:30}${_C_NC}"
+                actionable_ids+=("$mid")
+                actionable_cats+=("$category")
                 ;;
         esac
+    done
 
-        # Generate draft for actionable email
+    local actionable_count=${#actionable_ids[@]}
+    echo ""
+    echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
+    echo -e "  ${_C_GREEN}${actionable_count} actionable${_C_NC}  ${_C_DIM}${non_actionable} skipped${_C_NC}  of ${total} total"
+
+    if [[ $actionable_count -eq 0 ]]; then
+        _flow_log_info "Nothing to respond to"
+        return 0
+    fi
+
+    if [[ "$dry_run" == "true" ]]; then
+        _flow_log_info "Dry run — no drafts generated"
+        return 0
+    fi
+
+    # Phase 2: For each actionable email → draft → $EDITOR → confirm send
+    echo ""
+    printf "  Proceed to draft ${actionable_count} replies? [Y/n] "
+    local proceed
+    read -r proceed
+    if [[ "$proceed" =~ ^[Nn]$ ]]; then
+        return 0
+    fi
+
+    local sent=0 skipped_drafts=0
+    for (( idx=1; idx <= actionable_count; idx++ )); do
+        local mid="${actionable_ids[$idx]}"
+        local cat="${actionable_cats[$idx]}"
+        local icon=$(_em_category_icon "$cat")
+
+        echo ""
+        echo -e "${_C_BOLD}Reply ${idx}/${actionable_count}${_C_NC}  ${icon} ${cat}  ${_C_DIM}#${mid}${_C_NC}"
+        echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+
+        # Show original email snippet
+        local content
+        content=$(_em_hml_read "$mid" plain 2>/dev/null)
+        echo -e "${_C_DIM}$(echo "$content" | head -5)${_C_NC}"
+        echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+
+        # Generate AI draft
+        _flow_log_info "Generating AI draft..."
         local draft
         draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$mid" 2>/dev/null)
-        if [[ -n "$draft" ]]; then
-            (( drafted++ ))
-            echo -e "${_C_GREEN}${icon} drafted${_C_NC} ${_C_DIM}(${category})${_C_NC}"
+
+        if [[ -z "$draft" ]]; then
+            _flow_log_warning "AI draft unavailable — opening blank reply"
         else
-            echo -e "${_C_YELLOW}${icon} no draft${_C_NC} ${_C_DIM}(AI failed)${_C_NC}"
+            _flow_log_success "Draft ready — opening in \$EDITOR"
+        fi
+
+        # Open reply in $EDITOR (same as em reply)
+        _em_hml_reply "$mid" "$draft"
+        local rc=$?
+
+        if [[ $rc -eq 0 ]]; then
+            (( sent++ ))
+        fi
+
+        # Continue prompt (unless last one)
+        if [[ $idx -lt $actionable_count ]]; then
+            echo ""
+            printf "  Continue to next? [Y/n/q] "
+            local cont
+            read -r cont
+            if [[ "$cont" =~ ^[NnQq]$ ]]; then
+                (( skipped_drafts += actionable_count - idx ))
+                break
+            fi
         fi
     done
 
     # Summary
     echo ""
     echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
-    echo -e "  ${_C_GREEN}${drafted} drafted${_C_NC}  ${_C_DIM}${non_actionable} skipped (non-actionable)  ${skipped} cached${_C_NC}"
-
-    # Auto-enter review if we have drafts
-    if [[ "$auto_review" == "true" && "$drafted" -gt 0 ]]; then
-        echo ""
-        printf "  Review drafts now? [Y/n] "
-        local response
-        read -r response
-        if [[ ! "$response" =~ ^[Nn]$ ]]; then
-            _em_respond_review
-        fi
-    elif [[ "$drafted" -gt 0 ]]; then
-        echo -e "  Review: ${_C_CYAN}em respond --review${_C_NC}"
-    fi
-}
-
-_em_respond_review() {
-    # Review and act on generated drafts
-    local cache_base="$(_em_cache_dir)/drafts"
-    if [[ ! -d "$cache_base" ]] || [[ -z "$(ls -A "$cache_base" 2>/dev/null)" ]]; then
-        _flow_log_info "No drafts to review. Run ${_C_CYAN}em respond${_C_NC} first."
-        return 0
-    fi
-
-    echo -e "\n${_C_BOLD}Draft Review${_C_NC}"
-    echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}\n"
-
-    # Iterate through drafts one by one
-    local draft_file sent=0 edited=0 discarded=0 remaining=0
-    local -a draft_files=("$cache_base"/*.txt(N))
-    local total_drafts=${#draft_files[@]}
-
-    if [[ $total_drafts -eq 0 ]]; then
-        _flow_log_info "No drafts to review."
-        return 0
-    fi
-
-    local idx=0
-    for draft_file in "${draft_files[@]}"; do
-        (( idx++ ))
-        local draft_content
-        draft_content=$(< "$draft_file")
-        local cache_key="${draft_file:t:r}"
-
-        # Try to find the original message ID from cache key
-        # Cache key is md5 hash — look up classification for context
-        local class_content=""
-        local class_file="$(_em_cache_dir)/classifications/${cache_key}.txt"
-        [[ -f "$class_file" ]] && class_content=$(< "$class_file")
-
-        echo -e "  ${_C_BOLD}Draft ${idx}/${total_drafts}${_C_NC}${class_content:+  ${_C_DIM}($class_content)${_C_NC}}"
-        echo -e "  ${_C_DIM}$(printf '%.0s─' {1..56})${_C_NC}"
-        echo "$draft_content" | head -10
-        [[ $(echo "$draft_content" | wc -l) -gt 10 ]] && echo -e "  ${_C_DIM}... ($(echo "$draft_content" | wc -l | tr -d ' ') lines total)${_C_NC}"
-        echo -e "  ${_C_DIM}$(printf '%.0s─' {1..56})${_C_NC}"
-        echo ""
-
-        # Action prompt
-        printf "  [${_C_GREEN}s${_C_NC}]end  [${_C_CYAN}e${_C_NC}]dit  [${_C_RED}d${_C_NC}]iscard  [${_C_DIM}n${_C_NC}]ext  [${_C_DIM}q${_C_NC}]uit: "
-        local action
-        read -r -k1 action
-        echo ""
-
-        case "$action" in
-            s|S)
-                # Send: get original msg ID, construct reply, confirm
-                echo -e "  ${_C_YELLOW}Send not yet wired — use ${_C_CYAN}em reply <ID> --batch${_C_NC} with the draft${_C_NC}"
-                echo -e "  ${_C_DIM}Draft preserved in cache for manual send${_C_NC}"
-                (( remaining++ ))
-                ;;
-            e|E)
-                # Edit in $EDITOR then keep
-                local tmpfile
-                tmpfile=$(mktemp "${TMPDIR:-/tmp}/em-draft-XXXXXX.txt")
-                echo "$draft_content" > "$tmpfile"
-                ${EDITOR:-nvim} "$tmpfile"
-                # Save edited draft back to cache
-                local edited_content
-                edited_content=$(< "$tmpfile")
-                if [[ "$edited_content" != "$draft_content" ]]; then
-                    echo "$edited_content" > "$draft_file"
-                    echo -e "  ${_C_GREEN}Draft updated${_C_NC}"
-                    (( edited++ ))
-                else
-                    echo -e "  ${_C_DIM}No changes${_C_NC}"
-                fi
-                rm -f "$tmpfile"
-                (( remaining++ ))
-                ;;
-            d|D)
-                # Discard draft
-                rm -f "$draft_file"
-                echo -e "  ${_C_RED}Discarded${_C_NC}"
-                (( discarded++ ))
-                ;;
-            q|Q)
-                (( remaining += total_drafts - idx ))
-                break
-                ;;
-            *)
-                # Skip/next
-                (( remaining++ ))
-                ;;
-        esac
-        echo ""
-    done
-
-    # Summary
-    echo -e "${_C_DIM}$(printf '%.0s━' {1..60})${_C_NC}"
-    echo -e "  ${_C_GREEN}${edited} edited${_C_NC}  ${_C_RED}${discarded} discarded${_C_NC}  ${_C_DIM}${remaining} remaining${_C_NC}"
+    echo -e "  ${_C_GREEN}${sent} replied${_C_NC}  ${_C_DIM}${skipped_drafts} skipped${_C_NC}"
 }
 
 _em_respond_help() {
     echo -e "
-${_C_BOLD}em respond${_C_NC} — Batch AI draft generation
+${_C_BOLD}em respond${_C_NC} — Batch reply to actionable emails
 
-${_C_CYAN}em respond${_C_NC}              Scan emails → classify → draft → review
-${_C_CYAN}em respond --review${_C_NC}     Review cached drafts (edit/discard)
-${_C_CYAN}em respond -n 15${_C_NC}        Process 15 emails (default: 10)
-${_C_CYAN}em respond --no-review${_C_NC}  Generate drafts without auto-review
-${_C_CYAN}em respond --clear${_C_NC}      Clear all cached drafts
+${_C_CYAN}em respond${_C_NC}              Classify → draft → edit in \$EDITOR → send
+${_C_CYAN}em respond -n 5${_C_NC}         Process 5 emails (default: 10)
+${_C_CYAN}em respond --dry-run${_C_NC}    Classify only (no drafts, no $EDITOR)
+${_C_CYAN}em respond --clear${_C_NC}      Clear AI cache
 
-${_C_DIM}Workflow: scan → classify → skip non-actionable → AI draft → review${_C_NC}
-${_C_DIM}Categories: student-question, admin-important, scheduling, etc.${_C_NC}
+${_C_DIM}Flow: scan → classify → [actionable?] → AI draft → \$EDITOR → confirm send${_C_NC}
 ${_C_DIM}Non-actionable (auto-skipped): newsletter, automated, admin-info${_C_NC}
+${_C_DIM}Safety: every send requires explicit [y/N] confirmation${_C_NC}
 "
 }
 
