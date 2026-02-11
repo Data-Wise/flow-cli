@@ -913,6 +913,11 @@ _em_respond() {
             fi
 
             category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$mid" 2>/dev/null)
+            # Normalize AI response: first line, trimmed, lowercase
+            category="${category%%$'\n'*}"
+            category="${category## }"
+            category="${category%% }"
+            category="${(L)category}"
             icon=$(_em_category_icon "$category")
 
             case "$category" in
