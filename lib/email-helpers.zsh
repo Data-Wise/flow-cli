@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/email-helpers.zsh
-# Version:      0.2 (Phase 2 — core subcommands)
+# Version:      0.3 (Phase 3 — fzf picker + smart rendering)
 # Date:         2026-02-10
 #
 # Used by:      lib/dispatchers/email-dispatcher.zsh
@@ -23,10 +23,52 @@
 #   fallback                      → cat
 
 _em_smart_render() {
-    # Phase 3: full content-type detection pipeline
-    # For now: bat if available, cat otherwise
+    # Content-type detection pipeline
+    # Reads stdin into temp file, detects type, routes to best renderer
+    local tmpfile
+    tmpfile=$(mktemp "${TMPDIR:-/tmp}/em-render-XXXXXX")
+    cat > "$tmpfile"
+
+    local content
+    content=$(< "$tmpfile")
+
+    if [[ -z "$content" ]]; then
+        rm -f "$tmpfile"
+        return 0
+    fi
+
+    # Detect HTML content
+    if echo "$content" | grep -qi '<html\|<body\|<div\|<table\|<p>'; then
+        if command -v w3m &>/dev/null; then
+            w3m -dump -T text/html < "$tmpfile" | _em_pager
+        elif command -v bat &>/dev/null; then
+            bat --style=plain --color=always --language=html < "$tmpfile"
+        else
+            cat "$tmpfile"
+        fi
+    # Detect markdown indicators
+    elif echo "$content" | grep -q '^\#\|^\*\*\|^```\|^\- \['; then
+        if command -v glow &>/dev/null; then
+            glow "$tmpfile"
+        elif command -v bat &>/dev/null; then
+            bat --style=plain --color=always --language=markdown < "$tmpfile"
+        else
+            cat "$tmpfile"
+        fi
+    # Plain text
+    else
+        _em_pager < "$tmpfile"
+    fi
+
+    rm -f "$tmpfile"
+}
+
+_em_pager() {
+    # Smart pager: bat if available, otherwise less/cat
     if command -v bat &>/dev/null; then
         bat --style=plain --color=always --paging=always
+    elif [[ -t 1 ]]; then
+        less -R
     else
         cat
     fi
@@ -37,25 +79,63 @@ _em_smart_render() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_render_inbox() {
-    # Colorize himalaya envelope list output
-    # Highlights unread (no Seen flag), dims old messages
-    # Works with himalaya's default text table output
+    # Legacy: colorize himalaya text table output (fallback)
     local line
     local is_header=true
     while IFS= read -r line; do
         if [[ "$is_header" == true ]]; then
-            # Print header row in bold
             echo -e "${_C_BOLD}${line}${_C_NC}"
             is_header=false
         elif [[ "$line" == *"───"* || "$line" == *"━━━"* || "$line" == *"---"* ]]; then
-            # Separator lines
             echo -e "${_C_DIM}${line}${_C_NC}"
         elif [[ "$line" != *"Seen"* && "$line" != *"seen"* ]]; then
-            # Unread: bold yellow highlight
             echo -e "${_C_YELLOW}${_C_BOLD}${line}${_C_NC}"
         else
-            # Read: normal
             echo "$line"
+        fi
+    done
+}
+
+_em_render_inbox_json() {
+    # Structured JSON renderer for himalaya envelope list --output json
+    # Schema: {id, flags, subject, from: {name, addr}, date, has_attachment}
+    if ! command -v jq &>/dev/null; then
+        # Fallback: pipe through text renderer
+        cat | _em_render_inbox
+        return
+    fi
+
+    local json
+    json=$(cat)
+
+    if [[ -z "$json" || "$json" == "[]" ]]; then
+        echo -e "  ${_C_DIM}(no emails)${_C_NC}"
+        return
+    fi
+
+    # Header
+    printf "  ${_C_BOLD}%-5s %-2s %-20s %-40s %s${_C_NC}\n" "ID" "" "From" "Subject" "Date"
+    echo -e "  ${_C_DIM}───── ── ──────────────────── ──────────────────────────────────────── ──────────${_C_NC}"
+
+    # Rows
+    echo "$json" | jq -r '.[] | [
+        (.id | tostring),
+        (if (.flags | contains(["Seen"])) then " " else "*" end),
+        (if .has_attachment then "+" else " " end),
+        (.from.name // .from.addr // "unknown"),
+        .subject,
+        (.date | split("T")[0] // .date)
+    ] | @tsv' | while IFS=$'\t' read -r eid flag attach sender subj edate; do
+        # Truncate long fields
+        [[ ${#sender} -gt 20 ]] && sender="${sender:0:17}..."
+        [[ ${#subj} -gt 40 ]] && subj="${subj:0:37}..."
+
+        local indicator="${flag}${attach}"
+        if [[ "$flag" == "*" ]]; then
+            # Unread: bold yellow
+            printf "  ${_C_YELLOW}${_C_BOLD}%-5s %-2s %-20s %-40s %s${_C_NC}\n" "$eid" "$indicator" "$sender" "$subj" "$edate"
+        else
+            printf "  %-5s %-2s %-20s %-40s ${_C_DIM}%s${_C_NC}\n" "$eid" "$indicator" "$sender" "$subj" "$edate"
         fi
     done
 }
