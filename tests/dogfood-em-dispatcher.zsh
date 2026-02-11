@@ -456,6 +456,113 @@ run_test "em cache stats runs without crash" '
 echo ""
 
 # ============================================================================
+# SECTION 11: Email Noise Cleanup Patterns
+# ============================================================================
+
+echo "${CYAN}--- Section 11: Noise Cleanup ---${RESET}"
+
+# Helper: identical sed pipeline used in em-render.zsh and em pick preview
+_df_cleanup() {
+    echo "$1" | sed \
+        -e 's/\[cid:[^]]*\]//g' \
+        -e 's|(https://nam[0-9]*\.safelinks\.protection\.outlook\.com[^)]*)||g' \
+        -e '/<#part/d' \
+        -e '/<#\/part>/d' \
+        -e 's/<http[^>]*>//g' \
+        -e 's/(mailto:[^)]*)//g'
+}
+
+run_test "CID image ref stripped" '
+    local r=$(_df_cleanup "Logo [cid:image001.png@01DC9787.E32DC900] here")
+    [[ "$r" == "Logo  here" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Multiple CID refs stripped" '
+    local r=$(_df_cleanup "[cid:a.png@X] and [cid:b.gif@Y]")
+    [[ "$r" == " and " ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Microsoft Safe Links stripped (nam02)" '
+    local r=$(_df_cleanup "UNM(https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Funm.edu&data=05)")
+    [[ "$r" == "UNM" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Microsoft Safe Links stripped (nam04)" '
+    local r=$(_df_cleanup "Link(https://nam04.safelinks.protection.outlook.com/?url=x&data=y)")
+    [[ "$r" == "Link" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "MIME <#part> marker line removed" '
+    local r=$(_df_cleanup "$(printf "before\n<#part type=text/html>\nafter")")
+    [[ "$r" == "$(printf "before\nafter")" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "MIME <#/part> marker line removed" '
+    local r=$(_df_cleanup "$(printf "content\n<#/part>\nmore")")
+    [[ "$r" == "$(printf "content\nmore")" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Angle-bracket HTTPS URL stripped" '
+    local r=$(_df_cleanup "Visit <https://artsci.unm.edu/math> now")
+    [[ "$r" == "Visit  now" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Angle-bracket HTTP URL stripped" '
+    local r=$(_df_cleanup "Old <http://example.com> link")
+    [[ "$r" == "Old  link" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Mailto inline ref stripped" '
+    local r=$(_df_cleanup "Jane(mailto:jane@unm.edu) said hi")
+    [[ "$r" == "Jane said hi" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Plain text preserved unchanged" '
+    local input="Dear team, please review the budget report."
+    local r=$(_df_cleanup "$input")
+    [[ "$r" == "$input" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Quoted replies preserved" '
+    local input="> On Mon, Alice wrote:"
+    local r=$(_df_cleanup "$input")
+    [[ "$r" == "$input" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "Combined noise cleanup" '
+    local input="$(printf "Hi [cid:x@A] team\n<#part type=text/html>\nVisit <https://unm.edu>\n<#/part>")"
+    local r=$(_df_cleanup "$input")
+    local expected="$(printf "Hi  team\nVisit ")"
+    [[ "$r" == "$expected" ]] || { echo "Got: $r"; return 1; }
+'
+
+run_test "_em_render_email_body strips CID noise" '
+    local r=$(echo "Hi [cid:img@X] there" | _em_render_email_body 2>/dev/null)
+    [[ "$r" != *"[cid:"* ]] || { echo "CID ref leaked through"; return 1; }
+    [[ "$r" == *"Hi"* ]] || { echo "Content lost"; return 1; }
+'
+
+run_test "_em_render_email_body strips Safe Links" '
+    local r=$(echo "Click(https://nam02.safelinks.protection.outlook.com/?url=x)" | _em_render_email_body 2>/dev/null)
+    [[ "$r" != *"safelinks"* ]] || { echo "Safe Link leaked through"; return 1; }
+    [[ "$r" == *"Click"* ]] || { echo "Link text lost"; return 1; }
+'
+
+run_test "_em_render_email_body strips angle URLs" '
+    local r=$(echo "See <https://example.com/doc> here" | _em_render_email_body 2>/dev/null)
+    [[ "$r" != *"<http"* ]] || { echo "Angle URL leaked through"; return 1; }
+    [[ "$r" == *"See"* ]] || { echo "Content lost"; return 1; }
+'
+
+run_test "_em_render_email_body strips mailto" '
+    local r=$(echo "Ask Bob(mailto:bob@unm.edu) about it" | _em_render_email_body 2>/dev/null)
+    [[ "$r" != *"mailto:"* ]] || { echo "Mailto leaked through"; return 1; }
+    [[ "$r" == *"Bob"* ]] || { echo "Name lost"; return 1; }
+'
+
+echo ""
+
+# ============================================================================
 # SUMMARY
 # ============================================================================
 
