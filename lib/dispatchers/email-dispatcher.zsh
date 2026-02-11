@@ -248,68 +248,86 @@ _em_read() {
         return 1
     fi
 
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
     # --raw: dump raw MIME source (for debugging/piping)
     if [[ "$raw" == true ]]; then
-        _em_hml_read "$msg_id" raw
+        _em_hml_read "$msg_id" raw "$folder"
         return
     fi
 
-    # [1] Fetch envelope for header display
-    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
-    local envelope
-    envelope=$(_em_hml_list "$folder" 100 2>/dev/null \
-        | jq -r ".[] | select(.id == ($msg_id | tonumber))" 2>/dev/null)
-
-    if [[ -n "$envelope" ]]; then
-        local from_name from_addr subject edate
-        from_name=$(echo "$envelope" | jq -r '.from.name // empty' 2>/dev/null)
-        from_addr=$(echo "$envelope" | jq -r '.from.addr // empty' 2>/dev/null)
-        subject=$(echo "$envelope" | jq -r '.subject // "(no subject)"' 2>/dev/null)
-        edate=$(echo "$envelope" | jq -r '.date // empty' 2>/dev/null)
-
-        local from_display="${from_name:-$from_addr}"
-        [[ -n "$from_name" && -n "$from_addr" ]] && from_display="$from_name <$from_addr>"
-
-        echo ""
-        echo -e "  ${_C_BOLD}${subject}${_C_NC}"
-        echo -e "  ${_C_DIM}From: ${from_display}${_C_NC}"
-        echo -e "  ${_C_DIM}Date: ${edate%%T*}${_C_NC}"
-        echo -e "  ${_C_DIM}─────────────────────────────────────────────────${_C_NC}"
-        echo ""
+    # [1] Validate ID exists — himalaya silently returns empty for non-existent UIDs
+    local envelope=""
+    if command -v jq &>/dev/null; then
+        envelope=$(_em_hml_list "$folder" 100 2>/dev/null \
+            | jq -r ".[] | select(.id == ($msg_id | tonumber))" 2>/dev/null)
     fi
 
-    # [2] Render body — capture content and errors separately
-    local body="" hml_err=""
+    if [[ -z "$envelope" ]]; then
+        # ID might be beyond the last 100, or genuinely invalid
+        # Try to read anyway — if himalaya returns content, it's valid
+        local test_body
+        test_body=$(himalaya message read -f "$folder" "$msg_id" 2>/dev/null)
+        if [[ -z "$test_body" ]]; then
+            _flow_log_error "Email #${msg_id} not found in ${folder}"
+            echo -e "  ${_C_DIM}Use ${_C_CYAN}em inbox${_C_DIM} to see valid email IDs${_C_NC}"
+            return 1
+        fi
+        # Body is valid but envelope wasn't in cache — display without header
+        if [[ "$fmt" == "html" ]]; then
+            local html_body
+            html_body=$(_em_hml_read "$msg_id" html "$folder")
+            if [[ -n "$html_body" ]]; then
+                _em_render "$html_body" "html"
+            else
+                echo "$test_body" | _em_render_email_body
+            fi
+        else
+            echo "$test_body" | _em_render_email_body
+        fi
+        return
+    fi
+
+    # [2] Display header from envelope
+    local from_name from_addr subject edate
+    from_name=$(echo "$envelope" | jq -r '.from.name // empty' 2>/dev/null)
+    from_addr=$(echo "$envelope" | jq -r '.from.addr // empty' 2>/dev/null)
+    subject=$(echo "$envelope" | jq -r '.subject // "(no subject)"' 2>/dev/null)
+    edate=$(echo "$envelope" | jq -r '.date // empty' 2>/dev/null)
+
+    local from_display="${from_name:-$from_addr}"
+    [[ -n "$from_name" && -n "$from_addr" ]] && from_display="$from_name <$from_addr>"
+
+    echo ""
+    echo -e "  ${_C_BOLD}${subject}${_C_NC}"
+    echo -e "  ${_C_DIM}From: ${from_display}${_C_NC}"
+    echo -e "  ${_C_DIM}Date: ${edate%%T*}${_C_NC}"
+    echo -e "  ${_C_DIM}─────────────────────────────────────────────────${_C_NC}"
+    echo ""
+
+    # [3] Render body
+    local body=""
     if [[ "$fmt" == "html" ]]; then
-        body=$(himalaya message read --html "$msg_id" 2>/tmp/.em-read-err)
+        body=$(_em_hml_read "$msg_id" html "$folder")
         if [[ -z "$body" ]]; then
-            # HTML part missing — try plain text
-            body=$(himalaya message read "$msg_id" 2>/tmp/.em-read-err)
+            # No HTML part — fall back to plain text
+            _flow_log_warning "No HTML part — showing plain text"
+            body=$(himalaya message read -f "$folder" "$msg_id" 2>/dev/null)
         fi
         if [[ -n "$body" ]]; then
-            # Render HTML through w3m/pandoc
             _em_render "$body" "html"
         fi
     else
-        body=$(himalaya message read "$msg_id" 2>/tmp/.em-read-err)
+        body=$(himalaya message read -f "$folder" "$msg_id" 2>/dev/null)
         if [[ -n "$body" ]]; then
             echo "$body" | _em_render_email_body
         fi
     fi
 
-    # Show error if body is empty
     if [[ -z "$body" ]]; then
-        hml_err=$(</tmp/.em-read-err 2>/dev/null)
-        if [[ -n "$hml_err" ]]; then
-            _flow_log_error "Could not read email #${msg_id}"
-            echo -e "  ${_C_DIM}${hml_err}${_C_NC}"
-        else
-            echo -e "  ${_C_DIM}(no content)${_C_NC}"
-        fi
-        rm -f /tmp/.em-read-err
+        echo -e "  ${_C_DIM}(no content)${_C_NC}"
         return 1
     fi
-    rm -f /tmp/.em-read-err
 }
 
 _em_send() {
@@ -621,24 +639,26 @@ if [ -n "\$env" ]; then
   echo ''
 fi
 
-# ── Body: try plain text, fall back to HTML rendered via w3m/pandoc ──
+# ── Body: try plain text, fall back to HTML via message export ──
 body=\$(himalaya message read "\$id" 2>/dev/null)
 if [ -n "\$body" ]; then
   echo "\$body" | head -60
 else
-  # Plain text empty → try HTML part
-  html=\$(himalaya message read --html "\$id" 2>/dev/null)
-  if [ -n "\$html" ]; then
+  # Plain text empty → export HTML part
+  tmpdir=\$(mktemp -d "\${TMPDIR:-/tmp}/em-prev-XXXXXX")
+  himalaya message export -d "\$tmpdir" "\$id" >/dev/null 2>&1
+  if [ -f "\$tmpdir/index.html" ]; then
     if command -v w3m >/dev/null 2>&1; then
-      echo "\$html" | w3m -dump -T text/html 2>/dev/null | head -60
+      w3m -dump -T text/html "\$tmpdir/index.html" 2>/dev/null | head -60
     elif command -v pandoc >/dev/null 2>&1; then
-      echo "\$html" | pandoc -f html -t plain --wrap=auto 2>/dev/null | head -60
+      pandoc -f html -t plain --wrap=auto "\$tmpdir/index.html" 2>/dev/null | head -60
     else
-      echo "\$html" | sed 's/<[^>]*>//g' | head -60
+      sed 's/<[^>]*>//g' "\$tmpdir/index.html" | head -60
     fi
   else
     echo "  (no content)"
   fi
+  rm -rf "\$tmpdir"
 fi
 PREVIEW_EOF
     chmod +x "$preview_script"

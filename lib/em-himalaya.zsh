@@ -57,13 +57,42 @@ _em_hml_list() {
 
 _em_hml_read() {
     # Read a single message
-    # Args: message_id, format (plain|html|raw)
+    # Args: message_id, format (plain|html|raw), folder (optional)
     # Returns: message content on stdout
-    local msg_id="$1" fmt="${2:-plain}"
+    #
+    # himalaya v1.1.0 notes:
+    #   - `message read` returns human-friendly plain text (no --html/--raw flags)
+    #   - `message export` extracts MIME parts (index.html for HTML)
+    #   - `message export --full` exports raw .eml
+    local msg_id="$1" fmt="${2:-plain}" folder="${3:-INBOX}"
     case "$fmt" in
-        html) himalaya message read --html "$msg_id" 2>/dev/null ;;
-        raw)  himalaya message read --raw "$msg_id" 2>/dev/null ;;
-        *)    himalaya message read "$msg_id" 2>/dev/null ;;
+        html)
+            # Export MIME parts → read the HTML file
+            local tmpdir
+            tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/em-html-XXXXXX")
+            if himalaya message export -f "$folder" -d "$tmpdir" "$msg_id" &>/dev/null; then
+                if [[ -f "$tmpdir/index.html" ]]; then
+                    cat "$tmpdir/index.html"
+                fi
+            fi
+            rm -rf "$tmpdir"
+            ;;
+        raw)
+            # Export full raw .eml
+            local tmpdir
+            tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/em-raw-XXXXXX")
+            if himalaya message export --full -f "$folder" -d "$tmpdir" "$msg_id" &>/dev/null; then
+                local eml_file
+                eml_file=$(find "$tmpdir" -name "*.eml" -type f 2>/dev/null | head -1)
+                if [[ -n "$eml_file" ]]; then
+                    cat "$eml_file"
+                fi
+            fi
+            rm -rf "$tmpdir"
+            ;;
+        *)
+            himalaya message read -f "$folder" "$msg_id" 2>/dev/null
+            ;;
     esac
 }
 
