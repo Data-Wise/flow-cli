@@ -640,6 +640,7 @@ if [ -n "\$env" ]; then
 fi
 
 # ── Body: prefer HTML (w3m) for rich formatting, fall back to plain ──
+# --preview avoids marking email as read; --no-headers avoids duplication
 rendered=false
 if command -v w3m >/dev/null 2>&1; then
   tmpdir=\$(mktemp -d "\${TMPDIR:-/tmp}/em-prev-XXXXXX")
@@ -651,9 +652,13 @@ if command -v w3m >/dev/null 2>&1; then
   rm -rf "\$tmpdir"
 fi
 if [ "\$rendered" = false ]; then
-  body=\$(himalaya message read "\$id" 2>/dev/null)
+  body=\$(himalaya message read --no-headers --preview "\$id" 2>/dev/null)
   if [ -n "\$body" ]; then
-    echo "\$body" | head -60
+    if command -v bat >/dev/null 2>&1; then
+      echo "\$body" | bat --style=plain --color=always --paging=never --language=txt --wrap=character --terminal-width=72 2>/dev/null | head -80
+    else
+      echo "\$body" | head -60
+    fi
   else
     echo "  (no content)"
   fi
