@@ -639,26 +639,26 @@ if [ -n "\$env" ]; then
   echo ''
 fi
 
-# ── Body: prefer HTML (w3m) for rich formatting, fall back to plain ──
+# ── Body: fast plain text via bat, HTML export only as last resort ──
 # --preview avoids marking email as read; --no-headers avoids duplication
-rendered=false
-if command -v w3m >/dev/null 2>&1; then
-  tmpdir=\$(mktemp -d "\${TMPDIR:-/tmp}/em-prev-XXXXXX")
-  himalaya message export -d "\$tmpdir" "\$id" >/dev/null 2>&1
-  if [ -f "\$tmpdir/index.html" ]; then
-    w3m -dump -T text/html -cols 72 "\$tmpdir/index.html" 2>/dev/null | head -80
-    rendered=true
+body=\$(himalaya message read --no-headers --preview "\$id" 2>/dev/null)
+if [ -n "\$body" ]; then
+  if command -v bat >/dev/null 2>&1; then
+    echo "\$body" | bat --style=plain --color=always --paging=never --language=Email --terminal-width=72 2>/dev/null | head -80
+  else
+    echo "\$body" | head -80
   fi
-  rm -rf "\$tmpdir"
-fi
-if [ "\$rendered" = false ]; then
-  body=\$(himalaya message read --no-headers --preview "\$id" 2>/dev/null)
-  if [ -n "\$body" ]; then
-    if command -v bat >/dev/null 2>&1; then
-      echo "\$body" | bat --style=plain --color=always --paging=never --language=txt --wrap=character --terminal-width=72 2>/dev/null | head -80
+else
+  # No plain text — try HTML export as last resort
+  if command -v w3m >/dev/null 2>&1; then
+    tmpdir=\$(mktemp -d "\${TMPDIR:-/tmp}/em-prev-XXXXXX")
+    himalaya message export -d "\$tmpdir" "\$id" >/dev/null 2>&1
+    if [ -f "\$tmpdir/index.html" ]; then
+      w3m -dump -T text/html -cols 72 "\$tmpdir/index.html" 2>/dev/null | head -80
     else
-      echo "\$body" | head -60
+      echo "  (no content)"
     fi
+    rm -rf "\$tmpdir"
   else
     echo "  (no content)"
   fi
