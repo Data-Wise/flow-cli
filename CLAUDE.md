@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v6.7.0
+- **Current Version:** v6.7.1
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -158,7 +158,8 @@ v <cmd>       # Vibe coding mode
   - Health dot shown on `teach` startup (refreshed on next `teach doctor` run)
 - **Deploy:** `teach deploy --direct` (8-15s direct merge) or `teach deploy` (PR workflow)
 - **Deploy preflight:** Display math `$$` validation (blank lines, unclosed blocks) — also runs at pre-commit via lint-staged
-- **Deploy extras:** `--dry-run`, `--ci`, `--history [N]`, `--rollback [N]`
+- **Deploy extras:** `--dry-run`, `--ci`, `--history [N]`, `--rollback [N]`, `--sync`
+- **Deploy sync:** `teach deploy --sync` merges production into draft (ff-only first, then regular merge). Auto back-merge runs after `--direct` deploys to prevent false conflict detection.
 - **Templates:** `.flow/templates/` (content, prompts, metadata, checklists)
 - **Macros:** `teach macros list|sync|export` (LaTeX notation consistency)
 - **Plans:** `teach plan create|list|show|edit|delete` (lesson plan CRUD)
@@ -184,7 +185,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 143 test files, 8000+ test functions
+├── tests/                    # 144 test files, 8000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -251,7 +252,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**143 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (42/42 passing, 0 timeouts) or individual suites in `tests/`.
+**144 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (43/43 passing, 0 timeouts) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -279,8 +280,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v6.7.0 | **Tests:** 8000+ (42/42 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v6.7.1 | **Tests:** 8000+ (43/43 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-10 (v6.7.0)
+**Last Updated:** 2026-02-10 (v6.7.1)

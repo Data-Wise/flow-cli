@@ -15,6 +15,7 @@ tags: [reference, teaching, deploy]
 | `teach deploy --dry-run` | `teach dep --preview` | Preview without executing |
 | `teach deploy --rollback [N]` | `teach dep --rb [N]` | Rollback deployment N (1=most recent) |
 | `teach deploy --history [N]` | `teach dep --hist [N]` | Show last N deploys (default: 10) |
+| `teach deploy --sync` | `teach dep --sync` | Sync draft with production branch |
 | `teach deploy <files>` | `teach dep <files>` | Partial deploy (specific files/dirs) |
 
 ## Deploy Modes
@@ -40,6 +41,7 @@ tags: [reference, teaching, deploy]
 | `--auto-tag` | | Tag with timestamp |
 | `--skip-index` | | Skip index management |
 | `--check-prereqs` | | Validate prerequisites |
+| `--sync` | | Sync draft branch with production |
 | `--direct-push` | | Alias for `--direct` (backward compat) |
 
 ## Smart Commit Messages
@@ -208,11 +210,12 @@ Skips if `.STATUS` absent.
   Smart commit: content: week-05 lecture
 
   Direct merge: draft -> production
-  ✓ [1/5] Push draft to origin
-  ✓ [2/5] Switch to production
-  ✓ [3/5] Merge draft → production
-  ✓ [4/5] Push production to origin
-  ✓ [5/5] Switch back to draft
+  ✓ [1/6] Push draft to origin
+  ✓ [2/6] Switch to production
+  ✓ [3/6] Merge draft → production
+  ✓ [4/6] Push production to origin
+  ✓ [5/6] Switch back to draft
+  ✓ [6/6] Sync draft with main
 
 ╭─ Deployment Summary ─────────────────────────────────╮
 │  🚀 Mode:     Direct merge                            │

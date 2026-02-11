@@ -2891,22 +2891,23 @@ _git_detect_production_conflicts <draft_branch> <prod_branch>
 - `$2` - Production branch name
 
 **Returns:**
-- 0 - No conflicts (production hasn't diverged)
-- 1 - Potential conflicts (production has new commits)
+- 0 - No conflicts (safe to deploy)
+- 1 - Potential conflicts (production has non-merge content commits)
 
 **Example:**
 
 ```zsh
 if ! _git_detect_production_conflicts "draft" "main"; then
     echo "Warning: Production has new commits"
-    echo "Consider rebasing before PR"
+    echo "Run 'teach deploy --sync' to synchronize"
 fi
 ```
 
 **Notes:**
 - Fetches from remote before checking
-- Uses merge-base to find common ancestor
-- Returns 1 if production has commits since divergence
+- Fast path: returns 0 immediately if draft is an ancestor of production (`--is-ancestor`)
+- Uses `git log --no-merges` to detect only real content commits, ignoring `--no-ff` merge commits (fixes #372)
+- `--no-ff` merge commits from `teach deploy --direct` no longer trigger false positives
 
 ---
 

@@ -48,6 +48,8 @@ The `teach deploy` command provides a safe, validated deployment workflow that:
 - **Uncommitted changes prompt** - Commit-and-continue instead of blocking (v6.6.0)
 - **Hook failure recovery** - 3-option actionable message on pre-commit failures (v6.6.0)
 - **GitHub Actions link** - Direct link to Actions in deployment summary (v6.6.0)
+- **Auto back-merge** - After direct deploy, draft is synced with production to prevent false conflicts (v6.7.1)
+- **Branch sync** - `teach deploy --sync` for manual synchronization when auto back-merge skips (v6.7.1)
 
 ### Design Philosophy
 
@@ -383,7 +385,7 @@ View PR: https://github.com/username/course-repo/pull/42
 
 ### Handling Conflicts
 
-If production branch (`main`) has new commits:
+If production branch (`main`) has new content commits (merge commits from previous deploys are ignored):
 
 ```
 ⚠️  Production (main) has new commits
@@ -398,6 +400,14 @@ Your choice [1-3]: 1
 ```
 
 **Recommended:** Always choose option [1] to rebase before deploying.
+
+**Quick sync:** If you just need to pull production changes into draft:
+
+```bash
+teach deploy --sync
+```
+
+This tries fast-forward first, then falls back to a regular merge if needed.
 
 ---
 
@@ -646,13 +656,13 @@ Push to origin/draft first? [Y/n]: y
 
 ### Check 5: Production Conflicts
 
-Detects if production has diverged:
+Detects if production has real content commits that could cause conflicts. Merge commits from previous `--no-ff` deploys are automatically excluded (fixes #372):
 
 ```
 ✓ No conflicts with production
 ```
 
-If conflicts exist, see [Handling Conflicts](#handling-conflicts).
+If conflicts exist, see [Handling Conflicts](#handling-conflicts). You can also run `teach deploy --sync` to pull production changes into your draft branch.
 
 ---
 
