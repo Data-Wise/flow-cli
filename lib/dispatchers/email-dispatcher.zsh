@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/dispatchers/email-dispatcher.zsh
-# Version:      0.2 (Phase 2 — core subcommands)
+# Version:      0.3 (Phase 3 — fzf picker + smart rendering)
 # Date:         2026-02-10
 # Pattern:      command + keyword + options
 #
@@ -165,7 +165,7 @@ ${_C_DIM}See also: em doctor (check deps), flow doctor (full health)${_C_NC}
 _em_require_himalaya() {
     if ! command -v himalaya &>/dev/null; then
         _flow_log_error "himalaya not found"
-        echo "Install: ${_C_CYAN}brew install himalaya${_C_NC} or ${_C_CYAN}cargo install himalaya${_C_NC}"
+        echo "Install: ${_C_CYAN}cargo install himalaya${_C_NC} or ${_C_CYAN}brew install himalaya${_C_NC}"
         echo "Setup:   ${_C_CYAN}em doctor${_C_NC} for full dependency check"
         return 1
     fi
@@ -179,7 +179,10 @@ _em_require_himalaya() {
 _em_inbox() {
     _em_require_himalaya || return 1
     local page_size="${1:-$FLOW_EMAIL_PAGE_SIZE}"
-    himalaya envelope list --page-size "$page_size" | _em_render_inbox
+    local folder="${2:-$FLOW_EMAIL_FOLDER}"
+
+    himalaya envelope list -f "$folder" --page-size "$page_size" --output json 2>/dev/null \
+        | _em_render_inbox_json
 }
 
 _em_read() {
@@ -329,17 +332,103 @@ _em_find() {
         echo "Usage: ${_C_CYAN}em find <query>${_C_NC}"
         return 1
     fi
-    _flow_log_warning "em find: Phase 3 (search emails)"
+
+    _flow_log_info "Searching: $query"
+    himalaya envelope list --output json 2>/dev/null \
+        | jq -r --arg q "$query" '
+            [.[] | select(
+                (.subject | ascii_downcase | contains($q | ascii_downcase)) or
+                (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
+                (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
+            )] | .[] | [.id, .from.name // .from.addr, .subject, (.date | split("T")[0] // .date)] | @tsv' \
+        | column -t -s $'\t'
+
+    local result_count
+    result_count=$(himalaya envelope list --output json 2>/dev/null \
+        | jq --arg q "$query" '
+            [.[] | select(
+                (.subject | ascii_downcase | contains($q | ascii_downcase)) or
+                (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
+                (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
+            )] | length')
+    echo ""
+    echo -e "${_C_DIM}${result_count:-0} results${_C_NC}"
 }
 
 _em_pick() {
     _em_require_himalaya || return 1
-    _flow_log_warning "em pick: Phase 3 (fzf email browser)"
+    if ! command -v fzf &>/dev/null; then
+        _flow_log_error "fzf required for email picker"
+        echo "Install: ${_C_CYAN}brew install fzf${_C_NC}"
+        return 1
+    fi
+    if ! command -v jq &>/dev/null; then
+        _flow_log_error "jq required for email picker"
+        echo "Install: ${_C_CYAN}brew install jq${_C_NC}"
+        return 1
+    fi
+
+    local folder="${1:-$FLOW_EMAIL_FOLDER}"
+
+    # Build fzf input from himalaya JSON output
+    # Schema: {id, flags, subject, from: {name, addr}, date, has_attachment}
+    local selected
+    selected=$(himalaya envelope list -f "$folder" --page-size 50 --output json 2>/dev/null \
+        | jq -r '.[] | [
+            .id,
+            (if (.flags | contains(["Seen"])) then " " else "*" end),
+            (if .has_attachment then "+" else " " end),
+            (.from.name // .from.addr // "unknown"),
+            .subject,
+            (.date | split("T")[0] // .date)
+          ] | @tsv' \
+        | fzf --delimiter='\t' \
+              --with-nth='2..' \
+              --preview='himalaya message read {1} 2>/dev/null | head -80' \
+              --preview-window='right:60%:wrap' \
+              --header='* = unread  + = attachment | Enter=read  Ctrl-R=reply  Ctrl-D=delete' \
+              --bind='ctrl-r:become(echo REPLY:{1})' \
+              --bind='ctrl-d:become(echo DELETE:{1})' \
+              --no-multi \
+              --ansi)
+
+    # Handle selection
+    if [[ -z "$selected" ]]; then
+        return 0  # User pressed Escape
+    fi
+
+    local action_id
+    if [[ "$selected" == REPLY:* ]]; then
+        action_id="${selected#REPLY:}"
+        _em_reply "$action_id"
+    elif [[ "$selected" == DELETE:* ]]; then
+        action_id="${selected#DELETE:}"
+        printf "  Flag email #${action_id} as deleted? [y/N] "
+        local confirm
+        read -r confirm
+        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+            himalaya flag add "$action_id" Deleted
+            _flow_log_success "Email #${action_id} flagged as deleted"
+        fi
+    else
+        # Default: read the selected email
+        action_id=$(echo "$selected" | cut -f1)
+        _em_read "$action_id"
+    fi
 }
 
 _em_unread() {
     _em_require_himalaya || return 1
-    _flow_log_warning "em unread: Phase 5 (unread count)"
+    local folder="${1:-INBOX}"
+    local unread_count
+    unread_count=$(himalaya envelope list -f "$folder" --output json 2>/dev/null \
+        | jq '[.[] | select(.flags | contains(["Seen"]) | not)] | length' 2>/dev/null)
+
+    if [[ -n "$unread_count" && "$unread_count" -gt 0 ]]; then
+        echo -e "${_C_YELLOW}${unread_count}${_C_NC} unread in ${folder}"
+    else
+        echo -e "${_C_GREEN}0${_C_NC} unread in ${folder}"
+    fi
 }
 
 _em_dash() {
@@ -362,7 +451,7 @@ _em_dash() {
 
     # Latest 5 subjects
     echo -e "${_C_DIM}Recent:${_C_NC}"
-    himalaya envelope list --page-size 5 2>/dev/null | _em_render_inbox
+    himalaya envelope list --page-size 5 --output json 2>/dev/null | _em_render_inbox_json
 
     echo ""
     echo -e "${_C_DIM}Full inbox:${_C_NC} ${_C_CYAN}em i${_C_NC}  ${_C_DIM}Browse:${_C_NC} ${_C_CYAN}em p${_C_NC}  ${_C_DIM}Help:${_C_NC} ${_C_CYAN}em h${_C_NC}"
@@ -381,7 +470,17 @@ _em_html() {
         echo "Usage: ${_C_CYAN}em html <ID>${_C_NC}"
         return 1
     fi
-    _flow_log_warning "em html: Phase 3 (HTML rendering with w3m)"
+
+    if ! command -v w3m &>/dev/null; then
+        _flow_log_error "w3m required for HTML rendering"
+        echo "Install: ${_C_CYAN}brew install w3m${_C_NC}"
+        echo "Fallback: ${_C_CYAN}em read ${msg_id}${_C_NC} for plain text"
+        return 1
+    fi
+
+    himalaya message read --html "$msg_id" 2>/dev/null \
+        | w3m -dump -T text/html \
+        | _em_pager
 }
 
 _em_attach() {
@@ -392,7 +491,17 @@ _em_attach() {
         echo "Usage: ${_C_CYAN}em attach <ID>${_C_NC}"
         return 1
     fi
-    _flow_log_warning "em attach: Phase 3 (download attachments)"
+
+    local download_dir="${2:-${HOME}/Downloads}"
+    [[ -d "$download_dir" ]] || mkdir -p "$download_dir"
+
+    _flow_log_info "Downloading attachments from email #${msg_id}..."
+    himalaya attachment download -f INBOX "$msg_id" --dir "$download_dir" 2>&1
+    if [[ $? -eq 0 ]]; then
+        _flow_log_success "Attachments saved to: $download_dir"
+    else
+        _flow_log_error "No attachments or download failed"
+    fi
 }
 
 _em_doctor() {
@@ -402,7 +511,7 @@ _em_doctor() {
     local ok=0 warn=0 fail=0
 
     # Required
-    _em_doctor_check "himalaya"   "required" "Email CLI backend"   "brew install himalaya"
+    _em_doctor_check "himalaya"   "required" "Email CLI backend"   "cargo install himalaya"
     _em_doctor_check "jq"         "required" "JSON processing"     "brew install jq"
 
     # Recommended
