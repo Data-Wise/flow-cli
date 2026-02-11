@@ -711,7 +711,178 @@ test_em_render_plain_fallback() {
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Section 7: Dispatcher Routing
+# Section 7: Email Noise Cleanup Patterns
+# ═══════════════════════════════════════════════════════════════
+
+# Helper: run the same sed cleanup pipeline used in em-render.zsh / em pick
+_test_cleanup() {
+    echo "$1" | sed \
+        -e 's/\[cid:[^]]*\]//g' \
+        -e 's|(https://nam[0-9]*\.safelinks\.protection\.outlook\.com[^)]*)||g' \
+        -e '/<#part/d' \
+        -e '/<#\/part>/d' \
+        -e 's/<http[^>]*>//g' \
+        -e 's/(mailto:[^)]*)//g'
+}
+
+test_cleanup_cid_image_ref() {
+    log_test "strips [cid:...] image references"
+    local input="See attached [cid:image001.png@01DC9787.E32DC900] schedule"
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "See attached  schedule" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_cid_multiple() {
+    log_test "strips multiple CID refs in one line"
+    local input="Logo [cid:logo.png@ABC] and icon [cid:icon.gif@DEF] here"
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "Logo  and icon  here" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_safe_links() {
+    log_test "strips Microsoft Safe Links URLs"
+    local input="Visit UNM(https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Funm.edu&data=05%7C02&reserved=0)"
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "Visit UNM" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_safe_links_nam_variants() {
+    log_test "strips Safe Links with different NAM regions"
+    local input="Link(https://nam04.safelinks.protection.outlook.com/?url=test&data=x)"
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "Link" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_mime_part_open() {
+    log_test "removes <#part ...> MIME marker lines"
+    local input=$'Line before\n<#part type=text/html>\nLine after'
+    local result=$(_test_cleanup "$input")
+    local expected=$'Line before\nLine after'
+    if [[ "$result" == "$expected" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_mime_part_close() {
+    log_test "removes <#/part> MIME marker lines"
+    local input=$'Content here\n<#/part>\nMore content'
+    local result=$(_test_cleanup "$input")
+    local expected=$'Content here\nMore content'
+    if [[ "$result" == "$expected" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_angle_bracket_url() {
+    log_test "strips <https://...> angle-bracket URLs"
+    local input="Visit our site <https://artsci.unm.edu/departments/math> today"
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "Visit our site  today" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_angle_bracket_http() {
+    log_test "strips <http://...> angle-bracket URLs (no TLS)"
+    local input="Old link <http://example.com/page> here"
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "Old link  here" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_mailto() {
+    log_test "strips (mailto:...) inline references"
+    local input="Contact John Smith(mailto:john@example.com) for details"
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "Contact John Smith for details" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_preserves_plain_text() {
+    log_test "preserves normal plain text unchanged"
+    local input="Hello, this is a regular email with no noise."
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "$input" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_preserves_quoted_replies() {
+    log_test "preserves quoted reply lines (>)"
+    local input=$'> On Monday, John wrote:\n> Please review the document.'
+    local result=$(_test_cleanup "$input")
+    if [[ "$result" == "$input" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_combined_noise() {
+    log_test "handles multiple noise types in one email"
+    local input=$'Hello team,\nSee [cid:img.png@ABC] the link(https://nam02.safelinks.protection.outlook.com/?url=test)\n<#part type=text/html>\nContact me(mailto:a@b.com) or visit <https://example.com>\n<#/part>'
+    local result=$(_test_cleanup "$input")
+    local expected=$'Hello team,\nSee  the link\nContact me or visit '
+    if [[ "$result" == "$expected" ]]; then
+        pass
+    else
+        fail "got: '$result'"
+    fi
+}
+
+test_cleanup_render_email_body_strips_noise() {
+    log_test "_em_render_email_body strips CID refs"
+    local result=$(echo "Hi [cid:image001.png@X] there" | _em_render_email_body 2>/dev/null)
+    # Output should contain "Hi" and "there" but not "[cid:"
+    if [[ "$result" == *"Hi"* && "$result" != *"[cid:"* ]]; then
+        pass
+    else
+        fail "CID ref not stripped in render pipeline"
+    fi
+}
+
+test_cleanup_render_email_body_strips_safe_links() {
+    log_test "_em_render_email_body strips Safe Links"
+    local result=$(echo "Click here(https://nam02.safelinks.protection.outlook.com/?url=x&data=y)" | _em_render_email_body 2>/dev/null)
+    if [[ "$result" == *"Click here"* && "$result" != *"safelinks"* ]]; then
+        pass
+    else
+        fail "Safe Links not stripped in render pipeline"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════
+# Section 8: Dispatcher Routing (was 7)
 # ═══════════════════════════════════════════════════════════════
 
 test_em_doctor_runs() {
@@ -737,7 +908,7 @@ test_em_cache_stats_runs() {
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Section 8: AI Backend Configuration
+# Section 9: AI Backend Configuration
 # ═══════════════════════════════════════════════════════════════
 
 test_em_ai_backends_exists() {
@@ -795,7 +966,7 @@ test_em_ai_op_timeout_draft() {
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Section 9: Cache TTL Configuration
+# Section 10: Cache TTL Configuration
 # ═══════════════════════════════════════════════════════════════
 
 test_em_cache_ttl_exists() {
@@ -924,12 +1095,29 @@ main() {
     test_em_render_plain_fallback
     echo ""
 
-    echo "${YELLOW}Section 7: Dispatcher Routing${NC}"
+    echo "${YELLOW}Section 7: Email Noise Cleanup Patterns${NC}"
+    test_cleanup_cid_image_ref
+    test_cleanup_cid_multiple
+    test_cleanup_safe_links
+    test_cleanup_safe_links_nam_variants
+    test_cleanup_mime_part_open
+    test_cleanup_mime_part_close
+    test_cleanup_angle_bracket_url
+    test_cleanup_angle_bracket_http
+    test_cleanup_mailto
+    test_cleanup_preserves_plain_text
+    test_cleanup_preserves_quoted_replies
+    test_cleanup_combined_noise
+    test_cleanup_render_email_body_strips_noise
+    test_cleanup_render_email_body_strips_safe_links
+    echo ""
+
+    echo "${YELLOW}Section 8: Dispatcher Routing${NC}"
     test_em_doctor_runs
     test_em_cache_stats_runs
     echo ""
 
-    echo "${YELLOW}Section 8: AI Backend Configuration${NC}"
+    echo "${YELLOW}Section 9: AI Backend Configuration${NC}"
     test_em_ai_backends_exists
     test_em_ai_backends_has_default
     test_em_ai_op_timeout_exists
@@ -938,7 +1126,7 @@ main() {
     test_em_ai_op_timeout_draft
     echo ""
 
-    echo "${YELLOW}Section 9: Cache TTL Configuration${NC}"
+    echo "${YELLOW}Section 10: Cache TTL Configuration${NC}"
     test_em_cache_ttl_exists
     test_em_cache_ttl_summaries
     test_em_cache_ttl_drafts
