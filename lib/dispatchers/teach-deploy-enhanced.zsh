@@ -238,6 +238,22 @@ _deploy_summary_box() {
 }
 
 # ============================================================================
+# COMMIT FAILURE GUIDANCE (DRY helper)
+# ============================================================================
+
+_deploy_commit_failure_guidance() {
+    echo ""
+    _teach_error "Commit failed (likely pre-commit hook)"
+    echo ""
+    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
+    echo "    1. Fix the issues above, then run ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
+    echo "    2. Skip validation: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
+    echo "    3. Force commit: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
+    echo ""
+    echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
+}
+
+# ============================================================================
 # DIRECT MERGE MODE
 # ============================================================================
 
@@ -668,15 +684,7 @@ _teach_deploy_enhanced() {
             *)
                 git add -A
                 if ! git commit -m "$smart_msg"; then
-                    echo ""
-                    _teach_error "Commit failed (likely pre-commit hook)"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
-                    echo "    1. Fix issues, then ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
-                    echo "    2. Skip: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
-                    echo "    3. Force: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Changes are still staged.${FLOW_COLORS[reset]}"
+                    _deploy_commit_failure_guidance
                     return 1
                 fi
                 echo "  ${FLOW_COLORS[success]}[ok]${FLOW_COLORS[reset]} Committed: $smart_msg"
@@ -835,15 +843,7 @@ _teach_deploy_enhanced() {
 
                 git add "${uncommitted_files[@]}"
                 if ! git commit -m "$commit_msg"; then
-                    echo ""
-                    _teach_error "Commit failed (likely pre-commit hook)"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
-                    echo "    1. Fix the issues above, then run ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
-                    echo "    2. Skip validation: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
-                    echo "    3. Force commit: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
+                    _deploy_commit_failure_guidance
                     return 1
                 fi
 
@@ -859,15 +859,7 @@ _teach_deploy_enhanced() {
 
                 git add "${uncommitted_files[@]}"
                 if ! git commit -m "$commit_msg"; then
-                    echo ""
-                    _teach_error "Commit failed (likely pre-commit hook)"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Options:${FLOW_COLORS[reset]}"
-                    echo "    1. Fix the issues above, then run ${FLOW_COLORS[info]}teach deploy${FLOW_COLORS[reset]} again"
-                    echo "    2. Skip validation: ${FLOW_COLORS[info]}QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...${FLOW_COLORS[reset]}"
-                    echo "    3. Force commit: ${FLOW_COLORS[info]}git commit --no-verify -m \"message\"${FLOW_COLORS[reset]}"
-                    echo ""
-                    echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
+                    _deploy_commit_failure_guidance
                     return 1
                 fi
 
