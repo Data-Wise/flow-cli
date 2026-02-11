@@ -554,7 +554,7 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
           ] | @tsv' \
         | fzf --delimiter='\t' \
               --with-nth='2..' \
-              --preview='_em_preview_message {1}' \
+              --preview='himalaya message read {1} 2>/dev/null | head -80' \
               --preview-window='right:60%:wrap' \
               --header="$header_line" \
               --header-lines=0 \
