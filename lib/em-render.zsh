@@ -104,6 +104,16 @@ _em_render_email_body() {
         return 0
     fi
 
+    # Strip email noise: CID refs, Safe Links, MIME markers, bare URLs
+    content=$(echo "$content" | sed \
+        -e 's/\[cid:[^]]*\]//g' \
+        -e 's|(https://nam[0-9]*\.safelinks\.protection\.outlook\.com[^)]*)||g' \
+        -e '/<#part/d' \
+        -e '/<#\/part>/d' \
+        -e 's/<http[^>]*>//g' \
+        -e 's/(mailto:[^)]*)//g' \
+    )
+
     # Plain text email formatting
     local line in_signature=false
     while IFS= read -r line; do
