@@ -576,6 +576,26 @@ _teach_deploy_enhanced() {
                 _deploy_history_list "$history_count"
                 return $?
                 ;;
+            --sync)
+                shift
+                # Quick branch sync: merge production into draft (ff-only first, then regular)
+                local _sync_config=".flow/teach-config.yml"
+                local _sync_prod
+                _sync_prod=$(yq '.git.production_branch // .branches.production // "main"' "$_sync_config" 2>/dev/null) || _sync_prod="main"
+                echo ""
+                echo "${FLOW_COLORS[info]}  Syncing with $_sync_prod...${FLOW_COLORS[reset]}"
+                git fetch origin "$_sync_prod" --quiet 2>/dev/null
+                if git merge "origin/$_sync_prod" --ff-only 2>/dev/null; then
+                    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Fast-forward sync with $_sync_prod"
+                elif git merge "origin/$_sync_prod" --no-edit 2>/dev/null; then
+                    echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} Merged $_sync_prod (merge commit created)"
+                else
+                    _teach_error "Sync failed — merge conflicts" \
+                        "Resolve conflicts manually, then commit"
+                    return 1
+                fi
+                return 0
+                ;;
             --help|-h|help)
                 _teach_deploy_enhanced_help
                 return 0
@@ -1307,6 +1327,7 @@ ${_C_BLUE}📋 HISTORY & ROLLBACK${_C_NC}:
   ${_C_CYAN}teach deploy --history 20${_C_NC}    Show last 20 deployments
   ${_C_CYAN}teach deploy --rollback${_C_NC}      Interactive rollback picker
   ${_C_CYAN}teach deploy --rollback 1${_C_NC}    Rollback most recent deploy
+  ${_C_CYAN}teach deploy --sync${_C_NC}          Sync draft with production
 
 ${_C_MAGENTA}💡 TIP${_C_NC}: Direct merge (-d) is best for solo instructors.
   ${_C_DIM}PR mode (default) is better for team-reviewed courses.${_C_NC}
