@@ -843,14 +843,12 @@ _em_respond() {
     if [[ "$review_mode" == "true" ]]; then
         # Review mode: skip classification, find emails with cached drafts
         echo ""
-        local found=0
-        local idx
+        local found=0 idx mid from subj cached_draft
         for (( idx=1; idx <= total; idx++ )); do
-            local mid="${msg_ids[$idx]}"
-            local from="${msg_froms[$idx]}"
-            local subj="${msg_subjects[$idx]}"
+            mid="${msg_ids[$idx]}"
+            from="${msg_froms[$idx]}"
+            subj="${msg_subjects[$idx]}"
 
-            local cached_draft
             cached_draft=$(_em_cache_get "drafts" "$mid" 2>/dev/null)
             if [[ $? -eq 0 && -n "$cached_draft" ]]; then
                 (( found++ ))
@@ -874,25 +872,23 @@ _em_respond() {
         # Normal mode: classify all emails (Phase 1)
         echo ""
         local non_actionable=0
+        local idx mid from subj content category icon
 
-        local idx
         for (( idx=1; idx <= total; idx++ )); do
-            local mid="${msg_ids[$idx]}"
-            local from="${msg_froms[$idx]}"
-            local subj="${msg_subjects[$idx]}"
+            mid="${msg_ids[$idx]}"
+            from="${msg_froms[$idx]}"
+            subj="${msg_subjects[$idx]}"
 
             printf "  ${_C_DIM}[%d/%d]${_C_NC} %-25s " "$idx" "$total" "$from"
 
-            local content
             content=$(_em_hml_read "$mid" plain 2>/dev/null)
             if [[ -z "$content" ]]; then
                 echo -e "${_C_DIM}(empty)${_C_NC}"
                 continue
             fi
 
-            local category
             category=$(_em_ai_query "classify" "$(_em_ai_classify_prompt)" "$content" "" "$mid" 2>/dev/null)
-            local icon=$(_em_category_icon "$category")
+            icon=$(_em_category_icon "$category")
 
             case "$category" in
                 newsletter|automated|admin-info|spam)
@@ -1001,7 +997,7 @@ _em_respond_help() {
 ${_C_BOLD}em respond${_C_NC} — Batch reply to actionable emails
 
 ${_C_CYAN}em respond${_C_NC}              Classify → draft → edit in \$EDITOR → send
-${_C_CYAN}em respond --review${_C_NC}     Review/send cached drafts (skip classification)
+${_C_CYAN}em respond --review|-R${_C_NC}  Review/send cached drafts (skip classification)
 ${_C_CYAN}em respond -n 5${_C_NC}         Process 5 emails (default: 10)
 ${_C_CYAN}em respond --dry-run${_C_NC}    Classify only (no drafts, no \$EDITOR)
 ${_C_CYAN}em respond --clear${_C_NC}      Clear AI cache
