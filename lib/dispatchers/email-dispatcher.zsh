@@ -639,26 +639,24 @@ if [ -n "\$env" ]; then
   echo ''
 fi
 
-# ── Body: try plain text, fall back to HTML via message export ──
-body=\$(himalaya message read "\$id" 2>/dev/null)
-if [ -n "\$body" ]; then
-  echo "\$body" | head -60
-else
-  # Plain text empty → export HTML part
+# ── Body: prefer HTML (w3m) for rich formatting, fall back to plain ──
+rendered=false
+if command -v w3m >/dev/null 2>&1; then
   tmpdir=\$(mktemp -d "\${TMPDIR:-/tmp}/em-prev-XXXXXX")
   himalaya message export -d "\$tmpdir" "\$id" >/dev/null 2>&1
   if [ -f "\$tmpdir/index.html" ]; then
-    if command -v w3m >/dev/null 2>&1; then
-      w3m -dump -T text/html "\$tmpdir/index.html" 2>/dev/null | head -60
-    elif command -v pandoc >/dev/null 2>&1; then
-      pandoc -f html -t plain --wrap=auto "\$tmpdir/index.html" 2>/dev/null | head -60
-    else
-      sed 's/<[^>]*>//g' "\$tmpdir/index.html" | head -60
-    fi
+    w3m -dump -T text/html -cols 72 "\$tmpdir/index.html" 2>/dev/null | head -80
+    rendered=true
+  fi
+  rm -rf "\$tmpdir"
+fi
+if [ "\$rendered" = false ]; then
+  body=\$(himalaya message read "\$id" 2>/dev/null)
+  if [ -n "\$body" ]; then
+    echo "\$body" | head -60
   else
     echo "  (no content)"
   fi
-  rm -rf "\$tmpdir"
 fi
 PREVIEW_EOF
     chmod +x "$preview_script"
