@@ -18,7 +18,7 @@ Neovim integration for himalaya email client with AI-powered email assistance.
 | Summarize email | `<leader>ms` | AI summary in float |
 | Extract todos | `<leader>mt` | Parse action items |
 | Draft reply | `<leader>mr` | AI-generated reply |
-| Classify email | `<leader>mc` | Categorize message |
+| TL;DR + decision | `<leader>mc` | One-line summary + action needed? |
 
 ## Prerequisites
 
@@ -72,13 +72,35 @@ return {
 
 ### 2. Add AI Wrapper Module
 
-Create `~/.config/nvim/lua/himalaya-ai.lua` (~80 lines). The module:
+Create `~/.config/nvim/lua/himalaya-ai.lua` (~380 lines). The module:
 
-- Pipes buffer content to `claude -p` asynchronously via `vim.fn.jobstart()`
-- Displays results in a centered floating window (rounded border, auto-sized)
-- Float is closeable with `q` or `<Esc>`
+- Pipes buffer content to AI backend (claude/gemini) asynchronously via `vim.fn.jobstart()`
+- Displays results in a right vsplit with action keybinds
+- Result split keybinds: `y`=copy, `s`=save, `a`=append, `o`=obsidian, `p`=reply, `r`=rerun, `f`=fullscreen, `q`=close
 
 See the full module at `~/.config/nvim/lua/himalaya-ai.lua`.
+
+### 2b. Configure AI Backend (Optional)
+
+Create `~/.config/himalaya-ai/config.lua` to customize backend and Obsidian vault:
+
+```lua
+return {
+  backend = "claude",  -- or "gemini"
+  backends = {
+    claude = { cmd = "/Users/dt/.local/bin/claude", flag = "-p" },
+    gemini = { cmd = "/opt/homebrew/bin/gemini", flag = "-p" },
+  },
+  obsidian = {
+    vault = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Knowledge_Base",
+    subfolder = "Inbox",
+    format = "structured",
+  },
+  save_dir = "~",
+}
+```
+
+Falls back to built-in defaults if config file is missing.
 
 ### 3. Add Keybinds
 
@@ -89,7 +111,7 @@ Add to `~/.config/nvim/lua/config/keymaps.lua`:
 vim.keymap.set("n", "<leader>ms", function() require("himalaya-ai").summarize() end, { desc = "AI: Summarize email" })
 vim.keymap.set("n", "<leader>mt", function() require("himalaya-ai").extract_todos() end, { desc = "AI: Extract action items" })
 vim.keymap.set("n", "<leader>mr", function() require("himalaya-ai").draft_reply() end, { desc = "AI: Draft reply" })
-vim.keymap.set("n", "<leader>mc", function() require("himalaya-ai").classify() end, { desc = "AI: Classify email" })
+vim.keymap.set("n", "<leader>mc", function() require("himalaya-ai").tldr() end, { desc = "AI: TL;DR + decision" })
 ```
 
 Restart Neovim.
@@ -118,9 +140,20 @@ Open an email, then:
 - `<leader>ms` - Get AI summary
 - `<leader>mt` - Extract todos
 - `<leader>mr` - Generate reply draft
-- `<leader>mc` - Classify email priority
+- `<leader>mc` - TL;DR + decision needed?
 
-Results appear in floating window.
+Results appear in right vsplit with action keybinds:
+
+| Key | Action |
+|-----|--------|
+| `y` | Copy to clipboard |
+| `s` | Save to file |
+| `a` | Append to existing file |
+| `o` | Send to Obsidian vault |
+| `p` | Paste into himalaya reply |
+| `r` | Re-run with edited prompt |
+| `f` | Toggle fullscreen |
+| `q`/`Esc` | Close |
 
 ## Configuration Options
 
@@ -137,9 +170,17 @@ let g:himalaya_folder_picker = 'telescope'
 let g:himalaya_account = 'personal'
 ```
 
+### Customize AI Backend
+
+Edit `~/.config/himalaya-ai/config.lua` to switch between Claude and Gemini:
+
+```lua
+return { backend = "gemini" }  -- switches AI backend
+```
+
 ### Customize AI Prompts
 
-Edit `~/.config/nvim/lua/himalaya-ai.lua` and modify prompt strings in each function.
+Edit `~/.config/nvim/lua/himalaya-ai.lua` and modify prompt strings in the `prompts` table. Or use `r` in the result split to re-run with an edited prompt on the fly.
 
 ## Troubleshooting
 
