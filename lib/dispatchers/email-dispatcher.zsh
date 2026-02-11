@@ -643,6 +643,15 @@ fi
 # --preview avoids marking email as read; --no-headers avoids duplication
 body=\$(himalaya message read --no-headers --preview "\$id" 2>/dev/null)
 if [ -n "\$body" ]; then
+  # Strip noise: CID image refs, Safe Links, MIME markers, angle-bracket URLs
+  body=\$(echo "\$body" | sed \\
+    -e 's/\[cid:[^]]*\]//g' \\
+    -e 's|(https://nam[0-9]*\.safelinks\.protection\.outlook\.com[^)]*)||g' \\
+    -e '/<#part/d' \\
+    -e '/<#\/part>/d' \\
+    -e 's/<http[^>]*>//g' \\
+    -e 's/(mailto:[^)]*)//g' \\
+  )
   if command -v bat >/dev/null 2>&1; then
     echo "\$body" | bat --style=plain --color=always --paging=never --language=Email --terminal-width=72 2>/dev/null | head -80
   else
