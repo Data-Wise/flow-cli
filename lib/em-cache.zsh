@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/em-cache.zsh
-# Version:      0.1
+# Version:      0.2
 # Date:         2026-02-10
 #
 # Used by:      lib/em-ai.zsh, lib/dispatchers/email-dispatcher.zsh
@@ -96,6 +96,9 @@ _em_cache_set() {
 
     [[ ! -d "$cache_base" ]] && mkdir -p "$cache_base"
     echo "$content" > "$cache_base/$key.txt"
+
+    # Enforce size cap after write (background, non-blocking)
+    _em_cache_enforce_cap &>/dev/null &
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -127,27 +130,125 @@ _em_cache_clear() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
-# CACHE STATS
+# CACHE PRUNING — remove expired entries
+# ═══════════════════════════════════════════════════════════════════
+
+_em_cache_prune() {
+    # Sweep all expired entries across all categories
+    # Returns: number of files pruned
+    local cache_base="$(_em_cache_dir)"
+    [[ ! -d "$cache_base" ]] && return 0
+
+    local pruned=0
+    local now=$(date +%s)
+    local op_name ttl file_mod
+
+    for op_dir in "$cache_base"/*(N/); do
+        op_name="${op_dir:t}"
+        ttl="${_EM_CACHE_TTL[$op_name]:-3600}"
+
+        for cache_file in "$op_dir"/*.txt(N); do
+            file_mod=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+            if (( (now - file_mod) > ttl )); then
+                rm -f "$cache_file"
+                (( pruned++ ))
+            fi
+        done
+    done
+
+    echo "$pruned"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# CACHE SIZE CAP — LRU eviction when over limit
+# ═══════════════════════════════════════════════════════════════════
+
+_em_cache_enforce_cap() {
+    # Evict oldest files when cache exceeds FLOW_EMAIL_CACHE_MAX_MB
+    # Default: 50 MB. Set to 0 to disable.
+    local max_mb="${FLOW_EMAIL_CACHE_MAX_MB:-50}"
+    (( max_mb == 0 )) && return 0
+
+    local cache_base="$(_em_cache_dir)"
+    [[ ! -d "$cache_base" ]] && return 0
+
+    local max_kb=$(( max_mb * 1024 ))
+    local current_kb
+    current_kb=$(du -sk "$cache_base" 2>/dev/null | awk '{print $1}')
+    (( current_kb <= max_kb )) && return 0
+
+    # Evict oldest files first (LRU)
+    local evicted=0
+    local files_by_age
+    files_by_age=("${(@f)$(find "$cache_base" -name '*.txt' -print0 2>/dev/null | xargs -0 stat -f '%m %N' 2>/dev/null | sort -n | awk '{print $2}')}")
+
+    for old_file in "${files_by_age[@]}"; do
+        [[ -z "$old_file" ]] && continue
+        rm -f "$old_file"
+        (( evicted++ ))
+        current_kb=$(du -sk "$cache_base" 2>/dev/null | awk '{print $1}')
+        (( current_kb <= max_kb )) && break
+    done
+
+    (( evicted > 0 )) && _flow_log_info "Cache cap: evicted $evicted old entries (limit: ${max_mb}MB)"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# CACHE STATS — enhanced with age/expiry info
 # ═══════════════════════════════════════════════════════════════════
 
 _em_cache_stats() {
-    # Show cache statistics
+    # Show cache statistics with expiry and cap info
     local cache_base="$(_em_cache_dir)"
     if [[ ! -d "$cache_base" ]]; then
         echo -e "  ${_C_DIM}No cache${_C_NC}"
         return
     fi
 
-    echo -e "${_C_BOLD}Email Cache${_C_NC}"
-    for op_dir in "$cache_base"/*(N/); do
-        local op_name="${op_dir:t}"
-        local count
-        count=$(ls -1 "$op_dir" 2>/dev/null | wc -l | tr -d ' ')
-        local size
-        size=$(du -sh "$op_dir" 2>/dev/null | awk '{print $1}')
-        printf "  %-18s %4s items  %s\n" "$op_name" "$count" "$size"
-    done
+    local total_size
+    total_size=$(du -sh "$cache_base" 2>/dev/null | awk '{print $1}')
+    local max_mb="${FLOW_EMAIL_CACHE_MAX_MB:-50}"
+    local now=$(date +%s)
+
+    echo -e "${_C_BOLD}Email Cache${_C_NC}  ($total_size total, ${max_mb}MB cap)"
     echo ""
+
+    local grand_total=0 grand_expired=0
+    local op_name ttl count expired size file_mod ttl_label expired_str
+
+    for op_dir in "$cache_base"/*(N/); do
+        op_name="${op_dir:t}"
+        ttl="${_EM_CACHE_TTL[$op_name]:-3600}"
+        count=0 expired=0
+        size=$(du -sh "$op_dir" 2>/dev/null | awk '{print $1}')
+
+        for cache_file in "$op_dir"/*.txt(N); do
+            (( count++ ))
+            file_mod=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+            (( (now - file_mod) > ttl )) && (( expired++ ))
+        done
+
+        if (( ttl >= 86400 )); then
+            ttl_label="$(( ttl / 86400 ))d"
+        elif (( ttl >= 3600 )); then
+            ttl_label="$(( ttl / 3600 ))h"
+        else
+            ttl_label="${ttl}s"
+        fi
+
+        expired_str=""
+        (( expired > 0 )) && expired_str="  ${_C_YELLOW}${expired} expired${_C_NC}"
+
+        printf "  %-16s %3s items  %5s  TTL=%s%s\n" "$op_name" "$count" "$size" "$ttl_label" "$expired_str"
+        (( grand_total += count ))
+        (( grand_expired += expired ))
+    done
+
+    echo ""
+    if (( grand_expired > 0 )); then
+        echo -e "  ${_C_DIM}Run${_C_NC} em cache prune ${_C_DIM}to remove ${grand_expired} expired entries${_C_NC}"
+    fi
+    echo -e "  ${_C_DIM}Location: $cache_base${_C_NC}"
 }
 
 # ═══════════════════════════════════════════════════════════════════

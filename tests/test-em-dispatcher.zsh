@@ -586,6 +586,132 @@ test_em_cache_invalidate_removes() {
     fi
 }
 
+test_em_cache_prune_exists() {
+    log_test "_em_cache_prune exists"
+    if (( ${+functions[_em_cache_prune]} )); then
+        pass
+    else
+        fail "function not defined"
+    fi
+}
+
+test_em_cache_enforce_cap_exists() {
+    log_test "_em_cache_enforce_cap exists"
+    if (( ${+functions[_em_cache_enforce_cap]} )); then
+        pass
+    else
+        fail "function not defined"
+    fi
+}
+
+test_em_cache_prune_removes_expired() {
+    log_test "_em_cache_prune removes expired entries"
+    local test_dir=$(mktemp -d)
+
+    # Override cache dir temporarily
+    local original_func=$(typeset -f _em_cache_dir)
+    _em_cache_dir() { echo "$test_dir"; }
+
+    # Create fresh and expired entries
+    _em_cache_set "unread" "fresh-msg" "3" 2>/dev/null
+    _em_cache_set "unread" "old-msg" "7" 2>/dev/null
+
+    # Age old-msg past unread TTL (60s)
+    local key=$(_em_cache_key "old-msg")
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        touch -t $(date -v-120S "+%Y%m%d%H%M.%S") "$test_dir/unread/$key.txt" 2>/dev/null
+    else
+        touch -d "120 seconds ago" "$test_dir/unread/$key.txt" 2>/dev/null
+    fi
+
+    local pruned=$(_em_cache_prune 2>/dev/null)
+
+    # Fresh entry should survive
+    local fresh=$(_em_cache_get "unread" "fresh-msg" 2>/dev/null)
+
+    # Restore original function
+    eval "$original_func"
+    rm -rf "$test_dir"
+
+    if [[ "$pruned" == "1" && "$fresh" == "3" ]]; then
+        pass
+    else
+        fail "expected pruned=1 fresh=3, got pruned=$pruned fresh=$fresh"
+    fi
+}
+
+test_em_cache_prune_no_expired() {
+    log_test "_em_cache_prune returns 0 when nothing expired"
+    local test_dir=$(mktemp -d)
+
+    local original_func=$(typeset -f _em_cache_dir)
+    _em_cache_dir() { echo "$test_dir"; }
+
+    # Create only fresh entries (summaries TTL=24h)
+    _em_cache_set "summaries" "msg-1" "summary text" 2>/dev/null
+
+    local pruned=$(_em_cache_prune 2>/dev/null)
+
+    eval "$original_func"
+    rm -rf "$test_dir"
+
+    if [[ "$pruned" == "0" ]]; then
+        pass
+    else
+        fail "expected 0 pruned, got $pruned"
+    fi
+}
+
+test_em_cache_enforce_cap_no_eviction() {
+    log_test "_em_cache_enforce_cap skips when under limit"
+    local test_dir=$(mktemp -d)
+
+    local original_func=$(typeset -f _em_cache_dir)
+    _em_cache_dir() { echo "$test_dir"; }
+
+    # Create a small entry (well under 50MB)
+    _em_cache_set "summaries" "tiny-msg" "hello" 2>/dev/null
+
+    # Should not evict anything
+    _em_cache_enforce_cap 2>/dev/null
+
+    local result=$(_em_cache_get "summaries" "tiny-msg" 2>/dev/null)
+
+    eval "$original_func"
+    rm -rf "$test_dir"
+
+    if [[ "$result" == "hello" ]]; then
+        pass
+    else
+        fail "entry should survive under cap, got '$result'"
+    fi
+}
+
+test_em_cache_enforce_cap_disabled() {
+    log_test "_em_cache_enforce_cap respects disabled (0)"
+    local test_dir=$(mktemp -d)
+
+    local original_func=$(typeset -f _em_cache_dir)
+    _em_cache_dir() { echo "$test_dir"; }
+    local original_max="$FLOW_EMAIL_CACHE_MAX_MB"
+    FLOW_EMAIL_CACHE_MAX_MB=0
+
+    _em_cache_set "summaries" "keep-msg" "keep me" 2>/dev/null
+    _em_cache_enforce_cap 2>/dev/null
+
+    local result=$(_em_cache_get "summaries" "keep-msg" 2>/dev/null)
+
+    FLOW_EMAIL_CACHE_MAX_MB="$original_max"
+    eval "$original_func"
+    rm -rf "$test_dir"
+
+    if [[ "$result" == "keep me" ]]; then
+        pass
+    else
+        fail "cap=0 should disable eviction, got '$result'"
+    fi
+}
+
 # ═══════════════════════════════════════════════════════════════
 # Section 6: Render Functions
 # ═══════════════════════════════════════════════════════════════
@@ -1081,6 +1207,12 @@ main() {
     test_em_cache_round_trip
     test_em_cache_ttl_expiry
     test_em_cache_invalidate_removes
+    test_em_cache_prune_exists
+    test_em_cache_enforce_cap_exists
+    test_em_cache_prune_removes_expired
+    test_em_cache_prune_no_expired
+    test_em_cache_enforce_cap_no_eviction
+    test_em_cache_enforce_cap_disabled
     echo ""
 
     echo "${YELLOW}Section 6: Render Functions${NC}"
