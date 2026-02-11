@@ -532,8 +532,8 @@ main() {
     if ! command -v himalaya >/dev/null 2>&1; then
         echo ""
         echo -e "${RED}himalaya not found in PATH${NC}"
-        echo -e "${DIM}Install: cargo install himalaya${NC}"
-        echo -e "${DIM}Binary:  ~/.cargo/bin/himalaya${NC}"
+        echo -e "${DIM}Install: brew install himalaya${NC}"
+        echo -e "${DIM}   Alt:  cargo install himalaya${NC}"
         exit 1
     fi
     echo -e "${GREEN}himalaya found: $(command -v himalaya)${NC}"

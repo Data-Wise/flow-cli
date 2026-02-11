@@ -318,7 +318,7 @@ Run `em doctor` for dependency health:
 
 | Tool | Purpose | Install |
 |------|---------|---------|
-| `himalaya` | Email CLI backend | `cargo install himalaya` or `brew install himalaya` |
+| `himalaya` | Email CLI backend | `brew install himalaya` or `cargo install himalaya` |
 | `jq` | JSON processing | `brew install jq` |
 
 ### Recommended
@@ -509,8 +509,8 @@ Pure ZSH dispatcher. 18 public commands. <10ms response.
 
 **Solution:**
 ```bash
-brew install himalaya          # macOS
-cargo install himalaya         # Universal
+brew install himalaya          # macOS (recommended)
+cargo install himalaya         # Cross-platform alternative
 
 # Verify
 himalaya account list

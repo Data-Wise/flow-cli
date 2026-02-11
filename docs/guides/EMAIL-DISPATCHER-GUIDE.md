@@ -39,7 +39,7 @@ Traditional email clients are heavyweight, distraction-prone, and slow. The `em`
 
 | Tool | Purpose | Install |
 |------|---------|---------|
-| [himalaya](https://github.com/pimalaya/himalaya) | Email CLI backend (IMAP/SMTP) | `cargo install himalaya` or `brew install himalaya` |
+| [himalaya](https://github.com/pimalaya/himalaya) | Email CLI backend (IMAP/SMTP) | `brew install himalaya` or `cargo install himalaya` |
 | [jq](https://stedolan.github.io/jq/) | JSON parsing | `brew install jq` |
 
 ### Recommended
@@ -99,11 +99,11 @@ Config:
 himalaya is the backend that talks to your email server via IMAP/SMTP.
 
 ```bash
-# Option 1: Cargo (recommended for latest version)
-cargo install himalaya
-
-# Option 2: Homebrew
+# Option 1: Homebrew (recommended)
 brew install himalaya
+
+# Option 2: Cargo (cross-platform alternative)
+cargo install himalaya
 ```
 
 Verify installation:
@@ -1089,17 +1089,17 @@ The adapter pattern means we could swap backends in the future without changing 
 
 ```
 ❌ himalaya not found
-Install: cargo install himalaya or brew install himalaya
+Install: brew install himalaya or cargo install himalaya
 ```
 
 **Solution:**
 
 ```bash
-# Option 1: Cargo
-cargo install himalaya
-
-# Option 2: Homebrew
+# Option 1: Homebrew (recommended)
 brew install himalaya
+
+# Option 2: Cargo (cross-platform alternative)
+cargo install himalaya
 
 # Verify
 himalaya --version
