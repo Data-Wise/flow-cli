@@ -425,6 +425,61 @@ _em_find() {
     echo -e "${_C_DIM}${result_count:-0} results${_C_NC}"
 }
 
+_em_preview_message() {
+    # Formatted email preview for fzf preview window
+    # Args: message_id
+    # Output: Colored header block + rendered body (truncated)
+    local msg_id="$1"
+    [[ -z "$msg_id" ]] && return 1
+
+    # Fetch envelope metadata (JSON)
+    local envelope
+    envelope=$(himalaya envelope list --page-size 100 --output json 2>/dev/null \
+        | jq -r ".[] | select(.id == ($msg_id | tonumber))" 2>/dev/null)
+
+    # Extract fields from envelope
+    local from_name from_addr subject edate flags
+    from_name=$(echo "$envelope" | jq -r '.from.name // empty' 2>/dev/null)
+    from_addr=$(echo "$envelope" | jq -r '.from.addr // empty' 2>/dev/null)
+    subject=$(echo "$envelope" | jq -r '.subject // "(no subject)"' 2>/dev/null)
+    edate=$(echo "$envelope" | jq -r '.date // empty' 2>/dev/null)
+    flags=$(echo "$envelope" | jq -r '.flags // [] | join(", ")' 2>/dev/null)
+
+    local from_display="${from_name:-$from_addr}"
+    [[ -n "$from_name" && -n "$from_addr" ]] && from_display="$from_name <$from_addr>"
+
+    # Build flag badges
+    local badges=""
+    [[ "$flags" == *"Seen"* ]]    || badges="${badges}[NEW] "
+    [[ "$flags" == *"Flagged"* ]] && badges="${badges}[FLAGGED] "
+    [[ "$flags" == *"Answered"* ]] && badges="${badges}[REPLIED] "
+
+    # Format date (show date portion)
+    local date_display="${edate%%T*}"
+
+    # Print formatted header
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    printf "  Message #%s %s\n" "$msg_id" "$badges"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    printf "  From:     %s\n" "$from_display"
+    printf "  Subject:  %s\n" "$subject"
+    printf "  Date:     %s\n" "$date_display"
+    [[ -n "$badges" ]] && printf "  Flags:    %s\n" "$badges"
+    echo ""
+    echo "──────────────────────────────────────────────────"
+    echo ""
+
+    # Fetch and render body (truncated for preview)
+    local body
+    body=$(himalaya message read "$msg_id" 2>/dev/null | head -60)
+    if [[ -n "$body" ]]; then
+        echo "$body"
+    else
+        echo "  (no content)"
+    fi
+}
+
 _em_pick() {
     _em_require_himalaya || return 1
     if ! command -v fzf &>/dev/null; then
@@ -440,22 +495,34 @@ _em_pick() {
 
     local folder="${1:-$FLOW_EMAIL_FOLDER}"
 
+    # Pre-compute stats for header
+    local unread_count
+    unread_count=$(_em_hml_unread_count "$folder" 2>/dev/null)
+
+    local header_line
+    header_line="Folder: ${folder}  |  Unread: ${unread_count:-?}
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
+* = unread  + = attachment"
+
     local selected
     selected=$(_em_hml_list "$folder" 50 \
         | jq -r '.[] | [
             .id,
             (if (.flags | contains(["Seen"])) then " " else "*" end),
             (if .has_attachment then "+" else " " end),
-            (.from.name // .from.addr // "unknown"),
-            .subject,
+            ((.from.name // .from.addr // "unknown") | if length > 20 then .[:17] + "..." else . end),
+            ((.subject // "(no subject)") | if length > 50 then .[:47] + "..." else . end),
             (.date | split("T")[0] // .date)
           ] | @tsv' \
         | fzf --delimiter='\t' \
               --with-nth='2..' \
-              --preview='himalaya message read {1} 2>/dev/null | head -80' \
+              --preview='_em_preview_message {1}' \
               --preview-window='right:60%:wrap' \
-              --header='* = unread  + = attachment | Enter=read  Ctrl-R=reply  Ctrl-D=delete' \
+              --header="$header_line" \
+              --header-lines=0 \
               --bind='ctrl-r:become(echo REPLY:{1})' \
+              --bind='ctrl-s:become(echo SUMMARIZE:{1})' \
+              --bind='ctrl-a:become(echo ARCHIVE:{1})' \
               --bind='ctrl-d:become(echo DELETE:{1})' \
               --no-multi \
               --ansi)
@@ -469,6 +536,13 @@ _em_pick() {
     if [[ "$selected" == REPLY:* ]]; then
         action_id="${selected#REPLY:}"
         _em_reply "$action_id"
+    elif [[ "$selected" == SUMMARIZE:* ]]; then
+        action_id="${selected#SUMMARIZE:}"
+        _em_summarize "$action_id"
+    elif [[ "$selected" == ARCHIVE:* ]]; then
+        action_id="${selected#ARCHIVE:}"
+        _em_hml_flags add "$action_id" Seen
+        _flow_log_success "Email #${action_id} archived (marked read)"
     elif [[ "$selected" == DELETE:* ]]; then
         action_id="${selected#DELETE:}"
         printf "  Flag email #${action_id} as deleted? [y/N] "
@@ -720,16 +794,15 @@ _em_html() {
         return 1
     fi
 
-    if ! command -v w3m &>/dev/null; then
-        _flow_log_error "w3m required for HTML rendering"
-        echo "Install: ${_C_CYAN}brew install w3m${_C_NC}"
-        echo "Fallback: ${_C_CYAN}em read ${msg_id}${_C_NC} for plain text"
+    local html_content
+    html_content=$(_em_hml_read "$msg_id" html 2>/dev/null)
+    if [[ -z "$html_content" ]]; then
+        _flow_log_error "No HTML content for email $msg_id"
+        echo "Try: ${_C_CYAN}em read ${msg_id}${_C_NC} for plain text"
         return 1
     fi
 
-    _em_hml_read "$msg_id" html \
-        | w3m -dump -T text/html \
-        | _em_pager
+    _em_render "$html_content" "html"
 }
 
 _em_attach() {
@@ -786,7 +859,16 @@ _em_doctor() {
     # Recommended
     _em_doctor_check "fzf"               "recommended" "Interactive picker"  "brew install fzf"
     _em_doctor_check "bat"               "recommended" "Syntax highlighting" "brew install bat"
-    _em_doctor_check "w3m"               "recommended" "HTML rendering"      "brew install w3m"
+    # HTML rendering fallback chain: w3m > lynx > pandoc > bat
+    if command -v w3m &>/dev/null; then
+        _em_doctor_check "w3m"     "recommended" "HTML rendering (primary)" "brew install w3m"
+    elif command -v lynx &>/dev/null; then
+        _em_doctor_check "lynx"    "recommended" "HTML rendering (fallback)" "brew install lynx"
+    elif command -v pandoc &>/dev/null; then
+        _em_doctor_check "pandoc"  "recommended" "HTML rendering (fallback)" "brew install pandoc"
+    else
+        _em_doctor_check "w3m"     "recommended" "HTML rendering"            "brew install w3m"
+    fi
     _em_doctor_check "glow"              "recommended" "Markdown rendering"  "brew install glow"
 
     # Infrastructure

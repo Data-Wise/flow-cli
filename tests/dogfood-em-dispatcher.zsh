@@ -347,6 +347,7 @@ dispatcher_fns=(
     _em_reply
     _em_find
     _em_pick
+    _em_preview_message
     _em_unread
     _em_dash
     _em_folders
