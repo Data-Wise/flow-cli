@@ -122,7 +122,7 @@ _deploy_preflight_checks() {
     # Only check .qmd files changed between draft and production
     local _math_blanks_files _repo_root
     _repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
-    _math_blanks_files=$(git diff --name-only "$DEPLOY_PROD_BRANCH".."$DEPLOY_DRAFT_BRANCH" -- '*.qmd' 2>/dev/null)
+    _math_blanks_files=$(git diff --name-only "$DEPLOY_PROD_BRANCH"..."$DEPLOY_DRAFT_BRANCH" -- '*.qmd' 2>/dev/null)
     if [[ -n "$_math_blanks_files" ]]; then
         local _math_blank_files=() _math_unclosed_files=() _abs_path _qmd_file
         while IFS= read -r _qmd_file; do
