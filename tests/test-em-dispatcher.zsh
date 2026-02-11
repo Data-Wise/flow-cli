@@ -713,6 +713,50 @@ test_em_cache_enforce_cap_disabled() {
 }
 
 # ═══════════════════════════════════════════════════════════════
+# Section 5b: Doctor Version Check
+# ═══════════════════════════════════════════════════════════════
+
+test_em_semver_lt_exists() {
+    log_test "_em_semver_lt exists"
+    if (( ${+functions[_em_semver_lt]} )); then
+        pass
+    else
+        fail "function not defined"
+    fi
+}
+
+test_em_semver_lt_basic() {
+    log_test "_em_semver_lt compares versions correctly"
+    local failures=0
+
+    # 0.9.0 < 1.0.0
+    _em_semver_lt "0.9.0" "1.0.0" || { (( failures++ )); }
+    # 1.0.0 < 1.1.0
+    _em_semver_lt "1.0.0" "1.1.0" || { (( failures++ )); }
+    # 1.1.0 < 1.1.1
+    _em_semver_lt "1.1.0" "1.1.1" || { (( failures++ )); }
+    # 1.1.0 NOT < 1.1.0 (equal)
+    ! _em_semver_lt "1.1.0" "1.1.0" || { (( failures++ )); }
+    # 2.0.0 NOT < 1.9.9
+    ! _em_semver_lt "2.0.0" "1.9.9" || { (( failures++ )); }
+
+    if (( failures == 0 )); then
+        pass
+    else
+        fail "$failures comparison(s) wrong"
+    fi
+}
+
+test_em_doctor_version_check_exists() {
+    log_test "_em_doctor_version_check exists"
+    if (( ${+functions[_em_doctor_version_check]} )); then
+        pass
+    else
+        fail "function not defined"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════
 # Section 6: Render Functions
 # ═══════════════════════════════════════════════════════════════
 
@@ -1213,6 +1257,12 @@ main() {
     test_em_cache_prune_no_expired
     test_em_cache_enforce_cap_no_eviction
     test_em_cache_enforce_cap_disabled
+    echo ""
+
+    echo "${YELLOW}Section 5b: Doctor Version Check${NC}"
+    test_em_semver_lt_exists
+    test_em_semver_lt_basic
+    test_em_doctor_version_check_exists
     echo ""
 
     echo "${YELLOW}Section 6: Render Functions${NC}"
