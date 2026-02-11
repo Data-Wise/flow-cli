@@ -92,17 +92,16 @@ _em_render_with() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_render_email_body() {
-    # Email-specific body renderer — formats plain text, delegates HTML
+    # Email-specific body renderer — always treats as plain text
     # Dims quoted lines (>) and signature blocks (-- )
     # Indents body for clean terminal display
+    # For HTML rendering, use em read --html (explicit choice)
     local content
     content=$(cat)
-    [[ -z "$content" ]] && return 0
 
-    # HTML → delegate to existing renderer
-    if echo "$content" | grep -qi '<html\|<body\|<div\|<table\|<p>'; then
-        _em_render_with "html" "$content"
-        return
+    if [[ -z "$content" ]]; then
+        echo -e "  ${_C_DIM}(no content)${_C_NC}"
+        return 0
     fi
 
     # Plain text email formatting
