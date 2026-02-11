@@ -1,8 +1,9 @@
 # PROPOSAL: Email Dispatcher (`em`) — Issue #331
 
 **Generated:** 2026-02-10
+**Updated:** 2026-02-11
 **Issue:** https://github.com/Data-Wise/flow-cli/issues/331
-**Status:** Brainstorm
+**Status:** IMPLEMENTED (Option B+ shipped on `feature/em-dispatcher`)
 
 ## Overview
 
@@ -179,8 +180,8 @@ Add to `flow doctor` or `em doctor`:
 
 ```
 Email Dependencies:
-  ✓ himalaya (v1.0.0-beta.5)
-  ✓ email-oauth2-proxy (running, pid 1234)
+  ✓ himalaya (v1.1.0 — stable, semver)
+  ✓ OAuth2 (native XOAUTH2 via himalaya — no proxy needed)
   ✓ w3m (HTML rendering)
   ✓ bat (paging)
   ✓ fzf (interactive picker)
@@ -240,8 +241,8 @@ color = "yellow"
 
 | Dep | Required | Risk | Mitigation |
 |-----|----------|------|------------|
-| himalaya | Yes | Pre-1.0, API may change | Pin version, abstract commands |
-| email-oauth2-proxy | Yes (for O365) | Stable, maintained | launchd service, auto-restart |
+| himalaya | Yes | Post-1.0 (v1.1.0), semver stable | Adapter layer in `em-himalaya.zsh` |
+| email-oauth2-proxy | No (was Yes) | himalaya has native OAuth2/XOAUTH2 | Try native first, proxy as fallback |
 | w3m | Recommended | Very stable | Graceful fallback to `cat` |
 | bat | Recommended | Very stable | Graceful fallback to `less` |
 | fzf | Recommended | Very stable | `em list` fallback without fzf |
@@ -270,10 +271,32 @@ color = "yellow"
 
 ---
 
+## Implementation Outcome (2026-02-11)
+
+**Option B+ was implemented** (Option B scope + AI from Option C) across 38 commits on `feature/em-dispatcher`:
+
+| Proposed | Delivered | Status |
+|----------|-----------|--------|
+| 8 subcommands | 16+ subcommands | Exceeded |
+| fzf picker with preview | Full fzf browser with keybinds + noise cleanup | Exceeded |
+| Smart rendering | 4-tier detection chain (HTML/MD/plain/fallback) | Met |
+| `em dash` | Dashboard with unread count | Met |
+| `flow doctor` integration | `em doctor` with 8 dependency checks | Met |
+| (not proposed) | AI classify/summarize/draft via `claude -p`/`gemini` | Added |
+| (not proposed) | TTL-based caching system | Added |
+| (not proposed) | himalaya v1.1.0 adapter layer (isolates CLI changes) | Added |
+| (not proposed) | 86 unit + 118 dogfood tests | Added |
+| (not proposed) | Refcard + Guide + Tutorial (3,522 lines docs) | Added |
+
+**Branch:** `feature/em-dispatcher` | **Worktree:** `~/.git-worktrees/flow-cli/feature-em-dispatcher`
+**Orchestration:** `ORCHESTRATE-em-dispatcher.md` (all 8 phases DONE)
+**Version target:** v7.0.0
+
 ## Next Steps
 
-1. Approve scope (Option A / B / C)
-2. Create worktree: `git worktree add ~/.git-worktrees/flow-cli/feature-email -b feature/email-dispatcher dev`
-3. Implement Phase 1
-4. Test with real LoboMail account
-5. Ship as v6.8.0 (new dispatcher = minor bump)
+1. ~~Approve scope~~ — Option B+ approved and implemented
+2. ~~Create worktree~~ — `feature/em-dispatcher` created
+3. ~~Implement Phase 1~~ — All 8 phases complete
+4. ~~Test with real LoboMail account~~ — Tested, 45/45 suites passing
+5. Merge to `dev` via PR: `gh pr create --base dev --title "feat: add em email dispatcher (#331)"`
+6. Ship as v7.0.0 (new dispatcher = minor bump)
