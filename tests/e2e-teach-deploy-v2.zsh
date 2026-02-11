@@ -725,6 +725,100 @@ else
 fi
 
 # ============================================================================
+# SECTION 13: Back-Merge & Sync (#372 fix)
+# ============================================================================
+echo ""
+echo "--- Back-Merge & Sync (#372 fix) ---"
+
+# Test 40: direct merge output includes step 6/6 (back-merge sync)
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+output=$(_deploy_direct_merge "draft" "main" "deploy: back-merge test" "true" 2>&1)
+ret=$?
+if [[ $ret -eq 0 ]] && echo "$output" | grep -qE '\[6/6\].*Sync'; then
+    _test_pass "direct merge shows back-merge sync step [6/6]"
+else
+    _test_fail "direct merge shows back-merge sync step" "ret=$ret, output missing [6/6] Sync"
+fi
+trap cleanup EXIT
+
+# Test 41: after direct merge + back-merge, draft contains production commit
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+_deploy_direct_merge "draft" "main" "deploy: sync check" "true" >/dev/null 2>&1
+trap cleanup EXIT
+# The merge commit on main should be reachable from draft (ff-only back-merge)
+main_head=$(git rev-parse origin/main 2>/dev/null)
+if git merge-base --is-ancestor "$main_head" HEAD 2>/dev/null; then
+    _test_pass "after back-merge, draft contains production HEAD"
+else
+    _test_fail "after back-merge, draft contains production HEAD" "main=$main_head not ancestor of draft HEAD"
+fi
+
+# Test 42: back-merge skips gracefully when draft has new commits
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+# Deploy first
+_deploy_direct_merge "draft" "main" "deploy: initial" "true" >/dev/null 2>&1
+trap cleanup EXIT
+# Add a new commit on draft (simulates work after deploy but before back-merge)
+echo "post-deploy work" > lectures/week-03.qmd
+git add -A && git commit -q -m "feat: week-03 post-deploy" >/dev/null 2>&1
+git push -q origin draft >/dev/null 2>&1
+# Do another deploy — back-merge should skip (can't ff-only)
+output=$(_deploy_direct_merge "draft" "main" "deploy: skip test" "true" 2>&1)
+ret=$?
+# Deploy should still succeed even if back-merge skips
+if [[ $ret -eq 0 ]]; then
+    _test_pass "deploy succeeds even when back-merge skips (non-ff draft)"
+else
+    _test_fail "deploy succeeds when back-merge skips" "ret=$ret"
+fi
+trap cleanup EXIT
+
+# Test 43: conflict detection returns 0 after back-merge sync
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+_deploy_direct_merge "draft" "main" "deploy: conflict test" "true" >/dev/null 2>&1
+trap cleanup EXIT
+# After deploy + back-merge, conflict detection should find no conflicts
+_git_detect_production_conflicts "draft" "main"
+if [[ $? -eq 0 ]]; then
+    _test_pass "no false positive after deploy + back-merge"
+else
+    _test_fail "no false positive after deploy + back-merge" "conflict detected"
+fi
+
+# Test 44: conflict detection ignores --no-ff merge commits (core #372)
+test_repo=$(setup_e2e_repo)
+cd "$test_repo"
+# Do 3 deploy cycles WITHOUT back-merge (simulate pre-fix state)
+for i in {1..3}; do
+    echo "content-$i" > "lectures/week-0${i}.qmd"
+    git add -A && git commit -q -m "feat: iteration $i" >/dev/null 2>&1
+    git push -q origin draft >/dev/null 2>&1
+    git checkout -q main 2>/dev/null
+    git merge draft --no-ff --no-edit -q 2>/dev/null
+    git push -q origin main 2>/dev/null
+    git checkout -q draft 2>/dev/null
+done
+# Now check — old logic would show 3+ conflicts, new logic should show 0
+_git_detect_production_conflicts "draft" "main"
+if [[ $? -eq 0 ]]; then
+    _test_pass "conflict detection ignores --no-ff merge commits (3 cycles)"
+else
+    _test_fail "conflict detection ignores --no-ff merge commits" "false positive"
+fi
+
+# Test 45: _deploy_step supports 'skip' status
+output=$(_deploy_step 1 3 "Test step" skip 2>&1)
+if echo "$output" | grep -q "skipped"; then
+    _test_pass "_deploy_step renders skip status"
+else
+    _test_fail "_deploy_step skip status" "output: $output"
+fi
+
+# ============================================================================
 # SUMMARY
 # ============================================================================
 echo ""
