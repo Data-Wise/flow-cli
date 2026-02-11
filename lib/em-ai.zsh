@@ -197,17 +197,26 @@ _em_ai_available() {
 
 _em_ai_classify_prompt() {
     cat <<'PROMPT'
+You are classifying emails for a university professor (statistics department).
 Classify this email into exactly ONE category. Return ONLY the category name.
 
 Categories:
-- student-question (academic query, assignment question, grade inquiry)
-- admin-important (department notice, policy change, deadline, requires action)
-- admin-info (FYI notices, newsletters from institution)
-- scheduling (meeting request, calendar invite, office hours, event)
-- newsletter (external newsletter, marketing, mailing list)
-- personal (colleague, friend, non-work)
-- automated (CI/CD, GitHub, system alerts, receipts)
-- urgent (deadline today, emergency, escalation)
+- student (student email: absence notice, question, grade inquiry, assignment help, accommodation follow-up)
+- colleague (faculty/staff discussion: hiring committee, departmental business, research collaboration, CC'd threads)
+- admin-action (requires YOUR specific action: accommodation letter, review request, form to complete, deadline addressed to you)
+- scheduling (meeting request, event RSVP, calendar invite, office hours — directed at you personally)
+- admin-info (FYI only: university-wide blast, mailing list announcement, policy notice, graduation ceremony info)
+- newsletter (professional journal, academic association digest, APA/AMS updates)
+- vendor (commercial marketing, textbook promotion, EdTech sales pitch, cold outreach from companies like Wiley, Pearson, JoVE, SaaS tools)
+- automated (CI/CD, GitHub, system alerts, delivery receipts, password resets)
+- urgent (deadline today, emergency, escalation, time-sensitive action required)
+
+Hints:
+- Emails to *-L@LIST.UNM.EDU are mailing lists (usually admin-info or colleague)
+- Emails from *@info.*.com, *@*.ai, *e-service@* are almost always vendor
+- A faculty hiring discussion CC'd to you = colleague (not personal)
+- Student absence or accommodation = student (not admin-info)
+- ARC accommodation letter = admin-action (requires follow-up with student)
 
 Return only the category name, nothing else.
 PROMPT
@@ -215,9 +224,17 @@ PROMPT
 
 _em_ai_summarize_prompt() {
     cat <<'PROMPT'
+You are summarizing emails for a university professor (statistics department).
 Summarize this email in exactly ONE line (max 80 characters).
 Focus on: who wants what and by when.
 No greeting, no pleasantries. Just the core ask or information.
+
+Academic shortcuts:
+- Student absence → "Student [name]: absent [date], requests notes"
+- ARC accommodation → "ARC letter for [student]: [accommodation type]"
+- Committee thread → "[committee]: [decision/question]"
+- Mailing list blast → "[topic] — FYI only"
+
 Return only the summary line, nothing else.
 PROMPT
 }
@@ -226,7 +243,15 @@ _em_ai_draft_prompt() {
     local context_file="$1"
     local template_content="$2"
 
-    local base_prompt='Draft a reply to this email. Be professional, concise, and helpful.'
+    local base_prompt='You are drafting replies for a university professor in the statistics department.
+Draft a reply to this email. Be professional, concise, and helpful.
+
+Category-specific guidance:
+- student: Warm but professional. Address by first name. Acknowledge their situation.
+- colleague: Faculty peer tone. Brief, collegial. Match their formality level.
+- admin-action: Acknowledge receipt, confirm you will complete the action, give timeline.
+- scheduling: Accept/decline clearly. Suggest alternatives if declining.
+- urgent: Prioritize the action. Be direct about what you will do and when.'
 
     # Inject project context if available
     if [[ -n "$context_file" && -f "$context_file" ]]; then
@@ -287,12 +312,13 @@ _em_category_icon() {
     # Map AI classification to display icon
     local category="$1"
     case "$category" in
-        student-question)  echo "${_C_BLUE}Q${_C_NC}" ;;
-        admin-important)   echo "${_C_RED}!${_C_NC}" ;;
+        student)           echo "${_C_BLUE}S${_C_NC}" ;;
+        colleague)         echo "${_C_GREEN}C${_C_NC}" ;;
+        admin-action)      echo "${_C_RED}!${_C_NC}" ;;
         admin-info)        echo "${_C_DIM}i${_C_NC}" ;;
-        scheduling)        echo "${_C_CYAN}S${_C_NC}" ;;
+        scheduling)        echo "${_C_CYAN}@${_C_NC}" ;;
         newsletter)        echo "${_C_DIM}N${_C_NC}" ;;
-        personal)          echo "${_C_GREEN}P${_C_NC}" ;;
+        vendor)            echo "${_C_DIM}V${_C_NC}" ;;
         automated)         echo "${_C_DIM}A${_C_NC}" ;;
         urgent)            echo "${_C_RED}U${_C_NC}" ;;
         *)                 echo " " ;;

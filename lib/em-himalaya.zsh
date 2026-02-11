@@ -115,17 +115,30 @@ _em_hml_send() {
 _em_hml_reply() {
     # Reply to message interactively (opens $EDITOR)
     # Args: message_id, body (optional AI draft), reply_all (bool)
-    # If body provided, $EDITOR opens with draft pre-populated via [BODY] arg
-    # If no body, $EDITOR opens with blank reply
+    # Returns: 0 = sent, 1 = error, 2 = user discarded
+    #
+    # himalaya exits 0 for both "Send" and "Discard" — we use script(1)
+    # to capture terminal output and detect which action the user chose.
     local msg_id="$1" body="$2" reply_all="${3:-false}"
     local -a flags=()
     [[ "$reply_all" == "true" ]] && flags+=(--all)
 
+    local tmplog="${TMPDIR:-/tmp}/em-reply-$$.log"
+
     if [[ -n "$body" ]]; then
-        himalaya message reply "${flags[@]}" "$msg_id" "$body"
+        script -q "$tmplog" himalaya message reply "${flags[@]}" "$msg_id" "$body"
     else
-        himalaya message reply "${flags[@]}" "$msg_id"
+        script -q "$tmplog" himalaya message reply "${flags[@]}" "$msg_id"
     fi
+
+    # Detect discard from himalaya's interactive prompt output
+    if grep -aq "Discard" "$tmplog" 2>/dev/null; then
+        rm -f "$tmplog"
+        return 2
+    fi
+
+    rm -f "$tmplog"
+    return 0
 }
 
 # ═══════════════════════════════════════════════════════════════════
