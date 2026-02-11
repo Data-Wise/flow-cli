@@ -341,6 +341,71 @@ EOF
 
 ---
 
+### Email Dispatcher Architecture (v7.0)
+
+**Pattern:** 6-layer modular architecture with adapter isolation
+
+```mermaid
+graph TB
+    subgraph "User Interface"
+        EM["em()  dispatcher"]
+        FZF["em pick  fzf browser"]
+    end
+
+    subgraph "Dispatcher Layer"
+        INBOX[_em_inbox]
+        READ[_em_read]
+        SEND[_em_send]
+        REPLY[_em_reply]
+        RESPOND[_em_respond]
+        PICK[_em_pick]
+    end
+
+    subgraph "Support Modules"
+        AI["em-ai.zsh<br/>classify / summarize / draft"]
+        CACHE["em-cache.zsh<br/>TTL-based caching"]
+        RENDER["em-render.zsh<br/>HTML / Markdown / Plain"]
+        HELPERS["email-helpers.zsh<br/>Safety gates"]
+    end
+
+    subgraph "Adapter Layer"
+        HML["em-himalaya.zsh<br/>_em_hml_* functions"]
+    end
+
+    subgraph "External"
+        HIMALAYA["himalaya CLI v1.1+"]
+        EDITOR["$EDITOR (nvim)"]
+        AIBACKEND["claude -p / gemini"]
+    end
+
+    EM --> INBOX & READ & SEND & REPLY & RESPOND & PICK
+    PICK --> FZF
+    INBOX --> HML
+    READ --> HML
+    READ --> RENDER
+    SEND --> HML
+    SEND --> HELPERS
+    REPLY --> HML
+    REPLY --> HELPERS
+    REPLY --> AI
+    RESPOND --> AI
+    RESPOND --> HELPERS
+    AI --> AIBACKEND
+    AI --> CACHE
+    HML --> HIMALAYA
+    SEND --> EDITOR
+    REPLY --> EDITOR
+```
+
+**Key Decisions:**
+
+1. **Adapter isolation** — All himalaya CLI specifics live in `em-himalaya.zsh`. If himalaya changes CLI flags, fix only this file.
+2. **Safety gates** — Every send operation goes through `_em_confirm_send()` with `[y/N]` default-No.
+3. **AI pluggable** — Backend configurable via `FLOW_EMAIL_AI` (claude/gemini/none) with per-operation timeouts.
+4. **Preview cleanup** — 6 sed filters strip email noise (CID refs, Safe Links, MIME markers) in both `em pick` preview and `em read`.
+
+---
+
 ### Cache Strategy
 
 **Design:** Multi-layer caching for performance

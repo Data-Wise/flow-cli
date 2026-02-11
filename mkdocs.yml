@@ -145,6 +145,7 @@ nav:
           - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
           - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
           - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
+          - 14. Email Dispatcher: guides/EMAIL-TUTORIAL.md
       - Editor (Neovim):
           - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
           - 16. Vim Motions: tutorials/16-vim-motions.md
@@ -226,6 +227,9 @@ nav:
           - 🛡️ Chezmoi Safety Features: guides/CHEZMOI-SAFETY-GUIDE.md
           - Config Management: guides/CONFIG-MANAGEMENT-WORKFLOW.md
           - Alias Management: guides/ALIAS-MANAGEMENT-WORKFLOW.md
+      - Email:
+          - 📧 Email Dispatcher Guide: guides/EMAIL-DISPATCHER-GUIDE.md
+          - 📧 Email Tutorial: guides/EMAIL-TUTORIAL.md
       - Tools & Integrations:
           - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
           - 🔐 Token Management: guides/TOKEN-MANAGEMENT-COMPLETE.md
@@ -277,6 +281,7 @@ nav:
           - upgrade: commands/upgrade.md
           - dashboard: commands/dashboard.md
       - Quick Reference Cards:
+          - 📧 Email Dispatcher: reference/REFCARD-EMAIL-DISPATCHER.md
           - 🔐 Token & Secrets: reference/REFCARD-TOKEN-SECRETS.md
           - 🛡️ Chezmoi Safety: reference/REFCARD-DOT-SAFETY.md
           - 🛡️ Chezmoi Safety API: reference/API-DOT-SAFETY.md
