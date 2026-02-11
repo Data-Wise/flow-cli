@@ -75,7 +75,8 @@ _em() {
           ;;
         cache)
           local -a cache_cmds=(
-            'stats:Show cache statistics'
+            'stats:Show cache size, TTLs, expired count'
+            'prune:Remove expired entries only'
             'clear:Clear entire cache'
             'warm:Background-warm cache'
           )

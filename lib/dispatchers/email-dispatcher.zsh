@@ -1058,10 +1058,20 @@ _em_cache_cmd() {
         stats|status)  _em_cache_stats ;;
         clear|flush)   _em_cache_clear ;;
         warm)          _em_cache_warm "${2:-10}" ;;
+        prune)
+            local pruned
+            pruned=$(_em_cache_prune)
+            if (( pruned > 0 )); then
+                _flow_log_success "Pruned $pruned expired cache entries"
+            else
+                _flow_log_info "No expired entries to prune"
+            fi
+            ;;
         *)
             echo -e "${_C_BOLD}em cache${_C_NC} — AI Cache Management"
             echo ""
-            echo -e "  ${_C_CYAN}em cache stats${_C_NC}    Show cache statistics"
+            echo -e "  ${_C_CYAN}em cache stats${_C_NC}    Show cache size, TTLs, expired count"
+            echo -e "  ${_C_CYAN}em cache prune${_C_NC}    Remove expired entries only"
             echo -e "  ${_C_CYAN}em cache clear${_C_NC}    Clear all cached AI results"
             echo -e "  ${_C_CYAN}em cache warm${_C_NC}     Pre-warm cache for latest emails"
             ;;

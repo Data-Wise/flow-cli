@@ -53,7 +53,7 @@ mindmap
 | **em folders** | — | `em folders` | List mail folders |
 | **em html** | — | `em html <ID>` | Render HTML email in terminal |
 | **em attach** | `a` | `em attach <ID> [OUT_DIR]` | Download attachments |
-| **em cache** | — | `em cache <action>` | Cache operations (stats, clear, warm) |
+| **em cache** | — | `em cache <action>` | Cache operations (stats, prune, clear, warm) |
 | **em doctor** | `dr` | `em doctor` | Dependency health check |
 | **em help** | `h, --help` | `em help` | Show all commands |
 
@@ -69,6 +69,7 @@ Environment variables (set in shell, `.env`, or `.flow/email.conf`):
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | int | Default inbox list size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | string | Default folder (mailbox name) |
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | int | AI draft timeout in seconds |
+| `FLOW_EMAIL_CACHE_MAX_MB` | `50` | int | Max cache size in MB (0 = no limit) |
 
 Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/email.conf` (global)
 
@@ -236,10 +237,15 @@ TTL-based AI result caching (project-local):
 ### Cache Commands
 
 ```bash
-em cache stats                  # Show cache usage
-em cache clear                  # Clear all cached AI results
+em cache stats                  # Show cache size, TTLs, expired count
+em cache prune                  # Remove expired entries only
+em cache clear                  # Clear entire cache
 em cache warm                   # Pre-warm cache (background)
 ```
+
+### Size Cap
+
+Max cache size defaults to `FLOW_EMAIL_CACHE_MAX_MB=50`. When exceeded, oldest files are evicted (LRU). Set to `0` to disable.
 
 ---
 
@@ -295,7 +301,8 @@ em attach 42 ~/Downloads        # Save to specific directory
 
 # ─────────────────────────────────────────────────────────────
 # Management
-em cache stats                  # Show cache usage
+em cache stats                  # Show cache size, TTLs, expired count
+em cache prune                  # Remove expired entries only
 em cache clear                  # Clear cached AI results
 em doctor                       # Check dependencies
 em h                            # Show help
