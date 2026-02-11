@@ -84,7 +84,7 @@ flow-cli follows a layered architecture:
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 3: Commands & Dispatchers                            │
 │  - Core commands (work, dash, pick, doctor)                 │
-│  - 12 dispatchers (g, cc, r, qu, mcp, obs, wt, dot, teach)  │
+│  - 13 dispatchers (g, cc, r, qu, mcp, obs, wt, dot, teach, em) │
 └─────────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────────┐

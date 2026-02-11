@@ -57,7 +57,7 @@ tags:
 | Page | Description |
 | ---- | ----------- |
 | [Master API Reference](MASTER-API-REFERENCE.md) | Function signatures and usage for all libraries |
-| [Master Dispatcher Guide](MASTER-DISPATCHER-GUIDE.md) | All 12 dispatchers documented |
+| [Master Dispatcher Guide](MASTER-DISPATCHER-GUIDE.md) | All 13 dispatchers documented |
 | [Master Architecture](MASTER-ARCHITECTURE.md) | System architecture with Mermaid diagrams |
 | [Documentation Dashboard](../DOC-DASHBOARD.md) | Documentation coverage metrics |
 

@@ -565,7 +565,7 @@ em p                           # Try again
 
 ### References
 
-- [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) — All 12 dispatchers
+- [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) — All 13 dispatchers
 - [MASTER-API-REFERENCE.md](MASTER-API-REFERENCE.md) — Function signatures
 - [MASTER-ARCHITECTURE.md](MASTER-ARCHITECTURE.md) — System design
 
