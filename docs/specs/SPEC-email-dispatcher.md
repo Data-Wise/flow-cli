@@ -378,14 +378,14 @@ The minimum viable product includes **only what is needed to deliver that magic 
 
 ## 5. Risk Assessment
 
-### Risk 1: himalaya Pre-1.0 Stability
+### Risk 1: himalaya CLI Stability
 
 | Dimension | Assessment |
 |-----------|------------|
-| **Likelihood** | Medium -- himalaya is actively developed (v1.0.0-beta.5 as of early 2026) |
+| **Likelihood** | Low -- himalaya reached v1.0.0 (Dec 2024) and v1.1.0 (Jan 2025) with semver guarantees. NLnet funded through June 2026. |
 | **Impact** | High -- `em` is entirely dependent on himalaya for IMAP/SMTP |
-| **Mitigation** | Pin himalaya version in `em doctor`. Abstract himalaya calls behind `_em_fetch()`, `_em_send()` functions so the backend can be swapped. Run himalaya integration tests in CI. |
-| **Contingency** | If himalaya breaks: fall back to `curl` + IMAP directly (painful but possible), or switch to `nstrstrstrstrstrstrstrm` (notstrstrstrstrstrstrstrm) or `mstrstrstrstrstrstrstrtt` (mutt) as transport. The abstraction layer makes this a function-level swap, not a rewrite. |
+| **Mitigation** | Abstract himalaya calls behind `_em_fetch()`, `_em_send()` functions so the backend can be swapped. Post-1.0 semver means breaking changes require a major version bump. Native OAuth2/XOAUTH2 support eliminates the need for `email-oauth2-proxy`. |
+| **Contingency** | If himalaya stalls (single maintainer risk): adapter layer makes switching to an alternative transport a function-level swap, not a rewrite. himalaya wraps ~5-10 CLI commands total. |
 
 ### Risk 2: AI Latency Impact on UX (2-3s per call)
 

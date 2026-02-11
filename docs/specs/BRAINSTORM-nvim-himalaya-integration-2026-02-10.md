@@ -28,13 +28,13 @@
 
 4. **vim-himalaya-ui has volume (411 commits) but explicitly warns "not ready for use."** It's one developer's learning project for vim plugin development.
 
-5. **himalaya itself is pre-1.0.** Its CLI interface has changed across versions and will change again. Any nvim plugin that hard-couples to CLI arguments is a moving target.
+5. **himalaya reached v1.0.0 (Dec 2024) with semver guarantees.** Its CLI interface changed frequently across pre-1.0 versions but is now stable. However, any nvim plugin that hard-couples to CLI arguments still carries risk from the fragile plugin ecosystem itself.
 
 6. **himalaya natively supports `$EDITOR`.** The `himalaya message reply` and `himalaya message write` commands open `$EDITOR` for composition. This means nvim already works as a compose tool with ZERO plugin code.
 
 ### Bottom Line
 
-**The nvim himalaya ecosystem is not worth investing in.** Every existing plugin is either abandoned, experimental, or maintained by a single person. The underlying CLI is pre-1.0. Building on this ecosystem means becoming a solo maintainer of Lua code that wraps an unstable dependency — a recipe for frustration, especially for someone with no Lua experience.
+**The nvim himalaya ecosystem is not worth investing in.** Every existing plugin is either abandoned, experimental, or maintained by a single person. While himalaya itself is now post-1.0 and stable, the nvim plugin ecosystem around it remains fragile. Building on this ecosystem means becoming a solo maintainer of Lua code — a recipe for frustration, especially for someone with no Lua experience.
 
 However, himalaya's `$EDITOR` support means nvim already works perfectly for the compose/reply step. You get the best of both worlds: nvim for editing, terminal for everything else.
 
