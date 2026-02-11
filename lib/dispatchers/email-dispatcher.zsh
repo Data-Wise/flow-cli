@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/dispatchers/email-dispatcher.zsh
-# Version:      0.1 (Phase 1 — skeleton)
+# Version:      0.2 (Phase 2 — core subcommands)
 # Date:         2026-02-10
 # Pattern:      command + keyword + options
 #
@@ -195,18 +195,130 @@ _em_read() {
 
 _em_send() {
     _em_require_himalaya || return 1
-    _flow_log_warning "em send: Phase 2 (compose in \$EDITOR with safety gate)"
+    local to="" subject="" use_ai=false
+
+    # Parse args: em send [--ai] [to] [subject]
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --ai) use_ai=true; shift ;;
+            *)
+                if [[ -z "$to" ]]; then
+                    to="$1"
+                elif [[ -z "$subject" ]]; then
+                    subject="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    # [1] Prompt for missing fields
+    if [[ -z "$to" ]]; then
+        printf "${_C_BLUE}To:${_C_NC} "
+        read -r to
+        if [[ -z "$to" ]]; then
+            _flow_log_error "Recipient required"
+            return 1
+        fi
+    fi
+
+    if [[ -z "$subject" ]]; then
+        printf "${_C_BLUE}Subject:${_C_NC} "
+        read -r subject
+    fi
+
+    # [2] Optional AI draft from subject
+    local ai_body=""
+    if [[ "$use_ai" == true && -n "$subject" && "$FLOW_EMAIL_AI" != "none" ]]; then
+        _flow_log_info "Generating AI draft from subject..."
+        ai_body=$(_em_ai_draft "Compose a professional email about: $subject" 2>/dev/null)
+        if [[ -n "$ai_body" ]]; then
+            _flow_log_success "AI draft ready — edit in \$EDITOR"
+        fi
+    fi
+
+    # [3] Create temp file + open in $EDITOR
+    local draft_file
+    draft_file=$(_em_create_draft_file "$to" "$subject" "$ai_body")
+    _em_open_in_editor "$draft_file"
+
+    # [4] SAFETY GATE — preview + confirm
+    if _em_confirm_send "$draft_file"; then
+        # [5] Send via himalaya
+        himalaya message send < "$draft_file"
+        if [[ $? -eq 0 ]]; then
+            _flow_log_success "Email sent"
+            rm -f "$draft_file"
+        else
+            _flow_log_error "Failed to send — draft preserved: $draft_file"
+            return 1
+        fi
+    fi
 }
 
 _em_reply() {
     _em_require_himalaya || return 1
     local msg_id="$1"
+    local skip_ai=false
+
+    # Parse flags
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --no-ai) skip_ai=true; shift ;;
+            *) msg_id="$1"; shift ;;
+        esac
+    done
+
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em reply <ID>${_C_NC}"
+        echo "Usage: ${_C_CYAN}em reply <ID>${_C_NC}  ${_C_DIM}(--no-ai to skip AI draft)${_C_NC}"
         return 1
     fi
-    _flow_log_warning "em reply: Phase 2 (AI-draft reply in \$EDITOR)"
+
+    # [1] Fetch original email
+    _flow_log_info "Fetching email #${msg_id}..."
+    local original
+    original=$(himalaya message read "$msg_id" 2>/dev/null)
+    if [[ -z "$original" ]]; then
+        _flow_log_error "Could not read email #${msg_id}"
+        return 1
+    fi
+
+    # [2] Extract reply headers from original
+    local from_addr subject
+    from_addr=$(echo "$original" | grep -m1 '^From:' | sed 's/^From: *//')
+    subject=$(echo "$original" | grep -m1 '^Subject:' | sed 's/^Subject: *//')
+    [[ "$subject" != Re:* ]] && subject="Re: $subject"
+
+    # [3] AI draft (with spinner, graceful fallback)
+    local ai_body=""
+    if [[ "$skip_ai" != true && "$FLOW_EMAIL_AI" != "none" && "$FLOW_EMAIL_AI" != "off" ]]; then
+        _flow_log_info "Generating AI draft..."
+        ai_body=$(_em_ai_draft "$original" 2>/dev/null)
+        if [[ -n "$ai_body" ]]; then
+            _flow_log_success "AI draft ready — edit in \$EDITOR"
+        else
+            _flow_log_warning "AI draft unavailable — composing from scratch"
+        fi
+    fi
+
+    # [4] Create temp file + open in $EDITOR
+    local draft_file
+    draft_file=$(_em_create_draft_file "$from_addr" "$subject" "$ai_body")
+    _em_open_in_editor "$draft_file"
+
+    # [5] SAFETY GATE — preview + confirm
+    if _em_confirm_send "$draft_file"; then
+        # [6] Send via himalaya
+        himalaya message send < "$draft_file"
+        if [[ $? -eq 0 ]]; then
+            _flow_log_success "Reply sent"
+            rm -f "$draft_file"
+        else
+            _flow_log_error "Failed to send — draft preserved: $draft_file"
+            return 1
+        fi
+    fi
 }
 
 _em_find() {

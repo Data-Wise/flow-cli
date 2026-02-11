@@ -4,7 +4,7 @@
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # File:         lib/email-helpers.zsh
-# Version:      0.1 (Phase 1 — stubs)
+# Version:      0.2 (Phase 2 — core subcommands)
 # Date:         2026-02-10
 #
 # Used by:      lib/dispatchers/email-dispatcher.zsh
@@ -37,9 +37,27 @@ _em_smart_render() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_render_inbox() {
-    # Phase 2: formatted table with colors, flags, truncation
-    # For now: passthrough
-    cat
+    # Colorize himalaya envelope list output
+    # Highlights unread (no Seen flag), dims old messages
+    # Works with himalaya's default text table output
+    local line
+    local is_header=true
+    while IFS= read -r line; do
+        if [[ "$is_header" == true ]]; then
+            # Print header row in bold
+            echo -e "${_C_BOLD}${line}${_C_NC}"
+            is_header=false
+        elif [[ "$line" == *"───"* || "$line" == *"━━━"* || "$line" == *"---"* ]]; then
+            # Separator lines
+            echo -e "${_C_DIM}${line}${_C_NC}"
+        elif [[ "$line" != *"Seen"* && "$line" != *"seen"* ]]; then
+            # Unread: bold yellow highlight
+            echo -e "${_C_YELLOW}${_C_BOLD}${line}${_C_NC}"
+        else
+            # Read: normal
+            echo "$line"
+        fi
+    done
 }
 
 # ═══════════════════════════════════════════════════════════════════
