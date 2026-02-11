@@ -48,7 +48,12 @@ lib/
 ├── ai-recipes.zsh              # Teaching: AI prompt templates (11 functions)
 ├── ai-usage.zsh                # Teaching: AI usage tracking (9 functions)
 ├── slide-optimizer.zsh         # Teaching: Slide breaks (8 functions)
-└── dispatchers/                # 12 dispatcher modules (478+ functions)
+├── em-himalaya.zsh             # Email: himalaya adapter layer (12 functions)
+├── em-ai.zsh                   # Email: AI draft/classify/summarize (11 functions)
+├── em-cache.zsh                # Email: TTL-based caching (8 functions)
+├── em-render.zsh               # Email: Smart rendering pipeline (7 functions)
+├── email-helpers.zsh           # Email: Safety gates, AI draft helper (6 functions)
+└── dispatchers/                # 13 dispatcher modules (530+ functions)
     ├── g-dispatcher.zsh
     ├── cc-dispatcher.zsh
     ├── r-dispatcher.zsh
@@ -60,7 +65,8 @@ lib/
     ├── teach-dispatcher.zsh
     ├── tm-dispatcher.zsh
     ├── prompt-dispatcher.zsh
-    └── v-dispatcher.zsh
+    ├── v-dispatcher.zsh
+    └── email-dispatcher.zsh    # Email dispatcher (17 subcommands)
 ```
 
 ---
