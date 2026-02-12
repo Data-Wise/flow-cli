@@ -473,7 +473,9 @@ doctor() {
     fi
 
     # Show summary
-    _doctor_log_quiet "${FLOW_COLORS[warning]}△ Found issues in $(_doctor_count_categories) categor$([[ $(_doctor_count_categories) -eq 1 ]] && echo "y" || echo "ies")${FLOW_COLORS[reset]}"
+    local category_count=$(_doctor_count_categories)
+    local category_s="ies"; (( category_count == 1 )) && category_s="y"
+    _doctor_log_quiet "${FLOW_COLORS[warning]}△ Found issues in ${category_count} categor${category_s}${FLOW_COLORS[reset]}"
     _doctor_log_quiet ""
 
     # Handle different modes
