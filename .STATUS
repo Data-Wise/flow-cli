@@ -15,18 +15,28 @@
 - review: code review of PR #377 (nvim himalaya integration) — 3 critical fixes
 - fix: restored HIMALAYA-SETUP.md CLI docs, split Neovim guide, added test guards
 - merge: PR #377 merged to dev
-- docs: post-merge documentation update (file counts, nav verified, changelog)
+- docs: post-merge pipeline — file counts, changelog, nav verified
+- docs: gap analysis — 6 fixes (architecture diagram, cross-refs)
+- release: v7.0.1 — PR #378 merged to main, tagged, GitHub release created
+- deploy: docs site deployed for v7.0.1
+- cleanup: worktree removed, feature branch deleted
 
 **Previous session (2026-02-11):**
 - release: v7.0.0 — Email Dispatcher released
 - merge: PR #376 merged (dev → main), tagged v7.0.0
-- merge: PR #375 merged to dev (52 commits, 11,528 additions)
 
 **Test suite:** 45/45 passing, 1 timeout (expected IMAP), 181 test files
 
 ---
 
 ## Recent Releases
+
+### v7.0.1 (2026-02-12) — Himalaya Neovim Docs + Architecture Fixes
+- Himalaya Neovim integration docs (setup guide, tutorial, refcard)
+- Architecture diagram: em dispatcher added (12→13), himalaya in Layer 0
+- Cross-references between CLI and Neovim email documentation
+- 3 test suites with file-existence guards
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.0.1
 
 ### v7.0.0 (2026-02-11) — Email Dispatcher
 - 13th dispatcher: `em` — ADHD-friendly email management via himalaya
@@ -54,15 +64,14 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.0.0 released, synced with main |
-| `feature-nvim-himalaya-integration` | `feature/nvim-himalaya-integration` | Merged (PR #377), worktree can be removed |
+| Main repo | `dev` | v7.0.1 released, synced with main |
 
 ---
 
 ## Pending
 
 ### Homebrew Formula Update
-- **Status:** Needs v7.0.0 formula update in homebrew-tap
+- **Status:** Needs v7.0.1 formula update in homebrew-tap
 - **Effort:** 15 min
 
 ### Feature Request #299: Scholar Config Sync
@@ -83,10 +92,9 @@
 
 ## Next Action
 
-1. **Homebrew formula** — update tap for v7.0.0
-2. **Worktree cleanup** — remove feature-nvim-himalaya-integration
-3. Scholar Config Sync (#299) — next feature candidate
-4. API documentation push (50% → 80%)
+1. **Homebrew formula** — update tap for v7.0.1
+2. Scholar Config Sync (#299) — next feature candidate
+3. API documentation push (50% → 80%)
 
 ---
 
