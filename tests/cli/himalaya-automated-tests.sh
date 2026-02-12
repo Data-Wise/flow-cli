@@ -134,11 +134,11 @@ else
     log_fail "Missing folder_picker config"
 fi
 
-# Test: Uses telescope picker
-if grep -q '"telescope"' "${HIMALAYA_PLUGIN}" 2>/dev/null; then
-    log_pass "Folder picker set to telescope"
+# Test: Has folder picker configured
+if grep -q 'himalaya_folder_picker' "${HIMALAYA_PLUGIN}" 2>/dev/null; then
+    log_pass "Folder picker configured"
 else
-    log_skip "Folder picker not set to telescope (may use fzf)"
+    log_skip "No folder picker configured (uses auto-detect)"
 fi
 
 # Test: Has lazy-load command

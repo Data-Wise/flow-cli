@@ -162,9 +162,9 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 13: Folder picker (telescope)${NC}"
+echo -e "${BLUE}${BOLD}TEST 13: Folder picker${NC}"
 echo -e "  ${DIM}Action:${NC}   Press gm in the envelope list"
-echo -e "  ${DIM}Expected:${NC} Telescope picker shows email folders (INBOX, Sent, etc.)"
+echo -e "  ${DIM}Expected:${NC} Picker shows email folders (INBOX, Sent, etc.)"
 echo ""
 echo "  Try in Neovim"
 ask_result
