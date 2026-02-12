@@ -558,8 +558,9 @@ _doctor_select_fix_category() {
   # Tokens category
   if [[ ${#_doctor_token_issues[@]} -gt 0 ]]; then
     local token_count=${#_doctor_token_issues[@]}
+    local token_s=""; (( token_count > 1 )) && token_s="s"
     categories+=("tokens")
-    category_info[tokens]="🔑 GitHub Token ($token_count issue${[[ $token_count -gt 1 ]] && echo "s" || echo ""}, ~30s)"
+    category_info[tokens]="🔑 GitHub Token ($token_count issue${token_s}, ~30s)"
   fi
 
   # Skip other categories if token-only mode
@@ -567,6 +568,7 @@ _doctor_select_fix_category() {
     # Required tools category
     if [[ ${#_doctor_missing_brew[@]} -gt 0 ]] || [[ ${#_doctor_missing_npm[@]} -gt 0 ]] || [[ ${#_doctor_missing_pip[@]} -gt 0 ]]; then
       local tools_count=$((${#_doctor_missing_brew[@]} + ${#_doctor_missing_npm[@]} + ${#_doctor_missing_pip[@]}))
+      local tools_s=""; (( tools_count > 1 )) && tools_s="s"
       local est_time=$((tools_count * 30))  # Estimate 30s per tool
       local time_str
       if [[ $est_time -lt 60 ]]; then
@@ -575,20 +577,22 @@ _doctor_select_fix_category() {
         time_str="$((est_time / 60))m $((est_time % 60))s"
       fi
       categories+=("tools")
-      category_info[tools]="📦 Missing Tools ($tools_count tool${[[ $tools_count -gt 1 ]] && echo "s" || echo ""}, ~${time_str})"
+      category_info[tools]="📦 Missing Tools ($tools_count tool${tools_s}, ~${time_str})"
     fi
 
     # Aliases category
     if [[ ${#_doctor_alias_issues[@]} -gt 0 ]]; then
       local alias_count=${#_doctor_alias_issues[@]}
+      local alias_s=""; (( alias_count > 1 )) && alias_s="s"
       categories+=("aliases")
-      category_info[aliases]="⚡ Aliases ($alias_count issue${[[ $alias_count -gt 1 ]] && echo "s" || echo ""}, ~10s)"
+      category_info[aliases]="⚡ Aliases ($alias_count issue${alias_s}, ~10s)"
     fi
 
     # Email category
     if [[ ${#_doctor_missing_email_brew[@]} -gt 0 || ${#_doctor_missing_email_pip[@]} -gt 0 || "$_doctor_email_no_config" == true ]]; then
       local email_count=$((${#_doctor_missing_email_brew[@]} + ${#_doctor_missing_email_pip[@]}))
       [[ "$_doctor_email_no_config" == true ]] && ((email_count++))
+      local email_s=""; (( email_count > 1 )) && email_s="s"
       local email_time=$((email_count * 30))
       local email_time_str
       if [[ $email_time -lt 60 ]]; then
@@ -597,7 +601,7 @@ _doctor_select_fix_category() {
         email_time_str="$((email_time / 60))m"
       fi
       categories+=("email")
-      category_info[email]="📧 Email Tools ($email_count issue${[[ $email_count -gt 1 ]] && echo "s" || echo ""}, ~${email_time_str})"
+      category_info[email]="📧 Email Tools ($email_count issue${email_s}, ~${email_time_str})"
     fi
   fi
 
