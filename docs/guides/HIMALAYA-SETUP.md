@@ -163,8 +163,8 @@ Results appear in right vsplit with action keybinds:
 " Executable path (if not in PATH)
 let g:himalaya_executable = '/usr/local/bin/himalaya'
 
-" Folder picker (telescope, fzf, or native)
-let g:himalaya_folder_picker = 'telescope'
+" Folder picker (telescope, fzflua, fzf, or native)
+let g:himalaya_folder_picker = 'native'
 
 " Default account
 let g:himalaya_account = 'personal'
@@ -178,9 +178,30 @@ Edit `~/.config/himalaya-ai/config.lua` to switch between Claude and Gemini:
 return { backend = "gemini" }  -- switches AI backend
 ```
 
+### Runtime Settings (`:HimalayaAi set`)
+
+Change settings without editing config files:
+
+| Setting | Values | Default | Description |
+|---------|--------|---------|-------------|
+| `backend` | `claude`, `gemini` | `claude` | AI backend for prompts |
+| `vault` | path string | `~/Documents/Obsidian/...` | Obsidian vault for notes |
+| `save_dir` | path string | `Inbox` | Subfolder in vault for saved notes |
+| `format` | `structured`, `simple` | `structured` | AI output format |
+| `result_display` | `split`, `tab` | `split` | Where AI results appear |
+
+```vim
+:HimalayaAi set result_display tab   " Results open in new tab
+:HimalayaAi set result_display split  " Results open in bottom split (default)
+:HimalayaAi set backend gemini        " Switch to Gemini
+:HimalayaAi status                    " See all current settings
+```
+
+All changes are persisted to `~/.config/himalaya-ai/config.lua`.
+
 ### Customize AI Prompts
 
-Edit `~/.config/nvim/lua/himalaya-ai.lua` and modify prompt strings in the `prompts` table. Or use `r` in the result split to re-run with an edited prompt on the fly.
+Edit prompts via `:HimalayaAi prompts` (interactive browser) or `r` in a result split to re-run with an edited prompt on the fly.
 
 ## Troubleshooting
 
@@ -213,12 +234,13 @@ echo "test email" | claude -p "summarize this"
 :echo $PATH
 ```
 
-### Telescope picker not working
+### Folder picker not working
 
-Install telescope:
-```lua
--- In lazy.nvim plugins
-{ "nvim-telescope/telescope.nvim" }
+Set picker to `native` (no dependencies) or install telescope/fzf-lua:
+```vim
+let g:himalaya_folder_picker = 'native'    " Built-in, no deps
+let g:himalaya_folder_picker = 'telescope' " Requires telescope.nvim
+let g:himalaya_folder_picker = 'fzflua'    " Requires fzf-lua
 ```
 
 ### Performance issues
