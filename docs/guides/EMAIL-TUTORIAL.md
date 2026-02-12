@@ -329,7 +329,30 @@ em html 42
 - Email looks garbled in plain text
 - You know it's HTML (newsletters, formatted emails)
 
-### Command 3: Raw MIME Export
+### Command 3: Clean Markdown Rendering
+
+**Try it now!**
+
+```bash
+em read --md 42
+```
+
+✅ **Expected output:** Email rendered as clean Markdown with proper headings, links, and formatting. Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatically.
+
+**Requires:** `pandoc` (`brew install pandoc`)
+
+**When to use:**
+- Outlook/Exchange emails with heavy HTML
+- Newsletters with tracking links
+- Any time you want structured, readable content
+
+**Short flag:**
+
+```bash
+em read -M 42
+```
+
+### Command 4: Raw MIME Export
 
 **Try it now!**
 
@@ -339,7 +362,7 @@ em read --raw 42
 
 This exports the full `.eml` MIME source — useful for debugging email formatting or archiving.
 
-### Command 4: Download Attachments
+### Command 5: Download Attachments
 
 **Try it now!**
 
@@ -366,6 +389,7 @@ em attach 42 ~/Desktop/project-files
 
 - `em 42` shorthand reads email #42 (same as `em read 42`)
 - `em read <ID>` reads an email with smart rendering
+- `em read --md <ID>` renders as clean Markdown via pandoc (Outlook-friendly)
 - `em read --raw <ID>` exports full MIME source
 - Plain text → bat, Markdown → glow, HTML → w3m
 - `em html <ID>` forces HTML rendering
@@ -1380,6 +1404,7 @@ You've completed the email tutorial!
 
 - ✅ Check email with `em` (quick pulse)
 - ✅ Read emails with `em read <ID>`
+- ✅ Read Outlook emails as clean Markdown with `em read --md <ID>`
 - ✅ Browse interactively with `em pick`
 - ✅ Reply with AI drafts (`em reply <ID>`)
 - ✅ Compose new emails (`em send`)
@@ -1481,6 +1506,7 @@ export FLOW_EMAIL_PAGE_SIZE=50
 | Command                | Purpose                          |
 | ---------------------- | -------------------------------- |
 | `em html <ID>`         | Force HTML rendering             |
+| `em read --md <ID>`    | Clean Markdown via pandoc        |
 | `em attach <ID>`       | Download attachments             |
 | `em cache stats`       | Show cache statistics            |
 | `em cache prune`       | Remove expired entries only      |
@@ -1539,6 +1565,9 @@ A: By default, 50 MB max (`FLOW_EMAIL_CACHE_MAX_MB`). Oldest files are evicted (
 
 **Q: Can I auto-prune old cache entries?**
 A: Yes — `em dash` and `em inbox` auto-prune expired entries in the background. Manual: `em cache prune`.
+
+**Q: How do I read Outlook emails with clean formatting?**
+A: `em read --md <ID>` converts HTML to Markdown via pandoc with a 7-stage Outlook cleanup pipeline (SafeLinks, attribute blocks, fenced divs, etc.). Requires `pandoc` (`brew install pandoc`).
 
 **Q: How do I read raw MIME source?**
 A: `em read --raw <ID>` exports the full `.eml` file. Useful for debugging or archiving.
@@ -1606,6 +1635,7 @@ After this tutorial, you should be able to:
 
 - [ ] Check email with `em` (quick pulse)
 - [ ] Read emails with smart rendering
+- [ ] Read Outlook emails as clean Markdown (`--md`)
 - [ ] Browse interactively with fzf
 - [ ] Reply with AI-generated drafts
 - [ ] Compose new emails
