@@ -171,6 +171,15 @@ Choose your path based on what you need right now:
 
     [→ Dopamine Guide](tutorials/06-dopamine-features.md)
 
+-   :email:{ .lg .middle }
+    **Email in Neovim**
+
+    ---
+
+    Himalaya + AI email actions
+
+    [→ Email Setup](guides/HIMALAYA-SETUP.md)
+
 -   :compass:{ .lg .middle }
     **Command Reference**
 
