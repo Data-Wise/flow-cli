@@ -172,13 +172,14 @@ Choose your path based on what you need right now:
     [→ Dopamine Guide](tutorials/06-dopamine-features.md)
 
 -   :email:{ .lg .middle }
-    **Email in Neovim**
+    **Email Management**
 
     ---
 
-    Himalaya + AI email actions
+    CLI + Neovim email with himalaya
 
-    [→ Email Setup](guides/HIMALAYA-SETUP.md)
+    [→ CLI Guide](guides/EMAIL-DISPATCHER-GUIDE.md) ·
+    [→ Neovim Setup](guides/HIMALAYA-SETUP.md)
 
 -   :compass:{ .lg .middle }
     **Command Reference**
@@ -206,15 +207,6 @@ Choose your path based on what you need right now:
     Solve specific problems fast
 
     [→ Workflows](guides/WORKFLOWS-QUICK-WINS.md)
-
--   :email:{ .lg .middle }
-    **Email Management**
-
-    ---
-
-    AI-powered email with himalaya
-
-    [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md)
 
 </div>
 

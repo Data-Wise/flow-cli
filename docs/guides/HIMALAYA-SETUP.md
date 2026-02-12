@@ -269,7 +269,7 @@ Change settings without editing config files:
 |---------|--------|---------|-------------|
 | `backend` | `claude`, `gemini` | `claude` | AI backend for prompts |
 | `vault` | path string | `~/Documents/Obsidian/...` | Obsidian vault for notes |
-| `save_dir` | path string | `Inbox` | Subfolder in vault for saved notes |
+| `save_dir` | path string | `~` | Directory for standalone file saves |
 | `format` | `structured`, `simple` | `structured` | AI output format |
 | `result_display` | `split`, `tab` | `split` | Where AI results appear |
 | `todo_target` | `obsidian`, `reminders`, `ask` | `ask` | Where `t` keybind sends todos |

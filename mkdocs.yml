@@ -150,11 +150,6 @@ nav:
           - 16. Vim Motions: tutorials/16-vim-motions.md
           - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
           - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
-  # ── Email (himalaya + Neovim AI integration) ─────────────────────
-  - 📧 Email:
-      - Setup Guide: guides/HIMALAYA-SETUP.md
-      - Tutorial: tutorials/33-himalaya-email.md
-      - Quick Reference: reference/REFCARD-HIMALAYA.md
   # ── Teaching (kept as-is, already well-organized) ─────────────────
   - 🎓 Teaching:
       - Overview: teaching/index.md
@@ -224,9 +219,10 @@ nav:
           - Guide: guides/EMAIL-DISPATCHER-GUIDE.md
           - Tutorial: guides/EMAIL-TUTORIAL.md
           - Quick Reference: reference/REFCARD-EMAIL-DISPATCHER.md
-      # - Editor (Neovim):                    # uncomment when feature/nvim-himalaya-integration ships
-      #     - Guide: guides/NVIM-HIMALAYA-GUIDE.md
-      #     - Quick Reference: reference/REFCARD-NVIM-EMAIL.md
+      - Editor (Neovim):
+          - Guide: guides/HIMALAYA-SETUP.md
+          - Tutorial: tutorials/33-himalaya-email.md
+          - Quick Reference: reference/REFCARD-HIMALAYA.md
   # ── Workflows & Guides (merged: Workflows + Guides) ──────────────
   - 🔧 Workflows & Guides:
       - guides/index.md
