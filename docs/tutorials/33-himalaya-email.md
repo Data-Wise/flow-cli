@@ -187,4 +187,5 @@ The width safety patch in `plugins/himalaya.lua` handles this. If crashes persis
 
 - [Quick Reference Card](../reference/REFCARD-HIMALAYA.md) - all keybinds at a glance
 - [Neovim Setup Guide](../guides/HIMALAYA-NVIM-SETUP.md) - installation and configuration
+- [CLI Email Tutorial](../guides/EMAIL-TUTORIAL.md) - terminal email with `em` dispatcher
 - [himalaya documentation](https://pimalaya.org/himalaya/) - CLI reference

@@ -3,8 +3,8 @@
 **Purpose:** Complete system architecture documentation for flow-cli
 **Audience:** Contributors, maintainers, advanced users
 **Format:** Design decisions, diagrams, implementation details
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v7.0.0
+**Last Updated:** 2026-02-12
 
 ---
 
@@ -31,7 +31,7 @@
 graph TD
     User[User] --> CLI[flow.plugin.zsh Entry Point]
     CLI --> Core[Core Library]
-    CLI --> Dispatchers[12 Dispatchers]
+    CLI --> Dispatchers[13 Dispatchers]
     CLI --> Commands[Core Commands]
 
     Core --> Utils[Utilities]
@@ -50,6 +50,7 @@ graph TD
     Dispatchers --> TM[tm - Terminal]
     Dispatchers --> PROMPT[prompt - Prompt Engine]
     Dispatchers --> V[v - Vibe Mode]
+    Dispatchers --> EM[em - Email]
 
     Commands --> Work[work/finish/hop]
     Commands --> Dash[dash - Dashboard]
@@ -65,6 +66,7 @@ graph TD
     G --> GitHub[GitHub API]
     TEACH --> Scholar[Scholar CLI]
     MCP --> MCPServers[MCP Servers]
+    EM --> Himalaya[himalaya CLI]
 ```
 
 ---
@@ -110,6 +112,7 @@ flow-cli follows a layered architecture:
 │  - GitHub API                                                │
 │  - Scholar CLI                                               │
 │  - MCP Servers                                               │
+│  - himalaya CLI (IMAP/SMTP email)                            │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -1003,7 +1006,7 @@ graph TD
 
 ---
 
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v7.0.0
+**Last Updated:** 2026-02-12
 **Diagrams:** 8 Mermaid diagrams
 **Total:** 2,500+ lines

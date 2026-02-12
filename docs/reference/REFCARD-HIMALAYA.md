@@ -105,4 +105,4 @@ Any time   -> <leader>mw -> "schedule meeting" -> e -> edit -> s (save)
 
 ---
 
-**See also:** [Full Setup Guide](../guides/HIMALAYA-NVIM-SETUP.md)
+**See also:** [Neovim Setup Guide](../guides/HIMALAYA-NVIM-SETUP.md) | [CLI Email Dispatcher](REFCARD-EMAIL-DISPATCHER.md) | [Email Tutorial](../guides/EMAIL-TUTORIAL.md)

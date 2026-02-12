@@ -667,6 +667,7 @@ em p                           # Try again
 
 - [EMAIL-DISPATCHER-GUIDE.md](../guides/EMAIL-DISPATCHER-GUIDE.md) — Complete workflow guide
 - [HIMALAYA-SETUP.md](../guides/HIMALAYA-SETUP.md) — Email account configuration
+- [HIMALAYA-NVIM-SETUP.md](../guides/HIMALAYA-NVIM-SETUP.md) — Neovim email with AI actions
 
 ### References
 
