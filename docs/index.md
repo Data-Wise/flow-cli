@@ -26,10 +26,10 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v6.7.1: Fix #372 + Branch Sync"
-    False-positive production conflict detection fixed — `--no-ff` merge commits no longer block deploys. Auto back-merge keeps branches in sync, and `teach deploy --sync` provides manual synchronization.
+!!! success "🎉 What's New in v7.0.0: Email Dispatcher"
+    New `em` dispatcher — ADHD-friendly email management powered by himalaya. AI classify/summarize/draft, fzf picker, smart rendering, and batch triage with `em respond`.
+    [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
     [→ See what's new](CHANGELOG.md){ .md-button }
-    [→ All releases](RELEASES.md){ .md-button }
 
 ---
 
@@ -198,6 +198,15 @@ Choose your path based on what you need right now:
 
     [→ Workflows](guides/WORKFLOWS-QUICK-WINS.md)
 
+-   :email:{ .lg .middle }
+    **Email Management**
+
+    ---
+
+    AI-powered email with himalaya
+
+    [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md)
+
 </div>
 
 ---
@@ -222,6 +231,7 @@ Commands that adapt to your project type:
 | `dot` | `dot add` / `dot sync` | Dotfile management |
 | `prompt` | `prompt toggle` | Prompt engine switcher |
 | `v` | `v on` / `v status` | Vibe coding mode |
+| `em` | `em inbox` / `em pick` | Email management (himalaya) |
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
 
@@ -266,4 +276,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v6.5.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.0.0** · Pure ZSH · Zero Dependencies · MIT License
