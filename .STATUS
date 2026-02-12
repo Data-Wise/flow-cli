@@ -12,11 +12,10 @@
 ## Current Session (2026-02-11)
 
 **Session activity:**
-- feat: `em respond --review|-R` — review/send cached drafts (skip classification)
-- fix: ZSH `local` re-declaration stdout leak in `_em_respond()` loops (Phase 1 + Phase 2)
-- fix: hoisted all shared loop locals to single declaration block before branching
-- docs: updated refcard, guide, tutorial, FAQ with --review, shorthands, noise cleanup, cache prune
-- test: live IMAP testing with seeded cache drafts — 2/3 found, correct draft per email, zero leaks
+- fix: normalize AI classification response (strip whitespace, lowercase) — fixes blank icon
+- docs: update 6 files for 9-category classification system (student, colleague, admin-action, etc.)
+- docs: add listserv safety, discard detection, --dry-run example, email FAQ section
+- docs: fix --count→-n flag in tutorial, add cache prune/warm to QUICK-REFERENCE
 
 **Test suite:** 45/45 passing, 1 timeout (expected IMAP), 144 test files
 
@@ -80,7 +79,7 @@
 ---
 
 **Last Updated:** 2026-02-11
-**Status:** em dispatcher `--review` implemented | 45/45 tests passing | 8000+ test functions
+**Status:** em dispatcher docs updated for 9-category system | 45/45 tests passing | 8000+ test functions
 ## wins: Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11), fixed the bug (2026-02-11), Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11)
 ## streak: 1
-## last_active: 2026-02-11 13:12
+## last_active: 2026-02-11 19:46
