@@ -29,6 +29,15 @@ HIMALAYA_PLUGIN="${NVIM_CONFIG}/lua/plugins/himalaya.lua"
 HIMALAYA_AI="${NVIM_CONFIG}/lua/himalaya-ai.lua"
 KEYMAPS="${NVIM_CONFIG}/lua/config/keymaps.lua"
 
+# Guard: skip Neovim-specific tests when config files are missing (CI, other machines)
+HAS_NVIM_CONFIG=true
+if [[ ! -f "${HIMALAYA_AI}" ]]; then
+    HAS_NVIM_CONFIG=false
+    echo -e "\n  ${YELLOW}NOTE${NC}: himalaya-ai.lua not found at ${HIMALAYA_AI}"
+    echo -e "  ${YELLOW}NOTE${NC}: Neovim-specific sections will be skipped."
+    echo -e "  ${YELLOW}NOTE${NC}: Only prerequisites and documentation tests will run.\n"
+fi
+
 log_pass() { ((PASS++)) || true; ((TOTAL++)) || true; echo -e "  ${GREEN}PASS${NC}: $1"; }
 log_fail() { ((FAIL++)) || true; ((TOTAL++)) || true; echo -e "  ${RED}FAIL${NC}: $1"; }
 log_skip() { ((SKIP++)) || true; ((TOTAL++)) || true; echo -e "  ${YELLOW}SKIP${NC}: $1"; }
@@ -83,6 +92,19 @@ fi
 # ═══════════════════════════════════════════════════════════════
 # FILE EXISTENCE
 # ═══════════════════════════════════════════════════════════════
+
+if [[ "$HAS_NVIM_CONFIG" != "true" ]]; then
+    section "Neovim Tests (SKIPPED)"
+    log_skip "Plugin spec validation (himalaya-ai.lua not found)"
+    log_skip "AI wrapper validation (himalaya-ai.lua not found)"
+    log_skip "Keymaps validation (himalaya-ai.lua not found)"
+    log_skip "Neovim headless tests (himalaya-ai.lua not found)"
+    log_skip "Config file validation (himalaya-ai.lua not found)"
+    log_skip "V2/V3/V4 feature validation (himalaya-ai.lua not found)"
+    log_skip "HimalayaAi command tests (himalaya-ai.lua not found)"
+    log_skip "Headless keybind tests (himalaya-ai.lua not found)"
+    log_skip "Error handling tests (himalaya-ai.lua not found)"
+else
 
 section "File Existence"
 
@@ -742,6 +764,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
 else
     log_skip "Reminders integration (macOS only, skipping on $(uname))"
 fi
+
+fi  # end HAS_NVIM_CONFIG guard
 
 # ═══════════════════════════════════════════════════════════════
 # DOCUMENTATION

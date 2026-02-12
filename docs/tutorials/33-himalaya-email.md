@@ -186,5 +186,5 @@ The width safety patch in `plugins/himalaya.lua` handles this. If crashes persis
 ## Next Steps
 
 - [Quick Reference Card](../reference/REFCARD-HIMALAYA.md) - all keybinds at a glance
-- [Full Setup Guide](../guides/HIMALAYA-SETUP.md) - installation and configuration
+- [Neovim Setup Guide](../guides/HIMALAYA-NVIM-SETUP.md) - installation and configuration
 - [himalaya documentation](https://pimalaya.org/himalaya/) - CLI reference

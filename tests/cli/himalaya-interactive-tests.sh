@@ -29,6 +29,18 @@ IS_MACOS=false
 HAS_OBSIDIAN=false
 HAS_REMINDERS=false
 
+# Guard: check required Neovim config files exist
+HIMALAYA_AI="${HOME}/.config/nvim/lua/himalaya-ai.lua"
+if [[ ! -f "${HIMALAYA_AI}" ]]; then
+    echo ""
+    echo -e "${YELLOW}${BOLD}SKIP: himalaya-ai.lua not found${NC}"
+    echo -e "  These interactive tests require Neovim config files at:"
+    echo -e "    ${HIMALAYA_AI}"
+    echo -e "  Install himalaya-ai.lua first, then re-run."
+    echo ""
+    exit 0
+fi
+
 if [[ "$(uname)" == "Darwin" ]]; then
     IS_MACOS=true
     # Check if Obsidian is installed

@@ -1,370 +1,331 @@
-# Himalaya Email in Neovim
-
-Neovim integration for himalaya email client with AI-powered email assistance.
-
-## Quick Reference
-
-| Action | Keybind | Description |
-|--------|---------|-------------|
-| **Email Actions** | | |
-| Open email list | `<leader>eM` | Launch Himalaya |
-| Write new email | `gw` | Compose new message |
-| Reply | `gr` | Reply to sender |
-| Reply all | `gR` | Reply to all recipients |
-| Forward | `gf` | Forward message |
-| Add attachment | `ga` | Attach file to message |
-| Copy message | `gC` | Copy to another folder |
-| Move message | `gM` | Move to another folder |
-| **AI Actions** | | |
-| Summarize email | `<leader>ms` | AI summary in split |
-| Extract todos | `<leader>mt` | Parse action items |
-| Draft reply | `<leader>mr` | AI-generated reply (asks for instructions) |
-| TL;DR + decision | `<leader>mc` | One-line summary + action needed? |
-| Compose email | `<leader>mw` | AI-composed email (asks for topic) |
-| Prompt picker | `<leader>mp` | Select any AI action from menu |
-| AI Status | `<leader>mi` | Show current AI settings |
-| **Post-AI Result Buffer** | | |
-| Edit result | `e` | Toggle editable (edits apply to y/s/a/o/p) |
-| Revise | `c` | AI-revise current output with instruction |
-| Next action | `n` | Chain to another AI action |
-| Send to todo | `t` | Send to Obsidian daily note or Reminders |
-| Copy to clipboard | `y` | Copy result text |
-| Save to file | `s` | Save with path prompt |
-| Append to file | `a` | Append to existing file |
-| Send to Obsidian | `o` | Save as Obsidian note |
-| Paste into reply | `p` | Paste into himalaya compose buffer |
-| Re-run prompt | `r` | Re-run with edited prompt |
-| Toggle fullscreen | `f` | Expand/collapse split |
-| Close | `q`/`Esc` | Close result split |
-
-## Prerequisites
-
-1. **himalaya CLI** (v1.1.0+)
-   ```bash
-   # macOS
-   brew install himalaya
-
-   # Or via Cargo
-   cargo install himalaya
-   ```
-
-2. **Configure email account**
-   ```bash
-   himalaya account configure
-   ```
-
-3. **Claude CLI** (for AI features)
-   ```bash
-   # Verify installation
-   claude --version
-   ```
-
-4. **Neovim with LazyVim**
-
-## Quick Start
-
-### 1. Install himalaya-vim Plugin
-
-Create `~/.config/nvim/lua/plugins/himalaya.lua`:
-
-```lua
-return {
-  {
-    "pimalaya/himalaya-vim",
-    cmd = { "Himalaya" },
-    init = function()
-      -- Find himalaya binary
-      local paths = {
-        "/opt/homebrew/bin/himalaya",
-        vim.fn.expand("~/.cargo/bin/himalaya"),
-        "himalaya",
-      }
-      for _, p in ipairs(paths) do
-        if vim.fn.executable(p) == 1 then
-          vim.g.himalaya_executable = p
-          break
-        end
-      end
-
-      vim.g.himalaya_folder_picker = "native"
-      vim.g.himalaya_always_confirm = 1
-
-      -- Width safety patch (prevents comfy-table UTF-8 crash)
-      local email_vim = vim.fn.stdpath("data")
-        .. "/lazy/himalaya-vim/autoload/himalaya/domain/email.vim"
-      if vim.fn.filereadable(email_vim) == 1 then
-        local lines = vim.fn.readfile(email_vim)
-        for i, line in ipairs(lines) do
-          if line:find("return width - numwidth - foldwidth - signwidth", 1, true)
-            and not line:find("usable", 1, true) then
-            lines[i] = "  let usable = width - numwidth - foldwidth - signwidth - 4\n"
-              .. "  return max([40, (usable / 2) * 2])"
-            vim.fn.writefile(lines, email_vim)
-            break
-          end
-        end
-      end
-    end,
-    config = function() end,
-    keys = {
-      {
-        "<leader>eM",
-        function()
-          local ok, err = pcall(vim.cmd, "Himalaya")
-          if not ok then
-            local msg = "himalaya-vim error:\n" .. tostring(err)
-            vim.fn.setreg("+", msg)
-            vim.notify(msg .. "\n\n(copied to clipboard)", vim.log.levels.ERROR)
-          end
-        end,
-        desc = "Open Himalaya (Email)",
-      },
-    },
-  },
-}
-```
-
-### 2. Add AI Wrapper Module
-
-Create `~/.config/nvim/lua/himalaya-ai.lua` (~980 lines). The module:
-
-- Pipes buffer content to AI backend (claude/gemini) asynchronously via `vim.fn.jobstart()`
-- Interactive prompts: `draft_reply` asks for instructions, `compose` asks for topic
-- Displays results in a configurable split/tab with 13 action keybinds
-- Editable results: press `e` to edit, then `y`/`s`/`a`/`o`/`p` pick up your changes
-- Action chaining: press `n` to run another AI action on the same email or result
-- Revision: press `c` to revise the AI output with new instructions
-
-See the full module at `~/.config/nvim/lua/himalaya-ai.lua`.
-
-### 2b. Configure AI Backend (Optional)
-
-Create `~/.config/himalaya-ai/config.lua` to customize backend and Obsidian vault:
-
-```lua
-return {
-  backend = "claude",  -- or "gemini"
-  backends = {
-    claude = { cmd = "/Users/dt/.local/bin/claude", flag = "-p" },
-    gemini = { cmd = "/opt/homebrew/bin/gemini", flag = "-p" },
-  },
-  obsidian = {
-    vault = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Knowledge_Base",
-    subfolder = "Inbox",
-    format = "structured",
-  },
-  save_dir = "~",
-  todo_target = "ask",  -- "obsidian" | "reminders" | "ask"
-}
-```
-
-Falls back to built-in defaults if config file is missing.
-
-### 3. Add Keybinds
-
-Add to `~/.config/nvim/lua/config/keymaps.lua`:
-
-```lua
--- Himalaya AI email actions
-vim.keymap.set("n", "<leader>ms", function() require("himalaya-ai").summarize() end, { desc = "AI: Summarize email" })
-vim.keymap.set("n", "<leader>mt", function() require("himalaya-ai").extract_todos() end, { desc = "AI: Extract action items" })
-vim.keymap.set("n", "<leader>mr", function() require("himalaya-ai").draft_reply() end, { desc = "AI: Draft reply" })
-vim.keymap.set("n", "<leader>mc", function() require("himalaya-ai").tldr() end, { desc = "AI: TL;DR + decision" })
-vim.keymap.set("n", "<leader>mw", function() require("himalaya-ai").compose() end, { desc = "AI: Compose email" })
-vim.keymap.set("n", "<leader>mp", function()
-  local hai = require("himalaya-ai")
-  vim.ui.select(
-    { "Summarize", "Extract Todos", "Draft Reply", "TL;DR", "Compose" },
-    { prompt = "AI Action:" },
-    function(choice)
-      if not choice then return end
-      local actions = {
-        Summarize = hai.summarize,
-        ["Extract Todos"] = hai.extract_todos,
-        ["Draft Reply"] = hai.draft_reply,
-        ["TL;DR"] = hai.tldr,
-        Compose = hai.compose,
-      }
-      actions[choice]()
-    end
-  )
-end, { desc = "AI: Prompt picker" })
-vim.keymap.set("n", "<leader>mi", function() vim.cmd("HimalayaAi status") end, { desc = "AI: Status info" })
-```
-
-Restart Neovim.
-
-## Usage
-
-### Reading Email
-
-```vim
-:Himalaya
-```
-
-Opens email list with native folder picker. Navigate and select to read.
-
-### Composing Email
-
-- **New:** Press `gw` in email list
-- **Reply:** Press `gr` when viewing message
-- **Reply all:** Press `gR`
-- **Forward:** Press `gf`
-
-### AI-Powered Actions
-
-Open an email, then:
-
-- `<leader>ms` - Get AI summary
-- `<leader>mt` - Extract todos
-- `<leader>mr` - Generate reply draft (asks for instructions first)
-- `<leader>mc` - TL;DR + decision needed?
-- `<leader>mw` - Compose new email (asks for topic first)
-- `<leader>mp` - Pick any action from a menu
-
-### Working with AI Results
-
-Results appear in a split with 13 keybinds. Common workflows:
-
-**Edit and copy:**
-`<leader>ms` (summarize) -> `e` (edit) -> tweak text -> `y` (copy)
-
-**Chain actions:**
-`<leader>mc` (TL;DR) -> `n` (next) -> Draft Reply -> choose source
-
-**Revise output:**
-`<leader>mr` (draft reply) -> `c` (revise) -> "make it more formal"
-
-**Send to todo:**
-`<leader>mt` (extract todos) -> `t` -> "Action items only" -> "Obsidian daily note"
-
-## Configuration Options
-
-### Plugin Variables
-
-```vim
-" Executable path (if not in PATH)
-let g:himalaya_executable = '/usr/local/bin/himalaya'
-
-" Folder picker (telescope, fzflua, fzf, or native)
-let g:himalaya_folder_picker = 'native'
-
-" Default account
-let g:himalaya_account = 'personal'
-```
-
-### Customize AI Backend
-
-Edit `~/.config/himalaya-ai/config.lua` to switch between Claude and Gemini:
-
-```lua
-return { backend = "gemini" }  -- switches AI backend
-```
-
-### Runtime Settings (`:HimalayaAi set`)
-
-Change settings without editing config files:
-
-| Setting | Values | Default | Description |
-|---------|--------|---------|-------------|
-| `backend` | `claude`, `gemini` | `claude` | AI backend for prompts |
-| `vault` | path string | `~/Documents/Obsidian/...` | Obsidian vault for notes |
-| `save_dir` | path string | `~` | Directory for standalone file saves |
-| `format` | `structured`, `simple` | `structured` | AI output format |
-| `result_display` | `split`, `tab` | `split` | Where AI results appear |
-| `todo_target` | `obsidian`, `reminders`, `ask` | `ask` | Where `t` keybind sends todos |
-
-```vim
-:HimalayaAi set result_display tab   " Results open in new tab
-:HimalayaAi set result_display split  " Results open in split (default)
-:HimalayaAi set backend gemini        " Switch to Gemini
-:HimalayaAi set todo_target obsidian  " Always send todos to Obsidian
-:HimalayaAi status                    " See all current settings
-```
-
-All changes are persisted to `~/.config/himalaya-ai/config.lua`.
-
-### Customize AI Prompts
-
-Edit prompts via `:HimalayaAi prompts` (interactive browser) or `r` in a result split to re-run with an edited prompt on the fly.
-
-## Width Safety Patch
-
-The himalaya-vim plugin calculates exact terminal width for email list formatting. The upstream `comfy-table` Rust crate can crash when truncating multi-byte UTF-8 characters at the exact boundary.
-
-The plugin spec includes an idempotent patch that:
-
-- Subtracts 4 columns from the calculated width
-- Rounds to an even number (prevents 2-byte char splits)
-- Clamps to minimum 40 columns
-- Re-applies automatically after plugin updates
-
-If you still see crashes, increase the margin in `plugins/himalaya.lua` (change `- 4` to `- 6`).
-
-## Troubleshooting
-
-### Plugin not loading
-
-Check plugin installed:
-```vim
-:Lazy
-```
-
-Verify `himalaya-vim` is listed and loaded.
-
-### "himalaya not found"
-
-```bash
-# Verify installation
-which himalaya
-
-# Set explicit path in Neovim
-let g:himalaya_executable = '/path/to/himalaya'
-```
-
-### AI commands fail
-
-```bash
-# Test claude CLI
-echo "test email" | claude -p "summarize this"
-
-# Check PATH in Neovim
-:echo $PATH
-```
-
-### Folder picker not working
-
-Set picker to `native` (no dependencies) or install telescope/fzf-lua:
-```vim
-let g:himalaya_folder_picker = 'native'    " Built-in, no deps
-let g:himalaya_folder_picker = 'telescope' " Requires telescope.nvim
-let g:himalaya_folder_picker = 'fzflua'    " Requires fzf-lua
-```
-
-### comfy-table crash (UTF-8 panic)
-
-If you see `assertion failed: self.is_char_boundary(new_len)`, the width safety patch may need a larger margin. Edit `plugins/himalaya.lua` and increase the subtraction value.
-
-### Performance issues
-
-Disable AI wrapper if Claude is slow:
-```lua
--- Comment out in init.lua
--- require('himalaya-ai').setup()
-```
-
-## Known Issues
-
-- **Maintenance status:** himalaya-vim seeking new maintainers (Feb 2026)
-- **AI latency:** Claude API calls may take 2-5s depending on email length
-- **Attachment preview:** Limited support for binary attachments
-- **comfy-table crash:** Upstream bug with UTF-8 truncation (mitigated by width patch)
-
-## Related
-
-- himalaya docs: https://pimalaya.org/himalaya/
-- [Quick Reference Card](../reference/REFCARD-HIMALAYA.md)
+# Himalaya Email Setup
+
+**Required for:** `em` email dispatcher
+**Time:** 15-20 minutes
+**Last Updated:** 2026-02-10
 
 ---
 
-**Last Updated:** 2026-02-11
+## Overview
+
+The `em` dispatcher uses [himalaya](https://github.com/pimalaya/himalaya) as its email backend. Himalaya is a CLI email client that talks IMAP/SMTP, supports OAuth2 (via proxy), and outputs JSON for scripting.
+
+### Architecture
+
+```
+em (flow-cli dispatcher)
+  |
+  v
+himalaya (CLI email client)
+  |
+  v
+email-oauth2-proxy (localhost)     <-- Only needed for OAuth2 providers
+  IMAP: 127.0.0.1:1993 --> outlook.office365.com:993 (OAuth2/TLS)
+  SMTP: 127.0.0.1:1587 --> smtp.office365.com:587  (OAuth2/STARTTLS)
+```
+
+**For app-password providers** (Gmail with app passwords, Fastmail, etc.), you connect himalaya directly — no proxy needed.
+
+---
+
+## Step 1: Install Himalaya
+
+=== "Homebrew (macOS)"
+
+    ```bash
+    brew install himalaya
+    ```
+
+    Tracks stable releases. Easy upgrades via `brew upgrade himalaya`.
+
+=== "Cargo (stable)"
+
+    ```bash
+    cargo install himalaya
+    ```
+
+    Same stable release as Homebrew. Cross-platform.
+
+=== "Cargo (latest dev)"
+
+    ```bash
+    cargo install --git https://github.com/pimalaya/himalaya.git
+    ```
+
+    Bleeding-edge from git. May have newer features but less tested.
+
+**Minimum version:** v1.0.0 (required for JSON output and template subsystem). Run `em doctor` to check.
+
+Verify:
+
+```bash
+himalaya --version
+```
+
+---
+
+## Step 2: Install Supporting Tools
+
+| Tool | Purpose | Install |
+|------|---------|---------|
+| **jq** | JSON parsing (required) | `brew install jq` |
+| **fzf** | Interactive picker (`em pick`) | `brew install fzf` |
+| **bat** | Syntax highlighting | `brew install bat` |
+| **w3m** | HTML email rendering | `brew install w3m` |
+
+---
+
+## Step 3: Configure Himalaya
+
+Create `~/.config/himalaya/config.toml`:
+
+### Option A: App Password (Simple)
+
+For providers supporting app passwords (Gmail, Fastmail, etc.):
+
+```toml
+display-name = "Your Name"
+downloads-dir = "~/Downloads"
+
+[accounts.main]
+default = true
+email = "you@example.com"
+display-name = "Your Name"
+
+# Folder aliases
+folder.aliases.inbox = "INBOX"
+folder.aliases.sent = "Sent"
+folder.aliases.drafts = "Drafts"
+folder.aliases.trash = "Trash"
+
+# Display
+envelope.list.page-size = 25
+envelope.list.datetime-fmt = "%F %R"
+envelope.list.datetime-local-tz = true
+
+# Message settings
+message.read.headers = ["From", "To", "Cc", "Subject", "Date"]
+message.write.headers = ["From", "To", "Cc", "Subject"]
+message.send.save-copy = true
+message.delete.style = "folder"
+
+# IMAP
+backend.type = "imap"
+backend.host = "imap.example.com"
+backend.port = 993
+backend.encryption.type = "tls"
+backend.login = "you@example.com"
+backend.auth.type = "password"
+backend.auth.cmd = "security find-generic-password -a you@example.com -s himalaya -w"
+
+# SMTP
+message.send.backend.type = "smtp"
+message.send.backend.host = "smtp.example.com"
+message.send.backend.port = 465
+message.send.backend.encryption.type = "tls"
+message.send.backend.login = "you@example.com"
+message.send.backend.auth.type = "password"
+message.send.backend.auth.cmd = "security find-generic-password -a you@example.com -s himalaya -w"
+```
+
+Store your app password in macOS Keychain:
+
+```bash
+security add-generic-password -a you@example.com -s himalaya -w "your-app-password"
+```
+
+### Option B: OAuth2 via Proxy (Microsoft 365, Google Workspace)
+
+For providers requiring OAuth2, use [email-oauth2-proxy](https://github.com/simonrob/email-oauth2-proxy):
+
+**1. Install the proxy:**
+
+```bash
+pip install emailproxy
+```
+
+**2. Configure the proxy** at `~/.config/email-oauth2-proxy/emailproxy.config`:
+
+```ini
+[Server setup]
+local_address = 127.0.0.1
+
+[you@example.com]
+permission_url = https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+token_url = https://login.microsoftonline.com/common/oauth2/v2.0/token
+oauth2_scope = https://outlook.office365.com/IMAP.AccessAsUser.All https://outlook.office365.com/SMTP.Send offline_access
+redirect_uri = http://localhost:11434/redirect
+client_id = 08162f7c-0fd2-4200-a84a-f25a4db0b584
+client_secret =
+
+server_address = outlook.office365.com
+server_port = 993
+local_address = 127.0.0.1:1993
+
+[you@example.com - SMTP]
+permission_url = https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+token_url = https://login.microsoftonline.com/common/oauth2/v2.0/token
+oauth2_scope = https://outlook.office365.com/SMTP.Send offline_access
+redirect_uri = http://localhost:11434/redirect
+client_id = 08162f7c-0fd2-4200-a84a-f25a4db0b584
+client_secret =
+
+server_address = smtp.office365.com
+server_port = 587
+local_address = 127.0.0.1:1587
+```
+
+**3. Configure himalaya** to connect through the proxy (no TLS — proxy handles it):
+
+```toml
+# IMAP via proxy
+backend.type = "imap"
+backend.host = "127.0.0.1"
+backend.port = 1993
+backend.encryption.type = "none"
+backend.login = "you@example.com"
+backend.auth.type = "password"
+backend.auth.cmd = "echo you@example.com"
+
+# SMTP via proxy
+message.send.backend.type = "smtp"
+message.send.backend.host = "127.0.0.1"
+message.send.backend.port = 1587
+message.send.backend.encryption.type = "none"
+message.send.backend.login = "you@example.com"
+message.send.backend.auth.type = "password"
+message.send.backend.auth.cmd = "echo you@example.com"
+```
+
+**4. Set up the proxy as a LaunchAgent** (starts on login):
+
+```bash
+cat > ~/Library/LaunchAgents/com.emailproxy.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.emailproxy</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>-m</string>
+        <string>emailproxy</string>
+        <string>--config-file</string>
+        <string>/Users/YOU/.config/email-oauth2-proxy/emailproxy.config</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/YOU/.local/share/email-oauth2-proxy/proxy.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/YOU/.local/share/email-oauth2-proxy/proxy.log</string>
+</dict>
+</plist>
+EOF
+
+# Load it
+launchctl load ~/Library/LaunchAgents/com.emailproxy.plist
+```
+
+**5. Initial OAuth2 authentication:**
+
+```bash
+# Trigger first auth
+himalaya envelope list
+
+# Watch proxy log for device code
+tail -f ~/.local/share/email-oauth2-proxy/proxy.log
+# You'll see: "Visit https://microsoft.com/devicelogin and use code XXXXXXXX"
+# Open that URL and enter the code
+```
+
+---
+
+## Step 4: Verify
+
+```bash
+# Check himalaya can connect
+himalaya account doctor
+
+# List inbox
+himalaya envelope list
+
+# Check em dispatcher
+em doctor
+```
+
+You should see your inbox. If everything works, `em` commands are ready.
+
+---
+
+## Troubleshooting
+
+### OAuth2 Token Expired
+
+If you see auth errors after a long period:
+
+```bash
+# Check proxy log
+tail -20 ~/.local/share/email-oauth2-proxy/proxy.log
+
+# Trigger re-auth
+himalaya envelope list
+# Follow the device code instructions in the log
+```
+
+### Restart the Proxy
+
+```bash
+launchctl unload ~/Library/LaunchAgents/com.emailproxy.plist
+launchctl load ~/Library/LaunchAgents/com.emailproxy.plist
+```
+
+### Check Proxy Status
+
+```bash
+ps aux | grep emailproxy | grep -v grep
+tail -20 ~/.local/share/email-oauth2-proxy/proxy.log
+```
+
+### Common Issues
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| Connection refused | Proxy not running | `launchctl load` the plist |
+| Auth error | Token expired | Follow device code flow |
+| Timeout on send | SMTP port blocked | Check proxy SMTP config |
+| Empty inbox | Wrong folder name | Check `folder.aliases` in config |
+| `em` says "himalaya not found" | Not in PATH | `brew install himalaya` or check PATH |
+
+---
+
+## Optional: Display Enhancements
+
+### HTML Email Rendering
+
+Install a terminal HTML renderer for rich email display:
+
+```bash
+brew install w3m    # Best table rendering
+# or
+brew install lynx   # Fastest, good charset support
+```
+
+The `em read` command automatically detects and uses these for HTML emails.
+
+### Neovim Integration
+
+For in-editor email with AI-powered actions (summarize, draft reply, extract todos), see the dedicated [Neovim Himalaya Setup](HIMALAYA-NVIM-SETUP.md) guide.
+
+---
+
+## Next Steps
+
+- [Email Dispatcher Guide](EMAIL-DISPATCHER-GUIDE.md) - Full `em` command reference
+- [Email Tutorial](EMAIL-TUTORIAL.md) - 60-minute hands-on walkthrough
+- [Email Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) - Quick reference card
+- [Neovim Setup](HIMALAYA-NVIM-SETUP.md) - Neovim + AI email integration

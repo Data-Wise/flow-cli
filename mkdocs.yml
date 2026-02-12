@@ -220,7 +220,7 @@ nav:
           - Tutorial: guides/EMAIL-TUTORIAL.md
           - Quick Reference: reference/REFCARD-EMAIL-DISPATCHER.md
       - Editor (Neovim):
-          - Guide: guides/HIMALAYA-SETUP.md
+          - Guide: guides/HIMALAYA-NVIM-SETUP.md
           - Tutorial: tutorials/33-himalaya-email.md
           - Quick Reference: reference/REFCARD-HIMALAYA.md
   # ── Workflows & Guides (merged: Workflows + Guides) ──────────────

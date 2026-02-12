@@ -25,7 +25,15 @@ end
 
 io.write("\n=== HEADLESS KEYBIND TESTS ===\n\n")
 
-local M = require("himalaya-ai")
+-- Guard: skip if himalaya-ai module is not installed
+local load_ok, M = pcall(require, "himalaya-ai")
+if not load_ok then
+  io.write("  SKIP: himalaya-ai.lua not found in Neovim runtime path\n")
+  io.write("  SKIP: These tests require ~/.config/nvim/lua/himalaya-ai.lua\n")
+  io.write("\n=== RESULTS ===\n")
+  io.write("  Skipped: all (module not installed)\n\n")
+  vim.cmd("cquit 0")
+end
 
 ok(type(M) == "table", "himalaya-ai module loads")
 ok(type(M._open_result) == "function", "M._open_result is exposed")

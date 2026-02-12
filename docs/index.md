@@ -179,7 +179,7 @@ Choose your path based on what you need right now:
     CLI + Neovim email with himalaya
 
     [→ CLI Guide](guides/EMAIL-DISPATCHER-GUIDE.md) ·
-    [→ Neovim Setup](guides/HIMALAYA-SETUP.md)
+    [→ Neovim Setup](guides/HIMALAYA-NVIM-SETUP.md)
 
 -   :compass:{ .lg .middle }
     **Command Reference**

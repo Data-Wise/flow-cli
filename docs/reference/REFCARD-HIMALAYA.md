@@ -105,4 +105,4 @@ Any time   -> <leader>mw -> "schedule meeting" -> e -> edit -> s (save)
 
 ---
 
-**See also:** [Full Setup Guide](../guides/HIMALAYA-SETUP.md)
+**See also:** [Full Setup Guide](../guides/HIMALAYA-NVIM-SETUP.md)
