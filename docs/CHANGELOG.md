@@ -6,6 +6,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.0.0] - 2026-02-12
+
+### Added
+
+- **Email dispatcher (`em`)** — 13th smart dispatcher for ADHD-friendly email management via himalaya CLI; 18 subcommands, 6-layer architecture, AI classify/summarize/draft, fzf picker, smart rendering, batch triage with `em respond`
+- **Himalaya Neovim integration docs** — dedicated setup guide (`HIMALAYA-NVIM-SETUP.md`), tutorial (`33-himalaya-email.md`), and quick reference (`REFCARD-HIMALAYA.md`) for in-editor email with AI actions (summarize, draft reply, extract todos, compose)
+- **Email nav section** — new `Email` top-level nav in mkdocs with CLI and Editor (Neovim) subsections
+- 3 himalaya test suites — automated, headless keybind, and interactive tests with file-existence guards for portability
+
+### Changed
+
+- `HIMALAYA-SETUP.md` restored to CLI-only content (OAuth2, IMAP/SMTP, Keychain); Neovim content split to `HIMALAYA-NVIM-SETUP.md`
+- Test suite: 45/45 passing (181 test files, up from 148)
+
+---
+
 ## [6.7.1] - 2026-02-10
 
 ### Fixed

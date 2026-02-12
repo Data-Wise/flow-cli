@@ -4,26 +4,25 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: released
+## Focus: --help
 ## Phase: Active Development
 ## Priority: 2
 ## Progress: 85
 
-## Current Session (2026-02-11)
+## Current Session (2026-02-12)
 
 **Session activity:**
+- review: code review of PR #377 (nvim himalaya integration) — 3 critical fixes
+- fix: restored HIMALAYA-SETUP.md CLI docs, split Neovim guide, added test guards
+- merge: PR #377 merged to dev
+- docs: post-merge documentation update (file counts, nav verified, changelog)
+
+**Previous session (2026-02-11):**
 - release: v7.0.0 — Email Dispatcher released
 - merge: PR #376 merged (dev → main), tagged v7.0.0
-- fix: rebased dev onto main to resolve merge conflict
-- check: post-merge validation — 45/45 tests, 0 doc warnings, versions synced
-- docs: updated index.md, deployed docs site
-
-**Previous session (same day):**
-- review: code review of PR #375 (em email dispatcher) — 5 fixes
-- docs: dispatcher count 12→13, FLOW_EMAIL_CACHE_WARM config, nav restructure
 - merge: PR #375 merged to dev (52 commits, 11,528 additions)
 
-**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 148 test files
+**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 181 test files
 
 ---
 
@@ -33,7 +32,7 @@
 - 13th dispatcher: `em` — ADHD-friendly email management via himalaya
 - 18 subcommands, 6-layer architecture, AI classify/summarize/draft
 - fzf picker, smart rendering, batch triage with `em respond`
-- 148 test files, 45/45 suites passing
+- 181 test files, 45/45 suites passing
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.0.0
 
 ### v6.7.1 (2026-02-10) — Fix #372 + Branch Sync
@@ -56,15 +55,11 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.0.0 released, synced with main |
-| `feature-nvim-himalaya-integration` | `feature/nvim-himalaya-integration` | Scaffolded, pending implementation |
+| `feature-nvim-himalaya-integration` | `feature/nvim-himalaya-integration` | Merged (PR #377), worktree can be removed |
 
 ---
 
 ## Pending
-
-### Nvim + Himalaya Integration
-- **Status:** Worktree scaffolded, specs written, nav placeholders ready
-- **Depends on:** em dispatcher merge (done)
 
 ### Homebrew Formula Update
 - **Status:** Needs v7.0.0 formula update in homebrew-tap
@@ -89,14 +84,14 @@
 ## Next Action
 
 1. **Homebrew formula** — update tap for v7.0.0
-2. **Nvim himalaya integration** — Layer 0, scaffolded in worktree
+2. **Worktree cleanup** — remove feature-nvim-himalaya-integration
 3. Scholar Config Sync (#299) — next feature candidate
 4. API documentation push (50% → 80%)
 
 ---
 
-**Last Updated:** 2026-02-11
-**Status:** v7.0.0 released | 45/45 tests passing | 13 dispatchers | 148 test files | 8000+ test functions
-## wins: Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11), fixed the bug (2026-02-11), Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11)
+**Last Updated:** 2026-02-12
+**Status:** v7.0.0 released | 45/45 tests passing | 13 dispatchers | 181 test files | 8000+ test functions
+## wins: Fixed the regression bug (2026-02-12), --category fix squashed the bug (2026-02-12), fixed the bug (2026-02-12), Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11)
 ## streak: 1
-## last_active: 2026-02-11 22:24
+## last_active: 2026-02-12 09:48
