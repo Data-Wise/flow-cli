@@ -111,6 +111,9 @@ doctor() {
   typeset -ga _doctor_missing_pip=()
   typeset -gA _doctor_token_issues=()
   typeset -ga _doctor_alias_issues=()
+  typeset -ga _doctor_missing_email_brew=()
+  typeset -ga _doctor_missing_email_pip=()
+  typeset -g _doctor_email_no_config=false
 
   # Task 1: If --dot flag is active, skip non-token health checks
   if [[ "$dot_check" == false ]]; then
@@ -163,6 +166,13 @@ doctor() {
       _doctor_check_cmd "radian" "pip" "optional"
     fi
     _doctor_log_quiet ""
+
+    # ──────────────────────────────────────────────────────────────
+    # EMAIL (if em dispatcher is loaded)
+    # ──────────────────────────────────────────────────────────────
+    if (( $+functions[em] )); then
+      _doctor_check_email
+    fi
   fi
 
   # ──────────────────────────────────────────────────────────────
@@ -454,7 +464,7 @@ doctor() {
   # SUMMARY & ACTIONS (check mode only)
   # ──────────────────────────────────────────────────────────────
   if [[ "$dot_check" == false ]]; then
-    local total_missing=$((${#_doctor_missing_brew[@]} + ${#_doctor_missing_npm[@]} + ${#_doctor_missing_pip[@]}))
+    local total_missing=$((${#_doctor_missing_brew[@]} + ${#_doctor_missing_npm[@]} + ${#_doctor_missing_pip[@]} + ${#_doctor_missing_email_brew[@]} + ${#_doctor_missing_email_pip[@]}))
 
     if [[ $total_missing -eq 0 && ${#_doctor_token_issues[@]} -eq 0 ]]; then
       _doctor_log_quiet "${FLOW_COLORS[success]}✓ All essential tools installed!${FLOW_COLORS[reset]}"
@@ -574,6 +584,21 @@ _doctor_select_fix_category() {
       categories+=("aliases")
       category_info[aliases]="⚡ Aliases ($alias_count issue${[[ $alias_count -gt 1 ]] && echo "s" || echo ""}, ~10s)"
     fi
+
+    # Email category
+    if [[ ${#_doctor_missing_email_brew[@]} -gt 0 || ${#_doctor_missing_email_pip[@]} -gt 0 || "$_doctor_email_no_config" == true ]]; then
+      local email_count=$((${#_doctor_missing_email_brew[@]} + ${#_doctor_missing_email_pip[@]}))
+      [[ "$_doctor_email_no_config" == true ]] && ((email_count++))
+      local email_time=$((email_count * 30))
+      local email_time_str
+      if [[ $email_time -lt 60 ]]; then
+        email_time_str="${email_time}s"
+      else
+        email_time_str="$((email_time / 60))m"
+      fi
+      categories+=("email")
+      category_info[email]="📧 Email Tools ($email_count issue${[[ $email_count -gt 1 ]] && echo "s" || echo ""}, ~${email_time_str})"
+    fi
   fi
 
   # No issues found
@@ -619,6 +644,7 @@ _doctor_select_fix_category() {
       tokens) total_time=$((total_time + 30)) ;;
       tools) total_time=$((total_time + ${#_doctor_missing_brew[@]} * 30 + ${#_doctor_missing_npm[@]} * 30 + ${#_doctor_missing_pip[@]} * 30)) ;;
       aliases) total_time=$((total_time + 10)) ;;
+      email) total_time=$((total_time + (${#_doctor_missing_email_brew[@]} + ${#_doctor_missing_email_pip[@]}) * 30)) ;;
     esac
   done
 
@@ -673,6 +699,7 @@ _doctor_count_categories() {
   [[ ${#_doctor_token_issues[@]} -gt 0 ]] && ((count++))
   [[ ${#_doctor_missing_brew[@]} -gt 0 || ${#_doctor_missing_npm[@]} -gt 0 || ${#_doctor_missing_pip[@]} -gt 0 ]] && ((count++))
   [[ ${#_doctor_alias_issues[@]} -gt 0 ]] && ((count++))
+  [[ ${#_doctor_missing_email_brew[@]} -gt 0 || ${#_doctor_missing_email_pip[@]} -gt 0 ]] && ((count++))
   echo "$count"
 }
 
@@ -714,6 +741,13 @@ _doctor_apply_fixes() {
       _doctor_log_always "${FLOW_COLORS[info]}Alias fixes not yet implemented${FLOW_COLORS[reset]}"
       _doctor_log_always "Run ${FLOW_COLORS[accent]}flow alias doctor${FLOW_COLORS[reset]} for details"
       _doctor_log_always ""
+    fi
+  fi
+
+  # Fix email
+  if [[ "$category" == "email" || "$category" == "all" ]]; then
+    if [[ ${#_doctor_missing_email_brew[@]} -gt 0 || ${#_doctor_missing_email_pip[@]} -gt 0 || "$_doctor_email_no_config" == true ]]; then
+      _doctor_fix_email "$auto_yes"
     fi
   fi
 
@@ -1176,6 +1210,429 @@ _doctor_check_cmd() {
   fi
 }
 
+# =============================================================================
+# EMAIL DOCTOR FUNCTIONS
+# =============================================================================
+
+# Check a single email dependency (mirrors _doctor_check_cmd but uses email arrays)
+_doctor_check_email_cmd() {
+  local cmd="$1"
+  local install_spec="$2"  # "brew" or "brew:package" or "pip" or "npm:package"
+  local category="$3"      # required, recommended, optional
+  local desc="$4"          # description (e.g., "Markdown rendering")
+
+  local manager="${install_spec%%:*}"
+  local package="${install_spec#*:}"
+  [[ "$package" == "$install_spec" ]] && package="$cmd"
+
+  if command -v "$cmd" >/dev/null 2>&1; then
+    local version=""
+    version=$($cmd --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)
+    local desc_text=""
+    [[ -n "$desc" ]] && desc_text=" (${desc})"
+    _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $cmd ${FLOW_COLORS[muted]}${version}${desc_text}${FLOW_COLORS[reset]}"
+    return 0
+  else
+    local icon="○"
+    [[ "$category" == "required" ]] && icon="✗"
+    local color="${FLOW_COLORS[warning]}"
+    [[ "$category" == "required" ]] && color="${FLOW_COLORS[error]}"
+
+    local hint=""
+    case "$manager" in
+      brew) hint="brew install $package" ;;
+      npm)  hint="npm install -g $package" ;;
+      pip)  hint="pip install $package" ;;
+    esac
+
+    local desc_text=""
+    [[ -n "$desc" ]] && desc_text="(${desc}) "
+    _doctor_log_quiet "  ${color}${icon}${FLOW_COLORS[reset]} $cmd ${FLOW_COLORS[muted]}${desc_text}← $hint${FLOW_COLORS[reset]}"
+
+    # Track in email-specific arrays
+    case "$manager" in
+      brew) _doctor_missing_email_brew+=("$package") ;;
+      pip)  _doctor_missing_email_pip+=("$package") ;;
+      npm)  _doctor_missing_email_brew+=("$package") ;;
+    esac
+
+    return 1
+  fi
+}
+
+# Check all email dependencies (called conditionally when em() is loaded)
+_doctor_check_email() {
+  _doctor_log_quiet "${FLOW_COLORS[bold]}📧 EMAIL${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(himalaya)${FLOW_COLORS[reset]}"
+
+  # --- himalaya (required) + version check ---
+  if command -v himalaya >/dev/null 2>&1; then
+    local hv
+    hv=$(himalaya --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)
+    _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} himalaya ${FLOW_COLORS[muted]}${hv}${FLOW_COLORS[reset]}"
+
+    # Version >= 1.0.0
+    if (( $+functions[_em_semver_lt] )) && _em_semver_lt "${hv:-0.0.0}" "1.0.0"; then
+      _doctor_log_quiet "  ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} himalaya version ${FLOW_COLORS[muted]}${hv} < 1.0.0 ← brew upgrade himalaya${FLOW_COLORS[reset]}"
+    else
+      _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} himalaya version ${FLOW_COLORS[muted]}>= 1.0.0${FLOW_COLORS[reset]}"
+    fi
+  else
+    _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} himalaya ${FLOW_COLORS[muted]}← brew install himalaya${FLOW_COLORS[reset]}"
+    _doctor_missing_email_brew+=("himalaya")
+  fi
+
+  # --- HTML renderer (any-of: w3m, lynx, pandoc) ---
+  local renderer_found=false
+  for renderer in w3m lynx pandoc; do
+    if command -v "$renderer" >/dev/null 2>&1; then
+      local rv
+      rv=$($renderer --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)
+      _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $renderer ${FLOW_COLORS[muted]}${rv} (HTML rendering)${FLOW_COLORS[reset]}"
+      renderer_found=true
+      break
+    fi
+  done
+  if [[ "$renderer_found" == false ]]; then
+    _doctor_log_quiet "  ${FLOW_COLORS[warning]}○${FLOW_COLORS[reset]} w3m ${FLOW_COLORS[muted]}(HTML rendering) ← brew install w3m${FLOW_COLORS[reset]}"
+    _doctor_missing_email_brew+=("w3m")
+  fi
+
+  # --- glow (recommended) ---
+  _doctor_check_email_cmd "glow" "brew" "recommended" "Markdown rendering"
+
+  # --- email-oauth2-proxy (recommended) ---
+  _doctor_check_email_cmd "email-oauth2-proxy" "pip" "recommended" "OAuth2 IMAP/SMTP proxy"
+
+  # --- terminal-notifier (optional) ---
+  _doctor_check_email_cmd "terminal-notifier" "brew" "optional" "Desktop notifications"
+
+  # --- AI backend (conditional on $FLOW_EMAIL_AI) ---
+  if [[ -n "$FLOW_EMAIL_AI" && "$FLOW_EMAIL_AI" != "none" ]]; then
+    if [[ "$FLOW_EMAIL_AI" == "claude" ]]; then
+      _doctor_check_email_cmd "claude" "npm:@anthropic-ai/claude-code" "optional" "AI drafts"
+    elif [[ "$FLOW_EMAIL_AI" == "gemini" ]]; then
+      _doctor_check_email_cmd "gemini" "pip:google-generativeai" "optional" "AI drafts"
+    fi
+  fi
+
+  # --- Verbose: connectivity checks ---
+  if [[ "$verbose" == true ]]; then
+    _doctor_email_connectivity
+  fi
+
+  # --- Config summary ---
+  _doctor_log_quiet ""
+  _doctor_log_quiet "  ${FLOW_COLORS[muted]}Config:${FLOW_COLORS[reset]}"
+  _doctor_log_quiet "    AI backend:  ${FLOW_COLORS[accent]}${FLOW_EMAIL_AI:-none}${FLOW_COLORS[reset]}"
+  _doctor_log_quiet "    AI timeout:  ${FLOW_COLORS[accent]}${FLOW_EMAIL_AI_TIMEOUT:-30}s${FLOW_COLORS[reset]}"
+  _doctor_log_quiet "    Page size:   ${FLOW_COLORS[accent]}${FLOW_EMAIL_PAGE_SIZE:-25}${FLOW_COLORS[reset]}"
+  _doctor_log_quiet "    Folder:      ${FLOW_COLORS[accent]}${FLOW_EMAIL_FOLDER:-INBOX}${FLOW_COLORS[reset]}"
+
+  local _email_config_file="${XDG_CONFIG_HOME:-$HOME/.config}/himalaya/config.toml"
+  if [[ -f "$_email_config_file" ]]; then
+    _doctor_log_quiet "    Config file: ${FLOW_COLORS[success]}${_email_config_file}${FLOW_COLORS[reset]}"
+  else
+    _doctor_log_quiet "    Config file: ${FLOW_COLORS[muted]}(none — using env defaults)${FLOW_COLORS[reset]}"
+    _doctor_email_no_config=true
+  fi
+
+  _doctor_log_quiet ""
+}
+
+# Test email connectivity (verbose mode only)
+# Tests: account config, IMAP ping, OAuth2 proxy, SMTP config
+# All failures shown as warnings (yellow), not errors
+_doctor_email_connectivity() {
+  command -v himalaya >/dev/null 2>&1 || return 0
+
+  _doctor_log_verbose ""
+  _doctor_log_verbose "  ${FLOW_COLORS[muted]}Connectivity:${FLOW_COLORS[reset]}"
+
+  # 1. Account config valid?
+  local acct_out acct_rc
+  acct_out=$(timeout 5 himalaya account list 2>&1)
+  acct_rc=$?
+  if [[ $acct_rc -eq 0 ]]; then
+    local acct_name
+    acct_name=$(echo "$acct_out" | grep -oE '\S+' | head -1)
+    _doctor_log_verbose "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Account config valid ${FLOW_COLORS[muted]}(${acct_name:-default})${FLOW_COLORS[reset]}"
+  else
+    _doctor_log_verbose "    ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} Account config: ${FLOW_COLORS[muted]}${acct_out:0:60}${FLOW_COLORS[reset]}"
+  fi
+
+  # 2. IMAP reachable? (fetch 1 envelope)
+  local start_ts=$EPOCHREALTIME
+  if timeout 5 himalaya envelope list --page-size 1 &>/dev/null; then
+    local elapsed
+    elapsed=$(printf "%.1f" $(( EPOCHREALTIME - start_ts )))
+    _doctor_log_verbose "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} IMAP reachable ${FLOW_COLORS[muted]}(${elapsed}s)${FLOW_COLORS[reset]}"
+  else
+    _doctor_log_verbose "    ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} IMAP: connection failed ${FLOW_COLORS[muted]}(check network/config)${FLOW_COLORS[reset]}"
+  fi
+
+  # 3. OAuth2 proxy running?
+  if command -v email-oauth2-proxy >/dev/null 2>&1; then
+    if pgrep -f email-oauth2-proxy &>/dev/null; then
+      _doctor_log_verbose "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} OAuth2 proxy running"
+    else
+      _doctor_log_verbose "    ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} OAuth2 proxy not running"
+    fi
+  fi
+
+  # 4. SMTP config validation
+  local config_file="${XDG_CONFIG_HOME:-$HOME/.config}/himalaya/config.toml"
+  if [[ -f "$config_file" ]]; then
+    if grep -q 'smtp' "$config_file" 2>/dev/null; then
+      local smtp_info
+      smtp_info=$(grep -E '(host|port|auth)' "$config_file" 2>/dev/null | head -3 | tr '\n' ', ' | sed 's/, $//')
+      _doctor_log_verbose "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} SMTP configured ${FLOW_COLORS[muted]}${smtp_info:0:50}${FLOW_COLORS[reset]}"
+    else
+      _doctor_log_verbose "    ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} SMTP: not configured in config.toml"
+    fi
+  else
+    _doctor_log_verbose "    ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} SMTP config: no config.toml found"
+  fi
+}
+
+# Guided email configuration wizard (--fix mode)
+# Creates ~/.config/himalaya/config.toml with interactive prompts
+_doctor_email_setup() {
+  _doctor_log_always ""
+  _doctor_log_always "  ${FLOW_COLORS[bold]}📧 Email Setup${FLOW_COLORS[reset]}"
+  _doctor_log_always "  ${FLOW_COLORS[muted]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${FLOW_COLORS[reset]}"
+
+  local config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/himalaya"
+  local config_file="${config_dir}/config.toml"
+
+  # Check existing config
+  if [[ -f "$config_file" ]]; then
+    _doctor_log_always ""
+    _doctor_log_always "  ${FLOW_COLORS[warning]}Config exists:${FLOW_COLORS[reset]} $config_file"
+    if ! _doctor_confirm "Overwrite existing config?"; then
+      _doctor_log_always "  ${FLOW_COLORS[muted]}Keeping existing config${FLOW_COLORS[reset]}"
+      return 0
+    fi
+  fi
+
+  # Step 1: Email address
+  _doctor_log_always ""
+  local email_addr
+  echo -n "  ${FLOW_COLORS[info]}? Email address:${FLOW_COLORS[reset]} "
+  read -r email_addr
+  [[ -z "$email_addr" ]] && { _doctor_log_always "  ${FLOW_COLORS[error]}Cancelled${FLOW_COLORS[reset]}"; return 1; }
+
+  # Step 2: Auto-detect provider
+  local domain="${email_addr##*@}"
+  local imap_host="" imap_port="993" smtp_host="" smtp_port="587" auth_method=""
+
+  case "$domain" in
+    gmail.com|googlemail.com)
+      imap_host="imap.gmail.com"; smtp_host="smtp.gmail.com"; auth_method="oauth2"
+      _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Detected Gmail ${FLOW_COLORS[muted]}(OAuth2 recommended)${FLOW_COLORS[reset]}"
+      ;;
+    outlook.com|hotmail.com|live.com)
+      imap_host="outlook.office365.com"; smtp_host="smtp.office365.com"; auth_method="oauth2"
+      _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Detected Outlook ${FLOW_COLORS[muted]}(OAuth2 recommended)${FLOW_COLORS[reset]}"
+      ;;
+    yahoo.com|ymail.com)
+      imap_host="imap.mail.yahoo.com"; smtp_host="smtp.mail.yahoo.com"; auth_method="password"
+      _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Detected Yahoo ${FLOW_COLORS[muted]}(App Password required)${FLOW_COLORS[reset]}"
+      ;;
+    icloud.com|me.com|mac.com)
+      imap_host="imap.mail.me.com"; smtp_host="smtp.mail.me.com"; auth_method="password"
+      _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Detected iCloud ${FLOW_COLORS[muted]}(App Password required)${FLOW_COLORS[reset]}"
+      ;;
+    *)
+      _doctor_log_always "  ${FLOW_COLORS[muted]}Custom provider — please enter server details${FLOW_COLORS[reset]}"
+      ;;
+  esac
+
+  # Step 3: IMAP server (confirm or enter)
+  local input
+  echo -n "  ${FLOW_COLORS[info]}? IMAP server${FLOW_COLORS[reset]}${imap_host:+ [${imap_host}]}: "
+  read -r input
+  [[ -n "$input" ]] && imap_host="$input"
+  [[ -z "$imap_host" ]] && { _doctor_log_always "  ${FLOW_COLORS[error]}IMAP server required${FLOW_COLORS[reset]}"; return 1; }
+
+  echo -n "  ${FLOW_COLORS[info]}? IMAP port${FLOW_COLORS[reset]} [${imap_port}]: "
+  read -r input
+  [[ -n "$input" ]] && imap_port="$input"
+
+  # Step 4: SMTP server
+  echo -n "  ${FLOW_COLORS[info]}? SMTP server${FLOW_COLORS[reset]}${smtp_host:+ [${smtp_host}]}: "
+  read -r input
+  [[ -n "$input" ]] && smtp_host="$input"
+  [[ -z "$smtp_host" ]] && { _doctor_log_always "  ${FLOW_COLORS[error]}SMTP server required${FLOW_COLORS[reset]}"; return 1; }
+
+  echo -n "  ${FLOW_COLORS[info]}? SMTP port${FLOW_COLORS[reset]} [${smtp_port}]: "
+  read -r input
+  [[ -n "$input" ]] && smtp_port="$input"
+
+  # Step 5: Auth method
+  if [[ -z "$auth_method" ]]; then
+    _doctor_log_always ""
+    _doctor_log_always "  ${FLOW_COLORS[bold]}Auth method:${FLOW_COLORS[reset]}"
+    _doctor_log_always "    1) OAuth2 ${FLOW_COLORS[muted]}(Gmail, Outlook)${FLOW_COLORS[reset]}"
+    _doctor_log_always "    2) App Password ${FLOW_COLORS[muted]}(Yahoo, iCloud)${FLOW_COLORS[reset]}"
+    _doctor_log_always "    3) Plain password ${FLOW_COLORS[muted]}(other providers)${FLOW_COLORS[reset]}"
+    echo -n "  ${FLOW_COLORS[info]}? Auth [1-3]:${FLOW_COLORS[reset]} "
+    read -r input
+    case "$input" in
+      1) auth_method="oauth2" ;;
+      2) auth_method="password" ;;
+      3) auth_method="password" ;;
+      *) auth_method="password" ;;
+    esac
+  fi
+
+  # Step 6: Generate config
+  mkdir -p "$config_dir"
+
+  if [[ "$auth_method" == "oauth2" ]]; then
+    cat > "$config_file" <<TOML
+# himalaya config — generated by flow doctor
+# Docs: https://pimalaya.org/himalaya/
+
+[accounts.default]
+email = "${email_addr}"
+display-name = ""
+default = true
+
+backend.type = "imap"
+backend.host = "${imap_host}"
+backend.port = ${imap_port}
+backend.encryption = "tls"
+backend.auth.type = "oauth2"
+backend.auth.method = "xoauth2"
+# Configure email-oauth2-proxy or set tokens here
+
+message.send.backend.type = "smtp"
+message.send.backend.host = "${smtp_host}"
+message.send.backend.port = ${smtp_port}
+message.send.backend.encryption = "start-tls"
+message.send.backend.auth.type = "oauth2"
+message.send.backend.auth.method = "xoauth2"
+TOML
+  else
+    cat > "$config_file" <<TOML
+# himalaya config — generated by flow doctor
+# Docs: https://pimalaya.org/himalaya/
+
+[accounts.default]
+email = "${email_addr}"
+display-name = ""
+default = true
+
+backend.type = "imap"
+backend.host = "${imap_host}"
+backend.port = ${imap_port}
+backend.encryption = "tls"
+backend.auth.type = "password"
+backend.auth.command = "security find-generic-password -s himalaya-${domain} -a ${email_addr} -w"
+
+message.send.backend.type = "smtp"
+message.send.backend.host = "${smtp_host}"
+message.send.backend.port = ${smtp_port}
+message.send.backend.encryption = "start-tls"
+message.send.backend.auth.type = "password"
+message.send.backend.auth.command = "security find-generic-password -s himalaya-${domain} -a ${email_addr} -w"
+TOML
+  fi
+
+  _doctor_log_always ""
+  _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Config written to ${config_file}"
+
+  # Step 7: OAuth2 proxy guidance
+  if [[ "$auth_method" == "oauth2" ]]; then
+    _doctor_log_always ""
+    _doctor_log_always "  ${FLOW_COLORS[bold]}OAuth2 setup:${FLOW_COLORS[reset]}"
+    if command -v email-oauth2-proxy >/dev/null 2>&1; then
+      _doctor_log_always "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} email-oauth2-proxy installed"
+      _doctor_log_always "    ${FLOW_COLORS[muted]}Configure tokens: email-oauth2-proxy --config${FLOW_COLORS[reset]}"
+    else
+      _doctor_log_always "    ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} email-oauth2-proxy not installed"
+      _doctor_log_always "    ${FLOW_COLORS[muted]}Install: pip install email-oauth2-proxy${FLOW_COLORS[reset]}"
+    fi
+  else
+    _doctor_log_always ""
+    _doctor_log_always "  ${FLOW_COLORS[bold]}Password setup:${FLOW_COLORS[reset]}"
+    _doctor_log_always "    Store password in macOS Keychain:"
+    _doctor_log_always "    ${FLOW_COLORS[accent]}security add-generic-password -s himalaya-${domain} -a ${email_addr} -w${FLOW_COLORS[reset]}"
+  fi
+
+  # Step 8: Run connectivity test
+  _doctor_log_always ""
+  _doctor_log_always "  ${FLOW_COLORS[info]}Testing connection...${FLOW_COLORS[reset]}"
+
+  if command -v himalaya >/dev/null 2>&1; then
+    local test_out
+    test_out=$(timeout 5 himalaya account list 2>&1)
+    if [[ $? -eq 0 ]]; then
+      _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Account config valid"
+
+      if timeout 5 himalaya envelope list --page-size 1 &>/dev/null; then
+        _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} IMAP connected"
+        _doctor_log_always ""
+        _doctor_log_always "  ${FLOW_COLORS[success]}✓ Email setup complete!${FLOW_COLORS[reset]}"
+      else
+        _doctor_log_always "  ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} IMAP connection failed ${FLOW_COLORS[muted]}(check auth config)${FLOW_COLORS[reset]}"
+      fi
+    else
+      _doctor_log_always "  ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} Config test failed: ${FLOW_COLORS[muted]}${test_out:0:60}${FLOW_COLORS[reset]}"
+      _doctor_log_always "  ${FLOW_COLORS[muted]}Edit: ${config_file}${FLOW_COLORS[reset]}"
+    fi
+  else
+    _doctor_log_always "  ${FLOW_COLORS[warning]}△${FLOW_COLORS[reset]} himalaya not installed — install first, then re-run"
+  fi
+
+  _doctor_log_always ""
+}
+
+# Fix email dependencies (--fix mode)
+_doctor_fix_email() {
+  local auto_yes="${1:-false}"
+
+  _doctor_log_always "${FLOW_COLORS[info]}📧 Fixing email tools...${FLOW_COLORS[reset]}"
+  _doctor_log_always ""
+
+  # Install brew packages
+  if [[ ${#_doctor_missing_email_brew[@]} -gt 0 ]]; then
+    for pkg in "${_doctor_missing_email_brew[@]}"; do
+      if [[ "$auto_yes" == true ]] || _doctor_confirm "Install $pkg via brew?"; then
+        _doctor_log_always "  ${FLOW_COLORS[info]}Installing $pkg...${FLOW_COLORS[reset]}"
+        if brew install "$pkg" 2>&1 | tail -1; then
+          _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $pkg installed"
+        else
+          _doctor_log_always "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Failed to install $pkg"
+        fi
+      fi
+    done
+  fi
+
+  # Install pip packages
+  if [[ ${#_doctor_missing_email_pip[@]} -gt 0 ]]; then
+    for pkg in "${_doctor_missing_email_pip[@]}"; do
+      if [[ "$auto_yes" == true ]] || _doctor_confirm "Install $pkg via pip?"; then
+        _doctor_log_always "  ${FLOW_COLORS[info]}Installing $pkg...${FLOW_COLORS[reset]}"
+        if pip install "$pkg" 2>&1 | tail -1; then
+          _doctor_log_always "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $pkg installed"
+        else
+          _doctor_log_always "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Failed to install $pkg"
+        fi
+      fi
+    done
+  fi
+
+  # Guided setup if no config found
+  if [[ "$_doctor_email_no_config" == true ]]; then
+    if [[ "$auto_yes" == true ]] || _doctor_confirm "Set up himalaya email config?"; then
+      _doctor_email_setup
+    fi
+  fi
+
+  _doctor_log_always ""
+}
+
 _doctor_check_zsh_plugin() {
   local name="$1"
   local repo="$2"
@@ -1287,7 +1744,12 @@ _doctor_help() {
   echo ""
   echo "${FLOW_COLORS[bold]}VERBOSITY OPTIONS${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[accent]}-q, --quiet${FLOW_COLORS[reset]}        Minimal output (errors only)"
-  echo "  ${FLOW_COLORS[accent]}-v, --verbose${FLOW_COLORS[reset]}      Detailed output + cache status"
+  echo "  ${FLOW_COLORS[accent]}-v, --verbose${FLOW_COLORS[reset]}      Detailed output + connectivity checks"
+  echo ""
+  echo "${FLOW_COLORS[bold]}EMAIL (conditional)${FLOW_COLORS[reset]}"
+  echo "  When the ${FLOW_COLORS[accent]}em${FLOW_COLORS[reset]} dispatcher is loaded, checks himalaya + email deps."
+  echo "  ${FLOW_COLORS[accent]}--verbose${FLOW_COLORS[reset]}          Also tests IMAP connectivity, OAuth2, SMTP"
+  echo "  ${FLOW_COLORS[accent]}--fix${FLOW_COLORS[reset]}              Installs missing email tools + guided setup"
   echo ""
   echo "${FLOW_COLORS[bold]}OTHER OPTIONS${FLOW_COLORS[reset]}"
   echo "  -y, --yes      Skip confirmations (use with --fix)"
