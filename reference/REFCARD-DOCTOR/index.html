@@ -3237,10 +3237,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#6-zsh-plugin-manager" class="md-nav__link">
+  <a href="#6-email-conditional-when-em-loaded" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. ZSH Plugin Manager
+        6. Email (conditional — when em loaded)
       
     </span>
   </a>
@@ -3248,10 +3248,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#7-zsh-plugins" class="md-nav__link">
+  <a href="#7-zsh-plugin-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. ZSH Plugins
+        7. ZSH Plugin Manager
       
     </span>
   </a>
@@ -3259,10 +3259,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#8-flow-cli-status" class="md-nav__link">
+  <a href="#8-zsh-plugins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. flow-cli Status
+        8. ZSH Plugins
       
     </span>
   </a>
@@ -3270,10 +3270,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#9-github-token" class="md-nav__link">
+  <a href="#9-flow-cli-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. GitHub Token
+        9. flow-cli Status
       
     </span>
   </a>
@@ -3281,10 +3281,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#10-aliases" class="md-nav__link">
+  <a href="#10-github-token" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. Aliases
+        10. GitHub Token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Aliases
       
     </span>
   </a>
@@ -8005,10 +8016,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#6-zsh-plugin-manager" class="md-nav__link">
+  <a href="#6-email-conditional-when-em-loaded" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. ZSH Plugin Manager
+        6. Email (conditional — when em loaded)
       
     </span>
   </a>
@@ -8016,10 +8027,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#7-zsh-plugins" class="md-nav__link">
+  <a href="#7-zsh-plugin-manager" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. ZSH Plugins
+        7. ZSH Plugin Manager
       
     </span>
   </a>
@@ -8027,10 +8038,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#8-flow-cli-status" class="md-nav__link">
+  <a href="#8-zsh-plugins" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. flow-cli Status
+        8. ZSH Plugins
       
     </span>
   </a>
@@ -8038,10 +8049,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#9-github-token" class="md-nav__link">
+  <a href="#9-flow-cli-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. GitHub Token
+        9. flow-cli Status
       
     </span>
   </a>
@@ -8049,10 +8060,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#10-aliases" class="md-nav__link">
+  <a href="#10-github-token" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10. Aliases
+        10. GitHub Token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Aliases
       
     </span>
   </a>
@@ -8226,7 +8248,19 @@
 </tr>
 <tr>
 <td><code>flow doctor</code></td>
-<td>Check flow-cli environment health</td>
+<td>Check flow-cli environment health (+ email when <code>em</code> loaded)</td>
+</tr>
+<tr>
+<td><code>flow doctor --fix</code></td>
+<td>Interactive install missing tools (includes email category)</td>
+</tr>
+<tr>
+<td><code>flow doctor --fix -y</code></td>
+<td>Auto-install all missing tools without prompts</td>
+</tr>
+<tr>
+<td><code>flow doctor --verbose</code></td>
+<td>Detailed output + email connectivity tests</td>
 </tr>
 <tr>
 <td><code>flow doctor --dot</code></td>
@@ -8424,31 +8458,41 @@
 <li><code>atlas</code> - State management</li>
 <li><code>radian</code> - R console (if R exists)</li>
 </ul>
-<h3 id="6-zsh-plugin-manager">6. ZSH Plugin Manager<a class="headerlink" href="#6-zsh-plugin-manager" title="Permanent link">&para;</a></h3>
+<h3 id="6-email-conditional-when-em-loaded">6. Email (conditional — when <code>em</code> loaded)<a class="headerlink" href="#6-email-conditional-when-em-loaded" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>himalaya</code> - Email CLI backend (required, version &gt;= 1.0.0)</li>
+<li><code>w3m</code>/<code>lynx</code>/<code>pandoc</code> - HTML rendering (any-of, recommended)</li>
+<li><code>glow</code> - Markdown rendering (recommended)</li>
+<li><code>email-oauth2-proxy</code> - OAuth2 for Gmail/Outlook (recommended)</li>
+<li><code>terminal-notifier</code> - Desktop notifications (optional)</li>
+<li><code>claude</code>/<code>gemini</code> - AI backend (conditional on <code>$FLOW_EMAIL_AI</code>)</li>
+<li>Config summary: AI backend, timeout, page size, folder, config file</li>
+</ul>
+<h3 id="7-zsh-plugin-manager">7. ZSH Plugin Manager<a class="headerlink" href="#7-zsh-plugin-manager" title="Permanent link">&para;</a></h3>
 <p>Checks:
 - antidote/zinit/oh-my-zsh installed
 - Plugin bundle file</p>
-<h3 id="7-zsh-plugins">7. ZSH Plugins<a class="headerlink" href="#7-zsh-plugins" title="Permanent link">&para;</a></h3>
+<h3 id="8-zsh-plugins">8. ZSH Plugins<a class="headerlink" href="#8-zsh-plugins" title="Permanent link">&para;</a></h3>
 <ul>
 <li>powerlevel10k</li>
 <li>zsh-autosuggestions</li>
 <li>zsh-syntax-highlighting</li>
 <li>zsh-completions</li>
 </ul>
-<h3 id="8-flow-cli-status">8. flow-cli Status<a class="headerlink" href="#8-flow-cli-status" title="Permanent link">&para;</a></h3>
+<h3 id="9-flow-cli-status">9. flow-cli Status<a class="headerlink" href="#9-flow-cli-status" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Plugin loaded</li>
 <li>Version</li>
 <li>Atlas connection</li>
 </ul>
-<h3 id="9-github-token">9. GitHub Token<a class="headerlink" href="#9-github-token" title="Permanent link">&para;</a></h3>
+<h3 id="10-github-token">10. GitHub Token<a class="headerlink" href="#10-github-token" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Token configured</li>
 <li>Token validity</li>
 <li>Token expiration</li>
 <li>Token-dependent services (gh CLI, Claude MCP)</li>
 </ul>
-<h3 id="10-aliases">10. Aliases<a class="headerlink" href="#10-aliases" title="Permanent link">&para;</a></h3>
+<h3 id="11-aliases">11. Aliases<a class="headerlink" href="#11-aliases" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Total alias count</li>
 <li>Shadow detection</li>
@@ -8460,13 +8504,14 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│                                                  │
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│  1. 🔑 GitHub Token (1 issue, ~30s)              │
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│  2. 📦 Missing Tools (3 tools, ~1m 30s)          │
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│  3. ⚡ Aliases (2 issues, ~10s)                  │
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│                                                  │
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│  4. ✨ Fix All Categories (~2m 10s)              │
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│                                                  │
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│  0. Exit without fixing                          │
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>│                                                  │
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>╰──────────────────────────────────────────────────╯
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>│  3. 📧 Email Tools (2 issues, ~1m)               │
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│  4. ⚡ Aliases (2 issues, ~10s)                  │
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│                                                  │
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│  5. ✨ Fix All Categories (~3m 10s)              │
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│                                                  │
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>│  0. Exit without fixing                          │
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>│                                                  │
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>╰──────────────────────────────────────────────────╯
 </code></pre></div>
 <h2 id="exit-codes">Exit Codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h2>
 <table>
@@ -8602,6 +8647,11 @@
 <td>Interactive install missing tools</td>
 </tr>
 <tr>
+<td><code>--yes</code></td>
+<td><code>-y</code></td>
+<td>Auto-confirm all installs (use with --fix)</td>
+</tr>
+<tr>
 <td><code>--fix-token</code></td>
 <td>-</td>
 <td>Fix only token issues (&lt; 60s)</td>
@@ -8619,7 +8669,7 @@
 <tr>
 <td><code>--verbose</code></td>
 <td><code>-v</code></td>
-<td>Detailed output + cache status</td>
+<td>Detailed output + email connectivity tests</td>
 </tr>
 <tr>
 <td><code>--json</code></td>
@@ -8662,6 +8712,10 @@
 <td><code>work</code></td>
 <td>Checks token on session start</td>
 </tr>
+<tr>
+<td><code>em doctor</code></td>
+<td>Email-specific health check (delegates to flow doctor email section)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
@@ -8672,8 +8726,8 @@
 <li><a href="../MASTER-API-REFERENCE/">API Reference</a> — Function signatures</li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v6.5.0
-<strong>Last Updated:</strong> 2026-02-08</p>
+<p><strong>Version:</strong> v7.0.1
+<strong>Last Updated:</strong> 2026-02-12</p>
 
 
 
