@@ -12,3 +12,6 @@ site/
 .claude/settings.local.json
 tests/logs/
 WORKTREE-README.md
+
+# Email dispatcher runtime cache
+.flow/email-cache/

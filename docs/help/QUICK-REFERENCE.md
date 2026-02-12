@@ -28,6 +28,7 @@ tags:
 - [Terminal (tm)](#terminal-tm) - Terminal profiles
 - [Prompt (prompt)](#prompt-prompt) - Prompt engine switching
 - [Vibe (v)](#vibe-v) - Vibe coding mode
+- [Email (em)](#email-em) - Email management (himalaya)
 - [Dopamine Features](#dopamine-features) - ADHD-friendly motivation
 - [Environment Variables](#environment-variables)
 
@@ -798,6 +799,114 @@ v status
 v help
 # Output: [Vibe dispatcher help]
 ```
+
+---
+
+## Email (em)
+
+### Daily Workflow
+
+```bash
+# Quick pulse — unread count + 10 latest
+em
+# Output: 19 unread in INBOX
+#         [10 most recent emails]
+
+# Show unread count
+em unread
+# Output: 19 unread in INBOX
+
+# List inbox (default 25)
+em inbox
+em inbox 5          # Just 5 most recent
+
+# Read email
+em read 42
+# Output: [Smart-rendered email content]
+
+# Render HTML email
+em html 42
+```
+
+### Compose & Reply
+
+```bash
+# Compose new email (opens $EDITOR)
+em send
+
+# Reply with AI draft
+em reply 42
+# Output: [AI generates draft → opens in $EDITOR → confirm send]
+
+# Reply-all
+em reply 42 --all
+
+# Reply without AI draft
+em reply 42 --no-ai
+
+# Non-interactive batch reply
+em reply 42 --batch
+```
+
+### AI Features
+
+```bash
+# Classify email category
+em classify 42
+# Output: student
+
+# One-line summary
+em summarize 42
+# Output: Student asks about midterm grading policy
+
+# Batch AI drafts for actionable emails
+em respond
+em respond --dry-run      # Classify only (no drafts)
+em respond -n 50          # Process 50 emails
+em respond --review       # Review/send cached drafts
+```
+
+### Browse & Search
+
+```bash
+# fzf email browser with preview
+em pick
+# Keybindings: Enter=read, Ctrl-S=summarize, Ctrl-A=archive, Ctrl-R=reply
+
+# Browse specific folder
+em pick Sent
+
+# Search emails
+em find "quarterly report"
+
+# Dashboard view
+em dash
+
+# List folders
+em folders
+
+# Download attachments
+em attach 42
+```
+
+### Management
+
+```bash
+# Check dependencies
+em doctor
+
+# Cache management
+em cache stats                # Show cache size, TTLs, counts
+em cache clear                # Remove all cached AI results
+em cache prune                # Remove expired entries only
+em cache warm 20              # Pre-warm latest 20 emails (background)
+
+# Configuration
+export FLOW_EMAIL_AI=claude     # AI backend (claude/gemini/none)
+export FLOW_EMAIL_PAGE_SIZE=25  # Inbox page size
+```
+
+> **Safety:** Every send requires `[y/N]` confirmation (default: No)
 
 ---
 

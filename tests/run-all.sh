@@ -60,6 +60,7 @@ run_test ./tests/test-qu-dispatcher.zsh
 run_test ./tests/test-mcp-dispatcher.zsh
 run_test ./tests/test-obs-dispatcher.zsh
 run_test ./tests/test-dot-chezmoi-safety.zsh
+run_test ./tests/test-em-dispatcher.zsh
 
 echo ""
 echo "Core command tests:"
@@ -106,6 +107,7 @@ echo ""
 echo "Dogfooding tests:"
 run_test ./tests/automated-plugin-dogfood.zsh
 run_test ./tests/dogfood-teach-doctor-v2.zsh
+run_test ./tests/dogfood-em-dispatcher.zsh
 
 echo ""
 echo "E2E tests:"
@@ -117,6 +119,7 @@ run_test ./tests/e2e-core-commands.zsh
 run_test ./tests/e2e-plugin-system.zsh
 run_test ./tests/e2e-teach-prompt.zsh
 run_test ./tests/e2e-teach-doctor-v2.zsh
+run_test ./tests/e2e-em-dispatcher.zsh
 
 echo ""
 echo "Additional unit tests:"

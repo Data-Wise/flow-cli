@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v6.7.1
+- **Current Version:** v7.0.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -16,7 +16,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 12 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`, `prompt`, `v`
+- 13 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`, `prompt`, `v`, `em`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
 - Teaching workflow with Scholar integration
@@ -126,7 +126,7 @@ yay --week        # Weekly summary + graph
 flow goal set 3   # Set daily win target
 ```
 
-### Active Dispatchers (12)
+### Active Dispatchers (13)
 
 ```bash
 g <cmd>       # Git workflows
@@ -141,6 +141,7 @@ dot <cmd>     # Dotfile management
 teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
+em <cmd>      # Email management (himalaya)
 ```
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
@@ -172,12 +173,12 @@ v <cmd>       # Vibe coding mode
 ```
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
-├── lib/                      # Core libraries (63 files)
+├── lib/                      # Core libraries (69 files)
 │   ├── core.zsh              # Colors, logging, utilities
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── tui.zsh               # Terminal UI components
-│   └── dispatchers/          # 12 smart command dispatchers
+│   └── dispatchers/          # 13 smart command dispatchers
 ├── commands/                 # 31 command files (work, dash, doctor, teach-*, etc.)
 ├── setup/                    # Installation & setup
 ├── completions/              # ZSH completions
@@ -185,7 +186,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 144 test files, 8000+ test functions
+├── tests/                    # 148 test files, 8000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -196,7 +197,7 @@ flow-cli/
 | ------------------------------------------- | ----------------------------------------- |
 | `flow.plugin.zsh`                           | Plugin entry point (source to load)       |
 | `lib/core.zsh`                              | Core utilities (logging, colors, helpers) |
-| `lib/dispatchers/*.zsh`                     | 12 smart dispatchers                      |
+| `lib/dispatchers/*.zsh`                     | 13 smart dispatchers                      |
 | `commands/*.zsh`                            | Core commands (work, dash, finish, etc.)  |
 | `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs                  |
 | `docs/reference/MASTER-API-REFERENCE.md`    | API function reference                    |
@@ -252,7 +253,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**144 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (43/43 passing, 0 timeouts) or individual suites in `tests/`.
+**148 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -280,8 +281,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v6.7.1 | **Tests:** 8000+ (43/43 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.0.0 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-10 (v6.7.1)
+**Last Updated:** 2026-02-10 (v7.0.0)

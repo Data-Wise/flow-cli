@@ -7,7 +7,7 @@ tags:
 
 # Master Dispatcher Guide
 
-**Purpose:** Complete reference for all 12 flow-cli dispatchers
+**Purpose:** Complete reference for all 13 flow-cli dispatchers
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
 **Version:** v6.5.0
@@ -30,7 +30,7 @@ r test                # Run R tests
 teach init            # Initialize course
 ```
 
-### The 12 Dispatchers
+### The 13 Dispatchers
 
 | Dispatcher | Domain | Commands | Complexity |
 |------------|--------|----------|------------|
@@ -46,6 +46,7 @@ teach init            # Initialize course
 | [tm](#tm-dispatcher) | Terminal manager | 5 | Beginner |
 | [prompt](#prompt-dispatcher) | Prompt engine | 3 | Beginner |
 | [v](#v-dispatcher) | Vibe coding mode | 4 | Beginner |
+| [em](#em-dispatcher) | Email (himalaya) | 18 | Beginner → Advanced |
 
 ---
 
@@ -2495,9 +2496,78 @@ als           # List all aliases by category
 
 ---
 
+## em Dispatcher
+
+**Domain:** Email management via himalaya CLI
+**File:** `lib/dispatchers/email-dispatcher.zsh` + `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`
+**Version:** v7.0.0+
+
+### Overview
+
+The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management: AI-powered drafting, smart content rendering, fzf browsing, and explicit send confirmation.
+
+### Commands
+
+| Command | Alias | Description |
+|---------|-------|-------------|
+| `em` | | Quick pulse (unread + 10 latest) |
+| `em inbox [N]` | | List N recent emails (default: 25) |
+| `em read <ID>` | `em r` | Read email with smart rendering |
+| `em send` | `em s` | Compose new email in $EDITOR |
+| `em reply <ID>` | `em re` | Reply with AI draft (--no-ai, --all, --batch) |
+| `em find <query>` | `em f` | Search emails |
+| `em pick [FOLDER]` | `em p` | fzf email browser with preview |
+| `em respond` | `em resp` | Batch AI drafts for actionable emails |
+| `em classify <ID>` | | AI category classification |
+| `em summarize <ID>` | `em sum` | One-line AI summary |
+| `em unread` | | Show unread count |
+| `em dash` | | Quick dashboard |
+| `em folders` | | List mail folders |
+| `em html <ID>` | | Render HTML email in terminal |
+| `em attach <ID>` | | Download attachments |
+| `em cache stats\|prune\|clear\|warm` | | Manage AI cache |
+| `em doctor` | | Check dependencies |
+| `em help` | | Show help |
+
+### Quick Start
+
+```bash
+em                      # Quick pulse check
+em pick                 # Browse with fzf (Enter=read, Ctrl-S=summarize)
+em reply 42             # AI-draft reply, opens in $EDITOR
+em respond              # Batch process actionable emails
+em doctor               # Check all dependencies
+```
+
+### Architecture
+
+Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with AI abstraction, cache, and render pipeline layers.
+
+### Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `FLOW_EMAIL_AI` | `claude` | AI backend (claude/gemini/none) |
+| `FLOW_EMAIL_PAGE_SIZE` | `25` | Default inbox page size |
+| `FLOW_EMAIL_FOLDER` | `INBOX` | Default folder |
+| `FLOW_EMAIL_AI_TIMEOUT` | `30` | AI operation timeout (seconds) |
+
+### Safety
+
+- Every send requires explicit `[y/N]` confirmation (default: No). No auto-send.
+- Listserv emails (`@LIST.*`) auto-skipped in `em respond`; warning shown if actionable.
+- Discarded drafts tracked separately from sent replies (via `script(1)` detection).
+- 9-category AI classification: student, colleague, admin-action, scheduling, urgent (actionable) + admin-info, newsletter, vendor, automated (auto-skip).
+
+> **Full Reference:** [REFCARD-EMAIL-DISPATCHER.md](REFCARD-EMAIL-DISPATCHER.md)
+> **User Guide:** [EMAIL-DISPATCHER-GUIDE.md](../guides/EMAIL-DISPATCHER-GUIDE.md)
+> **Tutorial:** [EMAIL-TUTORIAL.md](../guides/EMAIL-TUTORIAL.md)
+
+---
+
 ## Next Steps
 
-- **Beginners:** Start with [g](#g-dispatcher), [cc](#cc-dispatcher), [tm](#tm-dispatcher)
+- **Beginners:** Start with [g](#g-dispatcher), [cc](#cc-dispatcher), [tm](#tm-dispatcher), [em](#em-dispatcher)
 - **Intermediate:** Explore [r](#r-dispatcher), [qu](#qu-dispatcher), [dot](#dot-dispatcher)
 - **Advanced:** Master [wt](#wt-dispatcher), [teach](#teach-dispatcher) advanced features
 - **Quick Reference:** See [QUICK-REFERENCE.md](../help/QUICK-REFERENCE.md)
@@ -2505,7 +2575,6 @@ als           # List all aliases by category
 
 ---
 
-**Version:** v6.5.0
-**Last Updated:** 2026-02-08
-**Total:** 12 dispatchers fully documented
-**Lines:** 3,000+ lines
+**Version:** v7.0.0
+**Last Updated:** 2026-02-10
+**Total:** 13 dispatchers fully documented

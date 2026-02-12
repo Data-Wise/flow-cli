@@ -9,7 +9,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [7.0.0] - 2026-02-11
+
 ### Added
+
+- **`em` email dispatcher** — 13th smart dispatcher wrapping himalaya CLI (PR #375, issue #331)
+  - 18 subcommands: `inbox`, `read`, `send`, `reply`, `find`, `pick`, `dash`, `unread`, `classify`, `summarize`, `respond`, `html`, `attach`, `folders`, `cache`, `doctor`, `help`
+  - **AI layer** — classify (9 categories), summarize, draft replies via `claude`/`gemini` backends
+  - **fzf picker** — interactive email browser with preview, keybinds (Ctrl-R reply, Ctrl-S summarize, Ctrl-A archive)
+  - **Smart rendering** — 4-tier detection chain (HTML→Markdown→plain→fallback) via w3m/glow/bat
+  - **TTL-based caching** — summaries/classifications (24h), drafts (1h), unread (60s), LRU eviction
+  - **himalaya adapter** — isolates all CLI specifics in `em-himalaya.zsh` for upstream resilience
+  - **Safety gates** — explicit `[y/N]` confirmation before any email send/reply
+  - **`em doctor`** — 8 dependency checks (himalaya, fzf, bat, w3m, glow, jq, AI backend)
+  - **`em respond`** — batch AI triage: classify inbox, draft replies for actionable emails, review/send
+  - **`em read --md`** — clean Markdown output via pandoc
+  - Server-side IMAP SEARCH in `em find` with client-side fallback
+  - Background cache warming gated behind `FLOW_EMAIL_CACHE_WARM=true` config
+  - `--help` flag handling in all subcommand parsers
+- **ZSH completions** — `completions/_em` for all 18 subcommands
+- **Documentation** — guide (1,593 lines), tutorial (1,667 lines), refcard (686 lines), himalaya setup guide (337 lines)
+- **Tests** — 86 unit tests, 118 dogfood tests, E2E test suite (mocked + live himalaya)
+
+### Changed
+
+- **Dispatcher count** — 12 → 13 (architecture diagram, CLAUDE.md, reference docs)
+- **Email nav** — restructured with CLI/Editor subsections for future nvim-himalaya integration
+- **`flow.plugin.zsh`** — sources 5 new em modules (dispatcher, helpers, AI, cache, render, adapter)
 
 - **`teach map`** — unified ecosystem discovery command (v6.6.0)
   - Shows all teaching commands across flow-cli, Scholar, and Craft

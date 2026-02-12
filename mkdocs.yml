@@ -212,6 +212,16 @@ nav:
           - Commands Deep Dive: guides/TEACHING-COMMANDS-DETAILED.md
           - Dates Guide: guides/TEACHING-DATES-GUIDE.md
           - Demo & GIFs: guides/TEACHING-DEMO-GUIDE.md
+  # ── Email (himalaya integrations: CLI + Editor) ─────────────────
+  - 📧 Email:
+      - Himalaya Setup: guides/HIMALAYA-SETUP.md
+      - CLI (em dispatcher):
+          - Guide: guides/EMAIL-DISPATCHER-GUIDE.md
+          - Tutorial: guides/EMAIL-TUTORIAL.md
+          - Quick Reference: reference/REFCARD-EMAIL-DISPATCHER.md
+      # - Editor (Neovim):                    # uncomment when feature/nvim-himalaya-integration ships
+      #     - Guide: guides/NVIM-HIMALAYA-GUIDE.md
+      #     - Quick Reference: reference/REFCARD-NVIM-EMAIL.md
   # ── Workflows & Guides (merged: Workflows + Guides) ──────────────
   - 🔧 Workflows & Guides:
       - guides/index.md

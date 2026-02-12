@@ -46,6 +46,11 @@ source "$FLOW_PLUGIN_DIR/lib/backup-helpers.zsh"
 source "$FLOW_PLUGIN_DIR/lib/cache-helpers.zsh"
 source "$FLOW_PLUGIN_DIR/lib/cache-analysis.zsh"
 source "$FLOW_PLUGIN_DIR/lib/status-dashboard.zsh"
+source "$FLOW_PLUGIN_DIR/lib/email-helpers.zsh"
+source "$FLOW_PLUGIN_DIR/lib/em-himalaya.zsh"
+source "$FLOW_PLUGIN_DIR/lib/em-cache.zsh"
+source "$FLOW_PLUGIN_DIR/lib/em-ai.zsh"
+source "$FLOW_PLUGIN_DIR/lib/em-render.zsh"
 
 # ============================================================================
 # COMMANDS
@@ -134,7 +139,7 @@ _flow_plugin_init
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="6.7.1"
+export FLOW_VERSION="7.0.0"
 
 # Register exit hook for plugin cleanup
 add-zsh-hook zshexit _flow_plugin_cleanup
