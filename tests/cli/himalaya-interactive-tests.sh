@@ -211,9 +211,9 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 18: AI Classify (<leader>mc)${NC}"
+echo -e "${BLUE}${BOLD}TEST 18: AI TL;DR (<leader>mc)${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email, press <leader>mc"
-echo -e "  ${DIM}Expected:${NC} Floating window showing category (urgent/action-needed/informational/spam)"
+echo -e "  ${DIM}Expected:${NC} Split showing TL;DR, urgency table, action items, deadline"
 echo ""
 echo "  Try in Neovim"
 ask_result
@@ -244,7 +244,7 @@ echo -e "${BOLD}=== WHICH-KEY ===${NC}"
 echo ""
 echo -e "${BLUE}${BOLD}TEST 21: Which-key shows AI keybinds${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>m and wait for which-key popup"
-echo -e "  ${DIM}Expected:${NC} Shows s=Summarize, t=Todos, r=Reply, c=Classify"
+echo -e "  ${DIM}Expected:${NC} Shows s=Summarize, t=Todos, r=Reply, c=TL;DR"
 echo ""
 echo "  Try in Neovim"
 ask_result
@@ -253,6 +253,133 @@ echo ""
 echo -e "${BLUE}${BOLD}TEST 22: Which-key shows email launch${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>e and wait for which-key popup"
 echo -e "  ${DIM}Expected:${NC} Shows M=Open Himalaya (Email)"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+# ═══════════════════════════════════════════════════════════════
+# SECTION 7: HimalayaAi Commands
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${BOLD}=== HIMALAYAAI COMMANDS ===${NC}"
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 23: :HimalayaAi status${NC}"
+echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi status"
+echo -e "  ${DIM}Expected:${NC} Dashboard split: backend [OK], vault path, prompts list, [q] close"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 24: :HimalayaAi prompts${NC}"
+echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi prompts"
+echo -e "  ${DIM}Expected:${NC} Interactive buffer listing prompts with [e] edit  [v] validate  [q] close"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 25: :HimalayaAi edit${NC}"
+echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi edit"
+echo -e "  ${DIM}Expected:${NC} ~/.config/himalaya-ai/config.lua opens in vsplit"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 26: :HimalayaAi edit + save reload${NC}"
+echo -e "  ${DIM}Action:${NC}   In the config split from test 25, make a change and :w"
+echo -e "  ${DIM}Expected:${NC} Notification: 'himalaya-ai: Config reloaded'"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 27: :HimalayaAi set backend claude${NC}"
+echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi set backend claude"
+echo -e "  ${DIM}Expected:${NC} Notification: 'Backend → claude (persisted)'"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 28: :HimalayaAi set format simple${NC}"
+echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi set format simple"
+echo -e "  ${DIM}Expected:${NC} Notification: 'Format → simple (persisted)'"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 29: :HimalayaAi validate summarize${NC}"
+echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi validate summarize (with or without email open)"
+echo -e "  ${DIM}Expected:${NC} AI runs on sample/buffer email, result split appears with summary"
+echo -e "  ${DIM}Note:${NC}     May take 2-5s for backend to respond"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+# ═══════════════════════════════════════════════════════════════
+# SECTION 8: Result Split Keybinds (v2)
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${BOLD}=== RESULT SPLIT KEYBINDS (v2) ===${NC}"
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 30: 'o' — Save to Obsidian${NC}"
+echo -e "  ${DIM}Action:${NC}   Run an AI action (<leader>ms), then press 'o' in the result split"
+echo -e "  ${DIM}Expected:${NC} Notification with Obsidian note path, file created in vault/Inbox"
+echo ""
+echo "  Try in Neovim (open an email first, then <leader>ms → o)"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 31: 'r' — Re-run with edited prompt${NC}"
+echo -e "  ${DIM}Action:${NC}   In a result split, press 'r'"
+echo -e "  ${DIM}Expected:${NC} vim.ui.input appears with editable prompt, submitting re-runs AI"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 32: 'a' — Append to file${NC}"
+echo -e "  ${DIM}Action:${NC}   In a result split, press 'a'"
+echo -e "  ${DIM}Expected:${NC} Prompted for file path (with completion), content appended on confirm"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 33: 'p' — Paste into reply${NC}"
+echo -e "  ${DIM}Action:${NC}   In a result split (from draft_reply), press 'p'"
+echo -e "  ${DIM}Expected:${NC} Content copied to register, reply compose opens, draft pasted"
+echo -e "  ${DIM}Note:${NC}     Close reply with :q! to avoid sending"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+# ═══════════════════════════════════════════════════════════════
+# SECTION 9: Tab Completion
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${BOLD}=== TAB COMPLETION ===${NC}"
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 34: :HimalayaAi + Tab${NC}"
+echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi (space) then press Tab"
+echo -e "  ${DIM}Expected:${NC} Completion menu: status, prompts, edit, validate, set"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 35: :HimalayaAi set + Tab${NC}"
+echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi set (space) then press Tab"
+echo -e "  ${DIM}Expected:${NC} Completion menu: backend, vault, save_dir, format"
 echo ""
 echo "  Try in Neovim"
 ask_result

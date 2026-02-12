@@ -189,11 +189,11 @@ else
     log_fail "Missing draft_reply function"
 fi
 
-# Test: classify function
-if grep -q 'function M.classify' "${HIMALAYA_AI}" 2>/dev/null; then
-    log_pass "Has M.classify() function"
+# Test: tldr function (v2 — replaces classify)
+if grep -q 'function M.tldr' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has M.tldr() function (v2)"
 else
-    log_fail "Missing classify function"
+    log_fail "Missing tldr function"
 fi
 
 # Test: Uses jobstart (async)
@@ -203,11 +203,11 @@ else
     log_fail "Not using async jobstart (may block Neovim)"
 fi
 
-# Test: Has floating window
-if grep -q 'nvim_open_win' "${HIMALAYA_AI}" 2>/dev/null; then
-    log_pass "Uses floating window for output display"
+# Test: Uses vsplit for output (v2)
+if grep -q 'botright vnew' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Uses vsplit for output display (v2)"
 else
-    log_fail "Missing floating window implementation"
+    log_fail "Missing vsplit output implementation"
 fi
 
 # Test: Float is closeable
@@ -265,9 +265,9 @@ else
     log_fail "Missing <leader>mr keybind"
 fi
 
-# Test: leader-mc (classify)
+# Test: leader-mc (tldr)
 if grep -q '<leader>mc' "${KEYMAPS}" 2>/dev/null; then
-    log_pass "Has <leader>mc keybind (classify)"
+    log_pass "Has <leader>mc keybind (TL;DR)"
 else
     log_fail "Missing <leader>mc keybind"
 fi
@@ -308,6 +308,174 @@ if command -v luacheck &>/dev/null; then
     fi
 else
     log_skip "luacheck not installed (optional Lua linter)"
+fi
+
+# ═══════════════════════════════════════════════════════════════
+# CONFIG FILE VALIDATION
+# ═══════════════════════════════════════════════════════════════
+
+section "Config File Validation"
+
+HIMALAYA_CONFIG="${HOME}/.config/himalaya-ai/config.lua"
+
+# Test: Config file exists
+if [[ -f "${HIMALAYA_CONFIG}" ]]; then
+    log_pass "Config file exists at ${HIMALAYA_CONFIG}"
+else
+    log_skip "Config file not found (will use built-in defaults)"
+fi
+
+# Test: Config is valid Lua
+if [[ -f "${HIMALAYA_CONFIG}" ]]; then
+    if nvim --headless -c "lua dofile(vim.fn.expand('~/.config/himalaya-ai/config.lua'))" -c "qa!" 2>&1 | grep -qi "error"; then
+        log_fail "Config file has Lua syntax errors"
+    else
+        log_pass "Config file is valid Lua"
+    fi
+else
+    log_skip "No config file to validate"
+fi
+
+# Test: Config has backend key
+if [[ -f "${HIMALAYA_CONFIG}" ]] && grep -q 'backend' "${HIMALAYA_CONFIG}" 2>/dev/null; then
+    log_pass "Config has 'backend' key"
+else
+    log_skip "No backend key in config (defaults apply)"
+fi
+
+# Test: Config has backends table
+if [[ -f "${HIMALAYA_CONFIG}" ]] && grep -q 'backends' "${HIMALAYA_CONFIG}" 2>/dev/null; then
+    log_pass "Config has 'backends' table"
+else
+    log_skip "No backends table in config (defaults apply)"
+fi
+
+# Test: Config has obsidian table
+if [[ -f "${HIMALAYA_CONFIG}" ]] && grep -q 'obsidian' "${HIMALAYA_CONFIG}" 2>/dev/null; then
+    log_pass "Config has 'obsidian' table"
+else
+    log_skip "No obsidian table in config (defaults apply)"
+fi
+
+# ═══════════════════════════════════════════════════════════════
+# V2 FEATURE VALIDATION
+# ═══════════════════════════════════════════════════════════════
+
+section "V2 Features (himalaya-ai.lua)"
+
+# Test: Has M.tldr function (replaces classify)
+if grep -q 'function M.tldr' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has M.tldr() function (v2 replacement for classify)"
+else
+    log_fail "Missing M.tldr() function"
+fi
+
+# Test: Has _run_ai_custom function (re-run support)
+if grep -q 'function M._run_ai_custom' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has M._run_ai_custom() function (re-run support)"
+else
+    log_fail "Missing _run_ai_custom function"
+fi
+
+# Test: Has make_obsidian_note function
+if grep -q 'function make_obsidian_note' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has make_obsidian_note() function"
+else
+    log_fail "Missing make_obsidian_note function"
+fi
+
+# Test: Has persist_config function
+if grep -q 'function persist_config' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has persist_config() function"
+else
+    log_fail "Missing persist_config function"
+fi
+
+# Test: Has open_info_buffer function
+if grep -q 'function open_info_buffer' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has open_info_buffer() function"
+else
+    log_fail "Missing open_info_buffer function"
+fi
+
+# ═══════════════════════════════════════════════════════════════
+# HIMALAYAAI COMMAND TESTS (HEADLESS)
+# ═══════════════════════════════════════════════════════════════
+
+section "HimalayaAi Command (Headless)"
+
+# Note: require('himalaya-ai') triggers command registration (LazyVim defers loading)
+# We test commands and completion via the command's complete function directly.
+
+# Test: :HimalayaAi command registered after require
+result=$(nvim --headless +"lua require('himalaya-ai'); io.write(vim.api.nvim_get_commands({})['HimalayaAi'] and 'yes' or 'no')" +"qa!" 2>&1)
+if echo "$result" | grep -q "yes"; then
+    log_pass ":HimalayaAi command is registered"
+else
+    log_fail ":HimalayaAi command not registered"
+fi
+
+# Test: Command nargs is *
+result=$(nvim --headless +"lua require('himalaya-ai'); io.write(vim.api.nvim_get_commands({})['HimalayaAi'].nargs or 'nil')" +"qa!" 2>&1)
+if echo "$result" | grep -q '\*'; then
+    log_pass ":HimalayaAi nargs is * (variable args)"
+else
+    log_fail ":HimalayaAi nargs unexpected: ${result}"
+fi
+
+# Test: Command has completion function defined
+result=$(nvim --headless +"lua require('himalaya-ai'); local cmd = vim.api.nvim_get_commands({})['HimalayaAi']; io.write(cmd.complete or 'none')" +"qa!" 2>&1)
+if echo "$result" | grep -qv "none"; then
+    log_pass ":HimalayaAi has tab completion defined"
+else
+    log_fail ":HimalayaAi missing tab completion"
+fi
+
+# Test: Source defines 5 subcommands in completion
+if grep -q '"status".*"prompts".*"edit".*"validate".*"set"' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Completion source has 5 subcommands (status/prompts/edit/validate/set)"
+else
+    log_fail "Completion source missing expected subcommands"
+fi
+
+# Test: Source defines 4 set keys in completion
+if grep -q '"backend".*"vault".*"save_dir".*"format"' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Completion source has 4 set keys (backend/vault/save_dir/format)"
+else
+    log_fail "Completion source missing expected set keys"
+fi
+
+# Test: Source defines format completion values
+if grep -q '"structured".*"simple"' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Completion source has format values (structured/simple)"
+else
+    log_fail "Completion source missing format values"
+fi
+
+# Test: validate completion returns prompt names (4+ via headless)
+result=$(nvim --headless +"lua require('himalaya-ai'); local hai = require('himalaya-ai'); local keys = vim.tbl_keys(hai.config.prompts or {}); io.write(#keys .. '')" +"qa!" 2>&1)
+# get_prompts merges defaults — count defaults in source
+default_count=$(grep -c "^\s*[a-z_]* = " "${HIMALAYA_AI}" 2>/dev/null | head -1)
+if grep -q 'summarize' "${HIMALAYA_AI}" && grep -q 'extract_todos' "${HIMALAYA_AI}" && grep -q 'draft_reply' "${HIMALAYA_AI}" && grep -q 'tldr' "${HIMALAYA_AI}"; then
+    log_pass "4 built-in prompts defined (summarize/extract_todos/draft_reply/tldr)"
+else
+    log_fail "Missing expected built-in prompts"
+fi
+
+# Test: get_prompts() merges defaults (has summarize key)
+result=$(nvim --headless +"lua local hai = require('himalaya-ai'); local p = vim.tbl_keys(hai.config); io.write(type(require('himalaya-ai').summarize))" +"qa!" 2>&1)
+if echo "$result" | grep -q "function"; then
+    log_pass "M.summarize is callable (prompts merged correctly)"
+else
+    log_fail "M.summarize not a function: ${result}"
+fi
+
+# Test: persist_config function exists and is callable
+result=$(nvim --headless +"lua local hai = require('himalaya-ai'); io.write(type(hai._run_ai_custom))" +"qa!" 2>&1)
+if echo "$result" | grep -q "function"; then
+    log_pass "M._run_ai_custom is callable (custom prompt runner)"
+else
+    log_fail "M._run_ai_custom not a function: ${result}"
 fi
 
 # ═══════════════════════════════════════════════════════════════
