@@ -72,6 +72,7 @@ Environment variables (set in shell, `.env`, or `.flow/email.conf`):
 | `FLOW_EMAIL_FOLDER` | `INBOX` | string | Default folder (mailbox name) |
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | int | AI draft timeout in seconds |
 | `FLOW_EMAIL_CACHE_MAX_MB` | `50` | int | Max cache size in MB (0 = no limit) |
+| `FLOW_EMAIL_CACHE_WARM` | `false` | bool | Enable background cache warming on `em dash` |
 
 Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/email.conf` (global)
 
