@@ -319,14 +319,7 @@ The `em read` command automatically detects and uses these for HTML emails.
 
 ### Neovim Integration
 
-Himalaya has a Vim/Neovim plugin for in-editor email:
-
-```vim
--- lazy.nvim
-{ "pimalaya/himalaya-vim" }
-```
-
-Key bindings: `gm` (folder select), `g/` (search), `gw` (write), `gr` (reply).
+For in-editor email with AI-powered actions (summarize, draft reply, extract todos), see the dedicated [Neovim Himalaya Setup](HIMALAYA-NVIM-SETUP.md) guide.
 
 ---
 
@@ -335,3 +328,4 @@ Key bindings: `gm` (folder select), `g/` (search), `gw` (write), `gr` (reply).
 - [Email Dispatcher Guide](EMAIL-DISPATCHER-GUIDE.md) - Full `em` command reference
 - [Email Tutorial](EMAIL-TUTORIAL.md) - 60-minute hands-on walkthrough
 - [Email Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) - Quick reference card
+- [Neovim Setup](HIMALAYA-NVIM-SETUP.md) - Neovim + AI email integration
