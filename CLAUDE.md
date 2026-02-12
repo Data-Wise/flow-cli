@@ -173,12 +173,12 @@ em <cmd>      # Email management (himalaya)
 ```
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
-├── lib/                      # Core libraries (63 files)
+├── lib/                      # Core libraries (69 files)
 │   ├── core.zsh              # Colors, logging, utilities
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── tui.zsh               # Terminal UI components
-│   └── dispatchers/          # 12 smart command dispatchers
+│   └── dispatchers/          # 13 smart command dispatchers
 ├── commands/                 # 31 command files (work, dash, doctor, teach-*, etc.)
 ├── setup/                    # Installation & setup
 ├── completions/              # ZSH completions
@@ -186,7 +186,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 144 test files, 8000+ test functions
+├── tests/                    # 148 test files, 8000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -253,7 +253,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**144 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (43/43 passing, 0 timeouts) or individual suites in `tests/`.
+**148 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -281,7 +281,7 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v6.7.1 | **Tests:** 8000+ (43/43 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v6.7.1 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
