@@ -11,6 +11,9 @@ set -e
 PASS=0
 FAIL=0
 SKIP=0
+CURRENT_TEST=""
+FAILED_TESTS=()
+SKIPPED_TESTS=()
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -27,13 +30,14 @@ ask_result() {
     echo ""
     case "$REPLY" in
         p|P) ((PASS++)) || true; echo -e "  ${GREEN}PASS${NC}" ;;
-        f|F) ((FAIL++)) || true; echo -e "  ${RED}FAIL${NC}" ;;
-        *)   ((SKIP++)) || true; echo -e "  ${YELLOW}SKIP${NC}" ;;
+        f|F) ((FAIL++)) || true; echo -e "  ${RED}FAIL${NC}"; FAILED_TESTS+=("$CURRENT_TEST") ;;
+        *)   ((SKIP++)) || true; echo -e "  ${YELLOW}SKIP${NC}"; SKIPPED_TESTS+=("$CURRENT_TEST") ;;
     esac
 }
 
 run_test() {
     local num="$1" title="$2" cmd="$3" expected="$4"
+    CURRENT_TEST="TEST ${num}: ${title}"
     echo ""
     echo -e "${BLUE}${BOLD}TEST ${num}: ${title}${NC}"
     echo -e "  ${DIM}Command:${NC}  ${cmd}"
@@ -49,6 +53,7 @@ run_test() {
     else
         ((SKIP++)) || true
         echo -e "  ${YELLOW}SKIP${NC}"
+        SKIPPED_TESTS+=("$CURRENT_TEST")
     fi
 }
 
@@ -123,6 +128,7 @@ run_test 8 \
     "Prints 'table' (module loaded successfully)"
 
 echo ""
+CURRENT_TEST="TEST 9: Lazy.nvim sees himalaya-vim"
 echo -e "${BLUE}${BOLD}TEST 9: Lazy.nvim sees himalaya-vim${NC}"
 echo -e "  ${DIM}Action:${NC}   Open Neovim, run :Lazy, search for himalaya"
 echo -e "  ${DIM}Expected:${NC} himalaya-vim appears in plugin list"
@@ -131,6 +137,7 @@ echo "  Open Neovim in another terminal and check :Lazy"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 10: :Himalaya command available"
 echo -e "${BLUE}${BOLD}TEST 10: :Himalaya command available${NC}"
 echo -e "  ${DIM}Action:${NC}   In Neovim, type :Himalaya and press Tab"
 echo -e "  ${DIM}Expected:${NC} Command autocompletes (plugin loaded via cmd)"
@@ -146,6 +153,7 @@ echo ""
 echo -e "${BOLD}=== EMAIL OPERATIONS ===${NC}"
 
 echo ""
+CURRENT_TEST="TEST 11: List emails"
 echo -e "${BLUE}${BOLD}TEST 11: List emails${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :Himalaya in Neovim"
 echo -e "  ${DIM}Expected:${NC} Envelope list appears with subjects, dates, senders"
@@ -154,6 +162,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 12: Read an email"
 echo -e "${BLUE}${BOLD}TEST 12: Read an email${NC}"
 echo -e "  ${DIM}Action:${NC}   Press Enter on an email in the list"
 echo -e "  ${DIM}Expected:${NC} Email body displayed in buffer"
@@ -162,6 +171,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 13: Folder picker"
 echo -e "${BLUE}${BOLD}TEST 13: Folder picker${NC}"
 echo -e "  ${DIM}Action:${NC}   Press gm in the envelope list"
 echo -e "  ${DIM}Expected:${NC} Picker shows email folders (INBOX, Sent, etc.)"
@@ -170,6 +180,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 14: Reply to email"
 echo -e "${BLUE}${BOLD}TEST 14: Reply to email${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email, press gr"
 echo -e "  ${DIM}Expected:${NC} Reply compose buffer opens with quoted text"
@@ -186,6 +197,7 @@ echo ""
 echo -e "${BOLD}=== AI WRAPPER ===${NC}"
 
 echo ""
+CURRENT_TEST="TEST 15: AI Summarize (<leader>ms)"
 echo -e "${BLUE}${BOLD}TEST 15: AI Summarize (<leader>ms)${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email in Neovim, press <leader>ms"
 echo -e "  ${DIM}Expected:${NC} Floating window appears with 2-3 bullet point summary"
@@ -195,6 +207,7 @@ echo "  Try in Neovim with an open email"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 16: AI Extract Todos (<leader>mt)"
 echo -e "${BLUE}${BOLD}TEST 16: AI Extract Todos (<leader>mt)${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email with action items, press <leader>mt"
 echo -e "  ${DIM}Expected:${NC} Floating window with markdown checklist of action items"
@@ -203,6 +216,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 17: AI Draft Reply (<leader>mr)"
 echo -e "${BLUE}${BOLD}TEST 17: AI Draft Reply (<leader>mr)${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email, press <leader>mr"
 echo -e "  ${DIM}Expected:${NC} Floating window with a professional reply draft"
@@ -211,6 +225,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 18: AI TL;DR (<leader>mc)"
 echo -e "${BLUE}${BOLD}TEST 18: AI TL;DR (<leader>mc)${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email, press <leader>mc"
 echo -e "  ${DIM}Expected:${NC} Split showing TL;DR, urgency table, action items, deadline"
@@ -219,6 +234,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 19: Float window close (q)"
 echo -e "${BLUE}${BOLD}TEST 19: Float window close (q)${NC}"
 echo -e "  ${DIM}Action:${NC}   With a float open, press q"
 echo -e "  ${DIM}Expected:${NC} Float closes, back to email buffer"
@@ -227,6 +243,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 20: Float window close (Esc)"
 echo -e "${BLUE}${BOLD}TEST 20: Float window close (Esc)${NC}"
 echo -e "  ${DIM}Action:${NC}   Trigger an AI action, then press Esc"
 echo -e "  ${DIM}Expected:${NC} Float closes cleanly"
@@ -242,6 +259,7 @@ echo ""
 echo -e "${BOLD}=== WHICH-KEY ===${NC}"
 
 echo ""
+CURRENT_TEST="TEST 21: Which-key shows AI keybinds"
 echo -e "${BLUE}${BOLD}TEST 21: Which-key shows AI keybinds${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>m and wait for which-key popup"
 echo -e "  ${DIM}Expected:${NC} Shows s=Summarize, t=Todos, r=Reply, c=TL;DR"
@@ -250,6 +268,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 22: Which-key shows email launch"
 echo -e "${BLUE}${BOLD}TEST 22: Which-key shows email launch${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>e and wait for which-key popup"
 echo -e "  ${DIM}Expected:${NC} Shows M=Open Himalaya (Email)"
@@ -265,6 +284,7 @@ echo ""
 echo -e "${BOLD}=== HIMALAYAAI COMMANDS ===${NC}"
 
 echo ""
+CURRENT_TEST="TEST 23: :HimalayaAi status"
 echo -e "${BLUE}${BOLD}TEST 23: :HimalayaAi status${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi status"
 echo -e "  ${DIM}Expected:${NC} Dashboard split: backend [OK], vault path, prompts list, [q] close"
@@ -273,6 +293,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 24: :HimalayaAi prompts"
 echo -e "${BLUE}${BOLD}TEST 24: :HimalayaAi prompts${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi prompts"
 echo -e "  ${DIM}Expected:${NC} Interactive buffer listing prompts with [e] edit  [v] validate  [q] close"
@@ -281,6 +302,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 25: :HimalayaAi edit"
 echo -e "${BLUE}${BOLD}TEST 25: :HimalayaAi edit${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi edit"
 echo -e "  ${DIM}Expected:${NC} ~/.config/himalaya-ai/config.lua opens in vsplit"
@@ -289,6 +311,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 26: :HimalayaAi edit + save reload"
 echo -e "${BLUE}${BOLD}TEST 26: :HimalayaAi edit + save reload${NC}"
 echo -e "  ${DIM}Action:${NC}   In the config split from test 25, make a change and :w"
 echo -e "  ${DIM}Expected:${NC} Notification: 'himalaya-ai: Config reloaded'"
@@ -297,6 +320,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 27: :HimalayaAi set backend claude"
 echo -e "${BLUE}${BOLD}TEST 27: :HimalayaAi set backend claude${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi set backend claude"
 echo -e "  ${DIM}Expected:${NC} Notification: 'Backend → claude (persisted)'"
@@ -305,6 +329,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 28: :HimalayaAi set format simple"
 echo -e "${BLUE}${BOLD}TEST 28: :HimalayaAi set format simple${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi set format simple"
 echo -e "  ${DIM}Expected:${NC} Notification: 'Format → simple (persisted)'"
@@ -313,6 +338,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 29: :HimalayaAi set result_display tab"
 echo -e "${BLUE}${BOLD}TEST 29: :HimalayaAi set result_display tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi set result_display tab"
 echo -e "  ${DIM}Expected:${NC} Notification: 'Result display → tab (persisted)'"
@@ -321,6 +347,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 30: Verify tab display mode"
 echo -e "${BLUE}${BOLD}TEST 30: Verify tab display mode${NC}"
 echo -e "  ${DIM}Action:${NC}   Run an AI action (e.g. <leader>ms) after setting result_display to tab"
 echo -e "  ${DIM}Expected:${NC} Result opens in a new tab instead of bottom split"
@@ -330,6 +357,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 31: :HimalayaAi validate summarize"
 echo -e "${BLUE}${BOLD}TEST 31: :HimalayaAi validate summarize${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi validate summarize (with or without email open)"
 echo -e "  ${DIM}Expected:${NC} AI runs on sample/buffer email, result split appears with summary"
@@ -346,6 +374,7 @@ echo ""
 echo -e "${BOLD}=== RESULT SPLIT KEYBINDS (v2) ===${NC}"
 
 echo ""
+CURRENT_TEST="TEST 32: 'o' — Save to Obsidian"
 echo -e "${BLUE}${BOLD}TEST 32: 'o' — Save to Obsidian${NC}"
 echo -e "  ${DIM}Action:${NC}   Run an AI action (<leader>ms), then press 'o' in the result split"
 echo -e "  ${DIM}Expected:${NC} Notification with Obsidian note path, file created in vault/Inbox"
@@ -354,6 +383,7 @@ echo "  Try in Neovim (open an email first, then <leader>ms → o)"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 33: 'r' — Re-run with edited prompt"
 echo -e "${BLUE}${BOLD}TEST 33: 'r' — Re-run with edited prompt${NC}"
 echo -e "  ${DIM}Action:${NC}   In a result split, press 'r'"
 echo -e "  ${DIM}Expected:${NC} vim.ui.input appears with editable prompt, submitting re-runs AI"
@@ -362,6 +392,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 34: 'a' — Append to file"
 echo -e "${BLUE}${BOLD}TEST 34: 'a' — Append to file${NC}"
 echo -e "  ${DIM}Action:${NC}   In a result split, press 'a'"
 echo -e "  ${DIM}Expected:${NC} Prompted for file path (with completion), content appended on confirm"
@@ -370,6 +401,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 35: 'p' — Paste into reply"
 echo -e "${BLUE}${BOLD}TEST 35: 'p' — Paste into reply${NC}"
 echo -e "  ${DIM}Action:${NC}   In a result split (from draft_reply), press 'p'"
 echo -e "  ${DIM}Expected:${NC} Content copied to register, reply compose opens, draft pasted"
@@ -386,6 +418,7 @@ echo ""
 echo -e "${BOLD}=== INTERACTIVE PROMPTS & COMPOSE (v3) ===${NC}"
 
 echo ""
+CURRENT_TEST="TEST 36: Draft Reply asks for instructions"
 echo -e "${BLUE}${BOLD}TEST 36: Draft Reply asks for instructions${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email, press <leader>mr"
 echo -e "  ${DIM}Expected:${NC} vim.ui.input prompt: 'Reply instructions (Enter=default):'"
@@ -395,6 +428,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 37: Draft Reply with custom instructions"
 echo -e "${BLUE}${BOLD}TEST 37: Draft Reply with custom instructions${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>mr, type 'decline politely, suggest next week'"
 echo -e "  ${DIM}Expected:${NC} AI generates reply that follows your instructions"
@@ -403,6 +437,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 38: Draft Reply with Enter (default)"
 echo -e "${BLUE}${BOLD}TEST 38: Draft Reply with Enter (default)${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>mr, press Enter immediately (no instructions)"
 echo -e "  ${DIM}Expected:${NC} AI generates reply with default prompt (same as before)"
@@ -411,6 +446,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 39: Compose email (<leader>mw)"
 echo -e "${BLUE}${BOLD}TEST 39: Compose email (<leader>mw)${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>mw"
 echo -e "  ${DIM}Expected:${NC} vim.ui.input prompt: 'What to write about:'"
@@ -420,6 +456,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 40: Compose cancel (Esc)"
 echo -e "${BLUE}${BOLD}TEST 40: Compose cancel (Esc)${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>mw, then press Esc"
 echo -e "  ${DIM}Expected:${NC} 'Compose cancelled' notification, no AI call"
@@ -428,6 +465,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 41: Summarize skips input by default"
 echo -e "${BLUE}${BOLD}TEST 41: Summarize skips input by default${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email, press <leader>ms"
 echo -e "  ${DIM}Expected:${NC} AI runs immediately (no input prompt — ask_before=false)"
@@ -436,6 +474,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 42: Which-key shows compose keybind"
 echo -e "${BLUE}${BOLD}TEST 42: Which-key shows compose keybind${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>m and wait for which-key popup"
 echo -e "  ${DIM}Expected:${NC} Shows w=Compose email (new keybind)"
@@ -451,6 +490,7 @@ echo ""
 echo -e "${BOLD}=== TAB COMPLETION ===${NC}"
 
 echo ""
+CURRENT_TEST="TEST 43: :HimalayaAi + Tab"
 echo -e "${BLUE}${BOLD}TEST 43: :HimalayaAi + Tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi (space) then press Tab"
 echo -e "  ${DIM}Expected:${NC} Completion menu: status, prompts, edit, validate, set"
@@ -459,6 +499,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 44: :HimalayaAi set + Tab"
 echo -e "${BLUE}${BOLD}TEST 44: :HimalayaAi set + Tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi set (space) then press Tab"
 echo -e "  ${DIM}Expected:${NC} Completion menu: backend, vault, save_dir, format, result_display"
@@ -467,6 +508,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
+CURRENT_TEST="TEST 45: :HimalayaAi set result_display + Tab"
 echo -e "${BLUE}${BOLD}TEST 45: :HimalayaAi set result_display + Tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi set result_display (space) then press Tab"
 echo -e "  ${DIM}Expected:${NC} Completion menu: split, tab"
@@ -497,6 +539,23 @@ elif [[ $FAIL -le 2 ]]; then
 else
     echo -e "  ${RED}${BOLD}NEEDS ATTENTION — ${FAIL} failures${NC}"
 fi
+
+if [[ ${#FAILED_TESTS[@]} -gt 0 ]]; then
+    echo ""
+    echo -e "  ${RED}${BOLD}Failed:${NC}"
+    for t in "${FAILED_TESTS[@]}"; do
+        echo -e "    ${RED}✗${NC} $t"
+    done
+fi
+
+if [[ ${#SKIPPED_TESTS[@]} -gt 0 ]]; then
+    echo ""
+    echo -e "  ${YELLOW}${BOLD}Skipped:${NC}"
+    for t in "${SKIPPED_TESTS[@]}"; do
+        echo -e "    ${YELLOW}–${NC} $t"
+    done
+fi
+
 echo ""
 echo "  Test log: $(date '+%Y-%m-%d %H:%M')"
 echo ""
