@@ -203,11 +203,11 @@ else
     log_fail "Not using async jobstart (may block Neovim)"
 fi
 
-# Test: Uses vsplit for output (v2)
-if grep -q 'botright vnew' "${HIMALAYA_AI}" 2>/dev/null; then
-    log_pass "Uses vsplit for output display (v2)"
+# Test: Uses configurable display (split/tab)
+if grep -q 'open_display_buffer' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Uses configurable display buffer (split/tab)"
 else
-    log_fail "Missing vsplit output implementation"
+    log_fail "Missing open_display_buffer implementation"
 fi
 
 # Test: Float is closeable
@@ -508,9 +508,9 @@ else
     log_fail "Completion source missing expected subcommands"
 fi
 
-# Test: Source defines 4 set keys in completion
-if grep -q '"backend".*"vault".*"save_dir".*"format"' "${HIMALAYA_AI}" 2>/dev/null; then
-    log_pass "Completion source has 4 set keys (backend/vault/save_dir/format)"
+# Test: Source defines 5 set keys in completion
+if grep -q '"backend".*"vault".*"save_dir".*"format".*"result_display"' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Completion source has 5 set keys (backend/vault/save_dir/format/result_display)"
 else
     log_fail "Completion source missing expected set keys"
 fi
@@ -520,6 +520,13 @@ if grep -q '"structured".*"simple"' "${HIMALAYA_AI}" 2>/dev/null; then
     log_pass "Completion source has format values (structured/simple)"
 else
     log_fail "Completion source missing format values"
+fi
+
+# Test: Source defines result_display completion values
+if grep -q '"split".*"tab"' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Completion source has result_display values (split/tab)"
+else
+    log_fail "Completion source missing result_display values"
 fi
 
 # Test: validate completion returns prompt names (4+ via headless)
