@@ -88,6 +88,115 @@ _em_render_with() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
+# MARKDOWN RENDERER (HTML → clean Markdown via pandoc)
+# ═══════════════════════════════════════════════════════════════════
+
+_em_render_markdown() {
+    # Convert HTML email → clean Markdown via pandoc
+    # Cleans SafeLinks, Outlook div wrappers, signatures
+    # Args: $1 = HTML content
+    # Renders: to terminal via glow/bat, or plain
+    local html_content="$1"
+
+    if ! command -v pandoc &>/dev/null; then
+        _flow_log_error "pandoc required for --md (brew install pandoc)"
+        return 1
+    fi
+
+    [[ -z "$html_content" ]] && return 0
+
+    # Stage 1: pandoc HTML → Markdown
+    local md
+    md=$(echo "$html_content" | pandoc -f html -t markdown --wrap=auto 2>/dev/null)
+
+    [[ -z "$md" ]] && return 0
+
+    # Stage 2: Clean SafeLinks URLs — extract real URL from Outlook wrapper
+    # Pattern: https://nam02.safelinks.protection.outlook.com/?url=REAL_URL&data=...
+    md=$(echo "$md" | sed -E \
+        -e 's|https://nam[0-9]*\.safelinks\.protection\.outlook\.com/\?url=([^&]*)&[^)]*|\1|g' \
+        -e 's|https://nam[0-9]*\.safelinks\.protection\.outlook\.com/\?url=([^&]*)&[^]]*|\1|g' \
+    )
+
+    # URL-decode %3A → : , %2F → / , %23 → # , %3F → ? , %3D → = , %26 → &
+    md=$(echo "$md" | sed \
+        -e 's/%3A/:/g' -e 's/%3a/:/g' \
+        -e 's/%2F/\//g' -e 's/%2f/\//g' \
+        -e 's/%23/#/g' \
+        -e 's/%3F/?/g' -e 's/%3f/?/g' \
+        -e 's/%3D/=/g' -e 's/%3d/=/g' \
+        -e 's/%26/\&/g' \
+    )
+
+    # Stage 3: Strip Outlook attribute blocks (multi-line aware)
+    # Handles: {originalsrc="..." \n outlook-id="..."}, {style="..."},
+    #          {.elementToProof style="..."}, {#id style="..."}
+    # Also strips: .OWAAutoLink, .x_x_x_OWAAutoLink, lone outlook-id lines
+    md=$(echo "$md" | awk '
+        # Accumulate lines inside { } attribute blocks
+        /\{(originalsrc|\.OWAAutoLink|\.elementToProof|#[a-zA-Z])/ {
+            if (/\}/) { gsub(/\{[^}]*\}/, ""); print; next }
+            buf = $0; eating = 1; next
+        }
+        /\{style="/ {
+            if (/\}/) { gsub(/\{[^}]*\}/, ""); print; next }
+            buf = $0; eating = 1; next
+        }
+        eating {
+            buf = buf $0
+            if (/\}/) {
+                gsub(/\{[^}]*\}/, "", buf)
+                print buf; eating = 0; buf = ""
+            }
+            next
+        }
+        # Strip standalone outlook-id lines
+        /^[> ]*outlook-id="/ { next }
+        # Strip OWA class names
+        /^[> ]*\.x*_*O?WA/ { next }
+        # Strip auth="NotApplicable" lines
+        /^[> ]*auth="NotApplicable"/ { next }
+        { print }
+    ')
+
+    # Stage 4: Strip pandoc fenced div wrappers from Outlook styles
+    # Matches ::: , :::: , :::::::::: etc (with or without attributes)
+    # Also handles > ::: prefixed quoted variants
+    md=$(echo "$md" | sed -E \
+        -e '/^[> ]*:{3,} *\{/d' \
+        -e '/^[> ]*:{3,} *$/d' \
+    )
+
+    # Stage 5: Strip CID image refs and lone backslashes (pandoc <br>)
+    md=$(echo "$md" | sed \
+        -e 's/!\[[^]]*\](cid:[^)]*)//g' \
+        -e '/^\[cid:/d' \
+        -e '/^[> ]*\\$/d' \
+    )
+
+    # Stage 6: Clean escaped quotes and trailing noise
+    md=$(echo "$md" | sed \
+        -e 's/\\""/"/g' \
+        -e 's/\\"/"/g' \
+    )
+
+    # Stage 7: Collapse excessive blank lines (3+ → 2)
+    md=$(echo "$md" | awk '
+        /^[> ]*$/ { blank++; if (blank <= 2) print; next }
+        { blank=0; print }
+    ')
+
+    # Render via glow (best), bat, or plain
+    if command -v glow &>/dev/null; then
+        echo "$md" | glow -
+    elif command -v bat &>/dev/null; then
+        echo "$md" | bat --style=plain --color=always --paging=never --language=markdown
+    else
+        echo "$md"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # EMAIL BODY RENDERER (stdin pipeline)
 # ═══════════════════════════════════════════════════════════════════
 
