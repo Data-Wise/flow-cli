@@ -281,8 +281,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.0.1 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.0.2 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-12 (v7.0.1)
+**Last Updated:** 2026-02-12 (v7.0.2)

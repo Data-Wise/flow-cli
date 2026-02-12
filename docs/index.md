@@ -26,9 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.0.0: Email Dispatcher"
-    New `em` dispatcher — ADHD-friendly email management powered by himalaya. AI classify/summarize/draft, fzf picker, smart rendering, and batch triage with `em respond`.
-    [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
+!!! success "🎉 What's New in v7.0.2: Email Doctor Integration"
+    `flow doctor` now checks email dependencies when the `em` dispatcher is loaded — himalaya version, HTML renderers, OAuth2 proxy, AI backend, plus guided setup wizard and connectivity testing with `--verbose`.
+    [→ Doctor Docs](commands/doctor.md){ .md-button }
     [→ See what's new](CHANGELOG.md){ .md-button }
 
 ---
@@ -277,4 +277,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.0.1** · Pure ZSH · Zero Dependencies · MIT License
+**v7.0.2** · Pure ZSH · Zero Dependencies · MIT License
