@@ -849,7 +849,7 @@ _em_respond() {
         msg_ids+=($(echo "$messages" | jq -r ".[$i].id"))
         msg_subjects+=("$(echo "$messages" | jq -r ".[$i].subject // \"(no subject)\"" | head -c 50)")
         msg_froms+=("$(echo "$messages" | jq -r ".[$i].from.name // .[$i].from.addr // \"unknown\"" | head -c 25)")
-        msg_tos+=("$(echo "$messages" | jq -r '[.[$i].to[]?.addr // empty] | join(",")' 2>/dev/null)")
+        msg_tos+=("$(echo "$messages" | jq -r ".[$i].to.addr // empty" 2>/dev/null)")
     done
 
     local -a actionable_ids=() actionable_cats=()
