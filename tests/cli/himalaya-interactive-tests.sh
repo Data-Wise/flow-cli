@@ -24,6 +24,21 @@ BOLD='\033[1m'
 DIM='\033[2m'
 NC='\033[0m'
 
+# Platform detection
+IS_MACOS=false
+HAS_OBSIDIAN=false
+HAS_REMINDERS=false
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    IS_MACOS=true
+    # Check if Obsidian is installed
+    if [[ -d "/Applications/Obsidian.app" ]] || mdfind "kMDItemCFBundleIdentifier == 'md.obsidian'" 2>/dev/null | head -1 | grep -q .; then
+        HAS_OBSIDIAN=true
+    fi
+    # Reminders.app is always present on macOS
+    HAS_REMINDERS=true
+fi
+
 ask_result() {
     echo ""
     read -p "  Result? (p)ass / (f)ail / (s)kip: " -n 1 -r
@@ -33,6 +48,21 @@ ask_result() {
         f|F) ((FAIL++)) || true; echo -e "  ${RED}FAIL${NC}"; FAILED_TESTS+=("$CURRENT_TEST") ;;
         *)   ((SKIP++)) || true; echo -e "  ${YELLOW}SKIP${NC}"; SKIPPED_TESTS+=("$CURRENT_TEST") ;;
     esac
+}
+
+# Platform-guarded test: auto-skips if requirement not met
+run_test_guarded() {
+    local num="$1" title="$2" guard="$3" guard_msg="$4"
+    shift 4
+    CURRENT_TEST="TEST ${num}: ${title}"
+    if [[ "$guard" != "true" ]]; then
+        ((SKIP++)) || true
+        echo ""
+        echo -e "${BLUE}${BOLD}TEST ${num}: ${title}${NC}"
+        echo -e "  ${YELLOW}AUTO-SKIP${NC}: ${guard_msg}"
+        SKIPPED_TESTS+=("$CURRENT_TEST")
+        return
+    fi
 }
 
 run_test() {
@@ -375,12 +405,19 @@ echo -e "${BOLD}=== RESULT SPLIT KEYBINDS (v2) ===${NC}"
 
 echo ""
 CURRENT_TEST="TEST 32: 'o' — Save to Obsidian"
-echo -e "${BLUE}${BOLD}TEST 32: 'o' — Save to Obsidian${NC}"
-echo -e "  ${DIM}Action:${NC}   Run an AI action (<leader>ms), then press 'o' in the result split"
-echo -e "  ${DIM}Expected:${NC} Notification with Obsidian note path, file created in vault/Inbox"
-echo ""
-echo "  Try in Neovim (open an email first, then <leader>ms → o)"
-ask_result
+if [[ "$HAS_OBSIDIAN" != "true" ]]; then
+    echo -e "${BLUE}${BOLD}TEST 32: 'o' — Save to Obsidian${NC}"
+    echo -e "  ${YELLOW}AUTO-SKIP${NC}: Obsidian not installed"
+    ((SKIP++)) || true
+    SKIPPED_TESTS+=("$CURRENT_TEST")
+else
+    echo -e "${BLUE}${BOLD}TEST 32: 'o' — Save to Obsidian${NC}"
+    echo -e "  ${DIM}Action:${NC}   Run an AI action (<leader>ms), then press 'o' in the result split"
+    echo -e "  ${DIM}Expected:${NC} Notification with Obsidian note path, file created in vault/Inbox"
+    echo ""
+    echo "  Try in Neovim (open an email first, then <leader>ms → o)"
+    ask_result
+fi
 
 echo ""
 CURRENT_TEST="TEST 33: 'r' — Re-run with edited prompt"
@@ -593,21 +630,35 @@ ask_result
 
 echo ""
 CURRENT_TEST="TEST 54: 't' — Send to Obsidian daily note"
-echo -e "${BLUE}${BOLD}TEST 54: 't' — Send to Obsidian daily note${NC}"
-echo -e "  ${DIM}Action:${NC}   Press 't' → Full text → Obsidian daily note"
-echo -e "  ${DIM}Expected:${NC} Content appended to vault/Daily/YYYY-MM-DD.md with title + timestamp"
-echo ""
-echo "  Try in Neovim"
-ask_result
+if [[ "$HAS_OBSIDIAN" != "true" ]]; then
+    echo -e "${BLUE}${BOLD}TEST 54: 't' — Send to Obsidian daily note${NC}"
+    echo -e "  ${YELLOW}AUTO-SKIP${NC}: Obsidian not installed"
+    ((SKIP++)) || true
+    SKIPPED_TESTS+=("$CURRENT_TEST")
+else
+    echo -e "${BLUE}${BOLD}TEST 54: 't' — Send to Obsidian daily note${NC}"
+    echo -e "  ${DIM}Action:${NC}   Press 't' → Full text → Obsidian daily note"
+    echo -e "  ${DIM}Expected:${NC} Content appended to vault/Daily/YYYY-MM-DD.md with title + timestamp"
+    echo ""
+    echo "  Try in Neovim"
+    ask_result
+fi
 
 echo ""
 CURRENT_TEST="TEST 55: 't' — Send to macOS Reminders"
-echo -e "${BLUE}${BOLD}TEST 55: 't' — Send to macOS Reminders${NC}"
-echo -e "  ${DIM}Action:${NC}   Press 't' → Full text → macOS Reminders"
-echo -e "  ${DIM}Expected:${NC} Notification: 'Added to Reminders', new reminder appears in Reminders app"
-echo ""
-echo "  Try in Neovim"
-ask_result
+if [[ "$IS_MACOS" != "true" ]]; then
+    echo -e "${BLUE}${BOLD}TEST 55: 't' — Send to macOS Reminders${NC}"
+    echo -e "  ${YELLOW}AUTO-SKIP${NC}: Not on macOS (Reminders.app required)"
+    ((SKIP++)) || true
+    SKIPPED_TESTS+=("$CURRENT_TEST")
+else
+    echo -e "${BLUE}${BOLD}TEST 55: 't' — Send to macOS Reminders${NC}"
+    echo -e "  ${DIM}Action:${NC}   Press 't' → Full text → macOS Reminders"
+    echo -e "  ${DIM}Expected:${NC} Notification: 'Added to Reminders', new reminder appears in Reminders app"
+    echo ""
+    echo "  Try in Neovim"
+    ask_result
+fi
 
 echo ""
 CURRENT_TEST="TEST 56: Statusline shows new keybinds"

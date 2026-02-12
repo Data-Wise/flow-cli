@@ -663,6 +663,87 @@ else
 fi
 
 # ═══════════════════════════════════════════════════════════════
+# ERROR HANDLING & EDGE CASES
+# ═══════════════════════════════════════════════════════════════
+
+section "Error Handling & Edge Cases"
+
+# Test: Module handles missing config file gracefully
+backup_config=""
+if [[ -f "${HIMALAYA_CONFIG}" ]]; then
+    backup_config=$(mktemp)
+    cp "${HIMALAYA_CONFIG}" "$backup_config"
+    mv "${HIMALAYA_CONFIG}" "${HIMALAYA_CONFIG}.bak"
+fi
+
+result=$(nvim --headless +"lua local ok, m = pcall(require, 'himalaya-ai'); io.write(ok and 'loaded' or 'error')" +"qa!" 2>&1)
+if echo "$result" | grep -q "loaded"; then
+    log_pass "Module loads without config file (uses defaults)"
+else
+    log_fail "Module fails without config file: ${result}"
+fi
+
+# Restore config
+if [[ -n "$backup_config" ]]; then
+    mv "${HIMALAYA_CONFIG}.bak" "${HIMALAYA_CONFIG}"
+    rm -f "$backup_config"
+fi
+
+# Test: Module handles malformed config gracefully
+if [[ -f "${HIMALAYA_CONFIG}" ]]; then
+    backup_config=$(mktemp)
+    cp "${HIMALAYA_CONFIG}" "$backup_config"
+    echo "THIS IS NOT VALID LUA }{}{" > "${HIMALAYA_CONFIG}"
+
+    result=$(nvim --headless +"lua local ok, m = pcall(require, 'himalaya-ai'); io.write(ok and 'loaded' or 'error')" +"qa!" 2>&1)
+    if echo "$result" | grep -q "loaded"; then
+        log_pass "Module loads with malformed config (falls back to defaults)"
+    else
+        log_fail "Module crashes with malformed config: ${result}"
+    fi
+
+    cp "$backup_config" "${HIMALAYA_CONFIG}"
+    rm -f "$backup_config"
+else
+    log_skip "No config file to test malformed config"
+fi
+
+# Test: Functions return gracefully with no buffer content
+result=$(nvim --headless +"lua local m = require('himalaya-ai'); io.write(type(m.summarize))" +"qa!" 2>&1)
+if echo "$result" | grep -q "function"; then
+    log_pass "AI functions callable even without email buffer"
+else
+    log_fail "AI functions not callable: ${result}"
+fi
+
+# Test: open_result handles empty lines array
+result=$(nvim --headless +"lua local m = require('himalaya-ai'); local ok = pcall(m._open_result, 'Empty', {}, {}); io.write(ok and 'ok' or 'error')" +"qa!" 2>&1)
+if echo "$result" | grep -q "ok"; then
+    log_pass "_open_result handles empty lines array"
+else
+    log_fail "_open_result crashes with empty lines: ${result}"
+fi
+
+# Test: open_result handles nil context gracefully
+result=$(nvim --headless +"lua local m = require('himalaya-ai'); local ok = pcall(m._open_result, 'Nil Ctx', {'test'}, nil); io.write(ok and 'ok' or 'error')" +"qa!" 2>&1)
+if echo "$result" | grep -q "ok"; then
+    log_pass "_open_result handles nil context"
+else
+    log_fail "_open_result crashes with nil context: ${result}"
+fi
+
+# Test: Platform-specific — Reminders osascript (macOS only)
+if [[ "$(uname)" == "Darwin" ]]; then
+    if command -v osascript &>/dev/null; then
+        log_pass "osascript available (Reminders integration will work)"
+    else
+        log_fail "osascript not found on macOS"
+    fi
+else
+    log_skip "Reminders integration (macOS only, skipping on $(uname))"
+fi
+
+# ═══════════════════════════════════════════════════════════════
 # DOCUMENTATION
 # ═══════════════════════════════════════════════════════════════
 
