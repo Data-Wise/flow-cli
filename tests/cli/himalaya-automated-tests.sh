@@ -272,6 +272,20 @@ else
     log_fail "Missing <leader>mc keybind"
 fi
 
+# Test: leader-mp (prompt picker)
+if grep -q '<leader>mp' "${KEYMAPS}" 2>/dev/null; then
+    log_pass "Has <leader>mp keybind (prompt picker)"
+else
+    log_fail "Missing <leader>mp keybind"
+fi
+
+# Test: leader-mi (AI status)
+if grep -q '<leader>mi' "${KEYMAPS}" 2>/dev/null; then
+    log_pass "Has <leader>mi keybind (AI status)"
+else
+    log_fail "Missing <leader>mi keybind"
+fi
+
 # Test: Uses lazy require pattern
 if grep -q 'function() require("himalaya-ai")' "${KEYMAPS}" 2>/dev/null; then
     log_pass "Uses lazy require pattern (no eager loading)"
@@ -469,6 +483,75 @@ else
 fi
 
 # ═══════════════════════════════════════════════════════════════
+# V4: POST-AI KEYBINDS (e/c/n/t)
+# ═══════════════════════════════════════════════════════════════
+
+section "V4 Features (post-AI keybinds)"
+
+# Test: Has get_buf_text helper
+if grep -q 'function get_buf_text' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has get_buf_text() helper for dynamic buffer reads"
+else
+    log_fail "Missing get_buf_text helper"
+fi
+
+# Test: Has 'e' keybind (edit toggle)
+if grep -q '"e"' "${HIMALAYA_AI}" 2>/dev/null && grep -q 'modifiable' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has 'e' keybind (edit toggle)"
+else
+    log_fail "Missing 'e' keybind"
+fi
+
+# Test: Has 'c' keybind (revise)
+if grep -q '"c"' "${HIMALAYA_AI}" 2>/dev/null && grep -q 'Revise' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has 'c' keybind (revise with instruction)"
+else
+    log_fail "Missing 'c' keybind"
+fi
+
+# Test: Has 'n' keybind (next action chain)
+if grep -q '"n"' "${HIMALAYA_AI}" 2>/dev/null && grep -q 'Next AI action' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has 'n' keybind (next action chain)"
+else
+    log_fail "Missing 'n' keybind"
+fi
+
+# Test: Has 't' keybind (send to todo)
+if grep -q '"t"' "${HIMALAYA_AI}" 2>/dev/null && grep -q 'send_obsidian\|send_reminders' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has 't' keybind (send to todo)"
+else
+    log_fail "Missing 't' keybind"
+fi
+
+# Test: Has todo_target config
+if grep -q 'todo_target' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has todo_target config option"
+else
+    log_fail "Missing todo_target config"
+fi
+
+# Test: Keybinds use get_buf_text (not captured text variable)
+if grep -q 'get_buf_text()' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Keybinds use get_buf_text() for dynamic buffer reads"
+else
+    log_fail "Keybinds not using get_buf_text()"
+fi
+
+# Test: n keybind offers source selection (original email vs AI result)
+if grep -q 'Original email.*Current AI result' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "'n' keybind offers input source selection"
+else
+    log_fail "'n' keybind missing source selection"
+fi
+
+# Test: Statusline shows new keybinds
+if grep -q 'e=edit.*c=revise.*n=next.*t=todo' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Statusline shows e/c/n/t keybinds"
+else
+    log_fail "Statusline missing new keybinds"
+fi
+
+# ═══════════════════════════════════════════════════════════════
 # HIMALAYAAI COMMAND TESTS (HEADLESS)
 # ═══════════════════════════════════════════════════════════════
 
@@ -508,9 +591,9 @@ else
     log_fail "Completion source missing expected subcommands"
 fi
 
-# Test: Source defines 5 set keys in completion
-if grep -q '"backend".*"vault".*"save_dir".*"format".*"result_display"' "${HIMALAYA_AI}" 2>/dev/null; then
-    log_pass "Completion source has 5 set keys (backend/vault/save_dir/format/result_display)"
+# Test: Source defines 6 set keys in completion
+if grep -q '"backend".*"vault".*"save_dir".*"format".*"result_display".*"todo_target"' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Completion source has 6 set keys (backend/vault/save_dir/format/result_display/todo_target)"
 else
     log_fail "Completion source missing expected set keys"
 fi

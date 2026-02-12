@@ -482,16 +482,152 @@ echo ""
 echo "  Try in Neovim"
 ask_result
 
+echo ""
+CURRENT_TEST="TEST 43: <leader>mp — Prompt picker"
+echo -e "${BLUE}${BOLD}TEST 43: <leader>mp — Prompt picker${NC}"
+echo -e "  ${DIM}Action:${NC}   Press <leader>mp"
+echo -e "  ${DIM}Expected:${NC} vim.ui.select showing: Summarize / Extract Todos / Draft Reply / TL;DR / Compose"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 44: <leader>mi — AI Info/Status"
+echo -e "${BLUE}${BOLD}TEST 44: <leader>mi — AI Info/Status${NC}"
+echo -e "  ${DIM}Action:${NC}   Press <leader>mi"
+echo -e "  ${DIM}Expected:${NC} Status dashboard split showing backend, vault, prompts (same as :HimalayaAi status)"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 45: Which-key shows p=Picker and i=Info"
+echo -e "${BLUE}${BOLD}TEST 45: Which-key shows p=Picker and i=Info${NC}"
+echo -e "  ${DIM}Action:${NC}   Press <leader>m and wait for which-key popup"
+echo -e "  ${DIM}Expected:${NC} Shows p=Prompt picker and i=Status info alongside existing keybinds"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
 # ═══════════════════════════════════════════════════════════════
-# SECTION 10: Tab Completion
+# SECTION 10: Post-AI Keybinds v4 (e/c/n/t)
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo -e "${BOLD}=== POST-AI KEYBINDS V4 (e/c/n/t) ===${NC}"
+
+echo ""
+CURRENT_TEST="TEST 46: 'e' — Edit result (toggle modifiable)"
+echo -e "${BLUE}${BOLD}TEST 46: 'e' — Edit result (toggle modifiable)${NC}"
+echo -e "  ${DIM}Action:${NC}   Run an AI action (<leader>ms), then press 'e' in the result split"
+echo -e "  ${DIM}Expected:${NC} Notification: 'Editable (edits apply to y/s/a/o/p)'"
+echo -e "  ${DIM}Note:${NC}     Edit some text, then press 'y' — clipboard should have edited version"
+echo ""
+echo "  Try in Neovim (open an email first, then <leader>ms → e → edit → y)"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 47: 'e' — Toggle back to read-only"
+echo -e "${BLUE}${BOLD}TEST 47: 'e' — Toggle back to read-only${NC}"
+echo -e "  ${DIM}Action:${NC}   After making buffer editable with 'e', press 'e' again"
+echo -e "  ${DIM}Expected:${NC} Notification: 'Read-only', buffer no longer editable"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 48: 'c' — Revise result"
+echo -e "${BLUE}${BOLD}TEST 48: 'c' — Revise result${NC}"
+echo -e "  ${DIM}Action:${NC}   In a result split, press 'c'"
+echo -e "  ${DIM}Expected:${NC} vim.ui.input prompt: 'Revise:', type instruction (e.g. 'make it shorter')"
+echo -e "  ${DIM}Note:${NC}     AI re-runs with revision instruction, new result split opens"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 49: 'c' — Revised title shows '(revised)'"
+echo -e "${BLUE}${BOLD}TEST 49: 'c' — Revised title shows '(revised)'${NC}"
+echo -e "  ${DIM}Action:${NC}   After pressing 'c' and submitting, check the result split title"
+echo -e "  ${DIM}Expected:${NC} Statusline shows original title + '(revised)'"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 50: 'n' — Next action chain"
+echo -e "${BLUE}${BOLD}TEST 50: 'n' — Next action chain${NC}"
+echo -e "  ${DIM}Action:${NC}   In a result split, press 'n'"
+echo -e "  ${DIM}Expected:${NC} vim.ui.select picker: Summarize / Extract Todos / Draft Reply / TL;DR"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 51: 'n' — Source selection"
+echo -e "${BLUE}${BOLD}TEST 51: 'n' — Source selection${NC}"
+echo -e "  ${DIM}Action:${NC}   After picking an action in 'n', check the source picker"
+echo -e "  ${DIM}Expected:${NC} vim.ui.select: 'Original email' / 'Current AI result'"
+echo -e "  ${DIM}Note:${NC}     'Original email' uses the email you started from; 'Current AI result' chains"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 52: 'n' — Chain TL;DR then Draft Reply"
+echo -e "${BLUE}${BOLD}TEST 52: 'n' — Chain TL;DR then Draft Reply${NC}"
+echo -e "  ${DIM}Action:${NC}   <leader>mc → get TL;DR → press 'n' → Draft Reply → Original email"
+echo -e "  ${DIM}Expected:${NC} New result split with draft reply (chaining works)"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 53: 't' — Send to todo (content picker)"
+echo -e "${BLUE}${BOLD}TEST 53: 't' — Send to todo (content picker)${NC}"
+echo -e "  ${DIM}Action:${NC}   In a result split, press 't'"
+echo -e "  ${DIM}Expected:${NC} vim.ui.select: 'Full text' / 'Action items only'"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 54: 't' — Send to Obsidian daily note"
+echo -e "${BLUE}${BOLD}TEST 54: 't' — Send to Obsidian daily note${NC}"
+echo -e "  ${DIM}Action:${NC}   Press 't' → Full text → Obsidian daily note"
+echo -e "  ${DIM}Expected:${NC} Content appended to vault/Daily/YYYY-MM-DD.md with title + timestamp"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 55: 't' — Send to macOS Reminders"
+echo -e "${BLUE}${BOLD}TEST 55: 't' — Send to macOS Reminders${NC}"
+echo -e "  ${DIM}Action:${NC}   Press 't' → Full text → macOS Reminders"
+echo -e "  ${DIM}Expected:${NC} Notification: 'Added to Reminders', new reminder appears in Reminders app"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 56: Statusline shows new keybinds"
+echo -e "${BLUE}${BOLD}TEST 56: Statusline shows new keybinds${NC}"
+echo -e "  ${DIM}Action:${NC}   Open any AI result split, look at the statusline"
+echo -e "  ${DIM}Expected:${NC} Shows e=edit  c=revise  n=next  t=todo alongside existing keybinds"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+# ═══════════════════════════════════════════════════════════════
+# SECTION 11: Tab Completion
 # ═══════════════════════════════════════════════════════════════
 
 echo ""
 echo -e "${BOLD}=== TAB COMPLETION ===${NC}"
 
 echo ""
-CURRENT_TEST="TEST 43: :HimalayaAi + Tab"
-echo -e "${BLUE}${BOLD}TEST 43: :HimalayaAi + Tab${NC}"
+CURRENT_TEST="TEST 57: :HimalayaAi + Tab"
+echo -e "${BLUE}${BOLD}TEST 57: :HimalayaAi + Tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi (space) then press Tab"
 echo -e "  ${DIM}Expected:${NC} Completion menu: status, prompts, edit, validate, set"
 echo ""
@@ -499,19 +635,28 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-CURRENT_TEST="TEST 44: :HimalayaAi set + Tab"
-echo -e "${BLUE}${BOLD}TEST 44: :HimalayaAi set + Tab${NC}"
+CURRENT_TEST="TEST 58: :HimalayaAi set + Tab"
+echo -e "${BLUE}${BOLD}TEST 58: :HimalayaAi set + Tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi set (space) then press Tab"
-echo -e "  ${DIM}Expected:${NC} Completion menu: backend, vault, save_dir, format, result_display"
+echo -e "  ${DIM}Expected:${NC} Completion menu: backend, vault, save_dir, format, result_display, todo_target"
 echo ""
 echo "  Try in Neovim"
 ask_result
 
 echo ""
-CURRENT_TEST="TEST 45: :HimalayaAi set result_display + Tab"
-echo -e "${BLUE}${BOLD}TEST 45: :HimalayaAi set result_display + Tab${NC}"
+CURRENT_TEST="TEST 59: :HimalayaAi set result_display + Tab"
+echo -e "${BLUE}${BOLD}TEST 59: :HimalayaAi set result_display + Tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi set result_display (space) then press Tab"
 echo -e "  ${DIM}Expected:${NC} Completion menu: split, tab"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+CURRENT_TEST="TEST 60: :HimalayaAi set todo_target + Tab"
+echo -e "${BLUE}${BOLD}TEST 60: :HimalayaAi set todo_target + Tab${NC}"
+echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi set todo_target (space) then press Tab"
+echo -e "  ${DIM}Expected:${NC} Completion menu: obsidian, reminders, ask"
 echo ""
 echo "  Try in Neovim"
 ask_result
