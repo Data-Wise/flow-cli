@@ -13,9 +13,11 @@
 
 **Session activity:**
 - fix: normalize AI classification response (strip whitespace, lowercase) — fixes blank icon
+- fix: jq quoting bug broke listserv detection (single quotes prevented $i expansion + wrong to field access)
 - docs: update 6 files for 9-category classification system (student, colleague, admin-action, etc.)
 - docs: add listserv safety, discard detection, --dry-run example, email FAQ section
 - docs: fix --count→-n flag in tutorial, add cache prune/warm to QUICK-REFERENCE
+- docs: fix 2 broken internal links (ADR-PROCESS-GUIDE, SCHOLAR-INTEGRATION→SCHOLAR-WRAPPERS)
 
 **Test suite:** 45/45 passing, 1 timeout (expected IMAP), 144 test files
 
@@ -82,4 +84,4 @@
 **Status:** em dispatcher docs updated for 9-category system | 45/45 tests passing | 8000+ test functions
 ## wins: Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11), fixed the bug (2026-02-11), Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11)
 ## streak: 1
-## last_active: 2026-02-11 19:46
+## last_active: 2026-02-11 20:12

@@ -285,7 +285,7 @@ teach deploy
 
 **Documentation Reference:**
 
-- [Scholar Integration Guide](guides/SCHOLAR-INTEGRATION.md) - How to use Scholar with flow-cli
+- [Scholar Integration Guide](guides/SCHOLAR-WRAPPERS-GUIDE.md) - How to use Scholar with flow-cli
 - [Scholar Repository](https://github.com/Data-Wise/scholar) - Full documentation
 
 **Scope:** Content generation and quality validation
@@ -313,7 +313,7 @@ The **three guides I just created** cover the **flow-cli teaching workflow ONLY*
    - Use: Creating demonstrations
    - Scope: flow-cli only
 
-**For Scholar teaching commands**, see the [Scholar Integration Guide](guides/SCHOLAR-INTEGRATION.md).
+**For Scholar teaching commands**, see the [Scholar Integration Guide](guides/SCHOLAR-WRAPPERS-GUIDE.md).
 
 ---
 
@@ -321,7 +321,7 @@ The **three guides I just created** cover the **flow-cli teaching workflow ONLY*
 
 Scholar teaching is **fully implemented (v2.0.1)**. See:
 
-- [Scholar Integration Guide](guides/SCHOLAR-INTEGRATION.md) - How to use Scholar with flow-cli
+- [Scholar Integration Guide](guides/SCHOLAR-WRAPPERS-GUIDE.md) - How to use Scholar with flow-cli
 - [Scholar Repository](https://github.com/Data-Wise/scholar) - Full documentation
 - [Scholar API Reference](https://github.com/Data-Wise/scholar/docs/API-REFERENCE.md) - Command details
 
