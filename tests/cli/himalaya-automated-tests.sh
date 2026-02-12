@@ -639,6 +639,30 @@ else
 fi
 
 # ═══════════════════════════════════════════════════════════════
+# HEADLESS KEYBIND TESTS (Lua)
+# ═══════════════════════════════════════════════════════════════
+
+section "Headless Keybind Tests (Lua)"
+
+HEADLESS_TESTS="$(cd "$(dirname "$0")" && pwd)/himalaya-headless-keybind-tests.lua"
+if [[ -f "${HEADLESS_TESTS}" ]]; then
+    headless_output=$(nvim --headless -l "${HEADLESS_TESTS}" 2>&1)
+    headless_exit=$?
+    headless_passed=$(echo "$headless_output" | grep -c "PASS:" || true)
+    headless_failed=$(echo "$headless_output" | grep -c "FAIL:" || true)
+
+    if [[ $headless_exit -eq 0 && $headless_failed -eq 0 ]]; then
+        log_pass "Headless keybind tests: ${headless_passed} passed"
+    else
+        log_fail "Headless keybind tests: ${headless_failed} failed (${headless_passed} passed)"
+        # Show failed tests
+        echo "$headless_output" | grep "FAIL:" | head -10
+    fi
+else
+    log_skip "Headless keybind test file not found"
+fi
+
+# ═══════════════════════════════════════════════════════════════
 # DOCUMENTATION
 # ═══════════════════════════════════════════════════════════════
 
