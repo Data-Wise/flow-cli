@@ -6,6 +6,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.0.1] - 2026-02-12
+
+### Added
+
+- **Himalaya Neovim integration docs** — dedicated setup guide, tutorial, and quick reference for in-editor email with AI actions
+- 3 himalaya test suites with file-existence guards for portability
+- Cross-reference links between CLI and Neovim email documentation
+
+### Fixed
+
+- **MASTER-ARCHITECTURE.md** — added em dispatcher to diagram (was showing 12, now 13), added himalaya CLI to Layer 0 integrations
+- **HIMALAYA-SETUP.md** — restored original CLI setup content that was overwritten by Neovim guide; Neovim content split to `HIMALAYA-NVIM-SETUP.md`
+
+---
+
 ## [7.0.0] - 2026-02-12
 
 ### Added

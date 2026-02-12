@@ -2,7 +2,7 @@
 
 > All `em` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v7.0.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+> **Version:** v7.0.1 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
 
 ## Command Taxonomy
 
@@ -682,6 +682,6 @@ em p                           # Try again
 
 ---
 
-**Version:** v7.0.0
-**Last Updated:** 2026-02-10
+**Version:** v7.0.1
+**Last Updated:** 2026-02-12
 **Commands:** 18 total (4 core + 2 search + 3 AI + 3 info + 3 util + 2 infra + 1 help)
