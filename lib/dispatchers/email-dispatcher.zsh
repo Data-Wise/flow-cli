@@ -243,6 +243,7 @@ _em_inbox() {
 }
 
 _em_read() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="" fmt="plain" raw=false
 
@@ -418,6 +419,7 @@ _em_send() {
 }
 
 _em_reply() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id=""
     local skip_ai=false
@@ -529,25 +531,34 @@ _em_find() {
 
     _flow_log_info "Searching: $query"
 
-    # Single fetch, filter client-side
+    # Server-side IMAP SEARCH via adapter (much faster than client-side)
     local json
-    json=$(_em_hml_list "$FLOW_EMAIL_FOLDER" 100)
+    json=$(_em_hml_search "$query" "$FLOW_EMAIL_FOLDER")
 
-    echo "$json" | jq -r --arg q "$query" '
-        [.[] | select(
-            (.subject | ascii_downcase | contains($q | ascii_downcase)) or
-            (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
-            (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
-        )] | .[] | [.id, .from.name // .from.addr, .subject, (.date | split("T")[0] // .date)] | @tsv' \
+    # Fallback: if server-side search returns empty/error, try client-side
+    if [[ -z "$json" || "$json" == "[]" || "$json" == "null" ]]; then
+        _flow_log_warning "Server search returned no results — trying client-side filter"
+        json=$(_em_hml_list "$FLOW_EMAIL_FOLDER" 100)
+        json=$(echo "$json" | jq --arg q "$query" '
+            [.[] | select(
+                (.subject | ascii_downcase | contains($q | ascii_downcase)) or
+                (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
+                (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
+            )]' 2>/dev/null)
+    fi
+
+    if [[ -z "$json" || "$json" == "[]" || "$json" == "null" ]]; then
+        echo ""
+        echo -e "${_C_DIM}0 results${_C_NC}"
+        return 0
+    fi
+
+    echo "$json" | jq -r '
+        .[] | [.id, .from.name // .from.addr, .subject, (.date | split("T")[0] // .date)] | @tsv' \
         | column -t -s $'\t'
 
     local result_count
-    result_count=$(echo "$json" | jq --arg q "$query" '
-        [.[] | select(
-            (.subject | ascii_downcase | contains($q | ascii_downcase)) or
-            (.from.name // "" | ascii_downcase | contains($q | ascii_downcase)) or
-            (.from.addr // "" | ascii_downcase | contains($q | ascii_downcase))
-        )] | length')
+    result_count=$(echo "$json" | jq 'length' 2>/dev/null)
     echo ""
     echo -e "${_C_DIM}${result_count:-0} results${_C_NC}"
 }
@@ -760,6 +771,7 @@ PREVIEW_EOF
 # ═══════════════════════════════════════════════════════════════════
 
 _em_classify() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
@@ -787,6 +799,7 @@ _em_classify() {
 }
 
 _em_summarize() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
@@ -1105,9 +1118,10 @@ _em_dash() {
     echo ""
     echo -e "${_C_DIM}Full inbox:${_C_NC} ${_C_CYAN}em i${_C_NC}  ${_C_DIM}Browse:${_C_NC} ${_C_CYAN}em p${_C_NC}  ${_C_DIM}Help:${_C_NC} ${_C_CYAN}em h${_C_NC}"
 
-    # Background maintenance: prune expired + warm AI cache
+    # Background maintenance: prune expired cache entries
     _em_cache_prune &>/dev/null &
-    _em_cache_warm 10 &>/dev/null &
+    # Cache warming (opt-in via config)
+    [[ "$FLOW_EMAIL_CACHE_WARM" == "true" ]] && _em_cache_warm 10 &>/dev/null &
 }
 
 _em_folders() {
@@ -1120,6 +1134,7 @@ _em_folders() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_html() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
@@ -1140,6 +1155,7 @@ _em_html() {
 }
 
 _em_attach() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
