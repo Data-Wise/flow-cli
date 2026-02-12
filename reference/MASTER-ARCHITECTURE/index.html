@@ -8532,8 +8532,8 @@
 <p><strong>Purpose:</strong> Complete system architecture documentation for flow-cli
 <strong>Audience:</strong> Contributors, maintainers, advanced users
 <strong>Format:</strong> Design decisions, diagrams, implementation details
-<strong>Version:</strong> v5.17.0-dev
-<strong>Last Updated:</strong> 2026-01-24</p>
+<strong>Version:</strong> v7.0.0
+<strong>Last Updated:</strong> 2026-02-12</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
 <ul>
@@ -8554,7 +8554,7 @@
 <pre class="mermaid"><code>graph TD
     User[User] --&gt; CLI[flow.plugin.zsh Entry Point]
     CLI --&gt; Core[Core Library]
-    CLI --&gt; Dispatchers[12 Dispatchers]
+    CLI --&gt; Dispatchers[13 Dispatchers]
     CLI --&gt; Commands[Core Commands]
 
     Core --&gt; Utils[Utilities]
@@ -8573,6 +8573,7 @@
     Dispatchers --&gt; TM[tm - Terminal]
     Dispatchers --&gt; PROMPT[prompt - Prompt Engine]
     Dispatchers --&gt; V[v - Vibe Mode]
+    Dispatchers --&gt; EM[em - Email]
 
     Commands --&gt; Work[work/finish/hop]
     Commands --&gt; Dash[dash - Dashboard]
@@ -8587,7 +8588,8 @@
     DOT --&gt; Keychain[macOS Keychain]
     G --&gt; GitHub[GitHub API]
     TEACH --&gt; Scholar[Scholar CLI]
-    MCP --&gt; MCPServers[MCP Servers]</code></pre>
+    MCP --&gt; MCPServers[MCP Servers]
+    EM --&gt; Himalaya[himalaya CLI]</code></pre>
 <hr />
 <h3 id="layer-architecture">Layer Architecture<a class="headerlink" href="#layer-architecture" title="Permanent link">&para;</a></h3>
 <p>flow-cli follows a layered architecture:</p>
@@ -8627,7 +8629,8 @@
 <a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>│  - GitHub API                                                │
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>│  - Scholar CLI                                               │
 <a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>│  - MCP Servers                                               │
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>└─────────────────────────────────────────────────────────────┘
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>│  - himalaya CLI (IMAP/SMTP email)                            │
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>└─────────────────────────────────────────────────────────────┘
 </code></pre></div>
 <p><strong>Benefits:</strong>
 - <strong>Separation of concerns:</strong> Each layer has single responsibility
@@ -9390,8 +9393,8 @@
 <li><a href="../../guides/TESTING/">TESTING.md</a> - Testing guide</li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v5.17.0-dev
-<strong>Last Updated:</strong> 2026-01-24
+<p><strong>Version:</strong> v7.0.0
+<strong>Last Updated:</strong> 2026-02-12
 <strong>Diagrams:</strong> 8 Mermaid diagrams
 <strong>Total:</strong> 2,500+ lines</p>
 
