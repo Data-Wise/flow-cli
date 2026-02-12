@@ -313,7 +313,24 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 29: :HimalayaAi validate summarize${NC}"
+echo -e "${BLUE}${BOLD}TEST 29: :HimalayaAi set result_display tab${NC}"
+echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi set result_display tab"
+echo -e "  ${DIM}Expected:${NC} Notification: 'Result display → tab (persisted)'"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 30: Verify tab display mode${NC}"
+echo -e "  ${DIM}Action:${NC}   Run an AI action (e.g. <leader>ms) after setting result_display to tab"
+echo -e "  ${DIM}Expected:${NC} Result opens in a new tab instead of bottom split"
+echo -e "  ${DIM}Restore:${NC}  Run :HimalayaAi set result_display split to reset"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 31: :HimalayaAi validate summarize${NC}"
 echo -e "  ${DIM}Action:${NC}   Run :HimalayaAi validate summarize (with or without email open)"
 echo -e "  ${DIM}Expected:${NC} AI runs on sample/buffer email, result split appears with summary"
 echo -e "  ${DIM}Note:${NC}     May take 2-5s for backend to respond"
@@ -329,7 +346,7 @@ echo ""
 echo -e "${BOLD}=== RESULT SPLIT KEYBINDS (v2) ===${NC}"
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 30: 'o' — Save to Obsidian${NC}"
+echo -e "${BLUE}${BOLD}TEST 32: 'o' — Save to Obsidian${NC}"
 echo -e "  ${DIM}Action:${NC}   Run an AI action (<leader>ms), then press 'o' in the result split"
 echo -e "  ${DIM}Expected:${NC} Notification with Obsidian note path, file created in vault/Inbox"
 echo ""
@@ -337,7 +354,7 @@ echo "  Try in Neovim (open an email first, then <leader>ms → o)"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 31: 'r' — Re-run with edited prompt${NC}"
+echo -e "${BLUE}${BOLD}TEST 33: 'r' — Re-run with edited prompt${NC}"
 echo -e "  ${DIM}Action:${NC}   In a result split, press 'r'"
 echo -e "  ${DIM}Expected:${NC} vim.ui.input appears with editable prompt, submitting re-runs AI"
 echo ""
@@ -345,7 +362,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 32: 'a' — Append to file${NC}"
+echo -e "${BLUE}${BOLD}TEST 34: 'a' — Append to file${NC}"
 echo -e "  ${DIM}Action:${NC}   In a result split, press 'a'"
 echo -e "  ${DIM}Expected:${NC} Prompted for file path (with completion), content appended on confirm"
 echo ""
@@ -353,7 +370,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 33: 'p' — Paste into reply${NC}"
+echo -e "${BLUE}${BOLD}TEST 35: 'p' — Paste into reply${NC}"
 echo -e "  ${DIM}Action:${NC}   In a result split (from draft_reply), press 'p'"
 echo -e "  ${DIM}Expected:${NC} Content copied to register, reply compose opens, draft pasted"
 echo -e "  ${DIM}Note:${NC}     Close reply with :q! to avoid sending"
@@ -369,7 +386,7 @@ echo ""
 echo -e "${BOLD}=== INTERACTIVE PROMPTS & COMPOSE (v3) ===${NC}"
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 34: Draft Reply asks for instructions${NC}"
+echo -e "${BLUE}${BOLD}TEST 36: Draft Reply asks for instructions${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email, press <leader>mr"
 echo -e "  ${DIM}Expected:${NC} vim.ui.input prompt: 'Reply instructions (Enter=default):'"
 echo -e "  ${DIM}Note:${NC}     Type instructions (e.g. 'be firm about deadline') or press Enter to skip"
@@ -378,7 +395,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 35: Draft Reply with custom instructions${NC}"
+echo -e "${BLUE}${BOLD}TEST 37: Draft Reply with custom instructions${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>mr, type 'decline politely, suggest next week'"
 echo -e "  ${DIM}Expected:${NC} AI generates reply that follows your instructions"
 echo ""
@@ -386,7 +403,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 36: Draft Reply with Enter (default)${NC}"
+echo -e "${BLUE}${BOLD}TEST 38: Draft Reply with Enter (default)${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>mr, press Enter immediately (no instructions)"
 echo -e "  ${DIM}Expected:${NC} AI generates reply with default prompt (same as before)"
 echo ""
@@ -394,7 +411,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 37: Compose email (<leader>mw)${NC}"
+echo -e "${BLUE}${BOLD}TEST 39: Compose email (<leader>mw)${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>mw"
 echo -e "  ${DIM}Expected:${NC} vim.ui.input prompt: 'What to write about:'"
 echo -e "  ${DIM}Note:${NC}     Type a topic (e.g. 'meeting reschedule to Friday')"
@@ -403,7 +420,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 38: Compose cancel (Esc)${NC}"
+echo -e "${BLUE}${BOLD}TEST 40: Compose cancel (Esc)${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>mw, then press Esc"
 echo -e "  ${DIM}Expected:${NC} 'Compose cancelled' notification, no AI call"
 echo ""
@@ -411,7 +428,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 39: Summarize skips input by default${NC}"
+echo -e "${BLUE}${BOLD}TEST 41: Summarize skips input by default${NC}"
 echo -e "  ${DIM}Action:${NC}   Open an email, press <leader>ms"
 echo -e "  ${DIM}Expected:${NC} AI runs immediately (no input prompt — ask_before=false)"
 echo ""
@@ -419,7 +436,7 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 40: Which-key shows compose keybind${NC}"
+echo -e "${BLUE}${BOLD}TEST 42: Which-key shows compose keybind${NC}"
 echo -e "  ${DIM}Action:${NC}   Press <leader>m and wait for which-key popup"
 echo -e "  ${DIM}Expected:${NC} Shows w=Compose email (new keybind)"
 echo ""
@@ -434,7 +451,7 @@ echo ""
 echo -e "${BOLD}=== TAB COMPLETION ===${NC}"
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 41: :HimalayaAi + Tab${NC}"
+echo -e "${BLUE}${BOLD}TEST 43: :HimalayaAi + Tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi (space) then press Tab"
 echo -e "  ${DIM}Expected:${NC} Completion menu: status, prompts, edit, validate, set"
 echo ""
@@ -442,9 +459,17 @@ echo "  Try in Neovim"
 ask_result
 
 echo ""
-echo -e "${BLUE}${BOLD}TEST 42: :HimalayaAi set + Tab${NC}"
+echo -e "${BLUE}${BOLD}TEST 44: :HimalayaAi set + Tab${NC}"
 echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi set (space) then press Tab"
-echo -e "  ${DIM}Expected:${NC} Completion menu: backend, vault, save_dir, format"
+echo -e "  ${DIM}Expected:${NC} Completion menu: backend, vault, save_dir, format, result_display"
+echo ""
+echo "  Try in Neovim"
+ask_result
+
+echo ""
+echo -e "${BLUE}${BOLD}TEST 45: :HimalayaAi set result_display + Tab${NC}"
+echo -e "  ${DIM}Action:${NC}   Type :HimalayaAi set result_display (space) then press Tab"
+echo -e "  ${DIM}Expected:${NC} Completion menu: split, tab"
 echo ""
 echo "  Try in Neovim"
 ask_result
