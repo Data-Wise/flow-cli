@@ -38,7 +38,7 @@ flow doctor --category required
 
 ## Quick Summary
 
-The `doctor` command checks all flow-cli dependencies across multiple categories (required, recommended, optional, integrations, ZSH plugins). It can also interactively or automatically install missing tools using Homebrew, npm, or pip.
+The `doctor` command checks all flow-cli dependencies across multiple categories (required, recommended, optional, integrations, email, ZSH plugins). It can also interactively or automatically install missing tools using Homebrew, npm, or pip. When the `em` email dispatcher is loaded, an EMAIL section checks himalaya and all email-specific dependencies.
 
 ---
 
@@ -86,13 +86,14 @@ flow doctor --verbose
 
 ## Options
 
-| Option      | Short | Description                                |
-| ----------- | ----- | ------------------------------------------ |
-| `--fix`     | `-f`  | Enable fix mode (install missing tools)    |
-| `--yes`     | `-y`  | Auto-confirm all installs (use with --fix) |
-| `--ai`      | `-a`  | AI-assisted troubleshooting via Claude CLI |
-| `--verbose` | `-v`  | Show additional diagnostic information     |
-| `--help`    | `-h`  | Show help                                  |
+| Option       | Short | Description                                    |
+| ------------ | ----- | ---------------------------------------------- |
+| `--fix`      | `-f`  | Enable fix mode (install missing tools)        |
+| `--yes`      | `-y`  | Auto-confirm all installs (use with --fix)     |
+| `--ai`       | `-a`  | AI-assisted troubleshooting via Claude CLI     |
+| `--verbose`  | `-v`  | Show additional diagnostic information         |
+| `--quiet`    | `-q`  | Minimal output (errors only)                   |
+| `--help`     | `-h`  | Show help                                      |
 
 ---
 
@@ -131,6 +132,19 @@ flow doctor --verbose
 | ---------- | ----------------------------------- | ----------- |
 | **atlas**  | Session tracking & state management | npm         |
 | **radian** | Enhanced R console (if R installed) | pip         |
+
+### Email (conditional — when `em` dispatcher loaded)
+
+| Tool                     | Level       | Purpose                   | Install Via |
+| ------------------------ | ----------- | ------------------------- | ----------- |
+| **himalaya**             | required    | Email CLI backend         | brew        |
+| **w3m/lynx/pandoc**      | recommended | HTML rendering (any-of)   | brew        |
+| **glow**                 | recommended | Markdown rendering        | brew        |
+| **email-oauth2-proxy**   | recommended | OAuth2 for Gmail/Outlook  | pip         |
+| **terminal-notifier**    | optional    | Desktop notifications     | brew        |
+| **claude/gemini**        | conditional | AI backend (per `$FLOW_EMAIL_AI`) | varies |
+
+> This section only appears when `em()` is loaded. Shared deps (fzf, bat, jq) are checked in earlier sections and skipped here.
 
 ### ZSH Plugins (via antidote)
 
@@ -177,6 +191,22 @@ flow doctor --verbose
 🔌 INTEGRATIONS
   ✓ atlas        1.2.0
   ✓ radian       0.6.7
+
+📧 EMAIL (himalaya)
+  ✓ himalaya         1.1.0
+    ✓ himalaya version >= 1.0.0
+  ✓ w3m              w3m/0.5.3+git20230121  (HTML rendering)
+  ✓ glow             2.1.1                  (Markdown rendering)
+  ○ email-oauth2-proxy                      pip install email-oauth2-proxy
+  ✓ terminal-notifier 2.0.0                 (Desktop notifications)
+  ✓ claude           2.1.39                 (AI backend)
+
+  Config:
+    AI backend:  claude
+    AI timeout:  30s
+    Page size:   25
+    Folder:      INBOX
+    Config file: ~/.config/himalaya/config.toml
 
 🔧 ZSH PLUGINS (via antidote)
   ✓ powerlevel10k
@@ -244,6 +274,25 @@ Install dust? (y/N) n
 ✅ Installed 2 tools, skipped 1
 ```
 
+### Fix Mode with Email (`--fix`)
+
+When email dependencies are missing, the fix menu includes an Email Tools category:
+
+```
+╭─ Select Category to Fix ────────────────────────╮
+│                                                  │
+│  1. 📦 Missing Tools (2 tools, ~1m)              │
+│  2. 📧 Email Tools (3 issues, ~1m 30s)           │
+│                                                  │
+│  3. ✨ Fix All Categories (~2m 30s)              │
+│                                                  │
+│  0. Exit without fixing                          │
+│                                                  │
+╰──────────────────────────────────────────────────╯
+```
+
+Email fix mode installs missing brew packages (himalaya, glow, w3m, terminal-notifier) and pip packages (email-oauth2-proxy). If no himalaya config is found, it offers a guided setup wizard.
+
 ### Auto-Fix (`--fix -y`)
 
 Installs all missing without prompts:
@@ -265,6 +314,63 @@ Auto-installing 3 missing tools...
 ────────────────────────────────────────────────
 ✅ Installed 3 tools
 ```
+
+---
+
+## Verbose Mode (Email Connectivity)
+
+When the `em` dispatcher is loaded, `--verbose` runs email connectivity tests:
+
+```bash
+$ flow doctor --verbose
+
+# ... normal check output ...
+
+📧 EMAIL (himalaya)
+  ✓ himalaya         1.1.0
+    ✓ himalaya version >= 1.0.0
+  ✓ w3m              w3m/0.5.3  (HTML rendering)
+  ✓ glow             2.1.1      (Markdown rendering)
+
+  🔗 Connectivity:
+    ✓ himalaya config found
+    ✓ IMAP connection OK (1 message fetched)
+    ⚠ OAuth2 proxy not running
+    ✓ SMTP config present
+```
+
+Connectivity checks have a 5-second timeout per test (15s max total). All failures are shown as warnings, not errors.
+
+---
+
+## Guided Email Setup
+
+When running `--fix` mode with no himalaya config found, `flow doctor` offers a guided setup wizard:
+
+```bash
+$ flow doctor --fix
+
+📧 Email Setup Wizard
+No himalaya configuration found.
+
+Email address: user@gmail.com
+✓ Detected provider: Gmail
+
+Setting up Gmail with OAuth2...
+  IMAP: imap.gmail.com:993
+  SMTP: smtp.gmail.com:465
+
+Generated: ~/.config/himalaya/config.toml
+
+Set up OAuth2 proxy for Gmail? (Y/n) y
+⏳ Configuring email-oauth2-proxy...
+✓ OAuth2 proxy configured
+
+Testing connectivity...
+✓ IMAP connection OK
+```
+
+The wizard auto-detects providers (Gmail, Outlook, Yahoo, iCloud) and configures appropriate IMAP/SMTP settings.
 
 ---
 
@@ -312,11 +418,12 @@ flow doctor
 
 ## Related Commands
 
-| Command        | Purpose                    |
-| -------------- | -------------------------- |
-| `flow help`    | Show all flow-cli commands |
-| `flow version` | Show flow-cli version      |
-| `man flow`     | View man page              |
+| Command        | Purpose                             |
+| -------------- | ----------------------------------- |
+| `flow help`    | Show all flow-cli commands          |
+| `flow version` | Show flow-cli version               |
+| `em doctor`    | Email-specific health check         |
+| `man flow`     | View man page                       |
 
 ---
 
@@ -379,6 +486,11 @@ export PATH=~/.npm-global/bin:$PATH
 - `_doctor_check_cmd()` - Check individual command
 - `_doctor_check_zsh_plugin()` - Check ZSH plugin
 - `_doctor_install()` - Install missing tool
+- `_doctor_check_email()` - Check all email dependencies (conditional on `em()`)
+- `_doctor_check_email_cmd()` - Check individual email command with level tracking
+- `_doctor_email_connectivity()` - IMAP/SMTP/OAuth2 connectivity tests (verbose mode)
+- `_doctor_email_setup()` - Guided himalaya config wizard (fix mode)
+- `_doctor_fix_email()` - Install missing email packages (fix mode)
 - `_doctor_help()` - Display help
 
 ---
@@ -392,6 +504,7 @@ The `doctor` command follows these principles:
 3. **Progressive** - Start with check, graduate to fix if needed
 4. **Multi-Manager** - Supports Homebrew, npm, and pip package managers
 5. **AI-Augmented** - Optional Claude integration for smart troubleshooting
+6. **Conditional** - Email section only appears when `em` dispatcher is loaded
 
 ---
 
@@ -400,9 +513,11 @@ The `doctor` command follows these principles:
 - [Setup Guide](../getting-started/quick-start.md) - First-time setup
 - [Brewfile](https://github.com/Data-Wise/flow-cli/blob/main/setup/Brewfile) - All recommended tools
 - [DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md) - Command reference
+- [Email Dispatcher Guide](../guides/EMAIL-DISPATCHER-GUIDE.md) - Email workflow docs
+- [Email Dispatcher Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) - Email quick reference
 
 ---
 
-**Last Updated:** 2026-01-07
-**Command Version:** v4.8.0 (doctor v1.0)
-**Status:** ✅ Production ready with interactive install
+**Last Updated:** 2026-02-12
+**Command Version:** v7.0.1 (doctor v2.0 — email integration)
+**Status:** ✅ Production ready with interactive install + email diagnostics
