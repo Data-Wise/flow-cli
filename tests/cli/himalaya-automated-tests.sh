@@ -399,6 +399,76 @@ else
 fi
 
 # ═══════════════════════════════════════════════════════════════
+# V3: INTERACTIVE PROMPTS & COMPOSE
+# ═══════════════════════════════════════════════════════════════
+
+section "V3 Features (interactive prompts)"
+
+# Test: Has run_ai_with_input wrapper
+if grep -q 'function run_ai_with_input' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has run_ai_with_input() wrapper"
+else
+    log_fail "Missing run_ai_with_input function"
+fi
+
+# Test: Has M.compose function
+if grep -q 'function M.compose' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has M.compose() function"
+else
+    log_fail "Missing compose function"
+fi
+
+# Test: Has ask_before config
+if grep -q 'ask_before' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has ask_before config table"
+else
+    log_fail "Missing ask_before config"
+fi
+
+# Test: Has input_hints table
+if grep -q 'input_hints' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "Has input_hints table for per-action prompts"
+else
+    log_fail "Missing input_hints table"
+fi
+
+# Test: run_ai accepts instructions param
+if grep -q 'function run_ai(prompt_key, title, instructions)' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "run_ai() accepts instructions parameter"
+else
+    log_fail "run_ai() missing instructions parameter"
+fi
+
+# Test: M.compose is callable in headless
+result=$(nvim --headless +"lua io.write(type(require('himalaya-ai').compose))" +"qa!" 2>&1)
+if echo "$result" | grep -q "function"; then
+    log_pass "M.compose is callable"
+else
+    log_fail "M.compose not a function: ${result}"
+fi
+
+# Test: leader-mw keybind (compose)
+if grep -q '<leader>mw' "${KEYMAPS}" 2>/dev/null; then
+    log_pass "Has <leader>mw keybind (compose)"
+else
+    log_fail "Missing <leader>mw keybind"
+fi
+
+# Test: draft_reply defaults to ask_before=true
+if grep -q 'draft_reply = true' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "draft_reply has ask_before=true by default"
+else
+    log_fail "draft_reply ask_before not true"
+fi
+
+# Test: persist_config handles same-value (no-op = success)
+if grep -q 'no-op is success' "${HIMALAYA_AI}" 2>/dev/null; then
+    log_pass "persist_config handles same-value as success"
+else
+    log_fail "persist_config missing same-value fix"
+fi
+
+# ═══════════════════════════════════════════════════════════════
 # HIMALAYAAI COMMAND TESTS (HEADLESS)
 # ═══════════════════════════════════════════════════════════════
 
