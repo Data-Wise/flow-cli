@@ -6,6 +6,36 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.0.2] - 2026-02-12
+
+### Added
+
+- **Email doctor integration** — `flow doctor` now includes an EMAIL section when the `em` dispatcher is loaded
+  - `_doctor_check_email()` — checks himalaya (required, version >= 1.0.0), w3m/lynx/pandoc (any-of), glow, email-oauth2-proxy, terminal-notifier, AI backend (claude/gemini)
+  - `_doctor_check_email_cmd()` — per-dep checker with level tracking (required/recommended/optional/conditional)
+  - `_doctor_email_connectivity()` — IMAP ping, OAuth2 proxy status, SMTP config validation (verbose mode, 5s timeout per test)
+  - `_doctor_email_setup()` — guided himalaya config wizard with provider auto-detection (Gmail, Outlook, Yahoo, iCloud)
+  - `_doctor_fix_email()` — install missing email brew/pip packages in fix mode
+  - Conditional gate: EMAIL section only appears when `em()` function is loaded
+  - Config summary: AI backend, timeout, page size, folder, config file path
+  - Deduplication: shared deps (fzf, bat, jq) checked in earlier sections, skipped in email
+- **Email category in fix mode menu** — `flow doctor --fix` includes "Email Tools" category with brew + pip install support
+- **56 new test assertions** across 3 email doctor test suites:
+  - `test-doctor-email.zsh` (13 tests) — function existence, conditional gates, tracking arrays, config summary, semver comparison
+  - `test-doctor-email-e2e.zsh` (20 tests) — full E2E with PATH manipulation, fake binaries, isolated XDG config
+  - `test-doctor-email-interactive.zsh` (23 tests) — headless interactive testing: confirm branching, menu selection, install simulation, guided setup wizard, cancel/edge cases
+
+### Fixed
+
+- **`_doctor_select_fix_category` crash** — `${[[ ... ]]}` inline plural pattern inside associative array assignments caused "bad output format specification" → replaced with pre-computed suffix variables for all 4 category_info lines (tokens, tools, aliases, email)
+
+### Documentation
+
+- Updated `docs/commands/doctor.md` — EMAIL dependency table, verbose connectivity section, fix mode email example, guided setup wizard, updated key functions list
+- Updated `docs/reference/REFCARD-DOCTOR.md` — EMAIL category (#6→#11), email in fix mode menu, `--yes`/`-y` option, email integration entry
+
+---
+
 ## [7.0.1] - 2026-02-12
 
 ### Added
