@@ -219,9 +219,10 @@ nav:
           - Guide: guides/EMAIL-DISPATCHER-GUIDE.md
           - Tutorial: guides/EMAIL-TUTORIAL.md
           - Quick Reference: reference/REFCARD-EMAIL-DISPATCHER.md
-      # - Editor (Neovim):                    # uncomment when feature/nvim-himalaya-integration ships
-      #     - Guide: guides/NVIM-HIMALAYA-GUIDE.md
-      #     - Quick Reference: reference/REFCARD-NVIM-EMAIL.md
+      - Editor (Neovim):
+          - Guide: guides/HIMALAYA-NVIM-SETUP.md
+          - Tutorial: tutorials/33-himalaya-email.md
+          - Quick Reference: reference/REFCARD-HIMALAYA.md
   # ── Workflows & Guides (merged: Workflows + Guides) ──────────────
   - 🔧 Workflows & Guides:
       - guides/index.md

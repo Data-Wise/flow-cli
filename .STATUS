@@ -7,28 +7,37 @@
 ## Focus: --help
 ## Phase: Active Development
 ## Priority: 2
-## Progress: 100
+## Progress: 85
 
-## Current Session (2026-02-11)
+## Current Session (2026-02-12)
 
 **Session activity:**
-- fix: normalize AI classification response (strip whitespace, lowercase) — fixes blank icon
-- fix: jq quoting bug broke listserv detection (single quotes prevented $i expansion + wrong to field access)
-- docs: update 6 files for 9-category classification system (student, colleague, admin-action, etc.)
-- docs: add listserv safety, discard detection, --dry-run example, email FAQ section
-- docs: fix --count→-n flag in tutorial, add cache prune/warm to QUICK-REFERENCE
-- docs: fix 2 broken internal links (ADR-PROCESS-GUIDE, SCHOLAR-INTEGRATION→SCHOLAR-WRAPPERS)
+- review: code review of PR #377 (nvim himalaya integration) — 3 critical fixes
+- fix: restored HIMALAYA-SETUP.md CLI docs, split Neovim guide, added test guards
+- merge: PR #377 merged to dev
+- docs: post-merge documentation update (file counts, nav verified, changelog)
 
-**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 144 test files
+**Previous session (2026-02-11):**
+- release: v7.0.0 — Email Dispatcher released
+- merge: PR #376 merged (dev → main), tagged v7.0.0
+- merge: PR #375 merged to dev (52 commits, 11,528 additions)
+
+**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 181 test files
 
 ---
 
 ## Recent Releases
 
+### v7.0.0 (2026-02-11) — Email Dispatcher
+- 13th dispatcher: `em` — ADHD-friendly email management via himalaya
+- 18 subcommands, 6-layer architecture, AI classify/summarize/draft
+- fzf picker, smart rendering, batch triage with `em respond`
+- 181 test files, 45/45 suites passing
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.0.0
+
 ### v6.7.1 (2026-02-10) — Fix #372 + Branch Sync
 - False positive conflict detection fix (--no-merges filter)
 - Auto back-merge, `teach deploy --sync`, always block cleanup
-- 23 new test assertions
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.7.1
 
 ### v6.7.0 (2026-02-10) — Math Preflight + Quality Gates
@@ -37,12 +46,7 @@
 
 ### v6.6.0 (2026-02-09) — Teach Map + Deploy Safety
 - `teach map` — unified ecosystem discovery command
-- Deploy safety: trap handler, uncommitted prompt, hook recovery, Actions link
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.6.0
-
-### v6.5.0 (2026-02-08) — Teach Doctor v2
-- Two-mode health check architecture (quick + full)
-- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.5.0
 
 ---
 
@@ -50,11 +54,16 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | Clean, synced with main |
+| Main repo | `dev` | v7.0.0 released, synced with main |
+| `feature-nvim-himalaya-integration` | `feature/nvim-himalaya-integration` | Merged (PR #377), worktree can be removed |
 
 ---
 
 ## Pending
+
+### Homebrew Formula Update
+- **Status:** Needs v7.0.0 formula update in homebrew-tap
+- **Effort:** 15 min
 
 ### Feature Request #299: Scholar Config Sync
 - **Status:** Ready to implement (#298 complete)
@@ -74,14 +83,15 @@
 
 ## Next Action
 
-1. **Scholar Config Sync (#299)** — next feature candidate
-2. API documentation push (50% → 80%)
-3. Update Homebrew formula for v6.7.1
+1. **Homebrew formula** — update tap for v7.0.0
+2. **Worktree cleanup** — remove feature-nvim-himalaya-integration
+3. Scholar Config Sync (#299) — next feature candidate
+4. API documentation push (50% → 80%)
 
 ---
 
-**Last Updated:** 2026-02-11
-**Status:** em dispatcher docs updated for 9-category system | 45/45 tests passing | 8000+ test functions
-## wins: Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11), fixed the bug (2026-02-11), Fixed the regression bug (2026-02-11), --category fix squashed the bug (2026-02-11)
+**Last Updated:** 2026-02-12
+**Status:** v7.0.1 released | 45/45 tests passing | 13 dispatchers | 181 test files | 8000+ test functions
+## wins: Fixed the regression bug (2026-02-12), --category fix squashed the bug (2026-02-12), fixed the bug (2026-02-12), Fixed the regression bug (2026-02-12), --category fix squashed the bug (2026-02-12)
 ## streak: 1
-## last_active: 2026-02-11 20:34
+## last_active: 2026-02-12 10:04

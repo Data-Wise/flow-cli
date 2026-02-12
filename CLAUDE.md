@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.0.0
+- **Current Version:** v7.0.1
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -186,7 +186,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 148 test files, 8000+ test functions
+├── tests/                    # 181 test files, 8000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -253,7 +253,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**148 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
+**181 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -281,8 +281,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.0.0 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.0.1 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-10 (v7.0.0)
+**Last Updated:** 2026-02-12 (v7.0.1)

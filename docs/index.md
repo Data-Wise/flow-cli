@@ -171,6 +171,16 @@ Choose your path based on what you need right now:
 
     [→ Dopamine Guide](tutorials/06-dopamine-features.md)
 
+-   :email:{ .lg .middle }
+    **Email Management**
+
+    ---
+
+    CLI + Neovim email with himalaya
+
+    [→ CLI Guide](guides/EMAIL-DISPATCHER-GUIDE.md) ·
+    [→ Neovim Setup](guides/HIMALAYA-NVIM-SETUP.md)
+
 -   :compass:{ .lg .middle }
     **Command Reference**
 
@@ -197,15 +207,6 @@ Choose your path based on what you need right now:
     Solve specific problems fast
 
     [→ Workflows](guides/WORKFLOWS-QUICK-WINS.md)
-
--   :email:{ .lg .middle }
-    **Email Management**
-
-    ---
-
-    AI-powered email with himalaya
-
-    [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md)
 
 </div>
 
@@ -276,4 +277,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.0.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.0.1** · Pure ZSH · Zero Dependencies · MIT License

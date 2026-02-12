@@ -6,6 +6,9 @@
 **Read Time:** 60 minutes hands-on (10 parts)
 **Difficulty:** Beginner-friendly
 
+!!! tip "Prefer reading email in Neovim?"
+    This tutorial covers the **terminal CLI** (`em` dispatcher). For in-editor email with AI actions, see the [Neovim Himalaya Tutorial](../tutorials/33-himalaya-email.md).
+
 ---
 
 ## 🎯 What You'll Learn
