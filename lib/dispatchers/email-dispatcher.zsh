@@ -145,7 +145,7 @@ ${_C_BOLD}Usage:${_C_NC} em [subcommand] [args]
 
 ${_C_GREEN}MOST COMMON${_C_NC} ${_C_DIM}(daily workflow)${_C_NC}:
   ${_C_CYAN}em${_C_NC}                 Quick pulse (unread + 10 latest)
-  ${_C_CYAN}em read <ID>${_C_NC}      Read email (--html, --raw)
+  ${_C_CYAN}em read <ID>${_C_NC}      Read email (--html, --md, --raw)
   ${_C_CYAN}em reply <ID>${_C_NC}     AI-draft reply in \$EDITOR
   ${_C_CYAN}em send${_C_NC}           Compose new email
   ${_C_CYAN}em pick${_C_NC}           fzf email browser
@@ -154,6 +154,7 @@ ${_C_YELLOW}QUICK EXAMPLES${_C_NC}:
   ${_C_DIM}\$${_C_NC} em                      ${_C_DIM}# Quick pulse check${_C_NC}
   ${_C_DIM}\$${_C_NC} em r 42                 ${_C_DIM}# Read email #42${_C_NC}
   ${_C_DIM}\$${_C_NC} em r --html 42          ${_C_DIM}# Read HTML version${_C_NC}
+  ${_C_DIM}\$${_C_NC} em r --md 42            ${_C_DIM}# Read as Markdown (pandoc)${_C_NC}
   ${_C_DIM}\$${_C_NC} em re 42                ${_C_DIM}# Reply with AI draft${_C_NC}
   ${_C_DIM}\$${_C_NC} em re 42 --all          ${_C_DIM}# Reply-all${_C_NC}
   ${_C_DIM}\$${_C_NC} em re 42 --batch        ${_C_DIM}# Non-interactive (preview+confirm)${_C_NC}
@@ -166,6 +167,7 @@ ${_C_BLUE}INBOX & READING${_C_NC}:
   ${_C_CYAN}em inbox [N]${_C_NC}      List N recent emails (default: ${FLOW_EMAIL_PAGE_SIZE})
   ${_C_CYAN}em read <ID>${_C_NC}      Read email (smart rendering)
   ${_C_CYAN}em read --html <ID>${_C_NC} Read HTML version (w3m/lynx)
+  ${_C_CYAN}em read --md <ID>${_C_NC}   Read as clean Markdown (pandoc)
   ${_C_CYAN}em read --raw <ID>${_C_NC}  Dump raw MIME source
   ${_C_CYAN}em unread${_C_NC}         Show unread count
   ${_C_CYAN}em html <ID>${_C_NC}      Render HTML email ${_C_DIM}(alias for read --html)${_C_NC}
@@ -244,10 +246,11 @@ _em_read() {
     _em_require_himalaya || return 1
     local msg_id="" fmt="plain" raw=false
 
-    # Parse flags: em read [--html|--raw] <ID>
+    # Parse flags: em read [--html|--md|--raw] <ID>
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --html|-H) fmt="html"; shift ;;
+            --md|-M)   fmt="md"; shift ;;
             --raw)     raw=true; shift ;;
             *)         msg_id="$1"; shift ;;
         esac
@@ -255,7 +258,7 @@ _em_read() {
 
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em read [--html|--raw] <ID>${_C_NC}"
+        echo "Usage: ${_C_CYAN}em read [--html|--md|--raw] <ID>${_C_NC}"
         return 1
     fi
 
@@ -271,7 +274,7 @@ _em_read() {
     local envelope=""
     if command -v jq &>/dev/null; then
         envelope=$(_em_hml_list "$folder" 100 2>/dev/null \
-            | jq -r ".[] | select(.id == ($msg_id | tonumber))" 2>/dev/null)
+            | jq -r ".[] | select(.id == \"$msg_id\")" 2>/dev/null)
     fi
 
     if [[ -z "$envelope" ]]; then
@@ -285,11 +288,15 @@ _em_read() {
             return 1
         fi
         # Body is valid but envelope wasn't in cache — display without header
-        if [[ "$fmt" == "html" ]]; then
+        if [[ "$fmt" == "html" || "$fmt" == "md" ]]; then
             local html_body
             html_body=$(_em_hml_read "$msg_id" html "$folder")
             if [[ -n "$html_body" ]]; then
-                _em_render "$html_body" "html"
+                if [[ "$fmt" == "md" ]]; then
+                    _em_render_markdown "$html_body"
+                else
+                    _em_render "$html_body" "html"
+                fi
             else
                 echo "$test_body" | _em_render_email_body
             fi
@@ -318,14 +325,18 @@ _em_read() {
 
     # [3] Render body
     local body=""
-    if [[ "$fmt" == "html" ]]; then
+    if [[ "$fmt" == "html" || "$fmt" == "md" ]]; then
         body=$(_em_hml_read "$msg_id" html "$folder")
         if [[ -z "$body" ]]; then
             # No HTML part — fall back to plain text
             _flow_log_warning "No HTML part — showing plain text"
             body=$(himalaya message read -f "$folder" "$msg_id" 2>/dev/null)
-        fi
-        if [[ -n "$body" ]]; then
+            if [[ -n "$body" ]]; then
+                echo "$body" | _em_render_email_body
+            fi
+        elif [[ "$fmt" == "md" ]]; then
+            _em_render_markdown "$body"
+        else
             _em_render "$body" "html"
         fi
     else
