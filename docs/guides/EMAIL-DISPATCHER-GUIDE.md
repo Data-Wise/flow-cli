@@ -373,6 +373,12 @@ The `em` dispatcher automatically detects content type and chooses the best rend
    - **bat** (primary) - Syntax highlighting + paging
    - **cat** (fallback)
 
+4. **Markdown (explicit `--md` flag)**
+   - **pandoc** converts HTML → Markdown with Outlook noise cleanup
+   - **glow** (primary) - Beautiful markdown rendering
+   - **bat** (fallback) - Syntax highlighting
+   - Strips SafeLinks, Outlook attributes, fenced divs, CID refs
+
 **Example:**
 
 ```bash
@@ -398,6 +404,56 @@ em html <ID>
 ```
 
 Explicitly renders HTML emails in the terminal. Useful for HTML-heavy newsletters.
+
+### Clean Markdown Rendering
+
+```bash
+em read --md <ID>
+em read -M <ID>       # Short flag
+```
+
+Converts the HTML email to clean Markdown via pandoc, with a 7-stage Outlook cleanup pipeline:
+
+1. **pandoc conversion** — HTML → Markdown
+2. **SafeLinks extraction** — Resolves `nam02.safelinks.protection.outlook.com` wrappers to real URLs
+3. **URL-decode** — `%3A` → `:`, `%2F` → `/`, etc.
+4. **Outlook attribute removal** — Strips `{originalsrc="..."}`, `{style="..."}`, `.OWAAutoLink` blocks (multi-line aware)
+5. **Fenced div stripping** — Removes `:::` / `::::` pandoc wrapper divs
+6. **CID/backslash cleanup** — Strips `[cid:...]` image refs and lone `\` (pandoc `<br>`)
+7. **Blank line collapsing** — 3+ blank lines → 2
+
+**Requires:** `pandoc` (`brew install pandoc`)
+**Rendering:** glow (primary) → bat (fallback) → plain text
+
+**When to use:**
+- Outlook/Exchange emails with heavy HTML formatting
+- Newsletters with SafeLinks wrappers
+- Any HTML email where you want readable, structured content
+
+**Example:**
+
+```bash
+$ em read --md 42
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Message #42
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  From:     Alice Johnson <alice@university.edu>
+  Subject:  Committee Meeting Follow-up
+  Date:     2026-02-10
+
+──────────────────────────────────────────────────
+
+# Committee Meeting Notes
+
+**Action Items:**
+
+- Review the proposal by Friday
+- Submit feedback via the [shared document](https://docs.example.com/proposal)
+
+Let me know if you have questions.
+```
 
 ### Raw MIME Export
 

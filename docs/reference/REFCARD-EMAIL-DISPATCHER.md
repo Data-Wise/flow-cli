@@ -42,7 +42,7 @@ mindmap
 | **em \<N\>** | — | `em 42` | Shorthand: read email by number |
 | **em -n N** | — | `em -n 5` | Shorthand: list N emails (= `em inbox N`) |
 | **em inbox** | `i` | `em inbox [N] [FOLDER]` | List N recent emails (default: 25) |
-| **em read** | `r` | `em read [--html\|--raw] <ID>` | Read email with smart rendering |
+| **em read** | `r` | `em read [--html\|--md\|--raw] <ID>` | Read email with smart rendering |
 | **em send** | `s` | `em send [--ai] [to] [subject]` | Compose new email |
 | **em reply** | `re` | `em reply <ID> [--no-ai] [--all] [--batch]` | Reply with optional AI draft |
 | **em find** | `f` | `em find <query>` | Search emails (subject, from, body) |
@@ -135,15 +135,19 @@ Smart content detection and rendering:
 | Content Type | Detection | Render Chain | Fallback |
 |-------------|-----------|--------------|----------|
 | **HTML** | `<html>`, `<body>`, `<div>`, `<table>`, `<p>` | w3m → lynx → pandoc → bat | raw HTML |
+| **Markdown (--md)** | Explicit `--md` flag | pandoc → SafeLink cleanup → glow → bat | plain text |
 | **Markdown** | `#`, `**`, `` ` ``, `- [` | glow → bat | plain text |
 | **Plain Text** | — | bat --style=plain | cat |
 
 Commands:
 - **w3m** (primary): `w3m -dump -T text/html`
 - **lynx** (fallback): `lynx -stdin -dump`
-- **pandoc** (fallback): `pandoc -f html -t plain`
+- **pandoc** (HTML→Markdown): `pandoc -f html -t markdown` + Outlook noise cleanup
+- **pandoc** (HTML→plain): `pandoc -f html -t plain`
 - **bat** (syntax highlighting): `bat --style=plain --color=always`
 - **glow** (markdown): `glow -` (auto-pager)
+
+The `--md` pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL extraction → URL-decode → Outlook attribute block removal → fenced div stripping → CID/backslash cleanup → blank line collapsing.
 
 ---
 
@@ -192,6 +196,7 @@ em                 # Same as: em dash (quick pulse)
 ```bash
 em read <ID>            # Smart rendering (auto-detect content type)
 em read --html <ID>     # Force HTML rendering (w3m/lynx/pandoc)
+em read --md <ID>       # Render as clean Markdown via pandoc (strips Outlook noise)
 em read --raw <ID>      # Dump raw MIME source (.eml export)
 em html <ID>            # Alias for: em read --html <ID>
 ```
@@ -334,6 +339,7 @@ em -n 5                         # Shorthand: list 5 emails
 # ─────────────────────────────────────────────────────────────
 # Reading & replying
 em r 42                         # Read email #42
+em r --md 42                    # Clean Markdown via pandoc (great for Outlook)
 em r --raw 42                   # Dump raw MIME (.eml)
 em re 42                        # Reply with AI draft
 em re 42 --no-ai                # Reply without AI
@@ -404,7 +410,7 @@ Run `em doctor` for dependency health:
 | `bat` | Syntax highlighting | `brew install bat` |
 | `w3m` | HTML rendering (primary) | `brew install w3m` |
 | `lynx` | HTML fallback | `brew install lynx` |
-| `pandoc` | HTML to plain (fallback) | `brew install pandoc` |
+| `pandoc` | HTML to plain (fallback) + `--md` rendering | `brew install pandoc` |
 | `glow` | Markdown rendering | `brew install glow` |
 
 ### Optional (Infrastructure)
@@ -507,6 +513,7 @@ em find "before:2026-01-01"     # IMAP search syntax
 ```bash
 em r 42                         # Auto-detects HTML, renders smart
 em html 42                      # Force HTML rendering
+em r --md 42                    # Clean Markdown via pandoc (best for Outlook)
 em html 42 | less               # Pipe to pager
 ```
 
