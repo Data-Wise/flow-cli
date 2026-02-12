@@ -1149,6 +1149,7 @@ Cache is automatically invalidated when:
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | Default inbox page size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | Default folder |
 | `FLOW_EMAIL_CACHE_MAX_MB` | `50` | Max cache size in MB (0 = no limit) |
+| `FLOW_EMAIL_CACHE_WARM` | `false` | Enable background cache warming on `em dash` |
 | `EDITOR` | `nvim` | Editor for composing emails |
 
 ### Config Files

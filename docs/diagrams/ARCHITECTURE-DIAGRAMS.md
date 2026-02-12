@@ -21,7 +21,7 @@ graph TB
         Cache[lib/project-cache.zsh<br/>Caching]
     end
 
-    subgraph Dispatchers ["Dispatchers (12)"]
+    subgraph Dispatchers ["Dispatchers (13)"]
         G[g - Git]
         CC[cc - Claude Code]
         MCP[mcp - MCP Servers]
@@ -34,6 +34,7 @@ graph TB
         Dot[dot - Dotfiles]
         Prompt[prompt - Prompt Engine]
         V[v - Vibe/Workflow]
+        EM[em - Email]
     end
 
     subgraph Commands [Commands]
