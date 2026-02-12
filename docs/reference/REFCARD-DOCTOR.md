@@ -9,7 +9,10 @@
 | `teach doctor` | Quick teaching environment check (< 3s) |
 | `teach doctor --full` | Full comprehensive check (all categories) |
 | `teach doctor --fix` | Auto-fix issues (implies --full) |
-| `flow doctor` | Check flow-cli environment health |
+| `flow doctor` | Check flow-cli environment health (+ email when `em` loaded) |
+| `flow doctor --fix` | Interactive install missing tools (includes email category) |
+| `flow doctor --fix -y` | Auto-install all missing tools without prompts |
+| `flow doctor --verbose` | Detailed output + email connectivity tests |
 | `flow doctor --dot` | Check only DOT tokens (isolated, fast) |
 
 ## teach doctor Quick Examples
@@ -118,33 +121,43 @@ After each run, teach doctor writes `.flow/doctor-status.json`. The health dot s
 - `atlas` - State management
 - `radian` - R console (if R exists)
 
-### 6. ZSH Plugin Manager
+### 6. Email (conditional — when `em` loaded)
+
+- `himalaya` - Email CLI backend (required, version >= 1.0.0)
+- `w3m`/`lynx`/`pandoc` - HTML rendering (any-of, recommended)
+- `glow` - Markdown rendering (recommended)
+- `email-oauth2-proxy` - OAuth2 for Gmail/Outlook (recommended)
+- `terminal-notifier` - Desktop notifications (optional)
+- `claude`/`gemini` - AI backend (conditional on `$FLOW_EMAIL_AI`)
+- Config summary: AI backend, timeout, page size, folder, config file
+
+### 7. ZSH Plugin Manager
 
 Checks:
 - antidote/zinit/oh-my-zsh installed
 - Plugin bundle file
 
-### 7. ZSH Plugins
+### 8. ZSH Plugins
 
 - powerlevel10k
 - zsh-autosuggestions
 - zsh-syntax-highlighting
 - zsh-completions
 
-### 8. flow-cli Status
+### 9. flow-cli Status
 
 - Plugin loaded
 - Version
 - Atlas connection
 
-### 9. GitHub Token
+### 10. GitHub Token
 
 - Token configured
 - Token validity
 - Token expiration
 - Token-dependent services (gh CLI, Claude MCP)
 
-### 10. Aliases
+### 11. Aliases
 
 - Total alias count
 - Shadow detection
@@ -159,9 +172,10 @@ Interactive menu when running `--fix`:
 │                                                  │
 │  1. 🔑 GitHub Token (1 issue, ~30s)              │
 │  2. 📦 Missing Tools (3 tools, ~1m 30s)          │
-│  3. ⚡ Aliases (2 issues, ~10s)                  │
+│  3. 📧 Email Tools (2 issues, ~1m)               │
+│  4. ⚡ Aliases (2 issues, ~10s)                  │
 │                                                  │
-│  4. ✨ Fix All Categories (~2m 10s)              │
+│  5. ✨ Fix All Categories (~3m 10s)              │
 │                                                  │
 │  0. Exit without fixing                          │
 │                                                  │
@@ -276,10 +290,11 @@ teach doctor --verbose
 | Flag | Short | Description |
 |------|-------|-------------|
 | `--fix` | `-f` | Interactive install missing tools |
+| `--yes` | `-y` | Auto-confirm all installs (use with --fix) |
 | `--fix-token` | - | Fix only token issues (< 60s) |
 | `--dot` | - | Check only DOT tokens (isolated check) |
 | `--quiet` | `-q` | Minimal output (errors only) |
-| `--verbose` | `-v` | Detailed output + cache status |
+| `--verbose` | `-v` | Detailed output + email connectivity tests |
 | `--json` | - | Machine-readable JSON output |
 | `--help` | `-h` | Show help |
 
@@ -292,6 +307,7 @@ teach doctor --verbose
 | `teach` startup | Shows health dot (green/yellow/red) |
 | `g push/pull` | Validates token before remote ops |
 | `work` | Checks token on session start |
+| `em doctor` | Email-specific health check (delegates to flow doctor email section) |
 
 ## See Also
 
@@ -302,5 +318,5 @@ teach doctor --verbose
 
 ---
 
-**Version:** v6.5.0
-**Last Updated:** 2026-02-08
+**Version:** v7.0.1
+**Last Updated:** 2026-02-12
