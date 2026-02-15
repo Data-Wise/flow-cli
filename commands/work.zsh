@@ -62,7 +62,7 @@ _work_get_token_status() {
     return
   fi
 
-  local age_days=$(_dot_token_age_days "github-token")
+  local age_days=$(_tok_age_days "github-token")
   local days_remaining=$((90 - age_days))
 
   if [[ $days_remaining -le 7 ]]; then

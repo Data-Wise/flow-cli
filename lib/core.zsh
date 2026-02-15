@@ -568,7 +568,7 @@ _flow_get_config() {
 # ============================================================================
 
 # =============================================================================
-# Function: _dot_secret_backend
+# Function: _dotf_secret_backend
 # Purpose: Get the configured secret storage backend
 # =============================================================================
 # Arguments:
@@ -581,7 +581,7 @@ _flow_get_config() {
 #   stdout - Backend name: "keychain" (default), "bitwarden", or "both"
 #
 # Example:
-#   local backend=$(_dot_secret_backend)
+#   local backend=$(_dotf_secret_backend)
 #   case "$backend" in
 #     keychain)  echo "Using macOS Keychain only" ;;
 #     bitwarden) echo "Using Bitwarden only" ;;
@@ -599,7 +599,7 @@ _flow_get_config() {
 #   - "bitwarden" mode preserves legacy behavior
 #   - "both" mode enables cloud backup with local performance
 # =============================================================================
-_dot_secret_backend() {
+_dotf_secret_backend() {
   local backend="${FLOW_SECRET_BACKEND:-keychain}"
 
   # Validate backend value
@@ -616,7 +616,7 @@ _dot_secret_backend() {
 }
 
 # =============================================================================
-# Function: _dot_secret_needs_bitwarden
+# Function: _dotf_secret_needs_bitwarden
 # Purpose: Check if current backend requires Bitwarden
 # =============================================================================
 # Arguments:
@@ -627,22 +627,22 @@ _dot_secret_backend() {
 #   1 - Bitwarden not needed (backend is "keychain")
 #
 # Example:
-#   if _dot_secret_needs_bitwarden; then
+#   if _dotf_secret_needs_bitwarden; then
 #     # Ensure Bitwarden is available and unlocked
-#     _dot_require_tool "bw" "brew install bitwarden-cli"
+#     _dotf_require_tool "bw" "brew install bitwarden-cli"
 #   fi
 #
 # Notes:
 #   - Use this to conditionally skip Bitwarden checks
 #   - Returns success (0) for "bitwarden" and "both" modes
 # =============================================================================
-_dot_secret_needs_bitwarden() {
-  local backend=$(_dot_secret_backend)
+_dotf_secret_needs_bitwarden() {
+  local backend=$(_dotf_secret_backend)
   [[ "$backend" == "bitwarden" ]] || [[ "$backend" == "both" ]]
 }
 
 # =============================================================================
-# Function: _dot_secret_uses_keychain
+# Function: _dotf_secret_uses_keychain
 # Purpose: Check if current backend uses Keychain
 # =============================================================================
 # Arguments:
@@ -653,16 +653,16 @@ _dot_secret_needs_bitwarden() {
 #   1 - Keychain not used (backend is "bitwarden")
 #
 # Example:
-#   if _dot_secret_uses_keychain; then
-#     _dot_kc_add "$name"
+#   if _dotf_secret_uses_keychain; then
+#     _dotf_kc_add "$name"
 #   fi
 #
 # Notes:
 #   - Use this to conditionally use Keychain storage
 #   - Returns success (0) for "keychain" and "both" modes
 # =============================================================================
-_dot_secret_uses_keychain() {
-  local backend=$(_dot_secret_backend)
+_dotf_secret_uses_keychain() {
+  local backend=$(_dotf_secret_backend)
   [[ "$backend" == "keychain" ]] || [[ "$backend" == "both" ]]
 }
 

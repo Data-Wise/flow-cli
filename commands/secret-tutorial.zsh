@@ -661,7 +661,7 @@ EOF
 # Main Tutorial Function
 # =============================================================================
 
-_dot_secret_tutorial() {
+_sec_tutorial() {
   # Initialize state
   _tutorial_init_state
 
@@ -691,5 +691,5 @@ _dot_secret_tutorial() {
 # Run tutorial if called directly (not when sourced by plugin loader)
 # ZSH_EVAL_CONTEXT is "toplevel" only when executed directly
 if [[ "${ZSH_EVAL_CONTEXT}" == "toplevel" ]]; then
-  _dot_secret_tutorial "$@"
+  _sec_tutorial "$@"
 fi

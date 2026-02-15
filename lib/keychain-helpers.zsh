@@ -21,7 +21,7 @@ _DOT_KEYCHAIN_SERVICE="flow-cli-secrets"
 # ============================================================================
 
 # =============================================================================
-# Function: _dot_kc_add
+# Function: _dotf_kc_add
 # Purpose: Add or update a secret in macOS Keychain with interactive prompt
 # =============================================================================
 # Arguments:
@@ -35,8 +35,8 @@ _DOT_KEYCHAIN_SERVICE="flow-cli-secrets"
 #   stdout - Success/error messages via _flow_log_* functions
 #
 # Example:
-#   _dot_kc_add "github-token"     # Prompts for value, stores in Keychain
-#   _dot_kc_add "openai-api-key"   # Updates if already exists (-U flag)
+#   _dotf_kc_add "github-token"     # Prompts for value, stores in Keychain
+#   _dotf_kc_add "openai-api-key"   # Updates if already exists (-U flag)
 #
 # Notes:
 #   - Uses hidden input (read -s) for secure value entry
@@ -44,7 +44,7 @@ _DOT_KEYCHAIN_SERVICE="flow-cli-secrets"
 #   - Stores under service name "flow-cli-secrets" for namespacing
 #   - Touch ID / Apple Watch authentication may be required on retrieval
 # =============================================================================
-_dot_kc_add() {
+_dotf_kc_add() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
@@ -77,7 +77,7 @@ _dot_kc_add() {
 }
 
 # =============================================================================
-# Function: _dot_kc_get
+# Function: _dotf_kc_get
 # Purpose: Retrieve a secret value from macOS Keychain
 # =============================================================================
 # Arguments:
@@ -92,16 +92,16 @@ _dot_kc_add() {
 #   stderr - Error messages if secret not found
 #
 # Example:
-#   _dot_kc_get "github-token"                    # Outputs: ghp_xxxx...
-#   export GITHUB_TOKEN=$(_dot_kc_get "github")   # Capture into variable
-#   gh auth login --with-token <<< $(_dot_kc_get "github-token")
+#   _dotf_kc_get "github-token"                    # Outputs: ghp_xxxx...
+#   export GITHUB_TOKEN=$(_dotf_kc_get "github")   # Capture into variable
+#   gh auth login --with-token <<< $(_dotf_kc_get "github-token")
 #
 # Notes:
 #   - Output is raw value only (no decoration) for script compatibility
 #   - May trigger Touch ID / Apple Watch / password prompt
 #   - Searches only within "flow-cli-secrets" service namespace
 # =============================================================================
-_dot_kc_get() {
+_dotf_kc_get() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
@@ -124,7 +124,7 @@ _dot_kc_get() {
 }
 
 # =============================================================================
-# Function: _dot_kc_list
+# Function: _dotf_kc_list
 # Purpose: List all flow-cli secrets stored in macOS Keychain
 # =============================================================================
 # Arguments:
@@ -138,7 +138,7 @@ _dot_kc_get() {
 #            Shows "(no secrets stored)" message if empty
 #
 # Example:
-#   _dot_kc_list
+#   _dotf_kc_list
 #   # Output:
 #   # Secrets in Keychain (flow-cli):
 #   #   • github-token
@@ -152,7 +152,7 @@ _dot_kc_get() {
 #   - Shows unique secrets only (deduplicates)
 #   - Does NOT show secret values, only names
 # =============================================================================
-_dot_kc_list() {
+_dotf_kc_list() {
     # Reset shell options to defaults (suppress debug, protect passwords)
     emulate -L zsh
     setopt noxtrace noverbose
@@ -382,7 +382,7 @@ _dot_kc_list() {
 }
 
 # =============================================================================
-# Function: _dot_kc_delete
+# Function: _dotf_kc_delete
 # Purpose: Remove a secret from macOS Keychain
 # =============================================================================
 # Arguments:
@@ -396,15 +396,15 @@ _dot_kc_list() {
 #   stdout - Success/error message via _flow_log_* functions
 #
 # Example:
-#   _dot_kc_delete "old-api-key"    # Removes secret from Keychain
-#   _dot_kc_delete "nonexistent"    # Returns error, secret not found
+#   _dotf_kc_delete "old-api-key"    # Removes secret from Keychain
+#   _dotf_kc_delete "nonexistent"    # Returns error, secret not found
 #
 # Notes:
 #   - Permanent deletion - cannot be undone
 #   - Only deletes secrets within "flow-cli-secrets" service namespace
 #   - May require authentication depending on Keychain settings
 # =============================================================================
-_dot_kc_delete() {
+_dotf_kc_delete() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
@@ -423,7 +423,7 @@ _dot_kc_delete() {
 }
 
 # =============================================================================
-# Function: _dot_kc_import
+# Function: _dotf_kc_import
 # Purpose: Bulk import secrets from Bitwarden folder into macOS Keychain
 # =============================================================================
 # Arguments:
@@ -438,7 +438,7 @@ _dot_kc_delete() {
 #            Summary count of imported secrets
 #
 # Example:
-#   _dot_kc_import
+#   _dotf_kc_import
 #   # Output:
 #   # Import secrets from Bitwarden folder 'flow-cli-secrets'?
 #   # Continue? [y/N] y
@@ -454,7 +454,7 @@ _dot_kc_delete() {
 #   - Updates existing secrets (does not duplicate)
 #   - One-time migration - after import, use Keychain directly
 # =============================================================================
-_dot_kc_import() {
+_dotf_kc_import() {
     # Check for Bitwarden CLI
     if ! command -v bw &>/dev/null; then
         _flow_log_error "Bitwarden CLI not installed"
@@ -463,7 +463,7 @@ _dot_kc_import() {
     fi
 
     # Check for active session
-    if ! _dot_bw_session_valid 2>/dev/null; then
+    if ! _dotf_bw_session_valid 2>/dev/null; then
         _flow_log_error "Bitwarden locked. Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
         return 1
     fi
@@ -510,7 +510,7 @@ _dot_kc_import() {
 }
 
 # =============================================================================
-# Function: _dot_kc_help
+# Function: _dotf_kc_help
 # Purpose: Display help documentation for keychain secret commands
 # =============================================================================
 # Arguments:
@@ -523,7 +523,7 @@ _dot_kc_import() {
 #   stdout - Formatted help text with commands, examples, and benefits
 #
 # Example:
-#   _dot_kc_help
+#   _dotf_kc_help
 #   dot secret help
 #   dot secret --help
 #
@@ -533,7 +533,7 @@ _dot_kc_import() {
 #   - Includes script usage examples for common patterns
 #   - Highlights benefits of Keychain over Bitwarden (instant access)
 # =============================================================================
-_dot_kc_help() {
+_dotf_kc_help() {
     cat <<EOF
 ${FLOW_COLORS[header]}dot secret${FLOW_COLORS[reset]} - macOS Keychain secret management
 
@@ -579,5 +579,5 @@ EOF
 # ============================================================================
 
 # Note: The _dot_secret_kc() function has been removed as dead code.
-# All routing is now handled by _dot_secret() in lib/dispatchers/dot-dispatcher.zsh
-# The helper functions below (_dot_kc_add, _dot_kc_get, etc.) are still used.
+# All routing is now handled by sec() in lib/dispatchers/sec-dispatcher.zsh
+# The helper functions below (_dotf_kc_add, _dotf_kc_get, etc.) are used by dots, sec, tok dispatchers.
