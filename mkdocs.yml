@@ -143,7 +143,7 @@ nav:
       - Dispatchers:
           - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
           - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
-          - 12. DOT Dispatcher: tutorials/12-dot-dispatcher.md
+          - 12. Dotfiles/Secrets/Tokens: tutorials/12-dot-dispatcher.md
           - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
       - Editor (Neovim):
           - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md

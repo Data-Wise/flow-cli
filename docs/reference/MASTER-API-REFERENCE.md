@@ -61,7 +61,9 @@ lib/
     ├── mcp-dispatcher.zsh
     ├── obs.zsh
     ├── wt-dispatcher.zsh
-    ├── dot-dispatcher.zsh
+    ├── dots-dispatcher.zsh       # Dotfile management
+    ├── sec-dispatcher.zsh        # Secret management
+    ├── tok-dispatcher.zsh        # Token management
     ├── teach-dispatcher.zsh
     ├── tm-dispatcher.zsh
     ├── prompt-dispatcher.zsh
@@ -6375,9 +6377,9 @@ fi
 
 ---
 
-### dot Dispatcher Helpers
+### dots/sec/tok Dispatcher Helpers
 
-**File:** `lib/dispatchers/dot-dispatcher.zsh`
+**Files:** `lib/dispatchers/dots-dispatcher.zsh`, `lib/dispatchers/sec-dispatcher.zsh`, `lib/dispatchers/tok-dispatcher.zsh`
 **Functions:** 5 (v5.17.0 token automation)
 
 #### `_dot_token_expiring`

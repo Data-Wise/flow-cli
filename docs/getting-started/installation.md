@@ -392,7 +392,7 @@ echo $EDITOR
 # Expected: nvim
 ```
 
-Now `work`, `mcp edit`, `dot edit`, and other flow-cli commands will use nvim!
+Now `work`, `mcp edit`, `dots edit`, and other flow-cli commands will use nvim!
 
 ### Troubleshooting Nvim Installation
 

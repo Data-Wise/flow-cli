@@ -16,7 +16,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 13 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dot`, `teach`, `prompt`, `v`, `em`
+- 15 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dots`, `sec`, `tok`, `teach`, `prompt`, `v`, `em`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
 - Teaching workflow with Scholar integration
@@ -126,7 +126,7 @@ yay --week        # Weekly summary + graph
 flow goal set 3   # Set daily win target
 ```
 
-### Active Dispatchers (13)
+### Active Dispatchers (15)
 
 ```bash
 g <cmd>       # Git workflows
@@ -137,7 +137,9 @@ r <cmd>       # R package dev
 cc [cmd]      # Claude Code launcher
 tm <cmd>      # Terminal manager
 wt <cmd>      # Worktree management
-dot <cmd>     # Dotfile management
+dots <cmd>    # Dotfile management (chezmoi)
+sec <cmd>     # Secret management (Keychain/Bitwarden)
+tok <cmd>     # Token management (create/rotate/expire)
 teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
@@ -178,7 +180,7 @@ flow-cli/
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── tui.zsh               # Terminal UI components
-│   └── dispatchers/          # 13 smart command dispatchers
+│   └── dispatchers/          # 15 smart command dispatchers
 ├── commands/                 # 31 command files (work, dash, doctor, teach-*, etc.)
 ├── setup/                    # Installation & setup
 ├── completions/              # ZSH completions
@@ -197,7 +199,7 @@ flow-cli/
 | ------------------------------------------- | ----------------------------------------- |
 | `flow.plugin.zsh`                           | Plugin entry point (source to load)       |
 | `lib/core.zsh`                              | Core utilities (logging, colors, helpers) |
-| `lib/dispatchers/*.zsh`                     | 13 smart dispatchers                      |
+| `lib/dispatchers/*.zsh`                     | 15 smart dispatchers                      |
 | `commands/*.zsh`                            | Core commands (work, dash, finish, etc.)  |
 | `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs                  |
 | `docs/reference/MASTER-API-REFERENCE.md`    | API function reference                    |

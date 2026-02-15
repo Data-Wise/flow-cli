@@ -26,7 +26,7 @@ export FLOW_SECRET_BACKEND=bitwarden  # Legacy mode
 export FLOW_SECRET_BACKEND=both       # Cloud backup enabled
 
 # Check current status
-dot secret status
+sec status
 ```
 
 ---
@@ -35,19 +35,19 @@ dot secret status
 
 | Command | Action | Example |
 |---------|--------|---------|
-| `dot token github` | Create GitHub token | Interactive wizard |
-| `dot token npm` | Create npm token | Interactive wizard |
-| `dot token pypi` | Create PyPI token | Interactive wizard |
-| `dot secret <name>` | Get secret | `GITHUB_TOKEN=$(dot secret github-token)` |
-| `dot secret list` | List all secrets | Shows names only |
-| `dot secret add <name>` | Add arbitrary secret | Prompts for value |
-| `dot secret delete <name>` | Remove secret | Permanent deletion |
-| `dot secret status` | Show backend config | Backend & secrets count |
-| `dot secret sync` | Sync Keychain ↔ Bitwarden | Interactive wizard |
-| `dot secret sync --status` | Show sync differences | Compare backends |
-| `dot token expiring` | Check expiration | Shows 7-day warnings |
-| `dot token rotate` | Rotate token | With backup |
-| `dot secret help` | Show help | Display all commands |
+| `tok github` | Create GitHub token | Interactive wizard |
+| `tok npm` | Create npm token | Interactive wizard |
+| `tok pypi` | Create PyPI token | Interactive wizard |
+| `sec <name>` | Get secret | `GITHUB_TOKEN=$(sec github-token)` |
+| `sec list` | List all secrets | Shows names only |
+| `sec add <name>` | Add arbitrary secret | Prompts for value |
+| `sec delete <name>` | Remove secret | Permanent deletion |
+| `sec status` | Show backend config | Backend & secrets count |
+| `sec sync` | Sync Keychain ↔ Bitwarden | Interactive wizard |
+| `sec sync --status` | Show sync differences | Compare backends |
+| `tok expiring` | Check expiration | Shows 7-day warnings |
+| `tok rotate` | Rotate token | With backup |
+| `sec help` | Show help | Display all commands |
 
 ---
 
@@ -57,7 +57,7 @@ dot secret status
 
 ```bash
 # Interactive wizard
-dot token github
+tok github
 
 # Follow prompts:
 # 1. Choose token type (classic or fine-grained)
@@ -76,13 +76,13 @@ dot token github
 
 ```bash
 # Export as environment variable
-export GITHUB_TOKEN=$(dot secret github-token)
+export GITHUB_TOKEN=$(sec github-token)
 
 # Use with GitHub CLI
-gh auth login --with-token <<< $(dot secret github-token)
+gh auth login --with-token <<< $(sec github-token)
 
 # Use in scripts (no echo to terminal)
-curl -H "Authorization: token $(dot secret github-token)" \
+curl -H "Authorization: token $(sec github-token)" \
   https://api.github.com/user/repos
 ```
 
@@ -90,7 +90,7 @@ curl -H "Authorization: token $(dot secret github-token)" \
 
 ```bash
 # Check all tokens
-dot token expiring
+tok expiring
 
 # Output shows tokens expiring in next 7 days:
 # ⚠️  github-token expires in 5 days
@@ -101,7 +101,7 @@ dot token expiring
 
 ```bash
 # Interactive rotation wizard
-dot token rotate
+tok rotate
 
 # Follow prompts:
 # 1. Select token to rotate
@@ -116,7 +116,7 @@ dot token rotate
 
 ```bash
 # List all secrets
-dot secret list
+sec list
 
 # Sample output:
 #   github-token
@@ -124,7 +124,7 @@ dot secret list
 #   old-github-token-backup-20260117
 
 # Delete backup
-dot secret delete old-github-token-backup-20260117
+sec delete old-github-token-backup-20260117
 ```
 
 ---
@@ -134,7 +134,7 @@ dot secret delete old-github-token-backup-20260117
 ### Dual Storage System
 
 ```
-User runs: dot token github
+User runs: tok github
     ↓
 ┌─────────────────────────────────────────────┐
 │ 1. Store in Bitwarden (backup/sync)         │
@@ -146,7 +146,7 @@ User runs: dot token github
 │    - JSON attrs (-j): metadata JSON         │
 └─────────────────────────────────────────────┘
     ↓
-User runs: dot secret github-token
+User runs: sec github-token
     ↓
 Retrieves from Keychain (< 50ms, Touch ID supported)
 ```
@@ -322,17 +322,17 @@ bw login
 
 ```bash
 # Check expiration in scripts (exit code 0 if OK)
-if dot token expiring --quiet; then
+if tok expiring --quiet; then
     echo "All tokens valid"
 else
     echo "Tokens expiring soon!"
 fi
 
 # Get token in scripts (no echo)
-export GITHUB_TOKEN=$(dot secret github-token)
+export GITHUB_TOKEN=$(sec github-token)
 
 # Rotate token in CI/CD (with backup)
-dot token rotate --non-interactive github-token
+tok rotate --non-interactive github-token
 ```
 
 ---
@@ -344,7 +344,7 @@ dot token rotate --non-interactive github-token
 | `flow doctor --dot` | Check token health (< 3s) |
 | `flow doctor --dot=github` | Check specific provider |
 | `flow doctor --fix-token` | Fix token issues |
-| `dot secrets` | Dashboard of all secrets |
+| `sec dashboard` | Dashboard of all secrets |
 | `g push` | Validates GitHub token before push |
 | `dash dev` | Shows token status |
 
@@ -353,10 +353,10 @@ dot token rotate --non-interactive github-token
 ## See Also
 
 - **Comprehensive Guide:** `docs/guides/TOKEN-MANAGEMENT-COMPLETE.md`
-- **Interactive Tutorial:** `dot secret tutorial`
+- **Interactive Tutorial:** `sec tutorial`
 - **API Reference:** `docs/reference/MASTER-API-REFERENCE.md` (Keychain section)
 - **Architecture:** `docs/reference/MASTER-ARCHITECTURE.md` (Token management)
 
 ---
 
-**Questions?** Run `dot secret help` or `dot token help`
+**Questions?** Run `sec help` or `tok help`
