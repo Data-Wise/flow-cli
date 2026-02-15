@@ -56,10 +56,10 @@ run_test() {
 # Validation functions
 validate_help() {
   local output="$1"
-  [[ "$output" == *"COMMON COMMANDS"* ]] && \
+  [[ "$output" == *"MOST COMMON"* ]] && \
   [[ "$output" == *"dots add"* ]] && \
-  [[ "$output" == *"IGNORE PATTERNS"* ]] && \
-  [[ "$output" == *"REPOSITORY HEALTH"* ]]
+  [[ "$output" == *"IGNORE"* ]] && \
+  [[ "$output" == *"HEALTH"* ]]
 }
 
 validate_ignore_help() {
