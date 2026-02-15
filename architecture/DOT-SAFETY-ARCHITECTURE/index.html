@@ -1577,7 +1577,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -4579,6 +4579,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -8902,9 +8930,9 @@
     end
 
     subgraph "Layer 4: User Commands"
-        L4A[dot add]
-        L4B[dot ignore]
-        L4C[dot size]
+        L4A[dots add]
+        L4B[dots ignore]
+        L4C[dots size]
         L4D[flow doctor]
     end
 
@@ -9011,7 +9039,7 @@
     participant Cache
     participant FileSystem
 
-    User-&gt;&gt;Command: dot size
+    User-&gt;&gt;Command: dots size
     Command-&gt;&gt;Cache: _dot_get_cached_size()
     Cache-&gt;&gt;Cache: _dot_is_cache_valid()
     alt Cache Valid
@@ -9034,7 +9062,7 @@
 <p><strong>Purpose:</strong> Analyze files before adding to chezmoi and warn about potential issues.</p>
 <p><strong>Workflow:</strong></p>
 <pre class="mermaid"><code>flowchart TD
-    Start[User: dot add path] --&gt; Validate{Path Exists?}
+    Start[User: dots add path] --&gt; Validate{Path Exists?}
     Validate --&gt;|No| Error[Error: Not Found]
     Validate --&gt;|Yes| Analyze[Analyze Files]
 
@@ -9221,10 +9249,10 @@
 <p><strong>Operations:</strong></p>
 <pre class="mermaid"><code>graph LR
     subgraph "Ignore Commands"
-        Add[dot ignore add]
-        List[dot ignore list]
-        Remove[dot ignore remove]
-        Edit[dot ignore edit]
+        Add[dots ignore add]
+        List[dots ignore list]
+        Remove[dots ignore remove]
+        Edit[dots ignore edit]
     end
 
     subgraph "File Operations"
@@ -9267,7 +9295,7 @@
     participant FileSystem
     participant Doctor
 
-    User-&gt;&gt;SizeCmd: dot size
+    User-&gt;&gt;SizeCmd: dots size
     SizeCmd-&gt;&gt;Cache: Check cache
 
     alt Cache valid
@@ -9337,7 +9365,7 @@
     participant Cache
     participant Chezmoi
 
-    User-&gt;&gt;DotAdd: dot add ~/.config/nvim
+    User-&gt;&gt;DotAdd: dots add ~/.config/nvim
     DotAdd-&gt;&gt;Preview: _dot_preview_add()
 
     Preview-&gt;&gt;Platform: _flow_get_file_size() × N files
@@ -9367,7 +9395,7 @@
     participant Cache
     participant FileSystem
 
-    User-&gt;&gt;SizeCmd: dot size
+    User-&gt;&gt;SizeCmd: dots size
     SizeCmd-&gt;&gt;Cache: _dot_get_cached_size()
 
     alt Cache hit (85%)
@@ -9440,7 +9468,7 @@
 </table>
 <h3 id="performance-impact">Performance Impact<a class="headerlink" href="#performance-impact" title="Permanent link">&para;</a></h3>
 <p><strong>Before Caching:</strong>
-- Every <code>dot size</code> command: 3-5 seconds
+- Every <code>dots size</code> command: 3-5 seconds
 - Doctor checks: 60+ seconds
 - User frustration: high</p>
 <p><strong>After Caching:</strong>

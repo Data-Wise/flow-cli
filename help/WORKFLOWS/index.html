@@ -2077,7 +2077,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -5079,6 +5079,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -9130,7 +9158,7 @@
 <p><strong>Rotate in keychain</strong></p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>dot<span class="w"> </span>secret<span class="w"> </span>rotate<span class="w"> </span>GITHUB_TOKEN
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>sec<span class="w"> </span>rotate<span class="w"> </span>GITHUB_TOKEN
 <a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a><span class="c1"># [Touch ID prompt]</span>
 <a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a><span class="c1"># Enter new token: [paste]</span>
 </code></pre></div>
@@ -9178,7 +9206,7 @@
 <a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--dot<span class="o">=</span>github
 <a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a>
 <a id="__codelineno-69-4" name="__codelineno-69-4" href="#__codelineno-69-4"></a><span class="c1"># 2. If expired, rotate</span>
-<a id="__codelineno-69-5" name="__codelineno-69-5" href="#__codelineno-69-5"></a>dot<span class="w"> </span>secret<span class="w"> </span>rotate<span class="w"> </span>GITHUB_TOKEN
+<a id="__codelineno-69-5" name="__codelineno-69-5" href="#__codelineno-69-5"></a>sec<span class="w"> </span>rotate<span class="w"> </span>GITHUB_TOKEN
 <a id="__codelineno-69-6" name="__codelineno-69-6" href="#__codelineno-69-6"></a>
 <a id="__codelineno-69-7" name="__codelineno-69-7" href="#__codelineno-69-7"></a><span class="c1"># 3. Retry push</span>
 <a id="__codelineno-69-8" name="__codelineno-69-8" href="#__codelineno-69-8"></a>g<span class="w"> </span>push

@@ -2005,7 +2005,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -5007,6 +5007,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -8372,21 +8400,21 @@
 <li><strong>Smart suggestions:</strong> Auto-suggest ignore patterns for common files</li>
 <li><strong>Cross-platform:</strong> Works on macOS (BSD) and Linux (GNU)</li>
 </ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>dot<span class="w"> </span>add<span class="w"> </span>~/.config/nvim
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>dots<span class="w"> </span>add<span class="w"> </span>~/.config/nvim
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Shows preview with warnings before adding</span>
 </code></pre></div>
 <h3 id="ignore-pattern-management">📝 Ignore Pattern Management<a class="headerlink" href="#ignore-pattern-management" title="Permanent link">&para;</a></h3>
 <p><strong>Smart <code>.chezmoiignore</code> control:</strong></p>
 <ul>
-<li><code>dot ignore add "*.log"</code> - Add patterns with deduplication</li>
-<li><code>dot ignore list</code> - View all patterns with line numbers</li>
-<li><code>dot ignore edit</code> - Open in $EDITOR</li>
+<li><code>dots ignore add "*.log"</code> - Add patterns with deduplication</li>
+<li><code>dots ignore list</code> - View all patterns with line numbers</li>
+<li><code>dots ignore edit</code> - Open in $EDITOR</li>
 <li>Auto-initialization with sensible defaults</li>
 </ul>
 <h3 id="repository-health">📊 Repository Health<a class="headerlink" href="#repository-health" title="Permanent link">&para;</a></h3>
 <p><strong>Proactive bloat detection:</strong></p>
 <ul>
-<li><code>dot size</code> - Total repo size + top 10 largest files</li>
+<li><code>dots size</code> - Total repo size + top 10 largest files</li>
 <li>Health indicators: OK (&lt;1MB), Warning (1-10MB), Critical (&gt;10MB)</li>
 <li>File type distribution analysis</li>
 <li>Actionable cleanup suggestions</li>

@@ -1988,7 +1988,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -4990,6 +4990,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -8273,7 +8301,7 @@
 <p><strong>Commit:</strong> <code>e7d24e08</code>
 <strong>Files:</strong> <code>commands/secret-tutorial.zsh</code>, <code>lib/dispatchers/dot-dispatcher.zsh</code></p>
 <h4 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">&para;</a></h4>
-<p>The token management tutorial (<code>dot secret tutorial</code>) auto-launched every time flow-cli loaded, interrupting the user experience.</p>
+<p>The token management tutorial (<code>sec tutorial</code>) auto-launched every time flow-cli loaded, interrupting the user experience.</p>
 <h4 id="root-causes">Root Causes<a class="headerlink" href="#root-causes" title="Permanent link">&para;</a></h4>
 <ol>
 <li><strong>Broken Source Detection:</strong>
@@ -8323,7 +8351,7 @@
 <td>✅ Pass</td>
 </tr>
 <tr>
-<td><code>dot secret tutorial</code> works when called</td>
+<td><code>sec tutorial</code> works when called</td>
 <td>✅ Pass</td>
 </tr>
 <tr>
@@ -8372,7 +8400,7 @@
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>$<span class="w"> </span>work<span class="w">          </span><span class="c1"># ✅ Works</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>$<span class="w"> </span>dash<span class="w">          </span><span class="c1"># ✅ Works</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>$<span class="w"> </span>ccy<span class="w">           </span><span class="c1"># ✅ Works (alias: cc yolo)</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>$<span class="w"> </span>dot<span class="w"> </span>secret<span class="w">    </span><span class="c1"># ✅ Works</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>$<span class="w"> </span>sec<span class="w">            </span><span class="c1"># ✅ Works</span>
 </code></pre></div>
 <p><strong>Status:</strong> ✅ All features work perfectly</p>
 <h3 id="claude-code-shell">Claude Code Shell<a class="headerlink" href="#claude-code-shell" title="Permanent link">&para;</a></h3>
@@ -8380,7 +8408,9 @@
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>$<span class="w"> </span>work<span class="w">          </span><span class="c1"># ❌ command not found</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>$<span class="w"> </span>dash<span class="w">          </span><span class="c1"># ❌ /bin/dash (wrong command)</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>$<span class="w"> </span>ccy<span class="w">           </span><span class="c1"># ❌ clang error (alias not loaded)</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>$<span class="w"> </span>dot<span class="w">           </span><span class="c1"># ❌ /opt/homebrew/bin/dot (Graphviz, not flow-cli)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>$<span class="w"> </span>dots<span class="w">          </span><span class="c1"># ❌ command not found</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>$<span class="w"> </span>sec<span class="w">           </span><span class="c1"># ❌ command not found</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>$<span class="w"> </span>tok<span class="w">           </span><span class="c1"># ❌ command not found</span>
 </code></pre></div>
 <p><strong>Status:</strong> ⚠️ Limited by snapshot design</p>
 <hr />
@@ -8404,7 +8434,7 @@
 <td>Regular git/shell workflow</td>
 </tr>
 <tr>
-<td><code>dot secret</code></td>
+<td><code>sec</code></td>
 <td>Direct Keychain access (<code>security</code> command)</td>
 </tr>
 <tr>
@@ -8430,7 +8460,7 @@
 <h2 id="diagnostic-commands">Diagnostic Commands<a class="headerlink" href="#diagnostic-commands" title="Permanent link">&para;</a></h2>
 <h3 id="check-flow-cli-status-in-current-shell">Check flow-cli Status in Current Shell<a class="headerlink" href="#check-flow-cli-status-in-current-shell" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Check if commands are loaded</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">type</span><span class="w"> </span>work<span class="w"> </span>dash<span class="w"> </span>pick<span class="w"> </span>dot<span class="w"> </span>cc
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">type</span><span class="w"> </span>work<span class="w"> </span>dash<span class="w"> </span>pick<span class="w"> </span>dots<span class="w"> </span>sec<span class="w"> </span>tok<span class="w"> </span>cc
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Check if plugin is loaded</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$FLOW_PLUGIN_LOADED</span>
@@ -8531,8 +8561,16 @@
 <td>Interactive token tutorial</td>
 </tr>
 <tr>
-<td><code>lib/dispatchers/dot-dispatcher.zsh</code></td>
-<td>DOT dispatcher (secrets, dotfiles)</td>
+<td><code>lib/dispatchers/dots-dispatcher.zsh</code></td>
+<td>Dotfile management dispatcher</td>
+</tr>
+<tr>
+<td><code>lib/dispatchers/sec-dispatcher.zsh</code></td>
+<td>Secret management dispatcher</td>
+</tr>
+<tr>
+<td><code>lib/dispatchers/tok-dispatcher.zsh</code></td>
+<td>Token management dispatcher</td>
 </tr>
 <tr>
 <td><code>~/.config/zsh/.zshrc</code></td>

@@ -1022,15 +1022,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dot-dot" class="md-nav__link">
+  <a href="#dotfiles-dots" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DOT (dot)
+        Dotfiles (dots)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="DOT (dot)">
+    <nav class="md-nav" aria-label="Dotfiles (dots)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1044,6 +1044,23 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secrets-sec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secrets (sec)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secrets (sec)">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#secret-management-macos-keychain" class="md-nav__link">
     <span class="md-ellipsis">
@@ -1054,6 +1071,23 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tokens-tok" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokens (tok)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tokens (tok)">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#token-management-v5170" class="md-nav__link">
@@ -2248,7 +2282,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -5250,6 +5284,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -8323,15 +8385,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dot-dot" class="md-nav__link">
+  <a href="#dotfiles-dots" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DOT (dot)
+        Dotfiles (dots)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="DOT (dot)">
+    <nav class="md-nav" aria-label="Dotfiles (dots)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -8345,6 +8407,23 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secrets-sec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secrets (sec)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secrets (sec)">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#secret-management-macos-keychain" class="md-nav__link">
     <span class="md-ellipsis">
@@ -8355,6 +8434,23 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tokens-tok" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokens (tok)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tokens (tok)">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#token-management-v5170" class="md-nav__link">
@@ -8814,7 +8910,9 @@
 <li><a href="#mcp-mcp">MCP (mcp)</a> - MCP server management</li>
 <li><a href="#obsidian-obs">Obsidian (obs)</a> - Note management</li>
 <li><a href="#worktree-wt">Worktree (wt)</a> - Parallel development</li>
-<li><a href="#dot-dot">DOT (dot)</a> - Dotfile &amp; secrets</li>
+<li><a href="#dotfiles-dots">Dotfiles (dots)</a> - Dotfile management</li>
+<li><a href="#secrets-sec">Secrets (sec)</a> - Secret management</li>
+<li><a href="#tokens-tok">Tokens (tok)</a> - Token management</li>
 <li><a href="#teaching-teach">Teaching (teach)</a> - Course management</li>
 <li><a href="#terminal-tm">Terminal (tm)</a> - Terminal profiles</li>
 <li><a href="#prompt-prompt">Prompt (prompt)</a> - Prompt engine switching</li>
@@ -9251,82 +9349,120 @@
 <a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a><span class="c1"># Output: [Worktree dispatcher help]</span>
 </code></pre></div>
 <hr />
-<h2 id="dot-dot">DOT (dot)<a class="headerlink" href="#dot-dot" title="Permanent link">&para;</a></h2>
+<h2 id="dotfiles-dots">Dotfiles (dots)<a class="headerlink" href="#dotfiles-dots" title="Permanent link">&para;</a></h2>
 <h3 id="dotfile-management">Dotfile Management<a class="headerlink" href="#dotfile-management" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Edit dotfile</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>dot<span class="w"> </span>edit<span class="w"> </span>zshrc
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>dot<span class="w"> </span>edit<span class="w"> </span>vimrc
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>dots<span class="w"> </span>edit<span class="w"> </span>zshrc
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>dots<span class="w"> </span>edit<span class="w"> </span>vimrc
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Output: [Opens in $EDITOR]</span>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># Sync dotfiles</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>dot<span class="w"> </span>sync
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>dots<span class="w"> </span>sync
 <a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="c1"># Output: ✅ Synced 12 dotfiles</span>
 <a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="c1">#         ~/.zshrc → ~/dotfiles/zshrc</span>
 <a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1">#         ~/.vimrc → ~/dotfiles/vimrc</span>
 <a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
 <a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="c1"># Show dotfile status</span>
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>dot<span class="w"> </span>status
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>dots<span class="w"> </span>status
 <a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="c1"># Output: [Shows sync status]</span>
 <a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>
 <a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="c1"># Restore dotfile</span>
-<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>dot<span class="w"> </span>restore<span class="w"> </span>zshrc
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>dots<span class="w"> </span>restore<span class="w"> </span>zshrc
 <a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="c1"># Output: ✅ Restored ~/.zshrc from ~/dotfiles/zshrc</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="c1"># Show help</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>dots<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="c1"># Output: [Dotfiles dispatcher help]</span>
 </code></pre></div>
 <hr />
+<h2 id="secrets-sec">Secrets (sec)<a class="headerlink" href="#secrets-sec" title="Permanent link">&para;</a></h2>
 <h3 id="secret-management-macos-keychain">Secret Management (macOS Keychain)<a class="headerlink" href="#secret-management-macos-keychain" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Store secret</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>dot<span class="w"> </span>secret<span class="w"> </span><span class="nb">set</span><span class="w"> </span>GITHUB_TOKEN
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>sec<span class="w"> </span>add<span class="w"> </span>GITHUB_TOKEN
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1"># Output: Enter value for GITHUB_TOKEN:</span>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1">#         [Touch ID prompt]</span>
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1">#         ✅ Stored GITHUB_TOKEN in keychain</span>
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
 <a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Get secret</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>dot<span class="w"> </span>secret<span class="w"> </span>get<span class="w"> </span>GITHUB_TOKEN
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>sec<span class="w"> </span>GITHUB_TOKEN
 <a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c1"># Output: [Touch ID prompt]</span>
 <a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1">#         ghp_xxxxxxxxxxxxxxxxxxxx</span>
 <a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
 <a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="c1"># List secrets</span>
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>sec<span class="w"> </span>list
 <a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="c1"># Output: GITHUB_TOKEN</span>
 <a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="c1">#         NPM_TOKEN</span>
 <a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="c1">#         HOMEBREW_GITHUB_API_TOKEN</span>
 <a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>
 <a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="c1"># Delete secret</span>
-<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>GITHUB_TOKEN
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>sec<span class="w"> </span>delete<span class="w"> </span>GITHUB_TOKEN
 <a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="c1"># Output: [Touch ID prompt]</span>
 <a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="c1">#         ✅ Deleted GITHUB_TOKEN</span>
 <a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>
-<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="c1"># Rotate secret (get + update)</span>
-<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>dot<span class="w"> </span>secret<span class="w"> </span>rotate<span class="w"> </span>GITHUB_TOKEN
-<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="c1"># Output: [Touch ID prompt]</span>
-<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="c1">#         Current value: ghp_old...</span>
-<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="c1">#         Enter new value:</span>
-<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="c1">#         [Touch ID prompt]</span>
-<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="c1">#         ✅ Rotated GITHUB_TOKEN</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="c1"># Check secret status</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>sec<span class="w"> </span>status
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="c1"># Output: [Backend config &amp; secrets count]</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="c1"># Sync secrets across backends</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>sec<span class="w"> </span>sync
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="c1"># Output: [Interactive sync wizard]</span>
 <a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>
-<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="c1"># Unlock keychain</span>
-<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>dot<span class="w"> </span>unlock
-<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a><span class="c1"># Output: [Touch ID prompt]</span>
-<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="c1">#         ✅ Keychain unlocked</span>
-<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>
-<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a><span class="c1"># Show help</span>
-<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>dot<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a><span class="c1"># Output: [DOT dispatcher help]</span>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="c1"># Bitwarden access</span>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>sec<span class="w"> </span>bw<span class="w"> </span>github-token
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a><span class="c1"># Output: [Retrieves from Bitwarden]</span>
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a><span class="c1"># Secrets dashboard</span>
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>sec<span class="w"> </span>dashboard
+<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a><span class="c1"># Output: [Dashboard with expiration status]</span>
+<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>
+<a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a><span class="c1"># Unlock keychain</span>
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>sec<span class="w"> </span>unlock
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="c1"># Output: [Touch ID prompt]</span>
+<a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a><span class="c1">#         ✅ Keychain unlocked</span>
+<a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a>
+<a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a><span class="c1"># Lock keychain</span>
+<a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>sec<span class="w"> </span>lock
+<a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a><span class="c1"># Output: ✅ Keychain locked</span>
+<a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>
+<a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a><span class="c1"># Show help</span>
+<a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>sec<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a><span class="c1"># Output: [Secrets dispatcher help]</span>
 </code></pre></div>
 <hr />
+<h2 id="tokens-tok">Tokens (tok)<a class="headerlink" href="#tokens-tok" title="Permanent link">&para;</a></h2>
 <h3 id="token-management-v5170">Token Management (v5.17.0)<a class="headerlink" href="#token-management-v5170" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Check token expiration (fast, cached)</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>dot<span class="w"> </span>token<span class="w"> </span>expiring
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>tok<span class="w"> </span>expiring
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># Output: GitHub Token: 45 days remaining ✅</span>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1">#         (cached 2 minutes ago)</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1"># Force refresh (no cache)</span>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>dot<span class="w"> </span>token<span class="w"> </span>expiring<span class="w"> </span>--force
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>tok<span class="w"> </span>expiring<span class="w"> </span>--force
 <a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1"># Output: [Fresh check, ~2-3s]</span>
 <a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># Rotate token</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>dot<span class="w"> </span>token<span class="w"> </span>rotate<span class="w"> </span>github
-<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="c1"># Output: [Interactive token rotation]</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># Create GitHub token</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>tok<span class="w"> </span>github
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="c1"># Output: [Interactive GitHub token wizard]</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="c1"># Create npm token</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>tok<span class="w"> </span>npm
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="c1"># Output: [Interactive npm token wizard]</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="c1"># Create PyPI token</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>tok<span class="w"> </span>pypi
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="c1"># Output: [Interactive PyPI token wizard]</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a>
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="c1"># Rotate token</span>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a>tok<span class="w"> </span>rotate<span class="w"> </span>github
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="c1"># Output: [Interactive token rotation]</span>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a>
+<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="c1"># Refresh token</span>
+<a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a>tok<span class="w"> </span>refresh<span class="w"> </span>github
+<a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="c1"># Output: [Token refresh workflow]</span>
+<a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a>
+<a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="c1"># Show help</span>
+<a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a>tok<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a><span class="c1"># Output: [Token dispatcher help]</span>
 </code></pre></div>
 <hr />
 <h2 id="teaching-teach">Teaching (teach)<a class="headerlink" href="#teaching-teach" title="Permanent link">&para;</a></h2>
@@ -9664,7 +9800,7 @@
 <a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a><span class="c1"># Debug mode (verbose logging)</span>
 <a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_DEBUG</span><span class="o">=</span><span class="m">1</span>
 <a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>
-<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="c1"># Default editor for dotfiles</span>
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="c1"># Default editor for dotfile editing</span>
 <a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;nvim&quot;</span>
 <a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a>
 <a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a><span class="c1"># GitHub token (for git operations)</span>

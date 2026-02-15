@@ -1577,7 +1577,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -4579,6 +4579,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -8554,7 +8582,7 @@
 <pre class="mermaid"><code>graph TD
     User[User] --&gt; CLI[flow.plugin.zsh Entry Point]
     CLI --&gt; Core[Core Library]
-    CLI --&gt; Dispatchers[13 Dispatchers]
+    CLI --&gt; Dispatchers[15 Dispatchers]
     CLI --&gt; Commands[Core Commands]
 
     Core --&gt; Utils[Utilities]
@@ -8568,7 +8596,9 @@
     Dispatchers --&gt; MCP[mcp - MCP]
     Dispatchers --&gt; OBS[obs - Obsidian]
     Dispatchers --&gt; WT[wt - Worktrees]
-    Dispatchers --&gt; DOT[dot - Dotfiles/Secrets]
+    Dispatchers --&gt; DOTS[dots - Dotfiles]
+    Dispatchers --&gt; SEC[sec - Secrets]
+    Dispatchers --&gt; TOK[tok - Tokens]
     Dispatchers --&gt; TEACH[teach - Teaching]
     Dispatchers --&gt; TM[tm - Terminal]
     Dispatchers --&gt; PROMPT[prompt - Prompt Engine]
@@ -8585,7 +8615,8 @@
     Atlas --&gt;|Yes| AtlasEngine[Atlas State Engine]
     Atlas --&gt;|No| LocalState[Local State]
 
-    DOT --&gt; Keychain[macOS Keychain]
+    SEC --&gt; Keychain[macOS Keychain]
+    TOK --&gt; Keychain
     G --&gt; GitHub[GitHub API]
     TEACH --&gt; Scholar[Scholar CLI]
     MCP --&gt; MCPServers[MCP Servers]
@@ -8603,7 +8634,7 @@
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>┌─────────────────────────────────────────────────────────────┐
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│  Layer 3: Commands &amp; Dispatchers                            │
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│  - Core commands (work, dash, pick, doctor)                 │
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│  - 13 dispatchers (g, cc, r, qu, mcp, obs, wt, dot, teach, em) │
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│  - 15 dispatchers (g, cc, r, qu, mcp, obs, wt, dots, sec, tok, teach, em) │
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>└─────────────────────────────────────────────────────────────┘
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>                           ↓
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>┌─────────────────────────────────────────────────────────────┐
@@ -9088,16 +9119,16 @@
 <h2 id="security-model">Security Model<a class="headerlink" href="#security-model" title="Permanent link">&para;</a></h2>
 <h3 id="secret-management-macos-keychain">Secret Management (macOS Keychain)<a class="headerlink" href="#secret-management-macos-keychain" title="Permanent link">&para;</a></h3>
 <pre class="mermaid"><code>graph TD
-    User[User] --&gt; dot[dot secret set]
-    dot --&gt; TouchID{Touch ID}
+    User[User] --&gt; sec[sec add]
+    sec --&gt; TouchID{Touch ID}
     TouchID --&gt;|Authorized| Keychain[macOS Keychain]
     TouchID --&gt;|Denied| Error[❌ Access Denied]
 
     Keychain --&gt; Encrypt[Encrypted Storage]
     Encrypt --&gt; Secure[Secure Enclave]
 
-    App[Application] --&gt; dotget[dot secret get]
-    dotget --&gt; TouchID2{Touch ID}
+    App[Application] --&gt; secget[sec name]
+    secget --&gt; TouchID2{Touch ID}
     TouchID2 --&gt;|Authorized| Keychain
     TouchID2 --&gt;|Denied| Error2[❌ Access Denied]
     Keychain --&gt; Decrypt[Decrypt]

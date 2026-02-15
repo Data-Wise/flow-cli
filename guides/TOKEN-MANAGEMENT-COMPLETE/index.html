@@ -1577,7 +1577,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -4588,6 +4588,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -9435,7 +9463,7 @@
 <p>flow-cli uses <strong>two storage backends simultaneously</strong> for optimal balance of security, speed, and reliability:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────┐
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│                   USER ACTION                               │
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│                 dot token github                            │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│                 tok github                            │
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>└────────────────────┬────────────────────────────────────────┘
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                     │
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        ┌────────────┴────────────┐
@@ -9546,7 +9574,7 @@
 - Broad permissions needed
 - Organization doesn't support fine-grained PATs</p>
 <p><strong>Creation wizard:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>dot<span class="w"> </span>token<span class="w"> </span>github
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tok<span class="w"> </span>github
 </code></pre></div>
 <p><strong>Interactive steps:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>╭───────────────────────────────────────────────────╮
@@ -9596,9 +9624,9 @@
 <a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>│  Expires: 2026-04-24 (90 days)                    │
 <a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>│                                                   │
 <a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>│  Usage:                                           │
-<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>│    export GITHUB_TOKEN=$(dot secret github-token)│
+<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>│    export GITHUB_TOKEN=$(sec github-token)│
 <a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>│    gh auth login --with-token &lt;&lt;&lt; \              │
-<a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>│      $(dot secret github-token)                  │
+<a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>│      $(sec github-token)                  │
 <a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>╰───────────────────────────────────────────────────╯
 </code></pre></div>
 <p><strong>What happens behind the scenes:</strong></p>
@@ -9638,7 +9666,7 @@
 - Works with 2FA
 - Better security auditing</p>
 <p><strong>Creation wizard:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>dot<span class="w"> </span>token<span class="w"> </span>github
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>tok<span class="w"> </span>github
 </code></pre></div>
 <p><strong>Interactive steps:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>╭───────────────────────────────────────────────────╮
@@ -9691,7 +9719,7 @@
 - CI/CD pipelines
 - Automated deployments</p>
 <p><strong>Creation wizard:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>dot<span class="w"> </span>token<span class="w"> </span>npm
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>tok<span class="w"> </span>npm
 </code></pre></div>
 <p><strong>Interactive steps:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>╭───────────────────────────────────────────────────╮
@@ -9737,7 +9765,7 @@
 - Publishing Python packages
 - CI/CD pipelines</p>
 <p><strong>Creation wizard:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>dot<span class="w"> </span>token<span class="w"> </span>pypi
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>tok<span class="w"> </span>pypi
 </code></pre></div>
 <p><strong>Interactive steps:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>╭───────────────────────────────────────────────────╮
@@ -9775,11 +9803,11 @@
 <h2 id="3-retrieving-and-using-tokens">3. Retrieving and Using Tokens<a class="headerlink" href="#3-retrieving-and-using-tokens" title="Permanent link">&para;</a></h2>
 <h3 id="31-basic-retrieval">3.1 Basic Retrieval<a class="headerlink" href="#31-basic-retrieval" title="Permanent link">&para;</a></h3>
 <p><strong>Command:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>dot<span class="w"> </span>secret<span class="w"> </span>&lt;token-name&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>sec<span class="w"> </span>&lt;token-name&gt;
 </code></pre></div>
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Retrieve GitHub token (no output to terminal)</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Verify retrieval (check length, not value)</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Token length: </span><span class="si">${#</span><span class="nv">GITHUB_TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -9795,37 +9823,37 @@
 <h3 id="32-script-integration">3.2 Script Integration<a class="headerlink" href="#32-script-integration" title="Permanent link">&para;</a></h3>
 <h4 id="github-cli-authentication">GitHub CLI Authentication<a class="headerlink" href="#github-cli-authentication" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Method 1: Environment variable</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>gh<span class="w"> </span>auth<span class="w"> </span>login<span class="w"> </span>--with-token<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GITHUB_TOKEN</span><span class="s2">&quot;</span>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1"># Method 2: Direct pipe</span>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>gh<span class="w"> </span>auth<span class="w"> </span>login<span class="w"> </span>--with-token<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="w"> </span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>gh<span class="w"> </span>auth<span class="w"> </span>login<span class="w"> </span>--with-token<span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="w"> </span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
 <a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="c1"># Method 3: Persistent login</span>
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="nb">echo</span><span class="w"> </span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gh<span class="w"> </span>auth<span class="w"> </span>login<span class="w"> </span>--with-token
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="nb">echo</span><span class="w"> </span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>gh<span class="w"> </span>auth<span class="w"> </span>login<span class="w"> </span>--with-token
 <a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>gh<span class="w"> </span>auth<span class="w"> </span>status
 </code></pre></div>
 <h4 id="npm-publishing">npm Publishing<a class="headerlink" href="#npm-publishing" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Set npm token for current session</span>
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>//registry.npmjs.org/:_authToken<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="s2">&quot;</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>npm-token<span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="s2">&quot;</span><span class="k">$(</span>sec<span class="w"> </span>npm-token<span class="k">)</span><span class="s2">&quot;</span>
 <a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
 <a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># Publish package</span>
 <a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>npm<span class="w"> </span>publish
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># Or use .npmrc (not recommended - plaintext)</span>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;//registry.npmjs.org/:_authToken=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>npm-token<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.npmrc
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;//registry.npmjs.org/:_authToken=</span><span class="k">$(</span>sec<span class="w"> </span>npm-token<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.npmrc
 </code></pre></div>
 <h4 id="pypi-publishing">PyPI Publishing<a class="headerlink" href="#pypi-publishing" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Set PyPI token in environment</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">TWINE_USERNAME</span><span class="o">=</span>__token__
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">TWINE_PASSWORD</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>pypi-my-package<span class="k">)</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">TWINE_PASSWORD</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>pypi-my-package<span class="k">)</span>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
 <a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># Publish package</span>
 <a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>python<span class="w"> </span>-m<span class="w"> </span>twine<span class="w"> </span>upload<span class="w"> </span>dist/*
 <a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
 <a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="c1"># Or use pyproject.toml (poetry)</span>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>poetry<span class="w"> </span>config<span class="w"> </span>pypi-token.pypi<span class="w"> </span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>pypi-my-package<span class="k">)</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>poetry<span class="w"> </span>config<span class="w"> </span>pypi-token.pypi<span class="w"> </span><span class="k">$(</span>sec<span class="w"> </span>pypi-my-package<span class="k">)</span>
 <a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>poetry<span class="w"> </span>publish
 </code></pre></div>
 <h3 id="33-cicd-integration">3.3 CI/CD Integration<a class="headerlink" href="#33-cicd-integration" title="Permanent link">&para;</a></h3>
@@ -9851,7 +9879,7 @@
 <a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="w">      </span><span class="c1"># Retrieve token</span>
 <a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Get npm token</span>
 <a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a><span class="w">          </span><span class="no">export NPM_TOKEN=$(dot secret npm-token)</span>
+<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a><span class="w">          </span><span class="no">export NPM_TOKEN=$(sec npm-token)</span>
 <a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a><span class="w">          </span><span class="no">echo &quot;::add-mask::$NPM_TOKEN&quot;</span>
 <a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a><span class="w">          </span><span class="no">echo &quot;NPM_TOKEN=$NPM_TOKEN&quot; &gt;&gt; $GITHUB_ENV</span>
 <a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>
@@ -9868,16 +9896,16 @@
 <p><strong>Scenario:</strong> You created a new token on GitHub and want to replace the old one.</p>
 <p><strong>Process:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Method 1: Re-add with same name (overwrites)</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>dot<span class="w"> </span>token<span class="w"> </span>github
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>tok<span class="w"> </span>github
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># Use same token name when prompted</span>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># New token replaces old token in both backends</span>
 <a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
 <a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="c1"># Method 2: Manual update (advanced)</span>
 <a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># 1. Delete old token</span>
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>github-token
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>sec<span class="w"> </span>delete<span class="w"> </span>github-token
 <a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
 <a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="c1"># 2. Add new token</span>
-<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>dot<span class="w"> </span>token<span class="w"> </span>github
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>tok<span class="w"> </span>github
 <a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="c1"># Create with same name</span>
 </code></pre></div>
 <p><strong>What happens:</strong></p>
@@ -9891,13 +9919,13 @@
 <p><strong>Current limitation:</strong> No built-in command for metadata-only updates.</p>
 <p><strong>Workaround (manual):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Get current token value</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nv">TOKEN_VALUE</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nv">TOKEN_VALUE</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Delete entry</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>github-token
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>sec<span class="w"> </span>delete<span class="w"> </span>github-token
 <a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
 <a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># Re-add with updated metadata</span>
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># (Use dot token github and paste same token value)</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># (Use tok github and paste same token value)</span>
 <a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
 <a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="c1"># OR: Direct Keychain update (advanced)</span>
 <a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>security<span class="w"> </span>delete-generic-password<span class="w"> </span>-a<span class="w"> </span>github-token<span class="w"> </span>-s<span class="w"> </span>flow-cli
@@ -9907,7 +9935,7 @@
 <a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="w">  </span>-w<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TOKEN_VALUE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="w">  </span>-j<span class="w"> </span><span class="s1">&#39;{&quot;dot_version&quot;:&quot;2.1&quot;,&quot;type&quot;:&quot;github&quot;,&quot;token_type&quot;:&quot;classic&quot;,&quot;created&quot;:&quot;2026-01-24T15:00:00Z&quot;,&quot;expires_days&quot;:90,&quot;expires&quot;:&quot;2026-04-24&quot;,&quot;github_user&quot;:&quot;newusername&quot;}&#39;</span>
 </code></pre></div>
-<p><strong>Future enhancement:</strong> <code>dot secret update-metadata &lt;name&gt;</code> command planned.</p>
+<p><strong>Future enhancement:</strong> <code>sec update-metadata &lt;name&gt;</code> command planned.</p>
 <hr />
 <h2 id="5-rotating-tokens">5. Rotating Tokens<a class="headerlink" href="#5-rotating-tokens" title="Permanent link">&para;</a></h2>
 <h3 id="51-automatic-rotation-wizard">5.1 Automatic Rotation Wizard<a class="headerlink" href="#51-automatic-rotation-wizard" title="Permanent link">&para;</a></h3>
@@ -9917,7 +9945,7 @@
 - 📅 Regular rotation schedule (every 90 days)
 - 🔄 Best practice refresh</p>
 <p><strong>Command:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>dot<span class="w"> </span>token<span class="w"> </span>rotate
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>tok<span class="w"> </span>rotate
 </code></pre></div>
 <p><strong>Interactive steps:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>╭───────────────────────────────────────────────────╮
@@ -10004,23 +10032,23 @@
 - Testing rotation flow</p>
 <p><strong>Steps:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># 1. Create backup manually</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>add<span class="w"> </span>github-token-backup-20260124
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>sec<span class="w"> </span>add<span class="w"> </span>github-token-backup-20260124
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="c1"># Paste current token when prompted</span>
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
 <a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="c1"># 2. Create new token on provider</span>
 <a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="c1"># (Manual process on GitHub/npm/PyPI)</span>
 <a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>
 <a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="c1"># 3. Update token</span>
-<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>dot<span class="w"> </span>token<span class="w"> </span>github
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>tok<span class="w"> </span>github
 <a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="c1"># Use same name &quot;github-token&quot;</span>
 <a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="c1"># Paste new token</span>
 <a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>
 <a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="c1"># 4. Verify new token</span>
-<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
 <a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>gh<span class="w"> </span>auth<span class="w"> </span>status
 <a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a>
 <a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a><span class="c1"># 5. Delete backup (after verification)</span>
-<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>github-token-backup-20260124
+<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a>sec<span class="w"> </span>delete<span class="w"> </span>github-token-backup-20260124
 <a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a>
 <a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a><span class="c1"># 6. Revoke old token on provider</span>
 <a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a><span class="c1"># https://github.com/settings/tokens</span>
@@ -10032,15 +10060,15 @@
 - 7-day retention (manual deletion after)</p>
 <p><strong>Manual backups:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Before risky operation</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>add<span class="w"> </span>github-token-backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>sec<span class="w"> </span>add<span class="w"> </span>github-token-backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1"># Paste current token</span>
 <a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
 <a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1"># After verification, delete backup</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>github-token-backup-20260124
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>sec<span class="w"> </span>delete<span class="w"> </span>github-token-backup-20260124
 </code></pre></div>
 <p><strong>Backup cleanup:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># List all backups</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>backup
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>sec<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>backup
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
 <a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Output:</span>
 <a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="c1">#   github-token-backup-20260117</span>
@@ -10048,16 +10076,16 @@
 <a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="c1">#   npm-token-backup-20260120</span>
 <a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>
 <a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="c1"># Delete old backups (&gt; 7 days)</span>
-<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>github-token-backup-20260117
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>sec<span class="w"> </span>delete<span class="w"> </span>github-token-backup-20260117
 </code></pre></div>
 <hr />
 <h2 id="6-deleting-tokens">6. Deleting Tokens<a class="headerlink" href="#6-deleting-tokens" title="Permanent link">&para;</a></h2>
 <h3 id="61-single-token-deletion">6.1 Single Token Deletion<a class="headerlink" href="#61-single-token-deletion" title="Permanent link">&para;</a></h3>
 <p><strong>Command:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>&lt;token-name&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>sec<span class="w"> </span>delete<span class="w"> </span>&lt;token-name&gt;
 </code></pre></div>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span>github-token
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>sec<span class="w"> </span>delete<span class="w"> </span>github-token
 </code></pre></div>
 <p><strong>Interactive confirmation:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>╭───────────────────────────────────────────────────╮
@@ -10113,17 +10141,17 @@
 <p><strong>Current limitation:</strong> No built-in bulk delete.</p>
 <p><strong>Workaround (script):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># List backups older than 7 days</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>backup<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>backup<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>sec<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>backup<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>backup<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting: </span><span class="nv">$backup</span><span class="s2">&quot;</span>
-<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="w">  </span>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup</span><span class="s2">&quot;</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="w">  </span>sec<span class="w"> </span>delete<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup</span><span class="s2">&quot;</span>
 <a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="k">done</span>
 <a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
 <a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1"># Or: Delete specific pattern</span>
 <a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="k">for</span><span class="w"> </span>token<span class="w"> </span><span class="k">in</span><span class="w"> </span>github-token-backup-202601<span class="o">{</span><span class="m">10</span>..23<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="w">  </span>dot<span class="w"> </span>secret<span class="w"> </span>delete<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$token</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="w">  </span>sec<span class="w"> </span>delete<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$token</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
 <a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="k">done</span>
 </code></pre></div>
-<p><strong>Future enhancement:</strong> <code>dot secret prune</code> command planned.</p>
+<p><strong>Future enhancement:</strong> <code>sec prune</code> command planned.</p>
 <h3 id="63-provider-token-revocation">6.3 Provider Token Revocation<a class="headerlink" href="#63-provider-token-revocation" title="Permanent link">&para;</a></h3>
 <p><strong>Important:</strong> Deleting from flow-cli does NOT revoke token on provider!</p>
 <p><strong>Manual revocation required:</strong></p>
@@ -10153,7 +10181,7 @@
 <h2 id="7-expiration-management">7. Expiration Management<a class="headerlink" href="#7-expiration-management" title="Permanent link">&para;</a></h2>
 <h3 id="71-check-expiration-status">7.1 Check Expiration Status<a class="headerlink" href="#71-check-expiration-status" title="Permanent link">&para;</a></h3>
 <p><strong>Command:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>dot<span class="w"> </span>token<span class="w"> </span>expiring
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>tok<span class="w"> </span>expiring
 </code></pre></div>
 <p><strong>Output (multiple tokens):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>╭───────────────────────────────────────────────────╮
@@ -10163,7 +10191,7 @@
 <a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>│  ⚠️  github-token                                  │
 <a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>│      Expires: 2026-01-29 (5 days)                 │
 <a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>│      Type: GitHub Classic PAT                     │
-<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>│      Action: Run &#39;dot token rotate&#39;               │
+<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>│      Action: Run &#39;tok rotate&#39;               │
 <a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>│                                                   │
 <a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a>│  ✅  npm-token                                     │
 <a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>│      Expires: 2026-04-24 (67 days)                │
@@ -10187,7 +10215,7 @@
 - <code>2</code>: Error (Keychain access denied, etc.)</p>
 <p><strong>Quiet mode (for scripts):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># Check without output</span>
-<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="k">if</span><span class="w"> </span>dot<span class="w"> </span>token<span class="w"> </span>expiring<span class="w"> </span>--quiet<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="k">if</span><span class="w"> </span>tok<span class="w"> </span>expiring<span class="w"> </span>--quiet<span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;All tokens valid&quot;</span>
 <a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="k">else</span>
 <a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Tokens expiring soon!&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
@@ -10199,7 +10227,7 @@
 <p><strong>Current limitation:</strong> No built-in update command.</p>
 <p><strong>Workaround (manual):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># Get current token value</span>
-<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="nv">TOKEN_VALUE</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="nv">TOKEN_VALUE</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
 <a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>
 <a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="c1"># Get current metadata</span>
 <a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="nv">METADATA</span><span class="o">=</span><span class="k">$(</span>security<span class="w"> </span>find-generic-password<span class="w"> </span><span class="se">\</span>
@@ -10220,14 +10248,14 @@
 <a id="__codelineno-39-20" name="__codelineno-39-20" href="#__codelineno-39-20"></a><span class="w">  </span>-j<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NEW_METADATA</span><span class="s2">&quot;</span>
 <a id="__codelineno-39-21" name="__codelineno-39-21" href="#__codelineno-39-21"></a>
 <a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a><span class="c1"># Verify</span>
-<a id="__codelineno-39-23" name="__codelineno-39-23" href="#__codelineno-39-23"></a>dot<span class="w"> </span>token<span class="w"> </span>expiring
+<a id="__codelineno-39-23" name="__codelineno-39-23" href="#__codelineno-39-23"></a>tok<span class="w"> </span>expiring
 </code></pre></div>
-<p><strong>Future enhancement:</strong> <code>dot token update-expiration &lt;name&gt; &lt;days&gt;</code> command planned.</p>
+<p><strong>Future enhancement:</strong> <code>tok update-expiration &lt;name&gt; &lt;days&gt;</code> command planned.</p>
 <h3 id="73-disable-expiration-warnings">7.3 Disable Expiration Warnings<a class="headerlink" href="#73-disable-expiration-warnings" title="Permanent link">&para;</a></h3>
 <p><strong>Scenario:</strong> Using long-lived token, don't want warnings.</p>
 <p><strong>Configuration (planned):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Disable for specific token</span>
-<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>config<span class="w"> </span>github-token<span class="w"> </span>--no-expiration-check
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>sec<span class="w"> </span>config<span class="w"> </span>github-token<span class="w"> </span>--no-expiration-check
 <a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>
 <a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="c1"># Disable globally</span>
 <a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_TOKEN_CHECK_DISABLED</span><span class="o">=</span><span class="m">1</span>
@@ -10239,7 +10267,7 @@
 <p><strong>Symptoms:</strong>
 - No Touch ID prompt when retrieving token
 - "User interaction is not allowed" error
-- Hangs on <code>dot secret</code> command</p>
+- Hangs on <code>sec</code> command</p>
 <p><strong>Causes:</strong>
 - Terminal app lacks Accessibility permissions
 - Keychain locked
@@ -10271,7 +10299,7 @@
 <a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>security<span class="w"> </span>unlock-keychain<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;your-password&quot;</span><span class="w"> </span>login.keychain-db
 <a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>
 <a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="c1"># Or: Use Bitwarden backend directly</span>
-<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>dot<span class="w"> </span>secret<span class="w"> </span>bw<span class="w"> </span>github-token
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>sec<span class="w"> </span>bw<span class="w"> </span>github-token
 </code></pre></div>
 <h3 id="82-token-validation-failed">8.2 Token Validation Failed<a class="headerlink" href="#82-token-validation-failed" title="Permanent link">&para;</a></h3>
 <p><strong>Symptoms:</strong>
@@ -10343,7 +10371,7 @@
 <a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>
 <a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a><span class="c1"># If error, reset Keychain access:</span>
 <a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a>security<span class="w"> </span>delete-generic-password<span class="w"> </span>-s<span class="w"> </span>flow-cli<span class="w"> </span>-a<span class="w"> </span>github-token
-<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>dot<span class="w"> </span>token<span class="w"> </span>github<span class="w">  </span><span class="c1"># Re-add</span>
+<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>tok<span class="w"> </span>github<span class="w">  </span><span class="c1"># Re-add</span>
 </code></pre></div>
 <h4 id="verify-service-name">Verify Service Name<a class="headerlink" href="#verify-service-name" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="c1"># Check service name</span>
@@ -10536,10 +10564,10 @@
 <h4 id="regular-vault-audits">Regular Vault Audits<a class="headerlink" href="#regular-vault-audits" title="Permanent link">&para;</a></h4>
 <p><strong>Monthly audit checklist:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="c1"># 1. List all tokens</span>
-<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>sec<span class="w"> </span>list
 <a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a>
 <a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a><span class="c1"># 2. Check expiration status</span>
-<a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a>dot<span class="w"> </span>token<span class="w"> </span>expiring
+<a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a>tok<span class="w"> </span>expiring
 <a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a>
 <a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a><span class="c1"># 3. Remove unused tokens</span>
 <a id="__codelineno-65-8" name="__codelineno-65-8" href="#__codelineno-65-8"></a><span class="c1"># (Delete tokens not used in 90+ days)</span>
@@ -10548,7 +10576,7 @@
 <a id="__codelineno-65-11" name="__codelineno-65-11" href="#__codelineno-65-11"></a><span class="c1"># (Check on GitHub/npm/PyPI)</span>
 <a id="__codelineno-65-12" name="__codelineno-65-12" href="#__codelineno-65-12"></a>
 <a id="__codelineno-65-13" name="__codelineno-65-13" href="#__codelineno-65-13"></a><span class="c1"># 5. Rotate expiring tokens</span>
-<a id="__codelineno-65-14" name="__codelineno-65-14" href="#__codelineno-65-14"></a>dot<span class="w"> </span>token<span class="w"> </span>rotate
+<a id="__codelineno-65-14" name="__codelineno-65-14" href="#__codelineno-65-14"></a>tok<span class="w"> </span>rotate
 </code></pre></div>
 <p><strong>Automated audit (script):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="ch">#!/bin/bash</span>
@@ -10559,15 +10587,15 @@
 <a id="__codelineno-66-6" name="__codelineno-66-6" href="#__codelineno-66-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 <a id="__codelineno-66-7" name="__codelineno-66-7" href="#__codelineno-66-7"></a>
 <a id="__codelineno-66-8" name="__codelineno-66-8" href="#__codelineno-66-8"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;1. Token Inventory:&quot;</span>
-<a id="__codelineno-66-9" name="__codelineno-66-9" href="#__codelineno-66-9"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-66-9" name="__codelineno-66-9" href="#__codelineno-66-9"></a>sec<span class="w"> </span>list
 <a id="__codelineno-66-10" name="__codelineno-66-10" href="#__codelineno-66-10"></a>
 <a id="__codelineno-66-11" name="__codelineno-66-11" href="#__codelineno-66-11"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 <a id="__codelineno-66-12" name="__codelineno-66-12" href="#__codelineno-66-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;2. Expiration Status:&quot;</span>
-<a id="__codelineno-66-13" name="__codelineno-66-13" href="#__codelineno-66-13"></a>dot<span class="w"> </span>token<span class="w"> </span>expiring
+<a id="__codelineno-66-13" name="__codelineno-66-13" href="#__codelineno-66-13"></a>tok<span class="w"> </span>expiring
 <a id="__codelineno-66-14" name="__codelineno-66-14" href="#__codelineno-66-14"></a>
 <a id="__codelineno-66-15" name="__codelineno-66-15" href="#__codelineno-66-15"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 <a id="__codelineno-66-16" name="__codelineno-66-16" href="#__codelineno-66-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;3. Action Items:&quot;</span>
-<a id="__codelineno-66-17" name="__codelineno-66-17" href="#__codelineno-66-17"></a>dot<span class="w"> </span>token<span class="w"> </span>expiring<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;⚠️&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>line<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-66-17" name="__codelineno-66-17" href="#__codelineno-66-17"></a>tok<span class="w"> </span>expiring<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;⚠️&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>line<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <a id="__codelineno-66-18" name="__codelineno-66-18" href="#__codelineno-66-18"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;   - Rotate: </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$line</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
 <a id="__codelineno-66-19" name="__codelineno-66-19" href="#__codelineno-66-19"></a><span class="k">done</span>
 <a id="__codelineno-66-20" name="__codelineno-66-20" href="#__codelineno-66-20"></a>
@@ -10589,7 +10617,7 @@
 <a id="__codelineno-67-8" name="__codelineno-67-8" href="#__codelineno-67-8"></a><span class="c1">#   pypi-token</span>
 <a id="__codelineno-67-9" name="__codelineno-67-9" href="#__codelineno-67-9"></a>
 <a id="__codelineno-67-10" name="__codelineno-67-10" href="#__codelineno-67-10"></a><span class="c1"># 2. For each token, migrate to dual storage</span>
-<a id="__codelineno-67-11" name="__codelineno-67-11" href="#__codelineno-67-11"></a>dot<span class="w"> </span>secret<span class="w"> </span>import
+<a id="__codelineno-67-11" name="__codelineno-67-11" href="#__codelineno-67-11"></a>sec<span class="w"> </span>import
 <a id="__codelineno-67-12" name="__codelineno-67-12" href="#__codelineno-67-12"></a>
 <a id="__codelineno-67-13" name="__codelineno-67-13" href="#__codelineno-67-13"></a><span class="c1"># Interactive:</span>
 <a id="__codelineno-67-14" name="__codelineno-67-14" href="#__codelineno-67-14"></a>╭───────────────────────────────────────────────────╮
@@ -10663,11 +10691,11 @@
 <a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>
 <a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a><span class="c1"># 2. For each token, add to flow-cli</span>
 <a id="__codelineno-70-5" name="__codelineno-70-5" href="#__codelineno-70-5"></a><span class="c1"># GitHub token:</span>
-<a id="__codelineno-70-6" name="__codelineno-70-6" href="#__codelineno-70-6"></a>dot<span class="w"> </span>token<span class="w"> </span>github
+<a id="__codelineno-70-6" name="__codelineno-70-6" href="#__codelineno-70-6"></a>tok<span class="w"> </span>github
 <a id="__codelineno-70-7" name="__codelineno-70-7" href="#__codelineno-70-7"></a><span class="c1"># Paste: ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
 <a id="__codelineno-70-8" name="__codelineno-70-8" href="#__codelineno-70-8"></a>
 <a id="__codelineno-70-9" name="__codelineno-70-9" href="#__codelineno-70-9"></a><span class="c1"># npm token:</span>
-<a id="__codelineno-70-10" name="__codelineno-70-10" href="#__codelineno-70-10"></a>dot<span class="w"> </span>token<span class="w"> </span>npm
+<a id="__codelineno-70-10" name="__codelineno-70-10" href="#__codelineno-70-10"></a>tok<span class="w"> </span>npm
 <a id="__codelineno-70-11" name="__codelineno-70-11" href="#__codelineno-70-11"></a><span class="c1"># Paste: npm_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
 <a id="__codelineno-70-12" name="__codelineno-70-12" href="#__codelineno-70-12"></a>
 <a id="__codelineno-70-13" name="__codelineno-70-13" href="#__codelineno-70-13"></a><span class="c1"># 3. Update shell config</span>
@@ -10678,8 +10706,8 @@
 <a id="__codelineno-70-18" name="__codelineno-70-18" href="#__codelineno-70-18"></a>cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
 <a id="__codelineno-70-19" name="__codelineno-70-19" href="#__codelineno-70-19"></a>
 <a id="__codelineno-70-20" name="__codelineno-70-20" href="#__codelineno-70-20"></a><span class="s"># Token retrieval via flow-cli (secure)</span>
-<a id="__codelineno-70-21" name="__codelineno-70-21" href="#__codelineno-70-21"></a><span class="s">export GITHUB_TOKEN=$(dot secret github-token 2&gt;/dev/null || echo &quot;&quot;)</span>
-<a id="__codelineno-70-22" name="__codelineno-70-22" href="#__codelineno-70-22"></a><span class="s">export NPM_TOKEN=$(dot secret npm-token 2&gt;/dev/null || echo &quot;&quot;)</span>
+<a id="__codelineno-70-21" name="__codelineno-70-21" href="#__codelineno-70-21"></a><span class="s">export GITHUB_TOKEN=$(sec github-token 2&gt;/dev/null || echo &quot;&quot;)</span>
+<a id="__codelineno-70-22" name="__codelineno-70-22" href="#__codelineno-70-22"></a><span class="s">export NPM_TOKEN=$(sec npm-token 2&gt;/dev/null || echo &quot;&quot;)</span>
 <a id="__codelineno-70-23" name="__codelineno-70-23" href="#__codelineno-70-23"></a>
 <a id="__codelineno-70-24" name="__codelineno-70-24" href="#__codelineno-70-24"></a><span class="s"># Only load if tokens exist</span>
 <a id="__codelineno-70-25" name="__codelineno-70-25" href="#__codelineno-70-25"></a><span class="s">[[ -n &quot;$GITHUB_TOKEN&quot; ]] || echo &quot;Warning: GITHUB_TOKEN not set&quot; &gt;&amp;2</span>
@@ -10706,11 +10734,11 @@
 <a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a><span class="nb">cd</span><span class="w"> </span>~/Backups/flow-cli-tokens-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>
 <a id="__codelineno-71-4" name="__codelineno-71-4" href="#__codelineno-71-4"></a>
 <a id="__codelineno-71-5" name="__codelineno-71-5" href="#__codelineno-71-5"></a><span class="c1"># 2. Export each token</span>
-<a id="__codelineno-71-6" name="__codelineno-71-6" href="#__codelineno-71-6"></a>dot<span class="w"> </span>secret<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>token_name<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-71-6" name="__codelineno-71-6" href="#__codelineno-71-6"></a>sec<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>token_name<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <a id="__codelineno-71-7" name="__codelineno-71-7" href="#__codelineno-71-7"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Exporting: </span><span class="nv">$token_name</span><span class="s2">&quot;</span>
 <a id="__codelineno-71-8" name="__codelineno-71-8" href="#__codelineno-71-8"></a>
 <a id="__codelineno-71-9" name="__codelineno-71-9" href="#__codelineno-71-9"></a><span class="w">  </span><span class="c1"># Get token value</span>
-<a id="__codelineno-71-10" name="__codelineno-71-10" href="#__codelineno-71-10"></a><span class="w">  </span><span class="nv">token_value</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$token_name</span><span class="s2">&quot;</span><span class="k">)</span>
+<a id="__codelineno-71-10" name="__codelineno-71-10" href="#__codelineno-71-10"></a><span class="w">  </span><span class="nv">token_value</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$token_name</span><span class="s2">&quot;</span><span class="k">)</span>
 <a id="__codelineno-71-11" name="__codelineno-71-11" href="#__codelineno-71-11"></a>
 <a id="__codelineno-71-12" name="__codelineno-71-12" href="#__codelineno-71-12"></a><span class="w">  </span><span class="c1"># Get metadata</span>
 <a id="__codelineno-71-13" name="__codelineno-71-13" href="#__codelineno-71-13"></a><span class="w">  </span><span class="nv">metadata</span><span class="o">=</span><span class="k">$(</span>security<span class="w"> </span>find-generic-password<span class="w"> </span><span class="se">\</span>
@@ -10769,7 +10797,7 @@
 <a id="__codelineno-72-23" name="__codelineno-72-23" href="#__codelineno-72-23"></a><span class="k">done</span>
 <a id="__codelineno-72-24" name="__codelineno-72-24" href="#__codelineno-72-24"></a>
 <a id="__codelineno-72-25" name="__codelineno-72-25" href="#__codelineno-72-25"></a><span class="c1"># 3. Verify restoration</span>
-<a id="__codelineno-72-26" name="__codelineno-72-26" href="#__codelineno-72-26"></a>dot<span class="w"> </span>secret<span class="w"> </span>list
+<a id="__codelineno-72-26" name="__codelineno-72-26" href="#__codelineno-72-26"></a>sec<span class="w"> </span>list
 <a id="__codelineno-72-27" name="__codelineno-72-27" href="#__codelineno-72-27"></a>
 <a id="__codelineno-72-28" name="__codelineno-72-28" href="#__codelineno-72-28"></a><span class="c1"># 4. Secure deletion</span>
 <a id="__codelineno-72-29" name="__codelineno-72-29" href="#__codelineno-72-29"></a><span class="nb">cd</span><span class="w"> </span>..
@@ -10804,7 +10832,7 @@
 <li>
 <p><strong>Rotation is easy</strong></p>
 </li>
-<li><code>dot token rotate</code> wizard</li>
+<li><code>tok rotate</code> wizard</li>
 <li>Automatic backups</li>
 <li>
 <p>Manual revocation required</p>
@@ -10812,20 +10840,20 @@
 <li>
 <p><strong>Integration is seamless</strong></p>
 </li>
-<li><code>$(dot secret &lt;name&gt;)</code> in scripts</li>
+<li><code>$(sec &lt;name&gt;)</code> in scripts</li>
 <li>No echo to terminal</li>
 <li>CI/CD compatible</li>
 </ol>
 <hr />
 <p><strong>Next steps:</strong></p>
 <ul>
-<li>📖 Try the interactive tutorial: <code>dot secret tutorial</code></li>
+<li>📖 Try the interactive tutorial: <code>sec help</code></li>
 <li>📋 Keep the quick reference handy: <code>REFCARD-TOKEN-SECRETS.md</code></li>
 <li>🔒 Set calendar reminder for 90-day token rotation</li>
 <li>💾 Create monthly backup automation</li>
 <li>🔍 Run security audit: <code>flow doctor --dot</code></li>
 </ul>
-<p><strong>Questions?</strong> Run <code>dot secret help</code> or <code>dot token help</code></p>
+<p><strong>Questions?</strong> Run <code>sec help</code> or <code>tok help</code></p>
 
 
 

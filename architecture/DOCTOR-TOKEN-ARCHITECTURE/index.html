@@ -1577,7 +1577,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -4587,6 +4587,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../guides/DOT-WORKFLOW/" class="md-nav__link">
         
   
@@ -6947,10 +6975,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-why-delegate-to-dot" class="md-nav__link">
+  <a href="#4-why-delegate-to-tok" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Why Delegate to DOT?
+        4. Why Delegate to TOK?
       
     </span>
   </a>
@@ -8327,10 +8355,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-why-delegate-to-dot" class="md-nav__link">
+  <a href="#4-why-delegate-to-tok" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Why Delegate to DOT?
+        4. Why Delegate to TOK?
       
     </span>
   </a>
@@ -8511,9 +8539,9 @@
     end
 
     subgraph "Integration Layer"
-        Delegate[DOT Delegation]
-        DotExpiring[dot token expiring]
-        DotRotate[dot token rotate]
+        Delegate[tok Delegation]
+        TokExpiring[tok expiring]
+        TokRotate[tok rotate]
     end
 
     subgraph "Data Storage"
@@ -8528,12 +8556,12 @@
     Doctor --&gt; CacheGet
     CacheGet --&gt; CacheFiles
     Doctor --&gt; Delegate
-    Delegate --&gt; DotExpiring
-    Menu --&gt; DotRotate
-    DotRotate --&gt; Keychain
-    DotRotate --&gt; CacheClear
+    Delegate --&gt; TokExpiring
+    Menu --&gt; TokRotate
+    TokRotate --&gt; Keychain
+    TokRotate --&gt; CacheClear
     CacheClear --&gt; CacheFiles
-    DotExpiring --&gt; CacheSet
+    TokExpiring --&gt; CacheSet
     CacheSet --&gt; CacheFiles</code></pre>
 <hr />
 <h2 id="component-architecture">Component Architecture<a class="headerlink" href="#component-architecture" title="Permanent link">&para;</a></h2>
@@ -8600,7 +8628,7 @@
     participant Doctor
     participant Cache
     participant Filesystem
-    participant DOT
+    participant TOK
 
     Doctor-&gt;&gt;Cache: _doctor_cache_get("token-github")
     Cache-&gt;&gt;Filesystem: Read ~/.flow/cache/doctor/token-github.cache
@@ -8610,8 +8638,8 @@
         Cache--&gt;&gt;Doctor: Cached result
     else Cache Miss
         Cache--&gt;&gt;Doctor: Not found (exit 1)
-        Doctor-&gt;&gt;DOT: _dot_token_expiring
-        DOT--&gt;&gt;Doctor: Fresh validation
+        Doctor-&gt;&gt;TOK: _tok_expiring
+        TOK--&gt;&gt;Doctor: Fresh validation
         Doctor-&gt;&gt;Cache: _doctor_cache_set("token-github", result)
         Cache-&gt;&gt;Filesystem: Write cache file (atomic)
     end</code></pre>
@@ -8698,11 +8726,11 @@
 </code></pre></div>
 <hr />
 <h3 id="5-integration-layer">5. Integration Layer<a class="headerlink" href="#5-integration-layer" title="Permanent link">&para;</a></h3>
-<p><strong>DOT Delegation:</strong></p>
+<p><strong>tok Delegation:</strong></p>
 <pre class="mermaid"><code>sequenceDiagram
     participant Doctor
     participant Cache
-    participant DOT
+    participant TOK
     participant GitHub
 
     Note over Doctor: doctor --dot
@@ -8711,24 +8739,24 @@
     alt Cache Hit
         Cache--&gt;&gt;Doctor: Return cached
     else Cache Miss
-        Doctor-&gt;&gt;DOT: _dot_token_expiring
-        DOT-&gt;&gt;GitHub: API: GET /user
-        GitHub--&gt;&gt;DOT: Token valid
-        DOT--&gt;&gt;Doctor: Validation result
+        Doctor-&gt;&gt;TOK: _tok_expiring
+        TOK-&gt;&gt;GitHub: API: GET /user
+        GitHub--&gt;&gt;TOK: Token valid
+        TOK--&gt;&gt;Doctor: Validation result
         Doctor-&gt;&gt;Cache: Store result (5 min)
     end
 
     Doctor-&gt;&gt;Doctor: Display status</code></pre>
 <p><strong>Key Functions:</strong></p>
 <ol>
-<li><strong>_dot_token_expiring</strong> (from <code>lib/dispatchers/dot-dispatcher.zsh</code>)</li>
+<li><strong>_tok_expiring</strong> (from <code>lib/dispatchers/tok-dispatcher.zsh</code>)</li>
 <li>Validates GitHub token</li>
 <li>Checks expiration date</li>
 <li>
 <p>Returns structured status</p>
 </li>
 <li>
-<p><strong>_dot_token_rotate</strong> (from <code>lib/dispatchers/dot-dispatcher.zsh</code>)</p>
+<p><strong>_tok_rotate</strong> (from <code>lib/dispatchers/tok-dispatcher.zsh</code>)</p>
 </li>
 <li>Generates new token</li>
 <li>Updates Keychain</li>
@@ -8808,7 +8836,7 @@
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>  ↓
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>Cache Miss: Expired or missing
 <a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>  ↓
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Delegate: _dot_token_expiring
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Delegate: _tok_expiring
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>  ↓
 <a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>GitHub API: Validate token
 <a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>  ↓
@@ -8829,7 +8857,7 @@
 <a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>  ↓
 <a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>User Selects: &quot;1. GitHub Token&quot;
 <a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>  ↓
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>Token Rotation: _dot_token_rotate
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>Token Rotation: _tok_rotate
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>  ↓
 <a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>Cache Clear: _doctor_cache_token_clear(&quot;github&quot;)
 <a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>  ↓
@@ -8938,7 +8966,7 @@
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Cache get fails → Fetch fresh data</span>
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nv">cached</span><span class="o">=</span><span class="k">$(</span>_doctor_cache_get<span class="w"> </span><span class="s2">&quot;token-github&quot;</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="c1"># Fallback to direct check</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_dot_token_expiring<span class="k">)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_tok_expiring<span class="k">)</span>
 <a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="k">fi</span>
 <a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
 <a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1"># Cache set fails → Log but don&#39;t block</span>
@@ -8949,14 +8977,14 @@
 <hr />
 <h3 id="delegation-failures">Delegation Failures<a class="headerlink" href="#delegation-failures" title="Permanent link">&para;</a></h3>
 <p><strong>Strategy:</strong> Error reporting + exit code</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># DOT functions missing → Show error</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">type</span><span class="w"> </span>_dot_token_expiring<span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># TOK functions missing → Show error</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">type</span><span class="w"> </span>_tok_expiring<span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span>_doctor_log_error<span class="w"> </span><span class="s2">&quot;Token validation unavailable&quot;</span>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">2</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">fi</span>
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># GitHub API failure → Report and exit</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_dot_token_expiring<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_tok_expiring<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span>_doctor_log_error<span class="w"> </span><span class="s2">&quot;Token check failed: </span><span class="nv">$result</span><span class="s2">&quot;</span>
 <a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="k">fi</span>
@@ -8998,17 +9026,17 @@
 - <strong>Time estimates:</strong> Manage expectations
 - <strong>Easy exit:</strong> No consequences for cancelling</p>
 <hr />
-<h3 id="4-why-delegate-to-dot">4. Why Delegate to DOT?<a class="headerlink" href="#4-why-delegate-to-dot" title="Permanent link">&para;</a></h3>
+<h3 id="4-why-delegate-to-tok">4. Why Delegate to TOK?<a class="headerlink" href="#4-why-delegate-to-tok" title="Permanent link">&para;</a></h3>
 <p><strong>Alternatives Considered:</strong>
 - Duplicate logic in doctor
 - Call GitHub API directly
 - Separate validation module</p>
-<p><strong>Decision:</strong> Delegate to <code>dot token expiring</code></p>
+<p><strong>Decision:</strong> Delegate to <code>tok expiring</code></p>
 <p><strong>Rationale:</strong>
-- <strong>Single source of truth:</strong> Token logic in DOT
+- <strong>Single source of truth:</strong> Token logic in tok
 - <strong>Consistency:</strong> Same validation everywhere
 - <strong>Maintainability:</strong> One place to update
-- <strong>Reusability:</strong> DOT functions available independently</p>
+- <strong>Reusability:</strong> tok functions available independently</p>
 <hr />
 <h2 id="future-enhancements-phases-2-4">Future Enhancements (Phases 2-4)<a class="headerlink" href="#future-enhancements-phases-2-4" title="Permanent link">&para;</a></h2>
 <h3 id="phase-2-safety-reporting">Phase 2: Safety &amp; Reporting<a class="headerlink" href="#phase-2-safety-reporting" title="Permanent link">&para;</a></h3>

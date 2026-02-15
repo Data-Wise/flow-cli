@@ -1577,7 +1577,7 @@
   <span class="md-ellipsis">
     
   
-    12. DOT Dispatcher
+    12. Dotfiles/Secrets/Tokens
   
 
     
@@ -4579,6 +4579,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/MIGRATION-DOT-SPLIT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migration: dot → dots/sec/tok
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -8991,22 +9019,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dot-dispatcher-helpers" class="md-nav__link">
+  <a href="#dotssectok-dispatcher-helpers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        dot Dispatcher Helpers
+        dots/sec/tok Dispatcher Helpers
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="dot Dispatcher Helpers">
+    <nav class="md-nav" aria-label="dots/sec/tok Dispatcher Helpers">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_dot_token_expiring" class="md-nav__link">
+  <a href="#_tok_expiring" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_expiring
+        _tok_expiring
       
     </span>
   </a>
@@ -9014,10 +9042,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_dot_token_age_days" class="md-nav__link">
+  <a href="#_tok_age_days" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_age_days
+        _tok_age_days
       
     </span>
   </a>
@@ -9025,10 +9053,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_dot_token_rotate" class="md-nav__link">
+  <a href="#_tok_rotate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_rotate
+        _tok_rotate
       
     </span>
   </a>
@@ -9036,10 +9064,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_dot_token_log_rotation" class="md-nav__link">
+  <a href="#_tok_log_rotation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_log_rotation
+        _tok_log_rotation
       
     </span>
   </a>
@@ -9047,10 +9075,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_dot_token_sync_gh" class="md-nav__link">
+  <a href="#_tok_sync_gh" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_sync_gh
+        _tok_sync_gh
       
     </span>
   </a>
@@ -14511,22 +14539,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dot-dispatcher-helpers" class="md-nav__link">
+  <a href="#dotssectok-dispatcher-helpers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        dot Dispatcher Helpers
+        dots/sec/tok Dispatcher Helpers
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="dot Dispatcher Helpers">
+    <nav class="md-nav" aria-label="dots/sec/tok Dispatcher Helpers">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_dot_token_expiring" class="md-nav__link">
+  <a href="#_tok_expiring" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_expiring
+        _tok_expiring
       
     </span>
   </a>
@@ -14534,10 +14562,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_dot_token_age_days" class="md-nav__link">
+  <a href="#_tok_age_days" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_age_days
+        _tok_age_days
       
     </span>
   </a>
@@ -14545,10 +14573,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_dot_token_rotate" class="md-nav__link">
+  <a href="#_tok_rotate" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_rotate
+        _tok_rotate
       
     </span>
   </a>
@@ -14556,10 +14584,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_dot_token_log_rotation" class="md-nav__link">
+  <a href="#_tok_log_rotation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_log_rotation
+        _tok_log_rotation
       
     </span>
   </a>
@@ -14567,10 +14595,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_dot_token_sync_gh" class="md-nav__link">
+  <a href="#_tok_sync_gh" class="md-nav__link">
     <span class="md-ellipsis">
       
-        _dot_token_sync_gh
+        _tok_sync_gh
       
     </span>
   </a>
@@ -14865,12 +14893,14 @@
 <a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>    ├── mcp-dispatcher.zsh
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    ├── obs.zsh
 <a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>    ├── wt-dispatcher.zsh
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    ├── dot-dispatcher.zsh
-<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    ├── teach-dispatcher.zsh
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    ├── tm-dispatcher.zsh
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    ├── prompt-dispatcher.zsh
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    ├── v-dispatcher.zsh
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    └── email-dispatcher.zsh    # Email dispatcher (17 subcommands)
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>    ├── dots-dispatcher.zsh       # Dotfile management
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    ├── sec-dispatcher.zsh        # Secret management
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    ├── tok-dispatcher.zsh        # Token management
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    ├── teach-dispatcher.zsh
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    ├── tm-dispatcher.zsh
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    ├── prompt-dispatcher.zsh
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    ├── v-dispatcher.zsh
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    └── email-dispatcher.zsh    # Email dispatcher (17 subcommands)
 </code></pre></div>
 <hr />
 <h2 id="how-to-use-this-reference">How to Use This Reference<a class="headerlink" href="#how-to-use-this-reference" title="Permanent link">&para;</a></h2>
@@ -15383,7 +15413,7 @@
 <p><strong>Environment:</strong>
 - <code>FLOW_SECRET_BACKEND</code> - Override default backend
   - <code>"keychain"</code> - macOS Keychain only (default, no unlock needed)
-  - <code>"bitwarden"</code> - Bitwarden only (requires <code>dot unlock</code>)
+  - <code>"bitwarden"</code> - Bitwarden only (requires <code>sec unlock</code>)
   - <code>"both"</code> - Both backends (Keychain primary, Bitwarden sync)</p>
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="nb">local</span><span class="w"> </span><span class="nv">backend</span><span class="o">=</span><span class="k">$(</span>_dot_secret_backend<span class="k">)</span>
@@ -16391,29 +16421,28 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - stdout - Formatted help text with commands, examples, and benefits</p>
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-143-1" name="__codelineno-143-1" href="#__codelineno-143-1"></a>_dot_kc_help
-<a id="__codelineno-143-2" name="__codelineno-143-2" href="#__codelineno-143-2"></a>dot<span class="w"> </span>secret<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-143-3" name="__codelineno-143-3" href="#__codelineno-143-3"></a>dot<span class="w"> </span>secret<span class="w"> </span>--help
+<a id="__codelineno-143-2" name="__codelineno-143-2" href="#__codelineno-143-2"></a>sec<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-143-3" name="__codelineno-143-3" href="#__codelineno-143-3"></a>sec<span class="w"> </span>--help
 </code></pre></div>
 <p><strong>Help Output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a>dot secret - macOS Keychain secret management
+<div class="highlight"><pre><span></span><code><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a>sec - macOS Keychain secret management
 <a id="__codelineno-144-2" name="__codelineno-144-2" href="#__codelineno-144-2"></a>
 <a id="__codelineno-144-3" name="__codelineno-144-3" href="#__codelineno-144-3"></a>Commands:
-<a id="__codelineno-144-4" name="__codelineno-144-4" href="#__codelineno-144-4"></a>  dot secret add &lt;name&gt;      Store a secret
-<a id="__codelineno-144-5" name="__codelineno-144-5" href="#__codelineno-144-5"></a>  dot secret get &lt;name&gt;      Retrieve a secret
-<a id="__codelineno-144-6" name="__codelineno-144-6" href="#__codelineno-144-6"></a>  dot secret &lt;name&gt;          Shortcut for &#39;get&#39;
-<a id="__codelineno-144-7" name="__codelineno-144-7" href="#__codelineno-144-7"></a>  dot secret list            List all secrets
-<a id="__codelineno-144-8" name="__codelineno-144-8" href="#__codelineno-144-8"></a>  dot secret delete &lt;name&gt;   Remove a secret
-<a id="__codelineno-144-9" name="__codelineno-144-9" href="#__codelineno-144-9"></a>  dot secret import          Import from Bitwarden
-<a id="__codelineno-144-10" name="__codelineno-144-10" href="#__codelineno-144-10"></a>
-<a id="__codelineno-144-11" name="__codelineno-144-11" href="#__codelineno-144-11"></a>Benefits:
-<a id="__codelineno-144-12" name="__codelineno-144-12" href="#__codelineno-144-12"></a>  • Instant access (no unlock needed)
-<a id="__codelineno-144-13" name="__codelineno-144-13" href="#__codelineno-144-13"></a>  • Touch ID / Apple Watch support
-<a id="__codelineno-144-14" name="__codelineno-144-14" href="#__codelineno-144-14"></a>  • Auto-locks with screen lock
-<a id="__codelineno-144-15" name="__codelineno-144-15" href="#__codelineno-144-15"></a>  • Works offline
+<a id="__codelineno-144-4" name="__codelineno-144-4" href="#__codelineno-144-4"></a>  sec add &lt;name&gt;      Store a secret
+<a id="__codelineno-144-5" name="__codelineno-144-5" href="#__codelineno-144-5"></a>  sec &lt;name&gt;          Retrieve a secret (shortcut for &#39;get&#39;)
+<a id="__codelineno-144-6" name="__codelineno-144-6" href="#__codelineno-144-6"></a>  sec list            List all secrets
+<a id="__codelineno-144-7" name="__codelineno-144-7" href="#__codelineno-144-7"></a>  sec delete &lt;name&gt;   Remove a secret
+<a id="__codelineno-144-8" name="__codelineno-144-8" href="#__codelineno-144-8"></a>  sec import          Import from Bitwarden
+<a id="__codelineno-144-9" name="__codelineno-144-9" href="#__codelineno-144-9"></a>
+<a id="__codelineno-144-10" name="__codelineno-144-10" href="#__codelineno-144-10"></a>Benefits:
+<a id="__codelineno-144-11" name="__codelineno-144-11" href="#__codelineno-144-11"></a>  • Instant access (no unlock needed)
+<a id="__codelineno-144-12" name="__codelineno-144-12" href="#__codelineno-144-12"></a>  • Touch ID / Apple Watch support
+<a id="__codelineno-144-13" name="__codelineno-144-13" href="#__codelineno-144-13"></a>  • Auto-locks with screen lock
+<a id="__codelineno-144-14" name="__codelineno-144-14" href="#__codelineno-144-14"></a>  • Works offline
 </code></pre></div>
 <hr />
 <h4 id="_dot_secret_kc"><code>_dot_secret_kc</code><a class="headerlink" href="#_dot_secret_kc" title="Permanent link">&para;</a></h4>
-<p>Main router/dispatcher for all dot secret subcommands.</p>
+<p>Main router/dispatcher for all sec subcommands.</p>
 <p><strong>Signature:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-145-1" name="__codelineno-145-1" href="#__codelineno-145-1"></a>_dot_secret_kc<span class="w"> </span><span class="o">[</span>subcommand<span class="o">]</span><span class="w"> </span><span class="o">[</span>args...<span class="o">]</span>
 </code></pre></div>
@@ -17168,7 +17197,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Forcing fresh validation</p>
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-211-1" name="__codelineno-211-1" href="#__codelineno-211-1"></a><span class="c1"># After rotating GitHub token, invalidate cache</span>
-<a id="__codelineno-211-2" name="__codelineno-211-2" href="#__codelineno-211-2"></a>dot<span class="w"> </span>secret<span class="w"> </span>rotate<span class="w"> </span>GITHUB_TOKEN
+<a id="__codelineno-211-2" name="__codelineno-211-2" href="#__codelineno-211-2"></a>tok<span class="w"> </span>rotate<span class="w"> </span>GITHUB_TOKEN
 <a id="__codelineno-211-3" name="__codelineno-211-3" href="#__codelineno-211-3"></a>_doctor_cache_token_clear<span class="w"> </span><span class="s2">&quot;github&quot;</span>
 </code></pre></div>
 <p><strong>Equivalent to:</strong></p>
@@ -18971,9 +19000,9 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <p><strong>Parameters:</strong>
 - None (uses global <code>_doctor_token_issues</code> array)</p>
 <p><strong>Behavior:</strong>
-- <strong>missing</strong> - Generates new token via <code>dot token github</code>
-- <strong>invalid</strong> - Rotates token via <code>dot token rotate</code>
-- <strong>expiring</strong> - Rotates token via <code>dot token rotate</code></p>
+- <strong>missing</strong> - Generates new token via <code>tok github</code>
+- <strong>invalid</strong> - Rotates token via <code>tok rotate</code>
+- <strong>expiring</strong> - Rotates token via <code>tok rotate</code></p>
 <p><strong>Side Effects:</strong>
 - Invalidates token cache
 - May prompt for GitHub authentication
@@ -19020,10 +19049,10 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <div class="highlight"><pre><span></span><code><a id="__codelineno-360-1" name="__codelineno-360-1" href="#__codelineno-360-1"></a><span class="nv">status</span><span class="o">=</span><span class="k">$(</span>_work_get_token_status<span class="k">)</span>
 <a id="__codelineno-360-2" name="__codelineno-360-2" href="#__codelineno-360-2"></a><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$status</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
 <a id="__codelineno-360-3" name="__codelineno-360-3" href="#__codelineno-360-3"></a><span class="w">    </span><span class="s2">&quot;not configured&quot;</span><span class="o">)</span>
-<a id="__codelineno-360-4" name="__codelineno-360-4" href="#__codelineno-360-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Set up GitHub token: dot token github&quot;</span>
+<a id="__codelineno-360-4" name="__codelineno-360-4" href="#__codelineno-360-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Set up GitHub token: tok github&quot;</span>
 <a id="__codelineno-360-5" name="__codelineno-360-5" href="#__codelineno-360-5"></a><span class="w">        </span><span class="p">;;</span>
 <a id="__codelineno-360-6" name="__codelineno-360-6" href="#__codelineno-360-6"></a><span class="w">    </span><span class="s2">&quot;expired/invalid&quot;</span><span class="o">)</span>
-<a id="__codelineno-360-7" name="__codelineno-360-7" href="#__codelineno-360-7"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Token expired, rotate: dot token rotate&quot;</span>
+<a id="__codelineno-360-7" name="__codelineno-360-7" href="#__codelineno-360-7"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Token expired, rotate: tok rotate&quot;</span>
 <a id="__codelineno-360-8" name="__codelineno-360-8" href="#__codelineno-360-8"></a><span class="w">        </span><span class="p">;;</span>
 <a id="__codelineno-360-9" name="__codelineno-360-9" href="#__codelineno-360-9"></a><span class="w">    </span><span class="s2">&quot;expiring in &quot;</span>*<span class="o">)</span>
 <a id="__codelineno-360-10" name="__codelineno-360-10" href="#__codelineno-360-10"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  </span><span class="nv">$status</span><span class="s2">&quot;</span>
@@ -19057,13 +19086,13 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <a id="__codelineno-362-7" name="__codelineno-362-7" href="#__codelineno-362-7"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
-<h3 id="dot-dispatcher-helpers">dot Dispatcher Helpers<a class="headerlink" href="#dot-dispatcher-helpers" title="Permanent link">&para;</a></h3>
-<p><strong>File:</strong> <code>lib/dispatchers/dot-dispatcher.zsh</code>
+<h3 id="dotssectok-dispatcher-helpers">dots/sec/tok Dispatcher Helpers<a class="headerlink" href="#dotssectok-dispatcher-helpers" title="Permanent link">&para;</a></h3>
+<p><strong>Files:</strong> <code>lib/dispatchers/dots-dispatcher.zsh</code>, <code>lib/dispatchers/sec-dispatcher.zsh</code>, <code>lib/dispatchers/tok-dispatcher.zsh</code>
 <strong>Functions:</strong> 5 (v5.17.0 token automation)</p>
-<h4 id="_dot_token_expiring"><code>_dot_token_expiring</code><a class="headerlink" href="#_dot_token_expiring" title="Permanent link">&para;</a></h4>
+<h4 id="_tok_expiring"><code>_tok_expiring</code><a class="headerlink" href="#_tok_expiring" title="Permanent link">&para;</a></h4>
 <p>Check all GitHub tokens for expiration status.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-363-1" name="__codelineno-363-1" href="#__codelineno-363-1"></a>_dot_token_expiring
+<div class="highlight"><pre><span></span><code><a id="__codelineno-363-1" name="__codelineno-363-1" href="#__codelineno-363-1"></a>_tok_expiring
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - None (scans all GitHub tokens in keychain)</p>
@@ -19074,14 +19103,14 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Lists expiring tokens (&lt; 7 days)
 - Lists expired tokens (invalid)</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-364-1" name="__codelineno-364-1" href="#__codelineno-364-1"></a>dot<span class="w"> </span>token<span class="w"> </span>expiring
+<div class="highlight"><pre><span></span><code><a id="__codelineno-364-1" name="__codelineno-364-1" href="#__codelineno-364-1"></a>tok<span class="w"> </span>expiring
 <a id="__codelineno-364-2" name="__codelineno-364-2" href="#__codelineno-364-2"></a><span class="c1"># Shows tokens expiring in &lt; 7 days</span>
 </code></pre></div>
 <hr />
-<h4 id="_dot_token_age_days"><code>_dot_token_age_days</code><a class="headerlink" href="#_dot_token_age_days" title="Permanent link">&para;</a></h4>
+<h4 id="_tok_age_days"><code>_tok_age_days</code><a class="headerlink" href="#_tok_age_days" title="Permanent link">&para;</a></h4>
 <p>Get token age in days since creation.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-365-1" name="__codelineno-365-1" href="#__codelineno-365-1"></a>_dot_token_age_days<span class="w"> </span>&lt;secret_name&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-365-1" name="__codelineno-365-1" href="#__codelineno-365-1"></a>_tok_age_days<span class="w"> </span>&lt;secret_name&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Secret name (e.g., "github-token")</p>
@@ -19093,16 +19122,16 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Parses JSON metadata field
 - Calculates days elapsed</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-366-1" name="__codelineno-366-1" href="#__codelineno-366-1"></a><span class="nv">age_days</span><span class="o">=</span><span class="k">$(</span>_dot_token_age_days<span class="w"> </span><span class="s2">&quot;github-token&quot;</span><span class="k">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-366-1" name="__codelineno-366-1" href="#__codelineno-366-1"></a><span class="nv">age_days</span><span class="o">=</span><span class="k">$(</span>_tok_age_days<span class="w"> </span><span class="s2">&quot;github-token&quot;</span><span class="k">)</span>
 <a id="__codelineno-366-2" name="__codelineno-366-2" href="#__codelineno-366-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$age_days</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-366-3" name="__codelineno-366-3" href="#__codelineno-366-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Token is </span><span class="nv">$age_days</span><span class="s2"> days old, consider rotating&quot;</span>
 <a id="__codelineno-366-4" name="__codelineno-366-4" href="#__codelineno-366-4"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
-<h4 id="_dot_token_rotate"><code>_dot_token_rotate</code><a class="headerlink" href="#_dot_token_rotate" title="Permanent link">&para;</a></h4>
+<h4 id="_tok_rotate"><code>_tok_rotate</code><a class="headerlink" href="#_tok_rotate" title="Permanent link">&para;</a></h4>
 <p>Rotate GitHub token (delete old, create new).</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-367-1" name="__codelineno-367-1" href="#__codelineno-367-1"></a>_dot_token_rotate<span class="w"> </span><span class="o">[</span>token_name<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-367-1" name="__codelineno-367-1" href="#__codelineno-367-1"></a>_tok_rotate<span class="w"> </span><span class="o">[</span>token_name<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (optional) Token name [default: "github-token"]</p>
@@ -19123,14 +19152,14 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Updates keychain
 - Syncs gh CLI configuration</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-368-1" name="__codelineno-368-1" href="#__codelineno-368-1"></a>dot<span class="w"> </span>token<span class="w"> </span>rotate<span class="w"> </span>github-token
+<div class="highlight"><pre><span></span><code><a id="__codelineno-368-1" name="__codelineno-368-1" href="#__codelineno-368-1"></a>tok<span class="w"> </span>rotate<span class="w"> </span>github-token
 <a id="__codelineno-368-2" name="__codelineno-368-2" href="#__codelineno-368-2"></a><span class="c1"># Rotates token automatically</span>
 </code></pre></div>
 <hr />
-<h4 id="_dot_token_log_rotation"><code>_dot_token_log_rotation</code><a class="headerlink" href="#_dot_token_log_rotation" title="Permanent link">&para;</a></h4>
+<h4 id="_tok_log_rotation"><code>_tok_log_rotation</code><a class="headerlink" href="#_tok_log_rotation" title="Permanent link">&para;</a></h4>
 <p>Log token rotation event.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-369-1" name="__codelineno-369-1" href="#__codelineno-369-1"></a>_dot_token_log_rotation<span class="w"> </span>&lt;provider&gt;<span class="w"> </span>&lt;old_username&gt;<span class="w"> </span>&lt;new_username&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-369-1" name="__codelineno-369-1" href="#__codelineno-369-1"></a>_tok_log_rotation<span class="w"> </span>&lt;provider&gt;<span class="w"> </span>&lt;old_username&gt;<span class="w"> </span>&lt;new_username&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Provider name (e.g., "github")
@@ -19142,13 +19171,13 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <p><strong>Log Location:</strong>
 - <code>~/.flow/logs/token-rotations.log</code></p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-371-1" name="__codelineno-371-1" href="#__codelineno-371-1"></a>_dot_token_log_rotation<span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="w"> </span><span class="s2">&quot;user&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-371-1" name="__codelineno-371-1" href="#__codelineno-371-1"></a>_tok_log_rotation<span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="w"> </span><span class="s2">&quot;user&quot;</span>
 </code></pre></div>
 <hr />
-<h4 id="_dot_token_sync_gh"><code>_dot_token_sync_gh</code><a class="headerlink" href="#_dot_token_sync_gh" title="Permanent link">&para;</a></h4>
+<h4 id="_tok_sync_gh"><code>_tok_sync_gh</code><a class="headerlink" href="#_tok_sync_gh" title="Permanent link">&para;</a></h4>
 <p>Sync token to gh CLI configuration.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-372-1" name="__codelineno-372-1" href="#__codelineno-372-1"></a>_dot_token_sync_gh<span class="w"> </span>&lt;token&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-372-1" name="__codelineno-372-1" href="#__codelineno-372-1"></a>_tok_sync_gh<span class="w"> </span>&lt;token&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) GitHub token value</p>
@@ -19160,8 +19189,8 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Uses <code>gh</code> CLI's token storage
 - Enables <code>gh</code> commands to work seamlessly</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-373-1" name="__codelineno-373-1" href="#__codelineno-373-1"></a><span class="nv">token</span><span class="o">=</span><span class="k">$(</span>dot<span class="w"> </span>secret<span class="w"> </span>github-token<span class="k">)</span>
-<a id="__codelineno-373-2" name="__codelineno-373-2" href="#__codelineno-373-2"></a>_dot_token_sync_gh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$token</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-373-1" name="__codelineno-373-1" href="#__codelineno-373-1"></a><span class="nv">token</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-373-2" name="__codelineno-373-2" href="#__codelineno-373-2"></a>_tok_sync_gh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$token</span><span class="s2">&quot;</span>
 </code></pre></div>
 <hr />
 <h3 id="g-dispatcher-helpers">g Dispatcher Helpers<a class="headerlink" href="#g-dispatcher-helpers" title="Permanent link">&para;</a></h3>
@@ -19210,7 +19239,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <div class="highlight"><pre><span></span><code><a id="__codelineno-377-1" name="__codelineno-377-1" href="#__codelineno-377-1"></a><span class="k">if</span><span class="w"> </span>_g_validate_github_token_silent<span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-377-2" name="__codelineno-377-2" href="#__codelineno-377-2"></a><span class="w">    </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>dev
 <a id="__codelineno-377-3" name="__codelineno-377-3" href="#__codelineno-377-3"></a><span class="k">else</span>
-<a id="__codelineno-377-4" name="__codelineno-377-4" href="#__codelineno-377-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid token, run: dot token rotate&quot;</span>
+<a id="__codelineno-377-4" name="__codelineno-377-4" href="#__codelineno-377-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid token, run: tok rotate&quot;</span>
 <a id="__codelineno-377-5" name="__codelineno-377-5" href="#__codelineno-377-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-377-6" name="__codelineno-377-6" href="#__codelineno-377-6"></a><span class="k">fi</span>
 </code></pre></div>
