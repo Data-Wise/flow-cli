@@ -19,8 +19,6 @@
 #
 # Dependencies:
 #   - chezmoi (optional): dotfile sync
-#   - bw (optional): secret management
-#   - mise (optional): version management
 #
 # ══════════════════════════════════════════════════════════════════════════════
 

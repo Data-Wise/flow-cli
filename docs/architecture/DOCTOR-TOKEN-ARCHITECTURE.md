@@ -145,7 +145,7 @@ sequenceDiagram
     participant Doctor
     participant Cache
     participant Filesystem
-    participant DOT
+    participant TOK
 
     Doctor->>Cache: _doctor_cache_get("token-github")
     Cache->>Filesystem: Read ~/.flow/cache/doctor/token-github.cache
@@ -155,8 +155,8 @@ sequenceDiagram
         Cache-->>Doctor: Cached result
     else Cache Miss
         Cache-->>Doctor: Not found (exit 1)
-        Doctor->>DOT: _dot_token_expiring
-        DOT-->>Doctor: Fresh validation
+        Doctor->>TOK: _tok_expiring
+        TOK-->>Doctor: Fresh validation
         Doctor->>Cache: _doctor_cache_set("token-github", result)
         Cache->>Filesystem: Write cache file (atomic)
     end
@@ -263,7 +263,7 @@ flowchart TD
 sequenceDiagram
     participant Doctor
     participant Cache
-    participant DOT
+    participant TOK
     participant GitHub
 
     Note over Doctor: doctor --dot
@@ -272,10 +272,10 @@ sequenceDiagram
     alt Cache Hit
         Cache-->>Doctor: Return cached
     else Cache Miss
-        Doctor->>DOT: _dot_token_expiring
-        DOT->>GitHub: API: GET /user
-        GitHub-->>DOT: Token valid
-        DOT-->>Doctor: Validation result
+        Doctor->>TOK: _tok_expiring
+        TOK->>GitHub: API: GET /user
+        GitHub-->>TOK: Token valid
+        TOK-->>Doctor: Validation result
         Doctor->>Cache: Store result (5 min)
     end
 
@@ -284,12 +284,12 @@ sequenceDiagram
 
 **Key Functions:**
 
-1. **_dot_token_expiring** (from `lib/dispatchers/tok-dispatcher.zsh`)
+1. **_tok_expiring** (from `lib/dispatchers/tok-dispatcher.zsh`)
    - Validates GitHub token
    - Checks expiration date
    - Returns structured status
 
-2. **_dot_token_rotate** (from `lib/dispatchers/tok-dispatcher.zsh`)
+2. **_tok_rotate** (from `lib/dispatchers/tok-dispatcher.zsh`)
    - Generates new token
    - Updates Keychain
    - Syncs with gh CLI
@@ -362,7 +362,7 @@ Cache Get: _doctor_cache_get("token-github")
   ↓
 Cache Miss: Expired or missing
   ↓
-Delegate: _dot_token_expiring
+Delegate: _tok_expiring
   ↓
 GitHub API: Validate token
   ↓
@@ -388,7 +388,7 @@ Menu Display: Category selection
   ↓
 User Selects: "1. GitHub Token"
   ↓
-Token Rotation: _dot_token_rotate
+Token Rotation: _tok_rotate
   ↓
 Cache Clear: _doctor_cache_token_clear("github")
   ↓
@@ -493,7 +493,7 @@ _doctor_cache_init 2>/dev/null || true
 # Cache get fails → Fetch fresh data
 if ! cached=$(_doctor_cache_get "token-github"); then
     # Fallback to direct check
-    result=$(_dot_token_expiring)
+    result=$(_tok_expiring)
 fi
 
 # Cache set fails → Log but don't block
@@ -510,14 +510,14 @@ _doctor_cache_set "token-github" "$result" || \
 **Strategy:** Error reporting + exit code
 
 ```zsh
-# DOT functions missing → Show error
-if ! type _dot_token_expiring &>/dev/null; then
+# TOK functions missing → Show error
+if ! type _tok_expiring &>/dev/null; then
     _doctor_log_error "Token validation unavailable"
     return 2
 fi
 
 # GitHub API failure → Report and exit
-if ! result=$(_dot_token_expiring 2>&1); then
+if ! result=$(_tok_expiring 2>&1); then
     _doctor_log_error "Token check failed: $result"
     return 1
 fi
@@ -576,7 +576,7 @@ fi
 
 ---
 
-### 4. Why Delegate to DOT?
+### 4. Why Delegate to TOK?
 
 **Alternatives Considered:**
 - Duplicate logic in doctor

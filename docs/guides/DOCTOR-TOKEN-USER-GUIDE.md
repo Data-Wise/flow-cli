@@ -449,7 +449,7 @@ _doctor_cache_clear "token-github"
 doctor --dot --verbose
 
 # Verify delegation
-type _dot_token_expiring
+type _tok_expiring
 ```
 
 ---

@@ -6381,14 +6381,14 @@ fi
 **Files:** `lib/dispatchers/dots-dispatcher.zsh`, `lib/dispatchers/sec-dispatcher.zsh`, `lib/dispatchers/tok-dispatcher.zsh`
 **Functions:** 5 (v5.17.0 token automation)
 
-#### `_dot_token_expiring`
+#### `_tok_expiring`
 
 Check all GitHub tokens for expiration status.
 
 **Signature:**
 
 ```zsh
-_dot_token_expiring
+_tok_expiring
 ```
 
 **Parameters:**
@@ -6411,14 +6411,14 @@ tok expiring
 
 ---
 
-#### `_dot_token_age_days`
+#### `_tok_age_days`
 
 Get token age in days since creation.
 
 **Signature:**
 
 ```zsh
-_dot_token_age_days <secret_name>
+_tok_age_days <secret_name>
 ```
 
 **Parameters:**
@@ -6436,7 +6436,7 @@ _dot_token_age_days <secret_name>
 **Example:**
 
 ```zsh
-age_days=$(_dot_token_age_days "github-token")
+age_days=$(_tok_age_days "github-token")
 if [[ $age_days -gt 80 ]]; then
     echo "Token is $age_days days old, consider rotating"
 fi
@@ -6444,14 +6444,14 @@ fi
 
 ---
 
-#### `_dot_token_rotate`
+#### `_tok_rotate`
 
 Rotate GitHub token (delete old, create new).
 
 **Signature:**
 
 ```zsh
-_dot_token_rotate [token_name]
+_tok_rotate [token_name]
 ```
 
 **Parameters:**
@@ -6485,14 +6485,14 @@ tok rotate github-token
 
 ---
 
-#### `_dot_token_log_rotation`
+#### `_tok_log_rotation`
 
 Log token rotation event.
 
 **Signature:**
 
 ```zsh
-_dot_token_log_rotation <provider> <old_username> <new_username>
+_tok_log_rotation <provider> <old_username> <new_username>
 ```
 
 **Parameters:**
@@ -6512,19 +6512,19 @@ _dot_token_log_rotation <provider> <old_username> <new_username>
 **Example:**
 
 ```zsh
-_dot_token_log_rotation "github" "user" "user"
+_tok_log_rotation "github" "user" "user"
 ```
 
 ---
 
-#### `_dot_token_sync_gh`
+#### `_tok_sync_gh`
 
 Sync token to gh CLI configuration.
 
 **Signature:**
 
 ```zsh
-_dot_token_sync_gh <token>
+_tok_sync_gh <token>
 ```
 
 **Parameters:**
@@ -6543,7 +6543,7 @@ _dot_token_sync_gh <token>
 
 ```zsh
 token=$(sec github-token)
-_dot_token_sync_gh "$token"
+_tok_sync_gh "$token"
 ```
 
 ---
