@@ -21,7 +21,7 @@ This document explains how flow-cli behaves in Claude Code's shell environment a
 
 #### Problem
 
-The token management tutorial (`dot secret tutorial`) auto-launched every time flow-cli loaded, interrupting the user experience.
+The token management tutorial (`sec tutorial`) auto-launched every time flow-cli loaded, interrupting the user experience.
 
 #### Root Causes
 
@@ -68,7 +68,7 @@ The token management tutorial (`dot secret tutorial`) auto-launched every time f
 | Test | Result |
 |------|--------|
 | Plugin loads silently (no auto-launch) | ✅ Pass |
-| `dot secret tutorial` works when called | ✅ Pass |
+| `sec tutorial` works when called | ✅ Pass |
 | Tutorial detects non-interactive shells | ✅ Pass |
 
 ---
@@ -124,7 +124,7 @@ $ source ~/.config/zsh/.zshrc
 $ work          # ✅ Works
 $ dash          # ✅ Works
 $ ccy           # ✅ Works (alias: cc yolo)
-$ dot secret    # ✅ Works
+$ sec            # ✅ Works
 ```
 
 **Status:** ✅ All features work perfectly
@@ -136,7 +136,9 @@ $ dot secret    # ✅ Works
 $ work          # ❌ command not found
 $ dash          # ❌ /bin/dash (wrong command)
 $ ccy           # ❌ clang error (alias not loaded)
-$ dot           # ❌ /opt/homebrew/bin/dot (Graphviz, not flow-cli)
+$ dots          # ❌ command not found
+$ sec           # ❌ command not found
+$ tok           # ❌ command not found
 ```
 
 **Status:** ⚠️ Limited by snapshot design
@@ -153,7 +155,7 @@ Instead of flow-cli commands, use standard git/shell commands in Claude Code:
 |----------|------------------------|
 | `ccy` | `cc yolo` (full command) |
 | `work` | Regular git/shell workflow |
-| `dot secret` | Direct Keychain access (`security` command) |
+| `sec` | Direct Keychain access (`security` command) |
 | `g push` | `git push` |
 
 ### Option 2: Manual Plugin Load (Per-Session)
@@ -186,7 +188,7 @@ open -a Terminal
 
 ```bash
 # Check if commands are loaded
-type work dash pick dot cc
+type work dash pick dots sec tok cc
 
 # Check if plugin is loaded
 echo $FLOW_PLUGIN_LOADED
@@ -276,7 +278,9 @@ When modifying plugin loading or command execution:
 |------|---------|
 | `flow.plugin.zsh` | Plugin entry point |
 | `commands/secret-tutorial.zsh` | Interactive token tutorial |
-| `lib/dispatchers/dot-dispatcher.zsh` | DOT dispatcher (secrets, dotfiles) |
+| `lib/dispatchers/dots-dispatcher.zsh` | Dotfile management dispatcher |
+| `lib/dispatchers/sec-dispatcher.zsh` | Secret management dispatcher |
+| `lib/dispatchers/tok-dispatcher.zsh` | Token management dispatcher |
 | `~/.config/zsh/.zshrc` | User ZSH configuration |
 | `~/.zsh/plugins/flow-cli/` | Symlink to flow-cli plugin |
 | `~/.claude/shell-snapshots/` | Claude Code shell snapshots |

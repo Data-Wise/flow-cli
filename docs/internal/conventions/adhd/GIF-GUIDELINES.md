@@ -398,7 +398,7 @@ workflows, branch-aware deployment, and interactive cleanup prompts.
 **File:** `docs/demos/dot-dispatcher.gif`
 
 **Recording:**
-Demonstrates the dot dispatcher functionality for managing dotfiles and secrets.
+Demonstrates the dots/sec dispatcher functionality for managing dotfiles and secrets.
 
 **In documentation:**
 
@@ -407,9 +407,9 @@ Demonstrates the dot dispatcher functionality for managing dotfiles and secrets.
 
 ![DOT Dispatcher Demo](../../demos/dot-dispatcher.gif)
 
-*Managing dotfiles and secrets with the dot dispatcher*
+*Managing dotfiles and secrets with the dots/sec dispatchers*
 
-The dot dispatcher provides streamlined access to dotfile management
+The dots and sec dispatchers provide streamlined access to dotfile management
 and secret storage using macOS Keychain integration.
 ```
 

@@ -69,9 +69,9 @@ description: Find the right starting point for your goals
 === "Set up dotfile management"
     **Solution:** [Dotfile Workflow](../guides/DOT-WORKFLOW.md)
     ```bash
-    dot status        # Check dotfiles
-    dot link          # Create symlinks
-    dot push          # Backup to git
+    dots status        # Check dotfiles
+    dots link          # Create symlinks
+    dots push          # Backup to git
     ```
 
 === "Integrate with git workflow"

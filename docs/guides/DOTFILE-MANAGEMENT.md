@@ -627,7 +627,7 @@ The `flow doctor` command includes dotfile health checks:
 **Run diagnostics:**
 
 ```bash
-# Via dot dispatcher
+# Via dots dispatcher
 dots doctor
 
 # Via flow doctor

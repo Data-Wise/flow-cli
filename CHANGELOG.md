@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **`dot` dispatcher split** into three focused commands: `dots` (dotfile management), `sec` (secret management), `tok` (token management). All subcommands remain the same under their new parent dispatcher.
+
 ---
 
 ## [7.0.0] - 2026-02-11
@@ -215,9 +219,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Preview-before-add (`dot add`) with file analysis, large file warnings, and auto-ignore suggestions
-- Ignore pattern management (`dot ignore`) with add/list/remove/edit and deduplication
-- Repository size analysis (`dot size`) with health indicators and cleanup suggestions
+- Preview-before-add (`dots add`) with file analysis, large file warnings, and auto-ignore suggestions
+- Ignore pattern management (`dots ignore`) with add/list/remove/edit and deduplication
+- Repository size analysis (`dots size`) with health indicators and cleanup suggestions
 - Enhanced health checks (`flow doctor --dot`) with 9 comprehensive chezmoi validation checks
 - Cross-platform support via `lib/platform-helpers.zsh` (BSD/GNU `find` and `du` wrappers)
 - 170+ tests across 5 suites for safety features
@@ -225,7 +229,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- `dot add` now includes safety preview before adding to chezmoi
+- `dots add` now includes safety preview before adding to chezmoi
 - `flow doctor` enhanced with `--dot` flag for chezmoi-only checks
 
 ---
@@ -307,11 +311,11 @@ _Tag exists but no separate release notes. Changes folded into v5.21.0._
 - User mismatch check skipped when old token was expired ("unknown")
 - Token name mismatch during rotation (wizard now pre-fills name)
 - Revocation message shows helpful guidance when old token user is unknown
-- Password leakage prevention: suppress debug output in `dot secret list`
+- Password leakage prevention: suppress debug output in `sec list`
 
 ### Added
 
-- Enhanced `dot secret list` with box format, type detection icons, and expiration status
+- Enhanced `sec list` with box format, type detection icons, and expiration status
 - Backup token management with separate display section and cleanup commands
 - 55 new tests (14 bug fix + 41 secret list)
 
@@ -341,7 +345,7 @@ _Tag exists but no separate release notes. Changes folded into v5.21.0._
 ### Fixed
 
 - Tutorial auto-launch bug: fixed source detection using `ZSH_EVAL_CONTEXT`
-- Fixed path resolution in dot dispatcher using `$FLOW_PLUGIN_DIR`
+- Fixed path resolution in dots dispatcher using `$FLOW_PLUGIN_DIR`
 - Fixed 4 broken links in `docs/index.md`
 
 ---
@@ -455,7 +459,7 @@ _Tag exists but no separate release notes. Changes folded into v5.21.0._
 
 ### Added
 
-- macOS Keychain secret management (`dot secret add/get/list/delete`) with Touch ID
+- macOS Keychain secret management (`sec add/get/list/delete`) with Touch ID
 - Sub-50ms secret access vs 2-5s for Bitwarden
 
 ### Fixed
@@ -463,7 +467,7 @@ _Tag exists but no separate release notes. Changes folded into v5.21.0._
 - `cc wt pick` PATH corruption from ZSH parameter expansion in while-read loops
 - `cc wt pick` session status matching with emoji-prefixed values
 - `cc wt pick` now scans `~/.git-worktrees/` globally instead of repo-scoped
-- `dot unlock` stderr contamination from `bw unlock --raw 2>&1`
+- `sec unlock` stderr contamination from `bw unlock --raw 2>&1`
 - PATH corruption in `work`/`hop` commands from ZSH `path` variable collision
 
 ---

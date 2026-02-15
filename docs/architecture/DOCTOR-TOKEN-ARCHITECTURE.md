@@ -32,9 +32,9 @@ graph TB
     end
 
     subgraph "Integration Layer"
-        Delegate[DOT Delegation]
-        DotExpiring[dot token expiring]
-        DotRotate[dot token rotate]
+        Delegate[tok Delegation]
+        TokExpiring[tok expiring]
+        TokRotate[tok rotate]
     end
 
     subgraph "Data Storage"
@@ -49,12 +49,12 @@ graph TB
     Doctor --> CacheGet
     CacheGet --> CacheFiles
     Doctor --> Delegate
-    Delegate --> DotExpiring
-    Menu --> DotRotate
-    DotRotate --> Keychain
-    DotRotate --> CacheClear
+    Delegate --> TokExpiring
+    Menu --> TokRotate
+    TokRotate --> Keychain
+    TokRotate --> CacheClear
     CacheClear --> CacheFiles
-    DotExpiring --> CacheSet
+    TokExpiring --> CacheSet
     CacheSet --> CacheFiles
 ```
 
@@ -257,7 +257,7 @@ flowchart TD
 
 ### 5. Integration Layer
 
-**DOT Delegation:**
+**tok Delegation:**
 
 ```mermaid
 sequenceDiagram
@@ -284,12 +284,12 @@ sequenceDiagram
 
 **Key Functions:**
 
-1. **_dot_token_expiring** (from `lib/dispatchers/dot-dispatcher.zsh`)
+1. **_dot_token_expiring** (from `lib/dispatchers/tok-dispatcher.zsh`)
    - Validates GitHub token
    - Checks expiration date
    - Returns structured status
 
-2. **_dot_token_rotate** (from `lib/dispatchers/dot-dispatcher.zsh`)
+2. **_dot_token_rotate** (from `lib/dispatchers/tok-dispatcher.zsh`)
    - Generates new token
    - Updates Keychain
    - Syncs with gh CLI
@@ -583,13 +583,13 @@ fi
 - Call GitHub API directly
 - Separate validation module
 
-**Decision:** Delegate to `dot token expiring`
+**Decision:** Delegate to `tok expiring`
 
 **Rationale:**
-- **Single source of truth:** Token logic in DOT
+- **Single source of truth:** Token logic in tok
 - **Consistency:** Same validation everywhere
 - **Maintainability:** One place to update
-- **Reusability:** DOT functions available independently
+- **Reusability:** tok functions available independently
 
 ---
 
