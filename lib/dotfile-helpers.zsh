@@ -68,7 +68,7 @@ _dotf_has_chezmoi() {
 #
 # Notes:
 #   - Result cached in $_FLOW_DOTF_BW_AVAILABLE for session duration
-#   - Used by secret management commands (dot secret)
+#   - Used by secret management commands (sec)
 # =============================================================================
 _dotf_has_bw() {
   # Return cached result if available
@@ -236,7 +236,7 @@ _dotf_get_sync_status() {
 #
 # Example:
 #   if _dotf_is_ahead_of_remote; then
-#       echo "Run 'dot push' to sync changes"
+#       echo "Run 'dots push' to sync changes"
 #   fi
 #
 # Notes:
@@ -273,7 +273,7 @@ _dotf_is_ahead_of_remote() {
 #
 # Example:
 #   if _dotf_is_behind_remote; then
-#       echo "Run 'dot pull' to get latest changes"
+#       echo "Run 'dots pull' to get latest changes"
 #   fi
 #
 # Notes:
@@ -973,7 +973,7 @@ _dotf_session_time_remaining_fmt() {
 #   if _dotf_bw_session_valid; then
 #       bw get item "my-secret"
 #   else
-#       echo "Please unlock: dot secret unlock"
+#       echo "Please unlock: sec unlock"
 #   fi
 #
 # Notes:
@@ -1232,18 +1232,18 @@ _dotf_cache_ignore() {
 #
 # Notes:
 #   - Adds patterns to HISTIGNORE to prevent storing secrets
-#   - Excludes: bw unlock, bw get, BW_SESSION, dot secret
+#   - Excludes: bw unlock, bw get, BW_SESSION, sec
 #   - Called automatically when helpers are loaded
 # =============================================================================
 _dotf_security_init() {
   # Add Bitwarden commands to history exclusion
   # This prevents BW_SESSION tokens from being stored in history
   if [[ -z "$HISTIGNORE" ]]; then
-    export HISTIGNORE="*bw unlock*:*bw get*:*BW_SESSION*:*dot secret*"
+    export HISTIGNORE="*bw unlock*:*bw get*:*BW_SESSION*:*sec *"
   else
     # Append if not already present
     if [[ ! "$HISTIGNORE" =~ "bw unlock" ]]; then
-      export HISTIGNORE="${HISTIGNORE}:*bw unlock*:*bw get*:*BW_SESSION*:*dot secret*"
+      export HISTIGNORE="${HISTIGNORE}:*bw unlock*:*bw get*:*BW_SESSION*:*sec *"
     fi
   fi
 }
@@ -1566,7 +1566,7 @@ _dotf_success() {
 #   0 - Always
 #
 # Example:
-#   _dotf_header "Preview: dot add ~/.config"
+#   _dotf_header "Preview: dots add ~/.config"
 #
 # Notes:
 #   - Uses heavy box drawing for visual separation
@@ -1617,7 +1617,7 @@ _dotf_preview_add() {
   fi
 
   # Display header
-  _dotf_header "Preview: dot add $target"
+  _dotf_header "Preview: dots add $target"
 
   # Collect file information
   local file_count=0

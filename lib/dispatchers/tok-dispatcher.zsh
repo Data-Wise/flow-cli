@@ -588,14 +588,14 @@ _tok_expiring() {
   _flow_log_info "Checking token expiration status..."
 
   # Get all GitHub tokens from Keychain
-  local secrets=$(dot secret list 2>/dev/null | grep "•" | sed 's/.*• //')
+  local secrets=$(sec list 2>/dev/null | grep "•" | sed 's/.*• //')
   local expiring_tokens=()
   local expired_tokens=()
 
   for secret in ${(f)secrets}; do
     # Only check GitHub tokens
     if [[ "$secret" =~ github ]]; then
-      local token=$(dot secret "$secret" 2>/dev/null)
+      local token=$(sec "$secret" 2>/dev/null)
 
       # Validate with GitHub API
       local api_response=$(curl -s \
@@ -704,7 +704,7 @@ _tok_rotate() {
   _flow_log_info "Starting token rotation for: $token_name"
 
   # Step 1: Verify old token exists
-  local old_token=$(dot secret "$token_name" 2>/dev/null)
+  local old_token=$(sec "$token_name" 2>/dev/null)
   if [[ -z "$old_token" ]]; then
     _flow_log_error "Token '$token_name' not found in Keychain"
     return 1
@@ -742,7 +742,7 @@ _tok_rotate() {
 
   # Step 3: Backup old token
   local backup_name="${token_name}-backup-$(date +%Y%m%d)"
-  echo "$old_token" | dot secret add "$backup_name" 2>/dev/null
+  echo "$old_token" | sec add "$backup_name" 2>/dev/null
   _flow_log_info "Old token backed up as: $backup_name"
 
   # Step 4: Generate new token (use existing wizard)
@@ -756,12 +756,12 @@ _tok_rotate() {
   _tok_github "$token_name"
 
   # Verify new token was created
-  local new_token=$(dot secret "$token_name" 2>/dev/null)
+  local new_token=$(sec "$token_name" 2>/dev/null)
   if [[ -z "$new_token" || "$new_token" == "$old_token" ]]; then
     _flow_log_error "New token creation failed or unchanged"
     _flow_log_info "Restoring old token..."
-    echo "$old_token" | dot secret add "$token_name"
-    dot secret delete "$backup_name" 2>/dev/null
+    echo "$old_token" | sec add "$token_name"
+    sec delete "$backup_name" 2>/dev/null
     return 1
   fi
 
@@ -775,8 +775,8 @@ _tok_rotate() {
   if [[ -z "$new_token_user" ]]; then
     _flow_log_error "New token validation failed"
     _flow_log_info "Restoring old token..."
-    echo "$old_token" | dot secret add "$token_name"
-    dot secret delete "$backup_name" 2>/dev/null
+    echo "$old_token" | sec add "$token_name"
+    sec delete "$backup_name" 2>/dev/null
     return 1
   fi
 
@@ -787,8 +787,8 @@ _tok_rotate() {
     read -q "?Continue anyway? [y/n] " mismatch_continue
     echo ""
     if [[ "$mismatch_continue" != "y" ]]; then
-      echo "$old_token" | dot secret add "$token_name"
-      dot secret delete "$backup_name" 2>/dev/null
+      echo "$old_token" | sec add "$token_name"
+      sec delete "$backup_name" 2>/dev/null
       return 1
     fi
   elif [[ "$old_token_user" == "unknown" ]]; then
@@ -816,11 +816,11 @@ _tok_rotate() {
 
   if [[ "$revoke_confirm" == "y" ]]; then
     # Delete backup token (old token now revoked)
-    dot secret delete "$backup_name" 2>/dev/null
+    sec delete "$backup_name" 2>/dev/null
     _flow_log_success "Old token backup removed"
   else
     _flow_log_warning "Old token backup kept at: $backup_name"
-    _flow_log_info "Delete manually after revocation: dot secret delete $backup_name"
+    _flow_log_info "Delete manually after revocation: sec delete $backup_name"
   fi
 
   # Step 7: Log rotation event
@@ -869,7 +869,7 @@ _tok_sync_gh() {
   _flow_log_info "Syncing token with gh CLI..."
 
   # Get token from Keychain
-  local token=$(dot secret github-token 2>/dev/null)
+  local token=$(sec github-token 2>/dev/null)
   if [[ -z "$token" ]]; then
     _flow_log_error "github-token not found in Keychain"
     _flow_log_info "Add one: ${FLOW_COLORS[cmd]}tok github${FLOW_COLORS[reset]}"

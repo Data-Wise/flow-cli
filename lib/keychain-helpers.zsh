@@ -2,12 +2,12 @@
 # Provides: instant, session-free secret access with Touch ID support
 #
 # Commands:
-#   dot secret add <name>      Store a secret (prompts for value)
-#   dot secret get <name>      Retrieve a secret
-#   dot secret <name>          Shortcut for 'get'
-#   dot secret list            List all stored secrets
-#   dot secret delete <name>   Remove a secret
-#   dot secret import          Import from Bitwarden (one-time)
+#   sec add <name>      Store a secret (prompts for value)
+#   sec get <name>      Retrieve a secret
+#   sec <name>          Shortcut for 'get'
+#   sec list            List all stored secrets
+#   sec delete <name>   Remove a secret
+#   sec import          Import from Bitwarden (one-time)
 
 # ============================================================================
 # CONSTANTS
@@ -48,7 +48,7 @@ _dotf_kc_add() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
-        _flow_log_error "Usage: dot secret add <name>"
+        _flow_log_error "Usage: sec add <name>"
         return 1
     fi
 
@@ -105,7 +105,7 @@ _dotf_kc_get() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
-        _flow_log_error "Usage: dot secret get <name>"
+        _flow_log_error "Usage: sec get <name>"
         return 1
     fi
 
@@ -200,7 +200,7 @@ _dotf_kc_list() {
         echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}(no secrets stored)${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Add one: ${FLOW_COLORS[cmd]}dot secret add <name>${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Add one: ${FLOW_COLORS[cmd]}sec add <name>${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
         return 0
     fi
@@ -351,7 +351,7 @@ _dotf_kc_list() {
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Cleanup old backups:${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         for backup in "${backup_secrets[@]}"; do
-            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret delete $backup${FLOW_COLORS[reset]}${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec delete $backup${FLOW_COLORS[reset]}${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         done
     fi
 
@@ -364,13 +364,13 @@ _dotf_kc_list() {
         if [[ ${#_expired_tokens[@]} -gt 0 ]]; then
             echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[error]}⚠ ${#_expired_tokens[@]} expired${FLOW_COLORS[reset]} - rotate now:                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
             for token in "${_expired_tokens[@]}"; do
-                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
             done
         fi
         if [[ ${#_expiring_tokens[@]} -gt 0 ]]; then
             echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠ ${#_expiring_tokens[@]} expiring soon${FLOW_COLORS[reset]} - consider rotating:    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
             for token in "${_expiring_tokens[@]}"; do
-                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
             done
         fi
     fi
@@ -408,7 +408,7 @@ _dotf_kc_delete() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
-        _flow_log_error "Usage: dot secret delete <name>"
+        _flow_log_error "Usage: sec delete <name>"
         return 1
     fi
 
@@ -524,8 +524,8 @@ _dotf_kc_import() {
 #
 # Example:
 #   _dotf_kc_help
-#   dot secret help
-#   dot secret --help
+#   sec help
+#   sec --help
 #
 # Notes:
 #   - Uses FLOW_COLORS for consistent formatting
@@ -535,18 +535,18 @@ _dotf_kc_import() {
 # =============================================================================
 _dotf_kc_help() {
     cat <<EOF
-${FLOW_COLORS[header]}dot secret${FLOW_COLORS[reset]} - macOS Keychain secret management
+${FLOW_COLORS[header]}sec${FLOW_COLORS[reset]} - macOS Keychain secret management
 
 ${FLOW_COLORS[warning]}Commands:${FLOW_COLORS[reset]}
-  dot secret add <name>      Store a secret (prompts for value)
-  dot secret get <name>      Retrieve a secret (or just: dot secret <name>)
-  dot secret <name>          Shortcut for 'get'
-  dot secret list            List all stored secrets
-  dot secret delete <name>   Remove a secret
-  dot secret status          Show backend configuration
-  dot secret sync            Sync with Bitwarden (--to-bw, --from-bw)
-  dot secret import          Import from Bitwarden (one-time)
-  dot secret tutorial        Interactive tutorial (10-15 min)
+  sec add <name>      Store a secret (prompts for value)
+  sec get <name>      Retrieve a secret (or just: sec <name>)
+  sec <name>          Shortcut for 'get'
+  sec list            List all stored secrets
+  sec delete <name>   Remove a secret
+  sec status          Show backend configuration
+  sec sync            Sync with Bitwarden (--to-bw, --from-bw)
+  sec import          Import from Bitwarden (one-time)
+  sec tutorial        Interactive tutorial (10-15 min)
 
 ${FLOW_COLORS[warning]}Backend Configuration:${FLOW_COLORS[reset]}
   export FLOW_SECRET_BACKEND=keychain   # Default (Keychain only)
@@ -554,15 +554,15 @@ ${FLOW_COLORS[warning]}Backend Configuration:${FLOW_COLORS[reset]}
   export FLOW_SECRET_BACKEND=both       # Both backends (sync mode)
 
 ${FLOW_COLORS[warning]}Examples:${FLOW_COLORS[reset]}
-  dot secret add github-token    # Store GitHub token
-  dot secret github-token        # Retrieve it
-  dot secret list                # See all secrets
-  dot secret status              # Check backend config
-  dot secret sync --status       # Compare Keychain vs Bitwarden
+  sec add github-token    # Store GitHub token
+  sec github-token        # Retrieve it
+  sec list                # See all secrets
+  sec status              # Check backend config
+  sec sync --status       # Compare Keychain vs Bitwarden
 
 ${FLOW_COLORS[warning]}Usage in scripts:${FLOW_COLORS[reset]}
-  export GITHUB_TOKEN=\$(dot secret github-token)
-  gh auth login --with-token <<< \$(dot secret github-token)
+  export GITHUB_TOKEN=\$(sec github-token)
+  gh auth login --with-token <<< \$(sec github-token)
 
 ${FLOW_COLORS[warning]}Benefits (Keychain default):${FLOW_COLORS[reset]}
   ${FLOW_COLORS[success]}\342\200\242${FLOW_COLORS[reset]} Instant access (no unlock needed)

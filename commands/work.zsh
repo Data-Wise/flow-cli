@@ -50,7 +50,7 @@ _work_project_uses_github() {
 }
 
 _work_get_token_status() {
-  local token=$(dot secret github-token 2>/dev/null)
+  local token=$(sec github-token 2>/dev/null)
   [[ -z "$token" ]] && echo "not configured" && return
 
   local http_code=$(curl -s -o /dev/null -w "%{http_code}" \
@@ -159,7 +159,7 @@ work() {
     if [[ "$token_status" != "ok" ]]; then
       echo ""
       echo "${FLOW_COLORS[warning]}⚠ GitHub Token: $token_status${FLOW_COLORS[reset]}"
-      echo "   Fix: ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}"
+      echo "   Fix: ${FLOW_COLORS[cmd]}tok rotate${FLOW_COLORS[reset]}"
     fi
   fi
 
@@ -473,7 +473,7 @@ finish() {
               read -q "?Rotate token now? [y/n] " rotate_response
               echo ""
               if [[ "$rotate_response" == "y" ]]; then
-                dot token rotate
+                tok rotate
                 [[ $? -ne 0 ]] && return 1
               else
                 _flow_log_info "Skipping push due to token issue"
