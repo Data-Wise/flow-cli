@@ -90,40 +90,50 @@ tok() {
 }
 
 _tok_help() {
-  echo ""
-  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 TOK - Token Management${FLOW_COLORS[reset]}                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Create New Token:${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok github${FLOW_COLORS[reset]}         GitHub PAT wizard           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok npm${FLOW_COLORS[reset]}            NPM token wizard            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok pypi${FLOW_COLORS[reset]}           PyPI token wizard           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Token Automation:${FLOW_COLORS[reset]}                               ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok expiring${FLOW_COLORS[reset]}       Check expiration status      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok rotate${FLOW_COLORS[reset]}         Rotate existing token        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok sync gh${FLOW_COLORS[reset]}        Sync with gh CLI             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok doctor${FLOW_COLORS[reset]}         Token health check           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Rotate Existing Token:${FLOW_COLORS[reset]}                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok <name> --refresh${FLOW_COLORS[reset]}                           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    Example:                                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok github-token --refresh${FLOW_COLORS[reset]}                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Wizards will:${FLOW_COLORS[reset]}                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    1. Open browser to create token                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    2. Validate the token                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    3. Store securely in Bitwarden                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    4. Track expiration date                       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Related:${FLOW_COLORS[reset]}                                        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec${FLOW_COLORS[reset]}               Secret management            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dots${FLOW_COLORS[reset]}              Dotfile management            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
-  echo ""
+  local _C_NC='\033[0m' _C_BOLD='\033[1m' _C_DIM='\033[2m'
+  local _C_GREEN='\033[32m' _C_YELLOW='\033[33m' _C_BLUE='\033[34m'
+  local _C_MAGENTA='\033[35m' _C_CYAN='\033[36m'
+
+  if [[ -n "$NO_COLOR" ]]; then
+      _C_NC='' _C_BOLD='' _C_DIM=''
+      _C_GREEN='' _C_YELLOW='' _C_BLUE=''
+      _C_MAGENTA='' _C_CYAN=''
+  fi
+
+  echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ tok - Token Management                       │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}tok github${_C_NC}          GitHub PAT wizard
+  ${_C_CYAN}tok expiring${_C_NC}        Check expiration status
+  ${_C_CYAN}tok rotate${_C_NC}          Rotate existing token
+  ${_C_CYAN}tok doctor${_C_NC}          Token health check
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} tok github                    ${_C_DIM}# Create new GitHub PAT${_C_NC}
+  ${_C_DIM}\$${_C_NC} tok expiring                  ${_C_DIM}# Check what's expiring${_C_NC}
+  ${_C_DIM}\$${_C_NC} tok github-token --refresh    ${_C_DIM}# Rotate a token${_C_NC}
+
+${_C_BLUE}📋 TOKEN WIZARDS${_C_NC}:
+  ${_C_CYAN}tok github${_C_NC}          GitHub PAT wizard
+  ${_C_CYAN}tok npm${_C_NC}             NPM token wizard
+  ${_C_CYAN}tok pypi${_C_NC}            PyPI token wizard
+
+${_C_BLUE}📋 TOKEN AUTOMATION${_C_NC}:
+  ${_C_CYAN}tok expiring${_C_NC}        Check expiration status
+  ${_C_CYAN}tok rotate${_C_NC}          Rotate existing token
+  ${_C_CYAN}tok sync gh${_C_NC}         Sync with gh CLI
+  ${_C_CYAN}tok <name> --refresh${_C_NC} Rotate specific token
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Wizards open browser, validate, store in Bitwarden, track expiry
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}sec${_C_NC} - Secret management (Bitwarden)
+  ${_C_CYAN}dots${_C_NC} - Dotfile management
+  ${_C_CYAN}flow doctor --dot${_C_NC} - Health check
+"
 }
 
 # ───────────────────────────────────────────────────────────────────

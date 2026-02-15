@@ -64,36 +64,57 @@ sec() {
 # ═══════════════════════════════════════════════════════════════════
 
 _sec_help() {
-  echo ""
-  echo "${FLOW_COLORS[header]}╭───────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}🔐 SEC - Secret Management${FLOW_COLORS[reset]}                      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Keychain (instant, local, Touch ID):${FLOW_COLORS[reset]}             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec <name>${FLOW_COLORS[reset]}            Get secret value        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec list${FLOW_COLORS[reset]}              List all secrets        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec add <name>${FLOW_COLORS[reset]}        Store new secret        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec delete <name>${FLOW_COLORS[reset]}     Remove secret           ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Bitwarden (cloud sync):${FLOW_COLORS[reset]}                         ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec unlock${FLOW_COLORS[reset]}            Unlock vault            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec lock${FLOW_COLORS[reset]}              Lock vault              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec bw <name>${FLOW_COLORS[reset]}         Get from Bitwarden      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec check${FLOW_COLORS[reset]}             Check expirations       ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec sync${FLOW_COLORS[reset]}              Sync Keychain/BW        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Other:${FLOW_COLORS[reset]}                                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec status${FLOW_COLORS[reset]}            Backend configuration   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec dashboard${FLOW_COLORS[reset]}         Full secrets overview   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec doctor${FLOW_COLORS[reset]}            Secret diagnostics      ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}Related:${FLOW_COLORS[reset]}                                        ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[muted]}dots${FLOW_COLORS[reset]}  Dotfile management                     ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[muted]}tok${FLOW_COLORS[reset]}   Token lifecycle management              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-  echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
-  echo ""
+  local _C_NC='\033[0m' _C_BOLD='\033[1m' _C_DIM='\033[2m'
+  local _C_GREEN='\033[32m' _C_YELLOW='\033[33m' _C_BLUE='\033[34m'
+  local _C_MAGENTA='\033[35m' _C_CYAN='\033[36m'
+
+  if [[ -n "$NO_COLOR" ]]; then
+      _C_NC='' _C_BOLD='' _C_DIM=''
+      _C_GREEN='' _C_YELLOW='' _C_BLUE=''
+      _C_MAGENTA='' _C_CYAN=''
+  fi
+
+  echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ sec - Secret Management                      │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
+  ${_C_CYAN}sec <name>${_C_NC}          Get secret value
+  ${_C_CYAN}sec list${_C_NC}            List all secrets
+  ${_C_CYAN}sec add <name>${_C_NC}      Store new secret
+  ${_C_CYAN}sec unlock${_C_NC}          Unlock Bitwarden vault
+
+${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} sec GITHUB_TOKEN         ${_C_DIM}# Get token value${_C_NC}
+  ${_C_DIM}\$${_C_NC} sec add DEPLOY_KEY       ${_C_DIM}# Store new secret${_C_NC}
+  ${_C_DIM}\$${_C_NC} sec unlock && sec list   ${_C_DIM}# Unlock vault, list secrets${_C_NC}
+
+${_C_BLUE}📋 KEYCHAIN${_C_NC} ${_C_DIM}(instant, local, Touch ID)${_C_NC}:
+  ${_C_CYAN}sec <name>${_C_NC}          Get secret value
+  ${_C_CYAN}sec list${_C_NC}            List all secrets
+  ${_C_CYAN}sec add <name>${_C_NC}      Store new secret
+  ${_C_CYAN}sec delete <name>${_C_NC}   Remove secret
+
+${_C_BLUE}📋 BITWARDEN${_C_NC} ${_C_DIM}(cloud sync)${_C_NC}:
+  ${_C_CYAN}sec unlock${_C_NC}          Unlock vault
+  ${_C_CYAN}sec lock${_C_NC}            Lock vault
+  ${_C_CYAN}sec bw <name>${_C_NC}       Get from Bitwarden
+  ${_C_CYAN}sec check${_C_NC}           Check expirations
+  ${_C_CYAN}sec sync${_C_NC}            Sync Keychain/BW
+
+${_C_BLUE}📋 OVERVIEW${_C_NC}:
+  ${_C_CYAN}sec status${_C_NC}          Backend configuration
+  ${_C_CYAN}sec dashboard${_C_NC}       Full secrets overview
+  ${_C_CYAN}sec doctor${_C_NC}          Secret diagnostics
+
+${_C_MAGENTA}💡 TIP${_C_NC}: Use ${_C_CYAN}sec <name> | pbcopy${_C_NC} to copy a secret to clipboard
+
+${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}dots${_C_NC} - Dotfile management
+  ${_C_CYAN}tok${_C_NC} - Token lifecycle management
+  ${_C_CYAN}flow doctor --dot${_C_NC} - Health check
+"
 }
 
 # ═══════════════════════════════════════════════════════════════════

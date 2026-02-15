@@ -375,11 +375,9 @@ ${_C_BLUE}📋 IGNORE & HEALTH${_C_NC}:
 ${_C_MAGENTA}💡 TIP${_C_NC}: Unknown commands pass through to chezmoi
   ${_C_DIM}dots managed → chezmoi managed${_C_NC}
 
-${_C_BLUE}📋 RELATED${_C_NC}:
-  ${_C_CYAN}sec${_C_NC}                 Secret management (Bitwarden)
-  ${_C_CYAN}tok${_C_NC}                 Token management (GitHub, NPM, PyPI)
-
 ${_C_DIM}📚 See also:${_C_NC}
+  ${_C_CYAN}sec${_C_NC} - Secret management (Bitwarden)
+  ${_C_CYAN}tok${_C_NC} - Token management (GitHub, NPM, PyPI)
   ${_C_CYAN}flow doctor --dot${_C_NC} - Health check for dotfiles
   ${_C_CYAN}g${_C_NC} - Git commands
 "
