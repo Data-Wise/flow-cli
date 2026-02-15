@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **`dot` dispatcher split** into three focused commands: `dots` (dotfile management), `sec` (secret management), `tok` (token management). All subcommands remain the same under their new parent dispatcher.
+
 ---
 
 ## [7.0.0] - 2026-02-11

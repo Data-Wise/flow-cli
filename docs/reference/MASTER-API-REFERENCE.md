@@ -61,7 +61,9 @@ lib/
     ├── mcp-dispatcher.zsh
     ├── obs.zsh
     ├── wt-dispatcher.zsh
-    ├── dot-dispatcher.zsh
+    ├── dots-dispatcher.zsh       # Dotfile management
+    ├── sec-dispatcher.zsh        # Secret management
+    ├── tok-dispatcher.zsh        # Token management
     ├── teach-dispatcher.zsh
     ├── tm-dispatcher.zsh
     ├── prompt-dispatcher.zsh
@@ -877,7 +879,7 @@ _dot_secret_backend
 **Environment:**
 - `FLOW_SECRET_BACKEND` - Override default backend
   - `"keychain"` - macOS Keychain only (default, no unlock needed)
-  - `"bitwarden"` - Bitwarden only (requires `dot unlock`)
+  - `"bitwarden"` - Bitwarden only (requires `sec unlock`)
   - `"both"` - Both backends (Keychain primary, Bitwarden sync)
 
 **Example:**
@@ -2380,22 +2382,21 @@ _dot_kc_help
 
 ```zsh
 _dot_kc_help
-dot secret help
-dot secret --help
+sec help
+sec --help
 ```
 
 **Help Output:**
 
 ```text
-dot secret - macOS Keychain secret management
+sec - macOS Keychain secret management
 
 Commands:
-  dot secret add <name>      Store a secret
-  dot secret get <name>      Retrieve a secret
-  dot secret <name>          Shortcut for 'get'
-  dot secret list            List all secrets
-  dot secret delete <name>   Remove a secret
-  dot secret import          Import from Bitwarden
+  sec add <name>      Store a secret
+  sec <name>          Retrieve a secret (shortcut for 'get')
+  sec list            List all secrets
+  sec delete <name>   Remove a secret
+  sec import          Import from Bitwarden
 
 Benefits:
   • Instant access (no unlock needed)
@@ -2408,7 +2409,7 @@ Benefits:
 
 #### `_dot_secret_kc`
 
-Main router/dispatcher for all dot secret subcommands.
+Main router/dispatcher for all sec subcommands.
 
 **Signature:**
 
@@ -3573,7 +3574,7 @@ _doctor_cache_token_clear <provider>
 
 ```zsh
 # After rotating GitHub token, invalidate cache
-dot secret rotate GITHUB_TOKEN
+tok rotate GITHUB_TOKEN
 _doctor_cache_token_clear "github"
 ```
 
@@ -6246,9 +6247,9 @@ _doctor_fix_tokens
 - None (uses global `_doctor_token_issues` array)
 
 **Behavior:**
-- **missing** - Generates new token via `dot token github`
-- **invalid** - Rotates token via `dot token rotate`
-- **expiring** - Rotates token via `dot token rotate`
+- **missing** - Generates new token via `tok github`
+- **invalid** - Rotates token via `tok rotate`
+- **expiring** - Rotates token via `tok rotate`
 
 **Side Effects:**
 - Invalidates token cache
@@ -6324,10 +6325,10 @@ _work_get_token_status
 status=$(_work_get_token_status)
 case "$status" in
     "not configured")
-        echo "⚠️  Set up GitHub token: dot token github"
+        echo "⚠️  Set up GitHub token: tok github"
         ;;
     "expired/invalid")
-        echo "⚠️  Token expired, rotate: dot token rotate"
+        echo "⚠️  Token expired, rotate: tok rotate"
         ;;
     "expiring in "*)
         echo "⚠️  $status"
@@ -6375,19 +6376,19 @@ fi
 
 ---
 
-### dot Dispatcher Helpers
+### dots/sec/tok Dispatcher Helpers
 
-**File:** `lib/dispatchers/dot-dispatcher.zsh`
+**Files:** `lib/dispatchers/dots-dispatcher.zsh`, `lib/dispatchers/sec-dispatcher.zsh`, `lib/dispatchers/tok-dispatcher.zsh`
 **Functions:** 5 (v5.17.0 token automation)
 
-#### `_dot_token_expiring`
+#### `_tok_expiring`
 
 Check all GitHub tokens for expiration status.
 
 **Signature:**
 
 ```zsh
-_dot_token_expiring
+_tok_expiring
 ```
 
 **Parameters:**
@@ -6404,20 +6405,20 @@ _dot_token_expiring
 **Example:**
 
 ```zsh
-dot token expiring
+tok expiring
 # Shows tokens expiring in < 7 days
 ```
 
 ---
 
-#### `_dot_token_age_days`
+#### `_tok_age_days`
 
 Get token age in days since creation.
 
 **Signature:**
 
 ```zsh
-_dot_token_age_days <secret_name>
+_tok_age_days <secret_name>
 ```
 
 **Parameters:**
@@ -6435,7 +6436,7 @@ _dot_token_age_days <secret_name>
 **Example:**
 
 ```zsh
-age_days=$(_dot_token_age_days "github-token")
+age_days=$(_tok_age_days "github-token")
 if [[ $age_days -gt 80 ]]; then
     echo "Token is $age_days days old, consider rotating"
 fi
@@ -6443,14 +6444,14 @@ fi
 
 ---
 
-#### `_dot_token_rotate`
+#### `_tok_rotate`
 
 Rotate GitHub token (delete old, create new).
 
 **Signature:**
 
 ```zsh
-_dot_token_rotate [token_name]
+_tok_rotate [token_name]
 ```
 
 **Parameters:**
@@ -6478,20 +6479,20 @@ _dot_token_rotate [token_name]
 **Example:**
 
 ```zsh
-dot token rotate github-token
+tok rotate github-token
 # Rotates token automatically
 ```
 
 ---
 
-#### `_dot_token_log_rotation`
+#### `_tok_log_rotation`
 
 Log token rotation event.
 
 **Signature:**
 
 ```zsh
-_dot_token_log_rotation <provider> <old_username> <new_username>
+_tok_log_rotation <provider> <old_username> <new_username>
 ```
 
 **Parameters:**
@@ -6511,19 +6512,19 @@ _dot_token_log_rotation <provider> <old_username> <new_username>
 **Example:**
 
 ```zsh
-_dot_token_log_rotation "github" "user" "user"
+_tok_log_rotation "github" "user" "user"
 ```
 
 ---
 
-#### `_dot_token_sync_gh`
+#### `_tok_sync_gh`
 
 Sync token to gh CLI configuration.
 
 **Signature:**
 
 ```zsh
-_dot_token_sync_gh <token>
+_tok_sync_gh <token>
 ```
 
 **Parameters:**
@@ -6541,8 +6542,8 @@ _dot_token_sync_gh <token>
 **Example:**
 
 ```zsh
-token=$(dot secret github-token)
-_dot_token_sync_gh "$token"
+token=$(sec github-token)
+_tok_sync_gh "$token"
 ```
 
 ---
@@ -6618,7 +6619,7 @@ _g_validate_github_token_silent
 if _g_validate_github_token_silent; then
     git push origin dev
 else
-    echo "Invalid token, run: dot token rotate"
+    echo "Invalid token, run: tok rotate"
     return 1
 fi
 ```

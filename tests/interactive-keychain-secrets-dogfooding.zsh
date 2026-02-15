@@ -6,12 +6,12 @@
 # Purpose: Test the complete macOS Keychain secret management feature
 #
 # Features Tested:
-#   - dot secret add <name>     - Store secret in Keychain
-#   - dot secret <name>         - Retrieve secret (Touch ID)
-#   - dot secret get <name>     - Explicit get
-#   - dot secret list           - List all secrets
-#   - dot secret delete <name>  - Remove secret
-#   - dot secret help           - Show help
+#   - sec add <name>     - Store secret in Keychain
+#   - sec <name>         - Retrieve secret (Touch ID)
+#   - sec get <name>     - Explicit get
+#   - sec list           - List all secrets
+#   - sec delete <name>  - Remove secret
+#   - sec help           - Show help
 #
 # Usage: ./tests/interactive-keychain-secrets-dogfooding.zsh
 #
@@ -132,39 +132,39 @@ echo ""
 
 print_section "Test 1: Function Availability"
 
-print_test "Check _dot_kc_add exists"
-if type _dot_kc_add &>/dev/null; then
-    pass "_dot_kc_add is defined"
+print_test "Check _dotf_kc_add exists"
+if type _dotf_kc_add &>/dev/null; then
+    pass "_dotf_kc_add is defined"
 else
-    fail "_dot_kc_add not found"
+    fail "_dotf_kc_add not found"
 fi
 
-print_test "Check _dot_kc_get exists"
-if type _dot_kc_get &>/dev/null; then
-    pass "_dot_kc_get is defined"
+print_test "Check _dotf_kc_get exists"
+if type _dotf_kc_get &>/dev/null; then
+    pass "_dotf_kc_get is defined"
 else
-    fail "_dot_kc_get not found"
+    fail "_dotf_kc_get not found"
 fi
 
-print_test "Check _dot_kc_list exists"
-if type _dot_kc_list &>/dev/null; then
-    pass "_dot_kc_list is defined"
+print_test "Check _dotf_kc_list exists"
+if type _dotf_kc_list &>/dev/null; then
+    pass "_dotf_kc_list is defined"
 else
-    fail "_dot_kc_list not found"
+    fail "_dotf_kc_list not found"
 fi
 
-print_test "Check _dot_kc_delete exists"
-if type _dot_kc_delete &>/dev/null; then
-    pass "_dot_kc_delete is defined"
+print_test "Check _dotf_kc_delete exists"
+if type _dotf_kc_delete &>/dev/null; then
+    pass "_dotf_kc_delete is defined"
 else
-    fail "_dot_kc_delete not found"
+    fail "_dotf_kc_delete not found"
 fi
 
-print_test "Check _dot_secret router exists"
-if type _dot_secret &>/dev/null; then
-    pass "_dot_secret router is defined"
+print_test "Check _sec router exists"
+if type _sec &>/dev/null; then
+    pass "_sec router is defined"
 else
-    fail "_dot_secret router not found"
+    fail "_sec router not found"
 fi
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -173,13 +173,13 @@ fi
 
 print_section "Test 2: Help System"
 
-print_test "dot secret help"
-echo -e "${DIM}Running: dot secret help${NC}"
+print_test "sec help"
+echo -e "${DIM}Running: sec help${NC}"
 echo ""
-dot secret help 2>&1 | head -15
+sec help 2>&1 | head -15
 echo ""
 
-if dot secret help 2>&1 | grep -q "Keychain"; then
+if sec help 2>&1 | grep -q "Keychain"; then
     pass "Help mentions Keychain"
 else
     fail "Help doesn't mention Keychain"
@@ -212,11 +212,11 @@ fi
 
 print_section "Test 4: Retrieve Secret"
 
-print_test "dot secret get $TEST_SECRET_NAME"
-echo -e "${DIM}Running: dot secret get $TEST_SECRET_NAME${NC}"
+print_test "sec get $TEST_SECRET_NAME"
+echo -e "${DIM}Running: sec get $TEST_SECRET_NAME${NC}"
 echo -e "${YELLOW}${FINGER} Touch ID may prompt now...${NC}"
 
-retrieved=$(dot secret get "$TEST_SECRET_NAME" 2>&1)
+retrieved=$(sec get "$TEST_SECRET_NAME" 2>&1)
 exit_code=$?
 
 echo ""
@@ -231,10 +231,10 @@ else
     echo -e "  ${DIM}Got: $retrieved${NC}"
 fi
 
-print_test "dot secret $TEST_SECRET_NAME (shortcut)"
-echo -e "${DIM}Running: dot secret $TEST_SECRET_NAME${NC}"
+print_test "sec $TEST_SECRET_NAME (shortcut)"
+echo -e "${DIM}Running: sec $TEST_SECRET_NAME${NC}"
 
-shortcut_result=$(dot secret "$TEST_SECRET_NAME" 2>&1)
+shortcut_result=$(sec "$TEST_SECRET_NAME" 2>&1)
 if [[ "$shortcut_result" == "$TEST_SECRET_VALUE" ]]; then
     pass "Shortcut syntax works"
 else
@@ -247,13 +247,13 @@ fi
 
 print_section "Test 5: List Secrets"
 
-print_test "dot secret list"
-echo -e "${DIM}Running: dot secret list${NC}"
+print_test "sec list"
+echo -e "${DIM}Running: sec list${NC}"
 echo ""
-dot secret list 2>&1
+sec list 2>&1
 echo ""
 
-if dot secret list 2>&1 | grep -q "$TEST_SECRET_NAME"; then
+if sec list 2>&1 | grep -q "$TEST_SECRET_NAME"; then
     pass "Test secret appears in list"
 else
     fail "Test secret not found in list"
@@ -265,11 +265,11 @@ fi
 
 print_section "Test 6: Delete Secret"
 
-print_test "dot secret delete $TEST_SECRET_NAME"
-echo -e "${DIM}Running: dot secret delete $TEST_SECRET_NAME${NC}"
+print_test "sec delete $TEST_SECRET_NAME"
+echo -e "${DIM}Running: sec delete $TEST_SECRET_NAME${NC}"
 echo ""
 
-delete_output=$(dot secret delete "$TEST_SECRET_NAME" 2>&1)
+delete_output=$(sec delete "$TEST_SECRET_NAME" 2>&1)
 delete_code=$?
 
 echo "$delete_output"
@@ -282,7 +282,7 @@ else
 fi
 
 print_test "Verify secret is gone"
-if dot secret get "$TEST_SECRET_NAME" 2>&1 | grep -q "not found"; then
+if sec get "$TEST_SECRET_NAME" 2>&1 | grep -q "not found"; then
     pass "Secret confirmed deleted"
 else
     fail "Secret still exists after delete"
@@ -295,9 +295,9 @@ fi
 print_section "Test 7: Error Handling"
 
 print_test "Get non-existent secret"
-echo -e "${DIM}Running: dot secret get nonexistent-secret-xyz${NC}"
+echo -e "${DIM}Running: sec get nonexistent-secret-xyz${NC}"
 
-error_output=$(dot secret get "nonexistent-secret-xyz" 2>&1)
+error_output=$(sec get "nonexistent-secret-xyz" 2>&1)
 error_code=$?
 
 if [[ $error_code -ne 0 ]]; then
@@ -326,19 +326,19 @@ echo -e "Would you like to test interactive add? [y/N]"
 read -r do_interactive
 
 if [[ "$do_interactive" == [yY]* ]]; then
-    print_test "dot secret add test-interactive-$$"
-    echo -e "${DIM}Running: dot secret add test-interactive-$$${NC}"
+    print_test "sec add test-interactive-$$"
+    echo -e "${DIM}Running: sec add test-interactive-$$${NC}"
     echo -e "${YELLOW}Enter any test value when prompted...${NC}"
     echo ""
 
-    dot secret add "test-interactive-$$"
+    sec add "test-interactive-$$"
     add_code=$?
 
     if [[ $add_code -eq 0 ]]; then
         pass "Interactive add completed"
 
         # Cleanup
-        dot secret delete "test-interactive-$$" &>/dev/null
+        sec delete "test-interactive-$$" &>/dev/null
         info "Cleaned up test secret"
     else
         fail "Interactive add failed"
@@ -353,7 +353,7 @@ fi
 
 print_section "Test 9: Script Usage Pattern"
 
-print_test "Export pattern: TOKEN=\$(dot secret <name>)"
+print_test "Export pattern: TOKEN=\$(sec <name>)"
 
 # Add a temp secret for this test
 security add-generic-password \
@@ -363,7 +363,7 @@ security add-generic-password \
     -U 2>/dev/null
 
 # Test the export pattern
-TOKEN=$(dot secret "test-export-pattern-$$" 2>/dev/null)
+TOKEN=$(sec "test-export-pattern-$$" 2>/dev/null)
 
 if [[ "$TOKEN" == "my-test-token-123" ]]; then
     pass "Export pattern works correctly"

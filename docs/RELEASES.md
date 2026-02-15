@@ -64,7 +64,7 @@ teach validate --quick-checks              # Fast Phase 1 rules
 - **Cross-platform:** Works on macOS (BSD) and Linux (GNU)
 
 ```bash
-dot add ~/.config/nvim
+dots add ~/.config/nvim
 # Shows preview with warnings before adding
 ```
 
@@ -72,16 +72,16 @@ dot add ~/.config/nvim
 
 **Smart `.chezmoiignore` control:**
 
-- `dot ignore add "*.log"` - Add patterns with deduplication
-- `dot ignore list` - View all patterns with line numbers
-- `dot ignore edit` - Open in $EDITOR
+- `dots ignore add "*.log"` - Add patterns with deduplication
+- `dots ignore list` - View all patterns with line numbers
+- `dots ignore edit` - Open in $EDITOR
 - Auto-initialization with sensible defaults
 
 ### 📊 Repository Health
 
 **Proactive bloat detection:**
 
-- `dot size` - Total repo size + top 10 largest files
+- `dots size` - Total repo size + top 10 largest files
 - Health indicators: OK (<1MB), Warning (1-10MB), Critical (>10MB)
 - File type distribution analysis
 - Actionable cleanup suggestions

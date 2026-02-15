@@ -883,7 +883,7 @@ z research    # → ~/projects/research/mediation
 3. **Rotate in keychain**
 
    ```bash
-   dot secret rotate GITHUB_TOKEN
+   sec rotate GITHUB_TOKEN
    # [Touch ID prompt]
    # Enter new token: [paste]
    ```
@@ -940,7 +940,7 @@ exec zsh
 flow doctor --dot=github
 
 # 2. If expired, rotate
-dot secret rotate GITHUB_TOKEN
+sec rotate GITHUB_TOKEN
 
 # 3. Retry push
 g push

@@ -88,20 +88,20 @@ cleanup() {
 # UNIT TESTS: Function Existence
 # ══════════════════════════════════════════════════════════════════════════════
 
-test_dot_token_age_days_exists() {
-    log_test "_dot_token_age_days function exists"
+test_tok_age_days_exists() {
+    log_test "_tok_age_days function exists"
 
-    if type _dot_token_age_days &>/dev/null; then
+    if type _tok_age_days &>/dev/null; then
         pass
     else
         fail "Function not defined"
     fi
 }
 
-test_dot_token_expiring_exists() {
-    log_test "_dot_token_expiring function exists"
+test_tok_expiring_exists() {
+    log_test "_tok_expiring function exists"
 
-    if type _dot_token_expiring &>/dev/null; then
+    if type _tok_expiring &>/dev/null; then
         pass
     else
         fail "Function not defined"
@@ -403,7 +403,7 @@ test_token_status_ok() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_flow_token_alias() {
-    log_test "flow token delegates to dot token"
+    log_test "flow token delegates to tok"
 
     # Check if flow command exists and has token case
     if type flow &>/dev/null; then
@@ -414,12 +414,12 @@ test_flow_token_alias() {
 }
 
 test_dot_token_subcommands() {
-    log_test "dot token has expiring/rotate/sync subcommands"
+    log_test "tok has expiring/rotate/sync subcommands"
 
     # These functions should exist
-    if type _dot_token_expiring &>/dev/null && \
-       type _dot_token_rotate &>/dev/null && \
-       type _dot_token_sync_gh &>/dev/null; then
+    if type _tok_expiring &>/dev/null && \
+       type _tok_rotate &>/dev/null && \
+       type _tok_sync_gh &>/dev/null; then
         pass
     else
         fail "Missing token subcommand functions"
@@ -441,8 +441,8 @@ main() {
     echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
     echo "${YELLOW}Function Existence Tests${NC}"
     echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_dot_token_age_days_exists
-    test_dot_token_expiring_exists
+    test_tok_age_days_exists
+    test_tok_expiring_exists
     test_g_is_github_remote_exists
     test_g_validate_github_token_silent_exists
     test_work_project_uses_github_exists

@@ -229,7 +229,9 @@ Commands that adapt to your project type:
 | `obs` | `obs vaults` / `obs stats` | Obsidian notes |
 | `wt` | `wt create` / `wt status` | Worktree management |
 | `tm` | `tm title` / `tm ghost` | Terminal manager |
-| `dot` | `dot add` / `dot sync` | Dotfile management |
+| `dots` | `dots edit` / `dots sync` | Dotfile management |
+| `sec` | `sec add` / `sec list` | Secret management |
+| `tok` | `tok github` / `tok rotate` | Token management |
 | `prompt` | `prompt toggle` | Prompt engine switcher |
 | `v` | `v on` / `v status` | Vibe coding mode |
 | `em` | `em inbox` / `em pick` | Email management (himalaya) |

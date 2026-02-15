@@ -1,0 +1,59 @@
+#compdef tok
+
+# Completion for tok command - token management dispatcher
+
+_tok() {
+  local -a subcommands
+
+  # Subcommands
+  subcommands=(
+    'github:GitHub token wizard'
+    'gh:GitHub token wizard (alias)'
+    'npm:NPM token wizard'
+    'pypi:PyPI token wizard'
+    'rotate:Token rotation'
+    'refresh:Refresh expiring tokens'
+    'expiring:Show expiring tokens'
+    'sync:Sync to GitHub secrets'
+    'doctor:Token-specific diagnostics'
+    'dr:Token-specific diagnostics (alias)'
+    'help:Show help message'
+  )
+
+  _arguments -C \
+    '1:subcommand:->subcommand' \
+    '*::arg:->args' \
+  && return 0
+
+  case "$state" in
+    subcommand)
+      _describe -t subcommands 'tok subcommand' subcommands
+      ;;
+    args)
+      case "$line[1]" in
+        rotate)
+          if [[ ${#line[@]} -eq 1 ]]; then
+            local -a token_types
+            token_types=(
+              'github-token:Rotate GitHub token'
+              'npm-token:Rotate NPM token'
+              'pypi-token:Rotate PyPI token'
+            )
+            _describe -t tokens 'token to rotate' token_types
+          fi
+          ;;
+        sync)
+          if [[ ${#line[@]} -eq 1 ]]; then
+            local -a sync_targets
+            sync_targets=(
+              'github:Sync tokens to GitHub secrets'
+            )
+            _describe -t targets 'sync target' sync_targets
+          fi
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_tok "$@"

@@ -5,7 +5,7 @@ tags:
   - configuration
 ---
 
-# Tutorial: DOT Dispatcher - Dotfile Management
+# Tutorial: Dotfile, Secret & Token Management (dots/sec/tok)
 
 **Level:** Beginner
 **Time:** 30 minutes
@@ -47,9 +47,9 @@ brew install bitwarden-cli
 
 ## Part 1: Getting Started
 
-### Understanding the DOT Dispatcher
+### Understanding the dots/sec/tok Dispatchers
 
-The `dot` dispatcher is a wrapper around chezmoi that provides:
+The `dots` dispatcher (and its siblings `sec` and `tok`) is a wrapper around chezmoi that provides:
 
 - **Quick status checks** - See dotfile state at a glance
 - **Safe editing** - Preview changes before applying
@@ -59,7 +59,7 @@ The `dot` dispatcher is a wrapper around chezmoi that provides:
 ### Check Your Status
 
 ```bash
-dot
+dots
 ```
 
 **Output when chezmoi is not initialized:**
@@ -86,9 +86,9 @@ dot
 │  Tracked files: 12                                │
 │                                                   │
 │  Quick actions:                                   │
-│    dot edit .zshrc    Edit shell config           │
-│    dot sync           Pull latest changes         │
-│    dot help           Show all commands           │
+│    dots edit .zshrc    Edit shell config           │
+│    dots sync           Pull latest changes         │
+│    dots help           Show all commands           │
 ╰───────────────────────────────────────────────────╯
 ```
 
@@ -98,7 +98,7 @@ dot
 
 ### Step 1: Add a File to Chezmoi
 
-Before you can use `dot edit`, the file must be tracked by chezmoi:
+Before you can use `dots edit`, the file must be tracked by chezmoi:
 
 ```bash
 # Add your shell config to chezmoi
@@ -110,7 +110,7 @@ This copies `~/.zshrc` to chezmoi's source directory (`~/.local/share/chezmoi/`)
 ### Step 2: Edit the File
 
 ```bash
-dot edit .zshrc
+dots edit .zshrc
 ```
 
 **What happens:**
@@ -153,10 +153,10 @@ If you pressed 'n' during edit, the changes are in chezmoi's source but not yet 
 
 ```bash
 # See what would change
-dot diff
+dots diff
 
 # Apply all pending changes
-dot apply
+dots apply
 ```
 
 ---
@@ -168,7 +168,7 @@ dot apply
 The `--dry-run` flag (or `-n`) shows what would change without actually modifying files.
 
 ```bash
-dot apply --dry-run
+dots apply --dry-run
 ```
 
 **Output when nothing to apply:**
@@ -211,7 +211,7 @@ chezmoi add ~/.zshrc
 chezmoi add ~/.gitconfig
 
 # Commit and push
-dot push
+dots push
 ```
 
 ### On Other Machines
@@ -221,7 +221,7 @@ dot push
 chezmoi init https://github.com/username/dotfiles.git
 
 # Apply to this machine
-dot apply
+dots apply
 ```
 
 ### Daily Sync Pattern
@@ -229,7 +229,7 @@ dot apply
 **Pull changes from remote:**
 
 ```bash
-dot sync
+dots sync
 ```
 
 **Output:**
@@ -247,7 +247,7 @@ Apply updates? [Y/n/d]
 **Push your changes:**
 
 ```bash
-dot push
+dots push
 ```
 
 **Output:**
@@ -275,7 +275,7 @@ The recommended way to manage secrets is using macOS Keychain. It provides:
 ### Store a Secret
 
 ```bash
-dot secret add github-token
+sec add github-token
 ```
 
 **Output:**
@@ -290,16 +290,16 @@ Enter secret value: [hidden input]
 
 ```bash
 # Get a secret (Touch ID prompt may appear)
-TOKEN=$(dot secret github-token)
+TOKEN=$(sec github-token)
 
 # Use in a command
-gh auth login --with-token <<< $(dot secret github-token)
+gh auth login --with-token <<< $(sec github-token)
 ```
 
 ### List Keychain Secrets
 
 ```bash
-dot secret list
+sec list
 ```
 
 **Output:**
@@ -314,7 +314,7 @@ dot secret list
 ### Delete a Secret
 
 ```bash
-dot secret delete old-token
+sec delete old-token
 ```
 
 **Output:**
@@ -329,10 +329,10 @@ If you have secrets in Bitwarden, you can import them to Keychain:
 
 ```bash
 # Unlock Bitwarden first
-dot unlock
+sec unlock
 
 # Import all secrets from 'flow-cli-secrets' folder
-dot secret import
+sec import
 ```
 
 **Output:**
@@ -368,7 +368,7 @@ bw login
 ### Unlock Vault
 
 ```bash
-dot unlock
+sec unlock
 ```
 
 **Output:**
@@ -380,13 +380,13 @@ dot unlock
 ✓ Vault unlocked successfully
 
   Session active in this shell only
-ℹ Use 'dot secret <name>' to retrieve secrets
+ℹ Use 'sec <name>' to retrieve secrets
 ```
 
 ### List Secrets
 
 ```bash
-dot secret list
+sec list
 ```
 
 **Output:**
@@ -399,14 +399,14 @@ dot secret list
 🔑 anthropic-api-key (AI/Keys)
 📝 ssh-passphrase (SSH)
 
-ℹ Usage: dot secret <name>
+ℹ Usage: sec <name>
 ```
 
 ### Retrieve a Secret
 
 ```bash
 # Retrieve without echo (secure)
-TOKEN=$(dot secret github-token)
+TOKEN=$(sec github-token)
 
 # Use in a command
 curl -H "Authorization: Bearer $TOKEN" https://api.github.com/user
@@ -428,13 +428,13 @@ export ANTHROPIC_API_KEY="{{ bitwarden "item" "anthropic-api-key" }}"
 
 ```bash
 # Unlock vault first
-dot unlock
+sec unlock
 
 # Preview (dry-run)
-dot apply --dry-run
+dots apply --dry-run
 
 # Apply for real
-dot apply
+dots apply
 ```
 
 ---
@@ -446,7 +446,7 @@ dot apply
 The token wizard guides you through creating properly-scoped tokens:
 
 ```bash
-dot token github
+tok github
 ```
 
 **Example session:**
@@ -474,13 +474,13 @@ Paste your new token: ghp_xxxxxxxxxxxx
 
 ✓ Stored as 'github-token' in Bitwarden
 
-💡 Tip: dot token github-token --refresh to rotate later
+💡 Tip: tok github-token --refresh to rotate later
 ```
 
 ### Check Token Expiration
 
 ```bash
-dot secrets
+sec dashboard
 ```
 
 **Output:**
@@ -508,7 +508,7 @@ dot secrets
 ### Rotate an Expiring Token
 
 ```bash
-dot token pypi-token --refresh
+tok pypi-token --refresh
 ```
 
 **Example session:**
@@ -538,7 +538,7 @@ Paste your new token: pypi-xxxxxxxx
 Push secrets to your repository for CI/CD:
 
 ```bash
-dot secrets sync github
+sec sync github
 ```
 
 **Example session:**
@@ -562,7 +562,7 @@ Sync 2 secrets? [Y/n] y
 ### Generate .envrc for Local Development
 
 ```bash
-dot env init
+dots env
 ```
 
 **Output:**
@@ -572,9 +572,9 @@ dot env init
 
   Contents:
   ─────────────────────────────────
-  export GITHUB_TOKEN="$(dot secret github-token)"
-  export NPM_TOKEN="$(dot secret npm-token)"
-  export ANTHROPIC_API_KEY="$(dot secret anthropic-api-key)"
+  export GITHUB_TOKEN="$(sec github-token)"
+  export NPM_TOKEN="$(sec npm-token)"
+  export ANTHROPIC_API_KEY="$(sec anthropic-api-key)"
   ─────────────────────────────────
 
 💡 Run 'direnv allow' to activate
@@ -597,21 +597,21 @@ dot env init
 
 ```
 ✗ Bitwarden vault is locked
-ℹ Run: dot unlock
+ℹ Run: sec unlock
 ```
 
 **Secret not found:**
 
 ```
 ✗ Secret not found: wrong-name
-Tip: Use 'dot secret list' to see available items
+Tip: Use 'sec list' to see available items
 ```
 
 **Session expired:**
 
 ```
 ✗ Session expired
-Run: dot unlock
+Run: sec unlock
 ```
 
 ---
@@ -621,61 +621,61 @@ Run: dot unlock
 ### Core Commands
 
 ```bash
-dot                  # Show status
-dot edit <file>      # Edit dotfile (preview + apply)
-dot diff             # Show pending changes
-dot apply            # Apply pending changes
-dot apply --dry-run  # Preview what would change
+dots                 # Show status
+dots edit <file>      # Edit dotfile (preview + apply)
+dots diff             # Show pending changes
+dots apply            # Apply pending changes
+dots apply --dry-run  # Preview what would change
 ```
 
 ### Sync Commands
 
 ```bash
-dot sync             # Pull from remote
-dot push             # Push to remote
+dots sync             # Pull from remote
+dots push             # Push to remote
 ```
 
 ### Keychain Secrets (v5.5.0 - Recommended)
 
 ```bash
-dot secret add <name>       # Store secret in Keychain
-dot secret <name>           # Get secret (Touch ID)
-dot secret list             # List Keychain secrets
-dot secret delete <name>    # Remove secret
-dot secret import           # Import from Bitwarden
+sec add <name>       # Store secret in Keychain
+sec <name>           # Get secret (Touch ID)
+sec list             # List Keychain secrets
+sec delete <name>    # Remove secret
+sec import           # Import from Bitwarden
 ```
 
 ### Bitwarden Secrets (Cloud)
 
 ```bash
-dot unlock           # Unlock Bitwarden vault
-dot secret bw <name> # Get Bitwarden secret
-dot secrets          # Dashboard with expiration
+sec unlock           # Unlock Bitwarden vault
+sec bw <name> # Get Bitwarden secret
+sec dashboard          # Dashboard with expiration
 ```
 
 ### Token Commands (v5.2.0)
 
 ```bash
-dot token github              # GitHub PAT wizard
-dot token npm                 # NPM token wizard
-dot token pypi                # PyPI token wizard
-dot token <name> --refresh    # Rotate existing token
-dot secrets sync github       # Sync to GitHub Actions
-dot env init                  # Generate .envrc for direnv
+tok github              # GitHub PAT wizard
+tok npm                 # NPM token wizard
+tok pypi                # PyPI token wizard
+tok rotate NAME    # Rotate existing token
+sec sync github       # Sync to GitHub Actions
+dots env                  # Generate .envrc for direnv
 ```
 
 ### Troubleshooting
 
 ```bash
-dot doctor           # Run diagnostics
-dot help             # Show all commands
+dots doctor           # Run diagnostics
+dots help             # Show all commands
 ```
 
 ---
 
 ## Best Practices
 
-1. **Always check status first** - Run `dot` before making changes
+1. **Always check status first** - Run `dots` before making changes
 2. **Use dry-run** - Preview before applying, especially with templates
 3. **Small commits** - One logical change per push
 4. **Lock vault when done** - Run `bw lock` after using secrets
@@ -687,13 +687,13 @@ dot help             # Show all commands
 
 1. **Set up chezmoi:** `chezmoi init`
 2. **Add your first file:** `chezmoi add ~/.zshrc`
-3. **Try editing:** `dot edit .zshrc`
+3. **Try editing:** `dots edit .zshrc`
 4. **Set up remote:** Push to GitHub for cross-machine sync
 5. **Add secrets:** Store API keys in Bitwarden, use templates
 
 ### Further Reading
 
-- [DOT Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher) - Full command reference
+- [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dots-dispatcher) - Full command reference
 - [Chezmoi Documentation](https://www.chezmoi.io/) - Official chezmoi docs
 - [Bitwarden CLI](https://bitwarden.com/help/cli/) - Bitwarden CLI reference
 

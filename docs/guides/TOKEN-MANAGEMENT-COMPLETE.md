@@ -37,7 +37,7 @@ flow-cli uses **two storage backends simultaneously** for optimal balance of sec
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                   USER ACTION                               │
-│                 dot token github                            │
+│                 tok github                            │
 └────────────────────┬────────────────────────────────────────┘
                      │
         ┌────────────┴────────────┐
@@ -137,7 +137,7 @@ security add-generic-password \
 **Creation wizard:**
 
 ```bash
-dot token github
+tok github
 ```
 
 **Interactive steps:**
@@ -190,9 +190,9 @@ Expires: 2026-04-24 (90 days)
 │  Expires: 2026-04-24 (90 days)                    │
 │                                                   │
 │  Usage:                                           │
-│    export GITHUB_TOKEN=$(dot secret github-token)│
+│    export GITHUB_TOKEN=$(sec github-token)│
 │    gh auth login --with-token <<< \              │
-│      $(dot secret github-token)                  │
+│      $(sec github-token)                  │
 ╰───────────────────────────────────────────────────╯
 ```
 
@@ -234,7 +234,7 @@ Expires: 2026-04-24 (90 days)
 **Creation wizard:**
 
 ```bash
-dot token github
+tok github
 ```
 
 **Interactive steps:**
@@ -296,7 +296,7 @@ Expires: 2026-04-24 (90 days)
 **Creation wizard:**
 
 ```bash
-dot token npm
+tok npm
 ```
 
 **Interactive steps:**
@@ -353,7 +353,7 @@ Expires: 2027-01-24 (365 days)
 **Creation wizard:**
 
 ```bash
-dot token pypi
+tok pypi
 ```
 
 **Interactive steps:**
@@ -401,14 +401,14 @@ Expires: Never (manual rotation recommended)
 **Command:**
 
 ```bash
-dot secret <token-name>
+sec <token-name>
 ```
 
 **Example:**
 
 ```bash
 # Retrieve GitHub token (no output to terminal)
-GITHUB_TOKEN=$(dot secret github-token)
+GITHUB_TOKEN=$(sec github-token)
 
 # Verify retrieval (check length, not value)
 echo "Token length: ${#GITHUB_TOKEN}"
@@ -428,14 +428,14 @@ echo "Token length: ${#GITHUB_TOKEN}"
 
 ```bash
 # Method 1: Environment variable
-export GITHUB_TOKEN=$(dot secret github-token)
+export GITHUB_TOKEN=$(sec github-token)
 gh auth login --with-token <<< "$GITHUB_TOKEN"
 
 # Method 2: Direct pipe
-gh auth login --with-token <<< $(dot secret github-token)
+gh auth login --with-token <<< $(sec github-token)
 
 # Method 3: Persistent login
-echo $(dot secret github-token) | gh auth login --with-token
+echo $(sec github-token) | gh auth login --with-token
 gh auth status
 ```
 
@@ -444,13 +444,13 @@ gh auth status
 ```bash
 # Set npm token for current session
 npm config set //registry.npmjs.org/:_authToken \
-  "$(dot secret npm-token)"
+  "$(sec npm-token)"
 
 # Publish package
 npm publish
 
 # Or use .npmrc (not recommended - plaintext)
-echo "//registry.npmjs.org/:_authToken=$(dot secret npm-token)" >> .npmrc
+echo "//registry.npmjs.org/:_authToken=$(sec npm-token)" >> .npmrc
 ```
 
 #### PyPI Publishing
@@ -458,13 +458,13 @@ echo "//registry.npmjs.org/:_authToken=$(dot secret npm-token)" >> .npmrc
 ```bash
 # Set PyPI token in environment
 export TWINE_USERNAME=__token__
-export TWINE_PASSWORD=$(dot secret pypi-my-package)
+export TWINE_PASSWORD=$(sec pypi-my-package)
 
 # Publish package
 python -m twine upload dist/*
 
 # Or use pyproject.toml (poetry)
-poetry config pypi-token.pypi $(dot secret pypi-my-package)
+poetry config pypi-token.pypi $(sec pypi-my-package)
 poetry publish
 ```
 
@@ -494,7 +494,7 @@ jobs:
       # Retrieve token
       - name: Get npm token
         run: |
-          export NPM_TOKEN=$(dot secret npm-token)
+          export NPM_TOKEN=$(sec npm-token)
           echo "::add-mask::$NPM_TOKEN"
           echo "NPM_TOKEN=$NPM_TOKEN" >> $GITHUB_ENV
 
@@ -519,16 +519,16 @@ jobs:
 
 ```bash
 # Method 1: Re-add with same name (overwrites)
-dot token github
+tok github
 # Use same token name when prompted
 # New token replaces old token in both backends
 
 # Method 2: Manual update (advanced)
 # 1. Delete old token
-dot secret delete github-token
+sec delete github-token
 
 # 2. Add new token
-dot token github
+tok github
 # Create with same name
 ```
 
@@ -547,13 +547,13 @@ dot token github
 
 ```bash
 # Get current token value
-TOKEN_VALUE=$(dot secret github-token)
+TOKEN_VALUE=$(sec github-token)
 
 # Delete entry
-dot secret delete github-token
+sec delete github-token
 
 # Re-add with updated metadata
-# (Use dot token github and paste same token value)
+# (Use tok github and paste same token value)
 
 # OR: Direct Keychain update (advanced)
 security delete-generic-password -a github-token -s flow-cli
@@ -564,7 +564,7 @@ security add-generic-password \
   -j '{"dot_version":"2.1","type":"github","token_type":"classic","created":"2026-01-24T15:00:00Z","expires_days":90,"expires":"2026-04-24","github_user":"newusername"}'
 ```
 
-**Future enhancement:** `dot secret update-metadata <name>` command planned.
+**Future enhancement:** `sec update-metadata <name>` command planned.
 
 ---
 
@@ -581,7 +581,7 @@ security add-generic-password \
 **Command:**
 
 ```bash
-dot token rotate
+tok rotate
 ```
 
 **Interactive steps:**
@@ -664,23 +664,23 @@ Token: ghp_NEWTOKEN...
 
 ```bash
 # 1. Create backup manually
-dot secret add github-token-backup-20260124
+sec add github-token-backup-20260124
 # Paste current token when prompted
 
 # 2. Create new token on provider
 # (Manual process on GitHub/npm/PyPI)
 
 # 3. Update token
-dot token github
+tok github
 # Use same name "github-token"
 # Paste new token
 
 # 4. Verify new token
-export GITHUB_TOKEN=$(dot secret github-token)
+export GITHUB_TOKEN=$(sec github-token)
 gh auth status
 
 # 5. Delete backup (after verification)
-dot secret delete github-token-backup-20260124
+sec delete github-token-backup-20260124
 
 # 6. Revoke old token on provider
 # https://github.com/settings/tokens
@@ -697,18 +697,18 @@ dot secret delete github-token-backup-20260124
 
 ```bash
 # Before risky operation
-dot secret add github-token-backup-$(date +%Y%m%d)
+sec add github-token-backup-$(date +%Y%m%d)
 # Paste current token
 
 # After verification, delete backup
-dot secret delete github-token-backup-20260124
+sec delete github-token-backup-20260124
 ```
 
 **Backup cleanup:**
 
 ```bash
 # List all backups
-dot secret list | grep backup
+sec list | grep backup
 
 # Output:
 #   github-token-backup-20260117
@@ -716,7 +716,7 @@ dot secret list | grep backup
 #   npm-token-backup-20260120
 
 # Delete old backups (> 7 days)
-dot secret delete github-token-backup-20260117
+sec delete github-token-backup-20260117
 ```
 
 ---
@@ -728,13 +728,13 @@ dot secret delete github-token-backup-20260117
 **Command:**
 
 ```bash
-dot secret delete <token-name>
+sec delete <token-name>
 ```
 
 **Example:**
 
 ```bash
-dot secret delete github-token
+sec delete github-token
 ```
 
 **Interactive confirmation:**
@@ -797,18 +797,18 @@ Remember to revoke on provider:
 
 ```bash
 # List backups older than 7 days
-dot secret list | grep backup | while read backup; do
+sec list | grep backup | while read backup; do
   echo "Deleting: $backup"
-  dot secret delete "$backup"
+  sec delete "$backup"
 done
 
 # Or: Delete specific pattern
 for token in github-token-backup-202601{10..23}; do
-  dot secret delete "$token" 2>/dev/null || true
+  sec delete "$token" 2>/dev/null || true
 done
 ```
 
-**Future enhancement:** `dot secret prune` command planned.
+**Future enhancement:** `sec prune` command planned.
 
 ### 6.3 Provider Token Revocation
 
@@ -856,7 +856,7 @@ open https://pypi.org/manage/account/token/
 **Command:**
 
 ```bash
-dot token expiring
+tok expiring
 ```
 
 **Output (multiple tokens):**
@@ -869,7 +869,7 @@ dot token expiring
 │  ⚠️  github-token                                  │
 │      Expires: 2026-01-29 (5 days)                 │
 │      Type: GitHub Classic PAT                     │
-│      Action: Run 'dot token rotate'               │
+│      Action: Run 'tok rotate'               │
 │                                                   │
 │  ✅  npm-token                                     │
 │      Expires: 2026-04-24 (67 days)                │
@@ -897,7 +897,7 @@ Summary:
 
 ```bash
 # Check without output
-if dot token expiring --quiet; then
+if tok expiring --quiet; then
   echo "All tokens valid"
 else
   echo "Tokens expiring soon!" >&2
@@ -915,7 +915,7 @@ fi
 
 ```bash
 # Get current token value
-TOKEN_VALUE=$(dot secret github-token)
+TOKEN_VALUE=$(sec github-token)
 
 # Get current metadata
 METADATA=$(security find-generic-password \
@@ -936,10 +936,10 @@ security add-generic-password \
   -j "$NEW_METADATA"
 
 # Verify
-dot token expiring
+tok expiring
 ```
 
-**Future enhancement:** `dot token update-expiration <name> <days>` command planned.
+**Future enhancement:** `tok update-expiration <name> <days>` command planned.
 
 ### 7.3 Disable Expiration Warnings
 
@@ -949,7 +949,7 @@ dot token expiring
 
 ```bash
 # Disable for specific token
-dot secret config github-token --no-expiration-check
+sec config github-token --no-expiration-check
 
 # Disable globally
 export FLOW_TOKEN_CHECK_DISABLED=1
@@ -966,7 +966,7 @@ export FLOW_TOKEN_CHECK_DISABLED=1
 **Symptoms:**
 - No Touch ID prompt when retrieving token
 - "User interaction is not allowed" error
-- Hangs on `dot secret` command
+- Hangs on `sec` command
 
 **Causes:**
 - Terminal app lacks Accessibility permissions
@@ -1009,7 +1009,7 @@ security show-keychain-info login.keychain-db
 security unlock-keychain -p "your-password" login.keychain-db
 
 # Or: Use Bitwarden backend directly
-dot secret bw github-token
+sec bw github-token
 ```
 
 ### 8.2 Token Validation Failed
@@ -1111,7 +1111,7 @@ security find-generic-password \
 
 # If error, reset Keychain access:
 security delete-generic-password -s flow-cli -a github-token
-dot token github  # Re-add
+tok github  # Re-add
 ```
 
 #### Verify Service Name
@@ -1341,10 +1341,10 @@ bw generate --length 20 --uppercase --lowercase --number --special
 
 ```bash
 # 1. List all tokens
-dot secret list
+sec list
 
 # 2. Check expiration status
-dot token expiring
+tok expiring
 
 # 3. Remove unused tokens
 # (Delete tokens not used in 90+ days)
@@ -1353,7 +1353,7 @@ dot token expiring
 # (Check on GitHub/npm/PyPI)
 
 # 5. Rotate expiring tokens
-dot token rotate
+tok rotate
 ```
 
 **Automated audit (script):**
@@ -1367,15 +1367,15 @@ echo "Date: $(date)"
 echo ""
 
 echo "1. Token Inventory:"
-dot secret list
+sec list
 
 echo ""
 echo "2. Expiration Status:"
-dot token expiring
+tok expiring
 
 echo ""
 echo "3. Action Items:"
-dot token expiring | grep "⚠️" | while read line; do
+tok expiring | grep "⚠️" | while read line; do
   echo "   - Rotate: $(echo $line | awk '{print $2}')"
 done
 
@@ -1404,7 +1404,7 @@ bw list items --session $BW_SESSION | \
 #   pypi-token
 
 # 2. For each token, migrate to dual storage
-dot secret import
+sec import
 
 # Interactive:
 ╭───────────────────────────────────────────────────╮
@@ -1489,11 +1489,11 @@ grep "export.*TOKEN" ~/.zshrc
 
 # 2. For each token, add to flow-cli
 # GitHub token:
-dot token github
+tok github
 # Paste: ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # npm token:
-dot token npm
+tok npm
 # Paste: npm_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # 3. Update shell config
@@ -1504,8 +1504,8 @@ sed -i.backup '/export.*TOKEN/d' ~/.zshrc
 cat >> ~/.zshrc << 'EOF'
 
 # Token retrieval via flow-cli (secure)
-export GITHUB_TOKEN=$(dot secret github-token 2>/dev/null || echo "")
-export NPM_TOKEN=$(dot secret npm-token 2>/dev/null || echo "")
+export GITHUB_TOKEN=$(sec github-token 2>/dev/null || echo "")
+export NPM_TOKEN=$(sec npm-token 2>/dev/null || echo "")
 
 # Only load if tokens exist
 [[ -n "$GITHUB_TOKEN" ]] || echo "Warning: GITHUB_TOKEN not set" >&2
@@ -1539,11 +1539,11 @@ mkdir -p ~/Backups/flow-cli-tokens-$(date +%Y%m%d)
 cd ~/Backups/flow-cli-tokens-$(date +%Y%m%d)
 
 # 2. Export each token
-dot secret list | while read token_name; do
+sec list | while read token_name; do
   echo "Exporting: $token_name"
 
   # Get token value
-  token_value=$(dot secret "$token_name")
+  token_value=$(sec "$token_name")
 
   # Get metadata
   metadata=$(security find-generic-password \
@@ -1605,7 +1605,7 @@ for json_file in *.json; do
 done
 
 # 3. Verify restoration
-dot secret list
+sec list
 
 # 4. Secure deletion
 cd ..
@@ -1634,12 +1634,12 @@ rm -rf flow-cli-tokens-20260124/
    - Safe because metadata isn't sensitive
 
 4. **Rotation is easy**
-   - `dot token rotate` wizard
+   - `tok rotate` wizard
    - Automatic backups
    - Manual revocation required
 
 5. **Integration is seamless**
-   - `$(dot secret <name>)` in scripts
+   - `$(sec <name>)` in scripts
    - No echo to terminal
    - CI/CD compatible
 
@@ -1647,10 +1647,10 @@ rm -rf flow-cli-tokens-20260124/
 
 **Next steps:**
 
-- 📖 Try the interactive tutorial: `dot secret tutorial`
+- 📖 Try the interactive tutorial: `sec help`
 - 📋 Keep the quick reference handy: `REFCARD-TOKEN-SECRETS.md`
 - 🔒 Set calendar reminder for 90-day token rotation
 - 💾 Create monthly backup automation
 - 🔍 Run security audit: `flow doctor --dot`
 
-**Questions?** Run `dot secret help` or `dot token help`
+**Questions?** Run `sec help` or `tok help`

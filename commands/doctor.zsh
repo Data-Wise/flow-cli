@@ -178,10 +178,10 @@ doctor() {
   # ──────────────────────────────────────────────────────────────
   # DOTFILES (if dot dispatcher is loaded)
   # ──────────────────────────────────────────────────────────────
-  # Task 3: Delegate to dot token expiring with cache integration
-  if (( $+functions[_dot_doctor] )); then
+  # Task 3: Delegate to tok expiring with cache integration
+  if (( $+functions[_dots_doctor_integration] )); then
     if [[ "$dot_check" == true ]]; then
-      # Only show token section, delegate to dot token expiring
+      # Only show token section, delegate to tok expiring
       _doctor_log_always "${FLOW_COLORS[bold]}🔑 DOT TOKENS${FLOW_COLORS[reset]}"
 
       if [[ -n "$dot_token" ]]; then
@@ -225,11 +225,11 @@ doctor() {
             echo "$cached_result"
           fi
         else
-          # Cache miss - call dot token expiring
+          # Cache miss - call tok expiring
           _doctor_log_verbose "  ${FLOW_COLORS[muted]}[Cache miss - validating...]${FLOW_COLORS[reset]}"
 
-          if (( $+functions[_dot_token_expiring] )); then
-            local token_status=$(_dot_token_expiring 2>&1)
+          if (( $+functions[_tok_expiring] )); then
+            local token_status=$(_tok_expiring 2>&1)
 
             # Cache the result (5 min TTL)
             if (( $+functions[_doctor_cache_token_set] )) && [[ -n "$token_status" ]]; then
@@ -239,7 +239,7 @@ doctor() {
             # Display result
             echo "$token_status"
           else
-            _doctor_log_always "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} dot token expiring not available"
+            _doctor_log_always "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} tok expiring not available"
           fi
         fi
       else
@@ -285,11 +285,11 @@ doctor() {
             echo "$cached_result"
           fi
         else
-          # Cache miss - call dot token expiring
+          # Cache miss - call tok expiring
           _doctor_log_verbose "  ${FLOW_COLORS[muted]}[Cache miss - validating...]${FLOW_COLORS[reset]}"
 
-          if (( $+functions[_dot_token_expiring] )); then
-            local token_status=$(_dot_token_expiring 2>&1)
+          if (( $+functions[_tok_expiring] )); then
+            local token_status=$(_tok_expiring 2>&1)
 
             # Cache the result (5 min TTL)
             if (( $+functions[_doctor_cache_token_set] )) && [[ -n "$token_status" ]]; then
@@ -306,14 +306,14 @@ doctor() {
               _doctor_token_issues[github]="expiring"
             fi
           else
-            _doctor_log_always "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} dot token expiring not available"
+            _doctor_log_always "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} tok expiring not available"
           fi
         fi
       fi
       _doctor_log_always ""
     else
       # Run full DOT doctor (includes tokens and other DOT features)
-      _dot_doctor
+      _dots_doctor_integration
     fi
   fi
 
@@ -355,11 +355,11 @@ doctor() {
   # ──────────────────────────────────────────────────────────────
   # GITHUB TOKEN HEALTH
   # ──────────────────────────────────────────────────────────────
-  # Note: This is the legacy token check. Future phases will delegate to dot token expiring
+  # Note: This is the legacy token check. Future phases will delegate to tok expiring
   if [[ "$dot_check" == false ]]; then
     _doctor_log_quiet "${FLOW_COLORS[bold]}🔑 GITHUB TOKEN${FLOW_COLORS[reset]}"
 
-    local token=$(dot secret github-token 2>/dev/null)
+    local token=$(sec github-token 2>/dev/null)
     local -a token_issues=()
 
     if [[ -z "$token" ]]; then
@@ -381,7 +381,7 @@ doctor() {
         _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Valid (@$username)"
 
         # Check expiration
-        local age_days=$(_dot_token_age_days "github-token")
+        local age_days=$(_tok_age_days "github-token")
         local days_remaining=$((90 - age_days))
 
         if [[ $days_remaining -le 7 ]]; then
@@ -778,15 +778,15 @@ _doctor_fix_tokens() {
       case "$issue" in
         missing)
           _doctor_log_always "  ${FLOW_COLORS[info]}Generating new GitHub token...${FLOW_COLORS[reset]}"
-          dot token github
+          tok github
           ;;
 
         invalid|expiring)
           _doctor_log_always "  ${FLOW_COLORS[info]}Rotating token...${FLOW_COLORS[reset]}"
 
           # Call token rotation workflow
-          if (( $+functions[_dot_token_rotate] )); then
-            _dot_token_rotate
+          if (( $+functions[_tok_rotate] )); then
+            _tok_rotate
 
             # Clear cache after rotation
             if (( $+functions[_doctor_cache_token_clear] )); then
@@ -802,12 +802,12 @@ _doctor_fix_tokens() {
 
         gh-cli)
           _doctor_log_always "  ${FLOW_COLORS[info]}Authenticating gh CLI...${FLOW_COLORS[reset]}"
-          _dot_token_sync_gh
+          _tok_sync_gh
           ;;
 
         env-var)
           _doctor_log_always "  ${FLOW_COLORS[warning]}Add to ~/.config/zsh/.zshrc:${FLOW_COLORS[reset]}"
-          _doctor_log_always "  export GITHUB_TOKEN=\$(dot secret github-token)"
+          _doctor_log_always "  export GITHUB_TOKEN=\$(sec github-token)"
           ;;
 
         mcp-config)

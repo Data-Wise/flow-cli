@@ -222,13 +222,13 @@ mcp edit statistical-research
 
 **What you'll see:** Nvim opens the config file. Use `i` to edit, `ESC :wq` to save and quit.
 
-### Using Nvim with Dot Dispatcher
+### Using Nvim with Dots Dispatcher
 
 Edit dotfiles:
 
 ```bash
 # Opens .zshrc in nvim
-dot edit zsh
+dots edit zsh
 ```
 
 **Pattern:** Whenever flow-cli needs to edit a file, it uses nvim by default!

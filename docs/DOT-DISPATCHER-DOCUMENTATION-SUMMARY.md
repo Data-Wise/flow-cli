@@ -77,11 +77,11 @@
 **Scenes:**
 
 1. Check status (`dot`)
-2. Edit dotfile (`dot edit .zshrc`)
+2. Edit dotfile (`dots edit .zshrc`)
 3. Unlock Bitwarden (`dot unlock`)
-4. List secrets (`dot secret list`)
-5. Retrieve secret (`dot secret <name>`)
-6. Sync from remote (`dot sync`)
+4. List secrets (`sec list`)
+5. Retrieve secret (`sec <name>`)
+6. Sync from remote (`dots sync`)
 7. Show help (`dot help`)
 
 **Generation:**
@@ -99,7 +99,7 @@ vhs dot-dispatcher.tape
 **Changes:**
 
 - Added `dot` to Smart Dispatchers table
-- Added example: `dot edit .zshrc`
+- Added example: `dots edit .zshrc`
 - Added feature mention: "Dotfile management with `dot` dispatcher"
 - Added help reference: `dot help`
 
@@ -261,10 +261,10 @@ All code blocks validated for:
 **Workflows Visualized:**
 
 1. **Status Workflow:** dot → chezmoi status → git status → display
-2. **Edit Workflow:** dot edit → open editor → detect changes → show diff → prompt → apply
-3. **Sync Workflow:** dot sync → git fetch → check if behind → show commits → prompt → chezmoi update
+2. **Edit Workflow:** dots edit → open editor → detect changes → show diff → prompt → apply
+3. **Sync Workflow:** dots sync → git fetch → check if behind → show commits → prompt → chezmoi update
 4. **Unlock Workflow:** dot unlock → prompt password → bw unlock → export session → validate
-5. **Secret Workflow:** dot secret → validate session → bw get → return value (no echo)
+5. **Secret Workflow:** sec → validate session → bw get → return value (no echo)
 
 **Color Coding:**
 

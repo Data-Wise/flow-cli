@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# tests/test-dot-secret-list.zsh - Unit and E2E tests for dot secret list
+# tests/test-dot-secret-list.zsh - Unit and E2E tests for sec list
 # Run: zsh tests/test-dot-secret-list.zsh
 #
 # Tests:
@@ -50,7 +50,7 @@ strip_ansi() {
 
 echo ""
 echo "${fg[cyan]}════════════════════════════════════════════════════════════${reset_color}"
-echo "${fg[cyan]}║${reset_color}  ${fg_bold[white]}Dot Secret List - Unit & E2E Tests${reset_color}                  ${fg[cyan]}║${reset_color}"
+echo "${fg[cyan]}║${reset_color}  ${fg_bold[white]}Sec List - Unit & E2E Tests${reset_color}                  ${fg[cyan]}║${reset_color}"
 echo "${fg[cyan]}════════════════════════════════════════════════════════════${reset_color}"
 echo ""
 
@@ -75,17 +75,17 @@ echo ""
 echo "${fg[cyan]}─── Unit Test 1: Function existence ───${reset_color}"
 
 ((TESTS_RUN++))
-if (( $+functions[_dot_kc_list] )); then
-  test_pass "_dot_kc_list function exists"
+if (( $+functions[_dotf_kc_list] )); then
+  test_pass "_dotf_kc_list function exists"
 else
-  test_fail "_dot_kc_list function not found"
+  test_fail "_dotf_kc_list function not found"
 fi
 
 ((TESTS_RUN++))
-if (( $+functions[_dot_secret] )); then
-  test_pass "_dot_secret dispatcher function exists"
+if (( $+functions[_sec_get] )); then
+  test_pass "_sec_get dispatcher function exists"
 else
-  test_fail "_dot_secret dispatcher function not found"
+  test_fail "_sec_get dispatcher function not found"
 fi
 
 echo ""
@@ -98,16 +98,16 @@ echo "${fg[cyan]}─── Unit Test 2: Shell option isolation ───${reset_
 
 ((TESTS_RUN++))
 if grep -q 'emulate -L zsh' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
-  test_pass "_dot_kc_list uses emulate -L zsh for option isolation"
+  test_pass "_dotf_kc_list uses emulate -L zsh for option isolation"
 else
-  test_fail "_dot_kc_list missing emulate -L zsh"
+  test_fail "_dotf_kc_list missing emulate -L zsh"
 fi
 
 ((TESTS_RUN++))
 if grep -q 'setopt noxtrace noverbose' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
-  test_pass "_dot_kc_list suppresses debug output"
+  test_pass "_dotf_kc_list suppresses debug output"
 else
-  test_fail "_dot_kc_list missing debug suppression"
+  test_fail "_dotf_kc_list missing debug suppression"
 fi
 
 echo ""
@@ -216,7 +216,7 @@ fi
 
 # Check rotation command hint
 ((TESTS_RUN++))
-if grep -q 'dot token rotate' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+if grep -q 'tok rotate' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
   test_pass "Rotation command hint exists"
 else
   test_fail "Missing rotation command hint"
@@ -301,20 +301,20 @@ fi
 echo ""
 
 # ============================================================================
-# E2E TEST 1: dot secret list runs without error
+# E2E TEST 1: sec list runs without error
 # ============================================================================
 
 echo "${fg[cyan]}─── E2E Test 1: Command execution ───${reset_color}"
 
 ((TESTS_RUN++))
 local output
-output=$(dot secret list 2>&1)
+output=$(sec list 2>&1)
 local exit_code=$?
 
 if [[ $exit_code -eq 0 ]]; then
-  test_pass "dot secret list executes successfully (exit code 0)"
+  test_pass "sec list executes successfully (exit code 0)"
 else
-  test_fail "dot secret list failed with exit code $exit_code"
+  test_fail "sec list failed with exit code $exit_code"
 fi
 
 echo ""
@@ -399,7 +399,7 @@ fi
 
 # Check for add hint in empty state
 ((TESTS_RUN++))
-if grep -q 'dot secret add' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+if grep -q 'sec add' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
   test_pass "Add hint exists for empty state"
 else
   test_fail "Missing add hint for empty state"

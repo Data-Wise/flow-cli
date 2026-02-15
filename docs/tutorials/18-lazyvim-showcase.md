@@ -605,7 +605,7 @@ work test-project
 
 # Dispatcher commands that open nvim
 mcp edit statistical-research  # Edit MCP config
-dot edit zsh                    # Edit dotfiles
+dots edit zsh                   # Edit dotfiles
 r edit                          # Edit R package files
 ```
 

@@ -9,8 +9,8 @@
 # Usage: ./tests/interactive-keychain-default-dogfooding.zsh
 #
 # What it tests:
-#   - dot secret status (backend configuration display)
-#   - dot secret sync --status (sync comparison)
+#   - sec status (backend configuration display)
+#   - sec sync --status (sync comparison)
 #   - Backend switching (keychain, bitwarden, both)
 #   - Token workflow without Bitwarden (the main feature!)
 #   - Help text updates
@@ -259,14 +259,14 @@ SAVED_BACKEND="$FLOW_SECRET_BACKEND"
 # ─── Test 1: Default Backend ───
 run_interactive_test 1 \
     "Check Default Backend" \
-    "_dot_secret_backend" \
+    "_dotf_secret_backend" \
     "Should output: ${GREEN}keychain${NC}" \
     "The default backend is now Keychain (no FLOW_SECRET_BACKEND set)"
 
 # ─── Test 2: Status Command ───
 run_interactive_test 2 \
-    "dot secret status (default)" \
-    "unset FLOW_SECRET_BACKEND; dot secret status" \
+    "sec status (default)" \
+    "unset FLOW_SECRET_BACKEND; sec status" \
     "Should show:
   - Backend: ${GREEN}keychain (default)${NC}
   - Keychain: active with location
@@ -275,8 +275,8 @@ run_interactive_test 2 \
 
 # ─── Test 3: Status with Bitwarden Backend ───
 run_interactive_test 3 \
-    "dot secret status (bitwarden mode)" \
-    "export FLOW_SECRET_BACKEND=bitwarden; dot secret status" \
+    "sec status (bitwarden mode)" \
+    "export FLOW_SECRET_BACKEND=bitwarden; sec status" \
     "Should show:
   - Backend: ${YELLOW}bitwarden (legacy mode)${NC}
   - Keychain: not used
@@ -285,8 +285,8 @@ run_interactive_test 3 \
 
 # ─── Test 4: Status with Both Backend ───
 run_interactive_test 4 \
-    "dot secret status (both mode)" \
-    "export FLOW_SECRET_BACKEND=both; dot secret status" \
+    "sec status (both mode)" \
+    "export FLOW_SECRET_BACKEND=both; sec status" \
     "Should show:
   - Backend: ${CYAN}both (sync mode)${NC}
   - Keychain: active (primary)
@@ -298,19 +298,19 @@ unset FLOW_SECRET_BACKEND
 
 # ─── Test 5: Sync Help ───
 run_interactive_test 5 \
-    "dot secret sync --help" \
-    "dot secret sync --help" \
+    "sec sync --help" \
+    "sec sync --help" \
     "Should show sync commands:
-  - dot secret sync (interactive)
-  - dot secret sync --status
-  - dot secret sync --to-bw
-  - dot secret sync --from-bw" \
+  - sec sync (interactive)
+  - sec sync --status
+  - sec sync --to-bw
+  - sec sync --from-bw" \
     "Sync help shows all available sync options"
 
 # ─── Test 6: Sync Status ───
 run_interactive_test 6 \
-    "dot secret sync --status" \
-    "dot secret sync --status" \
+    "sec sync --status" \
+    "sec sync --status" \
     "Should show:
   - Sync Status header
   - Keychain secrets listed
@@ -319,25 +319,25 @@ run_interactive_test 6 \
 
 # ─── Test 7: Help Text Updated ───
 run_interactive_test 7 \
-    "dot secret help includes new commands" \
-    "dot secret help" \
+    "sec help includes new commands" \
+    "sec help" \
     "Should include:
-  - ${KEY} dot secret status
-  - ${SYNC} dot secret sync
+  - ${KEY} sec status
+  - ${SYNC} sec sync
   - ${LOCAL} FLOW_SECRET_BACKEND" \
     "Help text shows new backend configuration commands"
 
 # ─── Test 8: Keychain Helper - needs_bitwarden ───
 run_interactive_test 8 \
     "Keychain mode doesn't need Bitwarden" \
-    "unset FLOW_SECRET_BACKEND; _dot_secret_needs_bitwarden && echo 'needs BW' || echo 'no BW needed'" \
+    "unset FLOW_SECRET_BACKEND; _dotf_secret_needs_bitwarden && echo 'needs BW' || echo 'no BW needed'" \
     "Should output: ${GREEN}no BW needed${NC}" \
     "When in keychain mode, Bitwarden is NOT required"
 
 # ─── Test 9: Both Mode - needs_bitwarden ───
 run_interactive_test 9 \
     "Both mode needs Bitwarden" \
-    "export FLOW_SECRET_BACKEND=both; _dot_secret_needs_bitwarden && echo 'needs BW' || echo 'no BW needed'" \
+    "export FLOW_SECRET_BACKEND=both; _dotf_secret_needs_bitwarden && echo 'needs BW' || echo 'no BW needed'" \
     "Should output: ${YELLOW}needs BW${NC}" \
     "When in both mode, Bitwarden IS required for writes"
 
@@ -347,14 +347,14 @@ unset FLOW_SECRET_BACKEND
 # ─── Test 10: Keychain uses_keychain ───
 run_interactive_test 10 \
     "Keychain mode uses Keychain" \
-    "unset FLOW_SECRET_BACKEND; _dot_secret_uses_keychain && echo 'uses KC' || echo 'no KC'" \
+    "unset FLOW_SECRET_BACKEND; _dotf_secret_uses_keychain && echo 'uses KC' || echo 'no KC'" \
     "Should output: ${GREEN}uses KC${NC}" \
     "Keychain mode uses macOS Keychain for storage"
 
 # ─── Test 11: Bitwarden mode no keychain ───
 run_interactive_test 11 \
     "Bitwarden mode doesn't use Keychain" \
-    "export FLOW_SECRET_BACKEND=bitwarden; _dot_secret_uses_keychain && echo 'uses KC' || echo 'no KC'" \
+    "export FLOW_SECRET_BACKEND=bitwarden; _dotf_secret_uses_keychain && echo 'uses KC' || echo 'no KC'" \
     "Should output: ${RED}no KC${NC}" \
     "Legacy bitwarden mode doesn't use Keychain"
 
@@ -363,8 +363,8 @@ unset FLOW_SECRET_BACKEND
 
 # ─── Test 12: Secret List Works ───
 run_interactive_test 12 \
-    "dot secret list (Keychain secrets)" \
-    "dot secret list" \
+    "sec list (Keychain secrets)" \
+    "sec list" \
     "Should show:
   - Secrets in Keychain (flow-cli):
   - List of secret names (if any)
@@ -374,7 +374,7 @@ run_interactive_test 12 \
 # ─── Test 13: Invalid Backend Fallback ───
 run_interactive_test 13 \
     "Invalid backend falls back to keychain" \
-    "export FLOW_SECRET_BACKEND=invalid_xyz; _dot_secret_backend 2>&1 | tail -1" \
+    "export FLOW_SECRET_BACKEND=invalid_xyz; _dotf_secret_backend 2>&1 | tail -1" \
     "Should output: ${GREEN}keychain${NC}
   (May also show warning about invalid value)" \
     "Invalid backend values fall back to safe default"
@@ -384,8 +384,8 @@ unset FLOW_SECRET_BACKEND
 
 # ─── Test 14: Tutorial Not Auto-Run ───
 run_interactive_test 14 \
-    "dot secret status doesn't trigger tutorial" \
-    "zsh -c 'source $PLUGIN_DIR/flow.plugin.zsh && dot secret status 2>&1 | head -5'" \
+    "sec status doesn't trigger tutorial" \
+    "zsh -c 'source $PLUGIN_DIR/flow.plugin.zsh && sec status 2>&1 | head -5'" \
     "Should show Status output:
   - Secret Backend Status
   - ${GREEN}NOT${NC} Tutorial header
@@ -395,7 +395,7 @@ run_interactive_test 14 \
 # ─── Test 15: Quick Status Check ───
 run_interactive_test 15 \
     "Quick Backend Check" \
-    "echo 'Backend:' \$(_dot_secret_backend); echo 'Needs BW:' \$(_dot_secret_needs_bitwarden && echo yes || echo no); echo 'Uses KC:' \$(_dot_secret_uses_keychain && echo yes || echo no)" \
+    "echo 'Backend:' \$(_dotf_secret_backend); echo 'Needs BW:' \$(_dotf_secret_needs_bitwarden && echo yes || echo no); echo 'Uses KC:' \$(_dotf_secret_uses_keychain && echo yes || echo no)" \
     "Should output:
   Backend: keychain
   Needs BW: no

@@ -5,7 +5,7 @@
 # Bug fixes tested:
 # 1. Inline comments after backslash breaking line continuation
 # 2. User mismatch check too strict when old token expired
-# 3. Token name not passed to _dot_token_github during rotation
+# 3. Token name not passed to _tok_github during rotation
 # 4. Unhelpful "Find token for: unknown" message
 
 # ============================================================================
@@ -122,29 +122,29 @@ fi
 echo ""
 
 # ============================================================================
-# TEST 3: _dot_token_github accepts token name argument
+# TEST 3: _tok_github accepts token name argument
 # ============================================================================
 
 echo "${fg[cyan]}─── Test 3: Token name parameter passing ───${reset_color}"
 
-# Check that _dot_token_github uses $1 for token_name
+# Check that _tok_github uses $1 for token_name
 ((TESTS_RUN++))
 local token_name_param=$(grep 'local token_name="\$1"' \
   "$PLUGIN_DIR/lib/dispatchers/dot-dispatcher.zsh" 2>/dev/null | head -1 || true)
 
 if [[ -n "$token_name_param" ]]; then
-  test_pass "_dot_token_github accepts token name as first argument"
+  test_pass "_tok_github accepts token name as first argument"
 else
-  test_fail "_dot_token_github does not accept token name argument"
+  test_fail "_tok_github does not accept token name argument"
 fi
 
-# Check that _dot_token_rotate passes token_name to wizard
+# Check that _tok_rotate passes token_name to wizard
 ((TESTS_RUN++))
-if grep -q '_dot_token_github "\$token_name"' \
+if grep -q '_tok_github "\$token_name"' \
    "$PLUGIN_DIR/lib/dispatchers/dot-dispatcher.zsh" 2>/dev/null; then
-  test_pass "_dot_token_rotate passes token_name to wizard"
+  test_pass "_tok_rotate passes token_name to wizard"
 else
-  test_fail "_dot_token_rotate does not pass token_name to wizard"
+  test_fail "_tok_rotate does not pass token_name to wizard"
 fi
 
 # Verify fallback prompt still works (for direct invocation)
@@ -192,28 +192,28 @@ echo ""
 
 echo "${fg[cyan]}─── Test 5: Function structure ───${reset_color}"
 
-# Verify _dot_token_rotate exists
+# Verify _tok_rotate exists
 ((TESTS_RUN++))
-if (( $+functions[_dot_token_rotate] )); then
-  test_pass "_dot_token_rotate function exists"
+if (( $+functions[_tok_rotate] )); then
+  test_pass "_tok_rotate function exists"
 else
-  test_fail "_dot_token_rotate function not found"
+  test_fail "_tok_rotate function not found"
 fi
 
-# Verify _dot_token_github exists
+# Verify _tok_github exists
 ((TESTS_RUN++))
-if (( $+functions[_dot_token_github] )); then
-  test_pass "_dot_token_github function exists"
+if (( $+functions[_tok_github] )); then
+  test_pass "_tok_github function exists"
 else
-  test_fail "_dot_token_github function not found"
+  test_fail "_tok_github function not found"
 fi
 
-# Verify _dot_kc_add exists (keychain helper)
+# Verify _dotf_kc_add exists (keychain helper)
 ((TESTS_RUN++))
-if (( $+functions[_dot_kc_add] )); then
-  test_pass "_dot_kc_add function exists"
+if (( $+functions[_dotf_kc_add] )); then
+  test_pass "_dotf_kc_add function exists"
 else
-  test_fail "_dot_kc_add function not found"
+  test_fail "_dotf_kc_add function not found"
 fi
 
 echo ""

@@ -7,7 +7,7 @@ tags:
 
 # Master Dispatcher Guide
 
-**Purpose:** Complete reference for all 13 flow-cli dispatchers
+**Purpose:** Complete reference for all 15 flow-cli dispatchers
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
 **Version:** v6.5.0
@@ -30,7 +30,7 @@ r test                # Run R tests
 teach init            # Initialize course
 ```
 
-### The 13 Dispatchers
+### The 15 Dispatchers
 
 | Dispatcher | Domain | Commands | Complexity |
 |------------|--------|----------|------------|
@@ -41,7 +41,9 @@ teach init            # Initialize course
 | [mcp](#mcp-dispatcher) | MCP servers | 8 | Intermediate |
 | [obs](#obs-dispatcher) | Obsidian notes | 6 | Beginner |
 | [wt](#wt-dispatcher) | Worktrees | 6 | Advanced |
-| [dot](#dot-dispatcher) | Dotfiles & secrets | 12+ | Intermediate → Advanced |
+| [dots](#dots-dispatcher) | Dotfile management | 12+ | Intermediate |
+| [sec](#sec-dispatcher) | Secret management | 10+ | Intermediate → Advanced |
+| [tok](#tok-dispatcher) | Token management | 8+ | Intermediate → Advanced |
 | [teach](#teach-dispatcher) | Teaching workflow | 15+ | Intermediate → Advanced |
 | [tm](#tm-dispatcher) | Terminal manager | 5 | Beginner |
 | [prompt](#prompt-dispatcher) | Prompt engine | 3 | Beginner |
@@ -76,7 +78,8 @@ Explore **Intermediate** sections:
 1. [g](#g-dispatcher) feature workflow
 2. [r](#r-dispatcher) or [qu](#qu-dispatcher) (based on your work)
 3. [teach](#teach-dispatcher) (if teaching)
-4. [dot](#dot-dispatcher) - Secret management
+4. [dots](#dots-dispatcher) - Dotfile management
+5. [sec](#sec-dispatcher) / [tok](#tok-dispatcher) - Secret & token management
 
 ### For Advanced Users
 
@@ -87,7 +90,7 @@ Deep dive into **Advanced** sections:
 
 **Focus Areas:**
 1. [wt](#wt-dispatcher) - Parallel development with worktrees
-2. [dot](#dot-dispatcher) advanced - Secret rotation, automation
+2. [sec](#sec-dispatcher) / [tok](#tok-dispatcher) advanced - Secret rotation, automation
 3. [teach](#teach-dispatcher) advanced - AI integration
 4. [mcp](#mcp-dispatcher) - Server management
 
@@ -1120,30 +1123,30 @@ git worktree add /path/to/custom/location -b branch-name
 
 ---
 
-## dot Dispatcher
+## dots Dispatcher
 
-**Domain:** Dotfile management & secret storage
-**Complexity:** Intermediate → Advanced
-**Most Used:** Yes (configuration & security)
+**Domain:** Dotfile management
+**Complexity:** Intermediate
+**Most Used:** Yes (configuration management)
 
 ### Basics (Beginner)
 
-**What it does:** Manages dotfiles and stores secrets securely in macOS Keychain with Touch ID.
+**What it does:** Manages dotfiles with chezmoi integration.
 
 #### Dotfile Management
 
 **Edit dotfile:**
 ```bash
-dot edit zshrc
-dot edit vimrc
-dot edit gitconfig
+dots edit zshrc
+dots edit vimrc
+dots edit gitconfig
 ```
 
 Opens dotfile in `$EDITOR`.
 
 **Sync dotfiles:**
 ```bash
-dot sync
+dots sync
 ```
 
 Output:
@@ -1156,7 +1159,7 @@ Output:
 
 **Show sync status:**
 ```bash
-dot status
+dots status
 ```
 
 Output:
@@ -1167,40 +1170,113 @@ dotfiles: 12 tracked
   ⚠️  ~/.gitconfig (modified, needs sync)
 ```
 
-**Restore dotfile:**
+---
+
+### Intermediate
+
+**Push dotfile changes:**
 ```bash
-dot restore zshrc
+dots push
 ```
 
-Restores `~/.zshrc` from `~/dotfiles/zshrc`.
+**Show pending changes:**
+```bash
+dots diff
+```
+
+**Apply pending changes:**
+```bash
+dots apply
+```
+
+**Add new dotfile to tracking:**
+```bash
+dots add ~/.zshrc
+```
+
+**Ignore a dotfile:**
+```bash
+dots ignore .DS_Store
+```
+
+**Initialize dotfile management:**
+```bash
+dots init
+```
+
+**Undo last change:**
+```bash
+dots undo
+```
+
+**Generate .envrc for direnv:**
+```bash
+dots env
+```
+
+**Run diagnostics:**
+```bash
+dots doctor
+```
 
 ---
 
+### Reference
+
+<details>
+<summary>Complete dots Dispatcher Command List</summary>
+
+- `dots` - Show dotfile status
+- `dots status` - Show sync status
+- `dots edit <file>` - Edit dotfile in $EDITOR
+- `dots sync` - Pull from remote
+- `dots push` - Push to remote
+- `dots diff` - Show pending changes
+- `dots apply` - Apply pending changes
+- `dots add <file>` - Track new dotfile
+- `dots ignore <pattern>` - Ignore file
+- `dots init` - Initialize dotfile management
+- `dots undo` - Undo last change
+- `dots env` - Generate .envrc
+- `dots doctor` - Run diagnostics
+- `dots help` - Show help
+
+</details>
+
+---
+
+## sec Dispatcher
+
+**Domain:** Secret management (macOS Keychain + Bitwarden)
+**Complexity:** Intermediate → Advanced
+**Most Used:** Yes (security)
+
+### Basics (Beginner)
+
+**What it does:** Stores and retrieves secrets securely using macOS Keychain with Touch ID.
+
 #### Secret Management (macOS Keychain)
+
+**Get secret:**
+```bash
+sec GITHUB_TOKEN
+```
+
+Touch ID prompt → Shows token value.
 
 **Store secret:**
 ```bash
-dot secret set GITHUB_TOKEN
+sec add GITHUB_TOKEN
 ```
 
 Workflow:
 1. Prompts: `Enter value for GITHUB_TOKEN:`
-2. You paste token
-3. Touch ID prompt
-4. ✅ Stored in keychain
-
-**Get secret:**
-```bash
-dot secret get GITHUB_TOKEN
-```
-
-Workflow:
-1. Touch ID prompt
-2. Shows token value
+2. Touch ID prompt
+3. ✅ Stored in keychain
 
 **List secrets:**
 ```bash
-dot secret list
+sec list
 ```
 
 Output:
@@ -1213,22 +1289,156 @@ ANTHROPIC_API_KEY
 
 **Delete secret:**
 ```bash
-dot secret delete GITHUB_TOKEN
+sec delete GITHUB_TOKEN
 ```
 
 Workflow:
 1. Touch ID prompt
 2. ✅ Deleted
 
+**Check secret status:**
+```bash
+sec status
+```
+
+Shows backend configuration and secrets count.
+
 ---
 
 ### Intermediate
 
-#### Token Rotation Workflow
+#### Secrets Dashboard
+
+```bash
+sec dashboard
+```
+
+Shows all secrets with expiration status.
+
+#### Sync Secrets Across Backends
+
+```bash
+sec sync
+```
+
+Interactive wizard to sync between Keychain and Bitwarden.
+
+#### Bitwarden Access
+
+```bash
+sec bw github-token
+```
+
+Retrieves secret directly from Bitwarden.
+
+#### Unlock/Lock Keychain
+
+**Unlock for session:**
+```bash
+sec unlock
+```
+
+Touch ID prompt → Unlocks keychain for 5 minutes.
+
+**Lock keychain:**
+```bash
+sec lock
+```
+
+---
+
+### Advanced
+
+#### Automation with Secrets
+
+**Safe script pattern:**
+```bash
+#!/bin/bash
+# get-secret-safe.sh
+
+# Unlock keychain once
+sec unlock
+
+# Use secrets multiple times (no repeated Touch ID)
+GITHUB_TOKEN=$(sec GITHUB_TOKEN)
+NPM_TOKEN=$(sec NPM_TOKEN)
+
+# Use in script
+curl -H "Authorization: token $GITHUB_TOKEN" ...
+npm publish --token "$NPM_TOKEN"
+```
+
+**Unsafe pattern (avoid):**
+```bash
+# ❌ DON'T: Hard-code secrets
+export GITHUB_TOKEN="ghp_hardcoded"  # NEVER DO THIS
+
+# ✅ DO: Use keychain
+export GITHUB_TOKEN=$(sec GITHUB_TOKEN)
+```
+
+---
+
+### Reference
+
+<details>
+<summary>Complete sec Dispatcher Command List</summary>
+
+- `sec <name>` - Retrieve secret (Touch ID)
+- `sec list` - List all secrets
+- `sec add <name>` - Store secret in keychain
+- `sec delete <name>` - Delete secret
+- `sec check` - Check secret health
+- `sec status` - Show backend config
+- `sec sync` - Sync Keychain ↔ Bitwarden
+- `sec bw <name>` - Get from Bitwarden
+- `sec dashboard` - Secrets dashboard with expiration
+- `sec unlock` - Unlock keychain for session
+- `sec lock` - Lock keychain
+- `sec help` - Show help
+
+</details>
+
+---
+
+## tok Dispatcher
+
+**Domain:** Token management (creation, rotation, expiration)
+**Complexity:** Intermediate → Advanced
+**Most Used:** Yes (token lifecycle)
+
+### Basics (Beginner)
+
+**What it does:** Creates, rotates, and monitors API tokens with guided wizards.
+
+#### Token Creation
+
+**Create GitHub token:**
+```bash
+tok github
+```
+
+Interactive wizard guides through token creation.
+
+**Create npm token:**
+```bash
+tok npm
+```
+
+**Create PyPI token:**
+```bash
+tok pypi
+```
+
+---
+
+### Intermediate
+
+#### Token Expiration
 
 **Check token expiration:**
 ```bash
-dot token expiring
+tok expiring
 ```
 
 Output:
@@ -1237,9 +1447,11 @@ GitHub Token: 45 days remaining ✅
 NPM Token: 5 days remaining ⚠️
 ```
 
+#### Token Rotation
+
 **Rotate token:**
 ```bash
-dot token rotate GITHUB_TOKEN
+tok rotate github
 ```
 
 Workflow:
@@ -1259,7 +1471,7 @@ flow doctor --dot
 # (Settings → Developer Settings → Tokens)
 
 # 3. Rotate
-dot token rotate GITHUB_TOKEN
+tok rotate github
 # Current: ghp_old...
 # Enter new: [paste new token]
 # ✅ Rotated
@@ -1269,100 +1481,14 @@ flow doctor --dot=github
 # Output: ✅ Valid (expires in 90 days)
 ```
 
----
-
-#### Integration with git
-
-**Automatic token usage:**
+**Refresh token:**
 ```bash
-# flow-cli automatically uses keychain token for git
-g push
-# [Retrieves GITHUB_TOKEN from keychain]
-# [Validates before push]
-# [Pushes to remote]
+tok refresh github
 ```
-
-**Manual token export:**
-```bash
-# Export to environment (for other tools)
-export GITHUB_TOKEN=$(dot secret get GITHUB_TOKEN)
-```
-
----
-
-#### Unlock Keychain
-
-**Unlock for session:**
-```bash
-dot unlock
-```
-
-Touch ID prompt → Unlocks keychain for 5 minutes.
-
-**Why use this:**
-- Batch operations (multiple secret reads)
-- Automation scripts
-- Avoid repeated Touch ID prompts
 
 ---
 
 ### Advanced
-
-#### Secret Backup & Restore
-
-**Export secrets (encrypted):**
-```bash
-dot secret export secrets-backup.enc
-```
-
-Creates encrypted backup of all secrets.
-
-**Import secrets:**
-```bash
-dot secret import secrets-backup.enc
-```
-
-Restores secrets from backup.
-
-**⚠️ Security Note:**
-- Backup file is encrypted with keychain password
-- Store backup in secure location (1Password, encrypted USB)
-- Never commit backup to git
-
----
-
-#### Automation with Secrets
-
-**Safe script pattern:**
-```bash
-#!/bin/bash
-# get-secret-safe.sh
-
-# Unlock keychain once
-dot unlock
-
-# Use secrets multiple times (no repeated Touch ID)
-GITHUB_TOKEN=$(dot secret get GITHUB_TOKEN)
-NPM_TOKEN=$(dot secret get NPM_TOKEN)
-
-# Use in script
-curl -H "Authorization: token $GITHUB_TOKEN" ...
-npm publish --token "$NPM_TOKEN"
-```
-
-**Unsafe pattern (avoid):**
-```bash
-# ❌ DON'T: Hard-code secrets
-export GITHUB_TOKEN="ghp_hardcoded"  # NEVER DO THIS
-
-# ❌ DON'T: Store in .zshrc unencrypted
-echo 'export GITHUB_TOKEN="ghp_..."' >> ~/.zshrc
-
-# ✅ DO: Use keychain
-export GITHUB_TOKEN=$(dot secret get GITHUB_TOKEN)
-```
-
----
 
 #### Token Cache Management (v5.17.0)
 
@@ -1396,33 +1522,17 @@ Forces fresh token check on next `flow doctor --dot`.
 ### Reference
 
 <details>
-<summary>Complete dot Dispatcher Command List</summary>
+<summary>Complete tok Dispatcher Command List</summary>
 
-**Dotfile Management:**
-- `dot edit <file>` - Edit dotfile in $EDITOR
-- `dot sync` - Sync all dotfiles
-- `dot status` - Show sync status
-- `dot restore <file>` - Restore dotfile from backup
-
-**Secret Management:**
-- `dot secret set <name>` - Store secret in keychain
-- `dot secret get <name>` - Retrieve secret (Touch ID)
-- `dot secret list` - List all secrets
-- `dot secret delete <name>` - Delete secret
-- `dot secret rotate <name>` - Rotate secret (get old, set new)
-- `dot unlock` - Unlock keychain for session
-
-**Token Management (v5.17.0):**
-- `dot token expiring` - Check token expiration (cached)
-- `dot token expiring --force` - Force fresh check
-- `dot token rotate <provider>` - Rotate token
-
-**Backup (Advanced):**
-- `dot secret export <file>` - Export encrypted backup
-- `dot secret import <file>` - Import from backup
-
-**Help:**
-- `dot help` - Show help
+- `tok` - Show token status
+- `tok github` - Create GitHub token (wizard)
+- `tok npm` - Create npm token (wizard)
+- `tok pypi` - Create PyPI token (wizard)
+- `tok expiring` - Check token expiration (cached)
+- `tok expiring --force` - Force fresh check
+- `tok rotate <provider>` - Rotate token
+- `tok refresh <provider>` - Refresh token
+- `tok help` - Show help
 
 </details>
 
@@ -2447,7 +2557,9 @@ v off
 | mcp | Intermediate | ⭐⭐⭐ | MCP server management |
 | obs | Beginner | ⭐⭐⭐ | Obsidian notes |
 | wt | Advanced | ⭐⭐⭐⭐ | Parallel development |
-| dot | Intermediate → Advanced | ⭐⭐⭐⭐⭐ | Secrets & dotfiles |
+| dots | Intermediate | ⭐⭐⭐⭐ | Dotfile management |
+| sec | Intermediate → Advanced | ⭐⭐⭐⭐⭐ | Secret management |
+| tok | Intermediate → Advanced | ⭐⭐⭐⭐ | Token management |
 | teach | Intermediate → Advanced | ⭐⭐⭐⭐ | Teaching + AI |
 | tm | Beginner | ⭐⭐ | Terminal settings |
 | prompt | Beginner | ⭐⭐ | AI engine switching |
@@ -2568,7 +2680,7 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 ## Next Steps
 
 - **Beginners:** Start with [g](#g-dispatcher), [cc](#cc-dispatcher), [tm](#tm-dispatcher), [em](#em-dispatcher)
-- **Intermediate:** Explore [r](#r-dispatcher), [qu](#qu-dispatcher), [dot](#dot-dispatcher)
+- **Intermediate:** Explore [r](#r-dispatcher), [qu](#qu-dispatcher), [dots](#dots-dispatcher), [sec](#sec-dispatcher)
 - **Advanced:** Master [wt](#wt-dispatcher), [teach](#teach-dispatcher) advanced features
 - **Quick Reference:** See [QUICK-REFERENCE.md](../help/QUICK-REFERENCE.md)
 - **Workflows:** See [WORKFLOWS.md](../help/WORKFLOWS.md)
@@ -2577,4 +2689,4 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 
 **Version:** v7.0.1
 **Last Updated:** 2026-02-12
-**Total:** 13 dispatchers fully documented
+**Total:** 15 dispatchers fully documented

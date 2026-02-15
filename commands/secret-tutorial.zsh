@@ -3,7 +3,7 @@
 # Interactive Token & Secret Management Tutorial
 # =============================================================================
 # Purpose: ADHD-friendly, step-by-step tutorial for learning token management
-# Usage: dot secret tutorial
+# Usage: sec tutorial
 # Features:
 #   - 7 interactive lessons with examples
 #   - Progress tracking
@@ -164,7 +164,7 @@ EOF
     return 0
   else
     echo ""
-    echo "${FLOW_COLORS[muted]}Tutorial cancelled. Run ${FLOW_COLORS[cmd]}dot secret tutorial${FLOW_COLORS[muted]} to restart.${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[muted]}Tutorial cancelled. Run ${FLOW_COLORS[cmd]}sec tutorial${FLOW_COLORS[muted]} to restart.${FLOW_COLORS[reset]}"
     return 1
   fi
 }
@@ -179,7 +179,7 @@ flow-cli stores tokens in ${FLOW_COLORS[bold]}TWO${FLOW_COLORS[reset]} backends 
 
 ┌─────────────────────────────────────────────────────────────┐
 │                   USER ACTION                               │
-│                 dot token github                            │
+│                 tok github                            │
 └────────────────────┬────────────────────────────────────────┘
                      │
         ┌────────────┴────────────┐
@@ -264,7 +264,7 @@ This won't create a real GitHub token.
 
 ${FLOW_COLORS[section]}The Add Token Workflow:${FLOW_COLORS[reset]}
 
-  1. Run: ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}
+  1. Run: ${FLOW_COLORS[cmd]}tok github${FLOW_COLORS[reset]}
   2. Choose token type (classic or fine-grained)
   3. Browser opens to GitHub token creation page
   4. Create token with recommended scopes
@@ -286,7 +286,7 @@ EOF
   echo ""
   _tutorial_section "DEMO: Adding GitHub Token"
 
-  _tutorial_command "dot secret add demo-github-token"
+  _tutorial_command "sec add demo-github-token"
 
   cat << EOF
 ${FLOW_COLORS[prompt]}Enter secret value:${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}ghp_DEMO_TOKEN_NOT_REAL_1234567890ABCDEF${FLOW_COLORS[reset]}
@@ -340,7 +340,7 @@ _tutorial_step_retrieve() {
   cat << EOF
 ${FLOW_COLORS[section]}How to Retrieve Tokens${FLOW_COLORS[reset]}
 
-Tokens are retrieved with: ${FLOW_COLORS[cmd]}dot secret <name>${FLOW_COLORS[reset]}
+Tokens are retrieved with: ${FLOW_COLORS[cmd]}sec <name>${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[bold]}Key features:${FLOW_COLORS[reset]}
   • ${FLOW_COLORS[success]}No echo${FLOW_COLORS[reset]} to terminal (security)
@@ -352,31 +352,31 @@ ${FLOW_COLORS[section]}Common Usage Patterns:${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[bold]}1. Environment Variable:${FLOW_COLORS[reset]}
 EOF
-  _tutorial_command "export GITHUB_TOKEN=\$(dot secret github-token)"
+  _tutorial_command "export GITHUB_TOKEN=\$(sec github-token)"
 
   cat << EOF
 ${FLOW_COLORS[bold]}2. GitHub CLI:${FLOW_COLORS[reset]}
 EOF
-  _tutorial_command "gh auth login --with-token <<< \$(dot secret github-token)"
+  _tutorial_command "gh auth login --with-token <<< \$(sec github-token)"
 
   cat << EOF
 ${FLOW_COLORS[bold]}3. curl API Calls:${FLOW_COLORS[reset]}
 EOF
-  _tutorial_command "curl -H \"Authorization: token \$(dot secret github-token)\" \\"
+  _tutorial_command "curl -H \"Authorization: token \$(sec github-token)\" \\"
   echo "  https://api.github.com/user"
   echo ""
 
   cat << EOF
 ${FLOW_COLORS[bold]}4. npm Publishing:${FLOW_COLORS[reset]}
 EOF
-  _tutorial_command "npm config set //registry.npmjs.org/:_authToken \"\$(dot secret npm-token)\""
+  _tutorial_command "npm config set //registry.npmjs.org/:_authToken \"\$(sec npm-token)\""
 
   echo ""
   _tutorial_section "DEMO: Retrieve Our Test Token"
 
   if _tutorial_ask "Try retrieving the demo token?" "y"; then
     echo ""
-    _tutorial_command "dot secret demo-github-token"
+    _tutorial_command "sec demo-github-token"
 
     local token_value=$(security find-generic-password \
       -a "demo-github-token" \
@@ -409,7 +409,7 @@ Tokens expire for security (GitHub enforces 90 days max).
 
 ${FLOW_COLORS[bold]}Check expiration status:${FLOW_COLORS[reset]}
 EOF
-  _tutorial_command "dot token expiring"
+  _tutorial_command "tok expiring"
 
   cat << EOF
 ${FLOW_COLORS[section]}Example Output:${FLOW_COLORS[reset]}
@@ -421,7 +421,7 @@ ${FLOW_COLORS[section]}Example Output:${FLOW_COLORS[reset]}
 │  ${FLOW_COLORS[warning]}⚠️  github-token${FLOW_COLORS[reset]}                                  │
 │      Expires: 2026-01-29 (5 days)                 │
 │      Type: GitHub Classic PAT                     │
-│      Action: Run 'dot token rotate'               │
+│      Action: Run 'tok rotate'               │
 │                                                   │
 │  ${FLOW_COLORS[success]}✅  npm-token${FLOW_COLORS[reset]}                                     │
 │      Expires: 2026-04-24 (67 days)                │
@@ -486,7 +486,7 @@ ${FLOW_COLORS[bold]}When to rotate:${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[bold]}Rotation command:${FLOW_COLORS[reset]}
 EOF
-  _tutorial_command "dot token rotate"
+  _tutorial_command "tok rotate"
 
   cat << EOF
 ${FLOW_COLORS[section]}What Rotation Does:${FLOW_COLORS[reset]}
@@ -516,7 +516,7 @@ EOF
   cat << EOF
 ${FLOW_COLORS[bold]}For a real token, you would:${FLOW_COLORS[reset]}
 
-  1. Run: ${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]}
+  1. Run: ${FLOW_COLORS[cmd]}tok rotate${FLOW_COLORS[reset]}
   2. Select token to rotate
   3. Create new token on provider
   4. Paste new token
@@ -542,12 +542,12 @@ We created a fake token for practice. Let's delete it.
 
 ${FLOW_COLORS[bold]}Delete command:${FLOW_COLORS[reset]}
 EOF
-  _tutorial_command "dot secret delete <name>"
+  _tutorial_command "sec delete <name>"
 
   echo ""
   if _tutorial_ask "Delete demo token now?" "y"; then
     echo ""
-    _tutorial_command "dot secret delete demo-github-token"
+    _tutorial_command "sec delete demo-github-token"
 
     # Delete demo token from Keychain
     security delete-generic-password \
@@ -585,9 +585,9 @@ ${FLOW_COLORS[bold]}Bitwarden Security:${FLOW_COLORS[reset]}
   ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Save recovery codes
 
 ${FLOW_COLORS[bold]}Automation:${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Check expiration in scripts: ${FLOW_COLORS[cmd]}dot token expiring --quiet${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Use in CI/CD: ${FLOW_COLORS[cmd]}export TOKEN=\$(dot secret <name>)${FLOW_COLORS[reset]}
-  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Monthly audit: ${FLOW_COLORS[cmd]}dot secret list${FLOW_COLORS[reset]} + manual review
+  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Check expiration in scripts: ${FLOW_COLORS[cmd]}tok expiring --quiet${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Use in CI/CD: ${FLOW_COLORS[cmd]}export TOKEN=\$(sec <name>)${FLOW_COLORS[reset]}
+  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Monthly audit: ${FLOW_COLORS[cmd]}sec list${FLOW_COLORS[reset]} + manual review
 
 EOF
 
@@ -607,17 +607,17 @@ ${FLOW_COLORS[header]}╰──────────────────�
 ${FLOW_COLORS[section]}You've learned:${FLOW_COLORS[reset]}
 
   ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Dual storage architecture (Bitwarden + Keychain)
-  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Adding tokens (${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]})
-  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Retrieving tokens (${FLOW_COLORS[cmd]}dot secret <name>${FLOW_COLORS[reset]})
-  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Checking expiration (${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]})
-  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Rotating tokens (${FLOW_COLORS[cmd]}dot token rotate${FLOW_COLORS[reset]})
-  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Deleting tokens (${FLOW_COLORS[cmd]}dot secret delete <name>${FLOW_COLORS[reset]})
+  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Adding tokens (${FLOW_COLORS[cmd]}tok github${FLOW_COLORS[reset]})
+  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Retrieving tokens (${FLOW_COLORS[cmd]}sec <name>${FLOW_COLORS[reset]})
+  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Checking expiration (${FLOW_COLORS[cmd]}tok expiring${FLOW_COLORS[reset]})
+  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Rotating tokens (${FLOW_COLORS[cmd]}tok rotate${FLOW_COLORS[reset]})
+  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Deleting tokens (${FLOW_COLORS[cmd]}sec delete <name>${FLOW_COLORS[reset]})
   ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Security best practices
 
 ${FLOW_COLORS[section]}Next Steps:${FLOW_COLORS[reset]}
 
   1. ${FLOW_COLORS[bold]}Create your first real token${FLOW_COLORS[reset]}
-     ${FLOW_COLORS[cmd]}dot token github${FLOW_COLORS[reset]}
+     ${FLOW_COLORS[cmd]}tok github${FLOW_COLORS[reset]}
 
   2. ${FLOW_COLORS[bold]}Set calendar reminder${FLOW_COLORS[reset]}
      Rotate tokens every 90 days
@@ -633,10 +633,10 @@ ${FLOW_COLORS[section]}Next Steps:${FLOW_COLORS[reset]}
 
 ${FLOW_COLORS[section]}Useful Commands:${FLOW_COLORS[reset]}
 
-  ${FLOW_COLORS[cmd]}dot secret help${FLOW_COLORS[reset]}        Show all secret commands
-  ${FLOW_COLORS[cmd]}dot token help${FLOW_COLORS[reset]}         Show all token commands
-  ${FLOW_COLORS[cmd]}dot secret list${FLOW_COLORS[reset]}        List all stored secrets
-  ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}     Check expiration status
+  ${FLOW_COLORS[cmd]}sec help${FLOW_COLORS[reset]}        Show all secret commands
+  ${FLOW_COLORS[cmd]}tok help${FLOW_COLORS[reset]}         Show all token commands
+  ${FLOW_COLORS[cmd]}sec list${FLOW_COLORS[reset]}        List all stored secrets
+  ${FLOW_COLORS[cmd]}tok expiring${FLOW_COLORS[reset]}     Check expiration status
   ${FLOW_COLORS[cmd]}flow doctor --dot${FLOW_COLORS[reset]}      Token health check
 
 ${FLOW_COLORS[section]}Tutorial Progress:${FLOW_COLORS[reset]}
@@ -661,7 +661,7 @@ EOF
 # Main Tutorial Function
 # =============================================================================
 
-_dot_secret_tutorial() {
+_sec_tutorial() {
   # Initialize state
   _tutorial_init_state
 
@@ -691,5 +691,5 @@ _dot_secret_tutorial() {
 # Run tutorial if called directly (not when sourced by plugin loader)
 # ZSH_EVAL_CONTEXT is "toplevel" only when executed directly
 if [[ "${ZSH_EVAL_CONTEXT}" == "toplevel" ]]; then
-  _dot_secret_tutorial "$@"
+  _sec_tutorial "$@"
 fi

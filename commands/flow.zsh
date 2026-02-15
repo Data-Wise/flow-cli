@@ -115,7 +115,7 @@ flow() {
       ;;
     token|tokens)
       # Delegate to dot dispatcher
-      dot token "$@"
+      tok "$@"
       ;;
     setup)
       setup "$@"

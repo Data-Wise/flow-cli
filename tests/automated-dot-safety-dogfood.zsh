@@ -56,10 +56,10 @@ run_test() {
 # Validation functions
 validate_help() {
   local output="$1"
-  [[ "$output" == *"COMMON COMMANDS"* ]] && \
-  [[ "$output" == *"dot add"* ]] && \
-  [[ "$output" == *"IGNORE PATTERNS"* ]] && \
-  [[ "$output" == *"REPOSITORY HEALTH"* ]]
+  [[ "$output" == *"MOST COMMON"* ]] && \
+  [[ "$output" == *"dots add"* ]] && \
+  [[ "$output" == *"IGNORE"* ]] && \
+  [[ "$output" == *"HEALTH"* ]]
 }
 
 validate_ignore_help() {
@@ -138,16 +138,16 @@ echo "${YELLOW}Automated Dogfooding: Dot Safety Features v6.0.0${RESET}"
 echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
 echo ""
 
-run_test "Display dot help" \
-  "dot help" \
+run_test "Display dots help" \
+  "dots help" \
   "validate_help"
 
 run_test "Display ignore help" \
-  "dot ignore help" \
+  "dots ignore help" \
   "validate_ignore_help"
 
 run_test "List ignore patterns" \
-  "dot ignore list" \
+  "dots ignore list" \
   "validate_ignore_list"
 
 run_test "Verify chezmoi path" \
@@ -155,11 +155,11 @@ run_test "Verify chezmoi path" \
   "validate_chezmoi_path"
 
 run_test "Analyze repository size" \
-  "dot size 2>&1 | command head -5 || dot size 2>&1" \
+  "dots size 2>&1 | command head -5 || dots size 2>&1" \
   "validate_size_output"
 
 run_test "Check git detection function" \
-  "type _dot_check_git_in_path" \
+  "type _dotf_check_git_in_path" \
   "validate_function_exists"
 
 run_test "Test file size helper" \
@@ -171,7 +171,7 @@ run_test "Run doctor dot checks" \
   "validate_not_empty"
 
 run_test "Test cache performance" \
-  "time (dot size >/dev/null 2>&1) 2>&1" \
+  "time (dots size >/dev/null 2>&1) 2>&1" \
   "validate_performance"
 
 run_test "Check safety guide" \

@@ -411,7 +411,7 @@ _dot_add() {
 **Output Format:**
 
 ```
-Preview: dot add /path/to/target
+Preview: dots add /path/to/target
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files to add: 8
 Total size: 301K
@@ -717,7 +717,7 @@ _dot_header() {
 **Examples:**
 
 ```zsh
-_dot_header "Preview: dot add ~/.config"
+_dot_header "Preview: dots add ~/.config"
 _dot_header "Repository Health Check"
 ```
 
@@ -725,7 +725,7 @@ _dot_header "Repository Health Check"
 
 ```
 
-Preview: dot add ~/.config
+Preview: dots add ~/.config
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -808,9 +808,9 @@ DEFAULT_IGNORE=(
 
 | Command                | Success | User Cancel | Error |
 | ---------------------- | ------- | ----------- | ----- |
-| `dot add` (with preview)| 0      | 1           | 1     |
-| `dot ignore add`       | 0       | -           | 1     |
-| `dot size`             | 0       | -           | 1     |
+| `dots add` (with preview)| 0      | 1           | 1     |
+| `dots ignore add`       | 0       | -           | 1     |
+| `dots size`             | 0       | -           | 1     |
 | `flow doctor --dot`    | 0 (pass)| -           | 1 (warn), 2 (error)|
 
 ### Function Return Codes
