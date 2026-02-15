@@ -9,16 +9,24 @@
 ## Priority: 2
 ## Progress: 85
 
-## Current Session (2026-02-14)
+## Current Session (2026-02-15)
 
 **Session activity:**
+- fix: semantic-release v25 missing plugin deps (commit-analyzer, release-notes-generator)
+- fix: removed @semantic-release/git plugin (can't push to protected main on personal repos)
+- fix: replaced classic branch protection with GitHub ruleset (admin bypass)
+- fix: restored correct devDependencies in package.json (semantic-release, commit-analyzer, github, conventional-changelog-conventionalcommits)
+- chore: cleaned up ~245 failed release workflow runs
+- chore: synced dev with main
+- result: semantic-release now creates GitHub releases + tags without pushing commits back to main
+
+**Previous session (2026-02-14):**
 - review: code review of PR #381 (dot dispatcher split) — 3 issues found
 - fix: stale `_dot_token_*` refs in docs, dots-dispatcher header, CHANGELOG history
 - merge: PR #381 merged to dev, worktree cleaned up
 - docs: site update — dispatcher count 13→15, What's New banner for v7.1.0
 - release: v7.1.0 — PR #382 merged to main, tagged, GitHub release created
 - fix: Node 22.x in release workflow, package.json version bump
-- chore: removed semantic-release (incompatible with branch protection, manual releases used)
 - deploy: docs site deployed for v7.1.0
 
 **Previous session (2026-02-12):**
@@ -37,7 +45,7 @@
 - `dots` — dotfile management, `sec` — secret management, `tok` — token management
 - 15 dispatchers total (was 13), 91 files updated
 - Migration guide, new E2E/dogfood tests, backward compat for `--dot` flags
-- Removed semantic-release workflow (manual releases via `gh release create`)
+- Fixed semantic-release v25: removed git/changelog/npm plugins, kept commit-analyzer + github
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.1.0
 
 ### v7.0.1 (2026-02-12) — Himalaya Neovim Docs + Architecture Fixes
@@ -96,8 +104,8 @@
 
 ---
 
-**Last Updated:** 2026-02-14
-**Status:** v7.1.0 released | 45/45 tests passing | 15 dispatchers | 181 test files | 8000+ test functions
-## wins: Fixed the regression bug (2026-02-14), --category fix squashed the bug (2026-02-14), fixed the bug (2026-02-14), Fixed the regression bug (2026-02-14), --category fix squashed the bug (2026-02-14)
-## streak: 1
-## last_active: 2026-02-14 21:39
+**Last Updated:** 2026-02-15
+**Status:** v7.1.0 released | 45/45 tests passing | 15 dispatchers | 181 test files | 8000+ test functions | semantic-release fixed
+## wins: semantic-release CI pipeline fixed (2026-02-15), Fixed the regression bug (2026-02-14), --category fix squashed the bug (2026-02-14)
+## streak: 2
+## last_active: 2026-02-15 22:50
