@@ -17,8 +17,8 @@
 #   8. Color codes (_C_ or \033[)
 #   9. Help function naming (_<cmd>_help)
 
-# All 12 dispatchers to check
-typeset -ga _FLOW_HELP_DISPATCHERS=(g r mcp qu wt v cc tm teach dot obs prompt)
+# All 14 dispatchers to check
+typeset -ga _FLOW_HELP_DISPATCHERS=(g r mcp qu wt v cc tm teach dots sec tok obs prompt)
 
 # Map dispatcher names to their help function names
 typeset -gA _FLOW_HELP_FUNCTIONS=(
@@ -31,7 +31,9 @@ typeset -gA _FLOW_HELP_FUNCTIONS=(
     [cc]="_cc_help"
     [tm]="_tm_help"
     [teach]="_teach_dispatcher_help"
-    [dot]="_dot_help"
+    [dots]="_dots_help"
+    [sec]="_sec_help"
+    [tok]="_tok_help"
     [obs]="_obs_help"
     [prompt]="_prompt_help"
 )

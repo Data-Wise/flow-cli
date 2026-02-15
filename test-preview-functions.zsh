@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Test script for _dot_preview_add and _dot_suggest_ignore_patterns
+# Test script for _dotf_preview_add and _dotf_suggest_ignore_patterns
 
 # Source dependencies
 source lib/core.zsh
@@ -34,33 +34,33 @@ echo ""
 echo "═══════════════════════════════════════════════════════════"
 echo "Test 1: Preview single small file"
 echo "═══════════════════════════════════════════════════════════"
-_dot_preview_add "$TEST_DIR/config.yml"
+_dotf_preview_add "$TEST_DIR/config.yml"
 echo "Exit code: $?"
 echo ""
 
 echo "═══════════════════════════════════════════════════════════"
 echo "Test 2: Preview single large file"
 echo "═══════════════════════════════════════════════════════════"
-_dot_preview_add "$TEST_DIR/large-config.json"
+_dotf_preview_add "$TEST_DIR/large-config.json"
 echo "Exit code: $?"
 echo ""
 
 echo "═══════════════════════════════════════════════════════════"
 echo "Test 3: Preview generated file"
 echo "═══════════════════════════════════════════════════════════"
-_dot_preview_add "$TEST_DIR/vault.sqlite"
+_dotf_preview_add "$TEST_DIR/vault.sqlite"
 echo "Exit code: $?"
 echo ""
 
 echo "═══════════════════════════════════════════════════════════"
 echo "Test 4: Preview entire directory (mix of files)"
 echo "═══════════════════════════════════════════════════════════"
-_dot_preview_add "$TEST_DIR"
+_dotf_preview_add "$TEST_DIR"
 echo "Exit code: $?"
 echo ""
 
 echo "═══════════════════════════════════════════════════════════"
-echo "Test 5: Test _dot_suggest_ignore_patterns"
+echo "Test 5: Test _dotf_suggest_ignore_patterns"
 echo "═══════════════════════════════════════════════════════════"
 
 # Create a test chezmoi directory
@@ -70,7 +70,7 @@ export HOME="/tmp/chezmoi-test-$$"  # Temporarily override HOME
 mkdir -p "${HOME}/.local/share/chezmoi"
 
 echo "Adding patterns: *.log *.sqlite *.cache"
-_dot_suggest_ignore_patterns "*.log" "*.sqlite" "*.cache"
+_dotf_suggest_ignore_patterns "*.log" "*.sqlite" "*.cache"
 echo ""
 
 echo "Contents of .chezmoiignore:"
@@ -78,7 +78,7 @@ cat "${HOME}/.local/share/chezmoi/.chezmoiignore"
 echo ""
 
 echo "Adding duplicate patterns (should skip):"
-_dot_suggest_ignore_patterns "*.log" "*.db"
+_dotf_suggest_ignore_patterns "*.log" "*.db"
 echo ""
 
 echo "Final contents of .chezmoiignore:"

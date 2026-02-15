@@ -1,12 +1,12 @@
-# dot-doctor-integration.zsh - Doctor integration for dotfile management
-# This file provides the _dot_doctor() function to be called from flow doctor
+# dot-doctor-integration.zsh - Doctor integration for dotfile, secret & token management
+# This file provides the _dots_doctor_integration() function to be called from flow doctor
 
 # ============================================================================
-# DOT DOCTOR - Dotfile Health Checks
+# DOTFILE DOCTOR - Dotfile Health Checks (aggregates dots, sec, tok)
 # ============================================================================
 
-_dot_doctor() {
-  if ! _dot_has_chezmoi; then
+_dots_doctor_integration() {
+  if ! _dotf_has_chezmoi; then
     _flow_log_info "Chezmoi not installed (dotfile management disabled)"
     return 0
   fi
@@ -43,7 +43,7 @@ _dot_doctor() {
       fi
 
       # Check sync status
-      local sync_status=$(_dot_get_sync_status)
+      local sync_status=$(_dotf_get_sync_status)
       case "$sync_status" in
         synced)
           _flow_log_success "Synced with remote"
@@ -67,19 +67,19 @@ _dot_doctor() {
   fi
 
   # Check Bitwarden session
-  if _dot_has_bw; then
-    local bw_status=$(_dot_bw_get_status)
+  if _dotf_has_bw; then
+    local bw_status=$(_dotf_bw_get_status)
     case "$bw_status" in
       unlocked)
         _flow_log_success "Bitwarden vault unlocked"
 
         # Check for security issues
-        if ! _dot_security_check_bw_session; then
+        if ! _dotf_security_check_bw_session; then
           _flow_log_error "Security issue detected (see above)"
         fi
         ;;
       locked)
-        _flow_log_info "Bitwarden vault locked (run: dot unlock)"
+        _flow_log_info "Bitwarden vault locked (run: sec unlock)"
         ;;
       unauthenticated)
         _flow_log_warning "Bitwarden not authenticated (run: bw login)"
@@ -96,7 +96,7 @@ _dot_doctor() {
 
 # This function mimics _doctor_check_cmd from doctor.zsh
 # It's a simplified version for when doctor.zsh is not available
-_dot_doctor_check_cmd() {
+_dots_doctor_check_cmd() {
   local cmd="$1"
   local install_method="$2"
   local level="$3"

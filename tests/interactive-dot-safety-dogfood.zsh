@@ -178,8 +178,8 @@ main() {
   # SECTION 1: Help & Documentation
   # ========================================================================
 
-  run_test 1 "Display dot help" \
-    "dot help" \
+  run_test 1 "Display dots help" \
+    "dots help" \
     "Should show:
 - Command categories (Chezmoi, Secrets, Safety)
 - New commands: add, ignore, size
@@ -187,7 +187,7 @@ main() {
 - Example usage"
 
   run_test 2 "Display ignore help" \
-    "dot ignore help" \
+    "dots ignore help" \
     "Should show:
 - ignore add <pattern>
 - ignore list
@@ -200,7 +200,7 @@ main() {
   # ========================================================================
 
   run_test 3 "List ignore patterns (initial)" \
-    "dot ignore list" \
+    "dots ignore list" \
     "Should show:
 - All patterns from .chezmoiignore
 - Or message if no patterns exist
@@ -224,7 +224,7 @@ main() {
   # ========================================================================
 
   run_test 6 "Analyze repository size" \
-    "dot size 2>&1 | head -20" \
+    "dots size 2>&1 | head -20" \
     "Should show:
 - Total repository size
 - Top 10 largest files
@@ -243,7 +243,7 @@ main() {
   # ========================================================================
 
   run_test 8 "Test git detection helper" \
-    "source flow.plugin.zsh && type _dot_check_git_in_path" \
+    "source flow.plugin.zsh && type _dotf_check_git_in_path" \
     "Should show:
 - Function definition
 - Confirms git detection function exists"
@@ -278,7 +278,7 @@ main() {
   # ========================================================================
 
   run_test 12 "Test cache hit performance" \
-    "time (dot size >/dev/null 2>&1) 2>&1 | grep real" \
+    "time (dots size >/dev/null 2>&1) 2>&1 | grep real" \
     "Should show:
 - < 10ms if cached
 - < 5s if not cached

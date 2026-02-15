@@ -9,7 +9,7 @@
 # Usage: ./interactive-dog-token.zsh
 #
 # What it tests:
-#   - dot token expiring (expiration detection)
+#   - tok expiring (expiration detection)
 #   - dash dev (token status display)
 #   - flow doctor (token health check)
 #   - g push validation (pre-push token check)
@@ -165,7 +165,7 @@ run_command() {
 
 task_1_check_expiring() {
     echo -e "${BOLD}╭─ TASK 1: Check Token Expiration Status ─────────────────╮${NC}"
-    echo -e "${BOLD}│${NC} Test: ${TOKEN} dot token expiring                             ${BOLD}│${NC}"
+    echo -e "${BOLD}│${NC} Test: ${TOKEN} tok expiring                             ${BOLD}│${NC}"
     echo -e "${BOLD}╰──────────────────────────────────────────────────────────╯${NC}"
     echo ""
 
@@ -174,7 +174,7 @@ task_1_check_expiring() {
         "Either '✅ All GitHub tokens current' or warning about expiring tokens" \
         "No crashes or errors"
 
-    run_command "dot token expiring"
+    run_command "tok expiring"
 
     if ask_confirmation "Did the command run successfully?"; then
         feed_dog 10
@@ -236,7 +236,7 @@ task_4_flow_token_alias() {
     echo ""
 
     show_expected \
-        "Same output as 'dot token expiring'" \
+        "Same output as 'tok expiring'" \
         "Alias delegation working correctly"
 
     run_command "flow token expiring"
@@ -252,7 +252,7 @@ task_4_flow_token_alias() {
 
 task_5_help_system() {
     echo -e "${BOLD}╭─ TASK 5: Help System ────────────────────────────────────╮${NC}"
-    echo -e "${BOLD}│${NC} Test: ${QUESTION} dot token help                                ${BOLD}│${NC}"
+    echo -e "${BOLD}│${NC} Test: ${QUESTION} tok help                                ${BOLD}│${NC}"
     echo -e "${BOLD}╰──────────────────────────────────────────────────────────╯${NC}"
     echo ""
 
@@ -261,7 +261,7 @@ task_5_help_system() {
         "Usage examples" \
         "Command descriptions"
 
-    run_command "dot token help"
+    run_command "tok help"
 
     if ask_confirmation "Did you see helpful documentation?"; then
         feed_dog 8
@@ -454,8 +454,8 @@ task_12_workflow_complete() {
     echo ""
 
     # Step 1
-    echo -e "${DIM}Step 1: dot token expiring${NC}"
-    dot token expiring 2>&1 | head -5
+    echo -e "${DIM}Step 1: tok expiring${NC}"
+    tok expiring 2>&1 | head -5
     echo ""
 
     # Step 2

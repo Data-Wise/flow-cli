@@ -160,8 +160,8 @@ _test_individual_rules() {
     echo ""
 }
 
-# Test all 12 dispatchers individually
-for d in g r mcp qu wt v cc tm teach dot obs prompt; do
+# Test all 14 dispatchers individually
+for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
     _test_individual_rules "$d"
 done
 
@@ -208,10 +208,12 @@ for form in help --help -h; do
     fi
 done
 
-# teach and dot use the same forms but test explicitly
+# teach, dots, sec, tok use the same forms but test explicitly
 for form in help --help -h; do
     _test_help_invocation "teach" "$form"
-    _test_help_invocation "dot" "$form"
+    _test_help_invocation "dots" "$form"
+    _test_help_invocation "sec" "$form"
+    _test_help_invocation "tok" "$form"
 done
 
 echo ""
@@ -258,7 +260,7 @@ _test_content_quality() {
     if [[ -n "$see_also_block" ]]; then
         # At least one cross-reference to another command
         local has_ref=false
-        for ref_cmd in g r mcp qu wt v cc tm teach dot obs prompt work dash pick flow; do
+        for ref_cmd in g r mcp qu wt v cc tm teach dots sec tok obs prompt work dash pick flow; do
             if echo "$see_also_block" | grep -q "$ref_cmd"; then
                 has_ref=true
                 break
@@ -283,7 +285,7 @@ _test_content_quality() {
     echo ""
 }
 
-for d in g r mcp qu wt v cc tm teach dot obs prompt; do
+for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
     _test_content_quality "$d"
 done
 
@@ -318,7 +320,7 @@ _test_color_fallback() {
 }
 
 # Only test the 7 dispatchers we fixed (they all define their own fallbacks)
-for d in obs prompt dot cc tm teach v; do
+for d in obs prompt dots sec tok cc tm teach v; do
     _test_color_fallback "$d"
 done
 echo ""
@@ -365,7 +367,7 @@ _test_box_format() {
     fi
 }
 
-for d in g r mcp qu wt v cc tm teach dot obs prompt; do
+for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
     _test_box_format "$d"
 done
 echo ""
@@ -380,7 +382,7 @@ echo ""
 
 _test_function_naming() {
     # Standard pattern: _<cmd>_help
-    for d in g r mcp qu wt v cc tm dot obs prompt; do
+    for d in g r mcp qu wt v cc tm dots sec tok obs prompt; do
         local expected="_${d}_help"
         if typeset -f "$expected" > /dev/null 2>&1; then
             assert_pass "$d: function $expected() exists"
@@ -426,12 +428,12 @@ _test_doctor_integration() {
     assert_contains "$output" "Help Function Compliance Check" \
         "doctor --help-check shows compliance header"
 
-    # Output should report all 12 dispatchers
-    assert_contains "$output" "All 12 dispatchers compliant" \
-        "doctor --help-check reports all 12 compliant"
+    # Output should report all 14 dispatchers
+    assert_contains "$output" "All 14 dispatchers compliant" \
+        "doctor --help-check reports all 14 compliant"
 
     # Each dispatcher should appear in output
-    for d in g r mcp qu wt v cc tm teach dot obs prompt; do
+    for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
         assert_grep "$output" "✅ $d:" "doctor output includes $d result"
     done
 }
@@ -448,12 +450,12 @@ echo -e "${BLUE}── Section 8: Compliance Library API ──${NC}"
 echo ""
 
 _test_compliance_api() {
-    # Dispatcher list has exactly 12 entries
+    # Dispatcher list has exactly 14 entries
     local count=${#_FLOW_HELP_DISPATCHERS[@]}
-    if [[ $count -eq 12 ]]; then
-        assert_pass "dispatcher list has exactly 12 entries"
+    if [[ $count -eq 14 ]]; then
+        assert_pass "dispatcher list has exactly 14 entries"
     else
-        assert_fail "dispatcher list has exactly 12 entries" "found $count"
+        assert_fail "dispatcher list has exactly 14 entries" "found $count"
     fi
 
     # Function map has entry for every dispatcher
@@ -521,7 +523,7 @@ echo ""
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SECTION 9: CONSISTENCY ACROSS DISPATCHERS
-# Verify all 12 use the same structural patterns
+# Verify all 14 use the same structural patterns
 # ═══════════════════════════════════════════════════════════════════════════════
 
 echo -e "${BLUE}── Section 9: Cross-Dispatcher Consistency ──${NC}"
@@ -530,7 +532,7 @@ echo ""
 _test_consistency() {
     # All dispatchers should have the same section order:
     # box → MOST COMMON → QUICK EXAMPLES → 📋 sections → TIP → See also
-    for d in g r mcp qu wt v cc tm teach dot obs prompt; do
+    for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"
@@ -595,7 +597,7 @@ _test_edge_cases() {
     assert_exit_code "$empty_rc" "1" "empty dispatcher name returns exit 1"
 
     # Help output contains no raw FLOW_COLORS references (all converted)
-    for d in obs prompt dot cc tm teach; do
+    for d in obs prompt dots sec tok cc tm teach; do
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"
@@ -603,7 +605,7 @@ _test_edge_cases() {
     done
 
     # Help output contains no literal \033[ (should be rendered as actual ESC)
-    for d in obs prompt dot cc tm teach; do
+    for d in obs prompt dots sec tok cc tm teach; do
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"

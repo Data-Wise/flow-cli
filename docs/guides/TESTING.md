@@ -551,7 +551,7 @@ setup() {
 |-----------|-----------|----------|
 | **pick command** | test-pick-command.zsh | ✅ 100% |
 | **cc dispatcher** | test-cc-dispatcher.zsh | ✅ 100% |
-| **dot dispatcher** | test-dot-v5.1.1-unit.zsh | ✅ 100% |
+| **dots/sec/tok dispatchers** | test-dot-v5.1.1-unit.zsh | ✅ 100% |
 | **Frecency scoring** | test-pick-command.zsh | ✅ Algorithm validated |
 | **Session indicators** | test-pick-command.zsh | ✅ 🟢/🟡 icons tested |
 | **Worktree detection** | test-pick-wt.zsh | ✅ Full coverage |

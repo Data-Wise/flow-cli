@@ -8,7 +8,7 @@ tags:
 
 **Level:** Beginner to Intermediate
 **Time:** 15 minutes
-**Goal:** Master dotfile management with chezmoi and the DOT dispatcher
+**Goal:** Master dotfile management with chezmoi and the dots/sec/tok dispatchers
 
 ---
 
@@ -16,16 +16,16 @@ tags:
 
 ```bash
 # Check status
-dot
+dots
 
 # Edit a dotfile (must be tracked first)
-dot edit .zshrc
+dots edit .zshrc
 
 # Pull updates from remote
-dot sync
+dots sync
 
 # Push your changes
-dot push
+dots push
 ```
 
 ---
@@ -62,7 +62,7 @@ Edit a dotfile with preview and apply workflow.
 
 ```bash
 # 1. Edit (opens $EDITOR with source file)
-dot edit .zshrc
+dots edit .zshrc
 ```
 
 **Output:**
@@ -92,7 +92,7 @@ Apply? [Y/n/d]
 |-----|--------|
 | **y** | Apply changes to `~/.zshrc` now |
 | **d** | Show full diff, then prompt again |
-| **n** | Keep in chezmoi source (apply later with `dot apply`) |
+| **n** | Keep in chezmoi source (apply later with `dots apply`) |
 
 ### Apply Later
 
@@ -100,13 +100,13 @@ If you pressed 'n', changes are in chezmoi but not yet in your home directory:
 
 ```bash
 # See pending changes
-dot diff
+dots diff
 
 # Apply all pending
-dot apply
+dots apply
 
 # Preview first
-dot apply --dry-run
+dots apply --dry-run
 ```
 
 ---
@@ -116,9 +116,9 @@ dot apply --dry-run
 Preview changes without applying them.
 
 ```bash
-dot apply --dry-run
+dots apply --dry-run
 # or
-dot apply -n
+dots apply -n
 ```
 
 **Output (no changes):**
@@ -142,7 +142,7 @@ dot apply -n
 
 ### When to Use
 
-- After `dot sync` to see incoming changes
+- After `dots sync` to see incoming changes
 - Before applying templates with secrets
 - To verify changes are correct
 
@@ -162,7 +162,7 @@ chezmoi add ~/.gitconfig
 chezmoi add ~/.tmux.conf
 
 # Push to remote
-dot push
+dots push
 ```
 
 ### On Other Machines
@@ -172,14 +172,14 @@ dot push
 chezmoi init https://github.com/user/dotfiles.git
 
 # Apply dotfiles
-dot apply
+dots apply
 ```
 
 ### Daily Sync
 
 ```bash
 # Pull from remote
-dot sync
+dots sync
 
 # Output if updates exist:
 # ℹ Fetching from remote...
@@ -188,7 +188,7 @@ dot sync
 # Apply updates? [Y/n/d]
 
 # Push local changes
-dot push
+dots push
 ```
 
 ---
@@ -201,7 +201,7 @@ dot push
 |---------|-------------------------|-----------|
 | Speed | < 50ms | 2-5s |
 | Auth | Touch ID | Master password |
-| Unlock | Auto with screen | Manual (`dot unlock`) |
+| Unlock | Auto with screen | Manual (`sec unlock`) |
 | Best for | Local dev, scripts | Cross-device sync |
 | Setup | None (built-in) | Install + login |
 
@@ -209,18 +209,18 @@ dot push
 
 ```bash
 # Store a secret (Touch ID protected)
-dot secret add github-token
+sec add github-token
 > Enter secret value: ••••••••
 ✓ Secret 'github-token' stored in Keychain
 
 # Retrieve (instant, Touch ID prompt)
-TOKEN=$(dot secret github-token)
+TOKEN=$(sec github-token)
 
 # List all secrets
-dot secret list
+sec list
 
 # Delete when done
-dot secret delete github-token
+sec delete github-token
 ```
 
 **Perfect for:**
@@ -238,7 +238,7 @@ brew install bitwarden-cli
 bw login
 
 # Unlock vault (each shell session)
-dot unlock
+sec unlock
 ```
 
 **Store Secrets:**
@@ -252,7 +252,7 @@ dot unlock
 
 ```bash
 # List available secrets
-dot secret list
+sec list
 
 # Output:
 # ℹ Retrieving items from vault...
@@ -260,7 +260,7 @@ dot secret list
 # 🔑 anthropic-api-key (AI/Keys)
 
 # Retrieve (no echo)
-TOKEN=$(dot secret github-token)
+TOKEN=$(sec github-token)
 ```
 
 ### Use in Templates
@@ -278,9 +278,9 @@ export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 **Apply with secrets:**
 
 ```bash
-dot unlock
-dot apply --dry-run  # Preview
-dot apply            # Apply
+sec unlock
+dots apply --dry-run  # Preview
+dots apply            # Apply
 ```
 
 ---
@@ -291,13 +291,13 @@ dot apply            # Apply
 
 ```bash
 # GitHub Personal Access Token
-dot token github
+tok github
 
 # NPM automation token
-dot token npm
+tok npm
 
 # PyPI project token
-dot token pypi
+tok pypi
 ```
 
 **Wizard output:**
@@ -322,7 +322,7 @@ Paste your new token: ghp_xxxxxxxxxxxx
 ### Check Token Status
 
 ```bash
-dot secrets
+secs
 ```
 
 **Dashboard output:**
@@ -341,10 +341,10 @@ dot secrets
 
 ```bash
 # Rotate a specific token
-dot token pypi-token --refresh
+tok pypi-token --refresh
 
 # Short form
-dot token pypi-token -r
+tok pypi-token -r
 ```
 
 **Rotation output:**
@@ -370,7 +370,7 @@ Paste your new token: pypi-xxxxxxxx
 ### Sync Secrets to GitHub Actions
 
 ```bash
-dot secrets sync github
+sec sync github
 ```
 
 **Output:**
@@ -389,7 +389,7 @@ Select secrets to sync:
 ### Generate .envrc for direnv
 
 ```bash
-dot env init
+dots env
 ```
 
 **Output:**
@@ -399,8 +399,8 @@ dot env init
 
   Contents:
   ─────────────────────────────
-  export GITHUB_TOKEN="$(dot secret github-token)"
-  export NPM_TOKEN="$(dot secret npm-token)"
+  export GITHUB_TOKEN="$(sec github-token)"
+  export NPM_TOKEN="$(sec npm-token)"
   ─────────────────────────────
 
 💡 Run 'direnv allow' to activate
@@ -413,17 +413,17 @@ dot env init
 ### Quick Config Change
 
 ```bash
-dot edit .gitconfig  # Edit, apply immediately
+dots edit .gitconfig  # Edit, apply immediately
 ```
 
 ### Safe Batch Changes
 
 ```bash
-dot edit .zshrc      # Press 'n' to defer
-dot edit .gitconfig  # Press 'n' to defer
-dot diff             # Review all
-dot apply --dry-run  # Preview
-dot apply            # Apply all
+dots edit .zshrc      # Press 'n' to defer
+dots edit .gitconfig  # Press 'n' to defer
+dots diff             # Review all
+dots apply --dry-run  # Preview
+dots apply            # Apply all
 ```
 
 ### Emergency Rollback
@@ -435,7 +435,7 @@ chezmoi apply --force
 # Or revert chezmoi source to remote
 cd ~/.local/share/chezmoi
 git checkout -- .
-dot apply
+dots apply
 ```
 
 ---
@@ -455,19 +455,19 @@ dot apply
 
 ```
 ✗ Bitwarden vault is locked
-ℹ Run: dot unlock
+ℹ Run: sec unlock
 ```
 
-**Fix:** `dot unlock`
+**Fix:** `sec unlock`
 
 ### Session Expired
 
 ```
 ✗ Session expired
-Run: dot unlock
+Run: sec unlock
 ```
 
-**Fix:** `dot unlock` (re-enter master password)
+**Fix:** `sec unlock` (re-enter master password)
 
 ---
 
@@ -475,37 +475,37 @@ Run: dot unlock
 
 | Command | Description |
 |---------|-------------|
-| `dot` | Show status |
-| `dot edit <file>` | Edit with preview |
-| `dot diff` | Show pending changes |
-| `dot apply` | Apply pending changes |
-| `dot apply -n` | Dry-run preview |
-| `dot sync` | Pull from remote |
-| `dot push` | Push to remote |
-| `dot unlock` | Unlock Bitwarden (15-min session) |
-| `dot secret <name>` | Retrieve secret |
-| `dot secret list` | List secrets |
-| `dot secrets` | Dashboard with expiration |
-| `dot token github` | GitHub PAT wizard |
-| `dot token npm` | NPM token wizard |
-| `dot token pypi` | PyPI token wizard |
-| `dot token <n> --refresh` | Rotate existing token |
-| `dot secrets sync github` | Sync to GitHub Actions |
-| `dot env init` | Generate .envrc |
-| `dot doctor` | Run diagnostics |
-| `dot help` | Show help |
+| `dots` | Show status |
+| `dots edit <file>` | Edit with preview |
+| `dots diff` | Show pending changes |
+| `dots apply` | Apply pending changes |
+| `dots apply -n` | Dry-run preview |
+| `dots sync` | Pull from remote |
+| `dots push` | Push to remote |
+| `sec unlock` | Unlock Bitwarden (15-min session) |
+| `sec <name>` | Retrieve secret |
+| `sec list` | List secrets |
+| `sec dashboard` | Dashboard with expiration |
+| `tok github` | GitHub PAT wizard |
+| `tok npm` | NPM token wizard |
+| `tok pypi` | PyPI token wizard |
+| `tok rotate NAME` | Rotate existing token |
+| `sec sync github` | Sync to GitHub Actions |
+| `dots env` | Generate .envrc |
+| `dots doctor` | Run diagnostics |
+| `dots help` | Show help |
 
 ---
 
 ## Best Practices
 
-1. **Track files first** - `chezmoi add` before `dot edit`
+1. **Track files first** - `chezmoi add` before `dots edit`
 2. **Use dry-run** - Preview before applying templates
-3. **Small commits** - One logical change per `dot push`
+3. **Small commits** - One logical change per `dots push`
 4. **Lock vault** - `bw lock` when done with secrets
-5. **Check status** - Run `dot` to see current state
+5. **Check status** - Run `dots` to see current state
 
 ---
 
 **Version:** v5.2.0
-**See Also:** [DOT Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher) | [Tutorial](../tutorials/12-dot-dispatcher.md)
+**See Also:** [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dots-dispatcher) | [Tutorial](../tutorials/12-dot-dispatcher.md)

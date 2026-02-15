@@ -1,6 +1,6 @@
 # Secret Management
 
-The `dot` dispatcher provides two backends for secure secret management:
+The `sec` dispatcher provides two backends for secure secret management:
 
 | Backend | Speed | Auth | Best For |
 |---------|-------|------|----------|
@@ -17,17 +17,17 @@ Instant access to secrets with Touch ID authentication. No setup required.
 
 ```bash
 # Store a secret
-dot secret add api-key
+sec add api-key
 > Enter secret value: ••••••••
 
 # Retrieve (Touch ID prompt)
-TOKEN=$(dot secret api-key)
+TOKEN=$(sec api-key)
 
 # List all secrets
-dot secret list
+sec list
 
 # Delete
-dot secret delete api-key
+sec delete api-key
 ```
 
 ### Why Keychain?
@@ -42,12 +42,12 @@ dot secret delete api-key
 
 ```bash
 # In .zshrc (instant, no unlock)
-export GITHUB_TOKEN=$(dot secret github-token)
-export NPM_TOKEN=$(dot secret npm-token)
+export GITHUB_TOKEN=$(sec github-token)
+export NPM_TOKEN=$(sec npm-token)
 
 # In scripts
 #!/bin/bash
-API_KEY=$(dot secret my-api-key)
+API_KEY=$(sec my-api-key)
 curl -H "Authorization: Bearer $API_KEY" https://api.example.com
 ```
 
@@ -61,13 +61,13 @@ For secrets that need to sync across devices.
 
 ```bash
 # 1. Unlock Bitwarden vault
-dot unlock
+sec unlock
 
 # 2. List available secrets
-dot secret list
+sec list
 
 # 3. Retrieve a secret (returns value without echo)
-TOKEN=$(dot secret github-token)
+TOKEN=$(sec github-token)
 ```
 
 ### Prerequisites
@@ -86,9 +86,9 @@ bw login
 
 ## Commands
 
-### `dot unlock`
+### `sec unlock`
 
-Unlocks your Bitwarden vault and exports `BW_SESSION` to your current shell.
+Unlocks your Bitwarden vault and exports `BW_SESSION` to your current shell. (Previously `dot unlock`.)
 
 **Features:**
 - Session token stored in memory only (not persistent)
@@ -99,14 +99,14 @@ Unlocks your Bitwarden vault and exports `BW_SESSION` to your current shell.
 **Example:**
 
 ```bash
-$ dot unlock
+$ sec unlock
 ℹ Enter your Bitwarden master password:
 [password prompt]
 
 ✓ Vault unlocked successfully
 
   Session active in this shell only (not persistent)
-ℹ Use 'dot secret <name>' to retrieve secrets
+ℹ Use 'sec <name>' to retrieve secrets
 
 ⚠ Security reminder:
   • Session expires when shell closes
@@ -114,7 +114,7 @@ $ dot unlock
   • Lock vault when done: bw lock
 ```
 
-### `dot secret <name>`
+### `sec <name>`
 
 Retrieves a secret from Bitwarden by name or ID.
 
@@ -127,22 +127,22 @@ Retrieves a secret from Bitwarden by name or ID.
 
 ```bash
 # Capture in variable (secure)
-TOKEN=$(dot secret github-token)
+TOKEN=$(sec github-token)
 
 # Use in command
-curl -H "Authorization: Bearer $(dot secret api-key)" https://api.example.com
+curl -H "Authorization: Bearer $(sec api-key)" https://api.example.com
 ```
 
 **Error Handling:**
 
 ```bash
-$ dot secret nonexistent
+$ sec nonexistent
 ✗ Failed to retrieve secret: nonexistent
 ℹ Item not found or access denied
-  Tip: Use 'dot secret list' to see available items
+  Tip: Use 'sec list' to see available items
 ```
 
-### `dot secret list`
+### `sec list`
 
 Lists all items in your Bitwarden vault with formatted display.
 
@@ -155,7 +155,7 @@ Lists all items in your Bitwarden vault with formatted display.
 **Example:**
 
 ```bash
-$ dot secret list
+$ sec list
 ℹ Retrieving items from vault...
 
 🔑 github-token (Work/GitHub)
@@ -163,7 +163,7 @@ $ dot secret list
 📝 ssh-passphrase (Personal)
 💳 stripe-test-key (Work/Stripe)
 
-ℹ Usage: dot secret <name>
+ℹ Usage: sec <name>
 ```
 
 ## Using Secrets in Chezmoi Templates
@@ -201,10 +201,10 @@ Chezmoi supports Bitwarden integration natively. Your secrets can be used in tem
 
 ```bash
 # 1. Unlock Bitwarden
-dot unlock
+sec unlock
 
 # 2. Edit and apply template
-dot edit .gitconfig
+dots edit .gitconfig
 
 # Result: ~/.gitconfig contains actual token value
 ```
@@ -223,8 +223,8 @@ export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 **Apply:**
 
 ```bash
-dot unlock
-dot edit .zshrc
+sec unlock
+dots edit .zshrc
 # Source the new config
 source ~/.zshrc
 ```
@@ -233,17 +233,17 @@ source ~/.zshrc
 
 ### ✅ DO
 
-- **Unlock per-session:** Run `dot unlock` in each shell where you need secrets
+- **Unlock per-session:** Run `sec unlock` in each shell where you need secrets
 - **Lock when done:** Run `bw lock` after template operations
 - **Use templates:** Store templates in chezmoi, not plain files with secrets
-- **Capture securely:** Use `VAR=$(dot secret name)` to capture without echo
-- **Validate items:** Use `dot secret list` to verify item names
+- **Capture securely:** Use `VAR=$(sec name)` to capture without echo
+- **Validate items:** Use `sec list` to verify item names
 
 ### ❌ DON'T
 
 - **Don't export globally:** Never add `export BW_SESSION=...` to `.zshrc`
 - **Don't commit secrets:** Never commit files with actual secret values
-- **Don't echo secrets:** Avoid `echo $(dot secret name)` in scripts
+- **Don't echo secrets:** Avoid `echo $(sec name)` in scripts
 - **Don't log secrets:** Ensure secrets aren't written to logs/history
 - **Don't share sessions:** Each user should unlock their own vault
 
@@ -286,7 +286,7 @@ unset BW_SESSION
 **Solution:**
 
 ```bash
-dot unlock
+sec unlock
 ```
 
 ### "Item not found or access denied"
@@ -297,7 +297,7 @@ dot unlock
 
 ```bash
 # List all items
-dot secret list
+sec list
 
 # Check exact name (case-sensitive)
 bw get item github-token
@@ -317,7 +317,7 @@ bw login
 
 **Concern:** `bw unlock --raw` output might be in shell history.
 
-**Solution:** The `dot unlock` command captures output safely without exposing tokens. ZSH history exclusion patterns prevent storage of sensitive commands.
+**Solution:** The `sec unlock` command captures output safely without exposing tokens. ZSH history exclusion patterns prevent storage of sensitive commands.
 
 **Verify history settings:**
 
@@ -358,7 +358,7 @@ export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 **Apply:**
 
 ```bash
-dot unlock
+sec unlock
 chezmoi apply ~/.env.sh
 source ~/.env.sh
 ```
@@ -372,7 +372,7 @@ source ~/.env.sh
 bw list items | jq -r '.[] | select(.name=="github-token") | .id'
 
 # Use ID directly
-dot secret "a1b2c3d4-e5f6-1234-5678-90abcdef1234"
+sec "a1b2c3d4-e5f6-1234-5678-90abcdef1234"
 ```
 
 ### Custom Fields
@@ -396,13 +396,13 @@ Store multi-line secrets in secure notes:
 ## Version History
 
 - **v1.2.0 (Phase 3):** Initial secret management implementation
-  - `dot unlock` - Session management
-  - `dot secret <name>` - Secure retrieval
-  - `dot secret list` - Item listing
+  - `sec unlock` - Session management (was `dot unlock`)
+  - `sec <name>` - Secure retrieval (was `dot secret <name>`)
+  - `sec list` - Item listing (was `dot secret list`)
   - Security audit (no secrets in logs/history)
 
 ## See Also
 
 - [Bitwarden CLI Documentation](https://bitwarden.com/help/cli/)
 - [Chezmoi Bitwarden Integration](https://www.chezmoi.io/user-guide/password-managers/bitwarden/)
-- [dot dispatcher reference](./reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher)
+- [sec dispatcher reference](./reference/MASTER-DISPATCHER-GUIDE.md#sec-dispatcher)

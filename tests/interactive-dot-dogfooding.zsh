@@ -11,9 +11,9 @@
 # Usage: ./interactive-dot-dogfooding.zsh
 #
 # What it tests:
-#   - dot add (standalone add command)
-#   - dot edit auto-add (add untracked files)
-#   - dot edit create (create new files with mkdir -p)
+#   - dots add (standalone add command)
+#   - dots edit auto-add (add untracked files)
+#   - dots edit create (create new files with mkdir -p)
 #   - Template detection (Bitwarden templates)
 #   - Summary with tips
 #   - ZDOTDIR support
@@ -288,8 +288,8 @@ check_prerequisites() {
 dish_help_menu() {
   run_dish_test \
     "Help Menu - Check the Recipe Book" \
-    "dot help" \
-    "Shows 'dot add FILE' command" \
+    "dots help" \
+    "Shows 'dots add FILE' command" \
     "Shows 'auto-add/create' in edit description" \
     "Shows example with ~ path" \
     "${GREEN}${SPARKLE} The recipe book is updated!${NC}" \
@@ -307,11 +307,11 @@ dish_add_command() {
   echo "# Dish 2 - Add Command Test" > "$test_file"
 
   run_dish_test \
-    "Add Ingredient - dot add" \
-    "dot add $test_file" \
+    "Add Ingredient - dots add" \
+    "dots add $test_file" \
     "Shows '✓ Added' message" \
     "Shows 'Source:' path" \
-    "Shows '💡 Tip: dot edit' suggestion" \
+    "Shows '💡 Tip: dots edit' suggestion" \
     "${GREEN}${SPARKLE} New ingredient added to the pantry!${NC}" \
     15
 }
@@ -328,8 +328,8 @@ dish_add_already_tracked() {
   chezmoi add "$test_file" 2>/dev/null
 
   run_dish_test \
-    "Already in Pantry - dot add (duplicate)" \
-    "dot add $test_file" \
+    "Already in Pantry - dots add (duplicate)" \
+    "dots add $test_file" \
     "Shows 'Already tracked' message" \
     "Does NOT show error" \
     "Returns gracefully" \
@@ -358,14 +358,14 @@ dish_template_detection() {
   echo -e "Contains: ${DIM}{{ bitwarden \"myapp\" \"api_key\" }}${NC}"
   echo ""
 
-  if _dot_has_bitwarden_template "$test_file"; then
+  if _dotf_has_bitwarden_template "$test_file"; then
     echo -e "${GREEN}${DONE} Template detected correctly!${NC}"
     echo ""
     echo -e "${KEY} The chef knows this recipe needs the secret vault!"
     prepare_dish 15
   else
     echo -e "${RED}${FAIL} Template NOT detected!${NC}"
-    echo -e "${DIM}The _dot_has_bitwarden_template function failed${NC}"
+    echo -e "${DIM}The _dotf_has_bitwarden_template function failed${NC}"
     burn_dish
   fi
 
@@ -382,14 +382,14 @@ dish_summary_output() {
   echo -e "${BOLD}${BLUE}═══════════════════════════════════════════════════════════${NC}"
   echo ""
 
-  echo -e "Testing _dot_print_summary function..."
+  echo -e "Testing _dotf_print_summary function..."
   echo ""
 
   echo -e "${CYAN}Test 1: Applied status${NC}"
-  _dot_print_summary ".zshrc" "Edited" "Applied"
+  _dotf_print_summary ".zshrc" "Edited" "Applied"
   echo ""
 
-  if ask_confirmation "Does it show 'dot push' tip?"; then
+  if ask_confirmation "Does it show 'dots push' tip?"; then
     echo -e "${GREEN}${DONE} Push tip shown correctly${NC}"
   else
     burn_dish
@@ -398,10 +398,10 @@ dish_summary_output() {
 
   echo ""
   echo -e "${CYAN}Test 2: Staging status${NC}"
-  _dot_print_summary ".gitconfig" "Added" "Staging"
+  _dotf_print_summary ".gitconfig" "Added" "Staging"
   echo ""
 
-  if ask_confirmation "Does it show 'dot apply' tip?"; then
+  if ask_confirmation "Does it show 'dots apply' tip?"; then
     echo -e "${GREEN}${DONE} Apply tip shown correctly${NC}"
     echo ""
     echo -e "${TIP} Perfect plating with helpful hints!"
@@ -458,8 +458,8 @@ dish_zdotdir_check() {
 
 dish_add_nonexistent() {
   run_dish_test \
-    "Missing Ingredient - dot add (non-existent)" \
-    "dot add /this/file/does/not/exist.txt" \
+    "Missing Ingredient - dots add (non-existent)" \
+    "dots add /this/file/does/not/exist.txt" \
     "Shows error message" \
     "Says 'does not exist'" \
     "Does NOT crash" \
@@ -473,8 +473,8 @@ dish_add_nonexistent() {
 
 dish_final_status() {
   run_dish_test \
-    "Final Inspection - dot status" \
-    "dot status" \
+    "Final Inspection - dots status" \
+    "dots status" \
     "Shows status without errors" \
     "Shows tracked files count" \
     "Shows sync status icon (🟢/🟡/🔴/🔵)" \

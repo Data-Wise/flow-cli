@@ -160,22 +160,22 @@ cleanup() {
 trap cleanup EXIT
 
 # ══════════════════════════════════════════════════════════════════════════════
-# E2E TEST SUITE 1: dot add Command
+# E2E TEST SUITE 1: dots add Command
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_e2e_add_real_file() {
-  print_test "E2E: dot add adds real file to chezmoi"
+  print_test "E2E: dots add adds real file to chezmoi"
   run_test
 
   local test_file="$HOME/${TEST_PREFIX}-add-real"
   TEST_CLEANUP_FILES+=("$test_file")
 
   # Create test file
-  echo "# Test file for dot add E2E" > "$test_file"
+  echo "# Test file for dots add E2E" > "$test_file"
 
-  # Run dot add
+  # Run dots add
   local output
-  output=$(_dot_add "$test_file" 2>&1)
+  output=$(_dots_add "$test_file" 2>&1)
   local exit_code=$?
 
   # Verify it's now tracked
@@ -187,7 +187,7 @@ test_e2e_add_real_file() {
 }
 
 test_e2e_add_shows_source_path() {
-  print_test "E2E: dot add shows chezmoi source path"
+  print_test "E2E: dots add shows chezmoi source path"
   run_test
 
   local test_file="$HOME/${TEST_PREFIX}-add-source"
@@ -196,7 +196,7 @@ test_e2e_add_shows_source_path() {
   echo "# Test" > "$test_file"
 
   local output
-  output=$(_dot_add "$test_file" 2>&1)
+  output=$(_dots_add "$test_file" 2>&1)
 
   if [[ "$output" == *"Source:"* ]] || [[ "$output" == *".local/share/chezmoi"* ]]; then
     print_pass "Shows source path in chezmoi directory"
@@ -206,7 +206,7 @@ test_e2e_add_shows_source_path() {
 }
 
 test_e2e_add_already_tracked() {
-  print_test "E2E: dot add handles already tracked files"
+  print_test "E2E: dots add handles already tracked files"
   run_test
 
   local test_file="$HOME/${TEST_PREFIX}-add-tracked"
@@ -215,11 +215,11 @@ test_e2e_add_already_tracked() {
   echo "# Test" > "$test_file"
 
   # Add it once
-  _dot_add "$test_file" >/dev/null 2>&1
+  _dots_add "$test_file" >/dev/null 2>&1
 
   # Try to add again
   local output
-  output=$(_dot_add "$test_file" 2>&1)
+  output=$(_dots_add "$test_file" 2>&1)
 
   if [[ "$output" == *"Already tracked"* ]]; then
     print_pass "Reports already tracked file"
@@ -233,7 +233,7 @@ test_e2e_add_already_tracked() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_e2e_resolve_full_path() {
-  print_test "E2E: _dot_resolve_file_path handles full paths"
+  print_test "E2E: _dots_resolve_file_path handles full paths"
   run_test
 
   local test_file="$HOME/${TEST_PREFIX}-resolve"
@@ -243,7 +243,7 @@ test_e2e_resolve_full_path() {
   chezmoi add "$test_file" 2>/dev/null
 
   local resolved
-  resolved=$(_dot_resolve_file_path "$test_file" 2>/dev/null)
+  resolved=$(_dots_resolve_file_path "$test_file" 2>/dev/null)
 
   if [[ "$resolved" == "$test_file" ]]; then
     print_pass "Resolves full path correctly"
@@ -253,7 +253,7 @@ test_e2e_resolve_full_path() {
 }
 
 test_e2e_resolve_fuzzy_match() {
-  print_test "E2E: _dot_resolve_file_path fuzzy matches basename"
+  print_test "E2E: _dots_resolve_file_path fuzzy matches basename"
   run_test
 
   local test_file="$HOME/${TEST_PREFIX}-fuzzy"
@@ -265,7 +265,7 @@ test_e2e_resolve_fuzzy_match() {
   # Search by partial name (without leading dot and full prefix)
   local search_term="fuzzy"
   local resolved
-  resolved=$(_dot_resolve_file_path "$search_term" 2>/dev/null)
+  resolved=$(_dots_resolve_file_path "$search_term" 2>/dev/null)
   local resolve_status=$?
 
   # Should find our file
@@ -287,7 +287,7 @@ test_e2e_mkdir_creates_parents() {
   local test_dir="$HOME/.config/dot-e2e-test-$$"
   local test_file="$test_dir/nested/deep/config.zsh"
 
-  # Simulate what _dot_edit does for file creation (mkdir -p)
+  # Simulate what _dots_edit does for file creation (mkdir -p)
   local parent_dir="${test_file:h}"
   mkdir -p "$parent_dir"
 
@@ -330,7 +330,7 @@ test_e2e_template_real_file() {
 
   echo 'export SECRET="{{ bitwarden "github" "api_token" }}"' > "$test_file"
 
-  if _dot_has_bitwarden_template "$test_file"; then
+  if _dotf_has_bitwarden_template "$test_file"; then
     print_pass "Detects bitwarden in real .tmpl file"
   else
     print_fail "Detects bitwarden in real .tmpl file" "Function returned false"
@@ -434,46 +434,46 @@ test_e2e_chezmoi_diff_shows_changes() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_e2e_dot_status_works() {
-  print_test "E2E: dot status runs without error"
+  print_test "E2E: dots status runs without error"
   run_test
 
   local output
-  output=$(dot status 2>&1)
+  output=$(dots status 2>&1)
   local exit_code=$?
 
   if [[ $exit_code -eq 0 ]]; then
-    print_pass "dot status completes successfully"
+    print_pass "dots status completes successfully"
   else
-    print_fail "dot status completes successfully" "Exit: $exit_code"
+    print_fail "dots status completes successfully" "Exit: $exit_code"
   fi
 }
 
 test_e2e_dot_diff_works() {
-  print_test "E2E: dot diff runs without error"
+  print_test "E2E: dots diff runs without error"
   run_test
 
   local output
-  output=$(dot diff 2>&1)
+  output=$(dots diff 2>&1)
   local exit_code=$?
 
   if [[ $exit_code -eq 0 ]]; then
-    print_pass "dot diff completes successfully"
+    print_pass "dots diff completes successfully"
   else
-    print_fail "dot diff completes successfully" "Exit: $exit_code"
+    print_fail "dots diff completes successfully" "Exit: $exit_code"
   fi
 }
 
 test_e2e_dot_help_works() {
-  print_test "E2E: dot help shows add command"
+  print_test "E2E: dots help shows add command"
   run_test
 
   local output
-  output=$(dot help 2>&1)
+  output=$(dots help 2>&1)
 
-  if [[ "$output" == *"dot add"* ]]; then
-    print_pass "dot help includes add command"
+  if [[ "$output" == *"dots add"* ]]; then
+    print_pass "dots help includes add command"
   else
-    print_fail "dot help includes add command" "Not found in output"
+    print_fail "dots help includes add command" "Not found in output"
   fi
 }
 
@@ -490,7 +490,7 @@ main() {
 
   setup
 
-  print_header "E2E Suite 1: dot add Command"
+  print_header "E2E Suite 1: dots add Command"
   test_e2e_add_real_file
   test_e2e_add_shows_source_path
   test_e2e_add_already_tracked

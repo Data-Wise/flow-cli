@@ -23,7 +23,9 @@ tags:
 - [MCP (mcp)](#mcp-mcp) - MCP server management
 - [Obsidian (obs)](#obsidian-obs) - Note management
 - [Worktree (wt)](#worktree-wt) - Parallel development
-- [DOT (dot)](#dot-dot) - Dotfile & secrets
+- [Dotfiles (dots)](#dotfiles-dots) - Dotfile management
+- [Secrets (sec)](#secrets-sec) - Secret management
+- [Tokens (tok)](#tokens-tok) - Token management
 - [Teaching (teach)](#teaching-teach) - Course management
 - [Terminal (tm)](#terminal-tm) - Terminal profiles
 - [Prompt (prompt)](#prompt-prompt) - Prompt engine switching
@@ -515,93 +517,133 @@ wt help
 
 ---
 
-## DOT (dot)
+## Dotfiles (dots)
 
 ### Dotfile Management
 
 ```bash
 # Edit dotfile
-dot edit zshrc
-dot edit vimrc
+dots edit zshrc
+dots edit vimrc
 # Output: [Opens in $EDITOR]
 
 # Sync dotfiles
-dot sync
+dots sync
 # Output: ✅ Synced 12 dotfiles
 #         ~/.zshrc → ~/dotfiles/zshrc
 #         ~/.vimrc → ~/dotfiles/vimrc
 
 # Show dotfile status
-dot status
+dots status
 # Output: [Shows sync status]
 
 # Restore dotfile
-dot restore zshrc
+dots restore zshrc
 # Output: ✅ Restored ~/.zshrc from ~/dotfiles/zshrc
+
+# Show help
+dots help
+# Output: [Dotfiles dispatcher help]
 ```
 
 ---
+
+## Secrets (sec)
 
 ### Secret Management (macOS Keychain)
 
 ```bash
 # Store secret
-dot secret set GITHUB_TOKEN
+sec add GITHUB_TOKEN
 # Output: Enter value for GITHUB_TOKEN:
 #         [Touch ID prompt]
 #         ✅ Stored GITHUB_TOKEN in keychain
 
 # Get secret
-dot secret get GITHUB_TOKEN
+sec GITHUB_TOKEN
 # Output: [Touch ID prompt]
 #         ghp_xxxxxxxxxxxxxxxxxxxx
 
 # List secrets
-dot secret list
+sec list
 # Output: GITHUB_TOKEN
 #         NPM_TOKEN
 #         HOMEBREW_GITHUB_API_TOKEN
 
 # Delete secret
-dot secret delete GITHUB_TOKEN
+sec delete GITHUB_TOKEN
 # Output: [Touch ID prompt]
 #         ✅ Deleted GITHUB_TOKEN
 
-# Rotate secret (get + update)
-dot secret rotate GITHUB_TOKEN
-# Output: [Touch ID prompt]
-#         Current value: ghp_old...
-#         Enter new value:
-#         [Touch ID prompt]
-#         ✅ Rotated GITHUB_TOKEN
+# Check secret status
+sec status
+# Output: [Backend config & secrets count]
+
+# Sync secrets across backends
+sec sync
+# Output: [Interactive sync wizard]
+
+# Bitwarden access
+sec bw github-token
+# Output: [Retrieves from Bitwarden]
+
+# Secrets dashboard
+sec dashboard
+# Output: [Dashboard with expiration status]
 
 # Unlock keychain
-dot unlock
+sec unlock
 # Output: [Touch ID prompt]
 #         ✅ Keychain unlocked
 
+# Lock keychain
+sec lock
+# Output: ✅ Keychain locked
+
 # Show help
-dot help
-# Output: [DOT dispatcher help]
+sec help
+# Output: [Secrets dispatcher help]
 ```
 
 ---
+
+## Tokens (tok)
 
 ### Token Management (v5.17.0)
 
 ```bash
 # Check token expiration (fast, cached)
-dot token expiring
+tok expiring
 # Output: GitHub Token: 45 days remaining ✅
 #         (cached 2 minutes ago)
 
 # Force refresh (no cache)
-dot token expiring --force
+tok expiring --force
 # Output: [Fresh check, ~2-3s]
 
+# Create GitHub token
+tok github
+# Output: [Interactive GitHub token wizard]
+
+# Create npm token
+tok npm
+# Output: [Interactive npm token wizard]
+
+# Create PyPI token
+tok pypi
+# Output: [Interactive PyPI token wizard]
+
 # Rotate token
-dot token rotate github
+tok rotate github
 # Output: [Interactive token rotation]
+
+# Refresh token
+tok refresh github
+# Output: [Token refresh workflow]
+
+# Show help
+tok help
+# Output: [Token dispatcher help]
 ```
 
 ---
@@ -994,7 +1036,7 @@ export FLOW_QUIET=1
 # Debug mode (verbose logging)
 export FLOW_DEBUG=1
 
-# Default editor for dotfiles
+# Default editor for dotfile editing
 export EDITOR="nvim"
 
 # GitHub token (for git operations)

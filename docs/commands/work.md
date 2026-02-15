@@ -174,7 +174,7 @@ flow nvim-tutorial
     Nvim integrates seamlessly with flow-cli commands:
 
     - `mcp edit <server>` - Edit MCP configs
-    - `dot edit <file>` - Edit dotfiles
+    - `dots edit <file>` - Edit dotfiles
     - `r edit` - Edit R package files
     - Works in SSH, tmux, and terminal sessions
     - Extremely fast and lightweight

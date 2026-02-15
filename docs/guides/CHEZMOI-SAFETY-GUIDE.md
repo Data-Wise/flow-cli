@@ -32,7 +32,7 @@ The Chezmoi safety features provide intelligent protection when managing dotfile
 
 ```bash
 # Preview files before adding
-dot add ~/.config/nvim
+dots add ~/.config/nvim
 
 # Review the preview showing:
 # - File count and total size
@@ -48,21 +48,21 @@ dot add ~/.config/nvim
 
 ```bash
 # Add ignore patterns
-dot ignore add "*.log"
-dot ignore add "*.sqlite"
+dots ignore add "*.log"
+dots ignore add "*.sqlite"
 
 # List all patterns
-dot ignore list
+dots ignore list
 
 # Edit patterns manually
-dot ignore edit
+dots ignore edit
 ```
 
 ### Repository Health
 
 ```bash
 # Check repository size and health
-dot size
+dots size
 
 # Full health check
 flow doctor --dot
@@ -86,7 +86,7 @@ flow doctor --dot
 **Example Preview:**
 
 ```
-Preview: dot add /Users/dt/.config/obs
+Preview: dots add /Users/dt/.config/obs
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files to add: 8
 Total size: 301K
@@ -114,21 +114,21 @@ Auto-add ignore patterns? (Y/n):
 
 ```bash
 # Add patterns
-dot ignore add "*.log"           # Exclude log files
-dot ignore add "node_modules"    # Exclude directories
-dot ignore add "*.tmp"           # Exclude temporary files
+dots ignore add "*.log"           # Exclude log files
+dots ignore add "node_modules"    # Exclude directories
+dots ignore add "*.tmp"           # Exclude temporary files
 
 # List patterns with line numbers
-dot ignore list
+dots ignore list
 #  1  *.log
 #  2  node_modules
 #  3  *.tmp
 
 # Remove patterns
-dot ignore remove "*.tmp"
+dots ignore remove "*.tmp"
 
 # Edit manually in $EDITOR
-dot ignore edit
+dots ignore edit
 ```
 
 **Pattern Syntax:**
@@ -143,7 +143,7 @@ dot ignore edit
 **Monitor repository size and identify bloat:**
 
 ```bash
-dot size
+dots size
 ```
 
 **Output:**
@@ -213,7 +213,7 @@ flow doctor --dot
 
 ## Commands
 
-### `dot add <path>`
+### `dots add <path>`
 
 Add files to chezmoi with preview and safety checks.
 
@@ -221,13 +221,13 @@ Add files to chezmoi with preview and safety checks.
 
 ```bash
 # Add single file
-dot add ~/.zshrc
+dots add ~/.zshrc
 
 # Add directory
-dot add ~/.config/nvim
+dots add ~/.config/nvim
 
 # Add with automatic ignore suggestion
-dot add ~/.config/obs
+dots add ~/.config/obs
 ```
 
 **Preview Features:**
@@ -243,18 +243,18 @@ dot add ~/.config/obs
 - `0` - User confirmed, add succeeded
 - `1` - User cancelled or validation failed
 
-### `dot ignore <subcommand>`
+### `dots ignore <subcommand>`
 
 Manage ignore patterns in `.chezmoiignore`.
 
-#### `dot ignore add <pattern>`
+#### `dots ignore add <pattern>`
 
 Add new ignore pattern.
 
 ```bash
-dot ignore add "*.log"
-dot ignore add "node_modules"
-dot ignore add ".DS_Store"
+dots ignore add "*.log"
+dots ignore add "node_modules"
+dots ignore add ".DS_Store"
 ```
 
 **Features:**
@@ -263,12 +263,12 @@ dot ignore add ".DS_Store"
 - Creates `.chezmoiignore` if missing
 - Provides feedback for each operation
 
-#### `dot ignore list` (alias: `ls`)
+#### `dots ignore list` (alias: `ls`)
 
 List all ignore patterns with line numbers.
 
 ```bash
-dot ignore list
+dots ignore list
 ```
 
 **Output:**
@@ -280,12 +280,12 @@ dot ignore list
  4  .DS_Store
 ```
 
-#### `dot ignore remove <pattern>` (alias: `rm`)
+#### `dots ignore remove <pattern>` (alias: `rm`)
 
 Remove ignore pattern.
 
 ```bash
-dot ignore remove "*.log"
+dots ignore remove "*.log"
 ```
 
 **Features:**
@@ -294,24 +294,24 @@ dot ignore remove "*.log"
 - Safe removal (pattern must exist)
 - Preserves file formatting
 
-#### `dot ignore edit`
+#### `dots ignore edit`
 
 Open `.chezmoiignore` in `$EDITOR`.
 
 ```bash
-dot ignore edit
+dots ignore edit
 ```
 
 **Default Editor:** `$EDITOR` environment variable (fallback: `vim`)
 
-### `dot size`
+### `dots size`
 
 Analyze repository size and identify large files.
 
 **Usage:**
 
 ```bash
-dot size
+dots size
 ```
 
 **Features:**
@@ -392,8 +392,8 @@ flow doctor --dot --verbose
 
 ```bash
 # Add to ignore patterns
-dot ignore add "*.sqlite"
-dot ignore add "large-config.json"
+dots ignore add "*.sqlite"
+dots ignore add "large-config.json"
 ```
 
 ### Generated File Detection
@@ -418,12 +418,12 @@ Auto-add ignore patterns? (Y/n):
 **Common Patterns to Exclude:**
 
 ```bash
-dot ignore add "*.log"
-dot ignore add "*.sqlite"
-dot ignore add "*.db"
-dot ignore add "*.cache"
-dot ignore add "*.tmp"
-dot ignore add "*.swp"
+dots ignore add "*.log"
+dots ignore add "*.sqlite"
+dots ignore add "*.db"
+dots ignore add "*.cache"
+dots ignore add "*.tmp"
+dots ignore add "*.swp"
 ```
 
 ### Git Metadata Detection
@@ -494,14 +494,14 @@ export DOT_SKIP_PREVIEW=1
 unset _DOT_SIZE_CACHE
 unset _DOT_SIZE_CACHE_TIME
 
-dot size  # Will recalculate
+dots size  # Will recalculate
 ```
 
 ### Ignore File Location
 
 **Default:** `~/.local/share/chezmoi/.chezmoiignore`
 
-**Creation:** Automatically created on first `dot ignore add` command.
+**Creation:** Automatically created on first `dots ignore add` command.
 
 **Example `.chezmoiignore`:**
 
@@ -545,31 +545,31 @@ build/
 # Clear cache and recalculate
 unset _DOT_SIZE_CACHE
 unset _DOT_SIZE_CACHE_TIME
-dot size
+dots size
 ```
 
 **Cause:** Stale cache after large file operations.
 
 ### Timeout During Large Directory Scan
 
-**Problem:** `dot add` hangs on large directories.
+**Problem:** `dots add` hangs on large directories.
 
 **Solution:**
 
 ```bash
 # Add directory to ignore patterns first
-dot ignore add "node_modules"
+dots ignore add "node_modules"
 
 # Then add parent without the large subdirectory
-dot add ~/.config/my-app
+dots add ~/.config/my-app
 ```
 
 **Alternative:**
 
 ```bash
 # Add specific files instead of directory
-dot add ~/.config/my-app/config.yml
-dot add ~/.config/my-app/settings.json
+dots add ~/.config/my-app/config.yml
+dots add ~/.config/my-app/settings.json
 ```
 
 ### Ignore Patterns Not Working
@@ -580,11 +580,11 @@ dot add ~/.config/my-app/settings.json
 
 ```bash
 # Verify pattern syntax
-dot ignore list
+dots ignore list
 
 # Pattern might need adjustment
-dot ignore remove "*.log"
-dot ignore add "**/*.log"  # Recursive matching
+dots ignore remove "*.log"
+dots ignore add "**/*.log"  # Recursive matching
 
 # Force re-apply
 chezmoi re-add
@@ -592,7 +592,7 @@ chezmoi re-add
 
 ### Performance Issues with Size Command
 
-**Problem:** `dot size` is slow even with cache.
+**Problem:** `dots size` is slow even with cache.
 
 **Diagnosis:**
 
@@ -672,10 +672,10 @@ alias stat=gstat
 
    ```bash
    # Find large files
-   dot size
+   dots size
 
    # Add to ignore
-   dot ignore add "large-file.db"
+   dots ignore add "large-file.db"
 
    # Remove from chezmoi
    chezmoi remove large-file.db
@@ -695,9 +695,9 @@ alias stat=gstat
 
 | Command             | Without Cache | With Cache | Target   |
 | ------------------- | ------------- | ---------- | -------- |
-| `dot size`          | 3-5s          | 5-8ms      | <10ms    |
-| `dot ignore list`   | 50-100ms      | 5ms        | <10ms    |
-| `dot add` (preview) | 2-4s          | 100-200ms  | <500ms   |
+| `dots size`          | 3-5s          | 5-8ms      | <10ms    |
+| `dots ignore list`   | 50-100ms      | 5ms        | <10ms    |
+| `dots add` (preview) | 2-4s          | 100-200ms  | <500ms   |
 | `flow doctor --dot` | 5-10s         | 2-3s       | <3s      |
 
 ### Size Thresholds
@@ -726,35 +726,35 @@ flow doctor --dot
 
 ```bash
 # Always preview, especially for directories
-dot add ~/.config/new-app
+dots add ~/.config/new-app
 ```
 
 ### 3. Maintain Ignore Patterns
 
 ```bash
 # Keep patterns organized and documented
-dot ignore edit
+dots ignore edit
 
 # Common patterns to start with
-dot ignore add "*.log"
-dot ignore add "*.sqlite"
-dot ignore add "node_modules"
-dot ignore add ".DS_Store"
+dots ignore add "*.log"
+dots ignore add "*.sqlite"
+dots ignore add "node_modules"
+dots ignore add ".DS_Store"
 ```
 
 ### 4. Monitor Repository Size
 
 ```bash
 # Check monthly or after bulk adds
-dot size
+dots size
 ```
 
 ### 5. Clean Up Large Files
 
 ```bash
 # If repository grows too large
-dot size  # Identify culprits
-dot ignore add "large-file.db"
+dots size  # Identify culprits
+dots ignore add "large-file.db"
 chezmoi remove large-file.db
 ```
 
@@ -775,7 +775,7 @@ export _DOT_CACHE_TTL=1800  # 30 minutes
 # Add multiple patterns at once
 patterns=("*.log" "*.sqlite" "*.db" "*.cache")
 for pattern in "${patterns[@]}"; do
-  dot ignore add "$pattern"
+  dots ignore add "$pattern"
 done
 ```
 

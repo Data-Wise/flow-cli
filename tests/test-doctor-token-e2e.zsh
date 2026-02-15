@@ -208,7 +208,7 @@ test_cache_fresh_invalidation() {
     # Note: Cache only written if token check succeeds
 
     # Check if tokens are configured
-    if ! command -v dot &>/dev/null || ! dot secret list &>/dev/null 2>&1; then
+    if ! command -v sec &>/dev/null || ! sec list &>/dev/null 2>&1; then
         skip "Keychain access unavailable (expected in test environment)"
         return
     fi
@@ -241,7 +241,7 @@ test_cache_ttl_respect() {
     # Expected: All use cached result (if tokens configured)
 
     # Skip if Keychain unavailable
-    if ! command -v dot &>/dev/null || ! dot secret list &>/dev/null 2>&1; then
+    if ! command -v sec &>/dev/null || ! sec list &>/dev/null 2>&1; then
         skip "Keychain access unavailable (expected in test environment)"
         return
     fi

@@ -1,0 +1,93 @@
+#compdef sec
+
+# Completion for sec command - secret management dispatcher
+
+_sec() {
+  local -a subcommands
+  local -a secrets
+
+  # Subcommands
+  subcommands=(
+    'list:List secrets'
+    'add:Store new secret'
+    'delete:Remove secret'
+    'check:Check expirations'
+    'status:Backend config status'
+    'unlock:Unlock Bitwarden vault'
+    'u:Unlock Bitwarden vault (alias)'
+    'lock:Lock vault'
+    'l:Lock vault (alias)'
+    'sync:Sync Keychain and Bitwarden'
+    'bw:Bitwarden-specific operations'
+    'dashboard:Secrets overview'
+    'tutorial:Interactive secret management tutorial'
+    'doctor:Secret-specific diagnostics'
+    'dr:Secret-specific diagnostics (alias)'
+    'help:Show help message'
+  )
+
+  # Get Bitwarden items if vault is unlocked
+  if command -v bw &>/dev/null && [[ -n "$BW_SESSION" ]]; then
+    local items_output
+    items_output=$(bw list items --session "$BW_SESSION" 2>/dev/null)
+    if [[ $? -eq 0 ]] && command -v jq &>/dev/null; then
+      secrets=(${(f)"$(echo "$items_output" | jq -r '.[].name' 2>/dev/null)"})
+    fi
+  fi
+
+  _arguments -C \
+    '1:subcommand:->subcommand' \
+    '*::arg:->args' \
+  && return 0
+
+  case "$state" in
+    subcommand)
+      # Offer both subcommands and secret names (default action = get)
+      _alternative \
+        'subcommands:sec subcommand:_describe -t subcommands sec\ subcommand subcommands' \
+        'secrets:secret name:_describe -t secrets secret\ name secrets'
+      ;;
+    args)
+      case "$line[1]" in
+        bw)
+          if [[ ${#line[@]} -eq 1 ]]; then
+            local -a bw_cmds
+            bw_cmds=(
+              'list:List Bitwarden items'
+              'add:Add to Bitwarden'
+              'check:Check expiring secrets'
+              'help:Show Bitwarden help'
+            )
+            _describe -t bw 'bw command' bw_cmds
+          fi
+          ;;
+        sync)
+          if [[ ${#line[@]} -eq 1 ]]; then
+            local -a sync_cmds
+            sync_cmds=(
+              'status:Show sync status'
+              'to-bitwarden:Sync Keychain to Bitwarden'
+              'from-bitwarden:Sync Bitwarden to Keychain'
+              'interactive:Interactive sync wizard'
+              'github:Sync to GitHub secrets'
+              'help:Show sync help'
+            )
+            _describe -t sync 'sync command' sync_cmds
+          fi
+          ;;
+        dashboard)
+          if [[ ${#line[@]} -eq 1 ]]; then
+            local -a dash_cmds
+            dash_cmds=(
+              'sync:Sync dashboard data'
+              'help:Show dashboard help'
+            )
+            _describe -t dashboard 'dashboard command' dash_cmds
+          fi
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_sec "$@"

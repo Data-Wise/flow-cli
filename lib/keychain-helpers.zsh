@@ -2,12 +2,12 @@
 # Provides: instant, session-free secret access with Touch ID support
 #
 # Commands:
-#   dot secret add <name>      Store a secret (prompts for value)
-#   dot secret get <name>      Retrieve a secret
-#   dot secret <name>          Shortcut for 'get'
-#   dot secret list            List all stored secrets
-#   dot secret delete <name>   Remove a secret
-#   dot secret import          Import from Bitwarden (one-time)
+#   sec add <name>      Store a secret (prompts for value)
+#   sec get <name>      Retrieve a secret
+#   sec <name>          Shortcut for 'get'
+#   sec list            List all stored secrets
+#   sec delete <name>   Remove a secret
+#   sec import          Import from Bitwarden (one-time)
 
 # ============================================================================
 # CONSTANTS
@@ -21,7 +21,7 @@ _DOT_KEYCHAIN_SERVICE="flow-cli-secrets"
 # ============================================================================
 
 # =============================================================================
-# Function: _dot_kc_add
+# Function: _dotf_kc_add
 # Purpose: Add or update a secret in macOS Keychain with interactive prompt
 # =============================================================================
 # Arguments:
@@ -35,8 +35,8 @@ _DOT_KEYCHAIN_SERVICE="flow-cli-secrets"
 #   stdout - Success/error messages via _flow_log_* functions
 #
 # Example:
-#   _dot_kc_add "github-token"     # Prompts for value, stores in Keychain
-#   _dot_kc_add "openai-api-key"   # Updates if already exists (-U flag)
+#   _dotf_kc_add "github-token"     # Prompts for value, stores in Keychain
+#   _dotf_kc_add "openai-api-key"   # Updates if already exists (-U flag)
 #
 # Notes:
 #   - Uses hidden input (read -s) for secure value entry
@@ -44,11 +44,11 @@ _DOT_KEYCHAIN_SERVICE="flow-cli-secrets"
 #   - Stores under service name "flow-cli-secrets" for namespacing
 #   - Touch ID / Apple Watch authentication may be required on retrieval
 # =============================================================================
-_dot_kc_add() {
+_dotf_kc_add() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
-        _flow_log_error "Usage: dot secret add <name>"
+        _flow_log_error "Usage: sec add <name>"
         return 1
     fi
 
@@ -77,7 +77,7 @@ _dot_kc_add() {
 }
 
 # =============================================================================
-# Function: _dot_kc_get
+# Function: _dotf_kc_get
 # Purpose: Retrieve a secret value from macOS Keychain
 # =============================================================================
 # Arguments:
@@ -92,20 +92,20 @@ _dot_kc_add() {
 #   stderr - Error messages if secret not found
 #
 # Example:
-#   _dot_kc_get "github-token"                    # Outputs: ghp_xxxx...
-#   export GITHUB_TOKEN=$(_dot_kc_get "github")   # Capture into variable
-#   gh auth login --with-token <<< $(_dot_kc_get "github-token")
+#   _dotf_kc_get "github-token"                    # Outputs: ghp_xxxx...
+#   export GITHUB_TOKEN=$(_dotf_kc_get "github")   # Capture into variable
+#   gh auth login --with-token <<< $(_dotf_kc_get "github-token")
 #
 # Notes:
 #   - Output is raw value only (no decoration) for script compatibility
 #   - May trigger Touch ID / Apple Watch / password prompt
 #   - Searches only within "flow-cli-secrets" service namespace
 # =============================================================================
-_dot_kc_get() {
+_dotf_kc_get() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
-        _flow_log_error "Usage: dot secret get <name>"
+        _flow_log_error "Usage: sec get <name>"
         return 1
     fi
 
@@ -124,7 +124,7 @@ _dot_kc_get() {
 }
 
 # =============================================================================
-# Function: _dot_kc_list
+# Function: _dotf_kc_list
 # Purpose: List all flow-cli secrets stored in macOS Keychain
 # =============================================================================
 # Arguments:
@@ -138,7 +138,7 @@ _dot_kc_get() {
 #            Shows "(no secrets stored)" message if empty
 #
 # Example:
-#   _dot_kc_list
+#   _dotf_kc_list
 #   # Output:
 #   # Secrets in Keychain (flow-cli):
 #   #   • github-token
@@ -152,7 +152,7 @@ _dot_kc_get() {
 #   - Shows unique secrets only (deduplicates)
 #   - Does NOT show secret values, only names
 # =============================================================================
-_dot_kc_list() {
+_dotf_kc_list() {
     # Reset shell options to defaults (suppress debug, protect passwords)
     emulate -L zsh
     setopt noxtrace noverbose
@@ -200,7 +200,7 @@ _dot_kc_list() {
         echo "${FLOW_COLORS[header]}├───────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}(no secrets stored)${FLOW_COLORS[reset]}                             ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
-        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Add one: ${FLOW_COLORS[cmd]}dot secret add <name>${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+        echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Add one: ${FLOW_COLORS[cmd]}sec add <name>${FLOW_COLORS[reset]}                 ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
         return 0
     fi
@@ -351,7 +351,7 @@ _dot_kc_list() {
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Cleanup old backups:${FLOW_COLORS[reset]}                            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         for backup in "${backup_secrets[@]}"; do
-            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot secret delete $backup${FLOW_COLORS[reset]}${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+            echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}sec delete $backup${FLOW_COLORS[reset]}${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
         done
     fi
 
@@ -364,13 +364,13 @@ _dot_kc_list() {
         if [[ ${#_expired_tokens[@]} -gt 0 ]]; then
             echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[error]}⚠ ${#_expired_tokens[@]} expired${FLOW_COLORS[reset]} - rotate now:                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
             for token in "${_expired_tokens[@]}"; do
-                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
             done
         fi
         if [[ ${#_expiring_tokens[@]} -gt 0 ]]; then
             echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠ ${#_expiring_tokens[@]} expiring soon${FLOW_COLORS[reset]} - consider rotating:    ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
             for token in "${_expiring_tokens[@]}"; do
-                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}dot token rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+                echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}    ${FLOW_COLORS[cmd]}tok rotate $token${FLOW_COLORS[reset]}              ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
             done
         fi
     fi
@@ -382,7 +382,7 @@ _dot_kc_list() {
 }
 
 # =============================================================================
-# Function: _dot_kc_delete
+# Function: _dotf_kc_delete
 # Purpose: Remove a secret from macOS Keychain
 # =============================================================================
 # Arguments:
@@ -396,19 +396,19 @@ _dot_kc_list() {
 #   stdout - Success/error message via _flow_log_* functions
 #
 # Example:
-#   _dot_kc_delete "old-api-key"    # Removes secret from Keychain
-#   _dot_kc_delete "nonexistent"    # Returns error, secret not found
+#   _dotf_kc_delete "old-api-key"    # Removes secret from Keychain
+#   _dotf_kc_delete "nonexistent"    # Returns error, secret not found
 #
 # Notes:
 #   - Permanent deletion - cannot be undone
 #   - Only deletes secrets within "flow-cli-secrets" service namespace
 #   - May require authentication depending on Keychain settings
 # =============================================================================
-_dot_kc_delete() {
+_dotf_kc_delete() {
     local name="$1"
 
     if [[ -z "$name" ]]; then
-        _flow_log_error "Usage: dot secret delete <name>"
+        _flow_log_error "Usage: sec delete <name>"
         return 1
     fi
 
@@ -423,7 +423,7 @@ _dot_kc_delete() {
 }
 
 # =============================================================================
-# Function: _dot_kc_import
+# Function: _dotf_kc_import
 # Purpose: Bulk import secrets from Bitwarden folder into macOS Keychain
 # =============================================================================
 # Arguments:
@@ -438,7 +438,7 @@ _dot_kc_delete() {
 #            Summary count of imported secrets
 #
 # Example:
-#   _dot_kc_import
+#   _dotf_kc_import
 #   # Output:
 #   # Import secrets from Bitwarden folder 'flow-cli-secrets'?
 #   # Continue? [y/N] y
@@ -454,7 +454,7 @@ _dot_kc_delete() {
 #   - Updates existing secrets (does not duplicate)
 #   - One-time migration - after import, use Keychain directly
 # =============================================================================
-_dot_kc_import() {
+_dotf_kc_import() {
     # Check for Bitwarden CLI
     if ! command -v bw &>/dev/null; then
         _flow_log_error "Bitwarden CLI not installed"
@@ -463,7 +463,7 @@ _dot_kc_import() {
     fi
 
     # Check for active session
-    if ! _dot_bw_session_valid 2>/dev/null; then
+    if ! _dotf_bw_session_valid 2>/dev/null; then
         _flow_log_error "Bitwarden locked. Run: ${FLOW_COLORS[cmd]}dot unlock${FLOW_COLORS[reset]}"
         return 1
     fi
@@ -510,7 +510,7 @@ _dot_kc_import() {
 }
 
 # =============================================================================
-# Function: _dot_kc_help
+# Function: _dotf_kc_help
 # Purpose: Display help documentation for keychain secret commands
 # =============================================================================
 # Arguments:
@@ -523,9 +523,9 @@ _dot_kc_import() {
 #   stdout - Formatted help text with commands, examples, and benefits
 #
 # Example:
-#   _dot_kc_help
-#   dot secret help
-#   dot secret --help
+#   _dotf_kc_help
+#   sec help
+#   sec --help
 #
 # Notes:
 #   - Uses FLOW_COLORS for consistent formatting
@@ -533,20 +533,20 @@ _dot_kc_import() {
 #   - Includes script usage examples for common patterns
 #   - Highlights benefits of Keychain over Bitwarden (instant access)
 # =============================================================================
-_dot_kc_help() {
+_dotf_kc_help() {
     cat <<EOF
-${FLOW_COLORS[header]}dot secret${FLOW_COLORS[reset]} - macOS Keychain secret management
+${FLOW_COLORS[header]}sec${FLOW_COLORS[reset]} - macOS Keychain secret management
 
 ${FLOW_COLORS[warning]}Commands:${FLOW_COLORS[reset]}
-  dot secret add <name>      Store a secret (prompts for value)
-  dot secret get <name>      Retrieve a secret (or just: dot secret <name>)
-  dot secret <name>          Shortcut for 'get'
-  dot secret list            List all stored secrets
-  dot secret delete <name>   Remove a secret
-  dot secret status          Show backend configuration
-  dot secret sync            Sync with Bitwarden (--to-bw, --from-bw)
-  dot secret import          Import from Bitwarden (one-time)
-  dot secret tutorial        Interactive tutorial (10-15 min)
+  sec add <name>      Store a secret (prompts for value)
+  sec get <name>      Retrieve a secret (or just: sec <name>)
+  sec <name>          Shortcut for 'get'
+  sec list            List all stored secrets
+  sec delete <name>   Remove a secret
+  sec status          Show backend configuration
+  sec sync            Sync with Bitwarden (--to-bw, --from-bw)
+  sec import          Import from Bitwarden (one-time)
+  sec tutorial        Interactive tutorial (10-15 min)
 
 ${FLOW_COLORS[warning]}Backend Configuration:${FLOW_COLORS[reset]}
   export FLOW_SECRET_BACKEND=keychain   # Default (Keychain only)
@@ -554,15 +554,15 @@ ${FLOW_COLORS[warning]}Backend Configuration:${FLOW_COLORS[reset]}
   export FLOW_SECRET_BACKEND=both       # Both backends (sync mode)
 
 ${FLOW_COLORS[warning]}Examples:${FLOW_COLORS[reset]}
-  dot secret add github-token    # Store GitHub token
-  dot secret github-token        # Retrieve it
-  dot secret list                # See all secrets
-  dot secret status              # Check backend config
-  dot secret sync --status       # Compare Keychain vs Bitwarden
+  sec add github-token    # Store GitHub token
+  sec github-token        # Retrieve it
+  sec list                # See all secrets
+  sec status              # Check backend config
+  sec sync --status       # Compare Keychain vs Bitwarden
 
 ${FLOW_COLORS[warning]}Usage in scripts:${FLOW_COLORS[reset]}
-  export GITHUB_TOKEN=\$(dot secret github-token)
-  gh auth login --with-token <<< \$(dot secret github-token)
+  export GITHUB_TOKEN=\$(sec github-token)
+  gh auth login --with-token <<< \$(sec github-token)
 
 ${FLOW_COLORS[warning]}Benefits (Keychain default):${FLOW_COLORS[reset]}
   ${FLOW_COLORS[success]}\342\200\242${FLOW_COLORS[reset]} Instant access (no unlock needed)
@@ -578,6 +578,6 @@ EOF
 # DISPATCHER INTEGRATION
 # ============================================================================
 
-# Note: The _dot_secret_kc() function has been removed as dead code.
-# All routing is now handled by _dot_secret() in lib/dispatchers/dot-dispatcher.zsh
-# The helper functions below (_dot_kc_add, _dot_kc_get, etc.) are still used.
+# Note: The _dotf_secret_kc() function has been removed as dead code.
+# All routing is now handled by sec() in lib/dispatchers/sec-dispatcher.zsh
+# The helper functions below (_dotf_kc_add, _dotf_kc_get, etc.) are used by dots, sec, tok dispatchers.

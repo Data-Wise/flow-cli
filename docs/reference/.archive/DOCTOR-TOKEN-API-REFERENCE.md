@@ -525,7 +525,7 @@ _doctor_apply_fixes <category>
 Fix token-specific issues.
 
 **Behavior:**
-1. Calls `_dot_token_rotate()` for invalid/expiring tokens
+1. Calls `_tok_rotate()` for invalid/expiring tokens
 2. Clears cache: `_doctor_cache_token_clear()`
 3. Logs success as "Security maintenance" win
 

@@ -101,7 +101,7 @@ echo ""
 
 echo "${CYAN}--- Section 2: Dispatcher Functions ---${RESET}"
 
-dispatchers=(g mcp obs qu r cc tm wt dot teach prompt v)
+dispatchers=(g mcp obs qu r cc tm wt dots sec tok teach prompt v)
 
 for disp in "${dispatchers[@]}"; do
     run_test "Dispatcher '$disp' is a function" "
@@ -148,7 +148,9 @@ help_fns=(
     cc    _cc_help
     tm    _tm_help
     wt    _wt_help
-    dot   _dot_help
+    dots  _dots_help
+    sec   _sec_help
+    tok   _tok_help
     teach _teach_dispatcher_help
     prompt _prompt_help
     v     _v_help

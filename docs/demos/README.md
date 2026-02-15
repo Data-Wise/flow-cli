@@ -41,9 +41,9 @@ Quick demonstrations of flow-cli's smart dispatchers:
 **Duration:** ~40 seconds
 
 **Demonstrates:**
-- `dot edit` - Quick dotfile editing
-- `dot secret` - macOS Keychain secret management
-- `dot sync` - Sync dotfiles across machines
+- `dots edit` - Quick dotfile editing
+- `sec secret` - macOS Keychain secret management
+- `dots sync` - Sync dotfiles across machines
 
 #### First Session
 
@@ -160,7 +160,7 @@ Enter
 - [ ] Project picker workflow
 - [ ] Dash command showcase
 - [ ] MCP dispatcher demo
-- [ ] Secret management (dot workflow)
+- [ ] Secret management (sec workflow)
 - [ ] R package development flow
 - [ ] Git worktree management
 

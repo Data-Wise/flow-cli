@@ -53,7 +53,7 @@ _g_is_github_remote() {
 _g_validate_github_token_silent() {
   # Quick validation without output
   # Returns 0 if valid, 1 if expired/invalid
-  local token=$(dot secret github-token 2>/dev/null)
+  local token=$(sec github-token 2>/dev/null)
   [[ -z "$token" ]] && return 1
 
   local http_code=$(curl -s -o /dev/null -w "%{http_code}" \
@@ -188,7 +188,7 @@ g() {
             if _g_is_github_remote; then
                 if ! _g_validate_github_token_silent; then
                     _flow_log_warning "GitHub token may be expired"
-                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}tok expiring${FLOW_COLORS[reset]}"
                     echo ""
                     read -q "?Continue anyway? [y/n] " continue_response
                     echo ""
@@ -203,7 +203,7 @@ g() {
             if _g_is_github_remote; then
                 if ! _g_validate_github_token_silent; then
                     _flow_log_warning "GitHub token may be expired"
-                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}tok expiring${FLOW_COLORS[reset]}"
                     echo ""
                     read -q "?Continue anyway? [y/n] " continue_response
                     echo ""
@@ -219,7 +219,7 @@ g() {
             if _g_is_github_remote; then
                 if ! _g_validate_github_token_silent; then
                     _flow_log_warning "GitHub token may be expired"
-                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}tok expiring${FLOW_COLORS[reset]}"
                     echo ""
                     read -q "?Continue anyway? [y/n] " continue_response
                     echo ""
@@ -235,7 +235,7 @@ g() {
             if _g_is_github_remote; then
                 if ! _g_validate_github_token_silent; then
                     _flow_log_warning "GitHub token may be expired"
-                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}tok expiring${FLOW_COLORS[reset]}"
                     echo ""
                     read -q "?Continue anyway? [y/n] " continue_response
                     echo ""
@@ -250,7 +250,7 @@ g() {
             if _g_is_github_remote; then
                 if ! _g_validate_github_token_silent; then
                     _flow_log_warning "GitHub token may be expired"
-                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}dot token expiring${FLOW_COLORS[reset]}"
+                    _flow_log_info "Check status: ${FLOW_COLORS[cmd]}tok expiring${FLOW_COLORS[reset]}"
                     echo ""
                     read -q "?Continue anyway? [y/n] " continue_response
                     echo ""

@@ -176,7 +176,7 @@ sequenceDiagram
 | First check | MISS | ~2-3s | Yes |
 | Within 5 min | HIT | ~50-80ms | No |
 | After 5 min | MISS | ~2-3s | Yes |
-| After `dot token rotate` | Invalidated | ~2-3s | Yes |
+| After `tok rotate` | Invalidated | ~2-3s | Yes |
 
 **Performance Impact:**
 - **85% cache hit rate** in typical workflows
@@ -228,7 +228,7 @@ GitHub Token: Expiring in 7 days
 ### What Happens Next?
 
 If you select "GitHub Token", flow-cli:
-1. Guides you through token rotation (`dot token rotate`)
+1. Guides you through token rotation (`tok rotate`)
 2. Validates new token
 3. Clears cache (forces fresh check)
 4. Confirms successful rotation
@@ -530,7 +530,7 @@ g push  # Auto-validates token
 # Token rotation
 doctor --fix-token  # Interactive menu
 # OR
-dot token rotate    # Direct rotation
+tok rotate           # Direct rotation
 
 # CI/CD integration
 doctor --dot --quiet && npm run deploy

@@ -55,82 +55,82 @@ source "$PLUGIN_ROOT/flow.plugin.zsh"
 # TEST SUITE
 # ══════════════════════════════════════════════════════════════════════════════
 
-# Test 1: dot version shows Phase 3
+# Test 1: dots version shows Phase 3
 test_start "Version shows Phase 3"
-VERSION_OUTPUT=$(dot version 2>&1)
+VERSION_OUTPUT=$(dots version 2>&1)
 if echo "$VERSION_OUTPUT" | grep -q "v1.2.0 (Phase 3 - Secret Management)"; then
   test_pass "Version is v1.2.0 (Phase 3)"
 else
   test_fail "Version should be v1.2.0 (Phase 3), got: $VERSION_OUTPUT"
 fi
 
-# Test 2: dot help shows Phase 3 as complete
+# Test 2: dots help shows Phase 3 as complete
 test_start "Help shows Phase 3 as complete"
-HELP_OUTPUT=$(dot help 2>&1)
+HELP_OUTPUT=$(dots help 2>&1)
 if echo "$HELP_OUTPUT" | grep -q "✓ Phase 3: Secret management"; then
   test_pass "Phase 3 marked as complete in help"
 else
   test_fail "Phase 3 should be marked complete"
 fi
 
-# Test 3: dot help includes secret commands
+# Test 3: dots help includes secret commands
 test_start "Help includes secret management commands"
-if echo "$HELP_OUTPUT" | grep -q "dot unlock"; then
-  test_pass "dot unlock listed in help"
+if echo "$HELP_OUTPUT" | grep -q "sec unlock"; then
+  test_pass "sec unlock listed in help"
 else
-  test_fail "dot unlock not found in help"
+  test_fail "sec unlock not found in help"
 fi
 
-if echo "$HELP_OUTPUT" | grep -q "dot secret NAME"; then
-  test_pass "dot secret NAME listed in help"
+if echo "$HELP_OUTPUT" | grep -q "sec NAME"; then
+  test_pass "sec NAME listed in help"
 else
-  test_fail "dot secret NAME not found in help"
+  test_fail "sec NAME not found in help"
 fi
 
-if echo "$HELP_OUTPUT" | grep -q "dot secret list"; then
-  test_pass "dot secret list listed in help"
+if echo "$HELP_OUTPUT" | grep -q "sec list"; then
+  test_pass "sec list listed in help"
 else
-  test_fail "dot secret list not found in help"
+  test_fail "sec list not found in help"
 fi
 
-# Test 4: Check if _dot_unlock function exists
-test_start "Function _dot_unlock exists"
-if typeset -f _dot_unlock >/dev/null; then
-  test_pass "_dot_unlock function defined"
+# Test 4: Check if _sec_unlock function exists
+test_start "Function _sec_unlock exists"
+if typeset -f _sec_unlock >/dev/null; then
+  test_pass "_sec_unlock function defined"
 else
-  test_fail "_dot_unlock function not found"
+  test_fail "_sec_unlock function not found"
 fi
 
-# Test 5: Check if _dot_secret function exists
-test_start "Function _dot_secret exists"
-if typeset -f _dot_secret >/dev/null; then
-  test_pass "_dot_secret function defined"
+# Test 5: Check if _sec_get function exists
+test_start "Function _sec_get exists"
+if typeset -f _sec_get >/dev/null; then
+  test_pass "_sec_get function defined"
 else
-  test_fail "_dot_secret function not found"
+  test_fail "_sec_get function not found"
 fi
 
-# Test 6: Check if _dot_secret_list function exists
-test_start "Function _dot_secret_list exists"
-if typeset -f _dot_secret_list >/dev/null; then
-  test_pass "_dot_secret_list function defined"
+# Test 6: Check if _sec_list function exists
+test_start "Function _sec_list exists"
+if typeset -f _sec_list >/dev/null; then
+  test_pass "_sec_list function defined"
 else
-  test_fail "_dot_secret_list function not found"
+  test_fail "_sec_list function not found"
 fi
 
-# Test 7: Check if _dot_security_init function exists
-test_start "Function _dot_security_init exists"
-if typeset -f _dot_security_init >/dev/null; then
-  test_pass "_dot_security_init function defined"
+# Test 7: Check if _dotf_security_init function exists
+test_start "Function _dotf_security_init exists"
+if typeset -f _dotf_security_init >/dev/null; then
+  test_pass "_dotf_security_init function defined"
 else
-  test_fail "_dot_security_init function not found"
+  test_fail "_dotf_security_init function not found"
 fi
 
-# Test 8: Check if _dot_security_check_bw_session function exists
-test_start "Function _dot_security_check_bw_session exists"
-if typeset -f _dot_security_check_bw_session >/dev/null; then
-  test_pass "_dot_security_check_bw_session function defined"
+# Test 8: Check if _dotf_security_check_bw_session function exists
+test_start "Function _dotf_security_check_bw_session exists"
+if typeset -f _dotf_security_check_bw_session >/dev/null; then
+  test_pass "_dotf_security_check_bw_session function defined"
 else
-  test_fail "_dot_security_check_bw_session function not found"
+  test_fail "_dotf_security_check_bw_session function not found"
 fi
 
 # Test 9: Check HISTIGNORE is set
@@ -141,10 +141,10 @@ else
   test_fail "HISTIGNORE should include bw unlock patterns"
 fi
 
-# Test 10: dot unlock without bw should show error
-test_start "dot unlock without Bitwarden CLI shows install message"
+# Test 10: sec unlock without bw should show error
+test_start "sec unlock without Bitwarden CLI shows install message"
 if ! command -v bw &>/dev/null; then
-  UNLOCK_OUTPUT=$(dot unlock 2>&1)
+  UNLOCK_OUTPUT=$(sec unlock 2>&1)
   if echo "$UNLOCK_OUTPUT" | grep -q "brew install bitwarden-cli"; then
     test_pass "Shows install instructions when bw not found"
   else
@@ -154,20 +154,20 @@ else
   test_skip "Bitwarden CLI is installed, skipping no-tool test"
 fi
 
-# Test 11: dot secret without arguments shows usage
-test_start "dot secret without arguments shows usage"
-SECRET_OUTPUT=$(dot secret 2>&1)
-if echo "$SECRET_OUTPUT" | grep -q "Usage: dot secret <name>"; then
+# Test 11: sec without arguments shows usage
+test_start "sec without arguments shows usage"
+SECRET_OUTPUT=$(sec 2>&1)
+if echo "$SECRET_OUTPUT" | grep -q "Usage: sec <name>"; then
   test_pass "Shows usage message"
 else
   test_fail "Should show usage message"
 fi
 
-# Test 12: dot secret list without session shows error
-test_start "dot secret list without session shows error"
+# Test 12: sec list without session shows error
+test_start "sec list without session shows error"
 unset BW_SESSION
 if command -v bw &>/dev/null; then
-  LIST_OUTPUT=$(dot secret list 2>&1)
+  LIST_OUTPUT=$(sec list 2>&1)
   if echo "$LIST_OUTPUT" | grep -q "vault is locked"; then
     test_pass "Shows locked vault error"
   else
@@ -177,10 +177,10 @@ else
   test_skip "Bitwarden CLI not installed"
 fi
 
-# Test 13: _dot_bw_session_valid returns false without session
-test_start "_dot_bw_session_valid returns false without BW_SESSION"
+# Test 13: _dotf_bw_session_valid returns false without session
+test_start "_dotf_bw_session_valid returns false without BW_SESSION"
 unset BW_SESSION
-if _dot_bw_session_valid; then
+if _dotf_bw_session_valid; then
   test_fail "Should return false when BW_SESSION not set"
 else
   test_pass "Returns false when session not active"

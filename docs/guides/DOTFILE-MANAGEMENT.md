@@ -10,7 +10,7 @@
 
 ## Overview
 
-The `dot` dispatcher provides a unified interface for managing your dotfiles with chezmoi and secrets with Bitwarden CLI. It's designed to be ADHD-friendly with smart defaults, clear status displays, and progressive disclosure of complexity.
+The `dots`, `sec`, and `tok` dispatchers provide a unified interface for managing your dotfiles with chezmoi, secrets with macOS Keychain/Bitwarden, and API tokens. It's designed to be ADHD-friendly with smart defaults, clear status displays, and progressive disclosure of complexity.
 
 **Key Benefits:**
 
@@ -60,13 +60,13 @@ bw login
 
 ```bash
 # Check status
-dot
+dots
 
 # Edit a dotfile
-dot edit .zshrc
+dots edit .zshrc
 
 # Unlock secrets
-dot unlock
+sec unlock
 ```
 
 ---
@@ -75,13 +75,13 @@ dot unlock
 
 ```mermaid
 flowchart TD
-    A[User] --> B{dot command}
+    A[User] --> B{dots / sec / tok}
 
-    B -->|dot status| C[Show Status]
-    B -->|dot edit| D[Edit Workflow]
-    B -->|dot sync| E[Sync Workflow]
-    B -->|dot unlock| F[Unlock Bitwarden]
-    B -->|dot secret| G[Retrieve Secret]
+    B -->|dots status| C[Show Status]
+    B -->|dots edit| D[Edit Workflow]
+    B -->|dots sync| E[Sync Workflow]
+    B -->|sec unlock| F[Unlock Bitwarden]
+    B -->|sec| G[Retrieve Secret]
 
     D --> D1[Open in $EDITOR]
     D1 --> D2{Modified?}
@@ -135,10 +135,10 @@ flowchart TD
 
 ```bash
 # 1. Check current status
-dot
+dots
 
 # 2. Edit a file
-dot edit .zshrc
+dots edit .zshrc
 
 # 3. Preview changes (automatic)
 # Shows: Modified: ~/.zshrc
@@ -151,13 +151,13 @@ dot edit .zshrc
 ```
 
 **Time:** < 30 seconds
-**Commands:** 2 (`dot`, `dot edit .zshrc`)
+**Commands:** 2 (`dots`, `dots edit .zshrc`)
 
 ### Workflow 2: Sync from Another Machine
 
 ```bash
 # 1. Pull latest changes
-dot sync
+dots sync
 
 # 2. Review what changed
 # Shows: Remote has updates: [commit list]
@@ -167,20 +167,20 @@ dot sync
 # Press: y
 
 # 4. Apply changes (if needed)
-dot apply
+dots apply
 ```
 
 **Time:** 10-30 seconds
-**Commands:** 2 (`dot sync`, `dot apply`)
+**Commands:** 2 (`dots sync`, `dots apply`)
 
 ### Workflow 3: Push Local Changes
 
 ```bash
 # 1. Check what's modified
-dot diff
+dots diff
 
 # 2. Push changes
-dot push
+dots push
 
 # 3. Enter commit message
 # Prompt: Commit message:
@@ -190,16 +190,16 @@ dot push
 ```
 
 **Time:** 20-40 seconds
-**Commands:** 2-3 (`dot diff`, `dot push`)
+**Commands:** 2-3 (`dots diff`, `dots push`)
 
 ### Workflow 4: Use Secret in Template
 
 ```bash
 # 1. Unlock Bitwarden
-dot unlock
+sec unlock
 
 # 2. Edit template file
-dot edit .gitconfig
+dots edit .gitconfig
 
 # 3. Add secret reference in template
 # {{ bitwarden "item" "github-token" }}
@@ -209,7 +209,7 @@ dot edit .gitconfig
 ```
 
 **Time:** 1-2 minutes
-**Commands:** 2-3 (`dot unlock`, `dot edit`)
+**Commands:** 2-3 (`sec unlock`, `dots edit`)
 
 ---
 
@@ -277,10 +277,10 @@ bw status
 # Output: {"status":"locked",...}
 
 # 3. Unlock vault (per-session)
-dot unlock
+sec unlock
 
 # 4. Verify unlock
-dot secret list
+sec list
 ```
 
 ### Creating Items
@@ -340,13 +340,13 @@ Create tokens with guided wizards that handle validation and storage:
 
 ```bash
 # GitHub Personal Access Token
-dot token github
+tok github
 
 # NPM automation token
-dot token npm
+tok npm
 
 # PyPI project token
-dot token pypi
+tok pypi
 ```
 
 **Example wizard session:**
@@ -377,12 +377,12 @@ Paste your new token: ghp_xxxxxxxxxxxx
 Bitwarden sessions are cached for 15 minutes to reduce password prompts:
 
 ```bash
-dot unlock     # Unlocks for 15 minutes
-dot secret x   # Works without re-prompting
+sec unlock     # Unlocks for 15 minutes
+sec x   # Works without re-prompting
 # ... 14 minutes later ...
-dot secret y   # Still works (cached)
+sec y   # Still works (cached)
 # ... 16 minutes later ...
-dot secret z   # Prompts to unlock again
+sec z   # Prompts to unlock again
 ```
 
 ### Secrets Dashboard
@@ -390,7 +390,7 @@ dot secret z   # Prompts to unlock again
 View all tokens with expiration status:
 
 ```bash
-dot secrets
+sec dashboard
 ```
 
 **Dashboard output:**
@@ -421,10 +421,10 @@ Rotate expiring tokens with a single command:
 
 ```bash
 # Rotate a specific token
-dot token pypi-token --refresh
+tok pypi-token --refresh
 
 # Short form
-dot token pypi-token -r
+tok pypi-token -r
 ```
 
 **Rotation output:**
@@ -451,7 +451,7 @@ Paste your new token: pypi-xxxxxxxx
 **Sync to GitHub Actions:**
 
 ```bash
-dot secrets sync github
+sec sync github
 ```
 
 ```
@@ -468,7 +468,7 @@ Select secrets to sync:
 **Generate .envrc for direnv:**
 
 ```bash
-dot env init
+dots env
 ```
 
 ```
@@ -476,8 +476,8 @@ dot env init
 
   Contents:
   ─────────────────────────────
-  export GITHUB_TOKEN="$(dot secret github-token)"
-  export NPM_TOKEN="$(dot secret npm-token)"
+  export GITHUB_TOKEN="$(sec github-token)"
+  export NPM_TOKEN="$(sec npm-token)"
   ─────────────────────────────
 
 💡 Run 'direnv allow' to activate
@@ -507,8 +507,8 @@ dot env init
 **Apply:**
 
 ```bash
-dot unlock
-dot edit .gitconfig
+sec unlock
+dots edit .gitconfig
 # Changes applied → ~/.gitconfig has actual token
 ```
 
@@ -529,8 +529,8 @@ export PATH="$HOME/bin:$PATH"
 **Apply:**
 
 ```bash
-dot unlock
-dot edit .zshrc
+sec unlock
+dots edit .zshrc
 source ~/.zshrc
 ```
 
@@ -552,7 +552,7 @@ export NPM_TOKEN="{{ bitwarden "item" "npm-token" }}"
 **Apply:**
 
 ```bash
-dot unlock
+sec unlock
 chezmoi apply ~/.env.sh
 source ~/.env.sh
 ```
@@ -575,7 +575,7 @@ Host bitbucket.org
 **Apply:**
 
 ```bash
-dot edit .ssh/config
+dots edit .ssh/config
 ```
 
 ---
@@ -627,8 +627,8 @@ The `flow doctor` command includes dotfile health checks:
 **Run diagnostics:**
 
 ```bash
-# Via dot dispatcher
-dot doctor
+# Via dots dispatcher
+dots doctor
 
 # Via flow doctor
 flow doctor
@@ -641,7 +641,7 @@ flow doctor
 ### "Chezmoi not initialized"
 
 **Symptoms:**
-- `dot status` shows "Not initialized"
+- `dots status` shows "Not initialized"
 - Commands fail with errors
 
 **Solution:**
@@ -657,30 +657,30 @@ chezmoi init https://github.com/yourusername/dotfiles
 ### "Bitwarden vault is locked"
 
 **Symptoms:**
-- `dot secret` fails
+- `sec` fails
 - Template processing fails
 
 **Solution:**
 
 ```bash
 # Unlock vault
-dot unlock
+sec unlock
 
 # Try again
-dot secret github-token
+sec github-token
 ```
 
 ### "Item not found or access denied"
 
 **Symptoms:**
-- `dot secret <name>` fails
+- `sec <name>` fails
 - Template shows error
 
 **Solution:**
 
 ```bash
 # List all items (check exact name)
-dot secret list
+sec list
 
 # Check item exists
 bw get item github-token
@@ -689,21 +689,21 @@ bw get item github-token
 ### Changes Not Applied
 
 **Symptoms:**
-- `dot edit` succeeds but file unchanged
+- `dots edit` succeeds but file unchanged
 - Templates not processing
 
 **Solution:**
 
 ```bash
 # Check pending changes
-dot diff
+dots diff
 
 # Apply manually
-dot apply
+dots apply
 
 # For templates, ensure vault unlocked
-dot unlock
-dot apply
+sec unlock
+dots apply
 ```
 
 ### Session Token in History
@@ -713,7 +713,7 @@ dot apply
 
 **Solution:**
 
-The `dot unlock` command safely captures tokens without exposing them. History exclusion patterns prevent storage:
+The `sec unlock` command safely captures tokens without exposing them. History exclusion patterns prevent storage:
 
 ```bash
 # Verify history settings
@@ -730,18 +730,18 @@ This is automatically configured when dotfile helpers load.
 
 ### ✅ DO
 
-- **Unlock per-session:** Run `dot unlock` in each shell where you need secrets
+- **Unlock per-session:** Run `sec unlock` in each shell where you need secrets
 - **Lock when done:** Run `bw lock` after template operations
 - **Use templates:** Store templates in chezmoi, not plain files with secrets
-- **Capture securely:** Use `VAR=$(dot secret name)` to capture without echo
-- **Validate items:** Use `dot secret list` to verify item names before using
+- **Capture securely:** Use `VAR=$(sec name)` to capture without echo
+- **Validate items:** Use `sec list` to verify item names before using
 - **Review templates:** Check templates before applying to ensure no leaks
 
 ### ❌ DON'T
 
 - **Don't export globally:** Never add `export BW_SESSION=...` to `.zshrc`
 - **Don't commit secrets:** Never commit files with actual secret values
-- **Don't echo secrets:** Avoid `echo $(dot secret name)` in scripts
+- **Don't echo secrets:** Avoid `echo $(sec name)` in scripts
 - **Don't log secrets:** Ensure secrets aren't written to logs/history
 - **Don't share sessions:** Each user should unlock their own vault
 - **Don't hardcode tokens:** Use templates and Bitwarden instead
@@ -774,12 +774,12 @@ Keep dotfiles synced across machines:
 
 ```bash
 # Machine A (iMac): Make changes
-dot edit .zshrc
-dot push
+dots edit .zshrc
+dots push
 
 # Machine B (MacBook): Pull changes
-dot sync
-dot apply
+dots sync
+dots apply
 ```
 
 ### Conditional Templates
@@ -809,7 +809,7 @@ Access custom fields in Bitwarden items:
 
 ```bash
 # Rotate with guided wizard
-dot token github-token --refresh
+tok github-token --refresh
 
 # This opens browser, validates new token, updates Bitwarden
 # and reminds you to revoke the old token
@@ -822,8 +822,8 @@ dot token github-token --refresh
 bw edit item github-token
 
 # 2. Re-apply templates
-dot unlock
-dot apply
+sec unlock
+dots apply
 
 # 3. Verify new secret
 grep github-token ~/.gitconfig
@@ -835,32 +835,32 @@ grep github-token ~/.gitconfig
 
 | Command | Alias | Purpose |
 |---------|-------|---------|
-| `dot` | - | Show status (default) |
-| `dot status` | `dot s` | Show sync status |
-| `dot edit FILE` | `dot e FILE` | Edit dotfile with preview |
-| `dot sync` | - | Pull from remote |
-| `dot push` | `dot p` | Push to remote |
-| `dot diff` | `dot d` | Show pending changes |
-| `dot apply` | `dot a` | Apply changes |
-| `dot unlock` | `dot u` | Unlock Bitwarden vault (15-min session) |
-| `dot lock` | `dot l` | Lock Bitwarden vault |
-| `dot secret NAME` | - | Retrieve secret |
-| `dot secret list` | - | List all secrets |
-| `dot secrets` | - | Dashboard with expiration |
-| `dot token github` | `dot token gh` | GitHub PAT wizard |
-| `dot token npm` | - | NPM token wizard |
-| `dot token pypi` | `dot token pip` | PyPI token wizard |
-| `dot token NAME --refresh` | `dot token NAME -r` | Rotate existing token |
-| `dot secrets sync github` | - | Sync to GitHub Actions |
-| `dot env init` | - | Generate .envrc for direnv |
-| `dot doctor` | `dot dr` | Run diagnostics |
-| `dot help` | - | Show help |
+| `dots` | - | Show status (default) |
+| `dots status` | `dots s` | Show sync status |
+| `dots edit FILE` | `dots e FILE` | Edit dotfile with preview |
+| `dots sync` | - | Pull from remote |
+| `dots push` | `dots p` | Push to remote |
+| `dots diff` | `dots d` | Show pending changes |
+| `dots apply` | `dots a` | Apply changes |
+| `dots env` | - | Generate .envrc for direnv |
+| `dots doctor` | `dots dr` | Run diagnostics |
+| `dots help` | - | Show help |
+| `sec unlock` | `sec u` | Unlock Bitwarden vault (15-min session) |
+| `sec lock` | `sec l` | Lock Bitwarden vault |
+| `sec NAME` | - | Retrieve secret |
+| `sec list` | - | List all secrets |
+| `sec dashboard` | - | Dashboard with expiration |
+| `sec sync github` | - | Sync to GitHub Actions |
+| `tok github` | `tok gh` | GitHub PAT wizard |
+| `tok npm` | - | NPM token wizard |
+| `tok pypi` | `tok pip` | PyPI token wizard |
+| `tok rotate NAME` | - | Rotate existing token |
 
 ---
 
 ## See Also
 
-- [DOT-DISPATCHER-REFERENCE.md](../reference/MASTER-DISPATCHER-GUIDE.md#dot-dispatcher) - Complete command reference
+- [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dots-dispatcher) - Complete command reference
 - [Chezmoi Documentation](https://www.chezmoi.io/) - Official chezmoi docs
 - [Bitwarden CLI Documentation](https://bitwarden.com/help/cli/) - Official Bitwarden CLI docs
 

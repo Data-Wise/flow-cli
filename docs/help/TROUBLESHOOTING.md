@@ -249,7 +249,7 @@ git config --global credential.helper
 flow doctor --dot
 
 # Rotate if needed
-dot secret rotate GITHUB_TOKEN
+tok rotate GITHUB_TOKEN
 
 # OR set in environment
 export GITHUB_TOKEN="ghp_your_new_token"
@@ -259,7 +259,7 @@ export GITHUB_TOKEN="ghp_your_new_token"
 
 ```bash
 # Unlock keychain
-dot unlock
+sec unlock
 
 # If Touch ID fails:
 security unlock-keychain ~/Library/Keychains/login.keychain-db
@@ -389,7 +389,7 @@ flow doctor --dot
 
 **Symptom:**
 ```bash
-dot secret rotate GITHUB_TOKEN
+tok rotate GITHUB_TOKEN
 # Output: Error: Failed to update keychain
 ```
 
@@ -397,10 +397,10 @@ dot secret rotate GITHUB_TOKEN
 
 ```bash
 # Unlock keychain
-dot unlock
+sec unlock
 
 # Retry rotation
-dot secret rotate GITHUB_TOKEN
+tok rotate GITHUB_TOKEN
 ```
 
 **Solution 2: Touch ID not working**
@@ -427,7 +427,7 @@ dot secret rotate GITHUB_TOKEN
 
 **Symptom:**
 ```bash
-dot secret get GITHUB_TOKEN
+sec GITHUB_TOKEN
 # Output: Error: Token not found
 ```
 
@@ -435,11 +435,11 @@ dot secret get GITHUB_TOKEN
 
 ```bash
 # Store token
-dot secret set GITHUB_TOKEN
+sec add GITHUB_TOKEN
 # Enter token when prompted
 
 # Verify
-dot secret list
+sec list
 # Should show GITHUB_TOKEN
 ```
 

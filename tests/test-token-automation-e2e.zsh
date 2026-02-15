@@ -187,7 +187,7 @@ test_doctor_includes_token_health() {
 }
 
 test_flow_token_alias_works() {
-    log_test "flow token delegates to dot token"
+    log_test "flow token delegates to tok"
 
     # flow token should work (even if it shows help/error)
     local output=$(flow token 2>&1 || true)
@@ -204,9 +204,9 @@ test_flow_token_alias_works() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_dot_token_help_output() {
-    log_test "dot token help displays usage"
+    log_test "tok help displays usage"
 
-    local output=$(dot token help 2>/dev/null || dot help 2>/dev/null || true)
+    local output=$(tok help 2>/dev/null || dots help 2>/dev/null || true)
 
     if [[ -n "$output" ]]; then
         pass
@@ -216,10 +216,10 @@ test_dot_token_help_output() {
 }
 
 test_dot_token_expiring_help() {
-    log_test "dot token expiring has help or usage"
+    log_test "tok expiring has help or usage"
 
     # Should either show help or execute (both acceptable)
-    local output=$(dot token expiring 2>&1 || true)
+    local output=$(tok expiring 2>&1 || true)
 
     if [[ -n "$output" ]]; then
         pass
@@ -283,12 +283,12 @@ test_workflow_dash_dev_to_token_check() {
     fi
 
     # Step 2: Run token expiring check
-    local expiring_output=$(dot token expiring 2>&1 || true)
+    local expiring_output=$(tok expiring 2>&1 || true)
 
     if [[ -n "$expiring_output" ]]; then
         pass
     else
-        fail "dot token expiring produced no output"
+        fail "tok expiring produced no output"
     fi
 }
 
@@ -369,7 +369,7 @@ test_error_handling_missing_token() {
         -s "$_DOT_KEYCHAIN_SERVICE" 2>/dev/null || true
 
     # Should not crash
-    local output=$(dot token expiring 2>&1 || true)
+    local output=$(tok expiring 2>&1 || true)
 
     if [[ -n "$output" ]]; then
         pass

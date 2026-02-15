@@ -106,7 +106,7 @@
 $ git checkout dev
 $ claude
 
-User: "I want to add clipboard integration to dot secret"
+User: "I want to add clipboard integration to sec"
 Claude: [Creates spec, brainstorms, gets approval]
 Claude: [Updates spec with user decisions]
 Claude: [Commits spec to dev]

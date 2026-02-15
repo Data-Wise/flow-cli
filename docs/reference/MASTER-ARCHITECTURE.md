@@ -31,7 +31,7 @@
 graph TD
     User[User] --> CLI[flow.plugin.zsh Entry Point]
     CLI --> Core[Core Library]
-    CLI --> Dispatchers[13 Dispatchers]
+    CLI --> Dispatchers[15 Dispatchers]
     CLI --> Commands[Core Commands]
 
     Core --> Utils[Utilities]
@@ -45,7 +45,9 @@ graph TD
     Dispatchers --> MCP[mcp - MCP]
     Dispatchers --> OBS[obs - Obsidian]
     Dispatchers --> WT[wt - Worktrees]
-    Dispatchers --> DOT[dot - Dotfiles/Secrets]
+    Dispatchers --> DOTS[dots - Dotfiles]
+    Dispatchers --> SEC[sec - Secrets]
+    Dispatchers --> TOK[tok - Tokens]
     Dispatchers --> TEACH[teach - Teaching]
     Dispatchers --> TM[tm - Terminal]
     Dispatchers --> PROMPT[prompt - Prompt Engine]
@@ -62,7 +64,8 @@ graph TD
     Atlas -->|Yes| AtlasEngine[Atlas State Engine]
     Atlas -->|No| LocalState[Local State]
 
-    DOT --> Keychain[macOS Keychain]
+    SEC --> Keychain[macOS Keychain]
+    TOK --> Keychain
     G --> GitHub[GitHub API]
     TEACH --> Scholar[Scholar CLI]
     MCP --> MCPServers[MCP Servers]
@@ -86,7 +89,7 @@ flow-cli follows a layered architecture:
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 3: Commands & Dispatchers                            │
 │  - Core commands (work, dash, pick, doctor)                 │
-│  - 13 dispatchers (g, cc, r, qu, mcp, obs, wt, dot, teach, em) │
+│  - 15 dispatchers (g, cc, r, qu, mcp, obs, wt, dots, sec, tok, teach, em) │
 └─────────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -674,16 +677,16 @@ graph TD
 
 ```mermaid
 graph TD
-    User[User] --> dot[dot secret set]
-    dot --> TouchID{Touch ID}
+    User[User] --> sec[sec add]
+    sec --> TouchID{Touch ID}
     TouchID -->|Authorized| Keychain[macOS Keychain]
     TouchID -->|Denied| Error[❌ Access Denied]
 
     Keychain --> Encrypt[Encrypted Storage]
     Encrypt --> Secure[Secure Enclave]
 
-    App[Application] --> dotget[dot secret get]
-    dotget --> TouchID2{Touch ID}
+    App[Application] --> secget[sec name]
+    secget --> TouchID2{Touch ID}
     TouchID2 -->|Authorized| Keychain
     TouchID2 -->|Denied| Error2[❌ Access Denied]
     Keychain --> Decrypt[Decrypt]
