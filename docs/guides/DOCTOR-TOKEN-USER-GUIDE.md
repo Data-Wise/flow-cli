@@ -110,7 +110,7 @@ doctor --dot --verbose
 ```
 🔑 GITHUB TOKEN
 [Cache hit - age: 45s, TTL: 300s]
-[Delegation: dot token expiring]
+[Delegation: tok expiring]
 ✓ Token valid (45 days remaining)
   Username: your-username
   Token type: fine-grained
@@ -620,8 +620,8 @@ doctor --dot=github,npm,pypi  # Specific tokens
 
 ### Related Commands
 
-- `dot token expiring` - Manual token expiration check
-- `dot token rotate` - Manual token rotation
+- `tok expiring` - Manual token expiration check
+- `tok rotate` - Manual token rotation
 - `dash dev` - Developer dashboard with token status
 
 ### Provide Feedback

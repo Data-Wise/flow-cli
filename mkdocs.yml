@@ -232,6 +232,7 @@ nav:
           - Git Feature Flow: tutorials/08-git-feature-workflow.md
           - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
       - Dotfiles & Config:
+          - "Migration: dot → dots/sec/tok": guides/MIGRATION-DOT-SPLIT.md
           - Dotfile Workflow: guides/DOT-WORKFLOW.md
           - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
           - 🛡️ Chezmoi Safety Features: guides/CHEZMOI-SAFETY-GUIDE.md

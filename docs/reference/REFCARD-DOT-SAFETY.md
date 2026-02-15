@@ -6,12 +6,12 @@
 
 | Command                     | Description                          | Example                                 |
 | --------------------------- | ------------------------------------ | --------------------------------------- |
-| `dot add <path>`            | Preview and add files to chezmoi     | `dot add ~/.config/nvim`                |
-| `dot ignore add <pattern>`  | Add ignore pattern                   | `dot ignore add "*.log"`                |
-| `dot ignore list`           | List all ignore patterns             | `dot ignore list`                       |
-| `dot ignore remove <pat>`   | Remove ignore pattern                | `dot ignore remove "*.tmp"`             |
-| `dot ignore edit`           | Edit .chezmoiignore in $EDITOR       | `dot ignore edit`                       |
-| `dot size`                  | Show repository size and large files | `dot size`                              |
+| `dots add <path>`            | Preview and add files to chezmoi     | `dots add ~/.config/nvim`                |
+| `dots ignore add <pattern>`  | Add ignore pattern                   | `dots ignore add "*.log"`                |
+| `dots ignore list`           | List all ignore patterns             | `dots ignore list`                       |
+| `dots ignore remove <pat>`   | Remove ignore pattern                | `dots ignore remove "*.tmp"`             |
+| `dots ignore edit`           | Edit .chezmoiignore in $EDITOR       | `dots ignore edit`                       |
+| `dots size`                  | Show repository size and large files | `dots size`                              |
 | `flow doctor --dot`         | Run health checks                    | `flow doctor --dot`                     |
 | `flow doctor --fix-token`   | Fix token issues only                | `flow doctor --fix-token`               |
 
@@ -19,14 +19,14 @@
 
 | Alias            | Expands To          |
 | ---------------- | ------------------- |
-| `dot ignore ls`  | `dot ignore list`   |
-| `dot ignore rm`  | `dot ignore remove` |
+| `dots ignore ls`  | `dots ignore list`   |
+| `dots ignore rm`  | `dots ignore remove` |
 
 ---
 
 ## Preview Features
 
-When running `dot add <path>`, you get:
+When running `dots add <path>`, you get:
 
 ✅ **File Analysis**
 - File count (single file or directory)
@@ -44,7 +44,7 @@ When running `dot add <path>`, you get:
 **Example Output:**
 
 ```
-Preview: dot add /Users/dt/.config/obs
+Preview: dots add /Users/dt/.config/obs
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files to add: 8
 Total size: 301K
@@ -151,9 +151,9 @@ build/
 
 | Command             | Cached   | Uncached | Target  |
 | ------------------- | -------- | -------- | ------- |
-| `dot size`          | 5-8ms    | 3-5s     | <10ms   |
-| `dot ignore list`   | 5ms      | 50-100ms | <10ms   |
-| `dot add` (preview) | 100-200ms| 2-4s     | <500ms  |
+| `dots size`          | 5-8ms    | 3-5s     | <10ms   |
+| `dots ignore list`   | 5ms      | 50-100ms | <10ms   |
+| `dots add` (preview) | 100-200ms| 2-4s     | <500ms  |
 | `flow doctor --dot` | 2-3s     | 5-10s    | <3s     |
 
 ### Cache Management
@@ -195,20 +195,20 @@ brew install chezmoi
 chezmoi init
 
 # Add common ignore patterns
-dot ignore add "*.log"
-dot ignore add "*.sqlite"
-dot ignore add "node_modules"
-dot ignore add ".DS_Store"
+dots ignore add "*.log"
+dots ignore add "*.sqlite"
+dots ignore add "node_modules"
+dots ignore add ".DS_Store"
 ```
 
 ### Adding Files Safely
 
 ```bash
 # Single file
-dot add ~/.zshrc
+dots add ~/.zshrc
 
 # Directory (with preview)
-dot add ~/.config/nvim
+dots add ~/.config/nvim
 
 # Accept auto-ignore suggestions when prompted
 ```
@@ -220,10 +220,10 @@ dot add ~/.config/nvim
 flow doctor --dot
 
 # Monthly size check
-dot size
+dots size
 
 # Clean up if too large
-dot ignore add "large-file.db"
+dots ignore add "large-file.db"
 chezmoi remove large-file.db
 ```
 
@@ -233,7 +233,7 @@ chezmoi remove large-file.db
 # Add multiple patterns
 patterns=("*.log" "*.sqlite" "*.db" "*.cache")
 for pattern in "${patterns[@]}"; do
-  dot ignore add "$pattern"
+  dots ignore add "$pattern"
 done
 ```
 
@@ -245,7 +245,7 @@ done
 | -------------------------------- | ---------------------------------------------- |
 | Preview shows wrong size         | Clear cache: `unset _DOT_SIZE_CACHE`           |
 | Timeout during large scan        | Add directory to ignore first                  |
-| Ignore patterns not working      | Check syntax: `dot ignore list`                |
+| Ignore patterns not working      | Check syntax: `dots ignore list`                |
 | Performance issues               | Increase cache TTL: `export _DOT_CACHE_TTL=1800` |
 | Doctor check fails               | See specific error and follow fix instructions |
 | Cross-platform size issues       | Install GNU coreutils: `brew install coreutils` |
@@ -276,7 +276,7 @@ export DOT_SKIP_PREVIEW=1
 
 ## Exit Codes
 
-### `dot add`
+### `dots add`
 - `0` - User confirmed, add succeeded
 - `1` - User cancelled or validation failed
 
@@ -326,7 +326,7 @@ configs=(
 )
 
 for config in "${configs[@]}"; do
-  dot add "$config"
+  dots add "$config"
 done
 ```
 
@@ -344,8 +344,8 @@ done
 **Quick Help:**
 
 ```bash
-dot help             # Show all commands
-dot ignore help      # Ignore pattern help
+dots help            # Show all commands
+dots ignore help     # Ignore pattern help
 flow doctor --help   # Doctor command help
 ```
 
