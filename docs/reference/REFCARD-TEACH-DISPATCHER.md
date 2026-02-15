@@ -441,7 +441,7 @@ teach status --performance        # Review metrics
 ### API Documentation
 
 - [MASTER-API-REFERENCE.md](MASTER-API-REFERENCE.md) — Function signatures
-- [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) — All 13 dispatchers
+- [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) — All 15 dispatchers
 
 ### Architecture
 

@@ -66,7 +66,7 @@
 ## Quick Links
 
 - [MASTER-API-REFERENCE.md](reference/MASTER-API-REFERENCE.md) - Complete API documentation
-- [MASTER-DISPATCHER-GUIDE.md](reference/MASTER-DISPATCHER-GUIDE.md) - All 13 dispatchers
+- [MASTER-DISPATCHER-GUIDE.md](reference/MASTER-DISPATCHER-GUIDE.md) - All 15 dispatchers
 - [MASTER-ARCHITECTURE.md](reference/MASTER-ARCHITECTURE.md) - System architecture
 - [QUICK-REFERENCE.md](help/QUICK-REFERENCE.md) - Command quick reference
 - [TROUBLESHOOTING.md](help/TROUBLESHOOTING.md) - Common issues
