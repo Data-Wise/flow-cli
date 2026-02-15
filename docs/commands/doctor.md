@@ -519,5 +519,5 @@ The `doctor` command follows these principles:
 ---
 
 **Last Updated:** 2026-02-12
-**Command Version:** v7.0.1 (doctor v2.0 — email integration)
+**Command Version:** v7.1.0 (doctor v2.0 — email integration)
 **Status:** ✅ Production ready with interactive install + email diagnostics
