@@ -9,21 +9,22 @@
 ## Priority: 2
 ## Progress: 85
 
-## Current Session (2026-02-12)
+## Current Session (2026-02-14)
 
 **Session activity:**
-- review: code review of PR #377 (nvim himalaya integration) — 3 critical fixes
-- fix: restored HIMALAYA-SETUP.md CLI docs, split Neovim guide, added test guards
-- merge: PR #377 merged to dev
-- docs: post-merge pipeline — file counts, changelog, nav verified
-- docs: gap analysis — 6 fixes (architecture diagram, cross-refs)
-- release: v7.0.1 — PR #378 merged to main, tagged, GitHub release created
-- deploy: docs site deployed for v7.0.1
-- cleanup: worktree removed, feature branch deleted
+- review: code review of PR #381 (dot dispatcher split) — 3 issues found
+- fix: stale `_dot_token_*` refs in docs, dots-dispatcher header, CHANGELOG history
+- merge: PR #381 merged to dev, worktree cleaned up
+- docs: site update — dispatcher count 13→15, What's New banner for v7.1.0
+- release: v7.1.0 — PR #382 merged to main, tagged, GitHub release created
+- fix: Node 22.x in release workflow, package.json version bump
+- chore: removed semantic-release (incompatible with branch protection, manual releases used)
+- deploy: docs site deployed for v7.1.0
 
-**Previous session (2026-02-11):**
-- release: v7.0.0 — Email Dispatcher released
-- merge: PR #376 merged (dev → main), tagged v7.0.0
+**Previous session (2026-02-12):**
+- review: code review of PR #377 (nvim himalaya integration) — 3 critical fixes
+- release: v7.0.1 — PR #378 merged to main, tagged
+- deploy: docs site deployed for v7.0.1
 
 **Test suite:** 45/45 passing, 1 timeout (expected IMAP), 181 test files
 
@@ -31,32 +32,31 @@
 
 ## Recent Releases
 
+### v7.1.0 (2026-02-14) — Dispatcher Split: dots, sec, tok
+- Split monolithic `dot` dispatcher (4,395 lines) into 3 focused dispatchers
+- `dots` — dotfile management, `sec` — secret management, `tok` — token management
+- 15 dispatchers total (was 13), 91 files updated
+- Migration guide, new E2E/dogfood tests, backward compat for `--dot` flags
+- Removed semantic-release workflow (manual releases via `gh release create`)
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.1.0
+
 ### v7.0.1 (2026-02-12) — Himalaya Neovim Docs + Architecture Fixes
 - Himalaya Neovim integration docs (setup guide, tutorial, refcard)
 - Architecture diagram: em dispatcher added (12→13), himalaya in Layer 0
-- Cross-references between CLI and Neovim email documentation
-- 3 test suites with file-existence guards
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.0.1
 
 ### v7.0.0 (2026-02-11) — Email Dispatcher
 - 13th dispatcher: `em` — ADHD-friendly email management via himalaya
 - 18 subcommands, 6-layer architecture, AI classify/summarize/draft
-- fzf picker, smart rendering, batch triage with `em respond`
-- 181 test files, 45/45 suites passing
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.0.0
 
 ### v6.7.1 (2026-02-10) — Fix #372 + Branch Sync
 - False positive conflict detection fix (--no-merges filter)
-- Auto back-merge, `teach deploy --sync`, always block cleanup
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.7.1
 
 ### v6.7.0 (2026-02-10) — Math Preflight + Quality Gates
 - Display math validation, pre-commit gate, deploy preflight math check
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.7.0
-
-### v6.6.0 (2026-02-09) — Teach Map + Deploy Safety
-- `teach map` — unified ecosystem discovery command
-- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v6.6.0
 
 ---
 
@@ -64,15 +64,12 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.0.1 released, synced with main |
+| Main repo | `dev` | v7.1.0 released, synced with main |
+| feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
 
 ---
 
 ## Pending
-
-### Homebrew Formula Update
-- **Status:** Needs v7.0.1 formula update in homebrew-tap
-- **Effort:** 15 min
 
 ### Feature Request #299: Scholar Config Sync
 - **Status:** Ready to implement (#298 complete)
@@ -86,20 +83,21 @@
 ### Future Enhancements
 - Token automation Phases 2-4 (multi-token, gamification)
 - Config → concept graph integration
+- Code workspace manager (`code ws` dispatcher)
 - Quarto workflow Phase 2
 
 ---
 
 ## Next Action
 
-1. **Homebrew formula** — update tap for v7.0.1
-2. Scholar Config Sync (#299) — next feature candidate
-3. API documentation push (50% → 80%)
+1. Scholar Config Sync (#299) — next feature candidate
+2. API documentation push (50% → 80%)
+3. Code workspace manager — spec ready on dev
 
 ---
 
-**Last Updated:** 2026-02-12
-**Status:** v7.0.1 released | 45/45 tests passing | 15 dispatchers | 181 test files | 8000+ test functions
+**Last Updated:** 2026-02-14
+**Status:** v7.1.0 released | 45/45 tests passing | 15 dispatchers | 181 test files | 8000+ test functions
 ## wins: Fixed the regression bug (2026-02-14), --category fix squashed the bug (2026-02-14), fixed the bug (2026-02-14), Fixed the regression bug (2026-02-14), --category fix squashed the bug (2026-02-14)
 ## streak: 1
 ## last_active: 2026-02-14 21:39
