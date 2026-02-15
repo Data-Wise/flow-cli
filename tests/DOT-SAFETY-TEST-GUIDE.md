@@ -164,7 +164,7 @@ Comprehensive testing guide for dot safety features (v6.0.0).
 #### Section 1: Help & Documentation (2 tests)
 
 - Display `dot help`
-- Display `dot ignore help`
+- Display `dots ignore help`
 
 #### Section 2: Ignore Pattern Management (3 tests)
 
@@ -314,10 +314,10 @@ Expected performance (from test suite):
 
 | Operation                | Cached | Uncached | Target |
 | ------------------------ | ------ | -------- | ------ |
-| `dot size`               | 5-8ms  | 3-5s     | <10ms  |
+| `dots size`               | 5-8ms  | 3-5s     | <10ms  |
 | `_flow_get_file_size`    | N/A    | 7ms      | <10ms  |
 | `_dot_check_git_in_path` | N/A    | <2s      | <2s    |
-| `dot ignore list`        | 5ms    | 50ms     | <10ms  |
+| `dots ignore list`        | 5ms    | 50ms     | <10ms  |
 | `flow doctor --dot`      | 2-3s   | 5-10s    | <3s    |
 
 **Note:** First run always slower due to cache population.

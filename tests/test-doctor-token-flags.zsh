@@ -329,7 +329,7 @@ test_dot_equals_invalid_shows_error() {
 test_specific_token_delegates() {
     log_test "C4. Specific token delegates correctly"
 
-    # Check that dot token expiring function exists (used for delegation)
+    # Check that tok expiring function exists (used for delegation)
     if type _tok_expiring &>/dev/null; then
         pass
     else

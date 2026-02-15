@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# tests/test-dot-dispatcher.zsh - Comprehensive test suite for dot dispatcher
+# tests/test-dot-dispatcher.zsh - Comprehensive test suite for dots/sec/tok dispatchers
 # Run: zsh tests/test-dot-dispatcher.zsh
 
 # ============================================================================
@@ -123,7 +123,7 @@ echo "${fg_bold[white]}Test Suite 1: Core Functions${reset_color}"
 echo "${fg[cyan]}────────────────────────────────────────────────────────────${reset_color}"
 echo ""
 
-# Test: Main dot function exists
+# Test: Main dots function exists
 test_assert_function_exists "dots" "Main dots function exists"
 
 # Test: Helper functions exist
@@ -318,9 +318,9 @@ if [[ -n "$HISTIGNORE" ]]; then
   fi
 
   if [[ "$HISTIGNORE" == *"sec"* ]]; then
-    test_pass "HISTIGNORE contains 'dot secret'"
+    test_pass "HISTIGNORE contains 'sec'"
   else
-    test_fail "HISTIGNORE contains 'dot secret'" "Not found in: $HISTIGNORE"
+    test_fail "HISTIGNORE contains 'sec'" "Not found in: $HISTIGNORE"
   fi
 
   ((TESTS_RUN+=4))
@@ -435,18 +435,18 @@ echo ""
 # Test: Help command
 output=$(dots help 2>&1)
 if [[ "$output" == *"dot"* ]] || [[ "$output" == *"Dotfile"* ]]; then
-  test_pass "dot help displays help text"
+  test_pass "dots help displays help text"
 else
-  test_fail "dot help displays help text" "No help text found"
+  test_fail "dots help displays help text" "No help text found"
 fi
 ((TESTS_RUN++))
 
 # Test: Version command
 output=$(dots version 2>&1)
 if [[ "$output" == *"dot"* ]] || [[ "$output" == *"version"* ]] || [[ "$output" == *"Phase"* ]]; then
-  test_pass "dot version displays version info"
+  test_pass "dots version displays version info"
 else
-  test_fail "dot version displays version info" "No version info found"
+  test_fail "dots version displays version info" "No version info found"
 fi
 ((TESTS_RUN++))
 
@@ -594,17 +594,17 @@ test_assert_function_exists "_dotf_has_bitwarden_template" "_dotf_has_bitwarden_
 # Test 12.4: _dots_print_summary function exists
 test_assert_function_exists "_dots_print_summary" "_dots_print_summary helper exists"
 
-# Test 12.5: dot add fails without file argument
+"# Test 12.5: dots add fails without file argument
 output=$(_dots_add 2>&1)
 exit_code=$?
 ((TESTS_RUN++))
-if [[ $exit_code -ne 0 ]] && [[ "$output" == *"Usage: dot add"* ]]; then
+if [[ $exit_code -ne 0 ]] && [[ "$output" == *"Usage: dots add"* ]]; then
   test_pass "_dots_add shows usage when called without argument"
 else
   test_fail "_dots_add shows usage when called without argument" "Exit: $exit_code, Output: $output"
 fi
 
-# Test 12.6: dot add fails for non-existent file
+"# Test 12.6: dots add fails for non-existent file
 output=$(_dots_add "/nonexistent/file/that/does/not/exist.txt" 2>&1)
 exit_code=$?
 ((TESTS_RUN++))
@@ -677,22 +677,22 @@ else
   test_fail "_dots_print_summary shows apply tip for Staging" "Output: $output"
 fi
 
-# Test 12.13: dot help includes add command
+"# Test 12.13: dots help includes add command
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"dots add"* ]]; then
-  test_pass "dot help includes add command"
+  test_pass "dots help includes add command"
 else
-  test_fail "dot help includes add command" "Output didn't mention 'dot add'"
+  test_fail "dots help includes add command" "Output didn't mention 'dots add'"
 fi
 
-# Test 12.14: dot help shows auto-add/create in edit description
+"# Test 12.14: dots help shows auto-add/create in edit description
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"auto-add"* ]] || [[ "$output" == *"Create"* ]]; then
-  test_pass "dot help shows create capability in edit"
+  test_pass "dots help shows create capability in edit"
 else
-  test_fail "dot help shows create capability in edit" "Output didn't mention create feature"
+  test_fail "dots help shows create capability in edit" "Output didn't mention create feature"
 fi
 
 # Test 12.15: ZDOTDIR is respected in security check
@@ -835,29 +835,29 @@ else
   test_fail "DOT_SESSION_IDLE_TIMEOUT default is 15 min (900s)" "Got: $DOT_SESSION_IDLE_TIMEOUT"
 fi
 
-# Test 13.6: dot help includes lock command
+"# Test 13.6: dots help includes lock command
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"sec lock"* ]]; then
-  test_pass "dot help includes lock command"
+  test_pass "dots help includes lock command"
 else
-  test_fail "dot help includes lock command" "Output didn't mention 'dot lock'"
+  test_fail "dots help includes lock command" "Output didn't mention 'dots lock'"
 fi
 
-# Test 13.7: dot help includes secret add command
+"# Test 13.7: dots help includes sec add command
 ((TESTS_RUN++))
 if [[ "$output" == *"secret add"* ]]; then
-  test_pass "dot help includes secret add command"
+  test_pass "dots help includes sec add command"
 else
-  test_fail "dot help includes secret add command" "Output didn't mention 'secret add'"
+  test_fail "dots help includes sec add command" "Output didn't mention 'sec add'"
 fi
 
-# Test 13.8: dot help includes secret check command
+"# Test 13.8: dots help includes sec check command
 ((TESTS_RUN++))
 if [[ "$output" == *"secret check"* ]]; then
-  test_pass "dot help includes secret check command"
+  test_pass "dots help includes sec check command"
 else
-  test_fail "dot help includes secret check command" "Output didn't mention 'secret check'"
+  test_fail "dots help includes sec check command" "Output didn't mention 'sec check'"
 fi
 
 # Test 13.9: sec help shows usage info
@@ -987,16 +987,16 @@ else
   test_fail "tok help lists pypi wizard"
 fi
 
-# Test 14.11: dot token with no args shows help (not error)
+"# Test 14.11: tok with no args shows help (not error)
 output=$(tok 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"DOT TOKEN"* ]]; then
-  test_pass "dot token with no args shows help"
+  test_pass "tok with no args shows help"
 else
-  test_fail "dot token with no args shows help" "Output: $output"
+  test_fail "tok with no args shows help" "Output: $output"
 fi
 
-# Test 14.12: dot token with invalid provider shows error + help
+"# Test 14.12: tok with invalid provider shows error + help
 output=$(tok invalid 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"Unknown token provider"* && "$output" == *"github, npm, pypi"* ]]; then
@@ -1005,41 +1005,41 @@ else
   test_fail "tok invalid shows error with supported providers"
 fi
 
-# Test 14.13: dot help includes token wizards section
+"# Test 14.13: dots help includes token wizards section
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"TOKEN MANAGEMENT"* ]]; then
-  test_pass "dot help includes TOKEN MANAGEMENT section"
+  test_pass "dots help includes TOKEN MANAGEMENT section"
 else
-  test_fail "dot help includes TOKEN MANAGEMENT section" "Output didn't mention 'TOKEN MANAGEMENT'"
+  test_fail "dots help includes TOKEN MANAGEMENT section" "Output didn't mention 'TOKEN MANAGEMENT'"
 fi
 
-# Test 14.14: dot help includes dot secrets command
+"# Test 14.14: dots help includes sec command
 ((TESTS_RUN++))
 if [[ "$output" == *"sec"* ]]; then
-  test_pass "dot help includes dot secrets command"
+  test_pass "dots help includes sec command"
 else
-  test_fail "dot help includes dot secrets command"
+  test_fail "dots help includes sec command"
 fi
 
-# Test 14.15: dot help lists all three token wizards
+"# Test 14.15: dots help lists all three token wizards
 ((TESTS_RUN++))
 if [[ "$output" == *"tok github"* && "$output" == *"tok npm"* && "$output" == *"tok pypi"* ]]; then
-  test_pass "dot help lists all three token wizards"
+  test_pass "dots help lists all three token wizards"
 else
-  test_fail "dot help lists all three token wizards"
+  test_fail "dots help lists all three token wizards"
 fi
 
-# Test 14.16: dot version shows v2.x.x
+"# Test 14.16: dots version shows v2.x.x
 output=$(dots version 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"v2."* ]]; then
-  test_pass "dot version shows v2.x.x"
+  test_pass "dots version shows v2.x.x"
 else
-  test_fail "dot version shows v2.x.x" "Got: $output"
+  test_fail "dots version shows v2.x.x" "Got: $output"
 fi
 
-# Test 14.17: dot token aliases work (gh → github)
+"# Test 14.17: tok aliases work (gh → github)
 output=$(tok gh 2>&1)
 ((TESTS_RUN++))
 # Should not say "Unknown token provider" for gh alias
@@ -1049,7 +1049,7 @@ else
   test_fail "tok gh alias is recognized"
 fi
 
-# Test 14.18: dot token aliases work (pip → pypi)
+"# Test 14.18: tok aliases work (pip → pypi)
 output=$(tok pip 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" != *"Unknown token provider"* ]]; then
@@ -1096,61 +1096,61 @@ else
   test_fail "tok help includes rotation info"
 fi
 
-# Test 15.4: dot token <name> --refresh syntax recognized
+"# Test 15.4: tok <name> --refresh syntax recognized
 output=$(tok nonexistent-token --refresh 2>&1)
 ((TESTS_RUN++))
 # Should show "Looking up" (unlocked) or "Unlocking" (locked) - not "Unknown token provider"
 if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
-  test_pass "dot token <name> --refresh syntax recognized"
+  test_pass "tok <name> --refresh syntax recognized"
 else
-  test_fail "dot token <name> --refresh syntax recognized"
+  test_fail "tok <name> --refresh syntax recognized"
 fi
 
-# Test 15.5: dot token refresh <name> alternate syntax recognized
+"# Test 15.5: tok refresh <name> alternate syntax recognized
 output=$(tok refresh nonexistent-token 2>&1)
 ((TESTS_RUN++))
 # Should recognize refresh as the flag, not as a provider
 if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
-  test_pass "dot token refresh <name> syntax recognized"
+  test_pass "tok refresh <name> syntax recognized"
 else
-  test_fail "dot token refresh <name> syntax recognized"
+  test_fail "tok refresh <name> syntax recognized"
 fi
 
-# Test 15.6: dot help includes TOKEN MANAGEMENT section
+"# Test 15.6: dots help includes TOKEN MANAGEMENT section
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"TOKEN MANAGEMENT"* ]]; then
-  test_pass "dot help includes TOKEN MANAGEMENT section"
+  test_pass "dots help includes TOKEN MANAGEMENT section"
 else
-  test_fail "dot help includes TOKEN MANAGEMENT section"
+  test_fail "dots help includes TOKEN MANAGEMENT section"
 fi
 
-# Test 15.7: dot help includes --refresh command
+"# Test 15.7: dots help includes --refresh command
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"--refresh"* ]]; then
-  test_pass "dot help includes --refresh command"
+  test_pass "dots help includes --refresh command"
 else
-  test_fail "dot help includes --refresh command"
+  test_fail "dots help includes --refresh command"
 fi
 
 # Test 15.8: Version shows v2.x.x (Phase 3+)
 output=$(dots version 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"v2."* ]] || [[ "$output" == *"2.1"* ]] || [[ "$output" == *"2.2"* ]]; then
-  test_pass "dot version shows v2.x.x"
+  test_pass "dots version shows v2.x.x"
 else
-  test_fail "dot version shows v2.x.x"
+  test_fail "dots version shows v2.x.x"
 fi
 
-# Test 15.9: dot token -r is recognized as refresh flag
+"# Test 15.9: tok -r is recognized as refresh flag
 output=$(tok nonexistent -r 2>&1)
 ((TESTS_RUN++))
 # Should recognize -r as refresh flag, not treat nonexistent as provider
 if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
-  test_pass "dot token -r is recognized as refresh flag"
+  test_pass "tok -r is recognized as refresh flag"
 else
-  test_fail "dot token -r is recognized as refresh flag"
+  test_fail "tok -r is recognized as refresh flag"
 fi
 
 # Test 15.10: Token rotation requires DOT metadata
@@ -1208,31 +1208,31 @@ else
   test_fail "_dots_env_init function exists"
 fi
 
-# Test 16.5: dot help includes INTEGRATION section
+"# Test 16.5: dots help includes INTEGRATION section
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"INTEGRATION"* ]]; then
-  test_pass "dot help includes INTEGRATION section"
+  test_pass "dots help includes INTEGRATION section"
 else
-  test_fail "dot help includes INTEGRATION section"
+  test_fail "dots help includes INTEGRATION section"
 fi
 
-# Test 16.6: dot help includes sec sync
+"# Test 16.6: dots help includes sec sync
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"secrets sync"* ]]; then
-  test_pass "dot help includes secrets sync command"
+  test_pass "dots help includes secrets sync command"
 else
-  test_fail "dot help includes secrets sync command"
+  test_fail "dots help includes secrets sync command"
 fi
 
-# Test 16.7: dot help includes dot env init
+"# Test 16.7: dots help includes dots env init
 output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"env init"* ]]; then
-  test_pass "dot help includes env init command"
+  test_pass "dots help includes env init command"
 else
-  test_fail "dot help includes env init command"
+  test_fail "dots help includes env init command"
 fi
 
 # Test 16.8: sec sync without target shows usage
@@ -1253,13 +1253,13 @@ else
   test_fail "sec sync unknown shows error"
 fi
 
-# Test 16.10: dot env without subcommand shows help
+"# Test 16.10: dots env without subcommand shows help
 output=$(dots env 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"Usage"* ]] || [[ "$output" == *"init"* ]]; then
-  test_pass "dot env without subcommand shows help"
+  test_pass "dots env without subcommand shows help"
 else
-  test_fail "dot env without subcommand shows help"
+  test_fail "dots env without subcommand shows help"
 fi
 
 # Test 16.11: dots env help shows usage
@@ -1284,9 +1284,9 @@ fi
 output=$(dots version 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"2.2"* ]]; then
-  test_pass "dot version shows v2.2.x"
+  test_pass "dots version shows v2.2.x"
 else
-  test_fail "dot version shows v2.2.x"
+  test_fail "dots version shows v2.2.x"
 fi
 
 echo ""

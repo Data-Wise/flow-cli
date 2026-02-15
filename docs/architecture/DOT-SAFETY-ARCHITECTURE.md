@@ -95,9 +95,9 @@ graph LR
     end
 
     subgraph "Layer 4: User Commands"
-        L4A[dot add]
-        L4B[dot ignore]
-        L4C[dot size]
+        L4A[dots add]
+        L4B[dots ignore]
+        L4C[dots size]
         L4D[flow doctor]
     end
 
@@ -241,7 +241,7 @@ sequenceDiagram
     participant Cache
     participant FileSystem
 
-    User->>Command: dot size
+    User->>Command: dots size
     Command->>Cache: _dot_get_cached_size()
     Cache->>Cache: _dot_is_cache_valid()
     alt Cache Valid
@@ -273,7 +273,7 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-    Start[User: dot add path] --> Validate{Path Exists?}
+    Start[User: dots add path] --> Validate{Path Exists?}
     Validate -->|No| Error[Error: Not Found]
     Validate -->|Yes| Analyze[Analyze Files]
 
@@ -460,10 +460,10 @@ _dot_suggest_ignore_patterns() {
 ```mermaid
 graph LR
     subgraph "Ignore Commands"
-        Add[dot ignore add]
-        List[dot ignore list]
-        Remove[dot ignore remove]
-        Edit[dot ignore edit]
+        Add[dots ignore add]
+        List[dots ignore list]
+        Remove[dots ignore remove]
+        Edit[dots ignore edit]
     end
 
     subgraph "File Operations"
@@ -517,7 +517,7 @@ sequenceDiagram
     participant FileSystem
     participant Doctor
 
-    User->>SizeCmd: dot size
+    User->>SizeCmd: dots size
     SizeCmd->>Cache: Check cache
 
     alt Cache valid
@@ -597,7 +597,7 @@ sequenceDiagram
     participant Cache
     participant Chezmoi
 
-    User->>DotAdd: dot add ~/.config/nvim
+    User->>DotAdd: dots add ~/.config/nvim
     DotAdd->>Preview: _dot_preview_add()
 
     Preview->>Platform: _flow_get_file_size() × N files
@@ -631,7 +631,7 @@ sequenceDiagram
     participant Cache
     participant FileSystem
 
-    User->>SizeCmd: dot size
+    User->>SizeCmd: dots size
     SizeCmd->>Cache: _dot_get_cached_size()
 
     alt Cache hit (85%)
@@ -685,7 +685,7 @@ stateDiagram-v2
 ### Performance Impact
 
 **Before Caching:**
-- Every `dot size` command: 3-5 seconds
+- Every `dots size` command: 3-5 seconds
 - Doctor checks: 60+ seconds
 - User frustration: high
 

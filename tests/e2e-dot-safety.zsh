@@ -163,7 +163,7 @@ test_add_with_git_detection() {
   echo "test" > "$E2E_TEST_DIR/test-nvim/.git/config"
   test_pass
 
-  # Run dot add with git detection
+  # Run dots add with git detection
   test_start "Detect .git directory in path"
   local output
   output=$(_dotf_check_git_in_path "$E2E_TEST_DIR/test-nvim" 2>&1)

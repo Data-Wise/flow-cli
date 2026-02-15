@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Test script for dot secret (macOS Keychain integration)
+# Test script for sec (macOS Keychain integration) (macOS Keychain integration)
 # Tests: add, get, list, delete operations
 
 # ============================================================================
@@ -653,7 +653,7 @@ test_import_function_exists() {
 main() {
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo "  DOT SECRET KEYCHAIN TESTS"
+    echo "  SEC KEYCHAIN TESTS"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
     # Check if running on macOS

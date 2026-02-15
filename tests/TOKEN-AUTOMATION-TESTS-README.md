@@ -128,11 +128,11 @@ Testing: flow doctor includes GitHub token check ... ✓ PASS
 
 **Tasks:**
 
-1. Check token expiration (`dot token expiring`)
+1. Check token expiration (`tok expiring`)
 2. View token in dashboard (`dash dev`)
 3. Health check with doctor (`flow doctor`)
 4. Flow token alias (`flow token expiring`)
-5. Help system (`dot token help`)
+5. Help system (`tok help`)
 6. Git remote detection
 7. Token age calculation logic
 8. Expiration warning threshold (7 days)

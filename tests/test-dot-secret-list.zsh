@@ -50,7 +50,7 @@ strip_ansi() {
 
 echo ""
 echo "${fg[cyan]}════════════════════════════════════════════════════════════${reset_color}"
-echo "${fg[cyan]}║${reset_color}  ${fg_bold[white]}Dot Secret List - Unit & E2E Tests${reset_color}                  ${fg[cyan]}║${reset_color}"
+echo "${fg[cyan]}║${reset_color}  ${fg_bold[white]}Sec List - Unit & E2E Tests${reset_color}                  ${fg[cyan]}║${reset_color}"
 echo "${fg[cyan]}════════════════════════════════════════════════════════════${reset_color}"
 echo ""
 
@@ -216,7 +216,7 @@ fi
 
 # Check rotation command hint
 ((TESTS_RUN++))
-if grep -q 'dot token rotate' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+if grep -q 'tok rotate' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
   test_pass "Rotation command hint exists"
 else
   test_fail "Missing rotation command hint"
@@ -399,7 +399,7 @@ fi
 
 # Check for add hint in empty state
 ((TESTS_RUN++))
-if grep -q 'dot secret add' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
+if grep -q 'sec add' "$PLUGIN_DIR/lib/keychain-helpers.zsh" 2>/dev/null; then
   test_pass "Add hint exists for empty state"
 else
   test_fail "Missing add hint for empty state"
