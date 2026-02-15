@@ -124,35 +124,35 @@ echo "${fg[cyan]}─────────────────────
 echo ""
 
 # Test: Main dot function exists
-test_assert_function_exists "dot" "Main dot function exists"
+test_assert_function_exists "dots" "Main dots function exists"
 
 # Test: Helper functions exist
-test_assert_function_exists "_dot_has_chezmoi" "Helper: _dot_has_chezmoi exists"
-test_assert_function_exists "_dot_has_bw" "Helper: _dot_has_bw exists"
-test_assert_function_exists "_dot_has_mise" "Helper: _dot_has_mise exists"
-test_assert_function_exists "_dot_require_tool" "Helper: _dot_require_tool exists"
+test_assert_function_exists "_dotf_has_chezmoi" "Helper: _dotf_has_chezmoi exists"
+test_assert_function_exists "_dotf_has_bw" "Helper: _dotf_has_bw exists"
+test_assert_function_exists "_dotf_has_mise" "Helper: _dotf_has_mise exists"
+test_assert_function_exists "_dotf_require_tool" "Helper: _dotf_require_tool exists"
 
 # Test: Status functions exist
-test_assert_function_exists "_dot_get_sync_status" "Status: _dot_get_sync_status exists"
-test_assert_function_exists "_dot_get_modified_files" "Status: _dot_get_modified_files exists"
-test_assert_function_exists "_dot_get_modified_count" "Status: _dot_get_modified_count exists"
-test_assert_function_exists "_dot_get_tracked_count" "Status: _dot_get_tracked_count exists"
-test_assert_function_exists "_dot_get_last_sync_time" "Status: _dot_get_last_sync_time exists"
-test_assert_function_exists "_dot_format_status" "Status: _dot_format_status exists"
+test_assert_function_exists "_dots_get_sync_status" "Status: _dots_get_sync_status exists"
+test_assert_function_exists "_dots_get_modified_files" "Status: _dots_get_modified_files exists"
+test_assert_function_exists "_dots_get_modified_count" "Status: _dots_get_modified_count exists"
+test_assert_function_exists "_dots_get_tracked_count" "Status: _dots_get_tracked_count exists"
+test_assert_function_exists "_dots_get_last_sync_time" "Status: _dots_get_last_sync_time exists"
+test_assert_function_exists "_dotf_format_status" "Status: _dotf_format_status exists"
 
 # Test: Dashboard functions exist
-test_assert_function_exists "_dot_get_status_line" "Dashboard: _dot_get_status_line exists"
+test_assert_function_exists "_dotf_get_status_line" "Dashboard: _dotf_get_status_line exists"
 
 # Test: Bitwarden functions exist
-test_assert_function_exists "_dot_bw_session_valid" "Bitwarden: _dot_bw_session_valid exists"
-test_assert_function_exists "_dot_bw_get_status" "Bitwarden: _dot_bw_get_status exists"
+test_assert_function_exists "_dotf_bw_session_valid" "Bitwarden: _dotf_bw_session_valid exists"
+test_assert_function_exists "_dotf_bw_get_status" "Bitwarden: _dotf_bw_get_status exists"
 
 # Test: Security functions exist
-test_assert_function_exists "_dot_security_init" "Security: _dot_security_init exists"
-test_assert_function_exists "_dot_security_check_bw_session" "Security: _dot_security_check_bw_session exists"
+test_assert_function_exists "_dotf_security_init" "Security: _dotf_security_init exists"
+test_assert_function_exists "_dotf_security_check_bw_session" "Security: _dotf_security_check_bw_session exists"
 
 # Test: Doctor integration exists
-test_assert_function_exists "_dot_doctor" "Doctor: _dot_doctor exists"
+test_assert_function_exists "_dots_doctor" "Doctor: _dots_doctor exists"
 
 echo ""
 
@@ -165,7 +165,7 @@ echo "${fg[cyan]}─────────────────────
 echo ""
 
 # Test: Chezmoi detection caching
-if _dot_has_chezmoi; then
+if _dotf_has_chezmoi; then
   test_pass "Chezmoi detection works (installed)"
 
   # Verify caching
@@ -181,7 +181,7 @@ else
 fi
 
 # Test: Bitwarden detection
-if _dot_has_bw; then
+if _dotf_has_bw; then
   test_pass "Bitwarden detection works (installed)"
   ((TESTS_RUN++))
 else
@@ -190,7 +190,7 @@ else
 fi
 
 # Test: Mise detection
-if _dot_has_mise; then
+if _dotf_has_mise; then
   test_pass "Mise detection works (installed)"
   ((TESTS_RUN++))
 else
@@ -209,35 +209,35 @@ echo "${fg[cyan]}─────────────────────
 echo ""
 
 # Test: Format synced status
-output=$(_dot_format_status "synced")
+output=$(_dotf_format_status "synced")
 test_assert_contains "$output" "Synced" "Format status: synced"
 
 # Test: Format modified status
-output=$(_dot_format_status "modified")
+output=$(_dotf_format_status "modified")
 test_assert_contains "$output" "Modified" "Format status: modified"
 
 # Test: Format behind status
-output=$(_dot_format_status "behind")
+output=$(_dotf_format_status "behind")
 test_assert_contains "$output" "Behind" "Format status: behind"
 
 # Test: Format ahead status
-output=$(_dot_format_status "ahead")
+output=$(_dotf_format_status "ahead")
 test_assert_contains "$output" "Ahead" "Format status: ahead"
 
 # Test: Format not-installed status
-output=$(_dot_format_status "not-installed")
+output=$(_dotf_format_status "not-installed")
 test_assert_contains "$output" "Not installed" "Format status: not-installed"
 
 # Test: Format not-initialized status
-output=$(_dot_format_status "not-initialized")
+output=$(_dotf_format_status "not-initialized")
 test_assert_contains "$output" "Not initialized" "Format status: not-initialized"
 
 # Test: Format error status
-output=$(_dot_format_status "error")
+output=$(_dotf_format_status "error")
 test_assert_contains "$output" "Error" "Format status: error"
 
 # Test: Format unknown status
-output=$(_dot_format_status "unknown")
+output=$(_dotf_format_status "unknown")
 test_assert_contains "$output" "Unknown" "Format status: unknown"
 
 echo ""
@@ -250,9 +250,9 @@ echo "${fg_bold[white]}Test Suite 4: Bitwarden Status${reset_color}"
 echo "${fg[cyan]}────────────────────────────────────────────────────────────${reset_color}"
 echo ""
 
-if _dot_has_bw; then
+if _dotf_has_bw; then
   # Test: Get Bitwarden status
-  bw_status=$(_dot_bw_get_status)
+  bw_status=$(_dotf_bw_get_status)
 
   if [[ -n "$bw_status" ]]; then
     test_pass "Bitwarden status retrieval works"
@@ -273,13 +273,13 @@ if _dot_has_bw; then
 
   # Test: Session validation
   if [[ "$bw_status" == "unlocked" ]]; then
-    if _dot_bw_session_valid; then
+    if _dotf_bw_session_valid; then
       test_pass "Bitwarden session validation works (valid session)"
     else
       test_fail "Bitwarden session validation works" "Session reported as invalid"
     fi
   else
-    if ! _dot_bw_session_valid; then
+    if ! _dotf_bw_session_valid; then
       test_pass "Bitwarden session validation works (no session)"
     else
       test_fail "Bitwarden session validation works" "Session reported as valid when vault is locked"
@@ -317,7 +317,7 @@ if [[ -n "$HISTIGNORE" ]]; then
     test_fail "HISTIGNORE contains 'BW_SESSION'" "Not found in: $HISTIGNORE"
   fi
 
-  if [[ "$HISTIGNORE" == *"dot secret"* ]]; then
+  if [[ "$HISTIGNORE" == *"sec"* ]]; then
     test_pass "HISTIGNORE contains 'dot secret'"
   else
     test_fail "HISTIGNORE contains 'dot secret'" "Not found in: $HISTIGNORE"
@@ -330,7 +330,7 @@ else
 fi
 
 # Test: Security check function
-if _dot_security_check_bw_session; then
+if _dotf_security_check_bw_session; then
   test_pass "Security check passes (no global BW_SESSION)"
   ((TESTS_RUN++))
 else
@@ -352,8 +352,8 @@ echo ""
 test_assert_function_exists "_dash_dotfiles" "Dashboard: _dash_dotfiles exists"
 
 # Test: Status line generation (only if chezmoi available)
-if _dot_has_chezmoi; then
-  status_line=$(_dot_get_status_line 2>/dev/null)
+if _dotf_has_chezmoi; then
+  status_line=$(_dotf_get_status_line 2>/dev/null)
   exit_code=$?
 
   if [[ $exit_code -eq 0 ]]; then
@@ -401,7 +401,7 @@ echo "${fg[cyan]}─────────────────────
 echo ""
 
 # Test: Doctor function can be called
-output=$(_dot_doctor 2>&1)
+output=$(_dots_doctor 2>&1)
 exit_code=$?
 
 test_assert_exit_code "$exit_code" "0" "Doctor function runs without errors"
@@ -433,7 +433,7 @@ echo "${fg[cyan]}─────────────────────
 echo ""
 
 # Test: Help command
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 if [[ "$output" == *"dot"* ]] || [[ "$output" == *"Dotfile"* ]]; then
   test_pass "dot help displays help text"
 else
@@ -442,7 +442,7 @@ fi
 ((TESTS_RUN++))
 
 # Test: Version command
-output=$(dot version 2>&1)
+output=$(dots version 2>&1)
 if [[ "$output" == *"dot"* ]] || [[ "$output" == *"version"* ]] || [[ "$output" == *"Phase"* ]]; then
   test_pass "dot version displays version info"
 else
@@ -451,7 +451,7 @@ fi
 ((TESTS_RUN++))
 
 # Test: Invalid command handling
-output=$(dot invalid_command 2>&1)
+output=$(dots invalid_command 2>&1)
 if [[ $? -ne 0 ]] || [[ "$output" == *"help"* ]] || [[ "$output" == *"Unknown"* ]]; then
   test_pass "Invalid command handled gracefully"
 else
@@ -469,12 +469,12 @@ echo "${fg_bold[white]}Test Suite 9: Path Resolution${reset_color}"
 echo "${fg[cyan]}────────────────────────────────────────────────────────────${reset_color}"
 echo ""
 
-if _dot_has_chezmoi && chezmoi managed >/dev/null 2>&1; then
+if _dotf_has_chezmoi && chezmoi managed >/dev/null 2>&1; then
   # Test: Resolve file path function exists
-  test_assert_function_exists "_dot_resolve_file_path" "Path: _dot_resolve_file_path exists"
+  test_assert_function_exists "_dots_resolve_file_path" "Path: _dots_resolve_file_path exists"
 
   # Test: Full path resolution
-  test_result=$(_dot_resolve_file_path "/home/user/.zshrc" 2>/dev/null)
+  test_result=$(_dots_resolve_file_path "/home/user/.zshrc" 2>/dev/null)
   if [[ "$test_result" == "/home/user/.zshrc" ]]; then
     test_pass "Path resolution handles full paths"
   else
@@ -497,10 +497,10 @@ echo "${fg[cyan]}─────────────────────
 echo ""
 
 # Test: Format file count
-test_assert_function_exists "_dot_format_file_count" "Format: _dot_format_file_count exists"
+test_assert_function_exists "_dotf_format_file_count" "Format: _dotf_format_file_count exists"
 
 # Test: Format time ago
-test_assert_function_exists "_dot_format_time_ago" "Format: _dot_format_time_ago exists"
+test_assert_function_exists "_dotf_format_time_ago" "Format: _dotf_format_time_ago exists"
 
 echo ""
 
@@ -516,7 +516,7 @@ echo ""
 # contains non-numeric data (terminal control codes, etc.)
 # Ref: Similar to PR #155 fix for pick command
 
-if _dot_has_chezmoi; then
+if _dotf_has_chezmoi; then
   # Override wc to simulate malformed output
   function wc() {
     # Simulate malformed output with non-numeric data
@@ -527,39 +527,39 @@ if _dot_has_chezmoi; then
     fi
   }
 
-  # Test: _dot_get_modified_count handles malformed input
-  count=$(_dot_get_modified_count 2>&1)
+  # Test: _dots_get_modified_count handles malformed input
+  count=$(_dots_get_modified_count 2>&1)
   exit_code=$?
 
   if [[ $exit_code -eq 0 ]]; then
-    test_pass "_dot_get_modified_count doesn't crash with malformed wc output"
+    test_pass "_dots_get_modified_count doesn't crash with malformed wc output"
 
     # Should default to 0 for non-numeric input
     if [[ "$count" == "0" ]]; then
-      test_pass "_dot_get_modified_count returns 0 for malformed input"
+      test_pass "_dots_get_modified_count returns 0 for malformed input"
     else
-      test_fail "_dot_get_modified_count returns 0 for malformed input" "Got: $count"
+      test_fail "_dots_get_modified_count returns 0 for malformed input" "Got: $count"
     fi
   else
-    test_fail "_dot_get_modified_count doesn't crash with malformed wc output" "Exit code: $exit_code"
+    test_fail "_dots_get_modified_count doesn't crash with malformed wc output" "Exit code: $exit_code"
   fi
   ((TESTS_RUN+=2))
 
-  # Test: _dot_get_tracked_count handles malformed input
-  count=$(_dot_get_tracked_count 2>&1)
+  # Test: _dots_get_tracked_count handles malformed input
+  count=$(_dots_get_tracked_count 2>&1)
   exit_code=$?
 
   if [[ $exit_code -eq 0 ]]; then
-    test_pass "_dot_get_tracked_count doesn't crash with malformed wc output"
+    test_pass "_dots_get_tracked_count doesn't crash with malformed wc output"
 
     # Should default to 0 for non-numeric input
     if [[ "$count" == "0" ]]; then
-      test_pass "_dot_get_tracked_count returns 0 for malformed input"
+      test_pass "_dots_get_tracked_count returns 0 for malformed input"
     else
-      test_fail "_dot_get_tracked_count returns 0 for malformed input" "Got: $count"
+      test_fail "_dots_get_tracked_count returns 0 for malformed input" "Got: $count"
     fi
   else
-    test_fail "_dot_get_tracked_count doesn't crash with malformed wc output" "Exit code: $exit_code"
+    test_fail "_dots_get_tracked_count doesn't crash with malformed wc output" "Exit code: $exit_code"
   fi
   ((TESTS_RUN+=2))
 
@@ -582,112 +582,112 @@ echo "${fg[cyan]}│${reset_color}  Test Suite 12: New Features (Auto-Add, Templ
 echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
 echo ""
 
-# Test 12.1: _dot_add_file helper exists
-test_assert_function_exists "_dot_add_file" "_dot_add_file helper function exists"
+# Test 12.1: _dots_add_file helper exists
+test_assert_function_exists "_dots_add_file" "_dots_add_file helper function exists"
 
-# Test 12.2: _dot_add function exists
-test_assert_function_exists "_dot_add" "_dot_add standalone command exists"
+# Test 12.2: _dots_add function exists
+test_assert_function_exists "_dots_add" "_dots_add standalone command exists"
 
-# Test 12.3: _dot_has_bitwarden_template function exists
-test_assert_function_exists "_dot_has_bitwarden_template" "_dot_has_bitwarden_template helper exists"
+# Test 12.3: _dotf_has_bitwarden_template function exists
+test_assert_function_exists "_dotf_has_bitwarden_template" "_dotf_has_bitwarden_template helper exists"
 
-# Test 12.4: _dot_print_summary function exists
-test_assert_function_exists "_dot_print_summary" "_dot_print_summary helper exists"
+# Test 12.4: _dots_print_summary function exists
+test_assert_function_exists "_dots_print_summary" "_dots_print_summary helper exists"
 
 # Test 12.5: dot add fails without file argument
-output=$(_dot_add 2>&1)
+output=$(_dots_add 2>&1)
 exit_code=$?
 ((TESTS_RUN++))
 if [[ $exit_code -ne 0 ]] && [[ "$output" == *"Usage: dot add"* ]]; then
-  test_pass "_dot_add shows usage when called without argument"
+  test_pass "_dots_add shows usage when called without argument"
 else
-  test_fail "_dot_add shows usage when called without argument" "Exit: $exit_code, Output: $output"
+  test_fail "_dots_add shows usage when called without argument" "Exit: $exit_code, Output: $output"
 fi
 
 # Test 12.6: dot add fails for non-existent file
-output=$(_dot_add "/nonexistent/file/that/does/not/exist.txt" 2>&1)
+output=$(_dots_add "/nonexistent/file/that/does/not/exist.txt" 2>&1)
 exit_code=$?
 ((TESTS_RUN++))
 if [[ $exit_code -ne 0 ]] && [[ "$output" == *"does not exist"* ]]; then
-  test_pass "_dot_add fails for non-existent file"
+  test_pass "_dots_add fails for non-existent file"
 else
-  test_fail "_dot_add fails for non-existent file" "Exit: $exit_code, Output: $output"
+  test_fail "_dots_add fails for non-existent file" "Exit: $exit_code, Output: $output"
 fi
 
-# Test 12.7: _dot_has_bitwarden_template returns false for non-tmpl file
+# Test 12.7: _dotf_has_bitwarden_template returns false for non-tmpl file
 test_file="/tmp/test-not-tmpl.txt"
 echo "some content" > "$test_file"
-if _dot_has_bitwarden_template "$test_file"; then
+if _dotf_has_bitwarden_template "$test_file"; then
   ((TESTS_RUN++))
-  test_fail "_dot_has_bitwarden_template returns false for non-tmpl"
+  test_fail "_dotf_has_bitwarden_template returns false for non-tmpl"
 else
   ((TESTS_RUN++))
-  test_pass "_dot_has_bitwarden_template returns false for non-tmpl"
+  test_pass "_dotf_has_bitwarden_template returns false for non-tmpl"
 fi
 rm -f "$test_file"
 
-# Test 12.8: _dot_has_bitwarden_template returns false for tmpl without bitwarden
+# Test 12.8: _dotf_has_bitwarden_template returns false for tmpl without bitwarden
 test_file="/tmp/test-no-bw.tmpl"
 echo "some {{ other }} template" > "$test_file"
-if _dot_has_bitwarden_template "$test_file"; then
+if _dotf_has_bitwarden_template "$test_file"; then
   ((TESTS_RUN++))
-  test_fail "_dot_has_bitwarden_template returns false for tmpl without bitwarden"
+  test_fail "_dotf_has_bitwarden_template returns false for tmpl without bitwarden"
 else
   ((TESTS_RUN++))
-  test_pass "_dot_has_bitwarden_template returns false for tmpl without bitwarden"
+  test_pass "_dotf_has_bitwarden_template returns false for tmpl without bitwarden"
 fi
 rm -f "$test_file"
 
-# Test 12.9: _dot_has_bitwarden_template returns true for tmpl with bitwarden
+# Test 12.9: _dotf_has_bitwarden_template returns true for tmpl with bitwarden
 test_file="/tmp/test-with-bw.tmpl"
 echo 'export TOKEN="{{ bitwarden "myitem" "notes" }}"' > "$test_file"
-if _dot_has_bitwarden_template "$test_file"; then
+if _dotf_has_bitwarden_template "$test_file"; then
   ((TESTS_RUN++))
-  test_pass "_dot_has_bitwarden_template detects {{ bitwarden }}"
+  test_pass "_dotf_has_bitwarden_template detects {{ bitwarden }}"
 else
   ((TESTS_RUN++))
-  test_fail "_dot_has_bitwarden_template detects {{ bitwarden }}"
+  test_fail "_dotf_has_bitwarden_template detects {{ bitwarden }}"
 fi
 rm -f "$test_file"
 
-# Test 12.10: _dot_print_summary outputs expected format
-output=$(_dot_print_summary ".zshrc" "Edited" "Applied" 2>&1)
+# Test 12.10: _dots_print_summary outputs expected format
+output=$(_dots_print_summary ".zshrc" "Edited" "Applied" 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *".zshrc"* ]] && [[ "$output" == *"Edited"* ]] && [[ "$output" == *"Applied"* ]]; then
-  test_pass "_dot_print_summary outputs file, action, and status"
+  test_pass "_dots_print_summary outputs file, action, and status"
 else
-  test_fail "_dot_print_summary outputs file, action, and status" "Output: $output"
+  test_fail "_dots_print_summary outputs file, action, and status" "Output: $output"
 fi
 
-# Test 12.11: _dot_print_summary shows push tip for Applied status
-output=$(_dot_print_summary ".zshrc" "Edited" "Applied" 2>&1)
+# Test 12.11: _dots_print_summary shows push tip for Applied status
+output=$(_dots_print_summary ".zshrc" "Edited" "Applied" 2>&1)
 ((TESTS_RUN++))
-if [[ "$output" == *"dot push"* ]]; then
-  test_pass "_dot_print_summary shows push tip for Applied"
+if [[ "$output" == *"dots push"* ]]; then
+  test_pass "_dots_print_summary shows push tip for Applied"
 else
-  test_fail "_dot_print_summary shows push tip for Applied" "Output: $output"
+  test_fail "_dots_print_summary shows push tip for Applied" "Output: $output"
 fi
 
-# Test 12.12: _dot_print_summary shows apply tip for Staging status
-output=$(_dot_print_summary ".zshrc" "Edited" "Staging" 2>&1)
+# Test 12.12: _dots_print_summary shows apply tip for Staging status
+output=$(_dots_print_summary ".zshrc" "Edited" "Staging" 2>&1)
 ((TESTS_RUN++))
-if [[ "$output" == *"dot apply"* ]]; then
-  test_pass "_dot_print_summary shows apply tip for Staging"
+if [[ "$output" == *"dots apply"* ]]; then
+  test_pass "_dots_print_summary shows apply tip for Staging"
 else
-  test_fail "_dot_print_summary shows apply tip for Staging" "Output: $output"
+  test_fail "_dots_print_summary shows apply tip for Staging" "Output: $output"
 fi
 
 # Test 12.13: dot help includes add command
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
-if [[ "$output" == *"dot add"* ]]; then
+if [[ "$output" == *"dots add"* ]]; then
   test_pass "dot help includes add command"
 else
   test_fail "dot help includes add command" "Output didn't mention 'dot add'"
 fi
 
 # Test 12.14: dot help shows auto-add/create in edit description
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"auto-add"* ]] || [[ "$output" == *"Create"* ]]; then
   test_pass "dot help shows create capability in edit"
@@ -698,7 +698,7 @@ fi
 # Test 12.15: ZDOTDIR is respected in security check
 # This test verifies the variable pattern is correct
 ((TESTS_RUN++))
-# Check that _dot_security_check_bw_session uses ZDOTDIR
+# Check that _dotf_security_check_bw_session uses ZDOTDIR
 # Find the script directory (same directory as this test file)
 local test_dir="${0:A:h}"
 local helpers_file="${test_dir:h}/lib/dotfile-helpers.zsh"
@@ -727,82 +727,82 @@ echo ""
 
 # Test 13.1: Session cache functions exist
 ((TESTS_RUN++))
-if typeset -f _dot_session_cache_init &>/dev/null; then
-  test_pass "_dot_session_cache_init exists"
+if typeset -f _dotf_session_cache_init &>/dev/null; then
+  test_pass "_dotf_session_cache_init exists"
 else
-  test_fail "_dot_session_cache_init exists"
+  test_fail "_dotf_session_cache_init exists"
 fi
 
 ((TESTS_RUN++))
-if typeset -f _dot_session_cache_save &>/dev/null; then
-  test_pass "_dot_session_cache_save exists"
+if typeset -f _dotf_session_cache_save &>/dev/null; then
+  test_pass "_dotf_session_cache_save exists"
 else
-  test_fail "_dot_session_cache_save exists"
+  test_fail "_dotf_session_cache_save exists"
 fi
 
 ((TESTS_RUN++))
-if typeset -f _dot_session_cache_touch &>/dev/null; then
-  test_pass "_dot_session_cache_touch exists"
+if typeset -f _dotf_session_cache_touch &>/dev/null; then
+  test_pass "_dotf_session_cache_touch exists"
 else
-  test_fail "_dot_session_cache_touch exists"
+  test_fail "_dotf_session_cache_touch exists"
 fi
 
 ((TESTS_RUN++))
-if typeset -f _dot_session_cache_expired &>/dev/null; then
-  test_pass "_dot_session_cache_expired exists"
+if typeset -f _dotf_session_cache_expired &>/dev/null; then
+  test_pass "_dotf_session_cache_expired exists"
 else
-  test_fail "_dot_session_cache_expired exists"
+  test_fail "_dotf_session_cache_expired exists"
 fi
 
 ((TESTS_RUN++))
-if typeset -f _dot_session_cache_clear &>/dev/null; then
-  test_pass "_dot_session_cache_clear exists"
+if typeset -f _dotf_session_cache_clear &>/dev/null; then
+  test_pass "_dotf_session_cache_clear exists"
 else
-  test_fail "_dot_session_cache_clear exists"
+  test_fail "_dotf_session_cache_clear exists"
 fi
 
 ((TESTS_RUN++))
-if typeset -f _dot_session_time_remaining &>/dev/null; then
-  test_pass "_dot_session_time_remaining exists"
+if typeset -f _dotf_session_time_remaining &>/dev/null; then
+  test_pass "_dotf_session_time_remaining exists"
 else
-  test_fail "_dot_session_time_remaining exists"
+  test_fail "_dotf_session_time_remaining exists"
 fi
 
 ((TESTS_RUN++))
-if typeset -f _dot_session_time_remaining_fmt &>/dev/null; then
-  test_pass "_dot_session_time_remaining_fmt exists"
+if typeset -f _dotf_session_time_remaining_fmt &>/dev/null; then
+  test_pass "_dotf_session_time_remaining_fmt exists"
 else
-  test_fail "_dot_session_time_remaining_fmt exists"
+  test_fail "_dotf_session_time_remaining_fmt exists"
 fi
 
 # Test 13.2: Lock command exists
 ((TESTS_RUN++))
-if typeset -f _dot_lock &>/dev/null; then
-  test_pass "_dot_lock function exists"
+if typeset -f _sec_lock &>/dev/null; then
+  test_pass "_sec_lock function exists"
 else
-  test_fail "_dot_lock function exists"
+  test_fail "_sec_lock function exists"
 fi
 
 # Test 13.3: New secret subcommands exist
 ((TESTS_RUN++))
-if typeset -f _dot_secret_add &>/dev/null; then
-  test_pass "_dot_secret_add function exists"
+if typeset -f _sec_add &>/dev/null; then
+  test_pass "_sec_add function exists"
 else
-  test_fail "_dot_secret_add function exists"
+  test_fail "_sec_add function exists"
 fi
 
 ((TESTS_RUN++))
-if typeset -f _dot_secret_check &>/dev/null; then
-  test_pass "_dot_secret_check function exists"
+if typeset -f _sec_check &>/dev/null; then
+  test_pass "_sec_check function exists"
 else
-  test_fail "_dot_secret_check function exists"
+  test_fail "_sec_check function exists"
 fi
 
 ((TESTS_RUN++))
-if typeset -f _dot_secret_help &>/dev/null; then
-  test_pass "_dot_secret_help function exists"
+if typeset -f _sec_help &>/dev/null; then
+  test_pass "_sec_help function exists"
 else
-  test_fail "_dot_secret_help function exists"
+  test_fail "_sec_help function exists"
 fi
 
 # Test 13.4: Session cache configuration variables exist
@@ -836,9 +836,9 @@ else
 fi
 
 # Test 13.6: dot help includes lock command
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
-if [[ "$output" == *"dot lock"* ]]; then
+if [[ "$output" == *"sec lock"* ]]; then
   test_pass "dot help includes lock command"
 else
   test_fail "dot help includes lock command" "Output didn't mention 'dot lock'"
@@ -860,41 +860,41 @@ else
   test_fail "dot help includes secret check command" "Output didn't mention 'secret check'"
 fi
 
-# Test 13.9: dot secret help shows usage info
-output=$(dot secret help 2>&1)
+# Test 13.9: sec help shows usage info
+output=$(sec help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"DOT SECRET"* ]]; then
-  test_pass "dot secret help shows header"
+  test_pass "sec help shows header"
 else
-  test_fail "dot secret help shows header" "Output: $output"
+  test_fail "sec help shows header" "Output: $output"
 fi
 
 # Test 13.10: Session expired returns true when no cache file
 # Clear any existing cache first for this test
 rm -f "$DOT_SESSION_CACHE_FILE" 2>/dev/null
 ((TESTS_RUN++))
-if _dot_session_cache_expired; then
+if _dotf_session_cache_expired; then
   test_pass "Session expired returns true when no cache"
 else
   test_fail "Session expired returns true when no cache"
 fi
 
-# Test 13.11: _dot_session_time_remaining returns 0 when no cache
-output=$(_dot_session_time_remaining)
+# Test 13.11: _dotf_session_time_remaining returns 0 when no cache
+output=$(_dotf_session_time_remaining)
 ((TESTS_RUN++))
 if [[ "$output" == "0" ]]; then
-  test_pass "_dot_session_time_remaining returns 0 when no cache"
+  test_pass "_dotf_session_time_remaining returns 0 when no cache"
 else
-  test_fail "_dot_session_time_remaining returns 0 when no cache" "Got: $output"
+  test_fail "_dotf_session_time_remaining returns 0 when no cache" "Got: $output"
 fi
 
-# Test 13.12: _dot_session_time_remaining_fmt returns 'expired' when no cache
-output=$(_dot_session_time_remaining_fmt)
+# Test 13.12: _dotf_session_time_remaining_fmt returns 'expired' when no cache
+output=$(_dotf_session_time_remaining_fmt)
 ((TESTS_RUN++))
 if [[ "$output" == "expired" ]]; then
-  test_pass "_dot_session_time_remaining_fmt returns 'expired' when no cache"
+  test_pass "_dotf_session_time_remaining_fmt returns 'expired' when no cache"
 else
-  test_fail "_dot_session_time_remaining_fmt returns 'expired' when no cache" "Got: $output"
+  test_fail "_dotf_session_time_remaining_fmt returns 'expired' when no cache" "Got: $output"
 fi
 
 # ============================================================================
@@ -906,89 +906,89 @@ echo "${fg_bold[white]}Test Suite 14: Token Wizards & Secrets Dashboard${reset_c
 echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
 echo ""
 
-# Test 14.1: _dot_token function exists
+# Test 14.1: _tok_dispatch function exists
 ((TESTS_RUN++))
-if typeset -f _dot_token &>/dev/null; then
-  test_pass "_dot_token function exists"
+if typeset -f _tok_dispatch &>/dev/null; then
+  test_pass "_tok_dispatch function exists"
 else
-  test_fail "_dot_token function exists"
+  test_fail "_tok_dispatch function exists"
 fi
 
-# Test 14.2: _dot_token_help function exists
+# Test 14.2: _tok_help function exists
 ((TESTS_RUN++))
-if typeset -f _dot_token_help &>/dev/null; then
-  test_pass "_dot_token_help function exists"
+if typeset -f _tok_help &>/dev/null; then
+  test_pass "_tok_help function exists"
 else
-  test_fail "_dot_token_help function exists"
+  test_fail "_tok_help function exists"
 fi
 
-# Test 14.3: _dot_token_github function exists
+# Test 14.3: _tok_github function exists
 ((TESTS_RUN++))
-if typeset -f _dot_token_github &>/dev/null; then
-  test_pass "_dot_token_github function exists"
+if typeset -f _tok_github &>/dev/null; then
+  test_pass "_tok_github function exists"
 else
-  test_fail "_dot_token_github function exists"
+  test_fail "_tok_github function exists"
 fi
 
-# Test 14.4: _dot_token_npm function exists
+# Test 14.4: _tok_npm function exists
 ((TESTS_RUN++))
-if typeset -f _dot_token_npm &>/dev/null; then
-  test_pass "_dot_token_npm function exists"
+if typeset -f _tok_npm &>/dev/null; then
+  test_pass "_tok_npm function exists"
 else
-  test_fail "_dot_token_npm function exists"
+  test_fail "_tok_npm function exists"
 fi
 
-# Test 14.5: _dot_token_pypi function exists
+# Test 14.5: _tok_pypi function exists
 ((TESTS_RUN++))
-if typeset -f _dot_token_pypi &>/dev/null; then
-  test_pass "_dot_token_pypi function exists"
+if typeset -f _tok_pypi &>/dev/null; then
+  test_pass "_tok_pypi function exists"
 else
-  test_fail "_dot_token_pypi function exists"
+  test_fail "_tok_pypi function exists"
 fi
 
-# Test 14.6: _dot_secrets function exists
+# Test 14.6: _sec_dashboard function exists
 ((TESTS_RUN++))
-if typeset -f _dot_secrets &>/dev/null; then
-  test_pass "_dot_secrets function exists"
+if typeset -f _sec_dashboard &>/dev/null; then
+  test_pass "_sec_dashboard function exists"
 else
-  test_fail "_dot_secrets function exists"
+  test_fail "_sec_dashboard function exists"
 fi
 
-# Test 14.7: dot token help shows header
-output=$(dot token help 2>&1)
+# Test 14.7: tok help shows header
+output=$(tok help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"DOT TOKEN"* ]]; then
-  test_pass "dot token help shows header"
+  test_pass "tok help shows header"
 else
-  test_fail "dot token help shows header" "Output: $output"
+  test_fail "tok help shows header" "Output: $output"
 fi
 
-# Test 14.8: dot token help lists github wizard
+# Test 14.8: tok help lists github wizard
 ((TESTS_RUN++))
-if [[ "$output" == *"dot token github"* ]]; then
-  test_pass "dot token help lists github wizard"
+if [[ "$output" == *"tok github"* ]]; then
+  test_pass "tok help lists github wizard"
 else
-  test_fail "dot token help lists github wizard"
+  test_fail "tok help lists github wizard"
 fi
 
-# Test 14.9: dot token help lists npm wizard
+# Test 14.9: tok help lists npm wizard
 ((TESTS_RUN++))
-if [[ "$output" == *"dot token npm"* ]]; then
-  test_pass "dot token help lists npm wizard"
+if [[ "$output" == *"tok npm"* ]]; then
+  test_pass "tok help lists npm wizard"
 else
-  test_fail "dot token help lists npm wizard"
+  test_fail "tok help lists npm wizard"
 fi
 
-# Test 14.10: dot token help lists pypi wizard
+# Test 14.10: tok help lists pypi wizard
 ((TESTS_RUN++))
-if [[ "$output" == *"dot token pypi"* ]]; then
-  test_pass "dot token help lists pypi wizard"
+if [[ "$output" == *"tok pypi"* ]]; then
+  test_pass "tok help lists pypi wizard"
 else
-  test_fail "dot token help lists pypi wizard"
+  test_fail "tok help lists pypi wizard"
 fi
 
 # Test 14.11: dot token with no args shows help (not error)
-output=$(dot token 2>&1)
+output=$(tok 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"DOT TOKEN"* ]]; then
   test_pass "dot token with no args shows help"
@@ -997,16 +997,16 @@ else
 fi
 
 # Test 14.12: dot token with invalid provider shows error + help
-output=$(dot token invalid 2>&1)
+output=$(tok invalid 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"Unknown token provider"* && "$output" == *"github, npm, pypi"* ]]; then
-  test_pass "dot token invalid shows error with supported providers"
+  test_pass "tok invalid shows error with supported providers"
 else
-  test_fail "dot token invalid shows error with supported providers"
+  test_fail "tok invalid shows error with supported providers"
 fi
 
 # Test 14.13: dot help includes token wizards section
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"TOKEN MANAGEMENT"* ]]; then
   test_pass "dot help includes TOKEN MANAGEMENT section"
@@ -1016,7 +1016,7 @@ fi
 
 # Test 14.14: dot help includes dot secrets command
 ((TESTS_RUN++))
-if [[ "$output" == *"dot secrets"* ]]; then
+if [[ "$output" == *"sec"* ]]; then
   test_pass "dot help includes dot secrets command"
 else
   test_fail "dot help includes dot secrets command"
@@ -1024,14 +1024,14 @@ fi
 
 # Test 14.15: dot help lists all three token wizards
 ((TESTS_RUN++))
-if [[ "$output" == *"dot token github"* && "$output" == *"dot token npm"* && "$output" == *"dot token pypi"* ]]; then
+if [[ "$output" == *"tok github"* && "$output" == *"tok npm"* && "$output" == *"tok pypi"* ]]; then
   test_pass "dot help lists all three token wizards"
 else
   test_fail "dot help lists all three token wizards"
 fi
 
 # Test 14.16: dot version shows v2.x.x
-output=$(dot version 2>&1)
+output=$(dots version 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"v2."* ]]; then
   test_pass "dot version shows v2.x.x"
@@ -1040,22 +1040,22 @@ else
 fi
 
 # Test 14.17: dot token aliases work (gh → github)
-output=$(dot token gh 2>&1)
+output=$(tok gh 2>&1)
 ((TESTS_RUN++))
 # Should not say "Unknown token provider" for gh alias
 if [[ "$output" != *"Unknown token provider"* ]]; then
-  test_pass "dot token gh alias is recognized"
+  test_pass "tok gh alias is recognized"
 else
-  test_fail "dot token gh alias is recognized"
+  test_fail "tok gh alias is recognized"
 fi
 
 # Test 14.18: dot token aliases work (pip → pypi)
-output=$(dot token pip 2>&1)
+output=$(tok pip 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" != *"Unknown token provider"* ]]; then
-  test_pass "dot token pip alias is recognized"
+  test_pass "tok pip alias is recognized"
 else
-  test_fail "dot token pip alias is recognized"
+  test_fail "tok pip alias is recognized"
 fi
 
 echo ""
@@ -1070,34 +1070,34 @@ echo "${fg[cyan]}TEST SUITE 15: Token Rotation (Phase 3)${reset_color}"
 echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
 echo ""
 
-# Test 15.1: _dot_token_refresh function exists
+# Test 15.1: _tok_refresh function exists
 ((TESTS_RUN++))
-if typeset -f _dot_token_refresh > /dev/null; then
-  test_pass "_dot_token_refresh function exists"
+if typeset -f _tok_refresh > /dev/null; then
+  test_pass "_tok_refresh function exists"
 else
-  test_fail "_dot_token_refresh function exists"
+  test_fail "_tok_refresh function exists"
 fi
 
-# Test 15.2: dot token --refresh without name shows error
-output=$(dot token --refresh 2>&1)
+# Test 15.2: tok --refresh without name shows error
+output=$(tok --refresh 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"Usage"* ]] || [[ "$output" == *"Token name required"* ]]; then
-  test_pass "dot token --refresh without name shows usage"
+  test_pass "tok --refresh without name shows usage"
 else
-  test_fail "dot token --refresh without name shows usage"
+  test_fail "tok --refresh without name shows usage"
 fi
 
-# Test 15.3: dot token help includes rotation section
-output=$(dot token help 2>&1)
+# Test 15.3: tok help includes rotation section
+output=$(tok help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"Rotate"* ]] || [[ "$output" == *"--refresh"* ]]; then
-  test_pass "dot token help includes rotation info"
+  test_pass "tok help includes rotation info"
 else
-  test_fail "dot token help includes rotation info"
+  test_fail "tok help includes rotation info"
 fi
 
 # Test 15.4: dot token <name> --refresh syntax recognized
-output=$(dot token nonexistent-token --refresh 2>&1)
+output=$(tok nonexistent-token --refresh 2>&1)
 ((TESTS_RUN++))
 # Should show "Looking up" (unlocked) or "Unlocking" (locked) - not "Unknown token provider"
 if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
@@ -1107,7 +1107,7 @@ else
 fi
 
 # Test 15.5: dot token refresh <name> alternate syntax recognized
-output=$(dot token refresh nonexistent-token 2>&1)
+output=$(tok refresh nonexistent-token 2>&1)
 ((TESTS_RUN++))
 # Should recognize refresh as the flag, not as a provider
 if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
@@ -1117,7 +1117,7 @@ else
 fi
 
 # Test 15.6: dot help includes TOKEN MANAGEMENT section
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"TOKEN MANAGEMENT"* ]]; then
   test_pass "dot help includes TOKEN MANAGEMENT section"
@@ -1126,7 +1126,7 @@ else
 fi
 
 # Test 15.7: dot help includes --refresh command
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"--refresh"* ]]; then
   test_pass "dot help includes --refresh command"
@@ -1135,7 +1135,7 @@ else
 fi
 
 # Test 15.8: Version shows v2.x.x (Phase 3+)
-output=$(dot version 2>&1)
+output=$(dots version 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"v2."* ]] || [[ "$output" == *"2.1"* ]] || [[ "$output" == *"2.2"* ]]; then
   test_pass "dot version shows v2.x.x"
@@ -1144,7 +1144,7 @@ else
 fi
 
 # Test 15.9: dot token -r is recognized as refresh flag
-output=$(dot token nonexistent -r 2>&1)
+output=$(tok nonexistent -r 2>&1)
 ((TESTS_RUN++))
 # Should recognize -r as refresh flag, not treat nonexistent as provider
 if [[ "$output" == *"not found"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
@@ -1155,7 +1155,7 @@ fi
 
 # Test 15.10: Token rotation requires DOT metadata
 # Note: This tests that tokens without dot_version metadata are rejected
-output=$(dot token some-random-name --refresh 2>&1)
+output=$(tok some-random-name --refresh 2>&1)
 ((TESTS_RUN++))
 # Should attempt to look up token (unlocked) or try to unlock vault (locked)
 if [[ "$output" == *"not found"* ]] || [[ "$output" == *"DOT metadata"* ]] || [[ "$output" == *"Looking up"* ]] || [[ "$output" == *"Unlocking"* ]]; then
@@ -1176,40 +1176,40 @@ echo "${fg[cyan]}TEST SUITE 16: Integration Features (Phase 3)${reset_color}"
 echo "${fg[cyan]}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${reset_color}"
 echo ""
 
-# Test 16.1: _dot_secrets_sync function exists
+# Test 16.1: _sec_dashboard_sync function exists
 ((TESTS_RUN++))
-if typeset -f _dot_secrets_sync > /dev/null; then
-  test_pass "_dot_secrets_sync function exists"
+if typeset -f _sec_dashboard_sync > /dev/null; then
+  test_pass "_sec_dashboard_sync function exists"
 else
-  test_fail "_dot_secrets_sync function exists"
+  test_fail "_sec_dashboard_sync function exists"
 fi
 
-# Test 16.2: _dot_secrets_sync_github function exists
+# Test 16.2: _sec_sync_github function exists
 ((TESTS_RUN++))
-if typeset -f _dot_secrets_sync_github > /dev/null; then
-  test_pass "_dot_secrets_sync_github function exists"
+if typeset -f _sec_sync_github > /dev/null; then
+  test_pass "_sec_sync_github function exists"
 else
-  test_fail "_dot_secrets_sync_github function exists"
+  test_fail "_sec_sync_github function exists"
 fi
 
-# Test 16.3: _dot_env function exists
+# Test 16.3: _dots_env function exists
 ((TESTS_RUN++))
-if typeset -f _dot_env > /dev/null; then
-  test_pass "_dot_env function exists"
+if typeset -f _dots_env > /dev/null; then
+  test_pass "_dots_env function exists"
 else
-  test_fail "_dot_env function exists"
+  test_fail "_dots_env function exists"
 fi
 
-# Test 16.4: _dot_env_init function exists
+# Test 16.4: _dots_env_init function exists
 ((TESTS_RUN++))
-if typeset -f _dot_env_init > /dev/null; then
-  test_pass "_dot_env_init function exists"
+if typeset -f _dots_env_init > /dev/null; then
+  test_pass "_dots_env_init function exists"
 else
-  test_fail "_dot_env_init function exists"
+  test_fail "_dots_env_init function exists"
 fi
 
 # Test 16.5: dot help includes INTEGRATION section
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"INTEGRATION"* ]]; then
   test_pass "dot help includes INTEGRATION section"
@@ -1217,8 +1217,8 @@ else
   test_fail "dot help includes INTEGRATION section"
 fi
 
-# Test 16.6: dot help includes dot secrets sync
-output=$(dot help 2>&1)
+# Test 16.6: dot help includes sec sync
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"secrets sync"* ]]; then
   test_pass "dot help includes secrets sync command"
@@ -1227,7 +1227,7 @@ else
 fi
 
 # Test 16.7: dot help includes dot env init
-output=$(dot help 2>&1)
+output=$(dots help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"env init"* ]]; then
   test_pass "dot help includes env init command"
@@ -1235,26 +1235,26 @@ else
   test_fail "dot help includes env init command"
 fi
 
-# Test 16.8: dot secrets sync without target shows usage
-output=$(dot secrets sync 2>&1)
+# Test 16.8: sec sync without target shows usage
+output=$(sec sync 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"Usage"* ]] || [[ "$output" == *"sync"* ]]; then
-  test_pass "dot secrets sync without target shows help"
+  test_pass "sec sync without target shows help"
 else
-  test_fail "dot secrets sync without target shows help"
+  test_fail "sec sync without target shows help"
 fi
 
-# Test 16.9: dot secrets sync unknown shows error
-output=$(dot secrets sync unknown 2>&1)
+# Test 16.9: sec sync unknown shows error
+output=$(sec sync unknown 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"Unknown"* ]] || [[ "$output" == *"not supported"* ]]; then
-  test_pass "dot secrets sync unknown shows error"
+  test_pass "sec sync unknown shows error"
 else
-  test_fail "dot secrets sync unknown shows error"
+  test_fail "sec sync unknown shows error"
 fi
 
 # Test 16.10: dot env without subcommand shows help
-output=$(dot env 2>&1)
+output=$(dots env 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"Usage"* ]] || [[ "$output" == *"init"* ]]; then
   test_pass "dot env without subcommand shows help"
@@ -1262,26 +1262,26 @@ else
   test_fail "dot env without subcommand shows help"
 fi
 
-# Test 16.11: dot env help shows usage
-output=$(dot env help 2>&1)
+# Test 16.11: dots env help shows usage
+output=$(dots env help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"init"* ]] || [[ "$output" == *".envrc"* ]]; then
-  test_pass "dot env help shows init info"
+  test_pass "dots env help shows init info"
 else
-  test_fail "dot env help shows init info"
+  test_fail "dots env help shows init info"
 fi
 
-# Test 16.12: dot secrets help exists
-output=$(dot secrets help 2>&1)
+# Test 16.12: sec help exists
+output=$(sec help 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"sync"* ]] || [[ "$output" == *"dashboard"* ]]; then
-  test_pass "dot secrets help shows subcommands"
+  test_pass "sec help shows subcommands"
 else
-  test_fail "dot secrets help shows subcommands"
+  test_fail "sec help shows subcommands"
 fi
 
 # Test 16.13: Version shows v2.2.x
-output=$(dot version 2>&1)
+output=$(dots version 2>&1)
 ((TESTS_RUN++))
 if [[ "$output" == *"2.2"* ]]; then
   test_pass "dot version shows v2.2.x"

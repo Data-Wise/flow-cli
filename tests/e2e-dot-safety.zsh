@@ -166,7 +166,7 @@ test_add_with_git_detection() {
   # Run dot add with git detection
   test_start "Detect .git directory in path"
   local output
-  output=$(_dot_check_git_in_path "$E2E_TEST_DIR/test-nvim" 2>&1)
+  output=$(_dotf_check_git_in_path "$E2E_TEST_DIR/test-nvim" 2>&1)
   local result=$?
 
   if assert_success $result && assert_contains "$output" ".git"; then
@@ -195,7 +195,7 @@ test_ignore_workflow() {
 
   # Add first pattern
   test_start "Add ignore pattern (**/.git)"
-  _dot_ignore_add "**/.git" >/dev/null 2>&1
+  _dotf_ignore_add "**/.git" >/dev/null 2>&1
 
   if assert_file_exists "$ignore_file" && \
      grep -q "**/.git" "$ignore_file"; then
@@ -207,7 +207,7 @@ test_ignore_workflow() {
   # List patterns
   test_start "List ignore patterns"
   local patterns
-  patterns=$(_dot_ignore_list 2>&1)
+  patterns=$(_dotf_ignore_list 2>&1)
 
   if assert_contains "$patterns" "**/.git"; then
     test_pass
@@ -217,7 +217,7 @@ test_ignore_workflow() {
 
   # Add duplicate (should be prevented)
   test_start "Prevent duplicate patterns"
-  _dot_ignore_add "**/.git" >/dev/null 2>&1
+  _dotf_ignore_add "**/.git" >/dev/null 2>&1
   local count=$(grep -c "**/.git" "$ignore_file")
 
   if (( count == 1 )); then
@@ -228,8 +228,8 @@ test_ignore_workflow() {
 
   # Add multiple patterns
   test_start "Add multiple patterns"
-  _dot_ignore_add "*.log" >/dev/null 2>&1
-  _dot_ignore_add "*.tmp" >/dev/null 2>&1
+  _dotf_ignore_add "*.log" >/dev/null 2>&1
+  _dotf_ignore_add "*.tmp" >/dev/null 2>&1
 
   local total=$(wc -l < "$ignore_file" | tr -d ' ')
   if (( total == 3 )); then
@@ -240,7 +240,7 @@ test_ignore_workflow() {
 
   # Remove pattern
   test_start "Remove ignore pattern"
-  _dot_ignore_remove "*.log" >/dev/null 2>&1
+  _dotf_ignore_remove "*.log" >/dev/null 2>&1
 
   if ! grep -q "*.log" "$ignore_file"; then
     test_pass
@@ -265,7 +265,7 @@ test_size_analysis() {
   # Analyze size
   test_start "Calculate total size"
   local size_output
-  size_output=$(_dot_get_cached_size 2>&1 || _dot_size 2>&1)
+  size_output=$(_dotf_get_cached_size 2>&1 || _dotf_size 2>&1)
 
   if assert_success $?; then
     test_pass
@@ -379,7 +379,7 @@ test_cache_system() {
 
   # Write to cache
   test_start "Write size to cache"
-  _dot_cache_size "12345" >/dev/null 2>&1
+  _dotf_cache_size "12345" >/dev/null 2>&1
 
   if [[ -f "$cache_file" ]]; then
     test_pass
@@ -389,7 +389,7 @@ test_cache_system() {
 
   # Read from cache
   test_start "Read size from cache"
-  local cached_size=$(_dot_get_cached_size 2>&1)
+  local cached_size=$(_dotf_get_cached_size 2>&1)
 
   if [[ "$cached_size" == "12345" ]]; then
     test_pass
@@ -402,7 +402,7 @@ test_cache_system() {
   # Modify cache timestamp to be old
   touch -t 202301010000 "$cache_file" 2>/dev/null
 
-  if ! _dot_is_cache_valid "$cache_file"; then
+  if ! _dotf_is_cache_valid "$cache_file"; then
     test_pass
   else
     test_fail "Old cache still valid"

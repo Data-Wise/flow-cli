@@ -10,9 +10,9 @@
 #
 # What it tests:
 #   - Backend configuration (FLOW_SECRET_BACKEND)
-#   - Helper functions (_dot_secret_backend, _dot_secret_needs_bitwarden, etc.)
-#   - Status command (dot secret status)
-#   - Sync command structure (dot secret sync --help)
+#   - Helper functions (_dotf_secret_backend, _dotf_secret_needs_bitwarden, etc.)
+#   - Status command (sec status)
+#   - Sync command structure (sec sync --help)
 #   - Token workflow routing (conditional Bitwarden checks)
 #   - Documentation updates
 #
@@ -181,16 +181,16 @@ log "Plugin directory: $PLUGIN_DIR"
 
 section "1. Function Existence"
 
-assert_function_exists "_dot_secret_backend" "Backend configuration function exists"
-assert_function_exists "_dot_secret_needs_bitwarden" "Bitwarden check helper exists"
-assert_function_exists "_dot_secret_uses_keychain" "Keychain check helper exists"
-assert_function_exists "_dot_secret_status" "Status command function exists"
-assert_function_exists "_dot_secret_sync" "Sync command function exists"
-assert_function_exists "_dot_secret_sync_status" "Sync status function exists"
-assert_function_exists "_dot_secret_sync_to_bitwarden" "Sync to Bitwarden function exists"
-assert_function_exists "_dot_secret_sync_from_bitwarden" "Sync from Bitwarden function exists"
-assert_function_exists "_dot_secret_sync_help" "Sync help function exists"
-assert_function_exists "_dot_secret_count_keychain" "Keychain count helper exists"
+assert_function_exists "_dotf_secret_backend" "Backend configuration function exists"
+assert_function_exists "_dotf_secret_needs_bitwarden" "Bitwarden check helper exists"
+assert_function_exists "_dotf_secret_uses_keychain" "Keychain check helper exists"
+assert_function_exists "_sec_status" "Status command function exists"
+assert_function_exists "_sec_sync" "Sync command function exists"
+assert_function_exists "_sec_sync_status" "Sync status function exists"
+assert_function_exists "_sec_sync_to_bitwarden" "Sync to Bitwarden function exists"
+assert_function_exists "_sec_sync_from_bitwarden" "Sync from Bitwarden function exists"
+assert_function_exists "_sec_sync_help" "Sync help function exists"
+assert_function_exists "_sec_count_keychain" "Keychain count helper exists"
 
 # ============================================================================
 # TEST GROUP 2: DEFAULT BACKEND CONFIGURATION
@@ -203,12 +203,12 @@ SAVED_BACKEND="$FLOW_SECRET_BACKEND"
 
 # Test: Default is keychain
 unset FLOW_SECRET_BACKEND
-result=$(_dot_secret_backend 2>/dev/null)
+result=$(_dotf_secret_backend 2>/dev/null)
 assert_eq "$result" "keychain" "Default backend is 'keychain'"
 
 # Test: Keychain does not need Bitwarden
 unset FLOW_SECRET_BACKEND
-if _dot_secret_needs_bitwarden 2>/dev/null; then
+if _dotf_secret_needs_bitwarden 2>/dev/null; then
     test_fail "Default backend should not need Bitwarden"
 else
     test_pass "Default backend does not require Bitwarden"
@@ -216,7 +216,7 @@ fi
 
 # Test: Keychain uses Keychain (tautology check)
 unset FLOW_SECRET_BACKEND
-if _dot_secret_uses_keychain 2>/dev/null; then
+if _dotf_secret_uses_keychain 2>/dev/null; then
     test_pass "Default backend uses Keychain"
 else
     test_fail "Default backend should use Keychain"
@@ -233,22 +233,22 @@ section "3. Explicit Backend Configuration"
 
 # Test: Keychain explicit
 export FLOW_SECRET_BACKEND="keychain"
-result=$(_dot_secret_backend 2>/dev/null)
+result=$(_dotf_secret_backend 2>/dev/null)
 assert_eq "$result" "keychain" "FLOW_SECRET_BACKEND=keychain works"
 
 # Test: Bitwarden explicit
 export FLOW_SECRET_BACKEND="bitwarden"
-result=$(_dot_secret_backend 2>/dev/null)
+result=$(_dotf_secret_backend 2>/dev/null)
 assert_eq "$result" "bitwarden" "FLOW_SECRET_BACKEND=bitwarden works"
 
 # Test: Both explicit
 export FLOW_SECRET_BACKEND="both"
-result=$(_dot_secret_backend 2>/dev/null)
+result=$(_dotf_secret_backend 2>/dev/null)
 assert_eq "$result" "both" "FLOW_SECRET_BACKEND=both works"
 
 # Test: Invalid falls back to keychain
 export FLOW_SECRET_BACKEND="invalid_value"
-result=$(_dot_secret_backend 2>/dev/null | tail -1)
+result=$(_dotf_secret_backend 2>/dev/null | tail -1)
 assert_eq "$result" "keychain" "Invalid backend falls back to 'keychain'"
 
 # Restore
@@ -260,10 +260,10 @@ unset FLOW_SECRET_BACKEND
 
 section "4. Helper Function Behavior Matrix"
 
-# Test matrix for _dot_secret_needs_bitwarden
+# Test matrix for _dotf_secret_needs_bitwarden
 for backend in keychain bitwarden both; do
     export FLOW_SECRET_BACKEND="$backend"
-    if _dot_secret_needs_bitwarden 2>/dev/null; then
+    if _dotf_secret_needs_bitwarden 2>/dev/null; then
         needs_bw="yes"
     else
         needs_bw="no"
@@ -282,10 +282,10 @@ for backend in keychain bitwarden both; do
     esac
 done
 
-# Test matrix for _dot_secret_uses_keychain
+# Test matrix for _dotf_secret_uses_keychain
 for backend in keychain bitwarden both; do
     export FLOW_SECRET_BACKEND="$backend"
-    if _dot_secret_uses_keychain 2>/dev/null; then
+    if _dotf_secret_uses_keychain 2>/dev/null; then
         uses_kc="yes"
     else
         uses_kc="no"
@@ -314,7 +314,7 @@ section "5. Status Command"
 
 # Test: Status output contains backend info
 unset FLOW_SECRET_BACKEND
-status_output=$(_dot_secret_status 2>/dev/null)
+status_output=$(_sec_status 2>/dev/null)
 assert_contains "$status_output" "keychain" "Status shows 'keychain' backend"
 assert_contains "$status_output" "Backend" "Status has 'Backend' section"
 assert_contains "$status_output" "Configuration" "Status has 'Configuration' section"
@@ -322,7 +322,7 @@ assert_contains "$status_output" "Keychain" "Status shows Keychain info"
 
 # Test: Status with bitwarden backend
 export FLOW_SECRET_BACKEND="bitwarden"
-status_output=$(_dot_secret_status 2>/dev/null)
+status_output=$(_sec_status 2>/dev/null)
 assert_contains "$status_output" "bitwarden" "Status shows 'bitwarden' when configured"
 assert_contains "$status_output" "legacy" "Status mentions 'legacy mode'"
 unset FLOW_SECRET_BACKEND
@@ -334,7 +334,7 @@ unset FLOW_SECRET_BACKEND
 section "6. Sync Command Structure"
 
 # Test: Sync help exists and is useful
-sync_help=$(_dot_secret_sync_help 2>/dev/null)
+sync_help=$(_sec_sync_help 2>/dev/null)
 assert_contains "$sync_help" "sync" "Sync help mentions 'sync'"
 assert_contains "$sync_help" "--status" "Sync help mentions '--status'"
 assert_contains "$sync_help" "--to-bw" "Sync help mentions '--to-bw'"
@@ -342,7 +342,7 @@ assert_contains "$sync_help" "--from-bw" "Sync help mentions '--from-bw'"
 
 # Test: Sync status runs without error (when BW locked)
 unset BW_SESSION
-sync_status_output=$(_dot_secret_sync_status 2>/dev/null)
+sync_status_output=$(_sec_sync_status 2>/dev/null)
 assert_contains "$sync_status_output" "Bitwarden" "Sync status mentions Bitwarden"
 
 # ============================================================================
@@ -352,7 +352,7 @@ assert_contains "$sync_status_output" "Bitwarden" "Sync status mentions Bitwarde
 section "7. Help Text Updates"
 
 # Test: Main help includes new commands
-help_output=$(_dot_kc_help 2>/dev/null)
+help_output=$(_dotf_kc_help 2>/dev/null)
 assert_contains "$help_output" "status" "Help mentions 'status' command"
 assert_contains "$help_output" "sync" "Help mentions 'sync' command"
 assert_contains "$help_output" "FLOW_SECRET_BACKEND" "Help mentions FLOW_SECRET_BACKEND"
@@ -363,15 +363,15 @@ assert_contains "$help_output" "FLOW_SECRET_BACKEND" "Help mentions FLOW_SECRET_
 
 section "8. Command Routing"
 
-# Test: dot secret status routes correctly
+# Test: sec status routes correctly
 unset FLOW_SECRET_BACKEND
-output=$(zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' && dot secret status 2>&1" 2>/dev/null | head -5)
-assert_contains "$output" "Backend" "dot secret status routes to status function"
-assert_not_contains "$output" "Tutorial" "dot secret status does not trigger tutorial"
+output=$(zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' && sec status 2>&1" 2>/dev/null | head -5)
+assert_contains "$output" "Backend" "sec status routes to status function"
+assert_not_contains "$output" "Tutorial" "sec status does not trigger tutorial"
 
-# Test: dot secret sync --help routes correctly
-output=$(zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' && dot secret sync --help 2>&1" 2>/dev/null | head -5)
-assert_contains "$output" "sync" "dot secret sync --help shows sync help"
+# Test: sec sync --help routes correctly
+output=$(zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' && sec sync --help 2>&1" 2>/dev/null | head -5)
+assert_contains "$output" "sync" "sec sync --help shows sync help"
 
 # ============================================================================
 # TEST GROUP 9: FILE STRUCTURE
@@ -389,8 +389,8 @@ fi
 # Test: REFCARD updated
 refcard_content=$(cat "$PLUGIN_DIR/docs/reference/REFCARD-TOKEN-SECRETS.md" 2>/dev/null)
 assert_contains "$refcard_content" "Backend Configuration" "REFCARD has Backend Configuration section"
-assert_contains "$refcard_content" "dot secret status" "REFCARD documents status command"
-assert_contains "$refcard_content" "dot secret sync" "REFCARD documents sync command"
+assert_contains "$refcard_content" "sec status" "REFCARD documents status command"
+assert_contains "$refcard_content" "sec sync" "REFCARD documents sync command"
 
 # ============================================================================
 # TEST GROUP 10: INTEGRATION SANITY
@@ -403,10 +403,10 @@ load_output=$(zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' 2>&1 && echo 'LOAD_OK
 assert_contains "$load_output" "LOAD_OK" "Plugin loads without fatal errors"
 
 # Test: dot command exists after load
-if zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' && type dot &>/dev/null" 2>/dev/null; then
-    test_pass "dot command available after load"
+if zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' && type dots &>/dev/null" 2>/dev/null; then
+    test_pass "dots command available after load"
 else
-    test_fail "dot command should be available"
+    test_fail "dots command should be available"
 fi
 
 # Test: _DOT_KEYCHAIN_SERVICE constant defined

@@ -578,6 +578,6 @@ EOF
 # DISPATCHER INTEGRATION
 # ============================================================================
 
-# Note: The _dot_secret_kc() function has been removed as dead code.
+# Note: The _dotf_secret_kc() function has been removed as dead code.
 # All routing is now handled by sec() in lib/dispatchers/sec-dispatcher.zsh
 # The helper functions below (_dotf_kc_add, _dotf_kc_get, etc.) are used by dots, sec, tok dispatchers.

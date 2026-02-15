@@ -214,14 +214,14 @@ test_dot_checks_only_tokens() {
     fi
 }
 
-test_dot_delegates_to_dot_token_expiring() {
-    log_test "B2. doctor --dot delegates to _dot_token_expiring"
+test_dot_delegates_to_tok_expiring() {
+    log_test "B2. doctor --dot delegates to _tok_expiring"
 
     # This is a behavioral test - we check that the function exists and is callable
-    if type _dot_token_expiring &>/dev/null; then
+    if type _tok_expiring &>/dev/null; then
         pass
     else
-        fail "_dot_token_expiring function not available"
+        fail "_tok_expiring function not available"
     fi
 }
 
@@ -330,7 +330,7 @@ test_specific_token_delegates() {
     log_test "C4. Specific token delegates correctly"
 
     # Check that dot token expiring function exists (used for delegation)
-    if type _dot_token_expiring &>/dev/null; then
+    if type _tok_expiring &>/dev/null; then
         pass
     else
         fail "Delegation function not available"
@@ -370,7 +370,7 @@ test_fix_token_calls_rotate() {
     log_test "D3. Token fix workflow uses rotation function"
 
     # Check that rotation function exists
-    if type _dot_token_rotate &>/dev/null; then
+    if type _tok_rotate &>/dev/null; then
         pass
     else
         fail "Token rotation function not available"
@@ -584,7 +584,7 @@ main() {
     echo "${YELLOW}CATEGORY B: Isolated Token Check (6 tests)${NC}"
     echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
     test_dot_checks_only_tokens
-    test_dot_delegates_to_dot_token_expiring
+    test_dot_delegates_to_tok_expiring
     test_dot_shows_token_status
     test_dot_no_tools_check
     test_dot_no_aliases_check

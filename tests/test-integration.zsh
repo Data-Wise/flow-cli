@@ -133,7 +133,7 @@ if [[ "$CHEZMOI_AVAILABLE" == "true" ]]; then
 
     # Test: Get sync status
     ((TESTS_RUN++))
-    sync_status=$(_dot_get_sync_status 2>/dev/null)
+    sync_status=$(_dots_get_sync_status 2>/dev/null)
     if [[ -n "$sync_status" ]]; then
       test_pass "Sync status check works: $sync_status"
     else
@@ -142,7 +142,7 @@ if [[ "$CHEZMOI_AVAILABLE" == "true" ]]; then
 
     # Test: Get tracked count
     ((TESTS_RUN++))
-    tracked_count=$(_dot_get_tracked_count 2>/dev/null)
+    tracked_count=$(_dots_get_tracked_count 2>/dev/null)
     if [[ "$tracked_count" =~ ^[0-9]+$ ]]; then
       test_pass "Tracked file count works: $tracked_count files"
     else
@@ -151,7 +151,7 @@ if [[ "$CHEZMOI_AVAILABLE" == "true" ]]; then
 
     # Test: Get modified count
     ((TESTS_RUN++))
-    modified_count=$(_dot_get_modified_count 2>/dev/null)
+    modified_count=$(_dots_get_modified_count 2>/dev/null)
     if [[ "$modified_count" =~ ^[0-9]+$ ]]; then
       test_pass "Modified file count works: $modified_count files"
     else
@@ -160,11 +160,11 @@ if [[ "$CHEZMOI_AVAILABLE" == "true" ]]; then
 
     # Test: Status command
     ((TESTS_RUN++))
-    output=$(dot status 2>&1)
+    output=$(dots status 2>&1)
     if [[ $? -eq 0 ]] && [[ -n "$output" ]]; then
-      test_pass "dot status command works"
+      test_pass "dots status command works"
     else
-      test_fail "dot status command" "Command failed or empty output"
+      test_fail "dots status command" "Command failed or empty output"
     fi
 
   else
@@ -188,7 +188,7 @@ echo ""
 if [[ "$BW_AVAILABLE" == "true" ]]; then
   # Test: Get Bitwarden status
   ((TESTS_RUN++))
-  bw_status=$(_dot_bw_get_status 2>/dev/null)
+  bw_status=$(_dotf_bw_get_status 2>/dev/null)
   if [[ -n "$bw_status" ]]; then
     test_pass "Bitwarden status check works: $bw_status"
 
@@ -199,17 +199,17 @@ if [[ "$BW_AVAILABLE" == "true" ]]; then
 
         # Test: Session validation
         ((TESTS_RUN++))
-        if _dot_bw_session_valid; then
+        if _dotf_bw_session_valid; then
           test_pass "Session validation works"
 
           # Test: Secret list (if jq available)
           if command -v jq >/dev/null 2>&1; then
             ((TESTS_RUN++))
-            output=$(dot secret list 2>&1)
+            output=$(sec list 2>&1)
             if [[ $? -eq 0 ]]; then
-              test_pass "dot secret list works"
+              test_pass "sec list works"
             else
-              test_warn "dot secret list failed (vault may be empty)"
+              test_warn "sec list failed (vault may be empty)"
             fi
           fi
         else
@@ -219,7 +219,7 @@ if [[ "$BW_AVAILABLE" == "true" ]]; then
 
       locked)
         test_info "Bitwarden is locked - secret tests require unlock"
-        test_info "Run 'dot unlock' to enable secret tests"
+        test_info "Run 'sec unlock' to enable secret tests"
         ;;
 
       unauthenticated)
@@ -236,7 +236,7 @@ if [[ "$BW_AVAILABLE" == "true" ]]; then
 
   # Test: Security check
   ((TESTS_RUN++))
-  if _dot_security_check_bw_session; then
+  if _dotf_security_check_bw_session; then
     test_pass "Security check passes (no global BW_SESSION)"
   else
     test_fail "Security check" "Found security issue with BW_SESSION"
@@ -259,7 +259,7 @@ echo ""
 if [[ "$CHEZMOI_AVAILABLE" == "true" ]] && [[ "$CHEZMOI_INITIALIZED" == "true" ]]; then
   # Test: Dashboard status line
   ((TESTS_RUN++))
-  status_line=$(_dot_get_status_line 2>/dev/null)
+  status_line=$(_dots_get_status_line 2>/dev/null)
   if [[ $? -eq 0 ]] && [[ -n "$status_line" ]]; then
     test_pass "Dashboard status line generation"
     test_info "Status line: $status_line"
@@ -302,7 +302,7 @@ echo ""
 
 # Test: Doctor dotfile function
 ((TESTS_RUN++))
-output=$(_dot_doctor 2>&1)
+output=$(_dots_doctor 2>&1)
 if [[ $? -eq 0 ]] && [[ -n "$output" ]]; then
   test_pass "Doctor dotfile check runs"
 
@@ -342,7 +342,7 @@ if [[ "$CHEZMOI_INITIALIZED" == "true" ]]; then
   # Test: Status check performance
   ((TESTS_RUN++))
   start_time=$SECONDS
-  dot status >/dev/null 2>&1
+  dots status >/dev/null 2>&1
   end_time=$SECONDS
   duration=$((end_time - start_time))
 
@@ -355,7 +355,7 @@ if [[ "$CHEZMOI_INITIALIZED" == "true" ]]; then
   # Test: Dashboard status line performance
   ((TESTS_RUN++))
   start_time=$SECONDS
-  _dot_get_status_line >/dev/null 2>&1
+  _dots_get_status_line >/dev/null 2>&1
   end_time=$SECONDS
   duration=$((end_time - start_time))
 
@@ -380,7 +380,7 @@ echo ""
 
 # Test: Invalid command handling
 ((TESTS_RUN++))
-output=$(dot invalid_command_xyz 2>&1)
+output=$(dots invalid_command_xyz 2>&1)
 if [[ $? -ne 0 ]] || [[ "$output" == *"help"* ]]; then
   test_pass "Invalid commands handled gracefully"
 else
@@ -390,7 +390,7 @@ fi
 # Test: Missing tool handling
 if [[ "$CHEZMOI_AVAILABLE" != "true" ]]; then
   ((TESTS_RUN++))
-  output=$(dot status 2>&1)
+  output=$(dots status 2>&1)
   if [[ "$output" == *"not found"* ]] || [[ "$output" == *"not installed"* ]]; then
     test_pass "Missing chezmoi handled gracefully"
   else

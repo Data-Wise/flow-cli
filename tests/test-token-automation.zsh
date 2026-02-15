@@ -86,12 +86,12 @@ cleanup() {
 # ============================================================================
 
 test_dot_token_exists() {
-    log_test "dot token command exists"
+    log_test "tok command exists"
 
-    if type dot &>/dev/null; then
+    if type tok &>/dev/null; then
         pass
     else
-        fail "dot command not found"
+        fail "tok command not found"
     fi
 }
 
@@ -109,23 +109,23 @@ test_flow_token_alias() {
 # TESTS: Helper Functions
 # ============================================================================
 
-test_dot_token_age_days_function() {
-    log_test "_dot_token_age_days function exists"
+test_tok_age_days_function() {
+    log_test "_tok_age_days function exists"
 
-    if type _dot_token_age_days &>/dev/null; then
+    if type _tok_age_days &>/dev/null; then
         pass
     else
-        fail "_dot_token_age_days function not found"
+        fail "_tok_age_days function not found"
     fi
 }
 
-test_dot_token_expiring_function() {
-    log_test "_dot_token_expiring function exists"
+test_tok_expiring_function() {
+    log_test "_tok_expiring function exists"
 
-    if type _dot_token_expiring &>/dev/null; then
+    if type _tok_expiring &>/dev/null; then
         pass
     else
-        fail "_dot_token_expiring function not found"
+        fail "_tok_expiring function not found"
     fi
 }
 
@@ -381,15 +381,15 @@ test_token_health_check_guide() {
 # ============================================================================
 
 test_dot_token_help() {
-    log_test "dot token help displays usage"
+    log_test "tok help displays usage"
 
     # Check if help output includes the new commands
-    local output=$(dot token help 2>/dev/null || dot help 2>/dev/null || echo "")
+    local output=$(tok help 2>/dev/null || dots help 2>/dev/null || echo "")
 
     if [[ -n "$output" ]]; then
         pass
     else
-        fail "dot token help produced no output"
+        fail "tok help produced no output"
     fi
 }
 
@@ -415,8 +415,8 @@ main() {
     echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
     echo "${YELLOW}Helper Function Tests${NC}"
     echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_dot_token_age_days_function
-    test_dot_token_expiring_function
+    test_tok_age_days_function
+    test_tok_expiring_function
     test_g_validate_github_token_silent
     test_g_is_github_remote
     test_work_project_uses_github

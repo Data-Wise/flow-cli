@@ -95,36 +95,36 @@ cleanup() {
 # ============================================================================
 
 test_functions_exist() {
-    log_test "_dot_kc_add exists"
-    if type _dot_kc_add &>/dev/null; then
+    log_test "_dotf_kc_add exists"
+    if type _dotf_kc_add &>/dev/null; then
         pass
     else
         fail "Function not found"
     fi
 
-    log_test "_dot_kc_get exists"
-    if type _dot_kc_get &>/dev/null; then
+    log_test "_dotf_kc_get exists"
+    if type _dotf_kc_get &>/dev/null; then
         pass
     else
         fail "Function not found"
     fi
 
-    log_test "_dot_kc_list exists"
-    if type _dot_kc_list &>/dev/null; then
+    log_test "_dotf_kc_list exists"
+    if type _dotf_kc_list &>/dev/null; then
         pass
     else
         fail "Function not found"
     fi
 
-    log_test "_dot_kc_delete exists"
-    if type _dot_kc_delete &>/dev/null; then
+    log_test "_dotf_kc_delete exists"
+    if type _dotf_kc_delete &>/dev/null; then
         pass
     else
         fail "Function not found"
     fi
 
-    log_test "_dot_kc_help exists"
-    if type _dot_kc_help &>/dev/null; then
+    log_test "_dotf_kc_help exists"
+    if type _dotf_kc_help &>/dev/null; then
         pass
     else
         fail "Function not found"
@@ -136,8 +136,8 @@ test_functions_exist() {
 # ============================================================================
 
 test_add_empty_name() {
-    log_test "_dot_kc_add rejects empty name"
-    _dot_kc_add "" &>/dev/null
+    log_test "_dotf_kc_add rejects empty name"
+    _dotf_kc_add "" &>/dev/null
     if [[ $? -ne 0 ]]; then
         pass
     else
@@ -146,8 +146,8 @@ test_add_empty_name() {
 }
 
 test_get_empty_name() {
-    log_test "_dot_kc_get rejects empty name"
-    _dot_kc_get "" &>/dev/null
+    log_test "_dotf_kc_get rejects empty name"
+    _dotf_kc_get "" &>/dev/null
     if [[ $? -ne 0 ]]; then
         pass
     else
@@ -156,8 +156,8 @@ test_get_empty_name() {
 }
 
 test_delete_empty_name() {
-    log_test "_dot_kc_delete rejects empty name"
-    _dot_kc_delete "" &>/dev/null
+    log_test "_dotf_kc_delete rejects empty name"
+    _dotf_kc_delete "" &>/dev/null
     if [[ $? -ne 0 ]]; then
         pass
     else
@@ -170,8 +170,8 @@ test_delete_empty_name() {
 # ============================================================================
 
 test_get_nonexistent() {
-    log_test "_dot_kc_get returns error for nonexistent secret"
-    _dot_kc_get "nonexistent-secret-$(date +%s)" &>/dev/null
+    log_test "_dotf_kc_get returns error for nonexistent secret"
+    _dotf_kc_get "nonexistent-secret-$(date +%s)" &>/dev/null
     if [[ $? -ne 0 ]]; then
         pass
     else
@@ -180,8 +180,8 @@ test_get_nonexistent() {
 }
 
 test_delete_nonexistent() {
-    log_test "_dot_kc_delete handles nonexistent secret"
-    _dot_kc_delete "nonexistent-secret-$(date +%s)" &>/dev/null
+    log_test "_dotf_kc_delete handles nonexistent secret"
+    _dotf_kc_delete "nonexistent-secret-$(date +%s)" &>/dev/null
     if [[ $? -ne 0 ]]; then
         pass
     else
@@ -190,8 +190,8 @@ test_delete_nonexistent() {
 }
 
 test_list_runs() {
-    log_test "_dot_kc_list runs without error"
-    _dot_kc_list &>/dev/null
+    log_test "_dotf_kc_list runs without error"
+    _dotf_kc_list &>/dev/null
     if [[ $? -eq 0 ]]; then
         pass
     else
@@ -222,7 +222,7 @@ test_add_get_delete_cycle() {
 
     # Step 2: Retrieve secret
     log_test "Get test secret from Keychain"
-    local retrieved=$(_dot_kc_get "$TEST_SECRET_NAME" 2>&1)
+    local retrieved=$(_dotf_kc_get "$TEST_SECRET_NAME" 2>&1)
     if [[ "$retrieved" == "$TEST_SECRET_VALUE" ]]; then
         pass
     else
@@ -231,7 +231,7 @@ test_add_get_delete_cycle() {
 
     # Step 3: List should include our secret
     log_test "List includes test secret"
-    local list_output=$(_dot_kc_list 2>&1)
+    local list_output=$(_dotf_kc_list 2>&1)
     if echo "$list_output" | grep -q "$TEST_SECRET_NAME"; then
         pass
     else
@@ -240,7 +240,7 @@ test_add_get_delete_cycle() {
 
     # Step 4: Delete secret
     log_test "Delete test secret from Keychain"
-    _dot_kc_delete "$TEST_SECRET_NAME" &>/dev/null
+    _dotf_kc_delete "$TEST_SECRET_NAME" &>/dev/null
     if [[ $? -eq 0 ]]; then
         pass
     else
@@ -249,7 +249,7 @@ test_add_get_delete_cycle() {
 
     # Step 5: Verify deletion
     log_test "Verify secret is deleted"
-    _dot_kc_get "$TEST_SECRET_NAME" &>/dev/null
+    _dotf_kc_get "$TEST_SECRET_NAME" &>/dev/null
     if [[ $? -ne 0 ]]; then
         pass
     else
@@ -262,8 +262,8 @@ test_add_get_delete_cycle() {
 # ============================================================================
 
 test_help_content() {
-    log_test "_dot_kc_help shows commands"
-    local output=$(_dot_kc_help 2>&1)
+    log_test "_dotf_kc_help shows commands"
+    local output=$(_dotf_kc_help 2>&1)
     if echo "$output" | grep -q "add" && \
        echo "$output" | grep -q "list" && \
        echo "$output" | grep -q "delete"; then
@@ -274,8 +274,8 @@ test_help_content() {
 }
 
 test_help_shows_benefits() {
-    log_test "_dot_kc_help shows Touch ID benefit"
-    local output=$(_dot_kc_help 2>&1)
+    log_test "_dotf_kc_help shows Touch ID benefit"
+    local output=$(_dotf_kc_help 2>&1)
     if echo "$output" | grep -qi "touch id"; then
         pass
     else
@@ -288,14 +288,14 @@ test_help_shows_benefits() {
 # ============================================================================
 
 test_dispatcher_routes_add() {
-    log_test "_dot_secret routes 'add' correctly"
-    if type _dot_secret &>/dev/null; then
-        # Should call _dot_kc_add (which fails on empty, proving routing)
-        _dot_secret add &>/dev/null
+    log_test "_sec_get routes 'add' correctly"
+    if type _sec_get &>/dev/null; then
+        # Should call _dotf_kc_add (which fails on empty, proving routing)
+        _sec_get add &>/dev/null
         if [[ $? -ne 0 ]]; then
             pass
         else
-            fail "Should route to _dot_kc_add"
+            fail "Should route to _dotf_kc_add"
         fi
     else
         fail "Dispatcher function not found"
@@ -303,28 +303,28 @@ test_dispatcher_routes_add() {
 }
 
 test_dispatcher_routes_list() {
-    log_test "_dot_secret routes 'list' correctly"
-    _dot_secret list &>/dev/null
+    log_test "_sec_get routes 'list' correctly"
+    _sec_get list &>/dev/null
     if [[ $? -eq 0 ]]; then
         pass
     else
-        fail "Should route to _dot_kc_list"
+        fail "Should route to _dotf_kc_list"
     fi
 }
 
 test_dispatcher_routes_ls_alias() {
-    log_test "_dot_secret routes 'ls' as list alias (via list)"
-    _dot_secret list &>/dev/null
+    log_test "_sec_get routes 'ls' as list alias (via list)"
+    _sec_get list &>/dev/null
     if [[ $? -eq 0 ]]; then
         pass
     else
-        fail "Should route to _dot_kc_list"
+        fail "Should route to _dotf_kc_list"
     fi
 }
 
 test_dispatcher_routes_help() {
-    log_test "_dot_secret routes 'help' correctly"
-    local output=$(_dot_secret help 2>&1)
+    log_test "_sec_get routes 'help' correctly"
+    local output=$(_sec_get help 2>&1)
     if echo "$output" | grep -q "Keychain\|secret"; then
         pass
     else
@@ -333,8 +333,8 @@ test_dispatcher_routes_help() {
 }
 
 test_dispatcher_routes_help_flag() {
-    log_test "_dot_secret routes '--help' flag"
-    local output=$(_dot_secret --help 2>&1)
+    log_test "_sec_get routes '--help' flag"
+    local output=$(_sec_get --help 2>&1)
     if echo "$output" | grep -q "Keychain\|secret"; then
         pass
     else
@@ -343,8 +343,8 @@ test_dispatcher_routes_help_flag() {
 }
 
 test_dispatcher_routes_h_flag() {
-    log_test "_dot_secret routes '-h' flag"
-    local output=$(_dot_secret -h 2>&1)
+    log_test "_sec_get routes '-h' flag"
+    local output=$(_sec_get -h 2>&1)
     if echo "$output" | grep -q "Keychain\|secret"; then
         pass
     else
@@ -353,9 +353,9 @@ test_dispatcher_routes_h_flag() {
 }
 
 test_dispatcher_default_to_get() {
-    log_test "_dot_secret defaults unknown args to get"
+    log_test "_sec_get defaults unknown args to get"
     # Unknown arg should try to get (and fail since doesn't exist)
-    _dot_secret "unknown-secret-name-$$" &>/dev/null
+    _sec_get "unknown-secret-name-$$" &>/dev/null
     if [[ $? -ne 0 ]]; then
         pass
     else
@@ -364,8 +364,8 @@ test_dispatcher_default_to_get() {
 }
 
 test_dispatcher_empty_shows_help() {
-    log_test "_dot_secret with no args shows help"
-    local output=$(_dot_secret 2>&1)
+    log_test "_sec_get with no args shows help"
+    local output=$(_sec_get 2>&1)
     if echo "$output" | grep -q "Keychain\|secret"; then
         pass
     else
@@ -374,13 +374,13 @@ test_dispatcher_empty_shows_help() {
 }
 
 test_dispatcher_delete_aliases() {
-    log_test "_dot_secret routes 'delete' correctly"
-    _dot_secret delete "" &>/dev/null
+    log_test "_sec_get routes 'delete' correctly"
+    _sec_get delete "" &>/dev/null
     # Should fail on empty name (proves routing to delete)
     if [[ $? -ne 0 ]]; then
         pass
     else
-        fail "Should route 'delete' to _dot_kc_delete"
+        fail "Should route 'delete' to _dotf_kc_delete"
     fi
 }
 
@@ -398,7 +398,7 @@ test_secret_with_spaces() {
         -w "value-with-spaces" \
         -U &>/dev/null
 
-    local result=$(_dot_kc_get "$test_name" 2>&1)
+    local result=$(_dotf_kc_get "$test_name" 2>&1)
     security delete-generic-password -a "$test_name" -s "$_DOT_KEYCHAIN_SERVICE" &>/dev/null
 
     if [[ "$result" == "value-with-spaces" ]]; then
@@ -418,7 +418,7 @@ test_secret_with_special_chars() {
         -w "special-value" \
         -U &>/dev/null
 
-    local result=$(_dot_kc_get "$test_name" 2>&1)
+    local result=$(_dotf_kc_get "$test_name" 2>&1)
     security delete-generic-password -a "$test_name" -s "$_DOT_KEYCHAIN_SERVICE" &>/dev/null
 
     if [[ "$result" == "special-value" ]]; then
@@ -446,7 +446,7 @@ test_update_existing_secret() {
         -w "updated-value" \
         -U &>/dev/null
 
-    local result=$(_dot_kc_get "$test_name" 2>&1)
+    local result=$(_dotf_kc_get "$test_name" 2>&1)
     security delete-generic-password -a "$test_name" -s "$_DOT_KEYCHAIN_SERVICE" &>/dev/null
 
     if [[ "$result" == "updated-value" ]]; then
@@ -464,7 +464,7 @@ test_multiple_secrets_in_list() {
     security add-generic-password -a "${prefix}-1" -s "$_DOT_KEYCHAIN_SERVICE" -w "v1" -U &>/dev/null
     security add-generic-password -a "${prefix}-2" -s "$_DOT_KEYCHAIN_SERVICE" -w "v2" -U &>/dev/null
 
-    local list_output=$(_dot_kc_list 2>&1)
+    local list_output=$(_dotf_kc_list 2>&1)
 
     # Cleanup
     security delete-generic-password -a "${prefix}-1" -s "$_DOT_KEYCHAIN_SERVICE" &>/dev/null
@@ -489,7 +489,7 @@ test_secret_value_with_special_chars() {
         -w "$test_value" \
         -U &>/dev/null
 
-    local result=$(_dot_kc_get "$test_name" 2>&1)
+    local result=$(_dotf_kc_get "$test_name" 2>&1)
     security delete-generic-password -a "$test_name" -s "$_DOT_KEYCHAIN_SERVICE" &>/dev/null
 
     if [[ "$result" == "$test_value" ]]; then
@@ -625,7 +625,7 @@ test_import_requires_bw() {
     PATH="/usr/bin:/bin"
 
     local output
-    output=$(_dot_kc_import 2>&1 <<< "n")
+    output=$(_dotf_kc_import 2>&1 <<< "n")
 
     PATH="$original_path"
 
@@ -638,11 +638,11 @@ test_import_requires_bw() {
 }
 
 test_import_function_exists() {
-    log_test "_dot_kc_import function exists"
-    if type _dot_kc_import &>/dev/null; then
+    log_test "_dotf_kc_import function exists"
+    if type _dotf_kc_import &>/dev/null; then
         pass
     else
-        fail "_dot_kc_import not defined"
+        fail "_dotf_kc_import not defined"
     fi
 }
 

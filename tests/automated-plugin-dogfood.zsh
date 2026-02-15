@@ -148,7 +148,7 @@ help_fns=(
     cc    _cc_help
     tm    _tm_help
     wt    _wt_help
-    dot   _dot_help
+    dot   _dots_help
     teach _teach_dispatcher_help
     prompt _prompt_help
     v     _v_help

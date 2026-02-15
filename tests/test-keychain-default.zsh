@@ -77,28 +77,28 @@ echo "${YELLOW}── Backend Configuration ──${NC}"
 
 # Test 1: Default backend is keychain
 unset FLOW_SECRET_BACKEND
-local result=$(_dot_secret_backend)
+local result=$(_dotf_secret_backend)
 assert_eq "$result" "keychain" "Default backend is 'keychain'"
 
 # Test 2: Keychain backend via env var
 export FLOW_SECRET_BACKEND="keychain"
-result=$(_dot_secret_backend)
+result=$(_dotf_secret_backend)
 assert_eq "$result" "keychain" "FLOW_SECRET_BACKEND=keychain returns 'keychain'"
 
 # Test 3: Bitwarden backend via env var
 export FLOW_SECRET_BACKEND="bitwarden"
-result=$(_dot_secret_backend)
+result=$(_dotf_secret_backend)
 assert_eq "$result" "bitwarden" "FLOW_SECRET_BACKEND=bitwarden returns 'bitwarden'"
 
 # Test 4: Both backend via env var
 export FLOW_SECRET_BACKEND="both"
-result=$(_dot_secret_backend)
+result=$(_dotf_secret_backend)
 assert_eq "$result" "both" "FLOW_SECRET_BACKEND=both returns 'both'"
 
 # Test 5: Invalid backend falls back to keychain
 export FLOW_SECRET_BACKEND="invalid"
 # Capture just the last line (the actual return value)
-result=$(_dot_secret_backend 2>/dev/null | tail -1)
+result=$(_dotf_secret_backend 2>/dev/null | tail -1)
 assert_eq "$result" "keychain" "Invalid backend falls back to 'keychain'"
 
 # Reset
@@ -111,49 +111,49 @@ unset FLOW_SECRET_BACKEND
 echo ""
 echo "${YELLOW}── Helper Functions ──${NC}"
 
-# Test 6: _dot_secret_needs_bitwarden with keychain backend
+# Test 6: _dotf_secret_needs_bitwarden with keychain backend
 unset FLOW_SECRET_BACKEND
-if _dot_secret_needs_bitwarden; then
+if _dotf_secret_needs_bitwarden; then
   test_fail "keychain backend should not need Bitwarden"
 else
   test_pass "keychain backend does not need Bitwarden"
 fi
 
-# Test 7: _dot_secret_needs_bitwarden with bitwarden backend
+# Test 7: _dotf_secret_needs_bitwarden with bitwarden backend
 export FLOW_SECRET_BACKEND="bitwarden"
-if _dot_secret_needs_bitwarden; then
+if _dotf_secret_needs_bitwarden; then
   test_pass "bitwarden backend needs Bitwarden"
 else
   test_fail "bitwarden backend should need Bitwarden"
 fi
 
-# Test 8: _dot_secret_needs_bitwarden with both backend
+# Test 8: _dotf_secret_needs_bitwarden with both backend
 export FLOW_SECRET_BACKEND="both"
-if _dot_secret_needs_bitwarden; then
+if _dotf_secret_needs_bitwarden; then
   test_pass "both backend needs Bitwarden"
 else
   test_fail "both backend should need Bitwarden"
 fi
 
-# Test 9: _dot_secret_uses_keychain with keychain backend
+# Test 9: _dotf_secret_uses_keychain with keychain backend
 unset FLOW_SECRET_BACKEND
-if _dot_secret_uses_keychain; then
+if _dotf_secret_uses_keychain; then
   test_pass "keychain backend uses Keychain"
 else
   test_fail "keychain backend should use Keychain"
 fi
 
-# Test 10: _dot_secret_uses_keychain with bitwarden backend
+# Test 10: _dotf_secret_uses_keychain with bitwarden backend
 export FLOW_SECRET_BACKEND="bitwarden"
-if _dot_secret_uses_keychain; then
+if _dotf_secret_uses_keychain; then
   test_fail "bitwarden backend should not use Keychain"
 else
   test_pass "bitwarden backend does not use Keychain"
 fi
 
-# Test 11: _dot_secret_uses_keychain with both backend
+# Test 11: _dotf_secret_uses_keychain with both backend
 export FLOW_SECRET_BACKEND="both"
-if _dot_secret_uses_keychain; then
+if _dotf_secret_uses_keychain; then
   test_pass "both backend uses Keychain"
 else
   test_fail "both backend should use Keychain"
@@ -170,15 +170,15 @@ echo ""
 echo "${YELLOW}── Status Command ──${NC}"
 
 # Test 12: Status command exists
-if type _dot_secret_status &>/dev/null; then
-  test_pass "_dot_secret_status function exists"
+if type _sec_status &>/dev/null; then
+  test_pass "_sec_status function exists"
 else
-  test_fail "_dot_secret_status function should exist"
+  test_fail "_sec_status function should exist"
 fi
 
 # Test 13: Status output contains backend info
 unset FLOW_SECRET_BACKEND
-local status_output=$(_dot_secret_status 2>/dev/null)
+local status_output=$(_sec_status 2>/dev/null)
 assert_contains "$status_output" "keychain" "Status shows keychain backend"
 
 # Test 14: Status output contains configuration
@@ -192,14 +192,14 @@ echo ""
 echo "${YELLOW}── Sync Command ──${NC}"
 
 # Test 15: Sync function exists
-if type _dot_secret_sync &>/dev/null; then
-  test_pass "_dot_secret_sync function exists"
+if type _sec_sync &>/dev/null; then
+  test_pass "_sec_sync function exists"
 else
-  test_fail "_dot_secret_sync function should exist"
+  test_fail "_sec_sync function should exist"
 fi
 
 # Test 16: Sync help exists
-local sync_help=$(_dot_secret_sync_help 2>/dev/null)
+local sync_help=$(_sec_sync_help 2>/dev/null)
 assert_contains "$sync_help" "sync" "Sync help mentions sync"
 
 # ============================================================================
@@ -209,15 +209,15 @@ assert_contains "$sync_help" "sync" "Sync help mentions sync"
 echo ""
 echo "${YELLOW}── Command Routing ──${NC}"
 
-# Test 17: dot secret dispatches correctly
-if type _dot_secret &>/dev/null; then
-  test_pass "_dot_secret dispatcher exists"
+# Test 17: sec dispatches correctly
+if type _sec_get &>/dev/null; then
+  test_pass "_sec_get dispatcher exists"
 else
-  test_fail "_dot_secret dispatcher should exist"
+  test_fail "_sec_get dispatcher should exist"
 fi
 
 # Test 18: Help includes status command
-local help_output=$(_dot_kc_help 2>/dev/null)
+local help_output=$(_dotf_kc_help 2>/dev/null)
 assert_contains "$help_output" "status" "Help mentions status command"
 
 # Test 19: Help includes sync command

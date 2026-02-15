@@ -246,7 +246,7 @@ test_git_detection_single_dir() {
   mkdir -p "$test_dir/.git"
 
   # Source the function
-  _dot_check_git_in_path() {
+  _dotf_check_git_in_path() {
     local target="$1"
     local git_dirs=()
 
@@ -261,7 +261,7 @@ test_git_detection_single_dir() {
     return 1
   }
 
-  local result=$(_dot_check_git_in_path "$test_dir")
+  local result=$(_dotf_check_git_in_path "$test_dir")
 
   if assert_not_zero "$result" "Should detect .git directory"; then
     test_pass
@@ -279,7 +279,7 @@ test_git_detection_nested() {
   mkdir -p "$test_dir/subdir/.git"
 
   # Source the function (simplified for testing)
-  _dot_check_git_in_path() {
+  _dotf_check_git_in_path() {
     local target="$1"
     local git_dirs=()
 
@@ -298,7 +298,7 @@ test_git_detection_nested() {
     return 1
   }
 
-  local result=$(_dot_check_git_in_path "$test_dir")
+  local result=$(_dotf_check_git_in_path "$test_dir")
   local count=$(echo "$result" | wc -w | tr -d ' ')
 
   if [[ $count -ge 1 ]]; then
@@ -315,13 +315,13 @@ test_git_detection_empty_dir() {
   local test_dir="$TEST_HOME/test-no-git"
   mkdir -p "$test_dir"
 
-  _dot_check_git_in_path() {
+  _dotf_check_git_in_path() {
     local target="$1"
     [[ -d "$target/.git" ]] && echo "$target/.git" && return 0
     return 1
   }
 
-  local result=$(_dot_check_git_in_path "$test_dir")
+  local result=$(_dotf_check_git_in_path "$test_dir")
 
   if [[ -z "$result" ]]; then
     test_pass

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Non-interactive test for _dot_preview_add and _dot_suggest_ignore_patterns
+# Non-interactive test for _dotf_preview_add and _dotf_suggest_ignore_patterns
 # This demonstrates the preview output without requiring user input
 
 # Source dependencies
@@ -91,7 +91,7 @@ fi
 
 echo ""
 echo "═══════════════════════════════════════════════════════════"
-echo "Test: _dot_suggest_ignore_patterns (automatic)"
+echo "Test: _dotf_suggest_ignore_patterns (automatic)"
 echo "═══════════════════════════════════════════════════════════"
 
 # Create a test chezmoi directory
@@ -101,7 +101,7 @@ export HOME="/tmp/chezmoi-test-$$"
 mkdir -p "${HOME}/.local/share/chezmoi"
 
 echo "Adding patterns: *.log *.sqlite *.cache"
-_dot_suggest_ignore_patterns "*.log" "*.sqlite" "*.cache"
+_dotf_suggest_ignore_patterns "*.log" "*.sqlite" "*.cache"
 echo ""
 
 echo "Contents of .chezmoiignore:"
@@ -109,7 +109,7 @@ cat "${HOME}/.local/share/chezmoi/.chezmoiignore"
 echo ""
 
 echo "Adding more patterns (including duplicates):"
-_dot_suggest_ignore_patterns "*.log" "*.db" "*.tmp"
+_dotf_suggest_ignore_patterns "*.log" "*.db" "*.tmp"
 echo ""
 
 echo "Final contents:"

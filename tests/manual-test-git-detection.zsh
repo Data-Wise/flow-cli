@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Manual test for _dot_check_git_in_path function
+# Manual test for _dotf_check_git_in_path function
 # Usage: ./tests/manual-test-git-detection.zsh
 
 # Load dependencies
@@ -84,7 +84,7 @@ echo -e "${FLOW_COLORS[muted]}Test base: $TEST_BASE${FLOW_COLORS[reset]}"
 # Test 1: Empty directory (no .git)
 print_test "Empty directory (no .git)"
 mkdir -p "$TEST_BASE/empty"
-result=$(_dot_check_git_in_path "$TEST_BASE/empty")
+result=$(_dotf_check_git_in_path "$TEST_BASE/empty")
 exit_code=$?
 assert_result "1" "$exit_code" "Should return 1 for directory without .git"
 assert_result "" "$result" "Should return empty string"
@@ -92,7 +92,7 @@ assert_result "" "$result" "Should return empty string"
 # Test 2: Directory with .git in root
 print_test "Directory with .git in root"
 mkdir -p "$TEST_BASE/with-git/.git"
-result=$(_dot_check_git_in_path "$TEST_BASE/with-git")
+result=$(_dotf_check_git_in_path "$TEST_BASE/with-git")
 exit_code=$?
 assert_result "0" "$exit_code" "Should return 0 when .git found"
 [[ "$result" =~ ".git" ]] && ((pass_count++)) || ((fail_count++))
@@ -102,7 +102,7 @@ echo -e "${TEST_COLORS[pass]}✓ Result contains .git path${TEST_COLORS[reset]}"
 print_test "Directory with nested .git directories"
 mkdir -p "$TEST_BASE/nested/subdir1/.git"
 mkdir -p "$TEST_BASE/nested/subdir2/.git"
-result=$(_dot_check_git_in_path "$TEST_BASE/nested")
+result=$(_dotf_check_git_in_path "$TEST_BASE/nested")
 exit_code=$?
 assert_result "0" "$exit_code" "Should return 0 when nested .git found"
 [[ $(echo "$result" | wc -w) -ge 2 ]] && ((pass_count++)) || ((fail_count++))
@@ -134,7 +134,7 @@ if command -v git &>/dev/null; then
   git submodule add -q "$TEST_BASE/submodule" submodule > /dev/null 2>&1
 
   # Test detection
-  result=$(_dot_check_git_in_path "$TEST_BASE/repo-with-submodule")
+  result=$(_dotf_check_git_in_path "$TEST_BASE/repo-with-submodule")
   exit_code=$?
   assert_result "0" "$exit_code" "Should detect git repo with submodules"
   [[ "$result" =~ ".git" ]] && ((pass_count++)) || ((fail_count++))
@@ -152,7 +152,7 @@ echo -e "${TEST_COLORS[muted]}  Target: $TEST_BASE/symlink-dir${TEST_COLORS[rese
 echo -e "${TEST_COLORS[muted]}  When prompted, press 'Y' to follow symlink${TEST_COLORS[reset]}"
 echo -n "Ready? Press Enter to continue..."
 read
-result=$(_dot_check_git_in_path "$TEST_BASE/symlink-dir")
+result=$(_dotf_check_git_in_path "$TEST_BASE/symlink-dir")
 exit_code=$?
 if [[ $exit_code -eq 0 ]]; then
   ((pass_count++))
@@ -176,7 +176,7 @@ mkdir -p "$TEST_BASE/large-dir/subdir-10/.git"
 mkdir -p "$TEST_BASE/large-dir/subdir-50/.git"
 
 start_time=$(date +%s)
-result=$(_dot_check_git_in_path "$TEST_BASE/large-dir")
+result=$(_dotf_check_git_in_path "$TEST_BASE/large-dir")
 exit_code=$?
 end_time=$(date +%s)
 duration=$((end_time - start_time))
@@ -192,14 +192,14 @@ fi
 
 # Test 7: Non-existent directory
 print_test "Non-existent directory"
-result=$(_dot_check_git_in_path "$TEST_BASE/does-not-exist" 2>/dev/null)
+result=$(_dotf_check_git_in_path "$TEST_BASE/does-not-exist" 2>/dev/null)
 exit_code=$?
 assert_result "1" "$exit_code" "Should return 1 for non-existent directory"
 
 # Test 8: File instead of directory
 print_test "File instead of directory"
 touch "$TEST_BASE/test-file.txt"
-result=$(_dot_check_git_in_path "$TEST_BASE/test-file.txt" 2>/dev/null)
+result=$(_dotf_check_git_in_path "$TEST_BASE/test-file.txt" 2>/dev/null)
 exit_code=$?
 assert_result "1" "$exit_code" "Should return 1 for file path"
 

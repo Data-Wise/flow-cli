@@ -99,26 +99,26 @@ setup() {
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TEST SUITE 1: _dot_add_file() Unit Tests
+# TEST SUITE 1: _dots_add_file() Unit Tests
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_add_file_rejects_nonexistent() {
-  print_test "_dot_add_file rejects non-existent file"
+  print_test "_dots_add_file rejects non-existent file"
   run_test
 
   local output
-  output=$(_dot_add_file "/nonexistent/path/file.txt" 2>&1)
+  output=$(_dots_add_file "/nonexistent/path/file.txt" 2>&1)
   local exit_code=$?
 
   if [[ $exit_code -ne 0 ]] && [[ "$output" == *"does not exist"* ]]; then
-    print_pass "_dot_add_file rejects non-existent file"
+    print_pass "_dots_add_file rejects non-existent file"
   else
-    print_fail "_dot_add_file rejects non-existent file" "Exit: $exit_code, Output: $output"
+    print_fail "_dots_add_file rejects non-existent file" "Exit: $exit_code, Output: $output"
   fi
 }
 
 test_add_file_expands_tilde() {
-  print_test "_dot_add_file expands ~ to HOME"
+  print_test "_dots_add_file expands ~ to HOME"
   run_test
 
   # Create a temp file in HOME
@@ -134,21 +134,21 @@ test_add_file_expands_tilde() {
   }
 
   local output
-  output=$(_dot_add_file "~/.test-dot-add-tilde-$$" 2>&1)
+  output=$(_dots_add_file "~/.test-dot-add-tilde-$$" 2>&1)
 
   # Cleanup
   rm -f "$test_file"
   unfunction chezmoi 2>/dev/null
 
   if [[ "$output" == *"$HOME/.test-dot-add-tilde-$$"* ]] || [[ "$output" == *"Added"* ]]; then
-    print_pass "_dot_add_file expands tilde correctly"
+    print_pass "_dots_add_file expands tilde correctly"
   else
-    print_fail "_dot_add_file expands tilde correctly" "Output: $output"
+    print_fail "_dots_add_file expands tilde correctly" "Output: $output"
   fi
 }
 
 test_add_file_handles_relative_paths() {
-  print_test "_dot_add_file converts relative paths to absolute"
+  print_test "_dots_add_file converts relative paths to absolute"
   run_test
 
   # Create a temp file in HOME
@@ -169,7 +169,7 @@ test_add_file_handles_relative_paths() {
 
   # Call with relative path (will be converted to $HOME/...)
   local output
-  output=$(_dot_add_file ".test-dot-relative-$$" 2>&1)
+  output=$(_dots_add_file ".test-dot-relative-$$" 2>&1)
   local exit_code=$?
 
   # Cleanup
@@ -177,48 +177,48 @@ test_add_file_handles_relative_paths() {
   unfunction chezmoi 2>/dev/null
 
   if [[ $exit_code -eq 0 ]]; then
-    print_pass "_dot_add_file converts relative to absolute paths"
+    print_pass "_dots_add_file converts relative to absolute paths"
   else
-    print_fail "_dot_add_file converts relative to absolute paths" "Exit: $exit_code"
+    print_fail "_dots_add_file converts relative to absolute paths" "Exit: $exit_code"
   fi
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TEST SUITE 2: _dot_add() Unit Tests
+# TEST SUITE 2: _dots_add() Unit Tests
 # ══════════════════════════════════════════════════════════════════════════════
 
-test_dot_add_requires_argument() {
-  print_test "_dot_add requires file argument"
+test_dots_add_requires_argument() {
+  print_test "_dots_add requires file argument"
   run_test
 
   local output
-  output=$(_dot_add 2>&1)
+  output=$(_dots_add 2>&1)
   local exit_code=$?
 
   if [[ $exit_code -ne 0 ]] && [[ "$output" == *"Usage:"* ]]; then
-    print_pass "_dot_add shows usage when no argument"
+    print_pass "_dots_add shows usage when no argument"
   else
-    print_fail "_dot_add shows usage when no argument" "Exit: $exit_code, Output: $output"
+    print_fail "_dots_add shows usage when no argument" "Exit: $exit_code, Output: $output"
   fi
 }
 
-test_dot_add_rejects_nonexistent() {
-  print_test "_dot_add rejects non-existent file"
+test_dots_add_rejects_nonexistent() {
+  print_test "_dots_add rejects non-existent file"
   run_test
 
   local output
-  output=$(_dot_add "/this/file/does/not/exist.txt" 2>&1)
+  output=$(_dots_add "/this/file/does/not/exist.txt" 2>&1)
   local exit_code=$?
 
   if [[ $exit_code -ne 0 ]] && [[ "$output" == *"does not exist"* ]]; then
-    print_pass "_dot_add rejects non-existent file"
+    print_pass "_dots_add rejects non-existent file"
   else
-    print_fail "_dot_add rejects non-existent file" "Exit: $exit_code, Output: $output"
+    print_fail "_dots_add rejects non-existent file" "Exit: $exit_code, Output: $output"
   fi
 }
 
-test_dot_add_shows_tip() {
-  print_test "_dot_add shows next step tip"
+test_dots_add_shows_tip() {
+  print_test "_dots_add shows next step tip"
   run_test
 
   # Create test file
@@ -235,31 +235,31 @@ test_dot_add_shows_tip() {
   }
 
   local output
-  output=$(_dot_add "$test_file" 2>&1)
+  output=$(_dots_add "$test_file" 2>&1)
 
   # Cleanup
   rm -f "$test_file"
   unfunction chezmoi 2>/dev/null
 
-  if [[ "$output" == *"Tip:"* ]] && [[ "$output" == *"dot edit"* ]]; then
-    print_pass "_dot_add shows edit tip"
+  if [[ "$output" == *"Tip:"* ]] && [[ "$output" == *"dots edit"* ]]; then
+    print_pass "_dots_add shows edit tip"
   else
-    print_fail "_dot_add shows edit tip" "Output: $output"
+    print_fail "_dots_add shows edit tip" "Output: $output"
   fi
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TEST SUITE 3: _dot_has_bitwarden_template() Unit Tests
+# TEST SUITE 3: _dotf_has_bitwarden_template() Unit Tests
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_bw_template_detects_bitwarden() {
-  print_test "_dot_has_bitwarden_template detects {{ bitwarden }}"
+  print_test "_dotf_has_bitwarden_template detects {{ bitwarden }}"
   run_test
 
   local test_file="/tmp/test-bw-template-$$.tmpl"
   echo 'export TOKEN="{{ bitwarden "myitem" "password" }}"' > "$test_file"
 
-  if _dot_has_bitwarden_template "$test_file"; then
+  if _dotf_has_bitwarden_template "$test_file"; then
     print_pass "Detects bitwarden template syntax"
   else
     print_fail "Detects bitwarden template syntax" "Function returned false"
@@ -269,13 +269,13 @@ test_bw_template_detects_bitwarden() {
 }
 
 test_bw_template_ignores_non_tmpl() {
-  print_test "_dot_has_bitwarden_template ignores non-.tmpl files"
+  print_test "_dotf_has_bitwarden_template ignores non-.tmpl files"
   run_test
 
   local test_file="/tmp/test-not-tmpl-$$.txt"
   echo '{{ bitwarden "myitem" "password" }}' > "$test_file"
 
-  if ! _dot_has_bitwarden_template "$test_file"; then
+  if ! _dotf_has_bitwarden_template "$test_file"; then
     print_pass "Ignores bitwarden syntax in non-.tmpl files"
   else
     print_fail "Ignores bitwarden syntax in non-.tmpl files" "Function returned true"
@@ -285,14 +285,14 @@ test_bw_template_ignores_non_tmpl() {
 }
 
 test_bw_template_ignores_other_templates() {
-  print_test "_dot_has_bitwarden_template ignores other template functions"
+  print_test "_dotf_has_bitwarden_template ignores other template functions"
   run_test
 
   local test_file="/tmp/test-other-tmpl-$$.tmpl"
   echo '{{ env "HOME" }}' > "$test_file"
   echo '{{ include "file.txt" }}' >> "$test_file"
 
-  if ! _dot_has_bitwarden_template "$test_file"; then
+  if ! _dotf_has_bitwarden_template "$test_file"; then
     print_pass "Ignores non-bitwarden template functions"
   else
     print_fail "Ignores non-bitwarden template functions" "Function returned true"
@@ -302,13 +302,13 @@ test_bw_template_ignores_other_templates() {
 }
 
 test_bw_template_handles_spacing() {
-  print_test "_dot_has_bitwarden_template handles varied spacing"
+  print_test "_dotf_has_bitwarden_template handles varied spacing"
   run_test
 
   local test_file="/tmp/test-spacing-$$.tmpl"
   echo '{{bitwarden "item" "field"}}' > "$test_file"  # No spaces
 
-  if _dot_has_bitwarden_template "$test_file"; then
+  if _dotf_has_bitwarden_template "$test_file"; then
     print_pass "Handles template with no spaces"
   else
     print_fail "Handles template with no spaces" "Function returned false"
@@ -318,15 +318,15 @@ test_bw_template_handles_spacing() {
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
-# TEST SUITE 4: _dot_print_summary() Unit Tests
+# TEST SUITE 4: _dots_print_summary() Unit Tests
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_summary_shows_file_action_status() {
-  print_test "_dot_print_summary includes all parameters"
+  print_test "_dots_print_summary includes all parameters"
   run_test
 
   local output
-  output=$(_dot_print_summary ".zshrc" "Added" "Applied" 2>&1)
+  output=$(_dots_print_summary ".zshrc" "Added" "Applied" 2>&1)
 
   if [[ "$output" == *".zshrc"* ]] && [[ "$output" == *"Added"* ]] && [[ "$output" == *"Applied"* ]]; then
     print_pass "Summary includes file, action, and status"
@@ -336,42 +336,42 @@ test_summary_shows_file_action_status() {
 }
 
 test_summary_push_tip_for_applied() {
-  print_test "_dot_print_summary shows push tip for Applied"
+  print_test "_dots_print_summary shows push tip for Applied"
   run_test
 
   local output
-  output=$(_dot_print_summary ".test" "Edited" "Applied" 2>&1)
+  output=$(_dots_print_summary ".test" "Edited" "Applied" 2>&1)
 
-  if [[ "$output" == *"dot push"* ]]; then
-    print_pass "Shows 'dot push' tip for Applied status"
+  if [[ "$output" == *"dots push"* ]]; then
+    print_pass "Shows 'dots push' tip for Applied status"
   else
-    print_fail "Shows 'dot push' tip for Applied status" "Output: $output"
+    print_fail "Shows 'dots push' tip for Applied status" "Output: $output"
   fi
 }
 
 test_summary_apply_tip_for_staging() {
-  print_test "_dot_print_summary shows apply tip for Staging"
+  print_test "_dots_print_summary shows apply tip for Staging"
   run_test
 
   local output
-  output=$(_dot_print_summary ".test" "Edited" "Staging" 2>&1)
+  output=$(_dots_print_summary ".test" "Edited" "Staging" 2>&1)
 
-  if [[ "$output" == *"dot apply"* ]]; then
-    print_pass "Shows 'dot apply' tip for Staging status"
+  if [[ "$output" == *"dots apply"* ]]; then
+    print_pass "Shows 'dots apply' tip for Staging status"
   else
-    print_fail "Shows 'dot apply' tip for Staging status" "Output: $output"
+    print_fail "Shows 'dots apply' tip for Staging status" "Output: $output"
   fi
 }
 
 test_summary_no_tip_for_no_changes() {
-  print_test "_dot_print_summary shows no tip for No changes"
+  print_test "_dots_print_summary shows no tip for No changes"
   run_test
 
   local output
-  output=$(_dot_print_summary ".test" "Edited" "No changes" 2>&1)
+  output=$(_dots_print_summary ".test" "Edited" "No changes" 2>&1)
 
   # Should not show any tip
-  if [[ "$output" != *"dot push"* ]] && [[ "$output" != *"dot apply"* ]]; then
+  if [[ "$output" != *"dots push"* ]] && [[ "$output" != *"dots apply"* ]]; then
     print_pass "No tip shown for 'No changes' status"
   else
     print_fail "No tip shown for 'No changes' status" "Output: $output"
@@ -410,7 +410,7 @@ test_zdotdir_not_hardcoded() {
     local source_code=$(< "$helpers_file")
     # Check that we don't have hardcoded paths like $HOME/.zshrc in the security check
     # The pattern should be ${ZDOTDIR:-$HOME}/.zshrc not $HOME/.zshrc
-    local security_func=$(grep -A 20 "_dot_security_check_bw_session" "$helpers_file" | head -20)
+    local security_func=$(grep -A 20 "_dotf_security_check_bw_session" "$helpers_file" | head -20)
 
     if [[ "$security_func" != *'$HOME/.zshrc'* ]] || [[ "$security_func" == *'${ZDOTDIR:-$HOME}'* ]]; then
       print_pass "No hardcoded \$HOME/.zshrc paths"
@@ -431,12 +431,12 @@ test_help_includes_add_command() {
   run_test
 
   local output
-  output=$(dot help 2>&1)
+  output=$(dots help 2>&1)
 
-  if [[ "$output" == *"dot add"* ]]; then
-    print_pass "Help includes 'dot add' command"
+  if [[ "$output" == *"dots add"* ]]; then
+    print_pass "Help includes 'dots add' command"
   else
-    print_fail "Help includes 'dot add' command" "Not found in help output"
+    print_fail "Help includes 'dots add' command" "Not found in help output"
   fi
 }
 
@@ -445,7 +445,7 @@ test_help_shows_create_feature() {
   run_test
 
   local output
-  output=$(dot help 2>&1)
+  output=$(dots help 2>&1)
 
   if [[ "$output" == *"auto-add"* ]] || [[ "$output" == *"Create"* ]] || [[ "$output" == *"create"* ]]; then
     print_pass "Help mentions file creation capability"
@@ -459,9 +459,9 @@ test_help_shows_examples() {
   run_test
 
   local output
-  output=$(dot help 2>&1)
+  output=$(dots help 2>&1)
 
-  if [[ "$output" == *"dot add"* ]] && [[ "$output" == *"~"* ]]; then
+  if [[ "$output" == *"dots add"* ]] && [[ "$output" == *"~"* ]]; then
     print_pass "Help shows example with tilde path"
   else
     print_fail "Help shows example with tilde path" "Example not found"
@@ -480,23 +480,23 @@ main() {
 
   setup
 
-  print_header "Suite 1: _dot_add_file() Tests"
+  print_header "Suite 1: _dots_add_file() Tests"
   test_add_file_rejects_nonexistent
   test_add_file_expands_tilde
   test_add_file_handles_relative_paths
 
-  print_header "Suite 2: _dot_add() Tests"
-  test_dot_add_requires_argument
-  test_dot_add_rejects_nonexistent
-  test_dot_add_shows_tip
+  print_header "Suite 2: _dots_add() Tests"
+  test_dots_add_requires_argument
+  test_dots_add_rejects_nonexistent
+  test_dots_add_shows_tip
 
-  print_header "Suite 3: _dot_has_bitwarden_template() Tests"
+  print_header "Suite 3: _dotf_has_bitwarden_template() Tests"
   test_bw_template_detects_bitwarden
   test_bw_template_ignores_non_tmpl
   test_bw_template_ignores_other_templates
   test_bw_template_handles_spacing
 
-  print_header "Suite 4: _dot_print_summary() Tests"
+  print_header "Suite 4: _dots_print_summary() Tests"
   test_summary_shows_file_action_status
   test_summary_push_tip_for_applied
   test_summary_apply_tip_for_staging
