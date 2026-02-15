@@ -2687,6 +2687,6 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 
 ---
 
-**Version:** v7.0.1
+**Version:** v7.1.0
 **Last Updated:** 2026-02-12
 **Total:** 15 dispatchers fully documented

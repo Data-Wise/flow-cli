@@ -26,9 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.0.2: Email Doctor Integration"
-    `flow doctor` now checks email dependencies when the `em` dispatcher is loaded — himalaya version, HTML renderers, OAuth2 proxy, AI backend, plus guided setup wizard and connectivity testing with `--verbose`.
-    [→ Doctor Docs](commands/doctor.md){ .md-button }
+!!! success "🎉 What's New in v7.1.0: Dispatcher Split — dots, sec, tok"
+    The `dot` dispatcher has been split into 3 focused commands: `dots` (dotfiles), `sec` (secrets), `tok` (tokens). 15 dispatchers total. Full backward compat for `--dot` flags.
+    [→ Migration Guide](guides/MIGRATION-DOT-SPLIT.md){ .md-button }
     [→ See what's new](CHANGELOG.md){ .md-button }
 
 ---
@@ -279,4 +279,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.0.2** · Pure ZSH · Zero Dependencies · MIT License
+**v7.1.0** · Pure ZSH · Zero Dependencies · MIT License
