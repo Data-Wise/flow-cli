@@ -107,8 +107,13 @@ work() {
           shift
         fi
         ;;
+      -h|--help)
+        _work_help
+        return 0
+        ;;
       -*)
-        shift  # skip unknown flags
+        _flow_log_warning "Unknown flag: $1 (ignored)"
+        shift
         ;;
       *)
         remaining+=("$1")
@@ -249,7 +254,7 @@ ${_C_BLUE}📝 EDITORS${_C_NC}:
   ${_C_CYAN}nvim${_C_NC} / ${_C_CYAN}vim${_C_NC}          Terminal editor
   ${_C_CYAN}cc${_C_NC} / ${_C_CYAN}claude${_C_NC}         Claude Code (--permission-mode acceptEdits)
   ${_C_CYAN}ccy${_C_NC}                 Claude Code (yolo / bypass permissions)
-  ${_C_CYAN}cc:new${_C_NC}              New Ghostty window for Claude Code
+  ${_C_CYAN}cc:new${_C_NC}              New Ghostty window (run claude there)
 
 ${_C_BLUE}📝 SPECIAL BEHAVIOR${_C_NC}:
   ${_C_DIM}No -e flag:${_C_NC}          Just cd + show context (no editor)

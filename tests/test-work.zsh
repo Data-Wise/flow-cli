@@ -933,6 +933,18 @@ test_work_help_shows_editors_section() {
 # TESTS: Arg parser edge cases
 # ============================================================================
 
+test_work_help_in_any_position() {
+    log_test "work mock-proj -h shows help (non-first position)"
+
+    local output=$(work mock-proj -h 2>&1)
+
+    if [[ "$output" == *"WORK"* && "$output" == *"Start Working"* ]]; then
+        pass
+    else
+        fail "Help not shown when -h is in non-first position"
+    fi
+}
+
 test_work_editor_flag_at_end_bare() {
     log_test "work mock-proj -e (flag at end, no value) uses EDITOR"
 
@@ -993,7 +1005,7 @@ test_work_multiple_remaining_args_uses_first() {
 }
 
 test_work_unknown_flags_ignored() {
-    log_test "work --verbose mock-proj ignores unknown flags"
+    log_test "work --verbose mock-proj warns and ignores unknown flags"
 
     _mock_project_env
     _flow_open_editor() { echo "SHOULD_NOT_BE_CALLED" > "$_EDITOR_CAPTURE_FILE"; }
@@ -1003,11 +1015,11 @@ test_work_unknown_flags_ignored() {
 
     _restore_project_env
 
-    # --verbose is unknown, should be skipped; no editor should open
-    if [[ "$captured" != "SHOULD_NOT_BE_CALLED" ]]; then
+    # --verbose is unknown: should warn and not trigger editor
+    if [[ "$captured" != "SHOULD_NOT_BE_CALLED" && "$output" == *"Unknown flag"* ]]; then
         pass
     else
-        fail "Unknown flag --verbose should not trigger editor"
+        fail "Expected warning for unknown flag and no editor call"
     fi
 }
 
@@ -1270,6 +1282,7 @@ main() {
 
     echo ""
     echo "${CYAN}--- Arg parser edge cases ---${NC}"
+    test_work_help_in_any_position
     test_work_editor_flag_at_end_bare
     test_work_editor_default_when_no_EDITOR
     test_work_multiple_remaining_args_uses_first
