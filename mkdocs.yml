@@ -4,7 +4,7 @@ site_author: DT
 site_url: https://data-wise.github.io/flow-cli
 
 # Copyright and license
-copyright: Copyright &copy; 2025 DT. Released under MIT License.
+copyright: Copyright &copy; 2025-2026 DT. Released under MIT License.
 
 repo_name: flow-cli
 repo_url: https://github.com/data-wise/flow-cli
@@ -134,6 +134,7 @@ nav:
           - 4. Web Dashboard: tutorials/04-web-dashboard.md
           - 5. AI-Powered Commands: tutorials/05-ai-commands.md
           - 6. Dopamine Features: tutorials/06-dopamine-features.md
+          - 34. Editor Workflow: tutorials/34-editor-workflow.md
       - Git & Projects:
           - 7. Sync Command: tutorials/07-sync-command.md
           - 8. Git Feature Workflow: tutorials/08-git-feature-workflow.md
@@ -232,7 +233,7 @@ nav:
           - Git Feature Flow: tutorials/08-git-feature-workflow.md
           - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
       - Dotfiles & Config:
-          - "Migration: dot → dots/sec/tok": guides/MIGRATION-DOT-SPLIT.md
+          - 'Migration: dot → dots/sec/tok': guides/MIGRATION-DOT-SPLIT.md
           - Dotfile Workflow: guides/DOT-WORKFLOW.md
           - Dotfile Management: guides/DOTFILE-MANAGEMENT.md
           - 🛡️ Chezmoi Safety Features: guides/CHEZMOI-SAFETY-GUIDE.md

@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.1.0
+- **Current Version:** v7.2.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -107,7 +107,8 @@ flow-cli is Layer 1 of a 3-layer stack: **flow-cli** (pure ZSH, <10ms) < **aiter
 ### Core Commands
 
 ```bash
-work <project>    # Start session
+work <project>    # Start session (cd + context, no editor)
+work <proj> -e    # Start session + open $EDITOR
 finish [note]     # End session (optional commit)
 hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard
@@ -283,8 +284,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.1.0 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.2.0 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-14 (v7.1.0)
+**Last Updated:** 2026-02-16 (v7.2.0)

@@ -1,8 +1,8 @@
 # flow-cli
 
-[![Version](https://img.shields.io/github/v/release/Data-Wise/flow-cli?label=version&color=blue)](https://github.com/Data-Wise/flow-cli/releases/latest)
-[![CI](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=CI&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
-[![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
+[![Version](https://img.shields.io/github/v/release/Data-Wise/flow-cli?label=version&color=blue&cacheSeconds=3600)](https://github.com/Data-Wise/flow-cli/releases/latest)
+[![CI](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=CI&branch=main&cacheSeconds=300)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
+[![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main&cacheSeconds=300)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Data-Wise/flow-cli/blob/main/LICENSE)
 [![Pure ZSH](https://img.shields.io/badge/pure-ZSH-1f425f)](https://www.zsh.org/)
 
@@ -190,21 +190,21 @@ flow cache refresh # Force rebuild
 
 Context-aware commands that adapt to your project:
 
-| Command           | What it does                   |
-| ----------------- | ------------------------------ |
-| `cc`              | Launch Claude Code here        |
-| `cc pick`         | Pick project → Claude          |
-| `cc pick opus` ✨ | Pick → Opus (natural order!)   |
+| Command            | What it does                   |
+| ------------------ | ------------------------------ |
+| `cc`               | Launch Claude Code here        |
+| `cc pick`          | Pick project → Claude          |
+| `cc pick opus` ✨  | Pick → Opus (natural order!)   |
 | `dots`             | Manage dotfiles (chezmoi)      |
 | `dots edit .zshrc` | Edit dotfile with preview      |
 | `dots ignore add`  | Add ignore pattern (safety) ✨ |
 | `dots size`        | Analyze repository size ✨     |
 | `sec`              | Secret management (Keychain)   |
 | `tok`              | Token management (API tokens)  |
-| `r test`          | Run R package tests            |
-| `qu preview`      | Preview Quarto doc             |
-| `g push`          | Git push with safety           |
-| `flow sync`       | Sync data across devices       |
+| `r test`           | Run R package tests            |
+| `qu preview`       | Preview Quarto doc             |
+| `g push`           | Git push with safety           |
+| `flow sync`        | Sync data across devices       |
 
 Each dispatcher has built-in help: `cc help`, `dots help`, `r help`, etc.
 
