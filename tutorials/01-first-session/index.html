@@ -1667,6 +1667,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../34-editor-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34. Editor Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -8418,62 +8446,70 @@
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>└─────────────────────────────────────────────┘
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
 <a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>💡 Quick actions:
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>   work .        = Start working
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>   status .      = Update status
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>   dash          = See all projects
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>📁 /Users/dt/projects/dev-tools/flow-cli
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>   work .        = Start session
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>   work . -e     = Start session + open editor
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>   status .      = Update status
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>   dash          = See all projects
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>📁 /Users/dt/projects/dev-tools/flow-cli
 </code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> Flow picks based on: P0 active → P1 active → any active → most recent</p>
 </blockquote>
 <h3 id="step-13-start-working">Step 1.3: Start Working<a class="headerlink" href="#step-13-start-working" title="Permanent link">&para;</a></h3>
-<p>Now open the project in your editor:</p>
+<p>Now start a session on the project:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>work<span class="w"> </span>.
 </code></pre></div>
-<p><strong>What happened:</strong> Flow detects the project type and opens the appropriate editor (VS Code, RStudio, Emacs, etc.).</p>
+<p><strong>What happened:</strong> Flow starts a work session — it <code>cd</code>s into the project, shows context, and begins session tracking.</p>
+<blockquote>
+<p><strong>Want an editor too?</strong> Add <code>-e</code> to open one:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>work<span class="w"> </span>.<span class="w"> </span>-e<span class="w">          </span><span class="c1"># Opens your $EDITOR</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>work<span class="w"> </span>.<span class="w"> </span>-e<span class="w"> </span>code<span class="w">     </span><span class="c1"># Opens VS Code</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>work<span class="w"> </span>.<span class="w"> </span>-e<span class="w"> </span>cc<span class="w">       </span><span class="c1"># Opens Claude Code</span>
+</code></pre></div>
+</blockquote>
 <h3 id="checkpoint">Checkpoint<a class="headerlink" href="#checkpoint" title="Permanent link">&para;</a></h3>
 <p>At this point, you should have:</p>
 <ul>
 <li>[x] Viewed your dashboard</li>
 <li>[x] Let Flow pick a project</li>
-<li>[x] Opened the project in your editor</li>
+<li>[x] Started a session on the project</li>
 </ul>
 <p><strong>Verify:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">pwd</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># Expected: You&#39;re in the project directory</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">pwd</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># Expected: You&#39;re in the project directory</span>
 </code></pre></div>
 <hr />
 <h2 id="part-2-working-in-the-session">Part 2: Working in the Session<a class="headerlink" href="#part-2-working-in-the-session" title="Permanent link">&para;</a></h2>
 <h3 id="step-21-start-a-timed-session">Step 2.1: Start a Timed Session<a class="headerlink" href="#step-21-start-a-timed-session" title="Permanent link">&para;</a></h3>
 <p>Now set a focus timer to stay on track:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>f25
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>f25
 </code></pre></div>
 <p><strong>What happened:</strong> A 25-minute Pomodoro timer starts. Your terminal shows a countdown.</p>
 <p>Example output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>🍅 Pomodoro Timer Started!
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>⏱️  25:00 remaining...
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>[Terminal shows countdown in prompt]
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>🍅 Pomodoro Timer Started!
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>⏱️  25:00 remaining...
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>[Terminal shows countdown in prompt]
 </code></pre></div>
 <blockquote>
 <p><strong>Tip:</strong> Use <code>f50</code> for a 50-minute deep work session instead</p>
 </blockquote>
 <h3 id="step-22-check-your-context">Step 2.2: Check Your Context<a class="headerlink" href="#step-22-check-your-context" title="Permanent link">&para;</a></h3>
 <p>If you forget what you're working on:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>why
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>why
 </code></pre></div>
 <p><strong>What happened:</strong> Shows your current project context:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>📍 CURRENT CONTEXT
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Project:  flow-cli
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>Type:     dev-tools
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Location: /Users/dt/projects/dev-tools/flow-cli
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>Status:   ACTIVE (P0)
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>Task:     Documentation improvements
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>Progress: 95%
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>Active since: 14 minutes ago
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>📍 CURRENT CONTEXT
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>Project:  flow-cli
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>Type:     dev-tools
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>Location: /Users/dt/projects/dev-tools/flow-cli
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>Status:   ACTIVE (P0)
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>Task:     Documentation improvements
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>Progress: 95%
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>Active since: 14 minutes ago
 </code></pre></div>
 <h3 id="step-23-work-on-your-task">Step 2.3: Work on Your Task<a class="headerlink" href="#step-23-work-on-your-task" title="Permanent link">&para;</a></h3>
 <p>Now do your actual work! For example:</p>
@@ -8484,23 +8520,23 @@
 <li>Code features</li>
 </ul>
 <p><strong>Project-specific commands:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># For R packages</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>rload<span class="w">        </span><span class="c1"># Load package</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>rtest<span class="w">        </span><span class="c1"># Run tests</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>rdoc<span class="w">         </span><span class="c1"># Generate docs</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># For development projects</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>npm<span class="w"> </span><span class="nb">test</span><span class="w">     </span><span class="c1"># Run tests</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>npm<span class="w"> </span>run<span class="w"> </span>build<span class="w"> </span><span class="c1"># Build project</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Git workflow</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>gst<span class="w">          </span><span class="c1"># Check status (git status)</span>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>ga<span class="w"> </span>.<span class="w">         </span><span class="c1"># Stage changes (git add .)</span>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>gcmsg<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">  </span><span class="c1"># Commit (git commit -m &quot;msg&quot;)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># For R packages</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>rload<span class="w">        </span><span class="c1"># Load package</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>rtest<span class="w">        </span><span class="c1"># Run tests</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>rdoc<span class="w">         </span><span class="c1"># Generate docs</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># For development projects</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>npm<span class="w"> </span><span class="nb">test</span><span class="w">     </span><span class="c1"># Run tests</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>npm<span class="w"> </span>run<span class="w"> </span>build<span class="w"> </span><span class="c1"># Build project</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Git workflow</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>gst<span class="w">          </span><span class="c1"># Check status (git status)</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>ga<span class="w"> </span>.<span class="w">         </span><span class="c1"># Stage changes (git add .)</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>gcmsg<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">  </span><span class="c1"># Commit (git commit -m &quot;msg&quot;)</span>
 </code></pre></div>
 <h3 id="step-24-log-your-wins">Step 2.4: Log Your Wins<a class="headerlink" href="#step-24-log-your-wins" title="Permanent link">&para;</a></h3>
 <p>When you accomplish something:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>win<span class="w"> </span><span class="s2">&quot;Completed first Flow tutorial&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>win<span class="w"> </span><span class="s2">&quot;Completed first Flow tutorial&quot;</span>
 </code></pre></div>
 <p><strong>What happened:</strong> Your accomplishment is logged to track progress.</p>
 <h3 id="checkpoint_1">Checkpoint<a class="headerlink" href="#checkpoint_1" title="Permanent link">&para;</a></h3>
@@ -8512,59 +8548,59 @@
 <li>[x] Logged at least one win</li>
 </ul>
 <p><strong>Verify:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>wins
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># Expected: See your logged wins for today</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>wins
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># Expected: See your logged wins for today</span>
 </code></pre></div>
 <hr />
 <h2 id="part-3-ending-your-session">Part 3: Ending Your Session<a class="headerlink" href="#part-3-ending-your-session" title="Permanent link">&para;</a></h2>
 <h3 id="step-31-update-your-progress">Step 3.1: Update Your Progress<a class="headerlink" href="#step-31-update-your-progress" title="Permanent link">&para;</a></h3>
 <p>Before ending, update the project status:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>status<span class="w"> </span>.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>status<span class="w"> </span>.
 </code></pre></div>
 <p><strong>What happened:</strong> Flow asks for updates interactively:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>📋 UPDATE STATUS: flow-cli
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>═══════════════════════════════════════════
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>Current values shown in [brackets]
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>Status? [active]
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>   (active/paused/blocked/ready)
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>&gt; active
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
-<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>Priority? [P0]
-<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>   (P0=critical, P1=important, P2=normal)
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>&gt; P0
-<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
-<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>Next task? [Documentation improvements]
-<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>&gt; Complete tutorial files
-<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>
-<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>Progress? [95]
-<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>   (0-100)
-<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>&gt; 100
-<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>
-<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>✅ Updated! Press Enter to continue...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>📋 UPDATE STATUS: flow-cli
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>═══════════════════════════════════════════
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>Current values shown in [brackets]
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>Status? [active]
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>   (active/paused/blocked/ready)
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>&gt; active
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>Priority? [P0]
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>   (P0=critical, P1=important, P2=normal)
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>&gt; P0
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>Next task? [Documentation improvements]
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>&gt; Complete tutorial files
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>Progress? [95]
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>   (0-100)
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>&gt; 100
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>✅ Updated! Press Enter to continue...
 </code></pre></div>
 <blockquote>
 <p><strong>Tip:</strong> Press Enter to keep current values, only type when you want to change something</p>
 </blockquote>
 <h3 id="step-32-commit-your-changes">Step 3.2: Commit Your Changes<a class="headerlink" href="#step-32-commit-your-changes" title="Permanent link">&para;</a></h3>
 <p>If you made code changes, commit them:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>gst<span class="w">          </span><span class="c1"># Check what changed</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>gaa<span class="w">          </span><span class="c1"># Stage all changes</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>gcmsg<span class="w"> </span><span class="s2">&quot;docs: add first session tutorial&quot;</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>gp<span class="w">           </span><span class="c1"># Push to remote</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>gst<span class="w">          </span><span class="c1"># Check what changed</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>gaa<span class="w">          </span><span class="c1"># Stage all changes</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>gcmsg<span class="w"> </span><span class="s2">&quot;docs: add first session tutorial&quot;</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>gp<span class="w">           </span><span class="c1"># Push to remote</span>
 </code></pre></div>
 <h3 id="step-33-view-todays-wins">Step 3.3: View Today's Wins<a class="headerlink" href="#step-33-view-todays-wins" title="Permanent link">&para;</a></h3>
 <p>See what you accomplished:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>wins
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>wins
 </code></pre></div>
 <p><strong>What happened:</strong> Lists all wins you logged today:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>🎉 TODAY&#39;S WINS (2025-12-24)
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>═══════════════════════════════════════════
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>1. ✅ Completed first Flow tutorial
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>2. ✅ Updated project documentation
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>💪 Great work today!
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>🎉 TODAY&#39;S WINS (2025-12-24)
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>═══════════════════════════════════════════
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>1. ✅ Completed first Flow tutorial
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>2. ✅ Updated project documentation
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>💪 Great work today!
 </code></pre></div>
 <h3 id="understanding-session-tracking">Understanding Session Tracking<a class="headerlink" href="#understanding-session-tracking" title="Permanent link">&para;</a></h3>
 <p>Flow CLI tracks your work sessions in <code>~/.config/zsh/.worklog</code>:</p>
@@ -8603,23 +8639,24 @@
 <hr />
 <h2 id="putting-it-all-together">Putting It All Together<a class="headerlink" href="#putting-it-all-together" title="Permanent link">&para;</a></h2>
 <p>Here's the complete workflow you just learned:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Morning: Start your day</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>dash<span class="w">                    </span><span class="c1"># See all projects</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>just-start<span class="w">             </span><span class="c1"># Auto-pick highest priority</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>work<span class="w"> </span>.<span class="w">                 </span><span class="c1"># Open in editor</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="c1"># During work</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>f25<span class="w">                    </span><span class="c1"># Start 25-min timer</span>
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="c1"># ... do your work ...</span>
-<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>win<span class="w"> </span><span class="s2">&quot;Completed feature X&quot;</span>
-<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
-<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="c1"># Check context if needed</span>
-<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>why<span class="w">                    </span><span class="c1"># Where am I? What am I doing?</span>
-<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>
-<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="c1"># End of session</span>
-<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>status<span class="w"> </span>.<span class="w">               </span><span class="c1"># Update progress</span>
-<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>gaa<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>gcmsg<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">     </span><span class="c1"># Commit changes</span>
-<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>wins<span class="w">                   </span><span class="c1"># See accomplishments</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Morning: Start your day</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>dash<span class="w">                    </span><span class="c1"># See all projects</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>just-start<span class="w">             </span><span class="c1"># Auto-pick highest priority</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>work<span class="w"> </span>.<span class="w">                 </span><span class="c1"># Start session</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>work<span class="w"> </span>.<span class="w"> </span>-e<span class="w">              </span><span class="c1"># Start + open editor (optional)</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># During work</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>f25<span class="w">                    </span><span class="c1"># Start 25-min timer</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="c1"># ... do your work ...</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>win<span class="w"> </span><span class="s2">&quot;Completed feature X&quot;</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="c1"># Check context if needed</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>why<span class="w">                    </span><span class="c1"># Where am I? What am I doing?</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="c1"># End of session</span>
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>status<span class="w"> </span>.<span class="w">               </span><span class="c1"># Update progress</span>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>gaa<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>gcmsg<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">     </span><span class="c1"># Commit changes</span>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>wins<span class="w">                   </span><span class="c1"># See accomplishments</span>
 </code></pre></div>
 <p><strong>Time:</strong> &lt;3 minutes to start/end, focused time in between</p>
 <hr />
@@ -8637,16 +8674,16 @@ Use `work <project-name>` to switch projects, or `pick` for fuzzy search.
 <details>
 <summary>Solution</summary>
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Option 1: Direct name</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>work<span class="w"> </span>research-project
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Option 2: Fuzzy search</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>pick
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="c1"># Type partial name, select with arrows, press Enter</span>
-<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
-<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># Option 3: Use dashboard</span>
-<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>dash<span class="w"> </span>research<span class="w">        </span><span class="c1"># Filter by category</span>
-<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>work<span class="w"> </span>research-project
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Option 1: Direct name</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>work<span class="w"> </span>research-project
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Option 2: Fuzzy search</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>pick
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># Type partial name, select with arrows, press Enter</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="c1"># Option 3: Use dashboard</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>dash<span class="w"> </span>research<span class="w">        </span><span class="c1"># Filter by category</span>
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>work<span class="w"> </span>research-project
 </code></pre></div>
 
 </details>
@@ -8656,12 +8693,12 @@ Use `work <project-name>` to switch projects, or `pick` for fuzzy search.
 <details>
 <summary>Solution</summary>
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>status<span class="w"> </span>flow-cli<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Next task&quot;</span><span class="w"> </span><span class="m">100</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>status<span class="w"> </span>research-project<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Resume next week&quot;</span><span class="w"> </span><span class="m">20</span>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>status<span class="w"> </span>stat-440<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Grade final exams&quot;</span><span class="w"> </span><span class="m">80</span>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1"># Verify</span>
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>dash
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>status<span class="w"> </span>flow-cli<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Next task&quot;</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>status<span class="w"> </span>research-project<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Resume next week&quot;</span><span class="w"> </span><span class="m">20</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>status<span class="w"> </span>stat-440<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Grade final exams&quot;</span><span class="w"> </span><span class="m">80</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="c1"># Verify</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>dash
 </code></pre></div>
 
 </details>
@@ -8671,17 +8708,17 @@ Use `work <project-name>` to switch projects, or `pick` for fuzzy search.
 <details>
 <summary>Solution</summary>
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Navigate to project</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/your-category/new-project
-<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Create .STATUS file</span>
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>status<span class="w"> </span>new-project<span class="w"> </span>--create
-<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="c1"># Answer prompts or use quick mode</span>
-<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>status<span class="w"> </span>new-project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Initial setup&quot;</span><span class="w"> </span><span class="m">0</span>
-<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>
-<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="c1"># Verify it appears in dashboard</span>
-<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>dash
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Navigate to project</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/your-category/new-project
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Create .STATUS file</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>status<span class="w"> </span>new-project<span class="w"> </span>--create
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="c1"># Answer prompts or use quick mode</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>status<span class="w"> </span>new-project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Initial setup&quot;</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="c1"># Verify it appears in dashboard</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>dash
 </code></pre></div>
 
 </details>
@@ -8691,33 +8728,33 @@ Use `work <project-name>` to switch projects, or `pick` for fuzzy search.
 <h3 id="command-not-found-dash">"command not found: dash"<a class="headerlink" href="#command-not-found-dash" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Flow CLI functions not loaded in your shell</p>
 <p><strong>Fix:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Reload your shell configuration</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nb">source</span><span class="w"> </span>~/.zshrc
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Or check if functions exist</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>ls<span class="w"> </span>~/.config/zsh/functions/adhd-helpers.zsh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Reload your shell configuration</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nb">source</span><span class="w"> </span>~/.zshrc
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Or check if functions exist</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>ls<span class="w"> </span>~/.config/zsh/functions/adhd-helpers.zsh
 </code></pre></div>
 <h3 id="no-projects-found">"No projects found"<a class="headerlink" href="#no-projects-found" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Projects not in expected locations or missing <code>.STATUS</code> files</p>
 <p><strong>Fix:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Create .STATUS for existing projects</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/your-project
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>status<span class="w"> </span>your-project<span class="w"> </span>--create
-<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1"># Check project structure</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>ls<span class="w"> </span>~/projects/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Create .STATUS for existing projects</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/your-project
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>status<span class="w"> </span>your-project<span class="w"> </span>--create
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="c1"># Check project structure</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>ls<span class="w"> </span>~/projects/
 </code></pre></div>
 <h3 id="editor-didnt-open">"Editor didn't open"<a class="headerlink" href="#editor-didnt-open" title="Permanent link">&para;</a></h3>
-<p><strong>Cause:</strong> Project type not detected or editor not in PATH</p>
+<p><strong>Cause:</strong> You need the <code>-e</code> flag to open an editor (v7.2.0+)</p>
 <p><strong>Fix:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Check project type</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/your-project
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>ls<span class="w"> </span>-la
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="c1"># Manually open editor</span>
-<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>code<span class="w"> </span>.<span class="w">     </span><span class="c1"># VS Code</span>
-<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>rstudio<span class="w"> </span>.<span class="w">  </span><span class="c1"># RStudio</span>
-<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>emacs<span class="w"> </span>.<span class="w">    </span><span class="c1"># Emacs</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Use -e to open an editor</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>work<span class="w"> </span>.<span class="w"> </span>-e<span class="w">          </span><span class="c1"># Uses $EDITOR</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>work<span class="w"> </span>.<span class="w"> </span>-e<span class="w"> </span>code<span class="w">     </span><span class="c1"># VS Code</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>work<span class="w"> </span>.<span class="w"> </span>-e<span class="w"> </span>positron<span class="w"> </span><span class="c1"># Positron</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1"># Or open manually</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>code<span class="w"> </span>.<span class="w">     </span><span class="c1"># VS Code</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>rstudio<span class="w"> </span>.<span class="w">  </span><span class="c1"># RStudio</span>
 </code></pre></div>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
@@ -8740,7 +8777,7 @@ Use `work <project-name>` to switch projects, or `pick` for fuzzy search.
 </tr>
 <tr>
 <td>Start work</td>
-<td>Opened project with <code>work</code></td>
+<td>Started session with <code>work</code></td>
 </tr>
 <tr>
 <td>Focus timer</td>
@@ -8761,14 +8798,15 @@ Use `work <project-name>` to switch projects, or `pick` for fuzzy search.
 </tbody>
 </table>
 <p><strong>Key commands:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>dash<span class="w">           </span><span class="c1"># View all projects</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>just-start<span class="w">     </span><span class="c1"># Auto-pick project</span>
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>work<span class="w"> </span>.<span class="w">         </span><span class="c1"># Open project</span>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>f25<span class="w">            </span><span class="c1"># Start 25-min timer</span>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>why<span class="w">            </span><span class="c1"># Check context</span>
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>win<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">      </span><span class="c1"># Log accomplishment</span>
-<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>wins<span class="w">           </span><span class="c1"># See today&#39;s wins</span>
-<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>status<span class="w"> </span>.<span class="w">       </span><span class="c1"># Update progress</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>dash<span class="w">           </span><span class="c1"># View all projects</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>just-start<span class="w">     </span><span class="c1"># Auto-pick project</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>work<span class="w"> </span>.<span class="w">         </span><span class="c1"># Start session</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>work<span class="w"> </span>.<span class="w"> </span>-e<span class="w">      </span><span class="c1"># Start + open editor</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>f25<span class="w">            </span><span class="c1"># Start 25-min timer</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>why<span class="w">            </span><span class="c1"># Check context</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>win<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">      </span><span class="c1"># Log accomplishment</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>wins<span class="w">           </span><span class="c1"># See today&#39;s wins</span>
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>status<span class="w"> </span>.<span class="w">       </span><span class="c1"># Update progress</span>
 </code></pre></div>
 <hr />
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
@@ -8780,20 +8818,21 @@ Use `work <project-name>` to switch projects, or `pick` for fuzzy search.
 </ol>
 <hr />
 <h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>┌─────────────────────────────────────────────────────┐
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>│  FIRST SESSION WORKFLOW                             │
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>├─────────────────────────────────────────────────────┤
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>│  dash          View all projects                    │
-<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>│  just-start    Auto-pick highest priority           │
-<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>│  work .        Open in editor                       │
-<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>│  f25           Start 25-min timer                   │
-<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>│  why           Check current context                │
-<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>│  win &quot;...&quot;     Log accomplishment                   │
-<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>│  status .      Update progress                      │
-<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>│  wins          See today&#39;s wins                     │
-<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>├─────────────────────────────────────────────────────┤
-<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>│  Workflow: dash → just-start → work → f25 → status │
-<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>└─────────────────────────────────────────────────────┘
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>┌─────────────────────────────────────────────────────┐
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>│  FIRST SESSION WORKFLOW                             │
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>├─────────────────────────────────────────────────────┤
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>│  dash          View all projects                    │
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>│  just-start    Auto-pick highest priority           │
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>│  work .        Start session                         │
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>│  work . -e     Start + open editor                   │
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>│  f25           Start 25-min timer                   │
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>│  why           Check current context                │
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>│  win &quot;...&quot;     Log accomplishment                   │
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>│  status .      Update progress                      │
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>│  wins          See today&#39;s wins                     │
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>├─────────────────────────────────────────────────────┤
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>│  Workflow: dash → just-start → work [-e] → f25      │
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a>└─────────────────────────────────────────────────────┘
 </code></pre></div>
 
 

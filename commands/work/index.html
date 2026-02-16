@@ -1243,6 +1243,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/34-editor-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34. Editor Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -5889,10 +5917,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
+  <a href="#arguments" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Options
+        Arguments
       
     </span>
   </a>
@@ -5900,10 +5928,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
+  <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Arguments
+        Options
       
     </span>
   </a>
@@ -6027,6 +6055,17 @@
     <span class="md-ellipsis">
       
         Custom Editor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deprecated-positional-editor-argument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecated: Positional Editor Argument
       
     </span>
   </a>
@@ -7792,10 +7831,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
+  <a href="#arguments" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Options
+        Arguments
       
     </span>
   </a>
@@ -7803,10 +7842,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
+  <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Arguments
+        Options
       
     </span>
   </a>
@@ -7937,6 +7976,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#deprecated-positional-editor-argument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deprecated: Positional Editor Argument
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#learning-nvim" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8016,28 +8066,34 @@
 </blockquote>
 <hr />
 <h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>work<span class="w"> </span><span class="o">[</span>PROJECT<span class="o">]</span><span class="w"> </span><span class="o">[</span>EDITOR<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>work<span class="w"> </span><span class="o">[</span>PROJECT<span class="o">]</span><span class="w"> </span><span class="o">[</span>-e<span class="w"> </span><span class="o">[</span>EDITOR<span class="o">]]</span>
 </code></pre></div>
 <p><strong>Quick examples:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Interactive project selection</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>work
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Start working on specific project</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Start working on specific project (no editor)</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>work<span class="w"> </span>flow-cli
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># With specific editor</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>cursor
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Open in $EDITOR (default: nvim)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Open in VS Code</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e<span class="w"> </span>code
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Launch Claude Code</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e<span class="w"> </span>cc
 </code></pre></div>
 <hr />
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
-<p>The <code>work</code> command is the <strong>primary entry point</strong> for flow-cli. It sets up your entire development context in one command - checking for existing sessions, locating the project, changing directory, recording session start, displaying context, and opening your editor.</p>
+<p>The <code>work</code> command is the <strong>primary entry point</strong> for flow-cli. It sets up your entire development context in one command - checking for existing sessions, locating the project, changing directory, recording session start, and displaying context.</p>
+<p>By default, <code>work</code> does <strong>not</strong> open an editor. Use the <code>-e</code> flag to explicitly request one.</p>
 <p><strong>Use cases:</strong>
 - Starting focused work sessions
 - Switching between projects with session tracking
-- Opening projects in preferred editors
+- Opening projects in preferred editors (with <code>-e</code>)
 - Maintaining work context and history</p>
 <hr />
-<h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
 <h2 id="arguments">Arguments<a class="headerlink" href="#arguments" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -8053,10 +8109,27 @@
 <td>Project name or path</td>
 <td>Interactive picker (if fzf) or current directory</td>
 </tr>
+</tbody>
+</table>
+<h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
 <tr>
-<td><code>editor</code></td>
-<td>Editor to open</td>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-e, --editor</code></td>
+<td>Open editor (optionally specify)</td>
 <td><code>$EDITOR</code> or <code>nvim</code></td>
+</tr>
+<tr>
+<td><code>-h, --help</code></td>
+<td>Show help message</td>
+<td>-</td>
 </tr>
 </tbody>
 </table>
@@ -8068,19 +8141,32 @@
 <li><strong>Changes to project directory</strong> - <code>cd</code> to the project root</li>
 <li><strong>Starts a session</strong> - Records session start time in atlas</li>
 <li><strong>Shows context</strong> - Displays project type, status, and focus</li>
-<li><strong>Opens your editor</strong> - Launches nvim by default, or your configured editor (VS Code, Cursor, Emacs, etc.)</li>
+<li><strong>Checks GitHub token</strong> - Shows warning if token is expired/expiring (for GitHub projects)</li>
+<li><strong>Opens editor</strong> (only if <code>-e</code> flag is passed)</li>
 </ol>
 <hr />
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="start-working-on-a-project">Start Working on a Project<a class="headerlink" href="#start-working-on-a-project" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Start working on flow-cli</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Just cd + context (most common)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>work<span class="w"> </span>flow-cli
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># With a specific editor</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>cursor
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Open default editor ($EDITOR or nvim)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Use vim</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>work<span class="w"> </span>my-project<span class="w"> </span>vim
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Open in VS Code</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e<span class="w"> </span>code
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Open in Positron</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e<span class="w"> </span>positron
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Launch Claude Code (acceptEdits mode)</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e<span class="w"> </span>cc
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># Launch Claude Code (yolo mode)</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e<span class="w"> </span>ccy
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c1"># New Ghostty window for Claude Code</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e<span class="w"> </span>cc:new
 </code></pre></div>
 <h3 id="interactive-selection">Interactive Selection<a class="headerlink" href="#interactive-selection" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Opens fzf picker if no project specified</span>
@@ -8098,7 +8184,7 @@
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>🔧 flow-cli (zsh-plugin)
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>🟢 Status: active
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>📍 Phase: v4.0.1 Released
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>📍 Phase: Active Development
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>🎯 Focus: Documentation enhancement
 </code></pre></div>
 <hr />
@@ -8118,54 +8204,82 @@
 </code></pre></div>
 <hr />
 <h2 id="editor-support">Editor Support<a class="headerlink" href="#editor-support" title="Permanent link">&para;</a></h2>
-<p>The <code>work</code> command supports these editors out of the box:</p>
+<p>Editors are only launched when you pass <code>-e</code>. The following editors are supported out of the box:</p>
 <table>
 <thead>
 <tr>
 <th>Editor</th>
-<th>Command</th>
+<th>Flag</th>
 <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Nvim</strong></td>
-<td><code>nvim</code></td>
-<td><strong>Default if <code>$EDITOR</code> not set</strong> (recommended)</td>
+<td><code>-e</code> or <code>-e nvim</code></td>
+<td>Default if <code>$EDITOR</code> not set (recommended)</td>
 </tr>
 <tr>
 <td>Vim</td>
-<td><code>vim</code></td>
+<td><code>-e vim</code></td>
 <td>Classic vi-compatible editor</td>
 </tr>
 <tr>
 <td>VS Code</td>
-<td><code>code</code></td>
+<td><code>-e code</code></td>
 <td>Microsoft Visual Studio Code</td>
 </tr>
 <tr>
 <td>Cursor</td>
-<td><code>cursor</code></td>
+<td><code>-e cursor</code></td>
 <td>AI-powered VS Code fork</td>
 </tr>
 <tr>
 <td>Emacs</td>
-<td><code>emacs</code>, <code>emacsclient</code></td>
+<td><code>-e emacs</code></td>
 <td>Uses emacsclient if available</td>
 </tr>
 <tr>
 <td>Positron</td>
-<td><code>positron</code></td>
-<td>RStudio-based IDE (macOS)</td>
+<td><code>-e positron</code></td>
+<td>RStudio-based IDE (macOS only)</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td><code>-e cc</code></td>
+<td><code>--permission-mode acceptEdits</code> (blocking)</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td><code>-e ccy</code></td>
+<td>Yolo mode (<code>--dangerously-skip-permissions</code>)</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td><code>-e cc:new</code></td>
+<td>New Ghostty window — run <code>claude</code> there (macOS)</td>
 </tr>
 </tbody>
 </table>
+<p>Any other command-line editor works too — just pass its name after <code>-e</code>.</p>
 <h3 id="custom-editor">Custom Editor<a class="headerlink" href="#custom-editor" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Set default editor in .zshrc</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;nvim&quot;</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Or specify per-session</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>work<span class="w"> </span>my-project<span class="w"> </span><span class="s2">&quot;code-insiders&quot;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Use -e with no argument to use $EDITOR</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>work<span class="w"> </span>my-project<span class="w"> </span>-e
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Or specify per-session</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>work<span class="w"> </span>my-project<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;code-insiders&quot;</span>
+</code></pre></div>
+<h3 id="deprecated-positional-editor-argument">Deprecated: Positional Editor Argument<a class="headerlink" href="#deprecated-positional-editor-argument" title="Permanent link">&para;</a></h3>
+<p>The old syntax <code>work project editor</code> still works but shows a deprecation warning:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Old (deprecated)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>nvim
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># ⚠ Positional editor arg deprecated. Use: work flow-cli -e nvim</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># New (recommended)</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>work<span class="w"> </span>flow-cli<span class="w"> </span>-e<span class="w"> </span>nvim
 </code></pre></div>
 <h3 id="learning-nvim">Learning Nvim<a class="headerlink" href="#learning-nvim" title="Permanent link">&para;</a></h3>
 <p><strong>New to nvim?</strong> Flow-cli uses nvim as the default editor, and we've created a comprehensive learning path for beginners:</p>
@@ -8206,8 +8320,8 @@
 </tbody>
 </table>
 <p><strong>Interactive tutorial:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Hands-on guided practice with checkpoints</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>flow<span class="w"> </span>nvim-tutorial
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Hands-on guided practice with checkpoints</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>flow<span class="w"> </span>nvim-tutorial
 </code></pre></div>
 <p><strong>Total learning time:</strong> ~70 minutes from zero to productive</p>
 <div class="admonition tip">
@@ -8254,16 +8368,18 @@
 <h2 id="tips">Tips<a class="headerlink" href="#tips" title="Permanent link">&para;</a></h2>
 <div class="admonition tip">
 <p class="admonition-title">ADHD-Friendly Workflow</p>
-</div>
 <p>The <code>work</code> command is designed to minimize friction:</p>
-<div class="highlight"><pre><span></span><code>- **One command** to set up everything
-- **Smart defaults** so you rarely need arguments
-- **Visual feedback** confirms what&#39;s happening
-</code></pre></div>
+<ul>
+<li><strong>One command</strong> to set up everything</li>
+<li><strong>No editor by default</strong> — just cd + context, no distractions</li>
+<li><strong><code>-e</code> when ready</strong> — open your editor only when you need it</li>
+<li><strong>Visual feedback</strong> confirms what's happening</li>
+</ul>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Project Detection</p>
-</div>
 <p>flow-cli automatically detects your project type (R package, Node.js, Python, ZSH, etc.) and shows the appropriate icon and context.</p>
+</div>
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
@@ -8272,9 +8388,9 @@
 <li><strong>Reference:</strong> <a href="../../help/WORKFLOWS/">Workflow Quick Reference</a></li>
 </ul>
 <hr />
-<p><strong>Last Updated:</strong> 2026-01-07
-<strong>Command Version:</strong> v4.8.0
-<strong>Status:</strong> ✅ Production ready with session tracking and editor integration</p>
+<p><strong>Last Updated:</strong> 2026-02-16
+<strong>Command Version:</strong> v7.2.0
+<strong>Status:</strong> ✅ Production ready with session tracking and optional editor integration</p>
 
 
 
