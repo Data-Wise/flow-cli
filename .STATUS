@@ -9,9 +9,16 @@
 ## Priority: 2
 ## Progress: 85
 
-## Current Session (2026-02-15)
+## Current Session (2026-02-16)
 
 **Session activity:**
+- test: testing overhaul — converted 35+ test files from inline frameworks to shared test-framework.zsh
+- test: added assertion helpers, mock registry, subshell isolation to test-framework.zsh
+- test: dogfood scanner — 80→2 inline frameworks (97.5% reduction), 0 permissive exit codes
+- test: 45/45 passing, 1 expected timeout
+- docs: added testing framework spec + ORCHESTRATE plan
+
+**Previous session (2026-02-15):**
 - fix: harden homebrew-release workflow security (script injection, SHA256 validation)
 - docs: CLAUDE.md audit + fix — stale counts (lib 69→74, tests 181→186), 4 missing teach subcommands
 - merge: PR #392 (feature → dev), PR #393 (dev → main)
@@ -110,8 +117,8 @@
 
 ---
 
-**Last Updated:** 2026-02-15
-**Status:** v7.1.0 released | 45/45 tests passing | 15 dispatchers | 186 test files | 8000+ test functions | homebrew workflow hardened
-## wins: semantic-release CI pipeline fixed (2026-02-15), Fixed the regression bug (2026-02-14), --category fix squashed the bug (2026-02-14)
-## streak: 2
-## last_active: 2026-02-15 22:50
+**Last Updated:** 2026-02-16
+**Status:** v7.1.0 released | 45/45 tests passing | 15 dispatchers | 186 test files | 8000+ test functions | testing overhaul complete
+## wins: Fixed the regression bug (2026-02-16), Fixed the regression bug (2026-02-16), --category fix squashed the bug (2026-02-16), fixed the bug (2026-02-16), --category fix squashed the bug (2026-02-16)
+## streak: 1
+## last_active: 2026-02-16 12:37
