@@ -13,6 +13,7 @@ RESET='\033[0m'
 typeset -g TESTS_RUN=0
 typeset -g TESTS_PASSED=0
 typeset -g TESTS_FAILED=0
+typeset -g TESTS_SKIPPED=0
 typeset -g CURRENT_TEST=""
 typeset -g TEST_SUITE_NAME=""
 
@@ -76,6 +77,13 @@ test_fail() {
 
   # Don't exit - continue with remaining tests
   return 1
+}
+
+test_skip() {
+  local message="${1:-Skipped}"
+  echo "${YELLOW}SKIP${RESET} — $message"
+  TESTS_SKIPPED=$((TESTS_SKIPPED + 1))
+  CURRENT_TEST=""
 }
 
 # ============================================================================
@@ -473,18 +481,18 @@ print_summary() {
 
   if (( TESTS_FAILED == 0 )); then
     echo "${GREEN}✓ ALL TESTS PASSED${RESET}"
-    echo ""
-    echo "  Total:  $TESTS_RUN"
-    echo "  Passed: $TESTS_PASSED"
-    echo "  Failed: $TESTS_FAILED"
-    echo ""
   else
     echo "${RED}✗ SOME TESTS FAILED${RESET}"
-    echo ""
-    echo "  Total:  $TESTS_RUN"
-    echo "  ${GREEN}Passed: $TESTS_PASSED${RESET}"
-    echo "  ${RED}Failed: $TESTS_FAILED${RESET}"
-    echo ""
-    return 1
   fi
+
+  echo ""
+  echo "  Total:   $TESTS_RUN"
+  echo "  ${GREEN}Passed:  $TESTS_PASSED${RESET}"
+  echo "  ${RED}Failed:  $TESTS_FAILED${RESET}"
+  if (( TESTS_SKIPPED > 0 )); then
+    echo "  ${YELLOW}Skipped: $TESTS_SKIPPED${RESET}"
+  fi
+  echo ""
+
+  (( TESTS_FAILED == 0 ))
 }

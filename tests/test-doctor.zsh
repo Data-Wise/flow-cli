@@ -2,49 +2,27 @@
 # Test script for doctor command (health check)
 # Tests: dependency checking, fix mode, help output
 # Generated: 2025-12-30
+# Converted to shared test-framework.zsh: 2026-02-16
 
 # ============================================================================
-# TEST FRAMEWORK
+# FRAMEWORK
 # ============================================================================
 
-TESTS_PASSED=0
-TESTS_FAILED=0
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
 
 # ============================================================================
 # SETUP
 # ============================================================================
 
-# Resolve project root at top level (${0:A} doesn't work inside functions)
-SCRIPT_DIR="${0:A:h}"
-PROJECT_ROOT="${SCRIPT_DIR:h}"
-
 setup() {
     echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
+    echo "${YELLOW}Setting up test environment...${RESET}"
 
     if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root${NC}"
+        echo "${RED}ERROR: Cannot find project root${RESET}"
         exit 1
     fi
 
@@ -55,7 +33,7 @@ setup() {
     FLOW_ATLAS_ENABLED=no
     FLOW_PLUGIN_DIR="$PROJECT_ROOT"
     source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
-        echo "${RED}Plugin failed to load${NC}"
+        echo "${RED}Plugin failed to load${RESET}"
         exit 1
     }
 
@@ -64,7 +42,6 @@ setup() {
 
     # Create isolated test project root (avoids scanning real ~/projects)
     TEST_ROOT=$(mktemp -d)
-    trap "rm -rf '$TEST_ROOT'" EXIT
     mkdir -p "$TEST_ROOT/dev-tools/mock-dev"
     echo "## Status: active\n## Progress: 50" > "$TEST_ROOT/dev-tools/mock-dev/.STATUS"
     FLOW_PROJECTS_ROOT="$TEST_ROOT"
@@ -77,27 +54,28 @@ setup() {
 }
 
 # ============================================================================
+# CLEANUP
+# ============================================================================
+
+cleanup() {
+    reset_mocks
+    rm -rf "$TEST_ROOT"
+}
+
+# ============================================================================
 # TESTS: Command existence
 # ============================================================================
 
 test_doctor_exists() {
-    log_test "doctor command exists"
-
-    if type doctor &>/dev/null; then
-        pass
-    else
-        fail "doctor command not found"
-    fi
+    test_case "doctor command exists"
+    assert_function_exists "doctor"
+    test_pass
 }
 
 test_doctor_help_exists() {
-    log_test "_doctor_help function exists"
-
-    if type _doctor_help &>/dev/null; then
-        pass
-    else
-        fail "_doctor_help not found"
-    fi
+    test_case "_doctor_help function exists"
+    assert_function_exists "_doctor_help"
+    test_pass
 }
 
 # ============================================================================
@@ -105,33 +83,21 @@ test_doctor_help_exists() {
 # ============================================================================
 
 test_doctor_check_cmd_exists() {
-    log_test "_doctor_check_cmd function exists"
-
-    if type _doctor_check_cmd &>/dev/null; then
-        pass
-    else
-        fail "_doctor_check_cmd not found"
-    fi
+    test_case "_doctor_check_cmd function exists"
+    assert_function_exists "_doctor_check_cmd"
+    test_pass
 }
 
 test_doctor_check_plugin_exists() {
-    log_test "_doctor_check_zsh_plugin function exists"
-
-    if type _doctor_check_zsh_plugin &>/dev/null; then
-        pass
-    else
-        fail "_doctor_check_zsh_plugin not found"
-    fi
+    test_case "_doctor_check_zsh_plugin function exists"
+    assert_function_exists "_doctor_check_zsh_plugin"
+    test_pass
 }
 
 test_doctor_check_plugin_manager_exists() {
-    log_test "_doctor_check_plugin_manager function exists"
-
-    if type _doctor_check_plugin_manager &>/dev/null; then
-        pass
-    else
-        fail "_doctor_check_plugin_manager not found"
-    fi
+    test_case "_doctor_check_plugin_manager function exists"
+    assert_function_exists "_doctor_check_plugin_manager"
+    test_pass
 }
 
 # ============================================================================
@@ -139,44 +105,28 @@ test_doctor_check_plugin_manager_exists() {
 # ============================================================================
 
 test_doctor_help_runs() {
-    log_test "doctor --help runs without error"
-
-    if [[ -n "$CACHED_DOCTOR_HELP" ]]; then
-        pass
-    else
-        fail "Help output was empty"
-    fi
+    test_case "doctor --help runs without error"
+    assert_not_empty "$CACHED_DOCTOR_HELP" "Help output was empty"
+    test_pass
 }
 
 test_doctor_h_flag() {
-    log_test "doctor -h produces output"
-
+    test_case "doctor -h produces output"
     # -h is same as --help, use cached
-    if [[ -n "$CACHED_DOCTOR_HELP" ]]; then
-        pass
-    else
-        fail "Help output was empty"
-    fi
+    assert_not_empty "$CACHED_DOCTOR_HELP" "Help output was empty"
+    test_pass
 }
 
 test_doctor_help_shows_fix() {
-    log_test "doctor help mentions --fix option"
-
-    if [[ "$CACHED_DOCTOR_HELP" == *"--fix"* || "$CACHED_DOCTOR_HELP" == *"-f"* ]]; then
-        pass
-    else
-        fail "Help should mention --fix"
-    fi
+    test_case "doctor help mentions --fix option"
+    assert_contains "$CACHED_DOCTOR_HELP" "--fix" "Help should mention --fix"
+    test_pass
 }
 
 test_doctor_help_shows_ai() {
-    log_test "doctor help mentions --ai option"
-
-    if [[ "$CACHED_DOCTOR_HELP" == *"--ai"* || "$CACHED_DOCTOR_HELP" == *"-a"* ]]; then
-        pass
-    else
-        fail "Help should mention --ai"
-    fi
+    test_case "doctor help mentions --ai option"
+    assert_contains "$CACHED_DOCTOR_HELP" "--ai" "Help should mention --ai"
+    test_pass
 }
 
 # ============================================================================
@@ -184,63 +134,39 @@ test_doctor_help_shows_ai() {
 # ============================================================================
 
 test_doctor_default_runs() {
-    log_test "doctor (no args) runs without error"
-
-    if [[ -n "$CACHED_DOCTOR_DEFAULT" ]]; then
-        pass
-    else
-        fail "Doctor output was empty"
-    fi
+    test_case "doctor (no args) runs without error"
+    assert_not_empty "$CACHED_DOCTOR_DEFAULT" "Doctor output was empty"
+    test_pass
 }
 
 test_doctor_shows_header() {
-    log_test "doctor shows health check header"
-
-    if [[ "$CACHED_DOCTOR_DEFAULT" == *"Health Check"* || "$CACHED_DOCTOR_DEFAULT" == *"health"* || "$CACHED_DOCTOR_DEFAULT" == *"🩺"* ]]; then
-        pass
-    else
-        fail "Should show health check header"
-    fi
+    test_case "doctor shows health check header"
+    assert_contains "$CACHED_DOCTOR_DEFAULT" "ealth" "Should show health check header"
+    test_pass
 }
 
 test_doctor_checks_fzf() {
-    log_test "doctor checks for fzf"
-
-    if [[ "$CACHED_DOCTOR_DEFAULT" == *"fzf"* ]]; then
-        pass
-    else
-        fail "Should check for fzf"
-    fi
+    test_case "doctor checks for fzf"
+    assert_contains "$CACHED_DOCTOR_DEFAULT" "fzf" "Should check for fzf"
+    test_pass
 }
 
 test_doctor_checks_git() {
-    log_test "doctor checks for git"
-
-    if [[ "$CACHED_DOCTOR_DEFAULT" == *"git"* ]]; then
-        pass
-    else
-        fail "Should check for git"
-    fi
+    test_case "doctor checks for git"
+    assert_contains "$CACHED_DOCTOR_DEFAULT" "git" "Should check for git"
+    test_pass
 }
 
 test_doctor_checks_zsh() {
-    log_test "doctor checks for zsh"
-
-    if [[ "$CACHED_DOCTOR_DEFAULT" == *"zsh"* || "$CACHED_DOCTOR_DEFAULT" == *"SHELL"* ]]; then
-        pass
-    else
-        fail "Should check for zsh"
-    fi
+    test_case "doctor checks for zsh"
+    assert_contains "$CACHED_DOCTOR_DEFAULT" "zsh" "Should check for zsh"
+    test_pass
 }
 
 test_doctor_shows_sections() {
-    log_test "doctor shows categorized sections"
-
-    if [[ "$CACHED_DOCTOR_DEFAULT" == *"REQUIRED"* || "$CACHED_DOCTOR_DEFAULT" == *"RECOMMENDED"* || "$CACHED_DOCTOR_DEFAULT" == *"OPTIONAL"* ]]; then
-        pass
-    else
-        fail "Should show categorized sections"
-    fi
+    test_case "doctor shows categorized sections"
+    assert_contains "$CACHED_DOCTOR_DEFAULT" "REQUIRED" "Should show REQUIRED section"
+    test_pass
 }
 
 # ============================================================================
@@ -248,29 +174,21 @@ test_doctor_shows_sections() {
 # ============================================================================
 
 test_doctor_verbose_runs() {
-    log_test "doctor --verbose runs without error"
-
+    test_case "doctor --verbose runs without error"
     local output=$(doctor --verbose 2>&1)
     local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $exit_code 0 "Exit code: $exit_code"
+    assert_not_empty "$output" "Verbose output should not be empty"
+    test_pass
 }
 
 test_doctor_v_flag() {
-    log_test "doctor -v runs without error"
-
+    test_case "doctor -v runs without error"
     local output=$(doctor -v 2>&1)
     local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $exit_code 0 "Exit code: $exit_code"
+    assert_not_empty "$output" "-v output should not be empty"
+    test_pass
 }
 
 # ============================================================================
@@ -278,33 +196,27 @@ test_doctor_v_flag() {
 # ============================================================================
 
 test_check_cmd_with_installed() {
-    log_test "_doctor_check_cmd detects installed command"
-
+    test_case "_doctor_check_cmd detects installed command"
     # Test with a command we know exists (zsh)
     local output=$(_doctor_check_cmd "zsh" "" "shell" 2>&1)
     local exit_code=$?
-
-    if [[ $exit_code -eq 0 && "$output" == *"✓"* ]]; then
-        pass
-    else
-        fail "Should show checkmark for installed command"
-    fi
+    assert_exit_code $exit_code 0 "Should exit 0 for installed command"
+    assert_contains "$output" "✓" "Should show checkmark for installed command"
+    test_pass
 }
 
 test_check_cmd_with_missing() {
-    log_test "_doctor_check_cmd detects missing command"
-
+    test_case "_doctor_check_cmd detects missing command"
     # Test with a command we know doesn't exist
     local output=$(_doctor_check_cmd "nonexistent_cmd_xyz_123" "brew" "optional" 2>&1)
     local exit_code=$?
-
-    # Missing commands show ○ (optional) or ✗ (required) and have exit code 1
-    # They also show hint like "← brew install"
-    if [[ $exit_code -ne 0 ]] || [[ "$output" == *"○"* || "$output" == *"←"* ]]; then
-        pass
-    else
-        fail "Should indicate missing command (exit code: $exit_code)"
+    # Missing optional commands return exit 1 or show ○ marker
+    assert_not_empty "$output" "Should produce output for missing command"
+    if (( exit_code == 0 )); then
+        # If exit 0, must at least show the optional marker
+        assert_contains "$output" "○" "Should show optional marker for missing command"
     fi
+    test_pass
 }
 
 # ============================================================================
@@ -312,17 +224,11 @@ test_check_cmd_with_missing() {
 # ============================================================================
 
 test_doctor_tracks_missing_brew() {
-    log_test "_doctor_missing_brew array is available"
-
+    test_case "_doctor_missing_brew array is available"
     doctor >/dev/null 2>&1
-
-    # After running doctor, the array should be defined
-    if [[ -n "${(t)_doctor_missing_brew}" ]]; then
-        pass
-    else
-        # Array may not be exported to subshell, just check it's not an error
-        pass
-    fi
+    # After running doctor, the array should be defined (type check)
+    assert_not_empty "${(t)_doctor_missing_brew}" "_doctor_missing_brew array not defined after doctor run"
+    test_pass
 }
 
 # ============================================================================
@@ -330,14 +236,11 @@ test_doctor_tracks_missing_brew() {
 # ============================================================================
 
 test_doctor_check_no_install() {
-    log_test "doctor (check mode) doesn't attempt installs"
-
+    test_case "doctor (check mode) doesn't attempt installs"
     # Uses cached output - should NOT show installation progress
-    if [[ "$CACHED_DOCTOR_DEFAULT" != *"Installing..."* && "$CACHED_DOCTOR_DEFAULT" != *"Successfully installed"* ]]; then
-        pass
-    else
-        fail "Check mode should not install anything"
-    fi
+    assert_not_contains "$CACHED_DOCTOR_DEFAULT" "Installing..." "Check mode should not install anything"
+    assert_not_contains "$CACHED_DOCTOR_DEFAULT" "Successfully installed" "Check mode should not install anything"
+    test_pass
 }
 
 # ============================================================================
@@ -345,24 +248,18 @@ test_doctor_check_no_install() {
 # ============================================================================
 
 test_doctor_no_errors() {
-    log_test "doctor output has no error patterns"
-
-    if [[ "$CACHED_DOCTOR_DEFAULT" != *"command not found"* && "$CACHED_DOCTOR_DEFAULT" != *"syntax error"* && "$CACHED_DOCTOR_DEFAULT" != *"undefined"* ]]; then
-        pass
-    else
-        fail "Output contains error patterns"
-    fi
+    test_case "doctor output has no error patterns"
+    assert_not_contains "$CACHED_DOCTOR_DEFAULT" "command not found" "Output contains 'command not found'"
+    assert_not_contains "$CACHED_DOCTOR_DEFAULT" "syntax error" "Output contains 'syntax error'"
+    assert_not_contains "$CACHED_DOCTOR_DEFAULT" "undefined" "Output contains 'undefined'"
+    test_pass
 }
 
 test_doctor_uses_color() {
-    log_test "doctor uses color formatting"
-
+    test_case "doctor uses color formatting"
     # Check for ANSI color codes in cached output
-    if [[ "$CACHED_DOCTOR_DEFAULT" == *$'\033['* || "$CACHED_DOCTOR_DEFAULT" == *$'\e['* ]]; then
-        pass
-    else
-        fail "Should use color formatting"
-    fi
+    assert_matches_pattern "$CACHED_DOCTOR_DEFAULT" $'\033\\[' "Should use color formatting"
+    test_pass
 }
 
 # ============================================================================
@@ -370,32 +267,29 @@ test_doctor_uses_color() {
 # ============================================================================
 
 main() {
-    echo ""
-    echo "${YELLOW}========================================${NC}"
-    echo "${YELLOW}  Doctor Command Tests${NC}"
-    echo "${YELLOW}========================================${NC}"
+    test_suite "Doctor Command Tests"
 
     setup
 
-    echo "${CYAN}--- Command existence tests ---${NC}"
+    echo "${CYAN}--- Command existence tests ---${RESET}"
     test_doctor_exists
     test_doctor_help_exists
 
     echo ""
-    echo "${CYAN}--- Helper function tests ---${NC}"
+    echo "${CYAN}--- Helper function tests ---${RESET}"
     test_doctor_check_cmd_exists
     test_doctor_check_plugin_exists
     test_doctor_check_plugin_manager_exists
 
     echo ""
-    echo "${CYAN}--- Help output tests ---${NC}"
+    echo "${CYAN}--- Help output tests ---${RESET}"
     test_doctor_help_runs
     test_doctor_h_flag
     test_doctor_help_shows_fix
     test_doctor_help_shows_ai
 
     echo ""
-    echo "${CYAN}--- Default check mode tests ---${NC}"
+    echo "${CYAN}--- Default check mode tests ---${RESET}"
     test_doctor_default_runs
     test_doctor_shows_header
     test_doctor_checks_fzf
@@ -404,37 +298,31 @@ main() {
     test_doctor_shows_sections
 
     echo ""
-    echo "${CYAN}--- Verbose mode tests ---${NC}"
+    echo "${CYAN}--- Verbose mode tests ---${RESET}"
     test_doctor_verbose_runs
     test_doctor_v_flag
 
     echo ""
-    echo "${CYAN}--- _doctor_check_cmd tests ---${NC}"
+    echo "${CYAN}--- _doctor_check_cmd tests ---${RESET}"
     test_check_cmd_with_installed
     test_check_cmd_with_missing
 
     echo ""
-    echo "${CYAN}--- Safety tests ---${NC}"
+    echo "${CYAN}--- Tracking tests ---${RESET}"
+    test_doctor_tracks_missing_brew
+
+    echo ""
+    echo "${CYAN}--- Safety tests ---${RESET}"
     test_doctor_check_no_install
 
     echo ""
-    echo "${CYAN}--- Output quality tests ---${NC}"
+    echo "${CYAN}--- Output quality tests ---${RESET}"
     test_doctor_no_errors
     test_doctor_uses_color
 
-    # Summary
-    echo ""
-    echo "${YELLOW}========================================${NC}"
-    echo "${YELLOW}  Test Summary${NC}"
-    echo "${YELLOW}========================================${NC}"
-    echo "  ${GREEN}Passed:${NC} $TESTS_PASSED"
-    echo "  ${RED}Failed:${NC} $TESTS_FAILED"
-    echo "  Total:  $((TESTS_PASSED + TESTS_FAILED))"
-    echo ""
-
-    if [[ $TESTS_FAILED -gt 0 ]]; then
-        exit 1
-    fi
+    cleanup
+    print_summary
+    exit $?
 }
 
 main "$@"
