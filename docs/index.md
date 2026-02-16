@@ -26,8 +26,8 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.1.0: Dispatcher Split — dots, sec, tok"
-    The `dot` dispatcher has been split into 3 focused commands: `dots` (dotfiles), `sec` (secrets), `tok` (tokens). 15 dispatchers total. Full backward compat for `--dot` flags.
+!!! success "🎉 What's New in v7.2.0: Explicit Editor Flag"
+    `work` no longer auto-opens an editor. Use `work proj -e` to open `$EDITOR`, or `work proj -e cc` for Claude Code. See [work command docs](commands/work.md).
     [→ Migration Guide](guides/MIGRATION-DOT-SPLIT.md){ .md-button }
     [→ See what's new](CHANGELOG.md){ .md-button }
 

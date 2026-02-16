@@ -2612,7 +2612,7 @@ als           # List all aliases by category
 
 **Domain:** Email management via himalaya CLI
 **File:** `lib/dispatchers/email-dispatcher.zsh` + `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`
-**Version:** v7.1.0+
+**Version:** v7.2.0
 
 ### Overview
 
@@ -2687,6 +2687,6 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 
 ---
 
-**Version:** v7.1.0
-**Last Updated:** 2026-02-12
+**Version:** v7.2.0
+**Last Updated:** 2026-02-16
 **Total:** 15 dispatchers fully documented
