@@ -18,7 +18,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ### Added
 
-- 7 new tests in `tests/test-work.zsh` (31 total) — covers `-e` flag parsing, Claude Code modes, deprecation warning, help output
+- 39 new tests in `tests/test-work.zsh` (70 total) — covers `-e` flag parsing, Claude Code modes, deprecation warning, help output, edge cases, `.STATUS` parsing, finish/hop help, teaching workflow, first-run welcome, token validation
 
 ### Documentation
 
