@@ -14,24 +14,33 @@
 ```bash
 flow doctor                 # Check all dependencies
 flow doctor --fix           # Interactive fix mode
-flow doctor --fix --auto    # Auto-install everything
-flow doctor --category <cat> # Check specific category
+flow doctor --fix -y        # Auto-install everything
+flow doctor --dot           # Check only DOT tokens
 ```
 
 **Quick examples:**
 
 ```bash
-# Check health
+# Quick health check
 flow doctor
 
 # Interactive install
 flow doctor --fix
 
-# Auto-install all missing
-flow doctor --fix --auto
+# Auto-install all missing (skip confirmations)
+flow doctor --fix -y
 
-# Check only required dependencies
-flow doctor --category required
+# Check only DOT tokens (fast, < 3s)
+flow doctor --dot
+
+# Check specific token
+flow doctor --dot=github
+
+# Fix only token issues
+flow doctor --fix-token
+
+# Detailed output + connectivity checks
+flow doctor --verbose
 ```
 
 ---
@@ -86,14 +95,18 @@ flow doctor --verbose
 
 ## Options
 
-| Option       | Short | Description                                    |
-| ------------ | ----- | ---------------------------------------------- |
-| `--fix`      | `-f`  | Enable fix mode (install missing tools)        |
-| `--yes`      | `-y`  | Auto-confirm all installs (use with --fix)     |
-| `--ai`       | `-a`  | AI-assisted troubleshooting via Claude CLI     |
-| `--verbose`  | `-v`  | Show additional diagnostic information         |
-| `--quiet`    | `-q`  | Minimal output (errors only)                   |
-| `--help`     | `-h`  | Show help                                      |
+| Option          | Short | Description                                    |
+| --------------- | ----- | ---------------------------------------------- |
+| `--fix`         | `-f`  | Enable fix mode (install missing tools)        |
+| `--yes`         | `-y`  | Auto-confirm all installs (use with --fix)     |
+| `--ai`          | `-a`  | AI-assisted troubleshooting via Claude CLI     |
+| `--verbose`     | `-v`  | Show detailed info + connectivity checks       |
+| `--quiet`       | `-q`  | Minimal output (errors only)                   |
+| `--dot`         | -     | Check only DOT tokens (isolated, < 3s)         |
+| `--dot=TOKEN`   | -     | Check specific token (e.g., `--dot=github`)    |
+| `--fix-token`   | -     | Fix only token issues (< 60s)                  |
+| `--update-docs` | `-u`  | Regenerate help files and docs                 |
+| `--help`        | `-h`  | Show help                                      |
 
 ---
 

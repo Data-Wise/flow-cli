@@ -60,8 +60,8 @@ js
 
 # Quick capture note
 catch "Implement feature X"
-# Output: ✅ Captured: Implement feature X
-#         Location: ~/.cache/flow/captures/2026-01-24.md
+catch -p flow-cli "Add Zed support"   # Associate with project
+catch -t bug "Login fails on Safari"  # Specify type (idea|task|bug|note)
 
 # Leave breadcrumb
 crumb "Fixed bug in parser"
@@ -95,36 +95,27 @@ why
 ### Dashboard
 
 ```bash
-# Show all projects
+# Summary dashboard (default)
 dash
-# Output: [Table of all projects with status]
 
-# Interactive dashboard (TUI)
+# Show all projects (flat list)
+dash -a
+
+# Interactive picker (fzf)
 dash -i
-# Output: [fzf interface for project selection]
 
 # Filter by category
 dash dev
+dash r
 dash teaching
 dash research
-# Output: [Filtered project list]
 
-# Watch mode (live refresh)
-dash --watch
-# Output: [Auto-refreshing dashboard]
+# Watch mode (auto-refresh every 5s)
+dash -w
+dash -w 10       # Custom interval (seconds)
 
-# Tool inventory
-dash --inventory
-# Output: [Auto-generated tool inventory with health status]
-
-# Specific project status
-dash flow-cli
-# Output: flow-cli
-#         Type: Node.js
-#         Status: Active
-#         Branch: dev
-#         Last commit: 2h ago
-#         Progress: 75%
+# Interactive TUI (requires atlas)
+dash -f
 ```
 
 ---
