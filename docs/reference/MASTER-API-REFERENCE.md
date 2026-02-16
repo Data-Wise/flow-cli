@@ -8,8 +8,8 @@ tags:
 **Purpose:** Complete API documentation for all flow-cli library functions
 **Audience:** Developers, contributors, advanced users
 **Format:** Function signatures, parameters, return values, examples
-**Version:** v5.19.1-dev
-**Last Updated:** 2026-01-27
+**Version:** v7.2.0
+**Last Updated:** 2026-02-16
 
 ---
 
@@ -19,8 +19,8 @@ This document provides complete API documentation for all flow-cli library funct
 
 ### Coverage Status
 
-**Total Functions:** 716
-**Documented:** 178 (24.9%)
+**Total Functions:** 880
+**Documented:** 178 (20.2%)
 **Auto-Generated:** Will be updated by `scripts/generate-api-docs.sh`
 
 ### Library Organization
@@ -53,7 +53,7 @@ lib/
 ├── em-cache.zsh                # Email: TTL-based caching (8 functions)
 ├── em-render.zsh               # Email: Smart rendering pipeline (7 functions)
 ├── email-helpers.zsh           # Email: Safety gates, AI draft helper (6 functions)
-└── dispatchers/                # 13 dispatcher modules (530+ functions)
+└── dispatchers/                # 15 dispatchers + 4 support modules (630+ functions)
     ├── g-dispatcher.zsh
     ├── cc-dispatcher.zsh
     ├── r-dispatcher.zsh
@@ -65,6 +65,10 @@ lib/
     ├── sec-dispatcher.zsh        # Secret management
     ├── tok-dispatcher.zsh        # Token management
     ├── teach-dispatcher.zsh
+    ├── teach-dates.zsh           # Teaching: date automation
+    ├── teach-deploy-enhanced.zsh # Teaching: deploy v2 engine
+    ├── teach-doctor-impl.zsh     # Teaching: doctor v2 implementation
+    ├── dot-doctor-integration.zsh # Dot-split doctor integration
     ├── tm-dispatcher.zsh
     ├── prompt-dispatcher.zsh
     ├── v-dispatcher.zsh
@@ -6875,7 +6879,7 @@ URL line is omitted when `$url` is empty or `"null"`.
 
 ---
 
-**Version:** v5.22.0-dev
-**Last Updated:** 2026-01-29
+**Version:** v7.2.0
+**Last Updated:** 2026-02-16
 **Auto-Generation:** Run `./scripts/generate-api-docs.sh` to update function index
-**Total Functions:** 860 (428 documented, 432 pending)
+**Total Functions:** 880 (428 documented, 452 pending)

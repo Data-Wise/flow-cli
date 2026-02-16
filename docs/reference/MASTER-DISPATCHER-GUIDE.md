@@ -10,8 +10,8 @@ tags:
 **Purpose:** Complete reference for all 15 flow-cli dispatchers
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v6.5.0
-**Last Updated:** 2026-02-08
+**Version:** v7.2.0
+**Last Updated:** 2026-02-16
 
 ---
 

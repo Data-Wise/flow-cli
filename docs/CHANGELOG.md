@@ -27,6 +27,28 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.1.0] - 2026-02-14
+
+### Changed
+
+- **`dot` dispatcher split into 3 focused dispatchers** — `dots` (dotfiles/chezmoi), `sec` (secrets/Keychain/Bitwarden), `tok` (tokens/create/rotate/expire)
+- **Internal function renames** — `_dot_*` shared helpers renamed to `_dotf_*`; dispatcher-specific functions use `_dots_*`, `_sec_*`, `_tok_*` prefixes
+- **`flow doctor --dot` flag preserved** for backward compatibility
+- **15 dispatchers total** (was 13) — `dot` replaced by `dots`, `sec`, `tok`
+- Dispatcher count in docs, architecture diagrams, and CLAUDE.md updated to 15
+- Test suite: 45/45 passing (186 test files)
+
+### Added
+
+- `docs/guides/MIGRATION-DOT-SPLIT.md` — complete migration guide with before/after command tables
+- `docs/tutorials/12-dot-dispatcher.md` — rewritten for dots/sec/tok split
+
+### Documentation
+
+- Updated MASTER-ARCHITECTURE.md, MASTER-DISPATCHER-GUIDE.md, QUICK-REFERENCE.md, index.md for 15-dispatcher architecture
+
+---
+
 ## [7.0.2] - 2026-02-12
 
 ### Added

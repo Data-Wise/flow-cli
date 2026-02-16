@@ -228,7 +228,7 @@ flow doctor --verbose
   ✓ completions
 
 🌊 FLOW-CLI
-  ✓ Plugin loaded    v3.1.0
+  ✓ Plugin loaded    v7.2.0
   ✓ Plugin directory ~/projects/dev-tools/flow-cli
 
 ────────────────────────────────────────────────

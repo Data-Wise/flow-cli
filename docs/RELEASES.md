@@ -6,6 +6,75 @@ Complete release history for flow-cli.
 
 ---
 
+## v7.2.0 - Explicit Editor Flag (2026-02-16)
+
+!!! success "🎯 work -e: Explicit Editor Control — Released 2026-02-16"
+    `work` no longer auto-opens an editor. Use `work proj -e` for `$EDITOR`, or `work proj -e cc` for Claude Code.
+
+### Key Changes
+
+- **`work` no longer auto-opens editor** — just cd's to project and shows context
+- **New `-e`/`--editor` flag** — `work proj -e` (uses `$EDITOR`), `work proj -e code` (VS Code), `work proj -e cc` (Claude Code)
+- **Claude Code modes** — `-e cc` (acceptEdits), `-e ccy` (yolo), `-e cc:new` (new Ghostty window)
+- **Positional arg deprecated** — `work proj nvim` still works but shows warning
+
+### Get Started
+
+!!! tip "Quick Start"
+    1. [work command docs](commands/work.md)
+    2. [Tutorial 34: Editor Workflow](tutorials/34-editor-workflow.md)
+
+[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v7.2.0){ .md-button }
+
+---
+
+## v7.1.0 - Dispatcher Split: dots/sec/tok (2026-02-14)
+
+!!! info "🔀 dot → dots/sec/tok — Released 2026-02-14"
+    The monolithic `dot` dispatcher (4,395 lines) split into 3 focused dispatchers for dotfiles, secrets, and tokens.
+
+### Key Changes
+
+- **`dots`** — dotfile management (chezmoi sync, edit, diff, backup)
+- **`sec`** — secret management (macOS Keychain, Bitwarden)
+- **`tok`** — token management (create, rotate, expire, GitHub/NPM/PyPI wizards)
+- **15 dispatchers total** (was 13)
+- **`flow doctor --dot` preserved** for backward compatibility
+
+### Get Started
+
+!!! tip "Migration"
+    1. [Migration Guide: dot → dots/sec/tok](guides/MIGRATION-DOT-SPLIT.md)
+    2. [Tutorial 12: Dotfiles/Secrets/Tokens](tutorials/12-dot-dispatcher.md)
+
+[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v7.1.0){ .md-button }
+
+---
+
+## v7.0.0 - Email Dispatcher (2026-02-12)
+
+!!! success "📧 em: ADHD-Friendly Email — Released 2026-02-12"
+    Full email management via himalaya CLI. AI-powered classification, smart rendering, batch triage.
+
+### Key Changes
+
+- **`em` dispatcher** — 18 subcommands for inbox, read, send, reply, pick, respond, classify, summarize, cache, doctor
+- **AI-powered triage** — `em respond` classifies, drafts, and queues emails for batch review
+- **Smart rendering** — auto-detect HTML/plain text, w3m/pandoc/glow rendering, noise cleanup
+- **fzf email picker** — `em pick` with live preview, keyboard shortcuts for reply/summarize/archive
+- **Email doctor** — `flow doctor` now includes EMAIL section when `em` is loaded
+
+### Get Started
+
+!!! tip "Quick Start"
+    1. [Himalaya Setup](guides/HIMALAYA-SETUP.md)
+    2. [Email Dispatcher Guide](guides/EMAIL-DISPATCHER-GUIDE.md)
+    3. [Email Quick Reference](reference/REFCARD-EMAIL-DISPATCHER.md)
+
+[GitHub Release →](https://github.com/Data-Wise/flow-cli/releases/tag/v7.0.0){ .md-button }
+
+---
+
 ## v6.1.0 - Quarto Lint Validation (2026-02-01)
 
 !!! success "🔍 Quarto Lint Validation - Released 2026-02-01"
@@ -356,5 +425,5 @@ All new features demonstrated with optimized tutorial GIFs (5.7MB total):
 ---
 
 **Maintained by:** Data-Wise
-**Last updated:** 2026-02-01
-**Current version:** v6.1.0
+**Last updated:** 2026-02-16
+**Current version:** v7.2.0
