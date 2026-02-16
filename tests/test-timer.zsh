@@ -135,13 +135,15 @@ test_timer_help_shows_examples() {
 test_timer_status_runs() {
     test_case "timer status runs without error"
     local output=$(timer status 2>&1)
-    assert_exit_code $? 0 "timer status should exit 0" && test_pass
+    assert_exit_code $? 0 "timer status should exit 0" && \
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_timer_status_alias() {
     test_case "timer st (alias) runs without error"
     local output=$(timer st 2>&1)
-    assert_exit_code $? 0 "timer st should exit 0" && test_pass
+    assert_exit_code $? 0 "timer st should exit 0" && \
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_timer_default_shows_status() {
@@ -174,7 +176,8 @@ test_timer_status_no_timer() {
 test_timer_stop_runs() {
     test_case "timer stop runs without error"
     local output=$(timer stop 2>&1)
-    assert_exit_code $? 0 "timer stop should exit 0" && test_pass
+    assert_exit_code $? 0 "timer stop should exit 0" && \
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_timer_stop_when_no_timer() {
@@ -182,7 +185,8 @@ test_timer_stop_when_no_timer() {
     # Ensure no timer is running
     timer stop 2>/dev/null
     local output=$(timer stop 2>&1)
-    assert_exit_code $? 0 "timer stop should succeed even with no timer" && test_pass
+    assert_exit_code $? 0 "timer stop should succeed even with no timer" && \
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 # ============================================================================
