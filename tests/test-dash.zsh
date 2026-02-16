@@ -2,60 +2,32 @@
 # Test script for dash command
 # Tests: dashboard display, modes, categories, interactive features
 # Generated: 2025-12-30
+# Modernized: 2026-02-16 (shared test-framework.zsh)
 
 # ============================================================================
-# TEST FRAMEWORK
+# FRAMEWORK
 # ============================================================================
 
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
 
 # ============================================================================
 # SETUP
 # ============================================================================
 
-# Resolve project root at top level (${0:A} doesn't work inside functions)
-SCRIPT_DIR="${0:A:h}"
-PROJECT_ROOT="${SCRIPT_DIR:h}"
-
 setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
-
     if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root${NC}"
+        echo "${RED}ERROR: Cannot find project root${RESET}"
         exit 1
     fi
-
-    echo "  Project root: $PROJECT_ROOT"
 
     # Source the plugin (non-interactive mode, no Atlas)
     FLOW_QUIET=1
     FLOW_ATLAS_ENABLED=no
     FLOW_PLUGIN_DIR="$PROJECT_ROOT"
     source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
-        echo "${RED}Plugin failed to load${NC}"
+        echo "${RED}Plugin failed to load${RESET}"
         exit 1
     }
 
@@ -64,7 +36,6 @@ setup() {
 
     # Create isolated test project root (avoids scanning real ~/projects)
     TEST_ROOT=$(mktemp -d)
-    trap "rm -rf '$TEST_ROOT'" EXIT
     mkdir -p "$TEST_ROOT/dev-tools/mock-dev" "$TEST_ROOT/apps/test-app" \
              "$TEST_ROOT/r-packages/active/mock-pkg" "$TEST_ROOT/teaching/stat-101" \
              "$TEST_ROOT/research/mock-study" "$TEST_ROOT/quarto/mock-site"
@@ -74,8 +45,15 @@ setup() {
         echo "## Status: active\n## Progress: 50" > "$dir/.STATUS"
     done
     FLOW_PROJECTS_ROOT="$TEST_ROOT"
+}
 
-    echo ""
+# ============================================================================
+# CLEANUP
+# ============================================================================
+
+cleanup() {
+    reset_mocks
+    [[ -d "$TEST_ROOT" ]] && rm -rf "$TEST_ROOT"
 }
 
 # ============================================================================
@@ -83,23 +61,13 @@ setup() {
 # ============================================================================
 
 test_dash_exists() {
-    log_test "dash command exists"
-
-    if type dash &>/dev/null; then
-        pass
-    else
-        fail "dash command not found"
-    fi
+    test_case "dash command exists"
+    assert_function_exists "dash" && test_pass
 }
 
 test_dash_help_exists() {
-    log_test "_dash_help function exists"
-
-    if type _dash_help &>/dev/null; then
-        pass
-    else
-        fail "_dash_help function not found"
-    fi
+    test_case "_dash_help function exists"
+    assert_function_exists "_dash_help" && test_pass
 }
 
 # ============================================================================
@@ -107,64 +75,40 @@ test_dash_help_exists() {
 # ============================================================================
 
 test_dash_help_runs() {
-    log_test "dash help runs without error"
-
+    test_case "dash help runs without error"
     local output=$(dash help 2>&1)
     local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $exit_code 0 "dash help should exit 0" && test_pass
 }
 
 test_dash_help_shows_usage() {
-    log_test "dash help shows usage information"
-
+    test_case "dash help shows usage information"
     local output=$(dash help 2>&1)
-
-    if [[ "$output" == *"dash"* && "$output" == *"-i"* ]]; then
-        pass
-    else
-        fail "Help should show dash and -i option"
-    fi
+    assert_contains "$output" "dash" "Help should mention dash" && \
+    assert_contains "$output" "-i" "Help should show -i option" && test_pass
 }
 
 test_dash_help_shows_categories() {
-    log_test "dash help shows category examples"
-
+    test_case "dash help shows category examples"
     local output=$(dash help 2>&1)
-
+    # At least one category name should appear
     if [[ "$output" == *"dev"* || "$output" == *"r"* || "$output" == *"research"* ]]; then
-        pass
+        test_pass
     else
-        fail "Help should mention category names"
+        test_fail "Help should mention category names"
     fi
 }
 
 test_dash_help_flag() {
-    log_test "dash --help works"
-
+    test_case "dash --help works"
     local output=$(dash --help 2>&1)
-
-    if [[ "$output" == *"dash"* ]]; then
-        pass
-    else
-        fail "dash --help should show help"
-    fi
+    assert_contains "$output" "dash" "dash --help should show help" && test_pass
 }
 
 test_dash_h_flag() {
-    log_test "dash -h works"
-
+    test_case "dash -h works"
     local output=$(dash -h 2>&1)
-
-    if [[ "$output" == *"dash"* ]]; then
-        pass
-    else
-        fail "dash -h should show help"
-    fi
+    assert_contains "$output" "dash" "dash -h should show help" && test_pass
 }
 
 # ============================================================================
@@ -172,40 +116,29 @@ test_dash_h_flag() {
 # ============================================================================
 
 test_dash_default_runs() {
-    log_test "dash (no args) runs without error"
-
+    test_case "dash (no args) runs without error"
     local output=$(dash 2>&1)
     local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $exit_code 0 "dash should exit 0"
+    assert_not_contains "$output" "command not found" "dash should not produce 'command not found'" && test_pass
 }
 
 test_dash_default_shows_header() {
-    log_test "dash shows dashboard header"
-
+    test_case "dash shows dashboard header"
     local output=$(dash 2>&1)
-
     if [[ "$output" == *"FLOW DASHBOARD"* || "$output" == *"━"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should show dashboard header"
+        test_fail "Should show dashboard header"
     fi
 }
 
 test_dash_no_errors() {
-    log_test "dash output has no error patterns"
-
+    test_case "dash output has no error patterns"
     local output=$(dash 2>&1)
-
-    if [[ "$output" != *"error"* && "$output" != *"command not found"* && "$output" != *"undefined"* ]]; then
-        pass
-    else
-        fail "Output contains error patterns"
-    fi
+    assert_not_contains "$output" "error" "Output should not contain 'error'"
+    assert_not_contains "$output" "command not found" "Output should not contain 'command not found'"
+    assert_not_contains "$output" "undefined" "Output should not contain 'undefined'" && test_pass
 }
 
 # ============================================================================
@@ -213,29 +146,19 @@ test_dash_no_errors() {
 # ============================================================================
 
 test_dash_all_flag() {
-    log_test "dash --all runs without error"
-
+    test_case "dash --all runs without error"
     local output=$(dash --all 2>&1)
     local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $exit_code 0 "dash --all should exit 0"
+    assert_not_contains "$output" "command not found" "dash --all should not produce errors" && test_pass
 }
 
 test_dash_a_flag() {
-    log_test "dash -a runs without error"
-
+    test_case "dash -a runs without error"
     local output=$(dash -a 2>&1)
     local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $exit_code 0 "dash -a should exit 0"
+    assert_not_contains "$output" "command not found" "dash -a should not produce errors" && test_pass
 }
 
 # ============================================================================
@@ -243,81 +166,45 @@ test_dash_a_flag() {
 # ============================================================================
 
 test_dash_category_dev() {
-    log_test "dash dev runs without error"
-
+    test_case "dash dev runs without error"
     local output=$(dash dev 2>&1)
-    local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $? 0 "dash dev should exit 0"
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_dash_category_r() {
-    log_test "dash r runs without error"
-
+    test_case "dash r runs without error"
     local output=$(dash r 2>&1)
-    local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $? 0 "dash r should exit 0"
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_dash_category_research() {
-    log_test "dash research runs without error"
-
+    test_case "dash research runs without error"
     local output=$(dash research 2>&1)
-    local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $? 0 "dash research should exit 0"
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_dash_category_teach() {
-    log_test "dash teach runs without error"
-
+    test_case "dash teach runs without error"
     local output=$(dash teach 2>&1)
-    local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $? 0 "dash teach should exit 0"
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_dash_category_quarto() {
-    log_test "dash quarto runs without error"
-
+    test_case "dash quarto runs without error"
     local output=$(dash quarto 2>&1)
-    local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $? 0 "dash quarto should exit 0"
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_dash_category_apps() {
-    log_test "dash apps runs without error"
-
+    test_case "dash apps runs without error"
     local output=$(dash apps 2>&1)
-    local exit_code=$?
-
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code $? 0 "dash apps should exit 0"
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 # ============================================================================
@@ -325,33 +212,18 @@ test_dash_category_apps() {
 # ============================================================================
 
 test_dash_categories_defined() {
-    log_test "DASH_CATEGORIES variable is defined"
-
-    if [[ -n "${(k)DASH_CATEGORIES[@]}" ]]; then
-        pass
-    else
-        fail "DASH_CATEGORIES not defined"
-    fi
+    test_case "DASH_CATEGORIES variable is defined"
+    assert_not_empty "${(k)DASH_CATEGORIES[@]}" "DASH_CATEGORIES should be defined" && test_pass
 }
 
 test_dash_categories_has_dev() {
-    log_test "DASH_CATEGORIES has dev entry"
-
-    if [[ -n "${DASH_CATEGORIES[dev]}" ]]; then
-        pass
-    else
-        fail "DASH_CATEGORIES[dev] not found"
-    fi
+    test_case "DASH_CATEGORIES has dev entry"
+    assert_not_empty "${DASH_CATEGORIES[dev]}" "DASH_CATEGORIES[dev] should exist" && test_pass
 }
 
 test_dash_categories_has_r() {
-    log_test "DASH_CATEGORIES has r entry"
-
-    if [[ -n "${DASH_CATEGORIES[r]}" ]]; then
-        pass
-    else
-        fail "DASH_CATEGORIES[r] not found"
-    fi
+    test_case "DASH_CATEGORIES has r entry"
+    assert_not_empty "${DASH_CATEGORIES[r]}" "DASH_CATEGORIES[r] should exist" && test_pass
 }
 
 # ============================================================================
@@ -359,53 +231,28 @@ test_dash_categories_has_r() {
 # ============================================================================
 
 test_dash_header_function() {
-    log_test "_dash_header function exists"
-
-    if type _dash_header &>/dev/null; then
-        pass
-    else
-        fail "_dash_header not found"
-    fi
+    test_case "_dash_header function exists"
+    assert_function_exists "_dash_header" && test_pass
 }
 
 test_dash_current_function() {
-    log_test "_dash_current function exists"
-
-    if type _dash_current &>/dev/null; then
-        pass
-    else
-        fail "_dash_current not found"
-    fi
+    test_case "_dash_current function exists"
+    assert_function_exists "_dash_current" && test_pass
 }
 
 test_dash_quick_access_function() {
-    log_test "_dash_quick_access function exists"
-
-    if type _dash_quick_access &>/dev/null; then
-        pass
-    else
-        fail "_dash_quick_access not found"
-    fi
+    test_case "_dash_quick_access function exists"
+    assert_function_exists "_dash_quick_access" && test_pass
 }
 
 test_dash_categories_function() {
-    log_test "_dash_categories function exists"
-
-    if type _dash_categories &>/dev/null; then
-        pass
-    else
-        fail "_dash_categories not found"
-    fi
+    test_case "_dash_categories function exists"
+    assert_function_exists "_dash_categories" && test_pass
 }
 
 test_dash_interactive_function() {
-    log_test "_dash_interactive function exists"
-
-    if type _dash_interactive &>/dev/null; then
-        pass
-    else
-        fail "_dash_interactive not found"
-    fi
+    test_case "_dash_interactive function exists"
+    assert_function_exists "_dash_interactive" && test_pass
 }
 
 # ============================================================================
@@ -413,19 +260,16 @@ test_dash_interactive_function() {
 # ============================================================================
 
 main() {
-    echo ""
-    echo "${YELLOW}========================================${NC}"
-    echo "${YELLOW}  Dash Command Tests${NC}"
-    echo "${YELLOW}========================================${NC}"
+    test_suite_start "Dash Command Tests"
 
     setup
 
-    echo "${CYAN}--- Command existence tests ---${NC}"
+    echo "${CYAN}--- Command existence tests ---${RESET}"
     test_dash_exists
     test_dash_help_exists
 
     echo ""
-    echo "${CYAN}--- Help output tests ---${NC}"
+    echo "${CYAN}--- Help output tests ---${RESET}"
     test_dash_help_runs
     test_dash_help_shows_usage
     test_dash_help_shows_categories
@@ -433,18 +277,18 @@ main() {
     test_dash_h_flag
 
     echo ""
-    echo "${CYAN}--- Default output tests ---${NC}"
+    echo "${CYAN}--- Default output tests ---${RESET}"
     test_dash_default_runs
     test_dash_default_shows_header
     test_dash_no_errors
 
     echo ""
-    echo "${CYAN}--- Mode tests ---${NC}"
+    echo "${CYAN}--- Mode tests ---${RESET}"
     test_dash_all_flag
     test_dash_a_flag
 
     echo ""
-    echo "${CYAN}--- Category tests ---${NC}"
+    echo "${CYAN}--- Category tests ---${RESET}"
     test_dash_category_dev
     test_dash_category_r
     test_dash_category_research
@@ -453,32 +297,23 @@ main() {
     test_dash_category_apps
 
     echo ""
-    echo "${CYAN}--- Configuration tests ---${NC}"
+    echo "${CYAN}--- Configuration tests ---${RESET}"
     test_dash_categories_defined
     test_dash_categories_has_dev
     test_dash_categories_has_r
 
     echo ""
-    echo "${CYAN}--- Helper function tests ---${NC}"
+    echo "${CYAN}--- Helper function tests ---${RESET}"
     test_dash_header_function
     test_dash_current_function
     test_dash_quick_access_function
     test_dash_categories_function
     test_dash_interactive_function
 
-    # Summary
-    echo ""
-    echo "${YELLOW}========================================${NC}"
-    echo "${YELLOW}  Test Summary${NC}"
-    echo "${YELLOW}========================================${NC}"
-    echo "  ${GREEN}Passed:${NC} $TESTS_PASSED"
-    echo "  ${RED}Failed:${NC} $TESTS_FAILED"
-    echo "  Total:  $((TESTS_PASSED + TESTS_FAILED))"
-    echo ""
-
-    if [[ $TESTS_FAILED -gt 0 ]]; then
-        exit 1
-    fi
+    # Cleanup and summary
+    cleanup
+    print_summary
+    exit $?
 }
 
 main "$@"
