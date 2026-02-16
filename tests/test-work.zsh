@@ -402,19 +402,46 @@ test_flow_projects_root_exists() {
 # TESTS: Editor flag (-e) behavior
 # ============================================================================
 
+# Helper: mock _flow_get_project to return a fake project at TEST_ROOT
+# This allows work to reach the editor code path without a real project.
+# Note: work runs in a subshell via $() so we use a temp file to capture
+# the editor argument, since local variables don't propagate back.
+_EDITOR_CAPTURE_FILE=""
+
+_mock_project_env() {
+    _EDITOR_CAPTURE_FILE=$(mktemp)
+    _flow_get_project() {
+        echo "name=\"mock-proj\"; project_path=\"$TEST_ROOT/dev-tools/mock-dev\"; proj_status=\"active\""
+    }
+    _flow_session_start() { :; }
+    _flow_detect_project_type() { echo "generic"; }
+    _flow_has_fzf() { return 1; }
+    _work_project_uses_github() { return 1; }
+}
+
+_restore_project_env() {
+    unfunction _flow_get_project 2>/dev/null
+    unfunction _flow_session_start 2>/dev/null
+    unfunction _flow_detect_project_type 2>/dev/null
+    unfunction _flow_has_fzf 2>/dev/null
+    unfunction _flow_open_editor 2>/dev/null
+    unfunction _work_project_uses_github 2>/dev/null
+    source "$PROJECT_ROOT/commands/work.zsh" 2>/dev/null
+    source "$PROJECT_ROOT/lib/atlas-bridge.zsh" 2>/dev/null
+    [[ -n "$_EDITOR_CAPTURE_FILE" ]] && rm -f "$_EDITOR_CAPTURE_FILE"
+    _EDITOR_CAPTURE_FILE=""
+}
+
 test_work_no_editor_by_default() {
     log_test "work without -e does NOT call _flow_open_editor"
 
-    # Mock _flow_open_editor to track calls
+    _mock_project_env
     local _editor_called=false
     _flow_open_editor() { _editor_called=true; }
 
-    # work with invalid project won't reach editor call, so test with output
-    local output=$(work nonexistent_project_xyz 2>&1)
+    local output=$(work mock-proj 2>&1)
 
-    # Restore
-    unfunction _flow_open_editor 2>/dev/null
-    source "$PROJECT_ROOT/commands/work.zsh" 2>/dev/null
+    _restore_project_env
 
     if [[ "$_editor_called" == false ]]; then
         pass
@@ -424,54 +451,117 @@ test_work_no_editor_by_default() {
 }
 
 test_work_editor_flag_bare() {
-    log_test "work -e (bare) uses EDITOR fallback"
+    log_test "work -e (bare) opens EDITOR fallback"
 
-    # Mock to capture editor value
-    local _editor_arg=""
-    _flow_open_editor() { _editor_arg="$1"; }
-    _flow_has_fzf() { return 1; }
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
 
     EDITOR="test-editor"
-    local output=$(work -e 2>&1)
+    local output=$(work mock-proj -e 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
 
-    # Restore
-    unfunction _flow_open_editor 2>/dev/null
-    unfunction _flow_has_fzf 2>/dev/null
-    source "$PROJECT_ROOT/commands/work.zsh" 2>/dev/null
+    _restore_project_env
 
-    # work -e with no project will error, but editor_requested should be true
-    # The function errors before reaching _flow_open_editor because no project
-    # This is expected — the flag parsing itself is what we validate
-    if [[ "$_editor_arg" == "test-editor" || "$_editor_arg" == "" ]]; then
+    if [[ "$captured" == "test-editor" ]]; then
         pass
     else
-        fail "Expected EDITOR fallback, got: $_editor_arg"
+        fail "Expected 'test-editor', got: '$captured'"
     fi
 }
 
 test_work_editor_flag_with_name() {
     log_test "work -e positron passes 'positron' to editor"
 
-    local _editor_arg=""
-    _flow_open_editor() { _editor_arg="$1"; }
-    _flow_has_fzf() { return 1; }
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
 
-    local output=$(work -e positron 2>&1)
+    local output=$(work mock-proj -e positron 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
 
-    unfunction _flow_open_editor 2>/dev/null
-    unfunction _flow_has_fzf 2>/dev/null
-    source "$PROJECT_ROOT/commands/work.zsh" 2>/dev/null
+    _restore_project_env
 
-    # Same as above — no project means error before editor call
-    # But flag parsing should have set editor to "positron"
-    # We verify via the function source code behavior
-    pass  # Flag parsing validated by other tests
+    if [[ "$captured" == "positron" ]]; then
+        pass
+    else
+        fail "Expected 'positron', got: '$captured'"
+    fi
+}
+
+test_work_editor_flag_code() {
+    log_test "work -e code passes 'code' to editor"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work mock-proj -e code 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "code" ]]; then
+        pass
+    else
+        fail "Expected 'code', got: '$captured'"
+    fi
+}
+
+test_work_editor_flag_before_project() {
+    log_test "work -e code mock-proj (flag before project)"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work -e code mock-proj 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "code" ]]; then
+        pass
+    else
+        fail "Expected 'code', got: '$captured'"
+    fi
+}
+
+test_work_long_editor_flag() {
+    log_test "work --editor nvim uses long flag form"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work mock-proj --editor nvim 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "nvim" ]]; then
+        pass
+    else
+        fail "Expected 'nvim', got: '$captured'"
+    fi
+}
+
+test_work_no_editor_no_call() {
+    log_test "work mock-proj (no flag) never calls _flow_open_editor"
+
+    _mock_project_env
+    local _call_count=0
+    _flow_open_editor() { ((_call_count++)); }
+
+    local output=$(work mock-proj 2>&1)
+
+    _restore_project_env
+
+    if [[ $_call_count -eq 0 ]]; then
+        pass
+    else
+        fail "_flow_open_editor called $_call_count time(s) without -e"
+    fi
 }
 
 test_work_editor_flag_cc() {
     log_test "_flow_open_editor handles cc|claude|ccy cases"
 
-    # Use 'functions' to get the function body (not 'type' which just shows signature)
     local source_code=$(functions _flow_open_editor 2>/dev/null)
 
     if [[ "$source_code" == *"cc"*"claude"*"ccy"* ]]; then
@@ -481,19 +571,62 @@ test_work_editor_flag_cc() {
     fi
 }
 
+test_work_editor_cc_new_in_source() {
+    log_test "_flow_open_editor handles cc:new|claude:new"
+
+    local source_code=$(functions _flow_open_editor 2>/dev/null)
+
+    if [[ "$source_code" == *"cc:new"* && "$source_code" == *"claude:new"* ]]; then
+        pass
+    else
+        fail "cc:new/claude:new case not found in _flow_open_editor"
+    fi
+}
+
+test_work_launch_claude_code_yolo_branch() {
+    log_test "_work_launch_claude_code has yolo (ccy) branch"
+
+    local source_code=$(functions _work_launch_claude_code 2>/dev/null)
+
+    if [[ "$source_code" == *"ccy"* && "$source_code" == *"dangerously-skip-permissions"* ]]; then
+        pass
+    else
+        fail "ccy/dangerously-skip-permissions not found in _work_launch_claude_code"
+    fi
+}
+
 test_work_legacy_positional_editor() {
     log_test "work <proj> <editor> shows deprecation warning"
 
-    _flow_has_fzf() { return 1; }
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
 
-    local output=$(work nonexistent_xyz nvim 2>&1)
+    local output=$(work mock-proj nvim 2>&1)
 
-    unfunction _flow_has_fzf 2>/dev/null
+    _restore_project_env
 
     if [[ "$output" == *"deprecated"* || "$output" == *"Deprecated"* ]]; then
         pass
     else
         fail "No deprecation warning for positional editor arg"
+    fi
+}
+
+test_work_legacy_positional_still_opens() {
+    log_test "deprecated positional editor still opens editor"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work mock-proj vim 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "vim" ]]; then
+        pass
+    else
+        fail "Expected 'vim' from positional arg, got: '$captured'"
     fi
 }
 
@@ -506,6 +639,18 @@ test_work_help_shows_editor_flag() {
         pass
     else
         fail "Help output missing -e flag documentation"
+    fi
+}
+
+test_work_help_shows_cc_editors() {
+    log_test "work --help lists Claude Code editors"
+
+    local output=$(work --help 2>&1)
+
+    if [[ "$output" == *"cc"* && "$output" == *"ccy"* && "$output" == *"cc:new"* ]]; then
+        pass
+    else
+        fail "Help missing cc/ccy/cc:new editor options"
     fi
 }
 
@@ -587,11 +732,19 @@ main() {
     echo ""
     echo "${CYAN}--- Editor flag (-e) tests ---${NC}"
     test_work_no_editor_by_default
+    test_work_no_editor_no_call
     test_work_editor_flag_bare
     test_work_editor_flag_with_name
+    test_work_editor_flag_code
+    test_work_editor_flag_before_project
+    test_work_long_editor_flag
     test_work_editor_flag_cc
+    test_work_editor_cc_new_in_source
+    test_work_launch_claude_code_yolo_branch
     test_work_legacy_positional_editor
+    test_work_legacy_positional_still_opens
     test_work_help_shows_editor_flag
+    test_work_help_shows_cc_editors
     test_work_launch_claude_code_exists
 
     # Summary

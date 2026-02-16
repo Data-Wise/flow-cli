@@ -89,11 +89,13 @@ work() {
   # Show welcome message on first run
   _flow_first_run_welcome
 
-  # Parse -e/--editor flag before project arg
+  # Parse all args: extract -e/--editor flag from any position
   local editor_requested=false
   local editor=""
+  local project=""
+  local -a remaining=()
 
-  while [[ "${1:-}" == -* ]]; do
+  while [[ $# -gt 0 ]]; do
     case "$1" in
       -e|--editor)
         editor_requested=true
@@ -105,16 +107,22 @@ work() {
           shift
         fi
         ;;
-      *) shift ;;
+      -*)
+        shift  # skip unknown flags
+        ;;
+      *)
+        remaining+=("$1")
+        shift
+        ;;
     esac
   done
 
-  local project="$1"
+  project="${remaining[1]:-}"
 
   # Deprecate positional [editor] arg (work proj nvim → work proj -e nvim)
-  if [[ -n "${2:-}" && "$editor_requested" == false ]]; then
-    _flow_log_warning "Positional editor arg deprecated. Use: work $project -e $2"
-    editor="$2"
+  if [[ -n "${remaining[2]:-}" && "$editor_requested" == false ]]; then
+    _flow_log_warning "Positional editor arg deprecated. Use: work $project -e ${remaining[2]}"
+    editor="${remaining[2]}"
     editor_requested=true
   fi
 
