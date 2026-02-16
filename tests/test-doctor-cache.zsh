@@ -20,87 +20,45 @@
 # Created: 2026-01-23
 # ══════════════════════════════════════════════════════════════════════════════
 
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+# Source shared test framework
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
 
 # ══════════════════════════════════════════════════════════════════════════════
-# SETUP
+# SETUP - Source libraries at global scope so readonly vars persist
 # ══════════════════════════════════════════════════════════════════════════════
+
+# Resolve project root
+if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/lib/doctor-cache.zsh" ]]; then
+    if [[ -f "$PWD/lib/doctor-cache.zsh" ]]; then
+        PROJECT_ROOT="$PWD"
+    elif [[ -f "$PWD/../lib/doctor-cache.zsh" ]]; then
+        PROJECT_ROOT="$PWD/.."
+    fi
+fi
+
+if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/lib/doctor-cache.zsh" ]]; then
+    echo "ERROR: Cannot find project root"
+    exit 1
+fi
+
+# Source at global scope so readonly DOCTOR_CACHE_DIR is visible everywhere
+source "$PROJECT_ROOT/lib/core.zsh" 2>/dev/null
+source "$PROJECT_ROOT/lib/doctor-cache.zsh" 2>/dev/null
+
+export TEST_CACHE_PREFIX="test-"
 
 setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
-
-    # Get project root
-    if [[ -n "${0:A}" ]]; then
-        PROJECT_ROOT="${0:A:h:h}"
-    fi
-
-    if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/lib/doctor-cache.zsh" ]]; then
-        if [[ -f "$PWD/lib/doctor-cache.zsh" ]]; then
-            PROJECT_ROOT="$PWD"
-        elif [[ -f "$PWD/../lib/doctor-cache.zsh" ]]; then
-            PROJECT_ROOT="$PWD/.."
-        fi
-    fi
-
-    if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/lib/doctor-cache.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root${NC}"
-        echo "  Tried: ${0:A:h:h}, $PWD, $PWD/.."
-        exit 1
-    fi
-
-    echo "  Project root: $PROJECT_ROOT"
-
-    # Source core library first
-    source "$PROJECT_ROOT/lib/core.zsh" 2>/dev/null
-
-    # Source cache library
-    source "$PROJECT_ROOT/lib/doctor-cache.zsh" 2>/dev/null
-
-    # Note: DOCTOR_CACHE_DIR is readonly, so we use the default location
-    # and clean it during setup/cleanup
-    export TEST_CACHE_PREFIX="test-"
-
     # Clean any existing test cache entries
+    setopt local_options nonomatch
     rm -f "${DOCTOR_CACHE_DIR}/${TEST_CACHE_PREFIX}"*.cache 2>/dev/null
-
-    echo "  Cache directory: $DOCTOR_CACHE_DIR"
-    echo "  Test prefix: $TEST_CACHE_PREFIX"
-    echo ""
 }
 
 cleanup() {
-    echo ""
-    echo "${YELLOW}Cleaning up test environment...${NC}"
-
     # Remove test cache entries (prefixed with "test-")
+    setopt local_options nonomatch
     rm -f "${DOCTOR_CACHE_DIR}/${TEST_CACHE_PREFIX}"*.cache 2>/dev/null
-
-    echo "  Test cache entries removed"
-    echo ""
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -108,28 +66,22 @@ cleanup() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_init_creates_directory() {
-    log_test "1.1. Cache init creates directory"
+    test_case "1.1. Cache init creates directory"
 
-    # Initialize cache
     _doctor_cache_init
 
-    if [[ -d "$DOCTOR_CACHE_DIR" ]]; then
-        pass
-    else
-        fail "Cache directory not created: $DOCTOR_CACHE_DIR"
-    fi
+    assert_dir_exists "$DOCTOR_CACHE_DIR" "Cache directory not created: $DOCTOR_CACHE_DIR" && test_pass
 }
 
 test_cache_init_permissions() {
-    log_test "1.2. Cache directory has correct permissions"
+    test_case "1.2. Cache directory has correct permissions"
 
     _doctor_cache_init
 
-    # Check directory exists and is writable
     if [[ -d "$DOCTOR_CACHE_DIR" && -w "$DOCTOR_CACHE_DIR" ]]; then
-        pass
+        test_pass
     else
-        fail "Cache directory not writable"
+        test_fail "Cache directory not writable"
     fi
 }
 
@@ -138,64 +90,46 @@ test_cache_init_permissions() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_set_and_get() {
-    log_test "2.1. Cache set and get basic value"
+    test_case "2.1. Cache set and get basic value"
 
     _doctor_cache_init
 
-    # Set a simple value
     local test_key="${TEST_CACHE_PREFIX}basic"
     local test_value='{"status": "valid", "days_remaining": 45}'
     _doctor_cache_set "$test_key" "$test_value"
 
-    # Get it back
     local retrieved=$(_doctor_cache_get "$test_key")
     local exit_code=$?
 
-    # Check retrieval succeeded and contains our data
-    if [[ $exit_code -eq 0 ]] && [[ "$retrieved" == *"valid"* ]]; then
-        pass
-    else
-        fail "Failed to retrieve cached value (exit: $exit_code)"
-    fi
+    assert_exit_code "$exit_code" 0 "Cache get should succeed" && \
+    assert_contains "$retrieved" "valid" "Retrieved value should contain 'valid'" && \
+    test_pass
 }
 
 test_cache_get_nonexistent() {
-    log_test "2.2. Cache get returns error for nonexistent key"
+    test_case "2.2. Cache get returns error for nonexistent key"
 
     _doctor_cache_init
 
-    # Try to get non-existent key
     _doctor_cache_get "nonexistent-key-xyz" >/dev/null 2>&1
     local exit_code=$?
 
-    if [[ $exit_code -ne 0 ]]; then
-        pass
-    else
-        fail "Should return error for nonexistent key"
-    fi
+    assert_not_equals "$exit_code" "0" "Should return error for nonexistent key" && test_pass
 }
 
 test_cache_overwrite() {
-    log_test "2.3. Cache set overwrites existing value"
+    test_case "2.3. Cache set overwrites existing value"
 
     _doctor_cache_init
 
     local test_key="${TEST_CACHE_PREFIX}overwrite"
 
-    # Set initial value
     _doctor_cache_set "$test_key" '{"status": "initial"}'
-
-    # Overwrite with new value
     _doctor_cache_set "$test_key" '{"status": "updated"}'
 
-    # Get it back
     local retrieved=$(_doctor_cache_get "$test_key")
 
-    if [[ "$retrieved" == *"updated"* ]]; then
-        pass
-    else
-        fail "Failed to overwrite cached value"
-    fi
+    assert_contains "$retrieved" "updated" "Failed to overwrite cached value" && test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -203,73 +137,52 @@ test_cache_overwrite() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_ttl_not_expired() {
-    log_test "3.1. Cache entry not expired within TTL"
+    test_case "3.1. Cache entry not expired within TTL"
 
     _doctor_cache_init
 
     local test_key="${TEST_CACHE_PREFIX}ttl-valid"
 
-    # Set value with 10 second TTL
     _doctor_cache_set "$test_key" '{"status": "valid"}' 10
 
-    # Immediately try to get it (should succeed)
     _doctor_cache_get "$test_key" >/dev/null 2>&1
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Should retrieve valid cache entry"
-    fi
+    assert_exit_code "$exit_code" 0 "Should retrieve valid cache entry" && test_pass
 }
 
 test_cache_ttl_expired() {
-    log_test "3.2. Cache entry expires after TTL (2s wait)"
+    test_case "3.2. Cache entry expires after TTL (2s wait)"
 
     _doctor_cache_init
 
     local test_key="${TEST_CACHE_PREFIX}ttl-expire"
 
-    # Set value with 1 second TTL
     _doctor_cache_set "$test_key" '{"status": "valid"}' 1
 
-    # Wait 2 seconds for expiration
     sleep 2
 
-    # Try to get it (should fail)
     _doctor_cache_get "$test_key" >/dev/null 2>&1
     local exit_code=$?
 
-    if [[ $exit_code -ne 0 ]]; then
-        pass
-    else
-        fail "Should not retrieve expired cache entry"
-    fi
+    assert_not_equals "$exit_code" "0" "Should not retrieve expired cache entry" && test_pass
 }
 
 test_cache_custom_ttl() {
-    log_test "3.3. Cache respects custom TTL values"
+    test_case "3.3. Cache respects custom TTL values"
 
     _doctor_cache_init
 
     local test_key="${TEST_CACHE_PREFIX}custom-ttl"
 
-    # Set value with 60 second TTL
     _doctor_cache_set "$test_key" '{"status": "valid"}' 60
 
-    # Check the cache file contains TTL metadata
     local cache_file="${DOCTOR_CACHE_DIR}/${test_key}.cache"
 
-    if [[ -f "$cache_file" ]]; then
-        local ttl_value=$(cat "$cache_file" | jq -r '.ttl_seconds // 0' 2>/dev/null)
-        if [[ "$ttl_value" == "60" ]]; then
-            pass
-        else
-            fail "TTL not set correctly (got: $ttl_value)"
-        fi
-    else
-        fail "Cache file not created"
-    fi
+    assert_file_exists "$cache_file" "Cache file not created" || return
+
+    local ttl_value=$(cat "$cache_file" | jq -r '.ttl_seconds // 0' 2>/dev/null)
+    assert_equals "$ttl_value" "60" "TTL not set correctly (got: $ttl_value)" && test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -277,36 +190,26 @@ test_cache_custom_ttl() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_lock_mechanism() {
-    log_test "4.1. Cache locking functions exist"
+    test_case "4.1. Cache locking functions exist"
 
-    # Check lock functions exist
-    if type _doctor_cache_acquire_lock &>/dev/null && \
-       type _doctor_cache_release_lock &>/dev/null; then
-        pass
-    else
-        fail "Lock functions not available"
-    fi
+    assert_function_exists "_doctor_cache_acquire_lock" "Lock acquire function not available" && \
+    assert_function_exists "_doctor_cache_release_lock" "Lock release function not available" && \
+    test_pass
 }
 
 test_cache_concurrent_writes() {
-    log_test "4.2. Concurrent writes don't corrupt cache"
+    test_case "4.2. Concurrent writes don't corrupt cache"
 
     _doctor_cache_init
 
     local test_key="${TEST_CACHE_PREFIX}concurrent"
 
-    # Write same key from "two processes" (sequential for test simplicity)
     _doctor_cache_set "$test_key" '{"writer": "first"}' 300
     _doctor_cache_set "$test_key" '{"writer": "second"}' 300
 
-    # Verify last write wins
     local retrieved=$(_doctor_cache_get "$test_key")
 
-    if [[ "$retrieved" == *"second"* ]]; then
-        pass
-    else
-        fail "Concurrent writes corrupted cache"
-    fi
+    assert_contains "$retrieved" "second" "Concurrent writes corrupted cache" && test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -314,31 +217,23 @@ test_cache_concurrent_writes() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_clear_specific() {
-    log_test "5.1. Cache clear removes specific entry"
+    test_case "5.1. Cache clear removes specific entry"
 
     _doctor_cache_init
 
     local test_key="${TEST_CACHE_PREFIX}clear-single"
 
-    # Set a value
     _doctor_cache_set "$test_key" '{"status": "valid"}'
-
-    # Clear it
     _doctor_cache_clear "$test_key"
 
-    # Try to get it (should fail)
     _doctor_cache_get "$test_key" >/dev/null 2>&1
     local exit_code=$?
 
-    if [[ $exit_code -ne 0 ]]; then
-        pass
-    else
-        fail "Cache entry should be cleared"
-    fi
+    assert_not_equals "$exit_code" "0" "Cache entry should be cleared" && test_pass
 }
 
 test_cache_clear_all() {
-    log_test "5.2. Cache clear removes all entries"
+    test_case "5.2. Cache clear removes all entries"
 
     _doctor_cache_init
 
@@ -346,36 +241,23 @@ test_cache_clear_all() {
     local key2="${TEST_CACHE_PREFIX}clear-2"
     local key3="${TEST_CACHE_PREFIX}clear-3"
 
-    # Set multiple values
     _doctor_cache_set "$key1" '{"status": "valid"}'
     _doctor_cache_set "$key2" '{"status": "valid"}'
     _doctor_cache_set "$key3" '{"status": "valid"}'
 
-    # Clear all test entries
+    setopt local_options nonomatch
     rm -f "${DOCTOR_CACHE_DIR}/${TEST_CACHE_PREFIX}clear-"*.cache 2>/dev/null
 
-    # Check entries are gone
-    local count=0
-    [[ ! -f "${DOCTOR_CACHE_DIR}/${key1}.cache" ]] && ((count++))
-    [[ ! -f "${DOCTOR_CACHE_DIR}/${key2}.cache" ]] && ((count++))
-    [[ ! -f "${DOCTOR_CACHE_DIR}/${key3}.cache" ]] && ((count++))
-
-    if [[ $count -eq 3 ]]; then
-        pass
-    else
-        fail "Cache not fully cleared (cleared: $count/3)"
-    fi
+    assert_file_not_exists "${DOCTOR_CACHE_DIR}/${key1}.cache" "Entry 1 not cleared" && \
+    assert_file_not_exists "${DOCTOR_CACHE_DIR}/${key2}.cache" "Entry 2 not cleared" && \
+    assert_file_not_exists "${DOCTOR_CACHE_DIR}/${key3}.cache" "Entry 3 not cleared" && \
+    test_pass
 }
 
 test_cache_clean_old_entries() {
-    log_test "5.3. Clean old entries function exists"
+    test_case "5.3. Clean old entries function exists"
 
-    # Just verify cleanup function is available
-    if type _doctor_cache_clean_old &>/dev/null; then
-        pass
-    else
-        fail "Cleanup function not available"
-    fi
+    assert_function_exists "_doctor_cache_clean_old" "Cleanup function not available" && test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -383,45 +265,33 @@ test_cache_clean_old_entries() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_invalid_json() {
-    log_test "6.1. Invalid JSON in cache file handled gracefully"
+    test_case "6.1. Invalid JSON in cache file handled gracefully"
 
     _doctor_cache_init
 
     local test_key="${TEST_CACHE_PREFIX}invalid-json"
 
-    # Create cache file with invalid JSON
     echo "invalid json {{{" > "${DOCTOR_CACHE_DIR}/${test_key}.cache"
 
-    # Try to get it (should fail gracefully)
     _doctor_cache_get "$test_key" >/dev/null 2>&1
     local exit_code=$?
 
-    if [[ $exit_code -ne 0 ]]; then
-        pass
-    else
-        fail "Should reject invalid JSON"
-    fi
+    assert_not_equals "$exit_code" "0" "Should reject invalid JSON" && test_pass
 }
 
 test_cache_missing_metadata() {
-    log_test "6.2. Cache file missing expiration handled"
+    test_case "6.2. Cache file missing expiration handled"
 
     _doctor_cache_init
 
     local test_key="${TEST_CACHE_PREFIX}no-expiry"
 
-    # Create cache file without expiration
     echo '{"status": "valid"}' > "${DOCTOR_CACHE_DIR}/${test_key}.cache"
 
-    # Try to get it (should fail due to missing expires_at)
     _doctor_cache_get "$test_key" >/dev/null 2>&1
     local exit_code=$?
 
-    if [[ $exit_code -ne 0 ]]; then
-        pass
-    else
-        fail "Should reject cache without expiration"
-    fi
+    assert_not_equals "$exit_code" "0" "Should reject cache without expiration" && test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -429,63 +299,47 @@ test_cache_missing_metadata() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_token_get() {
-    log_test "7.1. Convenience wrapper for token get"
+    test_case "7.1. Convenience wrapper for token get"
 
     _doctor_cache_init
 
-    # Set token cache using base function (creates token-test-get)
     _doctor_cache_set "token-${TEST_CACHE_PREFIX}get" '{"status": "valid", "days_remaining": 45}'
 
-    # Get using convenience wrapper
     local retrieved=$(_doctor_cache_token_get "${TEST_CACHE_PREFIX}get")
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]] && [[ "$retrieved" == *"valid"* ]]; then
-        pass
-    else
-        fail "Token get wrapper failed"
-    fi
+    assert_exit_code "$exit_code" 0 "Token get wrapper failed" && \
+    assert_contains "$retrieved" "valid" "Token get should return cached value" && \
+    test_pass
 }
 
 test_cache_token_set() {
-    log_test "7.2. Convenience wrapper for token set"
+    test_case "7.2. Convenience wrapper for token set"
 
     _doctor_cache_init
 
-    # Set using convenience wrapper
     _doctor_cache_token_set "${TEST_CACHE_PREFIX}set" '{"status": "valid", "days_remaining": 45}'
 
-    # Get using base function
     local retrieved=$(_doctor_cache_get "token-${TEST_CACHE_PREFIX}set")
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]] && [[ "$retrieved" == *"valid"* ]]; then
-        pass
-    else
-        fail "Token set wrapper failed"
-    fi
+    assert_exit_code "$exit_code" 0 "Token set wrapper failed" && \
+    assert_contains "$retrieved" "valid" "Token set should persist value" && \
+    test_pass
 }
 
 test_cache_token_clear() {
-    log_test "7.3. Convenience wrapper for token clear"
+    test_case "7.3. Convenience wrapper for token clear"
 
     _doctor_cache_init
 
-    # Set token cache
     _doctor_cache_token_set "${TEST_CACHE_PREFIX}clear-tok" '{"status": "valid"}'
-
-    # Clear using convenience wrapper
     _doctor_cache_token_clear "${TEST_CACHE_PREFIX}clear-tok"
 
-    # Try to get (should fail)
     _doctor_cache_token_get "${TEST_CACHE_PREFIX}clear-tok" >/dev/null 2>&1
     local exit_code=$?
 
-    if [[ $exit_code -ne 0 ]]; then
-        pass
-    else
-        fail "Token clear wrapper failed"
-    fi
+    assert_not_equals "$exit_code" "0" "Token clear wrapper failed" && test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -493,46 +347,37 @@ test_cache_token_clear() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_stats() {
-    log_test "8.1. Cache stats shows entries correctly"
+    test_case "8.1. Cache stats shows entries correctly"
 
     _doctor_cache_init
 
-    # Set some cache entries
     _doctor_cache_set "${TEST_CACHE_PREFIX}stat-1" '{"status": "valid"}'
     _doctor_cache_set "${TEST_CACHE_PREFIX}stat-2" '{"status": "valid"}'
 
-    # Get stats
     local stats=$(_doctor_cache_stats 2>&1)
 
     if [[ "$stats" == *"${TEST_CACHE_PREFIX}stat"* || "$stats" == *"Total entries"* ]]; then
-        pass
+        test_pass
     else
-        fail "Stats should show cache entries"
+        test_fail "Stats should show cache entries"
     fi
 }
 
 test_doctor_calls_cache() {
-    log_test "8.2. Doctor command integrates with cache"
+    test_case "8.2. Doctor command integrates with cache"
 
     _doctor_cache_init
 
-    # Source the doctor command if needed
     if ! type doctor &>/dev/null; then
         source "$PROJECT_ROOT/commands/doctor.zsh" 2>/dev/null
     fi
 
     if type doctor &>/dev/null; then
-        # Run doctor --dot which should use cache
         doctor --dot >/dev/null 2>&1
         local exit_code=$?
-
-        if [[ $exit_code -eq 0 ]]; then
-            pass
-        else
-            fail "Doctor cache integration failed (exit: $exit_code)"
-        fi
+        assert_exit_code "$exit_code" 0 "Doctor cache integration failed" && test_pass
     else
-        fail "Doctor command not available"
+        test_fail "Doctor command not available"
     fi
 }
 
@@ -541,95 +386,50 @@ test_doctor_calls_cache() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 main() {
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}Doctor Cache Test Suite${NC}                             │"
-    echo "╰─────────────────────────────────────────────────────────╯"
+    test_suite_start "Doctor Cache Tests"
 
     setup
 
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 1: Initialization (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    # Category 1: Initialization
     test_cache_init_creates_directory
     test_cache_init_permissions
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 2: Basic Get/Set (3 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    # Category 2: Basic Get/Set
     test_cache_set_and_get
     test_cache_get_nonexistent
     test_cache_overwrite
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 3: Cache Expiration (3 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    # Category 3: Cache Expiration
     test_cache_ttl_not_expired
     test_cache_ttl_expired
     test_cache_custom_ttl
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 4: Concurrent Access (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    # Category 4: Concurrent Access
     test_cache_lock_mechanism
     test_cache_concurrent_writes
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 5: Cache Cleanup (3 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    # Category 5: Cache Cleanup
     test_cache_clear_specific
     test_cache_clear_all
     test_cache_clean_old_entries
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 6: Error Handling (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    # Category 6: Error Handling
     test_cache_invalid_json
     test_cache_missing_metadata
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 7: Token Convenience Functions (3 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    # Category 7: Token Convenience Functions
     test_cache_token_get
     test_cache_token_set
     test_cache_token_clear
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 8: Integration (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    # Category 8: Integration
     test_cache_stats
     test_doctor_calls_cache
 
     cleanup
 
-    # Summary
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}Test Summary${NC}                                         │"
-    echo "╰─────────────────────────────────────────────────────────╯"
-    echo ""
-    echo "  ${GREEN}Passed:${NC} $TESTS_PASSED"
-    echo "  ${RED}Failed:${NC} $TESTS_FAILED"
-    echo "  ${CYAN}Total:${NC}  $((TESTS_PASSED + TESTS_FAILED))"
-    echo ""
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All cache tests passed!${NC}"
-        echo ""
-        return 0
-    else
-        echo "${RED}✗ Some cache tests failed${NC}"
-        echo ""
-        return 1
-    fi
+    test_suite_end
+    exit $?
 }
 
-# Run tests
 main "$@"

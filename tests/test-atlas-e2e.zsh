@@ -4,231 +4,262 @@
 
 setopt local_options no_unset
 
-# Colors
-RED=$'\033[0;31m'
-GREEN=$'\033[0;32m'
-YELLOW=$'\033[1;33m'
-BLUE=$'\033[0;34m'
-NC=$'\033[0m'
-
-# Test counters
-PASSED=0
-FAILED=0
-SKIPPED=0
-
-# Test helpers
-pass() { ((PASSED++)); echo "${GREEN}✓${NC} $1"; }
-fail() { ((FAILED++)); echo "${RED}✗${NC} $1: $2"; }
-skip() { ((SKIPPED++)); echo "${YELLOW}○${NC} $1 (skipped)"; }
+# ============================================================================
+# Framework Bootstrap
+# ============================================================================
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
 
 # Setup
-FLOW_PLUGIN_DIR="${0:A:h:h}"
+FLOW_PLUGIN_DIR="$PROJECT_ROOT"
 FLOW_QUIET=1
 
 # Source the plugin
 source "$FLOW_PLUGIN_DIR/flow.plugin.zsh" 2>/dev/null
 
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  Atlas E2E Tests"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo ""
+# ============================================================================
+# Cleanup
+# ============================================================================
+cleanup() {
+  reset_mocks
+}
 
 # ============================================================================
 # Pre-flight: Check if Atlas is available
 # ============================================================================
-echo "== Pre-flight Check =="
+preflight_check() {
+  if ! _flow_has_atlas; then
+    echo ""
+    echo "  Atlas CLI not available"
+    echo "  Install: npm install -g @data-wise/atlas"
+    echo "  Or run: cd ~/projects/dev-tools/atlas && npm link"
 
-if ! _flow_has_atlas; then
-  echo ""
-  echo "${YELLOW}⚠ Atlas CLI not available${NC}"
-  echo "  Install: npm install -g @data-wise/atlas"
-  echo "  Or run: cd ~/projects/dev-tools/atlas && npm link"
-  echo ""
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  echo "  Results: ${YELLOW}All tests skipped${NC} (atlas not installed)"
-  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-  exit 0
-fi
+    # Skip all tests
+    test_case "Atlas CLI detected"
+    test_skip "atlas not installed"
 
-pass "Atlas CLI detected"
+    test_case "Atlas version"
+    test_skip "atlas not installed"
 
-# Check atlas version
-atlas_version=$(atlas --version 2>/dev/null)
-if [[ -n "$atlas_version" ]]; then
-  pass "Atlas version: $atlas_version"
-else
-  skip "Could not get atlas version"
-fi
+    test_case "_flow_list_projects via atlas"
+    test_skip "atlas not installed"
+
+    test_case "_flow_get_project (fallback mode)"
+    test_skip "atlas not installed"
+
+    test_case "Project info contains path"
+    test_skip "atlas not installed"
+
+    test_case "_flow_session_start available with atlas backend"
+    test_skip "atlas not installed"
+
+    test_case "_flow_session_end available with atlas backend"
+    test_skip "atlas not installed"
+
+    test_case "_flow_atlas wrapper available"
+    test_skip "atlas not installed"
+
+    test_case "_flow_atlas --help works"
+    test_skip "atlas not installed"
+
+    test_case "_flow_catch available with atlas backend"
+    test_skip "atlas not installed"
+
+    test_case "_flow_inbox available with atlas backend"
+    test_skip "atlas not installed"
+
+    test_case "_flow_crumb available with atlas backend"
+    test_skip "atlas not installed"
+
+    test_case "_flow_where available with atlas backend"
+    test_skip "atlas not installed"
+
+    test_case "at() shortcut available"
+    test_skip "atlas not installed"
+
+    test_case "_flow_atlas_async available"
+    test_skip "atlas not installed"
+
+    test_case "_flow_atlas_silent available"
+    test_skip "atlas not installed"
+
+    test_case "_flow_atlas_json available"
+    test_skip "atlas not installed"
+
+    test_case "atlas project list works"
+    test_skip "atlas not installed"
+
+    test_case "atlas where works"
+    test_skip "atlas not installed"
+
+    return 1
+  fi
+  return 0
+}
+
+# ============================================================================
+# Test: Pre-flight checks
+# ============================================================================
+test_preflight() {
+  test_case "Atlas CLI detected"
+  assert_function_exists "_flow_has_atlas" && test_pass
+
+  test_case "Atlas version"
+  local atlas_version
+  atlas_version=$(atlas --version 2>/dev/null)
+  if [[ -n "$atlas_version" ]]; then
+    test_pass
+  else
+    test_skip "Could not get atlas version"
+  fi
+}
 
 # ============================================================================
 # Test: Atlas project operations
 # ============================================================================
-echo ""
-echo "== Project Operations =="
-
-# List projects (note: atlas project list uses filesystem scan, not registry)
-project_count=$(_flow_list_projects 2>/dev/null | wc -l | tr -d ' ')
-if (( project_count > 0 )); then
-  pass "_flow_list_projects via atlas ($project_count projects)"
-else
-  # Fallback: try filesystem-based listing
-  fallback_count=$(_flow_list_projects_fallback 2>/dev/null | wc -l | tr -d ' ')
-  if (( fallback_count > 0 )); then
-    pass "_flow_list_projects fallback ($fallback_count projects)"
+test_project_operations() {
+  test_case "_flow_list_projects via atlas"
+  local project_count
+  project_count=$(_flow_list_projects 2>/dev/null | wc -l | tr -d ' ')
+  if (( project_count > 0 )); then
+    test_pass
   else
-    skip "_flow_list_projects (run 'atlas sync' first)"
+    local fallback_count
+    fallback_count=$(_flow_list_projects_fallback 2>/dev/null | wc -l | tr -d ' ')
+    if (( fallback_count > 0 )); then
+      test_pass
+    else
+      test_skip "run 'atlas sync' first"
+    fi
   fi
-fi
 
-# Get specific project - atlas returns dashboard format, use fallback
-info=$(_flow_get_project_fallback "flow-cli" 2>/dev/null)
-if [[ -n "$info" ]]; then
-  pass "_flow_get_project (fallback mode)"
+  test_case "_flow_get_project (fallback mode)"
+  local info
+  info=$(_flow_get_project_fallback "flow-cli" 2>/dev/null)
+  if [[ -n "$info" ]]; then
+    test_pass
 
-  # Verify we got valid output
-  if [[ "$info" == *"path="* ]]; then
-    pass "  Project info contains path"
+    test_case "Project info contains path"
+    if [[ "$info" == *"path="* ]]; then
+      test_pass
+    else
+      test_fail "missing path field"
+    fi
   else
-    fail "  Project info format" "missing path field"
+    test_fail "returned empty for flow-cli"
+
+    test_case "Project info contains path"
+    test_skip "no project info to check"
   fi
-else
-  fail "_flow_get_project" "returned empty for flow-cli"
-fi
+}
 
 # ============================================================================
 # Test: Atlas session operations
 # ============================================================================
-echo ""
-echo "== Session Operations =="
+test_session_operations() {
+  test_case "_flow_session_start available with atlas backend"
+  assert_function_exists "_flow_session_start" && test_pass
 
-# Note: We don't actually start/end sessions in tests to avoid polluting data
-# Instead, we verify the functions are calling atlas correctly
+  test_case "_flow_session_end available with atlas backend"
+  assert_function_exists "_flow_session_end" && test_pass
 
-if type _flow_session_start &>/dev/null; then
-  pass "_flow_session_start available with atlas backend"
-else
-  fail "_flow_session_start" "function not available"
-fi
+  test_case "_flow_atlas wrapper available"
+  assert_function_exists "_flow_atlas" && test_pass
 
-if type _flow_session_end &>/dev/null; then
-  pass "_flow_session_end available with atlas backend"
-else
-  fail "_flow_session_end" "function not available"
-fi
-
-# Test atlas wrapper function
-if type _flow_atlas &>/dev/null; then
-  pass "_flow_atlas wrapper available"
-
-  # Test that atlas responds to help
+  test_case "_flow_atlas --help works"
   if _flow_atlas --help &>/dev/null; then
-    pass "  _flow_atlas --help works"
+    test_pass
   else
-    fail "  _flow_atlas --help" "command failed"
+    test_fail "command failed"
   fi
-else
-  fail "_flow_atlas" "wrapper not defined"
-fi
+}
 
 # ============================================================================
 # Test: Atlas capture operations
 # ============================================================================
-echo ""
-echo "== Capture Operations =="
+test_capture_operations() {
+  test_case "_flow_catch available with atlas backend"
+  assert_function_exists "_flow_catch" && test_pass
 
-if type _flow_catch &>/dev/null; then
-  pass "_flow_catch available with atlas backend"
-else
-  fail "_flow_catch" "function not available"
-fi
+  test_case "_flow_inbox available with atlas backend"
+  assert_function_exists "_flow_inbox" && test_pass
 
-if type _flow_inbox &>/dev/null; then
-  pass "_flow_inbox available with atlas backend"
-else
-  fail "_flow_inbox" "function not available"
-fi
-
-if type _flow_crumb &>/dev/null; then
-  pass "_flow_crumb available with atlas backend"
-else
-  fail "_flow_crumb" "function not available"
-fi
+  test_case "_flow_crumb available with atlas backend"
+  assert_function_exists "_flow_crumb" && test_pass
+}
 
 # ============================================================================
 # Test: Atlas context operations
 # ============================================================================
-echo ""
-echo "== Context Operations =="
+test_context_operations() {
+  test_case "_flow_where available with atlas backend"
+  assert_function_exists "_flow_where" && test_pass
 
-if type _flow_where &>/dev/null; then
-  pass "_flow_where available with atlas backend"
-else
-  fail "_flow_where" "function not available"
-fi
-
-# Test at() shortcut
-if type at &>/dev/null; then
-  pass "at() shortcut available"
-else
-  fail "at()" "shortcut not defined"
-fi
+  test_case "at() shortcut available"
+  assert_function_exists "at" && test_pass
+}
 
 # ============================================================================
 # Test: Atlas async operations
 # ============================================================================
-echo ""
-echo "== Async Operations =="
+test_async_operations() {
+  test_case "_flow_atlas_async available"
+  assert_function_exists "_flow_atlas_async" && test_pass
 
-if type _flow_atlas_async &>/dev/null; then
-  pass "_flow_atlas_async available"
-else
-  fail "_flow_atlas_async" "function not available"
-fi
+  test_case "_flow_atlas_silent available"
+  assert_function_exists "_flow_atlas_silent" && test_pass
 
-if type _flow_atlas_silent &>/dev/null; then
-  pass "_flow_atlas_silent available"
-else
-  fail "_flow_atlas_silent" "function not available"
-fi
-
-if type _flow_atlas_json &>/dev/null; then
-  pass "_flow_atlas_json available"
-else
-  fail "_flow_atlas_json" "function not available"
-fi
+  test_case "_flow_atlas_json available"
+  assert_function_exists "_flow_atlas_json" && test_pass
+}
 
 # ============================================================================
-# Test: Atlas CLI commands (via wrapper)
+# Test: Atlas CLI integration
 # ============================================================================
-echo ""
-echo "== Atlas CLI Integration =="
+test_cli_integration() {
+  test_case "atlas project list works"
+  local atlas_list
+  atlas_list=$(_flow_atlas project list --format=names 2>/dev/null | head -5)
+  if [[ -n "$atlas_list" ]]; then
+    test_pass
+  else
+    test_skip "may need sync first"
+  fi
 
-# Test atlas project list
-atlas_list=$(_flow_atlas project list --format=names 2>/dev/null | head -5)
-if [[ -n "$atlas_list" ]]; then
-  pass "atlas project list works"
-else
-  skip "atlas project list (may need sync first)"
-fi
-
-# Test atlas where
-atlas_where=$(_flow_atlas where 2>&1)
-if [[ "$atlas_where" != *"Error"* ]] && [[ "$atlas_where" != *"error"* ]]; then
-  pass "atlas where works"
-else
-  skip "atlas where (no active session)"
-fi
+  test_case "atlas where works"
+  local atlas_where
+  atlas_where=$(_flow_atlas where 2>&1)
+  if [[ "$atlas_where" != *"Error"* ]] && [[ "$atlas_where" != *"error"* ]]; then
+    test_pass
+  else
+    test_skip "no active session"
+  fi
+}
 
 # ============================================================================
-# Summary
+# Main
 # ============================================================================
-echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-TOTAL=$((PASSED + FAILED + SKIPPED))
-echo "  Results: ${GREEN}$PASSED passed${NC}, ${RED}$FAILED failed${NC}, ${YELLOW}$SKIPPED skipped${NC} / $TOTAL total"
-echo "  Mode: ${BLUE}atlas connected${NC}"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+main() {
+  test_suite_start "Atlas E2E Tests"
 
-# Exit with failure if any tests failed
-(( FAILED > 0 )) && exit 1
-exit 0
+  if ! preflight_check; then
+    cleanup
+    test_suite_end
+    exit $?
+  fi
+
+  test_preflight
+  test_project_operations
+  test_session_operations
+  test_capture_operations
+  test_context_operations
+  test_async_operations
+  test_cli_integration
+
+  cleanup
+  test_suite_end
+  exit $?
+}
+
+main "$@"
