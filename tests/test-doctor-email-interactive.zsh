@@ -147,7 +147,7 @@ build_path_without() {
 }
 
 # Run doctor with em() loaded and piped stdin
-# Usage: local output=$(doctor_interactive "stdin_input" [flags...])
+# Usage: result=$(doctor_interactive "stdin_input" [flags...])
 doctor_interactive() {
     local stdin_data="$1"
     shift
@@ -433,6 +433,9 @@ test_setup_gmail_generates_config() {
 
     local output=$(printf "$input" | _doctor_email_setup 2>&1)
     local config_file="$TEST_XDG/himalaya/config.toml"
+
+    # Verify setup ran without crashing
+    assert_not_contains "$output" "command not found"
 
     if [[ -f "$config_file" ]]; then
         local content=$(<"$config_file")

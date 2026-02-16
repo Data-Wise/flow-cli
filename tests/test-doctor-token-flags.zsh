@@ -224,6 +224,7 @@ test_dot_equals_npm_checks_npm() {
     local exit_code=$?
 
     assert_exit_code $exit_code 0 "Should check NPM token" || return 1
+    assert_not_empty "$output" "doctor --dot=npm should produce output" || return 1
     test_pass
 }
 
@@ -235,7 +236,7 @@ test_dot_equals_invalid_shows_error() {
 
     # Doctor health check can legitimately exit 0 (healthy) or 1 (issues found)
     if (( exit_code <= 1 )); then
-        test_pass
+        assert_not_contains "$output" "command not found" && test_pass
     else
         test_fail "Should handle invalid token name gracefully (exit: $exit_code)"
     fi

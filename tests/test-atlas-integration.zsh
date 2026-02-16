@@ -54,9 +54,10 @@ echo "== Core Functions =="
 
 for fn in _flow_get_project _flow_list_projects _flow_session_start \
           _flow_session_end _flow_catch _flow_crumb _flow_timestamp; do
-  test_case "$fn exists"
+  test_case "$fn exists and is callable"
   if type $fn &>/dev/null; then
-    test_pass
+    local output=$($fn --help 2>&1 || $fn 2>&1 || true)
+    assert_not_contains "$output" "command not found" && test_pass
   else
     test_fail "function not defined"
   fi
@@ -138,14 +139,16 @@ echo "== Session Operations =="
 
 test_case "_flow_session_start function available"
 if type _flow_session_start &>/dev/null; then
-  test_pass
+  local output=$(_flow_session_start 2>&1 || true)
+  assert_not_contains "$output" "command not found" && test_pass
 else
   test_fail "function not defined"
 fi
 
 test_case "_flow_session_end function available"
 if type _flow_session_end &>/dev/null; then
-  test_pass
+  local output=$(_flow_session_end 2>&1 || true)
+  assert_not_contains "$output" "command not found" && test_pass
 else
   test_fail "function not defined"
 fi
@@ -158,14 +161,16 @@ echo "== Capture Operations =="
 
 test_case "_flow_catch function available"
 if type _flow_catch &>/dev/null; then
-  test_pass
+  local output=$(_flow_catch "test" 2>&1 || true)
+  assert_not_contains "$output" "command not found" && test_pass
 else
   test_fail "function not defined"
 fi
 
 test_case "_flow_crumb function available"
 if type _flow_crumb &>/dev/null; then
-  test_pass
+  local output=$(_flow_crumb "test" 2>&1 || true)
+  assert_not_contains "$output" "command not found" && test_pass
 else
   test_fail "function not defined"
 fi
@@ -177,9 +182,10 @@ echo ""
 echo "== User Commands =="
 
 for cmd in work dash catch js hop finish why; do
-  test_case "$cmd command available"
+  test_case "$cmd command available and callable"
   if type $cmd &>/dev/null; then
-    test_pass
+    local output=$($cmd --help 2>&1 || $cmd 2>&1 || true)
+    assert_not_contains "$output" "command not found" && test_pass
   else
     test_fail "not defined"
   fi

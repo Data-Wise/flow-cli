@@ -136,7 +136,7 @@ test_catch_no_args_no_tty() {
     local exit_code=$?
 
     if (( exit_code <= 1 )); then
-        test_pass
+        assert_not_contains "$output" "command not found" && test_pass
     else
         test_fail "catch with no args should exit 0 or 1, got $exit_code"
     fi
@@ -261,9 +261,10 @@ test_yay_week_flag() {
 test_datetime_module_loaded() {
     test_case "zsh/datetime module is loaded"
 
-    # strftime should be available
+    # strftime should be available and produce formatted output
     if type strftime &>/dev/null || strftime 2>&1 | grep -q "not enough"; then
-        test_pass
+        local output=$(strftime "%Y" $EPOCHSECONDS 2>&1 || true)
+        assert_not_empty "$output" && test_pass
     else
         test_fail "strftime not available (zsh/datetime not loaded)"
     fi

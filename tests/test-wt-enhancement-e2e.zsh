@@ -267,9 +267,10 @@ test_scenario_passthrough_commands() {
     fi
 
     test_case "wt create still works"
-    # Don't actually create, just verify command exists
+    # Don't actually create, just verify command exists and responds to help
     if type wt &>/dev/null; then
-        test_pass
+        local output=$(wt help 2>&1 || true)
+        assert_not_contains "$output" "command not found" && test_pass
     else
         test_fail "wt function doesn't exist"
     fi

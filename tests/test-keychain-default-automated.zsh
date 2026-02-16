@@ -363,10 +363,11 @@ load_output=$(zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' 2>&1 && echo 'LOAD_OK
 test_case "Plugin loads without fatal errors"
 assert_contains "$load_output" "LOAD_OK" && test_pass
 
-# Test: dot command exists after load
+# Test: dot command exists after load and responds to help
 test_case "dots command available after load"
 if zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' && type dots &>/dev/null" 2>/dev/null; then
-    test_pass
+    local output=$(zsh -c "source '$PLUGIN_DIR/flow.plugin.zsh' && dots help 2>&1" 2>/dev/null || true)
+    assert_not_contains "$output" "command not found" && test_pass
 else
     test_fail "dots command should be available"
 fi

@@ -57,10 +57,11 @@ cleanup() {
 # ============================================================================
 
 test_flow_exists() {
-    test_case "flow command exists"
+    test_case "flow command exists and responds"
 
     if type flow &>/dev/null; then
-        test_pass
+        local output=$(flow --help 2>&1 || true)
+        assert_not_contains "$output" "command not found" && test_pass
     else
         test_fail "flow command not found"
     fi

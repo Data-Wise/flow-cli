@@ -281,8 +281,8 @@ test_git_push_token_validation() {
     test_case "Git push validates token before remote operation"
 
     if type _g_validate_github_token_silent &>/dev/null; then
-        _g_validate_github_token_silent 2>/dev/null || true
-        test_pass
+        local output=$(_g_validate_github_token_silent 2>&1 || true)
+        assert_not_contains "$output" "command not found" && test_pass
     else
         test_fail "Token validation function not available"
     fi

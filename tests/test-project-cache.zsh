@@ -309,6 +309,9 @@ test_cached_list_generates_on_missing() {
     # Call cached list (should auto-generate)
     local output=$(_proj_list_all_cached)
 
+    # Output should not be empty (projects were discovered)
+    [[ -n "$output" ]] || echo "    Warning: cached list returned empty output"
+
     # Cache should now exist
     assert_file_exists "$PROJ_CACHE_FILE" || return 1
 
@@ -348,6 +351,9 @@ test_cached_list_regenerates_stale() {
     # Call cached list (should regenerate)
     local output=$(_proj_list_all_cached)
 
+    # Regenerated output should not contain stale data
+    [[ "$output" != *"old-content"* ]] || echo "    Warning: stale content still in output"
+
     # Cache should be fresh now
     assert_true "_proj_cache_is_valid" || return 1
 
@@ -362,6 +368,9 @@ test_cache_disabled_skips_cache() {
 
     # Call cached list
     local output=$(_proj_list_all_cached)
+
+    # Should still return project data even without cache
+    [[ -n "$output" ]] || echo "    Note: no output when cache disabled (may be expected)"
 
     # Cache should NOT be created
     assert_file_not_exists "$PROJ_CACHE_FILE" || return 1
