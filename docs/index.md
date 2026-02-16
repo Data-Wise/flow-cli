@@ -7,10 +7,10 @@ tags:
 
 # Flow CLI
 
-[![Version](https://img.shields.io/github/v/release/Data-Wise/flow-cli?label=version&color=blue)](https://github.com/Data-Wise/flow-cli/releases/latest)
+[![Version](https://img.shields.io/github/v/release/Data-Wise/flow-cli?label=version&color=blue&cacheSeconds=3600)](https://github.com/Data-Wise/flow-cli/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
-[![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/test.yml?label=tests&branch=main&cacheSeconds=300)](https://github.com/Data-Wise/flow-cli/actions/workflows/test.yml)
+[![Docs](https://img.shields.io/github/actions/workflow/status/Data-Wise/flow-cli/docs.yml?label=docs&branch=main&cacheSeconds=300)](https://github.com/Data-Wise/flow-cli/actions/workflows/docs.yml)
 [![Pure ZSH](https://img.shields.io/badge/pure-ZSH-1f425f)](https://www.zsh.org/)
 [![ADHD-Friendly](https://img.shields.io/badge/ADHD-friendly-purple)](PHILOSOPHY.md)
 
