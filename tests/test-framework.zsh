@@ -335,22 +335,119 @@ assert_success() {
   return 0
 }
 
-assert_function_exists() {
-  local func_name="$1"
-  local message="${2:-Function '$func_name' should exist}"
-
-  if ! type "$func_name" &>/dev/null; then
-    test_fail "$message"
-    return 1
-  fi
-}
-
 assert_alias_exists() {
   local alias_name="$1"
   local message="${2:-Alias '$alias_name' should exist}"
 
   if ! alias "$alias_name" &>/dev/null 2>&1; then
     test_fail "$message"
+    return 1
+  fi
+}
+
+# Convenience aliases matching ORCHESTRATE naming
+assert_output_contains() { assert_contains "$@"; }
+assert_output_excludes() { assert_not_contains "$@"; }
+
+# ============================================================================
+# MOCK REGISTRY
+# ============================================================================
+# Tracked mocks that record call count and arguments.
+# Usage:
+#   create_mock "_flow_open_editor"                    # no-op mock
+#   create_mock "_flow_get_project" 'echo "/tmp/proj"' # mock with body
+#   some_function_that_calls_editor
+#   assert_mock_called "_flow_open_editor" 1
+#   assert_mock_args "_flow_open_editor" "positron /tmp"
+#   reset_mocks
+
+typeset -gA MOCK_CALLS=()
+typeset -gA MOCK_ARGS=()
+
+create_mock() {
+  local fn_name="$1"
+  local mock_body="${2:-true}"
+
+  # Save original via mock_function (from MOCK HELPERS section)
+  if (whence -f "$fn_name" >/dev/null 2>&1); then
+    eval "_original_mock_${fn_name}() { $(whence -f $fn_name | tail -n +2) }"
+  fi
+
+  MOCK_CALLS[$fn_name]=0
+  MOCK_ARGS[$fn_name]=""
+
+  eval "${fn_name}() {
+    MOCK_CALLS[$fn_name]=\$((MOCK_CALLS[$fn_name] + 1))
+    MOCK_ARGS[$fn_name]=\"\$*\"
+    $mock_body
+  }"
+}
+
+assert_mock_called() {
+  local fn_name="$1"
+  local expected="${2:-1}"
+  local actual="${MOCK_CALLS[$fn_name]:-0}"
+  local message="${3:-Expected $fn_name called $expected time(s), got $actual}"
+
+  if (( actual != expected )); then
+    test_fail "$message"
+    return 1
+  fi
+}
+
+assert_mock_not_called() {
+  assert_mock_called "$1" 0 "${2:-Expected $1 not called}"
+}
+
+assert_mock_args() {
+  local fn_name="$1"
+  local expected="$2"
+  local actual="${MOCK_ARGS[$fn_name]}"
+  local message="${3:-Expected $fn_name args '$expected', got '$actual'}"
+
+  if [[ "$actual" != "$expected" ]]; then
+    test_fail "$message"
+    return 1
+  fi
+}
+
+reset_mocks() {
+  # Restore originals where saved
+  for fn_name in ${(k)MOCK_CALLS}; do
+    if (whence -f "_original_mock_${fn_name}" >/dev/null 2>&1); then
+      eval "${fn_name}() { $(whence -f _original_mock_${fn_name} | tail -n +2) }"
+      unset -f "_original_mock_${fn_name}"
+    else
+      unset -f "$fn_name" 2>/dev/null
+    fi
+  done
+  MOCK_CALLS=()
+  MOCK_ARGS=()
+}
+
+# ============================================================================
+# SUBSHELL ISOLATION
+# ============================================================================
+# Run a test function in a subshell so global state doesn't leak.
+# The test function should return 0 on success, non-zero on failure.
+# Output from the subshell is captured and shown on failure.
+
+run_isolated() {
+  local test_fn="$1"
+  local project_root="${2:-${PROJECT_ROOT:-${0:A:h:h}}}"
+
+  local output
+  output=$(
+    FLOW_QUIET=1 FLOW_ATLAS_ENABLED=no
+    FLOW_PLUGIN_DIR="$project_root"
+    source "$project_root/flow.plugin.zsh" 2>/dev/null
+    exec < /dev/null
+    "$test_fn" 2>&1
+  )
+  local exit_code=$?
+
+  if (( exit_code != 0 )); then
+    test_fail "$output"
     return 1
   fi
 }
