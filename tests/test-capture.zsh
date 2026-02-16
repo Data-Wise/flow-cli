@@ -153,9 +153,7 @@ test_crumb_with_text() {
     local exit_code=$?
 
     assert_exit_code "$exit_code" 0 "crumb with text should exit 0" || return
-
-    # Should produce output or succeed silently
-    test_pass
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 # ============================================================================
@@ -169,7 +167,7 @@ test_trail_runs() {
     local exit_code=$?
 
     assert_exit_code "$exit_code" 0 "trail should exit 0" || return
-    test_pass
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_trail_with_limit() {
@@ -179,7 +177,7 @@ test_trail_with_limit() {
     local exit_code=$?
 
     assert_exit_code "$exit_code" 0 "trail with limit should exit 0" || return
-    test_pass
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 # ============================================================================
@@ -193,7 +191,7 @@ test_inbox_runs() {
     local exit_code=$?
 
     assert_exit_code "$exit_code" 0 "inbox should exit 0" || return
-    test_pass
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 # ============================================================================
@@ -243,7 +241,7 @@ test_yay_runs() {
     local exit_code=$?
 
     assert_exit_code "$exit_code" 0 "yay should exit 0" || return
-    test_pass
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 test_yay_week_flag() {
@@ -253,7 +251,7 @@ test_yay_week_flag() {
     local exit_code=$?
 
     assert_exit_code "$exit_code" 0 "yay --week should exit 0" || return
-    test_pass
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 # ============================================================================

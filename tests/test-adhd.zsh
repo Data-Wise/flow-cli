@@ -94,7 +94,8 @@ test_stuck_help_exists() {
 test_focus_help_exists() {
     test_case "focus command has help"
     local output=$(focus --help 2>&1)
-    assert_exit_code $? 0 "focus --help should exit 0" && test_pass
+    assert_exit_code $? 0 "focus --help should exit 0" && \
+    assert_not_empty "$output" "focus --help should produce output" && test_pass
 }
 
 test_list_projects_exists() {
@@ -117,7 +118,8 @@ test_js_handles_invalid_project() {
     local output=$(js definitely_nonexistent_xyz123 2>&1)
     local exit_code=$?
     # js should still exit 0 — it shows the header and picks/suggests a project
-    assert_exit_code $exit_code 0 "js should exit 0 even with invalid project" && test_pass
+    assert_exit_code $exit_code 0 "js should exit 0 even with invalid project" && \
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 # ============================================================================
@@ -142,7 +144,8 @@ test_next_help_flag() {
     test_case "next --help runs"
     local output=$(next --help 2>&1)
     local exit_code=$?
-    assert_exit_code $exit_code 0 "next --help should exit 0" && test_pass
+    assert_exit_code $exit_code 0 "next --help should exit 0" && \
+    assert_not_empty "$output" "next --help should produce output" && test_pass
 }
 
 test_next_ai_flag_accepted() {
@@ -151,7 +154,8 @@ test_next_ai_flag_accepted() {
     local output=$(next --ai 2>&1)
     local exit_code=$?
     # Flag should be accepted without crashing — exit 0 expected
-    assert_exit_code $exit_code 0 "next --ai should exit 0" && test_pass
+    assert_exit_code $exit_code 0 "next --ai should exit 0" && \
+    assert_not_contains "$output" "unknown" "Flag should be recognized" && test_pass
 }
 
 # ============================================================================
@@ -176,7 +180,8 @@ test_stuck_help_flag() {
     test_case "stuck --help runs"
     local output=$(stuck --help 2>&1)
     local exit_code=$?
-    assert_exit_code $exit_code 0 "stuck --help should exit 0" && test_pass
+    assert_exit_code $exit_code 0 "stuck --help should exit 0" && \
+    assert_not_empty "$output" "stuck --help should produce output" && test_pass
 }
 
 # ============================================================================
@@ -202,7 +207,8 @@ test_focus_help_flag() {
     test_case "focus --help runs"
     local output=$(focus --help 2>&1)
     local exit_code=$?
-    assert_exit_code $exit_code 0 "focus --help should exit 0" && test_pass
+    assert_exit_code $exit_code 0 "focus --help should exit 0" && \
+    assert_not_empty "$output" "focus --help should produce output" && test_pass
 }
 
 # ============================================================================
@@ -213,7 +219,8 @@ test_brk_runs() {
     test_case "brk 0 runs without error (0 min = no sleep)"
     local output=$(brk 0 2>&1)
     local exit_code=$?
-    assert_exit_code $exit_code 0 "brk 0 should exit 0" && test_pass
+    assert_exit_code $exit_code 0 "brk 0 should exit 0" && \
+    assert_not_contains "$output" "command not found" && test_pass
 }
 
 # ============================================================================

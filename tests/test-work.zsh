@@ -183,18 +183,16 @@ test_work_invalid_project() {
 # ============================================================================
 
 test_finish_no_session_exits_cleanly() {
-    test_case "finish when not in session exits with code 0 or 1"
+    test_case "finish when not in session exits cleanly"
 
     local output
     output=$(finish 2>&1)
     local exit_code=$?
 
-    # finish outside a session should not crash (exit 0 = no-op, exit 1 = warning)
-    if (( exit_code == 0 || exit_code == 1 )); then
-        test_pass
-    else
-        test_fail "finish exited with unexpected code $exit_code (expected 0 or 1)"
-    fi
+    # finish outside a session should exit 0 (no-op) and not produce error output
+    assert_exit_code "$exit_code" 0 "finish outside session should exit 0" || return
+    assert_not_contains "$output" "command not found" "Should not show 'command not found'" && \
+    assert_not_contains "$output" "syntax error" "Should not show syntax errors" && test_pass
 }
 
 # ============================================================================
