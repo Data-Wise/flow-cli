@@ -12,12 +12,18 @@
 ## Current Session (2026-02-15)
 
 **Session activity:**
+- fix: harden homebrew-release workflow security (script injection, SHA256 validation)
+- docs: CLAUDE.md audit + fix — stale counts (lib 69→74, tests 181→186), 4 missing teach subcommands
+- merge: PR #392 (feature → dev), PR #393 (dev → main)
+- deploy: docs site redeployed
+- chore: synced dev with main, cleaned up feature branch
+
+**Previous session (2026-02-15):**
 - fix: semantic-release v25 missing plugin deps (commit-analyzer, release-notes-generator)
 - fix: removed @semantic-release/git plugin (can't push to protected main on personal repos)
 - fix: replaced classic branch protection with GitHub ruleset (admin bypass)
-- fix: restored correct devDependencies in package.json (semantic-release, commit-analyzer, github, conventional-changelog-conventionalcommits)
+- fix: restored correct devDependencies in package.json
 - chore: cleaned up ~245 failed release workflow runs
-- chore: synced dev with main
 - result: semantic-release now creates GitHub releases + tags without pushing commits back to main
 
 **Previous session (2026-02-14):**
@@ -34,7 +40,7 @@
 - release: v7.0.1 — PR #378 merged to main, tagged
 - deploy: docs site deployed for v7.0.1
 
-**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 181 test files
+**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 186 test files
 
 ---
 
@@ -72,7 +78,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.1.0 released, synced with main |
+| Main repo | `dev` | v7.1.0 + workflow hardening, synced with main |
 | feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
 
 ---
@@ -105,7 +111,7 @@
 ---
 
 **Last Updated:** 2026-02-15
-**Status:** v7.1.0 released | 45/45 tests passing | 15 dispatchers | 181 test files | 8000+ test functions | semantic-release fixed
+**Status:** v7.1.0 released | 45/45 tests passing | 15 dispatchers | 186 test files | 8000+ test functions | homebrew workflow hardened
 ## wins: semantic-release CI pipeline fixed (2026-02-15), Fixed the regression bug (2026-02-14), --category fix squashed the bug (2026-02-14)
 ## streak: 2
 ## last_active: 2026-02-15 22:50
