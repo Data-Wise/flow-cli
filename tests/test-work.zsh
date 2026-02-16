@@ -55,6 +55,7 @@ cleanup() {
     reset_mocks
     [[ -n "$TEST_ROOT" ]] && rm -rf "$TEST_ROOT"
 }
+trap cleanup EXIT
 
 # ============================================================================
 # TESTS: Environment

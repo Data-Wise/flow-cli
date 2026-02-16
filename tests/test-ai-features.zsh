@@ -53,6 +53,7 @@ setup() {
 cleanup() {
     rm -rf "$TEST_DATA_DIR"
 }
+trap cleanup EXIT
 
 # ============================================================================
 # AI RECIPES TESTS

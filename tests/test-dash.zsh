@@ -55,6 +55,7 @@ cleanup() {
     reset_mocks
     [[ -d "$TEST_ROOT" ]] && rm -rf "$TEST_ROOT"
 }
+trap cleanup EXIT
 
 # ============================================================================
 # TESTS: dash command existence
@@ -312,7 +313,7 @@ main() {
 
     # Cleanup and summary
     cleanup
-    print_summary
+    test_suite_end
     exit $?
 }
 

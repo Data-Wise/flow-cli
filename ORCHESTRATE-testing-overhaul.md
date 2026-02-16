@@ -63,15 +63,21 @@ and convert key test files from existence-only to behavioral assertions.
 | Anti-pattern | Before | After |
 |---|---|---|
 | Permissive exit codes | 2 in 2 files | **0 (CLEAN)** |
-| Existence-only tests | 11 in 6 files | 11 in 6 files |
-| Unused output captures | 21 in 8 files | **8 in 4 files** |
-| Inline frameworks | 80 in 30 files | **2 in 1 file** |
+| Existence-only tests | 11 in 6 files | **0 (CLEAN)** |
+| Unused output captures | 21 in 8 files | **0 (CLEAN)** |
+| Inline frameworks | 80 in 30 files | **0 (CLEAN)** |
+
+## Additional Fixes (post-conversion)
+
+- **Temp dir leaks:** Added `trap cleanup EXIT` to 6 files that used `mktemp -d` without cleanup traps
+- **Unguarded cleanup:** Added `trap cleanup EXIT` to 25+ files that defined `cleanup()` but only called it at end of `main()` (no protection on early exit)
+- **Inconsistent summary:** Replaced `print_summary` with `test_suite_end` in 10 files for consistency with shared framework
+- 1 file (`test-wt-enhancement-unit.zsh`) retains its own inline framework (not yet converted)
 
 ## Remaining (Future Work)
 
-- 1 file with inline framework: `test-course-planning-docs-unit.zsh`
-- 11 existence-only tests across E2E/integration files (by design)
-- 8 unused output captures in 4 files (edge cases)
+- 1 file with inline framework: `test-wt-enhancement-unit.zsh` (also `test-course-planning-docs-unit.zsh`)
+- All other categories resolved to 0
 
 ## How to Start
 

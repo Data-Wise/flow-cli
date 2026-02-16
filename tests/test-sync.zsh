@@ -15,6 +15,11 @@ export FLOW_DEBUG=0
 
 # Create temp directory for test data
 TEST_DIR=$(mktemp -d)
+cleanup() {
+    rm -rf "$TEST_DIR" 2>/dev/null || true
+    reset_mocks 2>/dev/null || true
+}
+trap cleanup EXIT
 export FLOW_DATA_DIR="$TEST_DIR"
 export FLOW_PROJECTS_ROOT="$TEST_DIR/projects"
 mkdir -p "$FLOW_PROJECTS_ROOT/test-project"
@@ -620,11 +625,6 @@ for opt in "--verbose" "--quiet" "--skip-git"; do
     test_fail "missing from help"
   fi
 done
-
-# ============================================================================
-# Cleanup
-# ============================================================================
-rm -rf "$TEST_DIR"
 
 # ============================================================================
 # Results

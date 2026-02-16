@@ -60,6 +60,7 @@ cleanup() {
     setopt local_options nonomatch
     rm -f "${DOCTOR_CACHE_DIR}/${TEST_CACHE_PREFIX}"*.cache 2>/dev/null
 }
+trap cleanup EXIT
 
 # ══════════════════════════════════════════════════════════════════════════════
 # CATEGORY 1: INITIALIZATION (2 tests)

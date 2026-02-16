@@ -87,6 +87,7 @@ cleanup_test_environment() {
         test_fail "Failed to clean up"
     fi
 }
+trap cleanup_test_environment EXIT
 
 # ══════════════════════════════════════════════════════════════════════════════
 # E2E TEST SCENARIOS

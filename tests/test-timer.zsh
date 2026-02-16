@@ -37,6 +37,7 @@ cleanup() {
         rm -f "${FLOW_DATA_DIR}/timer.state"
     fi
 }
+trap cleanup EXIT
 
 # ============================================================================
 # TESTS: Command existence
@@ -332,7 +333,7 @@ main() {
     test_timer_invalid_command
 
     cleanup
-    print_summary
+    test_suite_end
 }
 
 main "$@"

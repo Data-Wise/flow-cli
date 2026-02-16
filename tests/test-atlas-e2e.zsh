@@ -24,6 +24,7 @@ source "$FLOW_PLUGIN_DIR/flow.plugin.zsh" 2>/dev/null
 cleanup() {
   reset_mocks
 }
+trap cleanup EXIT
 
 # ============================================================================
 # Pre-flight: Check if Atlas is available

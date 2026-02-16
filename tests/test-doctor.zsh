@@ -61,6 +61,7 @@ cleanup() {
     reset_mocks
     rm -rf "$TEST_ROOT"
 }
+trap cleanup EXIT
 
 # ============================================================================
 # TESTS: Command existence
@@ -321,7 +322,7 @@ main() {
     test_doctor_uses_color
 
     cleanup
-    print_summary
+    test_suite_end
     exit $?
 }
 

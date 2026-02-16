@@ -30,6 +30,7 @@ setup() {
 cleanup() {
     rm -f "$TEST_SESSION_FILE"
 }
+trap cleanup EXIT
 
 # ============================================================================
 # SESSION MANAGEMENT TESTS

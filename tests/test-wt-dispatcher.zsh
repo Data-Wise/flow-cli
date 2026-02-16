@@ -45,6 +45,7 @@ cleanup() {
     cleanup_test_repo
     reset_mocks
 }
+trap cleanup EXIT
 
 # ============================================================================
 # HELPER FUNCTIONS

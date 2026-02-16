@@ -120,6 +120,7 @@ cleanup() {
     rm -rf "$TEST_PROJECTS_DIR"
     reset_mocks
 }
+trap cleanup EXIT
 
 # ============================================================================
 # QUICK WIN DETECTION TESTS

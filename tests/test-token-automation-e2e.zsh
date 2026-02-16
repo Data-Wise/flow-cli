@@ -49,6 +49,7 @@ cleanup() {
     security delete-generic-password \
         -s "$_DOT_KEYCHAIN_SERVICE" 2>/dev/null || true
 }
+trap cleanup EXIT
 
 # ══════════════════════════════════════════════════════════════════════════════
 # E2E TESTS: Integration Points

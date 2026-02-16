@@ -42,6 +42,7 @@ cleanup() {
     [[ -d "$TEST_DIR" ]] && rm -rf "$TEST_DIR"
     reset_mocks
 }
+trap cleanup EXIT
 
 # ============================================================================
 # TEST: _flow_status_get_field

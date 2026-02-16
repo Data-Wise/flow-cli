@@ -34,6 +34,7 @@ cleanup() {
 
     reset_mocks
 }
+trap cleanup EXIT
 
 # ============================================================================
 # TESTS: Command Existence

@@ -44,6 +44,7 @@ setup() {
 cleanup() {
     rm -rf "$TEST_CACHE_DIR" 2>/dev/null
 }
+trap cleanup EXIT
 
 # ══════════════════════════════════════════════════════════════════════════════
 # CATEGORY A: FLAG PARSING (6 tests)

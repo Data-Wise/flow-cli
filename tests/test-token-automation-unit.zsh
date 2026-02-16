@@ -301,7 +301,7 @@ main() {
 
     cleanup
 
-    print_summary
+    test_suite_end
     exit $?
 }
 

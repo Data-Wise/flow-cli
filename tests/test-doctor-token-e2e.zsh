@@ -47,6 +47,7 @@ setup() {
 cleanup() {
     rm -rf "$TEST_CACHE_DIR" 2>/dev/null
 }
+trap cleanup EXIT
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SCENARIO 1: MORNING ROUTINE (QUICK HEALTH CHECK)
@@ -661,7 +662,7 @@ main() {
 
     cleanup
 
-    print_summary
+    test_suite_end
 }
 
 # Run E2E tests

@@ -90,6 +90,7 @@ cleanup_test_env() {
     cd /
     rm -rf "$TEST_DIR"
 }
+trap cleanup_test_env EXIT
 
 # Test counter
 TEST_COUNT=0

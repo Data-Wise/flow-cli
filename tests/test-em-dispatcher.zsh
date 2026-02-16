@@ -39,6 +39,7 @@ setup() {
 cleanup() {
     reset_mocks
 }
+trap cleanup EXIT
 
 # ═══════════════════════════════════════════════════════════════
 # Section 1: Dispatcher Function Existence

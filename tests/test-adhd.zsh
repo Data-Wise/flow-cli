@@ -47,6 +47,7 @@ cleanup() {
     reset_mocks
     [[ -n "$TEST_ROOT" && -d "$TEST_ROOT" ]] && rm -rf "$TEST_ROOT"
 }
+trap cleanup EXIT
 
 # ============================================================================
 # TESTS: Command existence
@@ -331,7 +332,7 @@ main() {
     test_next_shows_projects
 
     cleanup
-    print_summary
+    test_suite_end
     exit $?
 }
 

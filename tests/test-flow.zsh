@@ -35,7 +35,6 @@ setup() {
 
     # Create isolated test project root (avoids scanning real ~/projects)
     TEST_ROOT=$(mktemp -d)
-    trap "rm -rf '$TEST_ROOT'" EXIT
     mkdir -p "$TEST_ROOT/dev-tools/mock-dev" "$TEST_ROOT/apps/test-app"
     for dir in "$TEST_ROOT"/dev-tools/mock-dev "$TEST_ROOT"/apps/test-app; do
         echo "## Status: active\n## Progress: 50" > "$dir/.STATUS"
@@ -51,6 +50,7 @@ cleanup() {
         rm -rf "$TEST_ROOT"
     fi
 }
+trap cleanup EXIT
 
 # ============================================================================
 # TESTS: Command existence

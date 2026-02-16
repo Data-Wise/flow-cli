@@ -63,6 +63,7 @@ setup() {
 cleanup() {
     reset_mocks
 }
+trap cleanup EXIT
 
 # ============================================================================
 # HELP TESTS

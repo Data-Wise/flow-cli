@@ -38,6 +38,7 @@ setup() {
 cleanup() {
     reset_mocks
 }
+trap cleanup EXIT
 
 # ============================================================================
 # FUNCTION EXISTENCE TESTS

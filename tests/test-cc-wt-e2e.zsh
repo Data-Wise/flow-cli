@@ -56,6 +56,7 @@ cleanup_test_repo() {
     fi
     TEST_DIR=""
 }
+trap cleanup_test_repo EXIT
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SOURCE THE PLUGIN

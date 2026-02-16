@@ -148,6 +148,7 @@ cleanup_test_projects() {
     rm -rf "$TEST_PROJ_BASE"
     rm -f "$TEST_CACHE_FILE"
 }
+trap cleanup_test_projects EXIT
 
 # ============================================================================
 # TEST CASES

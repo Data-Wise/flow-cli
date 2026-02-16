@@ -539,7 +539,7 @@ test_case "Performance: Alias display < 100ms" && {
 # ============================================================================
 
 # Print summary
-print_summary
+test_suite_end
 
 # Exit with appropriate code
 exit $TEST_FAILED

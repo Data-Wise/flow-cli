@@ -43,6 +43,7 @@ cleanup() {
 
     echo "  Cleanup complete"
 }
+trap cleanup EXIT
 
 # ============================================================================
 # UNIT TESTS - FUNCTION EXISTENCE
@@ -536,7 +537,7 @@ main() {
 
     cleanup
 
-    print_summary
+    test_suite_end
     exit $?
 }
 
