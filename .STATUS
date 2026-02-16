@@ -39,7 +39,7 @@
 - release: v7.0.1 — himalaya neovim docs
 - deploy: docs site deployed for v7.0.1
 
-**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 186 test files
+**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 134 test files
 
 ---
 
@@ -66,7 +66,6 @@
 |----------|--------|--------|
 | Main repo | `dev` | v7.2.0 released, synced with main |
 | feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
-| feature-testing-overhaul | `feature/testing-overhaul` | ORCHESTRATE committed, ready to implement |
 
 ---
 
@@ -98,7 +97,7 @@
 ---
 
 **Last Updated:** 2026-02-16
-**Status:** v7.2.0 released | 45/45 tests passing | 15 dispatchers | 186 test files | 8000+ test functions | docs fully updated
+**Status:** v7.2.0 released | 45/45 tests passing | 15 dispatchers | 134 test files | 8000+ test functions | docs fully updated
 ## wins: --help (2026-02-16), semantic-release CI pipeline fixed (2026-02-15), Fixed the regression bug (2026-02-14), --category fix squashed the bug (2026-02-14)
 ## streak: 1
 ## last_active: 2026-02-16 12:39

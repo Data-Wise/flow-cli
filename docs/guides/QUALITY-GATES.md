@@ -151,14 +151,6 @@ Validates the install script across multiple Linux distributions before release.
 
 Builds and deploys MkDocs site to GitHub Pages.
 
-### Semantic Release (`release.yml`)
-
-| Trigger | Push to `main` (after install tests pass) |
-|---------|-------------------------------------------|
-| Action | `npx semantic-release` |
-
-Auto-generates changelog, creates GitHub release, bumps version based on conventional commits.
-
 ### Homebrew Release (`homebrew-release.yml`)
 
 | Trigger | GitHub release published |
