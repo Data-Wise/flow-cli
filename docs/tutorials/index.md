@@ -105,10 +105,11 @@ flowchart TD
 ### 💻 "I use Claude Code daily"
 
 1. **[Tutorial 1: First Session](01-first-session.md)** - Basics (15 min)
-2. **[Tutorial 10: CC Dispatcher](10-cc-dispatcher.md)** - Launch Claude anywhere (20 min)
-3. **[Tutorial 12: Dot Dispatcher](12-dot-dispatcher.md)** - Manage secrets (25 min)
+2. **[Tutorial 34: Editor Workflow](34-editor-workflow.md)** - work -e flag & Claude modes (8 min)
+3. **[Tutorial 10: CC Dispatcher](10-cc-dispatcher.md)** - Launch Claude anywhere (20 min)
+4. **[Tutorial 12: Dot Dispatcher](12-dot-dispatcher.md)** - Manage secrets (25 min)
 
-**Total: 1 hour to Claude mastery**
+**Total: ~1 hour to Claude mastery**
 
 ---
 
@@ -157,7 +158,8 @@ flowchart TD
 | 26 | [LaTeX Macros](26-latex-macros.md) | 20 min | 🟡 Intermediate | Macro management for courses |
 | 29 | [First Exam Walkthrough](29-first-exam-walkthrough.md) | 25 min | 🟡 Intermediate | End-to-end exam creation |
 | 30 | [New Instructor Workflow](30-new-instructor-complete-workflow.md) | 30 min | 🟢 Beginner | Complete setup for new instructors |
-| 32 | [Health Check (Doctor v2)](32-teach-doctor.md) | 20 min | 🟡 Intermediate | Two-mode health check ⭐ **NEW** |
+| 32 | [Health Check (Doctor v2)](32-teach-doctor.md) | 20 min | 🟡 Intermediate | Two-mode health check |
+| 34 | [Editor Workflow](34-editor-workflow.md) | 8 min | 🟢 Beginner | work -e flag, Claude Code modes ⭐ **NEW** |
 
 **Total estimated time:** ~6 hours (all tutorials)
 

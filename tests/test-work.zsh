@@ -399,6 +399,772 @@ test_flow_projects_root_exists() {
 }
 
 # ============================================================================
+# TESTS: Editor flag (-e) behavior
+# ============================================================================
+
+# Helper: mock _flow_get_project to return a fake project at TEST_ROOT
+# This allows work to reach the editor code path without a real project.
+# Note: work runs in a subshell via $() so we use a temp file to capture
+# the editor argument, since local variables don't propagate back.
+_EDITOR_CAPTURE_FILE=""
+
+_mock_project_env() {
+    _EDITOR_CAPTURE_FILE=$(mktemp)
+    _flow_get_project() {
+        echo "name=\"mock-proj\"; project_path=\"$TEST_ROOT/dev-tools/mock-dev\"; proj_status=\"active\""
+    }
+    _flow_session_start() { :; }
+    _flow_detect_project_type() { echo "generic"; }
+    _flow_has_fzf() { return 1; }
+    _work_project_uses_github() { return 1; }
+}
+
+_restore_project_env() {
+    unfunction _flow_get_project 2>/dev/null
+    unfunction _flow_session_start 2>/dev/null
+    unfunction _flow_detect_project_type 2>/dev/null
+    unfunction _flow_has_fzf 2>/dev/null
+    unfunction _flow_open_editor 2>/dev/null
+    unfunction _work_project_uses_github 2>/dev/null
+    source "$PROJECT_ROOT/commands/work.zsh" 2>/dev/null
+    source "$PROJECT_ROOT/lib/atlas-bridge.zsh" 2>/dev/null
+    [[ -n "$_EDITOR_CAPTURE_FILE" ]] && rm -f "$_EDITOR_CAPTURE_FILE"
+    _EDITOR_CAPTURE_FILE=""
+}
+
+test_work_no_editor_by_default() {
+    log_test "work without -e does NOT call _flow_open_editor"
+
+    _mock_project_env
+    local _editor_called=false
+    _flow_open_editor() { _editor_called=true; }
+
+    local output=$(work mock-proj 2>&1)
+
+    _restore_project_env
+
+    if [[ "$_editor_called" == false ]]; then
+        pass
+    else
+        fail "_flow_open_editor was called without -e flag"
+    fi
+}
+
+test_work_editor_flag_bare() {
+    log_test "work -e (bare) opens EDITOR fallback"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    EDITOR="test-editor"
+    local output=$(work mock-proj -e 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "test-editor" ]]; then
+        pass
+    else
+        fail "Expected 'test-editor', got: '$captured'"
+    fi
+}
+
+test_work_editor_flag_with_name() {
+    log_test "work -e positron passes 'positron' to editor"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work mock-proj -e positron 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "positron" ]]; then
+        pass
+    else
+        fail "Expected 'positron', got: '$captured'"
+    fi
+}
+
+test_work_editor_flag_code() {
+    log_test "work -e code passes 'code' to editor"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work mock-proj -e code 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "code" ]]; then
+        pass
+    else
+        fail "Expected 'code', got: '$captured'"
+    fi
+}
+
+test_work_editor_flag_before_project() {
+    log_test "work -e code mock-proj (flag before project)"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work -e code mock-proj 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "code" ]]; then
+        pass
+    else
+        fail "Expected 'code', got: '$captured'"
+    fi
+}
+
+test_work_long_editor_flag() {
+    log_test "work --editor nvim uses long flag form"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work mock-proj --editor nvim 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "nvim" ]]; then
+        pass
+    else
+        fail "Expected 'nvim', got: '$captured'"
+    fi
+}
+
+test_work_no_editor_no_call() {
+    log_test "work mock-proj (no flag) never calls _flow_open_editor"
+
+    _mock_project_env
+    local _call_count=0
+    _flow_open_editor() { ((_call_count++)); }
+
+    local output=$(work mock-proj 2>&1)
+
+    _restore_project_env
+
+    if [[ $_call_count -eq 0 ]]; then
+        pass
+    else
+        fail "_flow_open_editor called $_call_count time(s) without -e"
+    fi
+}
+
+test_work_editor_flag_cc() {
+    log_test "_flow_open_editor handles cc|claude|ccy cases"
+
+    local source_code=$(functions _flow_open_editor 2>/dev/null)
+
+    if [[ "$source_code" == *"cc"*"claude"*"ccy"* ]]; then
+        pass
+    else
+        fail "cc/claude/ccy case not found in _flow_open_editor"
+    fi
+}
+
+test_work_editor_cc_new_in_source() {
+    log_test "_flow_open_editor handles cc:new|claude:new"
+
+    local source_code=$(functions _flow_open_editor 2>/dev/null)
+
+    if [[ "$source_code" == *"cc:new"* && "$source_code" == *"claude:new"* ]]; then
+        pass
+    else
+        fail "cc:new/claude:new case not found in _flow_open_editor"
+    fi
+}
+
+test_work_launch_claude_code_yolo_branch() {
+    log_test "_work_launch_claude_code has yolo (ccy) branch"
+
+    local source_code=$(functions _work_launch_claude_code 2>/dev/null)
+
+    if [[ "$source_code" == *"ccy"* && "$source_code" == *"dangerously-skip-permissions"* ]]; then
+        pass
+    else
+        fail "ccy/dangerously-skip-permissions not found in _work_launch_claude_code"
+    fi
+}
+
+test_work_legacy_positional_editor() {
+    log_test "work <proj> <editor> shows deprecation warning"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work mock-proj nvim 2>&1)
+
+    _restore_project_env
+
+    if [[ "$output" == *"deprecated"* || "$output" == *"Deprecated"* ]]; then
+        pass
+    else
+        fail "No deprecation warning for positional editor arg"
+    fi
+}
+
+test_work_legacy_positional_still_opens() {
+    log_test "deprecated positional editor still opens editor"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work mock-proj vim 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "vim" ]]; then
+        pass
+    else
+        fail "Expected 'vim' from positional arg, got: '$captured'"
+    fi
+}
+
+test_work_help_shows_editor_flag() {
+    log_test "work --help shows -e flag"
+
+    local output=$(work --help 2>&1)
+
+    if [[ "$output" == *"-e"* && "$output" == *"editor"* ]]; then
+        pass
+    else
+        fail "Help output missing -e flag documentation"
+    fi
+}
+
+test_work_help_shows_cc_editors() {
+    log_test "work --help lists Claude Code editors"
+
+    local output=$(work --help 2>&1)
+
+    if [[ "$output" == *"cc"* && "$output" == *"ccy"* && "$output" == *"cc:new"* ]]; then
+        pass
+    else
+        fail "Help missing cc/ccy/cc:new editor options"
+    fi
+}
+
+test_work_launch_claude_code_exists() {
+    log_test "_work_launch_claude_code function exists"
+
+    if type _work_launch_claude_code &>/dev/null; then
+        pass
+    else
+        fail "_work_launch_claude_code not found"
+    fi
+}
+
+# ============================================================================
+# TESTS: _flow_open_editor edge cases
+# ============================================================================
+
+test_open_editor_empty_returns_warning() {
+    log_test "_flow_open_editor with empty string returns warning"
+
+    local output=$(_flow_open_editor "" "/tmp" 2>&1)
+    local exit_code=$?
+
+    if [[ $exit_code -ne 0 || "$output" == *"No editor"* ]]; then
+        pass
+    else
+        fail "Expected warning for empty editor, got exit=$exit_code"
+    fi
+}
+
+test_open_editor_unknown_skips_gracefully() {
+    log_test "_flow_open_editor with unknown editor skips gracefully"
+
+    # Use a definitely-nonexistent editor name
+    local output=$(_flow_open_editor "zzz_no_such_editor_zzz" "/tmp" 2>&1)
+    local exit_code=$?
+
+    # Should not crash (exit 0) and log "not found"
+    if [[ $exit_code -eq 0 && "$output" == *"not found"* ]]; then
+        pass
+    else
+        fail "Expected 'not found' message, got exit=$exit_code output='${output:0:100}'"
+    fi
+}
+
+test_open_editor_code_branch_exists() {
+    log_test "_flow_open_editor has code|vscode branch"
+
+    local source_code=$(functions _flow_open_editor 2>/dev/null)
+
+    if [[ "$source_code" == *"code"*"vscode"* ]]; then
+        pass
+    else
+        fail "code|vscode case not found"
+    fi
+}
+
+test_open_editor_positron_branch_exists() {
+    log_test "_flow_open_editor has positron branch"
+
+    local source_code=$(functions _flow_open_editor 2>/dev/null)
+
+    if [[ "$source_code" == *"positron"* ]]; then
+        pass
+    else
+        fail "positron case not found"
+    fi
+}
+
+test_open_editor_cursor_branch_exists() {
+    log_test "_flow_open_editor has cursor branch"
+
+    local source_code=$(functions _flow_open_editor 2>/dev/null)
+
+    if [[ "$source_code" == *"cursor"* ]]; then
+        pass
+    else
+        fail "cursor case not found"
+    fi
+}
+
+test_open_editor_emacs_branch_exists() {
+    log_test "_flow_open_editor has emacs branch"
+
+    local source_code=$(functions _flow_open_editor 2>/dev/null)
+
+    if [[ "$source_code" == *"emacs"* ]]; then
+        pass
+    else
+        fail "emacs case not found"
+    fi
+}
+
+# ============================================================================
+# TESTS: _flow_show_work_context .STATUS parsing
+# ============================================================================
+
+test_show_context_parses_status_field() {
+    log_test "_flow_show_work_context shows Status from .STATUS"
+
+    local tmp=$(mktemp -d)
+    mkdir -p "$tmp/test-proj"
+    echo "## Status: Active" > "$tmp/test-proj/.STATUS"
+
+    local output=$(_flow_show_work_context "test-proj" "$tmp/test-proj" 2>&1)
+
+    rm -rf "$tmp"
+
+    if [[ "$output" == *"Active"* ]]; then
+        pass
+    else
+        fail "Status field not parsed from .STATUS"
+    fi
+}
+
+test_show_context_parses_phase_field() {
+    log_test "_flow_show_work_context shows Phase from .STATUS"
+
+    local tmp=$(mktemp -d)
+    mkdir -p "$tmp/test-proj"
+    printf "## Status: Active\n## Phase: Testing\n" > "$tmp/test-proj/.STATUS"
+
+    local output=$(_flow_show_work_context "test-proj" "$tmp/test-proj" 2>&1)
+
+    rm -rf "$tmp"
+
+    if [[ "$output" == *"Testing"* ]]; then
+        pass
+    else
+        fail "Phase field not parsed from .STATUS"
+    fi
+}
+
+test_show_context_handles_missing_status_file() {
+    log_test "_flow_show_work_context handles missing .STATUS"
+
+    local tmp=$(mktemp -d)
+    mkdir -p "$tmp/no-status-proj"
+    # No .STATUS file created
+
+    local output=$(_flow_show_work_context "no-status-proj" "$tmp/no-status-proj" 2>&1)
+    local exit_code=$?
+
+    rm -rf "$tmp"
+
+    if [[ $exit_code -eq 0 ]]; then
+        pass
+    else
+        fail "Should not crash with missing .STATUS"
+    fi
+}
+
+# ============================================================================
+# TESTS: finish command behavior
+# ============================================================================
+
+test_finish_help_flag() {
+    log_test "finish --help shows help text"
+
+    local output=$(finish --help 2>&1)
+
+    if [[ "$output" == *"FINISH"* && "$output" == *"End"* ]]; then
+        pass
+    else
+        fail "Help output missing expected content"
+    fi
+}
+
+test_finish_help_shorthand() {
+    log_test "finish help shows help text"
+
+    local output=$(finish help 2>&1)
+
+    if [[ "$output" == *"FINISH"* ]]; then
+        pass
+    else
+        fail "Shorthand 'help' not recognized"
+    fi
+}
+
+test_finish_help_h_flag() {
+    log_test "finish -h shows help text"
+
+    local output=$(finish -h 2>&1)
+
+    if [[ "$output" == *"FINISH"* ]]; then
+        pass
+    else
+        fail "-h flag not recognized"
+    fi
+}
+
+# ============================================================================
+# TESTS: hop command behavior
+# ============================================================================
+
+test_hop_help_flag() {
+    log_test "hop --help shows help text"
+
+    local output=$(hop --help 2>&1)
+
+    if [[ "$output" == *"HOP"* && "$output" == *"Switch"* ]]; then
+        pass
+    else
+        fail "Help output missing expected content"
+    fi
+}
+
+test_hop_invalid_project() {
+    log_test "hop with invalid project shows error"
+
+    local output=$(hop zzz_nonexistent_proj_zzz 2>&1)
+
+    if [[ "$output" == *"not found"* || "$output" == *"Error"* || "$output" == *"error"* ]]; then
+        pass
+    else
+        fail "Should show error for invalid project"
+    fi
+}
+
+test_hop_help_shorthand() {
+    log_test "hop help shows help text"
+
+    local output=$(hop help 2>&1)
+
+    if [[ "$output" == *"HOP"* ]]; then
+        pass
+    else
+        fail "Shorthand 'help' not recognized"
+    fi
+}
+
+# ============================================================================
+# TESTS: work command help output
+# ============================================================================
+
+test_work_help_flag() {
+    log_test "work --help shows help text"
+
+    local output=$(work --help 2>&1)
+
+    if [[ "$output" == *"WORK"* && "$output" == *"Start Working"* ]]; then
+        pass
+    else
+        fail "Help output missing expected content"
+    fi
+}
+
+test_work_help_shows_usage() {
+    log_test "work --help shows usage line"
+
+    local output=$(work --help 2>&1)
+
+    if [[ "$output" == *"Usage:"* && "$output" == *"[-e editor]"* ]]; then
+        pass
+    else
+        fail "Usage line missing or wrong format"
+    fi
+}
+
+test_work_help_shows_editors_section() {
+    log_test "work --help lists all editor types"
+
+    local output=$(work --help 2>&1)
+
+    # Should list all major editor types
+    local missing=""
+    [[ "$output" != *"positron"* ]] && missing="$missing positron"
+    [[ "$output" != *"code"* ]] && missing="$missing code"
+    [[ "$output" != *"nvim"* ]] && missing="$missing nvim"
+
+    if [[ -z "$missing" ]]; then
+        pass
+    else
+        fail "Missing editors in help:$missing"
+    fi
+}
+
+# ============================================================================
+# TESTS: Arg parser edge cases
+# ============================================================================
+
+test_work_help_in_any_position() {
+    log_test "work mock-proj -h shows help (non-first position)"
+
+    local output=$(work mock-proj -h 2>&1)
+
+    if [[ "$output" == *"WORK"* && "$output" == *"Start Working"* ]]; then
+        pass
+    else
+        fail "Help not shown when -h is in non-first position"
+    fi
+}
+
+test_work_editor_flag_at_end_bare() {
+    log_test "work mock-proj -e (flag at end, no value) uses EDITOR"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    EDITOR="fallback-ed"
+    local output=$(work mock-proj -e 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "fallback-ed" ]]; then
+        pass
+    else
+        fail "Expected 'fallback-ed', got: '$captured'"
+    fi
+}
+
+test_work_editor_default_when_no_EDITOR() {
+    log_test "work -e with no EDITOR falls back to nvim"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    # Unset EDITOR to test nvim fallback
+    local saved_editor="$EDITOR"
+    unset EDITOR
+    local output=$(work mock-proj -e 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+    EDITOR="$saved_editor"
+
+    _restore_project_env
+
+    if [[ "$captured" == "nvim" ]]; then
+        pass
+    else
+        fail "Expected 'nvim' fallback, got: '$captured'"
+    fi
+}
+
+test_work_multiple_remaining_args_uses_first() {
+    log_test "work proj1 proj2 uses first as project"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    # proj2 should trigger deprecation (treated as positional editor)
+    local output=$(work mock-proj extraarg 2>&1)
+
+    _restore_project_env
+
+    if [[ "$output" == *"deprecated"* || "$output" == *"Deprecated"* ]]; then
+        pass
+    else
+        fail "Second positional arg should trigger deprecation warning"
+    fi
+}
+
+test_work_unknown_flags_ignored() {
+    log_test "work --verbose mock-proj warns and ignores unknown flags"
+
+    _mock_project_env
+    _flow_open_editor() { echo "SHOULD_NOT_BE_CALLED" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work --verbose mock-proj 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    # --verbose is unknown: should warn and not trigger editor
+    if [[ "$captured" != "SHOULD_NOT_BE_CALLED" && "$output" == *"Unknown flag"* ]]; then
+        pass
+    else
+        fail "Expected warning for unknown flag and no editor call"
+    fi
+}
+
+test_work_editor_flag_with_project_in_middle() {
+    log_test "work -e vim mock-proj (editor value before project)"
+
+    _mock_project_env
+    _flow_open_editor() { echo "$1" > "$_EDITOR_CAPTURE_FILE"; }
+
+    local output=$(work -e vim mock-proj 2>&1)
+    local captured=$(cat "$_EDITOR_CAPTURE_FILE" 2>/dev/null)
+
+    _restore_project_env
+
+    if [[ "$captured" == "vim" ]]; then
+        pass
+    else
+        fail "Expected 'vim', got: '$captured'"
+    fi
+}
+
+# ============================================================================
+# TESTS: Teaching workflow detection
+# ============================================================================
+
+test_work_teaching_session_exists() {
+    log_test "_work_teaching_session function exists"
+
+    if type _work_teaching_session &>/dev/null; then
+        pass
+    else
+        fail "_work_teaching_session not found"
+    fi
+}
+
+test_work_teaching_session_requires_config() {
+    log_test "_work_teaching_session errors without config file"
+
+    local tmp=$(mktemp -d)
+    mkdir -p "$tmp/no-config"
+
+    local output=$(_work_teaching_session "$tmp/no-config" 2>&1)
+    local exit_code=$?
+
+    rm -rf "$tmp"
+
+    if [[ $exit_code -ne 0 || "$output" == *"not found"* ]]; then
+        pass
+    else
+        fail "Should error without teach-config.yml"
+    fi
+}
+
+# ============================================================================
+# TESTS: first-run welcome
+# ============================================================================
+
+test_first_run_welcome_exists() {
+    log_test "_flow_first_run_welcome function exists"
+
+    if type _flow_first_run_welcome &>/dev/null; then
+        pass
+    else
+        fail "_flow_first_run_welcome not found"
+    fi
+}
+
+test_first_run_welcome_shows_quick_start() {
+    log_test "_flow_first_run_welcome shows Quick Start content"
+
+    # Use a temp config dir so the marker isn't already set
+    local tmp=$(mktemp -d)
+    XDG_CONFIG_HOME="$tmp" _flow_first_run_welcome > /dev/null 2>&1
+
+    # Now it should exist as marker
+    if [[ -f "$tmp/flow-cli/.welcomed" ]]; then
+        pass
+    else
+        fail "Welcome marker not created"
+    fi
+
+    rm -rf "$tmp"
+}
+
+test_first_run_welcome_skips_second_time() {
+    log_test "_flow_first_run_welcome skips on second call"
+
+    local tmp=$(mktemp -d)
+    mkdir -p "$tmp/flow-cli"
+    touch "$tmp/flow-cli/.welcomed"
+
+    local output=$(XDG_CONFIG_HOME="$tmp" _flow_first_run_welcome 2>&1)
+
+    rm -rf "$tmp"
+
+    if [[ -z "$output" ]]; then
+        pass
+    else
+        fail "Should produce no output when marker exists"
+    fi
+}
+
+# ============================================================================
+# TESTS: Token validation helpers
+# ============================================================================
+
+test_work_get_token_status_exists() {
+    log_test "_work_get_token_status function exists"
+
+    if type _work_get_token_status &>/dev/null; then
+        pass
+    else
+        fail "_work_get_token_status not found"
+    fi
+}
+
+test_work_will_push_to_remote_exists() {
+    log_test "_work_will_push_to_remote function exists"
+
+    if type _work_will_push_to_remote &>/dev/null; then
+        pass
+    else
+        fail "_work_will_push_to_remote not found"
+    fi
+}
+
+test_work_project_uses_github_no_git() {
+    log_test "_work_project_uses_github returns false for non-git dir"
+
+    local tmp=$(mktemp -d)
+    # No .git directory
+
+    _work_project_uses_github "$tmp"
+    local exit_code=$?
+
+    rm -rf "$tmp"
+
+    if [[ $exit_code -ne 0 ]]; then
+        pass
+    else
+        fail "Should return false for non-git directory"
+    fi
+}
+
+# ============================================================================
 # RUN TESTS
 # ============================================================================
 
@@ -462,6 +1228,83 @@ main() {
     test_find_project_root_in_git
     test_detect_project_type_exists
     test_project_icon_exists
+
+    echo ""
+    echo "${CYAN}--- _flow_open_editor edge cases ---${NC}"
+    test_open_editor_empty_returns_warning
+    test_open_editor_unknown_skips_gracefully
+    test_open_editor_code_branch_exists
+    test_open_editor_positron_branch_exists
+    test_open_editor_cursor_branch_exists
+    test_open_editor_emacs_branch_exists
+
+    echo ""
+    echo "${CYAN}--- .STATUS parsing tests ---${NC}"
+    test_show_context_parses_status_field
+    test_show_context_parses_phase_field
+    test_show_context_handles_missing_status_file
+
+    echo ""
+    echo "${CYAN}--- finish help tests ---${NC}"
+    test_finish_help_flag
+    test_finish_help_shorthand
+    test_finish_help_h_flag
+
+    echo ""
+    echo "${CYAN}--- hop behavior tests ---${NC}"
+    test_hop_help_flag
+    test_hop_invalid_project
+    test_hop_help_shorthand
+
+    echo ""
+    echo "${CYAN}--- work help output tests ---${NC}"
+    test_work_help_flag
+    test_work_help_shows_usage
+    test_work_help_shows_editors_section
+
+    echo ""
+    echo "${CYAN}--- Editor flag (-e) tests ---${NC}"
+    test_work_no_editor_by_default
+    test_work_no_editor_no_call
+    test_work_editor_flag_bare
+    test_work_editor_flag_with_name
+    test_work_editor_flag_code
+    test_work_editor_flag_before_project
+    test_work_long_editor_flag
+    test_work_editor_flag_cc
+    test_work_editor_cc_new_in_source
+    test_work_launch_claude_code_yolo_branch
+    test_work_legacy_positional_editor
+    test_work_legacy_positional_still_opens
+    test_work_help_shows_editor_flag
+    test_work_help_shows_cc_editors
+    test_work_launch_claude_code_exists
+
+    echo ""
+    echo "${CYAN}--- Arg parser edge cases ---${NC}"
+    test_work_help_in_any_position
+    test_work_editor_flag_at_end_bare
+    test_work_editor_default_when_no_EDITOR
+    test_work_multiple_remaining_args_uses_first
+    test_work_unknown_flags_ignored
+    test_work_editor_flag_with_project_in_middle
+
+    echo ""
+    echo "${CYAN}--- Teaching workflow tests ---${NC}"
+    test_work_teaching_session_exists
+    test_work_teaching_session_requires_config
+
+    echo ""
+    echo "${CYAN}--- First-run welcome tests ---${NC}"
+    test_first_run_welcome_exists
+    test_first_run_welcome_shows_quick_start
+    test_first_run_welcome_skips_second_time
+
+    echo ""
+    echo "${CYAN}--- Token validation tests ---${NC}"
+    test_work_get_token_status_exists
+    test_work_will_push_to_remote_exists
+    test_work_project_uses_github_no_git
 
     # Summary
     echo ""

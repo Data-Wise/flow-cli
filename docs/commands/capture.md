@@ -176,10 +176,18 @@ Output:
 ### Usage
 
 ```bash
-catch <text>
+catch [options] <text>
 # or
 c <text>
 ```
+
+### Options
+
+| Option      | Short | Description                                    |
+| ----------- | ----- | ---------------------------------------------- |
+| `--project` | `-p`  | Associate capture with a specific project      |
+| `--type`    | `-t`  | Type: `idea`, `task`, `bug`, `note` (default: idea) |
+| `--help`    | `-h`  | Show help                                      |
 
 ### Examples
 
@@ -187,6 +195,12 @@ c <text>
 # Quick capture
 catch "Add dark mode toggle to settings"
 c "Research better caching strategy"
+
+# Associate with a project
+catch -p flow-cli "Add editor shortcut for Zed"
+
+# Specify type
+catch -t bug "Login redirect fails on Safari"
 
 # Interactive mode
 catch

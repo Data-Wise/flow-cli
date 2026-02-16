@@ -11,27 +11,56 @@
 ## Synopsis
 
 ```bash
-dash [category]
-dash -i          # Interactive TUI mode
-dash --watch     # Live refresh mode
+dash [option|category]
+dash -i          # Interactive fzf picker
+dash -w          # Watch mode (auto-refresh every 5s)
+dash -a          # Show all projects (flat list)
 ```
 
 **Quick examples:**
 
 ```bash
-# Show all projects
+# Summary dashboard (default)
 dash
 
 # Filter by category
+dash dev
+dash r
 dash teaching
-dash research
 
 # Interactive mode with fzf
 dash -i
 
-# Live dashboard (refreshes every 5s)
-dash --watch
+# Watch mode (auto-refresh)
+dash -w           # Refresh every 5s
+dash -w 10        # Refresh every 10s
+
+# Show all projects (flat list)
+dash -a
 ```
+
+---
+
+## Options
+
+| Option         | Short | Description                            |
+| -------------- | ----- | -------------------------------------- |
+| `--all`        | `-a`  | Show all projects (flat list)          |
+| `-i`           | -     | Interactive mode with fzf picker       |
+| `-w [sec]`     | -     | Watch mode — auto-refresh (default 5s) |
+| `--full`       | `-f`  | Interactive TUI (requires atlas)       |
+| `--help`       | `-h`  | Show help                              |
+
+## Categories
+
+| Category   | Path                   |
+| ---------- | ---------------------- |
+| `dev`      | `~/projects/dev-tools` |
+| `r`        | `~/projects/r-packages`|
+| `research` | `~/projects/research`  |
+| `teach`    | `~/projects/teaching`  |
+| `quarto`   | `~/projects/quarto`    |
+| `apps`     | `~/projects/apps`      |
 
 ---
 

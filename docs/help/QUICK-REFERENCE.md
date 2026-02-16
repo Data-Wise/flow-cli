@@ -8,8 +8,8 @@ tags:
 
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
-**Version:** v7.1.0
-**Last Updated:** 2026-02-12
+**Version:** v7.2.0
+**Last Updated:** 2026-02-16
 
 ---
 
@@ -41,13 +41,18 @@ tags:
 ### Session Management
 
 ```bash
-# Start working on a project
+# Start working on a project (cd + context, no editor)
 work <project_name>
-# Output: 🚀 Starting work on flow-cli...
-#         Project: flow-cli
-#         Type: Node.js
-#         Location: ~/projects/dev-tools/flow-cli
-#         Session started at 18:30
+# Output: 🔧 flow-cli (zsh-plugin)
+#         🟢 Status: active
+#         📍 Phase: Active Development
+
+# Start with editor
+work <project_name> -e              # Open $EDITOR (default: nvim)
+work <project_name> -e code         # Open VS Code
+work <project_name> -e cc           # Launch Claude Code (acceptEdits)
+work <project_name> -e ccy          # Launch Claude Code (yolo mode)
+work <project_name> -e cc:new       # New Ghostty window (run claude there)
 
 # Auto-pick project (just start)
 js
@@ -55,8 +60,8 @@ js
 
 # Quick capture note
 catch "Implement feature X"
-# Output: ✅ Captured: Implement feature X
-#         Location: ~/.cache/flow/captures/2026-01-24.md
+catch -p flow-cli "Add Zed support"   # Associate with project
+catch -t bug "Login fails on Safari"  # Specify type (idea|task|bug|note)
 
 # Leave breadcrumb
 crumb "Fixed bug in parser"
@@ -90,36 +95,27 @@ why
 ### Dashboard
 
 ```bash
-# Show all projects
+# Summary dashboard (default)
 dash
-# Output: [Table of all projects with status]
 
-# Interactive dashboard (TUI)
+# Show all projects (flat list)
+dash -a
+
+# Interactive picker (fzf)
 dash -i
-# Output: [fzf interface for project selection]
 
 # Filter by category
 dash dev
+dash r
 dash teaching
 dash research
-# Output: [Filtered project list]
 
-# Watch mode (live refresh)
-dash --watch
-# Output: [Auto-refreshing dashboard]
+# Watch mode (auto-refresh every 5s)
+dash -w
+dash -w 10       # Custom interval (seconds)
 
-# Tool inventory
-dash --inventory
-# Output: [Auto-generated tool inventory with health status]
-
-# Specific project status
-dash flow-cli
-# Output: flow-cli
-#         Type: Node.js
-#         Status: Active
-#         Branch: dev
-#         Last commit: 2h ago
-#         Progress: 75%
+# Interactive TUI (requires atlas)
+dash -f
 ```
 
 ---
@@ -1150,7 +1146,7 @@ teach status                 # Verify
 
 ### Aliases
 
-flow-cli integrates with 22 ZSH plugins providing 351 aliases. See [Tutorial 24: Git Workflow](../tutorials/17-lazyvim-basics.md) for complete guide.
+flow-cli integrates with 22 ZSH plugins providing 351 aliases. See [Tutorial 22: Plugin Optimization](../tutorials/22-plugin-optimization.md) for complete guide.
 
 **Most useful git aliases:**
 
@@ -1212,6 +1208,6 @@ mcp help
 
 ---
 
-**Version:** v7.1.0
-**Last Updated:** 2026-02-12
+**Version:** v7.2.0
+**Last Updated:** 2026-02-16
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)
