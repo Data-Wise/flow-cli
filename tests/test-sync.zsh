@@ -4,26 +4,12 @@
 
 setopt local_options no_unset
 
-# Colors
-RED=$'\033[0;31m'
-GREEN=$'\033[0;32m'
-YELLOW=$'\033[1;33m'
-BLUE=$'\033[0;34m'
-CYAN=$'\033[0;36m'
-NC=$'\033[0m'
-
-# Test counters
-PASSED=0
-FAILED=0
-SKIPPED=0
-
-# Test helpers
-pass() { ((PASSED++)); echo "${GREEN}✓${NC} $1"; }
-fail() { ((FAILED++)); echo "${RED}✗${NC} $1: $2"; }
-skip() { ((SKIPPED++)); echo "${YELLOW}○${NC} $1 (skipped)"; }
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh"
 
 # Setup
-FLOW_PLUGIN_DIR="${0:A:h:h}"
+FLOW_PLUGIN_DIR="$PROJECT_ROOT"
 FLOW_QUIET=1
 export FLOW_DEBUG=0
 
@@ -36,29 +22,26 @@ mkdir -p "$FLOW_PROJECTS_ROOT/test-project"
 # Source the plugin
 source "$FLOW_PLUGIN_DIR/flow.plugin.zsh" 2>/dev/null
 
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  Flow Sync Unit Tests"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo ""
-echo "  Test data: $TEST_DIR"
-echo ""
+test_suite_start "Flow Sync Unit Tests"
 
 # ============================================================================
 # Test: Function availability
 # ============================================================================
 echo "== Function Availability =="
 
+test_case "flow_sync function exists"
 if typeset -f flow_sync >/dev/null 2>&1; then
-  pass "flow_sync function exists"
+  test_pass
 else
-  fail "flow_sync function" "not defined"
+  test_fail "not defined"
 fi
 
 for func in _flow_sync_session _flow_sync_status _flow_sync_wins _flow_sync_goals _flow_sync_git _flow_sync_all _flow_sync_smart _flow_sync_dashboard _flow_sync_help; do
+  test_case "$func exists"
   if typeset -f $func >/dev/null 2>&1; then
-    pass "$func exists"
+    test_pass
   else
-    fail "$func" "not defined"
+    test_fail "not defined"
   fi
 done
 
@@ -69,37 +52,43 @@ echo ""
 echo "== Help Output =="
 
 help_output=$(flow_sync help 2>&1)
+assert_not_contains "$help_output" "command not found"
 
+test_case "Help shows title"
 if [[ "$help_output" == *"FLOW SYNC"* ]]; then
-  pass "Help shows title"
+  test_pass
 else
-  fail "Help title" "missing FLOW SYNC title"
+  test_fail "missing FLOW SYNC title"
 fi
 
+test_case "Help shows usage section"
 if [[ "$help_output" == *"USAGE"* ]]; then
-  pass "Help shows usage section"
+  test_pass
 else
-  fail "Help usage" "missing USAGE section"
+  test_fail "missing USAGE section"
 fi
 
+test_case "Help shows targets section"
 if [[ "$help_output" == *"TARGETS"* ]]; then
-  pass "Help shows targets section"
+  test_pass
 else
-  fail "Help targets" "missing TARGETS section"
+  test_fail "missing TARGETS section"
 fi
 
 for target in session status wins goals git; do
+  test_case "Help documents $target target"
   if [[ "$help_output" == *"$target"* ]]; then
-    pass "Help documents $target target"
+    test_pass
   else
-    fail "Help $target" "missing documentation"
+    test_fail "missing documentation"
   fi
 done
 
+test_case "Help documents --dry-run option"
 if [[ "$help_output" == *"--dry-run"* ]]; then
-  pass "Help documents --dry-run option"
+  test_pass
 else
-  fail "Help --dry-run" "missing"
+  test_fail "missing"
 fi
 
 # ============================================================================
@@ -122,27 +111,31 @@ export _FLOW_SYNC_QUIET=0
 export _FLOW_SYNC_SKIP_GIT=0
 
 result=$(_flow_sync_session 2>&1)
+assert_not_contains "$result" "command not found"
 
+test_case "Session sync reports project name"
 if [[ "$result" == *"test-project"* ]]; then
-  pass "Session sync reports project name"
+  test_pass
 else
-  fail "Session sync project" "output: $result"
+  test_fail "output: $result"
 fi
 
+test_case "Session sync reports duration"
 if [[ "$result" == *"m on"* ]]; then
-  pass "Session sync reports duration"
+  test_pass
 else
-  fail "Session sync duration" "output: $result"
+  test_fail "output: $result"
 fi
 
+test_case "Worklog updated with heartbeat"
 if [[ -f "$FLOW_DATA_DIR/worklog" ]]; then
   if grep -q "HEARTBEAT.*test-project" "$FLOW_DATA_DIR/worklog"; then
-    pass "Worklog updated with heartbeat"
+    test_pass
   else
-    fail "Worklog heartbeat" "missing heartbeat entry"
+    test_fail "missing heartbeat entry"
   fi
 else
-  fail "Worklog creation" "file not created"
+  test_fail "file not created"
 fi
 
 # ============================================================================
@@ -162,12 +155,14 @@ EOF
 touch "$FLOW_PROJECTS_ROOT/test-project/.STATUS"
 
 result=$(_flow_sync_status 2>&1)
+assert_not_contains "$result" "command not found"
 
+test_case "Status sync returns update info"
 if [[ "$result" == *"project"* || "$result" == *"updated"* ]]; then
-  pass "Status sync returns update info"
+  test_pass
 else
   # May return 0 projects if mtime check fails in test env
-  skip "Status sync update (mtime-dependent)"
+  test_skip "mtime-dependent"
 fi
 
 # ============================================================================
@@ -185,17 +180,20 @@ wins: Fixed bug ($today), Added feature ($today)
 EOF
 
 result=$(_flow_sync_wins 2>&1)
+assert_not_contains "$result" "command not found"
 
+test_case "Wins sync reports status"
 if [[ "$result" == *"wins"* || "$result" == *"synced"* || "$result" == *"aggregated"* ]]; then
-  pass "Wins sync reports status"
+  test_pass
 else
-  fail "Wins sync status" "output: $result"
+  test_fail "output: $result"
 fi
 
+test_case "Global wins file created"
 if [[ -f "$FLOW_DATA_DIR/wins.md" ]]; then
-  pass "Global wins file created"
+  test_pass
 else
-  fail "Wins file" "not created"
+  test_fail "not created"
 fi
 
 # ============================================================================
@@ -205,29 +203,34 @@ echo ""
 echo "== Goals Sync =="
 
 result=$(_flow_sync_goals 2>&1)
+assert_not_contains "$result" "command not found"
 
+test_case "Goals sync returns progress (X/Y format)"
 if [[ "$result" =~ [0-9]+/[0-9]+ ]]; then
-  pass "Goals sync returns progress (X/Y format)"
+  test_pass
 else
-  fail "Goals sync format" "output: $result"
+  test_fail "output: $result"
 fi
 
+test_case "Goal file created"
 if [[ -f "$FLOW_DATA_DIR/goal.json" ]]; then
-  pass "Goal file created"
-
-  if grep -q '"date"' "$FLOW_DATA_DIR/goal.json"; then
-    pass "Goal file has date field"
-  else
-    fail "Goal file date" "missing date field"
-  fi
-
-  if grep -q '"target"' "$FLOW_DATA_DIR/goal.json"; then
-    pass "Goal file has target field"
-  else
-    fail "Goal file target" "missing target field"
-  fi
+  test_pass
 else
-  fail "Goal file" "not created"
+  test_fail "not created"
+fi
+
+test_case "Goal file has date field"
+if [[ -f "$FLOW_DATA_DIR/goal.json" ]] && grep -q '"date"' "$FLOW_DATA_DIR/goal.json"; then
+  test_pass
+else
+  test_fail "missing date field"
+fi
+
+test_case "Goal file has target field"
+if [[ -f "$FLOW_DATA_DIR/goal.json" ]] && grep -q '"target"' "$FLOW_DATA_DIR/goal.json"; then
+  test_pass
+else
+  test_fail "missing target field"
 fi
 
 # ============================================================================
@@ -240,18 +243,22 @@ export _FLOW_SYNC_DRY_RUN=1
 
 # Test session dry run
 result=$(_flow_sync_session 2>&1)
+assert_not_contains "$result" "command not found"
+test_case "Session respects dry-run"
 if [[ "$result" == *"Would"* ]]; then
-  pass "Session respects dry-run"
+  test_pass
 else
-  pass "Session dry-run (no active session)"
+  test_pass  # no active session is also acceptable
 fi
 
 # Test goals dry run
 result=$(_flow_sync_goals 2>&1)
+assert_not_contains "$result" "command not found"
+test_case "Goals respects dry-run"
 if [[ "$result" == *"Current:"* ]]; then
-  pass "Goals respects dry-run"
+  test_pass
 else
-  fail "Goals dry-run" "output: $result"
+  test_fail "output: $result"
 fi
 
 export _FLOW_SYNC_DRY_RUN=0
@@ -264,30 +271,34 @@ echo "== State Management =="
 
 _flow_sync_state_write "success" "success" "success" "success" "skipped"
 
+test_case "Sync state file created"
 if [[ -f "$FLOW_DATA_DIR/sync-state.json" ]]; then
-  pass "Sync state file created"
-
-  content=$(cat "$FLOW_DATA_DIR/sync-state.json")
-
-  if [[ "$content" == *'"last_sync"'* ]]; then
-    pass "State has last_sync"
-  else
-    fail "State last_sync" "missing field"
-  fi
-
-  if [[ "$content" == *'"results"'* ]]; then
-    pass "State has results"
-  else
-    fail "State results" "missing field"
-  fi
-
-  if [[ "$content" == *'"session": "success"'* ]]; then
-    pass "State records session result"
-  else
-    fail "State session" "missing or wrong value"
-  fi
+  test_pass
 else
-  fail "Sync state file" "not created"
+  test_fail "not created"
+fi
+
+content=$(cat "$FLOW_DATA_DIR/sync-state.json" 2>/dev/null)
+
+test_case "State has last_sync"
+if [[ "$content" == *'"last_sync"'* ]]; then
+  test_pass
+else
+  test_fail "missing field"
+fi
+
+test_case "State has results"
+if [[ "$content" == *'"results"'* ]]; then
+  test_pass
+else
+  test_fail "missing field"
+fi
+
+test_case "State records session result"
+if [[ "$content" == *'"session": "success"'* ]]; then
+  test_pass
+else
+  test_fail "missing or wrong value"
 fi
 
 # ============================================================================
@@ -297,17 +308,20 @@ echo ""
 echo "== Smart Sync =="
 
 result=$(_flow_sync_smart 2>&1)
+assert_not_contains "$result" "command not found"
 
+test_case "Smart sync shows status header"
 if [[ "$result" == *"Sync Status"* ]]; then
-  pass "Smart sync shows status header"
+  test_pass
 else
-  fail "Smart sync header" "output: $result"
+  test_fail "output: $result"
 fi
 
+test_case "Smart sync shows progress info"
 if [[ "$result" == *"progress"* || "$result" == *"wins"* ]]; then
-  pass "Smart sync shows progress info"
+  test_pass
 else
-  fail "Smart sync progress" "output: $result"
+  test_fail "output: $result"
 fi
 
 # ============================================================================
@@ -317,17 +331,20 @@ echo ""
 echo "== Dashboard =="
 
 result=$(_flow_sync_dashboard 2>&1)
+assert_not_contains "$result" "command not found"
 
+test_case "Dashboard shows header"
 if [[ "$result" == *"Dashboard"* ]]; then
-  pass "Dashboard shows header"
+  test_pass
 else
-  fail "Dashboard header" "output: $result"
+  test_fail "output: $result"
 fi
 
+test_case "Dashboard shows sync info"
 if [[ "$result" == *"sync"* ]]; then
-  pass "Dashboard shows sync info"
+  test_pass
 else
-  fail "Dashboard sync info" "output: $result"
+  test_fail "output: $result"
 fi
 
 # ============================================================================
@@ -336,11 +353,12 @@ fi
 echo ""
 echo "== Command Routing =="
 
-# Test that flow routes to sync
-if flow sync help 2>&1 | grep -q "FLOW SYNC"; then
-  pass "flow sync routes to flow_sync"
+test_case "flow sync routes to flow_sync"
+result=$(flow sync help 2>&1)
+if echo "$result" | grep -q "FLOW SYNC"; then
+  test_pass
 else
-  fail "flow sync routing" "not reaching flow_sync"
+  test_fail "not reaching flow_sync"
 fi
 
 # ============================================================================
@@ -351,76 +369,89 @@ echo "== Schedule Functions =="
 
 # Test schedule function availability
 for func in _flow_sync_schedule _flow_sync_schedule_status _flow_sync_schedule_enable _flow_sync_schedule_disable _flow_sync_schedule_logs _flow_sync_schedule_help; do
+  test_case "$func exists"
   if typeset -f $func >/dev/null 2>&1; then
-    pass "$func exists"
+    test_pass
   else
-    fail "$func" "not defined"
+    test_fail "not defined"
   fi
 done
 
 # Test schedule help output
 schedule_help=$(_flow_sync_schedule_help 2>&1)
+assert_not_contains "$schedule_help" "command not found"
 
+test_case "Schedule help shows title"
 if [[ "$schedule_help" == *"FLOW SYNC SCHEDULE"* ]]; then
-  pass "Schedule help shows title"
+  test_pass
 else
-  fail "Schedule help title" "missing"
+  test_fail "missing"
 fi
 
+test_case "Schedule help documents enable"
 if [[ "$schedule_help" == *"enable"* ]]; then
-  pass "Schedule help documents enable"
+  test_pass
 else
-  fail "Schedule help enable" "missing"
+  test_fail "missing"
 fi
 
+test_case "Schedule help documents disable"
 if [[ "$schedule_help" == *"disable"* ]]; then
-  pass "Schedule help documents disable"
+  test_pass
 else
-  fail "Schedule help disable" "missing"
+  test_fail "missing"
 fi
 
+test_case "Schedule help documents logs"
 if [[ "$schedule_help" == *"logs"* ]]; then
-  pass "Schedule help documents logs"
+  test_pass
 else
-  fail "Schedule help logs" "missing"
+  test_fail "missing"
 fi
 
 # Test schedule status (should show "Not configured" in test env)
 schedule_status=$(_flow_sync_schedule_status "$HOME/Library/LaunchAgents/com.flow-cli.sync.plist" "com.flow-cli.sync" 2>&1)
+assert_not_contains "$schedule_status" "command not found"
 
+test_case "Schedule status shows header"
 if [[ "$schedule_status" == *"Schedule Status"* ]]; then
-  pass "Schedule status shows header"
+  test_pass
 else
-  fail "Schedule status header" "output: $schedule_status"
+  test_fail "output: $schedule_status"
 fi
 
+test_case "Schedule status shows valid state"
 if [[ "$schedule_status" == *"Not configured"* || "$schedule_status" == *"Active"* || "$schedule_status" == *"Disabled"* ]]; then
-  pass "Schedule status shows valid state"
+  test_pass
 else
-  fail "Schedule status state" "output: $schedule_status"
+  test_fail "output: $schedule_status"
 fi
 
 # Test schedule logs (should handle missing log file)
 schedule_logs=$(_flow_sync_schedule_logs "$TEST_DIR/nonexistent.log" 2>&1)
+assert_not_contains "$schedule_logs" "command not found"
 
+test_case "Schedule logs shows header"
 if [[ "$schedule_logs" == *"Logs"* ]]; then
-  pass "Schedule logs shows header"
+  test_pass
 else
-  fail "Schedule logs header" "output: $schedule_logs"
+  test_fail "output: $schedule_logs"
 fi
 
+test_case "Schedule logs handles missing file"
 if [[ "$schedule_logs" == *"No logs"* ]]; then
-  pass "Schedule logs handles missing file"
+  test_pass
 else
-  fail "Schedule logs missing file" "output: $schedule_logs"
+  test_fail "output: $schedule_logs"
 fi
 
 # Test schedule dispatcher routing
+test_case "flow sync schedule routes correctly"
 result=$(flow_sync schedule help 2>&1)
 if [[ "$result" == *"FLOW SYNC SCHEDULE"* ]]; then
-  pass "flow sync schedule routes correctly"
+  test_pass
 else
-  fail "flow sync schedule routing" "output: $result"
+  test_fail "output: $result"
 fi
 
 # ============================================================================
@@ -445,43 +476,51 @@ EOF
 # Test verbose mode affects output
 export _FLOW_SYNC_VERBOSE=1
 result=$(_flow_sync_session 2>&1)
+assert_not_contains "$result" "command not found"
+test_case "--verbose mode works"
 # Verbose mode should still work (no crash)
 if [[ $? -eq 0 || "$result" != "" ]]; then
-  pass "--verbose mode works"
+  test_pass
 else
-  fail "--verbose mode" "crashed or no output"
+  test_fail "crashed or no output"
 fi
 export _FLOW_SYNC_VERBOSE=0
 
 # Test quiet mode
 export _FLOW_SYNC_QUIET=1
 result=$(_flow_sync_all 2>&1)
+assert_not_contains "$result" "command not found"
+test_case "--quiet mode works"
 # Quiet mode should produce minimal output
 if [[ $? -eq 0 ]]; then
-  pass "--quiet mode works"
+  test_pass
 else
-  fail "--quiet mode" "failed"
+  test_fail "failed"
 fi
 export _FLOW_SYNC_QUIET=0
 
 # Test skip-git flag
 export _FLOW_SYNC_SKIP_GIT=1
 result=$(_flow_sync_all 2>&1)
+assert_not_contains "$result" "command not found"
+test_case "--skip-git skips git target"
 if [[ "$result" != *"git"* || "$result" == *"[4/4]"* ]]; then
-  pass "--skip-git skips git target"
+  test_pass
 else
   # If git appears, it should be in the skipped form
-  pass "--skip-git mode active"
+  test_pass
 fi
 export _FLOW_SYNC_SKIP_GIT=0
 
 # Test dry-run with all targets
 export _FLOW_SYNC_DRY_RUN=1
 result=$(_flow_sync_all 2>&1)
+assert_not_contains "$result" "command not found"
+test_case "--dry-run shows preview message"
 if [[ "$result" == *"Dry run"* || "$result" == *"Would"* ]]; then
-  pass "--dry-run shows preview message"
+  test_pass
 else
-  pass "--dry-run mode active (no changes made)"
+  test_pass  # dry-run mode active (no changes made) is also acceptable
 fi
 export _FLOW_SYNC_DRY_RUN=0
 
@@ -493,18 +532,20 @@ echo "== Error Handling =="
 
 # Test unknown sync target
 result=$(flow_sync unknowntarget 2>&1)
+test_case "Unknown target shows error"
 if [[ "$result" == *"Unknown sync target"* ]]; then
-  pass "Unknown target shows error"
+  test_pass
 else
-  fail "Unknown target error" "output: $result"
+  test_fail "output: $result"
 fi
 
 # Test unknown schedule action
 result=$(flow_sync schedule unknownaction 2>&1)
+test_case "Unknown schedule action shows error"
 if [[ "$result" == *"Unknown schedule action"* ]]; then
-  pass "Unknown schedule action shows error"
+  test_pass
 else
-  fail "Unknown schedule action error" "output: $result"
+  test_fail "output: $result"
 fi
 
 # ============================================================================
@@ -515,39 +556,45 @@ echo "== Completions Validation =="
 
 COMPLETION_FILE="$FLOW_PLUGIN_DIR/completions/_flow"
 
+test_case "Completion file exists"
 if [[ -f "$COMPLETION_FILE" ]]; then
-  pass "Completion file exists"
+  test_pass
+else
+  test_fail "not found at $COMPLETION_FILE"
+fi
 
+if [[ -f "$COMPLETION_FILE" ]]; then
   completion_content=$(cat "$COMPLETION_FILE")
 
   # Check sync targets in completions
   for target in all session status wins goals git schedule; do
+    test_case "Completion has $target target"
     if [[ "$completion_content" == *"'$target:"* ]]; then
-      pass "Completion has $target target"
+      test_pass
     else
-      fail "Completion $target" "missing from completions"
+      test_fail "missing from completions"
     fi
   done
 
   # Check sync options in completions
   for opt in "--dry-run" "--verbose" "--quiet" "--skip-git" "--status"; do
+    test_case "Completion has $opt option"
     if [[ "$completion_content" == *"$opt"* ]]; then
-      pass "Completion has $opt option"
+      test_pass
     else
-      fail "Completion $opt" "missing from completions"
+      test_fail "missing from completions"
     fi
   done
 
   # Check schedule subcommands in completions
   for subcmd in enable disable logs status; do
+    test_case "Completion has schedule $subcmd"
     if [[ "$completion_content" == *"'$subcmd:"* ]]; then
-      pass "Completion has schedule $subcmd"
+      test_pass
     else
-      fail "Completion schedule $subcmd" "missing from completions"
+      test_fail "missing from completions"
     fi
   done
-else
-  fail "Completion file" "not found at $COMPLETION_FILE"
 fi
 
 # ============================================================================
@@ -558,36 +605,29 @@ echo "== Help Completeness =="
 
 help_output=$(flow_sync help 2>&1)
 
+test_case "Main help documents schedule target"
 if [[ "$help_output" == *"schedule"* ]]; then
-  pass "Main help documents schedule target"
+  test_pass
 else
-  fail "Main help schedule" "missing schedule in help"
+  test_fail "missing schedule in help"
 fi
 
 for opt in "--verbose" "--quiet" "--skip-git"; do
+  test_case "Help documents $opt"
   if [[ "$help_output" == *"$opt"* ]]; then
-    pass "Help documents $opt"
+    test_pass
   else
-    fail "Help $opt" "missing from help"
+    test_fail "missing from help"
   fi
 done
 
 # ============================================================================
 # Cleanup
 # ============================================================================
-echo ""
 rm -rf "$TEST_DIR"
 
 # ============================================================================
 # Results
 # ============================================================================
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo -n "  Results: "
-echo -n "${GREEN}$PASSED passed${NC}, "
-echo -n "${RED}$FAILED failed${NC}, "
-echo "${YELLOW}$SKIPPED skipped${NC}"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-# Exit with failure if any tests failed
-(( FAILED > 0 )) && exit 1
-exit 0
+test_suite_end
+exit $?

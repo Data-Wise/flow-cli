@@ -1,286 +1,150 @@
 #!/usr/bin/env zsh
-# Test script for obs dispatcher
-# Tests: help, function existence, version command
+# ══════════════════════════════════════════════════════════════════════════════
+# TEST SUITE: OBS Dispatcher
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Purpose: Validate obs dispatcher functionality
+# Coverage: Function existence, help output, version, unknown commands
+#
+# Test Categories:
+#   1. Function Existence (4 tests)
+#   2. Help Output (2 tests)
+#   3. Help Content (4 tests)
+#   4. Version (1 test)
+#   5. Unknown Command (1 test)
+#
+# Created: 2026-02-16
+# ══════════════════════════════════════════════════════════════════════════════
 
-# ============================================================================
-# TEST FRAMEWORK
-# ============================================================================
+# Source shared test framework
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
 
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
-
-# ============================================================================
-# SETUP
-# ============================================================================
+# ══════════════════════════════════════════════════════════════════════════════
+# SETUP / CLEANUP
+# ══════════════════════════════════════════════════════════════════════════════
 
 setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
-
-    # Get project root
-    local project_root=""
-
-    if [[ -n "${0:A}" ]]; then
-        project_root="${0:A:h:h}"
-    fi
-
-    if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/obs.zsh" ]]; then
+    if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/lib/dispatchers/obs.zsh" ]]; then
         if [[ -f "$PWD/lib/dispatchers/obs.zsh" ]]; then
-            project_root="$PWD"
+            PROJECT_ROOT="$PWD"
         elif [[ -f "$PWD/../lib/dispatchers/obs.zsh" ]]; then
-            project_root="$PWD/.."
+            PROJECT_ROOT="$PWD/.."
         fi
     fi
 
-    if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/obs.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root - run from project directory${NC}"
+    if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/lib/dispatchers/obs.zsh" ]]; then
+        echo "ERROR: Cannot find project root — run from project directory"
         exit 1
     fi
 
-    echo "  Project root: $project_root"
-
-    # Source obs dispatcher
-    source "$project_root/lib/dispatchers/obs.zsh"
-
-    echo "  Loaded: obs.zsh"
-    echo ""
+    # Source core (for color helpers) and the dispatcher
+    source "$PROJECT_ROOT/lib/core.zsh" 2>/dev/null
+    source "$PROJECT_ROOT/lib/dispatchers/obs.zsh" 2>/dev/null
 }
 
-# ============================================================================
-# FUNCTION EXISTENCE TESTS
-# ============================================================================
-
-test_obs_function_exists() {
-    log_test "obs function is defined"
-
-    if (( $+functions[obs] )); then
-        pass
-    else
-        fail "obs function not defined"
-    fi
+cleanup() {
+    reset_mocks
 }
 
-test_obs_help_function_exists() {
-    log_test "obs_help function is defined"
+setup
 
-    if (( $+functions[obs_help] )); then
-        pass
-    else
-        fail "obs_help function not defined"
-    fi
-}
+# ══════════════════════════════════════════════════════════════════════════════
+# 1. FUNCTION EXISTENCE TESTS
+# ══════════════════════════════════════════════════════════════════════════════
 
-test_obs_version_function_exists() {
-    log_test "obs_version function is defined"
+test_suite_start "OBS Dispatcher Tests"
 
-    if (( $+functions[obs_version] )); then
-        pass
-    else
-        fail "obs_version function not defined"
-    fi
-}
+echo "${YELLOW}Function Existence${RESET}"
+echo "────────────────────────────────────────"
 
-test_obs_vaults_function_exists() {
-    log_test "obs_vaults function is defined"
+test_case "obs function is defined"
+assert_function_exists "obs" && test_pass
 
-    if (( $+functions[obs_vaults] )); then
-        pass
-    else
-        fail "obs_vaults function not defined"
-    fi
-}
+test_case "obs_help function is defined"
+assert_function_exists "obs_help" && test_pass
 
-# ============================================================================
-# HELP TESTS
-# ============================================================================
+test_case "obs_version function is defined"
+assert_function_exists "obs_version" && test_pass
 
-test_obs_help() {
-    log_test "obs help shows usage"
+test_case "obs_vaults function is defined"
+assert_function_exists "obs_vaults" && test_pass
 
-    local output=$(obs help 2>&1)
+echo ""
 
-    if echo "$output" | grep -q "Obsidian Vault Manager"; then
-        pass
-    else
-        fail "Help header not found"
-    fi
-}
+# ══════════════════════════════════════════════════════════════════════════════
+# 2. HELP TESTS
+# ══════════════════════════════════════════════════════════════════════════════
 
-test_obs_help_all() {
-    log_test "obs help --all shows full help"
+echo "${YELLOW}Help Tests${RESET}"
+echo "────────────────────────────────────────"
 
-    local output=$(obs help --all 2>&1)
+test_case "obs help shows usage"
+local output_help=$(obs help 2>&1)
+assert_not_contains "$output_help" "command not found"
+assert_contains "$output_help" "Obsidian Vault Manager" && test_pass
 
-    if echo "$output" | grep -q "VAULT COMMANDS"; then
-        pass
-    else
-        fail "--all flag doesn't show full help"
-    fi
-}
+test_case "obs help --all shows full help"
+local output_help_all=$(obs help --all 2>&1)
+assert_not_contains "$output_help_all" "command not found"
+assert_contains "$output_help_all" "VAULT COMMANDS" && test_pass
 
-# ============================================================================
-# HELP CONTENT TESTS
-# ============================================================================
+echo ""
 
-test_help_shows_stats() {
-    log_test "help shows stats command"
+# ══════════════════════════════════════════════════════════════════════════════
+# 3. HELP CONTENT TESTS
+# ══════════════════════════════════════════════════════════════════════════════
 
-    local output=$(obs help --all 2>&1)
+echo "${YELLOW}Help Content${RESET}"
+echo "────────────────────────────────────────"
 
-    if echo "$output" | grep -q "stats"; then
-        pass
-    else
-        fail "stats not in help"
-    fi
-}
+test_case "help shows stats command"
+assert_contains "$output_help_all" "stats" && test_pass
 
-test_help_shows_discover() {
-    log_test "help shows discover command"
+test_case "help shows discover command"
+assert_contains "$output_help_all" "discover" && test_pass
 
-    local output=$(obs help --all 2>&1)
+test_case "help shows analyze command"
+assert_contains "$output_help_all" "analyze" && test_pass
 
-    if echo "$output" | grep -q "discover"; then
-        pass
-    else
-        fail "discover not in help"
-    fi
-}
+test_case "help shows AI features section"
+assert_contains "$output_help_all" "AI FEATURES" && test_pass
 
-test_help_shows_analyze() {
-    log_test "help shows analyze command"
+echo ""
 
-    local output=$(obs help --all 2>&1)
+# ══════════════════════════════════════════════════════════════════════════════
+# 4. VERSION TESTS
+# ══════════════════════════════════════════════════════════════════════════════
 
-    if echo "$output" | grep -q "analyze"; then
-        pass
-    else
-        fail "analyze not in help"
-    fi
-}
+echo "${YELLOW}Version${RESET}"
+echo "────────────────────────────────────────"
 
-test_help_shows_ai() {
-    log_test "help shows ai command"
+test_case "obs version shows version"
+local output_version=$(obs version 2>&1)
+assert_not_contains "$output_version" "command not found"
+assert_contains "$output_version" "version" && test_pass
 
-    local output=$(obs help --all 2>&1)
+echo ""
 
-    if echo "$output" | grep -q "AI FEATURES"; then
-        pass
-    else
-        fail "ai section not in help"
-    fi
-}
+# ══════════════════════════════════════════════════════════════════════════════
+# 5. UNKNOWN COMMAND TESTS
+# ══════════════════════════════════════════════════════════════════════════════
 
-# ============================================================================
-# VERSION TESTS
-# ============================================================================
+echo "${YELLOW}Unknown Command${RESET}"
+echo "────────────────────────────────────────"
 
-test_version_command() {
-    log_test "obs version shows version"
+test_case "obs unknown-cmd shows error"
+local output_unknown=$(obs unknown-xyz-command 2>&1)
+assert_not_contains "$output_unknown" "command not found"
+assert_contains "$output_unknown" "Unknown command" && test_pass
 
-    local output=$(obs version 2>&1)
+echo ""
 
-    if echo "$output" | grep -q "version"; then
-        pass
-    else
-        fail "Version not shown"
-    fi
-}
+# ══════════════════════════════════════════════════════════════════════════════
+# SUMMARY
+# ══════════════════════════════════════════════════════════════════════════════
 
-# ============================================================================
-# UNKNOWN COMMAND TESTS
-# ============================================================================
-
-test_unknown_command() {
-    log_test "obs unknown-cmd shows error"
-
-    local output=$(obs unknown-xyz-command 2>&1)
-
-    if echo "$output" | grep -q "Unknown command"; then
-        pass
-    else
-        fail "Unknown command error not shown"
-    fi
-}
-
-# ============================================================================
-# RUN TESTS
-# ============================================================================
-
-main() {
-    echo ""
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  OBS Dispatcher Tests                                      ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
-
-    setup
-
-    echo "${YELLOW}Function Existence Tests${NC}"
-    echo "────────────────────────────────────────"
-    test_obs_function_exists
-    test_obs_help_function_exists
-    test_obs_version_function_exists
-    test_obs_vaults_function_exists
-    echo ""
-
-    echo "${YELLOW}Help Tests${NC}"
-    echo "────────────────────────────────────────"
-    test_obs_help
-    test_obs_help_all
-    echo ""
-
-    echo "${YELLOW}Help Content Tests${NC}"
-    echo "────────────────────────────────────────"
-    test_help_shows_stats
-    test_help_shows_discover
-    test_help_shows_analyze
-    test_help_shows_ai
-    echo ""
-
-    echo "${YELLOW}Version Tests${NC}"
-    echo "────────────────────────────────────────"
-    test_version_command
-    echo ""
-
-    echo "${YELLOW}Unknown Command Tests${NC}"
-    echo "────────────────────────────────────────"
-    test_unknown_command
-    echo ""
-
-    echo "════════════════════════════════════════"
-    echo "${CYAN}Summary${NC}"
-    echo "────────────────────────────────────────"
-    echo "  Passed: ${GREEN}$TESTS_PASSED${NC}"
-    echo "  Failed: ${RED}$TESTS_FAILED${NC}"
-    echo ""
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All tests passed!${NC}"
-        exit 0
-    else
-        echo "${RED}✗ Some tests failed${NC}"
-        exit 1
-    fi
-}
-
-main "$@"
+cleanup
+test_suite_end
+exit $?

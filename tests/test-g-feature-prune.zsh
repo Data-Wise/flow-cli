@@ -10,31 +10,15 @@
 setopt local_options no_monitor
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TEST UTILITIES
+# FRAMEWORK SETUP
 # ─────────────────────────────────────────────────────────────────────────────
 
 SCRIPT_DIR="${0:A:h}"
-PASSED=0
-FAILED=0
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
+
 TEST_DIR=""
 ORIGINAL_DIR="$PWD"
-
-# Colors
-_C_GREEN='\033[32m'
-_C_RED='\033[31m'
-_C_YELLOW='\033[33m'
-_C_DIM='\033[2m'
-_C_NC='\033[0m'
-
-pass() {
-    echo -e "  ${_C_GREEN}✓${_C_NC} $1"
-    ((PASSED++))
-}
-
-fail() {
-    echo -e "  ${_C_RED}✗${_C_NC} $1"
-    ((FAILED++))
-}
 
 # Create a fresh test repository
 create_test_repo() {
@@ -70,43 +54,45 @@ source "${SCRIPT_DIR}/../flow.plugin.zsh"
 # TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_YELLOW}═══════════════════════════════════════════════════════════${_C_NC}"
-echo -e "${_C_YELLOW}  g feature prune - Tests${_C_NC}"
-echo -e "${_C_YELLOW}═══════════════════════════════════════════════════════════${_C_NC}\n"
+test_suite_start "g feature prune - Tests"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HELP TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "${_C_DIM}Help System${_C_NC}"
-
 test_prune_help_shows_usage() {
+    test_case "prune --help shows description"
     local output
     output=$(g feature prune --help 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"Clean up merged feature branches"* ]]; then
-        pass "prune --help shows description"
+        test_pass
     else
-        fail "prune --help should show description"
+        test_fail "prune --help should show description"
     fi
 }
 
 test_prune_help_shows_options() {
+    test_case "prune -h shows options"
     local output
     output=$(g feature prune -h 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"--all"* && "$output" == *"--dry-run"* ]]; then
-        pass "prune -h shows options"
+        test_pass
     else
-        fail "prune -h should show --all and --dry-run options"
+        test_fail "prune -h should show --all and --dry-run options"
     fi
 }
 
 test_prune_help_shows_safety() {
+    test_case "prune --help shows safety info"
     local output
     output=$(g feature prune --help 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"SAFE BY DEFAULT"* ]]; then
-        pass "prune --help shows safety info"
+        test_pass
     else
-        fail "prune --help should show safety info"
+        test_fail "prune --help should show safety info"
     fi
 }
 
@@ -118,29 +104,30 @@ test_prune_help_shows_safety
 # NO BRANCHES TO PRUNE
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}No Branches to Prune${_C_NC}"
-
 test_prune_no_branches() {
+    test_case "prune with no feature branches shows clean message"
     create_test_repo
     local output
     output=$(g feature prune 2>&1)
-    local result=$?
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"No merged feature branches to prune"* ]]; then
-        pass "prune with no feature branches shows clean message"
+        test_pass
     else
-        fail "prune should show 'no merged' message when no feature branches exist"
+        test_fail "prune should show 'no merged' message when no feature branches exist"
     fi
     cleanup_test_repo
 }
 
 test_prune_all_no_branches() {
+    test_case "prune --all with no branches shows clean messages"
     create_test_repo
     local output
     output=$(g feature prune --all 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"No merged feature branches"* && "$output" == *"No merged remote branches"* ]]; then
-        pass "prune --all with no branches shows clean messages"
+        test_pass
     else
-        fail "prune --all should show clean messages for both local and remote"
+        test_fail "prune --all should show clean messages for both local and remote"
     fi
     cleanup_test_repo
 }
@@ -152,9 +139,8 @@ test_prune_all_no_branches
 # MERGED BRANCH DETECTION
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Merged Branch Detection${_C_NC}"
-
 test_prune_detects_merged_branch() {
+    test_case "prune detects merged feature branch"
     create_test_repo
     # Create and merge a feature branch
     git checkout -b feature/test-prune --quiet
@@ -166,15 +152,17 @@ test_prune_detects_merged_branch() {
 
     local output
     output=$(g feature prune --dry-run 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"feature/test-prune"* ]]; then
-        pass "prune detects merged feature branch"
+        test_pass
     else
-        fail "prune should detect merged feature/test-prune branch"
+        test_fail "prune should detect merged feature/test-prune branch"
     fi
     cleanup_test_repo
 }
 
 test_prune_ignores_unmerged_branch() {
+    test_case "prune ignores unmerged feature branch"
     create_test_repo
     # Create feature branch but don't merge it
     git checkout -b feature/unmerged --quiet
@@ -186,9 +174,9 @@ test_prune_ignores_unmerged_branch() {
     local output
     output=$(g feature prune --dry-run 2>&1)
     if [[ "$output" != *"feature/unmerged"* ]]; then
-        pass "prune ignores unmerged feature branch"
+        test_pass
     else
-        fail "prune should NOT detect unmerged feature branch"
+        test_fail "prune should NOT detect unmerged feature branch"
     fi
     cleanup_test_repo
 }
@@ -200,28 +188,28 @@ test_prune_ignores_unmerged_branch
 # PROTECTED BRANCHES
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Protected Branches${_C_NC}"
-
 test_prune_never_deletes_main() {
+    test_case "prune never lists main for deletion"
     create_test_repo
     local output
     output=$(g feature prune --dry-run 2>&1)
     if [[ "$output" != *"main"* || "$output" == *"No merged"* ]]; then
-        pass "prune never lists main for deletion"
+        test_pass
     else
-        fail "prune should never list main for deletion"
+        test_fail "prune should never list main for deletion"
     fi
     cleanup_test_repo
 }
 
 test_prune_never_deletes_dev() {
+    test_case "prune never lists dev for deletion"
     create_test_repo
     local output
     output=$(g feature prune --dry-run 2>&1)
     if [[ "$output" != *"Merged branches"*"dev"* ]]; then
-        pass "prune never lists dev for deletion"
+        test_pass
     else
-        fail "prune should never list dev for deletion"
+        test_fail "prune should never list dev for deletion"
     fi
     cleanup_test_repo
 }
@@ -233,9 +221,8 @@ test_prune_never_deletes_dev
 # DRY RUN MODE
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Dry Run Mode${_C_NC}"
-
 test_prune_dry_run_no_delete() {
+    test_case "prune --dry-run does not delete branches"
     create_test_repo
     # Create and merge a feature branch
     git checkout -b feature/dry-run-test --quiet
@@ -246,18 +233,21 @@ test_prune_dry_run_no_delete() {
     git merge feature/dry-run-test --quiet --no-edit
 
     # Run dry-run
-    g feature prune --dry-run >/dev/null 2>&1
+    local output
+    output=$(g feature prune --dry-run 2>&1)
+    assert_not_contains "$output" "command not found"
 
     # Check branch still exists
     if git show-ref --verify --quiet refs/heads/feature/dry-run-test; then
-        pass "prune --dry-run does not delete branches"
+        test_pass
     else
-        fail "prune --dry-run should NOT delete branches"
+        test_fail "prune --dry-run should NOT delete branches"
     fi
     cleanup_test_repo
 }
 
 test_prune_dry_run_shows_message() {
+    test_case "prune -n shows dry run message"
     create_test_repo
     git checkout -b feature/msg-test --quiet
     echo "x" > x.txt
@@ -268,10 +258,11 @@ test_prune_dry_run_shows_message() {
 
     local output
     output=$(g feature prune -n 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"Dry run"* ]]; then
-        pass "prune -n shows dry run message"
+        test_pass
     else
-        fail "prune -n should show 'Dry run' message"
+        test_fail "prune -n should show 'Dry run' message"
     fi
     cleanup_test_repo
 }
@@ -283,9 +274,8 @@ test_prune_dry_run_shows_message
 # ACTUAL DELETION
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Actual Deletion${_C_NC}"
-
 test_prune_deletes_merged_branch() {
+    test_case "prune deletes merged feature branch"
     create_test_repo
     # Create and merge a feature branch
     git checkout -b feature/to-delete --quiet
@@ -296,18 +286,21 @@ test_prune_deletes_merged_branch() {
     git merge feature/to-delete --quiet --no-edit
 
     # Run prune
-    g feature prune >/dev/null 2>&1
+    local output
+    output=$(g feature prune 2>&1)
+    assert_not_contains "$output" "command not found"
 
     # Check branch is deleted
     if ! git show-ref --verify --quiet refs/heads/feature/to-delete; then
-        pass "prune deletes merged feature branch"
+        test_pass
     else
-        fail "prune should delete merged feature/to-delete branch"
+        test_fail "prune should delete merged feature/to-delete branch"
     fi
     cleanup_test_repo
 }
 
 test_prune_reports_deleted_count() {
+    test_case "prune reports correct deleted count"
     create_test_repo
     # Create and merge two feature branches
     git checkout -b feature/one --quiet
@@ -326,10 +319,11 @@ test_prune_reports_deleted_count() {
 
     local output
     output=$(g feature prune 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"Deleted 2"* ]]; then
-        pass "prune reports correct deleted count"
+        test_pass
     else
-        fail "prune should report 'Deleted 2' branches"
+        test_fail "prune should report 'Deleted 2' branches"
     fi
     cleanup_test_repo
 }
@@ -341,9 +335,8 @@ test_prune_reports_deleted_count
 # BRANCH TYPES
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Branch Types${_C_NC}"
-
 test_prune_handles_bugfix_branches() {
+    test_case "prune detects merged bugfix branch"
     create_test_repo
     git checkout -b bugfix/test-bug --quiet
     echo "bug" > bug.txt
@@ -354,15 +347,17 @@ test_prune_handles_bugfix_branches() {
 
     local output
     output=$(g feature prune --dry-run 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"bugfix/test-bug"* ]]; then
-        pass "prune detects merged bugfix branch"
+        test_pass
     else
-        fail "prune should detect merged bugfix/test-bug branch"
+        test_fail "prune should detect merged bugfix/test-bug branch"
     fi
     cleanup_test_repo
 }
 
 test_prune_handles_hotfix_branches() {
+    test_case "prune detects merged hotfix branch"
     create_test_repo
     git checkout -b hotfix/urgent --quiet
     echo "fix" > fix.txt
@@ -373,15 +368,17 @@ test_prune_handles_hotfix_branches() {
 
     local output
     output=$(g feature prune --dry-run 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"hotfix/urgent"* ]]; then
-        pass "prune detects merged hotfix branch"
+        test_pass
     else
-        fail "prune should detect merged hotfix/urgent branch"
+        test_fail "prune should detect merged hotfix/urgent branch"
     fi
     cleanup_test_repo
 }
 
 test_prune_ignores_other_branches() {
+    test_case "prune ignores non-feature/bugfix/hotfix branches"
     create_test_repo
     git checkout -b random/branch --quiet
     echo "random" > random.txt
@@ -393,9 +390,9 @@ test_prune_ignores_other_branches() {
     local output
     output=$(g feature prune --dry-run 2>&1)
     if [[ "$output" != *"random/branch"* ]]; then
-        pass "prune ignores non-feature/bugfix/hotfix branches"
+        test_pass
     else
-        fail "prune should ignore random/branch"
+        test_fail "prune should ignore random/branch"
     fi
     cleanup_test_repo
 }
@@ -408,9 +405,8 @@ test_prune_ignores_other_branches
 # CURRENT BRANCH PROTECTION
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Current Branch Protection${_C_NC}"
-
 test_prune_never_deletes_current_branch() {
+    test_case "prune never lists current branch for deletion"
     create_test_repo
     git checkout -b feature/current --quiet
     echo "current" > current.txt
@@ -424,9 +420,9 @@ test_prune_never_deletes_current_branch() {
     local output
     output=$(g feature prune --dry-run 2>&1)
     if [[ "$output" != *"feature/current"* || "$output" == *"No merged"* ]]; then
-        pass "prune never lists current branch for deletion"
+        test_pass
     else
-        fail "prune should never list current branch (feature/current) for deletion"
+        test_fail "prune should never list current branch (feature/current) for deletion"
     fi
     cleanup_test_repo
 }
@@ -437,16 +433,15 @@ test_prune_never_deletes_current_branch
 # ERROR HANDLING
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Error Handling${_C_NC}"
-
 test_prune_unknown_option() {
+    test_case "prune rejects unknown options"
     local output result
     output=$(g feature prune --unknown 2>&1)
     result=$?
     if [[ $result -ne 0 && "$output" == *"Unknown option"* ]]; then
-        pass "prune rejects unknown options"
+        test_pass
     else
-        fail "prune should reject unknown options with error"
+        test_fail "prune should reject unknown options with error"
     fi
 }
 
@@ -456,12 +451,8 @@ test_prune_unknown_option
 # SUMMARY
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_YELLOW}═══════════════════════════════════════════════════════════${_C_NC}"
-echo -e "  ${_C_GREEN}Passed: $PASSED${_C_NC}  ${_C_RED}Failed: $FAILED${_C_NC}"
-echo -e "${_C_YELLOW}═══════════════════════════════════════════════════════════${_C_NC}\n"
-
 # Cleanup any leftover test repos
 cleanup_test_repo
 
-# Exit with failure if any tests failed
-[[ $FAILED -eq 0 ]]
+test_suite_end
+exit $?

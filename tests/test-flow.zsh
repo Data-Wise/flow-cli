@@ -4,34 +4,6 @@
 # Generated: 2025-12-31
 
 # ============================================================================
-# TEST FRAMEWORK
-# ============================================================================
-
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
-
-# ============================================================================
 # SETUP
 # ============================================================================
 
@@ -39,12 +11,11 @@ fail() {
 SCRIPT_DIR="${0:A:h}"
 PROJECT_ROOT="${SCRIPT_DIR:h}"
 
-setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
+source "$SCRIPT_DIR/test-framework.zsh"
 
+setup() {
     if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root${NC}"
+        echo "${RED}ERROR: Cannot find project root${RESET}"
         exit 1
     fi
 
@@ -55,7 +26,7 @@ setup() {
     FLOW_ATLAS_ENABLED=no
     FLOW_PLUGIN_DIR="$PROJECT_ROOT"
     source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
-        echo "${RED}Plugin failed to load${NC}"
+        echo "${RED}Plugin failed to load${RESET}"
         exit 1
     }
 
@@ -74,27 +45,34 @@ setup() {
     echo ""
 }
 
+cleanup() {
+    reset_mocks
+    if [[ -n "$TEST_ROOT" && -d "$TEST_ROOT" ]]; then
+        rm -rf "$TEST_ROOT"
+    fi
+}
+
 # ============================================================================
 # TESTS: Command existence
 # ============================================================================
 
 test_flow_exists() {
-    log_test "flow command exists"
+    test_case "flow command exists"
 
     if type flow &>/dev/null; then
-        pass
+        test_pass
     else
-        fail "flow command not found"
+        test_fail "flow command not found"
     fi
 }
 
 test_flow_help_exists() {
-    log_test "_flow_help function exists"
+    test_case "_flow_help function exists"
 
     if type _flow_help &>/dev/null; then
-        pass
+        test_pass
     else
-        fail "_flow_help not found"
+        test_fail "_flow_help not found"
     fi
 }
 
@@ -103,79 +81,71 @@ test_flow_help_exists() {
 # ============================================================================
 
 test_flow_help_runs() {
-    log_test "flow help runs without error"
+    test_case "flow help runs without error"
 
     local output=$(flow help 2>&1)
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code "$exit_code" 0 || return 1
+    assert_not_contains "$output" "command not found" || return 1
+    test_pass
 }
 
 test_flow_no_args_shows_help() {
-    log_test "flow (no args) shows help"
+    test_case "flow (no args) shows help"
 
     local output=$(flow 2>&1)
 
     if [[ "$output" == *"FLOW"* || "$output" == *"Usage"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should show help when called without args"
+        test_fail "Should show help when called without args"
     fi
 }
 
 test_flow_help_flag() {
-    log_test "flow --help runs"
+    test_case "flow --help runs"
 
     local output=$(flow --help 2>&1)
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code "$exit_code" 0 || return 1
+    assert_not_contains "$output" "command not found" || return 1
+    test_pass
 }
 
 test_flow_h_flag() {
-    log_test "flow -h runs"
+    test_case "flow -h runs"
 
     local output=$(flow -h 2>&1)
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code "$exit_code" 0 || return 1
+    assert_not_contains "$output" "command not found" || return 1
+    test_pass
 }
 
 test_flow_help_shows_commands() {
-    log_test "flow help shows available commands"
+    test_case "flow help shows available commands"
 
     local output=$(flow help 2>&1)
 
     if [[ "$output" == *"work"* && "$output" == *"pick"* && "$output" == *"dash"* ]]; then
-        pass
+        test_pass
     else
-        fail "Help should list main commands"
+        test_fail "Help should list main commands"
     fi
 }
 
 test_flow_help_list_flag() {
-    log_test "flow help --list runs"
+    test_case "flow help --list runs"
 
     local output=$(flow help --list 2>&1)
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code "$exit_code" 0 || return 1
+    assert_not_contains "$output" "command not found" || return 1
+    test_pass
 }
 
 # ============================================================================
@@ -183,51 +153,49 @@ test_flow_help_list_flag() {
 # ============================================================================
 
 test_flow_version_runs() {
-    log_test "flow version runs"
+    test_case "flow version runs"
 
     local output=$(flow version 2>&1)
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]]; then
-        pass
-    else
-        fail "Exit code: $exit_code"
-    fi
+    assert_exit_code "$exit_code" 0 || return 1
+    assert_not_contains "$output" "command not found" || return 1
+    test_pass
 }
 
 test_flow_version_shows_version() {
-    log_test "flow version shows version number"
+    test_case "flow version shows version number"
 
     local output=$(flow version 2>&1)
 
     if [[ "$output" == *"flow-cli"* && "$output" == *"v"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should show version like 'flow-cli vX.X.X'"
+        test_fail "Should show version like 'flow-cli vX.X.X'"
     fi
 }
 
 test_flow_version_flag() {
-    log_test "flow --version runs"
+    test_case "flow --version runs"
 
     local output=$(flow --version 2>&1)
 
     if [[ "$output" == *"flow-cli"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should show version"
+        test_fail "Should show version"
     fi
 }
 
 test_flow_v_flag() {
-    log_test "flow -v runs"
+    test_case "flow -v runs"
 
     local output=$(flow -v 2>&1)
 
     if [[ "$output" == *"flow-cli"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should show version"
+        test_fail "Should show version"
     fi
 }
 
@@ -236,88 +204,88 @@ test_flow_v_flag() {
 # ============================================================================
 
 test_flow_work_routes() {
-    log_test "flow work routes to work command"
+    test_case "flow work routes to work command"
 
     # Check that it routes (work may error without project, but that's ok)
     local output=$(flow work nonexistent_project 2>&1)
 
     # Should either work or show work's error
     if [[ "$output" == *"not found"* || "$output" == *"Project"* || "$output" != *"Unknown command"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route to work command"
+        test_fail "Should route to work command"
     fi
 }
 
 test_flow_dash_routes() {
-    log_test "flow dash routes to dash command"
+    test_case "flow dash routes to dash command"
 
     local output=$(flow dash 2>&1)
 
     if [[ "$output" == *"DASHBOARD"* || "$output" == *"━"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route to dash command"
+        test_fail "Should route to dash command"
     fi
 }
 
 test_flow_doctor_routes() {
-    log_test "flow doctor routes to doctor command"
+    test_case "flow doctor routes to doctor command"
 
     local output=$(flow doctor 2>&1)
 
     if [[ "$output" == *"Health"* || "$output" == *"health"* || "$output" == *"🩺"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route to doctor command"
+        test_fail "Should route to doctor command"
     fi
 }
 
 test_flow_js_routes() {
-    log_test "flow js routes to js command"
+    test_case "flow js routes to js command"
 
     local output=$(flow js 2>&1)
 
     if [[ "$output" == *"JUST START"* || "$output" == *"🚀"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route to js command"
+        test_fail "Should route to js command"
     fi
 }
 
 test_flow_start_routes() {
-    log_test "flow start routes to js command"
+    test_case "flow start routes to js command"
 
     local output=$(flow start 2>&1)
 
     if [[ "$output" == *"JUST START"* || "$output" == *"🚀"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route to js command"
+        test_fail "Should route to js command"
     fi
 }
 
 test_flow_next_routes() {
-    log_test "flow next routes to next command"
+    test_case "flow next routes to next command"
 
     local output=$(flow next 2>&1)
 
     if [[ "$output" == *"NEXT"* || "$output" == *"🎯"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route to next command"
+        test_fail "Should route to next command"
     fi
 }
 
 test_flow_stuck_routes() {
-    log_test "flow stuck routes to stuck command"
+    test_case "flow stuck routes to stuck command"
 
     local output=$(flow stuck 2>&1)
 
     if [[ "$output" == *"STUCK"* || "$output" == *"🤔"* || "$output" == *"block"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route to stuck command"
+        test_fail "Should route to stuck command"
     fi
 }
 
@@ -326,28 +294,28 @@ test_flow_stuck_routes() {
 # ============================================================================
 
 test_flow_unknown_command() {
-    log_test "flow handles unknown command"
+    test_case "flow handles unknown command"
 
     local output=$(flow unknownxyz123 2>&1)
     local exit_code=$?
 
     # Check for "Unknown command" message (exit code may vary in subshell)
     if [[ "$output" == *"Unknown command"* || "$output" == *"unknown"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should show 'Unknown command' message"
+        test_fail "Should show 'Unknown command' message"
     fi
 }
 
 test_flow_unknown_suggests_help() {
-    log_test "flow unknown command suggests help"
+    test_case "flow unknown command suggests help"
 
     local output=$(flow unknownxyz123 2>&1)
 
     if [[ "$output" == *"flow help"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should suggest 'flow help'"
+        test_fail "Should suggest 'flow help'"
     fi
 }
 
@@ -356,54 +324,50 @@ test_flow_unknown_suggests_help() {
 # ============================================================================
 
 test_flow_pick_alias() {
-    log_test "flow pp routes to pick"
+    test_case "flow pp routes to pick"
 
     # pp should be aliased to pick
     local output=$(flow pp help 2>&1)
 
     # Should route to pick help
     if [[ "$output" == *"pick"* || "$output" == *"PICK"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route pp to pick"
+        test_fail "Should route pp to pick"
     fi
 }
 
 test_flow_dashboard_alias() {
-    log_test "flow dashboard routes to dash"
+    test_case "flow dashboard routes to dash"
 
     local output=$(flow dashboard 2>&1)
 
     if [[ "$output" == *"DASHBOARD"* || "$output" == *"━"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route dashboard to dash"
+        test_fail "Should route dashboard to dash"
     fi
 }
 
 test_flow_finish_aliases() {
-    log_test "flow fin routes to finish"
+    test_case "flow fin routes to finish"
 
     local output=$(flow fin 2>&1)
     local exit_code=$?
 
-    # Should route to finish (may succeed or fail based on state, that's ok)
-    if [[ $exit_code -eq 0 || $exit_code -eq 1 ]]; then
-        pass
-    else
-        fail "Unexpected exit code: $exit_code"
-    fi
+    assert_exit_code "$exit_code" 0 || return 1
+    test_pass
 }
 
 test_flow_health_alias() {
-    log_test "flow health routes to doctor"
+    test_case "flow health routes to doctor"
 
     local output=$(flow health 2>&1)
 
     if [[ "$output" == *"Health"* || "$output" == *"health"* || "$output" == *"🩺"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should route health to doctor"
+        test_fail "Should route health to doctor"
     fi
 }
 
@@ -412,42 +376,43 @@ test_flow_health_alias() {
 # ============================================================================
 
 test_flow_test_exists() {
-    log_test "flow test subcommand exists"
+    test_case "flow test subcommand exists"
 
     local output=$(flow test --help 2>&1)
     local exit_code=$?
 
     # Should either show help or run (not "Unknown command")
     if [[ "$output" != *"Unknown command"* ]]; then
-        pass
+        test_pass
     else
-        fail "flow test should be recognized"
+        test_fail "flow test should be recognized"
     fi
 }
 
 test_flow_build_exists() {
-    log_test "flow build subcommand exists"
+    test_case "flow build subcommand exists"
 
     local output=$(flow build --help 2>&1)
     local exit_code=$?
 
     if [[ "$output" != *"Unknown command"* ]]; then
-        pass
+        test_pass
     else
-        fail "flow build should be recognized"
+        test_fail "flow build should be recognized"
     fi
 }
 
 test_flow_sync_exists() {
-    log_test "flow sync subcommand exists"
+    test_case "flow sync subcommand exists"
 
     local output=$(flow sync 2>&1)
     local exit_code=$?
 
+    assert_not_contains "$output" "command not found" || return 1
     if [[ "$output" != *"Unknown command"* ]]; then
-        pass
+        test_pass
     else
-        fail "flow sync should be recognized"
+        test_fail "flow sync should be recognized"
     fi
 }
 
@@ -456,27 +421,27 @@ test_flow_sync_exists() {
 # ============================================================================
 
 test_flow_help_no_errors() {
-    log_test "flow help has no error patterns"
+    test_case "flow help has no error patterns"
 
     local output=$(flow help 2>&1)
 
     if [[ "$output" != *"command not found"* && "$output" != *"syntax error"* ]]; then
-        pass
+        test_pass
     else
-        fail "Output contains error patterns"
+        test_fail "Output contains error patterns"
     fi
 }
 
 test_flow_uses_colors() {
-    log_test "flow help uses color formatting"
+    test_case "flow help uses color formatting"
 
     local output=$(flow help 2>&1)
 
     # Check for ANSI color codes
     if [[ "$output" == *$'\033['* || "$output" == *$'\e['* ]]; then
-        pass
+        test_pass
     else
-        fail "Should use color formatting"
+        test_fail "Should use color formatting"
     fi
 }
 
@@ -485,22 +450,22 @@ test_flow_uses_colors() {
 # ============================================================================
 
 test_flow_version_var_defined() {
-    log_test "FLOW_VERSION variable is defined"
+    test_case "FLOW_VERSION variable is defined"
 
     if [[ -n "$FLOW_VERSION" ]]; then
-        pass
+        test_pass
     else
-        fail "FLOW_VERSION not defined"
+        test_fail "FLOW_VERSION not defined"
     fi
 }
 
 test_flow_version_format() {
-    log_test "FLOW_VERSION follows semver format"
+    test_case "FLOW_VERSION follows semver format"
 
     if [[ "$FLOW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
-        pass
+        test_pass
     else
-        fail "Should be like X.Y.Z, got: $FLOW_VERSION"
+        test_fail "Should be like X.Y.Z, got: $FLOW_VERSION"
     fi
 }
 
@@ -509,19 +474,16 @@ test_flow_version_format() {
 # ============================================================================
 
 main() {
-    echo ""
-    echo "${YELLOW}========================================${NC}"
-    echo "${YELLOW}  Flow Command Tests${NC}"
-    echo "${YELLOW}========================================${NC}"
+    test_suite_start "Flow Command Tests"
 
     setup
 
-    echo "${CYAN}--- Command existence tests ---${NC}"
+    echo "${CYAN}--- Command existence tests ---${RESET}"
     test_flow_exists
     test_flow_help_exists
 
     echo ""
-    echo "${CYAN}--- Help system tests ---${NC}"
+    echo "${CYAN}--- Help system tests ---${RESET}"
     test_flow_help_runs
     test_flow_no_args_shows_help
     test_flow_help_flag
@@ -530,14 +492,14 @@ main() {
     test_flow_help_list_flag
 
     echo ""
-    echo "${CYAN}--- Version tests ---${NC}"
+    echo "${CYAN}--- Version tests ---${RESET}"
     test_flow_version_runs
     test_flow_version_shows_version
     test_flow_version_flag
     test_flow_v_flag
 
     echo ""
-    echo "${CYAN}--- Subcommand routing tests ---${NC}"
+    echo "${CYAN}--- Subcommand routing tests ---${RESET}"
     test_flow_work_routes
     test_flow_dash_routes
     test_flow_doctor_routes
@@ -547,46 +509,36 @@ main() {
     test_flow_stuck_routes
 
     echo ""
-    echo "${CYAN}--- Unknown command tests ---${NC}"
+    echo "${CYAN}--- Unknown command tests ---${RESET}"
     test_flow_unknown_command
     test_flow_unknown_suggests_help
 
     echo ""
-    echo "${CYAN}--- Alias tests ---${NC}"
+    echo "${CYAN}--- Alias tests ---${RESET}"
     test_flow_pick_alias
     test_flow_dashboard_alias
     test_flow_finish_aliases
     test_flow_health_alias
 
     echo ""
-    echo "${CYAN}--- Context-aware action tests ---${NC}"
+    echo "${CYAN}--- Context-aware action tests ---${RESET}"
     test_flow_test_exists
     test_flow_build_exists
     test_flow_sync_exists
 
     echo ""
-    echo "${CYAN}--- Output quality tests ---${NC}"
+    echo "${CYAN}--- Output quality tests ---${RESET}"
     test_flow_help_no_errors
     test_flow_uses_colors
 
     echo ""
-    echo "${CYAN}--- Version variable tests ---${NC}"
+    echo "${CYAN}--- Version variable tests ---${RESET}"
     test_flow_version_var_defined
     test_flow_version_format
 
-    # Summary
-    echo ""
-    echo "${YELLOW}========================================${NC}"
-    echo "${YELLOW}  Test Summary${NC}"
-    echo "${YELLOW}========================================${NC}"
-    echo "  ${GREEN}Passed:${NC} $TESTS_PASSED"
-    echo "  ${RED}Failed:${NC} $TESTS_FAILED"
-    echo "  Total:  $((TESTS_PASSED + TESTS_FAILED))"
-    echo ""
-
-    if [[ $TESTS_FAILED -gt 0 ]]; then
-        exit 1
-    fi
+    cleanup
+    test_suite_end
+    exit $?
 }
 
 main "$@"

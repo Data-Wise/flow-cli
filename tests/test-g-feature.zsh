@@ -1,34 +1,18 @@
 #!/usr/bin/env zsh
-# Test script for g dispatcher feature workflow
+# ══════════════════════════════════════════════════════════════════════════════
+# TEST SUITE: G Feature Workflow
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Purpose: Test g dispatcher feature workflow
 # Tests: g feature, g promote, g release, workflow guard
+#
+# Created: 2026-02-16
+# ══════════════════════════════════════════════════════════════════════════════
 
-# ============================================================================
-# TEST FRAMEWORK
-# ============================================================================
-
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+# Source shared test framework
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
 
 # ============================================================================
 # SETUP
@@ -36,14 +20,9 @@ fail() {
 
 setup() {
     echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
+    echo "${YELLOW}Setting up test environment...${RESET}"
 
-    # Get project root
-    local project_root=""
-
-    if [[ -n "${0:A}" ]]; then
-        project_root="${0:A:h:h}"
-    fi
+    local project_root="$PROJECT_ROOT"
 
     if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/g-dispatcher.zsh" ]]; then
         if [[ -f "$PWD/lib/dispatchers/g-dispatcher.zsh" ]]; then
@@ -54,7 +33,7 @@ setup() {
     fi
 
     if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/g-dispatcher.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root - run from project directory${NC}"
+        echo "${RED}ERROR: Cannot find project root - run from project directory${RESET}"
         exit 1
     fi
 
@@ -69,6 +48,11 @@ setup() {
 
     echo "  Loaded: g-dispatcher.zsh"
     echo ""
+}
+
+cleanup() {
+    cleanup_test_repo
+    reset_mocks
 }
 
 # ============================================================================
@@ -102,32 +86,35 @@ cleanup_test_repo() {
 # ============================================================================
 
 test_g_feature_help_shows_output() {
-    log_test "g feature help shows output"
+    test_case "g feature help shows output"
     local output=$(g feature help 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"Feature branch workflow"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected 'Feature branch workflow' in output"
+        test_fail "Expected 'Feature branch workflow' in output"
     fi
 }
 
 test_g_feature_help_shows_commands() {
-    log_test "g feature help shows commands"
+    test_case "g feature help shows commands"
     local output=$(g feature help 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"g feature start"* && "$output" == *"g feature sync"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected feature commands in output"
+        test_fail "Expected feature commands in output"
     fi
 }
 
 test_g_feature_help_shows_workflow() {
-    log_test "g feature help shows workflow diagram"
+    test_case "g feature help shows workflow diagram"
     local output=$(g feature help 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"feature/*"* && "$output" == *"dev"* && "$output" == *"main"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected workflow diagram in output"
+        test_fail "Expected workflow diagram in output"
     fi
 }
 
@@ -136,19 +123,19 @@ test_g_feature_help_shows_workflow() {
 # ============================================================================
 
 test_g_feature_start_requires_name() {
-    log_test "g feature start requires name"
+    test_case "g feature start requires name"
     local output result
     output=$(g feature start 2>&1)
     result=$?
     if [[ $result -ne 0 && "$output" == *"Feature name required"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected error message for missing name"
+        test_fail "Expected error message for missing name"
     fi
 }
 
 test_g_feature_start_creates_branch() {
-    log_test "g feature start creates branch"
+    test_case "g feature start creates branch"
     create_test_repo
     git checkout dev --quiet 2>/dev/null
 
@@ -156,9 +143,9 @@ test_g_feature_start_creates_branch() {
     local branch=$(git branch --show-current)
 
     if [[ "$branch" == "feature/test-feature" ]]; then
-        pass
+        test_pass
     else
-        fail "Expected branch 'feature/test-feature', got '$branch'"
+        test_fail "Expected branch 'feature/test-feature', got '$branch'"
     fi
     cleanup_test_repo
 }
@@ -168,15 +155,16 @@ test_g_feature_start_creates_branch() {
 # ============================================================================
 
 test_g_feature_list_shows_branches() {
-    log_test "g feature list shows branch headers"
+    test_case "g feature list shows branch headers"
     create_test_repo
 
     local output=$(g feature list 2>&1)
+    assert_not_contains "$output" "command not found"
 
     if [[ "$output" == *"Feature branches"* && "$output" == *"Hotfix branches"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected branch headers in output"
+        test_fail "Expected branch headers in output"
     fi
     cleanup_test_repo
 }
@@ -186,7 +174,7 @@ test_g_feature_list_shows_branches() {
 # ============================================================================
 
 test_g_promote_requires_feature_branch() {
-    log_test "g promote requires feature branch"
+    test_case "g promote requires feature branch"
     create_test_repo
     git checkout main --quiet 2>/dev/null
 
@@ -195,15 +183,15 @@ test_g_promote_requires_feature_branch() {
     result=$?
 
     if [[ $result -ne 0 && "$output" == *"Not on a promotable branch"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected error on main branch"
+        test_fail "Expected error on main branch"
     fi
     cleanup_test_repo
 }
 
 test_g_promote_accepts_feature_branch() {
-    log_test "g promote accepts feature/* branch"
+    test_case "g promote accepts feature/* branch"
     create_test_repo
     git checkout -b feature/test --quiet
 
@@ -212,9 +200,9 @@ test_g_promote_accepts_feature_branch() {
 
     # Should NOT contain "Not on a promotable branch"
     if [[ "$output" != *"Not on a promotable branch"* ]]; then
-        pass
+        test_pass
     else
-        fail "Should accept feature/* branch"
+        test_fail "Should accept feature/* branch"
     fi
     cleanup_test_repo
 }
@@ -224,7 +212,7 @@ test_g_promote_accepts_feature_branch() {
 # ============================================================================
 
 test_g_release_requires_dev_branch() {
-    log_test "g release requires dev branch"
+    test_case "g release requires dev branch"
     create_test_repo
     git checkout main --quiet 2>/dev/null
 
@@ -233,9 +221,9 @@ test_g_release_requires_dev_branch() {
     result=$?
 
     if [[ $result -ne 0 && "$output" == *"Must be on 'dev' branch"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected error on main branch"
+        test_fail "Expected error on main branch"
     fi
     cleanup_test_repo
 }
@@ -245,7 +233,7 @@ test_g_release_requires_dev_branch() {
 # ============================================================================
 
 test_workflow_guard_blocks_main() {
-    log_test "workflow guard blocks main"
+    test_case "workflow guard blocks main"
     create_test_repo
     git checkout main --quiet 2>/dev/null
 
@@ -254,15 +242,15 @@ test_workflow_guard_blocks_main() {
     result=$?
 
     if [[ $result -ne 0 && "$output" == *"blocked"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected block message on main"
+        test_fail "Expected block message on main"
     fi
     cleanup_test_repo
 }
 
 test_workflow_guard_blocks_dev() {
-    log_test "workflow guard blocks dev"
+    test_case "workflow guard blocks dev"
     create_test_repo
     git checkout dev --quiet 2>/dev/null
 
@@ -271,15 +259,15 @@ test_workflow_guard_blocks_dev() {
     result=$?
 
     if [[ $result -ne 0 && "$output" == *"blocked"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected block message on dev"
+        test_fail "Expected block message on dev"
     fi
     cleanup_test_repo
 }
 
 test_workflow_guard_allows_feature() {
-    log_test "workflow guard allows feature/*"
+    test_case "workflow guard allows feature/*"
     create_test_repo
     git checkout -b feature/test --quiet
 
@@ -287,15 +275,15 @@ test_workflow_guard_allows_feature() {
     local result=$?
 
     if [[ $result -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Should allow feature/* branches"
+        test_fail "Should allow feature/* branches"
     fi
     cleanup_test_repo
 }
 
 test_workflow_guard_allows_hotfix() {
-    log_test "workflow guard allows hotfix/*"
+    test_case "workflow guard allows hotfix/*"
     create_test_repo
     git checkout -b hotfix/urgent --quiet
 
@@ -303,24 +291,24 @@ test_workflow_guard_allows_hotfix() {
     local result=$?
 
     if [[ $result -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Should allow hotfix/* branches"
+        test_fail "Should allow hotfix/* branches"
     fi
     cleanup_test_repo
 }
 
 test_workflow_guard_shows_override() {
-    log_test "workflow guard shows override command"
+    test_case "workflow guard shows override command"
     create_test_repo
     git checkout main --quiet 2>/dev/null
 
     local output=$(_g_check_workflow 2>&1)
 
     if [[ "$output" == *"GIT_WORKFLOW_SKIP"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected override command in output"
+        test_fail "Expected override command in output"
     fi
     cleanup_test_repo
 }
@@ -330,22 +318,24 @@ test_workflow_guard_shows_override() {
 # ============================================================================
 
 test_g_help_includes_feature_workflow() {
-    log_test "g help includes FEATURE WORKFLOW section"
+    test_case "g help includes FEATURE WORKFLOW section"
     local output=$(g help 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"FEATURE WORKFLOW"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected FEATURE WORKFLOW section in g help"
+        test_fail "Expected FEATURE WORKFLOW section in g help"
     fi
 }
 
 test_g_help_shows_promote_release() {
-    log_test "g help shows promote and release"
+    test_case "g help shows promote and release"
     local output=$(g help 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"g promote"* && "$output" == *"g release"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected promote and release in g help"
+        test_fail "Expected promote and release in g help"
     fi
 }
 
@@ -354,38 +344,35 @@ test_g_help_shows_promote_release() {
 # ============================================================================
 
 main() {
-    echo ""
-    echo "${YELLOW}╔════════════════════════════════════════════════════════════╗${NC}"
-    echo "${YELLOW}║${NC}  G Feature Workflow Tests                                   ${YELLOW}║${NC}"
-    echo "${YELLOW}╚════════════════════════════════════════════════════════════╝${NC}"
+    test_suite_start "G Feature Workflow Tests"
 
     setup
 
-    echo "${YELLOW}── g feature help ──${NC}"
+    echo "${YELLOW}── g feature help ──${RESET}"
     test_g_feature_help_shows_output
     test_g_feature_help_shows_commands
     test_g_feature_help_shows_workflow
 
     echo ""
-    echo "${YELLOW}── g feature start ──${NC}"
+    echo "${YELLOW}── g feature start ──${RESET}"
     test_g_feature_start_requires_name
     test_g_feature_start_creates_branch
 
     echo ""
-    echo "${YELLOW}── g feature list ──${NC}"
+    echo "${YELLOW}── g feature list ──${RESET}"
     test_g_feature_list_shows_branches
 
     echo ""
-    echo "${YELLOW}── g promote ──${NC}"
+    echo "${YELLOW}── g promote ──${RESET}"
     test_g_promote_requires_feature_branch
     test_g_promote_accepts_feature_branch
 
     echo ""
-    echo "${YELLOW}── g release ──${NC}"
+    echo "${YELLOW}── g release ──${RESET}"
     test_g_release_requires_dev_branch
 
     echo ""
-    echo "${YELLOW}── Workflow Guard ──${NC}"
+    echo "${YELLOW}── Workflow Guard ──${RESET}"
     test_workflow_guard_blocks_main
     test_workflow_guard_blocks_dev
     test_workflow_guard_allows_feature
@@ -393,19 +380,12 @@ main() {
     test_workflow_guard_shows_override
 
     echo ""
-    echo "${YELLOW}── g help ──${NC}"
+    echo "${YELLOW}── g help ──${RESET}"
     test_g_help_includes_feature_workflow
     test_g_help_shows_promote_release
 
-    # Summary
-    echo ""
-    echo "${YELLOW}════════════════════════════════════════════════════════════${NC}"
-    echo "Results: ${GREEN}$TESTS_PASSED passed${NC}, ${RED}$TESTS_FAILED failed${NC}"
-    echo "${YELLOW}════════════════════════════════════════════════════════════${NC}"
-
-    if [[ $TESTS_FAILED -gt 0 ]]; then
-        exit 1
-    fi
+    test_suite_end
+    exit $?
 }
 
 main "$@"

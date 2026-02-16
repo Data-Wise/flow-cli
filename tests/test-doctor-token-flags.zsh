@@ -428,7 +428,7 @@ test_full_workflow_check_fix_recheck() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 main() {
-    test_suite "Doctor Token Flags Test Suite (Phase 1)"
+    test_suite_start "Doctor Token Flags Test Suite (Phase 1)"
 
     setup
 
@@ -481,7 +481,8 @@ main() {
 
     cleanup
 
-    print_summary
+    test_suite_end
+    exit $?
 }
 
 # Run tests

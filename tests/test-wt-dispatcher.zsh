@@ -3,47 +3,22 @@
 # Tests: wt help, wt list, wt create, wt move, wt remove
 
 # ============================================================================
-# TEST FRAMEWORK
+# SHARED FRAMEWORK
 # ============================================================================
 
-TESTS_PASSED=0
-TESTS_FAILED=0
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+source "$SCRIPT_DIR/test-framework.zsh"
 
 # ============================================================================
-# SETUP
+# SETUP & CLEANUP
 # ============================================================================
+
+ORIG_DIR="$PWD"
 
 setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
-
-    # Get project root
-    local project_root=""
-
-    if [[ -n "${0:A}" ]]; then
-        project_root="${0:A:h:h}"
-    fi
+    local project_root="$PROJECT_ROOT"
 
     if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/wt-dispatcher.zsh" ]]; then
         if [[ -f "$PWD/lib/dispatchers/wt-dispatcher.zsh" ]]; then
@@ -54,11 +29,9 @@ setup() {
     fi
 
     if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/wt-dispatcher.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root - run from project directory${NC}"
+        echo "ERROR: Cannot find project root - run from project directory"
         exit 1
     fi
-
-    echo "  Project root: $project_root"
 
     # Clear any existing wt alias/function before sourcing
     unalias wt 2>/dev/null || true
@@ -66,20 +39,17 @@ setup() {
 
     # Source wt dispatcher
     source "$project_root/lib/dispatchers/wt-dispatcher.zsh"
+}
 
-    echo "  Loaded: wt-dispatcher.zsh"
-    echo ""
+cleanup() {
+    cleanup_test_repo
+    reset_mocks
 }
 
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
 
-# Save original directory
-ORIG_DIR="$PWD"
-
-# Create a temporary git repo for testing
-# Sets TEST_DIR and changes to it
 create_test_repo() {
     TEST_DIR=$(mktemp -d)
     cd "$TEST_DIR" || return 1
@@ -102,52 +72,53 @@ cleanup_test_repo() {
 # ============================================================================
 
 test_wt_help_shows_output() {
-    log_test "wt help shows output"
+    test_case "wt help shows output"
     local output=$(wt help 2>&1)
+    assert_not_contains "$output" "command not found"
     if [[ "$output" == *"Git Worktree Management"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected 'Git Worktree Management' in output"
+        test_fail "Expected 'Git Worktree Management' in output"
     fi
 }
 
 test_wt_help_shows_commands() {
-    log_test "wt help shows commands"
+    test_case "wt help shows commands"
     local output=$(wt help 2>&1)
     if [[ "$output" == *"wt list"* && "$output" == *"wt create"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected wt commands in output"
+        test_fail "Expected wt commands in output"
     fi
 }
 
 test_wt_help_shows_most_common() {
-    log_test "wt help shows MOST COMMON section"
+    test_case "wt help shows MOST COMMON section"
     local output=$(wt help 2>&1)
     if [[ "$output" == *"MOST COMMON"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected MOST COMMON section in output"
+        test_fail "Expected MOST COMMON section in output"
     fi
 }
 
 test_wt_help_shows_configuration() {
-    log_test "wt help shows configuration"
+    test_case "wt help shows configuration"
     local output=$(wt help 2>&1)
     if [[ "$output" == *"FLOW_WORKTREE_DIR"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected FLOW_WORKTREE_DIR in output"
+        test_fail "Expected FLOW_WORKTREE_DIR in output"
     fi
 }
 
 test_wt_help_shows_passthrough_tip() {
-    log_test "wt help shows passthrough tip"
+    test_case "wt help shows passthrough tip"
     local output=$(wt help 2>&1)
     if [[ "$output" == *"pass through to git worktree"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected passthrough tip in output"
+        test_fail "Expected passthrough tip in output"
     fi
 }
 
@@ -156,31 +127,35 @@ test_wt_help_shows_passthrough_tip() {
 # ============================================================================
 
 test_wt_list_works_in_repo() {
-    log_test "wt list works in git repo"
+    test_case "wt list works in git repo"
     create_test_repo
 
-    wt list >/dev/null 2>&1
+    local output
+    output=$(wt list 2>&1)
     local result=$?
 
+    assert_not_contains "$output" "command not found"
     if [[ $result -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "wt list should work in git repo"
+        test_fail "wt list should work in git repo"
     fi
     cleanup_test_repo
 }
 
 test_wt_list_alias_works() {
-    log_test "wt ls alias works"
+    test_case "wt ls alias works"
     create_test_repo
 
-    wt ls >/dev/null 2>&1
+    local output
+    output=$(wt ls 2>&1)
     local result=$?
 
+    assert_not_contains "$output" "command not found"
     if [[ $result -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "wt ls should work"
+        test_fail "wt ls should work"
     fi
     cleanup_test_repo
 }
@@ -190,7 +165,7 @@ test_wt_list_alias_works() {
 # ============================================================================
 
 test_wt_create_requires_branch() {
-    log_test "wt create requires branch name"
+    test_case "wt create requires branch name"
     create_test_repo
 
     local output result
@@ -198,29 +173,29 @@ test_wt_create_requires_branch() {
     result=$?
 
     if [[ $result -ne 0 && "$output" == *"Branch name required"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected error for missing branch name"
+        test_fail "Expected error for missing branch name"
     fi
     cleanup_test_repo
 }
 
 test_wt_create_shows_usage() {
-    log_test "wt create shows usage on error"
+    test_case "wt create shows usage on error"
     create_test_repo
 
     local output=$(wt create 2>&1)
 
     if [[ "$output" == *"Usage: wt create"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected usage in error output"
+        test_fail "Expected usage in error output"
     fi
     cleanup_test_repo
 }
 
 test_wt_create_requires_git_repo() {
-    log_test "wt create requires git repo"
+    test_case "wt create requires git repo"
     local old_dir="$PWD"
     cd /tmp
 
@@ -231,9 +206,9 @@ test_wt_create_requires_git_repo() {
     cd "$old_dir"
 
     if [[ $result -ne 0 && "$output" == *"Not in a git repository"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected error outside git repo"
+        test_fail "Expected error outside git repo"
     fi
 }
 
@@ -242,7 +217,7 @@ test_wt_create_requires_git_repo() {
 # ============================================================================
 
 test_wt_move_rejects_main() {
-    log_test "wt move rejects main branch"
+    test_case "wt move rejects main branch"
     create_test_repo
     git checkout main --quiet 2>/dev/null
 
@@ -251,15 +226,15 @@ test_wt_move_rejects_main() {
     result=$?
 
     if [[ $result -ne 0 && "$output" == *"Cannot move protected branch"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected error for main branch"
+        test_fail "Expected error for main branch"
     fi
     cleanup_test_repo
 }
 
 test_wt_move_rejects_dev() {
-    log_test "wt move rejects dev branch"
+    test_case "wt move rejects dev branch"
     create_test_repo
     git checkout dev --quiet 2>/dev/null
 
@@ -268,9 +243,9 @@ test_wt_move_rejects_dev() {
     result=$?
 
     if [[ $result -ne 0 && "$output" == *"Cannot move protected branch"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected error for dev branch"
+        test_fail "Expected error for dev branch"
     fi
     cleanup_test_repo
 }
@@ -280,7 +255,7 @@ test_wt_move_rejects_dev() {
 # ============================================================================
 
 test_wt_remove_requires_path() {
-    log_test "wt remove requires path"
+    test_case "wt remove requires path"
     create_test_repo
 
     local output result
@@ -288,23 +263,23 @@ test_wt_remove_requires_path() {
     result=$?
 
     if [[ $result -ne 0 && "$output" == *"Worktree path required"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected error for missing path"
+        test_fail "Expected error for missing path"
     fi
     cleanup_test_repo
 }
 
 test_wt_remove_shows_worktrees() {
-    log_test "wt remove shows current worktrees"
+    test_case "wt remove shows current worktrees"
     create_test_repo
 
     local output=$(wt remove 2>&1)
 
     if [[ "$output" == *"Current worktrees"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected worktree list in error output"
+        test_fail "Expected worktree list in error output"
     fi
     cleanup_test_repo
 }
@@ -314,7 +289,7 @@ test_wt_remove_shows_worktrees() {
 # ============================================================================
 
 test_wt_clean_works() {
-    log_test "wt clean works"
+    test_case "wt clean works"
     create_test_repo
 
     local output result
@@ -322,26 +297,27 @@ test_wt_clean_works() {
     result=$?
 
     if [[ $result -eq 0 && "$output" == *"Pruned"* ]]; then
-        pass
+        test_pass
     else
-        fail "wt clean should work and show success"
+        test_fail "wt clean should work and show success"
     fi
     cleanup_test_repo
 }
 
 test_wt_prune_alias_works() {
-    log_test "wt prune alias works"
+    test_case "wt prune alias works"
     create_test_repo
 
     local output result
     output=$(wt prune 2>&1)
     result=$?
 
+    assert_not_contains "$output" "command not found"
     # prune passes through to git worktree prune
     if [[ $result -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "wt prune should work"
+        test_fail "wt prune should work"
     fi
     cleanup_test_repo
 }
@@ -351,7 +327,7 @@ test_wt_prune_alias_works() {
 # ============================================================================
 
 test_wt_passthrough_works() {
-    log_test "wt passthrough to git worktree"
+    test_case "wt passthrough to git worktree"
     create_test_repo
 
     # Unknown command should passthrough
@@ -359,9 +335,9 @@ test_wt_passthrough_works() {
 
     # Should show git worktree lock help (or error from git)
     if [[ "$output" == *"worktree"* || "$output" == *"lock"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected passthrough to git worktree"
+        test_fail "Expected passthrough to git worktree"
     fi
     cleanup_test_repo
 }
@@ -371,14 +347,11 @@ test_wt_passthrough_works() {
 # ============================================================================
 
 main() {
-    echo ""
-    echo "${YELLOW}╔════════════════════════════════════════════════════════════╗${NC}"
-    echo "${YELLOW}║${NC}  WT (Worktree) Dispatcher Tests                            ${YELLOW}║${NC}"
-    echo "${YELLOW}╚════════════════════════════════════════════════════════════╝${NC}"
+    test_suite_start "WT (Worktree) Dispatcher Tests"
 
     setup
 
-    echo "${YELLOW}── wt help ──${NC}"
+    echo "${YELLOW}── wt help ──${RESET}"
     test_wt_help_shows_output
     test_wt_help_shows_commands
     test_wt_help_shows_most_common
@@ -386,44 +359,37 @@ main() {
     test_wt_help_shows_passthrough_tip
 
     echo ""
-    echo "${YELLOW}── wt list ──${NC}"
+    echo "${YELLOW}── wt list ──${RESET}"
     test_wt_list_works_in_repo
     test_wt_list_alias_works
 
     echo ""
-    echo "${YELLOW}── wt create ──${NC}"
+    echo "${YELLOW}── wt create ──${RESET}"
     test_wt_create_requires_branch
     test_wt_create_shows_usage
     test_wt_create_requires_git_repo
 
     echo ""
-    echo "${YELLOW}── wt move ──${NC}"
+    echo "${YELLOW}── wt move ──${RESET}"
     test_wt_move_rejects_main
     test_wt_move_rejects_dev
 
     echo ""
-    echo "${YELLOW}── wt remove ──${NC}"
+    echo "${YELLOW}── wt remove ──${RESET}"
     test_wt_remove_requires_path
     test_wt_remove_shows_worktrees
 
     echo ""
-    echo "${YELLOW}── wt clean ──${NC}"
+    echo "${YELLOW}── wt clean ──${RESET}"
     test_wt_clean_works
     test_wt_prune_alias_works
 
     echo ""
-    echo "${YELLOW}── Passthrough ──${NC}"
+    echo "${YELLOW}── Passthrough ──${RESET}"
     test_wt_passthrough_works
 
-    # Summary
-    echo ""
-    echo "${YELLOW}════════════════════════════════════════════════════════════${NC}"
-    echo "Results: ${GREEN}$TESTS_PASSED passed${NC}, ${RED}$TESTS_FAILED failed${NC}"
-    echo "${YELLOW}════════════════════════════════════════════════════════════${NC}"
-
-    if [[ $TESTS_FAILED -gt 0 ]]; then
-        exit 1
-    fi
+    test_suite_end
+    exit $?
 }
 
 main "$@"
