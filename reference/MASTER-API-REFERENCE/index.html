@@ -14877,14 +14877,14 @@
 <p><strong>Purpose:</strong> Complete API documentation for all flow-cli library functions
 <strong>Audience:</strong> Developers, contributors, advanced users
 <strong>Format:</strong> Function signatures, parameters, return values, examples
-<strong>Version:</strong> v5.19.1-dev
-<strong>Last Updated:</strong> 2026-01-27</p>
+<strong>Version:</strong> v7.2.0
+<strong>Last Updated:</strong> 2026-02-16</p>
 <hr />
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>This document provides complete API documentation for all flow-cli library functions. Functions are organized by library file and categorized by purpose.</p>
 <h3 id="coverage-status">Coverage Status<a class="headerlink" href="#coverage-status" title="Permanent link">&para;</a></h3>
-<p><strong>Total Functions:</strong> 716
-<strong>Documented:</strong> 178 (24.9%)
+<p><strong>Total Functions:</strong> 880
+<strong>Documented:</strong> 178 (20.2%)
 <strong>Auto-Generated:</strong> Will be updated by <code>scripts/generate-api-docs.sh</code></p>
 <h3 id="library-organization">Library Organization<a class="headerlink" href="#library-organization" title="Permanent link">&para;</a></h3>
 <p>flow-cli's library is organized into focused modules:</p>
@@ -14913,7 +14913,7 @@
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>├── em-cache.zsh                # Email: TTL-based caching (8 functions)
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>├── em-render.zsh               # Email: Smart rendering pipeline (7 functions)
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>├── email-helpers.zsh           # Email: Safety gates, AI draft helper (6 functions)
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>└── dispatchers/                # 13 dispatcher modules (530+ functions)
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>└── dispatchers/                # 15 dispatchers + 4 support modules (630+ functions)
 <a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>    ├── g-dispatcher.zsh
 <a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    ├── cc-dispatcher.zsh
 <a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    ├── r-dispatcher.zsh
@@ -14925,10 +14925,14 @@
 <a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    ├── sec-dispatcher.zsh        # Secret management
 <a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    ├── tok-dispatcher.zsh        # Token management
 <a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    ├── teach-dispatcher.zsh
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    ├── tm-dispatcher.zsh
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    ├── prompt-dispatcher.zsh
-<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    ├── v-dispatcher.zsh
-<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    └── email-dispatcher.zsh    # Email dispatcher (17 subcommands)
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    ├── teach-dates.zsh           # Teaching: date automation
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>    ├── teach-deploy-enhanced.zsh # Teaching: deploy v2 engine
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    ├── teach-doctor-impl.zsh     # Teaching: doctor v2 implementation
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    ├── dot-doctor-integration.zsh # Dot-split doctor integration
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    ├── tm-dispatcher.zsh
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    ├── prompt-dispatcher.zsh
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>    ├── v-dispatcher.zsh
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>    └── email-dispatcher.zsh    # Email dispatcher (17 subcommands)
 </code></pre></div>
 <hr />
 <h2 id="how-to-use-this-reference">How to Use This Reference<a class="headerlink" href="#how-to-use-this-reference" title="Permanent link">&para;</a></h2>
@@ -19530,10 +19534,10 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <li><a href="../../contributing/CONTRIBUTING/">CONTRIBUTING.md</a> - Contributing guide</li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v5.22.0-dev
-<strong>Last Updated:</strong> 2026-01-29
+<p><strong>Version:</strong> v7.2.0
+<strong>Last Updated:</strong> 2026-02-16
 <strong>Auto-Generation:</strong> Run <code>./scripts/generate-api-docs.sh</code> to update function index
-<strong>Total Functions:</strong> 860 (428 documented, 432 pending)</p>
+<strong>Total Functions:</strong> 880 (428 documented, 452 pending)</p>
 
 
 
