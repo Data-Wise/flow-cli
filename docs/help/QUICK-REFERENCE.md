@@ -41,13 +41,18 @@ tags:
 ### Session Management
 
 ```bash
-# Start working on a project
+# Start working on a project (cd + context, no editor)
 work <project_name>
-# Output: 🚀 Starting work on flow-cli...
-#         Project: flow-cli
-#         Type: Node.js
-#         Location: ~/projects/dev-tools/flow-cli
-#         Session started at 18:30
+# Output: 🔧 flow-cli (zsh-plugin)
+#         🟢 Status: active
+#         📍 Phase: Active Development
+
+# Start with editor
+work <project_name> -e              # Open $EDITOR (default: nvim)
+work <project_name> -e code         # Open VS Code
+work <project_name> -e cc           # Launch Claude Code (acceptEdits)
+work <project_name> -e ccy          # Launch Claude Code (yolo mode)
+work <project_name> -e cc:new       # New Ghostty window for Claude Code
 
 # Auto-pick project (just start)
 js

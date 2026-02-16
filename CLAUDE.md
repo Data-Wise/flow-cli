@@ -107,7 +107,8 @@ flow-cli is Layer 1 of a 3-layer stack: **flow-cli** (pure ZSH, <10ms) < **aiter
 ### Core Commands
 
 ```bash
-work <project>    # Start session
+work <project>    # Start session (cd + context, no editor)
+work <proj> -e    # Start session + open $EDITOR
 finish [note]     # End session (optional commit)
 hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard
