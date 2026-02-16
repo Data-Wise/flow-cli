@@ -287,4 +287,4 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ---
 
-**Last Updated:** 2026-02-14 (v7.1.0)
+**Last Updated:** 2026-02-16 (v7.1.0)

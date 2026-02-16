@@ -80,6 +80,8 @@
 |----------|--------|--------|
 | Main repo | `dev` | v7.1.0 + workflow hardening, synced with main |
 | feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
+| feature-work-editor-flag | `feature/work-editor-flag` | Implemented, tests passing, needs PR to dev |
+| feature-testing-overhaul | `feature/testing-overhaul` | ORCHESTRATE committed, ready to implement |
 
 ---
 
