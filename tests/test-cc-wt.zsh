@@ -10,31 +10,15 @@
 setopt local_options no_monitor
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TEST UTILITIES
+# FRAMEWORK SETUP
 # ─────────────────────────────────────────────────────────────────────────────
 
 SCRIPT_DIR="${0:A:h}"
-PASSED=0
-FAILED=0
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh"
+
 TEST_DIR=""
 ORIGINAL_DIR="$PWD"
-
-# Colors
-_C_GREEN='\033[32m'
-_C_RED='\033[31m'
-_C_YELLOW='\033[33m'
-_C_DIM='\033[2m'
-_C_NC='\033[0m'
-
-pass() {
-    echo -e "  ${_C_GREEN}✓${_C_NC} $1"
-    ((PASSED++))
-}
-
-fail() {
-    echo -e "  ${_C_RED}✗${_C_NC} $1"
-    ((FAILED++))
-}
 
 # Create a fresh test repository
 create_test_repo() {
@@ -59,6 +43,7 @@ cleanup_test_repo() {
     fi
     TEST_DIR=""
 }
+trap cleanup_test_repo EXIT
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SOURCE THE PLUGIN
@@ -70,43 +55,44 @@ source "${SCRIPT_DIR}/../flow.plugin.zsh"
 # TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_YELLOW}═══════════════════════════════════════════════════════════${_C_NC}"
-echo -e "${_C_YELLOW}  cc wt - Worktree Integration Tests${_C_NC}"
-echo -e "${_C_YELLOW}═══════════════════════════════════════════════════════════${_C_NC}\n"
+test_suite_start "cc wt - Worktree Integration Tests"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HELP TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "${_C_DIM}Help System${_C_NC}"
+echo "Help System"
 
 test_cc_wt_help_shows_title() {
+    test_case "cc wt help shows title"
     local output
     output=$(cc wt help 2>&1)
     if [[ "$output" == *"CC WT"* ]]; then
-        pass "cc wt help shows title"
+        test_pass
     else
-        fail "cc wt help should show title"
+        test_fail "cc wt help should show title"
     fi
 }
 
 test_cc_wt_help_shows_commands() {
+    test_case "cc wt --help shows commands"
     local output
     output=$(cc wt --help 2>&1)
     if [[ "$output" == *"cc wt <branch>"* && "$output" == *"cc wt pick"* ]]; then
-        pass "cc wt --help shows commands"
+        test_pass
     else
-        fail "cc wt --help should show commands"
+        test_fail "cc wt --help should show commands"
     fi
 }
 
 test_cc_wt_help_shows_aliases() {
+    test_case "cc wt -h shows aliases"
     local output
     output=$(cc wt -h 2>&1)
     if [[ "$output" == *"ccw"* && "$output" == *"ccwy"* && "$output" == *"ccwp"* ]]; then
-        pass "cc wt -h shows aliases"
+        test_pass
     else
-        fail "cc wt -h should show aliases"
+        test_fail "cc wt -h should show aliases"
     fi
 }
 
@@ -118,40 +104,41 @@ test_cc_wt_help_shows_aliases
 # _wt_get_path() TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}_wt_get_path() Helper${_C_NC}"
+echo ""
+echo "_wt_get_path() Helper"
 
 test_wt_get_path_requires_branch() {
+    test_case "_wt_get_path requires branch argument"
     local result
     _wt_get_path "" 2>/dev/null
     result=$?
     if [[ $result -ne 0 ]]; then
-        pass "_wt_get_path requires branch argument"
+        test_pass
     else
-        fail "_wt_get_path should fail without branch"
+        test_fail "_wt_get_path should fail without branch"
     fi
 }
 
 test_wt_get_path_returns_empty_for_nonexistent() {
+    test_case "_wt_get_path returns empty for nonexistent worktree"
     create_test_repo
     local result_path
     result_path=$(_wt_get_path "feature/nonexistent" 2>/dev/null)
     if [[ -z "$result_path" ]]; then
-        pass "_wt_get_path returns empty for nonexistent worktree"
+        test_pass
     else
-        fail "_wt_get_path should return empty for nonexistent worktree"
+        test_fail "_wt_get_path should return empty for nonexistent worktree"
     fi
     cleanup_test_repo
 }
 
 test_wt_get_path_returns_path_for_existing() {
+    test_case "_wt_get_path returns path for existing worktree"
     create_test_repo
-    # Ensure we're in the test repo (create_test_repo does cd but let's be explicit)
-    cd "$TEST_DIR" || { fail "Could not cd to TEST_DIR"; return; }
+    cd "$TEST_DIR" || { test_fail "Could not cd to TEST_DIR"; return; }
 
-    # Create a worktree manually (wt create may have issues in test env)
     local project=$(basename "$TEST_DIR")
     local wt_path="$FLOW_WORKTREE_DIR/$project/feature-test"
-    # Create parent directory only, not the worktree path itself
     mkdir -p "$FLOW_WORKTREE_DIR/$project"
     git worktree add "$wt_path" -b "feature/test" >/dev/null 2>&1
 
@@ -159,9 +146,9 @@ test_wt_get_path_returns_path_for_existing() {
     result_path=$(_wt_get_path "feature/test" 2>/dev/null)
 
     if [[ -n "$result_path" && -d "$result_path" ]]; then
-        pass "_wt_get_path returns path for existing worktree"
+        test_pass
     else
-        fail "_wt_get_path should return path for existing worktree (got: '$result_path')"
+        test_fail "_wt_get_path should return path for existing worktree (got: '$result_path')"
     fi
     cleanup_test_repo
 }
@@ -174,28 +161,31 @@ test_wt_get_path_returns_path_for_existing
 # CC WT LIST TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}cc wt (no args = list)${_C_NC}"
+echo ""
+echo "cc wt (no args = list)"
 
 test_cc_wt_no_args_shows_list() {
+    test_case "cc wt (no args) shows worktree list"
     create_test_repo
     local output
     output=$(cc wt 2>&1)
     if [[ "$output" == *"worktrees"* || "$output" == *"worktree"* ]]; then
-        pass "cc wt (no args) shows worktree list"
+        test_pass
     else
-        fail "cc wt (no args) should show worktree list"
+        test_fail "cc wt (no args) should show worktree list"
     fi
     cleanup_test_repo
 }
 
 test_cc_wt_no_args_shows_usage() {
+    test_case "cc wt (no args) shows usage hint"
     create_test_repo
     local output
     output=$(cc wt 2>&1)
     if [[ "$output" == *"cc wt <branch>"* || "$output" == *"cc wt pick"* ]]; then
-        pass "cc wt (no args) shows usage hint"
+        test_pass
     else
-        fail "cc wt (no args) should show usage hint"
+        test_fail "cc wt (no args) should show usage hint"
     fi
     cleanup_test_repo
 }
@@ -207,32 +197,33 @@ test_cc_wt_no_args_shows_usage
 # MODE PARSING TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Mode Parsing${_C_NC}"
-
-# Note: These tests check that mode parsing works without actually launching Claude
+echo ""
+echo "Mode Parsing"
 
 test_cc_wt_recognizes_yolo_mode() {
-    # Check that _cc_worktree function exists and handles yolo
+    test_case "cc wt yolo mode function exists"
     if (( $+functions[_cc_worktree] )); then
-        pass "cc wt yolo mode function exists"
+        test_pass
     else
-        fail "_cc_worktree function should exist"
+        test_fail "_cc_worktree function should exist"
     fi
 }
 
 test_cc_wt_recognizes_plan_mode() {
+    test_case "cc wt plan mode function exists"
     if (( $+functions[_cc_worktree] )); then
-        pass "cc wt plan mode function exists"
+        test_pass
     else
-        fail "_cc_worktree function should exist for plan mode"
+        test_fail "_cc_worktree function should exist for plan mode"
     fi
 }
 
 test_cc_wt_recognizes_opus_mode() {
+    test_case "cc wt opus mode function exists"
     if (( $+functions[_cc_worktree] )); then
-        pass "cc wt opus mode function exists"
+        test_pass
     else
-        fail "_cc_worktree function should exist for opus mode"
+        test_fail "_cc_worktree function should exist for opus mode"
     fi
 }
 
@@ -244,29 +235,33 @@ test_cc_wt_recognizes_opus_mode
 # ALIAS TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Aliases${_C_NC}"
+echo ""
+echo "Aliases"
 
 test_ccw_alias_exists() {
+    test_case "ccw alias exists"
     if alias ccw >/dev/null 2>&1; then
-        pass "ccw alias exists"
+        test_pass
     else
-        fail "ccw alias should exist"
+        test_fail "ccw alias should exist"
     fi
 }
 
 test_ccwy_alias_exists() {
+    test_case "ccwy alias exists"
     if alias ccwy >/dev/null 2>&1; then
-        pass "ccwy alias exists"
+        test_pass
     else
-        fail "ccwy alias should exist"
+        test_fail "ccwy alias should exist"
     fi
 }
 
 test_ccwp_alias_exists() {
+    test_case "ccwp alias exists"
     if alias ccwp >/dev/null 2>&1; then
-        pass "ccwp alias exists"
+        test_pass
     else
-        fail "ccwp alias should exist"
+        test_fail "ccwp alias should exist"
     fi
 }
 
@@ -278,35 +273,39 @@ test_ccwp_alias_exists
 # CC HELP INTEGRATION TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}CC Help Integration${_C_NC}"
+echo ""
+echo "CC Help Integration"
 
 test_cc_help_includes_worktree() {
+    test_case "cc help includes WORKTREE section"
     local output
     output=$(cc help 2>&1)
     if [[ "$output" == *"WORKTREE"* ]]; then
-        pass "cc help includes WORKTREE section"
+        test_pass
     else
-        fail "cc help should include WORKTREE section"
+        test_fail "cc help should include WORKTREE section"
     fi
 }
 
 test_cc_help_shows_wt_commands() {
+    test_case "cc help shows cc wt commands"
     local output
     output=$(cc help 2>&1)
     if [[ "$output" == *"cc wt <branch>"* ]]; then
-        pass "cc help shows cc wt commands"
+        test_pass
     else
-        fail "cc help should show cc wt commands"
+        test_fail "cc help should show cc wt commands"
     fi
 }
 
 test_cc_help_shows_worktree_aliases() {
+    test_case "cc help shows worktree aliases"
     local output
     output=$(cc help 2>&1)
     if [[ "$output" == *"ccw"* ]]; then
-        pass "cc help shows worktree aliases"
+        test_pass
     else
-        fail "cc help should show worktree aliases"
+        test_fail "cc help should show worktree aliases"
     fi
 }
 
@@ -318,38 +317,39 @@ test_cc_help_shows_worktree_aliases
 # SUBCOMMAND RECOGNITION TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Subcommand Recognition${_C_NC}"
+echo ""
+echo "Subcommand Recognition"
 
 test_wt_is_recognized_subcommand() {
-    # cc should recognize 'wt' as a subcommand, not a project name
+    test_case "wt is recognized as cc subcommand"
     local output
     output=$(cc wt 2>&1)
-    # If it's recognized as subcommand, it should show worktree list/usage
-    # If not, it would try to use pick to find project "wt"
     if [[ "$output" != *"pick function"* && "$output" != *"not found"* ]]; then
-        pass "wt is recognized as cc subcommand"
+        test_pass
     else
-        fail "wt should be recognized as cc subcommand, not project name"
+        test_fail "wt should be recognized as cc subcommand, not project name"
     fi
 }
 
 test_worktree_is_recognized_subcommand() {
+    test_case "worktree is recognized as cc subcommand"
     local output
     output=$(cc worktree 2>&1)
     if [[ "$output" != *"pick function"* && "$output" != *"not found"* ]]; then
-        pass "worktree is recognized as cc subcommand"
+        test_pass
     else
-        fail "worktree should be recognized as cc subcommand"
+        test_fail "worktree should be recognized as cc subcommand"
     fi
 }
 
 test_w_is_recognized_subcommand() {
+    test_case "w is recognized as cc subcommand"
     local output
     output=$(cc w 2>&1)
     if [[ "$output" != *"pick function"* && "$output" != *"not found"* ]]; then
-        pass "w is recognized as cc subcommand"
+        test_pass
     else
-        fail "w should be recognized as cc subcommand"
+        test_fail "w should be recognized as cc subcommand"
     fi
 }
 
@@ -361,12 +361,8 @@ test_w_is_recognized_subcommand
 # SUMMARY
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_YELLOW}═══════════════════════════════════════════════════════════${_C_NC}"
-echo -e "  ${_C_GREEN}Passed: $PASSED${_C_NC}  ${_C_RED}Failed: $FAILED${_C_NC}"
-echo -e "${_C_YELLOW}═══════════════════════════════════════════════════════════${_C_NC}\n"
-
 # Cleanup any leftover test repos
 cleanup_test_repo
 
-# Exit with failure if any tests failed
-[[ $FAILED -eq 0 ]]
+test_suite_end
+exit $?

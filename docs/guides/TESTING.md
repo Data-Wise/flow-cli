@@ -1,276 +1,197 @@
 # Testing Guide - flow-cli
 
-**Status:** ✅ Established (v5.0.0+)
-**Last Updated:** 2026-01-11
+**Status:** ✅ Established (v7.2.0+)
+**Last Updated:** 2026-02-16
 
 ---
 
 ## Overview
 
-flow-cli uses **pure ZSH test suites** with comprehensive coverage across all core functionality. Tests are designed to be fast, isolated, and ADHD-friendly with clear output.
+flow-cli uses a **shared test framework** (`tests/test-framework.zsh`) with comprehensive coverage across all core functionality. Tests are fast, isolated, and ADHD-friendly with clear colored output.
 
 ### Test Philosophy
 
 > **"Tests should be as easy to read as they are to write"**
 
-- ✅ **Standalone** - Each test file is self-contained and executable
+- ✅ **Shared framework** - One `source`, 14 assertion helpers, mock registry
 - ✅ **Fast** - Sub-second execution for most suites
-- ✅ **Isolated** - Mock environments prevent side effects
-- ✅ **Clear** - Descriptive test names and colored output
-- ✅ **Comprehensive** - 76+ tests covering core functionality
-
----
-
-## Test Suite Architecture
-
-### Current Test Files
-
-```
-tests/
-├── test-pick-command.zsh         # Pick: 39 tests (556 lines)
-├── test-cc-dispatcher.zsh        # CC: 37 tests (722 lines)
-├── test-cc-unified-grammar.zsh   # CC unified grammar
-├── test-dot-v5.1.1-unit.zsh      # DOT dispatcher
-├── test-pick-smart-defaults.zsh  # Pick defaults
-├── test-pick-wt.zsh              # Pick worktrees
-├── test-teach-map-unit.zsh       # Teach map: 20 unit tests
-├── e2e-teach-map.zsh             # Teach map: 18 E2E tests
-├── dogfood-teach-map.zsh         # Teach map: 31 dogfooding tests
-├── interactive-dot-dogfooding.zsh # Interactive DOT tests
-└── run-all.sh                     # Master test runner
-```
+- ✅ **Isolated** - Mock environments and subshell isolation prevent side effects
+- ✅ **Clear** - Descriptive test names and colored pass/fail output
+- ✅ **Self-policing** - Dogfood scanner catches anti-patterns automatically
 
 ### Test Statistics
 
-| Suite | Tests | Lines | Coverage |
-|-------|-------|-------|----------|
-| test-pick-command.zsh | 39 | 556 | Pick core functionality |
-| test-cc-dispatcher.zsh | 37 | 722 | CC dispatcher + grammar |
-| test-dot-v5.1.1-unit.zsh | 112+ | ~800 | DOT dispatcher |
-| test-teach-map-unit.zsh | 20 | ~300 | Teach map unit |
-| e2e-teach-map.zsh | 18 | ~350 | Teach map E2E |
-| dogfood-teach-map.zsh | 31 | ~500 | Teach map dogfooding |
-| **Total** | **145+** | **3200+** | **Core commands** |
+| Metric | Count |
+|--------|-------|
+| Test files | 134 |
+| Test suites (run-all.sh) | 45/45 passing |
+| Test functions | 8,000+ |
+| Expected timeouts | 1 (IMAP connectivity) |
 
 ---
 
-## Test File Structure
+## Shared Test Framework
 
-### Standard Pattern
+All test files source `tests/test-framework.zsh` instead of defining their own inline framework.
 
-Every test file follows this structure:
+### Setup
 
 ```zsh
 #!/usr/bin/env zsh
-# test-<feature>.zsh - Description
-# Run with: zsh tests/test-<feature>.zsh
+# tests/test-<feature>.zsh
 
-# Don't exit on error - we want to run all tests
-# set -e
+PROJECT_ROOT="${0:A:h:h}"
+source "${0:A:h}/test-framework.zsh"
 
-# ============================================================================
-# TEST FRAMEWORK
-# ============================================================================
-
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
-
-# ============================================================================
-# SETUP
-# ============================================================================
-
-setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
-
-    # Source plugin or specific files
-    source flow.plugin.zsh
-
-    # Setup mock environment
-    TEST_ROOT="/tmp/flow-test-$$"
-    mkdir -p "$TEST_ROOT"
-}
-
-cleanup() {
-    rm -rf "$TEST_ROOT" 2>/dev/null
-}
-trap cleanup EXIT
-
-# ============================================================================
-# TESTS
-# ============================================================================
-
-test_example() {
-    log_test "example test case"
-
-    # Test logic here
-    if [[ condition ]]; then
-        pass
-    else
-        fail "reason"
-    fi
-}
-
-# ============================================================================
-# RUN TESTS
-# ============================================================================
-
-main() {
-    echo "╔════════════════════════════════════════╗"
-    echo "║  Test Suite Name                       ║"
-    echo "╚════════════════════════════════════════╝"
-
-    setup
-
-    echo "${YELLOW}Test Category${NC}"
-    echo "────────────────────────────────────────"
-    test_example
-    echo ""
-
-    # Summary
-    echo "════════════════════════════════════════"
-    echo "${CYAN}Summary${NC}"
-    echo "────────────────────────────────────────"
-    echo "  Passed: ${GREEN}$TESTS_PASSED${NC}"
-    echo "  Failed: ${RED}$TESTS_FAILED${NC}"
-    echo ""
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All tests passed!${NC}"
-        exit 0
-    else
-        echo "${RED}✗ Some tests failed${NC}"
-        exit 1
-    fi
-}
-
-main "$@"
+test_suite "Feature Name Tests"
 ```
+
+### Test Case Pattern
+
+```zsh
+test_example() {
+    test_case "description of what's being tested"
+
+    local result=$(some_command 2>&1)
+    assert_contains "$result" "expected output"
+
+    test_pass
+}
+```
+
+Key mechanics:
+- `test_case` registers the test and increments the counter
+- `test_pass` marks success (auto-called by `test_case_end` if not explicit)
+- `test_fail` marks failure and **clears** `CURRENT_TEST` — subsequent `test_pass` is a no-op (prevents double-counting)
+
+### Assertion Helpers (14)
+
+| Helper | Purpose |
+|--------|---------|
+| `assert_equals` | Exact string match |
+| `assert_not_equals` | Strings differ |
+| `assert_contains` | Substring present |
+| `assert_not_contains` | Substring absent |
+| `assert_empty` | Value is empty |
+| `assert_not_empty` | Value is non-empty |
+| `assert_file_exists` | File exists |
+| `assert_file_not_exists` | File doesn't exist |
+| `assert_dir_exists` | Directory exists |
+| `assert_function_exists` | ZSH function defined |
+| `assert_command_exists` | Command on PATH |
+| `assert_exit_code` | Exit code matches |
+| `assert_matches_pattern` | Regex match |
+| `assert_alias_exists` | ZSH alias defined |
+
+Convenience aliases: `assert_output_contains`, `assert_output_excludes`
+
+### Mock Registry
+
+Track function calls and arguments:
+
+```zsh
+# Create a mock (replaces function, tracks calls)
+create_mock "_flow_open_editor" 'echo "$1" > /tmp/editor-capture'
+
+# Run code that calls the mocked function
+some_function_that_opens_editor
+
+# Assert mock was called
+assert_mock_called "_flow_open_editor" 1
+assert_mock_args "_flow_open_editor" "expected args"
+
+# Clean up (restores originals)
+reset_mocks
+```
+
+`create_mock` saves the original function body and restores it on `reset_mocks`.
+
+### Subshell Isolation
+
+Run tests in isolated subshells to prevent global state leakage:
+
+```zsh
+test_isolated_feature() {
+    # Sources flow.plugin.zsh in subshell, runs function, captures output
+    run_isolated "my_test_function"
+}
+```
+
+`run_isolated` sets `FLOW_QUIET=1`, `FLOW_ATLAS_ENABLED=no`, and sources the plugin in a subshell.
+
+### Utility Helpers
+
+| Helper | Purpose |
+|--------|---------|
+| `capture_output "cmd"` | Run command, capture stdout+stderr |
+| `with_temp_dir "callback"` | Run callback in temp dir, auto-cleanup |
+| `with_env "VAR" "value" "callback"` | Run with env var, auto-restore (scalar only) |
+
+**Note:** `with_env` only works with scalar variables. ZSH arrays and associative arrays (`$path`, `$fpath`) need manual save/restore.
 
 ---
 
 ## Writing Tests
 
-### 1. Test Naming Convention
+### 1. Test File Structure
+
+```zsh
+#!/usr/bin/env zsh
+# tests/test-<feature>.zsh - Description
+
+PROJECT_ROOT="${0:A:h:h}"
+source "${0:A:h}/test-framework.zsh"
+
+# ── Setup ──────────────────────────────────────────────
+TEST_ROOT=$(mktemp -d)
+cleanup() { rm -rf "$TEST_ROOT" 2>/dev/null; }
+trap cleanup EXIT
+
+# ── Tests ──────────────────────────────────────────────
+test_suite "Feature Name"
+
+test_feature_does_thing() {
+    test_case "feature does the expected thing"
+    # test logic
+    test_pass
+}
+
+# ── Run ────────────────────────────────────────────────
+test_feature_does_thing
+
+test_suite_end
+print_summary
+exit $(( TESTS_FAILED > 0 ? 1 : 0 ))
+```
+
+### 2. Test Naming Convention
 
 **Pattern:** `test_<component>_<behavior>`
 
 ```zsh
-# Good test names
+# Good
 test_pick_finds_exact_match()
 test_cc_dispatch_mode_yolo()
-test_frecency_score_returns_1000_for_recent()
+test_work_editor_flag_cc()
 
-# Bad test names
+# Bad
 test_1()
 test_stuff()
-test_it_works()
-```
-
-### 2. Assertion Helpers
-
-Create reusable assertion functions:
-
-```zsh
-assert_equals() {
-    local actual="$1"
-    local expected="$2"
-    local message="${3:-Values should be equal}"
-
-    if [[ "$actual" == "$expected" ]]; then
-        return 0
-    else
-        fail "$message (expected: '$expected', got: '$actual')"
-        return 1
-    fi
-}
-
-assert_contains() {
-    local haystack="$1"
-    local needle="$2"
-    local message="${3:-Should contain substring}"
-
-    if [[ "$haystack" == *"$needle"* ]]; then
-        return 0
-    else
-        fail "$message (expected to contain: '$needle')"
-        return 1
-    fi
-}
-
-assert_not_contains() {
-    local haystack="$1"
-    local needle="$2"
-    local message="${3:-Should NOT contain substring}"
-
-    if [[ "$haystack" != *"$needle"* ]]; then
-        return 0
-    else
-        fail "$message (should not contain: '$needle')"
-        return 1
-    fi
-}
 ```
 
 ### 3. Mock Environment Setup
 
-**Isolated Test Environment:**
-
 ```zsh
-# Create temporary test root
-TEST_PROJECTS_ROOT="/tmp/flow-test-projects-$$"
-export FLOW_PROJECTS_ROOT="$TEST_PROJECTS_ROOT"
+# Create temporary project structure
+TEST_ROOT=$(mktemp -d)
+mkdir -p "$TEST_ROOT/dev-tools/mock-proj"
+printf "## Status: active\n## Progress: 50\n" > "$TEST_ROOT/dev-tools/mock-proj/.STATUS"
 
-# Create mock projects
-mkdir -p "$TEST_PROJECTS_ROOT/dev-tools/flow-cli"
-(cd "$TEST_PROJECTS_ROOT/dev-tools/flow-cli" && git init >/dev/null 2>&1)
+# Mock function with tracking
+create_mock "_flow_open_editor" 'echo "$1" > "'$CAPTURE_FILE'"'
 
-mkdir -p "$TEST_PROJECTS_ROOT/r-packages/active/mediationverse"
-(cd "$TEST_PROJECTS_ROOT/r-packages/active/mediationverse" && git init >/dev/null 2>&1)
-
-# Cleanup on exit
-cleanup() {
-    rm -rf "$TEST_PROJECTS_ROOT" 2>/dev/null
-}
-trap cleanup EXIT
-```
-
-**Worktree Mocking:**
-
-```zsh
-# Setup test worktree directory
-WORKTREE_DIR="/tmp/flow-test-worktrees-$$"
-rm -rf "$WORKTREE_DIR" 2>/dev/null
-export FLOW_WORKTREE_DIR="$WORKTREE_DIR"
-mkdir -p "$WORKTREE_DIR"
-
-# Re-source plugin to pick up new environment variable
-source "$PLUGIN_FILE" 2>/dev/null
-
-# Create mock worktree structure
-mkdir -p "$WORKTREE_DIR/flow-cli/feature-cache"
-(cd "$WORKTREE_DIR/flow-cli/feature-cache" && git init >/dev/null 2>&1)
+# Override env
+export FLOW_PROJECTS_ROOT="$TEST_ROOT"
 ```
 
 ### 4. ANSI Code Handling
@@ -278,66 +199,52 @@ mkdir -p "$WORKTREE_DIR/flow-cli/feature-cache"
 Strip ANSI color codes for reliable text matching:
 
 ```zsh
-test_help_text() {
-    log_test "help displays correct text"
-
-    result=$(pick help 2>&1)
-
-    # Strip ANSI codes for matching
-    result_clean=$(echo "$result" | sed 's/\x1b\[[0-9;]*m//g')
-
-    if assert_contains "$result_clean" "PICK - Interactive Project Picker"; then
-        pass
-    fi
-}
+result=$(pick help 2>&1)
+result_clean=$(echo "$result" | sed 's/\x1b\[[0-9;]*m//g')
+assert_contains "$result_clean" "PICK - Interactive Project Picker"
 ```
 
-### 5. Function Mocking
+### 5. Testing Source Code vs Mocked Functions
 
-**Mock functions for isolated testing:**
+When testing that source code contains specific patterns, **read the file directly** instead of using `functions` (which shows the mock body):
 
 ```zsh
-test_mode_detection() {
-    log_test "yolo detected as mode"
-
-    # Mock the dispatch function to verify it's called
-    local mode_called=0
-    _cc_dispatch_with_mode() { mode_called=1; }
-
-    cc yolo >/dev/null 2>&1 || true
-
-    if [[ $mode_called -eq 1 ]]; then
-        pass
-    else
-        fail "yolo not detected as mode"
-    fi
-
-    # Restore original function
-    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+test_source_has_pattern() {
+    test_case "work.zsh handles cc/claude/ccy cases"
+    local matches=$(grep -c 'cc\|claude\|ccy' "$PROJECT_ROOT/commands/work.zsh" 2>/dev/null)
+    if (( matches > 0 )); then test_pass; else test_fail "pattern not found"; fi
 }
 ```
 
-### 6. PATH Manipulation
-
-**Safely modify PATH for testing:**
+For behavioral tests on mocked functions, restore the real function first:
 
 ```zsh
-test_missing_dependency() {
-    log_test "handles missing fzf gracefully"
-
-    # Save and restore PATH
-    OLD_PATH="$PATH"
-    export PATH="/tmp/empty-path-$$"
-
-    result=$(pick 2>&1)
-
-    export PATH="$OLD_PATH"
-
-    if assert_contains "$result" "fzf required"; then
-        pass
-    fi
+test_real_behavior() {
+    test_case "real function behavior"
+    reset_mocks
+    source "$PROJECT_ROOT/commands/work.zsh" 2>/dev/null
+    local output=$(_flow_open_editor "" "/tmp" 2>&1)
+    assert_contains "$output" "expected"
+    create_mock "_flow_open_editor" "return 0"  # Re-apply mock for remaining tests
 }
 ```
+
+---
+
+## Dogfood Scanner
+
+`tests/dogfood-test-quality.zsh` is a meta-test that scans all test files for anti-patterns:
+
+| Category | What It Catches |
+|----------|----------------|
+| Permissive exit codes | `exit 0` at end regardless of failures |
+| Existence-only tests | Tests that only check function exists, never call it |
+| Unused output captures | `local output=$(cmd)` where `$output` is never checked |
+| Inline frameworks | Test files defining their own `pass()`/`fail()` instead of sourcing shared framework |
+
+Run: `zsh tests/dogfood-test-quality.zsh`
+
+The scanner enforces migration to the shared framework — any new test file using inline assertions will be flagged.
 
 ---
 
@@ -346,240 +253,62 @@ test_missing_dependency() {
 ### Individual Test Suite
 
 ```bash
-# Run single test file (make it executable first)
-chmod +x tests/test-pick-command.zsh
-./tests/test-pick-command.zsh
-
-# Or run with zsh directly
 zsh tests/test-pick-command.zsh
+zsh tests/test-work.zsh
 ```
 
 ### All Tests
 
 ```bash
-# Run all test suites
 ./tests/run-all.sh
-
-# Or manually
-for test in tests/test-*.zsh; do
-    echo "Running: $test"
-    zsh "$test"
-done
 ```
 
-### Parallel Execution
+45 suites, ~8000 assertions. Expected: 45/45 pass, 1 timeout (IMAP connectivity test).
+
+### Dogfood Quality Check
 
 ```bash
-# Run multiple suites in parallel
-./tests/test-pick-command.zsh &
-./tests/test-cc-dispatcher.zsh &
-wait
-
-# Check exit codes
-echo "All tests completed: $?"
-```
-
----
-
-## Test Patterns & Examples
-
-### Pattern 1: Function Existence Tests
-
-```zsh
-test_function_exists() {
-    log_test "pick function is defined"
-
-    if (( $+functions[pick] )); then
-        pass
-    else
-        fail "pick function not defined"
-    fi
-}
-```
-
-### Pattern 2: Output Validation
-
-```zsh
-test_help_output() {
-    log_test "help shows usage section"
-
-    local output=$(pick help 2>&1)
-
-    if assert_contains "$output" "USAGE"; then
-        if assert_contains "$output" "ARGUMENTS"; then
-            pass
-        fi
-    fi
-}
-```
-
-### Pattern 3: Error Handling
-
-```zsh
-test_error_message() {
-    log_test "shows error for nonexistent file"
-
-    local output=$(cc file /nonexistent/file.txt 2>&1)
-
-    if assert_contains "$output" "not found"; then
-        pass
-    fi
-}
-```
-
-### Pattern 4: Algorithm Testing
-
-```zsh
-test_frecency_scoring() {
-    log_test "frecency score decays over time"
-
-    # Recent: 1000 points
-    current=$(date +%s)
-    score=$(_proj_frecency_score $current)
-    assert_equals "$score" "1000" && pass
-
-    # 12 hours ago: 500-999 points
-    twelve_hours_ago=$(($(date +%s) - 43200))
-    score=$(_proj_frecency_score $twelve_hours_ago)
-    if [[ $score -gt 500 && $score -lt 1000 ]]; then
-        pass
-    fi
-
-    # 30 days ago: < 100 points
-    thirty_days_ago=$(($(date +%s) - 2592000))
-    score=$(_proj_frecency_score $thirty_days_ago)
-    if [[ $score -lt 100 ]]; then
-        pass
-    fi
-}
-```
-
-### Pattern 5: Integration Tests
-
-```zsh
-test_end_to_end_workflow() {
-    log_test "complete pick → cd workflow"
-
-    # Create project
-    mkdir -p "$TEST_ROOT/test-project"
-    (cd "$TEST_ROOT/test-project" && git init >/dev/null 2>&1)
-
-    # Find it
-    result=$(_proj_find "test-project")
-    assert_contains "$result" "test-project" || return
-
-    # List it
-    projects=$(_proj_list_all)
-    assert_contains "$projects" "test-project" || return
-
-    # Session status (should be empty)
-    status=$(_proj_get_claude_session_status "$result")
-    [[ -z "$status" ]] || { fail "Unexpected session status"; return; }
-
-    pass
-}
+zsh tests/dogfood-test-quality.zsh
 ```
 
 ---
 
 ## Debugging Test Failures
 
-### 1. Enable Verbose Output
+### Enable Verbose Output
 
 ```zsh
-# Add debug output to tests
 test_something() {
-    log_test "feature works"
-
+    test_case "feature works"
     result=$(some_command)
-
-    # Debug: Show actual output
     echo "[DEBUG] Got: '$result'" >&2
-
-    if assert_equals "$result" "expected"; then
-        pass
-    fi
+    assert_equals "$result" "expected"
+    test_pass
 }
 ```
 
-### 2. Run Tests in Isolation
-
-```zsh
-# Run just the failing test
-zsh -c 'source flow.plugin.zsh; test_failing_case'
-
-# Or add to test file
-if [[ "${1:-}" == "--debug" ]]; then
-    set -x  # Enable trace
-    test_failing_case
-    exit $?
-fi
-```
-
-### 3. Check Test Environment
-
-```zsh
-# Verify environment setup
-setup() {
-    echo "TEST_ROOT: $TEST_ROOT"
-    echo "FLOW_PROJECTS_ROOT: $FLOW_PROJECTS_ROOT"
-    echo "FLOW_WORKTREE_DIR: $FLOW_WORKTREE_DIR"
-
-    # List created files
-    ls -la "$TEST_ROOT"
-}
-```
-
-### 4. Common Issues & Fixes
+### Common Issues
 
 | Issue | Cause | Fix |
 |-------|-------|-----|
 | "Function not defined" | Plugin not sourced | Add `source flow.plugin.zsh` |
-| "File not found" | Wrong path | Use `$SCRIPT_DIR` or absolute paths |
+| Mock body in `functions` output | Using `functions` on mocked fn | Read source file directly with `grep` |
 | ANSI code mismatch | Colors in output | Strip with `sed 's/\x1b\[[0-9;]*m//g'` |
-| Worktree tests fail | Using real worktrees | Re-source plugin after setting `FLOW_WORKTREE_DIR` |
-| PATH pollution | Not restoring PATH | Save/restore: `OLD_PATH="$PATH"` |
-| Stale mocks | Previous test run | Add cleanup trap: `trap cleanup EXIT` |
-
----
-
-## Coverage Goals
-
-### Current Coverage (v5.0.0)
-
-| Component | Test File | Coverage |
-|-----------|-----------|----------|
-| **pick command** | test-pick-command.zsh | ✅ 100% |
-| **cc dispatcher** | test-cc-dispatcher.zsh | ✅ 100% |
-| **dots/sec/tok dispatchers** | test-dot-v5.1.1-unit.zsh | ✅ 100% |
-| **Frecency scoring** | test-pick-command.zsh | ✅ Algorithm validated |
-| **Session indicators** | test-pick-command.zsh | ✅ 🟢/🟡 icons tested |
-| **Worktree detection** | test-pick-wt.zsh | ✅ Full coverage |
-| **Unified grammar** | test-cc-unified-grammar.zsh | ✅ Both orders tested |
-
-### Future Coverage Targets
-
-- [ ] `work` command full workflow
-- [ ] `dash` command TUI interactions
-- [ ] `finish` command git integration
-- [ ] `hop` command tmux sessions
-- [ ] All dispatcher help systems
-- [ ] Integration with Atlas (when enabled)
+| Dogfood: unused capture | `local output=$(cmd)` not checked | Use `cmd &>/dev/null` if output not needed |
+| `with_env` breaks PATH | ZSH `$path` is array | Don't use `with_env` for arrays; save/restore manually |
+| Stale mocks | Previous test | Call `reset_mocks` or use `trap cleanup EXIT` |
 
 ---
 
 ## Continuous Integration
 
-### GitHub Actions
+### GitHub Actions (`test.yml`)
 
-Tests run automatically on PR:
+Tests run automatically on push and PR:
 
 ```yaml
-# .github/workflows/test.yml
 name: ZSH Plugin Tests
-
 on: [push, pull_request]
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -591,109 +320,27 @@ jobs:
         run: ./tests/run-all.sh
 ```
 
-### Pre-commit Hook
-
-Add to `.git/hooks/pre-commit`:
-
-```bash
-#!/bin/bash
-# Run tests before allowing commit
-
-echo "Running flow-cli tests..."
-./tests/run-all.sh
-
-if [ $? -ne 0 ]; then
-    echo "❌ Tests failed. Commit aborted."
-    exit 1
-fi
-
-echo "✅ Tests passed. Proceeding with commit."
-```
-
 ---
 
 ## Best Practices
 
-### ✅ Do
+### Do
 
-- **Write descriptive test names** - `test_pick_finds_exact_match` not `test1`
-- **Use assertion helpers** - Reusable, consistent error messages
-- **Mock external dependencies** - Isolate from system state
-- **Clean up after tests** - Use `trap cleanup EXIT`
+- **Source the shared framework** - `source "${0:A:h}/test-framework.zsh"`
+- **Use descriptive names** - `test_pick_finds_exact_match` not `test1`
+- **Use assertion helpers** - Consistent error messages
+- **Mock external deps** - Isolate from system state
+- **Clean up** - Use `trap cleanup EXIT`
 - **Test edge cases** - Empty input, missing files, negative numbers
 - **Strip ANSI codes** - For reliable text matching
-- **Group related tests** - Sections like "Helper Functions", "Edge Cases"
 
-### ❌ Don't
+### Don't
 
+- **Don't use inline frameworks** - The dogfood scanner will catch you
 - **Don't use `set -e`** - Want to run all tests, not stop at first failure
 - **Don't depend on system state** - Create mocks, don't use real projects
-- **Don't write flaky tests** - Avoid timing-dependent tests
-- **Don't test implementation details** - Test behavior, not internals
-- **Don't skip cleanup** - Always use `trap cleanup EXIT`
-- **Don't hardcode paths** - Use `$TEST_ROOT`, `$SCRIPT_DIR`
-
----
-
-## Test-Driven Development (TDD)
-
-### Red-Green-Refactor Cycle
-
-1. **Red** - Write failing test first
-
-```zsh
-test_new_feature() {
-    log_test "new feature works"
-
-    result=$(new_command)
-
-    if assert_equals "$result" "expected"; then
-        pass
-    fi
-}
-# Run: ✗ FAIL - new_command not found
-```
-
-1. **Green** - Implement minimal code to pass
-
-```zsh
-# Add to commands/new.zsh
-new_command() {
-    echo "expected"
-}
-```
-
-1. **Refactor** - Improve while keeping tests green
-
-```zsh
-new_command() {
-    # Better implementation
-    local result="expected"
-    _validate_input "$@" || return 1
-    echo "$result"
-}
-```
-
----
-
-## Resources
-
-### Test Files
-
-- `tests/test-pick-command.zsh` - Best example of comprehensive testing
-- `tests/test-cc-dispatcher.zsh` - Pattern for dispatcher testing
-- `tests/test-dot-v5.1.1-unit.zsh` - Extensive unit tests (112+ tests)
-
-### Documentation
-
-- [CONVENTIONS.md](../CONVENTIONS.md) - Code standards
-- [BRANCH-WORKFLOW.md](../contributing/BRANCH-WORKFLOW.md) - Git workflow
-
-### Tools
-
-- **ZSH Manual**: `man zshall`
-- **Test Runner**: `./tests/run-all.sh`
-- **Interactive Tests**: `./tests/interactive-*.zsh`
+- **Don't use `local path=`** - Shadows ZSH's `$path` array (see regression test)
+- **Don't use `functions` on mocked fns** - Read source file instead
 
 ---
 
@@ -701,15 +348,15 @@ new_command() {
 
 When adding new functionality:
 
-1. **Write tests first** (TDD approach)
-2. **Follow existing patterns** (see test-pick-command.zsh)
-3. **Use descriptive names** (`test_component_behavior`)
-4. **Add to run-all.sh** if creating new test file
-5. **Ensure 100% pass rate** before PR
-6. **Document test coverage** in PR description
+1. **Source `test-framework.zsh`** (not inline pass/fail)
+2. **Use `test_case`/`test_pass`/`test_fail`** pattern
+3. **Use `create_mock`** for function mocking
+4. **Add to `run-all.sh`** if creating new test file
+5. **Run dogfood scanner** before PR
+6. **Ensure 100% pass rate** before PR
 
 ---
 
 **Established:** v5.0.0 (2026-01-11)
-**Test Count:** 76+ tests across 8 suites
-**Status:** ✅ Production Ready - All tests passing
+**Overhauled:** v7.2.0 (2026-02-16) — shared framework, mock registry, dogfood scanner
+**Test Count:** 134 test files, 8000+ assertions, 45/45 suites passing

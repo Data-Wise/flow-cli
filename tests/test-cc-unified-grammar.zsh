@@ -2,72 +2,21 @@
 # Test CC Unified Grammar (v4.8.0)
 # Tests both mode-first and target-first patterns
 
-# ============================================================================
-# TEST FRAMEWORK
-# ============================================================================
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
 
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+source "$SCRIPT_DIR/test-framework.zsh"
 
 # ============================================================================
 # SETUP
 # ============================================================================
 
 setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
-
-    # Get project root
-    local project_root=""
-
-    # Method 1: From script location
-    if [[ -n "${0:A}" ]]; then
-        project_root="${0:A:h:h}"
-    fi
-
-    # Method 2: Check if we're already in the project
-    if [[ -z "$project_root" || ! -f "$project_root/lib/core.zsh" ]]; then
-        if [[ -f "$PWD/lib/core.zsh" ]]; then
-            project_root="$PWD"
-        elif [[ -f "$PWD/../lib/core.zsh" ]]; then
-            project_root="$PWD/.."
-        fi
-    fi
-
-    # Method 3: Error if not found
-    if [[ -z "$project_root" || ! -f "$project_root/lib/core.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root - run from project directory${NC}"
-        exit 1
-    fi
-
-    echo "  Project root: $project_root"
-
     # Load core
-    source "$project_root/lib/core.zsh"
+    source "$PROJECT_ROOT/lib/core.zsh"
 
     # Load dispatcher
-    source "$project_root/lib/dispatchers/cc-dispatcher.zsh"
+    source "$PROJECT_ROOT/lib/dispatchers/cc-dispatcher.zsh"
 
     # Mock pick function
     pick() {
@@ -85,12 +34,10 @@ setup() {
     claude() {
         echo "CLAUDE_CALLED:$@"
     }
-
-    echo "${GREEN}✓${NC} Environment set up"
 }
 
 # ============================================================================
-# TEST RUNNER
+# TEST RUNNER HELPER
 # ============================================================================
 
 run_test() {
@@ -98,12 +45,12 @@ run_test() {
     local expected="$2"
     local actual="$3"
 
-    log_test "$test_name"
+    test_case "$test_name"
 
     if [[ "$actual" == *"$expected"* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected: $expected, Got: $actual"
+        test_fail "Expected: $expected, Got: $actual"
     fi
 }
 
@@ -113,13 +60,10 @@ run_test() {
 
 setup
 
-echo ""
-echo "🧪 Testing CC Unified Grammar"
-echo "=============================="
-echo ""
+test_suite_start "CC Unified Grammar"
 
 # Group 1: Mode-First Patterns (Current Behavior)
-echo "${YELLOW}Test Group 1: Mode-First Patterns${NC}"
+echo "${YELLOW}Test Group 1: Mode-First Patterns${RESET}"
 
 run_test "cc opus (mode-first, HERE)" \
     "CLAUDE_CALLED:--model opus --permission-mode acceptEdits" \
@@ -148,7 +92,7 @@ run_test "cc haiku pick (mode-first + picker)" \
 echo ""
 
 # Group 2: Target-First Patterns (NEW)
-echo "${YELLOW}Test Group 2: Target-First Patterns (NEW)${NC}"
+echo "${YELLOW}Test Group 2: Target-First Patterns (NEW)${RESET}"
 
 run_test "cc pick opus (target-first)" \
     "PICK_CALLED_NO_CLAUDE" \
@@ -169,7 +113,7 @@ run_test "cc pick plan (target-first)" \
 echo ""
 
 # Group 3: Explicit HERE Targets (NEW)
-echo "${YELLOW}Test Group 3: Explicit HERE Targets (NEW)${NC}"
+echo "${YELLOW}Test Group 3: Explicit HERE Targets (NEW)${RESET}"
 
 run_test "cc . (explicit HERE)" \
     "CLAUDE_CALLED:--permission-mode acceptEdits" \
@@ -198,7 +142,7 @@ run_test "cc here haiku (HERE + mode, target-first)" \
 echo ""
 
 # Group 4: Direct Project Jump (Mode-First)
-echo "${YELLOW}Test Group 4: Direct Project Jump${NC}"
+echo "${YELLOW}Test Group 4: Direct Project Jump${RESET}"
 
 run_test "cc opus testproject (mode + project)" \
     "PICK_CALLED_NO_CLAUDE:testproject" \
@@ -211,7 +155,7 @@ run_test "cc testproject opus (project + mode, target-first)" \
 echo ""
 
 # Group 5: Short Aliases
-echo "${YELLOW}Test Group 5: Short Aliases${NC}"
+echo "${YELLOW}Test Group 5: Short Aliases${RESET}"
 
 run_test "cc o (opus short)" \
     "CLAUDE_CALLED:--model opus" \
@@ -240,7 +184,7 @@ run_test "cc pick h (picker + short, target-first)" \
 echo ""
 
 # Group 6: Edge Cases
-echo "${YELLOW}Test Group 6: Edge Cases${NC}"
+echo "${YELLOW}Test Group 6: Edge Cases${RESET}"
 
 run_test "cc (no args, default HERE)" \
     "CLAUDE_CALLED:--permission-mode acceptEdits" \
@@ -253,7 +197,7 @@ run_test "cc pick (picker only, no mode)" \
 echo ""
 
 # Group 7: Pick with Filters (Mode-First)
-echo "${YELLOW}Test Group 7: Pick with Filters${NC}"
+echo "${YELLOW}Test Group 7: Pick with Filters${RESET}"
 
 run_test "cc opus pick wt (mode + pick + filter)" \
     "PICK_CALLED_NO_CLAUDE:wt" \
@@ -271,21 +215,9 @@ run_test "cc pick dev haiku (pick + filter + mode, target-first)" \
     "PICK_CALLED_NO_CLAUDE:dev" \
     "$(cc pick dev haiku 2>&1)"
 
-echo ""
-
 # ============================================================================
 # SUMMARY
 # ============================================================================
 
-echo "=============================="
-echo "Tests: $((TESTS_PASSED + TESTS_FAILED))"
-echo "Passed: ${GREEN}$TESTS_PASSED${NC}"
-echo "Failed: ${RED}$TESTS_FAILED${NC}"
-
-if [[ $TESTS_FAILED -eq 0 ]]; then
-    echo "${GREEN}✅ All tests passed!${NC}"
-    exit 0
-else
-    echo "${RED}❌ Some tests failed${NC}"
-    exit 1
-fi
+test_suite_end
+exit $?

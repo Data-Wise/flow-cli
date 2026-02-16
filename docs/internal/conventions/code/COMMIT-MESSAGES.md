@@ -177,7 +177,6 @@ alias gcc='git commit -m "chore: '
 
 - **commitlint** — Lint commit messages
 - **conventional-changelog** — Generate changelogs from commits
-- **semantic-release** — Automated versioning from commits
 
 ## Resources
 

@@ -3,47 +3,23 @@
 # Tests: help, subcommand detection, keyword recognition, clean command
 
 # ============================================================================
-# TEST FRAMEWORK
+# FRAMEWORK SETUP
 # ============================================================================
 
-TESTS_PASSED=0
-TESTS_FAILED=0
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+source "$SCRIPT_DIR/test-framework.zsh"
 
 # ============================================================================
-# SETUP
+# SETUP / CLEANUP
 # ============================================================================
 
 setup() {
     echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
+    echo "${YELLOW}Setting up test environment...${RESET}"
 
-    # Get project root
-    local project_root=""
-
-    if [[ -n "${0:A}" ]]; then
-        project_root="${0:A:h:h}"
-    fi
+    local project_root="$PROJECT_ROOT"
 
     if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/qu-dispatcher.zsh" ]]; then
         if [[ -f "$PWD/lib/dispatchers/qu-dispatcher.zsh" ]]; then
@@ -54,7 +30,7 @@ setup() {
     fi
 
     if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/qu-dispatcher.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root - run from project directory${NC}"
+        echo "${RED}ERROR: Cannot find project root - run from project directory${RESET}"
         exit 1
     fi
 
@@ -67,27 +43,32 @@ setup() {
     echo ""
 }
 
+cleanup() {
+    reset_mocks
+}
+trap cleanup EXIT
+
 # ============================================================================
 # FUNCTION EXISTENCE TESTS
 # ============================================================================
 
 test_qu_function_exists() {
-    log_test "qu function is defined"
+    test_case "qu function is defined"
 
     if (( $+functions[qu] )); then
-        pass
+        test_pass
     else
-        fail "qu function not defined"
+        test_fail "qu function not defined"
     fi
 }
 
 test_qu_help_function_exists() {
-    log_test "_qu_help function is defined"
+    test_case "_qu_help function is defined"
 
     if (( $+functions[_qu_help] )); then
-        pass
+        test_pass
     else
-        fail "_qu_help function not defined"
+        test_fail "_qu_help function not defined"
     fi
 }
 
@@ -96,38 +77,41 @@ test_qu_help_function_exists() {
 # ============================================================================
 
 test_qu_help() {
-    log_test "qu help shows usage"
+    test_case "qu help shows usage"
 
     local output=$(qu help 2>&1)
+    assert_not_contains "$output" "command not found"
 
     if echo "$output" | grep -q "Quarto Publishing"; then
-        pass
+        test_pass
     else
-        fail "Help header not found"
+        test_fail "Help header not found"
     fi
 }
 
 test_qu_help_h_flag() {
-    log_test "qu -h works"
+    test_case "qu -h works"
 
     local output=$(qu -h 2>&1)
+    assert_not_contains "$output" "command not found"
 
     if echo "$output" | grep -q "Quarto Publishing"; then
-        pass
+        test_pass
     else
-        fail "-h flag not working"
+        test_fail "-h flag not working"
     fi
 }
 
 test_qu_help_long_flag() {
-    log_test "qu --help works"
+    test_case "qu --help works"
 
     local output=$(qu --help 2>&1)
+    assert_not_contains "$output" "command not found"
 
     if echo "$output" | grep -q "Quarto Publishing"; then
-        pass
+        test_pass
     else
-        fail "--help flag not working"
+        test_fail "--help flag not working"
     fi
 }
 
@@ -136,110 +120,110 @@ test_qu_help_long_flag() {
 # ============================================================================
 
 test_help_shows_preview() {
-    log_test "help shows preview command"
+    test_case "help shows preview command"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "qu preview"; then
-        pass
+        test_pass
     else
-        fail "preview not in help"
+        test_fail "preview not in help"
     fi
 }
 
 test_help_shows_render() {
-    log_test "help shows render command"
+    test_case "help shows render command"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "qu render"; then
-        pass
+        test_pass
     else
-        fail "render not in help"
+        test_fail "render not in help"
     fi
 }
 
 test_help_shows_pdf() {
-    log_test "help shows pdf command"
+    test_case "help shows pdf command"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "qu pdf"; then
-        pass
+        test_pass
     else
-        fail "pdf not in help"
+        test_fail "pdf not in help"
     fi
 }
 
 test_help_shows_html() {
-    log_test "help shows html command"
+    test_case "help shows html command"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "qu html"; then
-        pass
+        test_pass
     else
-        fail "html not in help"
+        test_fail "html not in help"
     fi
 }
 
 test_help_shows_docx() {
-    log_test "help shows docx command"
+    test_case "help shows docx command"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "qu docx"; then
-        pass
+        test_pass
     else
-        fail "docx not in help"
+        test_fail "docx not in help"
     fi
 }
 
 test_help_shows_publish() {
-    log_test "help shows publish command"
+    test_case "help shows publish command"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "qu publish"; then
-        pass
+        test_pass
     else
-        fail "publish not in help"
+        test_fail "publish not in help"
     fi
 }
 
 test_help_shows_clean() {
-    log_test "help shows clean command"
+    test_case "help shows clean command"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "qu clean"; then
-        pass
+        test_pass
     else
-        fail "clean not in help"
+        test_fail "clean not in help"
     fi
 }
 
 test_help_shows_new() {
-    log_test "help shows new command"
+    test_case "help shows new command"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "qu new"; then
-        pass
+        test_pass
     else
-        fail "new not in help"
+        test_fail "new not in help"
     fi
 }
 
 test_help_shows_smart_default() {
-    log_test "help shows smart default workflow"
+    test_case "help shows smart default workflow"
 
     local output=$(qu help 2>&1)
 
     if echo "$output" | grep -q "SMART DEFAULT"; then
-        pass
+        test_pass
     else
-        fail "smart default section not found"
+        test_fail "smart default section not found"
     fi
 }
 
@@ -248,26 +232,28 @@ test_help_shows_smart_default() {
 # ============================================================================
 
 test_unknown_command() {
-    log_test "qu unknown-cmd shows error"
+    test_case "qu unknown-cmd shows error"
 
     local output=$(qu unknown-xyz-command 2>&1)
+    assert_not_contains "$output" "command not found"
 
     if echo "$output" | grep -q "unknown command"; then
-        pass
+        test_pass
     else
-        fail "Unknown command error not shown"
+        test_fail "Unknown command error not shown"
     fi
 }
 
 test_unknown_command_suggests_help() {
-    log_test "unknown command suggests qu help"
+    test_case "unknown command suggests qu help"
 
     local output=$(qu foobar 2>&1)
+    assert_not_contains "$output" "command not found"
 
     if echo "$output" | grep -q "qu help"; then
-        pass
+        test_pass
     else
-        fail "Doesn't suggest qu help"
+        test_fail "Doesn't suggest qu help"
     fi
 }
 
@@ -276,7 +262,7 @@ test_unknown_command_suggests_help() {
 # ============================================================================
 
 test_clean_command() {
-    log_test "qu clean removes cache directories"
+    test_case "qu clean removes cache directories"
 
     # Create temp dir with Quarto cache directories
     local temp_dir=$(mktemp -d)
@@ -289,9 +275,9 @@ test_clean_command() {
 
     # Check directories were removed
     if [[ ! -d "$temp_dir/_site" ]]; then
-        pass
+        test_pass
     else
-        fail "_site not removed"
+        test_fail "_site not removed"
     fi
 
     # Cleanup
@@ -303,27 +289,24 @@ test_clean_command() {
 # ============================================================================
 
 main() {
-    echo ""
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  QU Dispatcher Tests                                       ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
+    test_suite_start "QU Dispatcher Tests"
 
     setup
 
-    echo "${YELLOW}Function Existence Tests${NC}"
+    echo "${YELLOW}Function Existence Tests${RESET}"
     echo "────────────────────────────────────────"
     test_qu_function_exists
     test_qu_help_function_exists
     echo ""
 
-    echo "${YELLOW}Help Tests${NC}"
+    echo "${YELLOW}Help Tests${RESET}"
     echo "────────────────────────────────────────"
     test_qu_help
     test_qu_help_h_flag
     test_qu_help_long_flag
     echo ""
 
-    echo "${YELLOW}Help Content Tests${NC}"
+    echo "${YELLOW}Help Content Tests${RESET}"
     echo "────────────────────────────────────────"
     test_help_shows_preview
     test_help_shows_render
@@ -336,31 +319,20 @@ main() {
     test_help_shows_smart_default
     echo ""
 
-    echo "${YELLOW}Unknown Command Tests${NC}"
+    echo "${YELLOW}Unknown Command Tests${RESET}"
     echo "────────────────────────────────────────"
     test_unknown_command
     test_unknown_command_suggests_help
     echo ""
 
-    echo "${YELLOW}Clean Command Tests${NC}"
+    echo "${YELLOW}Clean Command Tests${RESET}"
     echo "────────────────────────────────────────"
     test_clean_command
     echo ""
 
-    echo "════════════════════════════════════════"
-    echo "${CYAN}Summary${NC}"
-    echo "────────────────────────────────────────"
-    echo "  Passed: ${GREEN}$TESTS_PASSED${NC}"
-    echo "  Failed: ${RED}$TESTS_FAILED${NC}"
-    echo ""
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All tests passed!${NC}"
-        exit 0
-    else
-        echo "${RED}✗ Some tests failed${NC}"
-        exit 1
-    fi
+    cleanup
+    test_suite_end
 }
 
 main "$@"
+exit $?

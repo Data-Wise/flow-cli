@@ -135,6 +135,7 @@ teardown_test_env() {
     cd /tmp
     [[ -d "$TEST_DIR" ]] && rm -rf "$TEST_DIR"
 }
+trap teardown_test_env EXIT
 
 # ============================================================================
 # VALIDATOR DISCOVERY TESTS

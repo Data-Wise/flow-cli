@@ -28,50 +28,25 @@
 # Created: 2026-02-12
 # ══════════════════════════════════════════════════════════════════════════════
 
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-DIM='\033[2m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
-
-skip() {
-    echo "${DIM}○ SKIP${NC} - $1"
-    # Skips don't count as pass or fail
-}
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SETUP
 # ══════════════════════════════════════════════════════════════════════════════
 
-SCRIPT_DIR="${0:A:h}"
-FLOW_ROOT="${SCRIPT_DIR:h}"
+FLOW_ROOT="$PROJECT_ROOT"
+
+# Need DIM for setup output (not provided by framework)
+DIM='\033[2m'
 
 setup() {
     echo ""
-    echo "${YELLOW}Setting up E2E test environment...${NC}"
+    echo "${YELLOW}Setting up E2E test environment...${RESET}"
 
     if [[ ! -f "$FLOW_ROOT/flow.plugin.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root at $FLOW_ROOT${NC}"
+        echo "${RED}ERROR: Cannot find project root at $FLOW_ROOT${RESET}"
         exit 1
     fi
 
@@ -83,7 +58,7 @@ setup() {
     export FLOW_QUIET FLOW_ATLAS_ENABLED
 
     source "$FLOW_ROOT/flow.plugin.zsh" 2>/dev/null || {
-        echo "${RED}Plugin failed to load${NC}"
+        echo "${RED}Plugin failed to load${RESET}"
         exit 1
     }
 
@@ -100,12 +75,12 @@ setup() {
     ORIGINAL_PATH="$PATH"
 
     # Detect real system state
-    echo "  ${DIM}Real tools detected:${NC}"
+    echo "  ${DIM}Real tools detected:${RESET}"
     for cmd in himalaya w3m glow email-oauth2-proxy terminal-notifier claude; do
         if command -v "$cmd" >/dev/null 2>&1; then
-            echo "    ${GREEN}✓${NC} $cmd"
+            echo "    ${GREEN}✓${RESET} $cmd"
         else
-            echo "    ${YELLOW}○${NC} $cmd (not installed)"
+            echo "    ${YELLOW}○${RESET} $cmd (not installed)"
         fi
     done
 
@@ -141,22 +116,22 @@ doctor_with_em() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_email_header_format() {
-    log_test "EMAIL section has correct header format: 📧 EMAIL (himalaya)"
+    test_case "EMAIL section has correct header format: 📧 EMAIL (himalaya)"
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
 
     if echo "$stripped" | grep -qE '📧 EMAIL.*himalaya'; then
-        pass
+        test_pass
     else
-        fail "Expected '📧 EMAIL (himalaya)' header"
+        test_fail "Expected '📧 EMAIL (himalaya)' header"
     fi
 }
 
 test_himalaya_version_shown() {
-    log_test "himalaya version line shows actual version"
+    test_case "himalaya version line shows actual version"
 
     if ! command -v himalaya >/dev/null 2>&1; then
-        skip "himalaya not installed on this system"
+        test_skip "himalaya not installed on this system"
         return
     fi
 
@@ -164,31 +139,31 @@ test_himalaya_version_shown() {
     local real_ver=$(himalaya --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)
 
     if echo "$stripped" | grep -q "himalaya.*${real_ver}"; then
-        pass
+        test_pass
     else
-        fail "Expected himalaya version $real_ver in output"
+        test_fail "Expected himalaya version $real_ver in output"
     fi
 }
 
 test_version_check_passes() {
-    log_test "himalaya version >= 1.0.0 check shows success"
+    test_case "himalaya version >= 1.0.0 check shows success"
 
     if ! command -v himalaya >/dev/null 2>&1; then
-        skip "himalaya not installed"
+        test_skip "himalaya not installed"
         return
     fi
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
 
     if echo "$stripped" | grep -q "himalaya version.*>= 1.0.0"; then
-        pass
+        test_pass
     else
-        fail "Expected version check success line"
+        test_fail "Expected version check success line"
     fi
 }
 
 test_html_renderer_shows_one() {
-    log_test "exactly one HTML renderer shown (any-of: w3m, lynx, pandoc)"
+    test_case "exactly one HTML renderer shown (any-of: w3m, lynx, pandoc)"
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
 
@@ -201,21 +176,21 @@ test_html_renderer_shows_one() {
     done
 
     if [[ $count -eq 1 ]]; then
-        pass
+        test_pass
     elif [[ $count -eq 0 ]]; then
         # Check for the "missing" line instead
         if echo "$stripped" | grep -q "w3m.*HTML rendering.*brew install"; then
-            pass  # None installed, correctly shows suggestion
+            test_pass  # None installed, correctly shows suggestion
         else
-            fail "Expected exactly 1 renderer line, found 0"
+            test_fail "Expected exactly 1 renderer line, found 0"
         fi
     else
-        fail "Expected exactly 1 renderer line, found $count (should show first found only)"
+        test_fail "Expected exactly 1 renderer line, found $count (should show first found only)"
     fi
 }
 
 test_config_summary_has_all_fields() {
-    log_test "config summary contains all 5 fields"
+    test_case "config summary contains all 5 fields"
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
     local missing=()
@@ -227,9 +202,9 @@ test_config_summary_has_all_fields() {
     done
 
     if [[ ${#missing[@]} -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Missing config fields: ${missing[*]}"
+        test_fail "Missing config fields: ${missing[*]}"
     fi
 }
 
@@ -238,7 +213,7 @@ test_config_summary_has_all_fields() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_email_after_integrations() {
-    log_test "EMAIL section appears after INTEGRATIONS"
+    test_case "EMAIL section appears after INTEGRATIONS"
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
 
@@ -247,18 +222,18 @@ test_email_after_integrations() {
     local email_line=$(echo "$stripped" | grep -n "EMAIL" | head -1 | cut -d: -f1)
 
     if [[ -z "$integ_line" ]]; then
-        fail "INTEGRATIONS section not found"
+        test_fail "INTEGRATIONS section not found"
     elif [[ -z "$email_line" ]]; then
-        fail "EMAIL section not found"
+        test_fail "EMAIL section not found"
     elif (( email_line > integ_line )); then
-        pass
+        test_pass
     else
-        fail "EMAIL (line $email_line) should be after INTEGRATIONS (line $integ_line)"
+        test_fail "EMAIL (line $email_line) should be after INTEGRATIONS (line $integ_line)"
     fi
 }
 
 test_email_before_dotfiles() {
-    log_test "EMAIL section appears before DOTFILES"
+    test_case "EMAIL section appears before DOTFILES"
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
 
@@ -266,13 +241,13 @@ test_email_before_dotfiles() {
     local dot_line=$(echo "$stripped" | grep -n "DOTFILES\|DOT TOKENS" | head -1 | cut -d: -f1)
 
     if [[ -z "$email_line" ]]; then
-        fail "EMAIL section not found"
+        test_fail "EMAIL section not found"
     elif [[ -z "$dot_line" ]]; then
-        skip "DOTFILES section not present (dot dispatcher may not be loaded)"
+        test_skip "DOTFILES section not present (dot dispatcher may not be loaded)"
     elif (( email_line < dot_line )); then
-        pass
+        test_pass
     else
-        fail "EMAIL (line $email_line) should be before DOTFILES (line $dot_line)"
+        test_fail "EMAIL (line $email_line) should be before DOTFILES (line $dot_line)"
     fi
 }
 
@@ -281,7 +256,7 @@ test_email_before_dotfiles() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_shared_deps_not_in_email() {
-    log_test "shared deps (fzf, bat, jq) NOT re-checked in EMAIL section"
+    test_case "shared deps (fzf, bat, jq) NOT re-checked in EMAIL section"
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
 
@@ -296,9 +271,9 @@ test_shared_deps_not_in_email() {
     done
 
     if [[ ${#duped[@]} -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Shared deps found in EMAIL section: ${duped[*]}"
+        test_fail "Shared deps found in EMAIL section: ${duped[*]}"
     fi
 }
 
@@ -307,52 +282,52 @@ test_shared_deps_not_in_email() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_normal_mode_shows_email() {
-    log_test "normal mode (no flags) shows EMAIL section"
+    test_case "normal mode (no flags) shows EMAIL section"
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
 
     if echo "$stripped" | grep -q "EMAIL"; then
-        pass
+        test_pass
     else
-        fail "EMAIL not in normal mode output"
+        test_fail "EMAIL not in normal mode output"
     fi
 }
 
 test_quiet_mode_hides_email() {
-    log_test "--quiet mode hides EMAIL section"
+    test_case "--quiet mode hides EMAIL section"
 
     local output=$(doctor_with_em --quiet)
     local stripped=$(echo "$output" | strip_ansi)
 
     if echo "$stripped" | grep -q "EMAIL"; then
-        fail "EMAIL should NOT appear in --quiet mode"
+        test_fail "EMAIL should NOT appear in --quiet mode"
     else
-        pass
+        test_pass
     fi
 }
 
 test_verbose_shows_connectivity() {
-    log_test "--verbose mode shows Connectivity: section"
+    test_case "--verbose mode shows Connectivity: section"
 
     local output=$(doctor_with_em --verbose)
     local stripped=$(echo "$output" | strip_ansi)
 
     if echo "$stripped" | grep -q "Connectivity:"; then
-        pass
+        test_pass
     else
-        fail "Expected 'Connectivity:' section in verbose output"
+        test_fail "Expected 'Connectivity:' section in verbose output"
     fi
 }
 
 test_help_mentions_email() {
-    log_test "--help mentions EMAIL section"
+    test_case "--help mentions EMAIL section"
 
     local stripped=$(echo "$CACHED_HELP" | strip_ansi)
 
     if echo "$stripped" | grep -qi "email"; then
-        pass
+        test_pass
     else
-        fail "Expected EMAIL mention in help text"
+        test_fail "Expected EMAIL mention in help text"
     fi
 }
 
@@ -363,7 +338,7 @@ test_help_mentions_email() {
 
 test_missing_himalaya_shows_error() {
     setopt local_options NULL_GLOB
-    log_test "missing himalaya shows ✗ error with install hint"
+    test_case "missing himalaya shows ✗ error with install hint"
 
     local saved_path="$PATH"
     local himalaya_dir=$(command -v himalaya 2>/dev/null)
@@ -392,24 +367,24 @@ test_missing_himalaya_shows_error() {
         local stripped=$(echo "$output" | strip_ansi)
 
         if echo "$stripped" | grep -qE '✗.*himalaya.*brew install himalaya'; then
-            pass
+            test_pass
         elif echo "$stripped" | grep -q "himalaya.*brew install"; then
-            pass  # Close enough — formatting may vary
+            test_pass  # Close enough — formatting may vary
         else
-            fail "Expected error icon + install hint for missing himalaya"
+            test_fail "Expected error icon + install hint for missing himalaya"
         fi
     else
-        skip "himalaya not installed — cannot test removal"
+        test_skip "himalaya not installed — cannot test removal"
     fi
 }
 
 test_missing_himalaya_tracked_in_array() {
     setopt local_options NULL_GLOB
-    log_test "missing himalaya tracked in _doctor_missing_email_brew"
+    test_case "missing himalaya tracked in _doctor_missing_email_brew"
 
     local himalaya_dir=$(command -v himalaya 2>/dev/null)
     if [[ -z "$himalaya_dir" ]]; then
-        skip "himalaya not installed"
+        test_skip "himalaya not installed"
         return
     fi
 
@@ -433,27 +408,27 @@ test_missing_himalaya_tracked_in_array() {
     rm -rf "$fake_bin"
 
     if [[ "${_doctor_missing_email_brew[(I)himalaya]}" -gt 0 ]]; then
-        pass
+        test_pass
     else
-        fail "himalaya not found in _doctor_missing_email_brew array"
+        test_fail "himalaya not found in _doctor_missing_email_brew array"
     fi
 }
 
 test_missing_proxy_shows_warning() {
-    log_test "missing email-oauth2-proxy shows ○ warning"
+    test_case "missing email-oauth2-proxy shows ○ warning"
 
     # email-oauth2-proxy is likely not installed — check directly
     if command -v email-oauth2-proxy >/dev/null 2>&1; then
-        skip "email-oauth2-proxy IS installed — cannot test missing state"
+        test_skip "email-oauth2-proxy IS installed — cannot test missing state"
         return
     fi
 
     local stripped=$(echo "$CACHED_NORMAL" | strip_ansi)
 
     if echo "$stripped" | grep -qE '○.*email-oauth2-proxy'; then
-        pass
+        test_pass
     else
-        fail "Expected ○ warning for missing email-oauth2-proxy"
+        test_fail "Expected ○ warning for missing email-oauth2-proxy"
     fi
 }
 
@@ -462,11 +437,11 @@ test_missing_proxy_shows_warning() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_fix_mode_email_category_exists() {
-    log_test "fix mode shows Email Tools category when deps missing"
+    test_case "fix mode shows Email Tools category when deps missing"
 
     # email-oauth2-proxy is typically missing, triggering the category
     if command -v email-oauth2-proxy >/dev/null 2>&1; then
-        skip "All email deps installed — no fix category to show"
+        test_skip "All email deps installed — no fix category to show"
         return
     fi
 
@@ -478,17 +453,17 @@ test_fix_mode_email_category_exists() {
     unfunction em 2>/dev/null
 
     if [[ ${#_doctor_missing_email_brew[@]} -gt 0 || ${#_doctor_missing_email_pip[@]} -gt 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected non-empty _doctor_missing_email_brew or _doctor_missing_email_pip"
+        test_fail "Expected non-empty _doctor_missing_email_brew or _doctor_missing_email_pip"
     fi
 }
 
 test_fix_mode_count_includes_email() {
-    log_test "_doctor_count_categories includes email when deps missing"
+    test_case "_doctor_count_categories includes email when deps missing"
 
     if command -v email-oauth2-proxy >/dev/null 2>&1; then
-        skip "All email deps installed"
+        test_skip "All email deps installed"
         return
     fi
 
@@ -500,9 +475,9 @@ test_fix_mode_count_includes_email() {
 
     # Should be at least 1 (email) — could be more if other deps missing
     if [[ $count -ge 1 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected count >= 1, got $count"
+        test_fail "Expected count >= 1, got $count"
     fi
 }
 
@@ -511,7 +486,7 @@ test_fix_mode_count_includes_email() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_em_doctor_still_works() {
-    log_test "em doctor runs independently (no regression)"
+    test_case "em doctor runs independently (no regression)"
 
     if ! (( $+functions[_em_doctor] )); then
         # Need to source email dispatcher
@@ -525,12 +500,12 @@ test_em_doctor_still_works() {
         local stripped=$(echo "$output" | strip_ansi)
 
         if echo "$stripped" | grep -q "em doctor" && echo "$stripped" | grep -q "himalaya"; then
-            pass
+            test_pass
         else
-            fail "em doctor output missing expected content"
+            test_fail "em doctor output missing expected content"
         fi
     else
-        skip "_em_doctor not available (email dispatcher not loaded)"
+        test_skip "_em_doctor not available (email dispatcher not loaded)"
     fi
 }
 
@@ -539,7 +514,7 @@ test_em_doctor_still_works() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_custom_ai_backend_shown() {
-    log_test "custom FLOW_EMAIL_AI value reflected in config summary"
+    test_case "custom FLOW_EMAIL_AI value reflected in config summary"
 
     local saved="$FLOW_EMAIL_AI"
     FLOW_EMAIL_AI="gemini"
@@ -550,14 +525,14 @@ test_custom_ai_backend_shown() {
     FLOW_EMAIL_AI="$saved"
 
     if echo "$stripped" | grep -q "AI backend:.*gemini"; then
-        pass
+        test_pass
     else
-        fail "Expected 'gemini' in AI backend line"
+        test_fail "Expected 'gemini' in AI backend line"
     fi
 }
 
 test_custom_page_size_shown() {
-    log_test "custom FLOW_EMAIL_PAGE_SIZE reflected in config summary"
+    test_case "custom FLOW_EMAIL_PAGE_SIZE reflected in config summary"
 
     local saved="$FLOW_EMAIL_PAGE_SIZE"
     FLOW_EMAIL_PAGE_SIZE=50
@@ -568,9 +543,9 @@ test_custom_page_size_shown() {
     FLOW_EMAIL_PAGE_SIZE="$saved"
 
     if echo "$stripped" | grep -q "Page size:.*50"; then
-        pass
+        test_pass
     else
-        fail "Expected '50' in Page size line"
+        test_fail "Expected '50' in Page size line"
     fi
 }
 
@@ -579,16 +554,13 @@ test_custom_page_size_shown() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 main() {
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}Doctor Email — E2E Dogfooding Suite${NC}                   │"
-    echo "╰─────────────────────────────────────────────────────────╯"
+    test_suite_start "Doctor Email — E2E Dogfooding Suite"
 
     setup
 
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 1: Real Output Structure (5 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+    echo "${YELLOW}CATEGORY 1: Real Output Structure (5 tests)${RESET}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
     test_email_header_format
     test_himalaya_version_shown
     test_version_check_passes
@@ -596,75 +568,57 @@ main() {
     test_config_summary_has_all_fields
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 2: Section Ordering (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+    echo "${YELLOW}CATEGORY 2: Section Ordering (2 tests)${RESET}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
     test_email_after_integrations
     test_email_before_dotfiles
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 3: Dep Deduplication (1 test)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+    echo "${YELLOW}CATEGORY 3: Dep Deduplication (1 test)${RESET}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
     test_shared_deps_not_in_email
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 4: Mode Combinations (4 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+    echo "${YELLOW}CATEGORY 4: Mode Combinations (4 tests)${RESET}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
     test_normal_mode_shows_email
     test_quiet_mode_hides_email
     test_verbose_shows_connectivity
     test_help_mentions_email
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 5: Missing Dep Simulation (3 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+    echo "${YELLOW}CATEGORY 5: Missing Dep Simulation (3 tests)${RESET}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
     test_missing_himalaya_shows_error
     test_missing_himalaya_tracked_in_array
     test_missing_proxy_shows_warning
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 6: Fix Mode Menu (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+    echo "${YELLOW}CATEGORY 6: Fix Mode Menu (2 tests)${RESET}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
     test_fix_mode_email_category_exists
     test_fix_mode_count_includes_email
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 7: em doctor Independence (1 test)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+    echo "${YELLOW}CATEGORY 7: em doctor Independence (1 test)${RESET}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
     test_em_doctor_still_works
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 8: Config Env Overrides (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
+    echo "${YELLOW}CATEGORY 8: Config Env Overrides (2 tests)${RESET}"
+    echo "${YELLOW}═══════════════════════════════════════════════════════════${RESET}"
     test_custom_ai_backend_shown
     test_custom_page_size_shown
 
-    # Summary
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}E2E Test Summary${NC}                                      │"
-    echo "╰─────────────────────────────────────────────────────────╯"
-    echo ""
-    echo "  ${GREEN}Passed:${NC} $TESTS_PASSED"
-    echo "  ${RED}Failed:${NC} $TESTS_FAILED"
-    echo "  ${CYAN}Total:${NC}  $((TESTS_PASSED + TESTS_FAILED))"
-    echo ""
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All E2E dogfooding tests passed!${NC}"
-        echo ""
-        return 0
-    else
-        echo "${RED}✗ Some E2E tests failed${NC}"
-        echo ""
-        return 1
-    fi
+    test_suite_end
+    exit $?
 }
 
 main "$@"

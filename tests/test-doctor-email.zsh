@@ -18,57 +18,27 @@
 # Created: 2026-02-12
 # ══════════════════════════════════════════════════════════════════════════════
 
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh"
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SETUP
 # ══════════════════════════════════════════════════════════════════════════════
 
-# Resolve project root at top level (${0:A} doesn't work inside functions)
-SCRIPT_DIR="${0:A:h}"
-FLOW_ROOT="${SCRIPT_DIR:h}"
-
 setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
-
-    if [[ ! -f "$FLOW_ROOT/flow.plugin.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root at $FLOW_ROOT${NC}"
+    if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
+        echo "ERROR: Cannot find project root at $PROJECT_ROOT"
         exit 1
     fi
-
-    echo "  Project root: $FLOW_ROOT"
 
     # Source the plugin (non-interactive mode, no Atlas)
     FLOW_QUIET=1
     FLOW_ATLAS_ENABLED=no
     export FLOW_QUIET FLOW_ATLAS_ENABLED
 
-    source "$FLOW_ROOT/flow.plugin.zsh" 2>/dev/null || {
-        echo "${RED}Plugin failed to load${NC}"
+    source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
+        echo "Plugin failed to load"
         exit 1
     }
 
@@ -81,8 +51,6 @@ setup() {
     mkdir -p "$TEST_ROOT/dev-tools/mock-dev"
     echo "## Status: active\n## Progress: 50" > "$TEST_ROOT/dev-tools/mock-dev/.STATUS"
     FLOW_PROJECTS_ROOT="$TEST_ROOT"
-
-    echo ""
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -90,52 +58,52 @@ setup() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_doctor_check_email_exists() {
-    log_test "_doctor_check_email function exists"
+    test_case "_doctor_check_email function exists"
 
     if (( ${+functions[_doctor_check_email]} )); then
-        pass
+        test_pass
     else
-        fail "_doctor_check_email not found after sourcing"
+        test_fail "_doctor_check_email not found after sourcing"
     fi
 }
 
 test_doctor_check_email_cmd_exists() {
-    log_test "_doctor_check_email_cmd function exists"
+    test_case "_doctor_check_email_cmd function exists"
 
     if (( ${+functions[_doctor_check_email_cmd]} )); then
-        pass
+        test_pass
     else
-        fail "_doctor_check_email_cmd not found after sourcing"
+        test_fail "_doctor_check_email_cmd not found after sourcing"
     fi
 }
 
 test_doctor_email_connectivity_exists() {
-    log_test "_doctor_email_connectivity function exists"
+    test_case "_doctor_email_connectivity function exists"
 
     if (( ${+functions[_doctor_email_connectivity]} )); then
-        pass
+        test_pass
     else
-        fail "_doctor_email_connectivity not found after sourcing"
+        test_fail "_doctor_email_connectivity not found after sourcing"
     fi
 }
 
 test_doctor_email_setup_exists() {
-    log_test "_doctor_email_setup function exists"
+    test_case "_doctor_email_setup function exists"
 
     if (( ${+functions[_doctor_email_setup]} )); then
-        pass
+        test_pass
     else
-        fail "_doctor_email_setup not found after sourcing"
+        test_fail "_doctor_email_setup not found after sourcing"
     fi
 }
 
 test_doctor_fix_email_exists() {
-    log_test "_doctor_fix_email function exists"
+    test_case "_doctor_fix_email function exists"
 
     if (( ${+functions[_doctor_fix_email]} )); then
-        pass
+        test_pass
     else
-        fail "_doctor_fix_email not found after sourcing"
+        test_fail "_doctor_fix_email not found after sourcing"
     fi
 }
 
@@ -144,7 +112,7 @@ test_doctor_fix_email_exists() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_email_section_shown_when_em_loaded() {
-    log_test "doctor output contains EMAIL section when em() is loaded"
+    test_case "doctor output contains EMAIL section when em() is loaded"
 
     # Define a stub em() so the conditional gate fires
     em() { : }
@@ -155,9 +123,9 @@ test_email_section_shown_when_em_loaded() {
     unfunction em 2>/dev/null
 
     if echo "$output" | grep -q "EMAIL"; then
-        pass
+        test_pass
     else
-        fail "Expected 'EMAIL' section header in output"
+        test_fail "Expected 'EMAIL' section header in output"
     fi
 }
 
@@ -166,7 +134,7 @@ test_email_section_shown_when_em_loaded() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_email_section_hidden_when_em_not_loaded() {
-    log_test "doctor output does NOT contain EMAIL when em() is absent"
+    test_case "doctor output does NOT contain EMAIL when em() is absent"
 
     # Ensure no em function exists
     unfunction em 2>/dev/null
@@ -174,9 +142,9 @@ test_email_section_hidden_when_em_not_loaded() {
     local output=$(doctor 2>&1)
 
     if echo "$output" | grep -q "EMAIL"; then
-        fail "EMAIL section should not appear without em() loaded"
+        test_fail "EMAIL section should not appear without em() loaded"
     else
-        pass
+        test_pass
     fi
 }
 
@@ -185,7 +153,7 @@ test_email_section_hidden_when_em_not_loaded() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_missing_email_brew_is_array() {
-    log_test "_doctor_missing_email_brew is an array after doctor run (em loaded)"
+    test_case "_doctor_missing_email_brew is an array after doctor run (em loaded)"
 
     # Define stub em() for the gate
     em() { : }
@@ -198,14 +166,14 @@ test_missing_email_brew_is_array() {
     local var_type="${(t)_doctor_missing_email_brew}"
 
     if [[ "$var_type" == *array* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected array type, got: ${var_type:-undefined}"
+        test_fail "Expected array type, got: ${var_type:-undefined}"
     fi
 }
 
 test_missing_email_pip_is_array() {
-    log_test "_doctor_missing_email_pip is an array after doctor run (em loaded)"
+    test_case "_doctor_missing_email_pip is an array after doctor run (em loaded)"
 
     # Define stub em() for the gate
     em() { : }
@@ -218,9 +186,9 @@ test_missing_email_pip_is_array() {
     local var_type="${(t)_doctor_missing_email_pip}"
 
     if [[ "$var_type" == *array* ]]; then
-        pass
+        test_pass
     else
-        fail "Expected array type, got: ${var_type:-undefined}"
+        test_fail "Expected array type, got: ${var_type:-undefined}"
     fi
 }
 
@@ -229,7 +197,7 @@ test_missing_email_pip_is_array() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_config_label_in_output() {
-    log_test "doctor output contains 'Config:' when em is loaded"
+    test_case "doctor output contains 'Config:' when em is loaded"
 
     # Define stub em()
     em() { : }
@@ -240,14 +208,14 @@ test_config_label_in_output() {
     unfunction em 2>/dev/null
 
     if echo "$output" | grep -q "Config:"; then
-        pass
+        test_pass
     else
-        fail "Expected 'Config:' label in email section output"
+        test_fail "Expected 'Config:' label in email section output"
     fi
 }
 
 test_ai_backend_in_output() {
-    log_test "doctor output contains 'AI backend:' when em is loaded"
+    test_case "doctor output contains 'AI backend:' when em is loaded"
 
     # Define stub em()
     em() { : }
@@ -258,9 +226,9 @@ test_ai_backend_in_output() {
     unfunction em 2>/dev/null
 
     if echo "$output" | grep -q "AI backend:"; then
-        pass
+        test_pass
     else
-        fail "Expected 'AI backend:' in email config summary"
+        test_fail "Expected 'AI backend:' in email config summary"
     fi
 }
 
@@ -269,36 +237,36 @@ test_ai_backend_in_output() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_semver_lt_returns_true_when_less() {
-    log_test "_em_semver_lt 0.9.0 < 1.0.0 returns 0 (true)"
+    test_case "_em_semver_lt 0.9.0 < 1.0.0 returns 0 (true)"
 
     # Ensure the function is available (loaded via email-dispatcher)
     if ! (( ${+functions[_em_semver_lt]} )); then
         # Try sourcing email dispatcher directly
-        source "$FLOW_ROOT/lib/dispatchers/email-dispatcher.zsh" 2>/dev/null
+        source "$PROJECT_ROOT/lib/dispatchers/email-dispatcher.zsh" 2>/dev/null
     fi
 
     if (( ${+functions[_em_semver_lt]} )); then
         if _em_semver_lt "0.9.0" "1.0.0"; then
-            pass
+            test_pass
         else
-            fail "0.9.0 should be less than 1.0.0"
+            test_fail "0.9.0 should be less than 1.0.0"
         fi
     else
-        fail "_em_semver_lt function not available"
+        test_fail "_em_semver_lt function not available"
     fi
 }
 
 test_semver_lt_returns_false_when_greater() {
-    log_test "_em_semver_lt 1.1.0 < 1.0.0 returns 1 (false)"
+    test_case "_em_semver_lt 1.1.0 < 1.0.0 returns 1 (false)"
 
     if (( ${+functions[_em_semver_lt]} )); then
         if _em_semver_lt "1.1.0" "1.0.0"; then
-            fail "1.1.0 should NOT be less than 1.0.0"
+            test_fail "1.1.0 should NOT be less than 1.0.0"
         else
-            pass
+            test_pass
         fi
     else
-        fail "_em_semver_lt function not available"
+        test_fail "_em_semver_lt function not available"
     fi
 }
 
@@ -306,76 +274,27 @@ test_semver_lt_returns_false_when_greater() {
 # RUN ALL TESTS
 # ══════════════════════════════════════════════════════════════════════════════
 
-main() {
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}Doctor Email Integration Test Suite${NC}                  │"
-    echo "╰─────────────────────────────────────────────────────────╯"
+test_suite_start "Doctor Email Integration Test Suite"
 
-    setup
+setup
 
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 1: Function Existence (5 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_doctor_check_email_exists
-    test_doctor_check_email_cmd_exists
-    test_doctor_email_connectivity_exists
-    test_doctor_email_setup_exists
-    test_doctor_fix_email_exists
+test_doctor_check_email_exists
+test_doctor_check_email_cmd_exists
+test_doctor_email_connectivity_exists
+test_doctor_email_setup_exists
+test_doctor_fix_email_exists
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 2: Conditional Gate — em loaded (1 test)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_email_section_shown_when_em_loaded
+test_email_section_shown_when_em_loaded
+test_email_section_hidden_when_em_not_loaded
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 3: Conditional Gate — em NOT loaded (1 test)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_email_section_hidden_when_em_not_loaded
+test_missing_email_brew_is_array
+test_missing_email_pip_is_array
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 4: Tracking Arrays (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_missing_email_brew_is_array
-    test_missing_email_pip_is_array
+test_config_label_in_output
+test_ai_backend_in_output
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 5: Config Summary Output (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_config_label_in_output
-    test_ai_backend_in_output
+test_semver_lt_returns_true_when_less
+test_semver_lt_returns_false_when_greater
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 6: Semver Comparison (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_semver_lt_returns_true_when_less
-    test_semver_lt_returns_false_when_greater
-
-    # Summary
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}Test Summary${NC}                                         │"
-    echo "╰─────────────────────────────────────────────────────────╯"
-    echo ""
-    echo "  ${GREEN}Passed:${NC} $TESTS_PASSED"
-    echo "  ${RED}Failed:${NC} $TESTS_FAILED"
-    echo "  ${CYAN}Total:${NC}  $((TESTS_PASSED + TESTS_FAILED))"
-    echo ""
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All email doctor tests passed!${NC}"
-        echo ""
-        return 0
-    else
-        echo "${RED}✗ Some email doctor tests failed${NC}"
-        echo ""
-        return 1
-    fi
-}
-
-main "$@"
+test_suite_end
+exit $?

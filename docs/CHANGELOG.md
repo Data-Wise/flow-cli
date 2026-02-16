@@ -6,6 +6,27 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.2.1] - 2026-02-16
+
+### Changed
+
+- **Testing overhaul** — migrated 134 test files from inline frameworks to shared `test-framework.zsh`; 14 assertion helpers, mock registry (`create_mock`/`assert_mock_called`/`reset_mocks`), subshell isolation (`run_isolated`)
+- **Removed semantic-release** — manual releases via `gh release create` + `/craft:release`; removed 5 devDependencies and `.releaserc.json`
+
+### Added
+
+- **Dogfood scanner** (`tests/dogfood-test-quality.zsh`) — meta-test that catches 4 anti-pattern categories: permissive exit codes, existence-only tests, unused output captures, inline frameworks
+- **test_pass double-counting guard** — prevents inflated pass counts when `test_fail` already fired for a test case
+- **`with_env` scalar limitation note** — documents that ZSH arrays/assoc arrays need manual save/restore
+
+### Removed
+
+- `semantic-release`, `@semantic-release/*`, `conventional-changelog-conventionalcommits` devDependencies
+- `.releaserc.json` configuration file
+- Semantic release CI workflow reference from QUALITY-GATES.md
+
+---
+
 ## [7.2.0] - 2026-02-16
 
 ### Changed

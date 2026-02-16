@@ -12,44 +12,19 @@
 
 setopt local_options no_monitor
 
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh"
+
 # ─────────────────────────────────────────────────────────────────────────────
-# TEST UTILITIES
+# TEST HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
 
-SCRIPT_DIR="${0:A:h}"
-PASSED=0
-FAILED=0
-SKIPPED=0
 TEST_DIR=""
 ORIGINAL_DIR="$PWD"
 
-# Colors
-_C_GREEN='\033[32m'
-_C_RED='\033[31m'
-_C_YELLOW='\033[33m'
-_C_BLUE='\033[34m'
-_C_DIM='\033[2m'
-_C_BOLD='\033[1m'
-_C_NC='\033[0m'
-
-pass() {
-    echo -e "  ${_C_GREEN}✓${_C_NC} $1"
-    ((PASSED++))
-}
-
-fail() {
-    echo -e "  ${_C_RED}✗${_C_NC} $1"
-    [[ -n "$2" ]] && echo -e "    ${_C_DIM}$2${_C_NC}"
-    ((FAILED++))
-}
-
-skip() {
-    echo -e "  ${_C_YELLOW}○${_C_NC} $1 (skipped)"
-    ((SKIPPED++))
-}
-
 info() {
-    echo -e "  ${_C_DIM}ℹ $1${_C_NC}"
+    echo "    ℹ $1"
 }
 
 # Create a fresh test repository with proper git setup
@@ -81,6 +56,7 @@ cleanup_test_repo() {
     fi
     TEST_DIR=""
 }
+trap cleanup_test_repo EXIT
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SOURCE THE PLUGIN
@@ -92,15 +68,11 @@ source "${SCRIPT_DIR}/../flow.plugin.zsh"
 # E2E TESTS
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_BOLD}╔═══════════════════════════════════════════════════════════╗${_C_NC}"
-echo -e "${_C_BOLD}║ ${_C_BLUE}cc wt E2E Tests${_C_NC}${_C_BOLD}                                          ║${_C_NC}"
-echo -e "${_C_BOLD}╚═══════════════════════════════════════════════════════════╝${_C_NC}\n"
+test_suite_start "cc wt E2E Tests"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TEST: Full workflow - create worktree via cc wt
 # ─────────────────────────────────────────────────────────────────────────────
-
-echo -e "${_C_DIM}Full Workflow: Create Worktree${_C_NC}"
 
 test_cc_wt_creates_worktree_if_not_exists() {
     create_test_repo
@@ -114,24 +86,28 @@ test_cc_wt_creates_worktree_if_not_exists() {
 
     # Check if worktree was created
     local wt_path="$FLOW_WORKTREE_DIR/$(basename $TEST_DIR)/feature-new-feature"
+
+    test_case "cc wt creates worktree when it doesn't exist"
     if [[ -d "$wt_path" ]]; then
-        pass "cc wt creates worktree when it doesn't exist"
+        test_pass
     else
-        fail "cc wt should create worktree" "Expected: $wt_path"
+        test_fail "Expected: $wt_path"
     fi
 
     # Check the worktree is a valid git worktree
+    test_case "Created worktree is a valid git worktree"
     if git -C "$wt_path" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        pass "Created worktree is a valid git worktree"
+        test_pass
     else
-        fail "Created worktree should be valid git repo"
+        test_fail "Created worktree should be valid git repo"
     fi
 
     # Check the branch exists
+    test_case "Feature branch was created"
     if git -C "$TEST_DIR" show-ref --verify --quiet "refs/heads/feature/new-feature"; then
-        pass "Feature branch was created"
+        test_pass
     else
-        fail "Feature branch should be created"
+        test_fail "Feature branch should be created"
     fi
 
     cleanup_test_repo
@@ -156,10 +132,11 @@ test_cc_wt_uses_existing_worktree() {
     _cc_worktree "feature/existing" 2>&1
 
     # Marker should still exist (worktree wasn't recreated)
+    test_case "cc wt uses existing worktree (doesn't recreate)"
     if [[ -f "$wt_path/.test-marker" ]]; then
-        pass "cc wt uses existing worktree (doesn't recreate)"
+        test_pass
     else
-        fail "cc wt should use existing worktree, not recreate"
+        test_fail "cc wt should use existing worktree, not recreate"
     fi
 
     cleanup_test_repo
@@ -176,10 +153,11 @@ test_cc_wt_creates_worktree_dir_structure() {
     local project=$(basename "$TEST_DIR")
     local expected_path="$FLOW_WORKTREE_DIR/$project/feature-deeply-nested-branch"
 
+    test_case "Worktree path handles nested branch names (slashes to dashes)"
     if [[ -d "$expected_path" ]]; then
-        pass "Worktree path handles nested branch names (slashes → dashes)"
+        test_pass
     else
-        fail "Should create worktree for nested branch" "Expected: $expected_path"
+        test_fail "Expected: $expected_path"
     fi
 
     cleanup_test_repo
@@ -193,8 +171,6 @@ test_cc_wt_creates_worktree_dir_structure
 # TEST: Mode chaining
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Mode Chaining${_C_NC}"
-
 test_cc_wt_yolo_passes_correct_flags() {
     create_test_repo
 
@@ -203,10 +179,11 @@ test_cc_wt_yolo_passes_correct_flags() {
 
     _cc_worktree "yolo" "feature/yolo-test" 2>&1
 
+    test_case "cc wt yolo passes --dangerously-skip-permissions"
     if [[ "$captured_args" == *"--dangerously-skip-permissions"* ]]; then
-        pass "cc wt yolo passes --dangerously-skip-permissions"
+        test_pass
     else
-        fail "cc wt yolo should pass permission skip flag" "Got: $captured_args"
+        test_fail "Got: $captured_args"
     fi
 
     cleanup_test_repo
@@ -220,10 +197,11 @@ test_cc_wt_plan_passes_correct_flags() {
 
     _cc_worktree "plan" "feature/plan-test" 2>&1
 
+    test_case "cc wt plan passes --permission-mode plan"
     if [[ "$captured_args" == *"--permission-mode"* && "$captured_args" == *"plan"* ]]; then
-        pass "cc wt plan passes --permission-mode plan"
+        test_pass
     else
-        fail "cc wt plan should pass plan mode flag" "Got: $captured_args"
+        test_fail "Got: $captured_args"
     fi
 
     cleanup_test_repo
@@ -237,10 +215,11 @@ test_cc_wt_opus_passes_correct_flags() {
 
     _cc_worktree "opus" "feature/opus-test" 2>&1
 
+    test_case "cc wt opus passes --model opus"
     if [[ "$captured_args" == *"--model"* && "$captured_args" == *"opus"* ]]; then
-        pass "cc wt opus passes --model opus"
+        test_pass
     else
-        fail "cc wt opus should pass opus model flag" "Got: $captured_args"
+        test_fail "Got: $captured_args"
     fi
 
     cleanup_test_repo
@@ -254,10 +233,11 @@ test_cc_wt_haiku_passes_correct_flags() {
 
     _cc_worktree "haiku" "feature/haiku-test" 2>&1
 
+    test_case "cc wt haiku passes --model haiku"
     if [[ "$captured_args" == *"--model"* && "$captured_args" == *"haiku"* ]]; then
-        pass "cc wt haiku passes --model haiku"
+        test_pass
     else
-        fail "cc wt haiku should pass haiku model flag" "Got: $captured_args"
+        test_fail "Got: $captured_args"
     fi
 
     cleanup_test_repo
@@ -272,8 +252,6 @@ test_cc_wt_haiku_passes_correct_flags
 # TEST: _wt_get_path helper function
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}_wt_get_path() E2E${_C_NC}"
-
 test_wt_get_path_returns_correct_path() {
     create_test_repo
 
@@ -286,10 +264,11 @@ test_wt_get_path_returns_correct_path() {
     local result_path
     result_path=$(_wt_get_path "feature/test")
 
+    test_case "_wt_get_path returns exact expected path"
     if [[ "$result_path" == "$expected_path" ]]; then
-        pass "_wt_get_path returns exact expected path"
+        test_pass
     else
-        fail "_wt_get_path path mismatch" "Expected: $expected_path, Got: $result_path"
+        test_fail "Expected: $expected_path, Got: $result_path"
     fi
 
     cleanup_test_repo
@@ -306,10 +285,11 @@ test_wt_get_path_handles_slash_conversion() {
     local result_path
     result_path=$(_wt_get_path "feature/multi/part/name")
 
+    test_case "_wt_get_path converts slashes to dashes correctly"
     if [[ "$result_path" == "$expected_path" ]]; then
-        pass "_wt_get_path converts slashes to dashes correctly"
+        test_pass
     else
-        fail "_wt_get_path slash conversion failed" "Expected: $expected_path, Got: $result_path"
+        test_fail "Expected: $expected_path, Got: $result_path"
     fi
 
     cleanup_test_repo
@@ -322,8 +302,6 @@ test_wt_get_path_handles_slash_conversion
 # TEST: Error handling
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Error Handling${_C_NC}"
-
 test_cc_wt_handles_non_git_directory() {
     local non_git_dir=$(mktemp -d)
     cd "$non_git_dir"
@@ -332,10 +310,11 @@ test_cc_wt_handles_non_git_directory() {
     output=$(_cc_worktree "feature/test" 2>&1)
     local exit_code=$?
 
+    test_case "cc wt handles non-git directory gracefully"
     if [[ $exit_code -ne 0 ]] || [[ "$output" == *"git"* ]] || [[ "$output" == *"repository"* ]] || [[ "$output" == *"Failed"* ]]; then
-        pass "cc wt handles non-git directory gracefully"
+        test_pass
     else
-        fail "cc wt should fail in non-git directory" "Output: $output"
+        test_fail "Output: $output"
     fi
 
     cd "$ORIGINAL_DIR"
@@ -349,10 +328,11 @@ test_cc_wt_no_branch_shows_list() {
     output=$(_cc_worktree 2>&1)
 
     # Should show worktree list and usage hint
+    test_case "cc wt with no args shows worktree list/usage"
     if [[ "$output" == *"worktree"* ]] || [[ "$output" == *"Usage"* ]] || [[ "$output" == *"cc wt"* ]]; then
-        pass "cc wt with no args shows worktree list/usage"
+        test_pass
     else
-        fail "cc wt with no args should show list/usage" "Output: $output"
+        test_fail "Output: $output"
     fi
 
     cleanup_test_repo
@@ -365,32 +345,36 @@ test_cc_wt_no_branch_shows_list
 # TEST: Alias integration
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Alias Integration${_C_NC}"
-
 test_ccw_alias_expands_correctly() {
     local alias_def=$(alias ccw 2>/dev/null)
+
+    test_case "ccw alias expands to 'cc wt'"
     if [[ "$alias_def" == *"cc wt"* ]]; then
-        pass "ccw alias expands to 'cc wt'"
+        test_pass
     else
-        fail "ccw should expand to 'cc wt'" "Got: $alias_def"
+        test_fail "Got: $alias_def"
     fi
 }
 
 test_ccwy_alias_expands_correctly() {
     local alias_def=$(alias ccwy 2>/dev/null)
+
+    test_case "ccwy alias expands to 'cc wt yolo'"
     if [[ "$alias_def" == *"cc wt yolo"* ]]; then
-        pass "ccwy alias expands to 'cc wt yolo'"
+        test_pass
     else
-        fail "ccwy should expand to 'cc wt yolo'" "Got: $alias_def"
+        test_fail "Got: $alias_def"
     fi
 }
 
 test_ccwp_alias_expands_correctly() {
     local alias_def=$(alias ccwp 2>/dev/null)
+
+    test_case "ccwp alias expands to 'cc wt pick'"
     if [[ "$alias_def" == *"cc wt pick"* ]]; then
-        pass "ccwp alias expands to 'cc wt pick'"
+        test_pass
     else
-        fail "ccwp should expand to 'cc wt pick'" "Got: $alias_def"
+        test_fail "Got: $alias_def"
     fi
 }
 
@@ -402,8 +386,6 @@ test_ccwp_alias_expands_correctly
 # TEST: cc dispatcher routing
 # ─────────────────────────────────────────────────────────────────────────────
 
-echo -e "\n${_C_DIM}Dispatcher Routing${_C_NC}"
-
 test_cc_routes_wt_correctly() {
     create_test_repo
 
@@ -413,10 +395,11 @@ test_cc_routes_wt_correctly() {
 
     cc wt 2>/dev/null
 
+    test_case "cc routes 'wt' to _cc_worktree"
     if [[ "$worktree_called" == "true" ]]; then
-        pass "cc routes 'wt' to _cc_worktree"
+        test_pass
     else
-        fail "cc should route 'wt' to _cc_worktree"
+        test_fail "cc should route 'wt' to _cc_worktree"
     fi
 
     cleanup_test_repo
@@ -430,10 +413,11 @@ test_cc_routes_worktree_correctly() {
 
     cc worktree 2>/dev/null
 
+    test_case "cc routes 'worktree' to _cc_worktree"
     if [[ "$worktree_called" == "true" ]]; then
-        pass "cc routes 'worktree' to _cc_worktree"
+        test_pass
     else
-        fail "cc should route 'worktree' to _cc_worktree"
+        test_fail "cc should route 'worktree' to _cc_worktree"
     fi
 
     cleanup_test_repo
@@ -447,10 +431,11 @@ test_cc_routes_w_correctly() {
 
     cc w 2>/dev/null
 
+    test_case "cc routes 'w' to _cc_worktree"
     if [[ "$worktree_called" == "true" ]]; then
-        pass "cc routes 'w' to _cc_worktree"
+        test_pass
     else
-        fail "cc should route 'w' to _cc_worktree"
+        test_fail "cc should route 'w' to _cc_worktree"
     fi
 
     cleanup_test_repo
@@ -467,9 +452,5 @@ test_cc_routes_w_correctly
 # Final cleanup
 cleanup_test_repo
 
-echo -e "\n${_C_BOLD}╔═══════════════════════════════════════════════════════════╗${_C_NC}"
-echo -e "${_C_BOLD}║${_C_NC} ${_C_GREEN}Passed: $PASSED${_C_NC}  ${_C_RED}Failed: $FAILED${_C_NC}  ${_C_YELLOW}Skipped: $SKIPPED${_C_NC}            ${_C_BOLD}║${_C_NC}"
-echo -e "${_C_BOLD}╚═══════════════════════════════════════════════════════════╝${_C_NC}\n"
-
-# Exit with failure if any tests failed
-[[ $FAILED -eq 0 ]]
+test_suite_end
+exit $?

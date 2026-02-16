@@ -181,6 +181,7 @@ cleanup_test_env() {
 
   echo ""
 }
+trap cleanup_test_env EXIT
 
 # ============================================================================
 # LOAD FLOW-CLI

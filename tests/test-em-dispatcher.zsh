@@ -1,21 +1,24 @@
 #!/usr/bin/env zsh
-# Test script for em email dispatcher
-# Tests: help, subcommand detection, function existence, module loading
+# ══════════════════════════════════════════════════════════════════════════════
+# TEST SUITE: Email Dispatcher
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Purpose: Validate em email dispatcher functionality
+# Tests: help, subcommand detection, function existence, module loading,
+#        cache operations, render pipeline, noise cleanup, AI layer
+#
+# Created: 2026-02-16 (converted to shared framework)
+# ══════════════════════════════════════════════════════════════════════════════
 
-TESTS_PASSED=0
-TESTS_FAILED=0
+# Source shared test framework
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
+# ══════════════════════════════════════════════════════════════════════════════
+# SETUP / CLEANUP
+# ══════════════════════════════════════════════════════════════════════════════
 
-log_test() { echo -n "${CYAN}Testing:${NC} $1 ... " }
-pass() { echo "${GREEN}✓ PASS${NC}"; ((TESTS_PASSED++)) }
-fail() { echo "${RED}✗ FAIL${NC} - $1"; ((TESTS_FAILED++)) }
-
-# Setup function - source plugin in non-interactive mode
 setup() {
     typeset -g project_root=""
     if [[ -n "${0:A}" ]]; then project_root="${0:A:h:h}"; fi
@@ -24,7 +27,7 @@ setup() {
         elif [[ -f "$PWD/../flow.plugin.zsh" ]]; then project_root="$PWD/.."
         fi
     fi
-    [[ -z "$project_root" || ! -f "$project_root/flow.plugin.zsh" ]] && { echo "${RED}ERROR: Cannot find project root${NC}"; exit 1; }
+    [[ -z "$project_root" || ! -f "$project_root/flow.plugin.zsh" ]] && { echo "ERROR: Cannot find project root"; exit 1; }
 
     FLOW_QUIET=1
     FLOW_ATLAS_ENABLED=no
@@ -33,34 +36,39 @@ setup() {
     source "$project_root/flow.plugin.zsh"
 }
 
+cleanup() {
+    reset_mocks
+}
+trap cleanup EXIT
+
 # ═══════════════════════════════════════════════════════════════
 # Section 1: Dispatcher Function Existence
 # ═══════════════════════════════════════════════════════════════
 
 test_em_dispatcher_exists() {
-    log_test "em dispatcher function exists"
+    test_case "em dispatcher function exists"
     if (( ${+functions[em]} )); then
-        pass
+        test_pass
     else
-        fail "em function not defined"
+        test_fail "em function not defined"
     fi
 }
 
 test_em_help_function_exists() {
-    log_test "_em_help function exists"
+    test_case "_em_help function exists"
     if (( ${+functions[_em_help]} )); then
-        pass
+        test_pass
     else
-        fail "_em_help function not defined"
+        test_fail "_em_help function not defined"
     fi
 }
 
 test_em_preview_message_exists() {
-    log_test "_em_preview_message function exists"
+    test_case "_em_preview_message function exists"
     if (( ${+functions[_em_preview_message]} )); then
-        pass
+        test_pass
     else
-        fail "_em_preview_message function not defined"
+        test_fail "_em_preview_message function not defined"
     fi
 }
 
@@ -69,37 +77,37 @@ test_em_preview_message_exists() {
 # ═══════════════════════════════════════════════════════════════
 
 test_em_help_output() {
-    log_test "em help produces output"
+    test_case "em help produces output"
     local output=$(em help 2>&1)
     if [[ -n "$output" && "$output" == *"Email Dispatcher"* ]]; then
-        pass
+        test_pass
     else
-        fail "help output missing or incorrect"
+        test_fail "help output missing or incorrect"
     fi
 }
 
 test_em_help_flag() {
-    log_test "em --help works"
+    test_case "em --help works"
     local output=$(em --help 2>&1)
     if [[ -n "$output" && "$output" == *"Email Dispatcher"* ]]; then
-        pass
+        test_pass
     else
-        fail "--help flag not working"
+        test_fail "--help flag not working"
     fi
 }
 
 test_em_help_short_flag() {
-    log_test "em -h works"
+    test_case "em -h works"
     local output=$(em -h 2>&1)
     if [[ -n "$output" && "$output" == *"Email Dispatcher"* ]]; then
-        pass
+        test_pass
     else
-        fail "-h flag not working"
+        test_fail "-h flag not working"
     fi
 }
 
 test_em_help_subcommands() {
-    log_test "help shows key subcommands"
+    test_case "help shows key subcommands"
     local output=$(em help 2>&1)
     local missing=()
 
@@ -116,9 +124,9 @@ test_em_help_subcommands() {
     [[ "$output" != *"doctor"* ]] && missing+=("doctor")
 
     if [[ ${#missing[@]} -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "missing subcommands: ${missing[*]}"
+        test_fail "missing subcommands: ${missing[*]}"
     fi
 }
 
@@ -127,137 +135,137 @@ test_em_help_subcommands() {
 # ═══════════════════════════════════════════════════════════════
 
 test_em_himalaya_check_exists() {
-    log_test "_em_hml_check exists"
+    test_case "_em_hml_check exists"
     if (( ${+functions[_em_hml_check]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_list_exists() {
-    log_test "_em_hml_list exists"
+    test_case "_em_hml_list exists"
     if (( ${+functions[_em_hml_list]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_read_exists() {
-    log_test "_em_hml_read exists"
+    test_case "_em_hml_read exists"
     if (( ${+functions[_em_hml_read]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_send_exists() {
-    log_test "_em_hml_send exists"
+    test_case "_em_hml_send exists"
     if (( ${+functions[_em_hml_send]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_reply_exists() {
-    log_test "_em_hml_reply exists"
+    test_case "_em_hml_reply exists"
     if (( ${+functions[_em_hml_reply]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_template_reply_exists() {
-    log_test "_em_hml_template_reply exists"
+    test_case "_em_hml_template_reply exists"
     if (( ${+functions[_em_hml_template_reply]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_template_write_exists() {
-    log_test "_em_hml_template_write exists"
+    test_case "_em_hml_template_write exists"
     if (( ${+functions[_em_hml_template_write]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_template_send_exists() {
-    log_test "_em_hml_template_send exists"
+    test_case "_em_hml_template_send exists"
     if (( ${+functions[_em_hml_template_send]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_search_exists() {
-    log_test "_em_hml_search exists"
+    test_case "_em_hml_search exists"
     if (( ${+functions[_em_hml_search]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_folders_exists() {
-    log_test "_em_hml_folders exists"
+    test_case "_em_hml_folders exists"
     if (( ${+functions[_em_hml_folders]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_unread_count_exists() {
-    log_test "_em_hml_unread_count exists"
+    test_case "_em_hml_unread_count exists"
     if (( ${+functions[_em_hml_unread_count]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_attachments_exists() {
-    log_test "_em_hml_attachments exists"
+    test_case "_em_hml_attachments exists"
     if (( ${+functions[_em_hml_attachments]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_flags_exists() {
-    log_test "_em_hml_flags exists"
+    test_case "_em_hml_flags exists"
     if (( ${+functions[_em_hml_flags]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_himalaya_idle_exists() {
-    log_test "_em_hml_idle exists"
+    test_case "_em_hml_idle exists"
     if (( ${+functions[_em_hml_idle]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_mml_inject_body_exists() {
-    log_test "_em_mml_inject_body exists"
+    test_case "_em_mml_inject_body exists"
     if (( ${+functions[_em_mml_inject_body]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
@@ -266,161 +274,161 @@ test_em_mml_inject_body_exists() {
 # ═══════════════════════════════════════════════════════════════
 
 test_em_ai_query_exists() {
-    log_test "_em_ai_query exists"
+    test_case "_em_ai_query exists"
     if (( ${+functions[_em_ai_query]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_execute_exists() {
-    log_test "_em_ai_execute exists"
+    test_case "_em_ai_execute exists"
     if (( ${+functions[_em_ai_execute]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_backend_for_op_exists() {
-    log_test "_em_ai_backend_for_op exists"
+    test_case "_em_ai_backend_for_op exists"
     if (( ${+functions[_em_ai_backend_for_op]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_timeout_for_op_exists() {
-    log_test "_em_ai_timeout_for_op exists"
+    test_case "_em_ai_timeout_for_op exists"
     if (( ${+functions[_em_ai_timeout_for_op]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_fallback_chain_exists() {
-    log_test "_em_ai_fallback_chain exists"
+    test_case "_em_ai_fallback_chain exists"
     if (( ${+functions[_em_ai_fallback_chain]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_available_exists() {
-    log_test "_em_ai_available exists"
+    test_case "_em_ai_available exists"
     if (( ${+functions[_em_ai_available]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_classify_prompt_exists() {
-    log_test "_em_ai_classify_prompt exists"
+    test_case "_em_ai_classify_prompt exists"
     if (( ${+functions[_em_ai_classify_prompt]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_summarize_prompt_exists() {
-    log_test "_em_ai_summarize_prompt exists"
+    test_case "_em_ai_summarize_prompt exists"
     if (( ${+functions[_em_ai_summarize_prompt]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_draft_prompt_exists() {
-    log_test "_em_ai_draft_prompt exists"
+    test_case "_em_ai_draft_prompt exists"
     if (( ${+functions[_em_ai_draft_prompt]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_schedule_prompt_exists() {
-    log_test "_em_ai_schedule_prompt exists"
+    test_case "_em_ai_schedule_prompt exists"
     if (( ${+functions[_em_ai_schedule_prompt]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_category_icon_exists() {
-    log_test "_em_category_icon exists"
+    test_case "_em_category_icon exists"
     if (( ${+functions[_em_category_icon]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_ai_classify_prompt_content() {
-    log_test "_em_ai_classify_prompt returns classification text"
+    test_case "_em_ai_classify_prompt returns classification text"
     local output=$(_em_ai_classify_prompt 2>&1)
     if [[ "$output" == *"Classify"* ]]; then
-        pass
+        test_pass
     else
-        fail "prompt does not contain 'Classify'"
+        test_fail "prompt does not contain 'Classify'"
     fi
 }
 
 test_em_ai_summarize_prompt_content() {
-    log_test "_em_ai_summarize_prompt returns summary text"
+    test_case "_em_ai_summarize_prompt returns summary text"
     local output=$(_em_ai_summarize_prompt 2>&1)
     if [[ "$output" == *"Summarize"* ]]; then
-        pass
+        test_pass
     else
-        fail "prompt does not contain 'Summarize'"
+        test_fail "prompt does not contain 'Summarize'"
     fi
 }
 
 test_em_ai_timeout_classify() {
-    log_test "_em_ai_timeout_for_op classify returns number"
+    test_case "_em_ai_timeout_for_op classify returns number"
     local timeout=$(_em_ai_timeout_for_op classify 2>&1)
     if [[ "$timeout" =~ ^[0-9]+$ && "$timeout" -eq 10 ]]; then
-        pass
+        test_pass
     else
-        fail "expected 10, got '$timeout'"
+        test_fail "expected 10, got '$timeout'"
     fi
 }
 
 test_em_ai_timeout_draft() {
-    log_test "_em_ai_timeout_for_op draft returns number"
+    test_case "_em_ai_timeout_for_op draft returns number"
     local timeout=$(_em_ai_timeout_for_op draft 2>&1)
     if [[ "$timeout" =~ ^[0-9]+$ && "$timeout" -eq 30 ]]; then
-        pass
+        test_pass
     else
-        fail "expected 30, got '$timeout'"
+        test_fail "expected 30, got '$timeout'"
     fi
 }
 
 test_em_category_icon_student() {
-    log_test "_em_category_icon student-question returns icon"
+    test_case "_em_category_icon student-question returns icon"
     local icon=$(_em_category_icon student-question 2>&1)
     if [[ -n "$icon" ]]; then
-        pass
+        test_pass
     else
-        fail "no icon returned"
+        test_fail "no icon returned"
     fi
 }
 
 test_em_category_icon_urgent() {
-    log_test "_em_category_icon urgent returns icon"
+    test_case "_em_category_icon urgent returns icon"
     local icon=$(_em_category_icon urgent 2>&1)
     if [[ -n "$icon" ]]; then
-        pass
+        test_pass
     else
-        fail "no icon returned"
+        test_fail "no icon returned"
     fi
 }
 
@@ -429,89 +437,89 @@ test_em_category_icon_urgent() {
 # ═══════════════════════════════════════════════════════════════
 
 test_em_cache_dir_exists() {
-    log_test "_em_cache_dir exists"
+    test_case "_em_cache_dir exists"
     if (( ${+functions[_em_cache_dir]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_key_exists() {
-    log_test "_em_cache_key exists"
+    test_case "_em_cache_key exists"
     if (( ${+functions[_em_cache_key]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_get_exists() {
-    log_test "_em_cache_get exists"
+    test_case "_em_cache_get exists"
     if (( ${+functions[_em_cache_get]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_set_exists() {
-    log_test "_em_cache_set exists"
+    test_case "_em_cache_set exists"
     if (( ${+functions[_em_cache_set]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_invalidate_exists() {
-    log_test "_em_cache_invalidate exists"
+    test_case "_em_cache_invalidate exists"
     if (( ${+functions[_em_cache_invalidate]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_clear_exists() {
-    log_test "_em_cache_clear exists"
+    test_case "_em_cache_clear exists"
     if (( ${+functions[_em_cache_clear]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_stats_exists() {
-    log_test "_em_cache_stats exists"
+    test_case "_em_cache_stats exists"
     if (( ${+functions[_em_cache_stats]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_warm_exists() {
-    log_test "_em_cache_warm exists"
+    test_case "_em_cache_warm exists"
     if (( ${+functions[_em_cache_warm]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_key_format() {
-    log_test "_em_cache_key returns 32-char hex hash"
+    test_case "_em_cache_key returns 32-char hex hash"
     local key=$(_em_cache_key "test-id" 2>&1)
     if [[ "$key" =~ ^[a-f0-9]{32}$ ]]; then
-        pass
+        test_pass
     else
-        fail "expected 32-char hex, got '$key'"
+        test_fail "expected 32-char hex, got '$key'"
     fi
 }
 
 test_em_cache_round_trip() {
-    log_test "cache set/get round-trip"
+    test_case "cache set/get round-trip"
     local test_dir=$(mktemp -d)
 
     # Override cache dir temporarily
@@ -526,14 +534,14 @@ test_em_cache_round_trip() {
     rm -rf "$test_dir"
 
     if [[ "$result" == "test summary" ]]; then
-        pass
+        test_pass
     else
-        fail "expected 'test summary', got '$result'"
+        test_fail "expected 'test summary', got '$result'"
     fi
 }
 
 test_em_cache_ttl_expiry() {
-    log_test "cache TTL expiry works"
+    test_case "cache TTL expiry works"
     local test_dir=$(mktemp -d)
 
     # Override cache dir temporarily
@@ -557,14 +565,14 @@ test_em_cache_ttl_expiry() {
     rm -rf "$test_dir"
 
     if [[ -z "$result" ]]; then
-        pass
+        test_pass
     else
-        fail "cache should have expired, got '$result'"
+        test_fail "cache should have expired, got '$result'"
     fi
 }
 
 test_em_cache_invalidate_removes() {
-    log_test "_em_cache_invalidate removes entries"
+    test_case "_em_cache_invalidate removes entries"
     local test_dir=$(mktemp -d)
 
     # Override cache dir temporarily
@@ -580,32 +588,32 @@ test_em_cache_invalidate_removes() {
     rm -rf "$test_dir"
 
     if [[ -z "$result" ]]; then
-        pass
+        test_pass
     else
-        fail "cache entry should be removed"
+        test_fail "cache entry should be removed"
     fi
 }
 
 test_em_cache_prune_exists() {
-    log_test "_em_cache_prune exists"
+    test_case "_em_cache_prune exists"
     if (( ${+functions[_em_cache_prune]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_enforce_cap_exists() {
-    log_test "_em_cache_enforce_cap exists"
+    test_case "_em_cache_enforce_cap exists"
     if (( ${+functions[_em_cache_enforce_cap]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_cache_prune_removes_expired() {
-    log_test "_em_cache_prune removes expired entries"
+    test_case "_em_cache_prune removes expired entries"
     local test_dir=$(mktemp -d)
 
     # Override cache dir temporarily
@@ -634,14 +642,14 @@ test_em_cache_prune_removes_expired() {
     rm -rf "$test_dir"
 
     if [[ "$pruned" == "1" && "$fresh" == "3" ]]; then
-        pass
+        test_pass
     else
-        fail "expected pruned=1 fresh=3, got pruned=$pruned fresh=$fresh"
+        test_fail "expected pruned=1 fresh=3, got pruned=$pruned fresh=$fresh"
     fi
 }
 
 test_em_cache_prune_no_expired() {
-    log_test "_em_cache_prune returns 0 when nothing expired"
+    test_case "_em_cache_prune returns 0 when nothing expired"
     local test_dir=$(mktemp -d)
 
     local original_func=$(typeset -f _em_cache_dir)
@@ -656,14 +664,14 @@ test_em_cache_prune_no_expired() {
     rm -rf "$test_dir"
 
     if [[ "$pruned" == "0" ]]; then
-        pass
+        test_pass
     else
-        fail "expected 0 pruned, got $pruned"
+        test_fail "expected 0 pruned, got $pruned"
     fi
 }
 
 test_em_cache_enforce_cap_no_eviction() {
-    log_test "_em_cache_enforce_cap skips when under limit"
+    test_case "_em_cache_enforce_cap skips when under limit"
     local test_dir=$(mktemp -d)
 
     local original_func=$(typeset -f _em_cache_dir)
@@ -681,14 +689,14 @@ test_em_cache_enforce_cap_no_eviction() {
     rm -rf "$test_dir"
 
     if [[ "$result" == "hello" ]]; then
-        pass
+        test_pass
     else
-        fail "entry should survive under cap, got '$result'"
+        test_fail "entry should survive under cap, got '$result'"
     fi
 }
 
 test_em_cache_enforce_cap_disabled() {
-    log_test "_em_cache_enforce_cap respects disabled (0)"
+    test_case "_em_cache_enforce_cap respects disabled (0)"
     local test_dir=$(mktemp -d)
 
     local original_func=$(typeset -f _em_cache_dir)
@@ -706,9 +714,9 @@ test_em_cache_enforce_cap_disabled() {
     rm -rf "$test_dir"
 
     if [[ "$result" == "keep me" ]]; then
-        pass
+        test_pass
     else
-        fail "cap=0 should disable eviction, got '$result'"
+        test_fail "cap=0 should disable eviction, got '$result'"
     fi
 }
 
@@ -717,16 +725,16 @@ test_em_cache_enforce_cap_disabled() {
 # ═══════════════════════════════════════════════════════════════
 
 test_em_semver_lt_exists() {
-    log_test "_em_semver_lt exists"
+    test_case "_em_semver_lt exists"
     if (( ${+functions[_em_semver_lt]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_semver_lt_basic() {
-    log_test "_em_semver_lt compares versions correctly"
+    test_case "_em_semver_lt compares versions correctly"
     local failures=0
 
     # 0.9.0 < 1.0.0
@@ -741,18 +749,18 @@ test_em_semver_lt_basic() {
     ! _em_semver_lt "2.0.0" "1.9.9" || { (( failures++ )); }
 
     if (( failures == 0 )); then
-        pass
+        test_pass
     else
-        fail "$failures comparison(s) wrong"
+        test_fail "$failures comparison(s) wrong"
     fi
 }
 
 test_em_doctor_version_check_exists() {
-    log_test "_em_doctor_version_check exists"
+    test_case "_em_doctor_version_check exists"
     if (( ${+functions[_em_doctor_version_check]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
@@ -761,61 +769,61 @@ test_em_doctor_version_check_exists() {
 # ═══════════════════════════════════════════════════════════════
 
 test_em_render_exists() {
-    log_test "_em_render exists"
+    test_case "_em_render exists"
     if (( ${+functions[_em_render]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_render_with_exists() {
-    log_test "_em_render_with exists"
+    test_case "_em_render_with exists"
     if (( ${+functions[_em_render_with]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_smart_render_exists() {
-    log_test "_em_smart_render exists"
+    test_case "_em_smart_render exists"
     if (( ${+functions[_em_smart_render]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_pager_exists() {
-    log_test "_em_pager exists"
+    test_case "_em_pager exists"
     if (( ${+functions[_em_pager]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_render_inbox_exists() {
-    log_test "_em_render_inbox exists"
+    test_case "_em_render_inbox exists"
     if (( ${+functions[_em_render_inbox]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_render_inbox_json_exists() {
-    log_test "_em_render_inbox_json exists"
+    test_case "_em_render_inbox_json exists"
     if (( ${+functions[_em_render_inbox_json]} )); then
-        pass
+        test_pass
     else
-        fail "function not defined"
+        test_fail "function not defined"
     fi
 }
 
 test_em_render_html_detection() {
-    log_test "HTML content detection"
+    test_case "HTML content detection"
     local detected=""
 
     # Mock _em_render_with
@@ -830,14 +838,14 @@ test_em_render_html_detection() {
     fi
 
     if [[ "$detected" == "html" ]]; then
-        pass
+        test_pass
     else
-        fail "expected 'html', got '$detected'"
+        test_fail "expected 'html', got '$detected'"
     fi
 }
 
 test_em_render_markdown_detection() {
-    log_test "Markdown content detection"
+    test_case "Markdown content detection"
     local detected=""
 
     # Mock _em_render_with
@@ -852,14 +860,14 @@ test_em_render_markdown_detection() {
     fi
 
     if [[ "$detected" == "markdown" ]]; then
-        pass
+        test_pass
     else
-        fail "expected 'markdown', got '$detected'"
+        test_fail "expected 'markdown', got '$detected'"
     fi
 }
 
 test_em_render_plain_fallback() {
-    log_test "Plain text fallback"
+    test_case "Plain text fallback"
     local detected=""
 
     # Mock _em_render_with
@@ -874,9 +882,9 @@ test_em_render_plain_fallback() {
     fi
 
     if [[ "$detected" == "plain" ]]; then
-        pass
+        test_pass
     else
-        fail "expected 'plain', got '$detected'"
+        test_fail "expected 'plain', got '$detected'"
     fi
 }
 
@@ -896,184 +904,186 @@ _test_cleanup() {
 }
 
 test_cleanup_cid_image_ref() {
-    log_test "strips [cid:...] image references"
+    test_case "strips [cid:...] image references"
     local input="See attached [cid:image001.png@01DC9787.E32DC900] schedule"
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "See attached  schedule" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_cid_multiple() {
-    log_test "strips multiple CID refs in one line"
+    test_case "strips multiple CID refs in one line"
     local input="Logo [cid:logo.png@ABC] and icon [cid:icon.gif@DEF] here"
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "Logo  and icon  here" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_safe_links() {
-    log_test "strips Microsoft Safe Links URLs"
+    test_case "strips Microsoft Safe Links URLs"
     local input="Visit UNM(https://nam02.safelinks.protection.outlook.com/?url=https%3A%2F%2Funm.edu&data=05%7C02&reserved=0)"
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "Visit UNM" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_safe_links_nam_variants() {
-    log_test "strips Safe Links with different NAM regions"
+    test_case "strips Safe Links with different NAM regions"
     local input="Link(https://nam04.safelinks.protection.outlook.com/?url=test&data=x)"
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "Link" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_mime_part_open() {
-    log_test "removes <#part ...> MIME marker lines"
+    test_case "removes <#part ...> MIME marker lines"
     local input=$'Line before\n<#part type=text/html>\nLine after'
     local result=$(_test_cleanup "$input")
     local expected=$'Line before\nLine after'
     if [[ "$result" == "$expected" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_mime_part_close() {
-    log_test "removes <#/part> MIME marker lines"
+    test_case "removes <#/part> MIME marker lines"
     local input=$'Content here\n<#/part>\nMore content'
     local result=$(_test_cleanup "$input")
     local expected=$'Content here\nMore content'
     if [[ "$result" == "$expected" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_angle_bracket_url() {
-    log_test "strips <https://...> angle-bracket URLs"
+    test_case "strips <https://...> angle-bracket URLs"
     local input="Visit our site <https://artsci.unm.edu/departments/math> today"
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "Visit our site  today" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_angle_bracket_http() {
-    log_test "strips <http://...> angle-bracket URLs (no TLS)"
+    test_case "strips <http://...> angle-bracket URLs (no TLS)"
     local input="Old link <http://example.com/page> here"
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "Old link  here" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_mailto() {
-    log_test "strips (mailto:...) inline references"
+    test_case "strips (mailto:...) inline references"
     local input="Contact John Smith(mailto:john@example.com) for details"
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "Contact John Smith for details" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_preserves_plain_text() {
-    log_test "preserves normal plain text unchanged"
+    test_case "preserves normal plain text unchanged"
     local input="Hello, this is a regular email with no noise."
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "$input" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_preserves_quoted_replies() {
-    log_test "preserves quoted reply lines (>)"
+    test_case "preserves quoted reply lines (>)"
     local input=$'> On Monday, John wrote:\n> Please review the document.'
     local result=$(_test_cleanup "$input")
     if [[ "$result" == "$input" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_combined_noise() {
-    log_test "handles multiple noise types in one email"
+    test_case "handles multiple noise types in one email"
     local input=$'Hello team,\nSee [cid:img.png@ABC] the link(https://nam02.safelinks.protection.outlook.com/?url=test)\n<#part type=text/html>\nContact me(mailto:a@b.com) or visit <https://example.com>\n<#/part>'
     local result=$(_test_cleanup "$input")
     local expected=$'Hello team,\nSee  the link\nContact me or visit '
     if [[ "$result" == "$expected" ]]; then
-        pass
+        test_pass
     else
-        fail "got: '$result'"
+        test_fail "got: '$result'"
     fi
 }
 
 test_cleanup_render_email_body_strips_noise() {
-    log_test "_em_render_email_body strips CID refs"
+    test_case "_em_render_email_body strips CID refs"
     local result=$(echo "Hi [cid:image001.png@X] there" | _em_render_email_body 2>/dev/null)
     # Output should contain "Hi" and "there" but not "[cid:"
     if [[ "$result" == *"Hi"* && "$result" != *"[cid:"* ]]; then
-        pass
+        test_pass
     else
-        fail "CID ref not stripped in render pipeline"
+        test_fail "CID ref not stripped in render pipeline"
     fi
 }
 
 test_cleanup_render_email_body_strips_safe_links() {
-    log_test "_em_render_email_body strips Safe Links"
+    test_case "_em_render_email_body strips Safe Links"
     local result=$(echo "Click here(https://nam02.safelinks.protection.outlook.com/?url=x&data=y)" | _em_render_email_body 2>/dev/null)
     if [[ "$result" == *"Click here"* && "$result" != *"safelinks"* ]]; then
-        pass
+        test_pass
     else
-        fail "Safe Links not stripped in render pipeline"
+        test_fail "Safe Links not stripped in render pipeline"
     fi
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Section 8: Dispatcher Routing (was 7)
+# Section 8: Dispatcher Routing
 # ═══════════════════════════════════════════════════════════════
 
 test_em_doctor_runs() {
-    log_test "em doctor runs without error"
+    test_case "em doctor runs without error"
     local output=$(em doctor 2>&1)
     local exit_code=$?
     if [[ $exit_code -eq 0 ]]; then
-        pass
+        assert_not_contains "$output" "command not found" || return
+        test_pass
     else
-        fail "exit code $exit_code"
+        test_fail "exit code $exit_code"
     fi
 }
 
 test_em_cache_stats_runs() {
-    log_test "em cache stats runs without error"
+    test_case "em cache stats runs without error"
     local output=$(em cache stats 2>&1)
     local exit_code=$?
     if [[ $exit_code -eq 0 ]]; then
-        pass
+        assert_not_contains "$output" "command not found" || return
+        test_pass
     else
-        fail "exit code $exit_code"
+        test_fail "exit code $exit_code"
     fi
 }
 
@@ -1082,56 +1092,56 @@ test_em_cache_stats_runs() {
 # ═══════════════════════════════════════════════════════════════
 
 test_em_ai_backends_exists() {
-    log_test "_EM_AI_BACKENDS array exists"
+    test_case "_EM_AI_BACKENDS array exists"
     if [[ -n "${_EM_AI_BACKENDS}" ]]; then
-        pass
+        test_pass
     else
-        fail "array not defined"
+        test_fail "array not defined"
     fi
 }
 
 test_em_ai_backends_has_default() {
-    log_test "_EM_AI_BACKENDS has 'default' key"
+    test_case "_EM_AI_BACKENDS has 'default' key"
     if [[ -n "${_EM_AI_BACKENDS[default]}" ]]; then
-        pass
+        test_pass
     else
-        fail "'default' key not found"
+        test_fail "'default' key not found"
     fi
 }
 
 test_em_ai_op_timeout_exists() {
-    log_test "_EM_AI_OP_TIMEOUT array exists"
+    test_case "_EM_AI_OP_TIMEOUT array exists"
     if [[ -n "${_EM_AI_OP_TIMEOUT}" ]]; then
-        pass
+        test_pass
     else
-        fail "array not defined"
+        test_fail "array not defined"
     fi
 }
 
 test_em_ai_op_timeout_classify() {
-    log_test "_EM_AI_OP_TIMEOUT[classify] equals 10"
+    test_case "_EM_AI_OP_TIMEOUT[classify] equals 10"
     if [[ "${_EM_AI_OP_TIMEOUT[classify]}" -eq 10 ]]; then
-        pass
+        test_pass
     else
-        fail "expected 10, got '${_EM_AI_OP_TIMEOUT[classify]}'"
+        test_fail "expected 10, got '${_EM_AI_OP_TIMEOUT[classify]}'"
     fi
 }
 
 test_em_ai_op_timeout_summarize() {
-    log_test "_EM_AI_OP_TIMEOUT[summarize] equals 15"
+    test_case "_EM_AI_OP_TIMEOUT[summarize] equals 15"
     if [[ "${_EM_AI_OP_TIMEOUT[summarize]}" -eq 15 ]]; then
-        pass
+        test_pass
     else
-        fail "expected 15, got '${_EM_AI_OP_TIMEOUT[summarize]}'"
+        test_fail "expected 15, got '${_EM_AI_OP_TIMEOUT[summarize]}'"
     fi
 }
 
 test_em_ai_op_timeout_draft() {
-    log_test "_EM_AI_OP_TIMEOUT[draft] equals 30"
+    test_case "_EM_AI_OP_TIMEOUT[draft] equals 30"
     if [[ "${_EM_AI_OP_TIMEOUT[draft]}" -eq 30 ]]; then
-        pass
+        test_pass
     else
-        fail "expected 30, got '${_EM_AI_OP_TIMEOUT[draft]}'"
+        test_fail "expected 30, got '${_EM_AI_OP_TIMEOUT[draft]}'"
     fi
 }
 
@@ -1140,38 +1150,38 @@ test_em_ai_op_timeout_draft() {
 # ═══════════════════════════════════════════════════════════════
 
 test_em_cache_ttl_exists() {
-    log_test "_EM_CACHE_TTL array exists"
+    test_case "_EM_CACHE_TTL array exists"
     if [[ -n "${_EM_CACHE_TTL}" ]]; then
-        pass
+        test_pass
     else
-        fail "array not defined"
+        test_fail "array not defined"
     fi
 }
 
 test_em_cache_ttl_summaries() {
-    log_test "_EM_CACHE_TTL[summaries] equals 86400"
+    test_case "_EM_CACHE_TTL[summaries] equals 86400"
     if [[ "${_EM_CACHE_TTL[summaries]}" -eq 86400 ]]; then
-        pass
+        test_pass
     else
-        fail "expected 86400, got '${_EM_CACHE_TTL[summaries]}'"
+        test_fail "expected 86400, got '${_EM_CACHE_TTL[summaries]}'"
     fi
 }
 
 test_em_cache_ttl_drafts() {
-    log_test "_EM_CACHE_TTL[drafts] equals 3600"
+    test_case "_EM_CACHE_TTL[drafts] equals 3600"
     if [[ "${_EM_CACHE_TTL[drafts]}" -eq 3600 ]]; then
-        pass
+        test_pass
     else
-        fail "expected 3600, got '${_EM_CACHE_TTL[drafts]}'"
+        test_fail "expected 3600, got '${_EM_CACHE_TTL[drafts]}'"
     fi
 }
 
 test_em_cache_ttl_unread() {
-    log_test "_EM_CACHE_TTL[unread] equals 60"
+    test_case "_EM_CACHE_TTL[unread] equals 60"
     if [[ "${_EM_CACHE_TTL[unread]}" -eq 60 ]]; then
-        pass
+        test_pass
     else
-        fail "expected 60, got '${_EM_CACHE_TTL[unread]}'"
+        test_fail "expected 60, got '${_EM_CACHE_TTL[unread]}'"
     fi
 }
 
@@ -1180,27 +1190,24 @@ test_em_cache_ttl_unread() {
 # ═══════════════════════════════════════════════════════════════
 
 main() {
-    echo "${CYAN}════════════════════════════════════════${NC}"
-    echo "${CYAN}  Email Dispatcher Test Suite${NC}"
-    echo "${CYAN}════════════════════════════════════════${NC}"
-    echo ""
+    test_suite_start "Email Dispatcher Test Suite"
 
     setup
 
-    echo "${YELLOW}Section 1: Dispatcher Function Existence${NC}"
+    echo "${CYAN}Section 1: Dispatcher Function Existence${RESET}"
     test_em_dispatcher_exists
     test_em_help_function_exists
     test_em_preview_message_exists
     echo ""
 
-    echo "${YELLOW}Section 2: Help Output${NC}"
+    echo "${CYAN}Section 2: Help Output${RESET}"
     test_em_help_output
     test_em_help_flag
     test_em_help_short_flag
     test_em_help_subcommands
     echo ""
 
-    echo "${YELLOW}Section 3: Himalaya Adapter Functions${NC}"
+    echo "${CYAN}Section 3: Himalaya Adapter Functions${RESET}"
     test_em_himalaya_check_exists
     test_em_himalaya_list_exists
     test_em_himalaya_read_exists
@@ -1218,7 +1225,7 @@ main() {
     test_em_mml_inject_body_exists
     echo ""
 
-    echo "${YELLOW}Section 4: AI Layer Functions${NC}"
+    echo "${CYAN}Section 4: AI Layer Functions${RESET}"
     test_em_ai_query_exists
     test_em_ai_execute_exists
     test_em_ai_backend_for_op_exists
@@ -1238,7 +1245,7 @@ main() {
     test_em_category_icon_urgent
     echo ""
 
-    echo "${YELLOW}Section 5: Cache Functions${NC}"
+    echo "${CYAN}Section 5: Cache Functions${RESET}"
     test_em_cache_dir_exists
     test_em_cache_key_exists
     test_em_cache_get_exists
@@ -1259,13 +1266,13 @@ main() {
     test_em_cache_enforce_cap_disabled
     echo ""
 
-    echo "${YELLOW}Section 5b: Doctor Version Check${NC}"
+    echo "${CYAN}Section 5b: Doctor Version Check${RESET}"
     test_em_semver_lt_exists
     test_em_semver_lt_basic
     test_em_doctor_version_check_exists
     echo ""
 
-    echo "${YELLOW}Section 6: Render Functions${NC}"
+    echo "${CYAN}Section 6: Render Functions${RESET}"
     test_em_render_exists
     test_em_render_with_exists
     test_em_smart_render_exists
@@ -1277,7 +1284,7 @@ main() {
     test_em_render_plain_fallback
     echo ""
 
-    echo "${YELLOW}Section 7: Email Noise Cleanup Patterns${NC}"
+    echo "${CYAN}Section 7: Email Noise Cleanup Patterns${RESET}"
     test_cleanup_cid_image_ref
     test_cleanup_cid_multiple
     test_cleanup_safe_links
@@ -1294,12 +1301,12 @@ main() {
     test_cleanup_render_email_body_strips_safe_links
     echo ""
 
-    echo "${YELLOW}Section 8: Dispatcher Routing${NC}"
+    echo "${CYAN}Section 8: Dispatcher Routing${RESET}"
     test_em_doctor_runs
     test_em_cache_stats_runs
     echo ""
 
-    echo "${YELLOW}Section 9: AI Backend Configuration${NC}"
+    echo "${CYAN}Section 9: AI Backend Configuration${RESET}"
     test_em_ai_backends_exists
     test_em_ai_backends_has_default
     test_em_ai_op_timeout_exists
@@ -1308,25 +1315,16 @@ main() {
     test_em_ai_op_timeout_draft
     echo ""
 
-    echo "${YELLOW}Section 10: Cache TTL Configuration${NC}"
+    echo "${CYAN}Section 10: Cache TTL Configuration${RESET}"
     test_em_cache_ttl_exists
     test_em_cache_ttl_summaries
     test_em_cache_ttl_drafts
     test_em_cache_ttl_unread
     echo ""
 
-    echo "${CYAN}════════════════════════════════════════${NC}"
-    echo "  Passed: ${GREEN}$TESTS_PASSED${NC}"
-    echo "  Failed: ${RED}$TESTS_FAILED${NC}"
-    echo "${CYAN}════════════════════════════════════════${NC}"
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All tests passed!${NC}"
-        exit 0
-    else
-        echo "${RED}✗ Some tests failed${NC}"
-        exit 1
-    fi
+    cleanup
+    test_suite_end
+    exit $?
 }
 
 # Run tests
