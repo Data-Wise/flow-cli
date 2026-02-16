@@ -89,8 +89,42 @@ work() {
   # Show welcome message on first run
   _flow_first_run_welcome
 
-  local project="$1"
-  local editor="${2:-${EDITOR:-nvim}}"
+  # Parse all args: extract -e/--editor flag from any position
+  local editor_requested=false
+  local editor=""
+  local project=""
+  local -a remaining=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -e|--editor)
+        editor_requested=true
+        if [[ -n "${2:-}" && "${2:-}" != -* ]]; then
+          editor="$2"
+          shift 2
+        else
+          editor="${EDITOR:-nvim}"
+          shift
+        fi
+        ;;
+      -*)
+        shift  # skip unknown flags
+        ;;
+      *)
+        remaining+=("$1")
+        shift
+        ;;
+    esac
+  done
+
+  project="${remaining[1]:-}"
+
+  # Deprecate positional [editor] arg (work proj nvim → work proj -e nvim)
+  if [[ -n "${remaining[2]:-}" && "$editor_requested" == false ]]; then
+    _flow_log_warning "Positional editor arg deprecated. Use: work $project -e ${remaining[2]}"
+    editor="${remaining[2]}"
+    editor_requested=true
+  fi
 
   # Check for existing session (avoid conflicts)
   if _flow_has_atlas; then
@@ -116,7 +150,7 @@ work() {
         project=$(_flow_project_name "$root")
       else
         _flow_log_error "No project specified and not in a project directory"
-        echo "Usage: work <project> [editor]"
+        echo "Usage: work <project> [-e editor]"
         return 1
       fi
     fi
@@ -163,8 +197,10 @@ work() {
     fi
   fi
 
-  # Open editor
-  _flow_open_editor "$editor" "$project_path"
+  # Open editor (only if explicitly requested via -e flag)
+  if [[ "$editor_requested" == true ]]; then
+    _flow_open_editor "$editor" "$project_path"
+  fi
 }
 
 # Help function for work command
@@ -183,27 +219,40 @@ ${_C_BOLD}╭──────────────────────�
 ${_C_BOLD}│ 🚀 WORK - Start Working on a Project        │${_C_NC}
 ${_C_BOLD}╰──────────────────────────────────────────────╯${_C_NC}
 
-${_C_BOLD}Usage:${_C_NC} work [project] [editor]
+${_C_BOLD}Usage:${_C_NC} work [project] [-e editor]
 
 ${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
   ${_C_CYAN}work${_C_NC}                Start working (pick project with fzf)
-  ${_C_CYAN}work flow${_C_NC}           Start working on flow-cli
+  ${_C_CYAN}work flow${_C_NC}           Start working on flow-cli (no editor)
   ${_C_CYAN}work stat-545${_C_NC}       Start working on STAT 545 course
 
 ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
   ${_C_DIM}\$${_C_NC} work                    ${_C_DIM}# Pick project with fzf${_C_NC}
-  ${_C_DIM}\$${_C_NC} work flow               ${_C_DIM}# Start on flow-cli${_C_NC}
-  ${_C_DIM}\$${_C_NC} work stat-545           ${_C_DIM}# Start on teaching course${_C_NC}
-  ${_C_DIM}\$${_C_NC} work flow nvim          ${_C_DIM}# Open in neovim${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow               ${_C_DIM}# cd + context (no editor)${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow -e            ${_C_DIM}# Open \$EDITOR (default: nvim)${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow -e positron   ${_C_DIM}# Open in Positron${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow -e code       ${_C_DIM}# Open in VS Code${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow -e cc         ${_C_DIM}# Launch Claude Code (acceptEdits)${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow -e ccy        ${_C_DIM}# Launch Claude Code (yolo mode)${_C_NC}
+  ${_C_DIM}\$${_C_NC} work flow -e cc:new     ${_C_DIM}# New Ghostty window for Claude Code${_C_NC}
 
 ${_C_BLUE}📋 ARGUMENTS${_C_NC}:
   ${_C_CYAN}[project]${_C_NC}           Project name or partial match (optional)
-  ${_C_CYAN}[editor]${_C_NC}            Editor to open (default: \$EDITOR or nvim)
 
 ${_C_BLUE}⚙️  OPTIONS${_C_NC}:
+  ${_C_CYAN}-e, --editor${_C_NC} [name] Open editor (default: \$EDITOR or nvim)
   ${_C_CYAN}-h, --help${_C_NC}          Show this help message
 
+${_C_BLUE}📝 EDITORS${_C_NC}:
+  ${_C_CYAN}positron${_C_NC}            Positron IDE (macOS AppleScript)
+  ${_C_CYAN}code${_C_NC}                VS Code
+  ${_C_CYAN}nvim${_C_NC} / ${_C_CYAN}vim${_C_NC}          Terminal editor
+  ${_C_CYAN}cc${_C_NC} / ${_C_CYAN}claude${_C_NC}         Claude Code (--permission-mode acceptEdits)
+  ${_C_CYAN}ccy${_C_NC}                 Claude Code (yolo / bypass permissions)
+  ${_C_CYAN}cc:new${_C_NC}              New Ghostty window for Claude Code
+
 ${_C_BLUE}📝 SPECIAL BEHAVIOR${_C_NC}:
+  ${_C_DIM}No -e flag:${_C_NC}          Just cd + show context (no editor)
   ${_C_DIM}Teaching projects:${_C_NC}    Auto-detects teaching config
                        Branch safety check before starting
                        Auto-loads teaching shortcuts
@@ -300,6 +349,9 @@ _flow_open_editor() {
         _flow_log_warning "Positron only supported on macOS"
       fi
       ;;
+    cc|claude|cc:new|claude:new|ccy)
+      _work_launch_claude_code "$editor_cmd" "$project_path"
+      ;;
     *)
       # For other editors, check if command exists first
       if command -v "$editor_cmd" &>/dev/null; then
@@ -308,6 +360,39 @@ _flow_open_editor() {
       else
         _flow_log_muted "Editor '$editor_cmd' not found - skipping"
       fi
+      ;;
+  esac
+}
+
+# Launch Claude Code CLI in current or new terminal window
+_work_launch_claude_code() {
+  local editor="$1"
+  local project_path="$2"
+
+  if ! command -v claude &>/dev/null; then
+    _flow_log_error "Claude Code CLI not found"
+    return 1
+  fi
+
+  case "$editor" in
+    cc:new|claude:new)
+      # New Ghostty window
+      if [[ "$TERM_PROGRAM" == "ghostty" && "$OSTYPE" == darwin* ]]; then
+        open -na Ghostty 2>/dev/null
+        _flow_log_success "New Ghostty window opened — run 'claude' there"
+      else
+        _flow_log_warning "New window requires Ghostty on macOS. Launching here..."
+        claude --permission-mode acceptEdits
+      fi
+      ;;
+    ccy)
+      # Yolo mode (bypass permissions)
+      _flow_log_warning "Claude Code launching in YOLO mode (bypass permissions)"
+      claude --dangerously-skip-permissions
+      ;;
+    *)
+      # Current terminal (blocking)
+      claude --permission-mode acceptEdits
       ;;
   esac
 }

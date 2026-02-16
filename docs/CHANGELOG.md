@@ -6,6 +6,27 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.2.0] - 2026-02-16
+
+### Changed
+
+- **`work` command no longer auto-opens editor** — `work flow` now just cd's to project and shows context without launching an editor
+- **New `-e`/`--editor` flag** — explicitly request an editor: `work flow -e` (uses `$EDITOR`), `work flow -e code` (VS Code), etc.
+- **Claude Code editor modes** — `work flow -e cc` (acceptEdits), `-e ccy` (yolo), `-e cc:new` (new Ghostty window)
+- **Positional editor arg deprecated** — `work proj nvim` still works but shows deprecation warning; use `work proj -e nvim` instead
+- **New `_work_launch_claude_code()` function** — handles current terminal, new window, and yolo Claude Code modes
+
+### Added
+
+- 39 new tests in `tests/test-work.zsh` (70 total) — covers `-e` flag parsing, Claude Code modes, deprecation warning, help output, edge cases, `.STATUS` parsing, finish/hop help, teaching workflow, first-run welcome, token validation
+
+### Documentation
+
+- Updated `docs/commands/work.md` — new synopsis, `-e` flag, Claude Code editors, deprecation notice
+- Updated `docs/help/QUICK-REFERENCE.md` — work command examples with `-e` flag
+
+---
+
 ## [7.0.2] - 2026-02-12
 
 ### Added

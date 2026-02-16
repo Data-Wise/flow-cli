@@ -107,7 +107,8 @@ flow-cli is Layer 1 of a 3-layer stack: **flow-cli** (pure ZSH, <10ms) < **aiter
 ### Core Commands
 
 ```bash
-work <project>    # Start session
+work <project>    # Start session (cd + context, no editor)
+work <proj> -e    # Start session + open $EDITOR
 finish [note]     # End session (optional commit)
 hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard
@@ -283,8 +284,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.1.0 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.2.0 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-16 (v7.1.0)
+**Last Updated:** 2026-02-16 (v7.2.0)

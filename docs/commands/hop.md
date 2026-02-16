@@ -147,7 +147,7 @@ tmux ls
 
 | Command           | Description                         |
 | ----------------- | ----------------------------------- |
-| [`work`](work.md) | Start focused session (with editor) |
+| [`work`](work.md) | Start focused session (optional `-e` for editor) |
 | [`pick`](pick.md) | Interactive project picker          |
 | [`dash`](dash.md) | View all projects dashboard         |
 
@@ -155,7 +155,7 @@ tmux ls
 
 ## See Also
 
-- **Command:** [work](work.md) - Start a full work session with editor
+- **Command:** [work](work.md) - Start a full work session (use `-e` for editor)
 - **Command:** [pick](pick.md) - Interactive project picker with categories
 - **Command:** [finish](finish.md) - End session cleanly
 - **Reference:** [Workflow Quick Reference](../help/WORKFLOWS.md) - Common workflows

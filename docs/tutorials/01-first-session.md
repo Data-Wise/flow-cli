@@ -107,7 +107,8 @@ just-start
 └─────────────────────────────────────────────┘
 
 💡 Quick actions:
-   work .        = Start working
+   work .        = Start session
+   work . -e     = Start session + open editor
    status .      = Update status
    dash          = See all projects
 
@@ -118,13 +119,21 @@ just-start
 
 ### Step 1.3: Start Working
 
-Now open the project in your editor:
+Now start a session on the project:
 
 ```bash
 work .
 ```
 
-**What happened:** Flow detects the project type and opens the appropriate editor (VS Code, RStudio, Emacs, etc.).
+**What happened:** Flow starts a work session — it `cd`s into the project, shows context, and begins session tracking.
+
+> **Want an editor too?** Add `-e` to open one:
+>
+> ```bash
+> work . -e          # Opens your $EDITOR
+> work . -e code     # Opens VS Code
+> work . -e cc       # Opens Claude Code
+> ```
 
 ### Checkpoint
 
@@ -132,7 +141,7 @@ At this point, you should have:
 
 - [x] Viewed your dashboard
 - [x] Let Flow pick a project
-- [x] Opened the project in your editor
+- [x] Started a session on the project
 
 **Verify:**
 
@@ -339,7 +348,8 @@ Here's the complete workflow you just learned:
 # Morning: Start your day
 dash                    # See all projects
 just-start             # Auto-pick highest priority
-work .                 # Open in editor
+work .                 # Start session
+work . -e              # Start + open editor (optional)
 
 # During work
 f25                    # Start 25-min timer
@@ -468,19 +478,19 @@ ls ~/projects/
 
 ### "Editor didn't open"
 
-**Cause:** Project type not detected or editor not in PATH
+**Cause:** You need the `-e` flag to open an editor (v7.2.0+)
 
 **Fix:**
 
 ```bash
-# Check project type
-cd ~/projects/your-project
-ls -la
+# Use -e to open an editor
+work . -e          # Uses $EDITOR
+work . -e code     # VS Code
+work . -e positron # Positron
 
-# Manually open editor
+# Or open manually
 code .     # VS Code
 rstudio .  # RStudio
-emacs .    # Emacs
 ```
 
 ---
@@ -493,7 +503,7 @@ In this tutorial, you learned:
 | ------------- | --------------------------------- |
 | Dashboard     | Viewed all projects with `dash`   |
 | Auto-pick     | Let Flow choose with `just-start` |
-| Start work    | Opened project with `work`        |
+| Start work    | Started session with `work`       |
 | Focus timer   | Used `f25` for Pomodoro           |
 | Track wins    | Logged accomplishments with `win` |
 | Update status | Used `status` to track progress   |
@@ -504,7 +514,8 @@ In this tutorial, you learned:
 ```bash
 dash           # View all projects
 just-start     # Auto-pick project
-work .         # Open project
+work .         # Start session
+work . -e      # Start + open editor
 f25            # Start 25-min timer
 why            # Check context
 win "msg"      # Log accomplishment
@@ -532,13 +543,14 @@ Continue your learning:
 ├─────────────────────────────────────────────────────┤
 │  dash          View all projects                    │
 │  just-start    Auto-pick highest priority           │
-│  work .        Open in editor                       │
+│  work .        Start session                         │
+│  work . -e     Start + open editor                   │
 │  f25           Start 25-min timer                   │
 │  why           Check current context                │
 │  win "..."     Log accomplishment                   │
 │  status .      Update progress                      │
 │  wins          See today's wins                     │
 ├─────────────────────────────────────────────────────┤
-│  Workflow: dash → just-start → work → f25 → status │
+│  Workflow: dash → just-start → work [-e] → f25      │
 └─────────────────────────────────────────────────────┘
 ```
