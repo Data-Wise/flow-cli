@@ -4,59 +4,33 @@
 
 # Test setup
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+source "$SCRIPT_DIR/test-framework.zsh"
+
 DOCS_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)/docs/guides"
 DOCS_FILE="$DOCS_DIR/COURSE-PLANNING-BEST-PRACTICES.md"
 
-# Colors for output
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-BLUE='\033[0;34m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-# Test counters
-TESTS_RUN=0
-TESTS_PASSED=0
-TESTS_FAILED=0
-TESTS_SKIPPED=0
-
-# Helper functions
-pass() {
-    ((TESTS_RUN++))
-    ((TESTS_PASSED++))
-    echo -e "${GREEN}✓${NC} $1"
-}
-
-fail() {
-    ((TESTS_RUN++))
-    ((TESTS_FAILED++))
-    echo -e "${RED}✗${NC} $1"
-    [[ -n "${2:-}" ]] && echo -e "  ${RED}Error: $2${NC}"
-}
-
+# Visual grouping helpers (non-framework)
 section() {
     echo ""
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}$1${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+    echo "${CYAN}$1${RESET}"
+    echo "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
 }
 
 subsection() {
     echo ""
-    echo -e "${CYAN}── $1 ──${NC}"
+    echo "${CYAN}── $1 ──${RESET}"
 }
 
 # Check if docs file exists
 if [[ ! -f "$DOCS_FILE" ]]; then
-    echo -e "${RED}ERROR: Documentation file not found: $DOCS_FILE${NC}"
+    echo "${RED}ERROR: Documentation file not found: $DOCS_FILE${RESET}"
     exit 1
 fi
 
-echo "========================================="
-echo "  Course Planning Docs - Unit Tests"
-echo "========================================="
-echo ""
+test_suite_start "Course Planning Docs - Unit Tests"
+
 echo "Target: $DOCS_FILE"
 
 # ============================================================================
@@ -65,44 +39,51 @@ echo "Target: $DOCS_FILE"
 section "1. Document Structure Tests"
 
 subsection "1.1 File existence and size"
+test_case "Documentation file exists"
 if [[ -f "$DOCS_FILE" ]]; then
-    pass "Documentation file exists"
-    LINE_COUNT=$(wc -l < "$DOCS_FILE")
-    if [[ $LINE_COUNT -gt 5000 ]]; then
-        pass "File has substantial content ($LINE_COUNT lines)"
-    else
-        fail "File seems too short ($LINE_COUNT lines, expected >5000)"
-    fi
+    test_pass
 else
-    fail "Documentation file not found"
+    test_fail "Documentation file not found"
+fi
+
+LINE_COUNT=$(wc -l < "$DOCS_FILE")
+test_case "File has substantial content ($LINE_COUNT lines)"
+if [[ $LINE_COUNT -gt 5000 ]]; then
+    test_pass
+else
+    test_fail "File seems too short ($LINE_COUNT lines, expected >5000)"
 fi
 
 subsection "1.2 Version and metadata"
+test_case "Version metadata present"
 if grep -q "**Version:**" "$DOCS_FILE"; then
-    pass "Version metadata present"
+    test_pass
 else
-    fail "Version metadata missing"
+    test_fail "Version metadata missing"
 fi
 
+test_case "Status metadata present"
 if grep -q "**Status:**" "$DOCS_FILE"; then
-    pass "Status metadata present"
+    test_pass
 else
-    fail "Status metadata missing"
+    test_fail "Status metadata missing"
 fi
 
 subsection "1.3 Table of Contents structure"
+test_case "Table of Contents section exists"
 if grep -q "## Table of Contents" "$DOCS_FILE"; then
-    pass "Table of Contents section exists"
+    test_pass
 else
-    fail "Table of Contents section missing"
+    test_fail "Table of Contents section missing"
 fi
 
 # Check for all 4 phases in TOC
 for phase in "Phase 1" "Phase 2" "Phase 3" "Phase 4"; do
+    test_case "Phase reference found: $phase"
     if grep -q "$phase" "$DOCS_FILE"; then
-        pass "Phase reference found: $phase"
+        test_pass
     else
-        fail "Missing phase reference: $phase"
+        test_fail "Missing phase reference: $phase"
     fi
 done
 
@@ -129,10 +110,11 @@ MAIN_SECTIONS=(
 
 for section_name in "${MAIN_SECTIONS[@]}"; do
     section_num=$(echo "$section_name" | cut -d. -f1)
+    test_case "Section $section_num exists: $section_name"
     if grep -q "^## $section_name" "$DOCS_FILE"; then
-        pass "Section $section_num exists: $section_name"
+        test_pass
     else
-        fail "Section $section_num missing: $section_name"
+        test_fail "Section $section_num missing: $section_name"
     fi
 done
 
@@ -161,10 +143,11 @@ declare -A SUBSECTIONS=(
 )
 
 for subsection_name in "${(@k)SUBSECTIONS}"; do
+    test_case "Subsection ${SUBSECTIONS[$subsection_name]} exists: $subsection_name"
     if grep -q "^### $subsection_name" "$DOCS_FILE"; then
-        pass "Subsection ${SUBSECTIONS[$subsection_name]} exists: $subsection_name"
+        test_pass
     else
-        fail "Subsection ${SUBSECTIONS[$subsection_name]} missing: $subsection_name"
+        test_fail "Subsection ${SUBSECTIONS[$subsection_name]} missing: $subsection_name"
     fi
 done
 
@@ -175,18 +158,20 @@ section "4. Cross-Reference Tests"
 
 # Check for internal links (Markdown anchors)
 ANCHOR_COUNT=$(grep -oE '\]\(#[^)]+\)' "$DOCS_FILE" | wc -l)
+test_case "Sufficient internal links ($ANCHOR_COUNT anchors)"
 if [[ $ANCHOR_COUNT -gt 50 ]]; then
-    pass "Sufficient internal links ($ANCHOR_COUNT anchors)"
+    test_pass
 else
-    fail "Too few internal links (found $ANCHOR_COUNT, expected >50)"
+    test_fail "Too few internal links (found $ANCHOR_COUNT, expected >50)"
 fi
 
 # Check for "See Also" sections
 SEE_ALSO_COUNT=$(grep -c "## See Also\|### See Also\|**See Also**" "$DOCS_FILE" 2>/dev/null || echo 0)
+test_case "Cross-reference sections present ($SEE_ALSO_COUNT found)"
 if [[ $SEE_ALSO_COUNT -gt 5 ]]; then
-    pass "Cross-reference sections present ($SEE_ALSO_COUNT found)"
+    test_pass
 else
-    fail "Cross-reference sections sparse (found $SEE_ALSO_COUNT)"
+    test_fail "Cross-reference sections sparse (found $SEE_ALSO_COUNT)"
 fi
 
 # ============================================================================
@@ -196,34 +181,38 @@ section "5. Code Example Structure Tests"
 
 # Count YAML code blocks
 YAML_BLOCKS=$(grep -c '```yaml' "$DOCS_FILE" 2>/dev/null || echo 0)
+test_case "Sufficient YAML examples ($YAML_BLOCKS blocks)"
 if [[ $YAML_BLOCKS -ge 50 ]]; then
-    pass "Sufficient YAML examples ($YAML_BLOCKS blocks)"
+    test_pass
 else
-    fail "Need more YAML examples (found $YAML_BLOCKS, expected >=50)"
+    test_fail "Need more YAML examples (found $YAML_BLOCKS, expected >=50)"
 fi
 
 # Count bash/zsh code blocks
 BASH_BLOCKS=$(grep -c '```bash\|```zsh' "$DOCS_FILE" 2>/dev/null || echo 0)
+test_case "Sufficient bash examples ($BASH_BLOCKS blocks)"
 if [[ $BASH_BLOCKS -ge 20 ]]; then
-    pass "Sufficient bash examples ($BASH_BLOCKS blocks)"
+    test_pass
 else
-    fail "Need more bash examples (found $BASH_BLOCKS, expected >=20)"
+    test_fail "Need more bash examples (found $BASH_BLOCKS, expected >=20)"
 fi
 
 # Count R code blocks
 R_BLOCKS=$(grep -c '```r\|```R' "$DOCS_FILE" 2>/dev/null || echo 0)
+test_case "Sufficient R examples ($R_BLOCKS blocks)"
 if [[ $R_BLOCKS -ge 10 ]]; then
-    pass "Sufficient R examples ($R_BLOCKS blocks)"
+    test_pass
 else
-    fail "Need more R examples (found $R_BLOCKS, expected >=10)"
+    test_fail "Need more R examples (found $R_BLOCKS, expected >=10)"
 fi
 
 # Count mermaid diagrams
 MERMAID_BLOCKS=$(grep -c '```mermaid' "$DOCS_FILE" 2>/dev/null || echo 0)
+test_case "Mermaid diagrams present ($MERMAID_BLOCKS found)"
 if [[ $MERMAID_BLOCKS -ge 3 ]]; then
-    pass "Mermaid diagrams present ($MERMAID_BLOCKS found)"
+    test_pass
 else
-    fail "Need more mermaid diagrams (found $MERMAID_BLOCKS, expected >=3)"
+    test_fail "Need more mermaid diagrams (found $MERMAID_BLOCKS, expected >=3)"
 fi
 
 # ============================================================================
@@ -233,24 +222,27 @@ section "6. STAT 545 Example Tests"
 
 # Check for STAT 545 references
 STAT545_REFS=$(grep -c "STAT 545\|STAT545" "$DOCS_FILE" 2>/dev/null || echo 0)
+test_case "STAT 545 examples well-represented ($STAT545_REFS references)"
 if [[ $STAT545_REFS -ge 50 ]]; then
-    pass "STAT 545 examples well-represented ($STAT545_REFs references)"
+    test_pass
 else
-    fail "Need more STAT 545 examples (found $STAT545_REFS, expected >=50)"
+    test_fail "Need more STAT 545 examples (found $STAT545_REFS, expected >=50)"
 fi
 
 # Check for specific STAT 545 outcomes example
+test_case "STAT 545 learning outcomes documented"
 if grep -q "LO1.*Visualize\|LO2.*Build Models\|LO3.*Communicate" "$DOCS_FILE"; then
-    pass "STAT 545 learning outcomes documented"
+    test_pass
 else
-    fail "STAT 545 learning outcomes not clearly documented"
+    test_fail "STAT 545 learning outcomes not clearly documented"
 fi
 
 # Check for STAT 545 assessment plan
+test_case "STAT 545 assessment weights documented"
 if grep -q "Homework.*30%\|Midterm.*20%\|Project.*30%\|Final.*20%" "$DOCS_FILE"; then
-    pass "STAT 545 assessment weights documented"
+    test_pass
 else
-    fail "STAT 545 assessment weights not clearly documented"
+    test_fail "STAT 545 assessment weights not clearly documented"
 fi
 
 # ============================================================================
@@ -258,32 +250,32 @@ fi
 # ============================================================================
 section "7. teach-config.yml Example Tests"
 
-# Check for teach-config.yml examples
+test_case "teach-config.yml referenced in documentation"
 if grep -q "teach-config.yml" "$DOCS_FILE"; then
-    pass "teach-config.yml referenced in documentation"
+    test_pass
 else
-    fail "teach-config.yml not referenced"
+    test_fail "teach-config.yml not referenced"
 fi
 
-# Check for learning_outcomes structure
+test_case "learning_outcomes structure documented"
 if grep -q "learning_outcomes:" "$DOCS_FILE"; then
-    pass "learning_outcomes structure documented"
+    test_pass
 else
-    fail "learning_outcomes structure not documented"
+    test_fail "learning_outcomes structure not documented"
 fi
 
-# Check for assessments structure
+test_case "assessments structure documented"
 if grep -q "assessments:" "$DOCS_FILE"; then
-    pass "assessments structure documented"
+    test_pass
 else
-    fail "assessments structure not documented"
+    test_fail "assessments structure not documented"
 fi
 
-# Check for course_structure
+test_case "course_structure documented"
 if grep -q "course_structure:" "$DOCS_FILE"; then
-    pass "course_structure documented"
+    test_pass
 else
-    fail "course_structure not documented"
+    test_fail "course_structure not documented"
 fi
 
 # ============================================================================
@@ -291,19 +283,20 @@ fi
 # ============================================================================
 section "8. Research Citation Tests"
 
-# Check for research citations
+test_case "Research citations section referenced"
 if grep -q "Research Citations\|References" "$DOCS_FILE"; then
-    pass "Research citations section referenced"
+    test_pass
 else
-    fail "Research citations section not found"
+    test_fail "Research citations section not found"
 fi
 
 # Check for Harvard-style citations
 HARVARD_CITATIONS=$(grep -cE '\([0-9]{4}\)\.' "$DOCS_FILE" 2>/dev/null || echo 0)
+test_case "Harvard-style citations present ($HARVARD_CITATIONS found)"
 if [[ $HARVARD_CITATIONS -ge 5 ]]; then
-    pass "Harvard-style citations present ($HARVARD_CITATIONS found)"
+    test_pass
 else
-    fail "Need more Harvard-style citations (found $HARVARD_CITATIONS, expected >=5)"
+    test_fail "Need more Harvard-style citations (found $HARVARD_CITATIONS, expected >=5)"
 fi
 
 # ============================================================================
@@ -313,10 +306,11 @@ section "9. Command Documentation Tests"
 
 # Check for teach command documentation
 TEACH_CMDS=$(grep -cE 'teach [a-z]+' "$DOCS_FILE" 2>/dev/null || echo 0)
+test_case "teach commands documented ($TEACH_CMDS occurrences)"
 if [[ $TEACH_CMDS -ge 30 ]]; then
-    pass "teach commands documented ($TEACH_CMDS occurrences)"
+    test_pass
 else
-    fail "Need more teach command documentation (found $TEACH_CMDS, expected >=30)"
+    test_fail "Need more teach command documentation (found $TEACH_CMDS, expected >=30)"
 fi
 
 # Check for specific commands
@@ -334,10 +328,11 @@ declare -A COMMANDS=(
 )
 
 for cmd_pattern in "${(@k)COMMANDS}"; do
+    test_case "${COMMANDS[$cmd_pattern]} command documented"
     if grep -qE "$cmd_pattern" "$DOCS_FILE"; then
-        pass "${COMMANDS[$cmd_pattern]} command documented"
+        test_pass
     else
-        fail "${COMMANDS[$cmd_pattern]} command not found in docs"
+        test_fail "${COMMANDS[$cmd_pattern]} command not found in docs"
     fi
 done
 
@@ -346,47 +341,26 @@ done
 # ============================================================================
 section "10. flow-cli Integration Tests"
 
-# Check for flow-cli references
+test_case "flow-cli referenced in documentation"
 if grep -q "flow-cli" "$DOCS_FILE"; then
-    pass "flow-cli referenced in documentation"
+    test_pass
 else
-    fail "flow-cli not referenced"
+    test_fail "flow-cli not referenced"
 fi
 
-# Check for .flow directory
+test_case ".flow directory referenced"
 if grep -q "\.flow/" "$DOCS_FILE"; then
-    pass ".flow directory referenced"
+    test_pass
 else
-    fail ".flow directory not referenced"
+    test_fail ".flow directory not referenced"
 fi
 
-# Check for lib/ references
+test_case "lib/ directory referenced"
 if grep -q "lib/" "$DOCS_FILE"; then
-    pass "lib/ directory referenced"
+    test_pass
 else
-    fail "lib/ directory not referenced"
+    test_fail "lib/ directory not referenced"
 fi
 
-# ============================================================================
-# TEST SUMMARY
-# ============================================================================
-section "TEST SUMMARY"
-
-TOTAL=$((TESTS_PASSED + TESTS_FAILED))
-
-echo ""
-echo "────────────────────────────────────────────"
-echo -e "  ${GREEN}Passed:${NC} $TESTS_PASSED"
-echo -e "  ${RED}Failed:${NC} $TESTS_FAILED"
-echo -e "  ${BLUE}Total:${NC}  $TOTAL"
-echo "────────────────────────────────────────────"
-
-if [[ $TESTS_FAILED -eq 0 ]]; then
-    echo ""
-    echo -e "${GREEN}✅ All unit tests passed!${NC}"
-    exit 0
-else
-    echo ""
-    echo -e "${RED}❌ Some tests failed. Please review.${NC}"
-    exit 1
-fi
+test_suite_end
+exit $?

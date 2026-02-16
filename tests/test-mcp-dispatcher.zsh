@@ -3,47 +3,20 @@
 # Tests: help, subcommand detection, error handling
 
 # ============================================================================
-# TEST FRAMEWORK
+# FRAMEWORK
 # ============================================================================
 
-TESTS_PASSED=0
-TESTS_FAILED=0
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
+source "$SCRIPT_DIR/test-framework.zsh"
 
 # ============================================================================
-# SETUP
+# SETUP / CLEANUP
 # ============================================================================
 
 setup() {
-    echo ""
-    echo "${YELLOW}Setting up test environment...${NC}"
-
-    # Get project root
-    local project_root=""
-
-    if [[ -n "${0:A}" ]]; then
-        project_root="${0:A:h:h}"
-    fi
+    local project_root="$PROJECT_ROOT"
 
     if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/mcp-dispatcher.zsh" ]]; then
         if [[ -f "$PWD/lib/dispatchers/mcp-dispatcher.zsh" ]]; then
@@ -54,60 +27,60 @@ setup() {
     fi
 
     if [[ -z "$project_root" || ! -f "$project_root/lib/dispatchers/mcp-dispatcher.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root - run from project directory${NC}"
+        echo "${RED}ERROR: Cannot find project root - run from project directory${RESET}"
         exit 1
     fi
 
-    echo "  Project root: $project_root"
-
     # Source mcp dispatcher
     source "$project_root/lib/dispatchers/mcp-dispatcher.zsh"
-
-    echo "  Loaded: mcp-dispatcher.zsh"
-    echo ""
 }
+
+cleanup() {
+    reset_mocks
+}
+trap cleanup EXIT
 
 # ============================================================================
 # FUNCTION EXISTENCE TESTS
 # ============================================================================
 
 test_mcp_function_exists() {
-    log_test "mcp function is defined"
+    test_case "mcp function is defined"
 
     if (( $+functions[mcp] )); then
-        pass
+        test_pass
     else
-        fail "mcp function not defined"
+        test_fail "mcp function not defined"
     fi
 }
 
 test_mcp_help_function_exists() {
-    log_test "_mcp_help function is defined"
+    test_case "_mcp_help function is defined"
 
     if (( $+functions[_mcp_help] )); then
-        pass
+        test_pass
     else
-        fail "_mcp_help function not defined"
+        test_fail "_mcp_help function not defined"
     fi
 }
 
 test_mcp_list_function_exists() {
-    log_test "_mcp_list function is defined"
+    test_case "_mcp_list function is defined"
 
     if (( $+functions[_mcp_list] )); then
-        pass
+        test_pass
     else
-        fail "_mcp_list function not defined"
+        test_fail "_mcp_list function not defined"
     fi
 }
 
 test_mcp_cd_function_exists() {
-    log_test "_mcp_cd function is defined"
+    test_case "_mcp_cd function is defined"
 
     if (( $+functions[_mcp_cd] )); then
-        pass
+        test_pass
     else
-        fail "_mcp_cd function not defined"
+        test_fail "_mcp_cd function not defined"
     fi
 }
 
@@ -116,50 +89,54 @@ test_mcp_cd_function_exists() {
 # ============================================================================
 
 test_mcp_help() {
-    log_test "mcp help shows usage"
+    test_case "mcp help shows usage"
 
     local output=$(mcp help 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "MCP Server Management"; then
-        pass
+        test_pass
     else
-        fail "Help header not found"
+        test_fail "Help header not found"
     fi
 }
 
 test_mcp_help_h_flag() {
-    log_test "mcp -h works"
+    test_case "mcp -h works"
 
     local output=$(mcp -h 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "MCP Server Management"; then
-        pass
+        test_pass
     else
-        fail "-h flag not working"
+        test_fail "-h flag not working"
     fi
 }
 
 test_mcp_help_long_flag() {
-    log_test "mcp --help works"
+    test_case "mcp --help works"
 
     local output=$(mcp --help 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "MCP Server Management"; then
-        pass
+        test_pass
     else
-        fail "--help flag not working"
+        test_fail "--help flag not working"
     fi
 }
 
 test_mcp_help_h_shortcut() {
-    log_test "mcp h works (shortcut)"
+    test_case "mcp h works (shortcut)"
 
     local output=$(mcp h 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "MCP Server Management"; then
-        pass
+        test_pass
     else
-        fail "h shortcut not working"
+        test_fail "h shortcut not working"
     fi
 }
 
@@ -168,98 +145,98 @@ test_mcp_help_h_shortcut() {
 # ============================================================================
 
 test_help_shows_list() {
-    log_test "help shows list command"
+    test_case "help shows list command"
 
     local output=$(mcp help 2>&1)
 
     if echo "$output" | grep -q "mcp list"; then
-        pass
+        test_pass
     else
-        fail "list not in help"
+        test_fail "list not in help"
     fi
 }
 
 test_help_shows_cd() {
-    log_test "help shows cd command"
+    test_case "help shows cd command"
 
     local output=$(mcp help 2>&1)
 
     if echo "$output" | grep -q "mcp cd"; then
-        pass
+        test_pass
     else
-        fail "cd not in help"
+        test_fail "cd not in help"
     fi
 }
 
 test_help_shows_test() {
-    log_test "help shows test command"
+    test_case "help shows test command"
 
     local output=$(mcp help 2>&1)
 
     if echo "$output" | grep -q "mcp test"; then
-        pass
+        test_pass
     else
-        fail "test not in help"
+        test_fail "test not in help"
     fi
 }
 
 test_help_shows_edit() {
-    log_test "help shows edit command"
+    test_case "help shows edit command"
 
     local output=$(mcp help 2>&1)
 
     if echo "$output" | grep -q "mcp edit"; then
-        pass
+        test_pass
     else
-        fail "edit not in help"
+        test_fail "edit not in help"
     fi
 }
 
 test_help_shows_status() {
-    log_test "help shows status command"
+    test_case "help shows status command"
 
     local output=$(mcp help 2>&1)
 
     if echo "$output" | grep -q "mcp status"; then
-        pass
+        test_pass
     else
-        fail "status not in help"
+        test_fail "status not in help"
     fi
 }
 
 test_help_shows_pick() {
-    log_test "help shows pick command"
+    test_case "help shows pick command"
 
     local output=$(mcp help 2>&1)
 
     if echo "$output" | grep -q "mcp pick"; then
-        pass
+        test_pass
     else
-        fail "pick not in help"
+        test_fail "pick not in help"
     fi
 }
 
 test_help_shows_shortcuts() {
-    log_test "help shows short forms section"
+    test_case "help shows short forms section"
 
     local output=$(mcp help 2>&1)
 
     if echo "$output" | grep -q "SHORT FORMS"; then
-        pass
+        test_pass
     else
-        fail "short forms section not found"
+        test_fail "short forms section not found"
     fi
 }
 
 test_help_shows_locations() {
-    log_test "help shows locations section"
+    test_case "help shows locations section"
 
     local output=$(mcp help 2>&1)
 
     if echo "$output" | grep -q "LOCATIONS"; then
-        pass
+        test_pass
     else
-        fail "locations section not found"
+        test_fail "locations section not found"
     fi
 }
 
@@ -268,26 +245,28 @@ test_help_shows_locations() {
 # ============================================================================
 
 test_unknown_command() {
-    log_test "mcp unknown-cmd shows error"
+    test_case "mcp unknown-cmd shows error"
 
     local output=$(mcp unknown-xyz-command 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "unknown action"; then
-        pass
+        test_pass
     else
-        fail "Unknown action error not shown"
+        test_fail "Unknown action error not shown"
     fi
 }
 
 test_unknown_command_suggests_help() {
-    log_test "unknown command suggests mcp help"
+    test_case "unknown command suggests mcp help"
 
     local output=$(mcp foobar 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "mcp help"; then
-        pass
+        test_pass
     else
-        fail "Doesn't suggest mcp help"
+        test_fail "Doesn't suggest mcp help"
     fi
 }
 
@@ -296,26 +275,28 @@ test_unknown_command_suggests_help() {
 # ============================================================================
 
 test_edit_no_args() {
-    log_test "mcp edit with no args shows usage"
+    test_case "mcp edit with no args shows usage"
 
     local output=$(mcp edit 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "mcp edit"; then
-        pass
+        test_pass
     else
-        fail "Usage message not shown"
+        test_fail "Usage message not shown"
     fi
 }
 
 test_edit_nonexistent() {
-    log_test "mcp edit with nonexistent server shows error"
+    test_case "mcp edit with nonexistent server shows error"
 
     local output=$(mcp edit nonexistent-server-xyz 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "server not found"; then
-        pass
+        test_pass
     else
-        fail "Error message not shown for missing server"
+        test_fail "Error message not shown for missing server"
     fi
 }
 
@@ -324,14 +305,15 @@ test_edit_nonexistent() {
 # ============================================================================
 
 test_cd_nonexistent() {
-    log_test "mcp cd with nonexistent server shows error"
+    test_case "mcp cd with nonexistent server shows error"
 
     local output=$(mcp cd nonexistent-server-xyz 2>&1)
 
+    assert_not_contains "$output" "command not found"
     if echo "$output" | grep -q "server not found"; then
-        pass
+        test_pass
     else
-        fail "Error message not shown for missing server"
+        test_fail "Error message not shown for missing server"
     fi
 }
 
@@ -340,14 +322,11 @@ test_cd_nonexistent() {
 # ============================================================================
 
 main() {
-    echo ""
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  MCP Dispatcher Tests                                      ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
+    test_suite_start "MCP Dispatcher Tests"
 
     setup
 
-    echo "${YELLOW}Function Existence Tests${NC}"
+    echo "${YELLOW}Function Existence Tests${RESET}"
     echo "────────────────────────────────────────"
     test_mcp_function_exists
     test_mcp_help_function_exists
@@ -355,7 +334,7 @@ main() {
     test_mcp_cd_function_exists
     echo ""
 
-    echo "${YELLOW}Help Tests${NC}"
+    echo "${YELLOW}Help Tests${RESET}"
     echo "────────────────────────────────────────"
     test_mcp_help
     test_mcp_help_h_flag
@@ -363,7 +342,7 @@ main() {
     test_mcp_help_h_shortcut
     echo ""
 
-    echo "${YELLOW}Help Content Tests${NC}"
+    echo "${YELLOW}Help Content Tests${RESET}"
     echo "────────────────────────────────────────"
     test_help_shows_list
     test_help_shows_cd
@@ -375,33 +354,23 @@ main() {
     test_help_shows_locations
     echo ""
 
-    echo "${YELLOW}Unknown Command Tests${NC}"
+    echo "${YELLOW}Unknown Command Tests${RESET}"
     echo "────────────────────────────────────────"
     test_unknown_command
     test_unknown_command_suggests_help
     echo ""
 
-    echo "${YELLOW}Validation Tests${NC}"
+    echo "${YELLOW}Validation Tests${RESET}"
     echo "────────────────────────────────────────"
     test_edit_no_args
     test_edit_nonexistent
     test_cd_nonexistent
     echo ""
 
-    echo "════════════════════════════════════════"
-    echo "${CYAN}Summary${NC}"
-    echo "────────────────────────────────────────"
-    echo "  Passed: ${GREEN}$TESTS_PASSED${NC}"
-    echo "  Failed: ${RED}$TESTS_FAILED${NC}"
-    echo ""
+    cleanup
 
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All tests passed!${NC}"
-        exit 0
-    else
-        echo "${RED}✗ Some tests failed${NC}"
-        exit 1
-    fi
+    test_suite_end
+    exit $?
 }
 
 main "$@"

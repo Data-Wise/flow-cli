@@ -4,38 +4,17 @@
 # Generated: 2026-02-10
 
 # ============================================================================
-# TEST FRAMEWORK
-# ============================================================================
-
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
-
-# ============================================================================
-# SETUP
+# FRAMEWORK
 # ============================================================================
 
 SCRIPT_DIR="${0:A:h}"
 PROJECT_ROOT="${SCRIPT_DIR:h}"
+
+source "$SCRIPT_DIR/test-framework.zsh"
+
+# ============================================================================
+# SETUP
+# ============================================================================
 
 # Source only git-helpers (avoid full plugin load for unit tests)
 source "$PROJECT_ROOT/lib/core.zsh" 2>/dev/null || true
@@ -43,7 +22,7 @@ source "$PROJECT_ROOT/lib/core.zsh" 2>/dev/null || true
 # We need _git_detect_production_conflicts available
 # Source git-helpers directly
 source "$PROJECT_ROOT/lib/git-helpers.zsh" 2>/dev/null || {
-    echo "${RED}ERROR: Cannot source git-helpers.zsh${NC}"
+    echo "${RED}ERROR: Cannot source git-helpers.zsh${RESET}"
     exit 1
 }
 
@@ -88,16 +67,12 @@ _create_bare_remote() {
 # TESTS
 # ============================================================================
 
-echo ""
-echo "${YELLOW}═══════════════════════════════════════════════${NC}"
-echo "${YELLOW}  Production Conflict Detection Tests (#372)${NC}"
-echo "${YELLOW}═══════════════════════════════════════════════${NC}"
-echo ""
+test_suite_start "Production Conflict Detection Tests (#372)"
 
 # --------------------------------------------------------------------------
 # Test 1: Both branches at same commit → returns 0
 # --------------------------------------------------------------------------
-log_test "both branches at same commit → no conflict"
+test_case "both branches at same commit → no conflict"
 
 repo=$(_create_test_repo "test1")
 _create_bare_remote "test1"
@@ -106,15 +81,15 @@ git checkout draft -q
 
 _git_detect_production_conflicts "draft" "main"
 if [[ $? -eq 0 ]]; then
-    pass
+    test_pass
 else
-    fail "expected 0, got non-zero"
+    test_fail "expected 0, got non-zero"
 fi
 
 # --------------------------------------------------------------------------
 # Test 2: Draft ahead, production unchanged → returns 0
 # --------------------------------------------------------------------------
-log_test "draft ahead, production unchanged → no conflict"
+test_case "draft ahead, production unchanged → no conflict"
 
 repo=$(_create_test_repo "test2")
 cd "$repo"
@@ -127,15 +102,15 @@ cd "$repo"
 
 _git_detect_production_conflicts "draft" "main"
 if [[ $? -eq 0 ]]; then
-    pass
+    test_pass
 else
-    fail "expected 0, got non-zero"
+    test_fail "expected 0, got non-zero"
 fi
 
 # --------------------------------------------------------------------------
 # Test 3: Production has real content commits → returns 1
 # --------------------------------------------------------------------------
-log_test "production has real content commits → conflict detected"
+test_case "production has real content commits → conflict detected"
 
 repo=$(_create_test_repo "test3")
 cd "$repo"
@@ -154,16 +129,16 @@ cd "$repo"
 
 _git_detect_production_conflicts "draft" "main"
 if [[ $? -eq 1 ]]; then
-    pass
+    test_pass
 else
-    fail "expected 1 (conflict), got 0"
+    test_fail "expected 1 (conflict), got 0"
 fi
 
 # --------------------------------------------------------------------------
 # Test 4: Production has only merge commits (--no-ff) → returns 0
 # This is the core #372 fix: merge commits should NOT trigger false positive
 # --------------------------------------------------------------------------
-log_test "production has only --no-ff merge commits → no conflict (core #372 fix)"
+test_case "production has only --no-ff merge commits → no conflict (core #372 fix)"
 
 repo=$(_create_test_repo "test4")
 cd "$repo"
@@ -184,15 +159,15 @@ cd "$repo"
 
 _git_detect_production_conflicts "draft" "main"
 if [[ $? -eq 0 ]]; then
-    pass
+    test_pass
 else
-    fail "expected 0, got non-zero (false positive from merge commit)"
+    test_fail "expected 0, got non-zero (false positive from merge commit)"
 fi
 
 # --------------------------------------------------------------------------
 # Test 5: Draft already merged into production (is-ancestor fast path) → returns 0
 # --------------------------------------------------------------------------
-log_test "draft is ancestor of production → no conflict (fast path)"
+test_case "draft is ancestor of production → no conflict (fast path)"
 
 repo=$(_create_test_repo "test5")
 cd "$repo"
@@ -211,16 +186,16 @@ cd "$repo"
 
 _git_detect_production_conflicts "draft" "main"
 if [[ $? -eq 0 ]]; then
-    pass
+    test_pass
 else
-    fail "expected 0, got non-zero"
+    test_fail "expected 0, got non-zero"
 fi
 
 # --------------------------------------------------------------------------
 # Test 6: After back-merge, detection returns 0
 # Simulates the auto back-merge that keeps branches in sync
 # --------------------------------------------------------------------------
-log_test "after back-merge sync → no conflict"
+test_case "after back-merge sync → no conflict"
 
 repo=$(_create_test_repo "test6")
 cd "$repo"
@@ -243,16 +218,16 @@ cd "$repo"
 
 _git_detect_production_conflicts "draft" "main"
 if [[ $? -eq 0 ]]; then
-    pass
+    test_pass
 else
-    fail "expected 0, got non-zero"
+    test_fail "expected 0, got non-zero"
 fi
 
 # --------------------------------------------------------------------------
 # Test 7: Multiple --no-ff merges accumulated → still returns 0
 # Simulates STAT-545 scenario with 60+ merge commits
 # --------------------------------------------------------------------------
-log_test "multiple accumulated --no-ff merge commits → no conflict"
+test_case "multiple accumulated --no-ff merge commits → no conflict"
 
 repo=$(_create_test_repo "test7")
 cd "$repo"
@@ -274,19 +249,14 @@ cd "$repo"
 
 _git_detect_production_conflicts "draft" "main"
 if [[ $? -eq 0 ]]; then
-    pass
+    test_pass
 else
-    fail "expected 0, got non-zero (false positive from accumulated merges)"
+    test_fail "expected 0, got non-zero (false positive from accumulated merges)"
 fi
 
 # ============================================================================
 # RESULTS
 # ============================================================================
 
-echo ""
-echo "${YELLOW}═══════════════════════════════════════════════${NC}"
-echo "  Results: ${GREEN}$TESTS_PASSED passed${NC}, ${RED}$TESTS_FAILED failed${NC}"
-echo "${YELLOW}═══════════════════════════════════════════════${NC}"
-echo ""
-
-[[ $TESTS_FAILED -eq 0 ]] && exit 0 || exit 1
+test_suite_end
+exit $?

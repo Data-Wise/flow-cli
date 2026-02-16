@@ -20,100 +20,41 @@
 # Created: 2026-01-23
 # ══════════════════════════════════════════════════════════════════════════════
 
-TESTS_PASSED=0
-TESTS_FAILED=0
-TESTS_SKIPPED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-DIM='\033[2m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}E2E Test:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
-
-skip() {
-    echo "${YELLOW}⊘ SKIP${NC} - $1"
-    ((TESTS_SKIPPED++))
-}
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-framework.zsh"; exit 1 }
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SETUP & TEARDOWN
 # ══════════════════════════════════════════════════════════════════════════════
 
 setup() {
-    echo ""
-    echo "${YELLOW}Setting up E2E test environment...${NC}"
-
-    # Get project root
-    if [[ -n "${0:A}" ]]; then
-        PROJECT_ROOT="${0:A:h:h}"
+    if [[ ! -f "$PROJECT_ROOT/flow.plugin.zsh" ]]; then
+        echo "ERROR: Cannot find project root"; exit 1
     fi
 
-    if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/commands/doctor.zsh" ]]; then
-        if [[ -f "$PWD/commands/doctor.zsh" ]]; then
-            PROJECT_ROOT="$PWD"
-        elif [[ -f "$PWD/../commands/doctor.zsh" ]]; then
-            PROJECT_ROOT="$PWD/.."
-        fi
-    fi
+    FLOW_QUIET=1
+    FLOW_ATLAS_ENABLED=no
+    FLOW_PLUGIN_DIR="$PROJECT_ROOT"
+    source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || { echo "ERROR: Plugin failed to load"; exit 1 }
+    exec < /dev/null
 
-    if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/commands/doctor.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root${NC}"
-        exit 1
-    fi
-
-    echo "  Project root: $PROJECT_ROOT"
-
-    # Set up test cache directory BEFORE sourcing plugin
-    # (plugin may set DOCTOR_CACHE_DIR as readonly)
     export TEST_CACHE_DIR="${HOME}/.flow/cache/doctor-e2e-test"
     export DOCTOR_CACHE_DIR="$TEST_CACHE_DIR"
     mkdir -p "$TEST_CACHE_DIR" 2>/dev/null
-
-    # Source the plugin
-    source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null
-
-    # Verify git repo
-    if ! git rev-parse --git-dir &>/dev/null; then
-        echo "${YELLOW}  Warning: Not in git repo (some tests may skip)${NC}"
-    fi
-
-    echo ""
 }
 
 cleanup() {
-    echo ""
-    echo "${YELLOW}Cleaning up E2E test environment...${NC}"
-
-    # Clean up test cache
     rm -rf "$TEST_CACHE_DIR" 2>/dev/null
-
-    echo "  Test cache cleaned"
-    echo ""
 }
+trap cleanup EXIT
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SCENARIO 1: MORNING ROUTINE (QUICK HEALTH CHECK)
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_morning_routine_quick_check() {
-    log_test "S1. Morning routine: Quick token check"
+    test_case "S1. Morning routine: Quick token check"
 
     # User story: Developer starts work, runs quick health check
     # Expected: < 3s first check, shows token status
@@ -121,39 +62,38 @@ test_morning_routine_quick_check() {
     local output=$(doctor --dot 2>&1)
     local exit_code=$?
 
-    # Should complete successfully
-    if [[ $exit_code -eq 0 ]] || [[ $exit_code -eq 1 ]]; then
-        # Should show token section
-        if echo "$output" | grep -qi "token"; then
-            pass
-        else
-            fail "No token output shown"
-        fi
+    # 0=healthy, 1=issues found — both valid for a health check
+    if (( exit_code <= 1 )); then
+        assert_contains "$output" "token" "doctor --dot should mention token status" || return
+        test_pass
     else
-        fail "Command failed with exit code $exit_code"
+        test_fail "Command failed with exit code $exit_code (expected 0 or 1)"
     fi
 }
 
 test_morning_routine_cached_recheck() {
-    log_test "S1. Morning routine: Cached re-check (< 1s)"
+    test_case "S1. Morning routine: Cached re-check (< 1s)"
 
     # User story: Developer checks again 2 minutes later
     # Expected: < 1s (cached), same result
 
     # First check (populate cache)
-    doctor --dot >/dev/null 2>&1
+    local output=$(doctor --dot 2>&1)
+    assert_not_contains "$output" "command not found" "doctor command should be available" || return
 
     # Second check (should use cache)
     local start=$(date +%s)
-    doctor --dot >/dev/null 2>&1
+    output=$(doctor --dot 2>&1)
     local end=$(date +%s)
     local duration=$((end - start))
 
+    assert_not_contains "$output" "command not found" "doctor command should still be available" || return
+
     # Should be instant (< 1s with second precision)
     if (( duration <= 1 )); then
-        pass
+        test_pass
     else
-        fail "Cached check took ${duration}s (expected <= 1s)"
+        test_fail "Cached check took ${duration}s (expected <= 1s)"
     fi
 }
 
@@ -162,37 +102,37 @@ test_morning_routine_cached_recheck() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_expiration_detection() {
-    log_test "S2. Token expiration: Detection workflow"
+    test_case "S2. Token expiration: Detection workflow"
 
     # User story: User runs doctor, sees expiring token warning
     # Expected: Clear warning with days remaining
 
     local output=$(doctor --dot 2>&1)
 
-    # Should either show "valid" or "expiring" or "expired"
-    if echo "$output" | grep -qiE "(valid|expiring|expired|token)"; then
-        pass
-    else
-        fail "No token status shown"
-    fi
+    # Should either show "valid" or "expiring" or "expired" or "token"
+    assert_matches_pattern "$output" "(valid|expiring|expired|token)" \
+        "doctor --dot should show token status (valid/expiring/expired/token)" || return
+    test_pass
 }
 
 test_expiration_verbose_details() {
-    log_test "S2. Token expiration: Verbose shows metadata"
+    test_case "S2. Token expiration: Verbose shows metadata"
 
     # User story: User wants more details about token
     # Expected: Username, age, type shown
 
     local output=$(doctor --dot --verbose 2>&1)
 
-    # Verbose should show more information
-    # At minimum, should be longer than quiet output
+    assert_not_empty "$output" "Verbose mode should produce output" || return
+    assert_not_contains "$output" "command not found" "doctor command should be available" || return
+
+    # Verbose should show more information — at minimum 3+ lines
     local verbose_lines=$(echo "$output" | wc -l | tr -d ' ')
 
     if (( verbose_lines >= 3 )); then
-        pass
+        test_pass
     else
-        fail "Verbose mode not showing enough detail"
+        test_fail "Verbose mode not showing enough detail ($verbose_lines lines, expected >= 3)"
     fi
 }
 
@@ -201,7 +141,7 @@ test_expiration_verbose_details() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cache_fresh_invalidation() {
-    log_test "S3. Cache: Fresh check after clearing"
+    test_case "S3. Cache: Fresh check after clearing"
 
     # User story: User clears cache, forces fresh check
     # Expected: Re-validates with GitHub API (if tokens configured)
@@ -209,7 +149,7 @@ test_cache_fresh_invalidation() {
 
     # Check if tokens are configured
     if ! command -v sec &>/dev/null || ! sec list &>/dev/null 2>&1; then
-        skip "Keychain access unavailable (expected in test environment)"
+        test_skip "Keychain access unavailable (expected in test environment)"
         return
     fi
 
@@ -221,28 +161,30 @@ test_cache_fresh_invalidation() {
     local output=$(doctor --dot 2>&1)
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]] || [[ $exit_code -eq 1 ]]; then
+    # 0=healthy, 1=issues found — both valid for a fresh check
+    if (( exit_code <= 1 )); then
         # Cache file created if tokens exist and validation succeeded
         # Skip if no cache (indicates no tokens or API failure)
         if [[ -f "$DOCTOR_CACHE_DIR/token-github.cache" ]]; then
-            pass
+            assert_not_contains "$output" "command not found" "doctor should run cleanly" || return
+            test_pass
         else
-            skip "No cache created (no tokens configured or API unavailable)"
+            test_skip "No cache created (no tokens configured or API unavailable)"
         fi
     else
-        fail "Fresh check failed"
+        test_fail "Fresh check failed with exit code $exit_code"
     fi
 }
 
 test_cache_ttl_respect() {
-    log_test "S3. Cache: TTL respected (5 min)"
+    test_case "S3. Cache: TTL respected (5 min)"
 
     # User story: Multiple checks within 5 min use cache
     # Expected: All use cached result (if tokens configured)
 
     # Skip if Keychain unavailable
     if ! command -v sec &>/dev/null || ! sec list &>/dev/null 2>&1; then
-        skip "Keychain access unavailable (expected in test environment)"
+        test_skip "Keychain access unavailable (expected in test environment)"
         return
     fi
 
@@ -263,12 +205,12 @@ test_cache_ttl_respect() {
 
         # Should be less than 10 seconds old
         if (( cache_age < 10 )); then
-            pass
+            test_pass
         else
-            fail "Cache file too old: ${cache_age}s"
+            test_fail "Cache file too old: ${cache_age}s"
         fi
     else
-        skip "No cache created (no tokens configured or API unavailable)"
+        test_skip "No cache created (no tokens configured or API unavailable)"
     fi
 }
 
@@ -277,7 +219,7 @@ test_cache_ttl_respect() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_verbosity_quiet_minimal() {
-    log_test "S4. Verbosity: Quiet mode suppresses output"
+    test_case "S4. Verbosity: Quiet mode suppresses output"
 
     # User story: CI/CD needs minimal output
     # Expected: Only errors shown, short output
@@ -285,48 +227,47 @@ test_verbosity_quiet_minimal() {
     local output=$(doctor --dot --quiet 2>&1)
     local lines=$(echo "$output" | wc -l | tr -d ' ')
 
-    # Quiet should have fewer lines than normal
     local normal_output=$(doctor --dot 2>&1)
     local normal_lines=$(echo "$normal_output" | wc -l | tr -d ' ')
 
+    assert_not_contains "$output" "command not found" "doctor --quiet should run cleanly" || return
+
     if (( lines <= normal_lines )); then
-        pass
+        test_pass
     else
-        fail "Quiet mode not reducing output ($lines vs $normal_lines)"
+        test_fail "Quiet mode not reducing output ($lines vs $normal_lines)"
     fi
 }
 
 test_verbosity_normal_readable() {
-    log_test "S4. Verbosity: Normal mode readable"
+    test_case "S4. Verbosity: Normal mode readable"
 
     # User story: User wants standard output
     # Expected: Clear, formatted, not too verbose
 
     local output=$(doctor --dot 2>&1)
 
-    # Should have some structure (headers, sections)
-    if echo "$output" | grep -qiE "(token|github)"; then
-        pass
-    else
-        fail "Normal output missing expected content"
-    fi
+    assert_not_empty "$output" "Normal mode should produce output" || return
+    assert_matches_pattern "$output" "(token|github)" \
+        "Normal output should mention token or github" || return
+    test_pass
 }
 
 test_verbosity_debug_comprehensive() {
-    log_test "S4. Verbosity: Verbose mode shows debug info"
+    test_case "S4. Verbosity: Verbose mode shows debug info"
 
     # User story: Debugging cache issues
     # Expected: Cache status, timing, delegation details
 
     local output=$(doctor --dot --verbose 2>&1)
-
-    # Verbose should be longer than normal
     local lines=$(echo "$output" | wc -l | tr -d ' ')
 
+    assert_not_contains "$output" "command not found" "doctor --verbose should run cleanly" || return
+
     if (( lines >= 5 )); then
-        pass
+        test_pass
     else
-        fail "Verbose mode not showing enough detail"
+        test_fail "Verbose mode not showing enough detail ($lines lines, expected >= 5)"
     fi
 }
 
@@ -335,25 +276,25 @@ test_verbosity_debug_comprehensive() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_fix_token_mode_isolated() {
-    log_test "S5. Fix workflow: --fix-token shows token category"
+    test_case "S5. Fix workflow: --fix-token shows token category"
 
     # User story: User wants to fix only token issues
     # Expected: Shows token-focused menu or completes
 
-    # Check if --fix-token mode works (may have no issues)
     local output=$(doctor --fix-token --yes 2>&1)
     local exit_code=$?
 
-    # Should either fix or show "no issues"
-    if [[ $exit_code -eq 0 ]] || [[ $exit_code -eq 1 ]]; then
-        pass
+    # 0=healthy, 1=issues found — both valid for fix-token
+    if (( exit_code <= 1 )); then
+        assert_not_contains "$output" "command not found" "fix-token should run cleanly" || return
+        test_pass
     else
-        fail "Fix token mode failed: exit $exit_code"
+        test_fail "Fix token mode failed: exit $exit_code (expected 0 or 1)"
     fi
 }
 
 test_fix_token_cache_cleared() {
-    log_test "S5. Fix workflow: Cache cleared after rotation"
+    test_case "S5. Fix workflow: Cache cleared after rotation"
 
     # User story: Token rotated, cache should be invalidated
     # Expected: Cache file removed or expired
@@ -361,12 +302,9 @@ test_fix_token_cache_cleared() {
     # Note: This test can only verify the mechanism exists
     # Actual rotation requires valid token setup
 
-    # Check if cache clear function exists
-    if type _doctor_cache_token_clear &>/dev/null; then
-        pass
-    else
-        fail "Cache clear function not available"
-    fi
+    assert_function_exists "_doctor_cache_token_clear" \
+        "Cache clear function should be available" || return
+    test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -374,7 +312,7 @@ test_fix_token_cache_cleared() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_multi_check_sequential() {
-    log_test "S6. Multi-check: Sequential checks use cache"
+    test_case "S6. Multi-check: Sequential checks use cache"
 
     # User story: User checks multiple times in session
     # Expected: First slow, rest fast
@@ -398,14 +336,14 @@ test_multi_check_sequential() {
     done
 
     if $all_fast; then
-        pass
+        test_pass
     else
-        fail "Cached checks not fast enough"
+        test_fail "Cached checks not fast enough"
     fi
 }
 
 test_multi_check_different_tokens() {
-    log_test "S6. Multi-check: Specific token selection"
+    test_case "S6. Multi-check: Specific token selection"
 
     # User story: User checks specific tokens
     # Expected: --dot=github works independently
@@ -413,10 +351,12 @@ test_multi_check_different_tokens() {
     local output=$(doctor --dot=github 2>&1)
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]] || [[ $exit_code -eq 1 ]]; then
-        pass
+    # 0=healthy, 1=issues found — both valid for specific token check
+    if (( exit_code <= 1 )); then
+        assert_not_contains "$output" "command not found" "doctor --dot=github should run cleanly" || return
+        test_pass
     else
-        fail "Specific token check failed: exit $exit_code"
+        test_fail "Specific token check failed: exit $exit_code (expected 0 or 1)"
     fi
 }
 
@@ -425,7 +365,7 @@ test_multi_check_different_tokens() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_error_invalid_token_provider() {
-    log_test "S7. Error handling: Invalid token provider"
+    test_case "S7. Error handling: Invalid token provider"
 
     # User story: User typos token name
     # Expected: Currently no validation, completes without error
@@ -435,16 +375,17 @@ test_error_invalid_token_provider() {
     local exit_code=$?
 
     # Currently accepts any provider name (no validation in Phase 1)
-    # Phase 2 will add validation and this test should be updated
-    if [[ $exit_code -eq 0 ]] || [[ $exit_code -eq 1 ]]; then
-        pass
+    # 0=healthy, 1=issues found — both valid; Phase 2 will add validation
+    if (( exit_code <= 1 )); then
+        assert_not_contains "$output" "command not found" "doctor should handle invalid provider gracefully" || return
+        test_pass
     else
-        skip "Provider validation not implemented in Phase 1"
+        test_skip "Provider validation not implemented in Phase 1"
     fi
 }
 
 test_error_corrupted_cache() {
-    log_test "S7. Error handling: Corrupted cache recovery"
+    test_case "S7. Error handling: Corrupted cache recovery"
 
     # User story: Cache file corrupted
     # Expected: Graceful fallback to fresh check
@@ -456,15 +397,17 @@ test_error_corrupted_cache() {
     local output=$(doctor --dot 2>&1)
     local exit_code=$?
 
-    if [[ $exit_code -eq 0 ]] || [[ $exit_code -eq 1 ]]; then
-        pass
+    # 0=healthy, 1=issues found — both valid after cache recovery
+    if (( exit_code <= 1 )); then
+        assert_not_contains "$output" "command not found" "doctor should recover from corrupted cache" || return
+        test_pass
     else
-        fail "Failed to recover from corrupted cache"
+        test_fail "Failed to recover from corrupted cache (exit $exit_code)"
     fi
 }
 
 test_error_missing_cache_dir() {
-    log_test "S7. Error handling: Missing cache directory"
+    test_case "S7. Error handling: Missing cache directory"
 
     # User story: Cache directory deleted
     # Expected: Recreated automatically
@@ -474,13 +417,10 @@ test_error_missing_cache_dir() {
 
     # Should recreate and work
     local output=$(doctor --dot 2>&1)
-    local exit_code=$?
 
-    if [[ -d "$DOCTOR_CACHE_DIR" ]]; then
-        pass
-    else
-        fail "Cache directory not recreated"
-    fi
+    assert_not_contains "$output" "command not found" "doctor should handle missing cache dir" || return
+    assert_dir_exists "$DOCTOR_CACHE_DIR" "Cache directory should be recreated" || return
+    test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -488,24 +428,25 @@ test_error_missing_cache_dir() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_cicd_exit_code_success() {
-    log_test "S8. CI/CD: Exit code 0 for valid token"
+    test_case "S8. CI/CD: Exit code 0 or 1 for token check"
 
     # User story: CI pipeline checks token health
-    # Expected: Exit 0 if valid, non-zero if issues
+    # Expected: Exit 0 if valid, 1 if issues — both acceptable
 
-    doctor --dot --quiet >/dev/null 2>&1
+    local output=$(doctor --dot --quiet 2>&1)
     local exit_code=$?
 
-    # Should be 0 or 1 (both acceptable)
-    if [[ $exit_code -eq 0 ]] || [[ $exit_code -eq 1 ]]; then
-        pass
+    # 0=healthy, 1=issues found — both acceptable in CI
+    if (( exit_code <= 1 )); then
+        assert_not_contains "$output" "command not found" "doctor --quiet should run cleanly in CI" || return
+        test_pass
     else
-        fail "Unexpected exit code: $exit_code"
+        test_fail "Unexpected exit code: $exit_code (expected 0 or 1)"
     fi
 }
 
 test_cicd_minimal_output() {
-    log_test "S8. CI/CD: Quiet mode for automation"
+    test_case "S8. CI/CD: Quiet mode for automation"
 
     # User story: CI needs parseable output
     # Expected: Minimal, consistent format
@@ -514,14 +455,15 @@ test_cicd_minimal_output() {
 
     # Output should be consistent (has some content)
     if [[ -n "$output" ]]; then
-        pass
+        assert_not_contains "$output" "command not found" "quiet mode should not produce errors" || return
+        test_pass
     else
-        skip "No output (acceptable if no token configured)"
+        test_skip "No output (acceptable if no token configured)"
     fi
 }
 
 test_cicd_scripting_friendly() {
-    log_test "S8. CI/CD: Scriptable workflow"
+    test_case "S8. CI/CD: Scriptable workflow"
 
     # User story: Script checks and acts on result
     # Expected: Exit codes + grep-able output
@@ -529,11 +471,14 @@ test_cicd_scripting_friendly() {
     local output=$(doctor --dot 2>&1)
     local exit_code=$?
 
-    # Should be parseable
-    if [[ -n "$output" ]] && [[ $exit_code -ge 0 ]] && [[ $exit_code -le 2 ]]; then
-        pass
+    assert_not_empty "$output" "Scripted doctor should produce output" || return
+    assert_not_contains "$output" "command not found" "doctor should be script-friendly" || return
+
+    # Should be parseable with valid exit code range
+    if [[ $exit_code -ge 0 ]] && [[ $exit_code -le 2 ]]; then
+        test_pass
     else
-        fail "Not script-friendly: exit=$exit_code, output=$output"
+        test_fail "Not script-friendly: exit=$exit_code"
     fi
 }
 
@@ -542,7 +487,7 @@ test_cicd_scripting_friendly() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_integration_backward_compatible() {
-    log_test "S9. Integration: Backward compatible with doctor"
+    test_case "S9. Integration: Backward compatible with doctor"
 
     # User story: Existing doctor usage still works
     # Expected: doctor (no flags) still checks everything
@@ -550,16 +495,19 @@ test_integration_backward_compatible() {
     local output=$(doctor 2>&1)
     local exit_code=$?
 
-    # Should complete successfully
+    assert_not_empty "$output" "doctor should produce output" || return
+    assert_not_contains "$output" "command not found" "doctor command should exist" || return
+
+    # Should complete successfully (0=pass, 1=issues, 2=warnings)
     if [[ $exit_code -ge 0 ]] && [[ $exit_code -le 2 ]]; then
-        pass
+        test_pass
     else
-        fail "Backward compatibility broken: exit $exit_code"
+        test_fail "Backward compatibility broken: exit $exit_code"
     fi
 }
 
 test_integration_flag_combination() {
-    log_test "S9. Integration: Flags combine correctly"
+    test_case "S9. Integration: Flags combine correctly"
 
     # User story: User combines --dot + --verbose
     # Expected: Both flags work together
@@ -567,28 +515,27 @@ test_integration_flag_combination() {
     local output=$(doctor --dot --verbose 2>&1)
     local exit_code=$?
 
+    assert_not_empty "$output" "Flag combination should produce output" || return
+    assert_not_contains "$output" "command not found" "combined flags should work" || return
+
     if [[ $exit_code -ge 0 ]] && [[ $exit_code -le 2 ]]; then
-        # Should show verbose token output
-        pass
+        test_pass
     else
-        fail "Flag combination failed"
+        test_fail "Flag combination failed (exit $exit_code)"
     fi
 }
 
 test_integration_help_updated() {
-    log_test "S9. Integration: Help text includes new flags"
+    test_case "S9. Integration: Help text includes new flags"
 
     # User story: User runs doctor --help
     # Expected: Shows --dot, --fix-token, --quiet, --verbose
 
     local help_output=$(doctor --help 2>&1)
 
-    # Should mention new flags
-    if echo "$help_output" | grep -qi "dot"; then
-        pass
-    else
-        fail "Help text not updated with new flags"
-    fi
+    assert_not_empty "$help_output" "Help should produce output" || return
+    assert_contains "$help_output" "dot" "Help text should mention --dot flag" || return
+    test_pass
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -596,7 +543,7 @@ test_integration_help_updated() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_performance_first_check_acceptable() {
-    log_test "S10. Performance: First check < 5s"
+    test_case "S10. Performance: First check < 5s"
 
     # User story: User expects reasonable speed
     # Expected: < 5s even without cache
@@ -612,14 +559,14 @@ test_performance_first_check_acceptable() {
 
     # Should complete in reasonable time (< 5s)
     if (( duration < 5 )); then
-        pass
+        test_pass
     else
-        fail "First check took ${duration}s (expected < 5s)"
+        test_fail "First check took ${duration}s (expected < 5s)"
     fi
 }
 
 test_performance_cached_instant() {
-    log_test "S10. Performance: Cached check instant"
+    test_case "S10. Performance: Cached check instant"
 
     # User story: Cached checks should be near-instant
     # Expected: Completes in same second
@@ -635,9 +582,9 @@ test_performance_cached_instant() {
 
     # Should be instant (0-1s with second precision)
     if (( duration <= 1 )); then
-        pass
+        test_pass
     else
-        fail "Cached check took ${duration}s (expected <= 1s)"
+        test_fail "Cached check took ${duration}s (expected <= 1s)"
     fi
 }
 
@@ -646,112 +593,76 @@ test_performance_cached_instant() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 main() {
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}Doctor Token Enhancement E2E Test Suite${NC}             │"
-    echo "╰─────────────────────────────────────────────────────────╯"
+    test_suite "Doctor Token Enhancement E2E Test Suite"
 
     setup
 
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 1: Morning Routine${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 1: Morning Routine"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_morning_routine_quick_check
     test_morning_routine_cached_recheck
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 2: Token Expiration Workflow${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 2: Token Expiration Workflow"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_expiration_detection
     test_expiration_verbose_details
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 3: Cache Behavior${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 3: Cache Behavior"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_cache_fresh_invalidation
     test_cache_ttl_respect
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 4: Verbosity Levels${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 4: Verbosity Levels"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_verbosity_quiet_minimal
     test_verbosity_normal_readable
     test_verbosity_debug_comprehensive
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 5: Fix Token Workflow${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 5: Fix Token Workflow"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_fix_token_mode_isolated
     test_fix_token_cache_cleared
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 6: Multi-Check Workflow${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 6: Multi-Check Workflow"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_multi_check_sequential
     test_multi_check_different_tokens
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 7: Error Recovery${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 7: Error Recovery"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_error_invalid_token_provider
     test_error_corrupted_cache
     test_error_missing_cache_dir
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 8: CI/CD Integration${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 8: CI/CD Integration"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_cicd_exit_code_success
     test_cicd_minimal_output
     test_cicd_scripting_friendly
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 9: Integration with Existing Features${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 9: Integration with Existing Features"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_integration_backward_compatible
     test_integration_flag_combination
     test_integration_help_updated
 
     echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}Scenario 10: Performance Validation${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
+    echo "Scenario 10: Performance Validation"
+    echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
     test_performance_first_check_acceptable
     test_performance_cached_instant
 
     cleanup
 
-    # Summary
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}E2E Test Summary${NC}                                     │"
-    echo "╰─────────────────────────────────────────────────────────╯"
-    echo ""
-    echo "  ${GREEN}Passed:${NC}  $TESTS_PASSED"
-    echo "  ${RED}Failed:${NC}  $TESTS_FAILED"
-    echo "  ${YELLOW}Skipped:${NC} $TESTS_SKIPPED"
-    echo "  ${CYAN}Total:${NC}   $((TESTS_PASSED + TESTS_FAILED + TESTS_SKIPPED))"
-    echo ""
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All E2E tests passed!${NC}"
-        if [[ $TESTS_SKIPPED -gt 0 ]]; then
-            echo "${DIM}  ($TESTS_SKIPPED tests skipped - acceptable)${NC}"
-        fi
-        echo ""
-        return 0
-    else
-        echo "${RED}✗ Some E2E tests failed${NC}"
-        echo ""
-        return 1
-    fi
+    test_suite_end
 }
 
 # Run E2E tests
