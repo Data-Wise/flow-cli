@@ -63,6 +63,10 @@ test_case_end() {
 }
 
 test_pass() {
+  # Guard: if test_fail already fired for this case, CURRENT_TEST is empty
+  if [[ -z "$CURRENT_TEST" ]]; then
+    return 0
+  fi
   echo "${GREEN}PASS${RESET}"
   TESTS_PASSED=$((TESTS_PASSED + 1))
   CURRENT_TEST=""
@@ -228,35 +232,6 @@ assert_matches_pattern() {
 }
 
 # ============================================================================
-# MOCK HELPERS
-# ============================================================================
-
-mock_function() {
-  local func_name="$1"
-  local mock_body="$2"
-
-  # Save original if it exists
-  if (whence -f "$func_name" >/dev/null 2>&1); then
-    eval "original_${func_name}() { $(whence -f $func_name | tail -n +2) }"
-  fi
-
-  # Create mock
-  eval "${func_name}() { $mock_body }"
-}
-
-restore_function() {
-  local func_name="$1"
-
-  # Restore original if it was saved
-  if (whence -f "original_${func_name}" >/dev/null 2>&1); then
-    eval "${func_name}() { $(whence -f original_${func_name} | tail -n +2) }"
-    unset -f "original_${func_name}"
-  else
-    unset -f "$func_name"
-  fi
-}
-
-# ============================================================================
 # UTILITY HELPERS
 # ============================================================================
 
@@ -280,6 +255,7 @@ with_temp_dir() {
 }
 
 with_env() {
+  # NOTE: Only works with scalar variables. ZSH arrays/assoc arrays need manual save/restore.
   local var_name="$1"
   local var_value="$2"
   local callback="$3"
@@ -376,7 +352,7 @@ create_mock() {
   local fn_name="$1"
   local mock_body="${2:-true}"
 
-  # Save original via mock_function (from MOCK HELPERS section)
+  # Save original if it exists
   if (whence -f "$fn_name" >/dev/null 2>&1); then
     eval "_original_mock_${fn_name}() { $(whence -f $fn_name | tail -n +2) }"
   fi
