@@ -27,35 +27,9 @@
 # Created: 2026-02-12
 # ══════════════════════════════════════════════════════════════════════════════
 
-TESTS_PASSED=0
-TESTS_FAILED=0
-
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-DIM='\033[2m'
-NC='\033[0m'
-
-log_test() {
-    echo -n "${CYAN}Testing:${NC} $1 ... "
-}
-
-pass() {
-    echo "${GREEN}✓ PASS${NC}"
-    ((TESTS_PASSED++))
-}
-
-fail() {
-    echo "${RED}✗ FAIL${NC} - $1"
-    ((TESTS_FAILED++))
-}
-
-skip() {
-    echo "${DIM}○ SKIP${NC} - $1"
-}
+SCRIPT_DIR="${0:A:h}"
+PROJECT_ROOT="${SCRIPT_DIR:h}"
+source "$SCRIPT_DIR/test-framework.zsh"
 
 strip_ansi() {
     sed 's/\x1b\[[0-9;]*m//g'
@@ -65,15 +39,14 @@ strip_ansi() {
 # SETUP
 # ══════════════════════════════════════════════════════════════════════════════
 
-SCRIPT_DIR="${0:A:h}"
 FLOW_ROOT="${SCRIPT_DIR:h}"
 
 setup() {
     echo ""
-    echo "${YELLOW}Setting up interactive headless test environment...${NC}"
+    echo "${YELLOW}Setting up interactive headless test environment...${RESET}"
 
     if [[ ! -f "$FLOW_ROOT/flow.plugin.zsh" ]]; then
-        echo "${RED}ERROR: Cannot find project root at $FLOW_ROOT${NC}"
+        echo "${RED}ERROR: Cannot find project root at $FLOW_ROOT${RESET}"
         exit 1
     fi
 
@@ -85,7 +58,7 @@ setup() {
     export FLOW_QUIET FLOW_ATLAS_ENABLED
 
     source "$FLOW_ROOT/flow.plugin.zsh" 2>/dev/null || {
-        echo "${RED}Plugin failed to load${NC}"
+        echo "${RED}Plugin failed to load${RESET}"
         exit 1
     }
 
@@ -190,58 +163,58 @@ doctor_interactive() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_confirm_yes() {
-    log_test "_doctor_confirm returns 0 (true) on 'y' input"
+    test_case "_doctor_confirm returns 0 (true) on 'y' input"
 
     local result
     echo "y" | _doctor_confirm "Test prompt?" >/dev/null 2>&1
     result=$?
 
     if [[ $result -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected exit 0, got $result"
+        test_fail "Expected exit 0, got $result"
     fi
 }
 
 test_confirm_no() {
-    log_test "_doctor_confirm returns 1 (false) on 'n' input"
+    test_case "_doctor_confirm returns 1 (false) on 'n' input"
 
     local result
     echo "n" | _doctor_confirm "Test prompt?" >/dev/null 2>&1
     result=$?
 
     if [[ $result -eq 1 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected exit 1, got $result"
+        test_fail "Expected exit 1, got $result"
     fi
 }
 
 test_confirm_empty_defaults_yes() {
-    log_test "_doctor_confirm returns 0 (true) on empty input (default=Y)"
+    test_case "_doctor_confirm returns 0 (true) on empty input (default=Y)"
 
     local result
     echo "" | _doctor_confirm "Test prompt?" >/dev/null 2>&1
     result=$?
 
     if [[ $result -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected exit 0 (default yes), got $result"
+        test_fail "Expected exit 0 (default yes), got $result"
     fi
 }
 
 test_confirm_NO_uppercase() {
-    log_test "_doctor_confirm returns 1 (false) on 'NO' input"
+    test_case "_doctor_confirm returns 1 (false) on 'NO' input"
 
     local result
     echo "NO" | _doctor_confirm "Test prompt?" >/dev/null 2>&1
     result=$?
 
     if [[ $result -eq 1 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected exit 1, got $result"
+        test_fail "Expected exit 1, got $result"
     fi
 }
 
@@ -262,7 +235,7 @@ _reset_doctor_arrays() {
 }
 
 test_menu_auto_yes_selects_all() {
-    log_test "_doctor_select_fix_category returns 'all' with auto_yes=true"
+    test_case "_doctor_select_fix_category returns 'all' with auto_yes=true"
 
     _reset_doctor_arrays
     _doctor_missing_email_brew=(himalaya)
@@ -281,14 +254,14 @@ test_menu_auto_yes_selects_all() {
     result=$(echo "$result" | tail -1)
 
     if [[ "$result" == "all" && $exit_code -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected 'all' exit 0, got '$result' exit $exit_code"
+        test_fail "Expected 'all' exit 0, got '$result' exit $exit_code"
     fi
 }
 
 test_menu_single_category_auto_selects() {
-    log_test "_doctor_select_fix_category auto-selects when only 1 category"
+    test_case "_doctor_select_fix_category auto-selects when only 1 category"
 
     _reset_doctor_arrays
     _doctor_missing_email_brew=(glow)
@@ -302,14 +275,14 @@ test_menu_single_category_auto_selects() {
     result=$(echo "$result" | tail -1)
 
     if [[ "$result" == "email" && $exit_code -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected 'email' exit 0, got '$result' exit $exit_code"
+        test_fail "Expected 'email' exit 0, got '$result' exit $exit_code"
     fi
 }
 
 test_menu_no_issues_returns_2() {
-    log_test "_doctor_select_fix_category returns exit 2 when no issues"
+    test_case "_doctor_select_fix_category returns exit 2 when no issues"
 
     _reset_doctor_arrays
 
@@ -317,14 +290,14 @@ test_menu_no_issues_returns_2() {
     local exit_code=$?
 
     if [[ $exit_code -eq 2 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected exit 2 (no issues), got $exit_code"
+        test_fail "Expected exit 2 (no issues), got $exit_code"
     fi
 }
 
 test_menu_cancel_with_0() {
-    log_test "_doctor_select_fix_category returns exit 1 on '0' input"
+    test_case "_doctor_select_fix_category returns exit 1 on '0' input"
 
     _reset_doctor_arrays
     # Multiple categories so menu shows
@@ -337,14 +310,14 @@ test_menu_cancel_with_0() {
     _reset_doctor_arrays
 
     if [[ $exit_code -eq 1 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected exit 1 (cancelled), got $exit_code"
+        test_fail "Expected exit 1 (cancelled), got $exit_code"
     fi
 }
 
 test_menu_select_email_category() {
-    log_test "_doctor_select_fix_category returns 'email' when selected by number"
+    test_case "_doctor_select_fix_category returns 'email' when selected by number"
 
     _reset_doctor_arrays
     # tools = category 1, email = category 2
@@ -366,9 +339,9 @@ test_menu_select_email_category() {
     fi
 
     if [[ "$found" == true && $exit_code -eq 0 ]]; then
-        pass
+        test_pass
     else
-        fail "Expected 'email' exit 0, got exit $exit_code, output contains: $(echo "$stripped" | tail -3)"
+        test_fail "Expected 'email' exit 0, got exit $exit_code, output contains: $(echo "$stripped" | tail -3)"
     fi
 }
 
@@ -377,7 +350,7 @@ test_menu_select_email_category() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_fix_email_calls_fake_brew() {
-    log_test "_doctor_fix_email calls brew install for missing brew packages"
+    test_case "_doctor_fix_email calls brew install for missing brew packages"
 
     _reset_doctor_arrays
     _doctor_missing_email_brew=(glow)
@@ -394,16 +367,16 @@ test_fix_email_calls_fake_brew() {
     local stripped=$(echo "$output" | strip_ansi)
 
     if echo "$output" | grep -q "FAKE_BREW_CALLED.*install.*glow"; then
-        pass
+        test_pass
     elif echo "$stripped" | grep -qi "glow installed\|Installing glow"; then
-        pass
+        test_pass
     else
-        fail "Expected fake brew to be called for glow. Output: $(echo "$stripped" | head -5)"
+        test_fail "Expected fake brew to be called for glow. Output: $(echo "$stripped" | head -5)"
     fi
 }
 
 test_fix_email_calls_fake_pip() {
-    log_test "_doctor_fix_email calls pip install for missing pip packages"
+    test_case "_doctor_fix_email calls pip install for missing pip packages"
 
     _reset_doctor_arrays
     _doctor_missing_email_pip=(email-oauth2-proxy)
@@ -417,16 +390,16 @@ test_fix_email_calls_fake_pip() {
     _reset_doctor_arrays
 
     if echo "$output" | grep -q "FAKE_PIP_CALLED.*install.*email-oauth2-proxy"; then
-        pass
+        test_pass
     elif echo "$output" | grep -qi "Installing email-oauth2-proxy\|email-oauth2-proxy installed"; then
-        pass
+        test_pass
     else
-        fail "Expected fake pip to be called for email-oauth2-proxy. Output: $(echo "$output" | strip_ansi | head -5)"
+        test_fail "Expected fake pip to be called for email-oauth2-proxy. Output: $(echo "$output" | strip_ansi | head -5)"
     fi
 }
 
 test_fix_email_confirm_no_skips_install() {
-    log_test "_doctor_fix_email skips install when user says no"
+    test_case "_doctor_fix_email skips install when user says no"
 
     _reset_doctor_arrays
     _doctor_missing_email_brew=(glow)
@@ -441,9 +414,9 @@ test_fix_email_confirm_no_skips_install() {
     _reset_doctor_arrays
 
     if echo "$output" | grep -q "FAKE_BREW_CALLED"; then
-        fail "brew should NOT have been called when user said no"
+        test_fail "brew should NOT have been called when user said no"
     else
-        pass
+        test_pass
     fi
 }
 
@@ -452,7 +425,7 @@ test_fix_email_confirm_no_skips_install() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_setup_gmail_generates_config() {
-    log_test "setup wizard generates config.toml for Gmail address"
+    test_case "setup wizard generates config.toml for Gmail address"
 
     # Piped input: email, then accept defaults for IMAP/port/SMTP/port
     # Gmail auto-detects: imap.gmail.com, 993, smtp.gmail.com, 587, oauth2
@@ -464,19 +437,19 @@ test_setup_gmail_generates_config() {
     if [[ -f "$config_file" ]]; then
         local content=$(<"$config_file")
         if echo "$content" | grep -q 'email = "user@gmail.com"'; then
-            pass
+            test_pass
         else
-            fail "Config file missing email address"
+            test_fail "Config file missing email address"
         fi
         # Clean up for next test
         rm -f "$config_file"
     else
-        fail "Config file not created at $config_file"
+        test_fail "Config file not created at $config_file"
     fi
 }
 
 test_setup_gmail_detects_provider() {
-    log_test "setup wizard shows 'Detected Gmail' for @gmail.com"
+    test_case "setup wizard shows 'Detected Gmail' for @gmail.com"
 
     local input="user@gmail.com\n\n\n\n\n"
 
@@ -486,14 +459,14 @@ test_setup_gmail_detects_provider() {
     rm -f "$TEST_XDG/himalaya/config.toml"
 
     if echo "$stripped" | grep -q "Detected Gmail"; then
-        pass
+        test_pass
     else
-        fail "Expected 'Detected Gmail' in output"
+        test_fail "Expected 'Detected Gmail' in output"
     fi
 }
 
 test_setup_gmail_uses_oauth2() {
-    log_test "Gmail config uses oauth2 auth type"
+    test_case "Gmail config uses oauth2 auth type"
 
     local input="user@gmail.com\n\n\n\n\n"
 
@@ -502,18 +475,18 @@ test_setup_gmail_uses_oauth2() {
 
     if [[ -f "$config_file" ]]; then
         if grep -q 'auth.type = "oauth2"' "$config_file"; then
-            pass
+            test_pass
         else
-            fail "Expected oauth2 auth type in config"
+            test_fail "Expected oauth2 auth type in config"
         fi
         rm -f "$config_file"
     else
-        fail "Config file not created"
+        test_fail "Config file not created"
     fi
 }
 
 test_setup_gmail_shows_oauth2_guidance() {
-    log_test "Gmail setup shows OAuth2 proxy guidance"
+    test_case "Gmail setup shows OAuth2 proxy guidance"
 
     local input="user@gmail.com\n\n\n\n\n"
 
@@ -523,9 +496,9 @@ test_setup_gmail_shows_oauth2_guidance() {
     rm -f "$TEST_XDG/himalaya/config.toml"
 
     if echo "$stripped" | grep -q "OAuth2 setup"; then
-        pass
+        test_pass
     else
-        fail "Expected OAuth2 guidance section"
+        test_fail "Expected OAuth2 guidance section"
     fi
 }
 
@@ -534,7 +507,7 @@ test_setup_gmail_shows_oauth2_guidance() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_setup_custom_provider_prompts_servers() {
-    log_test "custom provider requires IMAP/SMTP server input"
+    test_case "custom provider requires IMAP/SMTP server input"
 
     # Custom domain: no auto-detect, provide servers, choose auth method 2 (password)
     local input="user@mycorp.com\nmail.mycorp.com\n993\nsmtp.mycorp.com\n587\n2\n"
@@ -545,18 +518,18 @@ test_setup_custom_provider_prompts_servers() {
 
     if [[ -f "$config_file" ]]; then
         if grep -q 'host = "mail.mycorp.com"' "$config_file"; then
-            pass
+            test_pass
         else
-            fail "Custom IMAP host not in config"
+            test_fail "Custom IMAP host not in config"
         fi
         rm -f "$config_file"
     else
-        fail "Config file not created for custom provider"
+        test_fail "Config file not created for custom provider"
     fi
 }
 
 test_setup_custom_provider_password_auth() {
-    log_test "custom provider with password auth uses keychain command"
+    test_case "custom provider with password auth uses keychain command"
 
     local input="user@mycorp.com\nmail.mycorp.com\n993\nsmtp.mycorp.com\n587\n2\n"
 
@@ -566,13 +539,13 @@ test_setup_custom_provider_password_auth() {
     if [[ -f "$config_file" ]]; then
         if grep -q 'auth.type = "password"' "$config_file" && \
            grep -q 'security find-generic-password' "$config_file"; then
-            pass
+            test_pass
         else
-            fail "Expected password auth with keychain command"
+            test_fail "Expected password auth with keychain command"
         fi
         rm -f "$config_file"
     else
-        fail "Config file not created"
+        test_fail "Config file not created"
     fi
 }
 
@@ -581,20 +554,20 @@ test_setup_custom_provider_password_auth() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_setup_empty_email_cancels() {
-    log_test "empty email input cancels setup wizard"
+    test_case "empty email input cancels setup wizard"
 
     local output=$(echo "" | _doctor_email_setup 2>&1)
     local stripped=$(echo "$output" | strip_ansi)
 
     if echo "$stripped" | grep -q "Cancelled"; then
-        pass
+        test_pass
     else
-        fail "Expected 'Cancelled' message for empty email"
+        test_fail "Expected 'Cancelled' message for empty email"
     fi
 }
 
 test_setup_empty_imap_fails() {
-    log_test "empty IMAP server for custom domain fails with error"
+    test_case "empty IMAP server for custom domain fails with error"
 
     # Custom domain (no auto-detect), then empty IMAP = fail
     local input="user@unknown.org\n\n"
@@ -603,14 +576,14 @@ test_setup_empty_imap_fails() {
     local stripped=$(echo "$output" | strip_ansi)
 
     if echo "$stripped" | grep -q "IMAP server required"; then
-        pass
+        test_pass
     else
-        fail "Expected 'IMAP server required' error"
+        test_fail "Expected 'IMAP server required' error"
     fi
 }
 
 test_setup_existing_config_decline_overwrite() {
-    log_test "declining overwrite of existing config keeps original"
+    test_case "declining overwrite of existing config keeps original"
 
     local config_dir="$TEST_XDG/himalaya"
     mkdir -p "$config_dir"
@@ -623,9 +596,9 @@ test_setup_existing_config_decline_overwrite() {
     local content=$(<"$config_dir/config.toml")
 
     if [[ "$content" == "# original config" ]]; then
-        pass
+        test_pass
     else
-        fail "Original config was overwritten despite declining"
+        test_fail "Original config was overwritten despite declining"
     fi
 
     rm -f "$config_dir/config.toml"
@@ -636,7 +609,7 @@ test_setup_existing_config_decline_overwrite() {
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_fix_y_auto_selects_all() {
-    log_test "--fix -y auto-selects 'all' categories (no menu prompt)"
+    test_case "--fix -y auto-selects 'all' categories (no menu prompt)"
     setopt local_options NULL_GLOB
 
     # Build PATH without email-oauth2-proxy and glow to trigger missing deps
@@ -652,16 +625,16 @@ test_fix_y_auto_selects_all() {
 
     # Should NOT show "Select" menu prompt (auto-yes bypasses it)
     if echo "$stripped" | grep -q "Select \["; then
-        fail "Menu prompt shown despite -y flag"
+        test_fail "Menu prompt shown despite -y flag"
     else
-        pass
+        test_pass
     fi
 
     rm -rf "$modified_path"
 }
 
 test_fix_y_attempts_email_installs() {
-    log_test "--fix -y attempts to install missing email deps"
+    test_case "--fix -y attempts to install missing email deps"
     setopt local_options NULL_GLOB
 
     # Build PATH without email-oauth2-proxy (pip), use fake pip
@@ -677,9 +650,9 @@ test_fix_y_attempts_email_installs() {
 
     # Should show email fix activity
     if echo "$stripped" | grep -qi "email\|Fixing email\|Installing"; then
-        pass
+        test_pass
     else
-        fail "Expected email fix activity in output"
+        test_fail "Expected email fix activity in output"
     fi
 
     rm -rf "$modified_path"
@@ -689,91 +662,39 @@ test_fix_y_attempts_email_installs() {
 # RUN ALL TESTS
 # ══════════════════════════════════════════════════════════════════════════════
 
-main() {
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}Doctor Email — Interactive Headless Suite${NC}              │"
-    echo "╰─────────────────────────────────────────────────────────╯"
+test_suite_start "Doctor Email — Interactive Headless Suite"
 
-    setup
+setup
 
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 1: _doctor_confirm Branching (4 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_confirm_yes
-    test_confirm_no
-    test_confirm_empty_defaults_yes
-    test_confirm_NO_uppercase
+test_confirm_yes
+test_confirm_no
+test_confirm_empty_defaults_yes
+test_confirm_NO_uppercase
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 2: _doctor_select_fix_category Menu (5 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_menu_auto_yes_selects_all
-    test_menu_single_category_auto_selects
-    test_menu_no_issues_returns_2
-    test_menu_cancel_with_0
-    test_menu_select_email_category
+test_menu_auto_yes_selects_all
+test_menu_single_category_auto_selects
+test_menu_no_issues_returns_2
+test_menu_cancel_with_0
+test_menu_select_email_category
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 3: _doctor_fix_email Install Simulation (3 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_fix_email_calls_fake_brew
-    test_fix_email_calls_fake_pip
-    test_fix_email_confirm_no_skips_install
+test_fix_email_calls_fake_brew
+test_fix_email_calls_fake_pip
+test_fix_email_confirm_no_skips_install
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 4: Gmail Setup Wizard (4 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_setup_gmail_generates_config
-    test_setup_gmail_detects_provider
-    test_setup_gmail_uses_oauth2
-    test_setup_gmail_shows_oauth2_guidance
+test_setup_gmail_generates_config
+test_setup_gmail_detects_provider
+test_setup_gmail_uses_oauth2
+test_setup_gmail_shows_oauth2_guidance
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 5: Custom Provider Wizard (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_setup_custom_provider_prompts_servers
-    test_setup_custom_provider_password_auth
+test_setup_custom_provider_prompts_servers
+test_setup_custom_provider_password_auth
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 6: Setup Cancel/Edge Cases (3 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_setup_empty_email_cancels
-    test_setup_empty_imap_fails
-    test_setup_existing_config_decline_overwrite
+test_setup_empty_email_cancels
+test_setup_empty_imap_fails
+test_setup_existing_config_decline_overwrite
 
-    echo ""
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    echo "${YELLOW}CATEGORY 7: --fix -y End-to-End (2 tests)${NC}"
-    echo "${YELLOW}═══════════════════════════════════════════════════════════${NC}"
-    test_fix_y_auto_selects_all
-    test_fix_y_attempts_email_installs
+test_fix_y_auto_selects_all
+test_fix_y_attempts_email_installs
 
-    # Summary
-    echo ""
-    echo "╭─────────────────────────────────────────────────────────╮"
-    echo "│  ${BOLD}Interactive Headless Test Summary${NC}                      │"
-    echo "╰─────────────────────────────────────────────────────────╯"
-    echo ""
-    echo "  ${GREEN}Passed:${NC} $TESTS_PASSED"
-    echo "  ${RED}Failed:${NC} $TESTS_FAILED"
-    echo "  ${CYAN}Total:${NC}  $((TESTS_PASSED + TESTS_FAILED))"
-    echo ""
-
-    if [[ $TESTS_FAILED -eq 0 ]]; then
-        echo "${GREEN}✓ All interactive headless tests passed!${NC}"
-        echo ""
-        return 0
-    else
-        echo "${RED}✗ Some interactive tests failed${NC}"
-        echo ""
-        return 1
-    fi
-}
-
-main "$@"
+test_suite_end
+exit $?
