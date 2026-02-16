@@ -165,7 +165,7 @@ Editors are only launched when you pass `-e`. The following editors are supporte
 | Positron        | `-e positron`  | RStudio-based IDE (macOS only)               |
 | Claude Code     | `-e cc`        | `--permission-mode acceptEdits` (blocking)   |
 | Claude Code     | `-e ccy`       | Yolo mode (`--dangerously-skip-permissions`) |
-| Claude Code     | `-e cc:new`    | Opens new Ghostty window (macOS)             |
+| Claude Code     | `-e cc:new`    | New Ghostty window — run `claude` there (macOS) |
 
 Any other command-line editor works too — just pass its name after `-e`.
 

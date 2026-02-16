@@ -52,7 +52,7 @@ work <project_name> -e              # Open $EDITOR (default: nvim)
 work <project_name> -e code         # Open VS Code
 work <project_name> -e cc           # Launch Claude Code (acceptEdits)
 work <project_name> -e ccy          # Launch Claude Code (yolo mode)
-work <project_name> -e cc:new       # New Ghostty window for Claude Code
+work <project_name> -e cc:new       # New Ghostty window (run claude there)
 
 # Auto-pick project (just start)
 js
