@@ -9,9 +9,14 @@
 ## Priority: 2
 ## Progress: 85
 
-## Current Session (2026-02-16)
+## Current Session (2026-02-16, evening)
 
 **Session activity:**
+- verified: CI all green (tests, docs deploy, pages build)
+- verified: Homebrew formula v7.2.1 live and installed
+- release: v7.2.1 fully deployed — CI, docs, Homebrew all confirmed
+
+**Earlier session (2026-02-16):**
 - docs: full health check (374 files) — 0 broken links, 9 stale docs found and fixed
 - docs: added missing v7.1.0 CHANGELOG entry (dot split)
 - docs: added v7.0.0/v7.1.0/v7.2.0 to RELEASES.md (was 6+ versions behind)
@@ -21,6 +26,7 @@
 - fix: copyright year 2025 → 2025-2026 in mkdocs.yml
 - fix: added cacheSeconds to shields.io badge URLs
 - release: v7.2.0 — PR #398, tag, GitHub release created
+- release: v7.2.1 — testing overhaul, changelog cleanup, semantic-release removal
 - deploy: docs site deployed (3x)
 - ci: all green — Homebrew formula auto-updated
 
@@ -45,6 +51,12 @@
 
 ## Recent Releases
 
+### v7.2.1 (2026-02-16) — Testing Overhaul & Cleanup
+- Testing overhaul: 186→134 test files, shared framework, dogfood scanner
+- Removed semantic-release dependencies
+- Updated testing guide, changelog cleanup
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.2.1
+
 ### v7.2.0 (2026-02-16) — Explicit Editor Flag
 - `work -e` editor flag, Claude Code modes (-e cc/ccy/cc:new)
 - Docs overhaul: 9 stale docs fixed, missing changelog/releases added
@@ -64,7 +76,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.2.0 released, synced with main |
+| Main repo | `dev` | v7.2.1 released, synced with main |
 | feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
 
 ---
