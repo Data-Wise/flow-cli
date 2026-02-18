@@ -106,6 +106,17 @@ em() {
         ai|AI)        shift; _em_ai_cmd "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
+        # ORGANIZE
+        # ─────────────────────────────────────────────────────────────
+        star|flag)    shift; _em_star "$@" ;;
+        starred)      shift; _em_starred "$@" ;;
+        move|mv)      shift; _em_move "$@" ;;
+        thread|th)    shift; _em_thread "$@" ;;
+        snooze|snz)   shift; _em_snooze "$@" ;;
+        snoozed)      shift; _em_snoozed "$@" ;;
+        digest|dg)    shift; _em_digest "$@" ;;
+
+        # ─────────────────────────────────────────────────────────────
         # QUICK INFO
         # ─────────────────────────────────────────────────────────────
         unread|u)     shift; _em_unread "$@" ;;
@@ -660,7 +671,7 @@ _em_pick() {
 
     local header_line
     header_line="Folder: ${folder}  |  Unread: ${unread_count:-?}
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
 * = unread  + = attachment"
 
     # [2] Write preview script (avoids shell escaping nightmare)
@@ -739,6 +750,8 @@ PREVIEW_EOF
               --bind='ctrl-a:become(echo ARCHIVE:{1})' \
               --bind='ctrl-d:become(echo DELETE:{1})' \
               --bind='ctrl-t:become(echo CATCH:{1})' \
+              --bind='ctrl-f:become(echo STAR:{1})' \
+              --bind='ctrl-m:become(echo MOVE:{1})' \
               --no-multi \
               --ansi)
 
@@ -773,6 +786,12 @@ PREVIEW_EOF
     elif [[ "$selected" == CATCH:* ]]; then
         action_id="${selected#CATCH:}"
         _em_catch "$action_id"
+    elif [[ "$selected" == STAR:* ]]; then
+        action_id="${selected#STAR:}"
+        _em_star "$action_id"
+    elif [[ "$selected" == MOVE:* ]]; then
+        action_id="${selected#MOVE:}"
+        _em_move "$action_id"
     else
         # Default: read the selected email
         action_id=$(echo "$selected" | cut -f1)
@@ -1139,6 +1158,58 @@ ${_C_DIM}Non-actionable (auto-skipped): newsletter, automated, admin-info, vendo
 ${_C_DIM}Listserv emails (*@LIST.*) are always skipped; warnings shown if actionable${_C_NC}
 ${_C_DIM}Safety: every send requires explicit [y/N] confirmation${_C_NC}
 "
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# ORGANIZE — star, move, thread, snooze, digest
+# ═══════════════════════════════════════════════════════════════════
+
+_em_star() {
+    _em_require_himalaya || return 1
+    local msg_id="$1"
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em star <ID>${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
+    # Check current flags to determine toggle direction
+    local flags
+    flags=$(_em_hml_list "$folder" 100 2>/dev/null \
+        | jq -r ".[] | select(.id == ($msg_id | tonumber)) | .flags | join(\",\")" 2>/dev/null)
+
+    if [[ "$flags" == *"Flagged"* ]]; then
+        _em_hml_flags remove "$msg_id" Flagged
+        echo -e "  ${_C_DIM}☆${_C_NC} Unstarred #${msg_id}"
+    else
+        _em_hml_flags add "$msg_id" Flagged
+        echo -e "  ${_C_YELLOW}★${_C_NC} Starred #${msg_id}"
+    fi
+}
+
+_em_starred() {
+    _em_require_himalaya || return 1
+    local folder="${1:-INBOX}"
+
+    echo -e "${_C_BOLD}★ Starred emails${_C_NC} ${_C_DIM}(${folder})${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    local json
+    json=$(_em_hml_list "$folder" 100 2>/dev/null \
+        | jq '[.[] | select(.flags | contains(["Flagged"]))]' 2>/dev/null)
+
+    if [[ -z "$json" || "$json" == "[]" || "$json" == "null" ]]; then
+        echo -e "  ${_C_DIM}No starred emails${_C_NC}"
+        return 0
+    fi
+
+    echo "$json" | _em_render_inbox_json
+
+    local count
+    count=$(echo "$json" | jq 'length' 2>/dev/null)
+    echo -e "\n  ${_C_DIM}${count:-0} starred${_C_NC}"
 }
 
 # ═══════════════════════════════════════════════════════════════════
