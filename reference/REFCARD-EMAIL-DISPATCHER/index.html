@@ -4270,6 +4270,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#runtime-switching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime Switching
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4896,6 +4907,17 @@
     <span class="md-ellipsis">
       
         Problem: "No fzf for picker"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-unknown-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem: "Unknown backend"
       
     </span>
   </a>
@@ -8440,6 +8462,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#runtime-switching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runtime Switching
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -9072,6 +9105,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#problem-unknown-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem: "Unknown backend"
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -9155,11 +9199,11 @@
 <h1 id="email-dispatcher-quick-reference">Email Dispatcher Quick Reference<a class="headerlink" href="#email-dispatcher-quick-reference" title="Permanent link">&para;</a></h1>
 <blockquote>
 <p>All <code>em</code> subcommands at a glance. For detailed guides, see linked documentation.</p>
-<p><strong>Version:</strong> v7.2.0 | <strong>Dispatcher:</strong> <code>lib/dispatchers/email-dispatcher.zsh</code></p>
+<p><strong>Version:</strong> v7.3.0 | <strong>Dispatcher:</strong> <code>lib/dispatchers/email-dispatcher.zsh</code></p>
 </blockquote>
 <h2 id="command-taxonomy">Command Taxonomy<a class="headerlink" href="#command-taxonomy" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>mindmap
-  root((em&lt;br/&gt;18 commands))
+  root((em&lt;br/&gt;20 commands))
     Core Email&lt;br/&gt;4 commands
       inbox
       read
@@ -9168,10 +9212,12 @@
     Search &amp; Browse&lt;br/&gt;2 commands
       find
       pick
-    AI Features&lt;br/&gt;3 commands
+    AI Features&lt;br/&gt;5 commands
       respond
       classify
       summarize
+      ai
+      catch
     Quick Info&lt;br/&gt;3 commands
       unread
       dash
@@ -9265,6 +9311,18 @@
 <td><code>sum</code></td>
 <td><code>em summarize &lt;ID&gt;</code></td>
 <td>One-line summary (AI)</td>
+</tr>
+<tr>
+<td><strong>em ai</strong></td>
+<td>—</td>
+<td><code>em ai [claude\|gemini\|none\|auto\|toggle]</code></td>
+<td>Runtime AI backend switching</td>
+</tr>
+<tr>
+<td><strong>em catch</strong></td>
+<td><code>c</code></td>
+<td><code>em catch &lt;ID&gt;</code></td>
+<td>Capture email as task (AI summary → catch)</td>
 </tr>
 <tr>
 <td><strong>em unread</strong></td>
@@ -9365,13 +9423,19 @@
 <td>bool</td>
 <td>Enable background cache warming on <code>em dash</code></td>
 </tr>
+<tr>
+<td><code>FLOW_EMAIL_GEMINI_EXTRA_ARGS</code></td>
+<td><code>-e none</code></td>
+<td>string</td>
+<td>Extra CLI flags for Gemini backend</td>
+</tr>
 </tbody>
 </table>
 <p>Load order: env vars → <code>.flow/email.conf</code> (project) → <code>$FLOW_CONFIG_DIR/email.conf</code> (global)</p>
 <hr />
 <h2 id="architecture-diagram">Architecture Diagram<a class="headerlink" href="#architecture-diagram" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>graph TD
-    A["em dispatcher&lt;br/&gt;18 commands"] --&gt;|adapter layer| B["himalaya CLI&lt;br/&gt;(email backend)"]
+    A["em dispatcher&lt;br/&gt;20 commands"] --&gt;|adapter layer| B["himalaya CLI&lt;br/&gt;(email backend)"]
     A --&gt;|cache layer| C["em-cache&lt;br/&gt;(TTL: 1h-24h)"]
     A --&gt;|AI abstraction| D["em-ai&lt;br/&gt;Backend: claude/gemini"]
     A --&gt;|render pipeline| E["em-render&lt;br/&gt;Smart content detection"]
@@ -9399,6 +9463,43 @@
 <p><strong>Install:</strong> <code>pip install google-generativeai</code></p>
 <h3 id="fallback-chain">Fallback Chain<a class="headerlink" href="#fallback-chain" title="Permanent link">&para;</a></h3>
 <p>If configured backend unavailable: <code>claude</code> → <code>gemini</code> → <code>none</code> (timeout gracefully)</p>
+<h3 id="runtime-switching">Runtime Switching<a class="headerlink" href="#runtime-switching" title="Permanent link">&para;</a></h3>
+<p>Switch AI backends without restarting your shell:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>em ai</code></td>
+<td>Show current backend + status</td>
+</tr>
+<tr>
+<td><code>em ai claude</code></td>
+<td>Switch to Claude</td>
+</tr>
+<tr>
+<td><code>em ai gemini</code></td>
+<td>Switch to Gemini</td>
+</tr>
+<tr>
+<td><code>em ai none</code></td>
+<td>Disable AI</td>
+</tr>
+<tr>
+<td><code>em ai auto</code></td>
+<td>Smart per-op routing</td>
+</tr>
+<tr>
+<td><code>em ai toggle</code></td>
+<td>Cycle through available backends</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Status display shows:</strong> Current backend, available backends, timeout, extra args</p>
 <hr />
 <h2 id="render-pipeline">Render Pipeline<a class="headerlink" href="#render-pipeline" title="Permanent link">&para;</a></h2>
 <p>Smart content detection and rendering:</p>
@@ -9579,6 +9680,11 @@
 <td>Flag for deletion (with confirm)</td>
 </tr>
 <tr>
+<td><strong>Ctrl-T</strong></td>
+<td>Catch</td>
+<td>Capture email as task (AI summary → catch)</td>
+</tr>
+<tr>
 <td><strong>Escape</strong></td>
 <td>Exit</td>
 <td>Return to shell</td>
@@ -9727,25 +9833,34 @@
 <a id="__codelineno-10-36" name="__codelineno-10-36" href="#__codelineno-10-36"></a>em<span class="w"> </span>respond<span class="w"> </span>--dry-run<span class="w">            </span><span class="c1"># Classify only (no drafts)</span>
 <a id="__codelineno-10-37" name="__codelineno-10-37" href="#__codelineno-10-37"></a>em<span class="w"> </span>respond<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w">                </span><span class="c1"># Process 50 emails</span>
 <a id="__codelineno-10-38" name="__codelineno-10-38" href="#__codelineno-10-38"></a>
-<a id="__codelineno-10-39" name="__codelineno-10-39" href="#__codelineno-10-39"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-10-40" name="__codelineno-10-40" href="#__codelineno-10-40"></a><span class="c1"># Quick info</span>
-<a id="__codelineno-10-41" name="__codelineno-10-41" href="#__codelineno-10-41"></a>em<span class="w"> </span>u<span class="w">                            </span><span class="c1"># Show unread count</span>
-<a id="__codelineno-10-42" name="__codelineno-10-42" href="#__codelineno-10-42"></a>em<span class="w"> </span>d<span class="w">                            </span><span class="c1"># Quick dashboard</span>
-<a id="__codelineno-10-43" name="__codelineno-10-43" href="#__codelineno-10-43"></a>em<span class="w"> </span>folders<span class="w">                      </span><span class="c1"># List folders</span>
-<a id="__codelineno-10-44" name="__codelineno-10-44" href="#__codelineno-10-44"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Render HTML in terminal</span>
-<a id="__codelineno-10-45" name="__codelineno-10-45" href="#__codelineno-10-45"></a>
-<a id="__codelineno-10-46" name="__codelineno-10-46" href="#__codelineno-10-46"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-10-47" name="__codelineno-10-47" href="#__codelineno-10-47"></a><span class="c1"># Attachments</span>
-<a id="__codelineno-10-48" name="__codelineno-10-48" href="#__codelineno-10-48"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Download attachments</span>
-<a id="__codelineno-10-49" name="__codelineno-10-49" href="#__codelineno-10-49"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w"> </span>~/Downloads<span class="w">        </span><span class="c1"># Save to specific directory</span>
-<a id="__codelineno-10-50" name="__codelineno-10-50" href="#__codelineno-10-50"></a>
-<a id="__codelineno-10-51" name="__codelineno-10-51" href="#__codelineno-10-51"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-10-52" name="__codelineno-10-52" href="#__codelineno-10-52"></a><span class="c1"># Management</span>
-<a id="__codelineno-10-53" name="__codelineno-10-53" href="#__codelineno-10-53"></a>em<span class="w"> </span>cache<span class="w"> </span>stats<span class="w">                  </span><span class="c1"># Show cache size, TTLs, expired count</span>
-<a id="__codelineno-10-54" name="__codelineno-10-54" href="#__codelineno-10-54"></a>em<span class="w"> </span>cache<span class="w"> </span>prune<span class="w">                  </span><span class="c1"># Remove expired entries only</span>
-<a id="__codelineno-10-55" name="__codelineno-10-55" href="#__codelineno-10-55"></a>em<span class="w"> </span>cache<span class="w"> </span>clear<span class="w">                  </span><span class="c1"># Clear cached AI results</span>
-<a id="__codelineno-10-56" name="__codelineno-10-56" href="#__codelineno-10-56"></a>em<span class="w"> </span>doctor<span class="w">                       </span><span class="c1"># Check dependencies</span>
-<a id="__codelineno-10-57" name="__codelineno-10-57" href="#__codelineno-10-57"></a>em<span class="w"> </span>h<span class="w">                            </span><span class="c1"># Show help</span>
+<a id="__codelineno-10-39" name="__codelineno-10-39" href="#__codelineno-10-39"></a><span class="c1"># AI backend switching</span>
+<a id="__codelineno-10-40" name="__codelineno-10-40" href="#__codelineno-10-40"></a>em<span class="w"> </span>ai<span class="w">                           </span><span class="c1"># Show current backend</span>
+<a id="__codelineno-10-41" name="__codelineno-10-41" href="#__codelineno-10-41"></a>em<span class="w"> </span>ai<span class="w"> </span>gemini<span class="w">                    </span><span class="c1"># Switch to Gemini</span>
+<a id="__codelineno-10-42" name="__codelineno-10-42" href="#__codelineno-10-42"></a>em<span class="w"> </span>ai<span class="w"> </span>toggle<span class="w">                    </span><span class="c1"># Cycle: claude → gemini → claude</span>
+<a id="__codelineno-10-43" name="__codelineno-10-43" href="#__codelineno-10-43"></a>em<span class="w"> </span>ai<span class="w"> </span>none<span class="w">                      </span><span class="c1"># Disable AI entirely</span>
+<a id="__codelineno-10-44" name="__codelineno-10-44" href="#__codelineno-10-44"></a>
+<a id="__codelineno-10-45" name="__codelineno-10-45" href="#__codelineno-10-45"></a><span class="c1"># Email-to-task capture</span>
+<a id="__codelineno-10-46" name="__codelineno-10-46" href="#__codelineno-10-46"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># AI summarize → pipe to catch</span>
+<a id="__codelineno-10-47" name="__codelineno-10-47" href="#__codelineno-10-47"></a>
+<a id="__codelineno-10-48" name="__codelineno-10-48" href="#__codelineno-10-48"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-10-49" name="__codelineno-10-49" href="#__codelineno-10-49"></a><span class="c1"># Quick info</span>
+<a id="__codelineno-10-50" name="__codelineno-10-50" href="#__codelineno-10-50"></a>em<span class="w"> </span>u<span class="w">                            </span><span class="c1"># Show unread count</span>
+<a id="__codelineno-10-51" name="__codelineno-10-51" href="#__codelineno-10-51"></a>em<span class="w"> </span>d<span class="w">                            </span><span class="c1"># Quick dashboard</span>
+<a id="__codelineno-10-52" name="__codelineno-10-52" href="#__codelineno-10-52"></a>em<span class="w"> </span>folders<span class="w">                      </span><span class="c1"># List folders</span>
+<a id="__codelineno-10-53" name="__codelineno-10-53" href="#__codelineno-10-53"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Render HTML in terminal</span>
+<a id="__codelineno-10-54" name="__codelineno-10-54" href="#__codelineno-10-54"></a>
+<a id="__codelineno-10-55" name="__codelineno-10-55" href="#__codelineno-10-55"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-10-56" name="__codelineno-10-56" href="#__codelineno-10-56"></a><span class="c1"># Attachments</span>
+<a id="__codelineno-10-57" name="__codelineno-10-57" href="#__codelineno-10-57"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Download attachments</span>
+<a id="__codelineno-10-58" name="__codelineno-10-58" href="#__codelineno-10-58"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w"> </span>~/Downloads<span class="w">        </span><span class="c1"># Save to specific directory</span>
+<a id="__codelineno-10-59" name="__codelineno-10-59" href="#__codelineno-10-59"></a>
+<a id="__codelineno-10-60" name="__codelineno-10-60" href="#__codelineno-10-60"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-10-61" name="__codelineno-10-61" href="#__codelineno-10-61"></a><span class="c1"># Management</span>
+<a id="__codelineno-10-62" name="__codelineno-10-62" href="#__codelineno-10-62"></a>em<span class="w"> </span>cache<span class="w"> </span>stats<span class="w">                  </span><span class="c1"># Show cache size, TTLs, expired count</span>
+<a id="__codelineno-10-63" name="__codelineno-10-63" href="#__codelineno-10-63"></a>em<span class="w"> </span>cache<span class="w"> </span>prune<span class="w">                  </span><span class="c1"># Remove expired entries only</span>
+<a id="__codelineno-10-64" name="__codelineno-10-64" href="#__codelineno-10-64"></a>em<span class="w"> </span>cache<span class="w"> </span>clear<span class="w">                  </span><span class="c1"># Clear cached AI results</span>
+<a id="__codelineno-10-65" name="__codelineno-10-65" href="#__codelineno-10-65"></a>em<span class="w"> </span>doctor<span class="w">                       </span><span class="c1"># Check dependencies</span>
+<a id="__codelineno-10-66" name="__codelineno-10-66" href="#__codelineno-10-66"></a>em<span class="w"> </span>h<span class="w">                            </span><span class="c1"># Show help</span>
 </code></pre></div>
 <hr />
 <h2 id="doctor-checks">Doctor Checks<a class="headerlink" href="#doctor-checks" title="Permanent link">&para;</a></h2>
@@ -10026,12 +10141,12 @@
 <hr />
 <h2 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h2>
 <h3 id="layer-1-dispatcher-em">Layer 1: Dispatcher (<code>em()</code>)<a class="headerlink" href="#layer-1-dispatcher-em" title="Permanent link">&para;</a></h3>
-<p>Pure ZSH dispatcher. 18 public commands. &lt;10ms response.</p>
+<p>Pure ZSH dispatcher. 20 public commands. &lt;10ms response.</p>
 <h3 id="layer-2-adapters">Layer 2: Adapters<a class="headerlink" href="#layer-2-adapters" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong><code>em-himalaya.zsh</code></strong> — Isolates himalaya CLI specifics</li>
 <li><strong><code>em-cache.zsh</code></strong> — TTL-based AI caching</li>
-<li><strong><code>em-ai.zsh</code></strong> — Backend abstraction (claude/gemini)</li>
+<li><strong><code>em-ai.zsh</code></strong> — Backend abstraction (claude/gemini), runtime switching, extra_args</li>
 <li><strong><code>em-render.zsh</code></strong> — Content detection + rendering</li>
 </ul>
 <h3 id="layer-3-infrastructure">Layer 3: Infrastructure<a class="headerlink" href="#layer-3-infrastructure" title="Permanent link">&para;</a></h3>
@@ -10079,6 +10194,12 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>brew<span class="w"> </span>install<span class="w"> </span>fzf
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>em<span class="w"> </span>p<span class="w">                           </span><span class="c1"># Try again</span>
 </code></pre></div></p>
+<h3 id="problem-unknown-backend">Problem: "Unknown backend"<a class="headerlink" href="#problem-unknown-backend" title="Permanent link">&para;</a></h3>
+<p><strong>Cause:</strong> Invalid backend name passed to <code>em ai</code></p>
+<p><strong>Solution:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>em<span class="w"> </span>ai<span class="w">                          </span><span class="c1"># See available backends</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>em<span class="w"> </span>ai<span class="w"> </span>claude<span class="w">                   </span><span class="c1"># Use a known backend</span>
+</code></pre></div></p>
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <h3 id="comprehensive-guides">Comprehensive Guides<a class="headerlink" href="#comprehensive-guides" title="Permanent link">&para;</a></h3>
@@ -10099,9 +10220,9 @@
 <li><a href="https://github.com/simonthum/email-oauth2-proxy">email-oauth2-proxy</a></li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v7.2.0
-<strong>Last Updated:</strong> 2026-02-16
-<strong>Commands:</strong> 18 total (4 core + 2 search + 3 AI + 3 info + 3 util + 2 infra + 1 help)</p>
+<p><strong>Version:</strong> v7.3.0
+<strong>Last Updated:</strong> 2026-02-18
+<strong>Commands:</strong> 20 total (4 core + 2 search + 5 AI + 3 info + 3 util + 2 infra + 1 help)</p>
 
 
 
