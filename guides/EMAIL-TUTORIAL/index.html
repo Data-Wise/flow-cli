@@ -4752,10 +4752,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#review-generated-drafts" class="md-nav__link">
+  <a href="#review-cached-drafts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Review Generated Drafts
+        Review Cached Drafts
       
     </span>
   </a>
@@ -9407,10 +9407,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#review-generated-drafts" class="md-nav__link">
+  <a href="#review-cached-drafts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Review Generated Drafts
+        Review Cached Drafts
       
     </span>
   </a>
@@ -10075,6 +10075,10 @@
 <p class="admonition-title">Prefer reading email in Neovim?</p>
 <p>This tutorial covers the <strong>terminal CLI</strong> (<code>em</code> dispatcher). For in-editor email with AI actions, see the <a href="../../tutorials/33-himalaya-email/">Neovim Himalaya Tutorial</a>.</p>
 </div>
+<div class="admonition info">
+<p class="admonition-title">Two interfaces, one backend</p>
+<p>Both <code>em</code> and <a href="https://github.com/Data-Wise/himalaya-mcp">himalaya-mcp</a> wrap the same himalaya CLI but serve different interaction models. <code>em</code> is keyboard-driven (fzf, $EDITOR, sub-second), while himalaya-mcp is conversation-driven (Claude as the interface). Use <code>em</code> for fast terminal operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email content.</p>
+</div>
 <hr />
 <h2 id="what-youll-learn">🎯 What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
 <p>By the end of this tutorial, you'll be able to:</p>
@@ -10142,15 +10146,17 @@
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  --- bat (Syntax highlighting) brew install bat
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>  --- w3m (HTML rendering) brew install w3m
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>  --- glow (Markdown rendering) brew install glow
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>2 passed  4 warnings  0 failed
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>Config:
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>  AI backend:  claude
-<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>  AI timeout:  30s
-<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>  Page size:   25
-<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>  Folder:      INBOX
-<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>  Config file: (none — using env defaults)
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>  --- email-oauth2-proxy (OAuth2 proxy) brew install email-oauth2-proxy
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>  ok  claude               AI backend
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>3 passed  4 warnings  0 failed
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>Config:
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>  AI backend:  claude
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>  AI timeout:  30s
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>  Page size:   25
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>  Folder:      INBOX
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>  Config file: (none — using env defaults)
 </code></pre></div>
 <p><strong>Required tools:</strong> himalaya, jq
 <strong>Recommended tools:</strong> fzf, bat, w3m, glow</p>
@@ -10197,8 +10203,8 @@
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  3 unread
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>Recent:
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  ID    *  From                 Subject                                   Date
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  ───── ── ──────────────────── ──────────────────────────────────────── ──────────
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  ID    * + From                 Subject                                   Date
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>  ───── ── ─ ──────────────────── ──────────────────────────────────────── ──────────
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>  42    *+ Alice Johnson        Re: Project proposal review               2026-02-10
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>  41    *  Bob Smith            Meeting notes from yesterday              2026-02-10
 <a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>  40       Carol Davis          Weekly update                             2026-02-09
@@ -10260,28 +10266,23 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  Message #42 [NEW]
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  From:     Alice Johnson &lt;alice@example.com&gt;
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>  Subject:  Re: Project proposal review
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>  Date:     2026-02-10
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>──────────────────────────────────────────────────
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
-<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>Hi,
-<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
-<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>I reviewed the proposal and have a few questions:
-<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>
-<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>1. What&#39;s the timeline for Phase 1?
-<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>2. Can we adjust the budget for consulting fees?
-<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>3. Who will lead the data collection effort?
-<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>
-<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>Let&#39;s discuss on our call tomorrow.
-<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>
-<a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>Best,
-<a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>Alice
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>  Re: Project proposal review
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  From: Alice Johnson &lt;alice@example.com&gt;
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>  Date: 2026-02-10
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>  ─────────────────────────────────────────────────
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>Hi,
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>I reviewed the proposal and have a few questions:
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>1. What&#39;s the timeline for Phase 1?
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>2. Can we adjust the budget for consulting fees?
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>3. Who will lead the data collection effort?
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>Let&#39;s discuss on our call tomorrow.
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>Best,
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>Alice
 </code></pre></div>
 <p><strong>Smart rendering:</strong>
 - Plain text → displayed with bat (syntax highlighting)
@@ -10289,15 +10290,22 @@
 - HTML → converted to text with w3m/lynx/pandoc</p>
 <h3 id="command-2-force-html-rendering">Command 2: Force HTML Rendering<a class="headerlink" href="#command-2-force-html-rendering" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>--html<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
-<p>✅ <strong>Expected output:</strong> HTML email converted to readable text</p>
+<p>Or use the shorthand alias:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span>
+</code></pre></div>
+<p>Both are identical — <code>em html</code> is just an alias for <code>em read --html</code>.</p>
+<p><strong>Short flag:</strong> <code>-H</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>-H<span class="w"> </span><span class="m">42</span>
+</code></pre></div>
+<p>✅ <strong>Expected output:</strong> HTML email converted to readable text via w3m/lynx/pandoc</p>
 <p><strong>When to use:</strong>
 - Email looks garbled in plain text
 - You know it's HTML (newsletters, formatted emails)</p>
 <h3 id="command-3-clean-markdown-rendering">Command 3: Clean Markdown Rendering<a class="headerlink" href="#command-3-clean-markdown-rendering" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>--md<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>--md<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> Email rendered as clean Markdown with proper headings, links, and formatting. Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatically.</p>
 <p><strong>Requires:</strong> <code>pandoc</code> (<code>brew install pandoc</code>)</p>
@@ -10306,33 +10314,33 @@
 - Newsletters with tracking links
 - Any time you want structured, readable content</p>
 <p><strong>Short flag:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>-M<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>-M<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <h3 id="command-4-raw-mime-export">Command 4: Raw MIME Export<a class="headerlink" href="#command-4-raw-mime-export" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>--raw<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>--raw<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p>This exports the full <code>.eml</code> MIME source — useful for debugging email formatting or archiving.</p>
 <h3 id="command-5-download-attachments">Command 5: Download Attachments<a class="headerlink" href="#command-5-download-attachments" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>Downloading attachments from email #42...
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>✓ Attachments saved to: /Users/dt/Downloads
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>Downloading attachments from email #42...
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>✓ Attachments saved to: /Users/dt/Downloads
 </code></pre></div>
 <p><strong>Files saved to:</strong> <code>~/Downloads</code> by default</p>
 <p><strong>Custom download directory:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w"> </span>~/Desktop/project-files
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w"> </span>~/Desktop/project-files
 </code></pre></div>
 <h3 id="what-you-learned_2">💡 What You Learned<a class="headerlink" href="#what-you-learned_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>em 42</code> shorthand reads email #42 (same as <code>em read 42</code>)</li>
 <li><code>em read &lt;ID&gt;</code> reads an email with smart rendering</li>
-<li><code>em read --md &lt;ID&gt;</code> renders as clean Markdown via pandoc (Outlook-friendly)</li>
+<li><code>em read --html &lt;ID&gt;</code> or <code>em html &lt;ID&gt;</code> forces HTML rendering (<code>-H</code> short flag)</li>
+<li><code>em read --md &lt;ID&gt;</code> renders as clean Markdown via pandoc (<code>-M</code> short flag, Outlook-friendly)</li>
 <li><code>em read --raw &lt;ID&gt;</code> exports full MIME source</li>
 <li>Plain text → bat, Markdown → glow, HTML → w3m</li>
-<li><code>em html &lt;ID&gt;</code> forces HTML rendering</li>
 <li><code>em attach &lt;ID&gt;</code> downloads attachments to ~/Downloads</li>
 <li>Content type is auto-detected</li>
 <li>Email noise (CID refs, safelinks, MIME markers) auto-stripped</li>
@@ -10343,20 +10351,20 @@
 <p>Browse and act on emails interactively with keyboard shortcuts.</p>
 <h3 id="launch-the-browser">Launch the Browser<a class="headerlink" href="#launch-the-browser" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>em<span class="w"> </span>pick
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>em<span class="w"> </span>pick
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Folder: INBOX  |  Unread: 3
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>* = unread  + = attachment
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>  42 * + Alice Johnson     Re: Project proposal review           2026-02-10
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>  41 *   Bob Smith         Meeting notes from yesterday          2026-02-10
-<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>  40     Carol Davis       Weekly update                         2026-02-09
-<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>&gt; 39     David Lee         [GitHub] PR #123 merged               2026-02-09
-<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>  38 *   Emma Wilson       Question about assignment 2           2026-02-08
-<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>
-<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>[Preview panel shows selected email →]
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>Folder: INBOX  |  Unread: 3
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>* = unread  + = attachment
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>  42 * + Alice Johnson     Re: Project proposal review           2026-02-10
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>  41 *   Bob Smith         Meeting notes from yesterday          2026-02-10
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>  40     Carol Davis       Weekly update                         2026-02-09
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>&gt; 39     David Lee         [GitHub] PR #123 merged               2026-02-09
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>  38 *   Emma Wilson       Question about assignment 2           2026-02-08
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>[Preview panel shows selected email →]
 </code></pre></div>
 <h3 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">&para;</a></h3>
 <ul>
@@ -10371,6 +10379,7 @@
 <li><strong>Enter</strong> — Read the selected email</li>
 <li><strong>Ctrl-R</strong> — Reply to selected email (AI draft)</li>
 <li><strong>Ctrl-S</strong> — Summarize selected email (AI)</li>
+<li><strong>Ctrl-T</strong> — Capture as task (AI summary → <code>catch</code>)</li>
 <li><strong>Ctrl-A</strong> — Archive (mark read)</li>
 <li><strong>Ctrl-D</strong> — Delete (flag as deleted)</li>
 <li><strong>Esc</strong> — Exit browser</li>
@@ -10385,7 +10394,7 @@
 </ol>
 <h3 id="browse-specific-folder">Browse Specific Folder<a class="headerlink" href="#browse-specific-folder" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>em<span class="w"> </span>pick<span class="w"> </span>Sent
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>em<span class="w"> </span>pick<span class="w"> </span>Sent
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> Browser of Sent folder</p>
 <h3 id="what-you-learned_3">💡 What You Learned<a class="headerlink" href="#what-you-learned_3" title="Permanent link">&para;</a></h3>
@@ -10393,7 +10402,7 @@
 <li><code>em pick</code> launches interactive email browser</li>
 <li>Type to filter, arrows to navigate</li>
 <li>Enter = read, Ctrl-R = reply, Ctrl-S = summarize</li>
-<li>Ctrl-A = archive, Ctrl-D = delete</li>
+<li>Ctrl-T = capture as task, Ctrl-A = archive, Ctrl-D = delete</li>
 <li>Preview panel shows email content</li>
 <li>Works with any folder: <code>em pick Sent</code></li>
 </ul>
@@ -10403,7 +10412,7 @@
 <p>Generate AI-powered draft replies that open in your editor.</p>
 <h3 id="basic-reply">Basic Reply<a class="headerlink" href="#basic-reply" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p><strong>What happens:</strong></p>
 <ol>
@@ -10414,26 +10423,26 @@
 <li>Confirms before sending</li>
 </ol>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>Generating AI draft...
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>✓ AI draft ready — edit in $EDITOR
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>Generating AI draft...
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>✓ AI draft ready — edit in $EDITOR
 </code></pre></div>
 <p><strong>In your editor, you'll see:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>To: alice@example.com
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>Subject: Re: Project proposal review
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>From: you@example.com
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>Hi Alice,
-<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>
-<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>Thanks for reviewing the proposal. Here are answers to your questions:
-<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>
-<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>1. Phase 1 timeline: We&#39;re targeting 6 weeks starting March 1st.
-<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>2. Budget adjustment: Yes, we can reallocate $10k to consulting fees.
-<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>3. Data collection lead: Dr. Sarah Chen will lead with support from grad students.
-<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a>
-<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a>I&#39;m looking forward to our call tomorrow to discuss details.
-<a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a>
-<a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a>Best,
-<a id="__codelineno-31-16" name="__codelineno-31-16" href="#__codelineno-31-16"></a>[Your Name]
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>To: alice@example.com
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>Subject: Re: Project proposal review
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>From: you@example.com
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>Hi Alice,
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>Thanks for reviewing the proposal. Here are answers to your questions:
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>1. Phase 1 timeline: We&#39;re targeting 6 weeks starting March 1st.
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>2. Budget adjustment: Yes, we can reallocate $10k to consulting fees.
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>3. Data collection lead: Dr. Sarah Chen will lead with support from grad students.
+<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>
+<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>I&#39;m looking forward to our call tomorrow to discuss details.
+<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>
+<a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a>Best,
+<a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a>[Your Name]
 </code></pre></div>
 <p><strong>Edit the draft:</strong>
 - Revise the AI's suggestions
@@ -10441,16 +10450,16 @@
 - Fix any errors
 - Save and exit when done</p>
 <p><strong>Send confirmation:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>Send this reply? [y/N] y
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>Send this reply? [y/N] y
 </code></pre></div>
 <h3 id="reply-all">Reply-All<a class="headerlink" href="#reply-all" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--all
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--all
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> Same as above, but includes all recipients (To + CC)</p>
 <h3 id="skip-ai-blank-reply">Skip AI (Blank Reply)<a class="headerlink" href="#skip-ai-blank-reply" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--no-ai
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--no-ai
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> Editor opens with blank reply template (no AI draft)</p>
 <p><strong>When to use:</strong>
@@ -10459,7 +10468,7 @@
 - Quick one-liner response</p>
 <h3 id="batch-mode-non-interactive">Batch Mode (Non-Interactive)<a class="headerlink" href="#batch-mode-non-interactive" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--batch
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--batch
 </code></pre></div>
 <p><strong>What happens:</strong></p>
 <ol>
@@ -10469,17 +10478,17 @@
 <li>Sends immediately if confirmed</li>
 </ol>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>Fetching email #42...
-<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>Draft Reply
-<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>────────────────────────────────────────────────────────────────
-<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>To: alice@example.com
-<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>Subject: Re: Project proposal review
-<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>---
-<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>[Draft content shown...]
-<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>────────────────────────────────────────────────────────────────
-<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>
-<a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a>  Send this reply? [y/N] y
-<a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>✓ Reply sent
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>Fetching email #42...
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>Draft Reply
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>────────────────────────────────────────────────────────────────
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>To: alice@example.com
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>Subject: Re: Project proposal review
+<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>---
+<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>[Draft content shown...]
+<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>────────────────────────────────────────────────────────────────
+<a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a>
+<a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a>  Send this reply? [y/N] y
+<a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a>✓ Reply sent
 </code></pre></div>
 <p><strong>When to use:</strong>
 - Batch processing emails
@@ -10487,19 +10496,19 @@
 - Scripted workflows</p>
 <h3 id="ai-backend-configuration">AI Backend Configuration<a class="headerlink" href="#ai-backend-configuration" title="Permanent link">&para;</a></h3>
 <p><strong>Check current backend:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$FLOW_EMAIL_AI</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$FLOW_EMAIL_AI</span>
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> <code>claude</code> (default)</p>
 <p><strong>Change backend:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># Use gemini instead</span>
-<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>gemini
-<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
-<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="c1"># Disable AI (always blank drafts)</span>
-<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>none
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Use gemini instead</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>gemini
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="c1"># Disable AI (always blank drafts)</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>none
 </code></pre></div>
 <p><strong>Set timeout:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># Default: 30 seconds</span>
-<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">45</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># Default: 30 seconds</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">45</span>
 </code></pre></div>
 <h3 id="what-you-learned_4">💡 What You Learned<a class="headerlink" href="#what-you-learned_4" title="Permanent link">&para;</a></h3>
 <ul>
@@ -10519,7 +10528,7 @@
 <p>Compose and send new emails from the terminal.</p>
 <h3 id="basic-compose">Basic Compose<a class="headerlink" href="#basic-compose" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>em<span class="w"> </span>send
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>em<span class="w"> </span>send
 </code></pre></div>
 <p><strong>What happens:</strong></p>
 <ol>
@@ -10530,32 +10539,32 @@
 <li>Confirms before sending</li>
 </ol>
 <p>✅ <strong>Expected interaction:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>To: colleague@example.com
-<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>Subject: Quick question about project
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>To: colleague@example.com
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>Subject: Quick question about project
 </code></pre></div>
 <p><strong>Editor opens with:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>To: colleague@example.com
-<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>Subject: Quick question about project
-<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>From: you@example.com
-<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>
-<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>[Compose your message here]
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>To: colleague@example.com
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>Subject: Quick question about project
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>From: you@example.com
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>[Compose your message here]
 </code></pre></div>
 <p><strong>After you save and exit:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>────────────────────────────────────────────────────────────────
-<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>[Preview of email shown]
-<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>────────────────────────────────────────────────────────────────
-<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>
-<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>  Send this email? [y/N] y
-<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>✓ Email sent
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>────────────────────────────────────────────────────────────────
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>[Preview of email shown]
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>────────────────────────────────────────────────────────────────
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>  Send this email? [y/N] y
+<a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>✓ Email sent
 </code></pre></div>
 <h3 id="compose-with-pre-filled-fields">Compose with Pre-filled Fields<a class="headerlink" href="#compose-with-pre-filled-fields" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>em<span class="w"> </span>send<span class="w"> </span>colleague@example.com<span class="w"> </span><span class="s2">&quot;Quick question&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>em<span class="w"> </span>send<span class="w"> </span>colleague@example.com<span class="w"> </span><span class="s2">&quot;Quick question&quot;</span>
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> Editor opens with To and Subject pre-filled</p>
 <h3 id="compose-with-ai-draft-experimental">Compose with AI Draft (Experimental)<a class="headerlink" href="#compose-with-ai-draft-experimental" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>em<span class="w"> </span>send<span class="w"> </span>colleague@example.com<span class="w"> </span><span class="s2">&quot;Project timeline&quot;</span><span class="w"> </span>--ai
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>em<span class="w"> </span>send<span class="w"> </span>colleague@example.com<span class="w"> </span><span class="s2">&quot;Project timeline&quot;</span><span class="w"> </span>--ai
 </code></pre></div>
 <p><strong>What happens:</strong></p>
 <ol>
@@ -10564,8 +10573,8 @@
 <li>You edit and send</li>
 </ol>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>Generating AI draft from subject...
-<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>✓ AI draft ready — edit in $EDITOR
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>Generating AI draft from subject...
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>✓ AI draft ready — edit in $EDITOR
 </code></pre></div>
 <p><strong>When to use:</strong>
 - You know what to say but want AI to structure it
@@ -10586,10 +10595,10 @@
 <p>Use AI to classify, summarize, and batch process emails.</p>
 <h3 id="classify-email">Classify Email<a class="headerlink" href="#classify-email" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>em<span class="w"> </span>classify<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>em<span class="w"> </span>classify<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>  S student
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>  S student
 </code></pre></div>
 <p><strong>Categories (9 types):</strong>
 - <strong>student</strong> — Student email: absence, question, grade inquiry, accommodation
@@ -10613,10 +10622,10 @@
 - <code>A</code> = automated (dim)</p>
 <h3 id="summarize-email">Summarize Email<a class="headerlink" href="#summarize-email" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>em<span class="w"> </span>summarize<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>em<span class="w"> </span>summarize<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>  Summary: Alice asks 3 questions about project proposal timeline and budget
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>  Summary: Alice asks 3 questions about project proposal timeline and budget
 </code></pre></div>
 <p><strong>One-line summary focuses on:</strong>
 - Who wants what
@@ -10624,91 +10633,88 @@
 - Core ask or information</p>
 <h3 id="batch-ai-drafts-respond-command">Batch AI Drafts (Respond Command)<a class="headerlink" href="#batch-ai-drafts-respond-command" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>em<span class="w"> </span>respond
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>em<span class="w"> </span>respond
 </code></pre></div>
 <p><strong>What happens:</strong></p>
 <ol>
-<li>Analyzes latest 20 emails (default)</li>
-<li>Classifies each email</li>
-<li>Skips non-actionable (newsletter, automated, admin-info, vendor)
-3a. Auto-skips listserv emails (e.g., <code>@LIST.UNM.EDU</code>) before classification</li>
-<li>Generates AI drafts for actionable emails</li>
-<li>Saves drafts to cache</li>
+<li>Analyzes latest 10 emails (default)</li>
+<li>Auto-skips listserv emails (e.g., <code>@LIST.UNM.EDU</code>) before classification</li>
+<li>Classifies each email (9 categories)</li>
+<li>Skips non-actionable (newsletter, automated, admin-info, vendor)</li>
+<li>For each actionable email: generates AI draft → opens <code>$EDITOR</code> → send on save</li>
 </ol>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>Analyzing 20 emails for actionable messages...
-<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>  drafted #42: Re: Project proposal review
-<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>  drafted #38: Re: Question about assignment 2
-<a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a>  drafted #41: Re: Meeting notes from yesterday
-<a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a>  (skipped #40: Weekly update — newsletter)
-<a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a>  (skipped #39: [GitHub] PR merged — automated)
-<a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a>
-<a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a>✓ 3 drafts generated (2 skipped)
-<a id="__codelineno-52-9" name="__codelineno-52-9" href="#__codelineno-52-9"></a>  Review: em respond --review
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>em respond — scanning 10 emails in INBOX
+<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>  [1/10] Alice Johnson         C colleague  Re: Project proposal
+<a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a>  [2/10] Bob Smith             C colleague  Re: Meeting notes
+<a id="__codelineno-54-4" name="__codelineno-54-4" href="#__codelineno-54-4"></a>  [3/10] Carol Davis           N newsletter — skip
+<a id="__codelineno-54-5" name="__codelineno-54-5" href="#__codelineno-54-5"></a>  [4/10] David Lee             A automated — skip
+<a id="__codelineno-54-6" name="__codelineno-54-6" href="#__codelineno-54-6"></a>  [5/10] Emma Wilson           S student    Re: Question about assignment
+<a id="__codelineno-54-7" name="__codelineno-54-7" href="#__codelineno-54-7"></a>
+<a id="__codelineno-54-8" name="__codelineno-54-8" href="#__codelineno-54-8"></a>Proceed to draft 3 replies? [Y/n]
 </code></pre></div>
+<p>After pressing Y, your <code>$EDITOR</code> opens with the first AI-generated draft. Edit, save, and close to send — then the next draft opens automatically.</p>
 <p><strong>Adjust count:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>em<span class="w"> </span>respond<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>em<span class="w"> </span>respond<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
 </code></pre></div>
 <p><strong>Specific folder:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--folder<span class="w"> </span>Teaching
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--folder<span class="w"> </span>Teaching
 </code></pre></div>
-<h3 id="review-generated-drafts">Review Generated Drafts<a class="headerlink" href="#review-generated-drafts" title="Permanent link">&para;</a></h3>
+<h3 id="review-cached-drafts">Review Cached Drafts<a class="headerlink" href="#review-cached-drafts" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
 </code></pre></div>
 <p><strong>What happens:</strong></p>
 <ol>
-<li>Launches fzf browser with cached drafts</li>
-<li>Shows original email context</li>
-<li>Preview panel shows draft</li>
-<li>Actions: Enter=send, Ctrl-E=edit, Ctrl-D=discard</li>
+<li>Lists emails with cached drafts</li>
+<li>Asks "Review N cached drafts? [Y/n]"</li>
+<li>Opens each draft in <code>$EDITOR</code> one at a time</li>
+<li>After each: "Continue to next? [Y/n/q]"</li>
 </ol>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>Loading drafts for review...
-<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>
-<a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a>  42    [Draft] Re: Project proposal review
-<a id="__codelineno-56-4" name="__codelineno-56-4" href="#__codelineno-56-4"></a>  38    [Draft] Re: Question about assignment 2
-<a id="__codelineno-56-5" name="__codelineno-56-5" href="#__codelineno-56-5"></a>&gt; 41    [Draft] Re: Meeting notes from yesterday
-<a id="__codelineno-56-6" name="__codelineno-56-6" href="#__codelineno-56-6"></a>
-<a id="__codelineno-56-7" name="__codelineno-56-7" href="#__codelineno-56-7"></a>[Preview panel shows draft content →]
-<a id="__codelineno-56-8" name="__codelineno-56-8" href="#__codelineno-56-8"></a>
-<a id="__codelineno-56-9" name="__codelineno-56-9" href="#__codelineno-56-9"></a>Enter=send  Ctrl-E=edit  Ctrl-D=discard
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>Cached drafts available:
+<a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>  ✓ #42  Alice Johnson  Re: Project proposal re...
+<a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a>  ✓ #38  Emma Wilson    Re: Question about assig...
+<a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>  ✓ #41  Bob Smith      Re: Meeting notes from y...
+<a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>
+<a id="__codelineno-58-6" name="__codelineno-58-6" href="#__codelineno-58-6"></a>Review 3 cached drafts? [Y/n]
 </code></pre></div>
+<p>After pressing Y, your <code>$EDITOR</code> opens with the first draft. Edit, save, and close to send — or quit without saving to skip.</p>
 <h3 id="clear-cached-drafts">Clear Cached Drafts<a class="headerlink" href="#clear-cached-drafts" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--clear
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--clear
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>✓ Email cache cleared (2.5M freed)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>✓ Email cache cleared (2.5M freed)
 </code></pre></div>
 <h3 id="ai-backend-selection">AI Backend Selection<a class="headerlink" href="#ai-backend-selection" title="Permanent link">&para;</a></h3>
 <p><strong>Check available backends:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>claude<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;claude available&quot;</span>
-<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>gemini<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;gemini available&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>claude<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;claude available&quot;</span>
+<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>gemini<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;gemini available&quot;</span>
 </code></pre></div>
 <p><strong>Set preferred backend:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>gemini
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>gemini
 </code></pre></div>
 <p><strong>Check current config:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>em<span class="w"> </span>doctor
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>em<span class="w"> </span>doctor
 </code></pre></div>
 <h3 id="dry-run-preview-only">Dry Run (Preview Only)<a class="headerlink" href="#dry-run-preview-only" title="Permanent link">&para;</a></h3>
 <p>Preview which emails are actionable without generating any drafts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--dry-run
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>em respond — scanning 10 emails in INBOX
-<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a>
-<a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a>  [1/10] Amy Hathaway              C colleague  Re: zoom links
-<a id="__codelineno-63-5" name="__codelineno-63-5" href="#__codelineno-63-5"></a>  [2/10] Yan Lu                    C colleague  Re: Data science hiring
-<a id="__codelineno-63-6" name="__codelineno-63-6" href="#__codelineno-63-6"></a>  [3/10] Google Cloud              V vendor — skip
-<a id="__codelineno-63-7" name="__codelineno-63-7" href="#__codelineno-63-7"></a>  [4/10] graduation@unm.edu        i admin-info — skip
-<a id="__codelineno-63-8" name="__codelineno-63-8" href="#__codelineno-63-8"></a>  [5/10] Newsletter Digest         N newsletter — skip
-<a id="__codelineno-63-9" name="__codelineno-63-9" href="#__codelineno-63-9"></a>
-<a id="__codelineno-63-10" name="__codelineno-63-10" href="#__codelineno-63-10"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<a id="__codelineno-63-11" name="__codelineno-63-11" href="#__codelineno-63-11"></a>  2 actionable  3 skipped  of 5 total
-<a id="__codelineno-63-12" name="__codelineno-63-12" href="#__codelineno-63-12"></a>ℹ Dry run — no drafts generated
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>em respond — scanning 10 emails in INBOX
+<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a>
+<a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a>  [1/10] Amy Hathaway              C colleague  Re: zoom links
+<a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a>  [2/10] Yan Lu                    C colleague  Re: Data science hiring
+<a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a>  [3/10] Google Cloud              V vendor — skip
+<a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a>  [4/10] graduation@unm.edu        i admin-info — skip
+<a id="__codelineno-65-8" name="__codelineno-65-8" href="#__codelineno-65-8"></a>  [5/10] Newsletter Digest         N newsletter — skip
+<a id="__codelineno-65-9" name="__codelineno-65-9" href="#__codelineno-65-9"></a>
+<a id="__codelineno-65-10" name="__codelineno-65-10" href="#__codelineno-65-10"></a>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<a id="__codelineno-65-11" name="__codelineno-65-11" href="#__codelineno-65-11"></a>  2 actionable  3 skipped  of 5 total
+<a id="__codelineno-65-12" name="__codelineno-65-12" href="#__codelineno-65-12"></a>ℹ Dry run — no drafts generated
 </code></pre></div>
 <p>This is the safest way to start — see what the AI thinks before committing to drafts.</p>
 <h3 id="what-you-learned_6">💡 What You Learned<a class="headerlink" href="#what-you-learned_6" title="Permanent link">&para;</a></h3>
@@ -10719,9 +10725,10 @@
 <li>Skips newsletter, automated, admin-info, vendor</li>
 <li>Auto-skips listserv/mailing list emails before classification</li>
 <li><code>em respond --dry-run</code> preview classification without drafts</li>
-<li><code>em respond --review</code> interactive draft browser</li>
+<li><code>em respond --review</code> review cached drafts in <code>$EDITOR</code> (one at a time)</li>
 <li><code>em respond -n N</code> processes N emails (default: 10)</li>
-<li><code>em respond --clear</code> clears cached drafts</li>
+<li><code>em respond --folder &lt;NAME&gt;</code> processes a specific folder</li>
+<li><code>em respond --clear</code> clears cached drafts (same as <code>em cache clear</code>)</li>
 <li>Discarding a draft in the editor is tracked separately from sending</li>
 <li>AI backend: claude (default) or gemini</li>
 <li>Timeout: 30s default (configure with <code>$FLOW_EMAIL_AI_TIMEOUT</code>)</li>
@@ -10732,16 +10739,16 @@
 <p>Search emails and browse specific folders.</p>
 <h3 id="search-emails">Search Emails<a class="headerlink" href="#search-emails" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;quarterly report&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;quarterly report&quot;</span>
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>Searching: quarterly report
-<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>
-<a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a>  42  Alice Johnson  Q3 quarterly report review  2026-02-10
-<a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a>  35  Bob Smith      Quarterly report draft     2026-01-15
-<a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a>  28  Carol Davis    Re: Quarterly planning     2026-01-10
-<a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a>
-<a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a>3 results
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>Searching: quarterly report
+<a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a>
+<a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a>  42  Alice Johnson  Q3 quarterly report review  2026-02-10
+<a id="__codelineno-67-4" name="__codelineno-67-4" href="#__codelineno-67-4"></a>  35  Bob Smith      Quarterly report draft     2026-01-15
+<a id="__codelineno-67-5" name="__codelineno-67-5" href="#__codelineno-67-5"></a>  28  Carol Davis    Re: Quarterly planning     2026-01-10
+<a id="__codelineno-67-6" name="__codelineno-67-6" href="#__codelineno-67-6"></a>
+<a id="__codelineno-67-7" name="__codelineno-67-7" href="#__codelineno-67-7"></a>3 results
 </code></pre></div>
 <p><strong>Search criteria:</strong>
 - Subject line (case-insensitive)
@@ -10749,34 +10756,34 @@
 - Sender email address</p>
 <h3 id="list-folders">List Folders<a class="headerlink" href="#list-folders" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>em<span class="w"> </span>folders
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>em<span class="w"> </span>folders
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>INBOX
-<a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a>Sent
-<a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a>Drafts
-<a id="__codelineno-67-4" name="__codelineno-67-4" href="#__codelineno-67-4"></a>Archive
-<a id="__codelineno-67-5" name="__codelineno-67-5" href="#__codelineno-67-5"></a>Trash
-<a id="__codelineno-67-6" name="__codelineno-67-6" href="#__codelineno-67-6"></a>Teaching
-<a id="__codelineno-67-7" name="__codelineno-67-7" href="#__codelineno-67-7"></a>Research
-<a id="__codelineno-67-8" name="__codelineno-67-8" href="#__codelineno-67-8"></a>Projects
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>INBOX
+<a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>Sent
+<a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a>Drafts
+<a id="__codelineno-69-4" name="__codelineno-69-4" href="#__codelineno-69-4"></a>Archive
+<a id="__codelineno-69-5" name="__codelineno-69-5" href="#__codelineno-69-5"></a>Trash
+<a id="__codelineno-69-6" name="__codelineno-69-6" href="#__codelineno-69-6"></a>Teaching
+<a id="__codelineno-69-7" name="__codelineno-69-7" href="#__codelineno-69-7"></a>Research
+<a id="__codelineno-69-8" name="__codelineno-69-8" href="#__codelineno-69-8"></a>Projects
 </code></pre></div>
 <h3 id="browse-specific-folder_1">Browse Specific Folder<a class="headerlink" href="#browse-specific-folder_1" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>em<span class="w"> </span>pick<span class="w"> </span>Sent
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>em<span class="w"> </span>pick<span class="w"> </span>Sent
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> fzf browser of Sent folder</p>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>em<span class="w"> </span>pick<span class="w"> </span>Teaching
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>em<span class="w"> </span>pick<span class="w"> </span>Teaching
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> fzf browser of Teaching folder</p>
 <h3 id="dashboard-view">Dashboard View<a class="headerlink" href="#dashboard-view" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>em<span class="w"> </span>dash
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>em<span class="w"> </span>dash
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong> Same as <code>em</code> — quick pulse view</p>
 <p><strong>Alias shortcut:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>em<span class="w"> </span>d
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>em<span class="w"> </span>d
 </code></pre></div>
 <h3 id="what-you-learned_7">💡 What You Learned<a class="headerlink" href="#what-you-learned_7" title="Permanent link">&para;</a></h3>
 <ul>
@@ -10785,7 +10792,7 @@
 <li><code>em folders</code> lists available folders</li>
 <li><code>em pick &lt;FOLDER&gt;</code> browses specific folder</li>
 <li><code>em dash</code> or <code>em d</code> shows dashboard</li>
-<li>Search is client-side (fast, no IMAP query lag)</li>
+<li>Search tries server-side IMAP first, falls back to client-side (last 100 emails)</li>
 </ul>
 <hr />
 <h2 id="part-9-cache-performance-5-min">Part 9: Cache &amp; Performance (5 min)<a class="headerlink" href="#part-9-cache-performance-5-min" title="Permanent link">&para;</a></h2>
@@ -10793,13 +10800,15 @@
 <p>Understand how caching speeds up AI operations.</p>
 <h3 id="view-cache-stats">View Cache Stats<a class="headerlink" href="#view-cache-stats" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>em<span class="w"> </span>cache<span class="w"> </span>stats
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>em<span class="w"> </span>cache<span class="w"> </span>stats
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>Email Cache
-<a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>  summaries          12 items  48K
-<a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a>  classifications     12 items  1.2K
-<a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a>  drafts              3 items  8.5K
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>Email Cache
+<a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>  summaries          12 items  48K   (1 expired)
+<a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a>  classifications    12 items  1.2K
+<a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a>  drafts              3 items  8.5K
+<a id="__codelineno-75-5" name="__codelineno-75-5" href="#__codelineno-75-5"></a>  schedules           4 items  2.1K
+<a id="__codelineno-75-6" name="__codelineno-75-6" href="#__codelineno-75-6"></a>  Location: .flow/email-cache
 </code></pre></div>
 <p><strong>Cache types:</strong>
 - <strong>summaries</strong> — One-line summaries (TTL: 24h)
@@ -10808,11 +10817,11 @@
 - <strong>schedules</strong> — Extracted dates (TTL: 24h)</p>
 <h3 id="how-caching-works">How Caching Works<a class="headerlink" href="#how-caching-works" title="Permanent link">&para;</a></h3>
 <p><strong>First call (no cache):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a><span class="nb">time</span><span class="w"> </span>em<span class="w"> </span>summarize<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="nb">time</span><span class="w"> </span>em<span class="w"> </span>summarize<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p>✅ <strong>Expected:</strong> ~15 seconds (AI query)</p>
 <p><strong>Second call (cached):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a><span class="nb">time</span><span class="w"> </span>em<span class="w"> </span>summarize<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="nb">time</span><span class="w"> </span>em<span class="w"> </span>summarize<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <p>✅ <strong>Expected:</strong> ~0.5 seconds (cache hit)</p>
 <p><strong>Why it's fast:</strong>
@@ -10822,16 +10831,16 @@
 - TTL-based expiration</p>
 <h3 id="cache-location">Cache Location<a class="headerlink" href="#cache-location" title="Permanent link">&para;</a></h3>
 <p><strong>Project-local cache:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>ls<span class="w"> </span>.flow/email-cache/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>ls<span class="w"> </span>.flow/email-cache/
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>summaries/
-<a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a>classifications/
-<a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a>drafts/
-<a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a>schedules/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>summaries/
+<a id="__codelineno-79-2" name="__codelineno-79-2" href="#__codelineno-79-2"></a>classifications/
+<a id="__codelineno-79-3" name="__codelineno-79-3" href="#__codelineno-79-3"></a>drafts/
+<a id="__codelineno-79-4" name="__codelineno-79-4" href="#__codelineno-79-4"></a>schedules/
 </code></pre></div>
 <p><strong>Global cache:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>ls<span class="w"> </span><span class="nv">$FLOW_DATA_DIR</span>/email-cache/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>ls<span class="w"> </span><span class="nv">$FLOW_DATA_DIR</span>/email-cache/
 </code></pre></div>
 <h3 id="ttl-time-to-live">TTL (Time-to-Live)<a class="headerlink" href="#ttl-time-to-live" title="Permanent link">&para;</a></h3>
 <p><strong>Cache lifetimes:</strong>
@@ -10845,18 +10854,18 @@
 - Result cached again</p>
 <h3 id="prune-expired-entries">Prune Expired Entries<a class="headerlink" href="#prune-expired-entries" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>em<span class="w"> </span>cache<span class="w"> </span>prune
+<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>em<span class="w"> </span>cache<span class="w"> </span>prune
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>✓ Pruned 4 expired cache entries
+<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>✓ Pruned 4 expired cache entries
 </code></pre></div>
 <p>Prune only removes entries past their TTL. Fresh items stay untouched. This is gentler than <code>em cache clear</code>.</p>
 <h3 id="clear-cache">Clear Cache<a class="headerlink" href="#clear-cache" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>em<span class="w"> </span>cache<span class="w"> </span>clear
+<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>em<span class="w"> </span>cache<span class="w"> </span>clear
 </code></pre></div>
 <p>✅ <strong>Expected output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>✓ Email cache cleared (2.5M freed)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>✓ Email cache cleared (2.5M freed)
 </code></pre></div>
 <p><strong>When to clear:</strong>
 - AI draft quality issues (stale context)
@@ -10864,22 +10873,21 @@
 - Testing fresh AI responses</p>
 <h3 id="cache-size-cap">Cache Size Cap<a class="headerlink" href="#cache-size-cap" title="Permanent link">&para;</a></h3>
 <p>The cache enforces a maximum size to prevent unbounded growth:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_CACHE_MAX_MB</span><span class="o">=</span><span class="m">50</span><span class="w">   </span><span class="c1"># Default: 50 MB</span>
-<a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_CACHE_MAX_MB</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="c1"># Disable size cap</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_CACHE_MAX_MB</span><span class="o">=</span><span class="m">50</span><span class="w">   </span><span class="c1"># Default: 50 MB</span>
+<a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_CACHE_MAX_MB</span><span class="o">=</span><span class="m">0</span><span class="w">    </span><span class="c1"># Disable size cap</span>
 </code></pre></div>
 <p>When exceeded, the oldest files are evicted first (LRU). This runs automatically in the background after every cache write.</p>
 <h3 id="pre-warm-cache-background">Pre-warm Cache (Background)<a class="headerlink" href="#pre-warm-cache-background" title="Permanent link">&para;</a></h3>
 <p><strong>Manually warm cache:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>em<span class="w"> </span>cache<span class="w"> </span>warm<span class="w"> </span><span class="m">20</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>em<span class="w"> </span>cache<span class="w"> </span>warm<span class="w"> </span><span class="m">20</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
 - Fetches latest 20 emails
 - Background-classifies + summarizes
 - Runs asynchronously (doesn't block)</p>
 <p><strong>Auto-warm &amp; auto-prune triggers:</strong>
-- <code>em dash</code> → auto-prunes expired entries + warms latest 10
-- <code>em inbox</code> → auto-prunes expired entries + warms latest 10</p>
-<p>These run in the background and don't slow down the command.</p>
+- <code>em dash</code> (or plain <code>em</code>) → auto-prunes expired entries + conditionally warms latest 10</p>
+<p>Auto-warm only runs when <code>FLOW_EMAIL_CACHE_WARM=true</code>. These run in the background and don't slow down the command.</p>
 <h3 id="what-you-learned_8">💡 What You Learned<a class="headerlink" href="#what-you-learned_8" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>em cache stats</code> shows cached AI results (with expired count)</li>
@@ -10890,7 +10898,7 @@
 <li>Cache hit → &lt;1s, cache miss → ~15s (AI query)</li>
 <li>Size cap: 50MB default (<code>FLOW_EMAIL_CACHE_MAX_MB</code>), LRU eviction</li>
 <li><code>em cache warm N</code> pre-warms latest N emails</li>
-<li>Auto-prune + auto-warm on <code>em dash</code> and <code>em inbox</code></li>
+<li>Auto-prune on <code>em dash</code>; auto-warm when <code>FLOW_EMAIL_CACHE_WARM=true</code></li>
 <li>Cache keys use md5 hash of message ID</li>
 </ul>
 <hr />
@@ -10899,39 +10907,39 @@
 <p>Learn efficient daily workflows and pro tips.</p>
 <h3 id="morning-routine">Morning Routine<a class="headerlink" href="#morning-routine" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a><span class="c1"># 1. Quick pulse</span>
-<a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a>em
-<a id="__codelineno-85-3" name="__codelineno-85-3" href="#__codelineno-85-3"></a>
-<a id="__codelineno-85-4" name="__codelineno-85-4" href="#__codelineno-85-4"></a><span class="c1"># 2. Browse and triage</span>
-<a id="__codelineno-85-5" name="__codelineno-85-5" href="#__codelineno-85-5"></a>em<span class="w"> </span>pick
-<a id="__codelineno-85-6" name="__codelineno-85-6" href="#__codelineno-85-6"></a>
-<a id="__codelineno-85-7" name="__codelineno-85-7" href="#__codelineno-85-7"></a><span class="c1"># 3. Batch generate drafts</span>
-<a id="__codelineno-85-8" name="__codelineno-85-8" href="#__codelineno-85-8"></a>em<span class="w"> </span>respond
-<a id="__codelineno-85-9" name="__codelineno-85-9" href="#__codelineno-85-9"></a>
-<a id="__codelineno-85-10" name="__codelineno-85-10" href="#__codelineno-85-10"></a><span class="c1"># 4. Review and send drafts</span>
-<a id="__codelineno-85-11" name="__codelineno-85-11" href="#__codelineno-85-11"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
+<div class="highlight"><pre><span></span><code><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a><span class="c1"># 1. Quick pulse</span>
+<a id="__codelineno-87-2" name="__codelineno-87-2" href="#__codelineno-87-2"></a>em
+<a id="__codelineno-87-3" name="__codelineno-87-3" href="#__codelineno-87-3"></a>
+<a id="__codelineno-87-4" name="__codelineno-87-4" href="#__codelineno-87-4"></a><span class="c1"># 2. Browse and triage</span>
+<a id="__codelineno-87-5" name="__codelineno-87-5" href="#__codelineno-87-5"></a>em<span class="w"> </span>pick
+<a id="__codelineno-87-6" name="__codelineno-87-6" href="#__codelineno-87-6"></a>
+<a id="__codelineno-87-7" name="__codelineno-87-7" href="#__codelineno-87-7"></a><span class="c1"># 3. Batch generate drafts</span>
+<a id="__codelineno-87-8" name="__codelineno-87-8" href="#__codelineno-87-8"></a>em<span class="w"> </span>respond
+<a id="__codelineno-87-9" name="__codelineno-87-9" href="#__codelineno-87-9"></a>
+<a id="__codelineno-87-10" name="__codelineno-87-10" href="#__codelineno-87-10"></a><span class="c1"># 4. Review and send drafts</span>
+<a id="__codelineno-87-11" name="__codelineno-87-11" href="#__codelineno-87-11"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
 </code></pre></div>
 <p><strong>Time:</strong> ~5 minutes
 <strong>Result:</strong> Inbox triaged, important emails drafted</p>
 <h3 id="teaching-workflow">Teaching Workflow<a class="headerlink" href="#teaching-workflow" title="Permanent link">&para;</a></h3>
 <p><strong>Scenario:</strong> You teach a class and get lots of student emails.</p>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a><span class="c1"># 1. See unread count</span>
-<a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a>em<span class="w"> </span>unread
-<a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a>
-<a id="__codelineno-86-4" name="__codelineno-86-4" href="#__codelineno-86-4"></a><span class="c1"># 2. Pick teaching folder (if you have one)</span>
-<a id="__codelineno-86-5" name="__codelineno-86-5" href="#__codelineno-86-5"></a>em<span class="w"> </span>pick<span class="w"> </span>Teaching
-<a id="__codelineno-86-6" name="__codelineno-86-6" href="#__codelineno-86-6"></a>
-<a id="__codelineno-86-7" name="__codelineno-86-7" href="#__codelineno-86-7"></a><span class="c1"># 3. Or search for student emails</span>
-<a id="__codelineno-86-8" name="__codelineno-86-8" href="#__codelineno-86-8"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;assignment&quot;</span>
-<a id="__codelineno-86-9" name="__codelineno-86-9" href="#__codelineno-86-9"></a>
-<a id="__codelineno-86-10" name="__codelineno-86-10" href="#__codelineno-86-10"></a><span class="c1"># 4. Batch process student questions</span>
-<a id="__codelineno-86-11" name="__codelineno-86-11" href="#__codelineno-86-11"></a>em<span class="w"> </span>respond<span class="w"> </span>--count<span class="w"> </span><span class="m">30</span>
-<a id="__codelineno-86-12" name="__codelineno-86-12" href="#__codelineno-86-12"></a>
-<a id="__codelineno-86-13" name="__codelineno-86-13" href="#__codelineno-86-13"></a><span class="c1"># 5. Review drafts</span>
-<a id="__codelineno-86-14" name="__codelineno-86-14" href="#__codelineno-86-14"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
-<a id="__codelineno-86-15" name="__codelineno-86-15" href="#__codelineno-86-15"></a>
-<a id="__codelineno-86-16" name="__codelineno-86-16" href="#__codelineno-86-16"></a><span class="c1"># 6. Send approved drafts (in fzf: Enter on each)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="c1"># 1. See unread count</span>
+<a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a>em<span class="w"> </span>unread
+<a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a>
+<a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a><span class="c1"># 2. Pick teaching folder (if you have one)</span>
+<a id="__codelineno-88-5" name="__codelineno-88-5" href="#__codelineno-88-5"></a>em<span class="w"> </span>pick<span class="w"> </span>Teaching
+<a id="__codelineno-88-6" name="__codelineno-88-6" href="#__codelineno-88-6"></a>
+<a id="__codelineno-88-7" name="__codelineno-88-7" href="#__codelineno-88-7"></a><span class="c1"># 3. Or search for student emails</span>
+<a id="__codelineno-88-8" name="__codelineno-88-8" href="#__codelineno-88-8"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;assignment&quot;</span>
+<a id="__codelineno-88-9" name="__codelineno-88-9" href="#__codelineno-88-9"></a>
+<a id="__codelineno-88-10" name="__codelineno-88-10" href="#__codelineno-88-10"></a><span class="c1"># 4. Batch process student questions</span>
+<a id="__codelineno-88-11" name="__codelineno-88-11" href="#__codelineno-88-11"></a>em<span class="w"> </span>respond<span class="w"> </span>--count<span class="w"> </span><span class="m">30</span>
+<a id="__codelineno-88-12" name="__codelineno-88-12" href="#__codelineno-88-12"></a>
+<a id="__codelineno-88-13" name="__codelineno-88-13" href="#__codelineno-88-13"></a><span class="c1"># 5. Review drafts</span>
+<a id="__codelineno-88-14" name="__codelineno-88-14" href="#__codelineno-88-14"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
+<a id="__codelineno-88-15" name="__codelineno-88-15" href="#__codelineno-88-15"></a>
+<a id="__codelineno-88-16" name="__codelineno-88-16" href="#__codelineno-88-16"></a><span class="c1"># 6. Send approved drafts (in fzf: Enter on each)</span>
 </code></pre></div>
 <p><strong>Time:</strong> ~10 minutes
 <strong>Result:</strong> 10-15 student emails answered with consistent, helpful responses</p>
@@ -10942,80 +10950,81 @@
 - Review phase separate from drafting phase
 - Reduces decision fatigue</p>
 <p><strong>Workflow:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a><span class="c1"># Batch 1: Generate drafts (no decisions)</span>
-<a id="__codelineno-87-2" name="__codelineno-87-2" href="#__codelineno-87-2"></a>em<span class="w"> </span>respond<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
-<a id="__codelineno-87-3" name="__codelineno-87-3" href="#__codelineno-87-3"></a>
-<a id="__codelineno-87-4" name="__codelineno-87-4" href="#__codelineno-87-4"></a><span class="c1"># Break time (5-10 min)</span>
-<a id="__codelineno-87-5" name="__codelineno-87-5" href="#__codelineno-87-5"></a>
-<a id="__codelineno-87-6" name="__codelineno-87-6" href="#__codelineno-87-6"></a><span class="c1"># Batch 2: Review drafts (quick yes/no decisions)</span>
-<a id="__codelineno-87-7" name="__codelineno-87-7" href="#__codelineno-87-7"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
+<div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="c1"># Batch 1: Generate drafts (no decisions)</span>
+<a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a>em<span class="w"> </span>respond<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a>
+<a id="__codelineno-89-4" name="__codelineno-89-4" href="#__codelineno-89-4"></a><span class="c1"># Break time (5-10 min)</span>
+<a id="__codelineno-89-5" name="__codelineno-89-5" href="#__codelineno-89-5"></a>
+<a id="__codelineno-89-6" name="__codelineno-89-6" href="#__codelineno-89-6"></a><span class="c1"># Batch 2: Review drafts (quick yes/no decisions)</span>
+<a id="__codelineno-89-7" name="__codelineno-89-7" href="#__codelineno-89-7"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
 </code></pre></div>
 <h3 id="quick-check-throughout-day">Quick Check Throughout Day<a class="headerlink" href="#quick-check-throughout-day" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="c1"># Just see unread count</span>
-<a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a>em<span class="w"> </span>unread
-<a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a>
-<a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a><span class="c1"># Quick pulse (unread + 10 latest)</span>
-<a id="__codelineno-88-5" name="__codelineno-88-5" href="#__codelineno-88-5"></a>em
-<a id="__codelineno-88-6" name="__codelineno-88-6" href="#__codelineno-88-6"></a>
-<a id="__codelineno-88-7" name="__codelineno-88-7" href="#__codelineno-88-7"></a><span class="c1"># Filter for urgent</span>
-<a id="__codelineno-88-8" name="__codelineno-88-8" href="#__codelineno-88-8"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;urgent&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a><span class="c1"># Just see unread count</span>
+<a id="__codelineno-90-2" name="__codelineno-90-2" href="#__codelineno-90-2"></a>em<span class="w"> </span>unread
+<a id="__codelineno-90-3" name="__codelineno-90-3" href="#__codelineno-90-3"></a>
+<a id="__codelineno-90-4" name="__codelineno-90-4" href="#__codelineno-90-4"></a><span class="c1"># Quick pulse (unread + 10 latest)</span>
+<a id="__codelineno-90-5" name="__codelineno-90-5" href="#__codelineno-90-5"></a>em
+<a id="__codelineno-90-6" name="__codelineno-90-6" href="#__codelineno-90-6"></a>
+<a id="__codelineno-90-7" name="__codelineno-90-7" href="#__codelineno-90-7"></a><span class="c1"># Filter for urgent</span>
+<a id="__codelineno-90-8" name="__codelineno-90-8" href="#__codelineno-90-8"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;urgent&quot;</span>
 </code></pre></div>
 <p><strong>Time:</strong> ~30 seconds
 <strong>Result:</strong> Situational awareness without deep dive</p>
 <h3 id="search-before-replying">Search Before Replying<a class="headerlink" href="#search-before-replying" title="Permanent link">&para;</a></h3>
 <p><strong>Scenario:</strong> You think you already answered this question.</p>
 <p><strong>Try it now!</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="c1"># Search Sent folder</span>
-<a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a>em<span class="w"> </span>pick<span class="w"> </span>Sent
-<a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a>
-<a id="__codelineno-89-4" name="__codelineno-89-4" href="#__codelineno-89-4"></a><span class="c1"># Type search term in fzf</span>
-<a id="__codelineno-89-5" name="__codelineno-89-5" href="#__codelineno-89-5"></a><span class="c1"># (start typing to filter)</span>
-<a id="__codelineno-89-6" name="__codelineno-89-6" href="#__codelineno-89-6"></a>
-<a id="__codelineno-89-7" name="__codelineno-89-7" href="#__codelineno-89-7"></a><span class="c1"># Read previous reply</span>
-<a id="__codelineno-89-8" name="__codelineno-89-8" href="#__codelineno-89-8"></a><span class="c1"># (press Enter)</span>
-<a id="__codelineno-89-9" name="__codelineno-89-9" href="#__codelineno-89-9"></a>
-<a id="__codelineno-89-10" name="__codelineno-89-10" href="#__codelineno-89-10"></a><span class="c1"># Copy/paste relevant parts to new reply</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="c1"># Search Sent folder</span>
+<a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a>em<span class="w"> </span>pick<span class="w"> </span>Sent
+<a id="__codelineno-91-3" name="__codelineno-91-3" href="#__codelineno-91-3"></a>
+<a id="__codelineno-91-4" name="__codelineno-91-4" href="#__codelineno-91-4"></a><span class="c1"># Type search term in fzf</span>
+<a id="__codelineno-91-5" name="__codelineno-91-5" href="#__codelineno-91-5"></a><span class="c1"># (start typing to filter)</span>
+<a id="__codelineno-91-6" name="__codelineno-91-6" href="#__codelineno-91-6"></a>
+<a id="__codelineno-91-7" name="__codelineno-91-7" href="#__codelineno-91-7"></a><span class="c1"># Read previous reply</span>
+<a id="__codelineno-91-8" name="__codelineno-91-8" href="#__codelineno-91-8"></a><span class="c1"># (press Enter)</span>
+<a id="__codelineno-91-9" name="__codelineno-91-9" href="#__codelineno-91-9"></a>
+<a id="__codelineno-91-10" name="__codelineno-91-10" href="#__codelineno-91-10"></a><span class="c1"># Copy/paste relevant parts to new reply</span>
 </code></pre></div>
 <h3 id="configuration-file">Configuration File<a class="headerlink" href="#configuration-file" title="Permanent link">&para;</a></h3>
 <p><strong>Create project-local config:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>.flow
-<a id="__codelineno-90-2" name="__codelineno-90-2" href="#__codelineno-90-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>.flow/email.conf<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
-<a id="__codelineno-90-3" name="__codelineno-90-3" href="#__codelineno-90-3"></a><span class="s">FLOW_EMAIL_AI=claude</span>
-<a id="__codelineno-90-4" name="__codelineno-90-4" href="#__codelineno-90-4"></a><span class="s">FLOW_EMAIL_AI_TIMEOUT=30</span>
-<a id="__codelineno-90-5" name="__codelineno-90-5" href="#__codelineno-90-5"></a><span class="s">FLOW_EMAIL_PAGE_SIZE=50</span>
-<a id="__codelineno-90-6" name="__codelineno-90-6" href="#__codelineno-90-6"></a><span class="s">FLOW_EMAIL_FOLDER=INBOX</span>
-<a id="__codelineno-90-7" name="__codelineno-90-7" href="#__codelineno-90-7"></a><span class="s">EOF</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>.flow
+<a id="__codelineno-92-2" name="__codelineno-92-2" href="#__codelineno-92-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>.flow/email.conf<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-92-3" name="__codelineno-92-3" href="#__codelineno-92-3"></a><span class="s">FLOW_EMAIL_AI=claude</span>
+<a id="__codelineno-92-4" name="__codelineno-92-4" href="#__codelineno-92-4"></a><span class="s">FLOW_EMAIL_AI_TIMEOUT=30</span>
+<a id="__codelineno-92-5" name="__codelineno-92-5" href="#__codelineno-92-5"></a><span class="s">FLOW_EMAIL_PAGE_SIZE=50</span>
+<a id="__codelineno-92-6" name="__codelineno-92-6" href="#__codelineno-92-6"></a><span class="s">FLOW_EMAIL_FOLDER=INBOX</span>
+<a id="__codelineno-92-7" name="__codelineno-92-7" href="#__codelineno-92-7"></a><span class="s">EOF</span>
 </code></pre></div>
 <p><strong>Create global config:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>~/.config/flow/email.conf<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
-<a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a><span class="s">FLOW_EMAIL_AI=claude</span>
-<a id="__codelineno-91-3" name="__codelineno-91-3" href="#__codelineno-91-3"></a><span class="s">FLOW_EMAIL_AI_TIMEOUT=45</span>
-<a id="__codelineno-91-4" name="__codelineno-91-4" href="#__codelineno-91-4"></a><span class="s">FLOW_EMAIL_PAGE_SIZE=25</span>
-<a id="__codelineno-91-5" name="__codelineno-91-5" href="#__codelineno-91-5"></a><span class="s">EOF</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>~/.config/flow/email.conf<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<a id="__codelineno-93-2" name="__codelineno-93-2" href="#__codelineno-93-2"></a><span class="s">FLOW_EMAIL_AI=claude</span>
+<a id="__codelineno-93-3" name="__codelineno-93-3" href="#__codelineno-93-3"></a><span class="s">FLOW_EMAIL_AI_TIMEOUT=45</span>
+<a id="__codelineno-93-4" name="__codelineno-93-4" href="#__codelineno-93-4"></a><span class="s">FLOW_EMAIL_PAGE_SIZE=25</span>
+<a id="__codelineno-93-5" name="__codelineno-93-5" href="#__codelineno-93-5"></a><span class="s">EOF</span>
 </code></pre></div>
-<p><strong>Precedence:</strong> Project config &gt; Global config &gt; Env vars &gt; Defaults</p>
+<p><strong>Precedence:</strong> Project config (<code>.flow/email.conf</code>) &gt; Global config (<code>~/.config/flow/email.conf</code>) &gt; Environment variables &gt; Defaults</p>
 <h3 id="keyboard-shortcuts-summary">Keyboard Shortcuts Summary<a class="headerlink" href="#keyboard-shortcuts-summary" title="Permanent link">&para;</a></h3>
 <p><strong>In fzf browser (<code>em pick</code>):</strong>
 - <code>↑↓</code> — Navigate
 - <code>Enter</code> — Read email
 - <code>Ctrl-R</code> — Reply (AI draft)
 - <code>Ctrl-S</code> — Summarize (AI)
+- <code>Ctrl-T</code> — Capture as task
 - <code>Ctrl-A</code> — Archive (mark read)
 - <code>Ctrl-D</code> — Delete (flag)
 - <code>Esc</code> — Exit</p>
 <p><strong>In draft review (<code>em respond --review</code>):</strong>
-- <code>Enter</code> — Send draft
-- <code>Ctrl-E</code> — Edit draft
-- <code>Ctrl-D</code> — Discard draft
-- <code>Esc</code> — Exit</p>
+- Opens <code>$EDITOR</code> for each draft sequentially
+- Save &amp; close → sends the reply
+- Quit without saving → skips that draft
+- <code>Y/n/q</code> prompts between drafts</p>
 <h3 id="aliases-for-speed">Aliases for Speed<a class="headerlink" href="#aliases-for-speed" title="Permanent link">&para;</a></h3>
 <p><strong>Add to your <code>.zshrc</code>:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">e</span><span class="o">=</span><span class="s1">&#39;em&#39;</span>
-<a id="__codelineno-92-2" name="__codelineno-92-2" href="#__codelineno-92-2"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">ei</span><span class="o">=</span><span class="s1">&#39;em inbox&#39;</span>
-<a id="__codelineno-92-3" name="__codelineno-92-3" href="#__codelineno-92-3"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">ep</span><span class="o">=</span><span class="s1">&#39;em pick&#39;</span>
-<a id="__codelineno-92-4" name="__codelineno-92-4" href="#__codelineno-92-4"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">er</span><span class="o">=</span><span class="s1">&#39;em respond&#39;</span>
-<a id="__codelineno-92-5" name="__codelineno-92-5" href="#__codelineno-92-5"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">eu</span><span class="o">=</span><span class="s1">&#39;em unread&#39;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">e</span><span class="o">=</span><span class="s1">&#39;em&#39;</span>
+<a id="__codelineno-94-2" name="__codelineno-94-2" href="#__codelineno-94-2"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">ei</span><span class="o">=</span><span class="s1">&#39;em inbox&#39;</span>
+<a id="__codelineno-94-3" name="__codelineno-94-3" href="#__codelineno-94-3"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">ep</span><span class="o">=</span><span class="s1">&#39;em pick&#39;</span>
+<a id="__codelineno-94-4" name="__codelineno-94-4" href="#__codelineno-94-4"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">er</span><span class="o">=</span><span class="s1">&#39;em respond&#39;</span>
+<a id="__codelineno-94-5" name="__codelineno-94-5" href="#__codelineno-94-5"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">eu</span><span class="o">=</span><span class="s1">&#39;em unread&#39;</span>
 </code></pre></div>
 <h3 id="what-you-learned_9">💡 What You Learned<a class="headerlink" href="#what-you-learned_9" title="Permanent link">&para;</a></h3>
 <ul>
@@ -11025,7 +11034,7 @@
 <li>Quick checks: <code>em unread</code> (30s)</li>
 <li>Search before replying: <code>em pick Sent</code> + filter</li>
 <li>Config files: <code>.flow/email.conf</code> (project) or <code>~/.config/flow/email.conf</code> (global)</li>
-<li>Keyboard shortcuts: fzf (Ctrl-R/S/A/D), review (Enter/Ctrl-E/D)</li>
+<li>Keyboard shortcuts: fzf (Ctrl-R/S/T/A/D), review (sequential <code>$EDITOR</code>)</li>
 <li>Aliases for speed: <code>e</code>, <code>ei</code>, <code>ep</code>, <code>er</code>, <code>eu</code></li>
 </ul>
 <hr />
@@ -11033,56 +11042,60 @@
 <h3 id="learning-goal_10">🎯 Learning Goal<a class="headerlink" href="#learning-goal_10" title="Permanent link">&para;</a></h3>
 <p>Switch AI backends at runtime and capture emails as tasks.</p>
 <h3 id="try-it-now-check-ai-status">💻 Try It Now: Check AI Status<a class="headerlink" href="#try-it-now-check-ai-status" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>em<span class="w"> </span>ai
+<div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a>em<span class="w"> </span>ai
 </code></pre></div>
 <h3 id="expected-output">✅ Expected Output<a class="headerlink" href="#expected-output" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a>Email AI Backend
-<a id="__codelineno-94-2" name="__codelineno-94-2" href="#__codelineno-94-2"></a>
-<a id="__codelineno-94-3" name="__codelineno-94-3" href="#__codelineno-94-3"></a>  Current:     claude
-<a id="__codelineno-94-4" name="__codelineno-94-4" href="#__codelineno-94-4"></a>  Available:   claude gemini
-<a id="__codelineno-94-5" name="__codelineno-94-5" href="#__codelineno-94-5"></a>  Timeout:     30s
-<a id="__codelineno-94-6" name="__codelineno-94-6" href="#__codelineno-94-6"></a>  Gemini args: -e none
-<a id="__codelineno-94-7" name="__codelineno-94-7" href="#__codelineno-94-7"></a>
-<a id="__codelineno-94-8" name="__codelineno-94-8" href="#__codelineno-94-8"></a>  Switch: em ai claude | em ai gemini | em ai toggle
+<div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a>Email AI Backend
+<a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a>
+<a id="__codelineno-96-3" name="__codelineno-96-3" href="#__codelineno-96-3"></a>  Current:     claude
+<a id="__codelineno-96-4" name="__codelineno-96-4" href="#__codelineno-96-4"></a>  Available:   claude gemini
+<a id="__codelineno-96-5" name="__codelineno-96-5" href="#__codelineno-96-5"></a>  Timeout:     30s
+<a id="__codelineno-96-6" name="__codelineno-96-6" href="#__codelineno-96-6"></a>  Gemini args: -e none
+<a id="__codelineno-96-7" name="__codelineno-96-7" href="#__codelineno-96-7"></a>
+<a id="__codelineno-96-8" name="__codelineno-96-8" href="#__codelineno-96-8"></a>  Switch: em ai claude | em ai gemini | em ai toggle
 </code></pre></div>
 <h3 id="try-it-now-switch-backends">💻 Try It Now: Switch Backends<a class="headerlink" href="#try-it-now-switch-backends" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a><span class="c1"># Switch to Gemini (faster for quick tasks)</span>
-<a id="__codelineno-95-2" name="__codelineno-95-2" href="#__codelineno-95-2"></a>em<span class="w"> </span>ai<span class="w"> </span>gemini
-<a id="__codelineno-95-3" name="__codelineno-95-3" href="#__codelineno-95-3"></a>
-<a id="__codelineno-95-4" name="__codelineno-95-4" href="#__codelineno-95-4"></a><span class="c1"># Toggle back</span>
-<a id="__codelineno-95-5" name="__codelineno-95-5" href="#__codelineno-95-5"></a>em<span class="w"> </span>ai<span class="w"> </span>toggle
-<a id="__codelineno-95-6" name="__codelineno-95-6" href="#__codelineno-95-6"></a>
-<a id="__codelineno-95-7" name="__codelineno-95-7" href="#__codelineno-95-7"></a><span class="c1"># Disable AI entirely</span>
-<a id="__codelineno-95-8" name="__codelineno-95-8" href="#__codelineno-95-8"></a>em<span class="w"> </span>ai<span class="w"> </span>none
-<a id="__codelineno-95-9" name="__codelineno-95-9" href="#__codelineno-95-9"></a>
-<a id="__codelineno-95-10" name="__codelineno-95-10" href="#__codelineno-95-10"></a><span class="c1"># Re-enable</span>
-<a id="__codelineno-95-11" name="__codelineno-95-11" href="#__codelineno-95-11"></a>em<span class="w"> </span>ai<span class="w"> </span>claude
+<div class="highlight"><pre><span></span><code><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a><span class="c1"># Switch to Gemini (faster for quick tasks)</span>
+<a id="__codelineno-97-2" name="__codelineno-97-2" href="#__codelineno-97-2"></a>em<span class="w"> </span>ai<span class="w"> </span>gemini
+<a id="__codelineno-97-3" name="__codelineno-97-3" href="#__codelineno-97-3"></a>
+<a id="__codelineno-97-4" name="__codelineno-97-4" href="#__codelineno-97-4"></a><span class="c1"># Toggle back</span>
+<a id="__codelineno-97-5" name="__codelineno-97-5" href="#__codelineno-97-5"></a>em<span class="w"> </span>ai<span class="w"> </span>toggle
+<a id="__codelineno-97-6" name="__codelineno-97-6" href="#__codelineno-97-6"></a>
+<a id="__codelineno-97-7" name="__codelineno-97-7" href="#__codelineno-97-7"></a><span class="c1"># Smart per-operation routing (uses best backend for each task)</span>
+<a id="__codelineno-97-8" name="__codelineno-97-8" href="#__codelineno-97-8"></a>em<span class="w"> </span>ai<span class="w"> </span>auto
+<a id="__codelineno-97-9" name="__codelineno-97-9" href="#__codelineno-97-9"></a>
+<a id="__codelineno-97-10" name="__codelineno-97-10" href="#__codelineno-97-10"></a><span class="c1"># Disable AI entirely</span>
+<a id="__codelineno-97-11" name="__codelineno-97-11" href="#__codelineno-97-11"></a>em<span class="w"> </span>ai<span class="w"> </span>none
+<a id="__codelineno-97-12" name="__codelineno-97-12" href="#__codelineno-97-12"></a>
+<a id="__codelineno-97-13" name="__codelineno-97-13" href="#__codelineno-97-13"></a><span class="c1"># Re-enable</span>
+<a id="__codelineno-97-14" name="__codelineno-97-14" href="#__codelineno-97-14"></a>em<span class="w"> </span>ai<span class="w"> </span>claude
 </code></pre></div>
 <h3 id="try-it-now-capture-email-as-task">💻 Try It Now: Capture Email as Task<a class="headerlink" href="#try-it-now-capture-email-as-task" title="Permanent link">&para;</a></h3>
 <p>Use <code>em catch</code> to turn an email into a quick-capture task:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a><span class="c1"># Find an email ID first</span>
-<a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a>em<span class="w"> </span>inbox
-<a id="__codelineno-96-3" name="__codelineno-96-3" href="#__codelineno-96-3"></a>
-<a id="__codelineno-96-4" name="__codelineno-96-4" href="#__codelineno-96-4"></a><span class="c1"># Capture it (AI generates one-line summary)</span>
-<a id="__codelineno-96-5" name="__codelineno-96-5" href="#__codelineno-96-5"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">42</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a><span class="c1"># Find an email ID first</span>
+<a id="__codelineno-98-2" name="__codelineno-98-2" href="#__codelineno-98-2"></a>em<span class="w"> </span>inbox
+<a id="__codelineno-98-3" name="__codelineno-98-3" href="#__codelineno-98-3"></a>
+<a id="__codelineno-98-4" name="__codelineno-98-4" href="#__codelineno-98-4"></a><span class="c1"># Capture it (AI generates one-line summary)</span>
+<a id="__codelineno-98-5" name="__codelineno-98-5" href="#__codelineno-98-5"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <h3 id="expected-output_1">✅ Expected Output<a class="headerlink" href="#expected-output_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a>✓ Captured: Student absent Friday, requests notes
+<div class="highlight"><pre><span></span><code><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a>✓ Captured: Student absent Friday, requests notes
 </code></pre></div>
 <p>If the <code>catch</code> command isn't installed, you'll see the summary for manual capture:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a>Capture: Email #42: Student absent Friday, requests notes
-<a id="__codelineno-98-2" name="__codelineno-98-2" href="#__codelineno-98-2"></a>(catch command not available — copy manually)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>Capture: Email #42: Student absent Friday, requests notes
+<a id="__codelineno-100-2" name="__codelineno-100-2" href="#__codelineno-100-2"></a>(catch command not available — copy manually)
 </code></pre></div>
 <h3 id="try-it-now-quick-catch-from-picker">💻 Try It Now: Quick Catch from Picker<a class="headerlink" href="#try-it-now-quick-catch-from-picker" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a>em<span class="w"> </span>pick
-<a id="__codelineno-99-2" name="__codelineno-99-2" href="#__codelineno-99-2"></a><span class="c1"># Press Ctrl-T on any email to capture it instantly</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a>em<span class="w"> </span>pick
+<a id="__codelineno-101-2" name="__codelineno-101-2" href="#__codelineno-101-2"></a><span class="c1"># Press Ctrl-T on any email to capture it instantly</span>
 </code></pre></div>
 <h3 id="what-you-learned_10">💡 What You Learned<a class="headerlink" href="#what-you-learned_10" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>em ai</code> shows current backend and available options</li>
 <li><code>em ai &lt;backend&gt;</code> switches instantly (no restart needed)</li>
 <li><code>em ai toggle</code> cycles through available backends</li>
-<li><code>em catch &lt;ID&gt;</code> turns an email into a task via AI summary</li>
+<li><code>em ai auto</code> enables smart per-operation routing</li>
+<li><code>em catch &lt;ID&gt;</code> (alias: <code>em c</code>) turns an email into a task via AI summary</li>
 <li><strong>Ctrl-T</strong> in <code>em pick</code> captures without leaving the browser</li>
 </ul>
 <hr />
@@ -11114,28 +11127,28 @@
 </ol>
 <h3 id="integration-with-other-tools">Integration with Other Tools<a class="headerlink" href="#integration-with-other-tools" title="Permanent link">&para;</a></h3>
 <p><strong>Combine with other flow-cli dispatchers:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a><span class="c1"># Start teaching session</span>
-<a id="__codelineno-100-2" name="__codelineno-100-2" href="#__codelineno-100-2"></a>teach
-<a id="__codelineno-100-3" name="__codelineno-100-3" href="#__codelineno-100-3"></a>
-<a id="__codelineno-100-4" name="__codelineno-100-4" href="#__codelineno-100-4"></a><span class="c1"># Check teaching emails</span>
-<a id="__codelineno-100-5" name="__codelineno-100-5" href="#__codelineno-100-5"></a>em<span class="w"> </span>pick<span class="w"> </span>Teaching
-<a id="__codelineno-100-6" name="__codelineno-100-6" href="#__codelineno-100-6"></a>
-<a id="__codelineno-100-7" name="__codelineno-100-7" href="#__codelineno-100-7"></a><span class="c1"># Work on grading</span>
-<a id="__codelineno-100-8" name="__codelineno-100-8" href="#__codelineno-100-8"></a>teach<span class="w"> </span>exam<span class="w"> </span>grade
-<a id="__codelineno-100-9" name="__codelineno-100-9" href="#__codelineno-100-9"></a>
-<a id="__codelineno-100-10" name="__codelineno-100-10" href="#__codelineno-100-10"></a><span class="c1"># Update status</span>
-<a id="__codelineno-100-11" name="__codelineno-100-11" href="#__codelineno-100-11"></a>win<span class="w"> </span><span class="s2">&quot;Answered 10 student emails&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a><span class="c1"># Start teaching session</span>
+<a id="__codelineno-102-2" name="__codelineno-102-2" href="#__codelineno-102-2"></a>teach
+<a id="__codelineno-102-3" name="__codelineno-102-3" href="#__codelineno-102-3"></a>
+<a id="__codelineno-102-4" name="__codelineno-102-4" href="#__codelineno-102-4"></a><span class="c1"># Check teaching emails</span>
+<a id="__codelineno-102-5" name="__codelineno-102-5" href="#__codelineno-102-5"></a>em<span class="w"> </span>pick<span class="w"> </span>Teaching
+<a id="__codelineno-102-6" name="__codelineno-102-6" href="#__codelineno-102-6"></a>
+<a id="__codelineno-102-7" name="__codelineno-102-7" href="#__codelineno-102-7"></a><span class="c1"># Work on grading</span>
+<a id="__codelineno-102-8" name="__codelineno-102-8" href="#__codelineno-102-8"></a>teach<span class="w"> </span>exam<span class="w"> </span>grade
+<a id="__codelineno-102-9" name="__codelineno-102-9" href="#__codelineno-102-9"></a>
+<a id="__codelineno-102-10" name="__codelineno-102-10" href="#__codelineno-102-10"></a><span class="c1"># Update status</span>
+<a id="__codelineno-102-11" name="__codelineno-102-11" href="#__codelineno-102-11"></a>win<span class="w"> </span><span class="s2">&quot;Answered 10 student emails&quot;</span>
 </code></pre></div>
 <h3 id="customize-ai-behavior">Customize AI Behavior<a class="headerlink" href="#customize-ai-behavior" title="Permanent link">&para;</a></h3>
 <p><strong>Environment variables:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a><span class="c1"># Try gemini instead of claude</span>
-<a id="__codelineno-101-2" name="__codelineno-101-2" href="#__codelineno-101-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>gemini
-<a id="__codelineno-101-3" name="__codelineno-101-3" href="#__codelineno-101-3"></a>
-<a id="__codelineno-101-4" name="__codelineno-101-4" href="#__codelineno-101-4"></a><span class="c1"># Increase timeout for complex emails</span>
-<a id="__codelineno-101-5" name="__codelineno-101-5" href="#__codelineno-101-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">60</span>
-<a id="__codelineno-101-6" name="__codelineno-101-6" href="#__codelineno-101-6"></a>
-<a id="__codelineno-101-7" name="__codelineno-101-7" href="#__codelineno-101-7"></a><span class="c1"># Larger inbox page size</span>
-<a id="__codelineno-101-8" name="__codelineno-101-8" href="#__codelineno-101-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_PAGE_SIZE</span><span class="o">=</span><span class="m">50</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a><span class="c1"># Try gemini instead of claude</span>
+<a id="__codelineno-103-2" name="__codelineno-103-2" href="#__codelineno-103-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>gemini
+<a id="__codelineno-103-3" name="__codelineno-103-3" href="#__codelineno-103-3"></a>
+<a id="__codelineno-103-4" name="__codelineno-103-4" href="#__codelineno-103-4"></a><span class="c1"># Increase timeout for complex emails</span>
+<a id="__codelineno-103-5" name="__codelineno-103-5" href="#__codelineno-103-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">60</span>
+<a id="__codelineno-103-6" name="__codelineno-103-6" href="#__codelineno-103-6"></a>
+<a id="__codelineno-103-7" name="__codelineno-103-7" href="#__codelineno-103-7"></a><span class="c1"># Larger inbox page size</span>
+<a id="__codelineno-103-8" name="__codelineno-103-8" href="#__codelineno-103-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_PAGE_SIZE</span><span class="o">=</span><span class="m">50</span>
 </code></pre></div>
 <h3 id="read-the-docs">Read the Docs<a class="headerlink" href="#read-the-docs" title="Permanent link">&para;</a></h3>
 <p><strong>See also:</strong>
@@ -11194,11 +11207,15 @@
 </tr>
 <tr>
 <td><code>em respond --review</code></td>
-<td>Review/send cached drafts</td>
+<td>Review cached drafts in $EDITOR</td>
 </tr>
 <tr>
 <td><code>em respond --dry-run</code></td>
 <td>Classify only (no drafts)</td>
+</tr>
+<tr>
+<td><code>em respond --folder</code></td>
+<td>Process specific folder</td>
 </tr>
 <tr>
 <td><code>em classify &lt;ID&gt;</code></td>
@@ -11207,6 +11224,14 @@
 <tr>
 <td><code>em summarize &lt;ID&gt;</code></td>
 <td>One-line summary</td>
+</tr>
+<tr>
+<td><code>em catch &lt;ID&gt;</code></td>
+<td>Capture email as task (AI)</td>
+</tr>
+<tr>
+<td><code>em ai [backend]</code></td>
+<td>Show/switch AI backend</td>
 </tr>
 </tbody>
 </table>
@@ -11338,6 +11363,10 @@
 <td><code>em attach</code></td>
 </tr>
 <tr>
+<td><code>em c</code></td>
+<td><code>em catch</code></td>
+</tr>
+<tr>
 <td><code>em dr</code></td>
 <td><code>em doctor</code></td>
 </tr>
@@ -11358,13 +11387,13 @@ A: himalaya supports multiple accounts. See: <code>himalaya account list</code><
 <p><strong>Q: What's the difference between <code>em</code> and <code>himalaya</code>?</strong>
 A: <code>em</code> is a wrapper with AI features, smart rendering, caching, and flow-cli integration. himalaya is the underlying CLI.</p>
 <p><strong>Q: Can I customize AI prompts?</strong>
-A: Yes, but it requires editing <code>lib/em-ai.zsh</code>. Future versions will support templates.</p>
+A: Not yet — the prompt functions are defined in <code>lib/em-ai.zsh</code> and would require editing the source. Custom prompt templates are planned for a future version.</p>
 <p><strong>Q: Can I read email by typing just the number?</strong>
 A: Yes! <code>em 42</code> is shorthand for <code>em read 42</code>. Similarly, <code>em -n 5</code> = <code>em inbox 5</code>.</p>
 <p><strong>Q: How big can the cache get?</strong>
 A: By default, 50 MB max (<code>FLOW_EMAIL_CACHE_MAX_MB</code>). Oldest files are evicted (LRU) when exceeded. Set to <code>0</code> to disable the cap.</p>
 <p><strong>Q: Can I auto-prune old cache entries?</strong>
-A: Yes — <code>em dash</code> and <code>em inbox</code> auto-prune expired entries in the background. Manual: <code>em cache prune</code>.</p>
+A: Yes — <code>em dash</code> auto-prunes expired entries in the background. Manual: <code>em cache prune</code>.</p>
 <p><strong>Q: How do I read Outlook emails with clean formatting?</strong>
 A: <code>em read --md &lt;ID&gt;</code> converts HTML to Markdown via pandoc with a 7-stage Outlook cleanup pipeline (SafeLinks, attribute blocks, fenced divs, etc.). Requires <code>pandoc</code> (<code>brew install pandoc</code>).</p>
 <p><strong>Q: How do I read raw MIME source?</strong>
@@ -11377,45 +11406,45 @@ A: <code>em respond</code> classifies and generates new AI drafts. <code>em resp
 A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues</p>
 <hr />
 <h2 id="visual-workflow-map">🎨 Visual Workflow Map<a class="headerlink" href="#visual-workflow-map" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a>YOUR EMAIL WORKFLOW
-<a id="__codelineno-102-2" name="__codelineno-102-2" href="#__codelineno-102-2"></a>═══════════════════
-<a id="__codelineno-102-3" name="__codelineno-102-3" href="#__codelineno-102-3"></a>
-<a id="__codelineno-102-4" name="__codelineno-102-4" href="#__codelineno-102-4"></a>Morning:
-<a id="__codelineno-102-5" name="__codelineno-102-5" href="#__codelineno-102-5"></a>  em              → Quick pulse (unread + 10 latest)
-<a id="__codelineno-102-6" name="__codelineno-102-6" href="#__codelineno-102-6"></a>    ↓
-<a id="__codelineno-102-7" name="__codelineno-102-7" href="#__codelineno-102-7"></a>  em pick         → Browse &amp; triage
-<a id="__codelineno-102-8" name="__codelineno-102-8" href="#__codelineno-102-8"></a>    ↓
-<a id="__codelineno-102-9" name="__codelineno-102-9" href="#__codelineno-102-9"></a>  em respond      → Batch AI drafts for actionable
-<a id="__codelineno-102-10" name="__codelineno-102-10" href="#__codelineno-102-10"></a>    ↓
-<a id="__codelineno-102-11" name="__codelineno-102-11" href="#__codelineno-102-11"></a>  em respond --review → Review &amp; send drafts
-<a id="__codelineno-102-12" name="__codelineno-102-12" href="#__codelineno-102-12"></a>
-<a id="__codelineno-102-13" name="__codelineno-102-13" href="#__codelineno-102-13"></a>During Day:
-<a id="__codelineno-102-14" name="__codelineno-102-14" href="#__codelineno-102-14"></a>  em unread       → Quick check (30s)
-<a id="__codelineno-102-15" name="__codelineno-102-15" href="#__codelineno-102-15"></a>    ↓
-<a id="__codelineno-102-16" name="__codelineno-102-16" href="#__codelineno-102-16"></a>  em find &quot;...&quot;   → Search specific topic
-<a id="__codelineno-102-17" name="__codelineno-102-17" href="#__codelineno-102-17"></a>    ↓
-<a id="__codelineno-102-18" name="__codelineno-102-18" href="#__codelineno-102-18"></a>  em read &lt;ID&gt;    → Read one email
-<a id="__codelineno-102-19" name="__codelineno-102-19" href="#__codelineno-102-19"></a>    ↓
-<a id="__codelineno-102-20" name="__codelineno-102-20" href="#__codelineno-102-20"></a>  em reply &lt;ID&gt;   → AI draft → edit → send
-<a id="__codelineno-102-21" name="__codelineno-102-21" href="#__codelineno-102-21"></a>
-<a id="__codelineno-102-22" name="__codelineno-102-22" href="#__codelineno-102-22"></a>Teaching:
-<a id="__codelineno-102-23" name="__codelineno-102-23" href="#__codelineno-102-23"></a>  em pick Teaching → Browse student emails
-<a id="__codelineno-102-24" name="__codelineno-102-24" href="#__codelineno-102-24"></a>    ↓
-<a id="__codelineno-102-25" name="__codelineno-102-25" href="#__codelineno-102-25"></a>  em respond -n 30 → Batch draft 30 emails
-<a id="__codelineno-102-26" name="__codelineno-102-26" href="#__codelineno-102-26"></a>    ↓
-<a id="__codelineno-102-27" name="__codelineno-102-27" href="#__codelineno-102-27"></a>  em respond --review → Review &amp; send
-<a id="__codelineno-102-28" name="__codelineno-102-28" href="#__codelineno-102-28"></a>
-<a id="__codelineno-102-29" name="__codelineno-102-29" href="#__codelineno-102-29"></a>Research:
-<a id="__codelineno-102-30" name="__codelineno-102-30" href="#__codelineno-102-30"></a>  em pick Research → Browse research emails
-<a id="__codelineno-102-31" name="__codelineno-102-31" href="#__codelineno-102-31"></a>    ↓
-<a id="__codelineno-102-32" name="__codelineno-102-32" href="#__codelineno-102-32"></a>  em find &quot;grant&quot;  → Find grant-related
-<a id="__codelineno-102-33" name="__codelineno-102-33" href="#__codelineno-102-33"></a>    ↓
-<a id="__codelineno-102-34" name="__codelineno-102-34" href="#__codelineno-102-34"></a>  em reply &lt;ID&gt; --all → Reply-all to team
-<a id="__codelineno-102-35" name="__codelineno-102-35" href="#__codelineno-102-35"></a>
-<a id="__codelineno-102-36" name="__codelineno-102-36" href="#__codelineno-102-36"></a>End of Day:
-<a id="__codelineno-102-37" name="__codelineno-102-37" href="#__codelineno-102-37"></a>  em dash         → Final check
-<a id="__codelineno-102-38" name="__codelineno-102-38" href="#__codelineno-102-38"></a>    ↓
-<a id="__codelineno-102-39" name="__codelineno-102-39" href="#__codelineno-102-39"></a>  win &quot;Answered 15 emails&quot; → Log accomplishment
+<div class="highlight"><pre><span></span><code><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>YOUR EMAIL WORKFLOW
+<a id="__codelineno-104-2" name="__codelineno-104-2" href="#__codelineno-104-2"></a>═══════════════════
+<a id="__codelineno-104-3" name="__codelineno-104-3" href="#__codelineno-104-3"></a>
+<a id="__codelineno-104-4" name="__codelineno-104-4" href="#__codelineno-104-4"></a>Morning:
+<a id="__codelineno-104-5" name="__codelineno-104-5" href="#__codelineno-104-5"></a>  em              → Quick pulse (unread + 10 latest)
+<a id="__codelineno-104-6" name="__codelineno-104-6" href="#__codelineno-104-6"></a>    ↓
+<a id="__codelineno-104-7" name="__codelineno-104-7" href="#__codelineno-104-7"></a>  em pick         → Browse &amp; triage
+<a id="__codelineno-104-8" name="__codelineno-104-8" href="#__codelineno-104-8"></a>    ↓
+<a id="__codelineno-104-9" name="__codelineno-104-9" href="#__codelineno-104-9"></a>  em respond      → Batch AI drafts for actionable
+<a id="__codelineno-104-10" name="__codelineno-104-10" href="#__codelineno-104-10"></a>    ↓
+<a id="__codelineno-104-11" name="__codelineno-104-11" href="#__codelineno-104-11"></a>  em respond --review → Review &amp; send drafts
+<a id="__codelineno-104-12" name="__codelineno-104-12" href="#__codelineno-104-12"></a>
+<a id="__codelineno-104-13" name="__codelineno-104-13" href="#__codelineno-104-13"></a>During Day:
+<a id="__codelineno-104-14" name="__codelineno-104-14" href="#__codelineno-104-14"></a>  em unread       → Quick check (30s)
+<a id="__codelineno-104-15" name="__codelineno-104-15" href="#__codelineno-104-15"></a>    ↓
+<a id="__codelineno-104-16" name="__codelineno-104-16" href="#__codelineno-104-16"></a>  em find &quot;...&quot;   → Search specific topic
+<a id="__codelineno-104-17" name="__codelineno-104-17" href="#__codelineno-104-17"></a>    ↓
+<a id="__codelineno-104-18" name="__codelineno-104-18" href="#__codelineno-104-18"></a>  em read &lt;ID&gt;    → Read one email
+<a id="__codelineno-104-19" name="__codelineno-104-19" href="#__codelineno-104-19"></a>    ↓
+<a id="__codelineno-104-20" name="__codelineno-104-20" href="#__codelineno-104-20"></a>  em reply &lt;ID&gt;   → AI draft → edit → send
+<a id="__codelineno-104-21" name="__codelineno-104-21" href="#__codelineno-104-21"></a>
+<a id="__codelineno-104-22" name="__codelineno-104-22" href="#__codelineno-104-22"></a>Teaching:
+<a id="__codelineno-104-23" name="__codelineno-104-23" href="#__codelineno-104-23"></a>  em pick Teaching → Browse student emails
+<a id="__codelineno-104-24" name="__codelineno-104-24" href="#__codelineno-104-24"></a>    ↓
+<a id="__codelineno-104-25" name="__codelineno-104-25" href="#__codelineno-104-25"></a>  em respond -n 30 → Batch draft 30 emails
+<a id="__codelineno-104-26" name="__codelineno-104-26" href="#__codelineno-104-26"></a>    ↓
+<a id="__codelineno-104-27" name="__codelineno-104-27" href="#__codelineno-104-27"></a>  em respond --review → Review &amp; send
+<a id="__codelineno-104-28" name="__codelineno-104-28" href="#__codelineno-104-28"></a>
+<a id="__codelineno-104-29" name="__codelineno-104-29" href="#__codelineno-104-29"></a>Research:
+<a id="__codelineno-104-30" name="__codelineno-104-30" href="#__codelineno-104-30"></a>  em pick Research → Browse research emails
+<a id="__codelineno-104-31" name="__codelineno-104-31" href="#__codelineno-104-31"></a>    ↓
+<a id="__codelineno-104-32" name="__codelineno-104-32" href="#__codelineno-104-32"></a>  em find &quot;grant&quot;  → Find grant-related
+<a id="__codelineno-104-33" name="__codelineno-104-33" href="#__codelineno-104-33"></a>    ↓
+<a id="__codelineno-104-34" name="__codelineno-104-34" href="#__codelineno-104-34"></a>  em reply &lt;ID&gt; --all → Reply-all to team
+<a id="__codelineno-104-35" name="__codelineno-104-35" href="#__codelineno-104-35"></a>
+<a id="__codelineno-104-36" name="__codelineno-104-36" href="#__codelineno-104-36"></a>End of Day:
+<a id="__codelineno-104-37" name="__codelineno-104-37" href="#__codelineno-104-37"></a>  em dash         → Final check
+<a id="__codelineno-104-38" name="__codelineno-104-38" href="#__codelineno-104-38"></a>    ↓
+<a id="__codelineno-104-39" name="__codelineno-104-39" href="#__codelineno-104-39"></a>  win &quot;Answered 15 emails&quot; → Log accomplishment
 </code></pre></div>
 <hr />
 <h2 id="skills-checklist">✅ Skills Checklist<a class="headerlink" href="#skills-checklist" title="Permanent link">&para;</a></h2>
@@ -11447,8 +11476,8 @@ A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues</p>
 <p><strong>You're now an email power user!</strong> 🎯</p>
 <hr />
 <p><em>Last updated: 2026-02-18</em>
-<em>flow-cli version: 7.2.1</em>
-<em>Tutorial version: 1.0</em></p>
+<em>flow-cli version: 7.3.0</em>
+<em>Tutorial version: 1.1</em></p>
 
 
 
