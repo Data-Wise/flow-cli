@@ -1464,6 +1464,119 @@ _em_snoozed() {
     echo -e "\n  ${_C_DIM}${count} snoozed${_C_NC}"
 }
 
+_em_digest() {
+    _em_require_himalaya || return 1
+    local period="today" count=50
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --week|-w)   period="week"; shift ;;
+            --all|-a)    period="all"; shift ;;
+            -n)          shift; count="$1"; shift ;;
+            *)           shift ;;
+        esac
+    done
+
+    echo -e "${_C_BOLD}em digest${_C_NC} ${_C_DIM}— ${period}'s email summary${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    # Fetch emails
+    local json
+    json=$(_em_hml_list "$folder" "$count" 2>/dev/null)
+
+    if [[ -z "$json" || "$json" == "[]" ]]; then
+        echo -e "  ${_C_DIM}No emails in ${folder}${_C_NC}"
+        return 0
+    fi
+
+    # Filter by date if needed
+    local today_str week_ago_str
+    today_str=$(date "+%Y-%m-%d")
+    week_ago_str=$(date -v-7d "+%Y-%m-%d" 2>/dev/null)
+
+    if [[ "$period" == "today" ]]; then
+        json=$(echo "$json" | jq --arg today "$today_str" \
+            '[.[] | select(.date | split("T")[0] == $today)]' 2>/dev/null)
+    elif [[ "$period" == "week" ]]; then
+        json=$(echo "$json" | jq --arg since "$week_ago_str" \
+            '[.[] | select(.date | split("T")[0] >= $since)]' 2>/dev/null)
+    fi
+
+    local total
+    total=$(echo "$json" | jq 'length' 2>/dev/null)
+
+    if [[ -z "$total" || "$total" == "0" ]]; then
+        echo -e "  ${_C_GREEN}No emails ${period}${_C_NC}"
+        return 0
+    fi
+
+    # If AI is available, do AI-powered grouping
+    if [[ "${FLOW_EMAIL_AI:-claude}" != "none" ]]; then
+        # Build a summary of all emails for batch classification
+        local email_list
+        email_list=$(echo "$json" | jq -r '.[] | "#\(.id) | \(.from.name // .from.addr) | \(.subject // "(no subject)")"')
+
+        local ai_result
+        ai_result=$(_em_ai_query "classify" \
+            "Group these emails into exactly 3 categories. Output ONLY the grouping, no commentary.
+Format each group as:
+ACTION REQUIRED:
+- #ID Subject
+FYI:
+- #ID Subject
+LOW PRIORITY:
+- #ID Subject
+
+If a category is empty, omit it." \
+            "$email_list" 2>/dev/null)
+
+        if [[ -n "$ai_result" ]]; then
+            echo ""
+            echo "$ai_result" | while IFS= read -r line; do
+                case "$line" in
+                    ACTION*)    echo -e "${_C_RED}${_C_BOLD}${line}${_C_NC}" ;;
+                    FYI*)       echo -e "${_C_YELLOW}${_C_BOLD}${line}${_C_NC}" ;;
+                    LOW*)       echo -e "${_C_DIM}${_C_BOLD}${line}${_C_NC}" ;;
+                    -*)         echo -e "  ${line}" ;;
+                    *)          echo -e "  ${line}" ;;
+                esac
+            done
+            echo ""
+            echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+            echo -e "  ${_C_DIM}${total} emails ${period}${_C_NC}"
+            return 0
+        fi
+    fi
+
+    # Fallback: simple unread/read grouping (no AI)
+    local unread_json read_json
+    unread_json=$(echo "$json" | jq '[.[] | select(.flags | contains(["Seen"]) | not)]' 2>/dev/null)
+    read_json=$(echo "$json" | jq '[.[] | select(.flags | contains(["Seen"]))]' 2>/dev/null)
+
+    local unread_count read_count
+    unread_count=$(echo "$unread_json" | jq 'length' 2>/dev/null)
+    read_count=$(echo "$read_json" | jq 'length' 2>/dev/null)
+
+    if [[ "${unread_count:-0}" -gt 0 ]]; then
+        echo ""
+        echo -e "${_C_YELLOW}${_C_BOLD}UNREAD (${unread_count}):${_C_NC}"
+        echo "$unread_json" | jq -r '.[] |
+            "  - #\(.id) \(.from.name // .from.addr // "?") — \(.subject // "(no subject)")"' 2>/dev/null
+    fi
+
+    if [[ "${read_count:-0}" -gt 0 ]]; then
+        echo ""
+        echo -e "${_C_DIM}${_C_BOLD}READ (${read_count}):${_C_NC}"
+        echo "$read_json" | jq -r '.[] |
+            "  - #\(.id) \(.from.name // .from.addr // "?") — \(.subject // "(no subject)")"' 2>/dev/null
+    fi
+
+    echo ""
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+    echo -e "  ${_C_DIM}${total} emails ${period} (${unread_count:-0} unread)${_C_NC}"
+}
+
 _em_snooze_parse_time() {
     # Parse human-friendly time spec → epoch timestamp
     # Supports: Nh (hours), Nd (days), Nw (weeks), tomorrow, monday-sunday
