@@ -1668,7 +1668,7 @@ A: himalaya supports multiple accounts. See: `himalaya account list`
 A: `em` is a wrapper with AI features, smart rendering, caching, and flow-cli integration. himalaya is the underlying CLI.
 
 **Q: Can I customize AI prompts?**
-A: Yes — create `~/.config/flow/email-prompts.zsh` to override the default prompt functions. See the [Email Dispatcher Guide](EMAIL-DISPATCHER-GUIDE.md) for details.
+A: Not yet — the prompt functions are defined in `lib/em-ai.zsh` and would require editing the source. Custom prompt templates are planned for a future version.
 
 **Q: Can I read email by typing just the number?**
 A: Yes! `em 42` is shorthand for `em read 42`. Similarly, `em -n 5` = `em inbox 5`.
