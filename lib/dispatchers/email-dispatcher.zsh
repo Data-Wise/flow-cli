@@ -1351,6 +1351,159 @@ _em_thread() {
     echo -e "\n  ${_C_DIM}${thread_count:-0} messages in thread${_C_NC}"
 }
 
+_em_snooze() {
+    _em_require_himalaya || return 1
+    local msg_id="$1" time_spec="$2"
+
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID and time required"
+        echo "Usage: ${_C_CYAN}em snooze <ID> <time>${_C_NC}"
+        echo "  Times: ${_C_DIM}2h, 4h, tomorrow, monday, 1d, 3d${_C_NC}"
+        return 1
+    fi
+
+    if [[ -z "$time_spec" ]]; then
+        _flow_log_error "Snooze time required"
+        echo "  Times: ${_C_DIM}2h, 4h, tomorrow, monday, 1d, 3d${_C_NC}"
+        return 1
+    fi
+
+    # Parse time spec → epoch timestamp
+    local wake_epoch
+    wake_epoch=$(_em_snooze_parse_time "$time_spec")
+    if [[ -z "$wake_epoch" || "$wake_epoch" == "0" ]]; then
+        _flow_log_error "Could not parse time: $time_spec"
+        echo "  Valid: ${_C_DIM}2h, 4h, tomorrow, monday, tuesday, 1d, 3d, 1w${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+    local wake_display
+    wake_display=$(date -r "$wake_epoch" "+%Y-%m-%d %H:%M" 2>/dev/null)
+
+    # Get subject for display
+    local subject
+    subject=$(_em_hml_list "$folder" 100 2>/dev/null \
+        | jq -r ".[] | select(.id == ($msg_id | tonumber)) | .subject // \"(no subject)\"" 2>/dev/null)
+
+    # Ensure snooze directory exists
+    local snooze_dir="${HOME}/.flow/email-snooze"
+    [[ -d "$snooze_dir" ]] || mkdir -p "$snooze_dir"
+
+    local pending_file="${snooze_dir}/pending.json"
+
+    # Initialize file if needed
+    [[ -f "$pending_file" ]] || echo '[]' > "$pending_file"
+
+    # Add snooze entry
+    local now_epoch
+    now_epoch=$(date +%s)
+    local tmp_file="${pending_file}.tmp"
+    jq --arg id "$msg_id" \
+       --arg subject "$subject" \
+       --arg folder "$folder" \
+       --argjson wake "$wake_epoch" \
+       --argjson created "$now_epoch" \
+       --arg time_spec "$time_spec" \
+       '. + [{id: $id, subject: $subject, folder: $folder, wake: $wake, created: $created, time_spec: $time_spec}]' \
+       "$pending_file" > "$tmp_file" && mv "$tmp_file" "$pending_file"
+
+    # Move to Snoozed folder (best effort — folder may not exist)
+    _em_hml_move "$msg_id" "Snoozed" "$folder" 2>/dev/null
+
+    echo -e "  ${_C_MAGENTA}💤${_C_NC} Snoozed #${msg_id} until ${_C_CYAN}${wake_display}${_C_NC}"
+    [[ -n "$subject" ]] && echo -e "  ${_C_DIM}${subject}${_C_NC}"
+
+    # Schedule notification (if terminal-notifier available)
+    if command -v terminal-notifier &>/dev/null; then
+        local delay=$(( wake_epoch - now_epoch ))
+        if (( delay > 0 )); then
+            (sleep "$delay" && terminal-notifier \
+                -title "Email Reminder" \
+                -message "Snoozed: ${subject:-#${msg_id}}" \
+                -sound default) &>/dev/null &
+            disown
+        fi
+    fi
+}
+
+_em_snoozed() {
+    local snooze_dir="${HOME}/.flow/email-snooze"
+    local pending_file="${snooze_dir}/pending.json"
+
+    if [[ ! -f "$pending_file" ]]; then
+        echo -e "  ${_C_DIM}No snoozed emails${_C_NC}"
+        return 0
+    fi
+
+    local count
+    count=$(jq 'length' "$pending_file" 2>/dev/null)
+
+    if [[ -z "$count" || "$count" == "0" ]]; then
+        echo -e "  ${_C_DIM}No snoozed emails${_C_NC}"
+        return 0
+    fi
+
+    echo -e "${_C_BOLD}💤 Snoozed emails${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    local now_epoch
+    now_epoch=$(date +%s)
+
+    jq -r '.[] | [.id, .subject, .wake, .time_spec] | @tsv' "$pending_file" \
+    | while IFS=$'\t' read -r sid ssubj swake stime; do
+        local wake_display
+        wake_display=$(date -r "$swake" "+%Y-%m-%d %H:%M" 2>/dev/null)
+        if (( swake <= now_epoch )); then
+            echo -e "  ${_C_YELLOW}⏰${_C_NC} #${sid}  ${_C_BOLD}READY${_C_NC}  ${_C_DIM}${ssubj:0:40}${_C_NC}"
+        else
+            echo -e "  ${_C_MAGENTA}💤${_C_NC} #${sid}  ${wake_display}  ${_C_DIM}${ssubj:0:40}${_C_NC}"
+        fi
+    done
+
+    echo -e "\n  ${_C_DIM}${count} snoozed${_C_NC}"
+}
+
+_em_snooze_parse_time() {
+    # Parse human-friendly time spec → epoch timestamp
+    # Supports: Nh (hours), Nd (days), Nw (weeks), tomorrow, monday-sunday
+    local spec="${(L)1}"  # lowercase
+    local now_epoch
+    now_epoch=$(date +%s)
+
+    case "$spec" in
+        *h)
+            local hours="${spec%h}"
+            echo $(( now_epoch + hours * 3600 ))
+            ;;
+        *d)
+            local days="${spec%d}"
+            echo $(( now_epoch + days * 86400 ))
+            ;;
+        *w)
+            local weeks="${spec%w}"
+            echo $(( now_epoch + weeks * 604800 ))
+            ;;
+        tomorrow)
+            # Tomorrow at 9am
+            date -v+1d -v9H -v0M -v0S +%s 2>/dev/null
+            ;;
+        monday|tuesday|wednesday|thursday|friday|saturday|sunday)
+            # Next occurrence of that day at 9am
+            local -A day_map=(monday 1 tuesday 2 wednesday 3 thursday 4 friday 5 saturday 6 sunday 7)
+            local target_dow="${day_map[$spec]}"
+            local current_dow
+            current_dow=$(date +%u)
+            local days_ahead=$(( (target_dow - current_dow + 7) % 7 ))
+            (( days_ahead == 0 )) && days_ahead=7  # Next week if today
+            date -v+${days_ahead}d -v9H -v0M -v0S +%s 2>/dev/null
+            ;;
+        *)
+            echo "0"
+            ;;
+    esac
+}
+
 # ═══════════════════════════════════════════════════════════════════
 # QUICK INFO
 # ═══════════════════════════════════════════════════════════════════
