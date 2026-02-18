@@ -193,6 +193,28 @@ _em_hml_folders() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
+# HEADERS
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_headers() {
+    # Extract specific headers from a raw message
+    # Args: message_id, folder (default: INBOX)
+    # Returns: raw headers (up to first blank line of the .eml)
+    local msg_id="$1" folder="${2:-INBOX}"
+    local tmpdir
+    tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/em-hdr-XXXXXX")
+    if himalaya message export --full -f "$folder" -d "$tmpdir" "$msg_id" &>/dev/null; then
+        local eml_file
+        eml_file=$(find "$tmpdir" -name "*.eml" -type f 2>/dev/null | head -1)
+        if [[ -n "$eml_file" ]]; then
+            # Output headers only (up to first blank line)
+            sed '/^$/q' "$eml_file"
+        fi
+    fi
+    rm -rf "$tmpdir"
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # MESSAGE MOVE
 # ═══════════════════════════════════════════════════════════════════
 

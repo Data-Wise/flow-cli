@@ -1258,6 +1258,99 @@ _em_move() {
     fi
 }
 
+_em_thread() {
+    _em_require_himalaya || return 1
+    local msg_id="$1"
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em thread <ID>${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
+    # Get headers of the target message
+    local headers
+    headers=$(_em_hml_headers "$msg_id" "$folder")
+    if [[ -z "$headers" ]]; then
+        _flow_log_error "Could not read headers for #${msg_id}"
+        return 1
+    fi
+
+    # Extract threading headers
+    local message_id in_reply_to references
+    message_id=$(echo "$headers" | grep -i '^Message-ID:' | head -1 | sed 's/^[^:]*: *//')
+    in_reply_to=$(echo "$headers" | grep -i '^In-Reply-To:' | head -1 | sed 's/^[^:]*: *//')
+    references=$(echo "$headers" | grep -i '^References:' | head -1 | sed 's/^[^:]*: *//')
+
+    # Build search set: all Message-IDs from References + current + In-Reply-To
+    local -a thread_ids=()
+    if [[ -n "$references" ]]; then
+        # References contains space-separated Message-IDs
+        local ref
+        for ref in ${(z)references}; do
+            thread_ids+=("$ref")
+        done
+    fi
+    [[ -n "$in_reply_to" ]] && thread_ids+=("$in_reply_to")
+    [[ -n "$message_id" ]] && thread_ids+=("$message_id")
+
+    # Remove duplicates
+    thread_ids=(${(u)thread_ids})
+
+    if [[ ${#thread_ids[@]} -le 1 ]]; then
+        echo -e "  ${_C_DIM}No thread found — this appears to be a standalone message${_C_NC}"
+        return 0
+    fi
+
+    echo -e "${_C_BOLD}Thread for #${msg_id}${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    # Fetch all envelopes and match by subject similarity (fallback)
+    # Since IMAP search by Message-ID is unreliable, we search by subject
+    local subject
+    subject=$(echo "$headers" | grep -i '^Subject:' | head -1 | sed 's/^[^:]*: *//')
+    # Strip Re:/Fwd: prefixes for search
+    local base_subject="${subject}"
+    base_subject="${base_subject#Re: }"
+    base_subject="${base_subject#RE: }"
+    base_subject="${base_subject#Fwd: }"
+    base_subject="${base_subject#FW: }"
+
+    local json
+    json=$(_em_hml_search "$base_subject" "$folder" 2>/dev/null)
+
+    if [[ -z "$json" || "$json" == "[]" ]]; then
+        # Fallback: list recent and filter
+        json=$(_em_hml_list "$folder" 100 2>/dev/null \
+            | jq --arg subj "$base_subject" '
+                [.[] | select(.subject | ascii_downcase | contains($subj | ascii_downcase))]' 2>/dev/null)
+    fi
+
+    if [[ -z "$json" || "$json" == "[]" ]]; then
+        echo -e "  ${_C_DIM}Could not find related messages${_C_NC}"
+        return 0
+    fi
+
+    # Display thread as chronological list with current message highlighted
+    echo "$json" | jq -r '
+        sort_by(.date) | .[] |
+        [.id, .from.name // .from.addr // "unknown", .subject // "(no subject)", (.date | split("T")[0] // .date)] | @tsv' \
+    | while IFS=$'\t' read -r tid tfrom tsubj tdate; do
+        if [[ "$tid" == "$msg_id" ]]; then
+            echo -e "  ${_C_YELLOW}→${_C_NC} ${_C_BOLD}#${tid}${_C_NC}  ${tfrom}  ${_C_DIM}${tdate}${_C_NC}"
+            echo -e "    ${_C_BOLD}${tsubj}${_C_NC}"
+        else
+            echo -e "    ${_C_DIM}#${tid}${_C_NC}  ${tfrom}  ${_C_DIM}${tdate}${_C_NC}"
+            echo -e "    ${_C_DIM}${tsubj}${_C_NC}"
+        fi
+    done
+
+    local thread_count
+    thread_count=$(echo "$json" | jq 'length' 2>/dev/null)
+    echo -e "\n  ${_C_DIM}${thread_count:-0} messages in thread${_C_NC}"
+}
+
 # ═══════════════════════════════════════════════════════════════════
 # QUICK INFO
 # ═══════════════════════════════════════════════════════════════════
