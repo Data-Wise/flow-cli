@@ -39,7 +39,8 @@ flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antid
 - **Runtime AI Backend Switching** - `em ai gemini` / `em ai claude` without restarting
 - **Email-to-Task Capture** - `em catch 42` extracts action items from emails
 - **Gemini Speed Boost** - `extra_args` field in backend config for fast startup
-- **Two Interfaces** - `em` (keyboard-driven, fzf) and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (AI-driven) both wrap himalaya
+- **Two Interfaces** - `em` (keyboard-driven, fzf) and
+  [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (AI-driven)
 
 ```bash
 em ai gemini                 # Switch to Gemini backend
