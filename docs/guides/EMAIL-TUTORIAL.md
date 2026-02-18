@@ -9,6 +9,9 @@
 !!! tip "Prefer reading email in Neovim?"
     This tutorial covers the **terminal CLI** (`em` dispatcher). For in-editor email with AI actions, see the [Neovim Himalaya Tutorial](../tutorials/33-himalaya-email.md).
 
+!!! info "Two interfaces, one backend"
+    Both `em` and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) wrap the same himalaya CLI but serve different interaction models. `em` is keyboard-driven (fzf, $EDITOR, sub-second), while himalaya-mcp is conversation-driven (Claude as the interface). Use `em` for fast terminal operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email content.
+
 ---
 
 ## 🎯 What You'll Learn

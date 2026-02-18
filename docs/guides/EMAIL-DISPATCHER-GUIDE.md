@@ -35,6 +35,19 @@ Traditional email clients are heavyweight, distraction-prone, and slow. The `em`
 - **AI-optional** - Works great without AI, better with it
 - **Safe** - Explicit confirmation for all sends (default: No)
 
+## Two Interfaces, One Backend
+
+Both `em` and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) wrap the same himalaya CLI but serve different interaction models:
+
+| | em (terminal-native) | himalaya-mcp (AI-native) |
+|---|---|---|
+| **Interface** | Keyboard-driven (fzf, $EDITOR) | Conversation-driven (Claude) |
+| **Speed** | Sub-second, interactive | Deliberate, context-rich |
+| **Best for** | Quick triage, reading, replying | Batch analysis, digests, drafting |
+| **AI role** | Optional enhancement | Core interface |
+
+They coexist naturally — use `em` for fast terminal operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email content.
+
 ## Prerequisites
 
 ### Required

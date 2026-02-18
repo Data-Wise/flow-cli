@@ -3,6 +3,8 @@
 > All `em` subcommands at a glance. For detailed guides, see linked documentation.
 >
 > **Version:** v7.3.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+>
+> **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven, Claude as interface) both wrap himalaya CLI. Use `em` for fast terminal ops, himalaya-mcp for AI-assisted analysis.
 
 ## Command Taxonomy
 
