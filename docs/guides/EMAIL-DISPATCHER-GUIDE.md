@@ -1212,7 +1212,7 @@ $ em cache warm 20
 
 ### Auto-Prune & Auto-Warm
 
-`em dash` and `em inbox` automatically trigger background housekeeping on startup:
+`em dash` (or plain `em`) automatically triggers background housekeeping on startup:
 
 - **Auto-prune**: removes expired cache entries (non-blocking)
 - **Auto-warm**: pre-classifies + summarizes latest 10 emails (background)
