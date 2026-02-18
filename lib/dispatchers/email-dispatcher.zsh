@@ -102,6 +102,8 @@ em() {
         respond|resp|repond) shift; _em_respond "$@" ;;
         classify|cl)  shift; _em_classify "$@" ;;
         summarize|sum) shift; _em_summarize "$@" ;;
+        catch|c)      shift; _em_catch "$@" ;;
+        ai|AI)        shift; _em_ai_cmd "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
         # QUICK INFO
@@ -182,6 +184,7 @@ ${_C_BLUE}AI FEATURES${_C_NC}:
   ${_C_CYAN}em respond --review${_C_NC} Review/send generated drafts
   ${_C_CYAN}em classify <ID>${_C_NC}  Classify email (AI)
   ${_C_CYAN}em summarize <ID>${_C_NC} One-line summary (AI)
+  ${_C_CYAN}em catch <ID>${_C_NC}    Capture email as task
 
 ${_C_BLUE}SEARCH & BROWSE${_C_NC}:
   ${_C_CYAN}em find <query>${_C_NC}   Search emails
@@ -196,8 +199,15 @@ ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
 
 ${_C_MAGENTA}SAFETY${_C_NC}: Every send requires explicit ${_C_YELLOW}[y/N]${_C_NC} confirmation (default: No)
 
-${_C_MAGENTA}AI BACKEND${_C_NC}: \$FLOW_EMAIL_AI=${_C_CYAN}${FLOW_EMAIL_AI}${_C_NC} ${_C_DIM}(claude | gemini | none)${_C_NC}
-${_C_MAGENTA}AI TIMEOUT${_C_NC}: \$FLOW_EMAIL_AI_TIMEOUT=${_C_CYAN}${FLOW_EMAIL_AI_TIMEOUT}s${_C_NC}
+${_C_BLUE}AI BACKEND${_C_NC}:
+  ${_C_CYAN}em ai${_C_NC}              Show current AI backend
+  ${_C_CYAN}em ai claude${_C_NC}       Switch to Claude
+  ${_C_CYAN}em ai gemini${_C_NC}       Switch to Gemini
+  ${_C_CYAN}em ai none${_C_NC}         Disable AI
+  ${_C_CYAN}em ai toggle${_C_NC}       Cycle backends
+  ${_C_CYAN}em ai auto${_C_NC}         Smart per-op routing
+
+${_C_MAGENTA}CURRENT${_C_NC}: \$FLOW_EMAIL_AI=${_C_CYAN}${FLOW_EMAIL_AI}${_C_NC}  ${_C_DIM}Timeout: ${FLOW_EMAIL_AI_TIMEOUT}s${_C_NC}
 
 ${_C_DIM}Config: \$FLOW_CONFIG_DIR/email.conf or .flow/email.conf (project)${_C_NC}
 ${_C_DIM}Backend: himalaya CLI | Editor: \${EDITOR:-nvim}${_C_NC}
@@ -650,7 +660,7 @@ _em_pick() {
 
     local header_line
     header_line="Folder: ${folder}  |  Unread: ${unread_count:-?}
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
 * = unread  + = attachment"
 
     # [2] Write preview script (avoids shell escaping nightmare)
@@ -728,6 +738,7 @@ PREVIEW_EOF
               --bind='ctrl-s:become(echo SUMMARIZE:{1})' \
               --bind='ctrl-a:become(echo ARCHIVE:{1})' \
               --bind='ctrl-d:become(echo DELETE:{1})' \
+              --bind='ctrl-t:become(echo CATCH:{1})' \
               --no-multi \
               --ansi)
 
@@ -759,6 +770,9 @@ PREVIEW_EOF
             _em_hml_flags add "$action_id" Deleted
             _flow_log_success "Email #${action_id} flagged as deleted"
         fi
+    elif [[ "$selected" == CATCH:* ]]; then
+        action_id="${selected#CATCH:}"
+        _em_catch "$action_id"
     else
         # Default: read the selected email
         action_id=$(echo "$selected" | cut -f1)
@@ -821,6 +835,56 @@ _em_summarize() {
         echo -e "  ${_C_DIM}Summary:${_C_NC} $summary"
     else
         _flow_log_warning "Summarization failed (no AI backend available?)"
+    fi
+}
+
+
+_em_catch() {
+    _em_require_himalaya || return 1
+    local msg_id="$1"
+
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em catch <ID>${_C_NC}"
+        return 1
+    fi
+
+    # Get email content
+    local content
+    content=$(_em_hml_read "$msg_id" plain 2>/dev/null)
+    if [[ -z "$content" ]]; then
+        _flow_log_error "Could not read email $msg_id"
+        return 1
+    fi
+
+    # AI summarize (if available)
+    local summary=""
+    if [[ "${FLOW_EMAIL_AI:-claude}" != "none" ]]; then
+        summary=$(_em_ai_query "summarize" "$(_em_ai_summarize_prompt)" \
+            "$content" "" "$msg_id" 2>/dev/null)
+    fi
+
+    # Fallback to subject line if AI unavailable or failed
+    if [[ -z "$summary" ]]; then
+        if command -v jq &>/dev/null; then
+            summary=$(_em_hml_list "${FLOW_EMAIL_FOLDER:-INBOX}" 100 2>/dev/null \
+                | jq -r ".[] | select(.id == \"$msg_id\") | .subject" 2>/dev/null)
+        fi
+    fi
+
+    if [[ -z "$summary" ]]; then
+        _flow_log_error "Could not generate summary for email $msg_id"
+        return 1
+    fi
+
+    # Feed into catch command (if available)
+    if typeset -f catch &>/dev/null; then
+        catch "Email #$msg_id: $summary"
+        _flow_log_success "Captured: $summary"
+    else
+        # Fallback: just display for manual capture
+        echo -e "${_C_BOLD}Capture:${_C_NC} Email #$msg_id: $summary"
+        echo -e "${_C_DIM}(catch command not available — copy manually)${_C_NC}"
     fi
 }
 
@@ -1251,6 +1315,11 @@ _em_doctor() {
     echo -e "${_C_DIM}Config:${_C_NC}"
     echo -e "  AI backend:  ${_C_CYAN}${FLOW_EMAIL_AI}${_C_NC}"
     echo -e "  AI timeout:  ${_C_CYAN}${FLOW_EMAIL_AI_TIMEOUT}s${_C_NC}"
+    # Extra args
+    local _gemini_extra="${_EM_AI_BACKENDS[gemini_extra_args]:-}"
+    if [[ -n "$_gemini_extra" ]]; then
+        echo -e "  Gemini args: ${_C_CYAN}${_gemini_extra}${_C_NC}"
+    fi
     echo -e "  Page size:   ${_C_CYAN}${FLOW_EMAIL_PAGE_SIZE}${_C_NC}"
     echo -e "  Folder:      ${_C_CYAN}${FLOW_EMAIL_FOLDER}${_C_NC}"
     if [[ -f "${FLOW_CONFIG_DIR}/email.conf" ]]; then

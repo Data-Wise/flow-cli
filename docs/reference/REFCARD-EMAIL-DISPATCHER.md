@@ -2,13 +2,13 @@
 
 > All `em` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v7.2.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+> **Version:** v7.3.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
 
 ## Command Taxonomy
 
 ```mermaid
 mindmap
-  root((em<br/>18 commands))
+  root((em<br/>20 commands))
     Core Email<br/>4 commands
       inbox
       read
@@ -17,10 +17,12 @@ mindmap
     Search & Browse<br/>2 commands
       find
       pick
-    AI Features<br/>3 commands
+    AI Features<br/>5 commands
       respond
       classify
       summarize
+      ai
+      catch
     Quick Info<br/>3 commands
       unread
       dash
@@ -50,6 +52,8 @@ mindmap
 | **em respond** | `resp` | `em respond [--review] [--dry-run] [-n N] [--folder F] [--clear]` | Batch AI draft generation |
 | **em classify** | `cl` | `em classify <ID>` | Classify email (AI) |
 | **em summarize** | `sum` | `em summarize <ID>` | One-line summary (AI) |
+| **em ai** | — | `em ai [claude\|gemini\|none\|auto\|toggle]` | Runtime AI backend switching |
+| **em catch** | `c` | `em catch <ID>` | Capture email as task (AI summary → catch) |
 | **em unread** | `u` | `em unread [FOLDER]` | Show unread count |
 | **em dash** | `d` | `em dash` | Quick dashboard (unread + recent) |
 | **em folders** | — | `em folders` | List mail folders |
@@ -73,6 +77,7 @@ Environment variables (set in shell, `.env`, or `.flow/email.conf`):
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | int | AI draft timeout in seconds |
 | `FLOW_EMAIL_CACHE_MAX_MB` | `50` | int | Max cache size in MB (0 = no limit) |
 | `FLOW_EMAIL_CACHE_WARM` | `false` | bool | Enable background cache warming on `em dash` |
+| `FLOW_EMAIL_GEMINI_EXTRA_ARGS` | `-e none` | string | Extra CLI flags for Gemini backend |
 
 Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/email.conf` (global)
 
@@ -126,6 +131,21 @@ command -v gemini &>/dev/null && echo "installed" || echo "missing"
 ### Fallback Chain
 
 If configured backend unavailable: `claude` → `gemini` → `none` (timeout gracefully)
+
+### Runtime Switching
+
+Switch AI backends without restarting your shell:
+
+| Command | Action |
+|---------|--------|
+| `em ai` | Show current backend + status |
+| `em ai claude` | Switch to Claude |
+| `em ai gemini` | Switch to Gemini |
+| `em ai none` | Disable AI |
+| `em ai auto` | Smart per-op routing |
+| `em ai toggle` | Cycle through available backends |
+
+**Status display shows:** Current backend, available backends, timeout, extra args
 
 ---
 
@@ -259,6 +279,7 @@ Interactive fzf email browser with preview:
 | **Ctrl-S** | Summarize | Generate 1-line summary (AI) |
 | **Ctrl-A** | Archive | Mark as read (folders archives) |
 | **Ctrl-D** | Delete | Flag for deletion (with confirm) |
+| **Ctrl-T** | Catch | Capture email as task (AI summary → catch) |
 | **Escape** | Exit | Return to shell |
 
 **Header Info:** Folder, unread count, legend
@@ -368,6 +389,15 @@ em respond                      # Batch draft generation
 em respond --review             # Review/send cached drafts
 em respond --dry-run            # Classify only (no drafts)
 em respond -n 50                # Process 50 emails
+
+# AI backend switching
+em ai                           # Show current backend
+em ai gemini                    # Switch to Gemini
+em ai toggle                    # Cycle: claude → gemini → claude
+em ai none                      # Disable AI entirely
+
+# Email-to-task capture
+em catch 42                     # AI summarize → pipe to catch
 
 # ─────────────────────────────────────────────────────────────
 # Quick info
@@ -590,7 +620,7 @@ Pure ZSH dispatcher. 18 public commands. <10ms response.
 
 - **`em-himalaya.zsh`** — Isolates himalaya CLI specifics
 - **`em-cache.zsh`** — TTL-based AI caching
-- **`em-ai.zsh`** — Backend abstraction (claude/gemini)
+- **`em-ai.zsh`** — Backend abstraction (claude/gemini), runtime switching, extra_args
 - **`em-render.zsh`** — Content detection + rendering
 
 ### Layer 3: Infrastructure
@@ -659,6 +689,16 @@ brew install fzf
 em p                           # Try again
 ```
 
+### Problem: "Unknown backend"
+
+**Cause:** Invalid backend name passed to `em ai`
+
+**Solution:**
+```bash
+em ai                          # See available backends
+em ai claude                   # Use a known backend
+```
+
 ---
 
 ## See Also
@@ -682,6 +722,6 @@ em p                           # Try again
 
 ---
 
-**Version:** v7.2.0
-**Last Updated:** 2026-02-16
-**Commands:** 18 total (4 core + 2 search + 3 AI + 3 info + 3 util + 2 infra + 1 help)
+**Version:** v7.3.0
+**Last Updated:** 2026-02-18
+**Commands:** 20 total (4 core + 2 search + 5 AI + 3 info + 3 util + 2 infra + 1 help)
