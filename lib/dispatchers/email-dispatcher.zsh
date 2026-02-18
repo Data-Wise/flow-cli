@@ -1212,6 +1212,52 @@ _em_starred() {
     echo -e "\n  ${_C_DIM}${count:-0} starred${_C_NC}"
 }
 
+_em_move() {
+    _em_require_himalaya || return 1
+    local msg_id="$1" target_folder="$2"
+
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em move <ID> [folder]${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
+    # No folder specified → fzf picker
+    if [[ -z "$target_folder" ]]; then
+        if ! command -v fzf &>/dev/null; then
+            _flow_log_error "Folder required (fzf not available for picker)"
+            echo "Usage: ${_C_CYAN}em move <ID> <folder>${_C_NC}"
+            return 1
+        fi
+
+        target_folder=$(_em_hml_folders 2>/dev/null \
+            | fzf --prompt="Move #${msg_id} to > " --height=15 --no-multi \
+            | awk '{print $1}')
+
+        if [[ -z "$target_folder" ]]; then
+            return 0  # User cancelled
+        fi
+    fi
+
+    # Safety: confirm before moving
+    printf "  Move #${msg_id} to ${_C_CYAN}${target_folder}${_C_NC}? [y/N] "
+    local confirm
+    read -r confirm
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+        _flow_log_info "Cancelled"
+        return 0
+    fi
+
+    if _em_hml_move "$msg_id" "$target_folder" "$folder"; then
+        _flow_log_success "Moved #${msg_id} → ${target_folder}"
+    else
+        _flow_log_error "Failed to move #${msg_id}"
+        return 1
+    fi
+}
+
 # ═══════════════════════════════════════════════════════════════════
 # QUICK INFO
 # ═══════════════════════════════════════════════════════════════════

@@ -193,6 +193,17 @@ _em_hml_folders() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
+# MESSAGE MOVE
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_move() {
+    # Move message to a different folder
+    # Args: message_id, target_folder, source_folder (default: INBOX)
+    local msg_id="$1" target="$2" source="${3:-INBOX}"
+    himalaya message move -f "$source" "$msg_id" "$target" 2>/dev/null
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # QUICK COUNTS
 # ═══════════════════════════════════════════════════════════════════
 
