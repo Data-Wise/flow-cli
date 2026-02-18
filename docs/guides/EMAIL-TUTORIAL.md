@@ -2,8 +2,8 @@
 
 **The `em` email dispatcher — A 60-minute hands-on guide**
 
-**Last Updated:** 2026-02-10
-**Read Time:** 60 minutes hands-on (10 parts)
+**Last Updated:** 2026-02-18
+**Read Time:** 65 minutes hands-on (11 parts)
 **Difficulty:** Beginner-friendly
 
 !!! tip "Prefer reading email in Neovim?"
@@ -22,6 +22,8 @@ By the end of this tutorial, you'll be able to:
 - Batch process actionable emails with AI assistance
 - Search and organize your inbox efficiently
 - Understand caching for faster AI operations
+- Switch AI backends at runtime for speed or quality
+- Capture emails as tasks with one command
 
 ---
 
@@ -1399,6 +1401,89 @@ alias eu='em unread'
 
 ---
 
+## Part 11: AI Backend Switching & Email Capture (5 min)
+
+### 🎯 Learning Goal
+
+Switch AI backends at runtime and capture emails as tasks.
+
+### 💻 Try It Now: Check AI Status
+
+```bash
+em ai
+```
+
+### ✅ Expected Output
+
+```
+Email AI Backend
+
+  Current:     claude
+  Available:   claude gemini
+  Timeout:     30s
+  Gemini args: -e none
+
+  Switch: em ai claude | em ai gemini | em ai toggle
+```
+
+### 💻 Try It Now: Switch Backends
+
+```bash
+# Switch to Gemini (faster for quick tasks)
+em ai gemini
+
+# Toggle back
+em ai toggle
+
+# Disable AI entirely
+em ai none
+
+# Re-enable
+em ai claude
+```
+
+### 💻 Try It Now: Capture Email as Task
+
+Use `em catch` to turn an email into a quick-capture task:
+
+```bash
+# Find an email ID first
+em inbox
+
+# Capture it (AI generates one-line summary)
+em catch 42
+```
+
+### ✅ Expected Output
+
+```
+✓ Captured: Student absent Friday, requests notes
+```
+
+If the `catch` command isn't installed, you'll see the summary for manual capture:
+
+```
+Capture: Email #42: Student absent Friday, requests notes
+(catch command not available — copy manually)
+```
+
+### 💻 Try It Now: Quick Catch from Picker
+
+```bash
+em pick
+# Press Ctrl-T on any email to capture it instantly
+```
+
+### 💡 What You Learned
+
+- `em ai` shows current backend and available options
+- `em ai <backend>` switches instantly (no restart needed)
+- `em ai toggle` cycles through available backends
+- `em catch <ID>` turns an email into a task via AI summary
+- **Ctrl-T** in `em pick` captures without leaving the browser
+
+---
+
 ## 🎉 Congratulations
 
 You've completed the email tutorial!
@@ -1665,6 +1750,6 @@ After this tutorial, you should be able to:
 
 ---
 
-*Last updated: 2026-02-10*
+*Last updated: 2026-02-18*
 *flow-cli version: 6.7.1*
 *Tutorial version: 1.0*
