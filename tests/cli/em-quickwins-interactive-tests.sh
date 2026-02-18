@@ -13,6 +13,18 @@
 
 set -e
 
+FLOW_CLI_DIR="${FLOW_CLI_DIR:-$(cd "$(dirname "$0")/../.." && pwd)}"
+
+# Run em commands via ZSH with plugin loaded
+zsh_run() {
+    zsh -i -c "
+        FLOW_QUIET=1
+        FLOW_ATLAS_ENABLED=no
+        source '$FLOW_CLI_DIR/flow.plugin.zsh' 2>/dev/null
+        $*
+    " 2>&1
+}
+
 PASS=0
 FAIL=0
 SKIP=0
@@ -57,7 +69,7 @@ run_test() {
     fi
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         echo -e "  ${CYAN}--- output ---${NC}"
-        eval "$cmd" 2>&1 | head -30 || true
+        zsh_run "$cmd" 2>&1 | head -30 || true
         echo -e "  ${CYAN}--- end ---${NC}"
         ask_result
     else
@@ -115,7 +127,7 @@ echo ""
 echo -e "  Let's find a valid email ID to test with."
 echo -e "  Running: ${CYAN}em inbox 5${NC}"
 echo -e "  ${CYAN}--- output ---${NC}"
-em inbox 5 2>&1 | head -10 || true
+zsh_run "em inbox 5" 2>&1 | head -10 || true
 echo -e "  ${CYAN}--- end ---${NC}"
 echo ""
 read -p "  Enter an email ID to use for testing: " TEST_ID
