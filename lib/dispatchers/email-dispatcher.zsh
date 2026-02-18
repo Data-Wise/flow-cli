@@ -1594,20 +1594,8 @@ _em_snooze_parse_time() {
     now_epoch=$(date +%s)
 
     case "$spec" in
-        *h)
-            local hours="${spec%h}"
-            echo $(( now_epoch + hours * 3600 ))
-            ;;
-        *d)
-            local days="${spec%d}"
-            echo $(( now_epoch + days * 86400 ))
-            ;;
-        *w)
-            local weeks="${spec%w}"
-            echo $(( now_epoch + weeks * 604800 ))
-            ;;
         tomorrow)
-            # Tomorrow at 9am
+            # Tomorrow at 9am (must be before *w glob — "tomorrow" ends in 'w')
             date -v+1d -v9H -v0M -v0S +%s 2>/dev/null
             ;;
         monday|tuesday|wednesday|thursday|friday|saturday|sunday)
@@ -1619,6 +1607,18 @@ _em_snooze_parse_time() {
             local days_ahead=$(( (target_dow - current_dow + 7) % 7 ))
             (( days_ahead == 0 )) && days_ahead=7  # Next week if today
             date -v+${days_ahead}d -v9H -v0M -v0S +%s 2>/dev/null
+            ;;
+        *h)
+            local hours="${spec%h}"
+            echo $(( now_epoch + hours * 3600 ))
+            ;;
+        *d)
+            local days="${spec%d}"
+            echo $(( now_epoch + days * 86400 ))
+            ;;
+        *w)
+            local weeks="${spec%w}"
+            echo $(( now_epoch + weeks * 604800 ))
             ;;
         *)
             echo "0"
