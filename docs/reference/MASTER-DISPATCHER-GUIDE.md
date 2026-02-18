@@ -2638,6 +2638,8 @@ The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management: 
 | `em html <ID>` | | Render HTML email in terminal |
 | `em attach <ID>` | | Download attachments |
 | `em cache stats\|prune\|clear\|warm` | | Manage AI cache |
+| `em ai [backend]` | | Show/switch AI backend (claude, gemini, none, toggle, auto) |
+| `em catch <text>` | | Quick-capture email task to inbox |
 | `em doctor` | | Check dependencies |
 | `em help` | | Show help |
 
