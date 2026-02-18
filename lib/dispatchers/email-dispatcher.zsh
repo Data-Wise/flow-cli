@@ -190,6 +190,15 @@ ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
   ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch)
   ${_C_CYAN}em attach <ID>${_C_NC}    Download attachments
 
+${_C_BLUE}ORGANIZE${_C_NC}:
+  ${_C_CYAN}em star <ID>${_C_NC}     Toggle starred (flagged) status
+  ${_C_CYAN}em starred${_C_NC}       List starred emails
+  ${_C_CYAN}em move <ID> [F]${_C_NC} Move to folder (fzf picker if no folder)
+  ${_C_CYAN}em thread <ID>${_C_NC}   Show conversation thread
+  ${_C_CYAN}em snooze <ID> <T>${_C_NC} Snooze (2h, 1d, tomorrow, monday)
+  ${_C_CYAN}em snoozed${_C_NC}       List snoozed emails
+  ${_C_CYAN}em digest${_C_NC}        AI-grouped daily summary (--week)
+
 ${_C_BLUE}AI FEATURES${_C_NC}:
   ${_C_CYAN}em respond${_C_NC}        Batch AI drafts for actionable emails
   ${_C_CYAN}em respond --review${_C_NC} Review/send generated drafts

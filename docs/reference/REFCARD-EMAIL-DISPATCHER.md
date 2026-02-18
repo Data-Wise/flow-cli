@@ -10,7 +10,7 @@
 
 ```mermaid
 mindmap
-  root((em<br/>20 commands))
+  root((em<br/>27 commands))
     Core Email<br/>4 commands
       inbox
       read
@@ -25,6 +25,14 @@ mindmap
       summarize
       ai
       catch
+    Organize<br/>7 commands
+      star
+      starred
+      move
+      thread
+      snooze
+      snoozed
+      digest
     Quick Info<br/>3 commands
       unread
       dash
@@ -56,6 +64,13 @@ mindmap
 | **em summarize** | `sum` | `em summarize <ID>` | One-line summary (AI) |
 | **em ai** | — | `em ai [claude\|gemini\|none\|auto\|toggle]` | Runtime AI backend switching |
 | **em catch** | `c` | `em catch <ID>` | Capture email as task (AI summary → catch) |
+| **em star** | `flag` | `em star <ID>` | Toggle starred (Flagged) status |
+| **em starred** | — | `em starred [FOLDER]` | List starred emails |
+| **em move** | `mv` | `em move <ID> [FOLDER]` | Move to folder (fzf picker if no folder) |
+| **em thread** | `th` | `em thread <ID>` | Show conversation thread |
+| **em snooze** | `snz` | `em snooze <ID> <TIME>` | Snooze email (2h, 1d, tomorrow, monday) |
+| **em snoozed** | — | `em snoozed` | List snoozed emails with status |
+| **em digest** | `dg` | `em digest [--week] [-n N]` | AI-grouped daily/weekly summary |
 | **em unread** | `u` | `em unread [FOLDER]` | Show unread count |
 | **em dash** | `d` | `em dash` | Quick dashboard (unread + recent) |
 | **em folders** | — | `em folders` | List mail folders |
@@ -89,7 +104,7 @@ Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/emai
 
 ```mermaid
 graph TD
-    A["em dispatcher<br/>20 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
+    A["em dispatcher<br/>27 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
     A -->|cache layer| C["em-cache<br/>(TTL: 1h-24h)"]
     A -->|AI abstraction| D["em-ai<br/>Backend: claude/gemini"]
     A -->|render pipeline| E["em-render<br/>Smart content detection"]
@@ -282,6 +297,8 @@ Interactive fzf email browser with preview:
 | **Ctrl-A** | Archive | Mark as read (folders archives) |
 | **Ctrl-D** | Delete | Flag for deletion (with confirm) |
 | **Ctrl-T** | Catch | Capture email as task (AI summary → catch) |
+| **Ctrl-F** | Star | Toggle starred (Flagged) status |
+| **Ctrl-M** | Move | Move to folder (fzf picker) |
 | **Escape** | Exit | Return to shell |
 
 **Header Info:** Folder, unread count, legend
@@ -400,6 +417,19 @@ em ai none                      # Disable AI entirely
 
 # Email-to-task capture
 em catch 42                     # AI summarize → pipe to catch
+
+# ─────────────────────────────────────────────────────────────
+# Organizing
+em star 42                      # Toggle star (flagged)
+em starred                      # List starred emails
+em move 42 Archive              # Move to Archive
+em move 42                      # fzf folder picker
+em thread 42                    # Show conversation thread
+em snooze 42 2h                 # Snooze for 2 hours
+em snooze 42 tomorrow           # Snooze until tomorrow 9am
+em snoozed                      # List snoozed emails
+em digest                       # AI-grouped today's summary
+em digest --week                # Weekly summary
 
 # ─────────────────────────────────────────────────────────────
 # Quick info
@@ -616,7 +646,7 @@ For Gmail/OAuth2: `email-oauth2-proxy` recommended (see `em doctor`)
 
 ### Layer 1: Dispatcher (`em()`)
 
-Pure ZSH dispatcher. 20 public commands. <10ms response.
+Pure ZSH dispatcher. 27 public commands. <10ms response.
 
 ### Layer 2: Adapters
 
@@ -726,4 +756,4 @@ em ai claude                   # Use a known backend
 
 **Version:** v7.3.0
 **Last Updated:** 2026-02-18
-**Commands:** 20 total (4 core + 2 search + 5 AI + 3 info + 3 util + 2 infra + 1 help)
+**Commands:** 27 total (4 core + 2 search + 5 AI + 7 organize + 3 info + 3 util + 2 infra + 1 help)
