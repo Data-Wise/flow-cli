@@ -189,7 +189,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 134 test files, 8000+ test functions
+├── tests/                    # 137 test files, 8000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -256,7 +256,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**134 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
+**137 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -288,4 +288,4 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ---
 
-**Last Updated:** 2026-02-16 (v7.2.1)
+**Last Updated:** 2026-02-18 (v7.2.1)

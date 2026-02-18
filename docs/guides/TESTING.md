@@ -1,6 +1,6 @@
 # Testing Guide - flow-cli
 
-**Status:** ✅ Established (v7.2.0+)
+**Status:** ✅ Established (v7.2.1+)
 **Last Updated:** 2026-02-16
 
 ---
@@ -358,5 +358,5 @@ When adding new functionality:
 ---
 
 **Established:** v5.0.0 (2026-01-11)
-**Overhauled:** v7.2.0 (2026-02-16) — shared framework, mock registry, dogfood scanner
+**Overhauled:** v7.2.1 (2026-02-16) — shared framework, mock registry, dogfood scanner
 **Test Count:** 134 test files, 8000+ assertions, 45/45 suites passing

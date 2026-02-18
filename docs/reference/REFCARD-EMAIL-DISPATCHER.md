@@ -87,7 +87,7 @@ Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/emai
 
 ```mermaid
 graph TD
-    A["em dispatcher<br/>18 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
+    A["em dispatcher<br/>20 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
     A -->|cache layer| C["em-cache<br/>(TTL: 1h-24h)"]
     A -->|AI abstraction| D["em-ai<br/>Backend: claude/gemini"]
     A -->|render pipeline| E["em-render<br/>Smart content detection"]
@@ -614,7 +614,7 @@ For Gmail/OAuth2: `email-oauth2-proxy` recommended (see `em doctor`)
 
 ### Layer 1: Dispatcher (`em()`)
 
-Pure ZSH dispatcher. 18 public commands. <10ms response.
+Pure ZSH dispatcher. 20 public commands. <10ms response.
 
 ### Layer 2: Adapters
 

@@ -93,4 +93,4 @@ tags:
 
 ---
 
-**v7.2.0** | [Home](../index.md)
+**v7.2.1** | [Home](../index.md)
