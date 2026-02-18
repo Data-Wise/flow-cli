@@ -902,6 +902,31 @@ em respond
 em respond --dry-run      # Classify only (no drafts)
 em respond -n 50          # Process 50 emails
 em respond --review       # Review/send cached drafts
+
+# Switch AI backend at runtime
+em ai                    # Show current backend
+em ai gemini             # Switch to Gemini
+em ai toggle             # Cycle backends
+em ai none               # Disable AI
+
+# Capture email as task
+em catch 42              # AI summarize → pipe to catch
+```
+
+### Reading Options
+
+```bash
+# Smart rendering (auto-detects content type)
+em read 42
+
+# Force HTML rendering
+em html 42
+
+# Clean Markdown via pandoc (great for Outlook)
+em read --md 42
+
+# Raw MIME source (.eml export)
+em read --raw 42
 ```
 
 ### Browse & Search
@@ -909,7 +934,8 @@ em respond --review       # Review/send cached drafts
 ```bash
 # fzf email browser with preview
 em pick
-# Keybindings: Enter=read, Ctrl-S=summarize, Ctrl-A=archive, Ctrl-R=reply
+# Keybindings: Enter=read, Ctrl-R=reply, Ctrl-S=summarize,
+#              Ctrl-T=catch, Ctrl-A=archive, Ctrl-D=delete
 
 # Browse specific folder
 em pick Sent
