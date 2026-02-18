@@ -2618,6 +2618,8 @@ als           # List all aliases by category
 
 The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management: AI-powered drafting, smart content rendering, fzf browsing, and explicit send confirmation.
 
+> **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven, Claude as interface) both wrap himalaya. Use `em` for fast terminal ops, himalaya-mcp for AI-assisted analysis.
+
 ### Commands
 
 | Command | Alias | Description |

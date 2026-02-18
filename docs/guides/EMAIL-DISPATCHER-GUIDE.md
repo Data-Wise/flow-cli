@@ -926,31 +926,7 @@ export FLOW_EMAIL_AI_TIMEOUT=45  # Increase to 45s for all ops
 
 ### Prompt Customization
 
-AI prompts are defined in `lib/em-ai.zsh`. To customize:
-
-**Option 1: Override via Config**
-
-Create `~/.config/flow/email-prompts.zsh`:
-
-```bash
-_em_ai_draft_prompt() {
-    cat <<'PROMPT'
-Draft a reply to this email.
-Use casual, friendly tone.
-Keep it under 100 words.
-PROMPT
-}
-```
-
-Source in your `.zshrc`:
-
-```bash
-[[ -f ~/.config/flow/email-prompts.zsh ]] && source ~/.config/flow/email-prompts.zsh
-```
-
-**Option 2: Edit Library File**
-
-Edit `lib/em-ai.zsh` directly (not recommended for upgrades).
+AI prompts are defined in `lib/em-ai.zsh`. Currently, the only way to customize prompts is to edit the library file directly. Custom prompt templates are planned for a future version.
 
 ## Email-to-Task Capture
 
