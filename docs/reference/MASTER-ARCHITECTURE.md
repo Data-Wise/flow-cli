@@ -3,7 +3,7 @@
 **Purpose:** Complete system architecture documentation for flow-cli
 **Audience:** Contributors, maintainers, advanced users
 **Format:** Design decisions, diagrams, implementation details
-**Version:** v7.2.1
+**Version:** v7.3.0
 **Last Updated:** 2026-02-16
 
 ---
@@ -1009,7 +1009,7 @@ graph TD
 
 ---
 
-**Version:** v7.2.1
+**Version:** v7.3.0
 **Last Updated:** 2026-02-16
 **Diagrams:** 8 Mermaid diagrams
 **Total:** 2,500+ lines

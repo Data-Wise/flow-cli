@@ -478,7 +478,7 @@ ls ~/projects/
 
 ### "Editor didn't open"
 
-**Cause:** You need the `-e` flag to open an editor (v7.2.1+)
+**Cause:** You need the `-e` flag to open an editor (v7.3.0+)
 
 **Fix:**
 
