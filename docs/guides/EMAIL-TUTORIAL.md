@@ -1751,5 +1751,5 @@ After this tutorial, you should be able to:
 ---
 
 *Last updated: 2026-02-18*
-*flow-cli version: 6.7.1*
+*flow-cli version: 7.2.1*
 *Tutorial version: 1.0*
