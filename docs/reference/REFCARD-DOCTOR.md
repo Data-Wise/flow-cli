@@ -318,5 +318,5 @@ teach doctor --verbose
 
 ---
 
-**Version:** v7.2.0
+**Version:** v7.3.0
 **Last Updated:** 2026-02-16

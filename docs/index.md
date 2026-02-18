@@ -26,9 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.2.0: Explicit Editor Flag"
-    `work` no longer auto-opens an editor. Use `work proj -e` to open `$EDITOR`, or `work proj -e cc` for Claude Code. See [work command docs](commands/work.md).
-    [→ Migration Guide](guides/MIGRATION-DOT-SPLIT.md){ .md-button }
+!!! success "🎉 What's New in v7.3.0: Email AI Improvements"
+    Switch AI backends at runtime with `em ai gemini`, capture emails as tasks with `em catch 42`, and speed up Gemini with `extra_args`. See [Email Dispatcher Guide](guides/EMAIL-DISPATCHER-GUIDE.md).
+    [→ Quick Reference](reference/REFCARD-EMAIL-DISPATCHER.md){ .md-button }
     [→ See what's new](CHANGELOG.md){ .md-button }
 
 ---
@@ -279,4 +279,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.2.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.3.0** · Pure ZSH · Zero Dependencies · MIT License

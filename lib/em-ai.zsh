@@ -22,8 +22,10 @@
 typeset -gA _EM_AI_BACKENDS=(
     [claude_cmd]="claude"
     [claude_flags]="-p --output-format text"
+    [claude_extra_args]=""
     [gemini_cmd]="gemini"
     [gemini_flags]=""
+    [gemini_extra_args]="${FLOW_EMAIL_GEMINI_EXTRA_ARGS:--e none}"
     [default]="${FLOW_EMAIL_AI:-claude}"
     [timeout]="${FLOW_EMAIL_AI_TIMEOUT:-15}"
 )
@@ -125,8 +127,9 @@ _em_ai_execute() {
             if ! command -v claude &>/dev/null; then
                 return 1
             fi
+            local extra="${_EM_AI_BACKENDS[claude_extra_args]:-}"
             echo "$input" | timeout "$timeout_s" \
-                claude -p "$prompt" --output-format text 2>/dev/null
+                claude -p "$prompt" --output-format text ${=extra} 2>/dev/null
             local rc=$?
             if [[ $rc -eq 124 ]]; then
                 _flow_log_warning "AI timed out (claude, ${timeout_s}s)" 2>/dev/null
@@ -137,8 +140,9 @@ _em_ai_execute() {
             if ! command -v gemini &>/dev/null; then
                 return 1
             fi
+            local extra="${_EM_AI_BACKENDS[gemini_extra_args]:-}"
             echo "$input" | timeout "$timeout_s" \
-                gemini "$prompt" 2>/dev/null
+                gemini ${=extra} "$prompt" 2>/dev/null
             local rc=$?
             if [[ $rc -eq 124 ]]; then
                 _flow_log_warning "AI timed out (gemini, ${timeout_s}s)" 2>/dev/null
@@ -161,9 +165,9 @@ _em_ai_execute() {
 
 _em_ai_backend_for_op() {
     # Get configured backend for an operation
-    # Falls back to default if no per-op config
+    # Reads live FLOW_EMAIL_AI env var (not frozen default)
     local operation="$1"
-    echo "${_EM_AI_BACKENDS[default]}"
+    echo "${FLOW_EMAIL_AI:-${_EM_AI_BACKENDS[default]}}"
 }
 
 _em_ai_timeout_for_op() {
@@ -323,4 +327,77 @@ _em_category_icon() {
         urgent)            echo "${_C_RED}U${_C_NC}" ;;
         *)                 echo " " ;;
     esac
+}
+
+
+# ═══════════════════════════════════════════════════════════════════
+# RUNTIME BACKEND SWITCHING
+# ═══════════════════════════════════════════════════════════════════
+
+_em_ai_cmd() {
+    case "${1:-}" in
+        "")       _em_ai_status ;;
+        toggle)   _em_ai_toggle ;;
+        auto)     _em_ai_switch "auto" ;;
+        *)        _em_ai_switch "$1" ;;
+    esac
+}
+
+_em_ai_switch() {
+    local backend="$1"
+
+    # Validate backend
+    case "$backend" in
+        claude|gemini|none|auto) ;;  # known backends
+        *)
+            if ! command -v "$backend" &>/dev/null; then
+                _flow_log_error "Unknown backend: $backend"
+                echo "Available: $(_em_ai_available)"
+                echo "Valid: claude, gemini, none, auto"
+                return 1
+            fi
+            ;;
+    esac
+
+    # Mutate the live environment
+    export FLOW_EMAIL_AI="$backend"
+    _EM_AI_BACKENDS[default]="$backend"
+
+    _flow_log_success "AI backend → $backend"
+}
+
+_em_ai_toggle() {
+    local avail_str="$(_em_ai_available)"
+    local -a available=( ${=avail_str} )
+    [[ ${#available} -eq 0 ]] && { _flow_log_error "No AI backends available"; return 1; }
+
+    local current="${FLOW_EMAIL_AI:-claude}"
+    local idx=1
+    local i
+    for (( i=1; i<=${#available}; i++ )); do
+        [[ "${available[$i]}" == "$current" ]] && { idx=$i; break; }
+    done
+    local next_idx=$(( (idx % ${#available}) + 1 ))
+    _em_ai_switch "${available[$next_idx]}"
+}
+
+_em_ai_status() {
+    echo -e "${_C_BOLD}Email AI Backend${_C_NC}"
+    echo ""
+    echo -e "  Current:     ${_C_CYAN}${FLOW_EMAIL_AI:-claude}${_C_NC}"
+    echo -e "  Available:   ${_C_DIM}$(_em_ai_available)${_C_NC}"
+    echo -e "  Timeout:     ${_C_DIM}${FLOW_EMAIL_AI_TIMEOUT:-30}s${_C_NC}"
+
+    # Show extra_args if set
+    local gemini_extra="${_EM_AI_BACKENDS[gemini_extra_args]:-}"
+    local claude_extra="${_EM_AI_BACKENDS[claude_extra_args]:-}"
+    if [[ -n "$gemini_extra" ]]; then
+        echo -e "  Gemini args: ${_C_DIM}${gemini_extra}${_C_NC}"
+    fi
+    if [[ -n "$claude_extra" ]]; then
+        echo -e "  Claude args: ${_C_DIM}${claude_extra}${_C_NC}"
+    fi
+
+    echo ""
+    echo -e "  ${_C_DIM}Switch: em ai claude | em ai gemini | em ai toggle${_C_NC}"
 }

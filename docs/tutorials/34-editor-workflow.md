@@ -10,7 +10,7 @@ tags:
 
 Control when and how editors open during work sessions. Launch VS Code, Neovim, Positron, or Claude Code with a single flag.
 
-**Time:** 8 minutes | **Level:** Beginner | **Version:** v7.2.0+
+**Time:** 8 minutes | **Level:** Beginner | **Version:** v7.3.0+
 
 ## What You'll Learn
 

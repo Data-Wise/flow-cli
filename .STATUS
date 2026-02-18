@@ -9,9 +9,26 @@
 ## Priority: 2
 ## Progress: 85
 
-## Current Session (2026-02-16)
+## Current Session (2026-02-18)
 
 **Session activity:**
+- merged: PR #400 (em ai + em catch) → dev
+- cleanup: removed ORCHESTRATE file, fixed tutorial version (6.7.1→7.2.1)
+- docs: updated version refs (v7.2.0→v7.2.1 across 12 files), command counts (18→20), test counts (134→137)
+- docs: added CHANGELOG [Unreleased] entry for em ai/catch features
+
+**Features merged (em AI improvements):**
+1. `em ai` subcommand — runtime AI backend switching (claude/gemini/none/toggle)
+2. Gemini `extra_args` — `-e none` for fast startup (~1-2s vs ~5-8s)
+3. `em catch <ID>` — AI-summarize email → pipe into `catch` command
+4. `Ctrl-T` in `em pick` — fzf keybind for inline task capture
+
+**Previous session (2026-02-16, evening):**
+- verified: CI all green (tests, docs deploy, pages build)
+- verified: Homebrew formula v7.2.1 live and installed
+- release: v7.2.1 fully deployed — CI, docs, Homebrew all confirmed
+
+**Previous session (2026-02-16):**
 - docs: full health check (374 files) — 0 broken links, 9 stale docs found and fixed
 - docs: added missing v7.1.0 CHANGELOG entry (dot split)
 - docs: added v7.0.0/v7.1.0/v7.2.0 to RELEASES.md (was 6+ versions behind)
@@ -21,6 +38,7 @@
 - fix: copyright year 2025 → 2025-2026 in mkdocs.yml
 - fix: added cacheSeconds to shields.io badge URLs
 - release: v7.2.0 — PR #398, tag, GitHub release created
+- release: v7.2.1 — testing overhaul, changelog cleanup, semantic-release removal
 - deploy: docs site deployed (3x)
 - ci: all green — Homebrew formula auto-updated
 
@@ -39,11 +57,17 @@
 - release: v7.0.1 — himalaya neovim docs
 - deploy: docs site deployed for v7.0.1
 
-**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 134 test files
+**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 137 test files
 
 ---
 
 ## Recent Releases
+
+### v7.2.1 (2026-02-16) — Testing Overhaul & Cleanup
+- Testing overhaul: 186→134 test files, shared framework, dogfood scanner
+- Removed semantic-release dependencies
+- Updated testing guide, changelog cleanup
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.2.1
 
 ### v7.2.0 (2026-02-16) — Explicit Editor Flag
 - `work -e` editor flag, Claude Code modes (-e cc/ccy/cc:new)
@@ -64,7 +88,8 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.2.0 released, synced with main |
+| Main repo | `dev` | v7.2.1 released, synced with main |
+| ~~feature-em-ai-improvements~~ | `feature/em-ai-improvements` | Merged → dev (PR #400) |
 | feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
 
 ---
@@ -90,14 +115,15 @@
 
 ## Next Action
 
-1. Scholar Config Sync (#299) — next feature candidate
-2. API documentation push (50% → 80%)
-3. Code workspace manager — spec ready on dev
+1. **Em AI improvements** — worktree ready, `cd ~/.git-worktrees/flow-cli/feature-em-ai-improvements && claude`
+2. Scholar Config Sync (#299) — next feature candidate
+3. API documentation push (50% → 80%)
+4. Code workspace manager — spec ready on dev
 
 ---
 
-**Last Updated:** 2026-02-16
-**Status:** v7.2.1 released | 45/45 tests passing | 15 dispatchers | 134 test files | 8000+ test functions | docs fully updated
-## wins: Fixed the regression bug (2026-02-16), --category fix squashed the bug (2026-02-16), fixed the bug (2026-02-16), Fixed the regression bug (2026-02-16), --category fix squashed the bug (2026-02-16)
+**Last Updated:** 2026-02-18
+**Status:** v7.2.1 released | 45/45 tests passing | 15 dispatchers | 137 test files | 8000+ test functions | em ai/catch merged to dev
+## wins: Fixed the regression bug (2026-02-18), --category fix squashed the bug (2026-02-18), fixed the bug (2026-02-18), Fixed the regression bug (2026-02-16), --category fix squashed the bug (2026-02-16)
 ## streak: 1
-## last_active: 2026-02-16 16:03
+## last_active: 2026-02-18 15:20

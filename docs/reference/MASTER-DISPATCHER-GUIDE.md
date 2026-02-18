@@ -10,7 +10,7 @@ tags:
 **Purpose:** Complete reference for all 15 flow-cli dispatchers
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v7.2.0
+**Version:** v7.3.0
 **Last Updated:** 2026-02-16
 
 ---
@@ -2612,7 +2612,7 @@ als           # List all aliases by category
 
 **Domain:** Email management via himalaya CLI
 **File:** `lib/dispatchers/email-dispatcher.zsh` + `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`
-**Version:** v7.2.0
+**Version:** v7.3.0
 
 ### Overview
 
@@ -2638,6 +2638,8 @@ The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management: 
 | `em html <ID>` | | Render HTML email in terminal |
 | `em attach <ID>` | | Download attachments |
 | `em cache stats\|prune\|clear\|warm` | | Manage AI cache |
+| `em ai [backend]` | | Show/switch AI backend (claude, gemini, none, toggle, auto) |
+| `em catch <text>` | | Quick-capture email task to inbox |
 | `em doctor` | | Check dependencies |
 | `em help` | | Show help |
 
@@ -2687,6 +2689,6 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 
 ---
 
-**Version:** v7.2.0
+**Version:** v7.3.0
 **Last Updated:** 2026-02-16
 **Total:** 15 dispatchers fully documented

@@ -2,7 +2,7 @@
 
 **Available Since:** v7.0.0
 **Status:** Production Ready
-**Last Updated:** 2026-02-16
+**Last Updated:** 2026-02-18
 
 ## Overview
 
@@ -14,6 +14,8 @@ em pick               # Interactive fzf browser
 em read 42            # Smart rendering (HTML/markdown/plain)
 em reply 42           # AI draft in $EDITOR
 em respond            # Batch AI drafts for actionable emails
+em ai gemini          # Switch AI backend at runtime
+em catch 42           # Capture email as task
 ```
 
 **Philosophy:**
@@ -228,7 +230,7 @@ This opens an interactive fzf picker:
 
 ```
 Folder: INBOX  |  Unread: 3
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
 * = unread  + = attachment
 > * + Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
   * Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
@@ -252,6 +254,7 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
 - `Enter` - Read selected email
 - `Ctrl-R` - Reply to selected email
 - `Ctrl-S` - Show AI summary
+- `Ctrl-T` - Capture as task (via `catch`)
 - `Ctrl-A` - Archive (mark as read)
 - `Ctrl-D` - Delete (with confirmation)
 
@@ -665,6 +668,65 @@ If the primary backend fails (timeout, not installed, API error), `em` automatic
 claude → gemini → fail gracefully
 ```
 
+## AI Backend Switching
+
+Switch AI backends at runtime without restarting your shell or editing config files.
+
+### Quick Start
+
+```bash
+em ai                 # Show current backend status
+em ai gemini          # Switch to Gemini (faster startup)
+em ai claude          # Switch back to Claude
+em ai toggle          # Cycle through available backends
+em ai none            # Disable AI entirely
+```
+
+### Status Display
+
+Running `em ai` with no arguments shows:
+
+```
+Email AI Backend
+
+  Current:     claude
+  Available:   claude gemini
+  Timeout:     30s
+  Gemini args: -e none
+
+  Switch: em ai claude | em ai gemini | em ai toggle
+```
+
+### Gemini Speed Optimization
+
+Gemini CLI supports extra arguments via `FLOW_EMAIL_GEMINI_EXTRA_ARGS`. The default `-e none` skips extension loading for faster startup:
+
+```bash
+# Default (fast, no extensions)
+export FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e none"
+
+# Custom extensions
+export FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e my_extension"
+```
+
+### When to Use Each Backend
+
+| Backend | Best For | Speed | Notes |
+|---------|----------|-------|-------|
+| `claude` | Complex drafts, nuanced classification | ~3-5s | Default, highest quality |
+| `gemini` | Quick classification, summaries | ~1-2s | Faster with `-e none` |
+| `none` | Offline, no AI needed | Instant | Falls back to manual |
+| `auto` | Mixed workloads | Varies | Per-operation routing |
+
+### Persistence
+
+Backend selection persists for the current shell session via `FLOW_EMAIL_AI` env var. To make it permanent, add to your config:
+
+```bash
+# In $FLOW_CONFIG_DIR/email.conf or .flow/email.conf
+FLOW_EMAIL_AI=gemini
+```
+
 ### Classify Email
 
 ```bash
@@ -877,6 +939,43 @@ Source in your `.zshrc`:
 
 Edit `lib/em-ai.zsh` directly (not recommended for upgrades).
 
+## Email-to-Task Capture
+
+Convert emails into quick-capture tasks with `em catch`. Uses AI to generate a one-line summary, then pipes it to the `catch` command.
+
+### Basic Usage
+
+```bash
+em catch 42           # Summarize email #42 → pipe to catch
+em catch 99           # Summarize email #99 → pipe to catch
+```
+
+### How It Works
+
+1. Reads the email content via himalaya
+2. AI generates a one-line summary (using the summarize prompt)
+3. Formats as "Email #42: [summary]"
+4. Pipes to `catch` command (if available)
+5. Falls back to display-only if `catch` is not installed
+
+### Fallback Chain
+
+| Condition | Behavior |
+|-----------|----------|
+| AI available + catch installed | AI summary → catch → "Captured: ..." |
+| AI available, no catch | AI summary → display for manual capture |
+| No AI, has jq | Falls back to email subject line |
+| No AI, no jq | Error: "Could not generate summary" |
+
+### From the Email Picker
+
+Press **Ctrl-T** in `em pick` to capture the highlighted email as a task — no need to exit the picker first.
+
+```bash
+em pick               # Browse emails
+# Ctrl-T on any email → instant capture
+```
+
 ## Interactive Browsing: em pick
 
 The `em pick` command provides a powerful fzf-based email browser with live preview.
@@ -891,7 +990,7 @@ em p                 # Shortcut
 
 ```
 Folder: INBOX  |  Unread: 3
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
 * = unread  + = attachment
 > * + Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
   * Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
@@ -918,6 +1017,7 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
 | `Enter` | Read | Open selected email with smart rendering |
 | `Ctrl-R` | Reply | Generate AI draft and open in $EDITOR |
 | `Ctrl-S` | Summarize | Show one-line AI summary |
+| `Ctrl-T` | Catch | Capture email as task via `catch` command |
 | `Ctrl-A` | Archive | Mark email as read |
 | `Ctrl-D` | Delete | Flag email as deleted (with confirmation) |
 | `Esc` / `Ctrl-C` | Exit | Close picker without action |

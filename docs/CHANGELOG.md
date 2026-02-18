@@ -6,6 +6,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.3.0] - 2026-02-18
+
+### Added
+
+- **`em ai` subcommand** — Runtime AI backend switching (`em ai claude|gemini|none|auto|toggle`), status display, and live `FLOW_EMAIL_AI` mutation
+- **`em catch` command** — Email-to-task capture with AI summary, subject-line fallback, and `catch` integration
+- **`extra_args` support** — Configurable CLI flags per backend (e.g., Gemini's `-e none` for fast startup via `FLOW_EMAIL_GEMINI_EXTRA_ARGS`)
+- **fzf picker integration** — `Ctrl-T` keybind in `em pick` to capture emails as tasks inline
+- 22 unit tests (`test-em-ai-switch.zsh`), 9 unit tests (`test-em-catch.zsh`), 38 E2E tests (`em-ai-e2e-tests.sh`)
+
+---
+
 ## [7.2.1] - 2026-02-16
 
 ### Changed
