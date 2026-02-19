@@ -742,9 +742,9 @@ PREVIEW_EOF
     local selected
     selected=$(jq -r '.[] | [
             .id,
-            (if (.flags | contains(["Seen"])) then " " else "•" end),
-            (if (.flags | contains(["Flagged"])) then "★" else " " end),
-            (if .has_attachment then "+" else " " end),
+            ([(if (.flags | contains(["Seen"])) then "" else "•" end),
+              (if (.flags | contains(["Flagged"])) then "★" else "" end),
+              (if .has_attachment then "+" else "" end)] | join("")),
             ((.from.name // .from.addr // "unknown") | if length > 20 then .[:17] + "..." else . end),
             ((.subject // "(no subject)") | if length > 50 then .[:47] + "..." else . end),
             (.date | split(" ")[0] // .date)
