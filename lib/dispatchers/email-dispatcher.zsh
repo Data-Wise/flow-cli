@@ -1187,7 +1187,7 @@ _em_star() {
     # Check current flags to determine toggle direction
     local flags
     flags=$(_em_hml_list "$folder" 100 2>/dev/null \
-        | jq -r ".[] | select(.id == ($msg_id | tonumber)) | .flags | join(\",\")" 2>/dev/null)
+        | jq -r --arg id "$msg_id" '.[] | select(.id == $id) | .flags | join(",")' 2>/dev/null)
 
     if [[ "$flags" == *"Flagged"* ]]; then
         _em_hml_flags remove "$msg_id" Flagged
