@@ -9200,7 +9200,9 @@
 <blockquote>
 <p>All <code>em</code> subcommands at a glance. For detailed guides, see linked documentation.</p>
 <p><strong>Version:</strong> v7.3.0 | <strong>Dispatcher:</strong> <code>lib/dispatchers/email-dispatcher.zsh</code></p>
-<p><strong>Two interfaces, one backend:</strong> <code>em</code> (keyboard-driven, fzf, sub-second) and <a href="https://github.com/Data-Wise/himalaya-mcp">himalaya-mcp</a> (conversation-driven, Claude as interface) both wrap himalaya CLI. Use <code>em</code> for fast terminal ops, himalaya-mcp for AI-assisted analysis.</p>
+<p><strong>Two interfaces, one backend:</strong> <code>em</code> (keyboard-driven, fzf, sub-second) and
+<a href="https://github.com/Data-Wise/himalaya-mcp">himalaya-mcp</a> (conversation-driven, Claude as interface)
+both wrap himalaya CLI. Use <code>em</code> for fast terminal ops, himalaya-mcp for AI-assisted analysis.</p>
 </blockquote>
 <h2 id="command-taxonomy">Command Taxonomy<a class="headerlink" href="#command-taxonomy" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>mindmap
@@ -9452,15 +9454,15 @@
 <p>Three backends available; configured via <code>$FLOW_EMAIL_AI</code>:</p>
 <h3 id="backend-claude">Backend: Claude<a class="headerlink" href="#backend-claude" title="Permanent link">&para;</a></h3>
 <p><strong>Command:</strong> <code>claude -p "&lt;prompt&gt;" --output-format text</code></p>
-<p><strong>Availability Check:</strong>
+<p><strong>Availability Check:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>claude<span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;installed&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;missing&quot;</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Operations:</strong> classify, summarize, draft (reply), schedule</p>
 <h3 id="backend-gemini">Backend: Gemini<a class="headerlink" href="#backend-gemini" title="Permanent link">&para;</a></h3>
 <p><strong>Command:</strong> <code>gemini "&lt;prompt&gt;"</code></p>
-<p><strong>Availability Check:</strong>
+<p><strong>Availability Check:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>gemini<span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;installed&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;missing&quot;</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Install:</strong> <code>pip install google-generativeai</code></p>
 <h3 id="fallback-chain">Fallback Chain<a class="headerlink" href="#fallback-chain" title="Permanent link">&para;</a></h3>
 <p>If configured backend unavailable: <code>claude</code> → <code>gemini</code> → <code>none</code> (timeout gracefully)</p>
@@ -9540,14 +9542,17 @@
 </tr>
 </tbody>
 </table>
-<p>Commands:
-- <strong>w3m</strong> (primary): <code>w3m -dump -T text/html</code>
-- <strong>lynx</strong> (fallback): <code>lynx -stdin -dump</code>
-- <strong>pandoc</strong> (HTML→Markdown): <code>pandoc -f html -t markdown</code> + Outlook noise cleanup
-- <strong>pandoc</strong> (HTML→plain): <code>pandoc -f html -t plain</code>
-- <strong>bat</strong> (syntax highlighting): <code>bat --style=plain --color=always</code>
-- <strong>glow</strong> (markdown): <code>glow -</code> (auto-pager)</p>
-<p>The <code>--md</code> pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL extraction → URL-decode → Outlook attribute block removal → fenced div stripping → CID/backslash cleanup → blank line collapsing.</p>
+<p>Commands:</p>
+<ul>
+<li><strong>w3m</strong> (primary): <code>w3m -dump -T text/html</code></li>
+<li><strong>lynx</strong> (fallback): <code>lynx -stdin -dump</code></li>
+<li><strong>pandoc</strong> (HTML→Markdown): <code>pandoc -f html -t markdown</code> + Outlook noise cleanup</li>
+<li><strong>pandoc</strong> (HTML→plain): <code>pandoc -f html -t plain</code></li>
+<li><strong>bat</strong> (syntax highlighting): <code>bat --style=plain --color=always</code></li>
+<li><strong>glow</strong> (markdown): <code>glow -</code> (auto-pager)</li>
+</ul>
+<p>The <code>--md</code> pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL extraction → URL-decode →
+Outlook attribute block removal → fenced div stripping → CID/backslash cleanup → blank line collapsing.</p>
 <hr />
 <h2 id="safety-features">Safety Features<a class="headerlink" href="#safety-features" title="Permanent link">&para;</a></h2>
 <h3 id="send-safety-gate">Send Safety Gate<a class="headerlink" href="#send-safety-gate" title="Permanent link">&para;</a></h3>
@@ -9555,10 +9560,12 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Send this email? [y/N]
 </code></pre></div>
 <p><strong>Default:</strong> No (requires <code>y</code> or <code>Y</code> to proceed)</p>
-<p><strong>Applies to:</strong>
-- <code>em send</code> → <code>em send</code>
-- <code>em reply &lt;ID&gt;</code> (batch mode <code>--batch</code>) → confirm before send
-- <code>em respond --review</code> → per-draft confirmation</p>
+<p><strong>Applies to:</strong></p>
+<ul>
+<li><code>em send</code> → <code>em send</code></li>
+<li><code>em reply &lt;ID&gt;</code> (batch mode <code>--batch</code>) → confirm before send</li>
+<li><code>em respond --review</code> → per-draft confirmation</li>
+</ul>
 <h3 id="draft-preservation">Draft Preservation<a class="headerlink" href="#draft-preservation" title="Permanent link">&para;</a></h3>
 <p>Rejected sends preserve draft for later:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>em<span class="w"> </span>respond<span class="w"> </span>--review<span class="w">    </span><span class="c1"># Review &amp; send saved drafts</span>
@@ -9693,9 +9700,11 @@
 </tbody>
 </table>
 <p><strong>Header Info:</strong> Folder, unread count, legend</p>
-<p><strong>Indicators:</strong>
-- <code>*</code> = unread
-- <code>+</code> = has attachment</p>
+<p><strong>Indicators:</strong></p>
+<ul>
+<li><code>*</code> = unread</li>
+<li><code>+</code> = has attachment</li>
+</ul>
 <hr />
 <h2 id="ai-operations-timeouts">AI Operations &amp; Timeouts<a class="headerlink" href="#ai-operations-timeouts" title="Permanent link">&para;</a></h2>
 <p>Per-operation timeout configuration (seconds):</p>
@@ -9791,7 +9800,8 @@
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>em<span class="w"> </span>cache<span class="w"> </span>warm<span class="w"> </span><span class="o">[</span>N<span class="o">]</span><span class="w">               </span><span class="c1"># Pre-warm latest N emails (default: 10, background)</span>
 </code></pre></div>
 <h3 id="size-cap-lru-eviction">Size Cap (LRU Eviction)<a class="headerlink" href="#size-cap-lru-eviction" title="Permanent link">&para;</a></h3>
-<p>Max cache size: <code>FLOW_EMAIL_CACHE_MAX_MB=50</code> (default). When exceeded, oldest files are evicted first (LRU). Set to <code>0</code> to disable size cap.</p>
+<p>Max cache size: <code>FLOW_EMAIL_CACHE_MAX_MB=50</code> (default). When exceeded, oldest files are evicted
+first (LRU). Set to <code>0</code> to disable size cap.</p>
 <p>Eviction runs automatically after every cache write (non-blocking background process).</p>
 <hr />
 <h2 id="quick-examples">Quick Examples<a class="headerlink" href="#quick-examples" title="Permanent link">&para;</a></h2>
@@ -9992,75 +10002,77 @@
 <td><code>student</code></td>
 <td>S</td>
 <td>blue</td>
-<td>✓</td>
+<td>yes</td>
 <td>Student email: absence, question, grade inquiry, accommodation</td>
 </tr>
 <tr>
 <td><code>colleague</code></td>
 <td>C</td>
 <td>green</td>
-<td>✓</td>
+<td>yes</td>
 <td>Faculty/staff: hiring committee, research, departmental threads</td>
 </tr>
 <tr>
 <td><code>admin-action</code></td>
 <td>!</td>
 <td>red</td>
-<td>✓</td>
+<td>yes</td>
 <td>Requires YOUR action: accommodation letter, form, review request</td>
 </tr>
 <tr>
 <td><code>scheduling</code></td>
 <td>@</td>
 <td>cyan</td>
-<td>✓</td>
+<td>yes</td>
 <td>Meeting request, event RSVP, calendar invite, office hours</td>
 </tr>
 <tr>
 <td><code>urgent</code></td>
 <td>U</td>
 <td>red</td>
-<td>✓</td>
+<td>yes</td>
 <td>Deadline today, emergency, escalation, time-sensitive</td>
 </tr>
 <tr>
 <td><code>admin-info</code></td>
 <td>i</td>
 <td>dim</td>
-<td>✗</td>
+<td>no</td>
 <td>FYI only: university blast, mailing list, policy notice</td>
 </tr>
 <tr>
 <td><code>newsletter</code></td>
 <td>N</td>
 <td>dim</td>
-<td>✗</td>
+<td>no</td>
 <td>Professional journal, academic association digest</td>
 </tr>
 <tr>
 <td><code>vendor</code></td>
 <td>V</td>
 <td>dim</td>
-<td>✗</td>
+<td>no</td>
 <td>Commercial marketing, textbook promo, EdTech sales</td>
 </tr>
 <tr>
 <td><code>automated</code></td>
 <td>A</td>
 <td>dim</td>
-<td>✗</td>
+<td>no</td>
 <td>CI/CD, GitHub, system alerts, delivery receipts</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Non-actionable emails skipped by <code>em respond</code>:</strong> admin-info, newsletter, vendor, automated</p>
 <h3 id="listserv-safety">Listserv Safety<a class="headerlink" href="#listserv-safety" title="Permanent link">&para;</a></h3>
-<p>Emails to mailing lists (<code>*@LIST.*</code>, <code>*-L@*</code>) are auto-skipped in <code>em respond</code> with an <code>L</code> icon. If a listserv email passes classification, a warning banner appears before drafting:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>⚠ WARNING: This email was sent to a mailing list
+<p>Emails to mailing lists (<code>*@LIST.*</code>, <code>*-L@*</code>) are auto-skipped in <code>em respond</code> with an <code>L</code> icon.
+If a listserv email passes classification, a warning banner appears before drafting:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>WARNING: This email was sent to a mailing list
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>  Replying may go to ALL list members. Review carefully.
 </code></pre></div>
 <h3 id="discard-detection">Discard Detection<a class="headerlink" href="#discard-detection" title="Permanent link">&para;</a></h3>
-<p>When reviewing drafts (<code>em respond --review</code>), himalaya's "Discard" action is properly detected. Discarded drafts are counted as skipped, not as sent replies.</p>
+<p>When reviewing drafts (<code>em respond --review</code>), himalaya's "Discard" action is properly detected.
+Discarded drafts are counted as skipped, not as sent replies.</p>
 <hr />
 <h2 id="common-workflows">Common Workflows<a class="headerlink" href="#common-workflows" title="Permanent link">&para;</a></h2>
 <h3 id="new-session-quick-pulse">New Session — Quick Pulse<a class="headerlink" href="#new-session-quick-pulse" title="Permanent link">&para;</a></h3>
@@ -10106,12 +10118,12 @@
 <h2 id="dispatcher-configuration-files">Dispatcher Configuration Files<a class="headerlink" href="#dispatcher-configuration-files" title="Permanent link">&para;</a></h2>
 <h3 id="global-config">Global Config<a class="headerlink" href="#global-config" title="Permanent link">&para;</a></h3>
 <p><strong>Path:</strong> <code>$FLOW_CONFIG_DIR/email.conf</code></p>
-<p><strong>Example:</strong>
+<p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>claude
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nv">FLOW_EMAIL_PAGE_SIZE</span><span class="o">=</span><span class="m">30</span>
 <a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="nv">FLOW_EMAIL_FOLDER</span><span class="o">=</span>INBOX
 <a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">45</span>
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="project-config-override">Project Config (Override)<a class="headerlink" href="#project-config-override" title="Permanent link">&para;</a></h3>
 <p><strong>Path:</strong> <code>.flow/email.conf</code> (in project root)</p>
 <p>Takes precedence over global config.</p>
@@ -10159,48 +10171,48 @@
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="problem-himalaya-not-found">Problem: "himalaya not found"<a class="headerlink" href="#problem-himalaya-not-found" title="Permanent link">&para;</a></h3>
-<p><strong>Solution:</strong>
+<p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>brew<span class="w"> </span>install<span class="w"> </span>himalaya<span class="w">          </span><span class="c1"># macOS (recommended)</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>cargo<span class="w"> </span>install<span class="w"> </span>himalaya<span class="w">         </span><span class="c1"># Cross-platform alternative</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Verify</span>
 <a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>himalaya<span class="w"> </span>account<span class="w"> </span>list
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="problem-email-id-required">Problem: "Email ID required"<a class="headerlink" href="#problem-email-id-required" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Missing message ID argument</p>
-<p><strong>Solution:</strong>
+<p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>em<span class="w"> </span>inbox<span class="w">                        </span><span class="c1"># List emails with IDs</span>
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Use actual ID</span>
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="problem-cannot-connect-to-mailbox">Problem: "Cannot connect to mailbox"<a class="headerlink" href="#problem-cannot-connect-to-mailbox" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Himalaya account not configured</p>
-<p><strong>Solution:</strong>
+<p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>himalaya<span class="w"> </span>account<span class="w"> </span>add<span class="w">           </span><span class="c1"># Add account interactively</span>
 <a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>himalaya<span class="w"> </span>account<span class="w"> </span>list<span class="w">          </span><span class="c1"># Verify setup</span>
 <a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>em<span class="w"> </span>doctor<span class="w">                      </span><span class="c1"># Check status</span>
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="problem-ai-timed-out">Problem: "AI timed out"<a class="headerlink" href="#problem-ai-timed-out" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Backend slow or unavailable</p>
-<p><strong>Solution:</strong>
+<p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Increase timeout</span>
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">60</span>
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Or skip AI</span>
 <a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--no-ai<span class="w">               </span><span class="c1"># Reply without draft</span>
 <a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>em<span class="w"> </span>respond<span class="w"> </span>--clear<span class="w">             </span><span class="c1"># Clear bad drafts</span>
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="problem-no-fzf-for-picker">Problem: "No fzf for picker"<a class="headerlink" href="#problem-no-fzf-for-picker" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> <code>fzf</code> not installed</p>
-<p><strong>Solution:</strong>
+<p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>brew<span class="w"> </span>install<span class="w"> </span>fzf
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>em<span class="w"> </span>p<span class="w">                           </span><span class="c1"># Try again</span>
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="problem-unknown-backend">Problem: "Unknown backend"<a class="headerlink" href="#problem-unknown-backend" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Invalid backend name passed to <code>em ai</code></p>
-<p><strong>Solution:</strong>
+<p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>em<span class="w"> </span>ai<span class="w">                          </span><span class="c1"># See available backends</span>
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>em<span class="w"> </span>ai<span class="w"> </span>claude<span class="w">                   </span><span class="c1"># Use a known backend</span>
-</code></pre></div></p>
+</code></pre></div>
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <h3 id="comprehensive-guides">Comprehensive Guides<a class="headerlink" href="#comprehensive-guides" title="Permanent link">&para;</a></h3>

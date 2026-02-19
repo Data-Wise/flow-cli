@@ -4262,6 +4262,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="3. Configure em (Optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-config-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Config File
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -8897,6 +8925,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="3. Configure em (Optional)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-config-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Config File
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -9975,7 +10031,9 @@
 <strong>Status:</strong> Production Ready
 <strong>Last Updated:</strong> 2026-02-18</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>The email dispatcher (<code>em</code>) brings ADHD-friendly email management to your terminal through a pure ZSH interface to <a href="https://github.com/pimalaya/himalaya">himalaya</a>. Think inbox zero in under 5 minutes, with AI-powered draft generation, smart rendering, and zero browser context-switching.</p>
+<p>The email dispatcher (<code>em</code>) brings ADHD-friendly email management to your terminal through a pure ZSH interface
+to <a href="https://github.com/pimalaya/himalaya">himalaya</a>. Think inbox zero in under 5 minutes, with AI-powered draft
+generation, smart rendering, and zero browser context-switching.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>em<span class="w">                    </span><span class="c1"># Quick pulse (unread + 10 latest)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>em<span class="w"> </span>pick<span class="w">               </span><span class="c1"># Interactive fzf browser</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="m">42</span><span class="w">            </span><span class="c1"># Smart rendering (HTML/markdown/plain)</span>
@@ -9990,7 +10048,8 @@
 - <strong>No vendor lock-in</strong> - Just a wrapper around himalaya; your email stays portable
 - <strong>AI-augmented</strong> - Optional AI features enhance without requiring changes to your workflow</p>
 <h2 id="why-em">Why em?<a class="headerlink" href="#why-em" title="Permanent link">&para;</a></h2>
-<p>Traditional email clients are heavyweight, distraction-prone, and slow. The <code>em</code> dispatcher brings email management into your flow-cli workflow:</p>
+<p>Traditional email clients are heavyweight, distraction-prone, and slow. The <code>em</code> dispatcher brings email
+management into your flow-cli workflow:</p>
 <ul>
 <li><strong>Fast</strong> - Sub-second response times for common operations</li>
 <li><strong>Focused</strong> - No ads, no social features, no distractions</li>
@@ -10000,7 +10059,8 @@
 <li><strong>Safe</strong> - Explicit confirmation for all sends (default: No)</li>
 </ul>
 <h2 id="two-interfaces-one-backend">Two Interfaces, One Backend<a class="headerlink" href="#two-interfaces-one-backend" title="Permanent link">&para;</a></h2>
-<p>Both <code>em</code> and <a href="https://github.com/Data-Wise/himalaya-mcp">himalaya-mcp</a> wrap the same himalaya CLI but serve different interaction models:</p>
+<p>Both <code>em</code> and <a href="https://github.com/Data-Wise/himalaya-mcp">himalaya-mcp</a> wrap the same himalaya CLI but serve
+different interaction models:</p>
 <table>
 <thead>
 <tr>
@@ -10032,7 +10092,8 @@
 </tr>
 </tbody>
 </table>
-<p>They coexist naturally — use <code>em</code> for fast terminal operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email content.</p>
+<p>They coexist naturally — use <code>em</code> for fast terminal operations and himalaya-mcp when you want Claude to help
+compose, triage, or analyze email content.</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <h3 id="required">Required<a class="headerlink" href="#required" title="Permanent link">&para;</a></h3>
 <table>
@@ -10160,7 +10221,9 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>himalaya<span class="w"> </span>--version
 </code></pre></div>
 <h3 id="2-configure-himalaya">2. Configure himalaya<a class="headerlink" href="#2-configure-himalaya" title="Permanent link">&para;</a></h3>
-<p>himalaya supports multiple accounts and authentication methods. See the <a href="https://pimalaya.org/himalaya/cli/latest/configuration/index.html">himalaya configuration guide</a> for complete setup instructions.</p>
+<p>himalaya supports multiple accounts and authentication methods. See the
+<a href="https://pimalaya.org/himalaya/cli/latest/configuration/index.html">himalaya configuration guide</a> for complete
+setup instructions.</p>
 <p><strong>Quick Gmail Setup (OAuth2):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Install OAuth2 proxy for Gmail</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>pip<span class="w"> </span>install<span class="w"> </span>email-oauth2-proxy
@@ -10189,7 +10252,8 @@
 <a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="n">sender</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">raw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;your-password-here&quot;</span><span class="w">  </span><span class="c1"># Or use keychain</span>
 </code></pre></div>
 <blockquote>
-<p><strong>Security Note:</strong> Use app-specific passwords or OAuth2 for Gmail/Outlook. Store passwords in your system keychain rather than plaintext config files.</p>
+<p><strong>Security Note:</strong> Use app-specific passwords or OAuth2 for Gmail/Outlook. Store passwords in your system
+keychain rather than plaintext config files.</p>
 </blockquote>
 <p>Test your setup:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>himalaya<span class="w"> </span>envelope<span class="w"> </span>list<span class="w"> </span>--page-size<span class="w"> </span><span class="m">5</span>
@@ -10197,14 +10261,14 @@
 <p>If this works, you're ready to use <code>em</code>.</p>
 <h3 id="3-configure-em-optional">3. Configure em (Optional)<a class="headerlink" href="#3-configure-em-optional" title="Permanent link">&para;</a></h3>
 <p>Set environment variables in your <code>.zshrc</code> or create a config file:</p>
-<p><strong>Option A: Environment Variables</strong></p>
+<h4 id="option-a-environment-variables">Option A: Environment Variables<a class="headerlink" href="#option-a-environment-variables" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># In ~/.zshrc or ~/.config/zsh/.zshrc</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span><span class="s2">&quot;claude&quot;</span><span class="w">           </span><span class="c1"># claude | gemini | none</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">30</span><span class="w">         </span><span class="c1"># AI timeout in seconds</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_PAGE_SIZE</span><span class="o">=</span><span class="m">25</span><span class="w">          </span><span class="c1"># Default inbox page size</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_FOLDER</span><span class="o">=</span><span class="s2">&quot;INBOX&quot;</span><span class="w">        </span><span class="c1"># Default folder</span>
 </code></pre></div>
-<p><strong>Option B: Config File</strong></p>
+<h4 id="option-b-config-file">Option B: Config File<a class="headerlink" href="#option-b-config-file" title="Permanent link">&para;</a></h4>
 <p>Create <code>~/.config/flow/email.conf</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span><span class="s2">&quot;claude&quot;</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">30</span>
@@ -10630,7 +10694,8 @@
 <a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>  Switch: em ai claude | em ai gemini | em ai toggle
 </code></pre></div>
 <h3 id="gemini-speed-optimization">Gemini Speed Optimization<a class="headerlink" href="#gemini-speed-optimization" title="Permanent link">&para;</a></h3>
-<p>Gemini CLI supports extra arguments via <code>FLOW_EMAIL_GEMINI_EXTRA_ARGS</code>. The default <code>-e none</code> skips extension loading for faster startup:</p>
+<p>Gemini CLI supports extra arguments via <code>FLOW_EMAIL_GEMINI_EXTRA_ARGS</code>. The default <code>-e none</code> skips extension
+loading for faster startup:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># Default (fast, no extensions)</span>
 <a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_GEMINI_EXTRA_ARGS</span><span class="o">=</span><span class="s2">&quot;-e none&quot;</span>
 <a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
@@ -10675,7 +10740,8 @@
 </tbody>
 </table>
 <h3 id="persistence">Persistence<a class="headerlink" href="#persistence" title="Permanent link">&para;</a></h3>
-<p>Backend selection persists for the current shell session via <code>FLOW_EMAIL_AI</code> env var. To make it permanent, add to your config:</p>
+<p>Backend selection persists for the current shell session via <code>FLOW_EMAIL_AI</code> env var. To make it permanent,
+add to your config:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># In $FLOW_CONFIG_DIR/email.conf or .flow/email.conf</span>
 <a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>gemini
 </code></pre></div>
@@ -10840,15 +10906,18 @@
 </code></pre></div>
 <h3 id="listserv-safety">Listserv Safety<a class="headerlink" href="#listserv-safety" title="Permanent link">&para;</a></h3>
 <p><code>em respond</code> includes two layers of protection against accidentally replying to mailing lists:</p>
-<p><strong>Layer 1: Pre-classification skip.</strong> Emails addressed to <code>*@LIST.*</code>, <code>*@list.*</code>, or <code>*-L@*</code> are auto-skipped before AI classification. They appear as:</p>
+<p><strong>Layer 1: Pre-classification skip.</strong> Emails addressed to <code>*@LIST.*</code>, <code>*@list.*</code>, or <code>*-L@*</code> are
+auto-skipped before AI classification. They appear as:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>  [3/10] graduation@unm.edu        L listserv — skip
 </code></pre></div>
-<p><strong>Layer 2: Warning banner.</strong> If an actionable email was sent to a list-like address, a warning appears before drafting:</p>
+<p><strong>Layer 2: Warning banner.</strong> If an actionable email was sent to a list-like address, a warning appears
+before drafting:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>  ⚠ WARNING: This email was sent to a mailing list
 <a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>    Replying may go to ALL list members. Review carefully.
 </code></pre></div>
 <h3 id="discard-detection">Discard Detection<a class="headerlink" href="#discard-detection" title="Permanent link">&para;</a></h3>
-<p>When reviewing drafts, himalaya offers "Send it" and "Discard it" options. <code>em</code> properly detects both outcomes using <code>script(1)</code> to capture the interactive terminal output:</p>
+<p>When reviewing drafts, himalaya offers "Send it" and "Discard it" options. <code>em</code> properly detects both
+outcomes using <code>script(1)</code> to capture the interactive terminal output:</p>
 <ul>
 <li><strong>Send</strong> — Counted as replied, marked in cache</li>
 <li><strong>Discard</strong> — Counted as skipped, not marked as replied</li>
@@ -10892,9 +10961,11 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">45</span><span class="w">  </span><span class="c1"># Increase to 45s for all ops</span>
 </code></pre></div>
 <h3 id="prompt-customization">Prompt Customization<a class="headerlink" href="#prompt-customization" title="Permanent link">&para;</a></h3>
-<p>AI prompts are defined in <code>lib/em-ai.zsh</code>. Currently, the only way to customize prompts is to edit the library file directly. Custom prompt templates are planned for a future version.</p>
+<p>AI prompts are defined in <code>lib/em-ai.zsh</code>. Currently, the only way to customize prompts is to edit the
+library file directly. Custom prompt templates are planned for a future version.</p>
 <h2 id="email-to-task-capture">Email-to-Task Capture<a class="headerlink" href="#email-to-task-capture" title="Permanent link">&para;</a></h2>
-<p>Convert emails into quick-capture tasks with <code>em catch</code>. Uses AI to generate a one-line summary, then pipes it to the <code>catch</code> command.</p>
+<p>Convert emails into quick-capture tasks with <code>em catch</code>. Uses AI to generate a one-line summary, then pipes
+it to the <code>catch</code> command.</p>
 <h3 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">42</span><span class="w">           </span><span class="c1"># Summarize email #42 → pipe to catch</span>
 <a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">99</span><span class="w">           </span><span class="c1"># Summarize email #99 → pipe to catch</span>
@@ -11211,7 +11282,8 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="nv">FLOW_EMAIL_CACHE_MAX_MB</span><span class="o">=</span><span class="m">50</span><span class="w">      </span><span class="c1"># Default: 50 MB</span>
 <a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a><span class="nv">FLOW_EMAIL_CACHE_MAX_MB</span><span class="o">=</span><span class="m">0</span><span class="w">       </span><span class="c1"># Disable size cap</span>
 </code></pre></div>
-<p>When the cache exceeds this limit, the oldest files are evicted first (LRU — Least Recently Used). Eviction runs automatically after every cache write as a non-blocking background process.</p>
+<p>When the cache exceeds this limit, the oldest files are evicted first (LRU -- Least Recently Used). Eviction
+runs automatically after every cache write as a non-blocking background process.</p>
 <h3 id="cache-invalidation">Cache Invalidation<a class="headerlink" href="#cache-invalidation" title="Permanent link">&para;</a></h3>
 <p>Cache is automatically invalidated when:
 - You reply to an email (draft cache cleared for that message)
@@ -11332,7 +11404,8 @@
 <h3 id="design-principles">Design Principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
-<p><strong>Adapter Pattern</strong> - All himalaya CLI specifics are isolated in <code>lib/em-himalaya.zsh</code>. If himalaya changes its CLI, fix only one file.</p>
+<p><strong>Adapter Pattern</strong> - All himalaya CLI specifics are isolated in <code>lib/em-himalaya.zsh</code>. If himalaya changes
+   its CLI, fix only one file.</p>
 </li>
 <li>
 <p><strong>Fail-Safe Fallbacks</strong> - Every operation has fallbacks:</p>
@@ -11477,7 +11550,8 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="c1"># Drafts saved to:</span>
 <a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a><span class="nv">$FLOW_DATA_DIR</span>/email-drafts/<span class="w">    </span><span class="c1"># Global draft storage</span>
 </code></pre></div>
-<p>AI-generated drafts are also cached in <code>.flow/email-cache/drafts/</code> with a 1-hour TTL. Use <code>em respond --review</code> to come back to cached drafts.</p>
+<p>AI-generated drafts are also cached in <code>.flow/email-cache/drafts/</code> with a 1-hour TTL. Use
+<code>em respond --review</code> to come back to cached drafts.</p>
 <h3 id="3-preview-before-send">3. Preview Before Send<a class="headerlink" href="#3-preview-before-send" title="Permanent link">&para;</a></h3>
 <p>In batch mode, draft is previewed before confirmation:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>Draft<span class="w"> </span>Reply

@@ -4207,6 +4207,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Step 1.1: Install himalaya">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-homebrew-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Homebrew (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-cargo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Cargo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -5183,10 +5211,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output" class="md-nav__link">
+  <a href="#expected-output-ai-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ✅ Expected Output
+        ✅ Expected Output: AI Status
       
     </span>
   </a>
@@ -5216,10 +5244,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output_1" class="md-nav__link">
+  <a href="#expected-output-catch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ✅ Expected Output
+        ✅ Expected Output: Catch
       
     </span>
   </a>
@@ -8862,6 +8890,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Step 1.1: Install himalaya">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-homebrew-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Homebrew (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-cargo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Cargo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -9838,10 +9894,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output" class="md-nav__link">
+  <a href="#expected-output-ai-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ✅ Expected Output
+        ✅ Expected Output: AI Status
       
     </span>
   </a>
@@ -9871,10 +9927,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#expected-output_1" class="md-nav__link">
+  <a href="#expected-output-catch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ✅ Expected Output
+        ✅ Expected Output: Catch
       
     </span>
   </a>
@@ -10073,11 +10129,16 @@
 <strong>Difficulty:</strong> Beginner-friendly</p>
 <div class="admonition tip">
 <p class="admonition-title">Prefer reading email in Neovim?</p>
-<p>This tutorial covers the <strong>terminal CLI</strong> (<code>em</code> dispatcher). For in-editor email with AI actions, see the <a href="../../tutorials/33-himalaya-email/">Neovim Himalaya Tutorial</a>.</p>
+<p>This tutorial covers the <strong>terminal CLI</strong> (<code>em</code> dispatcher).
+For in-editor email with AI actions,
+see the <a href="../../tutorials/33-himalaya-email/">Neovim Himalaya Tutorial</a>.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Two interfaces, one backend</p>
-<p>Both <code>em</code> and <a href="https://github.com/Data-Wise/himalaya-mcp">himalaya-mcp</a> wrap the same himalaya CLI but serve different interaction models. <code>em</code> is keyboard-driven (fzf, $EDITOR, sub-second), while himalaya-mcp is conversation-driven (Claude as the interface). Use <code>em</code> for fast terminal operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email content.</p>
+<p>Both <code>em</code> and <a href="https://github.com/Data-Wise/himalaya-mcp">himalaya-mcp</a> wrap the same himalaya
+CLI but serve different interaction models. <code>em</code> is keyboard-driven (fzf, $EDITOR, sub-second),
+while himalaya-mcp is conversation-driven (Claude as the interface). Use <code>em</code> for fast terminal
+operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email.</p>
 </div>
 <hr />
 <h2 id="what-youll-learn">🎯 What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
@@ -10109,10 +10170,10 @@
 <p>Install and configure the email stack so <code>em</code> commands work.</p>
 <h3 id="step-11-install-himalaya">Step 1.1: Install himalaya<a class="headerlink" href="#step-11-install-himalaya" title="Permanent link">&para;</a></h3>
 <p>himalaya is the email CLI backend that <code>em</code> uses.</p>
-<p><strong>Option A: Homebrew (recommended)</strong></p>
+<h4 id="option-a-homebrew-recommended">Option A: Homebrew (recommended)<a class="headerlink" href="#option-a-homebrew-recommended" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>brew<span class="w"> </span>install<span class="w"> </span>himalaya
 </code></pre></div>
-<p><strong>Option B: Cargo</strong></p>
+<h4 id="option-b-cargo">Option B: Cargo<a class="headerlink" href="#option-b-cargo" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cargo<span class="w"> </span>install<span class="w"> </span>himalaya
 </code></pre></div>
 <p><strong>Verify installation:</strong></p>
@@ -10307,7 +10368,8 @@
 <p><strong>Try it now!</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span>--md<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
-<p>✅ <strong>Expected output:</strong> Email rendered as clean Markdown with proper headings, links, and formatting. Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatically.</p>
+<p>✅ <strong>Expected output:</strong> Email rendered as clean Markdown with proper headings, links, and formatting.
+Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatically.</p>
 <p><strong>Requires:</strong> <code>pandoc</code> (<code>brew install pandoc</code>)</p>
 <p><strong>When to use:</strong>
 - Outlook/Exchange emails with heavy HTML
@@ -10653,7 +10715,8 @@
 <a id="__codelineno-54-7" name="__codelineno-54-7" href="#__codelineno-54-7"></a>
 <a id="__codelineno-54-8" name="__codelineno-54-8" href="#__codelineno-54-8"></a>Proceed to draft 3 replies? [Y/n]
 </code></pre></div>
-<p>After pressing Y, your <code>$EDITOR</code> opens with the first AI-generated draft. Edit, save, and close to send — then the next draft opens automatically.</p>
+<p>After pressing Y, your <code>$EDITOR</code> opens with the first AI-generated draft.
+Edit, save, and close to send — then the next draft opens automatically.</p>
 <p><strong>Adjust count:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>em<span class="w"> </span>respond<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
 </code></pre></div>
@@ -11002,7 +11065,8 @@
 <a id="__codelineno-93-4" name="__codelineno-93-4" href="#__codelineno-93-4"></a><span class="s">FLOW_EMAIL_PAGE_SIZE=25</span>
 <a id="__codelineno-93-5" name="__codelineno-93-5" href="#__codelineno-93-5"></a><span class="s">EOF</span>
 </code></pre></div>
-<p><strong>Precedence:</strong> Project config (<code>.flow/email.conf</code>) &gt; Global config (<code>~/.config/flow/email.conf</code>) &gt; Environment variables &gt; Defaults</p>
+<p><strong>Precedence:</strong> Project config (<code>.flow/email.conf</code>) &gt; Global config (<code>~/.config/flow/email.conf</code>)
+&gt; Environment variables &gt; Defaults</p>
 <h3 id="keyboard-shortcuts-summary">Keyboard Shortcuts Summary<a class="headerlink" href="#keyboard-shortcuts-summary" title="Permanent link">&para;</a></h3>
 <p><strong>In fzf browser (<code>em pick</code>):</strong>
 - <code>↑↓</code> — Navigate
@@ -11044,7 +11108,7 @@
 <h3 id="try-it-now-check-ai-status">💻 Try It Now: Check AI Status<a class="headerlink" href="#try-it-now-check-ai-status" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a>em<span class="w"> </span>ai
 </code></pre></div>
-<h3 id="expected-output">✅ Expected Output<a class="headerlink" href="#expected-output" title="Permanent link">&para;</a></h3>
+<h3 id="expected-output-ai-status">✅ Expected Output: AI Status<a class="headerlink" href="#expected-output-ai-status" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a>Email AI Backend
 <a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a>
 <a id="__codelineno-96-3" name="__codelineno-96-3" href="#__codelineno-96-3"></a>  Current:     claude
@@ -11078,7 +11142,7 @@
 <a id="__codelineno-98-4" name="__codelineno-98-4" href="#__codelineno-98-4"></a><span class="c1"># Capture it (AI generates one-line summary)</span>
 <a id="__codelineno-98-5" name="__codelineno-98-5" href="#__codelineno-98-5"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
-<h3 id="expected-output_1">✅ Expected Output<a class="headerlink" href="#expected-output_1" title="Permanent link">&para;</a></h3>
+<h3 id="expected-output-catch">✅ Expected Output: Catch<a class="headerlink" href="#expected-output-catch" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a>✓ Captured: Student absent Friday, requests notes
 </code></pre></div>
 <p>If the <code>catch</code> command isn't installed, you'll see the summary for manual capture:</p>
@@ -11387,21 +11451,26 @@ A: himalaya supports multiple accounts. See: <code>himalaya account list</code><
 <p><strong>Q: What's the difference between <code>em</code> and <code>himalaya</code>?</strong>
 A: <code>em</code> is a wrapper with AI features, smart rendering, caching, and flow-cli integration. himalaya is the underlying CLI.</p>
 <p><strong>Q: Can I customize AI prompts?</strong>
-A: Not yet — the prompt functions are defined in <code>lib/em-ai.zsh</code> and would require editing the source. Custom prompt templates are planned for a future version.</p>
+A: Not yet — the prompt functions are defined in <code>lib/em-ai.zsh</code> and would require editing
+the source. Custom prompt templates are planned for a future version.</p>
 <p><strong>Q: Can I read email by typing just the number?</strong>
 A: Yes! <code>em 42</code> is shorthand for <code>em read 42</code>. Similarly, <code>em -n 5</code> = <code>em inbox 5</code>.</p>
 <p><strong>Q: How big can the cache get?</strong>
-A: By default, 50 MB max (<code>FLOW_EMAIL_CACHE_MAX_MB</code>). Oldest files are evicted (LRU) when exceeded. Set to <code>0</code> to disable the cap.</p>
+A: By default, 50 MB max (<code>FLOW_EMAIL_CACHE_MAX_MB</code>). Oldest files are evicted (LRU)
+when exceeded. Set to <code>0</code> to disable the cap.</p>
 <p><strong>Q: Can I auto-prune old cache entries?</strong>
 A: Yes — <code>em dash</code> auto-prunes expired entries in the background. Manual: <code>em cache prune</code>.</p>
 <p><strong>Q: How do I read Outlook emails with clean formatting?</strong>
-A: <code>em read --md &lt;ID&gt;</code> converts HTML to Markdown via pandoc with a 7-stage Outlook cleanup pipeline (SafeLinks, attribute blocks, fenced divs, etc.). Requires <code>pandoc</code> (<code>brew install pandoc</code>).</p>
+A: <code>em read --md &lt;ID&gt;</code> converts HTML to Markdown via pandoc with a 7-stage Outlook cleanup
+pipeline (SafeLinks, attribute blocks, fenced divs, etc.). Requires <code>pandoc</code> (<code>brew install pandoc</code>).</p>
 <p><strong>Q: How do I read raw MIME source?</strong>
 A: <code>em read --raw &lt;ID&gt;</code> exports the full <code>.eml</code> file. Useful for debugging or archiving.</p>
 <p><strong>Q: What email noise gets cleaned automatically?</strong>
-A: Six patterns: CID image refs, Microsoft Safe Links, MIME markers, angle-bracket URLs, mailto inline links, and quoted lines (dimmed). This runs on all read operations.</p>
+A: Six patterns: CID image refs, Microsoft Safe Links, MIME markers, angle-bracket URLs,
+mailto inline links, and quoted lines (dimmed). This runs on all read operations.</p>
 <p><strong>Q: How does <code>em respond --review</code> differ from <code>em respond</code>?</strong>
-A: <code>em respond</code> classifies and generates new AI drafts. <code>em respond --review</code> skips classification and only shows emails with cached drafts — perfect for resuming where you left off.</p>
+A: <code>em respond</code> classifies and generates new AI drafts. <code>em respond --review</code> skips classification
+and only shows emails with cached drafts — perfect for resuming where you left off.</p>
 <p><strong>Q: How do I report bugs?</strong>
 A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues</p>
 <hr />
