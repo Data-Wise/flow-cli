@@ -2640,6 +2640,13 @@ The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management: 
 | `em cache stats\|prune\|clear\|warm` | | Manage AI cache |
 | `em ai [backend]` | | Show/switch AI backend (claude, gemini, none, toggle, auto) |
 | `em catch <ID>` | `em c` | Capture email as task (AI summary → catch) |
+| `em star <ID>` | `em flag` | Toggle star (Flagged) on email |
+| `em starred` | | List all starred/flagged emails |
+| `em move <ID> [FOLDER]` | `em mv` | Move email to folder (fzf picker if no folder) |
+| `em thread <ID>` | `em th` | Show conversation thread for email |
+| `em snooze <ID> <TIME>` | `em snz` | Snooze email (2h, 1d, tomorrow, monday, etc.) |
+| `em snoozed` | | List snoozed emails with status |
+| `em digest [--week]` | `em dg` | AI-grouped daily/weekly email summary |
 | `em doctor` | | Check dependencies |
 | `em help` | | Show help |
 
@@ -2647,9 +2654,14 @@ The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management: 
 
 ```bash
 em                      # Quick pulse check
-em pick                 # Browse with fzf (Enter=read, Ctrl-S=summarize)
+em pick                 # Browse with fzf (Enter=read, Ctrl-S=summarize, Ctrl-F=star, Ctrl-M=move)
 em reply 42             # AI-draft reply, opens in $EDITOR
 em respond              # Batch process actionable emails
+em star 42              # Toggle star on email
+em move 42 Archive      # Move email to folder
+em thread 42            # Show conversation thread
+em snooze 42 2h         # Snooze for 2 hours
+em digest               # AI-grouped daily summary
 em doctor               # Check all dependencies
 ```
 

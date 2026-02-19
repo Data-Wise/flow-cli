@@ -935,7 +935,8 @@ em read --raw 42
 # fzf email browser with preview
 em pick
 # Keybindings: Enter=read, Ctrl-R=reply, Ctrl-S=summarize,
-#              Ctrl-T=catch, Ctrl-A=archive, Ctrl-D=delete
+#              Ctrl-T=catch, Ctrl-F=star, Ctrl-M=move,
+#              Ctrl-A=archive, Ctrl-D=delete
 
 # Browse specific folder
 em pick Sent
@@ -951,6 +952,32 @@ em folders
 
 # Download attachments
 em attach 42
+```
+
+### Organize
+
+```bash
+# Star/flag toggle
+em star 42              # Toggle star (Flagged) on email
+em starred              # List all starred emails
+
+# Move to folder
+em move 42 Archive      # Move with explicit folder
+em move 42              # Move with fzf folder picker (requires fzf)
+
+# Conversation thread
+em thread 42            # Show chronological thread for email
+
+# Snooze for later
+em snooze 42 2h         # Snooze for 2 hours
+em snooze 42 1d         # Snooze for 1 day
+em snooze 42 tomorrow   # Snooze until tomorrow 9am
+em snoozed              # List snoozed emails (READY / pending)
+
+# Daily/weekly digest
+em digest               # Today's emails grouped by priority
+em digest --week        # This week's emails
+em digest -n 5          # Limit to 5 emails
 ```
 
 ### Management

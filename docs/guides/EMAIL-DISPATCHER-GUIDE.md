@@ -14,6 +14,11 @@ em pick               # Interactive fzf browser
 em read 42            # Smart rendering (HTML/markdown/plain)
 em reply 42           # AI draft in $EDITOR
 em respond            # Batch AI drafts for actionable emails
+em star 42            # Toggle star/flag
+em move 42 Archive    # Move to folder
+em thread 42          # Conversation thread view
+em snooze 42 2h       # Snooze for later
+em digest             # AI-grouped daily summary
 em ai gemini          # Switch AI backend at runtime
 em catch 42           # Capture email as task
 ```
@@ -243,7 +248,7 @@ This opens an interactive fzf picker:
 
 ```
 Folder: INBOX  |  Unread: 3
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
 * = unread  + = attachment
 > * + Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
   * Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
@@ -268,6 +273,8 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D
 - `Ctrl-R` - Reply to selected email
 - `Ctrl-S` - Show AI summary
 - `Ctrl-T` - Capture as task (via `catch`)
+- `Ctrl-F` - Toggle star/flag
+- `Ctrl-M` - Move to folder
 - `Ctrl-A` - Archive (mark as read)
 - `Ctrl-D` - Delete (with confirmation)
 
@@ -989,6 +996,189 @@ em pick               # Browse emails
 # Ctrl-T on any email → instant capture
 ```
 
+## Organize: Star, Move, Thread, Snooze, Digest
+
+These commands help you organize your inbox beyond read/reply — star important emails, move them between folders, view conversation threads, snooze for later, and get AI-grouped digests.
+
+### Star / Flag
+
+Toggle the IMAP `Flagged` flag on an email:
+
+```bash
+em star 42              # Toggle star on email #42
+em flag 42              # Alias for em star
+```
+
+**Output:**
+
+```
+★ Starred #42 — Re: STAT-101 Exam Grading Question
+```
+
+Run again to unstar:
+
+```
+☆ Unstarred #42 — Re: STAT-101 Exam Grading Question
+```
+
+**List all starred emails:**
+
+```bash
+em starred
+
+# Output:
+em starred — flagged emails
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ID     From              Subject                              Date
+  ───── ─────────────────── ──────────────────────────────────── ──────────
+  142    Alice Johnson      Re: STAT-101 Exam Grading Question   2026-02-10
+  140    Carol Davis        Urgent: Grant Proposal Deadline       2026-02-09
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2 starred emails
+```
+
+### Move
+
+Move an email to a different folder:
+
+```bash
+em move 42 Archive      # Move to Archive (with confirmation)
+em move 42              # fzf folder picker (requires fzf)
+em mv 42 Trash          # Alias
+```
+
+**With explicit folder:**
+
+```
+Move #42 → Archive? [y/N] y
+✅ Moved #42 to Archive
+```
+
+**Without folder (fzf picker):**
+
+Opens an interactive folder picker. Select a folder with Enter, or press Escape to cancel.
+
+### Thread
+
+View the conversation thread for an email — finds related messages by `References` / `In-Reply-To` headers and displays them chronologically:
+
+```bash
+em thread 42            # Show thread for email #42
+em th 42                # Alias
+```
+
+**Output:**
+
+```
+em thread — conversation for #42
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  #138   Alice Johnson     STAT-101 Exam Grading Question    2026-02-08
+  #140   You               Re: STAT-101 Exam Grading...      2026-02-09
+→ #142   Alice Johnson     Re: STAT-101 Exam Grading...      2026-02-10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3 messages in thread
+```
+
+The `→` arrow marks the message you started from. If the email is standalone (no thread), you'll see:
+
+```
+This is a standalone message (no thread found)
+```
+
+### Snooze
+
+Snooze an email — moves it to the `Snoozed` folder and tracks a wake-up time locally:
+
+```bash
+em snooze 42 2h         # Snooze for 2 hours
+em snooze 42 1d         # Snooze for 1 day
+em snooze 42 3w         # Snooze for 3 weeks
+em snooze 42 tomorrow   # Snooze until tomorrow 9:00 AM
+em snooze 42 monday     # Snooze until next Monday 9:00 AM
+em snz 42 2h            # Alias
+```
+
+**Output:**
+
+```
+💤 Snoozed #42 until 2026-02-18 14:30
+   Re: STAT-101 Exam Grading Question
+```
+
+**Supported time formats:**
+
+| Format | Example | Meaning |
+|--------|---------|---------|
+| `Nh` | `2h` | N hours from now |
+| `Nd` | `1d` | N days from now |
+| `Nw` | `3w` | N weeks from now |
+| `tomorrow` | `tomorrow` | Next day at 9:00 AM |
+| Day name | `monday` | Next occurrence at 9:00 AM |
+
+**List snoozed emails:**
+
+```bash
+em snoozed
+
+# Output:
+em snoozed — pending reminders
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ID     Subject                              Wake          Spec
+  ───── ──────────────────────────────────── ────────────── ──────
+  42     Re: STAT-101 Exam Grading...        READY          2h
+  99     Budget Proposal                     in 3h          1d
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2 snoozed emails (1 ready)
+```
+
+`READY` means the snooze time has passed — time to handle it.
+
+> **Note:** Snooze tracking is local (stored in `~/.flow/email-snooze/`). The IMAP move to `Snoozed` folder requires your mail server to have that folder. If not, the local tracking still works.
+
+### Digest
+
+Get an AI-grouped summary of today's or this week's emails:
+
+```bash
+em digest               # Today's emails
+em digest --week        # This week's emails
+em digest -n 5          # Limit to 5 emails
+em dg                   # Alias
+```
+
+**Output (with AI):**
+
+```
+em digest — 2026-02-18
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Priority:
+  142  * Alice Johnson     Re: STAT-101 Exam Grading...    student
+  140  * Carol Davis       Urgent: Grant Proposal...       urgent
+
+Informational:
+  141    Bob Smith         Department Meeting Notes        admin-info
+  139    David Lee         Re: Paper Draft Comments        colleague
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4 emails today (2 unread)
+```
+
+**Output (without AI):**
+
+Falls back to unread/read grouping instead of AI priority classification.
+
+### em pick Organize Keybindings
+
+The fzf email picker (`em pick`) includes keybindings for organize commands:
+
+| Key | Action |
+|-----|--------|
+| `Ctrl-F` | Toggle star/flag on selected email |
+| `Ctrl-M` | Move selected email (opens folder picker) |
+
+These work alongside existing keybindings (`Enter`=read, `Ctrl-R`=reply, `Ctrl-S`=summarize, etc.).
+
 ## Interactive Browsing: em pick
 
 The `em pick` command provides a powerful fzf-based email browser with live preview.
@@ -1003,7 +1193,7 @@ em p                 # Shortcut
 
 ```
 Folder: INBOX  |  Unread: 3
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
 * = unread  + = attachment
 > * + Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
   * Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
@@ -1032,6 +1222,8 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D
 | `Ctrl-S` | Summarize | Show one-line AI summary |
 | `Ctrl-T` | Catch | Capture email as task via `catch` command |
 | `Ctrl-A` | Archive | Mark email as read |
+| `Ctrl-F` | Star | Toggle star/flag on selected email |
+| `Ctrl-M` | Move | Move email to folder (opens folder picker) |
 | `Ctrl-D` | Delete | Flag email as deleted (with confirmation) |
 | `Esc` / `Ctrl-C` | Exit | Close picker without action |
 
@@ -1117,26 +1309,30 @@ Archive
 ### Move Between Folders
 
 ```bash
-em inbox Sent          # List sent emails
-em pick Archive        # Browse archive folder
+em move 42 Archive      # Move email to Archive (with confirmation)
+em move 42              # Move with fzf folder picker
+em inbox Sent           # List sent emails
+em pick Archive         # Browse archive folder
 ```
 
 ### Flag Management
 
-Flags are managed internally via `lib/em-himalaya.zsh` adapter:
+Star/flag emails directly:
 
 ```bash
-# Mark as read (via em pick → Ctrl-A)
-_em_hml_flags add <ID> Seen
-
-# Mark as flagged
-_em_hml_flags add <ID> Flagged
-
-# Mark as deleted
-_em_hml_flags add <ID> Deleted
+em star 42              # Toggle Flagged flag
+em starred              # List all flagged emails
 ```
 
-Currently flags are not exposed as direct `em` commands. Use `em pick` for interactive flag management.
+Or use the fzf picker (`em pick`) with `Ctrl-F` to toggle star on the selected email.
+
+Lower-level flag management is available via `lib/em-himalaya.zsh` adapter:
+
+```bash
+_em_hml_flags add <ID> Seen       # Mark as read
+_em_hml_flags add <ID> Flagged    # Mark as flagged
+_em_hml_flags add <ID> Deleted    # Mark as deleted
+```
 
 ## Cache System
 
