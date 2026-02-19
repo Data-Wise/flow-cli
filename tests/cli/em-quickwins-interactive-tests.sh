@@ -50,12 +50,13 @@ ask_result() {
 }
 
 run_test() {
-    local num="$1" title="$2" cmd="$3" expected="$4"
+    local num="$1" title="$2" cmd="$3" expected="$4" stdin_input="$5"
     CURRENT_TEST="TEST ${num}: ${title}"
     echo ""
     echo -e "${BLUE}${BOLD}TEST ${num}: ${title}${NC}"
     echo -e "  ${DIM}Command:${NC}  ${cmd}"
     echo -e "  ${DIM}Expected:${NC} ${expected}"
+    [[ -n "$stdin_input" ]] && echo -e "  ${DIM}Stdin:${NC}    '${stdin_input}' (auto-piped)"
     echo ""
     printf "  Run? (y/n/q) "
     read -r REPLY
@@ -67,7 +68,11 @@ run_test() {
     fi
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         echo -e "  ${CYAN}--- output ---${NC}"
-        eval "$cmd" 2>&1 | head -30 || true
+        if [[ -n "$stdin_input" ]]; then
+            echo "$stdin_input" | eval "$cmd" 2>&1 | head -30 || true
+        else
+            eval "$cmd" 2>&1 | head -30 || true
+        fi
         echo -e "  ${CYAN}--- end ---${NC}"
         ask_result
     else
@@ -175,9 +180,10 @@ echo -e "  ${YELLOW}WARNING: em move actually moves emails!${NC}"
 echo -e "  ${YELLOW}Answer 'N' at the confirmation prompt to cancel.${NC}"
 
 run_test 5 \
-    "Move with explicit folder (dry run — say N)" \
+    "Move with explicit folder (dry run — auto N)" \
     "em move $TEST_ID Archive" \
-    "Shows confirmation prompt 'Move #${TEST_ID} to Archive? [y/N]' — answer N to cancel"
+    "Shows confirmation prompt 'Move #${TEST_ID} to Archive? [y/N]' then 'Cancelled'" \
+    "n"
 
 run_test 6 \
     "Move without folder → fzf picker" \
@@ -185,9 +191,10 @@ run_test 6 \
     "Opens fzf folder picker (requires fzf). Press Escape to cancel."
 
 run_test 7 \
-    "Move alias: em mv" \
+    "Move alias: em mv (auto N)" \
     "em mv $TEST_ID Trash" \
-    "Same as em move — shows confirmation. Answer N."
+    "Same as em move — shows confirmation then 'Cancelled'" \
+    "n"
 
 run_test 8 \
     "Move with no ID → error" \
