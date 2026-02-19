@@ -28,7 +28,8 @@ finish             # Done for now
 **That's it.** Everything else is optional.
 
 !!! info "Zero Dependencies"
-flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antidote, or any other framework. Choose any installation method that works for you - they all load the same independent plugin.
+flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antidote,
+or any other framework. Choose any installation method that works for you.
 
 ---
 
@@ -60,7 +61,7 @@ em pick                      # Interactive email picker
 
 **Or try the commands yourself:**
 
-```
+```text
 $ work my-project
 🚀 Starting session: my-project
    📍 ~/projects/my-project
@@ -146,7 +147,7 @@ Every `win` gives you a category and emoji:
 
 ### 🔥 Streak Tracking
 
-```
+```text
 Day 1: work → 🌱 1 day
 Day 3: work → 🔥 3 days - On a roll!
 Day 7: work → 🔥🔥 Strong week!
