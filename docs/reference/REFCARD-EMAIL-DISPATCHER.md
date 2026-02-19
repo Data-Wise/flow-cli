@@ -303,8 +303,9 @@ Interactive fzf email browser with preview:
 
 **Header Info:** Folder, unread count, legend
 
-**Indicators:**
-- `*` = unread
+**Indicators (compact):**
+- `•` = unread
+- `★` = starred (flagged)
 - `+` = has attachment
 
 ---

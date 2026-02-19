@@ -9,8 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`em` organize commands** — 7 new subcommands for email management:
+  - `em star` / `em flag` — toggle starred (Flagged) status
+  - `em starred` — list all starred emails in a folder
+  - `em move` / `em mv` — move email to folder (with fzf picker or explicit)
+  - `em thread` / `em th` — show conversation thread with chronological view
+  - `em snooze` / `em snz` — snooze email for later (2h, 3d, 1w, monday, tomorrow)
+  - `em snoozed` — list snoozed emails with READY/pending status
+  - `em digest` / `em dg` — daily/weekly email digest with AI grouping or fallback
+- **`em pick` keybinds** — Ctrl-F (star), Ctrl-M (move) in fzf email picker
+
 ### Changed
 
+- **Inbox indicators redesigned** — `•` for unread (was `*`), `★` for starred, `+` for attachment. Compact layout packs indicators without gaps (`•★+`)
 - **`dot` dispatcher split** into three focused commands: `dots` (dotfile management), `sec` (secret management), `tok` (token management). All subcommands remain the same under their new parent dispatcher.
 
 ---

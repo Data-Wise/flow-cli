@@ -234,7 +234,8 @@ Full inbox: em i  Browse: em p  Help: em h
 **What I see:**
 - Unread count (ADHD dopamine hit when it's zero)
 - Latest 10 emails with indicators:
-  - `*` = unread
+  - `•` = unread
+  - `★` = starred (flagged)
   - `+` = has attachment
 - Quick next actions
 
@@ -249,11 +250,11 @@ This opens an interactive fzf picker:
 ```
 Folder: INBOX  |  Unread: 3
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
-* = unread  + = attachment
-> * + Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
-  * Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
-    David Lee            Re: Paper Draft Comments            2026-02-09
-    Eve Martinez         Office Hours Schedule Change        2026-02-09
+• = unread  ★ = starred  + = attachment
+> •+ Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
+  •  Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
+     David Lee            Re: Paper Draft Comments            2026-02-09
+     Eve Martinez         Office Hours Schedule Change        2026-02-09
   141/200
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Message #142 [NEW] [ATTACHMENT]
@@ -1194,10 +1195,10 @@ em p                 # Shortcut
 ```
 Folder: INBOX  |  Unread: 3
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
-* = unread  + = attachment
-> * + Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
-  * Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
-    David Lee            Re: Paper Draft Comments            2026-02-09
+• = unread  ★ = starred  + = attachment
+> •+ Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
+  •  Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
+     David Lee            Re: Paper Draft Comments            2026-02-09
 │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 │  Message #142 [NEW] [ATTACHMENT]
 │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
