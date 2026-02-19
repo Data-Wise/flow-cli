@@ -11,14 +11,15 @@
 # Tests: em star, em starred, em move, em thread, em snooze,
 #        em snoozed, em digest
 
-set -e
-
 FLOW_CLI_DIR="${FLOW_CLI_DIR:-$(cd "$(dirname "$0")/../.." && pwd)}"
 
 # Load the plugin so em commands are available directly
+# (must happen before set -e — plugin init has benign non-zero returns)
 FLOW_QUIET=1
 FLOW_ATLAS_ENABLED=no
-source "$FLOW_CLI_DIR/flow.plugin.zsh" 2>/dev/null
+source "$FLOW_CLI_DIR/flow.plugin.zsh" 2>/dev/null || true
+
+set -e
 
 PASS=0
 FAIL=0
