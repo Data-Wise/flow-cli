@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/zsh
 # Interactive Dogfood Test Suite: em Quick-Win Commands
 # Generated: 2026-02-18
-# Run: bash tests/cli/em-quickwins-interactive-tests.sh
+# Run: zsh tests/cli/em-quickwins-interactive-tests.sh
 #
 # REQUIRES: Live himalaya connection (real IMAP mailbox)
 #
@@ -15,15 +15,10 @@ set -e
 
 FLOW_CLI_DIR="${FLOW_CLI_DIR:-$(cd "$(dirname "$0")/../.." && pwd)}"
 
-# Run em commands via ZSH with plugin loaded
-zsh_run() {
-    zsh -i -c "
-        FLOW_QUIET=1
-        FLOW_ATLAS_ENABLED=no
-        source '$FLOW_CLI_DIR/flow.plugin.zsh' 2>/dev/null
-        $*
-    " 2>&1
-}
+# Load the plugin so em commands are available directly
+FLOW_QUIET=1
+FLOW_ATLAS_ENABLED=no
+source "$FLOW_CLI_DIR/flow.plugin.zsh" 2>/dev/null
 
 PASS=0
 FAIL=0
@@ -43,7 +38,8 @@ NC='\033[0m'
 
 ask_result() {
     echo ""
-    read -p "  Result? (p)ass / (f)ail / (s)kip: " -n 1 -r
+    printf "  Result? (p)ass / (f)ail / (s)kip: "
+    read -r REPLY
     echo ""
     case "$REPLY" in
         p|P) ((PASS++)) || true; echo -e "  ${GREEN}PASS${NC}" ;;
@@ -60,7 +56,8 @@ run_test() {
     echo -e "  ${DIM}Command:${NC}  ${cmd}"
     echo -e "  ${DIM}Expected:${NC} ${expected}"
     echo ""
-    read -p "  Run? (y/n/q) " -n 1 -r
+    printf "  Run? (y/n/q) "
+    read -r REPLY
     echo ""
     if [[ $REPLY =~ ^[Qq]$ ]]; then
         echo -e "\n${YELLOW}Quitting early.${NC}"
@@ -69,7 +66,7 @@ run_test() {
     fi
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         echo -e "  ${CYAN}--- output ---${NC}"
-        zsh_run "$cmd" 2>&1 | head -30 || true
+        eval "$cmd" 2>&1 | head -30 || true
         echo -e "  ${CYAN}--- end ---${NC}"
         ask_result
     else
@@ -114,7 +111,8 @@ echo -e "    - At least a few emails in INBOX"
 echo ""
 echo -e "  ${DIM}Tip: Run ${CYAN}em inbox${DIM} first to find a valid email ID.${NC}"
 echo ""
-read -p "Ready? (Enter to start, q to quit) " -r
+printf "Ready? (Enter to start, q to quit) "
+read -r REPLY
 [[ "$REPLY" =~ ^[Qq]$ ]] && exit 0
 
 # ═══════════════════════════════════════════════════════════════
@@ -127,10 +125,11 @@ echo ""
 echo -e "  Let's find a valid email ID to test with."
 echo -e "  Running: ${CYAN}em inbox 5${NC}"
 echo -e "  ${CYAN}--- output ---${NC}"
-zsh_run "em inbox 5" 2>&1 | head -10 || true
+em inbox 5 2>&1 | head -10 || true
 echo -e "  ${CYAN}--- end ---${NC}"
 echo ""
-read -p "  Enter an email ID to use for testing: " TEST_ID
+printf "  Enter an email ID to use for testing: "
+read -r TEST_ID
 if [[ -z "$TEST_ID" ]]; then
     echo -e "  ${YELLOW}No ID provided — using '1'${NC}"
     TEST_ID=1
@@ -203,7 +202,8 @@ echo -e "${BOLD}=== em thread ===${NC}"
 echo ""
 echo -e "  ${DIM}Works best with a reply chain. Pick an email that's part of a conversation.${NC}"
 echo ""
-read -p "  Enter a thread email ID (or Enter to use $TEST_ID): " THREAD_ID
+printf "  Enter a thread email ID (or Enter to use %s): " "$TEST_ID"
+read -r THREAD_ID
 THREAD_ID="${THREAD_ID:-$TEST_ID}"
 
 run_test 9 \

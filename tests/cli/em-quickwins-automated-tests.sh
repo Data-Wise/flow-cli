@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/zsh
 # Automated E2E Test Suite: em Quick-Win Commands
 # Generated: 2026-02-18
-# Run: bash tests/cli/em-quickwins-automated-tests.sh
+# Run: zsh tests/cli/em-quickwins-automated-tests.sh
 #
 # Tests for: em star, em move, em thread, em snooze, em digest
 # These tests validate function existence, help text, routing,
