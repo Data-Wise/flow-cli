@@ -1286,11 +1286,17 @@ _em_thread() {
         return 1
     fi
 
-    # Extract threading headers
+    # Extract threading headers (unfold RFC 822 continuation lines)
+    local unfolded
+    unfolded=$(echo "$headers" | awk '
+        /^[^ \t]/ { if (line) print line; line=$0; next }
+        /^[ \t]/  { line=line " " substr($0, 2); next }
+        END       { if (line) print line }
+    ')
     local message_id in_reply_to references
-    message_id=$(echo "$headers" | grep -i '^Message-ID:' | head -1 | sed 's/^[^:]*: *//')
-    in_reply_to=$(echo "$headers" | grep -i '^In-Reply-To:' | head -1 | sed 's/^[^:]*: *//')
-    references=$(echo "$headers" | grep -i '^References:' | head -1 | sed 's/^[^:]*: *//')
+    message_id=$(echo "$unfolded" | grep -i '^Message-ID:' | head -1 | sed 's/^[^:]*: *//; s/\r$//')
+    in_reply_to=$(echo "$unfolded" | grep -i '^In-Reply-To:' | head -1 | sed 's/^[^:]*: *//; s/\r$//')
+    references=$(echo "$unfolded" | grep -i '^References:' | head -1 | sed 's/^[^:]*: *//; s/\r$//')
 
     # Build search set: all Message-IDs from References + current + In-Reply-To
     local -a thread_ids=()
@@ -1318,7 +1324,7 @@ _em_thread() {
     # Fetch all envelopes and match by subject similarity (fallback)
     # Since IMAP search by Message-ID is unreliable, we search by subject
     local subject
-    subject=$(echo "$headers" | grep -i '^Subject:' | head -1 | sed 's/^[^:]*: *//')
+    subject=$(echo "$unfolded" | grep -i '^Subject:' | head -1 | sed 's/^[^:]*: *//; s/\r$//')
     # Strip Re:/Fwd: prefixes for search
     local base_subject="${subject}"
     base_subject="${base_subject#Re: }"
@@ -1328,6 +1334,12 @@ _em_thread() {
 
     local json
     json=$(_em_hml_search "$base_subject" "$folder" 2>/dev/null)
+
+    # Filter search results to match exact subject (IMAP keyword search is broad)
+    if [[ -n "$json" && "$json" != "[]" ]]; then
+        json=$(echo "$json" | jq --arg subj "$base_subject" '
+            [.[] | select(.subject | ascii_downcase | contains($subj | ascii_downcase))]' 2>/dev/null)
+    fi
 
     if [[ -z "$json" || "$json" == "[]" ]]; then
         # Fallback: list recent and filter
@@ -1344,8 +1356,8 @@ _em_thread() {
     # Display thread as chronological list with current message highlighted
     echo "$json" | jq -r '
         sort_by(.date) | .[] |
-        [.id, .from.name // .from.addr // "unknown", .subject // "(no subject)", (.date | split("T")[0] // .date)] | @tsv' \
-    | while IFS=$'\t' read -r tid tfrom tsubj tdate; do
+        [.id, .from.name // .from.addr // "unknown", .subject // "(no subject)", (.date | split(" ")[0] // .date)] | join("|")' \
+    | while IFS='|' read -r tid tfrom tsubj tdate; do
         if [[ "$tid" == "$msg_id" ]]; then
             echo -e "  ${_C_YELLOW}→${_C_NC} ${_C_BOLD}#${tid}${_C_NC}  ${tfrom}  ${_C_DIM}${tdate}${_C_NC}"
             echo -e "    ${_C_BOLD}${tsubj}${_C_NC}"
@@ -1459,9 +1471,9 @@ _em_snoozed() {
     local now_epoch
     now_epoch=$(date +%s)
 
-    jq -r '.[] | [.id, .subject, .wake, .time_spec] | @tsv' "$pending_file" \
-    | while IFS=$'\t' read -r sid ssubj swake stime; do
-        local wake_display
+    local wake_display
+    jq -r '.[] | [.id, .subject // "(no subject)", (.wake | tostring), .time_spec] | join("|")' "$pending_file" \
+    | while IFS='|' read -r sid ssubj swake stime; do
         wake_display=$(date -r "$swake" "+%Y-%m-%d %H:%M" 2>/dev/null)
         if (( swake <= now_epoch )); then
             echo -e "  ${_C_YELLOW}⏰${_C_NC} #${sid}  ${_C_BOLD}READY${_C_NC}  ${_C_DIM}${ssubj:0:40}${_C_NC}"
@@ -1506,10 +1518,10 @@ _em_digest() {
 
     if [[ "$period" == "today" ]]; then
         json=$(echo "$json" | jq --arg today "$today_str" \
-            '[.[] | select(.date | split("T")[0] == $today)]' 2>/dev/null)
+            '[.[] | select(.date | split(" ")[0] == $today)]' 2>/dev/null)
     elif [[ "$period" == "week" ]]; then
         json=$(echo "$json" | jq --arg since "$week_ago_str" \
-            '[.[] | select(.date | split("T")[0] >= $since)]' 2>/dev/null)
+            '[.[] | select(.date | split(" ")[0] >= $since)]' 2>/dev/null)
     fi
 
     local total

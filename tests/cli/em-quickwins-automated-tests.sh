@@ -390,8 +390,8 @@ result=$(zsh_test "
     _em_require_himalaya() { return 0; }
     _em_hml_list() {
         echo '[
-            {\"id\":1,\"from\":{\"name\":\"Alice\"},\"subject\":\"Meeting\",\"date\":\"$(date +%Y-%m-%d)T10:00:00\",\"flags\":[\"Seen\"]},
-            {\"id\":2,\"from\":{\"name\":\"Bob\"},\"subject\":\"Urgent\",\"date\":\"$(date +%Y-%m-%d)T11:00:00\",\"flags\":[]}
+            {\"id\":1,\"from\":{\"name\":\"Alice\"},\"subject\":\"Meeting\",\"date\":\"$(date +%Y-%m-%d) 10:00\",\"flags\":[\"Seen\"]},
+            {\"id\":2,\"from\":{\"name\":\"Bob\"},\"subject\":\"Urgent\",\"date\":\"$(date +%Y-%m-%d) 11:00\",\"flags\":[]}
         ]'
     }
     _em_digest 2>&1

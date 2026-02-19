@@ -174,12 +174,17 @@ _em_hml_template_send() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_hml_search() {
-    # Search messages via IMAP SEARCH
+    # Search messages via IMAP SEARCH (single keyword — himalaya limitation)
     # Args: query, folder (default: INBOX)
     # Returns: JSON array of matching envelopes
     local query="$1" folder="${2:-INBOX}"
-    himalaya envelope list -f "$folder" --query "$query" \
-        --output json 2>/dev/null
+    # himalaya only supports single-word subject search;
+    # pick the longest word as the most distinctive keyword
+    local keyword
+    keyword=$(echo "$query" | tr ' ' '\n' | awk '{ print length, $0 }' | sort -rn | head -1 | cut -d' ' -f2-)
+    [[ -z "$keyword" ]] && keyword="$query"
+    himalaya envelope list -f "$folder" --output json \
+        subject "$keyword" 2>/dev/null
 }
 
 # ═══════════════════════════════════════════════════════════════════
