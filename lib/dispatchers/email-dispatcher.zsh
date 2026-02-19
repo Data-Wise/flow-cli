@@ -681,7 +681,7 @@ _em_pick() {
     local header_line
     header_line="Folder: ${folder}  |  Unread: ${unread_count:-?}
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
-* = unread  + = attachment"
+• = unread  ★ = starred  + = attachment"
 
     # [2] Write preview script (avoids shell escaping nightmare)
     local preview_script
@@ -742,11 +742,12 @@ PREVIEW_EOF
     local selected
     selected=$(jq -r '.[] | [
             .id,
-            (if (.flags | contains(["Seen"])) then " " else "*" end),
+            (if (.flags | contains(["Seen"])) then " " else "•" end),
+            (if (.flags | contains(["Flagged"])) then "★" else " " end),
             (if .has_attachment then "+" else " " end),
             ((.from.name // .from.addr // "unknown") | if length > 20 then .[:17] + "..." else . end),
             ((.subject // "(no subject)") | if length > 50 then .[:47] + "..." else . end),
-            (.date | split("T")[0] // .date)
+            (.date | split(" ")[0] // .date)
           ] | @tsv' "$cache_file" \
         | fzf --delimiter='\t' \
               --with-nth='2..' \

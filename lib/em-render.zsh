@@ -320,27 +320,28 @@ _em_render_inbox_json() {
     fi
 
     # Header
-    printf "  ${_C_BOLD}%-5s %-2s %-20s %-40s %s${_C_NC}\n" "ID" "" "From" "Subject" "Date"
-    echo -e "  ${_C_DIM}───── ── ──────────────────── ──────────────────────────────────────── ──────────${_C_NC}"
+    printf "  ${_C_BOLD}%-5s %-3s %-20s %-40s %s${_C_NC}\n" "ID" "" "From" "Subject" "Date"
+    echo -e "  ${_C_DIM}───── ─── ──────────────────── ──────────────────────────────────────── ──────────${_C_NC}"
 
     # Rows
     echo "$json" | jq -r '.[] | [
         (.id | tostring),
-        (if (.flags | contains(["Seen"])) then " " else "*" end),
+        (if (.flags | contains(["Seen"])) then " " else "•" end),
+        (if (.flags | contains(["Flagged"])) then "★" else " " end),
         (if .has_attachment then "+" else " " end),
         (.from.name // .from.addr // "unknown"),
         .subject,
-        (.date | split("T")[0] // .date)
-    ] | @tsv' | while IFS=$'\t' read -r eid flag attach sender subj edate; do
+        (.date | split(" ")[0] // .date)
+    ] | @tsv' | while IFS=$'\t' read -r eid unread star attach sender subj edate; do
         # Truncate long fields
         [[ ${#sender} -gt 20 ]] && sender="${sender:0:17}..."
         [[ ${#subj} -gt 40 ]] && subj="${subj:0:37}..."
 
-        local indicator="${flag}${attach}"
-        if [[ "$flag" == "*" ]]; then
-            printf "  ${_C_YELLOW}${_C_BOLD}%-5s %-2s %-20s %-40s %s${_C_NC}\n" "$eid" "$indicator" "$sender" "$subj" "$edate"
+        local indicator="${unread}${star}${attach}"
+        if [[ "$unread" == "•" ]]; then
+            printf "  ${_C_YELLOW}${_C_BOLD}%-5s %-3s %-20s %-40s %s${_C_NC}\n" "$eid" "$indicator" "$sender" "$subj" "$edate"
         else
-            printf "  %-5s %-2s %-20s %-40s ${_C_DIM}%s${_C_NC}\n" "$eid" "$indicator" "$sender" "$subj" "$edate"
+            printf "  %-5s %-3s %-20s %-40s ${_C_DIM}%s${_C_NC}\n" "$eid" "$indicator" "$sender" "$subj" "$edate"
         fi
     done
 }
