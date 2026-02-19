@@ -331,6 +331,38 @@ else
     log_fail "em starred with empty list → no results" "got: $(echo "$result" | head -2)"
 fi
 
+# Test em starred with flagged emails present
+result=$(zsh_test '
+    _em_require_himalaya() { return 0; }
+    _em_hml_list() {
+        echo "[
+            {\"id\":\"101\",\"from\":{\"name\":\"Alice\"},\"subject\":\"Important\",\"date\":\"2026-02-18 10:00\",\"flags\":[\"Seen\",\"Flagged\"]},
+            {\"id\":\"102\",\"from\":{\"name\":\"Bob\"},\"subject\":\"Hello\",\"date\":\"2026-02-18 11:00\",\"flags\":[\"Seen\"]},
+            {\"id\":\"103\",\"from\":{\"name\":\"Carol\"},\"subject\":\"Urgent\",\"date\":\"2026-02-18 12:00\",\"flags\":[\"Flagged\"]}
+        ]"
+    }
+    _em_starred 2>&1
+')
+if echo "$result" | grep -q "101" && echo "$result" | grep -q "103"; then
+    log_pass "em starred shows flagged emails (101, 103)"
+else
+    log_fail "em starred shows flagged emails (101, 103)" "got: $(echo "$result" | head -5)"
+fi
+
+# Test em starred does NOT show unflagged emails
+if echo "$result" | grep -q "102.*Bob.*Hello"; then
+    log_fail "em starred excludes unflagged emails (102)" "102 should not appear"
+else
+    log_pass "em starred excludes unflagged emails (102)"
+fi
+
+# Test em starred shows count
+if echo "$result" | grep -qi "2 starred"; then
+    log_pass "em starred shows correct count (2 starred)"
+else
+    log_fail "em starred shows correct count (2 starred)" "got: $(echo "$result" | tail -3)"
+fi
+
 # ═══════════════════════════════════════════════════════════════
 # SECTION 7: fzf Keybinds in em pick
 # ═══════════════════════════════════════════════════════════════
