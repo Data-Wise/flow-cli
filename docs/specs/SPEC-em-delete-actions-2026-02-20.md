@@ -6,7 +6,7 @@
 | Date        | 2026-02-20                              |
 | Author      | DT + Claude                             |
 | Branch      | `feature/em-delete-actions`             |
-| Status      | Draft                                   |
+| Status      | Ready                                   |
 | Dispatcher  | `em` (email-dispatcher.zsh)             |
 
 ---
@@ -108,7 +108,7 @@ Aliases: em mv
 ### em restore
 
 ```
-em restore <ID> [<ID>...]       Move from Trash back to INBOX
+em restore <ID> [<ID>...]       Move from $FLOW_EMAIL_TRASH_FOLDER (default: Trash) to INBOX
 em restore <ID> --to <FOLDER>   Move from Trash to specific folder
 ```
 
@@ -145,7 +145,7 @@ em pick [FOLDER]   Interactive fzf browser with multi-select
 
 Keybinds:
   Tab/Shift-Tab    Toggle selection on focused email
-  Enter            Read (single) or show action menu (multi-selected)
+  Enter            Read (single) or action menu (multi-selected, per D4)
   Ctrl+D           Delete selected email(s)
   Ctrl+R           Reply to focused email
   Ctrl+A           Archive (mark read) selected email(s)
@@ -253,7 +253,7 @@ Shows count + first 5 subjects from the target set. Returns 0 if user confirms, 
 - Tab/Shift-Tab for selection toggling (standard fzf behavior)
 - All `--bind` uses `{+1}` (multi-select placeholder) instead of `{1}`
 - Enter with single selection: read email (current behavior)
-- Enter with multi-selection (>1): prompt "Delete N selected emails? [y/N]"
+- Enter with multi-selection (>1): show action menu (delete / move / flag / catch / cancel) per D4
 
 ### Updated Header
 
@@ -277,36 +277,33 @@ Multi-item actions (delete, archive, catch, todo, event, flag): process all IDs
 
 ### Calendar.app (`_em_create_calendar_event`)
 
+Uses macOS default calendar (no `tell calendar` nesting -- per D2).
+
 ```zsh
 _em_create_calendar_event() {
-    local title="$1" date="$2" time="${3:-09:00}" duration="${4:-60}" location="${5:-}"
+    local title="$1" edate="$2" etime="${3:-09:00}" duration="${4:-60}" location="${5:-}"
     [[ "$(uname)" != "Darwin" ]] && return 1
-    osascript -e "
-        tell application \"Calendar\"
-            tell calendar \"Home\"
-                make new event with properties {
-                    summary:\"$title\",
-                    start date:date \"$date $time\",
-                    end date:date \"$date $(adjusted_end_time)\",
-                    location:\"$location\"
-                }
-            end tell
+    osascript <<APPLESCRIPT
+        tell application "Calendar"
+            make new event at end of events of default calendar with properties {
+                summary:"$title",
+                start date:date "$edate $etime",
+                location:"$location"
+            }
         end tell
-    "
+APPLESCRIPT
 }
 ```
 
 ### Reminders.app (`_em_create_reminder`)
 
+Uses default Reminders list (per D3).
+
 ```zsh
 _em_create_reminder() {
-    local title="$1" due_date="${2:-}"
+    local title="$1"
     [[ "$(uname)" != "Darwin" ]] && return 1
-    osascript -e "
-        tell application \"Reminders\"
-            make new reminder with properties {name:\"$title\"}
-        end tell
-    "
+    osascript -e "tell application \"Reminders\" to make new reminder with properties {name:\"$title\"}"
 }
 ```
 
@@ -434,12 +431,45 @@ AI FEATURES:
 
 ---
 
-## Open Questions
+## Design Decisions (Resolved)
 
-1. **Trash folder name:** himalaya uses "Trash" by default -- should we support `FLOW_EMAIL_TRASH_FOLDER` config for IMAP servers that use "Deleted Items"?
-2. **Calendar app selection:** Default to "Home" calendar -- should we support `FLOW_EMAIL_CALENDAR` config?
-3. **Reminders list:** Default list for new reminders -- "Reminders" or configurable?
-4. **em pick Enter on multi-select:** Plan says "prompt delete" -- would a general action menu be better? (delete / move / flag / catch)
+### D1: Trash folder name
+
+**Decision:** Add `FLOW_EMAIL_TRASH_FOLDER` config variable, default `Trash`.
+
+Office 365/Exchange uses "Deleted Items", Gmail IMAP uses "[Gmail]/Trash", standard IMAP uses "Trash". Follows existing `FLOW_EMAIL_FOLDER` pattern. One line in the config block:
+
+```zsh
+: ${FLOW_EMAIL_TRASH_FOLDER:=Trash}
+```
+
+`em restore` reads from this variable as the source folder.
+
+### D2: Calendar app selection
+
+**Decision:** Use macOS default calendar (no config). Omit the `tell calendar "..."` nesting in osascript -- let macOS route to whatever the user has set as default. If a specific calendar is needed later, that's a v2 config.
+
+### D3: Reminders list
+
+**Decision:** Use default Reminders list (no config). The simpler osascript `make new reminder with properties {name:...}` without specifying a list goes to the user's default Reminders list.
+
+### D4: em pick Enter on multi-select
+
+**Decision:** Action menu, not auto-delete. Auto-deleting on Enter is surprising UX -- Enter normally means "open/read."
+
+- **Enter + 1 selected:** read (current behavior, no surprise)
+- **Enter + N selected:** show a numbered action menu:
+
+```
+3 emails selected:
+  1. Delete
+  2. Move
+  3. Flag
+  4. Catch
+  q. Cancel
+```
+
+Dedicated Ctrl+D keybind remains the fast path for power users.
 
 ---
 
