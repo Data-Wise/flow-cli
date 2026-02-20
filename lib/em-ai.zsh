@@ -37,6 +37,7 @@ typeset -gA _EM_AI_OP_TIMEOUT=(
     [draft]=30
     [schedule]=15
     [template]=20
+    [todo]=15
 )
 
 # ═══════════════════════════════════════════════════════════════════
@@ -305,6 +306,23 @@ Return JSON (and ONLY JSON, no markdown fences) in this format:
 }
 
 If no dates/times found, return: {"events": []}
+PROMPT
+}
+
+_em_ai_todo_prompt() {
+    cat <<'PROMPT'
+Extract action items from this email. Return ONLY a plain text list, one item per line.
+
+Rules:
+- Maximum 5 action items
+- Each item is a single concise sentence (imperative form)
+- Only include actionable tasks (not FYI items)
+- If no action items found, return exactly: NONE
+
+Example output:
+Review attached syllabus draft by Friday
+Submit travel reimbursement form
+Schedule meeting with department chair
 PROMPT
 }
 

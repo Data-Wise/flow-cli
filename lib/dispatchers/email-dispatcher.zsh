@@ -49,10 +49,11 @@ fi
 # CONFIGURATION
 # ═══════════════════════════════════════════════════════════════════
 
-: ${FLOW_EMAIL_AI:=claude}           # AI backend: claude | gemini | none
-: ${FLOW_EMAIL_PAGE_SIZE:=25}        # Default inbox page size
-: ${FLOW_EMAIL_FOLDER:=INBOX}        # Default folder
-: ${FLOW_EMAIL_AI_TIMEOUT:=30}       # AI draft timeout in seconds
+: ${FLOW_EMAIL_AI:=claude}              # AI backend: claude | gemini | none
+: ${FLOW_EMAIL_PAGE_SIZE:=25}           # Default inbox page size
+: ${FLOW_EMAIL_FOLDER:=INBOX}           # Default folder
+: ${FLOW_EMAIL_TRASH_FOLDER:=Trash}     # Trash folder (Exchange: "Deleted Items")
+: ${FLOW_EMAIL_AI_TIMEOUT:=30}          # AI draft timeout in seconds
 
 # Load config file overrides (project .flow/email.conf > global)
 _em_load_config 2>/dev/null
@@ -97,12 +98,23 @@ em() {
         pick|p)       shift; _em_pick "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
+        # MANAGE
+        # ─────────────────────────────────────────────────────────────
+        delete|del|rm) shift; _em_delete "$@" ;;
+        move|mv)       shift; _em_move "$@" ;;
+        restore)       shift; _em_restore "$@" ;;
+        flag|fl)       shift; _em_flag "$@" ;;
+        unflag)        shift; _em_unflag "$@" ;;
+
+        # ─────────────────────────────────────────────────────────────
         # AI FEATURES
         # ─────────────────────────────────────────────────────────────
         respond|resp|repond) shift; _em_respond "$@" ;;
         classify|cl)  shift; _em_classify "$@" ;;
         summarize|sum) shift; _em_summarize "$@" ;;
         catch|c)      shift; _em_catch "$@" ;;
+        todo|td)      shift; _em_todo "$@" ;;
+        event|ev)     shift; _em_event "$@" ;;
         ai|AI)        shift; _em_ai_cmd "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
@@ -193,18 +205,28 @@ ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
 ${_C_BLUE}ORGANIZE${_C_NC}:
   ${_C_CYAN}em star <ID>${_C_NC}     Toggle starred (flagged) status
   ${_C_CYAN}em starred${_C_NC}       List starred emails
-  ${_C_CYAN}em move <ID> [F]${_C_NC} Move to folder (fzf picker if no folder)
   ${_C_CYAN}em thread <ID>${_C_NC}   Show conversation thread
   ${_C_CYAN}em snooze <ID> <T>${_C_NC} Snooze (2h, 1d, tomorrow, monday)
   ${_C_CYAN}em snoozed${_C_NC}       List snoozed emails
   ${_C_CYAN}em digest${_C_NC}        AI-grouped daily summary (--week)
+
+${_C_BLUE}MANAGE${_C_NC}:
+  ${_C_CYAN}em delete <ID>${_C_NC}       Delete email (move to Trash)
+  ${_C_CYAN}em delete --pick${_C_NC}     Interactive multi-select delete
+  ${_C_CYAN}em delete --purge${_C_NC}    Permanent delete (requires \"yes\")
+  ${_C_CYAN}em move <ID> [F]${_C_NC}    Move to folder (fzf picker if no folder)
+  ${_C_CYAN}em restore <ID>${_C_NC}     Restore from Trash to INBOX
+  ${_C_CYAN}em flag <ID>${_C_NC}        Star for follow-up
+  ${_C_CYAN}em unflag <ID>${_C_NC}      Remove star
 
 ${_C_BLUE}AI FEATURES${_C_NC}:
   ${_C_CYAN}em respond${_C_NC}        Batch AI drafts for actionable emails
   ${_C_CYAN}em respond --review${_C_NC} Review/send generated drafts
   ${_C_CYAN}em classify <ID>${_C_NC}  Classify email (AI)
   ${_C_CYAN}em summarize <ID>${_C_NC} One-line summary (AI)
-  ${_C_CYAN}em catch <ID>${_C_NC}    Capture email as task
+  ${_C_CYAN}em catch <ID>${_C_NC}     Capture email as task
+  ${_C_CYAN}em todo <ID>${_C_NC}      Extract action items -> flow + Reminders.app
+  ${_C_CYAN}em event <ID>${_C_NC}     Extract events -> flow + Calendar.app
 
 ${_C_BLUE}SEARCH & BROWSE${_C_NC}:
   ${_C_CYAN}em find <query>${_C_NC}   Search emails
@@ -648,6 +670,692 @@ _em_preview_message() {
     fi
 }
 
+# ═══════════════════════════════════════════════════════════════════
+# DELETE / MOVE / RESTORE / FLAG / TODO / EVENT
+# ═══════════════════════════════════════════════════════════════════
+
+_em_delete_confirm() {
+    local description="$1"
+    local json_envelopes="$2"
+
+    if ! command -v jq &>/dev/null; then
+        _flow_log_error "jq required for delete confirmation"
+        return 1
+    fi
+
+    local total
+    total=$(echo "$json_envelopes" | jq 'length' 2>/dev/null)
+    total="${total:-0}"
+
+    if [[ "$total" -eq 0 ]]; then
+        _flow_log_info "No emails to delete"
+        return 1
+    fi
+
+    echo ""
+    echo -e "  ${_C_RED}Delete ${description}${_C_NC}"
+
+    local i subject
+    local show_count=$((total < 5 ? total : 5))
+    for (( i = 0; i < show_count; i++ )); do
+        subject=$(echo "$json_envelopes" | jq -r ".[$i].subject // \"(no subject)\"" 2>/dev/null)
+        [[ ${#subject} -gt 60 ]] && subject="${subject:0:57}..."
+        echo -e "    ${_C_DIM}$((i + 1)).${_C_NC} \"${subject}\""
+    done
+
+    if [[ "$total" -gt 5 ]]; then
+        local remaining=$(( total - 5 ))
+        echo -e "    ${_C_DIM}... and ${remaining} more${_C_NC}"
+    fi
+
+    echo ""
+    printf "  Confirm delete? [y/N] "
+    local response
+    read -r response
+    [[ "$response" =~ ^[Yy]$ ]]
+}
+
+_em_delete() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_delete_help; return 0; }
+    _em_require_himalaya || return 1
+
+    if ! command -v jq &>/dev/null; then
+        _flow_log_error "jq required for em delete"
+        echo "Install: ${_C_CYAN}brew install jq${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+    local target_folder=""
+    local query=""
+    local pick_mode=false
+    local purge_mode=false
+    local -a ids=()
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --folder|-f)
+                shift
+                [[ -z "$1" ]] && { _flow_log_error "Folder name required after --folder"; return 1; }
+                target_folder="$1"; shift ;;
+            --query|-q)
+                shift
+                [[ -z "$1" ]] && { _flow_log_error "Search query required after --query"; return 1; }
+                query="$1"; shift ;;
+            --pick|-p) pick_mode=true; shift ;;
+            --purge) purge_mode=true; shift ;;
+            --help|-h) _em_delete_help; return 0 ;;
+            -*) _flow_log_error "Unknown flag: $1"; _em_delete_help; return 1 ;;
+            *) ids+=("$1"); shift ;;
+        esac
+    done
+
+    # MODE: --pick (fzf multi-select)
+    if [[ "$pick_mode" == true ]]; then
+        if ! command -v fzf &>/dev/null; then
+            _flow_log_error "fzf required for --pick mode"
+            echo "Install: ${_C_CYAN}brew install fzf${_C_NC}"
+            return 1
+        fi
+
+        local pick_folder="${target_folder:-$folder}"
+        local cache_file
+        cache_file=$(mktemp "${TMPDIR:-/tmp}/em-del-pick-XXXXXX.json")
+        _em_hml_list "$pick_folder" 50 > "$cache_file" 2>/dev/null
+
+        if [[ ! -s "$cache_file" ]]; then
+            _flow_log_error "Could not fetch emails from ${pick_folder}"
+            rm -f "$cache_file"
+            return 1
+        fi
+
+        local selected
+        selected=$(jq -r '.[] | [
+                .id,
+                (if (.flags | contains(["Seen"])) then " " else "*" end),
+                ((.from.name // .from.addr // "unknown") | if length > 20 then .[:17] + "..." else . end),
+                ((.subject // "(no subject)") | if length > 50 then .[:47] + "..." else . end),
+                (.date | split("T")[0] // .date)
+            ] | @tsv' "$cache_file" \
+            | fzf --delimiter='\t' --with-nth='2..' \
+                  --header="Select emails to delete (Tab=toggle, Enter=confirm)" \
+                  --multi --ansi)
+
+        if [[ -z "$selected" ]]; then
+            rm -f "$cache_file"; return 0
+        fi
+
+        local -a picked_ids=()
+        local line
+        while IFS= read -r line; do
+            local picked_id
+            picked_id=$(echo "$line" | cut -f1 | tr -d '[:space:]')
+            [[ -n "$picked_id" ]] && picked_ids+=("$picked_id")
+        done <<< "$selected"
+        rm -f "$cache_file"
+
+        [[ ${#picked_ids[@]} -eq 0 ]] && return 0
+
+        local count=${#picked_ids[@]}
+        printf "\n  Delete ${_C_RED}${count}${_C_NC} selected email(s)? [y/N] "
+        local response; read -r response
+        if [[ "$response" =~ ^[Yy]$ ]]; then
+            if _em_hml_delete "$pick_folder" "${picked_ids[@]}"; then
+                _flow_log_success "Moved ${count} email(s) to Trash"
+            else
+                _flow_log_error "Delete failed"; return 1
+            fi
+        else
+            _flow_log_info "Cancelled"
+        fi
+        return 0
+    fi
+
+    # MODE: --folder [--purge]
+    if [[ -n "$target_folder" && ${#ids[@]} -eq 0 && -z "$query" ]]; then
+        local json
+        json=$(_em_hml_list "$target_folder" 200 2>/dev/null)
+
+        if [[ -z "$json" || "$json" == "[]" || "$json" == "null" ]]; then
+            _flow_log_info "No emails in ${target_folder}"; return 0
+        fi
+
+        local total
+        total=$(echo "$json" | jq 'length' 2>/dev/null)
+
+        if [[ "$purge_mode" == true ]]; then
+            echo ""
+            echo -e "  ${_C_RED}${_C_BOLD}PERMANENT DELETE${_C_NC}"
+            echo -e "  ${_C_RED}${total} email(s) in ${target_folder} will be permanently destroyed.${_C_NC}"
+            echo -e "  ${_C_YELLOW}This cannot be undone.${_C_NC}"
+
+            local i subject show_count=$((total < 5 ? total : 5))
+            for (( i = 0; i < show_count; i++ )); do
+                subject=$(echo "$json" | jq -r ".[$i].subject // \"(no subject)\"" 2>/dev/null)
+                [[ ${#subject} -gt 60 ]] && subject="${subject:0:57}..."
+                echo -e "    ${_C_DIM}$((i + 1)).${_C_NC} \"${subject}\""
+            done
+            [[ "$total" -gt 5 ]] && echo -e "    ${_C_DIM}... and $(( total - 5 )) more${_C_NC}"
+
+            printf "\n  Type ${_C_RED}yes${_C_NC} to permanently delete: "
+            local confirm; read -r confirm
+            if [[ "$confirm" == "yes" ]]; then
+                local -a all_ids=(); local eid
+                while IFS= read -r eid; do
+                    [[ -n "$eid" ]] && all_ids+=("$eid")
+                done < <(echo "$json" | jq -r '.[].id' 2>/dev/null)
+
+                local fail_count=0
+                for eid in "${all_ids[@]}"; do
+                    _em_hml_flags add "$eid" Deleted 2>/dev/null || (( fail_count++ ))
+                done
+
+                if _em_hml_expunge "$target_folder" && [[ $fail_count -eq 0 ]]; then
+                    _flow_log_success "Permanently deleted ${total} email(s) from ${target_folder}"
+                else
+                    _flow_log_error "Expunge completed with ${fail_count} flag errors"; return 1
+                fi
+            else
+                _flow_log_info "Cancelled — no emails deleted"
+            fi
+        else
+            if _em_delete_confirm "${total} email(s) from ${target_folder}" "$json"; then
+                local -a all_ids=(); local eid
+                while IFS= read -r eid; do
+                    [[ -n "$eid" ]] && all_ids+=("$eid")
+                done < <(echo "$json" | jq -r '.[].id' 2>/dev/null)
+
+                if _em_hml_delete "$target_folder" "${all_ids[@]}"; then
+                    _flow_log_success "Moved ${total} email(s) from ${target_folder} to Trash"
+                else
+                    _flow_log_error "Delete failed"; return 1
+                fi
+            else
+                _flow_log_info "Cancelled"
+            fi
+        fi
+        return 0
+    fi
+
+    # MODE: --query "<SEARCH>"
+    if [[ -n "$query" ]]; then
+        _flow_log_info "Searching: ${query}"
+        local json
+        json=$(_em_hml_search "$query" "$folder")
+
+        if [[ -z "$json" || "$json" == "[]" || "$json" == "null" ]]; then
+            _flow_log_info "No emails matching \"${query}\""; return 0
+        fi
+
+        local total
+        total=$(echo "$json" | jq 'length' 2>/dev/null)
+
+        if _em_delete_confirm "${total} email(s) matching \"${query}\"" "$json"; then
+            local -a match_ids=(); local eid
+            while IFS= read -r eid; do
+                [[ -n "$eid" ]] && match_ids+=("$eid")
+            done < <(echo "$json" | jq -r '.[].id' 2>/dev/null)
+
+            if _em_hml_delete "$folder" "${match_ids[@]}"; then
+                _flow_log_success "Moved ${total} email(s) to Trash"
+            else
+                _flow_log_error "Delete failed"; return 1
+            fi
+        else
+            _flow_log_info "Cancelled"
+        fi
+        return 0
+    fi
+
+    # MODE: --purge <ID> [<ID>...]
+    if [[ "$purge_mode" == true && ${#ids[@]} -gt 0 ]]; then
+        local id
+        for id in "${ids[@]}"; do
+            [[ ! "$id" =~ ^[0-9]+$ ]] && { _flow_log_error "Invalid email ID: ${id} (must be numeric)"; return 1; }
+        done
+
+        local count=${#ids[@]}
+        echo ""
+        echo -e "  ${_C_RED}${_C_BOLD}PERMANENT DELETE${_C_NC}"
+        echo -e "  ${_C_RED}${count} email(s) will be permanently destroyed.${_C_NC}"
+        echo -e "  ${_C_YELLOW}This cannot be undone.${_C_NC}"
+        echo -e "  ${_C_DIM}IDs: ${ids[*]}${_C_NC}"
+        printf "\n  Type ${_C_RED}yes${_C_NC} to permanently delete: "
+        local confirm; read -r confirm
+        if [[ "$confirm" == "yes" ]]; then
+            local fail_count=0
+            for id in "${ids[@]}"; do
+                _em_hml_flags add "$id" Deleted 2>/dev/null || (( fail_count++ ))
+            done
+            if _em_hml_expunge "$folder" && [[ $fail_count -eq 0 ]]; then
+                _flow_log_success "Permanently deleted ${count} email(s)"
+            else
+                _flow_log_error "Expunge completed with ${fail_count} flag errors"; return 1
+            fi
+        else
+            _flow_log_info "Cancelled — no emails deleted"
+        fi
+        return 0
+    fi
+
+    # MODE: <ID> [<ID>...]
+    if [[ ${#ids[@]} -gt 0 ]]; then
+        local id
+        for id in "${ids[@]}"; do
+            [[ ! "$id" =~ ^[0-9]+$ ]] && { _flow_log_error "Invalid email ID: ${id} (must be numeric)"; return 1; }
+        done
+
+        local count=${#ids[@]}
+        printf "\n  Delete ${_C_RED}${count}${_C_NC} email(s)? [y/N] "
+        local response; read -r response
+        if [[ "$response" =~ ^[Yy]$ ]]; then
+            if _em_hml_delete "$folder" "${ids[@]}"; then
+                _flow_log_success "Moved ${count} email(s) to Trash"
+            else
+                _flow_log_error "Delete failed"; return 1
+            fi
+        else
+            _flow_log_info "Cancelled"
+        fi
+        return 0
+    fi
+
+    _flow_log_error "No email IDs or mode specified"
+    echo "Usage: ${_C_CYAN}em delete <ID> [<ID>...]${_C_NC}"
+    echo "       ${_C_CYAN}em delete --folder Spam${_C_NC}"
+    echo "       ${_C_CYAN}em delete --query \"newsletter\"${_C_NC}"
+    echo "       ${_C_CYAN}em delete --pick${_C_NC}"
+    echo "Run ${_C_CYAN}em delete --help${_C_NC} for all options"
+    return 1
+}
+
+_em_delete_help() {
+    echo -e "
+${_C_BOLD}em delete${_C_NC} — Delete emails (move to Trash or permanent purge)
+
+${_C_BOLD}Usage:${_C_NC} em delete [mode] [options]
+
+${_C_GREEN}BY ID${_C_NC} ${_C_DIM}(most common)${_C_NC}:
+  ${_C_CYAN}em delete <ID>${_C_NC}              Move one email to Trash
+  ${_C_CYAN}em delete <ID1> <ID2>${_C_NC}       Move multiple emails to Trash
+
+${_C_BLUE}BY FOLDER${_C_NC}:
+  ${_C_CYAN}em delete --folder Spam${_C_NC}     Delete all in folder (shows count)
+
+${_C_BLUE}BY SEARCH${_C_NC}:
+  ${_C_CYAN}em delete --query \"newsletter\"${_C_NC}  Delete search matches (shows count + samples)
+
+${_C_BLUE}INTERACTIVE${_C_NC}:
+  ${_C_CYAN}em delete --pick${_C_NC}            fzf multi-select picker
+
+${_C_RED}PERMANENT DELETE${_C_NC} ${_C_DIM}(cannot be undone)${_C_NC}:
+  ${_C_CYAN}em delete --purge <ID>${_C_NC}       Requires typing \"yes\"
+  ${_C_CYAN}em delete --folder Spam --purge${_C_NC} Permanently delete all in folder
+
+${_C_MAGENTA}SAFETY${_C_NC}: All deletes confirm [y/N] (default No). --purge requires \"yes\".
+${_C_DIM}Aliases: em del, em rm${_C_NC}
+"
+}
+
+_em_move() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then _em_move_help; return 1; fi
+
+    local source_folder="$FLOW_EMAIL_FOLDER"
+    local pick_mode=false
+    local target_folder=""
+    local -a ids=()
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --from) [[ -z "$2" ]] && { _flow_log_error "--from requires a source folder"; return 1; }
+                source_folder="$2"; shift 2 ;;
+            --pick) pick_mode=true; shift ;;
+            --help|-h) _em_move_help; return 0 ;;
+            -*) _flow_log_error "Unknown flag: $1"; _em_move_help; return 1 ;;
+            *)
+                if [[ "$pick_mode" == false && -z "$target_folder" && ! "$1" =~ ^[0-9]+$ ]]; then
+                    target_folder="$1"
+                else
+                    ids+=("$1")
+                fi
+                shift ;;
+        esac
+    done
+
+    if [[ ${#ids[@]} -eq 0 ]]; then
+        _flow_log_error "No message ID(s) provided"
+        echo "Usage: ${_C_CYAN}em move <FOLDER> <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+
+    if [[ "$pick_mode" == true ]]; then
+        if ! command -v fzf &>/dev/null; then
+            _flow_log_error "fzf is required for --pick mode"
+            echo "Install: ${_C_CYAN}brew install fzf${_C_NC}"
+            return 1
+        fi
+        local folder_list
+        folder_list="$(_em_hml_folders)"
+        [[ -z "$folder_list" ]] && { _flow_log_error "Could not retrieve folder list"; return 1; }
+        target_folder=$(echo "$folder_list" | fzf --prompt="Move to folder> " --height=40%)
+        [[ -z "$target_folder" ]] && { _flow_log_info "Move cancelled"; return 0; }
+    fi
+
+    if [[ -z "$target_folder" ]]; then
+        _flow_log_error "No target folder specified"
+        echo "Usage: ${_C_CYAN}em move <FOLDER> <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+
+    if _em_hml_move "$source_folder" "$target_folder" "${ids[@]}"; then
+        local count=${#ids[@]}
+        if [[ $count -eq 1 ]]; then
+            _flow_log_success "Moved message ${ids[1]} to ${_C_CYAN}${target_folder}${_C_NC}"
+        else
+            _flow_log_success "Moved ${count} messages to ${_C_CYAN}${target_folder}${_C_NC}"
+        fi
+    else
+        _flow_log_error "Failed to move message(s) to ${target_folder}"
+        return 1
+    fi
+}
+
+_em_move_help() {
+    echo -e "
+${_C_BOLD}em move${_C_NC} — Move email(s) between folders
+
+${_C_BOLD}Usage:${_C_NC}
+  ${_C_CYAN}em move <FOLDER> <ID> [<ID>...]${_C_NC}         Move to target folder
+  ${_C_CYAN}em move --from <SOURCE> <FOLDER> <ID>${_C_NC}   Move from non-default source
+  ${_C_CYAN}em move --pick <ID> [<ID>...]${_C_NC}           fzf folder picker
+
+${_C_DIM}No confirmation needed (move is reversible). Alias: em mv${_C_NC}
+"
+}
+
+_em_restore() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then _em_restore_help; return 1; fi
+
+    local target_folder="INBOX"
+    local -a ids=()
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --to) [[ -z "$2" ]] && { _flow_log_error "--to requires a target folder"; return 1; }
+                target_folder="$2"; shift 2 ;;
+            --help|-h) _em_restore_help; return 0 ;;
+            -*) _flow_log_error "Unknown flag: $1"; _em_restore_help; return 1 ;;
+            *) ids+=("$1"); shift ;;
+        esac
+    done
+
+    if [[ ${#ids[@]} -eq 0 ]]; then
+        _flow_log_error "No message ID(s) provided"
+        echo "Usage: ${_C_CYAN}em restore <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+
+    local trash_folder="${FLOW_EMAIL_TRASH_FOLDER:-Trash}"
+    if _em_hml_move "$trash_folder" "$target_folder" "${ids[@]}"; then
+        local count=${#ids[@]}
+        if [[ $count -eq 1 ]]; then
+            _flow_log_success "Restored message ${ids[1]} to ${_C_CYAN}${target_folder}${_C_NC}"
+        else
+            _flow_log_success "Restored ${count} messages to ${_C_CYAN}${target_folder}${_C_NC}"
+        fi
+    else
+        _flow_log_error "Failed to restore message(s) from ${trash_folder}"
+        return 1
+    fi
+}
+
+_em_restore_help() {
+    echo -e "
+${_C_BOLD}em restore${_C_NC} — Recover email(s) from Trash
+
+${_C_BOLD}Usage:${_C_NC}
+  ${_C_CYAN}em restore <ID> [<ID>...]${_C_NC}           Move from Trash to INBOX
+  ${_C_CYAN}em restore <ID> --to <FOLDER>${_C_NC}       Move from Trash to specific folder
+
+${_C_DIM}No confirmation needed (restore is reversible).${_C_NC}
+${_C_DIM}Source: \$FLOW_EMAIL_TRASH_FOLDER (${FLOW_EMAIL_TRASH_FOLDER:-Trash})${_C_NC}
+"
+}
+
+_em_flag() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em flag <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+    local id
+    for id in "$@"; do
+        if _em_hml_flags add "$id" Flagged; then
+            _flow_log_success "Flagged email #${id}"
+        else
+            _flow_log_error "Failed to flag email #${id}"
+        fi
+    done
+}
+
+_em_unflag() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em unflag <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+    local id
+    for id in "$@"; do
+        if _em_hml_flags remove "$id" Flagged; then
+            _flow_log_success "Unflagged email #${id}"
+        else
+            _flow_log_error "Failed to unflag email #${id}"
+        fi
+    done
+}
+
+_em_todo() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em todo <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+    local id
+    for id in "$@"; do _em_todo_single "$id"; done
+}
+
+_em_todo_single() {
+    local msg_id="$1"
+    local content
+    content=$(_em_hml_read "$msg_id" plain 2>/dev/null)
+    if [[ -z "$content" ]]; then
+        _flow_log_error "Could not read email $msg_id"
+        return 1
+    fi
+
+    local items=""
+    if [[ "${FLOW_EMAIL_AI:-claude}" != "none" ]]; then
+        _flow_log_info "Extracting action items from email #${msg_id}..."
+        items=$(_em_ai_query "todo" "$(_em_ai_todo_prompt)" \
+            "$content" "" "$msg_id" 2>/dev/null)
+    fi
+
+    if [[ -z "$items" || "$items" == "NONE" ]]; then
+        local subject=""
+        if command -v jq &>/dev/null; then
+            subject=$(_em_hml_list "${FLOW_EMAIL_FOLDER:-INBOX}" 100 2>/dev/null \
+                | jq -r ".[] | select(.id == \"$msg_id\") | .subject" 2>/dev/null)
+        fi
+        if [[ -z "$subject" ]]; then
+            _flow_log_error "No action items found in email #${msg_id}"
+            return 1
+        fi
+        items="Follow up on: $subject"
+        _flow_log_info "AI unavailable — using subject as fallback"
+    fi
+
+    echo -e "\n${_C_BOLD}Action items from email #${msg_id}:${_C_NC}"
+    local line_num=0
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+        (( line_num++ ))
+        echo -e "  ${_C_CYAN}${line_num}.${_C_NC} $line"
+    done <<< "$items"
+
+    if typeset -f catch &>/dev/null; then
+        while IFS= read -r line; do
+            [[ -z "$line" ]] && continue
+            catch "Email #$msg_id: $line"
+        done <<< "$items"
+        _flow_log_success "Captured ${line_num} action item(s) to flow"
+    fi
+
+    if [[ "$(uname)" == "Darwin" ]]; then
+        printf "\n  Add to Reminders.app? [y/N] "
+        local confirm; read -r confirm
+        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+            while IFS= read -r line; do
+                [[ -z "$line" ]] && continue
+                _em_create_reminder "$line"
+            done <<< "$items"
+            _flow_log_success "Added to Reminders.app"
+        fi
+    fi
+}
+
+_em_event() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em event <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+    local id
+    for id in "$@"; do _em_event_single "$id"; done
+}
+
+_em_event_single() {
+    local msg_id="$1"
+    local content
+    content=$(_em_hml_read "$msg_id" plain 2>/dev/null)
+    if [[ -z "$content" ]]; then
+        _flow_log_error "Could not read email $msg_id"
+        return 1
+    fi
+
+    local json=""
+    if [[ "${FLOW_EMAIL_AI:-claude}" != "none" ]]; then
+        _flow_log_info "Extracting events from email #${msg_id}..."
+        json=$(_em_ai_query "schedule" "$(_em_ai_schedule_prompt)" \
+            "$content" "" "$msg_id" 2>/dev/null)
+    fi
+
+    if [[ -z "$json" ]]; then
+        _flow_log_error "AI unavailable — cannot extract events from email #${msg_id}"
+        return 1
+    fi
+
+    local event_count
+    event_count=$(echo "$json" | jq '.events | length' 2>/dev/null)
+    if [[ -z "$event_count" || "$event_count" -eq 0 ]]; then
+        _flow_log_info "No events found in email #${msg_id}"
+        return 0
+    fi
+
+    echo -e "\n${_C_BOLD}Events from email #${msg_id}:${_C_NC}"
+    local i
+    for (( i=0; i < event_count; i++ )); do
+        local title date_str time_str duration location etype
+        title=$(echo "$json" | jq -r ".events[$i].title" 2>/dev/null)
+        date_str=$(echo "$json" | jq -r ".events[$i].date" 2>/dev/null)
+        time_str=$(echo "$json" | jq -r ".events[$i].time // \"TBD\"" 2>/dev/null)
+        duration=$(echo "$json" | jq -r ".events[$i].duration_minutes // \"60\"" 2>/dev/null)
+        location=$(echo "$json" | jq -r ".events[$i].location // \"\"" 2>/dev/null)
+        etype=$(echo "$json" | jq -r ".events[$i].type // \"event\"" 2>/dev/null)
+
+        echo -e "  ${_C_CYAN}$((i+1)).${_C_NC} ${_C_BOLD}${title}${_C_NC}"
+        echo -e "     ${date_str} ${time_str} (${duration}min) ${_C_DIM}[${etype}]${_C_NC}"
+        [[ -n "$location" && "$location" != "null" ]] && echo -e "     ${_C_DIM}Location: ${location}${_C_NC}"
+    done
+
+    if typeset -f catch &>/dev/null; then
+        for (( i=0; i < event_count; i++ )); do
+            local title date_str
+            title=$(echo "$json" | jq -r ".events[$i].title" 2>/dev/null)
+            date_str=$(echo "$json" | jq -r ".events[$i].date" 2>/dev/null)
+            catch "Email #$msg_id: $title ($date_str)"
+        done
+        _flow_log_success "Captured ${event_count} event(s) to flow"
+    fi
+
+    if [[ "$(uname)" == "Darwin" ]]; then
+        printf "\n  Add to Calendar.app? [y/N] "
+        local confirm; read -r confirm
+        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+            for (( i=0; i < event_count; i++ )); do
+                local title date_str time_str duration location
+                title=$(echo "$json" | jq -r ".events[$i].title" 2>/dev/null)
+                date_str=$(echo "$json" | jq -r ".events[$i].date" 2>/dev/null)
+                time_str=$(echo "$json" | jq -r ".events[$i].time // \"09:00\"" 2>/dev/null)
+                duration=$(echo "$json" | jq -r ".events[$i].duration_minutes // \"60\"" 2>/dev/null)
+                location=$(echo "$json" | jq -r ".events[$i].location // \"\"" 2>/dev/null)
+                _em_create_calendar_event "$title" "$date_str" "$time_str" "$duration" "$location"
+            done
+            _flow_log_success "Added to Calendar.app"
+        fi
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# macOS INTEGRATION HELPERS
+# ═══════════════════════════════════════════════════════════════════
+
+_em_create_calendar_event() {
+    local title="$1" date_str="$2" time_str="${3:-09:00}" duration="${4:-60}" location="${5:-}"
+    [[ "$(uname)" != "Darwin" ]] && return 1
+
+    local start_dt="${date_str} ${time_str}"
+    local end_minutes=$(( ${duration} ))
+    local end_dt
+    end_dt=$(date -j -v "+${end_minutes}M" -f "%Y-%m-%d %H:%M" "$start_dt" "+%Y-%m-%d %H:%M" 2>/dev/null)
+    [[ -z "$end_dt" ]] && end_dt="$start_dt"
+
+    local loc_prop=""
+    [[ -n "$location" && "$location" != "null" ]] && loc_prop=", location:\"$location\""
+
+    osascript -e "
+        tell application \"Calendar\"
+            tell calendar \"Home\"
+                make new event with properties {summary:\"$title\", start date:date \"$start_dt\", end date:date \"$end_dt\"${loc_prop}}
+            end tell
+        end tell
+    " 2>/dev/null
+}
+
+_em_create_reminder() {
+    local title="$1" due_date="${2:-}"
+    [[ "$(uname)" != "Darwin" ]] && return 1
+
+    if [[ -n "$due_date" ]]; then
+        osascript -e "
+            tell application \"Reminders\"
+                make new reminder with properties {name:\"$title\", due date:date \"$due_date\"}
+            end tell
+        " 2>/dev/null
+    else
+        osascript -e "
+            tell application \"Reminders\"
+                make new reminder with properties {name:\"$title\"}
+            end tell
+        " 2>/dev/null
+    fi
+}
+
 _em_pick() {
     _em_require_himalaya || return 1
     if ! command -v fzf &>/dev/null; then
@@ -680,7 +1388,8 @@ _em_pick() {
 
     local header_line
     header_line="Folder: ${folder}  |  Unread: ${unread_count:-?}
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
+Tab=select  Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch
+Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete  Ctrl-O=todo  Ctrl-E=event
 • = unread  ★ = starred  + = attachment"
 
     # [2] Write preview script (avoids shell escaping nightmare)
@@ -738,7 +1447,7 @@ fi
 PREVIEW_EOF
     chmod +x "$preview_script"
 
-    # [3] Render list from cached JSON + launch fzf
+    # [3] Render list from cached JSON + launch fzf (multi-select enabled)
     local selected
     selected=$(jq -r '.[] | [
             .id,
@@ -755,14 +1464,16 @@ PREVIEW_EOF
               --preview-window='right:60%:wrap' \
               --header="$header_line" \
               --header-lines=0 \
-              --bind='ctrl-r:become(echo REPLY:{1})' \
-              --bind='ctrl-s:become(echo SUMMARIZE:{1})' \
-              --bind='ctrl-a:become(echo ARCHIVE:{1})' \
-              --bind='ctrl-d:become(echo DELETE:{1})' \
-              --bind='ctrl-t:become(echo CATCH:{1})' \
-              --bind='ctrl-f:become(echo STAR:{1})' \
-              --bind='ctrl-m:become(echo MOVE:{1})' \
-              --no-multi \
+              --bind='ctrl-r:become(echo REPLY:{+1})' \
+              --bind='ctrl-s:become(echo SUMMARIZE:{+1})' \
+              --bind='ctrl-a:become(echo ARCHIVE:{+1})' \
+              --bind='ctrl-d:become(echo DELETE:{+1})' \
+              --bind='ctrl-t:become(echo CATCH:{+1})' \
+              --bind='ctrl-f:become(echo STAR:{+1})' \
+              --bind='ctrl-m:become(echo MOVE:{+1})' \
+              --bind='ctrl-o:become(echo TODO:{+1})' \
+              --bind='ctrl-e:become(echo EVENT:{+1})' \
+              --multi \
               --ansi)
 
     # [4] Cleanup temp files
@@ -773,40 +1484,107 @@ PREVIEW_EOF
         return 0  # User pressed Escape
     fi
 
-    local action_id
-    if [[ "$selected" == REPLY:* ]]; then
-        action_id="${selected#REPLY:}"
-        _em_reply "$action_id"
-    elif [[ "$selected" == SUMMARIZE:* ]]; then
-        action_id="${selected#SUMMARIZE:}"
-        _em_summarize "$action_id"
-    elif [[ "$selected" == ARCHIVE:* ]]; then
-        action_id="${selected#ARCHIVE:}"
-        _em_hml_flags add "$action_id" Seen
-        _flow_log_success "Email #${action_id} archived (marked read)"
-    elif [[ "$selected" == DELETE:* ]]; then
-        action_id="${selected#DELETE:}"
-        printf "  Flag email #${action_id} as deleted? [y/N] "
-        local confirm
-        read -r confirm
-        if [[ "$confirm" =~ ^[Yy]$ ]]; then
-            _em_hml_flags add "$action_id" Deleted
-            _flow_log_success "Email #${action_id} flagged as deleted"
-        fi
-    elif [[ "$selected" == CATCH:* ]]; then
-        action_id="${selected#CATCH:}"
-        _em_catch "$action_id"
-    elif [[ "$selected" == STAR:* ]]; then
-        action_id="${selected#STAR:}"
-        _em_star "$action_id"
-    elif [[ "$selected" == MOVE:* ]]; then
-        action_id="${selected#MOVE:}"
-        _em_move "$action_id"
+    # Extract action prefix and IDs
+    local action="" first_line
+    first_line=$(echo "$selected" | head -1)
+
+    if [[ "$first_line" == *:* && "$first_line" =~ ^[A-Z]+: ]]; then
+        # Action keybind: PREFIX:id1\nPREFIX:id2... or PREFIX:id1 id2...
+        action="${first_line%%:*}"
+        local raw_ids="${first_line#*:}"
+        local -a pick_ids=()
+        # IDs may be space-separated (fzf {+1} joins with spaces)
+        local pid
+        for pid in ${=raw_ids}; do
+            pick_ids+=("$pid")
+        done
     else
-        # Default: read the selected email
-        action_id=$(echo "$selected" | cut -f1)
-        _em_read "$action_id"
+        # Plain Enter: extract IDs from tab-delimited lines
+        local -a pick_ids=()
+        while IFS=$'\t' read -r sel_id _rest; do
+            [[ -n "$sel_id" ]] && pick_ids+=("$sel_id")
+        done <<< "$selected"
+        local sel_count=${#pick_ids[@]}
+
+        if [[ $sel_count -eq 1 ]]; then
+            # Single Enter = read
+            _em_read "${pick_ids[1]}"
+            return
+        fi
+
+        # Multi-select Enter: action menu (D4)
+        echo ""
+        echo -e "  ${_C_BOLD}${sel_count} emails selected:${_C_NC}"
+        echo -e "    ${_C_CYAN}1.${_C_NC} Delete"
+        echo -e "    ${_C_CYAN}2.${_C_NC} Move"
+        echo -e "    ${_C_CYAN}3.${_C_NC} Flag"
+        echo -e "    ${_C_CYAN}4.${_C_NC} Catch"
+        echo -e "    ${_C_DIM}q. Cancel${_C_NC}"
+        printf "  Choice: "
+        local choice
+        read -r choice
+        case "$choice" in
+            1) action="DELETE" ;;
+            2) action="MOVE" ;;
+            3) action="FLAG" ;;
+            4) action="CATCH" ;;
+            *) return 0 ;;
+        esac
     fi
+
+    # Route action to handler
+    case "$action" in
+        REPLY)
+            _em_reply "${pick_ids[1]}"
+            ;;
+        SUMMARIZE)
+            _em_summarize "${pick_ids[1]}"
+            ;;
+        ARCHIVE)
+            local arc_id
+            for arc_id in "${pick_ids[@]}"; do
+                _em_hml_flags add "$arc_id" Seen
+            done
+            _flow_log_success "Archived ${#pick_ids[@]} email(s) (marked read)"
+            ;;
+        DELETE)
+            _em_delete "${pick_ids[@]}"
+            ;;
+        CATCH)
+            local cat_id
+            for cat_id in "${pick_ids[@]}"; do
+                _em_catch "$cat_id"
+            done
+            ;;
+        TODO)
+            _em_todo "${pick_ids[@]}"
+            ;;
+        EVENT)
+            _em_event "${pick_ids[@]}"
+            ;;
+        FLAG)
+            _em_flag "${pick_ids[@]}"
+            ;;
+        STAR)
+            local star_id
+            for star_id in "${pick_ids[@]}"; do
+                _em_star "$star_id"
+            done
+            ;;
+        MOVE)
+            # Need target folder — use fzf picker
+            if command -v fzf &>/dev/null; then
+                local move_target
+                move_target=$(_em_hml_folders 2>/dev/null | fzf --prompt="Move to: ")
+                if [[ -n "$move_target" ]]; then
+                    _em_hml_move "${FLOW_EMAIL_FOLDER:-INBOX}" "$move_target" "${pick_ids[@]}"
+                    _flow_log_success "Moved ${#pick_ids[@]} email(s) to $move_target"
+                fi
+            else
+                _flow_log_error "fzf required for folder selection"
+            fi
+            ;;
+    esac
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -915,6 +1693,563 @@ _em_catch() {
         echo -e "${_C_BOLD}Capture:${_C_NC} Email #$msg_id: $summary"
         echo -e "${_C_DIM}(catch command not available — copy manually)${_C_NC}"
     fi
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# DELETE / MOVE / RESTORE
+# ═══════════════════════════════════════════════════════════════════
+
+_em_delete() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_delete_help; return 0; }
+    _em_require_himalaya || return 1
+
+    local purge=false pick=false folder="" query=""
+    local -a ids=()
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --purge)       purge=true; shift ;;
+            --pick)        pick=true; shift ;;
+            --folder|-f)   shift; folder="$1"; shift ;;
+            --query|-q)    shift; query="$1"; shift ;;
+            *)             ids+=("$1"); shift ;;
+        esac
+    done
+
+    local src_folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+    local trash_folder="${FLOW_EMAIL_TRASH_FOLDER:-Trash}"
+
+    # Mode: --pick (fzf multi-select)
+    if [[ "$pick" == true ]]; then
+        if ! command -v fzf &>/dev/null; then
+            _flow_log_error "fzf required for --pick mode"
+            return 1
+        fi
+        local cache_file
+        cache_file=$(mktemp "${TMPDIR:-/tmp}/em-delpick-XXXXXX.json")
+        _em_hml_list "$src_folder" 50 > "$cache_file" 2>/dev/null
+        if [[ ! -s "$cache_file" ]]; then
+            _flow_log_error "Could not fetch emails"
+            rm -f "$cache_file"
+            return 1
+        fi
+        local selected
+        selected=$(jq -r '.[] | [.id, (.from.name // .from.addr // "unknown") | .[:20], (.subject // "(no subject)") | .[:50], (.date | split("T")[0])] | @tsv' "$cache_file" \
+            | fzf --multi --delimiter='\t' --with-nth='2..' --header="Select emails to delete (Tab=toggle, Enter=confirm)")
+        rm -f "$cache_file"
+        [[ -z "$selected" ]] && return 0
+        ids=()
+        while IFS=$'\t' read -r sel_id _rest; do
+            ids+=("$sel_id")
+        done <<< "$selected"
+        [[ ${#ids[@]} -eq 0 ]] && return 0
+    fi
+
+    # Mode: --folder (delete all in folder)
+    if [[ -n "$folder" ]]; then
+        local json count
+        json=$(_em_hml_list "$folder" 500 2>/dev/null)
+        count=$(echo "$json" | jq 'length' 2>/dev/null)
+        if [[ -z "$count" || "$count" -eq 0 ]]; then
+            _flow_log_info "No emails in $folder"
+            return 0
+        fi
+        ids=()
+        local i
+        for (( i=0; i < count; i++ )); do
+            ids+=($(echo "$json" | jq -r ".[$i].id"))
+        done
+        src_folder="$folder"
+        if ! _em_delete_confirm "$count" "$json"; then
+            return 0
+        fi
+        if [[ "$purge" == true ]]; then
+            if ! _em_purge_confirm "$count"; then
+                return 0
+            fi
+            local del_id
+            for del_id in "${ids[@]}"; do
+                _em_hml_flags add "$del_id" Deleted 2>/dev/null
+            done
+            _em_hml_expunge "$folder"
+            _flow_log_success "Permanently purged $count emails from $folder"
+            return 0
+        fi
+        _em_hml_delete "$src_folder" "${ids[@]}"
+        _flow_log_success "Deleted $count emails from $folder (moved to $trash_folder)"
+        return 0
+    fi
+
+    # Mode: --query (delete matching search results)
+    if [[ -n "$query" ]]; then
+        local json count
+        json=$(_em_hml_search "$query" "$src_folder" 2>/dev/null)
+        count=$(echo "$json" | jq 'length' 2>/dev/null)
+        if [[ -z "$count" || "$count" -eq 0 ]]; then
+            _flow_log_info "No emails matching: $query"
+            return 0
+        fi
+        ids=()
+        local i
+        for (( i=0; i < count; i++ )); do
+            ids+=($(echo "$json" | jq -r ".[$i].id"))
+        done
+        if ! _em_delete_confirm "$count" "$json"; then
+            return 0
+        fi
+        _em_hml_delete "$src_folder" "${ids[@]}"
+        _flow_log_success "Deleted $count matching emails (moved to $trash_folder)"
+        return 0
+    fi
+
+    # Mode: single/batch by IDs
+    if [[ ${#ids[@]} -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em delete <ID> [<ID>...]${_C_NC}"
+        echo "       ${_C_CYAN}em delete --folder <FOLDER>${_C_NC}"
+        echo "       ${_C_CYAN}em delete --query \"<SEARCH>\"${_C_NC}"
+        echo "       ${_C_CYAN}em delete --pick${_C_NC}"
+        return 1
+    fi
+
+    if [[ "$purge" == true ]]; then
+        if ! _em_purge_confirm "${#ids[@]}"; then
+            return 0
+        fi
+        local del_id
+        for del_id in "${ids[@]}"; do
+            _em_hml_flags add "$del_id" Deleted 2>/dev/null
+        done
+        _em_hml_expunge "$src_folder"
+        _flow_log_success "Permanently purged ${#ids[@]} email(s)"
+        return 0
+    fi
+
+    # Standard delete: confirm then move to Trash
+    local count=${#ids[@]}
+    printf "  Delete $count email(s)? [y/N] "
+    local confirm
+    read -r confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        _em_hml_delete "$src_folder" "${ids[@]}"
+        _flow_log_success "Deleted $count email(s) (moved to $trash_folder)"
+    else
+        _flow_log_info "Cancelled"
+    fi
+}
+
+_em_delete_confirm() {
+    # Show count + first 5 subjects, prompt for confirmation
+    # Args: count, json_array
+    local count="$1" json="$2"
+    echo ""
+    echo -e "  ${_C_BOLD}Delete $count email(s)?${_C_NC}"
+    local i subj
+    local show=$(( count < 5 ? count : 5 ))
+    for (( i=0; i < show; i++ )); do
+        subj=$(echo "$json" | jq -r ".[$i].subject // \"(no subject)\"" 2>/dev/null)
+        echo -e "    ${_C_DIM}$((i+1)). \"${subj:0:60}\"${_C_NC}"
+    done
+    if [[ $count -gt 5 ]]; then
+        echo -e "    ${_C_DIM}... and $((count - 5)) more${_C_NC}"
+    fi
+    echo ""
+    printf "  Confirm delete? [y/N] "
+    local response
+    read -r response
+    [[ "$response" =~ ^[Yy]$ ]]
+}
+
+_em_purge_confirm() {
+    # Permanent deletion requires typing full "yes"
+    # Args: count
+    local count="$1"
+    echo ""
+    echo -e "  ${_C_RED}${_C_BOLD}PERMANENT DELETE${_C_NC} — $count email(s) will be irrecoverable"
+    printf "  Type 'yes' to confirm: "
+    local response
+    read -r response
+    [[ "$response" == "yes" ]]
+}
+
+_em_delete_help() {
+    echo -e "
+${_C_BOLD}em delete${_C_NC} — Delete emails
+
+${_C_CYAN}em delete <ID> [<ID>...]${_C_NC}       Move email(s) to Trash
+${_C_CYAN}em delete --folder <FOLDER>${_C_NC}    Delete all in folder (confirms)
+${_C_CYAN}em delete --query \"<SEARCH>\"${_C_NC}  Delete matching emails (confirms)
+${_C_CYAN}em delete --pick${_C_NC}               Interactive fzf multi-select
+${_C_CYAN}em delete --purge <ID>${_C_NC}         ${_C_RED}PERMANENT${_C_NC} delete (requires 'yes')
+${_C_CYAN}em delete --folder X --purge${_C_NC}   ${_C_RED}PERMANENT${_C_NC} delete all in folder
+
+${_C_DIM}Aliases: em del, em rm${_C_NC}
+${_C_DIM}Safety: All deletes confirm [y/N]. --purge requires typing 'yes'.${_C_NC}
+"
+}
+
+_em_move() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_move_help; return 0; }
+    _em_require_himalaya || return 1
+
+    local src_folder="${FLOW_EMAIL_FOLDER:-INBOX}" pick=false target=""
+    local -a ids=()
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --from)  shift; src_folder="$1"; shift ;;
+            --pick)  pick=true; shift ;;
+            *)
+                if [[ -z "$target" ]]; then
+                    target="$1"
+                else
+                    ids+=("$1")
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    # --pick mode: fzf folder selection
+    if [[ "$pick" == true ]]; then
+        if ! command -v fzf &>/dev/null; then
+            _flow_log_error "fzf required for --pick mode"
+            return 1
+        fi
+        # IDs come after --pick (target is actually an ID in this mode)
+        if [[ -n "$target" ]]; then
+            ids=("$target" "${ids[@]}")
+        fi
+        if [[ ${#ids[@]} -eq 0 ]]; then
+            _flow_log_error "Email ID required with --pick"
+            echo "Usage: ${_C_CYAN}em move --pick <ID> [<ID>...]${_C_NC}"
+            return 1
+        fi
+        local folder_list
+        folder_list=$(_em_hml_folders 2>/dev/null)
+        if [[ -z "$folder_list" ]]; then
+            _flow_log_error "Could not list folders"
+            return 1
+        fi
+        target=$(echo "$folder_list" | fzf --prompt="Move to: " --header="Select target folder")
+        [[ -z "$target" ]] && return 0
+    fi
+
+    if [[ -z "$target" ]]; then
+        _flow_log_error "Target folder required"
+        echo "Usage: ${_C_CYAN}em move <FOLDER> <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+    if [[ ${#ids[@]} -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em move <FOLDER> <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+
+    _em_hml_move "$src_folder" "$target" "${ids[@]}"
+    if [[ $? -eq 0 ]]; then
+        _flow_log_success "Moved ${#ids[@]} email(s) to $target"
+    else
+        _flow_log_error "Move failed"
+        return 1
+    fi
+}
+
+_em_move_help() {
+    echo -e "
+${_C_BOLD}em move${_C_NC} — Move emails between folders
+
+${_C_CYAN}em move <FOLDER> <ID> [<ID>...]${_C_NC}         Move email(s) to folder
+${_C_CYAN}em move --from <SRC> <FOLDER> <ID>${_C_NC}      Move from non-default source
+${_C_CYAN}em move --pick <ID> [<ID>...]${_C_NC}           fzf folder picker
+
+${_C_DIM}Aliases: em mv${_C_NC}
+${_C_DIM}Default source: \$FLOW_EMAIL_FOLDER (${FLOW_EMAIL_FOLDER:-INBOX})${_C_NC}
+"
+}
+
+_em_restore() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_restore_help; return 0; }
+    _em_require_himalaya || return 1
+
+    local target="INBOX"
+    local -a ids=()
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --to) shift; target="$1"; shift ;;
+            *)    ids+=("$1"); shift ;;
+        esac
+    done
+
+    if [[ ${#ids[@]} -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em restore <ID> [<ID>...] [--to <FOLDER>]${_C_NC}"
+        return 1
+    fi
+
+    local trash_folder="${FLOW_EMAIL_TRASH_FOLDER:-Trash}"
+    _em_hml_move "$trash_folder" "$target" "${ids[@]}"
+    if [[ $? -eq 0 ]]; then
+        _flow_log_success "Restored ${#ids[@]} email(s) to $target"
+    else
+        _flow_log_error "Restore failed"
+        return 1
+    fi
+}
+
+_em_restore_help() {
+    echo -e "
+${_C_BOLD}em restore${_C_NC} — Restore emails from Trash
+
+${_C_CYAN}em restore <ID> [<ID>...]${_C_NC}         Move from Trash to INBOX
+${_C_CYAN}em restore <ID> --to <FOLDER>${_C_NC}     Move from Trash to specific folder
+
+${_C_DIM}Source: \$FLOW_EMAIL_TRASH_FOLDER (${FLOW_EMAIL_TRASH_FOLDER:-Trash})${_C_NC}
+"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# FLAG / UNFLAG
+# ═══════════════════════════════════════════════════════════════════
+
+_em_flag() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em flag <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+
+    local msg_id
+    for msg_id in "$@"; do
+        _em_hml_flags add "$msg_id" Flagged
+        _flow_log_success "Flagged email #$msg_id"
+    done
+}
+
+_em_unflag() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em unflag <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+
+    local msg_id
+    for msg_id in "$@"; do
+        _em_hml_flags remove "$msg_id" Flagged
+        _flow_log_success "Unflagged email #$msg_id"
+    done
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# TODO / EVENT (AI extraction + macOS integration)
+# ═══════════════════════════════════════════════════════════════════
+
+_em_todo() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em todo <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+
+    local msg_id
+    for msg_id in "$@"; do
+        local content
+        content=$(_em_hml_read "$msg_id" plain 2>/dev/null)
+        if [[ -z "$content" ]]; then
+            _flow_log_error "Could not read email #$msg_id"
+            continue
+        fi
+
+        # AI extract action items
+        local items=""
+        if [[ "${FLOW_EMAIL_AI:-claude}" != "none" ]]; then
+            items=$(_em_ai_query "todo" "$(_em_ai_todo_prompt)" \
+                "$content" "" "$msg_id" 2>/dev/null)
+        fi
+
+        # Fallback to subject line
+        if [[ -z "$items" || "$items" == "NONE" ]]; then
+            local subj=""
+            if command -v jq &>/dev/null; then
+                subj=$(_em_hml_list "${FLOW_EMAIL_FOLDER:-INBOX}" 100 2>/dev/null \
+                    | jq -r ".[] | select(.id == \"$msg_id\") | .subject" 2>/dev/null)
+            fi
+            if [[ -n "$subj" ]]; then
+                items="Follow up on: $subj"
+            else
+                _flow_log_warning "No action items found in email #$msg_id"
+                continue
+            fi
+        fi
+
+        # Display extracted items
+        echo ""
+        echo -e "  ${_C_BOLD}Action items from email #$msg_id:${_C_NC}"
+        local line_num=0
+        while IFS= read -r item; do
+            [[ -z "$item" ]] && continue
+            (( line_num++ ))
+            echo -e "    ${_C_CYAN}$line_num.${_C_NC} $item"
+
+            # Feed into catch command
+            if typeset -f catch &>/dev/null; then
+                catch "Email #$msg_id: $item"
+            fi
+        done <<< "$items"
+
+        # Reminders.app prompt (macOS only)
+        if [[ "$(uname)" == "Darwin" ]]; then
+            echo ""
+            printf "  Add to Reminders.app? [y/N] "
+            local response
+            read -r response
+            if [[ "$response" =~ ^[Yy]$ ]]; then
+                while IFS= read -r item; do
+                    [[ -z "$item" ]] && continue
+                    _em_create_reminder "$item"
+                done <<< "$items"
+                _flow_log_success "Added to Reminders.app"
+            fi
+        fi
+    done
+}
+
+_em_event() {
+    _em_require_himalaya || return 1
+    if [[ $# -eq 0 ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em event <ID> [<ID>...]${_C_NC}"
+        return 1
+    fi
+
+    local msg_id
+    for msg_id in "$@"; do
+        local content
+        content=$(_em_hml_read "$msg_id" plain 2>/dev/null)
+        if [[ -z "$content" ]]; then
+            _flow_log_error "Could not read email #$msg_id"
+            continue
+        fi
+
+        # AI extract events
+        local result=""
+        if [[ "${FLOW_EMAIL_AI:-claude}" != "none" ]]; then
+            result=$(_em_ai_query "schedule" "$(_em_ai_schedule_prompt)" \
+                "$content" "" "$msg_id" 2>/dev/null)
+        fi
+
+        if [[ -z "$result" ]]; then
+            _flow_log_warning "Could not extract events from email #$msg_id"
+            continue
+        fi
+
+        # Parse events JSON
+        local event_count
+        event_count=$(echo "$result" | jq '.events | length' 2>/dev/null)
+        if [[ -z "$event_count" || "$event_count" -eq 0 ]]; then
+            _flow_log_info "No events found in email #$msg_id"
+            continue
+        fi
+
+        echo ""
+        echo -e "  ${_C_BOLD}Events from email #$msg_id:${_C_NC}"
+        local i title edate etime duration location etype
+        for (( i=0; i < event_count; i++ )); do
+            title=$(echo "$result" | jq -r ".events[$i].title // \"(untitled)\"" 2>/dev/null)
+            edate=$(echo "$result" | jq -r ".events[$i].date // \"TBD\"" 2>/dev/null)
+            etime=$(echo "$result" | jq -r ".events[$i].time // \"\"" 2>/dev/null)
+            duration=$(echo "$result" | jq -r ".events[$i].duration_minutes // \"\"" 2>/dev/null)
+            location=$(echo "$result" | jq -r ".events[$i].location // \"\"" 2>/dev/null)
+            etype=$(echo "$result" | jq -r ".events[$i].type // \"event\"" 2>/dev/null)
+
+            echo -e "    ${_C_CYAN}$((i+1)).${_C_NC} ${_C_BOLD}$title${_C_NC}"
+            echo -e "       ${_C_DIM}Date: $edate${etime:+  Time: $etime}${duration:+  ($duration min)}${_C_NC}"
+            [[ -n "$location" && "$location" != "null" ]] && echo -e "       ${_C_DIM}Location: $location${_C_NC}"
+            echo -e "       ${_C_DIM}Type: $etype${_C_NC}"
+
+            # Feed into catch command
+            if typeset -f catch &>/dev/null; then
+                catch "Email #$msg_id: $title on $edate${etime:+ at $etime}"
+            fi
+        done
+
+        # Calendar.app prompt (macOS only)
+        if [[ "$(uname)" == "Darwin" ]]; then
+            echo ""
+            printf "  Add to Calendar.app? [y/N] "
+            local response
+            read -r response
+            if [[ "$response" =~ ^[Yy]$ ]]; then
+                for (( i=0; i < event_count; i++ )); do
+                    title=$(echo "$result" | jq -r ".events[$i].title // \"(untitled)\"" 2>/dev/null)
+                    edate=$(echo "$result" | jq -r ".events[$i].date // \"\"" 2>/dev/null)
+                    etime=$(echo "$result" | jq -r ".events[$i].time // \"09:00\"" 2>/dev/null)
+                    duration=$(echo "$result" | jq -r ".events[$i].duration_minutes // 60" 2>/dev/null)
+                    location=$(echo "$result" | jq -r ".events[$i].location // \"\"" 2>/dev/null)
+                    _em_create_calendar_event "$title" "$edate" "$etime" "$duration" "$location"
+                done
+                _flow_log_success "Added to Calendar.app"
+            fi
+        fi
+    done
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# macOS INTEGRATION HELPERS
+# ═══════════════════════════════════════════════════════════════════
+
+_em_create_reminder() {
+    # Create a reminder in macOS Reminders.app (default list)
+    # Args: title
+    local title="$1"
+    [[ "$(uname)" != "Darwin" ]] && return 1
+    osascript -e "tell application \"Reminders\" to make new reminder with properties {name:\"$title\"}" 2>/dev/null
+}
+
+_em_create_calendar_event() {
+    # Create an event in macOS Calendar.app (default calendar)
+    # Args: title, date (YYYY-MM-DD), time (HH:MM), duration_minutes, location
+    local title="$1" edate="$2" etime="${3:-09:00}" duration="${4:-60}" location="${5:-}"
+    [[ "$(uname)" != "Darwin" ]] && return 1
+
+    # Convert YYYY-MM-DD + HH:MM to AppleScript date string
+    local month day year hour minute
+    year="${edate%%-*}"
+    local rest="${edate#*-}"
+    month="${rest%%-*}"
+    day="${rest#*-}"
+    hour="${etime%%:*}"
+    minute="${etime#*:}"
+
+    local end_minute=$(( (10#$hour * 60 + 10#$minute + duration) % 1440 ))
+    local end_hour=$(( end_minute / 60 ))
+    end_minute=$(( end_minute % 60 ))
+
+    osascript <<APPLESCRIPT 2>/dev/null
+tell application "Calendar"
+    set startDate to current date
+    set year of startDate to $year
+    set month of startDate to $month
+    set day of startDate to $day
+    set hours of startDate to $hour
+    set minutes of startDate to $minute
+    set seconds of startDate to 0
+    set endDate to current date
+    set year of endDate to $year
+    set month of endDate to $month
+    set day of endDate to $day
+    set hours of endDate to $end_hour
+    set minutes of endDate to $end_minute
+    set seconds of endDate to 0
+    tell (first calendar whose name is not missing value)
+        make new event with properties {summary:"$title", start date:startDate, end date:endDate, location:"$location"}
+    end tell
+end tell
+APPLESCRIPT
 }
 
 _em_respond() {
