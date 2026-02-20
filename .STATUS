@@ -9,28 +9,36 @@
 ## Priority: 2
 ## Progress: 85
 
-## Current Session (2026-02-18)
+## Current Session (2026-02-20)
 
 **Session activity:**
+- spec: wrote SPEC-em-delete-actions-2026-02-20.md (456 lines) — 7 new em commands
+- spec: resolved 4 open questions as design decisions (D1-D4)
+- worktree: created feature/em-delete-actions with spec committed
+- partial: began implementation (adapter + AI layers done, dispatcher commands partially added)
+- rules: updated workflow — dev session must STOP after worktree + orchestration plan
+- rules: updated CLAUDE.md (project + global) and MEMORY.md with dev session boundary rule
+
+**em delete-actions spec (7 new commands):**
+1. `em delete` — single, batch, --folder, --query, --pick, --purge
+2. `em move` — move between folders, --from, --pick (fzf folder picker)
+3. `em restore` — convenience wrapper (Trash → INBOX, --to)
+4. `em todo` — AI extract action items → catch + Reminders.app
+5. `em event` — AI extract events (JSON) → catch + Calendar.app
+6. `em flag` / `em unflag` — IMAP Flagged flag
+7. Restructured `em pick` — multi-select, action menu, new keybinds
+
+**Design decisions resolved:**
+- D1: Add `FLOW_EMAIL_TRASH_FOLDER` config (default: Trash)
+- D2: Use macOS default calendar (no config)
+- D3: Use default Reminders list (no config)
+- D4: Action menu on multi-select Enter (not auto-delete)
+
+**Previous session (2026-02-18):**
 - merged: PR #400 (em ai + em catch) → dev
 - merged: PR #401 (dev → main), released v7.3.0
-- cleanup: removed ORCHESTRATE file, fixed tutorial version (6.7.1→7.2.1)
-- docs: updated version refs (v7.2.0→v7.3.0 across 12+ files), command counts (18→20), test counts (134→137)
-- docs: added CHANGELOG entry for em ai/catch features
-- docs: fixed 20+ inaccuracies in EMAIL-TUTORIAL.md (fabricated himalaya flags, wrong accounts)
-- docs: removed fabricated prompt customization section from EMAIL-DISPATCHER-GUIDE.md
-- docs: added himalaya-mcp cross-references to all 4 email docs ("Two interfaces, one backend")
-- docs: brainstorm + spec for em quick-wins (star, move, thread, snooze, digest)
-- docs: updated README What's New (Teach Doctor v2 → v7.3.0 Email AI), added em to dispatcher table
-- docs: deployed docs site (3x)
-- lint: fixed 546 markdownlint errors across 5 docs files (README, tutorial, guide, refcard, master guide)
+- docs: brainstorm + spec for em quick-wins
 - worktree: created feature/em-quick-wins with ORCHESTRATE plan
-
-**Features merged (em AI improvements):**
-1. `em ai` subcommand — runtime AI backend switching (claude/gemini/none/toggle)
-2. Gemini `extra_args` — `-e none` for fast startup (~1-2s vs ~5-8s)
-3. `em catch <ID>` — AI-summarize email → pipe into `catch` command
-4. `Ctrl-T` in `em pick` — fzf keybind for inline task capture
 
 **Previous session (2026-02-16, evening):**
 - verified: CI all green (tests, docs deploy, pages build)
@@ -98,8 +106,8 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.3.0 released, synced with main |
+| feature-em-delete-actions | `feature/em-delete-actions` | Spec + partial impl, needs orchestration plan |
 | feature-em-quick-wins | `feature/em-quick-wins` | ORCHESTRATE ready, not started |
-| ~~feature-em-ai-improvements~~ | `feature/em-ai-improvements` | Merged → dev (PR #400) |
 | feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
 
 ---
@@ -125,15 +133,16 @@
 
 ## Next Action
 
-1. **Em quick-wins** — `cd ~/.git-worktrees/flow-cli/feature-em-quick-wins && claude` (star, move, thread, snooze, digest)
-2. Scholar Config Sync (#299) — next feature candidate
-3. API documentation push (50% → 80%)
-4. Code workspace manager — spec ready on dev
+1. **Em delete-actions** — `cd ~/.git-worktrees/flow-cli/feature-em-delete-actions && claude` (needs orchestration plan + finish impl)
+2. **Em quick-wins** — `cd ~/.git-worktrees/flow-cli/feature-em-quick-wins && claude` (star, thread, snooze, digest)
+3. Scholar Config Sync (#299) — next feature candidate
+4. API documentation push (50% → 80%)
+5. Code workspace manager — spec ready on dev
 
 ---
 
-**Last Updated:** 2026-02-19
-**Status:** v7.3.0 released | 45/45 tests passing | 15 dispatchers | 137 test files | 8000+ test functions | 0 lint errors | em quick-wins worktree ready
+**Last Updated:** 2026-02-20
+**Status:** v7.3.0 released | 45/45 tests passing | 15 dispatchers | 137 test files | 8000+ test functions | 0 lint errors | em delete-actions worktree has partial impl
 ## wins: Fixed the regression bug (2026-02-18), --category fix squashed the bug (2026-02-18), fixed the bug (2026-02-18), Fixed the regression bug (2026-02-16), --category fix squashed the bug (2026-02-16)
 ## streak: 1
-## last_active: 2026-02-18 15:20
+## last_active: 2026-02-20 10:00
