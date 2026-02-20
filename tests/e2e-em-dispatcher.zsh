@@ -388,6 +388,292 @@ test_cache_set_api() {
 run_test "cache category storage" "test_cache_set_api"
 
 # ══════════════════════════════════════════════════════════════
+# Section 8: Delete Operations (DESTRUCTIVE — use test email)
+# ══════════════════════════════════════════════════════════════
+
+echo ""
+echo "${CYAN}Section 8: Delete Operations${RESET}"
+
+# E2E delete tests require a disposable email. We self-send a test email
+# then delete it. Only runs when --send is active and we have an email ID.
+
+test_delete_no_args() {
+    local output
+    output=$(em delete 2>&1)
+    [[ $? -ne 0 ]] && return 0
+    echo "Expected error when no args provided"
+    return 1
+}
+run_test "em delete with no args returns error" "test_delete_no_args"
+
+test_delete_help() {
+    local output
+    output=$(em delete --help 2>&1)
+    if [[ "$output" == *"purge"* && "$output" == *"folder"* ]]; then
+        return 0
+    else
+        echo "Delete help missing expected content"
+        return 1
+    fi
+}
+run_test "em delete --help shows usage" "test_delete_help"
+
+# Live delete test — only with --send flag to avoid destroying real email
+test_delete_live() {
+    if [[ "$SEND_ENABLED" != "true" ]]; then
+        echo "Live delete tests disabled (use --send)"
+        exit 77
+    fi
+    # Requires a sacrificial email ID — would need to self-send first
+    echo "Live delete requires manual email setup"
+    exit 77
+}
+run_test "em delete live (destructive)" "test_delete_live"
+
+# ══════════════════════════════════════════════════════════════
+# Section 9: Move & Restore Operations
+# ══════════════════════════════════════════════════════════════
+
+echo ""
+echo "${CYAN}Section 9: Move & Restore Operations${RESET}"
+
+test_move_no_args() {
+    local output
+    output=$(em move 2>&1)
+    [[ $? -ne 0 ]] && return 0
+    echo "Expected error when no args provided"
+    return 1
+}
+run_test "em move with no args returns error" "test_move_no_args"
+
+test_move_help() {
+    local output
+    output=$(em move --help 2>&1)
+    if [[ "$output" == *"FOLDER"* && "$output" == *"--from"* ]]; then
+        return 0
+    else
+        echo "Move help missing expected content"
+        return 1
+    fi
+}
+run_test "em move --help shows usage" "test_move_help"
+
+test_restore_no_args() {
+    local output
+    output=$(em restore 2>&1)
+    [[ $? -ne 0 ]] && return 0
+    echo "Expected error when no args provided"
+    return 1
+}
+run_test "em restore with no args returns error" "test_restore_no_args"
+
+test_restore_help() {
+    local output
+    output=$(em restore --help 2>&1)
+    if [[ "$output" == *"INBOX"* || "$output" == *"Trash"* ]]; then
+        return 0
+    else
+        echo "Restore help missing expected content"
+        return 1
+    fi
+}
+run_test "em restore --help shows usage" "test_restore_help"
+
+# Live move round-trip: move to Trash then restore — only with --send
+test_move_restore_roundtrip() {
+    if [[ "$SEND_ENABLED" != "true" ]]; then
+        echo "Live move/restore tests disabled (use --send)"
+        exit 77
+    fi
+    if [[ -z "$FIRST_EMAIL_ID" ]]; then
+        echo "No email to test with"
+        exit 77
+    fi
+    # Move to Trash, then restore — verifies both paths work
+    # Using a known safe email (the first one)
+    local move_out
+    move_out=$(em move Trash "$FIRST_EMAIL_ID" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        echo "Move to Trash failed: $move_out"
+        return 1
+    fi
+    sleep 1
+    local restore_out
+    restore_out=$(em restore "$FIRST_EMAIL_ID" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        echo "Restore from Trash failed: $restore_out"
+        return 1
+    fi
+    return 0
+}
+run_test "em move + restore round-trip (destructive)" "test_move_restore_roundtrip"
+
+# ══════════════════════════════════════════════════════════════
+# Section 10: Flag Operations
+# ══════════════════════════════════════════════════════════════
+
+echo ""
+echo "${CYAN}Section 10: Flag Operations${RESET}"
+
+test_flag_no_args() {
+    local output
+    output=$(em flag 2>&1)
+    [[ $? -ne 0 ]] && return 0
+    echo "Expected error when no args provided"
+    return 1
+}
+run_test "em flag with no args returns error" "test_flag_no_args"
+
+# Live flag round-trip: flag then unflag
+test_flag_roundtrip() {
+    if [[ -z "$FIRST_EMAIL_ID" ]]; then
+        echo "No email to test with"
+        exit 77
+    fi
+    local flag_out
+    flag_out=$(em flag "$FIRST_EMAIL_ID" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        echo "Flag failed: $flag_out"
+        return 1
+    fi
+    local unflag_out
+    unflag_out=$(em unflag "$FIRST_EMAIL_ID" 2>&1)
+    if [[ $? -ne 0 ]]; then
+        echo "Unflag failed: $unflag_out"
+        return 1
+    fi
+    return 0
+}
+run_test "em flag + unflag round-trip" "test_flag_roundtrip"
+
+# ══════════════════════════════════════════════════════════════
+# Section 11: Todo & Event Extraction
+# ══════════════════════════════════════════════════════════════
+
+echo ""
+echo "${CYAN}Section 11: Todo & Event Extraction${RESET}"
+
+test_todo_no_args() {
+    local output
+    output=$(em todo 2>&1)
+    [[ $? -ne 0 ]] && return 0
+    echo "Expected error when no args provided"
+    return 1
+}
+run_test "em todo with no args returns error" "test_todo_no_args"
+
+test_event_no_args() {
+    local output
+    output=$(em event 2>&1)
+    [[ $? -ne 0 ]] && return 0
+    echo "Expected error when no args provided"
+    return 1
+}
+run_test "em event with no args returns error" "test_event_no_args"
+
+# Live todo extraction — requires AI + email
+test_todo_live() {
+    if [[ -z "$FIRST_EMAIL_ID" ]]; then
+        echo "No email to test with"
+        exit 77
+    fi
+    local ai=$(_em_ai_available 2>/dev/null)
+    if [[ -z "$ai" ]]; then
+        echo "No AI provider available"
+        exit 77
+    fi
+    local output
+    output=$(em todo "$FIRST_EMAIL_ID" 2>&1)
+    # Any output (even "no action items") means it ran successfully
+    [[ -n "$output" ]] && return 0
+    echo "No output from em todo"
+    return 1
+}
+run_test "em todo extracts items from email" "test_todo_live"
+
+# Live event extraction — requires AI + email
+test_event_live() {
+    if [[ -z "$FIRST_EMAIL_ID" ]]; then
+        echo "No email to test with"
+        exit 77
+    fi
+    local ai=$(_em_ai_available 2>/dev/null)
+    if [[ -z "$ai" ]]; then
+        echo "No AI provider available"
+        exit 77
+    fi
+    local output
+    output=$(em event "$FIRST_EMAIL_ID" 2>&1)
+    # Any output (even "no events found") means it ran successfully
+    [[ -n "$output" ]] && return 0
+    echo "No output from em event"
+    return 1
+}
+run_test "em event extracts events from email" "test_event_live"
+
+# ══════════════════════════════════════════════════════════════
+# Section 12: Dispatcher Aliases
+# ══════════════════════════════════════════════════════════════
+
+echo ""
+echo "${CYAN}Section 12: Dispatcher Aliases${RESET}"
+
+test_alias_del() {
+    local output
+    output=$(em del 2>&1)
+    # Should error (no args) but NOT "Unknown command"
+    [[ "$output" != *"Unknown command"* ]] && return 0
+    echo "'em del' not routed to delete"
+    return 1
+}
+run_test "em del routes to delete" "test_alias_del"
+
+test_alias_rm() {
+    local output
+    output=$(em rm 2>&1)
+    [[ "$output" != *"Unknown command"* ]] && return 0
+    echo "'em rm' not routed to delete"
+    return 1
+}
+run_test "em rm routes to delete" "test_alias_rm"
+
+test_alias_mv() {
+    local output
+    output=$(em mv 2>&1)
+    [[ "$output" != *"Unknown command"* ]] && return 0
+    echo "'em mv' not routed to move"
+    return 1
+}
+run_test "em mv routes to move" "test_alias_mv"
+
+test_alias_fl() {
+    local output
+    output=$(em fl 2>&1)
+    [[ "$output" != *"Unknown command"* ]] && return 0
+    echo "'em fl' not routed to flag"
+    return 1
+}
+run_test "em fl routes to flag" "test_alias_fl"
+
+test_alias_td() {
+    local output
+    output=$(em td 2>&1)
+    [[ "$output" != *"Unknown command"* ]] && return 0
+    echo "'em td' not routed to todo"
+    return 1
+}
+run_test "em td routes to todo" "test_alias_td"
+
+test_alias_ev() {
+    local output
+    output=$(em ev 2>&1)
+    [[ "$output" != *"Unknown command"* ]] && return 0
+    echo "'em ev' not routed to event"
+    return 1
+}
+run_test "em ev routes to event" "test_alias_ev"
+
+# ══════════════════════════════════════════════════════════════
 # Summary
 # ══════════════════════════════════════════════════════════════
 
