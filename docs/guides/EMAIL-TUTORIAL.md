@@ -3,7 +3,7 @@
 **The `em` email dispatcher — A 60-minute hands-on guide**
 
 **Last Updated:** 2026-02-18
-**Read Time:** 65 minutes hands-on (11 parts)
+**Read Time:** 70 minutes hands-on (12 parts)
 **Difficulty:** Beginner-friendly
 
 !!! tip "Prefer reading email in Neovim?"
@@ -32,6 +32,7 @@ By the end of this tutorial, you'll be able to:
 - Understand caching for faster AI operations
 - Switch AI backends at runtime for speed or quality
 - Capture emails as tasks with one command
+- Manage emails: delete, move, restore, flag, and extract AI insights
 
 ---
 
@@ -1513,6 +1514,124 @@ em pick
 
 ---
 
+## Part 12: Email Management (5 min)
+
+### 🎯 Learning Goal
+
+Delete, move, restore, flag, and extract action items from emails.
+
+### Step 12.1: Delete Emails
+
+Move emails to Trash with confirmation:
+
+```bash
+em delete 42
+```
+
+✅ **Expected:** Confirmation prompt `[y/N]`, then moves to Trash on `y`.
+
+Batch delete multiple:
+
+```bash
+em del 42 43 44
+```
+
+Delete all emails in a folder:
+
+```bash
+em delete --folder Spam
+```
+
+✅ **Expected:** Shows subject preview and count, then `[y/N]` confirmation.
+
+### Step 12.2: Move & Restore
+
+Move email to a folder:
+
+```bash
+em move Archive 42
+```
+
+Restore from Trash:
+
+```bash
+em restore 42
+```
+
+✅ **Expected:** Email moved from Trash back to INBOX.
+
+### Step 12.3: Flag Emails
+
+Star/flag important emails:
+
+```bash
+em flag 42
+```
+
+Remove the flag:
+
+```bash
+em unflag 42
+```
+
+### Step 12.4: Extract Action Items (AI)
+
+Extract actionable tasks from an email:
+
+```bash
+em todo 42
+```
+
+✅ **Expected:** AI extracts action items, numbered list displayed. If on macOS,
+you'll be prompted to add to Reminders.app.
+
+### Step 12.5: Extract Calendar Events (AI)
+
+Pull meeting dates and deadlines from an email:
+
+```bash
+em event 42
+```
+
+✅ **Expected:** AI extracts events with title, date, time, and location.
+If on macOS, you'll be prompted to add to Calendar.app.
+
+### Step 12.6: Interactive Multi-Select
+
+Use the fzf picker with new management keybinds:
+
+```bash
+em pick
+```
+
+In the picker, try:
+
+- **Tab** — select multiple emails
+- **Ctrl-D** — delete selected
+- **Ctrl-F** — flag/unflag selected
+- **Ctrl-O** — extract action items (AI)
+- **Ctrl-E** — extract calendar events (AI)
+
+### Step 12.7: Permanent Delete (Purge)
+
+⚠️ **Warning:** Purge is irreversible.
+
+```bash
+em delete --purge 42
+```
+
+✅ **Expected:** Must type full word `yes` (not just `y`) to confirm permanent deletion.
+
+### 💡 What You Learned
+
+- `em delete` moves to Trash (reversible), `--purge` is permanent
+- `em move` and `em restore` manage folder organization
+- `em flag` / `em unflag` for starring important emails
+- `em todo` and `em event` use AI to extract actionable information
+- New keybinds in `em pick` for management actions
+
+---
+
 ## 🎉 Congratulations
 
 You've completed the email tutorial!
@@ -1529,6 +1648,8 @@ You've completed the email tutorial!
 - ✅ Batch process with `em respond`
 - ✅ Search emails (`em find`)
 - ✅ Understand caching (`em cache stats`)
+- ✅ Delete, move, restore, and flag emails
+- ✅ Extract action items and calendar events with AI
 - ✅ Build efficient workflows
 
 ---
@@ -1621,6 +1742,20 @@ export FLOW_EMAIL_PAGE_SIZE=50
 | `em folders`           | List folders                     |
 | `em dash`              | Dashboard                        |
 
+**Management:**
+
+| Command                | Purpose                          |
+| ---------------------- | -------------------------------- |
+| `em delete <ID...>`    | Move to Trash (with confirmation)|
+| `em delete --purge`    | Permanent delete (type `yes`)    |
+| `em delete --folder`   | Delete all in folder             |
+| `em move <FOLDER> <ID>`| Move email to folder             |
+| `em restore <ID>`      | Restore from Trash to INBOX      |
+| `em flag <ID>`         | Star/flag email                  |
+| `em unflag <ID>`       | Remove flag                      |
+| `em todo <ID>`         | Extract action items (AI)        |
+| `em event <ID>`        | Extract calendar events (AI)     |
+
 **Utilities:**
 
 | Command                | Purpose                          |
@@ -1651,6 +1786,8 @@ export FLOW_EMAIL_PAGE_SIZE=50
 | `em resp` | `em respond`   |
 | `em a`    | `em attach`    |
 | `em c`    | `em catch`     |
+| `em del`  | `em delete`    |
+| `em mv`   | `em move`      |
 | `em dr`   | `em doctor`    |
 
 ---
@@ -1777,11 +1914,17 @@ After this tutorial, you should be able to:
 - [ ] Use keyboard shortcuts in fzf
 - [ ] Configure AI backend (claude/gemini)
 - [ ] Create project-local config files
+- [ ] Delete emails safely (Trash with confirmation)
+- [ ] Move and restore emails between folders
+- [ ] Flag/unflag important emails
+- [ ] Extract action items with AI (`em todo`)
+- [ ] Extract calendar events with AI (`em event`)
+- [ ] Use new management keybinds in `em pick`
 
 ---
 
-**Total Time:** ~60 minutes hands-on
-**Commands Learned:** 20+ commands
+**Total Time:** ~70 minutes hands-on
+**Commands Learned:** 30+ commands
 **Workflows Mastered:** 4 (morning, teaching, ADHD batch, quick check)
 
 **You're now an email power user!** 🎯
@@ -1790,4 +1933,4 @@ After this tutorial, you should be able to:
 
 *Last updated: 2026-02-18*
 *flow-cli version: 7.3.0*
-*Tutorial version: 1.1*
+*Tutorial version: 1.2*

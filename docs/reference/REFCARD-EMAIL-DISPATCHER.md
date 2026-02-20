@@ -21,12 +21,14 @@ mindmap
     Search & Browse<br/>2 commands
       find
       pick
-    AI Features<br/>5 commands
+    AI Features<br/>7 commands
       respond
       classify
       summarize
       ai
       catch
+      todo
+      event
     Organize<br/>7 commands
       star
       starred
@@ -35,6 +37,14 @@ mindmap
       snooze
       snoozed
       digest
+    Manage<br/>7 commands
+      delete
+      move
+      restore
+      flag
+      unflag
+      todo
+      event
     Quick Info<br/>3 commands
       unread
       dash
@@ -81,6 +91,13 @@ mindmap
 | **em cache** | — | `em cache <action>` | Cache operations (stats, prune, clear, warm) |
 | **em doctor** | `dr` | `em doctor` | Dependency health check |
 | **em help** | `h, --help` | `em help` | Show all commands |
+| **em delete** | `del, rm` | `em delete <ID> [--folder F] [--query Q] [--pick] [--purge]` | Delete email(s) — move to Trash (or permanent with --purge) |
+| **em move** | `mv` | `em move <FOLDER> <ID> [--from F]` | Move email(s) to folder |
+| **em restore** | — | `em restore <ID> [--to F]` | Restore from Trash (default: to INBOX) |
+| **em flag** | `fl` | `em flag <ID> [<ID>...]` | Star/flag email(s) |
+| **em unflag** | — | `em unflag <ID> [<ID>...]` | Unstar/unflag email(s) |
+| **em todo** | `td` | `em todo <ID> [<ID>...]` | Extract action items (AI) → Reminders.app |
+| **em event** | `ev` | `em event <ID> [<ID>...]` | Extract calendar events (AI) → Calendar.app |
 
 ---
 
@@ -110,6 +127,7 @@ graph TD
     A -->|cache layer| C["em-cache<br/>(TTL: 1h-24h)"]
     A -->|AI abstraction| D["em-ai<br/>Backend: claude/gemini"]
     A -->|render pipeline| E["em-render<br/>Smart content detection"]
+    A -->|manage ops| F["himalaya delete/move/flag"]
     D -->|fallback chain| D1["claude"]
     D -->|fallback chain| D2["gemini"]
     E -->|HTML| E1["w3m → lynx → pandoc → bat"]
@@ -213,6 +231,23 @@ Send this email? [y/N]
 - `em reply <ID>` (batch mode `--batch`) → confirm before send
 - `em respond --review` → per-draft confirmation
 
+### Delete Safety Gate
+
+Delete operations require explicit confirmation:
+
+```text
+Delete 5 email(s)? [y/N]
+```
+
+**Default:** No (requires `y` or `Y` to proceed)
+
+**Applies to:**
+
+- `em delete <ID>` → simple `[y/N]`
+- `em delete --folder <F>` → shows subject list + `[y/N]`
+- `em delete --query <Q>` → shows matching subjects + `[y/N]`
+- `em delete --purge <ID>` → requires full word `yes` (not just `y`)
+
 ### Draft Preservation
 
 Rejected sends preserve draft for later:
@@ -302,10 +337,12 @@ Interactive fzf email browser with preview:
 | **Ctrl-R** | Reply | Open reply with AI draft |
 | **Ctrl-S** | Summarize | Generate 1-line summary (AI) |
 | **Ctrl-A** | Archive | Mark as read (folders archives) |
-| **Ctrl-D** | Delete | Flag for deletion (with confirm) |
+| **Ctrl-D** | Delete | Delete (move to Trash with [y/N] confirm) |
 | **Ctrl-T** | Catch | Capture email as task (AI summary → catch) |
 | **Ctrl-F** | Star | Toggle starred (Flagged) status |
 | **Ctrl-M** | Move | Move to folder (fzf picker) |
+| **Ctrl-O** | Todo | Extract action items (AI → Reminders.app) |
+| **Ctrl-E** | Event | Extract calendar events (AI → Calendar.app) |
 | **Escape** | Exit | Return to shell |
 
 **Header Info:** Folder, unread count, legend
@@ -327,6 +364,7 @@ Per-operation timeout configuration (seconds):
 | `summarize` | 15s | configured backend | 24h |
 | `draft` | 30s | configured backend | 1h |
 | `schedule` | 15s | configured backend | 24h |
+| `todo` | 15s | configured backend | 24h |
 
 **Override:** `FLOW_EMAIL_AI_TIMEOUT=<seconds>` (global for all ops)
 
@@ -439,6 +477,19 @@ em snooze 42 tomorrow           # Snooze until tomorrow 9am
 em snoozed                      # List snoozed emails
 em digest                       # AI-grouped today's summary
 em digest --week                # Weekly summary
+# Email management
+em delete 42                    # Move to Trash (with confirm)
+em del 42 43 44                 # Batch delete
+em delete --folder Spam         # Delete all in folder
+em delete --query "newsletter"  # Delete by search
+em delete --purge 42            # PERMANENT delete (requires "yes")
+em move Archive 42              # Move to Archive
+em mv Archive 10 20 30          # Batch move
+em restore 42                   # Restore from Trash → INBOX
+em flag 42                      # Star/flag email
+em unflag 42                    # Remove star
+em todo 42                      # AI → extract action items
+em event 42                     # AI → extract calendar events
 
 # ─────────────────────────────────────────────────────────────
 # Quick info
@@ -773,5 +824,5 @@ em ai claude                   # Use a known backend
 ---
 
 **Version:** v7.3.0
-**Last Updated:** 2026-02-18
-**Commands:** 27 total (4 core + 2 search + 5 AI + 7 organize + 3 info + 3 util + 2 infra + 1 help)
+**Last Updated:** 2026-02-20
+**Commands:** 34 total (4 core + 2 search + 5 AI + 7 organize + 7 manage + 3 info + 3 util + 2 infra + 1 help)
