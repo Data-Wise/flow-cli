@@ -110,6 +110,7 @@ Environment variables (set in shell, `.env`, or `.flow/email.conf`):
 | `FLOW_EMAIL_AI` | `claude` | enum | AI backend: `claude` \| `gemini` \| `none` |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | int | Default inbox list size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | string | Default folder (mailbox name) |
+| `FLOW_EMAIL_TRASH_FOLDER` | `Trash` | string | Trash folder (Exchange: `Deleted Items`) |
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | int | AI draft timeout in seconds |
 | `FLOW_EMAIL_CACHE_MAX_MB` | `50` | int | Max cache size in MB (0 = no limit) |
 | `FLOW_EMAIL_CACHE_WARM` | `false` | bool | Enable background cache warming on `em dash` |
@@ -663,6 +664,7 @@ em attach 42 ~/Documents        # Custom directory
 FLOW_EMAIL_AI=claude
 FLOW_EMAIL_PAGE_SIZE=30
 FLOW_EMAIL_FOLDER=INBOX
+FLOW_EMAIL_TRASH_FOLDER=Trash          # Exchange: "Deleted Items"
 FLOW_EMAIL_AI_TIMEOUT=45
 ```
 
