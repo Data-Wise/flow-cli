@@ -8,7 +8,7 @@ tags:
 
 > **Learn flow-cli step by step** - From your first session to advanced workflows.
 >
-> **Total time:** ~6 hours | **21 tutorials** | **Beginner → Intermediate**
+> **Total time:** ~9 hours | **31 tutorials** | **Beginner → Intermediate**
 
 ---
 
@@ -33,12 +33,25 @@ flowchart TD
         T11["<a href='11-tm-dispatcher/'>Tutorial 11</a><br/>Terminal Manager<br/>⏱ 15 min"]
         T12["<a href='12-dot-dispatcher/'>Tutorial 12</a><br/>Dotfiles & Secrets<br/>⏱ 25 min"]
         T13["<a href='13-prompt-dispatcher/'>Tutorial 13</a><br/>Prompt Engine<br/>⏱ 15 min"]
+        T35["<a href='35-em-cli-email/'>Tutorial 35</a><br/>Email CLI<br/>⏱ 20 min"]
+        T37["<a href='37-mcp-dispatcher/'>Tutorial 37</a><br/>MCP Servers<br/>⏱ 15 min"]
+        T38["<a href='38-r-dispatcher/'>Tutorial 38</a><br/>R Packages<br/>⏱ 15 min"]
+        T39["<a href='39-qu-dispatcher/'>Tutorial 39</a><br/>Quarto<br/>⏱ 15 min"]
+        T40["<a href='40-v-dispatcher/'>Tutorial 40</a><br/>Workflow (v)<br/>⏱ 15 min"]
+        T41["<a href='41-obs-dispatcher/'>Tutorial 41</a><br/>Obsidian<br/>⏱ 15 min"]
+        T42["<a href='42-g-dispatcher/'>Tutorial 42</a><br/>Git Shortcuts<br/>⏱ 20 min"]
+    end
+
+    subgraph ADHD["🧠 ADHD & Productivity"]
+        T43["<a href='43-adhd-daily-routine/'>Tutorial 43</a><br/>Daily Routine<br/>⏱ 20 min"]
+        T44["<a href='44-quick-capture/'>Tutorial 44</a><br/>Quick Capture<br/>⏱ 10 min"]
     end
 
     subgraph ADVANCED["🎓 Advanced Workflows"]
         T8["<a href='08-git-feature-workflow/'>Tutorial 8</a><br/>Git Workflow<br/>⏱ 20 min"]
         T9["<a href='09-worktrees/'>Tutorial 9</a><br/>Worktrees<br/>⏱ 20 min"]
         T14["<a href='14-teach-dispatcher/'>Tutorial 14</a><br/>Teaching<br/>⏱ 20 min"]
+        T36["<a href='36-em-delete-actions/'>Tutorial 36</a><br/>Email Manage<br/>⏱ 20 min"]
         T21["<a href='21-teach-analyze/'>Tutorial 21</a><br/>Teach Analyze<br/>⏱ 25 min"]
         T22["<a href='22-plugin-optimization/'>Tutorial 22</a><br/>Plugin Optimization<br/>⏱ 20 min"]
         T23["<a href='23-token-automation/'>Tutorial 23</a><br/>Token Automation<br/>⏱ 15 min"]
@@ -78,12 +91,18 @@ flowchart TD
 
     T11 --> T13
 
+    T35 --> T36
+    T39 --> T14
+    T42 --> T8
+    T6 --> T43
+    T43 --> T44
+
     classDef beginner fill:#d4edda,stroke:#28a745,color:#155724
     classDef intermediate fill:#fff3cd,stroke:#ffc107,color:#856404
     classDef optional fill:#e2e3e5,stroke:#6c757d,color:#383d41
 
-    class T1,T2,T3,T6,T10,T11,T12,T13 beginner
-    class T8,T9,T14,T21,T22,T23,T24,T25,T26 intermediate
+    class T1,T2,T3,T6,T10,T11,T12,T13,T35,T37,T38,T39,T40,T41,T42,T43,T44 beginner
+    class T8,T9,T14,T21,T22,T23,T24,T25,T26,T36 intermediate
     class T4,T5,T7 optional
 ```
 
@@ -159,9 +178,19 @@ flowchart TD
 | 29 | [First Exam Walkthrough](29-first-exam-walkthrough.md) | 25 min | 🟡 Intermediate | End-to-end exam creation |
 | 30 | [New Instructor Workflow](30-new-instructor-complete-workflow.md) | 30 min | 🟢 Beginner | Complete setup for new instructors |
 | 32 | [Health Check (Doctor v2)](32-teach-doctor.md) | 20 min | 🟡 Intermediate | Two-mode health check |
-| 34 | [Editor Workflow](34-editor-workflow.md) | 8 min | 🟢 Beginner | work -e flag, Claude Code modes ⭐ **NEW** |
+| 34 | [Editor Workflow](34-editor-workflow.md) | 8 min | 🟢 Beginner | work -e flag, Claude Code modes |
+| 35 | [Email CLI (em)](35-em-cli-email.md) | 20 min | 🟢 Beginner | Inbox, read, send, reply, AI drafts |
+| 36 | [Email Management](36-em-delete-actions.md) | 20 min | 🟡 Intermediate | Delete, move, restore, flag, todo, event |
+| 37 | [MCP Dispatcher](37-mcp-dispatcher.md) | 15 min | 🟢 Beginner | MCP server management |
+| 38 | [R Dispatcher](38-r-dispatcher.md) | 15 min | 🟡 Intermediate | R package development workflow |
+| 39 | [Quarto Dispatcher](39-qu-dispatcher.md) | 15 min | 🟢 Beginner | Quarto render, preview, publish |
+| 40 | [Workflow (v/vibe)](40-v-dispatcher.md) | 15 min | 🟢 Beginner | Testing, sessions, dashboards, health |
+| 41 | [Obsidian Vaults](41-obs-dispatcher.md) | 15 min | 🟢 Beginner | Vault discovery, stats, AI search |
+| 42 | [Git Shortcuts (g)](42-g-dispatcher.md) | 20 min | 🟢 Beginner | Git shortcuts with token validation |
+| 43 | [ADHD Daily Routine](43-adhd-daily-routine.md) | 20 min | 🟢 Beginner | Morning briefing, just start, timers |
+| 44 | [Quick Capture](44-quick-capture.md) | 10 min | 🟢 Beginner | catch, inbox, crumb, trail |
 
-**Total estimated time:** ~6 hours (all tutorials)
+**Total estimated time:** ~9 hours (all tutorials)
 
 ---
 
