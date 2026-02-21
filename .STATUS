@@ -9,9 +9,17 @@
 ## Priority: 2
 ## Progress: 90
 
-## Current Session (2026-02-20)
+## Current Session (2026-02-21)
 
 **Session activity:**
+- chore: deleted 62 stale root-level files (planning docs, scripts, artifacts)
+- fix: Homebrew formula selective install (74MB → ~4MB)
+- ci: added version guard workflow (block release on FLOW_VERSION mismatch)
+- release: v7.4.1 — Homebrew cleanup release
+
+## Previous Session (2026-02-20)
+
+**Previous session activity:**
 - review: reviewed PRs #402 (em organize) and #403 (em delete-actions), fixed blocking issues
 - fix: jq type mismatch in _em_star, printf injection in _em_move, AppleScript sanitization
 - fix: removed 686 lines dead code (duplicate function definitions)
@@ -93,7 +101,8 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.4.0 released, synced with main |
+| Main repo | `dev` | v7.4.1 in progress |
+| feature-homebrew-release-fix | `feature/homebrew-release-fix` | Homebrew cleanup + v7.4.1 |
 
 ---
 
@@ -124,8 +133,8 @@
 
 ---
 
-**Last Updated:** 2026-02-20
-**Status:** v7.4.0 | 47/47 tests passing | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors
-## wins: Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20), fixed the bug (2026-02-20), Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20)
+**Last Updated:** 2026-02-21
+**Status:** v7.4.1 | 47/47 tests passing | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors
+## wins: Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21), fixed the bug (2026-02-21), Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20)
 ## streak: 1
-## last_active: 2026-02-20 22:42
+## last_active: 2026-02-21 12:01
