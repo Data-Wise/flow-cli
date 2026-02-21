@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [v7.4.1] — 2026-02-21 — Homebrew Cleanup
+
+### Fixed
+- **Homebrew formula**: selective install — reduce 74MB Cellar to ~4MB
+- **Repo cleanup**: delete 62 stale root-level files (planning docs, scripts, artifacts)
+
+### Added
+- **CI version guard**: new workflow blocks releases when FLOW_VERSION mismatches tag
+
+---
+
 ## [Unreleased]
 
 ### Added
