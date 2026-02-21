@@ -20,6 +20,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `em snoozed` — list snoozed emails with READY/pending status
   - `em digest` / `em dg` — daily/weekly email digest with AI grouping or fallback
 - **`em pick` keybinds** — Ctrl-F (star), Ctrl-M (move) in fzf email picker
+- **`em` manage commands** — 7 new subcommands for email lifecycle:
+  - `em delete` / `em del` — delete email (move to Trash), with `--pick` interactive mode and `--purge` permanent delete
+  - `em move` / `em mv` — move email to folder (with fzf picker)
+  - `em restore` — restore email from Trash to INBOX
+  - `em flag` / `em unflag` — star/unstar for follow-up
+  - `em todo` / `em td` — AI-powered todo extraction from email
+  - `em event` / `em ev` — create calendar event from email
+- **`em pick` multi-select** — Tab to select multiple emails, action menu (Delete/Move/Flag/Catch) on multi-Enter, new keybinds: Ctrl-O (todo), Ctrl-E (event)
+- **10 new tutorials** (35-44) — em CLI, em delete actions, mcp, r, qu, v/vibe, obs, g, ADHD daily routine, quick capture
 
 ### Changed
 

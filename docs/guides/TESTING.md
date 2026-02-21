@@ -359,4 +359,4 @@ When adding new functionality:
 
 **Established:** v5.0.0 (2026-01-11)
 **Overhauled:** v7.3.0 (2026-02-16) — shared framework, mock registry, dogfood scanner
-**Test Count:** 134 test files, 8000+ assertions, 45/45 suites passing
+**Test Count:** 166 test files, 12000+ assertions, 45/45 suites passing

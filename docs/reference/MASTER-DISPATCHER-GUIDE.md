@@ -52,7 +52,7 @@ teach init            # Initialize course
 | [tm](#tm-dispatcher) | Terminal manager | 5 | Beginner |
 | [prompt](#prompt-dispatcher) | Prompt engine | 3 | Beginner |
 | [v](#v-dispatcher) | Vibe coding mode | 4 | Beginner |
-| [em](#em-dispatcher) | Email (himalaya) | 18 | Beginner → Advanced |
+| [em](#em-dispatcher) | Email (himalaya) | 31 | Beginner → Advanced |
 
 ---
 

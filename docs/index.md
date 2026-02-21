@@ -26,10 +26,13 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.3.0: Email AI Improvements"
-    Switch AI backends at runtime with `em ai gemini`, capture emails as tasks with `em catch 42`, and speed up Gemini with `extra_args`. See [Email Dispatcher Guide](guides/EMAIL-DISPATCHER-GUIDE.md).
+!!! success "🎉 What's New: 31 Email Commands"
+    **Organize:** `em star`, `em thread`, `em snooze`, `em digest` — manage your inbox without leaving the terminal.
+    **Manage:** `em delete`, `em move`, `em restore`, `em flag`, `em todo`, `em event` — full email lifecycle with `--pick` multi-select.
+    **AI:** Switch backends with `em ai gemini`, capture tasks with `em catch 42`.
+    [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
     [→ Quick Reference](reference/REFCARD-EMAIL-DISPATCHER.md){ .md-button }
-    [→ See what's new](CHANGELOG.md){ .md-button }
+    [→ Changelog](CHANGELOG.md){ .md-button }
 
 ---
 
@@ -234,7 +237,7 @@ Commands that adapt to your project type:
 | `tok` | `tok github` / `tok rotate` | Token management |
 | `prompt` | `prompt toggle` | Prompt engine switcher |
 | `v` | `v on` / `v status` | Vibe coding mode |
-| `em` | `em inbox` / `em pick` | Email management (himalaya) |
+| `em` | `em inbox` / `em pick` / `em star` | Email: 31 commands (read, reply, AI, organize, manage) |
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
 
