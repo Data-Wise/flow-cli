@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.3.0
+- **Current Version:** v7.4.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
@@ -52,16 +52,18 @@ git checkout dev && git pull origin dev
 
 **Constraint:** Never write feature code on `dev` branch
 
-#### 2. Create Worktree (Isolation)
+#### 2. Create Worktree + Orchestration Plan
 
 ```bash
 git worktree add ~/.git-worktrees/flow-cli/<feature> -b feature/<feature> dev
 git worktree list
 ```
 
+After creating the worktree, write an `ORCHESTRATE-<feature>.md` file **to the worktree** with the full implementation plan (task list, file changes, verification steps). Commit it to the feature branch.
+
 #### 3. STOP - NEW Session Required
 
-**CRITICAL:** Do NOT start working in the worktree from the planning session. Tell user to `cd` into worktree and start a new `claude` session.
+**CRITICAL:** Do NOT start implementing in the worktree from the dev/planning session. The dev session's job ends after creating the worktree and committing the orchestration plan. Tell user to `cd` into worktree and start a new `claude` session.
 
 #### 4. Atomic Development (In Worktree)
 
@@ -91,6 +93,7 @@ git tag -a vX.Y.Z -m "vX.Y.Z" && git push --tags
 2. About to commit to dev -> Confirm if spec/planning commit
 3. Push to main/dev without PR -> Block, require PR
 4. Working in worktree from planning session -> Stop, tell user new session
+5. About to implement code after creating worktree on dev -> STOP, write orchestration plan only
 
 **See:** `docs/contributing/BRANCH-WORKFLOW.md`
 
@@ -189,7 +192,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 137 test files, 8000+ test functions
+├── tests/                    # 166 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -256,7 +259,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**137 test files, 8000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
+**166 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -284,8 +287,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.3.0 | **Tests:** 8000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.4.0 | **Tests:** 12000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-18 (v7.3.0)
+**Last Updated:** 2026-02-20 (v7.4.0)

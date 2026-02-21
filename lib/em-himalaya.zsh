@@ -174,12 +174,17 @@ _em_hml_template_send() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_hml_search() {
-    # Search messages via IMAP SEARCH
+    # Search messages via IMAP SEARCH (single keyword — himalaya limitation)
     # Args: query, folder (default: INBOX)
     # Returns: JSON array of matching envelopes
     local query="$1" folder="${2:-INBOX}"
-    himalaya envelope list -f "$folder" --query "$query" \
-        --output json 2>/dev/null
+    # himalaya only supports single-word subject search;
+    # pick the longest word as the most distinctive keyword
+    local keyword
+    keyword=$(echo "$query" | tr ' ' '\n' | awk '{ print length, $0 }' | sort -rn | head -1 | cut -d' ' -f2-)
+    [[ -z "$keyword" ]] && keyword="$query"
+    himalaya envelope list -f "$folder" --output json \
+        subject "$keyword" 2>/dev/null
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -190,6 +195,39 @@ _em_hml_folders() {
     # List available mail folders
     # Returns: folder list (text or JSON depending on himalaya version)
     himalaya folder list 2>/dev/null
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# HEADERS
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_headers() {
+    # Extract specific headers from a raw message
+    # Args: message_id, folder (default: INBOX)
+    # Returns: raw headers (up to first blank line of the .eml)
+    local msg_id="$1" folder="${2:-INBOX}"
+    local tmpdir
+    tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/em-hdr-XXXXXX")
+    if himalaya message export --full -f "$folder" -d "$tmpdir" "$msg_id" &>/dev/null; then
+        local eml_file
+        eml_file=$(find "$tmpdir" -name "*.eml" -type f 2>/dev/null | head -1)
+        if [[ -n "$eml_file" ]]; then
+            # Output headers only (up to first blank line)
+            sed '/^$/q' "$eml_file"
+        fi
+    fi
+    rm -rf "$tmpdir"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# MESSAGE MOVE
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_move() {
+    # Move message to a different folder
+    # Args: message_id, target_folder, source_folder (default: INBOX)
+    local msg_id="$1" target="$2" source="${3:-INBOX}"
+    himalaya message move -f "$source" "$msg_id" "$target" 2>/dev/null
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -229,6 +267,34 @@ _em_hml_flags() {
         remove) himalaya flag remove "$msg_id" "$flag" 2>/dev/null ;;
         *)      himalaya flag list "$msg_id" 2>/dev/null ;;
     esac
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# DELETE / MOVE / EXPUNGE
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_delete() {
+    # Move message(s) to Trash (himalaya message delete)
+    # Args: folder, IDs...
+    # Note: himalaya "delete" = move to Trash, NOT permanent
+    local folder="$1"; shift
+    [[ $# -eq 0 ]] && return 1
+    himalaya message delete -f "$folder" "$@" 2>/dev/null
+}
+
+_em_hml_move() {
+    # Move message(s) between folders
+    # Args: source_folder, target_folder, IDs...
+    local src="$1" dst="$2"; shift 2
+    [[ $# -eq 0 ]] && return 1
+    himalaya message move -f "$src" "$dst" "$@" 2>/dev/null
+}
+
+_em_hml_expunge() {
+    # Permanently remove messages flagged as Deleted from a folder
+    # Args: folder
+    local folder="$1"
+    himalaya folder expunge "$folder" 2>/dev/null
 }
 
 # ═══════════════════════════════════════════════════════════════════

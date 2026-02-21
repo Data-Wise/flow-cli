@@ -8,7 +8,7 @@ tags:
 
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
-**Version:** v7.3.0
+**Version:** v7.4.0
 **Last Updated:** 2026-02-16
 
 ---
@@ -902,6 +902,31 @@ em respond
 em respond --dry-run      # Classify only (no drafts)
 em respond -n 50          # Process 50 emails
 em respond --review       # Review/send cached drafts
+
+# Switch AI backend at runtime
+em ai                    # Show current backend
+em ai gemini             # Switch to Gemini
+em ai toggle             # Cycle backends
+em ai none               # Disable AI
+
+# Capture email as task
+em catch 42              # AI summarize → pipe to catch
+```
+
+### Reading Options
+
+```bash
+# Smart rendering (auto-detects content type)
+em read 42
+
+# Force HTML rendering
+em html 42
+
+# Clean Markdown via pandoc (great for Outlook)
+em read --md 42
+
+# Raw MIME source (.eml export)
+em read --raw 42
 ```
 
 ### Browse & Search
@@ -909,7 +934,10 @@ em respond --review       # Review/send cached drafts
 ```bash
 # fzf email browser with preview
 em pick
-# Keybindings: Enter=read, Ctrl-S=summarize, Ctrl-A=archive, Ctrl-R=reply
+# Keybindings: Enter=read, Ctrl-R=reply, Ctrl-S=summarize,
+#              Ctrl-T=catch, Ctrl-F=star, Ctrl-M=move,
+#              Ctrl-A=archive, Ctrl-D=delete,
+#              Ctrl-O=todo, Ctrl-E=event
 
 # Browse specific folder
 em pick Sent
@@ -926,6 +954,62 @@ em folders
 # Download attachments
 em attach 42
 ```
+
+### Organize
+
+```bash
+# Star/flag toggle
+em star 42              # Toggle star (Flagged) on email
+em starred              # List all starred emails
+
+# Move to folder
+em move 42 Archive      # Move with explicit folder
+em move 42              # Move with fzf folder picker (requires fzf)
+
+# Conversation thread
+em thread 42            # Show chronological thread for email
+
+# Snooze for later
+em snooze 42 2h         # Snooze for 2 hours
+em snooze 42 1d         # Snooze for 1 day
+em snooze 42 tomorrow   # Snooze until tomorrow 9am
+em snoozed              # List snoozed emails (READY / pending)
+
+# Daily/weekly digest
+em digest               # Today's emails grouped by priority
+em digest --week        # This week's emails
+em digest -n 5          # Limit to 5 emails
+```
+
+### Manage
+
+```bash
+# Delete emails (move to Trash)
+em delete 42                     # Delete by ID (confirm [y/N])
+em del 42 43 44                  # Batch delete
+em delete --folder Spam          # Delete entire folder contents
+em delete --query "newsletter"   # Delete by search query
+em delete --purge 42             # PERMANENT delete (requires "yes")
+em delete --pick                 # fzf multi-select delete
+
+# Move & restore
+em move Archive 42               # Move to Archive
+em mv Archive 10 20 30           # Batch move
+em move --from Sent Archive 42   # Move from specific folder
+em restore 42                    # Restore from Trash → INBOX
+em restore 42 --to Archive       # Restore to specific folder
+
+# Flag management
+em flag 42                       # Star/flag email
+em fl 42 43                      # Batch flag
+em unflag 42                     # Remove star
+
+# AI extraction
+em todo 42                       # Extract action items → Reminders.app
+em event 42                      # Extract calendar events → Calendar.app
+```
+
+> **Safety:** Delete requires `[y/N]` (default: No). Purge requires full word `yes`.
 
 ### Management
 
@@ -944,7 +1028,8 @@ export FLOW_EMAIL_AI=claude     # AI backend (claude/gemini/none)
 export FLOW_EMAIL_PAGE_SIZE=25  # Inbox page size
 ```
 
-> **Safety:** Every send requires `[y/N]` confirmation (default: No)
+> **Safety:** Every send requires `[y/N]` confirmation (default: No).
+> Delete requires `[y/N]` (default: No). Purge requires full word `yes`.
 
 ---
 
@@ -1208,6 +1293,6 @@ mcp help
 
 ---
 
-**Version:** v7.3.0
+**Version:** v7.4.0
 **Last Updated:** 2026-02-16
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

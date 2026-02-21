@@ -6,7 +6,9 @@
 
 ## Overview
 
-The email dispatcher (`em`) brings ADHD-friendly email management to your terminal through a pure ZSH interface to [himalaya](https://github.com/pimalaya/himalaya). Think inbox zero in under 5 minutes, with AI-powered draft generation, smart rendering, and zero browser context-switching.
+The email dispatcher (`em`) brings ADHD-friendly email management to your terminal through a pure ZSH interface
+to [himalaya](https://github.com/pimalaya/himalaya). Think inbox zero in under 5 minutes, with AI-powered draft
+generation, smart rendering, and zero browser context-switching.
 
 ```bash
 em                    # Quick pulse (unread + 10 latest)
@@ -14,6 +16,11 @@ em pick               # Interactive fzf browser
 em read 42            # Smart rendering (HTML/markdown/plain)
 em reply 42           # AI draft in $EDITOR
 em respond            # Batch AI drafts for actionable emails
+em star 42            # Toggle star/flag
+em move 42 Archive    # Move to folder
+em thread 42          # Conversation thread view
+em snooze 42 2h       # Snooze for later
+em digest             # AI-grouped daily summary
 em ai gemini          # Switch AI backend at runtime
 em catch 42           # Capture email as task
 ```
@@ -26,7 +33,8 @@ em catch 42           # Capture email as task
 
 ## Why em?
 
-Traditional email clients are heavyweight, distraction-prone, and slow. The `em` dispatcher brings email management into your flow-cli workflow:
+Traditional email clients are heavyweight, distraction-prone, and slow. The `em` dispatcher brings email
+management into your flow-cli workflow:
 
 - **Fast** - Sub-second response times for common operations
 - **Focused** - No ads, no social features, no distractions
@@ -35,19 +43,34 @@ Traditional email clients are heavyweight, distraction-prone, and slow. The `em`
 - **AI-optional** - Works great without AI, better with it
 - **Safe** - Explicit confirmation for all sends (default: No)
 
+## Two Interfaces, One Backend
+
+Both `em` and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) wrap the same himalaya CLI but serve
+different interaction models:
+
+| | em (terminal-native) | himalaya-mcp (AI-native) |
+| --- | --- | --- |
+| **Interface** | Keyboard-driven (fzf, $EDITOR) | Conversation-driven (Claude) |
+| **Speed** | Sub-second, interactive | Deliberate, context-rich |
+| **Best for** | Quick triage, reading, replying | Batch analysis, digests, drafting |
+| **AI role** | Optional enhancement | Core interface |
+
+They coexist naturally — use `em` for fast terminal operations and himalaya-mcp when you want Claude to help
+compose, triage, or analyze email content.
+
 ## Prerequisites
 
 ### Required
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| --- | --- | --- |
 | [himalaya](https://github.com/pimalaya/himalaya) | Email CLI backend (IMAP/SMTP) | `brew install himalaya` or `cargo install himalaya` |
 | [jq](https://stedolan.github.io/jq/) | JSON parsing | `brew install jq` |
 
 ### Recommended
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| --- | --- | --- |
 | [fzf](https://github.com/junegunn/fzf) | Interactive email picker | `brew install fzf` |
 | [bat](https://github.com/sharkdp/bat) | Syntax highlighting | `brew install bat` |
 | [w3m](https://w3m.sourceforge.net/) | HTML rendering (primary) | `brew install w3m` |
@@ -58,7 +81,7 @@ Traditional email clients are heavyweight, distraction-prone, and slow. The `em`
 ### Optional
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| --- | --- | --- |
 | [email-oauth2-proxy](https://github.com/simonrob/email-oauth2-proxy) | OAuth2 for Gmail/Outlook | `pip install email-oauth2-proxy` |
 | terminal-notifier | Desktop notifications | `brew install terminal-notifier` |
 | claude CLI | AI drafts (primary) | See [Claude Code docs](https://claude.ai/docs) |
@@ -72,7 +95,7 @@ em doctor
 
 This checks all dependencies and shows your current configuration:
 
-```
+```text
 em doctor — Email Dependency Check
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ok  himalaya             v1.0.0
@@ -116,7 +139,9 @@ himalaya --version
 
 ### 2. Configure himalaya
 
-himalaya supports multiple accounts and authentication methods. See the [himalaya configuration guide](https://pimalaya.org/himalaya/cli/latest/configuration/index.html) for complete setup instructions.
+himalaya supports multiple accounts and authentication methods. See the
+[himalaya configuration guide](https://pimalaya.org/himalaya/cli/latest/configuration/index.html) for complete
+setup instructions.
 
 **Quick Gmail Setup (OAuth2):**
 
@@ -152,7 +177,8 @@ sender.auth.type = "password"
 sender.auth.raw = "your-password-here"  # Or use keychain
 ```
 
-> **Security Note:** Use app-specific passwords or OAuth2 for Gmail/Outlook. Store passwords in your system keychain rather than plaintext config files.
+> **Security Note:** Use app-specific passwords or OAuth2 for Gmail/Outlook. Store passwords in your system
+> keychain rather than plaintext config files.
 
 Test your setup:
 
@@ -166,7 +192,7 @@ If this works, you're ready to use `em`.
 
 Set environment variables in your `.zshrc` or create a config file:
 
-**Option A: Environment Variables**
+#### Option A: Environment Variables
 
 ```bash
 # In ~/.zshrc or ~/.config/zsh/.zshrc
@@ -176,7 +202,7 @@ export FLOW_EMAIL_PAGE_SIZE=25          # Default inbox page size
 export FLOW_EMAIL_FOLDER="INBOX"        # Default folder
 ```
 
-**Option B: Config File**
+#### Option B: Config File
 
 Create `~/.config/flow/email.conf`:
 
@@ -216,7 +242,8 @@ Full inbox: em i  Browse: em p  Help: em h
 **What I see:**
 - Unread count (ADHD dopamine hit when it's zero)
 - Latest 10 emails with indicators:
-  - `*` = unread
+  - `•` = unread
+  - `★` = starred (flagged)
   - `+` = has attachment
 - Quick next actions
 
@@ -228,14 +255,14 @@ $ em pick
 
 This opens an interactive fzf picker:
 
-```
+```text
 Folder: INBOX  |  Unread: 3
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
-* = unread  + = attachment
-> * + Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
-  * Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
-    David Lee            Re: Paper Draft Comments            2026-02-09
-    Eve Martinez         Office Hours Schedule Change        2026-02-09
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
+• = unread  ★ = starred  + = attachment
+> •+ Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
+  •  Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
+     David Lee            Re: Paper Draft Comments            2026-02-09
+     Eve Martinez         Office Hours Schedule Change        2026-02-09
   141/200
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Message #142 [NEW] [ATTACHMENT]
@@ -255,6 +282,8 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D
 - `Ctrl-R` - Reply to selected email
 - `Ctrl-S` - Show AI summary
 - `Ctrl-T` - Capture as task (via `catch`)
+- `Ctrl-F` - Toggle star/flag
+- `Ctrl-M` - Move to folder
 - `Ctrl-A` - Archive (mark as read)
 - `Ctrl-D` - Delete (with confirmation)
 
@@ -343,7 +372,7 @@ em -n 10            # Shorthand for inbox 10
 
 Output shows structured table with indicators:
 
-```
+```text
   ID    * + From                 Subject                                  Date
   ───── ── ──────────────────── ──────────────────────────────────────── ──────────
   142   * + Alice Johnson        Re: STAT-101 Exam Grading Question       2026-02-10
@@ -476,7 +505,7 @@ When displaying emails, `em` automatically strips common noise patterns from Mic
 - **Angle-bracket URLs** (`<https://...>`) — removed
 - **Mailto inline** (`(mailto:user@example.com)`) — removed
 - **Quoted lines** (`> original text`) — dimmed for visual separation
-- **Signature blocks** (`-- ` separator onwards) — dimmed
+- **Signature blocks** (`--` separator onwards) — dimmed
 
 This cleanup runs on all read operations, including the fzf preview in `em pick`.
 
@@ -664,7 +693,7 @@ export FLOW_EMAIL_AI="none"      # Disable AI features
 
 If the primary backend fails (timeout, not installed, API error), `em` automatically tries the next available backend:
 
-```
+```text
 claude → gemini → fail gracefully
 ```
 
@@ -686,7 +715,7 @@ em ai none            # Disable AI entirely
 
 Running `em ai` with no arguments shows:
 
-```
+```text
 Email AI Backend
 
   Current:     claude
@@ -699,7 +728,8 @@ Email AI Backend
 
 ### Gemini Speed Optimization
 
-Gemini CLI supports extra arguments via `FLOW_EMAIL_GEMINI_EXTRA_ARGS`. The default `-e none` skips extension loading for faster startup:
+Gemini CLI supports extra arguments via `FLOW_EMAIL_GEMINI_EXTRA_ARGS`. The default `-e none` skips extension
+loading for faster startup:
 
 ```bash
 # Default (fast, no extensions)
@@ -712,7 +742,7 @@ export FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e my_extension"
 ### When to Use Each Backend
 
 | Backend | Best For | Speed | Notes |
-|---------|----------|-------|-------|
+| --- | --- | --- | --- |
 | `claude` | Complex drafts, nuanced classification | ~3-5s | Default, highest quality |
 | `gemini` | Quick classification, summaries | ~1-2s | Faster with `-e none` |
 | `none` | Offline, no AI needed | Instant | Falls back to manual |
@@ -720,7 +750,8 @@ export FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e my_extension"
 
 ### Persistence
 
-Backend selection persists for the current shell session via `FLOW_EMAIL_AI` env var. To make it permanent, add to your config:
+Backend selection persists for the current shell session via `FLOW_EMAIL_AI` env var. To make it permanent,
+add to your config:
 
 ```bash
 # In $FLOW_CONFIG_DIR/email.conf or .flow/email.conf
@@ -737,7 +768,7 @@ em cl <ID>             # Shortcut
 Categorizes an email into one of these types:
 
 | Category | Description | Icon | Color |
-|----------|-------------|------|-------|
+| --- | --- | --- | --- |
 | `student` | Student email: absence, question, grade inquiry, accommodation | S | blue |
 | `colleague` | Faculty/staff discussion: hiring committee, research, departmental | C | green |
 | `admin-action` | Requires YOUR action: accommodation letter, form, review request | ! | red |
@@ -871,22 +902,25 @@ $ em respond --clear
 
 `em respond` includes two layers of protection against accidentally replying to mailing lists:
 
-**Layer 1: Pre-classification skip.** Emails addressed to `*@LIST.*`, `*@list.*`, or `*-L@*` are auto-skipped before AI classification. They appear as:
+**Layer 1: Pre-classification skip.** Emails addressed to `*@LIST.*`, `*@list.*`, or `*-L@*` are
+auto-skipped before AI classification. They appear as:
 
-```
+```text
   [3/10] graduation@unm.edu        L listserv — skip
 ```
 
-**Layer 2: Warning banner.** If an actionable email was sent to a list-like address, a warning appears before drafting:
+**Layer 2: Warning banner.** If an actionable email was sent to a list-like address, a warning appears
+before drafting:
 
-```
+```text
   ⚠ WARNING: This email was sent to a mailing list
     Replying may go to ALL list members. Review carefully.
 ```
 
 ### Discard Detection
 
-When reviewing drafts, himalaya offers "Send it" and "Discard it" options. `em` properly detects both outcomes using `script(1)` to capture the interactive terminal output:
+When reviewing drafts, himalaya offers "Send it" and "Discard it" options. `em` properly detects both
+outcomes using `script(1)` to capture the interactive terminal output:
 
 - **Send** — Counted as replied, marked in cache
 - **Discard** — Counted as skipped, not marked as replied
@@ -899,7 +933,7 @@ This prevents the counter from showing "1 replied" when you actually chose to di
 Each AI operation has a specific timeout to prevent hanging:
 
 | Operation | Timeout | Reason |
-|-----------|---------|--------|
+| --- | --- | --- |
 | classify | 10s | Quick category decision |
 | summarize | 15s | One-line summary generation |
 | draft | 30s | Full reply composition |
@@ -913,35 +947,13 @@ export FLOW_EMAIL_AI_TIMEOUT=45  # Increase to 45s for all ops
 
 ### Prompt Customization
 
-AI prompts are defined in `lib/em-ai.zsh`. To customize:
-
-**Option 1: Override via Config**
-
-Create `~/.config/flow/email-prompts.zsh`:
-
-```bash
-_em_ai_draft_prompt() {
-    cat <<'PROMPT'
-Draft a reply to this email.
-Use casual, friendly tone.
-Keep it under 100 words.
-PROMPT
-}
-```
-
-Source in your `.zshrc`:
-
-```bash
-[[ -f ~/.config/flow/email-prompts.zsh ]] && source ~/.config/flow/email-prompts.zsh
-```
-
-**Option 2: Edit Library File**
-
-Edit `lib/em-ai.zsh` directly (not recommended for upgrades).
+AI prompts are defined in `lib/em-ai.zsh`. Currently, the only way to customize prompts is to edit the
+library file directly. Custom prompt templates are planned for a future version.
 
 ## Email-to-Task Capture
 
-Convert emails into quick-capture tasks with `em catch`. Uses AI to generate a one-line summary, then pipes it to the `catch` command.
+Convert emails into quick-capture tasks with `em catch`. Uses AI to generate a one-line summary, then pipes
+it to the `catch` command.
 
 ### Basic Usage
 
@@ -961,7 +973,7 @@ em catch 99           # Summarize email #99 → pipe to catch
 ### Fallback Chain
 
 | Condition | Behavior |
-|-----------|----------|
+| --- | --- |
 | AI available + catch installed | AI summary → catch → "Captured: ..." |
 | AI available, no catch | AI summary → display for manual capture |
 | No AI, has jq | Falls back to email subject line |
@@ -976,6 +988,189 @@ em pick               # Browse emails
 # Ctrl-T on any email → instant capture
 ```
 
+## Organize: Star, Move, Thread, Snooze, Digest
+
+These commands help you organize your inbox beyond read/reply — star important emails, move them between folders, view conversation threads, snooze for later, and get AI-grouped digests.
+
+### Star / Flag
+
+Toggle the IMAP `Flagged` flag on an email:
+
+```bash
+em star 42              # Toggle star on email #42
+em flag 42              # Alias for em star
+```
+
+**Output:**
+
+```
+★ Starred #42 — Re: STAT-101 Exam Grading Question
+```
+
+Run again to unstar:
+
+```
+☆ Unstarred #42 — Re: STAT-101 Exam Grading Question
+```
+
+**List all starred emails:**
+
+```bash
+em starred
+
+# Output:
+em starred — flagged emails
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ID     From              Subject                              Date
+  ───── ─────────────────── ──────────────────────────────────── ──────────
+  142    Alice Johnson      Re: STAT-101 Exam Grading Question   2026-02-10
+  140    Carol Davis        Urgent: Grant Proposal Deadline       2026-02-09
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2 starred emails
+```
+
+### Move
+
+Move an email to a different folder:
+
+```bash
+em move 42 Archive      # Move to Archive (with confirmation)
+em move 42              # fzf folder picker (requires fzf)
+em mv 42 Trash          # Alias
+```
+
+**With explicit folder:**
+
+```
+Move #42 → Archive? [y/N] y
+✅ Moved #42 to Archive
+```
+
+**Without folder (fzf picker):**
+
+Opens an interactive folder picker. Select a folder with Enter, or press Escape to cancel.
+
+### Thread
+
+View the conversation thread for an email — finds related messages by `References` / `In-Reply-To` headers and displays them chronologically:
+
+```bash
+em thread 42            # Show thread for email #42
+em th 42                # Alias
+```
+
+**Output:**
+
+```
+em thread — conversation for #42
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  #138   Alice Johnson     STAT-101 Exam Grading Question    2026-02-08
+  #140   You               Re: STAT-101 Exam Grading...      2026-02-09
+→ #142   Alice Johnson     Re: STAT-101 Exam Grading...      2026-02-10
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3 messages in thread
+```
+
+The `→` arrow marks the message you started from. If the email is standalone (no thread), you'll see:
+
+```
+This is a standalone message (no thread found)
+```
+
+### Snooze
+
+Snooze an email — moves it to the `Snoozed` folder and tracks a wake-up time locally:
+
+```bash
+em snooze 42 2h         # Snooze for 2 hours
+em snooze 42 1d         # Snooze for 1 day
+em snooze 42 3w         # Snooze for 3 weeks
+em snooze 42 tomorrow   # Snooze until tomorrow 9:00 AM
+em snooze 42 monday     # Snooze until next Monday 9:00 AM
+em snz 42 2h            # Alias
+```
+
+**Output:**
+
+```
+💤 Snoozed #42 until 2026-02-18 14:30
+   Re: STAT-101 Exam Grading Question
+```
+
+**Supported time formats:**
+
+| Format | Example | Meaning |
+|--------|---------|---------|
+| `Nh` | `2h` | N hours from now |
+| `Nd` | `1d` | N days from now |
+| `Nw` | `3w` | N weeks from now |
+| `tomorrow` | `tomorrow` | Next day at 9:00 AM |
+| Day name | `monday` | Next occurrence at 9:00 AM |
+
+**List snoozed emails:**
+
+```bash
+em snoozed
+
+# Output:
+em snoozed — pending reminders
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ID     Subject                              Wake          Spec
+  ───── ──────────────────────────────────── ────────────── ──────
+  42     Re: STAT-101 Exam Grading...        READY          2h
+  99     Budget Proposal                     in 3h          1d
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2 snoozed emails (1 ready)
+```
+
+`READY` means the snooze time has passed — time to handle it.
+
+> **Note:** Snooze tracking is local (stored in `~/.flow/email-snooze/`). The IMAP move to `Snoozed` folder requires your mail server to have that folder. If not, the local tracking still works.
+
+### Digest
+
+Get an AI-grouped summary of today's or this week's emails:
+
+```bash
+em digest               # Today's emails
+em digest --week        # This week's emails
+em digest -n 5          # Limit to 5 emails
+em dg                   # Alias
+```
+
+**Output (with AI):**
+
+```
+em digest — 2026-02-18
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Priority:
+  142  * Alice Johnson     Re: STAT-101 Exam Grading...    student
+  140  * Carol Davis       Urgent: Grant Proposal...       urgent
+
+Informational:
+  141    Bob Smith         Department Meeting Notes        admin-info
+  139    David Lee         Re: Paper Draft Comments        colleague
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4 emails today (2 unread)
+```
+
+**Output (without AI):**
+
+Falls back to unread/read grouping instead of AI priority classification.
+
+### em pick Organize Keybindings
+
+The fzf email picker (`em pick`) includes keybindings for organize commands:
+
+| Key | Action |
+|-----|--------|
+| `Ctrl-F` | Toggle star/flag on selected email |
+| `Ctrl-M` | Move selected email (opens folder picker) |
+
+These work alongside existing keybindings (`Enter`=read, `Ctrl-R`=reply, `Ctrl-S`=summarize, etc.).
+
 ## Interactive Browsing: em pick
 
 The `em pick` command provides a powerful fzf-based email browser with live preview.
@@ -988,13 +1183,13 @@ em p                 # Shortcut
 
 ### Interface Layout
 
-```
+```text
 Folder: INBOX  |  Unread: 3
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
-* = unread  + = attachment
-> * + Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
-  * Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
-    David Lee            Re: Paper Draft Comments            2026-02-09
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
+• = unread  ★ = starred  + = attachment
+> •+ Alice Johnson       Re: STAT-101 Exam Grading Question  2026-02-10
+  •  Carol Davis          Urgent: Grant Proposal Deadline     2026-02-09
+     David Lee            Re: Paper Draft Comments            2026-02-09
 │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 │  Message #142 [NEW] [ATTACHMENT]
 │━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1013,19 +1208,21 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D
 ### Keybindings
 
 | Key | Action | Description |
-|-----|--------|-------------|
+| --- | --- | --- |
 | `Enter` | Read | Open selected email with smart rendering |
 | `Ctrl-R` | Reply | Generate AI draft and open in $EDITOR |
 | `Ctrl-S` | Summarize | Show one-line AI summary |
 | `Ctrl-T` | Catch | Capture email as task via `catch` command |
 | `Ctrl-A` | Archive | Mark email as read |
+| `Ctrl-F` | Star | Toggle star/flag on selected email |
+| `Ctrl-M` | Move | Move email to folder (opens folder picker) |
 | `Ctrl-D` | Delete | Flag email as deleted (with confirmation) |
 | `Esc` / `Ctrl-C` | Exit | Close picker without action |
 
 ### Indicators
 
 | Symbol | Meaning |
-|--------|---------|
+| --- | --- |
 | `*` | Unread email |
 | `+` | Has attachment |
 | `[NEW]` | Unread (in preview) |
@@ -1093,7 +1290,7 @@ em folders
 
 Shows all available mail folders:
 
-```
+```text
 INBOX
 Sent
 Drafts
@@ -1101,29 +1298,109 @@ Trash
 Archive
 ```
 
-### Move Between Folders
+### Delete Emails
 
 ```bash
-em inbox Sent          # List sent emails
-em pick Archive        # Browse archive folder
+em move 42 Archive      # Move email to Archive (with confirmation)
+em move 42              # Move with fzf folder picker
+em inbox Sent           # List sent emails
+em pick Archive         # Browse archive folder
+# Delete by ID (moves to Trash)
+em delete 42                     # Single ID
+em del 42 43 44                  # Batch delete (aliases: del, rm)
+
+# Delete by folder (all emails in folder)
+em delete --folder Spam          # Shows count, requires [y/N]
+
+# Delete by search query
+em delete --query "newsletter"   # Shows matching subjects, requires [y/N]
+
+# Interactive delete (fzf multi-select)
+em delete --pick                 # Tab to select, Enter to confirm
+
+# PERMANENT delete (purge)
+em delete --purge 42             # Flag as Deleted + EXPUNGE
+em delete --folder Trash --purge # Purge entire Trash
 ```
 
-### Flag Management
+**Safety levels:**
 
-Flags are managed internally via `lib/em-himalaya.zsh` adapter:
+Star/flag emails directly:
 
 ```bash
-# Mark as read (via em pick → Ctrl-A)
-_em_hml_flags add <ID> Seen
-
-# Mark as flagged
-_em_hml_flags add <ID> Flagged
-
-# Mark as deleted
-_em_hml_flags add <ID> Deleted
+em star 42              # Toggle Flagged flag
+em starred              # List all flagged emails
 ```
 
-Currently flags are not exposed as direct `em` commands. Use `em pick` for interactive flag management.
+Or use the fzf picker (`em pick`) with `Ctrl-F` to toggle star on the selected email.
+
+Lower-level flag management is available via `lib/em-himalaya.zsh` adapter:
+
+```bash
+_em_hml_flags add <ID> Seen       # Mark as read
+_em_hml_flags add <ID> Flagged    # Mark as flagged
+_em_hml_flags add <ID> Deleted    # Mark as deleted
+```
+| Mode | Confirmation | Reversible? |
+|------|-------------|-------------|
+| `em delete <ID>` | `[y/N]` (default No) | Yes (in Trash) |
+| `em delete --folder` | Subject preview + `[y/N]` | Yes (in Trash) |
+| `em delete --query` | Subject preview + `[y/N]` | Yes (in Trash) |
+| `em delete --purge` | Must type full word `yes` | **No** |
+
+### Move Emails
+
+```bash
+# Move to folder
+em move Archive 42               # INBOX → Archive
+em mv Archive 10 20 30           # Batch move
+
+# Move from specific source folder
+em move --from Sent Archive 42   # Sent → Archive
+```
+
+### Restore from Trash
+
+```bash
+# Restore to INBOX (default)
+em restore 42
+
+# Restore to specific folder
+em restore 42 --to Archive
+
+# Batch restore
+em restore 10 20 30
+```
+
+### Flag / Unflag
+
+```bash
+# Star emails (IMAP Flagged)
+em flag 42                       # Single
+em fl 42 43                      # Batch (alias: fl)
+
+# Remove star
+em unflag 42
+em unflag 42 43                  # Batch
+```
+
+### Extract Action Items (AI)
+
+```bash
+em todo 42                       # AI extracts action items
+em td 42 43                      # Batch (alias: td)
+```
+
+Shows numbered list of action items, captures to `catch`, and optionally adds to macOS Reminders.app.
+
+### Extract Calendar Events (AI)
+
+```bash
+em event 42                      # AI extracts dates/times/meetings
+em ev 42 43                      # Batch (alias: ev)
+```
+
+Shows event details (title, date, time, duration, location), captures to `catch`, and optionally adds to macOS Calendar.app.
 
 ## Cache System
 
@@ -1131,7 +1408,7 @@ All AI operations are cached with time-to-live (TTL) to avoid redundant API call
 
 ### Cache Structure
 
-```
+```text
 .flow/email-cache/              # Project-local (if in project)
   summaries/<hash>.txt          # One-line summaries
   classifications/<hash>.txt    # Category classifications
@@ -1142,7 +1419,7 @@ All AI operations are cached with time-to-live (TTL) to avoid redundant API call
 
 Or globally:
 
-```
+```text
 $FLOW_DATA_DIR/email-cache/
   (same structure)
 ```
@@ -1150,7 +1427,7 @@ $FLOW_DATA_DIR/email-cache/
 ### TTL Values
 
 | Cache Type | TTL | Reason |
-|------------|-----|--------|
+| --- | --- | --- |
 | summaries | 24 hours | Summaries don't change |
 | classifications | 24 hours | Category is stable |
 | drafts | 1 hour | Drafts might need refreshing |
@@ -1212,7 +1489,7 @@ $ em cache warm 20
 
 ### Auto-Prune & Auto-Warm
 
-`em dash` and `em inbox` automatically trigger background housekeeping on startup:
+`em dash` (or plain `em`) automatically triggers background housekeeping on startup:
 
 - **Auto-prune**: removes expired cache entries (non-blocking)
 - **Auto-warm**: pre-classifies + summarizes latest 10 emails (background)
@@ -1228,7 +1505,8 @@ FLOW_EMAIL_CACHE_MAX_MB=50      # Default: 50 MB
 FLOW_EMAIL_CACHE_MAX_MB=0       # Disable size cap
 ```
 
-When the cache exceeds this limit, the oldest files are evicted first (LRU — Least Recently Used). Eviction runs automatically after every cache write as a non-blocking background process.
+When the cache exceeds this limit, the oldest files are evicted first (LRU -- Least Recently Used). Eviction
+runs automatically after every cache write as a non-blocking background process.
 
 ### Cache Invalidation
 
@@ -1243,7 +1521,7 @@ Cache is automatically invalidated when:
 ### Environment Variables
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| --- | --- | --- |
 | `FLOW_EMAIL_AI` | `claude` | AI backend: `claude`, `gemini`, `none` |
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | AI timeout in seconds |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | Default inbox page size |
@@ -1293,7 +1571,7 @@ See [himalaya docs](https://pimalaya.org/himalaya/cli/latest/configuration/index
 
 The `em` dispatcher follows a clean 6-layer architecture:
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │ em (dispatcher)                          │  User-facing commands
 │ lib/dispatchers/email-dispatcher.zsh    │  Routing + help system
@@ -1327,7 +1605,8 @@ The `em` dispatcher follows a clean 6-layer architecture:
 
 ### Design Principles
 
-1. **Adapter Pattern** - All himalaya CLI specifics are isolated in `lib/em-himalaya.zsh`. If himalaya changes its CLI, fix only one file.
+1. **Adapter Pattern** - All himalaya CLI specifics are isolated in `lib/em-himalaya.zsh`. If himalaya changes
+   its CLI, fix only one file.
 
 2. **Fail-Safe Fallbacks** - Every operation has fallbacks:
    - HTML rendering: w3m → lynx → pandoc → bat → cat
@@ -1359,7 +1638,7 @@ The adapter pattern means we could swap backends in the future without changing 
 
 **Error:**
 
-```
+```text
 ❌ himalaya not found
 Install: brew install himalaya or cargo install himalaya
 ```
@@ -1381,7 +1660,7 @@ himalaya --version
 
 **Error:**
 
-```
+```text
 ❌ himalaya cannot connect to mailbox
 Check config: himalaya account list
 ```
@@ -1409,7 +1688,7 @@ himalaya account configure
 
 **Error:**
 
-```
+```text
 ⚠️  Classification failed (no AI backend available?)
 ```
 
@@ -1434,7 +1713,7 @@ export FLOW_EMAIL_AI="none"
 
 **Error:**
 
-```
+```text
 [Raw HTML output with tags visible]
 ```
 
@@ -1530,7 +1809,8 @@ Rejected sends automatically preserve the draft for later:
 $FLOW_DATA_DIR/email-drafts/    # Global draft storage
 ```
 
-AI-generated drafts are also cached in `.flow/email-cache/drafts/` with a 1-hour TTL. Use `em respond --review` to come back to cached drafts.
+AI-generated drafts are also cached in `.flow/email-cache/drafts/` with a 1-hour TTL. Use
+`em respond --review` to come back to cached drafts.
 
 ### 3. Preview Before Send
 

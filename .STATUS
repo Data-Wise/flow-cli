@@ -9,15 +9,24 @@
 ## Priority: 2
 ## Progress: 85
 
-## Current Session (2026-02-18)
+## Current Session (2026-02-20)
 
 **Session activity:**
-- merged: PR #400 (em ai + em catch) → dev
-- cleanup: removed ORCHESTRATE file, fixed tutorial version (6.7.1→7.2.1)
-- docs: updated version refs (v7.2.0→v7.2.1 across 12 files), command counts (18→20), test counts (134→137)
-- docs: added CHANGELOG [Unreleased] entry for em ai/catch features
+- feat: implemented em delete, move, restore, flag, todo, event commands (7 new commands)
+- feat: restructured em pick with multi-select (Tab), action menu (D4), new keybinds (Ctrl-O/E/F)
+- feat: added adapter functions (_em_hml_delete, _em_hml_move, _em_hml_expunge)
+- feat: added AI todo prompt + [todo]=15 timeout
+- feat: added macOS integration (_em_create_calendar_event, _em_create_reminder)
+- feat: added FLOW_EMAIL_TRASH_FOLDER config variable
+- test: 4 new unit test files (36 functions): delete, move-restore, flag, todo-event
+- test: 43 new dogfood tests (sections 12-19): function existence, help, config, aliases, safety
+- test: 20 new E2E tests (sections 8-12): live operations, flag round-trip, AI extraction
+- docs: updated 4 doc files (tutorial, guide, refcard, dispatcher guide)
+- docs: updated MASTER-DISPATCHER-GUIDE em table (20→27 commands), config, safety
 
-**Features merged (em AI improvements):**
+## Previous Session (2026-02-18)
+
+**Previous session activity:**
 1. `em ai` subcommand — runtime AI backend switching (claude/gemini/none/toggle)
 2. Gemini `extra_args` — `-e none` for fast startup (~1-2s vs ~5-8s)
 3. `em catch <ID>` — AI-summarize email → pipe into `catch` command
@@ -88,8 +97,9 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.2.1 released, synced with main |
-| ~~feature-em-ai-improvements~~ | `feature/em-ai-improvements` | Merged → dev (PR #400) |
+| Main repo | `dev` | v7.3.0 released, synced with main |
+| feature-em-delete-actions | `feature/em-delete-actions` | Implementation complete, ready for PR |
+| feature-em-quick-wins | `feature/em-quick-wins` | ORCHESTRATE ready, not started |
 | feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
 
 ---
@@ -115,15 +125,16 @@
 
 ## Next Action
 
-1. **Em AI improvements** — worktree ready, `cd ~/.git-worktrees/flow-cli/feature-em-ai-improvements && claude`
-2. Scholar Config Sync (#299) — next feature candidate
-3. API documentation push (50% → 80%)
-4. Code workspace manager — spec ready on dev
+1. **Em delete-actions PR** — `gh pr create --base dev` from feature/em-delete-actions
+2. **Em quick-wins** — `cd ~/.git-worktrees/flow-cli/feature-em-quick-wins && claude` (thread, snooze, digest)
+3. Scholar Config Sync (#299) — next feature candidate
+4. API documentation push (50% → 80%)
+5. Code workspace manager — spec ready on dev
 
 ---
 
-**Last Updated:** 2026-02-18
-**Status:** v7.2.1 released | 45/45 tests passing | 15 dispatchers | 137 test files | 8000+ test functions | em ai/catch merged to dev
-## wins: Fixed the regression bug (2026-02-18), --category fix squashed the bug (2026-02-18), fixed the bug (2026-02-18), Fixed the regression bug (2026-02-16), --category fix squashed the bug (2026-02-16)
+**Last Updated:** 2026-02-20
+**Status:** v7.3.0+em-delete-actions | 45/45 tests passing | 15 dispatchers | 141 test files | 8000+ test functions | 0 lint errors
+## wins: Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20), fixed the bug (2026-02-20), Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20)
 ## streak: 1
-## last_active: 2026-02-18 15:20
+## last_active: 2026-02-20 21:27

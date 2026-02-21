@@ -9,8 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`em` organize commands** — 7 new subcommands for email management:
+  - `em star` / `em flag` — toggle starred (Flagged) status
+  - `em starred` — list all starred emails in a folder
+  - `em move` / `em mv` — move email to folder (with fzf picker or explicit)
+  - `em thread` / `em th` — show conversation thread with chronological view
+  - `em snooze` / `em snz` — snooze email for later (2h, 3d, 1w, monday, tomorrow)
+  - `em snoozed` — list snoozed emails with READY/pending status
+  - `em digest` / `em dg` — daily/weekly email digest with AI grouping or fallback
+- **`em pick` keybinds** — Ctrl-F (star), Ctrl-M (move) in fzf email picker
+- **`em` manage commands** — 7 new subcommands for email lifecycle:
+  - `em delete` / `em del` — delete email (move to Trash), with `--pick` interactive mode and `--purge` permanent delete
+  - `em move` / `em mv` — move email to folder (with fzf picker)
+  - `em restore` — restore email from Trash to INBOX
+  - `em flag` / `em unflag` — star/unstar for follow-up
+  - `em todo` / `em td` — AI-powered todo extraction from email
+  - `em event` / `em ev` — create calendar event from email
+- **`em pick` multi-select** — Tab to select multiple emails, action menu (Delete/Move/Flag/Catch) on multi-Enter, new keybinds: Ctrl-O (todo), Ctrl-E (event)
+- **10 new tutorials** (35-44) — em CLI, em delete actions, mcp, r, qu, v/vibe, obs, g, ADHD daily routine, quick capture
+
 ### Changed
 
+- **Inbox indicators redesigned** — `•` for unread (was `*`), `★` for starred, `+` for attachment. Compact layout packs indicators without gaps (`•★+`)
 - **`dot` dispatcher split** into three focused commands: `dots` (dotfile management), `sec` (secret management), `tok` (token management). All subcommands remain the same under their new parent dispatcher.
 
 ---

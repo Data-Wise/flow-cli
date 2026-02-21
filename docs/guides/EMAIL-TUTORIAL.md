@@ -3,11 +3,19 @@
 **The `em` email dispatcher — A 60-minute hands-on guide**
 
 **Last Updated:** 2026-02-18
-**Read Time:** 65 minutes hands-on (11 parts)
+**Read Time:** 70 minutes hands-on (12 parts)
 **Difficulty:** Beginner-friendly
 
 !!! tip "Prefer reading email in Neovim?"
-    This tutorial covers the **terminal CLI** (`em` dispatcher). For in-editor email with AI actions, see the [Neovim Himalaya Tutorial](../tutorials/33-himalaya-email.md).
+    This tutorial covers the **terminal CLI** (`em` dispatcher).
+    For in-editor email with AI actions,
+    see the [Neovim Himalaya Tutorial](../tutorials/33-himalaya-email.md).
+
+!!! info "Two interfaces, one backend"
+    Both `em` and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) wrap the same himalaya
+    CLI but serve different interaction models. `em` is keyboard-driven (fzf, $EDITOR, sub-second),
+    while himalaya-mcp is conversation-driven (Claude as the interface). Use `em` for fast terminal
+    operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email.
 
 ---
 
@@ -24,6 +32,7 @@ By the end of this tutorial, you'll be able to:
 - Understand caching for faster AI operations
 - Switch AI backends at runtime for speed or quality
 - Capture emails as tasks with one command
+- Manage emails: delete, move, restore, flag, and extract AI insights
 
 ---
 
@@ -50,13 +59,13 @@ Install and configure the email stack so `em` commands work.
 
 himalaya is the email CLI backend that `em` uses.
 
-**Option A: Homebrew (recommended)**
+#### Option A: Homebrew (recommended)
 
 ```bash
 brew install himalaya
 ```
 
-**Option B: Cargo**
+#### Option B: Cargo
 
 ```bash
 cargo install himalaya
@@ -105,7 +114,7 @@ em doctor
 
 ✅ **Expected output:**
 
-```
+```text
 em doctor — Email Dependency Check
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ok  himalaya             himalaya 1.0.0
@@ -114,8 +123,10 @@ em doctor — Email Dependency Check
   --- bat (Syntax highlighting) brew install bat
   --- w3m (HTML rendering) brew install w3m
   --- glow (Markdown rendering) brew install glow
+  --- email-oauth2-proxy (OAuth2 proxy) brew install email-oauth2-proxy
+  ok  claude               AI backend
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-2 passed  4 warnings  0 failed
+3 passed  4 warnings  0 failed
 
 Config:
   AI backend:  claude
@@ -180,28 +191,28 @@ em
 
 ✅ **Expected output:**
 
-```
+```text
 em — quick pulse
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   3 unread
 
 Recent:
-  ID    *  From                 Subject                                   Date
-  ───── ── ──────────────────── ──────────────────────────────────────── ──────────
-  42    *+ Alice Johnson        Re: Project proposal review               2026-02-10
-  41    *  Bob Smith            Meeting notes from yesterday              2026-02-10
-  40       Carol Davis          Weekly update                             2026-02-09
-  39       David Lee            [GitHub] PR #123 merged                   2026-02-09
-  38    *  Emma Wilson          Question about assignment 2               2026-02-08
+  ID       From                 Subject                                   Date
+  ────── ────────────────────── ──────────────────────────────────────── ──────────
+  42 •+  Alice Johnson        Re: Project proposal review               2026-02-10
+  41 •   Bob Smith            Meeting notes from yesterday              2026-02-10
+  40     Carol Davis          Weekly update                             2026-02-09
+  39     David Lee            [GitHub] PR #123 merged                   2026-02-09
+  38 •   Emma Wilson          Question about assignment 2               2026-02-08
 
 Full inbox: em i  Browse: em p  Help: em h
 ```
 
 **Key indicators:**
-- `*` = unread
+- `•` = unread
+- `★` = starred (flagged)
 - `+` = has attachments
-- Yellow text = unread (bold)
-- Dim text = read
+- Yellow/bold = unread, dim = read
 
 ### Command 2: Unread Count
 
@@ -213,7 +224,7 @@ em unread
 
 ✅ **Expected output:**
 
-```
+```text
 3 unread in INBOX
 ```
 
@@ -259,7 +270,7 @@ em pick Sent
 - `em unread` shows count only
 - `em inbox [N]` lists N recent emails (default 25)
 - `em folders` lists available folders
-- `*` means unread, `+` means attachments
+- `•` means unread, `★` means starred, `+` means attachments
 - Yellow/bold = unread, dim = read
 
 ---
@@ -290,16 +301,11 @@ em read 42
 
 ✅ **Expected output:**
 
-```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Message #42 [NEW]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  From:     Alice Johnson <alice@example.com>
-  Subject:  Re: Project proposal review
-  Date:     2026-02-10
-
-──────────────────────────────────────────────────
+```text
+  Re: Project proposal review
+  From: Alice Johnson <alice@example.com>
+  Date: 2026-02-10
+  ─────────────────────────────────────────────────
 
 Hi,
 
@@ -325,10 +331,24 @@ Alice
 **Try it now!**
 
 ```bash
+em read --html 42
+```
+
+Or use the shorthand alias:
+
+```bash
 em html 42
 ```
 
-✅ **Expected output:** HTML email converted to readable text
+Both are identical — `em html` is just an alias for `em read --html`.
+
+**Short flag:** `-H`
+
+```bash
+em read -H 42
+```
+
+✅ **Expected output:** HTML email converted to readable text via w3m/lynx/pandoc
 
 **When to use:**
 - Email looks garbled in plain text
@@ -342,7 +362,8 @@ em html 42
 em read --md 42
 ```
 
-✅ **Expected output:** Email rendered as clean Markdown with proper headings, links, and formatting. Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatically.
+✅ **Expected output:** Email rendered as clean Markdown with proper headings, links, and formatting.
+Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatically.
 
 **Requires:** `pandoc` (`brew install pandoc`)
 
@@ -377,7 +398,7 @@ em attach 42
 
 ✅ **Expected output:**
 
-```
+```text
 Downloading attachments from email #42...
 ✓ Attachments saved to: /Users/dt/Downloads
 ```
@@ -394,10 +415,10 @@ em attach 42 ~/Desktop/project-files
 
 - `em 42` shorthand reads email #42 (same as `em read 42`)
 - `em read <ID>` reads an email with smart rendering
-- `em read --md <ID>` renders as clean Markdown via pandoc (Outlook-friendly)
+- `em read --html <ID>` or `em html <ID>` forces HTML rendering (`-H` short flag)
+- `em read --md <ID>` renders as clean Markdown via pandoc (`-M` short flag, Outlook-friendly)
 - `em read --raw <ID>` exports full MIME source
 - Plain text → bat, Markdown → glow, HTML → w3m
-- `em html <ID>` forces HTML rendering
 - `em attach <ID>` downloads attachments to ~/Downloads
 - Content type is auto-detected
 - Email noise (CID refs, safelinks, MIME markers) auto-stripped
@@ -420,16 +441,16 @@ em pick
 
 ✅ **Expected output:**
 
-```
+```text
 Folder: INBOX  |  Unread: 3
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
-* = unread  + = attachment
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
+• = unread  ★ = starred  + = attachment
 
-  42 * + Alice Johnson     Re: Project proposal review           2026-02-10
-  41 *   Bob Smith         Meeting notes from yesterday          2026-02-10
-  40     Carol Davis       Weekly update                         2026-02-09
+  42 •+ Alice Johnson     Re: Project proposal review           2026-02-10
+  41 •   Bob Smith         Meeting notes from yesterday          2026-02-10
+  40      Carol Davis       Weekly update                         2026-02-09
 > 39     David Lee         [GitHub] PR #123 merged               2026-02-09
-  38 *   Emma Wilson       Question about assignment 2           2026-02-08
+  38 •   Emma Wilson       Question about assignment 2           2026-02-08
 
 [Preview panel shows selected email →]
 ```
@@ -448,9 +469,10 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-A=archive  Ctrl-D=delete
 1. **Enter** — Read the selected email
 2. **Ctrl-R** — Reply to selected email (AI draft)
 3. **Ctrl-S** — Summarize selected email (AI)
-4. **Ctrl-A** — Archive (mark read)
-5. **Ctrl-D** — Delete (flag as deleted)
-6. **Esc** — Exit browser
+4. **Ctrl-T** — Capture as task (AI summary → `catch`)
+5. **Ctrl-A** — Archive (mark read)
+6. **Ctrl-D** — Delete (flag as deleted)
+7. **Esc** — Exit browser
 
 ### Example Workflow
 
@@ -476,7 +498,7 @@ em pick Sent
 - `em pick` launches interactive email browser
 - Type to filter, arrows to navigate
 - Enter = read, Ctrl-R = reply, Ctrl-S = summarize
-- Ctrl-A = archive, Ctrl-D = delete
+- Ctrl-T = capture as task, Ctrl-A = archive, Ctrl-D = delete
 - Preview panel shows email content
 - Works with any folder: `em pick Sent`
 
@@ -506,14 +528,14 @@ em reply 42
 
 ✅ **Expected output:**
 
-```
+```text
 Generating AI draft...
 ✓ AI draft ready — edit in $EDITOR
 ```
 
 **In your editor, you'll see:**
 
-```
+```text
 To: alice@example.com
 Subject: Re: Project proposal review
 From: you@example.com
@@ -540,7 +562,7 @@ Best,
 
 **Send confirmation:**
 
-```
+```text
 Send this reply? [y/N] y
 ```
 
@@ -586,7 +608,7 @@ em reply 42 --batch
 
 ✅ **Expected output:**
 
-```
+```text
 Fetching email #42...
 Draft Reply
 ────────────────────────────────────────────────────────────────
@@ -670,14 +692,14 @@ em send
 
 ✅ **Expected interaction:**
 
-```
+```text
 To: colleague@example.com
 Subject: Quick question about project
 ```
 
 **Editor opens with:**
 
-```
+```text
 To: colleague@example.com
 Subject: Quick question about project
 From: you@example.com
@@ -687,7 +709,7 @@ From: you@example.com
 
 **After you save and exit:**
 
-```
+```text
 ────────────────────────────────────────────────────────────────
 [Preview of email shown]
 ────────────────────────────────────────────────────────────────
@@ -722,7 +744,7 @@ em send colleague@example.com "Project timeline" --ai
 
 ✅ **Expected output:**
 
-```
+```text
 Generating AI draft from subject...
 ✓ AI draft ready — edit in $EDITOR
 ```
@@ -759,7 +781,7 @@ em classify 42
 
 ✅ **Expected output:**
 
-```
+```text
   S student
 ```
 
@@ -795,7 +817,7 @@ em summarize 42
 
 ✅ **Expected output:**
 
-```
+```text
   Summary: Alice asks 3 questions about project proposal timeline and budget
 ```
 
@@ -814,26 +836,27 @@ em respond
 
 **What happens:**
 
-1. Analyzes latest 20 emails (default)
-2. Classifies each email
-3. Skips non-actionable (newsletter, automated, admin-info, vendor)
-3a. Auto-skips listserv emails (e.g., `@LIST.UNM.EDU`) before classification
-4. Generates AI drafts for actionable emails
-5. Saves drafts to cache
+1. Analyzes latest 10 emails (default)
+2. Auto-skips listserv emails (e.g., `@LIST.UNM.EDU`) before classification
+3. Classifies each email (9 categories)
+4. Skips non-actionable (newsletter, automated, admin-info, vendor)
+5. For each actionable email: generates AI draft → opens `$EDITOR` → send on save
 
 ✅ **Expected output:**
 
-```
-Analyzing 20 emails for actionable messages...
-  drafted #42: Re: Project proposal review
-  drafted #38: Re: Question about assignment 2
-  drafted #41: Re: Meeting notes from yesterday
-  (skipped #40: Weekly update — newsletter)
-  (skipped #39: [GitHub] PR merged — automated)
+```text
+em respond — scanning 10 emails in INBOX
+  [1/10] Alice Johnson         C colleague  Re: Project proposal
+  [2/10] Bob Smith             C colleague  Re: Meeting notes
+  [3/10] Carol Davis           N newsletter — skip
+  [4/10] David Lee             A automated — skip
+  [5/10] Emma Wilson           S student    Re: Question about assignment
 
-✓ 3 drafts generated (2 skipped)
-  Review: em respond --review
+Proceed to draft 3 replies? [Y/n]
 ```
+
+After pressing Y, your `$EDITOR` opens with the first AI-generated draft.
+Edit, save, and close to send — then the next draft opens automatically.
 
 **Adjust count:**
 
@@ -847,7 +870,7 @@ em respond -n 50
 em respond --folder Teaching
 ```
 
-### Review Generated Drafts
+### Review Cached Drafts
 
 **Try it now!**
 
@@ -857,24 +880,23 @@ em respond --review
 
 **What happens:**
 
-1. Launches fzf browser with cached drafts
-2. Shows original email context
-3. Preview panel shows draft
-4. Actions: Enter=send, Ctrl-E=edit, Ctrl-D=discard
+1. Lists emails with cached drafts
+2. Asks "Review N cached drafts? [Y/n]"
+3. Opens each draft in `$EDITOR` one at a time
+4. After each: "Continue to next? [Y/n/q]"
 
 ✅ **Expected output:**
 
+```text
+Cached drafts available:
+  ✓ #42  Alice Johnson  Re: Project proposal re...
+  ✓ #38  Emma Wilson    Re: Question about assig...
+  ✓ #41  Bob Smith      Re: Meeting notes from y...
+
+Review 3 cached drafts? [Y/n]
 ```
-Loading drafts for review...
 
-  42    [Draft] Re: Project proposal review
-  38    [Draft] Re: Question about assignment 2
-> 41    [Draft] Re: Meeting notes from yesterday
-
-[Preview panel shows draft content →]
-
-Enter=send  Ctrl-E=edit  Ctrl-D=discard
-```
+After pressing Y, your `$EDITOR` opens with the first draft. Edit, save, and close to send — or quit without saving to skip.
 
 ### Clear Cached Drafts
 
@@ -886,7 +908,7 @@ em respond --clear
 
 ✅ **Expected output:**
 
-```
+```text
 ✓ Email cache cleared (2.5M freed)
 ```
 
@@ -921,7 +943,7 @@ em respond --dry-run
 
 ✅ **Expected output:**
 
-```
+```text
 em respond — scanning 10 emails in INBOX
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -946,9 +968,10 @@ This is the safest way to start — see what the AI thinks before committing to 
 - Skips newsletter, automated, admin-info, vendor
 - Auto-skips listserv/mailing list emails before classification
 - `em respond --dry-run` preview classification without drafts
-- `em respond --review` interactive draft browser
+- `em respond --review` review cached drafts in `$EDITOR` (one at a time)
 - `em respond -n N` processes N emails (default: 10)
-- `em respond --clear` clears cached drafts
+- `em respond --folder <NAME>` processes a specific folder
+- `em respond --clear` clears cached drafts (same as `em cache clear`)
 - Discarding a draft in the editor is tracked separately from sending
 - AI backend: claude (default) or gemini
 - Timeout: 30s default (configure with `$FLOW_EMAIL_AI_TIMEOUT`)
@@ -971,7 +994,7 @@ em find "quarterly report"
 
 ✅ **Expected output:**
 
-```
+```text
 Searching: quarterly report
 
   42  Alice Johnson  Q3 quarterly report review  2026-02-10
@@ -996,7 +1019,7 @@ em folders
 
 ✅ **Expected output:**
 
-```
+```text
 INBOX
 Sent
 Drafts
@@ -1048,7 +1071,7 @@ em d
 - `em folders` lists available folders
 - `em pick <FOLDER>` browses specific folder
 - `em dash` or `em d` shows dashboard
-- Search is client-side (fast, no IMAP query lag)
+- Search tries server-side IMAP first, falls back to client-side (last 100 emails)
 
 ---
 
@@ -1068,11 +1091,13 @@ em cache stats
 
 ✅ **Expected output:**
 
-```
+```text
 Email Cache
-  summaries          12 items  48K
-  classifications     12 items  1.2K
+  summaries          12 items  48K   (1 expired)
+  classifications    12 items  1.2K
   drafts              3 items  8.5K
+  schedules           4 items  2.1K
+  Location: .flow/email-cache
 ```
 
 **Cache types:**
@@ -1115,7 +1140,7 @@ ls .flow/email-cache/
 
 ✅ **Expected output:**
 
-```
+```text
 summaries/
 classifications/
 drafts/
@@ -1151,7 +1176,7 @@ em cache prune
 
 ✅ **Expected output:**
 
-```
+```text
 ✓ Pruned 4 expired cache entries
 ```
 
@@ -1167,7 +1192,7 @@ em cache clear
 
 ✅ **Expected output:**
 
-```
+```text
 ✓ Email cache cleared (2.5M freed)
 ```
 
@@ -1201,10 +1226,9 @@ em cache warm 20
 - Runs asynchronously (doesn't block)
 
 **Auto-warm & auto-prune triggers:**
-- `em dash` → auto-prunes expired entries + warms latest 10
-- `em inbox` → auto-prunes expired entries + warms latest 10
+- `em dash` (or plain `em`) → auto-prunes expired entries + conditionally warms latest 10
 
-These run in the background and don't slow down the command.
+Auto-warm only runs when `FLOW_EMAIL_CACHE_WARM=true`. These run in the background and don't slow down the command.
 
 ### 💡 What You Learned
 
@@ -1216,7 +1240,7 @@ These run in the background and don't slow down the command.
 - Cache hit → <1s, cache miss → ~15s (AI query)
 - Size cap: 50MB default (`FLOW_EMAIL_CACHE_MAX_MB`), LRU eviction
 - `em cache warm N` pre-warms latest N emails
-- Auto-prune + auto-warm on `em dash` and `em inbox`
+- Auto-prune on `em dash`; auto-warm when `FLOW_EMAIL_CACHE_WARM=true`
 - Cache keys use md5 hash of message ID
 
 ---
@@ -1357,7 +1381,8 @@ FLOW_EMAIL_PAGE_SIZE=25
 EOF
 ```
 
-**Precedence:** Project config > Global config > Env vars > Defaults
+**Precedence:** Project config (`.flow/email.conf`) > Global config (`~/.config/flow/email.conf`)
+\> Environment variables > Defaults
 
 ### Keyboard Shortcuts Summary
 
@@ -1366,15 +1391,16 @@ EOF
 - `Enter` — Read email
 - `Ctrl-R` — Reply (AI draft)
 - `Ctrl-S` — Summarize (AI)
+- `Ctrl-T` — Capture as task
 - `Ctrl-A` — Archive (mark read)
 - `Ctrl-D` — Delete (flag)
 - `Esc` — Exit
 
 **In draft review (`em respond --review`):**
-- `Enter` — Send draft
-- `Ctrl-E` — Edit draft
-- `Ctrl-D` — Discard draft
-- `Esc` — Exit
+- Opens `$EDITOR` for each draft sequentially
+- Save & close → sends the reply
+- Quit without saving → skips that draft
+- `Y/n/q` prompts between drafts
 
 ### Aliases for Speed
 
@@ -1396,7 +1422,7 @@ alias eu='em unread'
 - Quick checks: `em unread` (30s)
 - Search before replying: `em pick Sent` + filter
 - Config files: `.flow/email.conf` (project) or `~/.config/flow/email.conf` (global)
-- Keyboard shortcuts: fzf (Ctrl-R/S/A/D), review (Enter/Ctrl-E/D)
+- Keyboard shortcuts: fzf (Ctrl-R/S/T/A/D), review (sequential `$EDITOR`)
 - Aliases for speed: `e`, `ei`, `ep`, `er`, `eu`
 
 ---
@@ -1413,9 +1439,9 @@ Switch AI backends at runtime and capture emails as tasks.
 em ai
 ```
 
-### ✅ Expected Output
+### ✅ Expected Output: AI Status
 
-```
+```text
 Email AI Backend
 
   Current:     claude
@@ -1434,6 +1460,9 @@ em ai gemini
 
 # Toggle back
 em ai toggle
+
+# Smart per-operation routing (uses best backend for each task)
+em ai auto
 
 # Disable AI entirely
 em ai none
@@ -1454,15 +1483,15 @@ em inbox
 em catch 42
 ```
 
-### ✅ Expected Output
+### ✅ Expected Output: Catch
 
-```
+```text
 ✓ Captured: Student absent Friday, requests notes
 ```
 
 If the `catch` command isn't installed, you'll see the summary for manual capture:
 
-```
+```text
 Capture: Email #42: Student absent Friday, requests notes
 (catch command not available — copy manually)
 ```
@@ -1479,8 +1508,127 @@ em pick
 - `em ai` shows current backend and available options
 - `em ai <backend>` switches instantly (no restart needed)
 - `em ai toggle` cycles through available backends
-- `em catch <ID>` turns an email into a task via AI summary
+- `em ai auto` enables smart per-operation routing
+- `em catch <ID>` (alias: `em c`) turns an email into a task via AI summary
 - **Ctrl-T** in `em pick` captures without leaving the browser
+
+---
+
+## Part 12: Email Management (5 min)
+
+### 🎯 Learning Goal
+
+Delete, move, restore, flag, and extract action items from emails.
+
+### Step 12.1: Delete Emails
+
+Move emails to Trash with confirmation:
+
+```bash
+em delete 42
+```
+
+✅ **Expected:** Confirmation prompt `[y/N]`, then moves to Trash on `y`.
+
+Batch delete multiple:
+
+```bash
+em del 42 43 44
+```
+
+Delete all emails in a folder:
+
+```bash
+em delete --folder Spam
+```
+
+✅ **Expected:** Shows subject preview and count, then `[y/N]` confirmation.
+
+### Step 12.2: Move & Restore
+
+Move email to a folder:
+
+```bash
+em move Archive 42
+```
+
+Restore from Trash:
+
+```bash
+em restore 42
+```
+
+✅ **Expected:** Email moved from Trash back to INBOX.
+
+### Step 12.3: Flag Emails
+
+Star/flag important emails:
+
+```bash
+em flag 42
+```
+
+Remove the flag:
+
+```bash
+em unflag 42
+```
+
+### Step 12.4: Extract Action Items (AI)
+
+Extract actionable tasks from an email:
+
+```bash
+em todo 42
+```
+
+✅ **Expected:** AI extracts action items, numbered list displayed. If on macOS,
+you'll be prompted to add to Reminders.app.
+
+### Step 12.5: Extract Calendar Events (AI)
+
+Pull meeting dates and deadlines from an email:
+
+```bash
+em event 42
+```
+
+✅ **Expected:** AI extracts events with title, date, time, and location.
+If on macOS, you'll be prompted to add to Calendar.app.
+
+### Step 12.6: Interactive Multi-Select
+
+Use the fzf picker with new management keybinds:
+
+```bash
+em pick
+```
+
+In the picker, try:
+
+- **Tab** — select multiple emails
+- **Ctrl-D** — delete selected
+- **Ctrl-F** — flag/unflag selected
+- **Ctrl-O** — extract action items (AI)
+- **Ctrl-E** — extract calendar events (AI)
+
+### Step 12.7: Permanent Delete (Purge)
+
+⚠️ **Warning:** Purge is irreversible.
+
+```bash
+em delete --purge 42
+```
+
+✅ **Expected:** Must type full word `yes` (not just `y`) to confirm permanent deletion.
+
+### 💡 What You Learned
+
+- `em delete` moves to Trash (reversible), `--purge` is permanent
+- `em move` and `em restore` manage folder organization
+- `em flag` / `em unflag` for starring important emails
+- `em todo` and `em event` use AI to extract actionable information
+- New keybinds in `em pick` for management actions
 
 ---
 
@@ -1500,6 +1648,8 @@ You've completed the email tutorial!
 - ✅ Batch process with `em respond`
 - ✅ Search emails (`em find`)
 - ✅ Understand caching (`em cache stats`)
+- ✅ Delete, move, restore, and flag emails
+- ✅ Extract action items and calendar events with AI
 - ✅ Build efficient workflows
 
 ---
@@ -1575,10 +1725,13 @@ export FLOW_EMAIL_PAGE_SIZE=50
 | Command                | Purpose                          |
 | ---------------------- | -------------------------------- |
 | `em respond`           | Batch AI drafts (full flow)      |
-| `em respond --review`  | Review/send cached drafts        |
+| `em respond --review`  | Review cached drafts in $EDITOR  |
 | `em respond --dry-run` | Classify only (no drafts)        |
+| `em respond --folder`  | Process specific folder          |
 | `em classify <ID>`     | Categorize email                 |
 | `em summarize <ID>`    | One-line summary                 |
+| `em catch <ID>`        | Capture email as task (AI)       |
+| `em ai [backend]`      | Show/switch AI backend           |
 
 **Search & Info:**
 
@@ -1588,6 +1741,20 @@ export FLOW_EMAIL_PAGE_SIZE=50
 | `em unread`            | Show unread count                |
 | `em folders`           | List folders                     |
 | `em dash`              | Dashboard                        |
+
+**Management:**
+
+| Command                | Purpose                          |
+| ---------------------- | -------------------------------- |
+| `em delete <ID...>`    | Move to Trash (with confirmation)|
+| `em delete --purge`    | Permanent delete (type `yes`)    |
+| `em delete --folder`   | Delete all in folder             |
+| `em move <FOLDER> <ID>`| Move email to folder             |
+| `em restore <ID>`      | Restore from Trash to INBOX      |
+| `em flag <ID>`         | Star/flag email                  |
+| `em unflag <ID>`       | Remove flag                      |
+| `em todo <ID>`         | Extract action items (AI)        |
+| `em event <ID>`        | Extract calendar events (AI)     |
 
 **Utilities:**
 
@@ -1604,21 +1771,24 @@ export FLOW_EMAIL_PAGE_SIZE=50
 
 **Shortcuts:**
 
-| Shortcut | Expands to  |
-| -------- | ----------- |
-| `em i`   | `em inbox`  |
-| `em r`   | `em read`   |
-| `em re`  | `em reply`  |
-| `em s`   | `em send`   |
-| `em p`   | `em pick`   |
-| `em f`   | `em find`   |
-| `em u`   | `em unread` |
-| `em d`   | `em dash`   |
-| `em cl`  | `em classify` |
-| `em sum` | `em summarize` |
-| `em resp` | `em respond` |
-| `em a`   | `em attach` |
-| `em dr`  | `em doctor` |
+| Shortcut  | Expands to     |
+| --------- | -------------- |
+| `em i`    | `em inbox`     |
+| `em r`    | `em read`      |
+| `em re`   | `em reply`     |
+| `em s`    | `em send`      |
+| `em p`    | `em pick`      |
+| `em f`    | `em find`      |
+| `em u`    | `em unread`    |
+| `em d`    | `em dash`      |
+| `em cl`   | `em classify`  |
+| `em sum`  | `em summarize` |
+| `em resp` | `em respond`   |
+| `em a`    | `em attach`    |
+| `em c`    | `em catch`     |
+| `em del`  | `em delete`    |
+| `em mv`   | `em move`      |
+| `em dr`   | `em doctor`    |
 
 ---
 
@@ -1643,28 +1813,33 @@ A: himalaya supports multiple accounts. See: `himalaya account list`
 A: `em` is a wrapper with AI features, smart rendering, caching, and flow-cli integration. himalaya is the underlying CLI.
 
 **Q: Can I customize AI prompts?**
-A: Yes, but it requires editing `lib/em-ai.zsh`. Future versions will support templates.
+A: Not yet — the prompt functions are defined in `lib/em-ai.zsh` and would require editing
+the source. Custom prompt templates are planned for a future version.
 
 **Q: Can I read email by typing just the number?**
 A: Yes! `em 42` is shorthand for `em read 42`. Similarly, `em -n 5` = `em inbox 5`.
 
 **Q: How big can the cache get?**
-A: By default, 50 MB max (`FLOW_EMAIL_CACHE_MAX_MB`). Oldest files are evicted (LRU) when exceeded. Set to `0` to disable the cap.
+A: By default, 50 MB max (`FLOW_EMAIL_CACHE_MAX_MB`). Oldest files are evicted (LRU)
+when exceeded. Set to `0` to disable the cap.
 
 **Q: Can I auto-prune old cache entries?**
-A: Yes — `em dash` and `em inbox` auto-prune expired entries in the background. Manual: `em cache prune`.
+A: Yes — `em dash` auto-prunes expired entries in the background. Manual: `em cache prune`.
 
 **Q: How do I read Outlook emails with clean formatting?**
-A: `em read --md <ID>` converts HTML to Markdown via pandoc with a 7-stage Outlook cleanup pipeline (SafeLinks, attribute blocks, fenced divs, etc.). Requires `pandoc` (`brew install pandoc`).
+A: `em read --md <ID>` converts HTML to Markdown via pandoc with a 7-stage Outlook cleanup
+pipeline (SafeLinks, attribute blocks, fenced divs, etc.). Requires `pandoc` (`brew install pandoc`).
 
 **Q: How do I read raw MIME source?**
 A: `em read --raw <ID>` exports the full `.eml` file. Useful for debugging or archiving.
 
 **Q: What email noise gets cleaned automatically?**
-A: Six patterns: CID image refs, Microsoft Safe Links, MIME markers, angle-bracket URLs, mailto inline links, and quoted lines (dimmed). This runs on all read operations.
+A: Six patterns: CID image refs, Microsoft Safe Links, MIME markers, angle-bracket URLs,
+mailto inline links, and quoted lines (dimmed). This runs on all read operations.
 
 **Q: How does `em respond --review` differ from `em respond`?**
-A: `em respond` classifies and generates new AI drafts. `em respond --review` skips classification and only shows emails with cached drafts — perfect for resuming where you left off.
+A: `em respond` classifies and generates new AI drafts. `em respond --review` skips classification
+and only shows emails with cached drafts — perfect for resuming where you left off.
 
 **Q: How do I report bugs?**
 A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues
@@ -1673,7 +1848,7 @@ A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues
 
 ## 🎨 Visual Workflow Map
 
-```
+```text
 YOUR EMAIL WORKFLOW
 ═══════════════════
 
@@ -1739,11 +1914,17 @@ After this tutorial, you should be able to:
 - [ ] Use keyboard shortcuts in fzf
 - [ ] Configure AI backend (claude/gemini)
 - [ ] Create project-local config files
+- [ ] Delete emails safely (Trash with confirmation)
+- [ ] Move and restore emails between folders
+- [ ] Flag/unflag important emails
+- [ ] Extract action items with AI (`em todo`)
+- [ ] Extract calendar events with AI (`em event`)
+- [ ] Use new management keybinds in `em pick`
 
 ---
 
-**Total Time:** ~60 minutes hands-on
-**Commands Learned:** 20+ commands
+**Total Time:** ~70 minutes hands-on
+**Commands Learned:** 30+ commands
 **Workflows Mastered:** 4 (morning, teaching, ADHD batch, quick check)
 
 **You're now an email power user!** 🎯
@@ -1751,5 +1932,5 @@ After this tutorial, you should be able to:
 ---
 
 *Last updated: 2026-02-18*
-*flow-cli version: 7.2.1*
-*Tutorial version: 1.0*
+*flow-cli version: 7.4.0*
+*Tutorial version: 1.2*

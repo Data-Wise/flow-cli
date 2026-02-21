@@ -320,27 +320,35 @@ _em_render_inbox_json() {
     fi
 
     # Header
-    printf "  ${_C_BOLD}%-5s %-2s %-20s %-40s %s${_C_NC}\n" "ID" "" "From" "Subject" "Date"
-    echo -e "  ${_C_DIM}───── ── ──────────────────── ──────────────────────────────────────── ──────────${_C_NC}"
+    printf "  ${_C_BOLD}%-6s %-4s%-20s %-40s %s${_C_NC}\n" "ID" "" "From" "Subject" "Date"
+    echo -e "  ${_C_DIM}────── ────────────────────── ──────────────────────────────────────── ──────────${_C_NC}"
 
-    # Rows
+    # Rows — indicators packed compact (•★+)
     echo "$json" | jq -r '.[] | [
         (.id | tostring),
-        (if (.flags | contains(["Seen"])) then " " else "*" end),
-        (if .has_attachment then "+" else " " end),
+        ([(if (.flags | contains(["Seen"])) then "" else "•" end),
+          (if (.flags | contains(["Flagged"])) then "★" else "" end),
+          (if .has_attachment then "+" else "" end)] | join("")),
         (.from.name // .from.addr // "unknown"),
         .subject,
-        (.date | split("T")[0] // .date)
-    ] | @tsv' | while IFS=$'\t' read -r eid flag attach sender subj edate; do
+        (.date | split(" ")[0] // .date)
+    ] | @tsv' | while IFS=$'\t' read -r eid indicator sender subj edate; do
         # Truncate long fields
         [[ ${#sender} -gt 20 ]] && sender="${sender:0:17}..."
         [[ ${#subj} -gt 40 ]] && subj="${subj:0:37}..."
 
-        local indicator="${flag}${attach}"
-        if [[ "$flag" == "*" ]]; then
-            printf "  ${_C_YELLOW}${_C_BOLD}%-5s %-2s %-20s %-40s %s${_C_NC}\n" "$eid" "$indicator" "$sender" "$subj" "$edate"
+        # Build fixed-width indicator column (4 display columns)
+        # Padding is ASCII spaces — no unicode byte compensation needed
+        local display_len=0
+        [[ "$indicator" == *"•"* ]] && ((display_len++))
+        [[ "$indicator" == *"★"* ]] && ((display_len++))
+        [[ "$indicator" == *"+"* ]] && ((display_len++))
+        local indicator_col="${indicator}$(printf '%*s' $((4 - display_len)) '')"
+
+        if [[ "$indicator" == *"•"* ]]; then
+            printf "  ${_C_YELLOW}${_C_BOLD}%-6s %s%-20s %-40s %s${_C_NC}\n" "$eid" "$indicator_col" "$sender" "$subj" "$edate"
         else
-            printf "  %-5s %-2s %-20s %-40s ${_C_DIM}%s${_C_NC}\n" "$eid" "$indicator" "$sender" "$subj" "$edate"
+            printf "  %-6s %s%-20s %-40s ${_C_DIM}%s${_C_NC}\n" "$eid" "$indicator_col" "$sender" "$subj" "$edate"
         fi
     done
 }

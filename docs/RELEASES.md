@@ -426,4 +426,4 @@ All new features demonstrated with optimized tutorial GIFs (5.7MB total):
 
 **Maintained by:** Data-Wise
 **Last updated:** 2026-02-18
-**Current version:** v7.3.0
+**Current version:** v7.4.0

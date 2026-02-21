@@ -146,6 +146,15 @@ nav:
           - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
           - 12. Dotfiles/Secrets/Tokens: tutorials/12-dot-dispatcher.md
           - 13. Prompt Dispatcher: tutorials/13-prompt-dispatcher.md
+          - 37. MCP Servers: tutorials/37-mcp-dispatcher.md
+          - 38. R Packages: tutorials/38-r-dispatcher.md
+          - 39. Quarto Publishing: tutorials/39-qu-dispatcher.md
+          - 40. Workflow (v/vibe): tutorials/40-v-dispatcher.md
+          - 41. Obsidian Vaults: tutorials/41-obs-dispatcher.md
+          - 42. Git Shortcuts (g): tutorials/42-g-dispatcher.md
+      - ADHD & Productivity:
+          - 43. ADHD Daily Routine: tutorials/43-adhd-daily-routine.md
+          - 44. Quick Capture: tutorials/44-quick-capture.md
       - Editor (Neovim):
           - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
           - 16. Vim Motions: tutorials/16-vim-motions.md
@@ -219,6 +228,8 @@ nav:
       - CLI (em dispatcher):
           - Guide: guides/EMAIL-DISPATCHER-GUIDE.md
           - Tutorial: guides/EMAIL-TUTORIAL.md
+          - 35. Email CLI: tutorials/35-em-cli-email.md
+          - 36. Email Management: tutorials/36-em-delete-actions.md
           - Quick Reference: reference/REFCARD-EMAIL-DISPATCHER.md
       - Editor (Neovim):
           - Guide: guides/HIMALAYA-NVIM-SETUP.md

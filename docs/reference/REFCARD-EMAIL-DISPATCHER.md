@@ -2,13 +2,17 @@
 
 > All `em` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v7.3.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+> **Version:** v7.4.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+>
+> **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and
+> [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven, Claude as interface)
+> both wrap himalaya CLI. Use `em` for fast terminal ops, himalaya-mcp for AI-assisted analysis.
 
 ## Command Taxonomy
 
 ```mermaid
 mindmap
-  root((em<br/>20 commands))
+  root((em<br/>31 commands))
     Core Email<br/>4 commands
       inbox
       read
@@ -17,12 +21,30 @@ mindmap
     Search & Browse<br/>2 commands
       find
       pick
-    AI Features<br/>5 commands
+    AI Features<br/>7 commands
       respond
       classify
       summarize
       ai
       catch
+      todo
+      event
+    Organize<br/>7 commands
+      star
+      starred
+      move
+      thread
+      snooze
+      snoozed
+      digest
+    Manage<br/>7 commands
+      delete
+      move
+      restore
+      flag
+      unflag
+      todo
+      event
     Quick Info<br/>3 commands
       unread
       dash
@@ -39,7 +61,7 @@ mindmap
 ## All Commands at a Glance
 
 | Command | Aliases | Synopsis | Description |
-|---------|---------|----------|-------------|
+| ------- | ------- | -------- | ----------- |
 | **em** | — | `em` | Quick pulse (unread + 10 latest) |
 | **em \<N\>** | — | `em 42` | Shorthand: read email by number |
 | **em -n N** | — | `em -n 5` | Shorthand: list N emails (= `em inbox N`) |
@@ -54,6 +76,13 @@ mindmap
 | **em summarize** | `sum` | `em summarize <ID>` | One-line summary (AI) |
 | **em ai** | — | `em ai [claude\|gemini\|none\|auto\|toggle]` | Runtime AI backend switching |
 | **em catch** | `c` | `em catch <ID>` | Capture email as task (AI summary → catch) |
+| **em star** | `flag` | `em star <ID>` | Toggle starred (Flagged) status |
+| **em starred** | — | `em starred [FOLDER]` | List starred emails |
+| **em move** | `mv` | `em move <ID> [FOLDER]` | Move to folder (fzf picker if no folder) |
+| **em thread** | `th` | `em thread <ID>` | Show conversation thread |
+| **em snooze** | `snz` | `em snooze <ID> <TIME>` | Snooze email (2h, 1d, tomorrow, monday) |
+| **em snoozed** | — | `em snoozed` | List snoozed emails with status |
+| **em digest** | `dg` | `em digest [--week] [-n N]` | AI-grouped daily/weekly summary |
 | **em unread** | `u` | `em unread [FOLDER]` | Show unread count |
 | **em dash** | `d` | `em dash` | Quick dashboard (unread + recent) |
 | **em folders** | — | `em folders` | List mail folders |
@@ -62,6 +91,13 @@ mindmap
 | **em cache** | — | `em cache <action>` | Cache operations (stats, prune, clear, warm) |
 | **em doctor** | `dr` | `em doctor` | Dependency health check |
 | **em help** | `h, --help` | `em help` | Show all commands |
+| **em delete** | `del, rm` | `em delete <ID> [--folder F] [--query Q] [--pick] [--purge]` | Delete email(s) — move to Trash (or permanent with --purge) |
+| **em move** | `mv` | `em move <FOLDER> <ID> [--from F]` | Move email(s) to folder |
+| **em restore** | — | `em restore <ID> [--to F]` | Restore from Trash (default: to INBOX) |
+| **em flag** | `fl` | `em flag <ID> [<ID>...]` | Star/flag email(s) |
+| **em unflag** | — | `em unflag <ID> [<ID>...]` | Unstar/unflag email(s) |
+| **em todo** | `td` | `em todo <ID> [<ID>...]` | Extract action items (AI) → Reminders.app |
+| **em event** | `ev` | `em event <ID> [<ID>...]` | Extract calendar events (AI) → Calendar.app |
 
 ---
 
@@ -70,10 +106,11 @@ mindmap
 Environment variables (set in shell, `.env`, or `.flow/email.conf`):
 
 | Variable | Default | Type | Description |
-|----------|---------|------|-------------|
+| -------- | ------- | ---- | ----------- |
 | `FLOW_EMAIL_AI` | `claude` | enum | AI backend: `claude` \| `gemini` \| `none` |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | int | Default inbox list size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | string | Default folder (mailbox name) |
+| `FLOW_EMAIL_TRASH_FOLDER` | `Trash` | string | Trash folder (Exchange: `Deleted Items`) |
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | int | AI draft timeout in seconds |
 | `FLOW_EMAIL_CACHE_MAX_MB` | `50` | int | Max cache size in MB (0 = no limit) |
 | `FLOW_EMAIL_CACHE_WARM` | `false` | bool | Enable background cache warming on `em dash` |
@@ -87,10 +124,11 @@ Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/emai
 
 ```mermaid
 graph TD
-    A["em dispatcher<br/>20 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
+    A["em dispatcher<br/>31 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
     A -->|cache layer| C["em-cache<br/>(TTL: 1h-24h)"]
     A -->|AI abstraction| D["em-ai<br/>Backend: claude/gemini"]
     A -->|render pipeline| E["em-render<br/>Smart content detection"]
+    A -->|manage ops| F["himalaya delete/move/flag"]
     D -->|fallback chain| D1["claude"]
     D -->|fallback chain| D2["gemini"]
     E -->|HTML| E1["w3m → lynx → pandoc → bat"]
@@ -111,6 +149,7 @@ Three backends available; configured via `$FLOW_EMAIL_AI`:
 **Command:** `claude -p "<prompt>" --output-format text`
 
 **Availability Check:**
+
 ```bash
 command -v claude &>/dev/null && echo "installed" || echo "missing"
 ```
@@ -122,6 +161,7 @@ command -v claude &>/dev/null && echo "installed" || echo "missing"
 **Command:** `gemini "<prompt>"`
 
 **Availability Check:**
+
 ```bash
 command -v gemini &>/dev/null && echo "installed" || echo "missing"
 ```
@@ -137,7 +177,7 @@ If configured backend unavailable: `claude` → `gemini` → `none` (timeout gra
 Switch AI backends without restarting your shell:
 
 | Command | Action |
-|---------|--------|
+| ------- | ------ |
 | `em ai` | Show current backend + status |
 | `em ai claude` | Switch to Claude |
 | `em ai gemini` | Switch to Gemini |
@@ -154,13 +194,14 @@ Switch AI backends without restarting your shell:
 Smart content detection and rendering:
 
 | Content Type | Detection | Render Chain | Fallback |
-|-------------|-----------|--------------|----------|
+| ------------ | --------- | ------------ | -------- |
 | **HTML** | `<html>`, `<body>`, `<div>`, `<table>`, `<p>` | w3m → lynx → pandoc → bat | raw HTML |
 | **Markdown (--md)** | Explicit `--md` flag | pandoc → SafeLink cleanup → glow → bat | plain text |
 | **Markdown** | `#`, `**`, `` ` ``, `- [` | glow → bat | plain text |
 | **Plain Text** | — | bat --style=plain | cat |
 
 Commands:
+
 - **w3m** (primary): `w3m -dump -T text/html`
 - **lynx** (fallback): `lynx -stdin -dump`
 - **pandoc** (HTML→Markdown): `pandoc -f html -t markdown` + Outlook noise cleanup
@@ -168,7 +209,8 @@ Commands:
 - **bat** (syntax highlighting): `bat --style=plain --color=always`
 - **glow** (markdown): `glow -` (auto-pager)
 
-The `--md` pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL extraction → URL-decode → Outlook attribute block removal → fenced div stripping → CID/backslash cleanup → blank line collapsing.
+The `--md` pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL extraction → URL-decode →
+Outlook attribute block removal → fenced div stripping → CID/backslash cleanup → blank line collapsing.
 
 ---
 
@@ -178,16 +220,34 @@ The `--md` pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL e
 
 Every send (compose, reply, batch) requires explicit confirmation:
 
-```
+```text
 Send this email? [y/N]
 ```
 
 **Default:** No (requires `y` or `Y` to proceed)
 
 **Applies to:**
+
 - `em send` → `em send`
 - `em reply <ID>` (batch mode `--batch`) → confirm before send
 - `em respond --review` → per-draft confirmation
+
+### Delete Safety Gate
+
+Delete operations require explicit confirmation:
+
+```text
+Delete 5 email(s)? [y/N]
+```
+
+**Default:** No (requires `y` or `Y` to proceed)
+
+**Applies to:**
+
+- `em delete <ID>` → simple `[y/N]`
+- `em delete --folder <F>` → shows subject list + `[y/N]`
+- `em delete --query <Q>` → shows matching subjects + `[y/N]`
+- `em delete --purge <ID>` → requires full word `yes` (not just `y`)
 
 ### Draft Preservation
 
@@ -242,7 +302,7 @@ em respond --clear      # Clear AI cache
 Emails are auto-cleaned before display (6 patterns stripped):
 
 | Pattern | Example | Action |
-|---------|---------|--------|
+| ------- | ------- | ------ |
 | CID image refs | `[cid:image001.png@...]` | Removed |
 | Microsoft Safe Links | `https://nam02.safelinks.protection...` | Removed |
 | MIME markers | `<#part type=...>` | Removed |
@@ -273,19 +333,24 @@ em cache warm 20        # Pre-warm latest 20 emails
 Interactive fzf email browser with preview:
 
 | Key | Action | Details |
-|-----|--------|---------|
+| --- | ------ | ------- |
 | **Enter** | Read email | Default action, shows full content |
 | **Ctrl-R** | Reply | Open reply with AI draft |
 | **Ctrl-S** | Summarize | Generate 1-line summary (AI) |
 | **Ctrl-A** | Archive | Mark as read (folders archives) |
-| **Ctrl-D** | Delete | Flag for deletion (with confirm) |
+| **Ctrl-D** | Delete | Delete (move to Trash with [y/N] confirm) |
 | **Ctrl-T** | Catch | Capture email as task (AI summary → catch) |
+| **Ctrl-F** | Star | Toggle starred (Flagged) status |
+| **Ctrl-M** | Move | Move to folder (fzf picker) |
+| **Ctrl-O** | Todo | Extract action items (AI → Reminders.app) |
+| **Ctrl-E** | Event | Extract calendar events (AI → Calendar.app) |
 | **Escape** | Exit | Return to shell |
 
 **Header Info:** Folder, unread count, legend
 
-**Indicators:**
-- `*` = unread
+**Indicators (compact):**
+- `•` = unread
+- `★` = starred (flagged)
 - `+` = has attachment
 
 ---
@@ -295,11 +360,12 @@ Interactive fzf email browser with preview:
 Per-operation timeout configuration (seconds):
 
 | Operation | Default Timeout | Backend Preference | Cache TTL |
-|-----------|-----------------|-------------------|-----------|
+| --------- | --------------- | ------------------ | --------- |
 | `classify` | 10s | configured backend | 24h |
 | `summarize` | 15s | configured backend | 24h |
 | `draft` | 30s | configured backend | 1h |
 | `schedule` | 15s | configured backend | 24h |
+| `todo` | 15s | configured backend | 24h |
 
 **Override:** `FLOW_EMAIL_AI_TIMEOUT=<seconds>` (global for all ops)
 
@@ -311,7 +377,7 @@ TTL-based AI result caching (project-local):
 
 ### Cache Directory Structure
 
-```
+```text
 .flow/email-cache/
   summaries/           (one-line summaries)
   classifications/     (email categories)
@@ -323,7 +389,7 @@ TTL-based AI result caching (project-local):
 ### TTL Defaults
 
 | Operation | TTL | Reason |
-|-----------|-----|--------|
+| --------- | --- | ------ |
 | summaries | 24h | Content rarely changes |
 | classifications | 24h | Category is stable |
 | drafts | 1h | May need refreshing |
@@ -341,7 +407,8 @@ em cache warm [N]               # Pre-warm latest N emails (default: 10, backgro
 
 ### Size Cap (LRU Eviction)
 
-Max cache size: `FLOW_EMAIL_CACHE_MAX_MB=50` (default). When exceeded, oldest files are evicted first (LRU). Set to `0` to disable size cap.
+Max cache size: `FLOW_EMAIL_CACHE_MAX_MB=50` (default). When exceeded, oldest files are evicted
+first (LRU). Set to `0` to disable size cap.
 
 Eviction runs automatically after every cache write (non-blocking background process).
 
@@ -400,6 +467,32 @@ em ai none                      # Disable AI entirely
 em catch 42                     # AI summarize → pipe to catch
 
 # ─────────────────────────────────────────────────────────────
+# Organizing
+em star 42                      # Toggle star (flagged)
+em starred                      # List starred emails
+em move 42 Archive              # Move to Archive
+em move 42                      # fzf folder picker
+em thread 42                    # Show conversation thread
+em snooze 42 2h                 # Snooze for 2 hours
+em snooze 42 tomorrow           # Snooze until tomorrow 9am
+em snoozed                      # List snoozed emails
+em digest                       # AI-grouped today's summary
+em digest --week                # Weekly summary
+# Email management
+em delete 42                    # Move to Trash (with confirm)
+em del 42 43 44                 # Batch delete
+em delete --folder Spam         # Delete all in folder
+em delete --query "newsletter"  # Delete by search
+em delete --purge 42            # PERMANENT delete (requires "yes")
+em move Archive 42              # Move to Archive
+em mv Archive 10 20 30          # Batch move
+em restore 42                   # Restore from Trash → INBOX
+em flag 42                      # Star/flag email
+em unflag 42                    # Remove star
+em todo 42                      # AI → extract action items
+em event 42                     # AI → extract calendar events
+
+# ─────────────────────────────────────────────────────────────
 # Quick info
 em u                            # Show unread count
 em d                            # Quick dashboard
@@ -429,14 +522,14 @@ Run `em doctor` for dependency health:
 ### Required
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| ---- | ------- | ------- |
 | `himalaya` | Email CLI backend | `brew install himalaya` or `cargo install himalaya` |
 | `jq` | JSON processing | `brew install jq` |
 
 ### Recommended
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| ---- | ------- | ------- |
 | `fzf` | Interactive picker | `brew install fzf` |
 | `bat` | Syntax highlighting | `brew install bat` |
 | `w3m` | HTML rendering (primary) | `brew install w3m` |
@@ -447,14 +540,14 @@ Run `em doctor` for dependency health:
 ### Optional (Infrastructure)
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| ---- | ------- | ------- |
 | `email-oauth2-proxy` | OAuth2 IMAP/SMTP proxy (Gmail, etc.) | `pip install email-oauth2-proxy` |
 | `terminal-notifier` | Desktop notifications | `brew install terminal-notifier` |
 
 ### Optional (AI)
 
 | Backend | Detection | Install |
-|---------|-----------|---------|
+| ------- | --------- | ------- |
 | Claude | When `FLOW_EMAIL_AI=claude` | `npm install -g @anthropic-ai/claude-code` |
 | Gemini | When `FLOW_EMAIL_AI=gemini` | `pip install google-generativeai` |
 
@@ -465,31 +558,33 @@ Run `em doctor` for dependency health:
 AI classification categories (for `em classify`, `em respond`):
 
 | Category | Icon | Color | Actionable | Description |
-|----------|------|-------|-----------|-------------|
-| `student` | S | blue | ✓ | Student email: absence, question, grade inquiry, accommodation |
-| `colleague` | C | green | ✓ | Faculty/staff: hiring committee, research, departmental threads |
-| `admin-action` | ! | red | ✓ | Requires YOUR action: accommodation letter, form, review request |
-| `scheduling` | @ | cyan | ✓ | Meeting request, event RSVP, calendar invite, office hours |
-| `urgent` | U | red | ✓ | Deadline today, emergency, escalation, time-sensitive |
-| `admin-info` | i | dim | ✗ | FYI only: university blast, mailing list, policy notice |
-| `newsletter` | N | dim | ✗ | Professional journal, academic association digest |
-| `vendor` | V | dim | ✗ | Commercial marketing, textbook promo, EdTech sales |
-| `automated` | A | dim | ✗ | CI/CD, GitHub, system alerts, delivery receipts |
+| -------- | ---- | ----- | ---------- | ----------- |
+| `student` | S | blue | yes | Student email: absence, question, grade inquiry, accommodation |
+| `colleague` | C | green | yes | Faculty/staff: hiring committee, research, departmental threads |
+| `admin-action` | ! | red | yes | Requires YOUR action: accommodation letter, form, review request |
+| `scheduling` | @ | cyan | yes | Meeting request, event RSVP, calendar invite, office hours |
+| `urgent` | U | red | yes | Deadline today, emergency, escalation, time-sensitive |
+| `admin-info` | i | dim | no | FYI only: university blast, mailing list, policy notice |
+| `newsletter` | N | dim | no | Professional journal, academic association digest |
+| `vendor` | V | dim | no | Commercial marketing, textbook promo, EdTech sales |
+| `automated` | A | dim | no | CI/CD, GitHub, system alerts, delivery receipts |
 
 **Non-actionable emails skipped by `em respond`:** admin-info, newsletter, vendor, automated
 
 ### Listserv Safety
 
-Emails to mailing lists (`*@LIST.*`, `*-L@*`) are auto-skipped in `em respond` with an `L` icon. If a listserv email passes classification, a warning banner appears before drafting:
+Emails to mailing lists (`*@LIST.*`, `*-L@*`) are auto-skipped in `em respond` with an `L` icon.
+If a listserv email passes classification, a warning banner appears before drafting:
 
-```
-⚠ WARNING: This email was sent to a mailing list
+```text
+WARNING: This email was sent to a mailing list
   Replying may go to ALL list members. Review carefully.
 ```
 
 ### Discard Detection
 
-When reviewing drafts (`em respond --review`), himalaya's "Discard" action is properly detected. Discarded drafts are counted as skipped, not as sent replies.
+When reviewing drafts (`em respond --review`), himalaya's "Discard" action is properly detected.
+Discarded drafts are counted as skipped, not as sent replies.
 
 ---
 
@@ -564,10 +659,12 @@ em attach 42 ~/Documents        # Custom directory
 **Path:** `$FLOW_CONFIG_DIR/email.conf`
 
 **Example:**
+
 ```bash
 FLOW_EMAIL_AI=claude
 FLOW_EMAIL_PAGE_SIZE=30
 FLOW_EMAIL_FOLDER=INBOX
+FLOW_EMAIL_TRASH_FOLDER=Trash          # Exchange: "Deleted Items"
 FLOW_EMAIL_AI_TIMEOUT=45
 ```
 
@@ -614,7 +711,7 @@ For Gmail/OAuth2: `email-oauth2-proxy` recommended (see `em doctor`)
 
 ### Layer 1: Dispatcher (`em()`)
 
-Pure ZSH dispatcher. 20 public commands. <10ms response.
+Pure ZSH dispatcher. 27 public commands. <10ms response.
 
 ### Layer 2: Adapters
 
@@ -636,6 +733,7 @@ Pure ZSH dispatcher. 20 public commands. <10ms response.
 ### Problem: "himalaya not found"
 
 **Solution:**
+
 ```bash
 brew install himalaya          # macOS (recommended)
 cargo install himalaya         # Cross-platform alternative
@@ -649,6 +747,7 @@ himalaya account list
 **Cause:** Missing message ID argument
 
 **Solution:**
+
 ```bash
 em inbox                        # List emails with IDs
 em read 42                      # Use actual ID
@@ -659,6 +758,7 @@ em read 42                      # Use actual ID
 **Cause:** Himalaya account not configured
 
 **Solution:**
+
 ```bash
 himalaya account add           # Add account interactively
 himalaya account list          # Verify setup
@@ -670,6 +770,7 @@ em doctor                      # Check status
 **Cause:** Backend slow or unavailable
 
 **Solution:**
+
 ```bash
 # Increase timeout
 export FLOW_EMAIL_AI_TIMEOUT=60
@@ -684,6 +785,7 @@ em respond --clear             # Clear bad drafts
 **Cause:** `fzf` not installed
 
 **Solution:**
+
 ```bash
 brew install fzf
 em p                           # Try again
@@ -694,6 +796,7 @@ em p                           # Try again
 **Cause:** Invalid backend name passed to `em ai`
 
 **Solution:**
+
 ```bash
 em ai                          # See available backends
 em ai claude                   # Use a known backend
@@ -722,6 +825,6 @@ em ai claude                   # Use a known backend
 
 ---
 
-**Version:** v7.3.0
-**Last Updated:** 2026-02-18
-**Commands:** 20 total (4 core + 2 search + 5 AI + 3 info + 3 util + 2 infra + 1 help)
+**Version:** v7.4.0
+**Last Updated:** 2026-02-20
+**Commands:** 34 total (4 core + 2 search + 5 AI + 7 organize + 7 manage + 3 info + 3 util + 2 infra + 1 help)

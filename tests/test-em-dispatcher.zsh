@@ -721,6 +721,103 @@ test_em_cache_enforce_cap_disabled() {
 }
 
 # ═══════════════════════════════════════════════════════════════
+# Section 5a: New Commands (Quick Wins)
+# ═══════════════════════════════════════════════════════════════
+
+test_em_star_exists() {
+    test_case "_em_star function exists"
+    if (( ${+functions[_em_star]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_starred_exists() {
+    test_case "_em_starred function exists"
+    if (( ${+functions[_em_starred]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_move_exists() {
+    test_case "_em_move function exists"
+    if (( ${+functions[_em_move]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_thread_exists() {
+    test_case "_em_thread function exists"
+    if (( ${+functions[_em_thread]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_snooze_exists() {
+    test_case "_em_snooze function exists"
+    if (( ${+functions[_em_snooze]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_snoozed_exists() {
+    test_case "_em_snoozed function exists"
+    if (( ${+functions[_em_snoozed]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_digest_exists() {
+    test_case "_em_digest function exists"
+    if (( ${+functions[_em_digest]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_snooze_parse_time_exists() {
+    test_case "_em_snooze_parse_time function exists"
+    if (( ${+functions[_em_snooze_parse_time]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_snooze_parse_time_hours() {
+    test_case "_em_snooze_parse_time parses hours correctly"
+    local now=$(date +%s)
+    local result=$(_em_snooze_parse_time "2h")
+    local expected=$(( now + 7200 ))
+    # Allow 2-second tolerance
+    local diff=$(( result - expected ))
+    if (( diff >= -2 && diff <= 2 )); then
+        test_pass
+    else
+        test_fail "expected ~${expected}, got ${result} (diff: ${diff})"
+    fi
+}
+
+test_em_snooze_parse_time_days() {
+    test_case "_em_snooze_parse_time parses days correctly"
+    local now=$(date +%s)
+    local result=$(_em_snooze_parse_time "3d")
+    local expected=$(( now + 259200 ))
+    local diff=$(( result - expected ))
+    if (( diff >= -2 && diff <= 2 )); then
+        test_pass
+    else
+        test_fail "expected ~${expected}, got ${result} (diff: ${diff})"
+    fi
+}
+
+test_em_hml_move_exists() {
+    test_case "_em_hml_move adapter function exists"
+    if (( ${+functions[_em_hml_move]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_hml_headers_exists() {
+    test_case "_em_hml_headers adapter function exists"
+    if (( ${+functions[_em_hml_headers]} )); then test_pass; else test_fail "not defined"; fi
+}
+
+test_em_help_shows_new_commands() {
+    test_case "help output includes new commands"
+    local output=$(em help 2>&1)
+    local missing=()
+    [[ "$output" != *"star"* ]] && missing+=("star")
+    [[ "$output" != *"move"* ]] && missing+=("move")
+    [[ "$output" != *"thread"* ]] && missing+=("thread")
+    [[ "$output" != *"snooze"* ]] && missing+=("snooze")
+    [[ "$output" != *"digest"* ]] && missing+=("digest")
+    if [[ ${#missing[@]} -eq 0 ]]; then
+        test_pass
+    else
+        test_fail "missing from help: ${missing[*]}"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════
 # Section 5b: Doctor Version Check
 # ═══════════════════════════════════════════════════════════════
 
@@ -1264,6 +1361,22 @@ main() {
     test_em_cache_prune_no_expired
     test_em_cache_enforce_cap_no_eviction
     test_em_cache_enforce_cap_disabled
+    echo ""
+
+    echo "${CYAN}Section 5a: New Commands (Quick Wins)${RESET}"
+    test_em_star_exists
+    test_em_starred_exists
+    test_em_move_exists
+    test_em_thread_exists
+    test_em_snooze_exists
+    test_em_snoozed_exists
+    test_em_digest_exists
+    test_em_snooze_parse_time_exists
+    test_em_snooze_parse_time_hours
+    test_em_snooze_parse_time_days
+    test_em_hml_move_exists
+    test_em_hml_headers_exists
+    test_em_help_shows_new_commands
     echo ""
 
     echo "${CYAN}Section 5b: Doctor Version Check${RESET}"
