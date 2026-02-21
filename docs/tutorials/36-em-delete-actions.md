@@ -10,7 +10,7 @@ tags:
 
 Soft-delete, move, restore, flag emails, and extract action items or calendar events — all from the terminal with `em` commands.
 
-**Time:** 20 minutes | **Level:** Intermediate | **Requires:** himalaya CLI, flow-cli v7.3.0+, jq, fzf (for `--pick` modes)
+**Time:** 20 minutes | **Level:** Intermediate | **Requires:** himalaya CLI, flow-cli v7.4.0+, jq, fzf (for `--pick` modes)
 
 ## What You'll Learn
 

@@ -2,7 +2,7 @@
 
 > All `em` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v7.3.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+> **Version:** v7.4.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
 >
 > **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and
 > [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven, Claude as interface)
@@ -825,6 +825,6 @@ em ai claude                   # Use a known backend
 
 ---
 
-**Version:** v7.3.0
+**Version:** v7.4.0
 **Last Updated:** 2026-02-20
 **Commands:** 34 total (4 core + 2 search + 5 AI + 7 organize + 7 manage + 3 info + 3 util + 2 infra + 1 help)

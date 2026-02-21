@@ -35,19 +35,18 @@ or any other framework. Choose any installation method that works for you.
 
 ## What's New
 
-### v7.3.0: Email AI Improvements
+### v7.4.0: 31 Email Commands
 
-- **Runtime AI Backend Switching** - `em ai gemini` / `em ai claude` without restarting
-- **Email-to-Task Capture** - `em catch 42` extracts action items from emails
-- **Gemini Speed Boost** - `extra_args` field in backend config for fast startup
-- **Two Interfaces** - `em` (keyboard-driven, fzf) and
-  [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (AI-driven)
+- **Organize:** `em star`, `em thread`, `em snooze`, `em digest` — manage your inbox without leaving the terminal
+- **Manage:** `em delete`, `em move`, `em restore`, `em flag`, `em todo`, `em event` — full email lifecycle with `--pick` multi-select
+- **AI:** Switch backends with `em ai gemini`, capture tasks with `em catch 42`
+- **10 Tutorials** — step-by-step guides for every em subcommand
 
 ```bash
-em ai gemini                 # Switch to Gemini backend
-em catch 42                  # Capture email as task
-em inbox                     # Browse inbox with fzf
-em pick                      # Interactive email picker
+em star 42                   # Star a message
+em move 42 Archive           # Move to folder
+em todo 42                   # Create reminder from email
+em pick                      # Interactive multi-select
 ```
 
 [Full Changelog](docs/CHANGELOG.md) | [All Releases](https://github.com/Data-Wise/flow-cli/releases)
@@ -211,7 +210,7 @@ Context-aware commands that adapt to your project:
 
 Each dispatcher has built-in help: `cc help`, `dots help`, `r help`, `em help`, etc.
 
-**✨ New in v7.3.0:** Email AI — runtime backend switching, email-to-task capture, Gemini speed boost
+**✨ New in v7.4.0:** 31 email commands — organize, manage, AI, plus 10 tutorials
 **✨ v7.1.0:** Dispatcher split — `dot` → `dots` (dotfiles) + `sec` (secrets) + `tok` (tokens)
 **✨ 15 dispatchers** with unified grammar, built-in help, and fzf integration
 

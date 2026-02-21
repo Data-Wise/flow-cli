@@ -10,7 +10,7 @@ tags:
 **Purpose:** Complete reference for all 15 flow-cli dispatchers
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v7.3.0
+**Version:** v7.4.0
 **Last Updated:** 2026-02-16
 
 ---
@@ -3071,7 +3071,7 @@ als           # List all aliases by category
 
 **Domain:** Email management via himalaya CLI
 **File:** `lib/dispatchers/email-dispatcher.zsh` + `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`
-**Version:** v7.3.0
+**Version:** v7.4.0
 
 ### Overview
 
@@ -3186,6 +3186,6 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 
 ---
 
-**Version:** v7.3.0
+**Version:** v7.4.0
 **Last Updated:** 2026-02-16
 **Total:** 15 dispatchers fully documented

@@ -282,4 +282,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.3.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.4.0** · Pure ZSH · Zero Dependencies · MIT License

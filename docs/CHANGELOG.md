@@ -6,6 +6,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.4.0] - 2026-02-20
+
+### Added
+
+- **`em` organize commands** — `em star`, `em thread`, `em snooze`, `em digest` for inbox management (#402)
+- **`em` manage commands** — `em delete`, `em move`, `em restore`, `em flag`, `em todo`, `em event` with `--pick` multi-select (#403)
+- **10 email tutorials** — step-by-step guides for all em subcommands (tutorials 27-36)
+- **fzf multi-select** — `{+1}` pattern across all em pick modes with indicator keybinds (`Ctrl-F` star, `Ctrl-M` move, `Ctrl-O` todo, `Ctrl-E` event)
+
+### Fixed
+
+- **jq type mismatch** — `_em_star` now uses `tonumber` for ID comparison
+- **printf format injection** — `_em_move` uses `%s` format specifiers
+- **AppleScript injection** — sanitized inputs in `_em_create_reminder` and `_em_create_calendar_event`
+- **Dead code removal** — removed 686 lines of duplicate function definitions
+
+---
+
 ## [7.3.0] - 2026-02-18
 
 ### Added
