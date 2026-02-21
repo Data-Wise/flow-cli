@@ -47,14 +47,14 @@ Comprehensive test suite generated for the new dot safety features, covering uni
 
 ### Existing Tests (Before PR #316)
 
-```
+```text
 tests/test-dot-chezmoi-safety.zsh     ✅ 21 unit tests (100% pass)
 tests/interactive-dot-dogfooding.zsh  ✅ 10 interactive tests
 ```
 
 ### New Tests (Added for v6.0.0)
 
-```
+```text
 tests/e2e-dot-safety.zsh              ✅ 21 E2E tests
 tests/interactive-dot-safety-dogfood.zsh  ✅ 15 interactive tests
 ```
@@ -110,7 +110,7 @@ tests/interactive-dot-safety-dogfood.zsh  ✅ 15 interactive tests
 
 - Calculate file count
 - Detect large files
-- Detect generated files (_.log, _.db)
+- Detect generated files (_.log,_.db)
 
 ### Scenario 5: Flow Doctor Integration
 
@@ -323,7 +323,7 @@ run_test ./tests/e2e-dot-safety.zsh  # NEW
 
 ### Before v6.0.0
 
-```
+```text
 Total tests: 462
 Dot-specific: 21 (unit)
 Coverage: Functions only
@@ -331,7 +331,7 @@ Coverage: Functions only
 
 ### After v6.0.0
 
-```
+```text
 Total tests: 513 (+51)
 Dot-specific: 67 (+46)
 Coverage: Functions + workflows + docs

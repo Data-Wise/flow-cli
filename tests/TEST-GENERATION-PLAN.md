@@ -701,15 +701,15 @@ test_performance_qti_conversion() {
 
 ### Phase 2: Coverage (Week 2)
 
-5. Template generation tests (8 tests)
-6. Integration tests (8 tests)
-7. Error handling tests (10 tests)
+1. Template generation tests (8 tests)
+2. Integration tests (8 tests)
+3. Error handling tests (10 tests)
 
 ### Phase 3: Polish (Week 3)
 
-8. Performance tests (3 tests)
-9. Additional edge cases (8 tests)
-10. Documentation examples (5 tests)
+1. Performance tests (3 tests)
+2. Additional edge cases (8 tests)
+3. Documentation examples (5 tests)
 
 ---
 
@@ -717,7 +717,7 @@ test_performance_qti_conversion() {
 
 ### Recommended File Organization
 
-```
+```text
 tests/
 ├── test-teaching-workflow-increment-2.zsh   # ✅ Existing (17 tests)
 ├── test-teaching-workflow-increment-3.zsh   # 🆕 NEW (25 tests)

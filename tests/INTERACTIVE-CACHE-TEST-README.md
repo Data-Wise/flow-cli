@@ -95,7 +95,7 @@ An ADHD-friendly, gamified test suite for the project cache functionality. Feed 
 
 ## Example Session
 
-```
+```text
 ╔════════════════════════════════════════════════════════════╗
 ║  🐕💾  PROJECT CACHE DOG FEEDING TEST  💾🐕           ║
 ╚════════════════════════════════════════════════════════════╝

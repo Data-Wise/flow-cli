@@ -5,12 +5,12 @@
 
 ## Test Coverage Overview
 
-| Test Type | File | Tests | Status |
-|-----------|------|-------|--------|
-| **Unit Tests** | `test-teach-prompt-unit.zsh` | 62 | ✅ 100% |
-| **E2E Tests** | `e2e-teach-prompt.zsh` | 33 | ✅ 100% |
-| **Interactive** | `interactive-dog-prompt.zsh` | 12 | ✅ Ready |
-| **Total** | | **107** | **✅ All Passing** |
+| Test Type       | File                         | Tests   | Status             |
+| --------------- | ---------------------------- | ------- | ------------------ |
+| **Unit Tests**  | `test-teach-prompt-unit.zsh` | 62      | ✅ 100%            |
+| **E2E Tests**   | `e2e-teach-prompt.zsh`       | 33      | ✅ 100%            |
+| **Interactive** | `interactive-dog-prompt.zsh` | 12      | ✅ Ready           |
+| **Total**       |                              | **107** | **✅ All Passing** |
 
 ## Demo Course Fixture (v2.0.0)
 
@@ -19,6 +19,7 @@
 ### Updated Components
 
 #### 1. Course-Level Teaching Prompts
+
 **Directory:** `.flow/templates/prompts/`
 
 - **lecture-notes.md** - Customized STAT-101 lecture generator
@@ -32,6 +33,7 @@
   - Quality standards and best practices
 
 #### 2. Lesson Plans
+
 **File:** `.flow/lesson-plans.yml`
 
 - 5 weeks of detailed lesson plans
@@ -40,6 +42,7 @@
 - Prerequisites and dependencies
 
 #### 3. LaTeX Macros
+
 **File:** `_macros.qmd`
 
 - Statistical notation (E, Var, Cov, Corr, SD)
@@ -48,27 +51,32 @@
 - Hypothesis testing (H_0, H_a, p-value)
 
 #### 4. Configuration Files
+
 - `teach-config.yml` - Course metadata and Scholar settings
 - `.teach/concepts.json` - Concept registry with prerequisites
 
 ## Test Files
 
 ### 1. Unit Tests (`test-teach-prompt-unit.zsh`)
+
 **62 tests covering:**
 
 #### Resolution Engine (12 tests)
+
 - 3-tier path resolution (course > user > plugin)
 - Tier detection and precedence
 - File extension handling (.md auto-append)
 - Forced tier resolution
 
 #### Rendering (8 tests)
+
 - Variable substitution from config
 - Frontmatter stripping
 - Extra variable merging
 - MACROS variable injection
 
 #### Validation (10 tests)
+
 - YAML frontmatter parsing
 - Required fields (template_type, template_version)
 - Variable pattern validation (UPPERCASE_UNDERSCORE)
@@ -76,6 +84,7 @@
 - Strict mode behavior
 
 #### List/Show Commands (8 tests)
+
 - Prompt enumeration across tiers
 - Deduplication (higher tiers shadow lower)
 - Tier filtering (--tier flag)
@@ -83,75 +92,89 @@
 - Raw output (--raw flag)
 
 #### Edit Command (6 tests)
+
 - Course override creation
 - User-level override (--global)
 - Skeleton generation for new prompts
 - Content preservation
 
 #### Export Command (6 tests)
+
 - Variable rendering
 - MACROS injection
 - JSON output with metadata
 - Plain text output
 
 #### Dispatcher Integration (4 tests)
+
 - teach prompt command routing
 - Subcommand aliases
 - Help system integration
 
 #### Flags & Edge Cases (8 tests)
+
 - Tier filters (course, user, plugin)
 - Invalid tier handling
 - Missing prompt errors
 - Verbose output (--verbose)
 
 ### 2. E2E Tests (`e2e-teach-prompt.zsh`)
+
 **33 tests covering:**
 
 #### Setup (2 tests)
+
 - Demo course fixture verification
 - Plugin prompts availability
 
 #### List Command (4 tests)
+
 - Basic list with tier indicators
 - Tier filtering (--tier)
 - JSON output format
 - Legend display
 
 #### Show Command (4 tests)
+
 - Basic show with pager
 - Raw output (--raw)
 - Unknown prompt errors
 - Missing name errors
 
 #### Edit Command (4 tests)
+
 - Course override creation
 - Content preservation
 - User-level override (--global)
 - Skeleton generation
 
 #### Validate Command (4 tests)
+
 - Batch validation header
 - Summary counts (valid/errors/warnings)
 - Single prompt validation
 - Nonexistent prompt errors
 
 #### Export Command (3 tests)
+
 - Variable rendering
 - JSON output with metadata
 - Nonexistent prompt errors
 
 #### Workflow Tests (3 tests)
+
 - Edit → list → validate lifecycle
 - Tier promotion verification
 - Export rendering with config variables
 
 #### Alias Tests (3 tests)
+
 - `teach pr ls` (list alias)
 - `teach pr val` (validate alias)
 - `teach pr x` (export alias)
 
 #### Advanced Features (6 tests)
+
 - **Multi-tier precedence** - Course > User > Plugin resolution
 - **List --verbose** - File path display
 - **Show --tier** - Forced tier selection
@@ -160,6 +183,7 @@
 - **Tier filtering** - Course-only prompt listing
 
 ### 3. Interactive Dogfooding Test (`interactive-dog-prompt.zsh`)
+
 **12 gamified tasks:**
 
 1. **List All** - View prompts with tier indicators
@@ -176,6 +200,7 @@
 12. **Help System** - Explore built-in help
 
 **Gamification:**
+
 - Dog hunger/happiness tracking
 - Star ratings (☆☆☆☆☆)
 - Task completion scoring
@@ -184,6 +209,7 @@
 ## Test Results
 
 ### Unit Tests (62/62 passing)
+
 ```bash
 $ ./tests/test-teach-prompt-unit.zsh
 ─────────────────────────────────────────────────────────
@@ -193,6 +219,7 @@ PASS - All 62 tests passed
 ```
 
 ### E2E Tests (33/33 passing)
+
 ```bash
 $ ./tests/e2e-teach-prompt.zsh
 ─────────────────────────────────────────────────────────
@@ -202,6 +229,7 @@ PASS - All 33 tests passed
 ```
 
 ### Interactive Test (User Validation)
+
 ```bash
 $ ./tests/interactive-dog-prompt.zsh
 # Interactive: User validates each task
@@ -253,18 +281,19 @@ $ ./tests/interactive-dog-prompt.zsh
 
 ## Quality Metrics
 
-| Metric | Value | Target | Status |
-|--------|-------|--------|--------|
-| **Test Count** | 107 | 80+ | ✅ Exceeds |
-| **Pass Rate** | 100% | >95% | ✅ Perfect |
-| **Coverage** | All features | >90% | ✅ Complete |
-| **E2E Workflows** | 3 major workflows | 2+ | ✅ Exceeds |
-| **Interactive Tasks** | 12 tasks | 10+ | ✅ Exceeds |
-| **Demo Course** | Updated with prompts | Required | ✅ Complete |
+| Metric                | Value                | Target   | Status      |
+| --------------------- | -------------------- | -------- | ----------- |
+| **Test Count**        | 107                  | 80+      | ✅ Exceeds  |
+| **Pass Rate**         | 100%                 | >95%     | ✅ Perfect  |
+| **Coverage**          | All features         | >90%     | ✅ Complete |
+| **E2E Workflows**     | 3 major workflows    | 2+       | ✅ Exceeds  |
+| **Interactive Tasks** | 12 tasks             | 10+      | ✅ Exceeds  |
+| **Demo Course**       | Updated with prompts | Required | ✅ Complete |
 
 ## Running the Tests
 
 ### Quick Test (Unit + E2E)
+
 ```bash
 cd /path/to/flow-cli
 ./tests/test-teach-prompt-unit.zsh
@@ -272,6 +301,7 @@ cd /path/to/flow-cli
 ```
 
 ### Interactive Dogfooding
+
 ```bash
 cd /path/to/flow-cli
 ./tests/interactive-dog-prompt.zsh
@@ -279,6 +309,7 @@ cd /path/to/flow-cli
 ```
 
 ### All Tests
+
 ```bash
 ./tests/run-all.sh
 # Includes all test suites (462+ tests total)
@@ -294,18 +325,21 @@ cd /path/to/flow-cli
 ## Recommendations
 
 ### For Reviewers
+
 1. ✅ Run unit tests: `./tests/test-teach-prompt-unit.zsh`
 2. ✅ Run E2E tests: `./tests/e2e-teach-prompt.zsh`
 3. ✅ Try interactive test: `./tests/interactive-dog-prompt.zsh`
 4. ✅ Verify demo course: `cd tests/fixtures/demo-course && ls -la .flow/`
 
 ### For Users
+
 1. Start with interactive test to learn commands
 2. Review demo course for realistic examples
 3. Create course overrides in `.flow/templates/prompts/`
 4. Use `teach prompt list` to explore available prompts
 
 ### For Maintainers
+
 1. Keep demo course up-to-date with new features
 2. Add E2E tests for new subcommands/flags
 3. Update interactive test for new workflows

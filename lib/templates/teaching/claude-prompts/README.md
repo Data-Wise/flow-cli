@@ -28,7 +28,7 @@ These prompts complement the Scholar plugin's `/teaching:*` commands:
 
 Reference the prompt when asking Claude Code to generate content:
 
-```
+```text
 Create lecture notes for "Factorial ANOVA" following the structure
 in lib/templates/teaching/claude-prompts/lecture-notes.md
 ```

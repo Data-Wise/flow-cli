@@ -9,7 +9,7 @@
 
 ## Test Organization
 
-```
+```text
 tests/
 ├── run-unit-tests.zsh          # Main test runner
 ├── test-utils.zsh              # Shared test framework

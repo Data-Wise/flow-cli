@@ -27,7 +27,7 @@ bash tests/teaching-workflow-v3/automated-tests.sh
 
 **Output:**
 
-```
+```text
 Teaching Workflow v3.0 - Automated Test Suite
 ═══════════════════════════════════════════════
 
@@ -75,7 +75,7 @@ bash tests/teaching-workflow-v3/interactive-tests.sh
 
 **Output:**
 
-```
+```text
 ╔════════════════════════════════════════════════════════╗
 ║  Teaching Workflow v3.0 - Interactive Test Suite      ║
 ╚════════════════════════════════════════════════════════╝
@@ -137,7 +137,7 @@ Does the output match expected behavior?
 
 Interactive tests save detailed logs:
 
-```
+```text
 tests/teaching-workflow-v3/logs/
 └── interactive-test-20260118-143000.log
 ```
@@ -262,6 +262,7 @@ Beyond automated tests, manually verify:
    ```
 
 3. **Check git status:**
+
    ```bash
    git status
    git diff
@@ -276,6 +277,7 @@ Beyond automated tests, manually verify:
    ```
 
 2. **Check bash version:**
+
    ```bash
    bash --version  # Should be 4.0+
    ```

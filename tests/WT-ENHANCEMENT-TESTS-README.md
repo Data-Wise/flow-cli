@@ -246,6 +246,7 @@ Add to `.git/hooks/pre-commit`:
    ```
 
 3. Check for errors:
+
    ```bash
    _wt_overview 2>&1 | grep -i error
    ```
@@ -266,6 +267,7 @@ Add to `.git/hooks/pre-commit`:
    ```
 
 3. Manual cleanup if needed:
+
    ```bash
    rm -rf /tmp/tmp.*
    ```
@@ -280,6 +282,7 @@ Add to `.git/hooks/pre-commit`:
    ```
 
 2. Test fzf keybindings:
+
    ```bash
    echo -e "a\nb\nc" | fzf --multi --bind 'ctrl-x:accept'
    ```

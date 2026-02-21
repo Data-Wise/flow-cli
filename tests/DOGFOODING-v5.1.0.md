@@ -30,9 +30,11 @@ bw login
 
 1. **Edit a dotfile:**
 
-   ```bash
+   ````bash
    dot edit .zshrc
-   ```
+   ```text
+
+   ````
 
 2. **Make a quick change:**
    - Add comment: `# Test v5.1.0 hash detection`
@@ -41,13 +43,15 @@ bw login
 
 3. **Expected Result:**
 
-   ```
+   ````text
    ✓ Changes detected!
    ─────────────────────────────────────────────────
    [Shows diff with added comment]
    ─────────────────────────────────────────────────
    Apply? [Y/n/d]
-   ```
+   ```text
+
+   ````
 
 4. **Verify:**
    - ✅ Changes detected (not "No changes made")
@@ -73,16 +77,20 @@ bw login
 
 1. **Try to retrieve non-existent secret:**
 
-   ```bash
+   ````bash
    dot secret nonexistent-item-12345
-   ```
+   ```text
+
+   ````
 
 2. **Expected Output:**
 
-   ```
+   ````text
    ✗ Secret not found: nonexistent-item-12345
    Tip: Use 'dot secret list' to see available items
-   ```
+   ```text
+
+   ````
 
 3. **Verify:**
    - ✅ Clear "not found" message
@@ -100,29 +108,37 @@ bw login
 
 1. **Expire your session:**
 
-   ```bash
+   ````bash
    # Clear BW_SESSION
    unset BW_SESSION
-   ```
+   ```text
+
+   ````
 
 2. **Try to get secret:**
 
-   ```bash
+   ````bash
    dot secret github-token
-   ```
+   ```text
+
+   ````
 
 3. **Expected Output:**
 
-   ```
+   ````text
    ✗ Session expired
    Run: dot unlock
-   ```
+   ```text
+
+   ````
 
 4. **Follow guidance:**
 
-   ```bash
+   ````bash
    dot unlock
-   ```
+   ```text
+
+   ````
 
 5. **Verify:**
    - ✅ Clear "session expired" message
@@ -140,22 +156,28 @@ bw login
 
 1. **Lock your vault:**
 
-   ```bash
+   ````bash
    bw lock
-   ```
+   ```text
+
+   ````
 
 2. **Try to get secret:**
 
-   ```bash
+   ````bash
    dot secret github-token
-   ```
+   ```text
+
+   ````
 
 3. **Expected Output:**
 
-   ```
+   ````text
    ✗ Vault is locked
    Run: dot unlock
-   ```
+   ```text
+
+   ````
 
 4. **Verify:**
    - ✅ Identifies locked vault specifically
@@ -174,29 +196,35 @@ bw login
 
 1. **Make some changes:**
 
-   ```bash
+   ````bash
    dot edit .zshrc
    # Add: export TEST_VAR="v5.1.0"
    # Save and apply
-   ```
+   ```text
+
+   ````
 
 2. **Make another change:**
 
-   ```bash
+   ````bash
    dot edit .zshrc
    # Add: export ANOTHER_VAR="test"
    # Save but DON'T apply (press 'n')
-   ```
+   ```text
+
+   ````
 
 3. **Preview with dry-run:**
 
-   ```bash
+   ````bash
    dot apply --dry-run
-   ```
+   ```text
+
+   ````
 
 4. **Expected Output:**
 
-   ```
+   ````text
    DRY-RUN MODE - No changes will be applied
 
    Showing what would change (dry-run)...
@@ -208,7 +236,9 @@ bw login
    [Shows verbose diff of what would change]
 
    ✓ Dry-run complete - no changes applied
-   ```
+   ```text
+
+   ````
 
 5. **Verify:**
    - ✅ Clear DRY-RUN MODE indicator
@@ -217,10 +247,12 @@ bw login
    - ✅ Can inspect output safely
 
 6. **Apply for real:**
-   ```bash
+
+   ````bash
    dot apply
    # Now actually apply changes
-   ```
+   ```text
+   ````
 
 ---
 
@@ -230,21 +262,25 @@ bw login
 
 1. **Make change to specific file:**
 
-   ```bash
+   ````bash
    dot edit .gitconfig
    # Change email or name
    # Save, press 'n' to not apply
-   ```
+   ```text
+
+   ````
 
 2. **Preview just that file:**
 
-   ```bash
+   ````bash
    dot apply -n .gitconfig
-   ```
+   ```text
+
+   ````
 
 3. **Expected Output:**
 
-   ```
+   ````text
    DRY-RUN MODE - No changes will be applied
 
    Showing what would change (dry-run)...
@@ -252,7 +288,9 @@ bw login
    [Shows diff for .gitconfig only]
 
    ✓ Dry-run complete - no changes applied
-   ```
+   ```text
+
+   ````
 
 4. **Verify:**
    - ✅ Only shows .gitconfig changes
@@ -267,39 +305,49 @@ bw login
 
 1. **Quick edit with hash detection:**
 
-   ```bash
+   ````bash
    dot edit .zshrc
    # Add comment, save quickly
    # → Changes detected! ✓
-   ```
+   ```text
+
+   ````
 
 2. **Dry-run preview:**
 
-   ```bash
+   ````bash
    # Press 'n' to not apply yet
    dot apply --dry-run
    # → See what would change ✓
-   ```
+   ```text
+
+   ````
 
 3. **Apply changes:**
 
-   ```bash
+   ````bash
    dot apply
    # → Apply for real
-   ```
+   ```text
+
+   ````
 
 4. **Test secret with good errors:**
 
-   ```bash
+   ````bash
    dot secret wrong-name
    # → Clear error message ✓
-   ```
+   ```text
+
+   ````
 
 5. **Test secret list:**
-   ```bash
+
+   ````bash
    dot secret list
    # → Shows available secrets
-   ```
+   ```text
+   ````
 
 ---
 

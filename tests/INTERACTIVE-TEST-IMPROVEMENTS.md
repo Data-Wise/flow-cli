@@ -6,7 +6,7 @@ Enhanced the interactive dog-feeding test to provide **crystal-clear** compariso
 
 ### Before (Old Format)
 
-```
+```text
 ╭─ Test ───────────────────────────────────────────────────╮
 │ 👀 Test 1.1: Cache file is created
 │ Command: flow cache refresh && [[ -f "$PROJ_CACHE_FILE" ]]
@@ -23,7 +23,7 @@ Running...
 
 ### After (New Format)
 
-```
+```text
 ╔═══════════════════════════════════════════════════════════╗
 ║ 👀 Test 1.1: Cache file is created
 ╚═══════════════════════════════════════════════════════════╝
@@ -119,7 +119,7 @@ run_test \
 ✅ **Debugging** - Actual output helps identify issues
 ✅ **ADHD-Friendly** - Clear visual structure reduces cognitive load
 
-## Try It Out!
+## Try It Out
 
 ```bash
 cd ~/.git-worktrees/flow-cli-project-cache
