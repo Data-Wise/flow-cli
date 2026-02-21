@@ -4121,63 +4121,8 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#step-3-adapt-to-your-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3: Adapt to Your Context
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-4-set-up-quality-automation-new-v30" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 4: Set Up Quality Automation (NEW v3.0)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-5-generate-content" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 5: Generate Content
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#comparison-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Comparison Matrix
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#file-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        File Structure
-      
-    </span>
-  </a>
   
 </li>
       
@@ -8182,63 +8127,8 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#step-3-adapt-to-your-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 3: Adapt to Your Context
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-4-set-up-quality-automation-new-v30" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 4: Set Up Quality Automation (NEW v3.0)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-5-generate-content" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 5: Generate Content
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#comparison-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Comparison Matrix
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#file-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        File Structure
-      
-    </span>
-  </a>
   
 </li>
       
@@ -8378,135 +8268,101 @@
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Edit with your course details</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>vim<span class="w"> </span>/path/to/your/course/.flow/teach-config.yml
-</code></pre></div>
-<h3 id="step-3-adapt-to-your-context">Step 3: Adapt to Your Context<a class="headerlink" href="#step-3-adapt-to-your-context" title="Permanent link">&para;</a></h3>
-<p><strong>What to change:</strong>
-- Course name, instructor, semester dates
-- Learning outcomes (keep structure, change content)
-- Topics (match your syllabus)
-- Assessment weights (match your grading policy)
-- Scholar style (tone, notation, difficulty)</p>
-<p><strong>What to keep:</strong>
-- Backward design structure (Stages 1-2-3)
-- WHERETO lesson plan framework
-- Alignment matrix structure
-- Quality checklists</p>
-<h3 id="step-4-set-up-quality-automation-new-v30">Step 4: Set Up Quality Automation (NEW v3.0)<a class="headerlink" href="#step-4-set-up-quality-automation-new-v30" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Install git hooks for quality checks</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>teach<span class="w"> </span>hooks<span class="w"> </span>install
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Verify environment is ready</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>teach<span class="w"> </span>doctor
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># If missing dependencies, auto-install</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix
-</code></pre></div>
-<p><strong>What this gives you:</strong>
-- Automatic YAML validation on commit
-- Cross-reference integrity checks
-- Dependency tracking (sourced R files)
-- Pre-deployment validation
-- Auto-formatted commit messages</p>
-<p>See <a href="../../guides/TEACHING-WORKFLOW-V3-GUIDE/#8-git-hooks-integration">Git Hooks Integration</a> for full details.</p>
-<h3 id="step-5-generate-content">Step 5: Generate Content<a class="headerlink" href="#step-5-generate-content" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Use Scholar with your configuration</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Week 1: Introduction&quot;</span><span class="w"> </span>--template<span class="w"> </span>quarto
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm&quot;</span><span class="w"> </span>--scope<span class="w"> </span><span class="s2">&quot;Weeks 1-8&quot;</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">&quot;HW1: Data Exploration&quot;</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Content is automatically backed up</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># lesson-plan.yml is auto-loaded for context</span>
-</code></pre></div>
-<p><strong>Phase 2 features available:</strong>
-- Parallel rendering (3-10x faster for large courses)
-- Custom validators (extensible quality checks)
-- Performance monitoring (track render times)
-- Cache analysis (optimize storage)</p>
-<p>See <a href="../../guides/QUARTO-WORKFLOW-PHASE-2-GUIDE/">Quarto Workflow Phase 2 Guide</a> for advanced features.</p>
-<hr />
-<h2 id="comparison-matrix">Comparison Matrix<a class="headerlink" href="#comparison-matrix" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>STAT 101 (Intro)</th>
-<th>STAT 545 (Grad)</th>
-<th>STAT 899 (Seminar)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Enrollment</strong></td>
-<td>150+</td>
-<td>15-30</td>
-<td>10-12</td>
-</tr>
-<tr>
-<td><strong>Format</strong></td>
-<td>Lecture + Lab</td>
-<td>Flipped</td>
-<td>Discussion</td>
-</tr>
-<tr>
-<td><strong>Credits</strong></td>
-<td>3</td>
-<td>4</td>
-<td>3</td>
-</tr>
-<tr>
-<td><strong>Level</strong></td>
-<td>100 (GenEd)</td>
-<td>500 (MS)</td>
-<td>800 (PhD)</td>
-</tr>
-<tr>
-<td><strong>Assessments</strong></td>
-<td>Exams + HW + Labs</td>
-<td>HW + Project + Exams</td>
-<td>Presentations + Proposal</td>
-</tr>
-<tr>
-<td><strong>Grading</strong></td>
-<td>Auto-graded + TA</td>
-<td>Mix of auto/manual</td>
-<td>Instructor graded</td>
-</tr>
-<tr>
-<td><strong>Technology</strong></td>
-<td>Learning Management System</td>
-<td>GitHub + Quarto</td>
-<td>Papers + Zotero</td>
-</tr>
-<tr>
-<td><strong>Scholar Use</strong></td>
-<td>High (standardized content)</td>
-<td>Medium (custom analysis)</td>
-<td>Low (paper-based)</td>
-</tr>
-<tr>
-<td><strong>TAs</strong></td>
-<td>6 lab TAs</td>
-<td>1-2 graders</td>
-<td>None</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="file-structure">File Structure<a class="headerlink" href="#file-structure" title="Permanent link">&para;</a></h2>
-<p>Each example directory contains:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>example-course/
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── README.md                      # Implementation notes
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── &lt;course&gt;-config.yml            # Complete teach-config.yml
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>├── &lt;course&gt;-lesson-week-XX.yml    # Sample lesson plan(s)
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>├── &lt;course&gt;-alignment-matrix.md   # Assessment alignment
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>├── &lt;course&gt;-syllabus.md           # Sample syllabus
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>├── assessments/                   # Sample assessments
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   ├── exam-midterm.md
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│   ├── homework-01.md
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   └── project-rubric.md
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>└── lessons/                       # Sample lesson materials
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    ├── week-01-slides.qmd
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    └── week-01-code.R
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="sb">```</span>diff
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">### Step 3: Adapt to Your Context</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>**What<span class="w"> </span>to<span class="w"> </span>change:**
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>-<span class="w"> </span>Course<span class="w"> </span>name,<span class="w"> </span>instructor,<span class="w"> </span>semester<span class="w"> </span>dates
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>-<span class="w"> </span>Learning<span class="w"> </span>outcomes<span class="w"> </span><span class="o">(</span>keep<span class="w"> </span>structure,<span class="w"> </span>change<span class="w"> </span>content<span class="o">)</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>-<span class="w"> </span>Topics<span class="w"> </span><span class="o">(</span>match<span class="w"> </span>your<span class="w"> </span>syllabus<span class="o">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>-<span class="w"> </span>Assessment<span class="w"> </span>weights<span class="w"> </span><span class="o">(</span>match<span class="w"> </span>your<span class="w"> </span>grading<span class="w"> </span>policy<span class="o">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>-<span class="w"> </span>Scholar<span class="w"> </span>style<span class="w"> </span><span class="o">(</span>tone,<span class="w"> </span>notation,<span class="w"> </span>difficulty<span class="o">)</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>**What<span class="w"> </span>to<span class="w"> </span>keep:**
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>-<span class="w"> </span>Backward<span class="w"> </span>design<span class="w"> </span>structure<span class="w"> </span><span class="o">(</span>Stages<span class="w"> </span><span class="m">1</span>-2-3<span class="o">)</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>-<span class="w"> </span>WHERETO<span class="w"> </span>lesson<span class="w"> </span>plan<span class="w"> </span>framework
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>-<span class="w"> </span>Alignment<span class="w"> </span>matrix<span class="w"> </span>structure
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>-<span class="w"> </span>Quality<span class="w"> </span>checklists
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">### Step 4: Set Up Quality Automation (NEW v3.0)</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="sb">```</span>bash
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="c1"># Install git hooks for quality checks</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>teach<span class="w"> </span>hooks<span class="w"> </span>install
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="c1"># Verify environment is ready</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>teach<span class="w"> </span>doctor
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="c1"># If missing dependencies, auto-install</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="sb">```</span>diff
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>**What<span class="w"> </span>this<span class="w"> </span>gives<span class="w"> </span>you:**
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>-<span class="w"> </span>Automatic<span class="w"> </span>YAML<span class="w"> </span>validation<span class="w"> </span>on<span class="w"> </span>commit
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>-<span class="w"> </span>Cross-reference<span class="w"> </span>integrity<span class="w"> </span>checks
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>-<span class="w"> </span>Dependency<span class="w"> </span>tracking<span class="w"> </span><span class="o">(</span>sourced<span class="w"> </span>R<span class="w"> </span>files<span class="o">)</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>-<span class="w"> </span>Pre-deployment<span class="w"> </span>validation
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>-<span class="w"> </span>Auto-formatted<span class="w"> </span>commit<span class="w"> </span>messages
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>See<span class="w"> </span><span class="o">[</span>Git<span class="w"> </span>Hooks<span class="w"> </span>Integration<span class="o">](</span>../../guides/TEACHING-WORKFLOW-V3-GUIDE.md#8-git-hooks-integration<span class="o">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>full<span class="w"> </span>details.
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="c1">### Step 5: Generate Content</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a><span class="sb">```</span>bash
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="c1"># Use Scholar with your configuration</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Week 1: Introduction&quot;</span><span class="w"> </span>--template<span class="w"> </span>quarto
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm&quot;</span><span class="w"> </span>--scope<span class="w"> </span><span class="s2">&quot;Weeks 1-8&quot;</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">&quot;HW1: Data Exploration&quot;</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="c1"># Content is automatically backed up</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a><span class="c1"># lesson-plan.yml is auto-loaded for context</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a><span class="sb">```</span>diff
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>**Phase<span class="w"> </span><span class="m">2</span><span class="w"> </span>features<span class="w"> </span>available:**
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>-<span class="w"> </span>Parallel<span class="w"> </span>rendering<span class="w"> </span><span class="o">(</span><span class="m">3</span>-10x<span class="w"> </span>faster<span class="w"> </span><span class="k">for</span><span class="w"> </span>large<span class="w"> </span>courses<span class="o">)</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>-<span class="w"> </span>Custom<span class="w"> </span>validators<span class="w"> </span><span class="o">(</span>extensible<span class="w"> </span>quality<span class="w"> </span>checks<span class="o">)</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>-<span class="w"> </span>Performance<span class="w"> </span>monitoring<span class="w"> </span><span class="o">(</span>track<span class="w"> </span>render<span class="w"> </span><span class="nb">times</span><span class="o">)</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>-<span class="w"> </span>Cache<span class="w"> </span>analysis<span class="w"> </span><span class="o">(</span>optimize<span class="w"> </span>storage<span class="o">)</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>
+<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>See<span class="w"> </span><span class="o">[</span>Quarto<span class="w"> </span>Workflow<span class="w"> </span>Phase<span class="w"> </span><span class="m">2</span><span class="w"> </span>Guide<span class="o">](</span>../../guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md<span class="o">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>advanced<span class="w"> </span>features.
+<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>
+<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>---
+<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>
+<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a><span class="c1">## Comparison Matrix</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>
+<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a><span class="p">|</span><span class="w"> </span>Feature<span class="w"> </span><span class="p">|</span><span class="w"> </span>STAT<span class="w"> </span><span class="m">101</span><span class="w"> </span><span class="o">(</span>Intro<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>STAT<span class="w"> </span><span class="m">545</span><span class="w"> </span><span class="o">(</span>Grad<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>STAT<span class="w"> </span><span class="m">899</span><span class="w"> </span><span class="o">(</span>Seminar<span class="o">)</span><span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a><span class="p">|</span>---------<span class="p">|</span>------------------<span class="p">|</span>------------------<span class="p">|</span>-------------------<span class="p">|</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a><span class="p">|</span><span class="w"> </span>**Enrollment**<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">150</span>+<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">15</span>-30<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">10</span>-12<span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a><span class="p">|</span><span class="w"> </span>**Format**<span class="w"> </span><span class="p">|</span><span class="w"> </span>Lecture<span class="w"> </span>+<span class="w"> </span>Lab<span class="w"> </span><span class="p">|</span><span class="w"> </span>Flipped<span class="w"> </span><span class="p">|</span><span class="w"> </span>Discussion<span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a><span class="p">|</span><span class="w"> </span>**Credits**<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a><span class="p">|</span><span class="w"> </span>**Level**<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">(</span>GenEd<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">500</span><span class="w"> </span><span class="o">(</span>MS<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">800</span><span class="w"> </span><span class="o">(</span>PhD<span class="o">)</span><span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a><span class="p">|</span><span class="w"> </span>**Assessments**<span class="w"> </span><span class="p">|</span><span class="w"> </span>Exams<span class="w"> </span>+<span class="w"> </span>HW<span class="w"> </span>+<span class="w"> </span>Labs<span class="w"> </span><span class="p">|</span><span class="w"> </span>HW<span class="w"> </span>+<span class="w"> </span>Project<span class="w"> </span>+<span class="w"> </span>Exams<span class="w"> </span><span class="p">|</span><span class="w"> </span>Presentations<span class="w"> </span>+<span class="w"> </span>Proposal<span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a><span class="p">|</span><span class="w"> </span>**Grading**<span class="w"> </span><span class="p">|</span><span class="w"> </span>Auto-graded<span class="w"> </span>+<span class="w"> </span>TA<span class="w"> </span><span class="p">|</span><span class="w"> </span>Mix<span class="w"> </span>of<span class="w"> </span>auto/manual<span class="w"> </span><span class="p">|</span><span class="w"> </span>Instructor<span class="w"> </span>graded<span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a><span class="p">|</span><span class="w"> </span>**Technology**<span class="w"> </span><span class="p">|</span><span class="w"> </span>Learning<span class="w"> </span>Management<span class="w"> </span>System<span class="w"> </span><span class="p">|</span><span class="w"> </span>GitHub<span class="w"> </span>+<span class="w"> </span>Quarto<span class="w"> </span><span class="p">|</span><span class="w"> </span>Papers<span class="w"> </span>+<span class="w"> </span>Zotero<span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a><span class="p">|</span><span class="w"> </span>**Scholar<span class="w"> </span>Use**<span class="w"> </span><span class="p">|</span><span class="w"> </span>High<span class="w"> </span><span class="o">(</span>standardized<span class="w"> </span>content<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Medium<span class="w"> </span><span class="o">(</span>custom<span class="w"> </span>analysis<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Low<span class="w"> </span><span class="o">(</span>paper-based<span class="o">)</span><span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a><span class="p">|</span><span class="w"> </span>**TAs**<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">6</span><span class="w"> </span>lab<span class="w"> </span>TAs<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">1</span>-2<span class="w"> </span>graders<span class="w"> </span><span class="p">|</span><span class="w"> </span>None<span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>
+<a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>---
+<a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a>
+<a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a><span class="c1">## File Structure</span>
+<a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a>
+<a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a>Each<span class="w"> </span>example<span class="w"> </span>directory<span class="w"> </span>contains:
+<a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a>
+<a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a><span class="sb">```</span>text
+<a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>example-course/
+<a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a>├──<span class="w"> </span>README.md<span class="w">                      </span><span class="c1"># Implementation notes</span>
+<a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>├──<span class="w"> </span>&lt;course&gt;-config.yml<span class="w">            </span><span class="c1"># Complete teach-config.yml</span>
+<a id="__codelineno-0-92" name="__codelineno-0-92" href="#__codelineno-0-92"></a>├──<span class="w"> </span>&lt;course&gt;-lesson-week-XX.yml<span class="w">    </span><span class="c1"># Sample lesson plan(s)</span>
+<a id="__codelineno-0-93" name="__codelineno-0-93" href="#__codelineno-0-93"></a>├──<span class="w"> </span>&lt;course&gt;-alignment-matrix.md<span class="w">   </span><span class="c1"># Assessment alignment</span>
+<a id="__codelineno-0-94" name="__codelineno-0-94" href="#__codelineno-0-94"></a>├──<span class="w"> </span>&lt;course&gt;-syllabus.md<span class="w">           </span><span class="c1"># Sample syllabus</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95" href="#__codelineno-0-95"></a>├──<span class="w"> </span>assessments/<span class="w">                   </span><span class="c1"># Sample assessments</span>
+<a id="__codelineno-0-96" name="__codelineno-0-96" href="#__codelineno-0-96"></a>│<span class="w">   </span>├──<span class="w"> </span>exam-midterm.md
+<a id="__codelineno-0-97" name="__codelineno-0-97" href="#__codelineno-0-97"></a>│<span class="w">   </span>├──<span class="w"> </span>homework-01.md
+<a id="__codelineno-0-98" name="__codelineno-0-98" href="#__codelineno-0-98"></a>│<span class="w">   </span>└──<span class="w"> </span>project-rubric.md
+<a id="__codelineno-0-99" name="__codelineno-0-99" href="#__codelineno-0-99"></a>└──<span class="w"> </span>lessons/<span class="w">                       </span><span class="c1"># Sample lesson materials</span>
+<a id="__codelineno-0-100" name="__codelineno-0-100" href="#__codelineno-0-100"></a><span class="w">    </span>├──<span class="w"> </span>week-01-slides.qmd
+<a id="__codelineno-0-101" name="__codelineno-0-101" href="#__codelineno-0-101"></a><span class="w">    </span>└──<span class="w"> </span>week-01-code.R
 </code></pre></div>
 <hr />
 <h2 id="contributing-examples">Contributing Examples<a class="headerlink" href="#contributing-examples" title="Permanent link">&para;</a></h2>

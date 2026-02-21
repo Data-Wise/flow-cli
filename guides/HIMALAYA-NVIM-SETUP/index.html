@@ -8752,10 +8752,12 @@
 <ol>
 <li><strong>himalaya CLI</strong> (v1.1.0+) — see <a href="../HIMALAYA-SETUP/">Himalaya Setup</a> for installation</li>
 <li><strong>Configure email account</strong> — see <a href="../HIMALAYA-SETUP/">Himalaya Setup</a> for IMAP/SMTP configuration</li>
-<li><strong>Claude CLI</strong> (for AI features)
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Verify installation</span>
+<li><strong>Claude CLI</strong> (for AI features)</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Verify installation</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>claude<span class="w"> </span>--version
-</code></pre></div></li>
+</code></pre></div>
+<ol>
 <li><strong>Neovim with LazyVim</strong></li>
 </ol>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
@@ -8992,9 +8994,9 @@
 <p>If you still see crashes, increase the margin in <code>plugins/himalaya.lua</code> (change <code>- 4</code> to <code>- 6</code>).</p>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="plugin-not-loading">Plugin not loading<a class="headerlink" href="#plugin-not-loading" title="Permanent link">&para;</a></h3>
-<p>Check plugin installed:
+<p>Check plugin installed:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">:</span>Lazy
-</code></pre></div></p>
+</code></pre></div>
 <p>Verify <code>himalaya-vim</code> is listed and loaded.</p>
 <h3 id="himalaya-not-found">"himalaya not found"<a class="headerlink" href="#himalaya-not-found" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Verify installation</span>
@@ -9011,18 +9013,18 @@
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>:echo<span class="w"> </span><span class="nv">$PATH</span>
 </code></pre></div>
 <h3 id="folder-picker-not-working">Folder picker not working<a class="headerlink" href="#folder-picker-not-working" title="Permanent link">&para;</a></h3>
-<p>Set picker to <code>native</code> (no dependencies) or install telescope/fzf-lua:
+<p>Set picker to <code>native</code> (no dependencies) or install telescope/fzf-lua:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">let</span> <span class="k">g</span>:himalaya_folder_picker <span class="p">=</span> <span class="s1">&#39;native&#39;</span>    <span class="c">&quot; Built-in, no deps</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">let</span> <span class="k">g</span>:himalaya_folder_picker <span class="p">=</span> <span class="s1">&#39;telescope&#39;</span> <span class="c">&quot; Requires telescope.nvim</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">let</span> <span class="k">g</span>:himalaya_folder_picker <span class="p">=</span> <span class="s1">&#39;fzflua&#39;</span>    <span class="c">&quot; Requires fzf-lua</span>
-</code></pre></div></p>
+</code></pre></div>
 <h3 id="comfy-table-crash-utf-8-panic">comfy-table crash (UTF-8 panic)<a class="headerlink" href="#comfy-table-crash-utf-8-panic" title="Permanent link">&para;</a></h3>
 <p>If you see <code>assertion failed: self.is_char_boundary(new_len)</code>, the width safety patch may need a larger margin. Edit <code>plugins/himalaya.lua</code> and increase the subtraction value.</p>
 <h3 id="performance-issues">Performance issues<a class="headerlink" href="#performance-issues" title="Permanent link">&para;</a></h3>
-<p>Disable AI wrapper if Claude is slow:
+<p>Disable AI wrapper if Claude is slow:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">-- Comment out in init.lua</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1">-- require(&#39;himalaya-ai&#39;).setup()</span>
-</code></pre></div></p>
+</code></pre></div>
 <h2 id="known-issues">Known Issues<a class="headerlink" href="#known-issues" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Maintenance status:</strong> himalaya-vim seeking new maintainers (Feb 2026)</li>

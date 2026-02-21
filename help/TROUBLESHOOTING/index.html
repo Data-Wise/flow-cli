@@ -9001,10 +9001,10 @@
 <hr />
 <h2 id="installation-issues">Installation Issues<a class="headerlink" href="#installation-issues" title="Permanent link">&para;</a></h2>
 <h3 id="issue-flow-cli-commands-not-recognized">Issue: flow-cli commands not recognized<a class="headerlink" href="#issue-flow-cli-commands-not-recognized" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>work
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># Output: command not found: work</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Check if plugin is loaded</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>which<span class="w"> </span>work
@@ -9023,22 +9023,22 @@
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">exec</span><span class="w"> </span>zsh
 </code></pre></div>
 <p><strong>Solution 2: Using plugin manager</strong></p>
-<p>For antidote:
+<p>For antidote:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Add to ~/.zsh_plugins.txt</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>~/projects/dev-tools/flow-cli
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Update plugins</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>antidote<span class="w"> </span>update
-</code></pre></div></p>
-<p>For zinit:
+</code></pre></div>
+<p>For zinit:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Add to ~/.zshrc</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>zinit<span class="w"> </span>light<span class="w"> </span>~/projects/dev-tools/flow-cli
-</code></pre></div></p>
+</code></pre></div>
 <hr />
 <h3 id="issue-installation-via-curl-failed">Issue: Installation via curl failed<a class="headerlink" href="#issue-installation-via-curl-failed" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>curl:<span class="w"> </span><span class="o">(</span><span class="m">7</span><span class="o">)</span><span class="w"> </span>Failed<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>raw.githubusercontent.com
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Clone manually</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Data-Wise/flow-cli.git<span class="w"> </span>~/projects/dev-tools/flow-cli
@@ -9051,11 +9051,11 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-dependencies-missing">Issue: Dependencies missing<a class="headerlink" href="#issue-dependencies-missing" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flow<span class="w"> </span>doctor
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># Output: ❌ git not found</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1">#         ❌ fzf not found</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Run interactive fix</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--fix
@@ -9073,10 +9073,10 @@
 <hr />
 <h2 id="command-not-found-errors">Command Not Found Errors<a class="headerlink" href="#command-not-found-errors" title="Permanent link">&para;</a></h2>
 <h3 id="issue-command-not-found">Issue: "command not found: <dispatcher>"<a class="headerlink" href="#issue-command-not-found" title="Permanent link">&para;</a></h3>
-<p><strong>Example:</strong>
+<p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>g<span class="w"> </span>status
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># Output: command not found: g</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Check if flow-cli is loaded</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>which<span class="w"> </span>work
@@ -9100,10 +9100,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-specific-command-works-but-subcommand-doesnt">Issue: Specific command works but subcommand doesn't<a class="headerlink" href="#issue-specific-command-works-but-subcommand-doesnt" title="Permanent link">&para;</a></h3>
-<p><strong>Example:</strong>
+<p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>g<span class="w"> </span>status<span class="w">        </span><span class="c1"># Works</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span><span class="c1"># command not found: feature</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Check help</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>g<span class="w"> </span><span class="nb">help</span>
@@ -9120,11 +9120,11 @@
 <hr />
 <h2 id="git-integration-problems">Git Integration Problems<a class="headerlink" href="#git-integration-problems" title="Permanent link">&para;</a></h2>
 <h3 id="issue-git-push-fails-with-authentication-error">Issue: Git push fails with authentication error<a class="headerlink" href="#issue-git-push-fails-with-authentication-error" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>g<span class="w"> </span>push
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># Output: remote: Invalid username or password.</span>
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1">#         fatal: Authentication failed</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Check token</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--dot<span class="o">=</span>github
@@ -9161,10 +9161,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-git-operations-very-slow">Issue: Git operations very slow<a class="headerlink" href="#issue-git-operations-very-slow" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>g<span class="w"> </span>status
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1"># Takes 10+ seconds</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Check repo size</span>
 <a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>du<span class="w"> </span>-sh<span class="w"> </span>.git
@@ -9195,10 +9195,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-merge-conflicts">Issue: Merge conflicts<a class="headerlink" href="#issue-merge-conflicts" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>g<span class="w"> </span>pull
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="c1"># Output: CONFLICT (content): Merge conflict in file.txt</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># See conflicted files</span>
 <a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>g<span class="w"> </span>status
@@ -9219,10 +9219,10 @@
 <hr />
 <h2 id="token-and-authentication-issues">Token and Authentication Issues<a class="headerlink" href="#token-and-authentication-issues" title="Permanent link">&para;</a></h2>
 <h3 id="issue-token-check-takes-too-long">Issue: Token check takes too long<a class="headerlink" href="#issue-token-check-takes-too-long" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--dot
 <a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="c1"># Takes 60+ seconds</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Use cached check (v5.17.0+)</span>
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--dot
@@ -9238,10 +9238,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-token-rotation-fails">Issue: Token rotation fails<a class="headerlink" href="#issue-token-rotation-fails" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>tok<span class="w"> </span>rotate<span class="w"> </span>GITHUB_TOKEN
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="c1"># Output: Error: Failed to update keychain</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution 1: Keychain locked</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Unlock keychain</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>sec<span class="w"> </span>unlock
@@ -9263,10 +9263,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-token-not-found-in-keychain">Issue: "Token not found in keychain"<a class="headerlink" href="#issue-token-not-found-in-keychain" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>sec<span class="w"> </span>GITHUB_TOKEN
 <a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1"># Output: Error: Token not found</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Store token</span>
 <a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>sec<span class="w"> </span>add<span class="w"> </span>GITHUB_TOKEN
@@ -9279,10 +9279,10 @@
 <hr />
 <h2 id="performance-problems">Performance Problems<a class="headerlink" href="#performance-problems" title="Permanent link">&para;</a></h2>
 <h3 id="issue-commands-are-slow-100ms">Issue: Commands are slow (&gt; 100ms)<a class="headerlink" href="#issue-commands-are-slow-100ms" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>work<span class="w"> </span>my-project
 <a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="c1"># Takes 2-3 seconds</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Check Atlas connection</span>
 <a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>flow<span class="w"> </span>doctor
@@ -9315,10 +9315,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-dashboard-takes-forever-to-load">Issue: Dashboard takes forever to load<a class="headerlink" href="#issue-dashboard-takes-forever-to-load" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>dash
 <a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="c1"># Takes 10+ seconds</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Use filter</span>
 <a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>dash<span class="w"> </span>dev<span class="w">          </span><span class="c1"># Only dev projects</span>
@@ -9333,10 +9333,10 @@
 <hr />
 <h2 id="plugin-issues">Plugin Issues<a class="headerlink" href="#plugin-issues" title="Permanent link">&para;</a></h2>
 <h3 id="issue-git-plugin-aliases-not-working">Issue: git plugin aliases not working<a class="headerlink" href="#issue-git-plugin-aliases-not-working" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>gst
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="c1"># Output: command not found: gst</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># Check if Oh-My-Zsh git plugin loaded</span>
 <a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="nb">type</span><span class="w"> </span>gst
@@ -9365,10 +9365,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-fzf-not-working-in-pick-command">Issue: fzf not working in pick command<a class="headerlink" href="#issue-fzf-not-working-in-pick-command" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>pick
 <a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="c1"># Output: No fzf found, falling back to basic picker</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="c1"># Install fzf</span>
 <a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>brew<span class="w"> </span>install<span class="w"> </span>fzf
@@ -9386,10 +9386,10 @@
 <hr />
 <h2 id="atlas-integration-issues">Atlas Integration Issues<a class="headerlink" href="#atlas-integration-issues" title="Permanent link">&para;</a></h2>
 <h3 id="issue-atlas-connection-failed">Issue: "Atlas connection failed"<a class="headerlink" href="#issue-atlas-connection-failed" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>flow<span class="w"> </span>doctor
 <a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="c1"># Output: ⚠️  Atlas: Connection failed (timeout)</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution 1: Atlas not running</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="c1"># Check if Atlas is running</span>
 <a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>pgrep<span class="w"> </span>atlas<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Atlas not running&quot;</span>
@@ -9416,10 +9416,10 @@
 <hr />
 <h2 id="teaching-workflow-issues">Teaching Workflow Issues<a class="headerlink" href="#teaching-workflow-issues" title="Permanent link">&para;</a></h2>
 <h3 id="issue-teach-command-not-found">Issue: "teach command not found"<a class="headerlink" href="#issue-teach-command-not-found" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>teach<span class="w"> </span>init
 <a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a><span class="c1"># Output: command not found: teach</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="c1"># teach is a dispatcher, check if loaded</span>
 <a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>g<span class="w"> </span><span class="nb">help</span><span class="w">  </span><span class="c1"># If this works, reload:</span>
@@ -9431,10 +9431,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-scholar-not-found-error">Issue: "Scholar not found" error<a class="headerlink" href="#issue-scholar-not-found-error" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm&quot;</span>
 <a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a><span class="c1"># Output: Error: Scholar CLI not installed</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="c1"># Check Scholar status</span>
 <a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
@@ -9448,10 +9448,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-quarto-rendering-fails">Issue: Quarto rendering fails<a class="headerlink" href="#issue-quarto-rendering-fails" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>qu<span class="w"> </span>render<span class="w"> </span>lecture.qmd
 <a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a><span class="c1"># Output: ERROR: Quarto not found</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="c1"># Install Quarto</span>
 <a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a><span class="c1"># macOS:</span>
@@ -9468,10 +9468,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-github-pages-deployment-fails">Issue: GitHub Pages deployment fails<a class="headerlink" href="#issue-github-pages-deployment-fails" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>teach<span class="w"> </span>deploy
 <a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a><span class="c1"># Output: Error: gh CLI not found</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="c1"># Install GitHub CLI</span>
 <a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>brew<span class="w"> </span>install<span class="w"> </span>gh
@@ -9488,10 +9488,10 @@
 <hr />
 <h2 id="configuration-problems">Configuration Problems<a class="headerlink" href="#configuration-problems" title="Permanent link">&para;</a></h2>
 <h3 id="issue-status-file-not-recognized">Issue: .STATUS file not recognized<a class="headerlink" href="#issue-status-file-not-recognized" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>dash<span class="w"> </span>my-project
 <a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a><span class="c1"># Progress: 0% (expected 75%)</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="c1"># Check .STATUS format</span>
 <a id="__codelineno-62-2" name="__codelineno-62-2" href="#__codelineno-62-2"></a>cat<span class="w"> </span>~/projects/my-project/.STATUS
@@ -9510,11 +9510,11 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-environment-variables-not-persisting">Issue: Environment variables not persisting<a class="headerlink" href="#issue-environment-variables-not-persisting" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_QUIET</span><span class="o">=</span><span class="m">1</span>
 <a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a><span class="nb">exec</span><span class="w"> </span>zsh
 <a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a><span class="c1"># Welcome message still shows</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="c1"># Add to shell config BEFORE sourcing plugin</span>
 <a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a><span class="c1"># ~/.zshrc or ~/.config/zsh/.zshrc:</span>
@@ -9530,10 +9530,10 @@
 </code></pre></div>
 <hr />
 <h3 id="issue-completions-not-working">Issue: Completions not working<a class="headerlink" href="#issue-completions-not-working" title="Permanent link">&para;</a></h3>
-<p><strong>Symptom:</strong>
+<p><strong>Symptom:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>work<span class="w"> </span>&lt;Tab&gt;
 <a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a><span class="c1"># No completions shown</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="c1"># Check if completions loaded</span>
 <a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$fpath</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>flow-cli
@@ -9623,41 +9623,39 @@
 <h2 id="prevention-tips">Prevention Tips<a class="headerlink" href="#prevention-tips" title="Permanent link">&para;</a></h2>
 <h3 id="avoid-issues-before-they-happen">Avoid Issues Before They Happen<a class="headerlink" href="#avoid-issues-before-they-happen" title="Permanent link">&para;</a></h3>
 <ol>
-<li>
-<p><strong>Regular health checks:</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a><span class="c1"># Monthly</span>
+<li><strong>Regular health checks:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a><span class="c1"># Monthly</span>
 <a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>flow<span class="w"> </span>doctor
 <a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>
 <a id="__codelineno-68-4" name="__codelineno-68-4" href="#__codelineno-68-4"></a><span class="c1"># Before reporting issues</span>
 <a id="__codelineno-68-5" name="__codelineno-68-5" href="#__codelineno-68-5"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--verbose
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Keep flow-cli updated:</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/dev-tools/flow-cli
+</code></pre></div>
+<ol>
+<li><strong>Keep flow-cli updated:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/dev-tools/flow-cli
 <a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>git<span class="w"> </span>pull
 <a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a><span class="nb">exec</span><span class="w"> </span>zsh
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Backup configuration:</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>cp<span class="w"> </span>~/.zshrc<span class="w"> </span>~/.zshrc.backup
-<a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>cp<span class="w"> </span>~/.config/zsh/.zshrc<span class="w"> </span>~/.config/zsh/.zshrc.backup
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Monitor token expiration:</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="c1"># Weekly</span>
-<a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--dot
-</code></pre></div></p>
-</li>
-<li>
-<p><strong>Clear caches periodically:</strong>
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="c1"># Monthly</span>
-<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>~/.cache/flow/*.cache
-</code></pre></div></p>
-</li>
+</code></pre></div>
+<ol>
+<li><strong>Backup configuration:</strong></li>
 </ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>cp<span class="w"> </span>~/.zshrc<span class="w"> </span>~/.zshrc.backup
+<a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>cp<span class="w"> </span>~/.config/zsh/.zshrc<span class="w"> </span>~/.config/zsh/.zshrc.backup
+</code></pre></div>
+<ol>
+<li><strong>Monitor token expiration:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="c1"># Weekly</span>
+<a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--dot
+</code></pre></div>
+<ol>
+<li><strong>Clear caches periodically:</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="c1"># Monthly</span>
+<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>~/.cache/flow/*.cache
+</code></pre></div>
 <hr />
 <p><strong>Version:</strong> v5.17.0-dev
 <strong>Last Updated:</strong> 2026-01-24
