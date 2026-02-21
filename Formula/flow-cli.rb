@@ -4,8 +4,8 @@
 class FlowCli < Formula
   desc "ZSH workflow tools designed for ADHD brains"
   homepage "https://data-wise.github.io/flow-cli/"
-  url "https://github.com/Data-Wise/flow-cli/archive/refs/tags/v4.5.5.tar.gz"
-  sha256 "415d996c120606463b2ea089e735124b65a92c0a70521b58d0513b36700189ac"
+  url "https://github.com/Data-Wise/flow-cli/archive/refs/tags/v7.4.1.tar.gz"
+  sha256 "PLACEHOLDER_SHA256"
   license "MIT"
   head "https://github.com/Data-Wise/flow-cli.git", branch: "main"
 
@@ -14,15 +14,34 @@ class FlowCli < Formula
   depends_on "fzf"
 
   def install
-    # Install the plugin files
-    prefix.install Dir["*"]
+    # Man pages to proper Homebrew location
+    man1.install Dir["man/man1/*"] if (buildpath/"man/man1").exist?
+    rm_r(buildpath/"man") if (buildpath/"man").exist?
+
+    # Core runtime files only (selective install)
+    prefix.install "flow.plugin.zsh"
+    prefix.install "lib"
+    prefix.install "commands"
+    prefix.install "completions"
+    prefix.install "hooks"
+    prefix.install "setup"
+    prefix.install "scripts"
+    prefix.install "config" if (buildpath/"config").exist?
+    prefix.install "plugins" if (buildpath/"plugins").exist?
+    prefix.install "zsh" if (buildpath/"zsh").exist?
+
+    # Essential docs
+    prefix.install "README.md"
+    prefix.install "CHANGELOG.md"
+    prefix.install "LICENSE"
+
+    # Installer scripts
+    prefix.install "install.sh" if (buildpath/"install.sh").exist?
+    prefix.install "uninstall.sh" if (buildpath/"uninstall.sh").exist?
 
     # Create a loader script
     (prefix/"bin/flow-cli-init").write <<~EOS
       #!/bin/zsh
-      # Source this file in your .zshrc to enable flow-cli
-      # Add to .zshrc: eval "$(flow-cli-init)"
-
       echo "source #{prefix}/flow.plugin.zsh"
     EOS
     (prefix/"bin/flow-cli-init").chmod 0755
