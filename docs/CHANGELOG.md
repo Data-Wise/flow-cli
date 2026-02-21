@@ -6,6 +6,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [7.4.1] - 2026-02-21
+
+### Fixed
+
+- **Homebrew formula**: selective install — reduce 74MB Cellar to ~4MB
+- **Repo cleanup**: delete 62 stale root-level files (planning docs, scripts, artifacts)
+
+### Added
+
+- **CI version guard**: new workflow blocks releases when FLOW_VERSION mismatches tag
+
+---
+
 ## [7.4.0] - 2026-02-20
 
 ### Added
