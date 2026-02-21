@@ -24,7 +24,7 @@
 
 ## Git Commit History
 
-```
+```text
 699d098f docs: add Scholar Enhancement tutorial GIF demos (partial)
 b8799044 docs: add Scholar Enhancement tutorial series with VHS demos
 5e829d48 docs: add Scholar Enhancement complete feature summary
@@ -77,9 +77,9 @@ cb240e38 docs: add comprehensive Scholar Enhancement documentation
 
 ### After Merge
 
-4. **Deploy:** mkdocs gh-deploy --force
-5. **Test:** User feedback (2-3 educators)
-6. **Regenerate:** GIFs with real Scholar output (post-deployment)
+1. **Deploy:** mkdocs gh-deploy --force
+2. **Test:** User feedback (2-3 educators)
+3. **Regenerate:** GIFs with real Scholar output (post-deployment)
 
 ---
 

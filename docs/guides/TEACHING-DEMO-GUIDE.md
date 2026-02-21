@@ -39,7 +39,7 @@ teach init -y "STAT 545"
 ls -la .flow/
 ls -la scripts/
 git log --oneline | head -3
-```
+```bash
 
 **Key points to highlight:**
 1. Single command creates everything
@@ -63,7 +63,7 @@ teach status
 
 # Also show:
 teach week
-```
+```diff
 
 **Key points:**
 1. Course name and semester
@@ -106,7 +106,7 @@ teach deploy
 
 # 6. Verify
 teach status
-```
+```diff
 
 **Key points:**
 1. `work` shows course context
@@ -150,7 +150,7 @@ Next steps for new semester:
 3. git commit
 4. teach deploy
 EOF
-```
+```bash
 
 **Key points:**
 1. Creates immutable snapshot
@@ -170,7 +170,7 @@ EOF
 
 ```bash
 brew install asciinema
-```
+```bash
 
 **Record:**
 
@@ -182,13 +182,13 @@ asciinema rec teaching-demo-1.cast
 # ...
 
 # Stop recording (Ctrl-D)
-```
+```text
 
 **Play:**
 
 ```bash
 asciinema play teaching-demo-1.cast
-```
+```bash
 
 **Convert to GIF:**
 
@@ -200,7 +200,7 @@ svg-term --cast teaching-demo-1.cast --out teaching-demo-1.svg
 
 # Convert SVG to GIF (if needed)
 # Use online converter or: cairosvg teaching-demo-1.svg -o teaching-demo-1.gif
-```
+```bash
 
 ---
 
@@ -210,7 +210,7 @@ svg-term --cast teaching-demo-1.cast --out teaching-demo-1.svg
 
 ```bash
 brew install ttyrec
-```
+```bash
 
 **Record:**
 
@@ -222,13 +222,13 @@ ttyrec teaching-demo-1.ttyrec
 # ...
 
 # Stop (Ctrl-D)
-```
+```text
 
 **Play:**
 
 ```bash
 ttyplay teaching-demo-1.ttyrec
-```
+```bash
 
 ---
 
@@ -247,7 +247,7 @@ ttyplay teaching-demo-1.ttyrec
 brew install ffmpeg
 
 ffmpeg -i recording.mov -vf "fps=10,scale=1280:-1:flags=lanczos" -c:v pngquant -f image2pipe - | ffmpeg -f image2pipe -i - output.gif
-```
+```bash
 
 ---
 
@@ -282,7 +282,7 @@ head -20 scripts/quick-deploy.sh
 
 echo ""
 echo "✓ Course setup complete in seconds!"
-```
+```bash
 
 ### Script 2: teach status
 
@@ -302,7 +302,7 @@ teach status
 echo ""
 echo "$ teach week"
 teach week
-```
+```bash
 
 ### Script 3: Full Workflow
 
@@ -348,7 +348,7 @@ teach deploy
 
 echo ""
 echo "✓ Materials live in seconds with teach deploy -d!"
-```
+```text
 
 ---
 
@@ -356,7 +356,7 @@ echo "✓ Materials live in seconds with teach deploy -d!"
 
 ### Setup → Edit → Deploy → Students
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────┐
 │ teach init "STAT 545"                                   │
 │ (One-time: creates config, scripts, branches)           │
@@ -405,7 +405,7 @@ echo "✓ Materials live in seconds with teach deploy -d!"
     │ teach deploy                           │
     │ (ready for next semester)              │
     └────────────────────────────────────────┘
-```
+```sql
 
 ---
 
@@ -439,7 +439,7 @@ git commit -m "add sample materials"
 teach deploy
 
 # Now ready for demos!
-```
+```text
 
 ---
 
@@ -447,7 +447,7 @@ teach deploy
 
 **File naming convention:**
 
-```
+```diff
 teaching-{command}-{action}.gif
 
 Examples:
@@ -455,17 +455,17 @@ Examples:
 - teaching-deploy-workflow.gif
 - teaching-status-dashboard.gif
 - teaching-full-workflow.gif
-```
+```text
 
 **Storage location:**
 
-```
+```text
 docs/assets/gifs/teaching/
 ├── teaching-init-setup.gif
 ├── teaching-deploy-workflow.gif
 ├── teaching-status-dashboard.gif
 └── teaching-workflow-daily.gif
-```
+```text
 
 **Markdown embed:**
 
@@ -475,7 +475,7 @@ docs/assets/gifs/teaching/
 ![Deploy workflow GIF](../../assets/gifs/teaching/teaching-deploy-workflow.gif)
 
 The deploy command merges your changes to production in seconds.
-```
+```diff
 
 ---
 
@@ -510,7 +510,7 @@ The deploy command merges your changes to production in seconds.
 ```bash
 # Reduce quality/fps
 ffmpeg -i recording.mov -vf "fps=5,scale=960:-1:flags=lanczos" -c:v pngquant -f image2pipe - | ffmpeg -f image2pipe -i - output.gif
-```
+```bash
 
 ### Asciinema cast won't convert?
 

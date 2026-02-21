@@ -7,11 +7,26 @@
 ## Focus: --help
 ## Phase: Active Development
 ## Priority: 2
-## Progress: 85
+## Progress: 90
 
 ## Current Session (2026-02-20)
 
 **Session activity:**
+- review: reviewed PRs #402 (em organize) and #403 (em delete-actions), fixed blocking issues
+- fix: jq type mismatch in _em_star, printf injection in _em_move, AppleScript sanitization
+- fix: removed 686 lines dead code (duplicate function definitions)
+- merge: PR #402 and #403 to dev (resolved 14 merge conflicts)
+- release: v7.4.0 — 31 email commands (organize + manage + AI)
+- fix: FLOW_VERSION not bumped in flow.plugin.zsh (hotfix PR #405)
+- fix: retagged v7.4.0 to include hotfix, updated Homebrew tap SHA
+- docs: updated test counts (195 files, 47/47 suites)
+- docs: added flow.plugin.zsh to release version bump checklist
+- docs: reduced version badge cacheSeconds from 3600 to 300
+- deploy: docs site deployed (3x), Homebrew formula updated and verified
+
+## Previous Session (2026-02-20, earlier)
+
+**Previous session activity:**
 - feat: implemented em delete, move, restore, flag, todo, event commands (7 new commands)
 - feat: restructured em pick with multi-select (Tab), action menu (D4), new keybinds (Ctrl-O/E/F)
 - feat: added adapter functions (_em_hml_delete, _em_hml_move, _em_hml_expunge)
@@ -43,53 +58,34 @@
 - docs: added v7.0.0/v7.1.0/v7.2.0 to RELEASES.md (was 6+ versions behind)
 - docs: updated MASTER-API-REFERENCE.md (v5.19.1→v7.2.0, 716→880 functions)
 - docs: fixed stale version strings across 9 docs
-- docs: fixed misleading cross-reference in QUICK-REFERENCE.md
-- fix: copyright year 2025 → 2025-2026 in mkdocs.yml
-- fix: added cacheSeconds to shields.io badge URLs
-- release: v7.2.0 — PR #398, tag, GitHub release created
-- release: v7.2.1 — testing overhaul, changelog cleanup, semantic-release removal
-- deploy: docs site deployed (3x)
-- ci: all green — Homebrew formula auto-updated
-
-**Previous session (2026-02-15):**
-- fix: harden homebrew-release workflow security (script injection, SHA256 validation)
-- docs: CLAUDE.md audit + fix — stale counts (lib 69→74, tests 181→186), 4 missing teach subcommands
-- merge: PR #392 (feature → dev), PR #393 (dev → main)
-
-**Previous session (2026-02-14):**
-- feat: split dot dispatcher into dots, sec, tok (#381)
-- release: v7.1.0
-- deploy: docs site deployed for v7.1.0
-
-**Previous session (2026-02-12):**
-- feat: work -e editor flag (#396)
-- release: v7.0.1 — himalaya neovim docs
-- deploy: docs site deployed for v7.0.1
-
-**Test suite:** 45/45 passing, 1 timeout (expected IMAP), 137 test files
+- release: v7.2.0, v7.2.1
 
 ---
 
 ## Recent Releases
 
+### v7.4.0 (2026-02-20) — 31 Email Commands
+- em organize: star, thread, snooze, digest (#402)
+- em manage: delete, move, restore, flag, todo, event with --pick multi-select (#403)
+- 10 email tutorials (tutorials 27-36)
+- Security fixes: jq type, printf injection, AppleScript sanitization
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.4.0
+
+### v7.3.0 (2026-02-18) — Email AI Improvements
+- em ai subcommand, em catch, Gemini extra_args, fzf Ctrl-T
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.3.0
+
 ### v7.2.1 (2026-02-16) — Testing Overhaul & Cleanup
-- Testing overhaul: 186→134 test files, shared framework, dogfood scanner
-- Removed semantic-release dependencies
-- Updated testing guide, changelog cleanup
+- Testing overhaul: shared framework, dogfood scanner
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.2.1
 
 ### v7.2.0 (2026-02-16) — Explicit Editor Flag
-- `work -e` editor flag, Claude Code modes (-e cc/ccy/cc:new)
-- Docs overhaul: 9 stale docs fixed, missing changelog/releases added
+- `work -e` editor flag, docs overhaul
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.2.0
 
 ### v7.1.0 (2026-02-14) — Dispatcher Split: dots, sec, tok
-- Split `dot` (4,395 lines) into `dots`, `sec`, `tok` — 15 dispatchers total
+- Split `dot` into `dots`, `sec`, `tok` — 15 dispatchers total
 - Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.1.0
-
-### v7.0.0 (2026-02-12) — Email Dispatcher
-- `em` dispatcher: 18 subcommands, AI classify/summarize/draft, fzf picker
-- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.0.0
 
 ---
 
@@ -97,10 +93,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.3.0 released, synced with main |
-| feature-em-delete-actions | `feature/em-delete-actions` | Implementation complete, ready for PR |
-| feature-em-quick-wins | `feature/em-quick-wins` | ORCHESTRATE ready, not started |
-| feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
+| Main repo | `dev` | v7.4.0 released, synced with main |
 
 ---
 
@@ -125,16 +118,14 @@
 
 ## Next Action
 
-1. **Em delete-actions PR** — `gh pr create --base dev` from feature/em-delete-actions
-2. **Em quick-wins** — `cd ~/.git-worktrees/flow-cli/feature-em-quick-wins && claude` (thread, snooze, digest)
-3. Scholar Config Sync (#299) — next feature candidate
-4. API documentation push (50% → 80%)
-5. Code workspace manager — spec ready on dev
+1. Scholar Config Sync (#299) — next feature candidate
+2. API documentation push (50% → 80%)
+3. Code workspace manager — spec ready on dev
 
 ---
 
 **Last Updated:** 2026-02-20
-**Status:** v7.3.0+em-delete-actions | 45/45 tests passing | 15 dispatchers | 141 test files | 8000+ test functions | 0 lint errors
+**Status:** v7.4.0 | 47/47 tests passing | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors
 ## wins: Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20), fixed the bug (2026-02-20), Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20)
 ## streak: 1
-## last_active: 2026-02-20 21:27
+## last_active: 2026-02-20 21:50

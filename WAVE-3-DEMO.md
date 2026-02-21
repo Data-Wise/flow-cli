@@ -11,7 +11,7 @@ The custom validator framework is **fully functional** and ready to use. Here's 
 
 ### 1. Create a Custom Validator
 
-```bash
+````bash
 # Create validator directory
 mkdir -p .teach/validators
 
@@ -33,7 +33,7 @@ _validate() {
     fi
 }
 EOF
-```
+```diff
 
 ### 2. Create Test Files
 
@@ -55,18 +55,18 @@ title: Failing File
 
 goodbye world
 EOF
-```
+```bash
 
 ### 3. Run Custom Validators
 
 ```bash
 # Run all custom validators
 teach validate --custom pass.qmd fail.qmd
-```
+```text
 
 **Output:**
 
-```
+```text
 ℹ Running custom validators...
   Found: 1 validators
 
@@ -82,7 +82,7 @@ teach validate --custom pass.qmd fail.qmd
   Files checked: 2
   Validators run: 1
   Time: 0s
-```
+```yaml
 
 ---
 
@@ -115,9 +115,10 @@ teach validate --custom pass.qmd fail.qmd
    ```bash
    # Run specific validators only
    teach validate --custom --validators hello-checker,another-validator
-   ```
+````
 
-6. **Flag Support**
+1. **Flag Support**
+
    ```bash
    # Skip external URL checks
    teach validate --custom --skip-external
@@ -131,7 +132,7 @@ teach validate --custom pass.qmd fail.qmd
 
 Every custom validator MUST have:
 
-```zsh
+````zsh
 #!/usr/bin/env zsh
 
 # Metadata
@@ -149,7 +150,7 @@ _validate() {
 
     return 0  # or 1
 }
-```
+```bash
 
 ### Optional Components
 
@@ -169,7 +170,7 @@ _validator_cleanup() {
     # Remove temp files, etc.
     return 0
 }
-```
+```diff
 
 ### Environment Variables
 
@@ -197,7 +198,7 @@ _validate() {
 
     return 0
 }
-```
+```bash
 
 ---
 
@@ -226,7 +227,7 @@ _validate() {
 
     return 0
 }
-```
+```bash
 
 ### Example 2: Required Sections Validator
 
@@ -256,7 +257,7 @@ _validate() {
 
     return 0
 }
-```
+````
 
 ### Example 3: Code Chunk Validator
 
@@ -318,6 +319,7 @@ _validate() {
    ```
 
 4. **Selective Validation**
+
    ```bash
    # Only check citations before publish
    teach validate --custom --validators check-citations

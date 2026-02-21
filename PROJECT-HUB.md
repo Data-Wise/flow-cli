@@ -76,7 +76,7 @@
 
 ### Pure ZSH Plugin
 
-```
+````zsh
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
 ├── lib/
@@ -102,7 +102,7 @@ flow-cli/
 ├── completions/             # ZSH completions
 ├── docs/                    # MkDocs documentation
 └── tests/                   # Test suite
-```
+```text
 
 **Design Principles:**
 
@@ -122,7 +122,7 @@ flow-cli/
 work <project>    # Start session
 finish [note]     # End session (optional commit)
 hop <project>     # Quick switch (tmux)
-```
+```text
 
 ### Navigation & Discovery
 
@@ -132,7 +132,7 @@ dash -i           # Interactive TUI (fzf)
 pick              # Project picker (frecency sorted)
 pick --recent     # Projects with recent Claude sessions
 pick wt           # Worktree picker
-```
+```text
 
 ### Dopamine Features (v4.7.0)
 
@@ -142,14 +142,14 @@ yay               # Show recent wins
 yay --week        # Weekly summary + graph
 flow goal         # Daily goal progress
 flow goal set 3   # Set daily win target
-```
+```text
 
 ### Quick Capture
 
 ```bash
 catch <text>      # Quick capture
 js                # Just start (auto-pick project)
-```
+```text
 
 ---
 
@@ -164,7 +164,7 @@ g commit          # Git commit
 g feature start   # Create feature branch
 g feature prune   # Clean merged branches
 g help            # Full help
-```
+```text
 
 ### Claude Code (cc)
 
@@ -175,7 +175,7 @@ cc yolo           # Launch in YOLO mode
 cc plan           # Launch in Plan mode
 cc resume         # Resume session picker
 cc help           # Full help
-```
+```text
 
 ### MCP Servers (mcp)
 
@@ -184,7 +184,7 @@ mcp status        # Show all servers
 mcp logs <name>   # View logs
 mcp test <name>   # Test server
 mcp help          # Full help
-```
+```text
 
 ### Terminal Manager (tm)
 
@@ -194,7 +194,7 @@ tm profile <name> # Switch iTerm profile
 tm ghost          # Ghostty status
 tm switch         # Apply terminal context
 tm help           # Full help
-```
+```text
 
 ### R Packages (r)
 
@@ -203,7 +203,7 @@ r test            # Run tests
 r doc             # Build docs
 r check           # R CMD check
 r help            # Full help
-```
+```text
 
 ### Quarto (qu)
 
@@ -211,7 +211,7 @@ r help            # Full help
 qu preview        # Preview document
 qu render         # Render document
 qu help           # Full help
-```
+```text
 
 ### Obsidian (obs)
 
@@ -219,7 +219,7 @@ qu help           # Full help
 obs vaults        # List vaults
 obs stats         # Show stats
 obs help          # Full help
-```
+```text
 
 ### Worktrees (wt)
 
@@ -228,7 +228,7 @@ wt create <name>  # Create worktree
 wt status         # List all worktrees
 wt prune          # Clean deleted worktrees
 wt help           # Full help
-```
+```yaml
 
 ---
 
@@ -276,12 +276,12 @@ wt help           # Full help
 
 **Test Locations:**
 
-```
+```bash
 tests/
 ├── unit/           # Unit tests
 ├── integration/    # Integration tests
 └── run-all.sh      # Full test suite runner
-```
+```diff
 
 **CI Status:**
 
@@ -295,7 +295,7 @@ tests/
 
 flow-cli is part of a 3-layer developer tooling stack:
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │  Layer 3: craft plugin (Claude Code)                            │
 │  /craft:git:feature - AI-assisted, tests, changelog             │
@@ -306,7 +306,7 @@ flow-cli is part of a 3-layer developer tooling stack:
 │  Layer 1: flow-cli (Pure ZSH) ← YOU ARE HERE                    │
 │  g, wt, cc - instant (<10ms), zero overhead, ADHD-friendly      │
 └─────────────────────────────────────────────────────────────────┘
-```
+```bash
 
 ### When to Use flow-cli vs aiterm
 
@@ -330,14 +330,14 @@ flow-cli is part of a 3-layer developer tooling stack:
 ```bash
 # Add to ~/.zsh_plugins.txt
 data-wise/flow-cli kind:clone
-```
+```bash
 
 **Zinit:**
 
 ```bash
 # Add to ~/.zshrc
 zinit light data-wise/flow-cli
-```
+```bash
 
 **Oh-My-Zsh:**
 
@@ -345,20 +345,20 @@ zinit light data-wise/flow-cli
 git clone https://github.com/Data-Wise/flow-cli \
   ~/.oh-my-zsh/custom/plugins/flow-cli
 # Add 'flow-cli' to plugins=(...) in ~/.zshrc
-```
+```bash
 
 ### Via Homebrew
 
 ```bash
 brew tap data-wise/tap
 brew install flow-cli
-```
+```bash
 
 ### Via Curl (Quick Install)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
-```
+```bash
 
 ---
 
@@ -380,7 +380,7 @@ export FLOW_QUIET=1
 
 # Debug mode
 export FLOW_DEBUG=1
-```
+```diff
 
 ### Optional Atlas Integration
 
@@ -393,7 +393,7 @@ flow-cli can optionally integrate with [Atlas](https://github.com/Data-Wise/atla
 
 ```bash
 npm install -g @data-wise/atlas
-```
+```yaml
 
 ---
 
@@ -458,7 +458,7 @@ source flow.plugin.zsh
 
 # Run tests
 ./tests/run-all.sh
-```
+````
 
 ---
 

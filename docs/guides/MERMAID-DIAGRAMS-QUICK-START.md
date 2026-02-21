@@ -126,7 +126,7 @@ flowchart TD
 
     style Start fill:#4CAF50,stroke:#2E7D32,color:#fff
     style End fill:#4CAF50,stroke:#2E7D32,color:#fff
-```
+```text
 
 ---
 
@@ -140,7 +140,7 @@ graph TD
 
     style ResultA fill:#FFC107,stroke:#F57C00,color:#000
     style ResultB fill:#FFC107,stroke:#F57C00,color:#000
-```
+```bash
 
 ---
 
@@ -152,26 +152,26 @@ stateDiagram-v2
     StateA --> StateB : event
     StateB --> StateC : event
     StateC --> [*]
-```
+```text
 
 ---
 
 ## 🎨 Color Scheme (Copy-Paste Ready)
 
-```
+```text
 Success/Start:  #4CAF50 (Green)
 Process/Action: #2196F3 (Blue)
 Decision/Choice:#FFC107 (Yellow)
 Error/Block:    #F44336 (Red)
 Info/Reference: #9C27B0 (Purple)
 Neutral/End:    #757575 (Gray)
-```
+```text
 
 **Usage:**
 
 ```mermaid
 style NodeName fill:#4CAF50,stroke:#2E7D32,color:#fff
-```
+```bash
 
 ---
 
@@ -182,7 +182,7 @@ style NodeName fill:#4CAF50,stroke:#2E7D32,color:#fff
 ```bash
 # Check mkdocs.yml for:
 cat mkdocs.yml | grep -A 5 "superfences"
-```
+```yaml
 
 **Should see:**
 

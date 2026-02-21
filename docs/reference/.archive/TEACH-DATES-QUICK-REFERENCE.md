@@ -33,7 +33,7 @@ teach dates sync --file assignments/hw3.qmd
 
 # Verbose output
 teach dates sync -v
-```
+```text
 
 ### teach dates status
 
@@ -41,7 +41,7 @@ Show date configuration summary.
 
 ```bash
 teach dates status
-```
+```text
 
 ### teach dates init
 
@@ -49,7 +49,7 @@ Initialize date configuration wizard.
 
 ```bash
 teach dates init
-```
+```text
 
 ### teach dates validate
 
@@ -57,7 +57,7 @@ Validate date configuration.
 
 ```bash
 teach dates validate
-```
+```yaml
 
 ---
 
@@ -91,7 +91,7 @@ semester_info:
     - name: "Spring Break"
       date: "2025-03-10"
       type: "break"
-```
+```diff
 
 ---
 
@@ -125,7 +125,7 @@ teach dates sync --dry-run
 
 # 4. Apply
 teach dates sync
-```
+```bash
 
 ### Change Deadline
 
@@ -138,7 +138,7 @@ teach dates sync --file assignments/hw3.qmd
 
 # 3. Deploy
 teach deploy
-```
+```bash
 
 ### Semester Rollover
 
@@ -152,7 +152,7 @@ teach dates sync --force
 
 # 3. Commit
 git add -A && git commit -m "feat: Spring 2026"
-```
+```diff
 
 ---
 
@@ -184,13 +184,13 @@ git add -A && git commit -m "feat: Spring 2026"
 
 ## Interactive Prompts
 
-```
+```text
 Apply changes? [y/n/d/q]
   y - Yes, update this file
   n - No, skip this file
   d - Show diff
   q - Quit (stop syncing)
-```
+```yaml
 
 ---
 
@@ -216,7 +216,7 @@ Apply changes? [y/n/d/q]
 deadlines:
   final_project:
     due_date: "2025-05-08"
-```
+```yaml
 
 ### Relative Date
 

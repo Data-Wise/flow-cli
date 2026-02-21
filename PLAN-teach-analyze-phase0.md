@@ -55,7 +55,7 @@
 
 **Functions to implement:**
 
-```zsh
+````zsh
 # Extract concepts from frontmatter YAML
 _extract_concepts_from_frontmatter() {
     local file="$1"
@@ -122,7 +122,7 @@ _get_concept_line_number() {
     # Search for concept ID in frontmatter
     # Return line number (approximate)
 }
-```
+```text
 
 **Data Structure (concepts.json):**
 
@@ -160,7 +160,7 @@ _get_concept_line_number() {
     }
   }
 }
-```
+```diff
 
 **Implementation Notes:**
 
@@ -235,7 +235,7 @@ _get_dependency_chain() {
     # Return: array of concept IDs in dependency order
     # Used for detecting circular dependencies (Phase 1+)
 }
-```
+```text
 
 **Validation Rules:**
 
@@ -255,7 +255,7 @@ _get_dependency_chain() {
 
 **Output Format:**
 
-```
+```text
 🔗 PREREQUISITE VALIDATION
 
 Week 5: regression-assumptions
@@ -265,7 +265,7 @@ Week 5: regression-assumptions
 Week 7: interaction-effects
   ⚠ WARNING: Future prerequisite: factor-variables (Week 9)
      Suggestion: Move factor-variables to Week 6 or earlier
-```
+```zsh
 
 ---
 
@@ -360,7 +360,7 @@ _display_summary_section() {
     # Show status: READY or WARNINGS
     # Show next steps
 }
-```
+```yaml
 
 **CLI Output Example:**
 
@@ -405,7 +405,7 @@ Checking prerequisites... ✓
 Next steps:
   1. Deploy content: teach deploy --preview
   2. Or continue editing: quarto preview lectures/week-05-regression.qmd
-```
+```zsh
 
 ---
 
@@ -422,7 +422,7 @@ Next steps:
 source "$FLOW_PLUGIN_ROOT/lib/concept-extraction.zsh"
 source "$FLOW_PLUGIN_ROOT/lib/prerequisite-checker.zsh"
 source "$FLOW_PLUGIN_ROOT/commands/teach-analyze.zsh"
-```
+```bash
 
 ---
 
@@ -448,7 +448,7 @@ case "$1" in
         ;;
     # ... existing cases
 esac
-```
+```zsh
 
 **Add help function (around line 2700):**
 
@@ -505,7 +505,7 @@ ${FLOW_COLORS[dim]}📚 See also:${FLOW_COLORS[reset]}
   ${FLOW_COLORS[dim]}docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md${FLOW_COLORS[reset]}
 EOF
 }
-```
+```bash
 
 ---
 
@@ -523,7 +523,7 @@ ${FLOW_COLORS[bold]}✅ VALIDATION & QUALITY${FLOW_COLORS[reset]}
 
   ${FLOW_COLORS[muted]}Example:${FLOW_COLORS[reset]}
     ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} teach analyze lectures/week-05.qmd  ${FLOW_COLORS[dim]}# Check prerequisites${FLOW_COLORS[reset]}
-```
+```zsh
 
 ---
 
@@ -605,7 +605,7 @@ test_parse_required_concepts() {
     # Execute: _parse_required_concepts
     # Assert: Returns array of concept IDs
 }
-```
+```zsh
 
 ---
 
@@ -681,7 +681,7 @@ test_get_dependency_chain() {
     # Execute: _get_dependency_chain "A"
     # Assert: Returns [C, B, A] in order
 }
-```
+```zsh
 
 ---
 
@@ -724,7 +724,7 @@ test_invalid_file() {
     # Execute: teach analyze non-existent.qmd
     # Assert: Error message, exit code 1
 }
-```
+```text
 
 ---
 
@@ -732,7 +732,7 @@ test_invalid_file() {
 
 **New Files:**
 
-```
+```text
 lib/
   concept-extraction.zsh           # 250 lines
   prerequisite-checker.zsh         # 200 lines
@@ -746,14 +746,14 @@ tests/
 
 .teach/
   concepts.json                    # Generated at runtime
-```
+```text
 
 **Modified Files:**
 
-```
+```zsh
 flow.plugin.zsh                    # +10 lines (source statements)
 lib/dispatchers/teach-dispatcher.zsh  # +100 lines (routing + help)
-```
+```diff
 
 **Total:**
 
@@ -867,7 +867,7 @@ teach analyze lectures/test.qmd
 
 # Run all tests
 ./tests/run-all.sh
-```
+```yaml
 
 ---
 
@@ -929,7 +929,7 @@ ${FLOW_COLORS[dim]}      # Dim
 ${FLOW_COLORS[cmd]}      # Command highlight
 ${FLOW_COLORS[header]}   # Box header
 ${FLOW_COLORS[reset]}    # Reset
-```
+```zsh
 
 ### Error Handling Pattern
 
@@ -938,7 +938,7 @@ if ! command; then
     _flow_log_error "Error message with context"
     return 1
 fi
-```
+```bash
 
 ### File Operations
 
@@ -952,7 +952,7 @@ mkdir -p ".teach"
 
 # Check file existence
 [[ -f "$file" ]] || { echo "Not found"; return 1; }
-```
+```bash
 
 ### JSON Parsing
 
@@ -967,7 +967,7 @@ local count=$(echo "$json" | jq 'length')
 echo "$json" | jq -c '.[]' | while read -r item; do
     # Process $item
 done
-```
+````
 
 ---
 

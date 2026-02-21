@@ -18,7 +18,7 @@ teach-init -y "STAT 545"
 
 # Preview migration plan (existing Quarto project)
 teach-init --dry-run "STAT 545"
-```
+```text
 
 ---
 
@@ -26,7 +26,7 @@ teach-init --dry-run "STAT 545"
 
 ```bash
 teach-init [OPTIONS] <course-name>
-```
+```diff
 
 ---
 
@@ -60,7 +60,7 @@ Use `-y` or `--yes` for automation or when you want to accept safe defaults:
 
 ```bash
 teach-init -y "STAT 545"
-```
+```text
 
 **Safe defaults in non-interactive mode:**
 
@@ -82,10 +82,10 @@ For existing repositories, `teach-init` offers three strategies:
 
 Renames your current branch to `production` and creates `draft` for editing.
 
-```
+```text
 main → production (students see this)
      └→ draft (you edit here)
-```
+```diff
 
 ### Strategy 2: Parallel Branches
 
@@ -122,9 +122,9 @@ If migration fails at any step:
 
 A lightweight git tag is created before migration:
 
-```
+```text
 spring-2026-pre-migration
-```
+```text
 
 This allows manual recovery if needed.
 
@@ -134,7 +134,7 @@ This allows manual recovery if needed.
 
 After successful migration, `teach-init` displays an ADHD-friendly summary box:
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────────┐
 │ 🎉 TEACHING WORKFLOW INITIALIZED!                           │
 ├─────────────────────────────────────────────────────────────┤
@@ -157,7 +157,7 @@ After successful migration, `teach-init` displays an ADHD-friendly summary box:
 │   2. Make edits, commit as usual                            │
 │   3. ./scripts/quick-deploy.sh                              │
 └─────────────────────────────────────────────────────────────┘
-```
+```bash
 
 ---
 
@@ -170,7 +170,7 @@ mkdir ~/teaching/stat-579
 cd ~/teaching/stat-579
 git init
 teach-init "STAT 579 - Causal Inference"
-```
+```bash
 
 ### Create and Push to GitHub in One Step
 
@@ -180,7 +180,7 @@ teach-init "STAT 545" --github
 
 # With flow-cli (preferred method):
 teach init "STAT 545" --github
-```
+```bash
 
 ### Existing Quarto Course
 
@@ -188,7 +188,7 @@ teach init "STAT 545" --github
 cd ~/teaching/stat-545
 teach-init --dry-run "STAT 545"  # Preview first
 teach-init "STAT 545"             # Execute migration
-```
+```bash
 
 ### With renv (R Package Management)
 
@@ -196,7 +196,7 @@ teach-init "STAT 545"             # Execute migration
 cd ~/teaching/my-r-course
 teach-init "My R Course"
 # Prompts: "Exclude renv/ from git? [Y/n]"
-```
+```bash
 
 ### Non-Interactive (Automation)
 
@@ -209,7 +209,7 @@ teach-init -y "STAT 440"
 # - Auto-exclude renv/
 # - Skip GitHub push
 # - Use suggested semester dates
-```
+```yaml
 
 ---
 
@@ -234,7 +234,7 @@ semester:
 shortcuts:
   quick: stat
   deploy: statd
-```
+```bash
 
 ---
 

@@ -12,7 +12,7 @@
 
 ## Quick Start: Plugin Appearance Timeline
 
-```
+```text
 BEGINNER PHASE (45 min)
 ├─ Tutorials 1-3: NO PLUGINS
 │  (Learn core flow-cli concepts first)
@@ -28,7 +28,7 @@ ADVANCED PHASE (1.5+ hrs)
 │  ├─ All 22 plugins explored
 │  ├─ Optimization focus
 │  └─ Custom workflows
-```
+```diff
 
 ---
 
@@ -66,7 +66,7 @@ ADVANCED PHASE (1.5+ hrs)
 
 **Plugins touched:**
 
-```
+```text
 OMZ git plugin: 226+ aliases
 ├─ Core aliases used:
 │  ├─ gst     → git status
@@ -79,7 +79,7 @@ OMZ git plugin: 226+ aliases
 │  └─ gd      → git diff
 └─ Supported by:
    └─ zsh-you-should-use plugin (suggests these!)
-```
+```diff
 
 **What you learn:**
 - Git aliases dramatically speed up workflows
@@ -100,7 +100,7 @@ gst              # See changes
 gaa              # Stage all
 gcmsg "fix: update docs"  # Commit
 gp               # Push to branch
-```
+```text
 
 ---
 
@@ -108,12 +108,12 @@ gp               # Push to branch
 
 **Plugins touched:** Same `git` plugin, but in context of:
 
-```
+```text
 Worktree commands:
 ├─ git worktree add/remove (git aliases support)
 ├─ Switching between worktrees (uses gco to navigate)
 └─ Branch operations (all via git aliases)
-```
+```diff
 
 **Why repeat git plugin here?** Worktrees are advanced git workflows. You'll be using git aliases constantly.
 
@@ -161,7 +161,7 @@ Worktree commands:
 
 **Topics covered:**
 
-```
+```text
 Load Guards:
 ├─ Check which plugins are slow
 ├─ Skip unnecessary plugins
@@ -176,7 +176,7 @@ Cache Collision Fixes:
 ├─ Handle competing cache strategies
 ├─ Prevent conflicts
 └─ Maintain plugin independence
-```
+```diff
 
 **Plugins relevant here:**
 - All plugins analyzed for performance impact
@@ -187,7 +187,7 @@ Cache Collision Fixes:
 
 ## 📊 Plugin Appearance Chart
 
-```
+```bash
 Plugin Name                    Beginner  Intermediate  Advanced
 ─────────────────────────────────────────────────────────────────
 zsh-autosuggestions            ✓         ✓            ✓
@@ -215,7 +215,7 @@ path:lib                       ✗         ✓            ✓
 ─────────────────────────────────────────────────────────────────
 ✓ = Mentioned/usable
 ✓✓ = Deep dive focus
-```
+```yaml
 
 ---
 
@@ -282,9 +282,9 @@ path:lib                       ✗         ✓            ✓
    aliases                  # See everything
    ```
 
-4. **Read:** [Alias Reference Card](ALIAS-REFERENCE-CARD.md)
+1. **Read:** [Alias Reference Card](ALIAS-REFERENCE-CARD.md)
 
-5. **Study:** [Command Explorer](COMMAND-EXPLORER.md) for integration points
+2. **Study:** [Command Explorer](COMMAND-EXPLORER.md) for integration points
 
 **Key plugins to master:**
 - git - 226+ aliases (most valuable)
@@ -370,18 +370,18 @@ path:lib                       ✗         ✓            ✓
 
 These work automatically, no action needed:
 
-```
+```text
 ⭐ zsh-autosuggestions      → Just accept/reject suggestions
 ⭐ zsh-syntax-highlighting  → Just read the colors (green=good, red=bad)
 ⭐ command-not-found        → Automatic error suggestions
 ⭐ colored-man-pages        → Better looking man pages
-```
+```text
 
 ### Complexity: Intermediate (Active - Learn aliases)
 
 These require learning specific aliases and commands:
 
-```
+```text
 ⭐⭐ git                     → 226+ aliases to explore
 ⭐⭐ zsh-you-should-use      → Teaches you automatically
 ⭐⭐ fzf                     → Ctrl+R and Ctrl+T
@@ -399,19 +399,19 @@ These require learning specific aliases and commands:
 ⭐⭐ copyfile                → copyfile command
 ⭐⭐ dirhistory              → Alt+← Alt+→ navigation
 ⭐⭐ sudo                    → ESC ESC to prepend sudo
-```
+```text
 
 ### Complexity: Advanced (Optimization - Tune performance)
 
 These relate to shell performance and customization:
 
-```
+```text
 ⭐⭐⭐ All plugins            → Optimization in Tutorial 22
 ⭐⭐⭐ Load timing            → Performance analysis
 ⭐⭐⭐ Cache strategies       → Speed up repeated checks
 ⭐⭐⭐ Custom dispatchers     → Use plugins in own code
 ⭐⭐⭐ path:lib              → OMZ framework basics
-```
+```diff
 
 ---
 
@@ -463,7 +463,7 @@ These relate to shell performance and customization:
 
 ### How Each Dispatcher Interacts with Plugins
 
-```
+```text
 FLOW-CLI DISPATCHERS  ← Interact with → ZSH PLUGINS
 
 dispatch 'g' (git)

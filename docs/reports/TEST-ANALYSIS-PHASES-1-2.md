@@ -28,12 +28,12 @@
 
 **Group A: Flag Conflict Detection (4 tests)**
 
-```
+```text
 ✓ No conflicts should pass
 ✓ Conflicting flags should fail
 ✓ Short form flags should pass
 ✓ Mixed long/short forms should pass
-```
+```diff
 
 **Analysis:**
 - ✅ Correctly detects `--math --no-math` conflicts
@@ -43,12 +43,12 @@
 
 **Group B: Topic/Week Parsing (13 tests)**
 
-```
+```text
 ✓ Topic only, week only
 ✓ Short flags (-t, -w)
 ✓ Both specified (precedence: topic > week)
 ✓ Neither specified (graceful handling)
-```
+```diff
 
 **Analysis:**
 - ✅ Correctly parses `--topic "Linear Regression"`
@@ -60,13 +60,13 @@
 
 **Group A: Style Presets (5 tests)**
 
-```
+```text
 ✓ Conceptual preset (explanation, definitions, examples)
 ✓ Computational preset (explanation, examples, code, practice-problems)
 ✓ Rigorous preset (definitions, explanation, math, proof)
 ✓ Applied preset (explanation, examples, code, practice-problems)
 ✓ Invalid preset detection
-```
+```diff
 
 **Analysis:**
 - ✅ All 4 presets correctly defined
@@ -75,12 +75,12 @@
 
 **Group B: Content Resolution (14 tests)**
 
-```
+```text
 ✓ Preset + additions (--style conceptual --diagrams)
 ✓ Preset + removals (--style rigorous --no-proof)
 ✓ Multiple overrides (add 2, remove 1)
 ✓ No preset, individual flags only
-```
+```diff
 
 **Analysis:**
 - ✅ Additions correctly merged into preset
@@ -90,10 +90,10 @@
 
 **Group C: Content Instructions (9 tests)**
 
-```
+```text
 ✓ Instruction building from resolved content
 ✓ Empty content handling (no instructions)
-```
+```diff
 
 **Analysis:**
 - ✅ Maps content flags to human-readable instructions
@@ -109,7 +109,7 @@
 
 **Test Groups:**
 
-```
+```text
 ✓ Error formatting (_teach_error, _teach_warn)          [3 tests]
 ✓ Command building (_teach_build_command)               [9 tests]
 ✓ Preflight checks (_teach_preflight)                   [3 tests]
@@ -117,7 +117,7 @@
 ✓ Dispatcher routing (teach → _teach_scholar_wrapper)   [4 tests]
 ✓ Shortcuts (e, q, sl, lec, hw, etc)                    [1 test]
 ✓ Help system integration                               [3 tests]
-```
+```diff
 
 **Critical Finding:**
 - ✅ **Zero breaking changes** - All existing functionality intact
@@ -135,7 +135,7 @@
 
 **Test Groups:**
 
-```
+```text
 ✓ Config validation                     [7 tests]
 ✓ Date calculation                      [6 tests]
 ✓ Sync workflow                         [8 tests]
@@ -143,7 +143,7 @@
 ✓ Error handling                        [1 test]
 ✓ Interactive prompts                   [2 tests]
 ✓ Help system                           [4 tests]
-```
+```diff
 
 **Analysis:**
 - ✅ Teaching dates functionality unaffected by Phase 1-2 changes
@@ -161,7 +161,7 @@
 ```zsh
 _teach_validate_content_flags()    # 45 lines - manageable
 _teach_parse_topic_week()          # 48 lines - manageable
-```
+```text
 
 **Phase 2 Functions:**
 
@@ -169,7 +169,7 @@ _teach_parse_topic_week()          # 48 lines - manageable
 TEACH_STYLE_PRESETS               # 10 lines - simple map
 _teach_resolve_content()          # 67 lines - moderate complexity
 _teach_build_content_instructions() # 27 lines - simple
-```
+```diff
 
 **Assessment:**
 - ✅ All functions under 100 lines (ZSH best practice)
@@ -181,13 +181,13 @@ _teach_build_content_instructions() # 27 lines - simple
 
 **Coverage by Component:**
 
-```
+```text
 Content flag validation:     100% (all paths tested)
 Topic/week parsing:          100% (all edge cases)
 Style presets:               100% (all 4 presets + invalid)
 Content resolution:          100% (all combinations)
 Content instructions:        100% (empty + populated)
-```
+```diff
 
 **Edge Cases Tested:**
 - ✅ Conflicting flags (--X and --no-X)
@@ -201,7 +201,7 @@ Content instructions:        100% (empty + populated)
 
 **Error Messages Quality:**
 
-```
+```yaml
 ❌ teach: Conflicting flags
 
   Both --math and --no-math specified. These are mutually exclusive.
@@ -209,7 +209,7 @@ Content instructions:        100% (empty + populated)
 Fix: Keep one or the other
   teach slides -w 8 --math        # Include math
   teach slides -w 8 --no-math     # Exclude math
-```
+```diff
 
 **Assessment:**
 - ✅ Clear error messages
@@ -245,12 +245,12 @@ Fix: Keep one or the other
 
 **New Structures:**
 
-```
+```text
 TEACH_CONTENT_FLAGS:      ~2KB  (9 flags × 3 forms)
 TEACH_SELECTION_FLAGS:    ~1KB  (6 flags)
 TEACH_STYLE_PRESETS:      ~512B (4 presets)
 Functions (code):         ~8KB  (5 new functions)
-```
+```diff
 
 **Total:** ~12KB additional memory
 **Assessment:** ✅ Minimal impact
@@ -338,11 +338,11 @@ Functions (code):         ~8KB  (5 new functions)
 # Plugin load test
 source flow.plugin.zsh
 # Result: ✅ Plugin loaded successfully
-```
+```text
 
 ### Total Test Coverage
 
-```
+```text
 Phase 1-2 unit tests:      45 ✅
 Regression tests:          28 ✅
 Dates tests:               33 ✅
@@ -352,7 +352,7 @@ Total:                    106 ✅
 Pass rate:               100%
 Failures:                  0
 Breaking changes:          0
-```
+```diff
 
 ---
 
@@ -402,28 +402,28 @@ Phases 1-2 implementation is:
 
 ### A. Content Flag Conflict Detection
 
-```
+```yaml
 📦 Test: Content flag validation - detect conflicts
 
 Fix: Keep one or the other
   teach slides -w 8 --math        # Include math
   teach slides -w 8 --no-math     # Exclude math
   ✓ Conflicting flags should fail
-```
+```text
 
 ### B. Style Preset Resolution
 
-```
+```text
 📦 Test: Style preset - computational
   ✓ Should include explanation
   ✓ Should include examples
   ✓ Should include code
   ✓ Should include practice-problems
-```
+```text
 
 ### C. Content Resolution with Overrides
 
-```
+```text
 📦 Test: Content resolution - preset + removal
   ✓ Should include preset: math
   ✓ Should exclude removed: proof

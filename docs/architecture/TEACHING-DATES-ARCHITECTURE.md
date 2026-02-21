@@ -90,7 +90,7 @@ graph TB
     class PARSER,SYNC,COMPUTE logicLayer
     class CONFIG,SCHEMA,VALIDATOR dataLayer
     class QMD,MD,YAML fileLayer
-```
+```diff
 
 ### System Boundaries
 
@@ -145,7 +145,7 @@ graph LR
     style E fill:#f5e1e1
     style H fill:#f5e1e1
     style F fill:#e1f5e1
-```
+```text
 
 ### Data Flow: Config to Files
 
@@ -187,7 +187,7 @@ sequenceDiagram
     end
 
     CMD->>User: Summary: 3 applied, 2 skipped
-```
+```yaml
 
 ### Semester Init Flow
 
@@ -216,7 +216,7 @@ stateDiagram-v2
         - semester_info.end_date
         - semester_info.weeks[]
     end note
-```
+```diff
 
 ---
 
@@ -270,7 +270,7 @@ stateDiagram-v2
 
 **Workflow:**
 
-```
+```text
 1. Scan teaching files
    ↓
 2. Load config dates
@@ -288,7 +288,7 @@ stateDiagram-v2
    c. Apply if confirmed
    ↓
 6. Show final summary
-```
+```yaml
 
 **Modes:**
 
@@ -342,7 +342,7 @@ semester_info:
       date: string (YYYY-MM-DD)
       time: string (optional)
       location: string (optional)
-```
+```diff
 
 **Validation Rules:**
 - All dates must be ISO format (`YYYY-MM-DD`)
@@ -448,7 +448,7 @@ flowchart TD
     style Success fill:#e1f5e1
     style Apply fill:#f5f5e1
     style Backup fill:#f5f5e1
-```
+```text
 
 ### Date Computation Flow
 
@@ -467,7 +467,7 @@ graph TD
     style A fill:#e1f5e1
     style E fill:#f5e1e1
     style I fill:#e1f5e1
-```
+```bash
 
 ### File Modification Flow
 
@@ -496,7 +496,7 @@ sequenceDiagram
         Parser->>Backup: Restore from .bak
         Parser-->>Sync: ✗ Failed
     end
-```
+```text
 
 ---
 
@@ -551,7 +551,7 @@ graph TB
     class TEACH,INIT,STATUS,DEPLOY,EXAM existing
     class DATES_SYNC,DATES_INIT,DATES_STATUS,DATES_VALIDATE new
     class CONFIG,VALIDATOR,SCHEMA shared
-```
+```diff
 
 ### Integration with Scholar MCP
 
@@ -574,7 +574,7 @@ teach exam "Midterm 1" --week 8
 # - Week 8 start date from semester_info
 # - Existing exams to avoid duplicates
 # - Holiday dates to avoid conflicts
-```
+```text
 
 ### External Tool Dependencies
 
@@ -603,7 +603,7 @@ graph LR
     style SED fill:#f5e1e1
     style FIND fill:#f5e1e1
     style PARSER fill:#e1f5e1
-```
+```diff
 
 **Dependency Management:**
 - `yq` - Required for YAML operations (install: `brew install yq`)
@@ -663,7 +663,7 @@ graph TD
 
     style E fill:#f5e1e1
     style REC1,REC2,REC3,REC4,REC5,REC6,REC7,REC8,REC9,REC10,REC11 fill:#e1f5e1
-```
+```bash
 
 ### Error Recovery Strategies
 
@@ -690,7 +690,7 @@ mv file.qmd.bak file.qmd  # Restore
 
 # If success
 rm file.qmd.bak  # Clean up
-```
+```bash
 
 **Config-Level Rollback:**
 
@@ -701,7 +701,7 @@ git restore .flow/teach-config.yml
 # Or manual rollback
 # Remove semester_info section from config
 # Files retain their current dates (no change)
-```
+```bash
 
 **Sync-Level Rollback:**
 
@@ -714,7 +714,7 @@ git restore .flow/teach-config.yml
 git diff  # Review changes
 git restore <file>  # Undo specific file
 git restore .  # Undo all
-```
+```diff
 
 ---
 
@@ -786,7 +786,7 @@ git restore .  # Undo all
 - Integer types: Week numbers, offsets
 - Enum types: semester, holiday types
 - No shell commands in YAML
-```
+```bash
 
 **2. Input Sanitization:**
 
@@ -800,7 +800,7 @@ fi
 if [[ ! "$week" =~ ^[0-9]+$ ]]; then
     return 1
 fi
-```
+```bash
 
 **3. File Path Validation:**
 
@@ -811,7 +811,7 @@ fi
 
 # No directory traversal
 [[ "$file" == *".."* ]] && return 1
-```
+```bash
 
 **4. Backup Before Modification:**
 
@@ -821,7 +821,7 @@ cp "$file" "${file}.bak"
 
 # Restore on any error
 trap 'mv "${file}.bak" "$file"' ERR
-```
+```diff
 
 ### Permissions
 
@@ -861,7 +861,7 @@ timeline
         Advanced features : Real-time sync
                          : CI/CD integration
                          : Conflict resolution UI
-```
+```text
 
 ### Planned Features
 
@@ -871,7 +871,7 @@ timeline
 
 ```bash
 teach semester new "Spring 2026"
-```
+```diff
 
 **Behavior:**
 1. Calculate date shift (Fall 2025 → Spring 2026)
@@ -897,7 +897,7 @@ weeks:
         topic: "Introduction"
       - date: "2025-01-15"
         topic: "Setup & RStudio"
-```
+```text
 
 **Use Case:** Courses with MWF or TTh schedules
 

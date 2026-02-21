@@ -49,7 +49,7 @@ Add `teach prompt` subcommand to the teach dispatcher for managing AI teaching p
 
 ### 3-Tier Prompt Resolution
 
-```
+```text
 Priority 1 (highest): Course-specific
   .flow/templates/prompts/<name>.md
 
@@ -58,13 +58,13 @@ Priority 2: User defaults
 
 Priority 3 (lowest): Plugin defaults
   lib/templates/teaching/claude-prompts/<name>.md
-```
+```text
 
 Resolution rule: First match wins.
 
 ### Integration with Scholar
 
-```
+```text
 teach lecture "ANOVA"
   -> _teach_scholar_wrapper("lecture", ...)
     -> _teach_resolve_prompt("lecture")
@@ -74,7 +74,7 @@ teach lecture "ANOVA"
     -> scholar_cmd += --prompt "$rendered"
   -> Scholar merges with 4-layer style system
   -> Content generated
-```
+```diff
 
 ### Prompt File Format
 
@@ -99,7 +99,7 @@ Generate instructor-facing lecture notes for {{COURSE}} ...
 
 ## Structure Requirements
 ...
-```
+```diff
 
 ---
 
@@ -141,7 +141,7 @@ Generate instructor-facing lecture notes for {{COURSE}} ...
 
 ### `teach prompt list`
 
-```
+```yaml
 Available Teaching Prompts
 ─────────────────────────────────────────
 
@@ -152,22 +152,22 @@ Available Teaching Prompts
 Legend: [C] Course  [U] User  [P] Plugin  * = overrides lower tier
 
 Usage: teach prompt show <name> to view
-```
+```text
 
 ### `teach prompt show <name>` (error)
 
-```
+```text
 ✗ Unknown prompt: foo
 
 Available prompts:
   lecture-notes, revealjs-slides, derivations-appendix
 
 Run 'teach prompt list' for details
-```
+```text
 
 ### `teach prompt validate`
 
-```
+```text
 Validating teaching prompts...
 
   ✓ lecture-notes          Valid (course override)
@@ -176,7 +176,7 @@ Validating teaching prompts...
   ✗ custom-broken          Error: invalid YAML frontmatter
 
 3 valid, 1 warning, 1 error
-```
+```diff
 
 ---
 

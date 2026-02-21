@@ -23,7 +23,8 @@ Shows comprehensive repository size analysis:
 - **Warnings** for large files (>100KB)
 
 **Example Output:**
-```
+
+````text
 ╭───────────────────────────────────────────────────╮
 │  📊 Chezmoi Repository Size                    │
 ├───────────────────────────────────────────────────┤
@@ -37,12 +38,13 @@ Shows comprehensive repository size analysis:
 │     ...                                           │
 │                                                   │
 ╰───────────────────────────────────────────────────╯
-```
+```text
 
 **Usage:**
+
 ```bash
 dot size                    # Show repository size analysis
-```
+```diff
 
 **Performance:**
 - First run: ~3.15s (meets <3s target)
@@ -65,7 +67,8 @@ Added `_dot_doctor_check_chezmoi_health()` function for integration with `flow d
 9. ✅ Sync status (modified/synced/behind/ahead)
 
 **Example Output:**
-```
+
+```text
 ╭───────────────────────────────────────────────────╮
 │  🔧 Dotfile Management Health                  │
 ├───────────────────────────────────────────────────┤
@@ -81,12 +84,13 @@ Added `_dot_doctor_check_chezmoi_health()` function for integration with `flow d
 │  ✓ Sync status: synced (24 hours ago)              │
 │                                                   │
 ╰───────────────────────────────────────────────────╯
-```
+```text
 
 **Usage:**
+
 ```bash
 _dot_doctor_check_chezmoi_health   # Call from doctor.zsh
-```
+```diff
 
 **Performance:**
 - <100ms (very fast, no expensive operations)
@@ -150,24 +154,27 @@ _dot_doctor_check_chezmoi_health   # Call from doctor.zsh
 ### Manual Testing
 
 **Test 1: `dot size` command**
+
 ```bash
 $ dot size
 # Output: Shows total size (608K), top 10 files, no warnings
 # Performance: 3.15s (first run), <100ms (cached)
-```
+```bash
 
 **Test 2: Doctor health check**
+
 ```bash
 $ _dot_doctor_check_chezmoi_health
 # Output: All 9 checks complete, 1 warning (no remote)
 # Performance: <100ms
-```
+```bash
 
 **Test 3: Help text**
+
 ```bash
 $ dot help | grep size
 # Output: Shows "dot size         Analyze repository size"
-```
+```bash
 
 ### Bug Fixes During Testing
 
@@ -192,7 +199,7 @@ To integrate with `commands/doctor.zsh`, add:
 if command -v chezmoi &>/dev/null; then
     _dot_doctor_check_chezmoi_health
 fi
-```
+````
 
 ### Future Enhancements
 

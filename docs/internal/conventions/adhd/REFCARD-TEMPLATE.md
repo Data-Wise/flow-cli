@@ -32,7 +32,7 @@
 ````markdown
 # [Tool Name] Reference Card
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  [TOOL NAME] REFERENCE CARD                                        v[X.X]  │
 ├─────────────────────────────────────────────────────────────────────────────┤
@@ -57,8 +57,8 @@
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  TIPS: [tip 1] • [tip 2] • [tip 3]                                          │
 └─────────────────────────────────────────────────────────────────────────────┘
-```
-````
+```diff
+````diff
 
 ---
 
@@ -105,7 +105,7 @@
 
 # [Pattern name]
 [command pattern]
-```
+```diff
 
 ---
 
@@ -114,7 +114,7 @@
 - [Tip 1]
 - [Tip 2]
 - [Tip 3]
-````
+````bash
 
 ---
 
@@ -141,7 +141,7 @@
 
 ## Example: Project Hub Refcard
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  PROJECT HUB REFERENCE CARD                                         v1.0   │
 ├─────────────────────────────────────────────────────────────────────────────┤
@@ -169,7 +169,7 @@
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  TIPS: Use aliases (f, wk, dh, rh) • All hubs have same subcommands         │
 └─────────────────────────────────────────────────────────────────────────────┘
-```
+```bash
 
 ---
 
@@ -192,7 +192,7 @@
 | `gbl` blame | `gstl` list | `grs file` |
 
 **Patterns:** `ga . && gc "msg" && gp` • `gf && gm origin/main`
-```
+```text
 
 ---
 
@@ -200,11 +200,11 @@
 
 ### Command Width
 
-```
+```text
 SHORT (≤6 chars)     Align descriptions at column 20
 MEDIUM (7-12 chars)  Align descriptions at column 25
 LONG (>12 chars)     Put description on next line or use table
-```
+```diff
 
 ### Descriptions
 
@@ -224,7 +224,7 @@ LONG (>12 chars)     Put description on next line or use table
 
 Group by **task**, not alphabetically:
 
-```
+```text
 GOOD                    BAD
 ─────                   ─────
 DAILY                   A

@@ -10,10 +10,10 @@ This gamified test validates your flow-cli setup by having you "feed a virtual d
 
 ## Quick Start
 
-```bash
+````bash
 cd /path/to/flow-cli
 ./tests/interactive-dog-feeding.zsh
-```
+```diff
 
 ## How It Works
 
@@ -71,7 +71,7 @@ The dog feeding test validates **7 core flow-cli features**:
 
 ## Sample Output
 
-```
+```text
 ╔════════════════════════════════════════════════════════════╗
 ║  🐕  INTERACTIVE DOG FEEDING TEST  🐕                     ║
 ╚════════════════════════════════════════════════════════════╝
@@ -120,7 +120,7 @@ Command to run:
 
 The dog sees all your projects! 😊
 🥩 Fed the dog! 😊
-```
+```diff
 
 ## Exit Codes
 
@@ -138,14 +138,14 @@ cd flow-cli
 
 # Validate everything works
 ./tests/interactive-dog-feeding.zsh
-```
+```bash
 
 ### 2. After Major Refactor
 
 ```bash
 # Made big changes? Feed the dog!
 ./tests/interactive-dog-feeding.zsh
-```
+```bash
 
 ### 3. Teaching New Users
 
@@ -153,7 +153,7 @@ cd flow-cli
 # Perfect onboarding experience
 # Shows all major features in fun way
 ./tests/interactive-dog-feeding.zsh
-```
+```bash
 
 ### 4. CI/CD Integration
 
@@ -163,7 +163,7 @@ yes '' | ./tests/interactive-dog-feeding.zsh
 
 # Check exit code
 echo $?  # 0 = success, 1 = failure
-```
+```diff
 
 ## ADHD-Friendly Design
 
@@ -202,7 +202,7 @@ HUNGER=100          # Decreases as you feed (0-100)
 HAPPINESS=50        # Increases with success (0-100)
 TASKS_COMPLETED=0   # Increments per task (0-7)
 TOTAL_TASKS=7       # Fixed at 7
-```
+```zsh
 
 ## Troubleshooting
 
@@ -213,13 +213,13 @@ TOTAL_TASKS=7       # Fixed at 7
 ```bash
 source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
 type dash  # Should show function
-```
+```bash
 
 **Check session directory:**
 
 ```bash
 ls -la ~/.local/share/flow/
-```
+```text
 
 **Run individual commands:**
 
@@ -228,7 +228,7 @@ dash
 work flow-cli
 catch "test idea"
 finish
-```
+```yaml
 
 ### No Emoji Support
 
@@ -255,7 +255,7 @@ run_test \
     "your-command 2>&1" \
     "${GREEN}Success message ${STAR}${NC}" \
     15  # Food reward
-```
+````
 
 ## See Also
 

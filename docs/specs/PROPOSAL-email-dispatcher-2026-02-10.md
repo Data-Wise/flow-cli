@@ -14,6 +14,7 @@ Add an `em` dispatcher wrapping himalaya CLI with ADHD-friendly email management
 ## Options
 
 ### Option A: Minimal Dispatcher (Quick Win)
+
 **Effort:** 2-3 hours
 
 Just the dispatcher shell + core aliases. No fzf, no rendering pipeline, no notifications.
@@ -32,12 +33,13 @@ em() {
         *) _em_help ;;
     esac
 }
-```
+```diff
 
 **Pros:** Ships fast, establishes pattern, zero optional deps
 **Cons:** Not much value over raw himalaya
 
 ### Option B: Full Dispatcher + fzf Picker (Recommended)
+
 **Effort:** 6-8 hours
 
 Core dispatcher + fzf email picker + smart rendering + `teach doctor` integration.
@@ -53,6 +55,7 @@ Adds:
 **Cons:** More work, needs w3m/bat/fzf (but these are already common in the ecosystem)
 
 ### Option C: Full Stack (Max Features)
+
 **Effort:** 12-16 hours (multi-session)
 
 Everything in Option B, plus:
@@ -73,6 +76,7 @@ Everything in Option B, plus:
 Ship Option B as v1, then incrementally add Option C features.
 
 ### Phase 1: Core Dispatcher (v1)
+
 - `em` dispatcher with 8 subcommands
 - fzf picker with preview pane
 - Smart rendering pipeline (w3m/glow/bat)
@@ -81,11 +85,13 @@ Ship Option B as v1, then incrementally add Option C features.
 - Help system following existing patterns
 
 ### Phase 2: Notifications (v2)
+
 - `em watch` — IMAP IDLE via `himalaya envelope watch`
 - terminal-notifier integration
 - `em watch --daemon` for background operation
 
 ### Phase 3: Deep Integration (v3)
+
 - `dash` command email section
 - `work` command email context
 - Per-project email filters
@@ -127,7 +133,7 @@ Ship Option B as v1, then incrementally add Option C features.
 
 ### Smart Rendering Pipeline
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │ himalaya message read <ID>              │
 │           ↓                             │
@@ -142,7 +148,7 @@ Ship Option B as v1, then incrementally add Option C features.
 │ │                   │ │ glow    │ bat   │
 │ └───────────────────┘ └─────────┘       │
 └─────────────────────────────────────────┘
-```
+```zsh
 
 ### fzf Picker Design
 
@@ -160,7 +166,7 @@ _em_pick() {
               --bind='ctrl-r:execute(himalaya message reply {1})' \
               --bind='ctrl-d:execute(himalaya envelope flag add {1} Deleted)'
 }
-```
+```yaml
 
 ### Config Integration
 
@@ -172,13 +178,13 @@ email:
   render_html: true      # auto-detect and render HTML
   notifications: false   # IMAP IDLE watch
   color_theme: tokyo     # tokyo | default | minimal
-```
+```text
 
 ### Doctor Integration
 
 Add to `flow doctor` or `em doctor`:
 
-```
+```text
 Email Dependencies:
   ✓ himalaya (v1.1.0 — stable, semver)
   ✓ OAuth2 (native XOAUTH2 via himalaya — no proxy needed)
@@ -187,7 +193,7 @@ Email Dependencies:
   ✓ fzf (interactive picker)
   ✗ glow (Markdown rendering — optional)
   ✗ terminal-notifier (notifications — optional)
-```
+```ini
 
 ---
 
@@ -218,6 +224,7 @@ color = "yellow"
 ## Testing Strategy
 
 ### Unit Tests (mocked)
+
 - Subcommand routing (all 13 commands)
 - Help output
 - Config reading (default + per-project)
@@ -225,12 +232,14 @@ color = "yellow"
 - fzf command construction
 
 ### E2E Tests (sandboxed)
+
 - `em inbox` with mocked himalaya output
 - `em pick` fzf invocation (non-interactive)
 - `em doctor` dependency checks
 - `em dash` dashboard formatting
 
 ### Dogfood Tests
+
 - Full plugin load with email dispatcher
 - Help compliance
 - Completion loading

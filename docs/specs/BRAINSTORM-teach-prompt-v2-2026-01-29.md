@@ -98,7 +98,7 @@ Design `teach prompt` command for managing AI teaching prompts with 3-tier resol
 
 ### User Story Map
 
-```
+```text
 teach prompt
 ├── list       [MVP] Browse available prompts with tier indicators
 ├── show       [MVP] Read prompt content in pager
@@ -108,11 +108,11 @@ teach prompt
 ├── create     [Phase 2] Create new prompt from scratch/template
 ├── diff       [Phase 2] Compare override against default
 └── promote    [Phase 2] Copy course prompt to user tier
-```
+```text
 
 ### Zero-Friction Scholar Integration
 
-```
+```text
 Before (current): teach lecture "ANOVA"
   -> Scholar uses its own defaults
 

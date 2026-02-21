@@ -10,7 +10,7 @@ Complete reference for the `flow dashboard` command - monitor workflow status in
 flow dashboard [options]
 flow dashboard --web [--port <port>] [--interval <ms>]
 flow dashboard --help
-```
+```yaml
 
 ---
 
@@ -36,7 +36,7 @@ Launch interactive terminal interface:
 
 ```bash
 flow dashboard
-```
+```diff
 
 **Features:**
 
@@ -52,7 +52,7 @@ Launch browser-based dashboard:
 
 ```bash
 flow dashboard --web
-```
+```diff
 
 **Features:**
 
@@ -72,7 +72,7 @@ Launch web-based dashboard:
 
 ```bash
 flow dashboard --web
-```
+```text
 
 **What happens:**
 
@@ -83,7 +83,7 @@ flow dashboard --web
 
 **Terminal output:**
 
-```
+```yaml
 🌐 Starting Flow CLI Web Dashboard...
 
 Server: http://localhost:3000
@@ -91,7 +91,7 @@ Dashboard: http://localhost:3000/dashboard
 
 ✨ Dashboard ready!
 Press Ctrl+C to stop server
-```
+```diff
 
 **Browser displays:**
 
@@ -106,7 +106,7 @@ Specify custom port for web dashboard:
 
 ```bash
 flow dashboard --web --port 8080
-```
+```diff
 
 **Default:** 3000
 
@@ -127,7 +127,7 @@ flow dashboard --web --port 3001 --category teaching
 
 # Terminal 3: Research projects only
 flow dashboard --web --port 3002 --category research
-```
+```text
 
 ### --interval <ms>
 
@@ -135,7 +135,7 @@ Set auto-refresh interval (milliseconds):
 
 ```bash
 flow dashboard --web --interval 2000
-```
+```bash
 
 **Default:** 5000 (5 seconds)
 
@@ -152,7 +152,7 @@ flow dashboard --web --interval 30000
 
 # Very fast (every second) - resource intensive
 flow dashboard --web --interval 1000
-```
+```text
 
 **Recommendations:**
 
@@ -169,7 +169,7 @@ Filter dashboard to specific category:
 
 ```bash
 flow dashboard --web --category teaching
-```
+```diff
 
 **Valid categories:**
 
@@ -186,7 +186,7 @@ flow dashboard --web --category teaching --port 3001
 
 # Research-only dashboard
 flow dashboard --web --category research --port 3002
-```
+```text
 
 ### --help, -h
 
@@ -194,7 +194,7 @@ Show help message:
 
 ```bash
 flow dashboard --help
-```
+```diff
 
 ---
 
@@ -231,7 +231,7 @@ Shows current work session (if active):
 
 **Terminal:**
 
-```
+```text
 ╭─────────────────────────────────────────╮
 │ 🔥 ACTIVE SESSION                       │
 ├─────────────────────────────────────────┤
@@ -241,7 +241,7 @@ Shows current work session (if active):
 │ Progress:  ████████░░ 85%               │
 │ Task:      Final simulations            │
 ╰─────────────────────────────────────────╯
-```
+```diff
 
 **Web:**
 
@@ -256,14 +256,14 @@ Activity charts for current day:
 
 **Bar Charts:**
 
-```
+```text
 Today's Activity
 ────────────────
 Sessions │████████░░ 4 sessions
 Time     │██████████ 3.5 hours
 Projects │███░░░░░░░ 3 active
 Progress │███████░░░ +15% total
-```
+```diff
 
 **Web:**
 
@@ -277,7 +277,7 @@ All projects with status, priority, progress:
 
 **Terminal:**
 
-```
+```text
 ┌──────────────────┬────────┬────┬────┬─────────────┐
 │ Project          │ Status │ Pri│ %  │ Task        │
 ├──────────────────┼────────┼────┼────┼─────────────┤
@@ -285,7 +285,7 @@ All projects with status, priority, progress:
 │ stat-440         │ Active │ P1 │ 60%│ Grade exams │
 │ flow-cli         │ Ready  │ P2 │100%│ Complete!   │
 └──────────────────┴────────┴────┴────┴─────────────┘
-```
+```diff
 
 **Web:**
 
@@ -297,7 +297,7 @@ All projects with status, priority, progress:
 
 Summary metrics:
 
-```
+```text
 ╭─────────────────────────────────────────╮
 │ 📊 STATISTICS                           │
 ├─────────────────────────────────────────┤
@@ -311,7 +311,7 @@ Summary metrics:
 │ Completed This Week:  3 projects        │
 │ Total Time This Week: 18.5 hours        │
 ╰─────────────────────────────────────────╯
-```
+```bash
 
 ---
 
@@ -325,7 +325,7 @@ flow dashboard
 
 # View, then quit
 # Press 'q' to exit
-```
+```bash
 
 ### Example 2: Background Web Dashboard
 
@@ -339,7 +339,7 @@ flow dashboard --web &
 # Stop dashboard
 fg
 Ctrl+C
-```
+```bash
 
 ### Example 3: Category-Specific Dashboards
 
@@ -356,7 +356,7 @@ flow dashboard --web --port 3001 --category research
 flow dashboard --web --port 3002 --category packages
 
 # Now have dedicated view for each work type
-```
+```bash
 
 ### Example 4: Custom Refresh Rate
 
@@ -366,7 +366,7 @@ flow dashboard --web --interval 1000
 
 # Background monitoring - slow updates
 flow dashboard --web --interval 30000
-```
+```bash
 
 ### Example 5: Integration with Work Session
 
@@ -382,7 +382,7 @@ flow dashboard --web
 # - Active session timer (live countdown)
 # - Project progress
 # - Session duration (updates every second)
-```
+```bash
 
 ### Example 6: Weekly Review
 
@@ -396,7 +396,7 @@ flow dashboard --web
 # 2. Check progress %
 # 3. Update priorities in terminal
 # 4. Screenshot for records
-```
+```yaml
 
 ---
 
@@ -468,7 +468,7 @@ Click column headers to sort:
 
 ```bash
 flow status --json > dashboard-data.json
-```
+```text
 
 ---
 
@@ -490,7 +490,7 @@ Active session stored in: `~/.config/zsh/.worklog`
   },
   "task": "Final simulations"
 }
-```
+```text
 
 ### Project Data
 
@@ -498,14 +498,14 @@ Each project: `~/projects/category/project/.STATUS`
 
 **Format:**
 
-```
+```text
 project: mediationverse
 status: active
 priority: P0
 progress: 85
 next: Final simulations
 updated: 2025-12-24
-```
+```diff
 
 ---
 
@@ -530,7 +530,7 @@ Override default config directory:
 ```bash
 export FLOW_CLI_HOME=~/.flow-cli
 flow dashboard
-```
+```bash
 
 ### PORT
 
@@ -540,7 +540,7 @@ Default port for web dashboard:
 export PORT=8080
 flow dashboard --web
 # Uses port 8080 instead of 3000
-```
+```yaml
 
 ---
 
@@ -579,7 +579,7 @@ flow dashboard --web --host 0.0.0.0
 # Keep it local:
 flow dashboard --web
 # Binds to 127.0.0.1 only
-```
+```diff
 
 ### Accessibility
 
@@ -604,9 +604,9 @@ flow dashboard --web
 
 **Error:**
 
-```
+```text
 Error: Port 3000 is already in use
-```
+```bash
 
 **Solution:**
 
@@ -616,7 +616,7 @@ flow dashboard --web --port 3001
 
 # Or kill process using port 3000
 lsof -ti:3000 | xargs kill -9
-```
+```bash
 
 ### "Dashboard not opening"
 
@@ -627,7 +627,7 @@ lsof -ti:3000 | xargs kill -9
 ```bash
 flow dashboard --web
 # Manually open: http://localhost:3000/dashboard
-```
+```diff
 
 ### "Data not updating"
 

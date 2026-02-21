@@ -6,7 +6,7 @@
 
 ## Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  ~/.config/zsh (symlink)                                                    │
 │       │                                                                     │
@@ -20,7 +20,7 @@
 │   (zsh-clean)        (auto-sync)        (working copy)                      │
 │   full history       real-time          instant access                      │
 └─────────────────────────────────────────────────────────────────────────────┘
-```
+```text
 
 ## Commands
 
@@ -53,7 +53,7 @@ $ zsh-clean
 
 ───────────────────────────────────────────────────────────
   ✓ Done! Config is clean and backed up.
-```
+```zsh
 
 That's it. One command does everything:
 
@@ -77,7 +77,7 @@ $ zsh-clean undo
   ✓ Changes discarded
 
   Run 'source ~/.config/zsh/.zshrc' to reload
-```
+```text
 
 ### Check Status
 
@@ -92,7 +92,7 @@ $ zsh-clean status
   📦 Functions: 18 files
   ☁️  Git: synced
   🧹 Junk: none
-```
+```bash
 
 ---
 
@@ -111,7 +111,7 @@ cd ~/projects/dev-tools/flow-cli
 git log --oneline zsh/functions/adhd-helpers.zsh
 git checkout abc1234 -- zsh/functions/adhd-helpers.zsh
 source ~/.config/zsh/.zshrc
-```
+```diff
 
 ---
 
@@ -128,7 +128,7 @@ No local tarballs needed — two cloud backups are enough.
 
 ## File Structure
 
-```
+```text
 ~/projects/dev-tools/flow-cli/
 ├── zsh/                      # ← Config (symlinked from ~/.config/zsh)
 │   ├── .zshrc

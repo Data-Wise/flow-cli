@@ -30,7 +30,7 @@ teach help
 
 # Check if you're in a course directory
 pwd
-```
+```diff
 
 ---
 
@@ -62,7 +62,7 @@ Deploying course website updates typically takes 5-15 minutes:
 
 ### The Workflow
 
-```
+```bash
 draft branch              production branch
      │                           │
      │  ┌─ teach deploy ─┐       │
@@ -72,7 +72,7 @@ draft branch              production branch
                                          │
                                          ▼
                                    [Students see it!]
-```
+```bash
 
 **Demo:**
 
@@ -93,7 +93,7 @@ Navigate to your course repository and initialize:
 ```bash
 cd ~/projects/teaching/my-course
 teach init "STAT 545"
-```
+```text
 
 **What happens:**
 1. Creates `draft` and `production` branches
@@ -108,7 +108,7 @@ For scripting or when you know the defaults are fine:
 
 ```bash
 teach init -y "STAT 545"
-```
+```text
 
 The `-y` flag accepts all defaults without prompting.
 
@@ -116,11 +116,11 @@ The `-y` flag accepts all defaults without prompting.
 
 ```bash
 teach status
-```
+```text
 
 **Example output:**
 
-```
+```text
 📚 STAT 545 - Statistical Programming
 ═══════════════════════════════════════════════════
 Branch: draft ✓
@@ -130,7 +130,7 @@ Status: Ready to edit
 Quick Commands:
   teach deploy    Push changes to production
   teach week      Show current week info
-```
+```text
 
 ---
 
@@ -157,24 +157,24 @@ When you run `teach status` or any Scholar command, flow-cli validates:
 
 ```bash
 teach status
-```
+```text
 
 **When config is valid:**
 
-```
+```text
 📚 STAT 545
 📅 Spring 2026
 🎓 Level: graduate
 🔗 Scholar: configured
 ✅ Config: valid
-```
+```text
 
 **When config has issues:**
 
-```
+```text
 📚 STAT 545
 ⚠️  Config: has issues
-```
+```text
 
 ### Step 3.3: See Validation Details
 
@@ -182,27 +182,27 @@ For verbose output with specific errors:
 
 ```bash
 teach status --verbose
-```
+```text
 
 **Example with errors:**
 
-```
+```text
 ❌ Config validation failed:
   • Invalid semester 'fall' - must be Spring, Summer, Fall, or Winter
   • Invalid year '25' - must be between 2020 and 2100
   • Grading percentages sum to 80% - should be ~100%
-```
+```text
 
 ### Step 3.4: Hash-Based Change Detection
 
 Flow-cli uses SHA-256 hashing to skip re-validation when your config hasn't changed:
 
-```
+```bash
 teach status          # First run: validates config
 teach status          # Second run: skips validation (unchanged)
 # Edit teach-config.yml
 teach status          # Re-validates (change detected)
-```
+```text
 
 This keeps commands fast even with complex validation rules.
 
@@ -226,7 +226,7 @@ Your `teach-config.yml` has two owners:
 
 ```bash
 work stat-545
-```
+```diff
 
 **What happens:**
 - Checks you're on the `draft` branch
@@ -244,7 +244,7 @@ When you're ready for students to see your changes:
 
 ```bash
 teach deploy
-```
+```text
 
 **What happens:**
 1. Commits any uncommitted changes
@@ -257,16 +257,16 @@ teach deploy
 
 ```bash
 teach week
-```
+```text
 
 **Example output:**
 
-```
+```text
 📅 Week 3 of 15 (Jan 20 - Jan 24)
    Topic: Data Wrangling with dplyr
    Lecture: lectures/week-03/
    Due this week: Assignment 2
-```
+```text
 
 ---
 
@@ -280,7 +280,7 @@ The teach dispatcher wraps Scholar commands for AI-assisted content generation.
 
 ```bash
 teach exam "Midterm 1" --questions 25
-```
+```diff
 
 **What happens:**
 - Invokes Scholar's `/teaching:exam` command
@@ -291,19 +291,19 @@ teach exam "Midterm 1" --questions 25
 
 ```bash
 teach quiz "Week 3" --questions 10
-```
+```text
 
 ### Step 5.3: Generate Lecture Outline
 
 ```bash
 teach lecture "Data Wrangling"
-```
+```text
 
 ### Step 5.4: Create Assignment
 
 ```bash
 teach assignment "Homework 3" --due-date "2026-01-31"
-```
+```text
 
 ### Available Scholar Commands
 
@@ -327,11 +327,11 @@ Flow-cli can centralize all semester dates in `teach-config.yml` and automatical
 
 ```bash
 teach dates init
-```
+```text
 
 **Interactive wizard:**
 
-```
+```text
 Semester start date (YYYY-MM-DD): 2025-01-13
 
 Generating 15 weeks starting from 2025-01-13...
@@ -339,7 +339,7 @@ Generating 15 weeks starting from 2025-01-13...
   Start: 2025-01-13
   End:   2025-05-02
   Weeks: 15
-```
+```yaml
 
 ### Step 7.2: Configure Dates
 
@@ -368,7 +368,7 @@ semester_info:
     - name: "Midterm"
       date: "2025-03-05"
       time: "2:00 PM - 3:50 PM"
-```
+```text
 
 ### Step 7.3: Sync Dates to Files
 
@@ -376,33 +376,33 @@ Preview changes first:
 
 ```bash
 teach dates sync --dry-run
-```
+```text
 
 **Output:**
 
-```
+```text
 ⚠️  Date Mismatches Found
 1. assignments/hw1.qmd (1 mismatch)
    due: 2025-01-20 → 2025-01-22
 
 ℹ  Dry-run mode: No changes made
-```
+```text
 
 Apply changes:
 
 ```bash
 teach dates sync
-```
+```text
 
 **Interactive prompts:**
 
-```
+```text
 File: assignments/hw1.qmd
 │ YAML Frontmatter:
 │   due: 2025-01-20 → 2025-01-22
 Apply changes? [y/n/d/q] y
 ✓ Updated: assignments/hw1.qmd
-```
+```bash
 
 ### Step 7.4: Selective Sync
 
@@ -417,24 +417,24 @@ teach dates sync --lectures
 
 # Single file
 teach dates sync --file assignments/hw3.qmd
-```
+```text
 
 ### Step 7.5: Check Date Status
 
 ```bash
 teach dates status
-```
+```text
 
 **Output:**
 
-```
+```text
 📅 Date Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Config Dates Loaded: 23
 Teaching Files Found: 18
 Date Sync Status: ✅ All files in sync
-```
+```diff
 
 ### Why Use Date Automation?
 
@@ -463,7 +463,7 @@ At the end of the semester:
 
 ```bash
 teach archive
-```
+```diff
 
 **What happens:**
 - Creates a git tag: `fall-2025` (or current semester)
@@ -474,7 +474,7 @@ teach archive
 
 ```bash
 teach config
-```
+```sql
 
 Update semester dates, week count, and topics for the new term.
 
@@ -514,7 +514,7 @@ work stat-545          # Start session
 teach week             # See today's topic
 # Edit lecture notes
 teach deploy           # Push before class
-```
+```bash
 
 ### Creating an Exam
 
@@ -522,14 +522,14 @@ teach deploy           # Push before class
 teach exam "Final" --questions 40 --duration 180
 # Review and edit generated questions
 teach deploy           # (when ready to post)
-```
+```text
 
 ### End of Semester
 
 ```bash
 teach archive          # Snapshot everything
 teach config           # Update for next semester
-```
+```bash
 
 ---
 
@@ -546,21 +546,21 @@ teach status --verbose
 # 2. Year must be 4 digits: 2026, not 26
 # 3. Dates must be YYYY-MM-DD: 2026-01-15
 # 4. Grading percentages should sum to ~100%
-```
+```bash
 
 ### "Not a teaching project"
 
 ```bash
 # Initialize first
 teach init "Course Name"
-```
+```bash
 
 ### "On production branch"
 
 ```bash
 # Switch to draft for editing
 git checkout draft
-```
+```bash
 
 ### "Scholar command failed"
 

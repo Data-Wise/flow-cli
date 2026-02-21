@@ -10,7 +10,7 @@ The `timer` command provides Pomodoro-style focus timers with visual countdown, 
 
 ```bash
 timer [command] [options]
-```
+```bash
 
 ## Commands
 
@@ -39,7 +39,7 @@ timer 45           # 45 minutes
 
 # 5-minute break
 timer break
-```
+```bash
 
 ### Focus Sessions
 
@@ -51,7 +51,7 @@ timer focus 30 "Finish documentation"
 timer status
 # ⏱️ focus: 23:45 remaining
 #    Finish documentation
-```
+```bash
 
 ### Pomodoro Cycles
 
@@ -64,7 +64,7 @@ timer pomodoro 6 30 5 20
 
 # Shortcut alias
 pom                # Same as: timer pomodoro
-```
+```text
 
 ---
 
@@ -72,30 +72,30 @@ pom                # Same as: timer pomodoro
 
 ### Focus Timer
 
-```
+```text
 🎯 FOCUS MODE
 Focus session - 25 minutes
 
   ⏱️  23:45 [████████████░░░░░░░░]
-```
+```text
 
 ### Break Timer
 
-```
+```text
 ☕ BREAK TIME
 5 minutes - stretch, hydrate, move
 
   ☕ 4:23 remaining
-```
+```text
 
 ### Pomodoro
 
-```
+```text
 🍅 POMODORO
 4 cycles: 25m focus, 5m break
 
 ━━━ Cycle 1 of 4 ━━━
-```
+```yaml
 
 ---
 
@@ -120,7 +120,7 @@ Timers save state to `$FLOW_DATA_DIR/timer.state`, allowing you to:
 # From any terminal
 timer status
 timer stop
-```
+```bash
 
 ---
 
@@ -140,7 +140,7 @@ timer 45 "Complete feature X"
 
 # When done
 finish "Completed feature X"
-```
+```text
 
 ---
 

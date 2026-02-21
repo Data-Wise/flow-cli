@@ -42,7 +42,7 @@ The Scholar Enhancement is a comprehensive 6-phase system that extends the teach
 ```bash
 teach slides -w 8 --style computational --diagrams --no-practice-problems
 # → explanation, examples, code, diagrams (no practice-problems)
-```
+```diff
 
 ### Phase 3-4: Lesson Plan Integration + Interactive Mode
 
@@ -64,7 +64,7 @@ teach slides -i
 # → Shows topic menu → User selects Week 8
 # → Shows style menu → User selects computational
 # → Generates slides
-```
+```diff
 
 ### Phase 5-6: Revision Workflow + Context & Polish
 
@@ -88,7 +88,7 @@ teach slides --revise slides/week-08.qmd --context --diagrams
 # → Presents 6 improvement options
 # → Uses course context + adds diagrams
 # → Generates improved version
-```
+```diff
 
 ---
 
@@ -150,13 +150,13 @@ teach slides --revise slides/week-08.qmd --context --diagrams
 
 ### Test Coverage
 
-```
+```text
 Phase 1-2 unit tests:       45/45 ✅ (100%)
 Scholar wrapper regression: 28/28 ✅ (100%)
 Integration tests:          38/38 ✅ (100%)
 ─────────────────────────────────────────
 Total:                     111/111 ✅ (100%)
-```
+```diff
 
 ### Test Files
 
@@ -212,12 +212,12 @@ Total:                     111/111 ✅ (100%)
 
 ### Memory Footprint
 
-```
+```text
 Flag arrays:           ~2KB
 Global variables:      ~3KB
 Functions:            ~20KB
 Total overhead:       ~25KB  (Negligible)
-```
+```diff
 
 ---
 
@@ -290,42 +290,42 @@ Total overhead:       ~25KB  (Negligible)
 ```bash
 teach slides "Topic"
 teach exam "Topic"
-```
+```text
 
 **Level 2: Style Presets**
 
 ```bash
 teach slides "Topic" --style computational
 teach exam "Topic" --style rigorous
-```
+```text
 
 **Level 3: Content Customization**
 
 ```bash
 teach slides "Topic" --style computational --diagrams
 teach exam "Topic" --style rigorous --no-proof
-```
+```text
 
 **Level 4: Week-based (Lesson Plans)**
 
 ```bash
 teach slides -w 8
 teach exam -w 8 --style rigorous
-```
+```text
 
 **Level 5: Interactive**
 
 ```bash
 teach slides -i
 teach exam -i --context
-```
+```text
 
 **Level 6: Revision**
 
 ```bash
 teach slides --revise slides/week-08.qmd
 teach exam --revise exam.qmd --math --examples
-```
+```text
 
 **Level 7: Advanced Combinations**
 

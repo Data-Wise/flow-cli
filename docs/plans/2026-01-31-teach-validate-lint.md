@@ -89,13 +89,13 @@ test_lint_flag_parsing() {
     fi
   fi
 }
-```
+```text
 
 **Step 2: Run test to verify it fails**
 
 ```bash
 zsh tests/test-teach-validate-unit.zsh
-```
+```text
 
 Expected: FAIL -- `--lint` hits the `*) Unknown option` case at line 118
 
@@ -112,7 +112,7 @@ In `commands/teach-validate.zsh`, add to the argument parser (after line 88, bef
                 custom_validators="lint-shared"
                 shift
                 ;;
-```
+```bash
 
 In the dispatch section (after line 146, the `custom` elif), add:
 
@@ -128,7 +128,7 @@ In the dispatch section (after line 146, the `custom` elif), add:
         fi
         [[ $skip_external -eq 1 ]] && args+=(--skip-external)
         _run_custom_validators "${args[@]}" "${files[@]}"
-```
+```text
 
 **Step 4: Run test to verify it passes**
 
@@ -136,17 +136,17 @@ In the dispatch section (after line 146, the `custom` elif), add:
 
 In `_teach_validate_help()` (around line 704), add:
 
-```
+```text
     --lint              Run Quarto-aware lint rules (.teach/validators/lint-*.zsh)
     --quick-checks      Run fast lint subset only (Phase 1 rules)
-```
+```bash
 
 **Step 6: Commit**
 
 ```bash
 git add commands/teach-validate.zsh tests/test-teach-validate-unit.zsh
 git commit -m "feat(teach): add --lint flag to teach validate command"
-```
+```yaml
 
 ---
 
@@ -166,23 +166,26 @@ title: "Test"
 
 # Heading
 
-```
+```text
+
 bare code with no language
-```
+
+```text
 
 ```{r}
 #| label: good-chunk
 x <- 1
-```
+```text
 
 ```text
 this is fine
-```
+```text
 
-```
+```text
 another bare block
-```
-```
+```text
+
+```diff
 
 **Step 2: Write the test file `tests/test-lint-shared-unit.zsh`**
 
@@ -224,23 +227,26 @@ title: "Good"
 
 ```{r}
 x <- 1
-```
+```text
 
 ```text
 plain text
-```
+```bash
+
 FIXTURE
   local output; output=$(_validate "$TEST_DIR/good.qmd" 2>&1); local code=$?
   if assert_equals "$code" "0" "Should pass"; then test_pass; fi
 }
 
 # Run
+
 echo "=== lint-shared.zsh unit tests ==="
 test_bare_code_block_detected
 test_all_tagged_passes
 echo ""; echo "Results: $TESTS_PASSED/$TESTS_RUN passed, $TESTS_FAILED failed"
 [[ $TESTS_FAILED -eq 0 ]]
-```
+
+```diff
 
 **Step 3: Run test -- should fail (validator doesn't exist)**
 
@@ -264,7 +270,7 @@ See the plan file at `~/.claude/plans/velvet-swimming-hippo.md` for the complete
 ```bash
 git add .teach/validators/lint-shared.zsh tests/test-lint-shared-unit.zsh tests/fixtures/lint/
 git commit -m "feat(teach): add lint-shared.zsh with 4 Phase 1 lint rules"
-```
+```diff
 
 ---
 
@@ -285,7 +291,7 @@ See the plan file for complete test code.
 ```bash
 git add tests/
 git commit -m "test(teach): add comprehensive tests for all 4 Phase 1 lint rules"
-```
+```diff
 
 ---
 
@@ -301,7 +307,7 @@ Runs `lint-shared.zsh` against real `~/projects/teaching/stat-545/slides/week-02
 ```bash
 git add tests/test-lint-integration.zsh
 git commit -m "test(teach): add lint integration test against real stat-545 files"
-```
+```diff
 
 ---
 
@@ -322,7 +328,7 @@ if command -v teach &>/dev/null; then
         echo "$LINT_OUTPUT" | head -20
     fi
 fi
-```
+```bash
 
 ---
 
@@ -352,16 +358,19 @@ After all tasks:
 ## Future Phases (Not in This Plan)
 
 ### Phase 2: Formatting Rules
+
 - `LINT_LIST_SPACING` -- blank lines around lists
 - `LINT_DISPLAY_EQ_SPACING` -- blank lines around `$$`
 - `LINT_TABLE_FORMAT` -- pipe table structure
 - `LINT_CODE_CHUNK_LABEL` -- R chunks have `#| label:`
 
 ### Phase 3: Content-Type Rules
+
 - `lint-slides.zsh` (5 rules): echo explicit, quiz format, lab callout, title level, speaker notes
 - `lint-lectures.zsh` (2 rules): TL;DR box, learning objectives
 - `lint-labs.zsh` (2 rules): practice problems, setup chunk
 
 ### Phase 4: Polish
+
 - Colored output, summary timing, `--fix` suggestions
 - Update `docs/MARKDOWN-LINT-RULES.md`

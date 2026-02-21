@@ -19,13 +19,13 @@
 
 Symlinks created:
 
-```
+```text
 ~/Library/CloudStorage/GoogleDrive-.../My Drive/dev-tools/flow-cli
 → ~/projects/dev-tools/flow-cli
 
 ~/Library/CloudStorage/Dropbox/dev-tools/flow-cli
 → ~/projects/dev-tools/flow-cli
-```
+```bash
 
 Any change in primary location auto-syncs to both clouds.
 

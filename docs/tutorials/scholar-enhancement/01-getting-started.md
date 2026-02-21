@@ -38,7 +38,7 @@ Let's check that Scholar Enhancement is available.
 
 ```bash
 teach slides --help
-```
+```html
 
 **Expected Output:**
 You should see a help message with a "Universal Flags" section listing style presets and content flags.
@@ -63,7 +63,7 @@ Let's generate slides for "Linear Regression" using the computational style.
 
 ```bash
 teach slides "Linear Regression" --style computational
-```
+```html
 
 **What happens:**
 1. Scholar validates the command
@@ -110,7 +110,7 @@ teach slides "Probability Theory" --style conceptual
 
 # Rigorous style (math-heavy)
 teach exam "Hypothesis Testing" --style rigorous
-```
+```bash
 
 Each preset automatically includes the appropriate content types for that teaching style.
 
@@ -128,7 +128,7 @@ teach slides "ANOVA" --style computational --diagrams
 
 # Add references to conceptual preset
 teach lecture "Statistics History" --style conceptual --references
-```
+```bash
 
 **Remove Content:**
 
@@ -138,7 +138,7 @@ teach exam "Regression" --style rigorous --no-proof
 
 # Computational without practice problems
 teach slides "Topic" --style computational --no-practice-problems
-```
+```html
 
 <div align="center">
 
@@ -176,7 +176,7 @@ teach exam help
 
 # General teach help
 teach help
-```
+```diff
 
 The help system shows:
 - Universal flags (work with all commands)
@@ -189,7 +189,7 @@ The help system shows:
 ```bash
 teach slides --[TAB]
 # Shows all available flags
-```
+```diff
 
 ---
 
@@ -224,21 +224,21 @@ Congratulations! You've learned the basics of Scholar Enhancement.
 
 **Issue:** "Invalid style preset" error
 
-```
+```text
 Solution: Use one of: conceptual, computational, rigorous, applied
-```
+```text
 
 **Issue:** "Conflicting flags" error
 
-```
+```text
 Solution: Don't use both --flag and --no-flag
 Example: --math --no-math ❌
 Correct: --math ✓ or --no-math ✓
-```
+```text
 
 **Issue:** Scholar takes a long time
 
-```
+```text
 This is normal! Claude Code processing can take 30-60 seconds.
 ```
 

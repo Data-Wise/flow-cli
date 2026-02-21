@@ -45,7 +45,7 @@ Add a `teach map` subcommand that displays the complete teaching ecosystem acros
 
 ## Architecture
 
-```
+```text
 teach map
     |
     v
@@ -59,7 +59,7 @@ _teach_map()
          +-- Phase: VALIDATION & QUALITY
          +-- Phase: DEPLOYMENT
          +-- Phase: SEMESTER TRACKING
-```
+```text
 
 Single function in `teach-dispatcher.zsh`. No new files.
 
@@ -71,10 +71,10 @@ N/A -- No API changes. This is a pure ZSH print function.
 
 ### Command Interface
 
-```
+```text
 teach map          # Show full ecosystem map
 teach map --help   # Same as teach map (it IS the help)
-```
+```diff
 
 **Aliases:** `map` only (no shortcut needed -- it's a discovery command, not a daily-use one).
 
@@ -100,7 +100,7 @@ No new dependencies.
 
 ### Output Layout
 
-```
+```text
 +-----------------------------------------------+
 | teach map -- Teaching Ecosystem               |
 +-----------------------------------------------+

@@ -70,7 +70,7 @@ teach profiles list              # Show available profiles
 teach profiles show draft        # Display profile configuration
 teach profiles set draft         # Activate draft profile
 teach profiles create slides     # Create new profile from template
-```
+```diff
 
 **Use Cases:**
 - **draft**: Working version with code folding and tools
@@ -84,7 +84,7 @@ teach profiles create slides     # Create new profile from template
 ```bash
 teach doctor                     # Check R package dependencies
 teach doctor --fix               # Install missing packages automatically
-```
+```diff
 
 Detects packages from:
 - `.teach/teaching.yml` (declared packages)
@@ -104,7 +104,7 @@ teach validate lectures/*.qmd                 # ~120s for 12 files
 # Parallel validation (new way)
 teach validate lectures/*.qmd --parallel      # ~35s for 12 files (3.4x faster)
 teach validate lectures/*.qmd --workers 8     # Specify worker count
-```
+```diff
 
 **Architecture:**
 - **Worker Pool**: Parallel job processors (default: CPU cores - 1)
@@ -128,7 +128,7 @@ teach validate lectures/*.qmd --workers 8     # Specify worker count
 teach validate --custom                       # Run custom validators
 teach validate --validators citations,links   # Run specific validators
 teach validate --skip-external                # Skip external link checks
-```
+```bash
 
 **Built-in Validators:**
 
@@ -155,7 +155,7 @@ chmod +x .teach/validators/check-packages.zsh
 
 # Run your validator
 teach validate lectures/week-01.qmd --custom
-```
+```text
 
 ---
 
@@ -170,11 +170,11 @@ teach cache clear --old           # Clear cache older than 7 days
 teach cache clear --unused        # Clear cache for deleted files
 
 teach cache analyze               # Detailed cache breakdown
-```
+```text
 
 **Cache Analysis Report:**
 
-```
+```yaml
 Cache Analysis Report
 ─────────────────────────────────────────────────────
 
@@ -197,7 +197,7 @@ Recommendations:
   ✓ Cache hit rate is excellent (> 90%)
   ⚠ Consider clearing old cache (> 30 days) to save 400 MB
   ✓ Cache structure is well-organized
-```
+```text
 
 ---
 
@@ -207,11 +207,11 @@ Recommendations:
 
 ```bash
 teach status --performance        # Show performance dashboard
-```
+```text
 
 **Performance Dashboard:**
 
-```
+```text
 Performance Trends (Last 7 Days)
 ─────────────────────────────────────────────────────
 
@@ -240,7 +240,7 @@ Top 5 Slowest Files:
   3. assignments/final.qmd   11.5s
   4. lectures/week-04.qmd     9.2s
   5. lectures/week-07.qmd     8.9s
-```
+```diff
 
 **Data Tracked:**
 - Render time per file
@@ -276,11 +276,11 @@ Top 5 Slowest Files:
 teach doctor                      # Check all dependencies
 teach doctor --json               # Machine-readable output
 teach doctor --fix                # Install missing dependencies
-```
+```text
 
 **Expected Output:**
 
-```
+```yaml
 Teaching Workflow Health Check
 ─────────────────────────────────────────────────────
 
@@ -309,7 +309,7 @@ R Packages:
 Status: Ready (2 warnings)
 
 Run 'teach doctor --fix' to install missing R packages.
-```
+```yaml
 
 ---
 
@@ -356,7 +356,7 @@ profile:
       revealjs:
         theme: simple
         incremental: true
-```
+```yaml
 
 #### Common Use Cases
 
@@ -379,7 +379,7 @@ profile:
         code-tools: false      # Hide code tools
         toc: true
         echo: false            # Hide code by default
-```
+```yaml
 
 **2. Student vs Instructor Versions**
 
@@ -400,7 +400,7 @@ profile:
     format:
       html:
         code-fold: false       # Solutions always visible
-```
+```yaml
 
 **3. Multiple Output Formats**
 
@@ -420,7 +420,7 @@ profile:
     format:
       revealjs:
         theme: moon
-```
+```text
 
 ---
 
@@ -430,11 +430,11 @@ profile:
 
 ```bash
 teach profiles list
-```
+```text
 
 **Output:**
 
-```
+```yaml
 Available Quarto Profiles
 ─────────────────────────────────────────────────────
 
@@ -451,17 +451,17 @@ To switch profiles:
 
 To create a new profile:
   teach profiles create <name>
-```
+```text
 
 #### Show Profile Configuration
 
 ```bash
 teach profiles show draft
-```
+```text
 
 **Output:**
 
-```
+```yaml
 Profile: draft
 ─────────────────────────────────────────────────────
 
@@ -477,13 +477,13 @@ Output Directory: _book/draft
 
 To activate:
   teach profiles set draft
-```
+```text
 
 #### Switch to a Profile
 
 ```bash
 teach profiles set draft
-```
+```text
 
 **What Happens:**
 
@@ -494,7 +494,7 @@ teach profiles set draft
 
 **Output:**
 
-```
+```yaml
 ✓ Switched to profile: draft
 
 Environment:
@@ -511,7 +511,7 @@ R Packages:
 To render with this profile:
   teach validate lectures/*.qmd
   quarto render --profile draft
-```
+```bash
 
 **Verify Active Profile:**
 
@@ -521,17 +521,17 @@ echo $QUARTO_PROFILE
 
 teach status
 # Shows: Current Profile: draft
-```
+```text
 
 #### Create a New Profile
 
 ```bash
 teach profiles create slides
-```
+```text
 
 **Interactive Prompts:**
 
-```
+```sql
 Create New Quarto Profile
 ─────────────────────────────────────────────────────
 
@@ -558,7 +558,7 @@ Create profile? (y/n): y
 
 To activate:
   teach profiles set slides
-```
+```yaml
 
 **Generated Configuration:**
 
@@ -572,7 +572,7 @@ profile:
         incremental: true
         code-fold: true
         echo: false
-```
+```yaml
 
 ---
 
@@ -603,7 +603,7 @@ quarto_options:
 github:
   repo: "stat-545-fall-2024-draft"
   branch: "dev"
-```
+```yaml
 
 #### Example: Print Profile
 
@@ -633,7 +633,7 @@ quarto_options:
 github:
   repo: "stat-545-fall-2024"
   branch: "main"
-```
+```bash
 
 #### Priority Order
 
@@ -650,7 +650,7 @@ teach profiles set draft
 # Loads:
 # 1. .teach/teaching.yml          (base)
 # 2. .teach/teaching-draft.yml    (overrides)
-```
+```yaml
 
 ---
 
@@ -670,7 +670,7 @@ r_packages:
   - tidyverse
   - ggplot2
   - dplyr
-```
+```text
 
 **2. renv.lock**
 
@@ -683,24 +683,24 @@ r_packages:
     }
   }
 }
-```
+```text
 
 **3. Code Block Analysis** (future feature)
 
 ```{r}
 library(ggplot2)      # Detected
 library(dplyr)        # Detected
-```
+```text
 
 #### Check Installation Status
 
 ```bash
 teach doctor
-```
+```text
 
 **Output:**
 
-```
+```yaml
 R Packages:
   ✓ tidyverse        2.0.0
   ✓ ggplot2          3.4.4
@@ -710,17 +710,17 @@ R Packages:
 Status: 2 packages missing
 
 Run 'teach doctor --fix' to install missing packages.
-```
+```text
 
 #### Auto-Install Missing Packages
 
 ```bash
 teach doctor --fix
-```
+```text
 
 **Interactive Prompt:**
 
-```
+```text
 Install Missing R Packages
 ─────────────────────────────────────────────────────
 
@@ -740,7 +740,7 @@ Installing packages...
 
 To verify:
   teach doctor
-```
+```bash
 
 #### Manual Installation
 
@@ -752,7 +752,7 @@ install.packages(c("dplyr", "knitr"))
 
 # Or using renv
 renv::restore()
-```
+```bash
 
 #### renv Integration
 
@@ -764,7 +764,7 @@ Rscript -e 'renv::restore()'
 
 # Or let teach doctor handle it
 teach doctor --fix
-```
+```diff
 
 **Benefits:**
 - ✅ Reproducible environments
@@ -783,7 +783,7 @@ Parallel rendering uses **worker pools** to process multiple files simultaneousl
 
 #### Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │ Main Process (Coordinator)                         │
 ├─────────────────────────────────────────────────────┤
@@ -815,7 +815,7 @@ Parallel rendering uses **worker pools** to process multiple files simultaneousl
 │ ████████████████░░░░░░░░                           │
 │ Est. time remaining: 42s                            │
 └─────────────────────────────────────────────────────┘
-```
+```text
 
 #### Smart Queue Optimization
 
@@ -825,7 +825,7 @@ Parallel rendering uses **worker pools** to process multiple files simultaneousl
 
 **Example:**
 
-```
+```text
 File Render Times:
   file-1.qmd:  2s
   file-2.qmd:  5s
@@ -841,7 +841,7 @@ Good Queue (slowest first):
   Worker 1: [file-3: 10s]
   Worker 2: [file-2: 5s] [file-4: 3s]
   Total: 10s (80% efficient)
-```
+```bash
 
 #### Atomic Job Distribution
 
@@ -863,7 +863,7 @@ get_next_job() {
   done
   return 1  # Queue empty
 }
-```
+```bash
 
 ---
 
@@ -880,7 +880,7 @@ teach validate lectures/*.qmd --workers 4
 
 # All files in directory
 teach validate lectures/ --parallel
-```
+```bash
 
 #### Worker Count Selection
 
@@ -890,7 +890,7 @@ teach validate lectures/ --parallel
 teach validate --parallel
 # Uses: $(nproc) - 1 cores
 # Example: 8 cores → 7 workers
-```
+```text
 
 **Manual Override:**
 
@@ -898,7 +898,7 @@ teach validate --parallel
 teach validate --workers 4
 teach validate --workers 8
 teach validate --workers 1  # Serial (for debugging)
-```
+```diff
 
 **Recommendations:**
 
@@ -937,11 +937,11 @@ Quarto rendering is **I/O bound** (disk reads/writes), not purely CPU bound:
 
 ```bash
 teach validate lectures/*.qmd --parallel
-```
+```text
 
 **Output:**
 
-```
+```yaml
 Parallel Validation (8 workers)
 ─────────────────────────────────────────────────────
 
@@ -982,7 +982,7 @@ Summary:
   Cache hits:   8/12 (67%)
 
 Performance log updated: .teach/performance-log.json
-```
+```diff
 
 ---
 
@@ -1014,7 +1014,7 @@ Performance log updated: .teach/performance-log.json
 # During parallel validation, monitor system resources:
 htop                    # CPU usage
 iotop                   # Disk I/O
-```
+```diff
 
 **Observations:**
 - **CPU usage**: 60-80% (not maxed out)
@@ -1034,11 +1034,11 @@ iotop                   # Disk I/O
 
 ```bash
 teach validate --parallel --dry-run
-```
+```text
 
 **Output:**
 
-```
+```yaml
 Dry Run: Parallel Validation
 ─────────────────────────────────────────────────────
 
@@ -1057,17 +1057,17 @@ Speedup:                 3.4x
 
 To execute:
   teach validate --parallel
-```
+```text
 
 #### Verbose Output
 
 ```bash
 teach validate --parallel --verbose
-```
+```text
 
 **Output:**
 
-```
+```bash
 [DEBUG] Worker 1: Starting job lectures/week-08.qmd
 [DEBUG] Worker 2: Starting job lectures/week-06.qmd
 [DEBUG] Worker 1: Rendering...
@@ -1075,14 +1075,14 @@ teach validate --parallel --verbose
 [DEBUG] Worker 1: Finished in 15.2s
 [DEBUG] Worker 3: Starting job lectures/week-04.qmd
 ...
-```
+```text
 
 #### Limit Parallelism
 
 ```bash
 teach validate --workers 2    # Only 2 workers (slower but safer)
 teach validate --workers 1    # Serial (debugging)
-```
+```diff
 
 ---
 
@@ -1102,7 +1102,7 @@ diskutil info / | grep "Solid State"
 
 # Monitor I/O during validation
 sudo iotop -P
-```
+```diff
 
 **Solutions:**
 
@@ -1112,13 +1112,13 @@ sudo iotop -P
    teach validate --workers 4    # Instead of 8
    ```
 
-2. **Clear old cache**:
+1. **Clear old cache**:
 
    ```bash
    teach cache clear --old
    ```
 
-3. **Upgrade to SSD** (if on HDD)
+2. **Upgrade to SSD** (if on HDD)
 
 #### Problem: Workers Not Starting
 
@@ -1134,7 +1134,7 @@ ls -la .teach/parallel-lock/
 
 # Check worker logs
 cat .teach/parallel-log/worker-*.log
-```
+```diff
 
 **Solutions:**
 
@@ -1144,7 +1144,7 @@ cat .teach/parallel-log/worker-*.log
    rm -rf .teach/parallel-lock/
    ```
 
-2. **Restart validation**:
+1. **Restart validation**:
 
    ```bash
    teach validate --parallel
@@ -1161,7 +1161,7 @@ cat .teach/parallel-log/worker-*.log
 ```bash
 # Monitor memory usage
 watch -n 1 'ps aux | grep quarto'
-```
+```diff
 
 **Solutions:**
 
@@ -1171,14 +1171,14 @@ watch -n 1 'ps aux | grep quarto'
    teach validate --workers 2
    ```
 
-2. **Increase swap space** (macOS):
+1. **Increase swap space** (macOS):
 
    ```bash
    # Check current swap
    sysctl vm.swapusage
    ```
 
-3. **Close other applications**
+2. **Close other applications**
 
 #### Problem: Progress Not Updating
 
@@ -1194,7 +1194,7 @@ ps aux | grep quarto
 
 # Check progress file
 cat .teach/parallel-progress.txt
-```
+```diff
 
 **Solutions:**
 
@@ -1206,7 +1206,7 @@ cat .teach/parallel-progress.txt
    tail -f .teach/parallel-log/worker-1.log
    ```
 
-3. **Cancel and restart**:
+1. **Cancel and restart**:
 
    ```bash
    # Ctrl+C to cancel
@@ -1239,11 +1239,11 @@ Phase 2 includes three built-in validators:
 
 ```bash
 teach validate --validators citations
-```
+```text
 
 **Example Output:**
 
-```
+```yaml
 Citation Validation
 ─────────────────────────────────────────────────────
 
@@ -1264,7 +1264,7 @@ Summary:
   Valid:           6 (75%)
   Warnings:        2 (25%)
   Errors:          0 (0%)
-```
+```diff
 
 #### 2. check-links
 
@@ -1281,11 +1281,11 @@ Summary:
 ```bash
 teach validate --validators links           # Internal links only
 teach validate --validators links --external  # Include external links (slow)
-```
+```text
 
 **Example Output:**
 
-```
+```yaml
 Link Validation
 ─────────────────────────────────────────────────────
 
@@ -1306,7 +1306,7 @@ Summary:
   Broken:          1 (10%)
 
 External links checked: 1 (use --external for full check)
-```
+```diff
 
 #### 3. check-formatting
 
@@ -1322,11 +1322,11 @@ External links checked: 1 (use --external for full check)
 
 ```bash
 teach validate --validators formatting
-```
+```text
 
 **Example Output:**
 
-```
+```yaml
 Formatting Validation
 ─────────────────────────────────────────────────────
 
@@ -1345,7 +1345,7 @@ Summary:
   Clean:            1 (33%)
   With warnings:    2 (67%)
   Total warnings:   3
-```
+```text
 
 ---
 
@@ -1365,14 +1365,14 @@ Custom validators are executable scripts placed in `.teach/validators/`:
 
 **Message Format:**
 
-```
+```yaml
 [LEVEL]: [Message]
 
 Levels:
   INFO:    Informational message
   WARNING: Non-critical issue
   ERROR:   Critical issue (validation fails)
-```
+```bash
 
 #### Example: Check R Packages
 
@@ -1410,7 +1410,7 @@ exit $exit_code
 EOF
 
 chmod +x .teach/validators/check-packages.zsh
-```
+```bash
 
 #### Example: Check External Resources
 
@@ -1445,7 +1445,7 @@ exit $exit_code
 EOF
 
 chmod +x .teach/validators/check-resources.zsh
-```
+```bash
 
 #### Example: Check Code Style
 
@@ -1497,7 +1497,7 @@ exit $exit_code
 EOF
 
 chmod +x .teach/validators/check-code-style.zsh
-```
+```text
 
 ---
 
@@ -1507,11 +1507,11 @@ chmod +x .teach/validators/check-code-style.zsh
 
 ```bash
 teach validate lectures/week-01.qmd --custom
-```
+```text
 
 **Output:**
 
-```
+```zsh
 Custom Validation
 ─────────────────────────────────────────────────────
 
@@ -1540,19 +1540,19 @@ Summary:
   Passed:         2
   Warnings:       1
   Errors:         0
-```
+```text
 
 #### Run Specific Validators
 
 ```bash
 teach validate --validators packages,resources
-```
+```text
 
 #### Skip External Link Checks
 
 ```bash
 teach validate --validators links --skip-external
-```
+```diff
 
 ---
 
@@ -1585,7 +1585,7 @@ result="..."
 
 # Cache result
 echo "$result" > "$cache_file"
-```
+```diff
 
 #### Error Handling
 
@@ -1610,7 +1610,7 @@ if ! command -v yq &>/dev/null; then
 fi
 
 # Continue validation...
-```
+```bash
 
 #### Testing Validators
 
@@ -1640,7 +1640,7 @@ if [[ $status -eq 1 ]]; then
 else
   echo "✗ Test 2 failed (expected 1, got $status)"
 fi
-```
+```text
 
 ---
 
@@ -1652,7 +1652,7 @@ Phase 2 introduces **selective cache management** and **cache analysis** to opti
 
 ### Cache Structure
 
-```
+```text
 project/
 ├── _freeze/                    # Quarto cache directory
 │   ├── lectures/
@@ -1668,7 +1668,7 @@ project/
     └── cache/
         ├── validators/         # Validator cache
         └── metadata/           # File metadata cache
-```
+```text
 
 ### Selective Cache Clearing
 
@@ -1678,17 +1678,17 @@ project/
 teach cache clear --lectures      # Clear lecture cache only
 teach cache clear --assignments   # Clear assignment cache only
 teach cache clear --slides        # Clear slides cache only
-```
+```text
 
 **Example:**
 
 ```bash
 teach cache clear --lectures
-```
+```text
 
 **Output:**
 
-```
+```text
 Selective Cache Clear: Lectures
 ─────────────────────────────────────────────────────
 
@@ -1707,24 +1707,24 @@ Remaining cache:
 
 To rebuild lecture cache:
   teach validate lectures/ --parallel
-```
+```text
 
 #### Clear by Age
 
 ```bash
 teach cache clear --old           # Clear cache older than 7 days (default)
 teach cache clear --old 30        # Clear cache older than 30 days
-```
+```text
 
 **Example:**
 
 ```bash
 teach cache clear --old 14
-```
+```text
 
 **Output:**
 
-```
+```text
 Clear Old Cache (> 14 days)
 ─────────────────────────────────────────────────────
 
@@ -1747,23 +1747,23 @@ Remaining cache:
   935 files, 1.75 GB
 
 Cache hit rate (estimated): 94% → 96% (+2%)
-```
+```text
 
 #### Clear Unused Cache
 
 ```bash
 teach cache clear --unused        # Clear cache for deleted files
-```
+```text
 
 **Example:**
 
 ```bash
 teach cache clear --unused
-```
+```text
 
 **Output:**
 
-```
+```yaml
 Clear Unused Cache
 ─────────────────────────────────────────────────────
 
@@ -1787,14 +1787,14 @@ Clearing unused cache...
 
 Remaining cache:
   32 directories, 2.2 GB (all active)
-```
+```text
 
 #### Combine Flags
 
 ```bash
 teach cache clear --lectures --old 30
 teach cache clear --assignments --unused
-```
+```text
 
 ---
 
@@ -1804,11 +1804,11 @@ teach cache clear --assignments --unused
 
 ```bash
 teach cache analyze
-```
+```text
 
 **Output:**
 
-```
+```yaml
 Cache Analysis Report
 ─────────────────────────────────────────────────────
 
@@ -1864,13 +1864,13 @@ Optimization Suggestions:
   1. Clear old cache:  teach cache clear --old
   2. Review large files: Check lectures/week-08.qmd for optimization
   3. Enable incremental rendering (if not already enabled)
-```
+```text
 
 #### Export Analysis (JSON)
 
 ```bash
 teach cache analyze --json > cache-report.json
-```
+```text
 
 **Output:**
 
@@ -1918,21 +1918,21 @@ teach cache analyze --json > cache-report.json
     ]
   }
 }
-```
+```bash
 
 #### Monitor Cache Over Time
 
 ```bash
 # Generate weekly reports
 teach cache analyze > "cache-report-$(date +%Y-%m-%d).txt"
-```
+```bash
 
 **Track Trends:**
 
 ```bash
 # Compare reports
 diff cache-report-2026-01-13.txt cache-report-2026-01-20.txt
-```
+```diff
 
 ---
 
@@ -1950,16 +1950,16 @@ diff cache-report-2026-01-13.txt cache-report-2026-01-20.txt
 ```bash
 # Add to crontab
 0 2 * * 0 cd ~/projects/teaching/stat-545 && teach cache clear --old 30
-```
+```sql
 
 #### 2. Identify Slow Files
 
 From `teach cache analyze`, identify large cache entries:
 
-```
+```text
 Top 10 Largest Cache Entries:
   1. lectures/week-08/  245 MB
-```
+```bash
 
 **Investigate:**
 
@@ -1972,7 +1972,7 @@ grep -c '```{r}' lectures/week-08.qmd
 
 # Check cache details
 du -h _freeze/lectures/week-08/
-```
+```diff
 
 **Optimize:**
 - Reduce plot complexity
@@ -1987,7 +1987,7 @@ Enable incremental rendering in `_quarto.yml`:
 execute:
   freeze: auto         # Only re-render changed files
   cache: true          # Cache computation results
-```
+```diff
 
 **Benefits:**
 - ✅ Faster re-renders (only changed files)
@@ -2008,7 +2008,7 @@ profile:
   final:
     output-dir: _book/final
     freeze: _freeze/          # Main cache
-```
+```diff
 
 **Benefits:**
 - ✅ Isolated cache per profile
@@ -2053,17 +2053,17 @@ All validation operations log metrics to `.teach/performance-log.json`:
     }
   ]
 }
-```
+```text
 
 ### Performance Dashboard
 
 ```bash
 teach status --performance
-```
+```text
 
 **Output:**
 
-```
+```yaml
 Performance Dashboard
 ─────────────────────────────────────────────────────
 
@@ -2142,7 +2142,7 @@ Actions:
   1. Review lectures/week-10.qmd (slowest file)
   2. Analyze lectures/week-06.qmd (trending slower)
   3. Continue current workflow (performance trending up)
-```
+```text
 
 ### Trend Visualization
 
@@ -2150,22 +2150,22 @@ The dashboard uses ASCII graphs to visualize trends:
 
 **Render Time Trend:**
 
-```
+```text
 5.2s  ██████████░░░░░░░░░░
       ↓
 3.8s  ███████░░░░░░░░░░░░░
       (↓ 27% improvement)
-```
+```text
 
 **Cache Hit Rate Trend:**
 
-```
+```text
 100% ████████████████████
  90% █████████░░░░░░░░░░░
  80% ████████░░░░░░░░░░░░
       Mon Tue Wed Thu Fri Sat Sun
        ✓   ✓   ✓   ✓   ✓   ✓   ✓
-```
+```diff
 
 ---
 
@@ -2229,7 +2229,7 @@ The dashboard uses ASCII graphs to visualize trends:
 
 ```bash
 cat .teach/performance-log.json | jq '.'
-```
+```bash
 
 #### Extract Specific Metrics
 
@@ -2242,7 +2242,7 @@ jq '[.entries[] | select(.timestamp > "2026-01-13")] | map(.cache_hit_rate) | ad
 
 # Slowest files (all time)
 jq -r '.entries[].slowest_file' .teach/performance-log.json | sort | uniq -c | sort -rn | head -10
-```
+```bash
 
 #### Export for Analysis
 
@@ -2251,7 +2251,7 @@ jq -r '.entries[].slowest_file' .teach/performance-log.json | sort | uniq -c | s
 jq -r '.entries[] | [.timestamp, .files, .duration_sec, .cache_hit_rate] | @csv' .teach/performance-log.json > performance.csv
 
 # Import to R/Python for visualization
-```
+```bash
 
 #### Log Rotation
 
@@ -2264,7 +2264,7 @@ jq '.entries |= map(select(.timestamp > "2025-10-20"))' .teach/performance-log.j
 # Backup old data
 mv .teach/performance-log.json .teach/performance-log-archive-2026-01.json
 mv .teach/performance-log-new.json .teach/performance-log.json
-```
+```bash
 
 ---
 
@@ -2307,7 +2307,7 @@ teach deploy
 # Output:
 #   ✓ Created PR #42
 #   ✓ Preview: https://...
-```
+```diff
 
 **Time Saved:**
 - Serial validation: ~120s
@@ -2396,7 +2396,7 @@ teach validate lectures/ assignments/ --parallel
 #   ✓ Validated 20 files in 52s (parallel)
 #   Serial time (est): 180s
 #   Speedup: 3.5x
-```
+```bash
 
 ---
 
@@ -2484,7 +2484,7 @@ teach deploy
 #   ✓ Created PR #58
 #   Changed files: 25
 #   Preview: https://...
-```
+```diff
 
 **Results:**
 - Reduced validation time: 250s → 48s (5.2x faster)
@@ -2539,7 +2539,7 @@ teach doctor --fix
 
 # 8. Update teaching.yml for next semester
 sed -i '' 's/Fall 2024/Spring 2025/' .teach/teaching.yml
-```
+```diff
 
 ---
 
@@ -2561,7 +2561,7 @@ quarto check
 
 # Verify YAML structure
 yq -r '.profile' _quarto.yml
-```
+```diff
 
 **Solutions:**
 
@@ -2581,7 +2581,7 @@ yq -r '.profile' _quarto.yml
            theme: cosmo
    ```
 
-2. **Validate YAML**:
+1. **Validate YAML**:
 
    ```bash
    yq -r . _quarto.yml > /dev/null
@@ -2605,7 +2605,7 @@ Rscript -e 'getOption("repos")'
 
 # Try manual install
 Rscript -e 'install.packages("tidyverse")'
-```
+```diff
 
 **Solutions:**
 
@@ -2616,13 +2616,13 @@ Rscript -e 'install.packages("tidyverse")'
    options(repos = c(CRAN = "https://cran.rstudio.com"))
    ```
 
-2. **Update R**:
+1. **Update R**:
 
    ```bash
    brew upgrade r
    ```
 
-3. **Check package name**:
+2. **Check package name**:
 
    ```bash
    # Some packages have different names
@@ -2647,7 +2647,7 @@ ps aux | grep quarto
 
 # Check for zombie processes
 ps aux | grep 'Z'
-```
+```diff
 
 **Solutions:**
 
@@ -2657,19 +2657,19 @@ ps aux | grep 'Z'
    rm -rf .teach/parallel-lock/
    ```
 
-2. **Kill zombie processes**:
+1. **Kill zombie processes**:
 
    ```bash
    pkill -9 quarto
    ```
 
-3. **Reduce worker count**:
+2. **Reduce worker count**:
 
    ```bash
    teach validate --workers 2
    ```
 
-4. **Disable parallel rendering temporarily**:
+3. **Disable parallel rendering temporarily**:
 
    ```bash
    teach validate --workers 1  # Serial
@@ -2692,7 +2692,7 @@ ls -l .teach/validators/*.zsh
 
 # Test validator manually
 ./.teach/validators/check-packages.zsh lectures/week-01.qmd
-```
+```diff
 
 **Solutions:**
 
@@ -2702,14 +2702,14 @@ ls -l .teach/validators/*.zsh
    chmod +x .teach/validators/*.zsh
    ```
 
-2. **Fix shebang**:
+1. **Fix shebang**:
 
    ```bash
    # First line must be:
    #!/usr/bin/env zsh
    ```
 
-3. **Check validator syntax**:
+2. **Check validator syntax**:
 
    ```bash
    zsh -n .teach/validators/check-packages.zsh
@@ -2732,7 +2732,7 @@ grep 'freeze' _quarto.yml
 
 # Check for cache corruption
 find _freeze/ -name '*.json' -size 0
-```
+```diff
 
 **Solutions:**
 
@@ -2744,13 +2744,13 @@ find _freeze/ -name '*.json' -size 0
      freeze: auto  # or true
    ```
 
-2. **Clear corrupted cache**:
+1. **Clear corrupted cache**:
 
    ```bash
    teach cache clear
    ```
 
-3. **Check file modifications**:
+2. **Check file modifications**:
 
    ```bash
    # Files with frequent changes have low hit rates
@@ -2771,7 +2771,7 @@ jq '.' .teach/performance-log.json
 
 # Check file size
 ls -lh .teach/performance-log.json
-```
+```diff
 
 **Solutions:**
 
@@ -2781,7 +2781,7 @@ ls -lh .teach/performance-log.json
    cp .teach/performance-log.json.bak .teach/performance-log.json
    ```
 
-2. **Reset log**:
+1. **Reset log**:
 
    ```bash
    cat > .teach/performance-log.json <<EOF
@@ -2792,7 +2792,7 @@ ls -lh .teach/performance-log.json
    EOF
    ```
 
-3. **Extract valid entries**:
+2. **Extract valid entries**:
 
    ```bash
    # Try to salvage valid entries

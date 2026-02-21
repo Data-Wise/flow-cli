@@ -140,7 +140,7 @@ This document set provides a comprehensive specification for fixing teaching wor
 
 ### 4 Phases
 
-```
+```text
 Phase 1: Fix Critical Issues (5-8 hours)
 ├─ Fix font sizes (10 tapes)
 ├─ Fix syntax errors (3 tapes, 87 lines)
@@ -169,6 +169,7 @@ Phase 4: Verification & Rollout (2-3 hours)
 ## Implementation Path
 
 ### Option A: Quick Fix (Recommended for Urgent)
+
 **Timeline:** 1 week
 **Scope:** Phase 1 only
 **Release:** v5.23.0 (completed in PR #315)
@@ -179,6 +180,7 @@ Phase 4: Verification & Rollout (2-3 hours)
 ❌ No optimization
 
 ### Option B: Complete Solution (Recommended for Quality)
+
 **Timeline:** 2-3 weeks
 **Scope:** All 4 phases
 **Release:** v5.23.0 (minor)
@@ -189,6 +191,7 @@ Phase 4: Verification & Rollout (2-3 hours)
 ✅ Comprehensive standards
 
 ### Option C: Incremental (Recommended for Balance)
+
 **Timeline:** 2 weeks + future work
 **Scope:** Phases 1-2 now, 3-4 later
 **Release:** v5.23.0 + v5.24.0
@@ -203,16 +206,19 @@ Phase 4: Verification & Rollout (2-3 hours)
 ## Key Deliverables
 
 ### Scripts Created
+
 1. `scripts/validate-vhs-tapes.sh` - Validate tape syntax before generation
 2. `docs/demos/tutorials/generate-teaching-v3-gifs.sh` (enhanced) - Automated generation
 3. `.git/hooks/pre-commit` - Prevent invalid tapes from being committed
 
 ### Documentation Created
+
 1. `docs/contributing/VHS-TAPE-STYLE-GUIDE.md` - Standards and templates
 2. Updated `docs/demos/tutorials/TEACHING-V3-GIFS-README.md` - New standards
 3. CHANGELOG.md entry - Document improvements
 
 ### Standards Established
+
 - Font size: 18px minimum for all teaching GIFs
 - Syntax: Use `Type "echo '...'"` instead of `Type "#..."`
 - Dimensions: 1400×900 (teaching), 1200×800 (dispatchers)
@@ -223,6 +229,7 @@ Phase 4: Verification & Rollout (2-3 hours)
 ## Success Metrics
 
 ### Quantitative
+
 | Metric | Before | After | Change |
 |--------|--------|-------|--------|
 | Min font size | 14px | 18px | +4px |
@@ -232,6 +239,7 @@ Phase 4: Verification & Rollout (2-3 hours)
 | GIFs optimized | 0% | 100% | +100% |
 
 ### Qualitative
+
 - Improved readability on all displays
 - Error-free command demonstrations
 - Faster page load times
@@ -254,6 +262,7 @@ Phase 4: Verification & Rollout (2-3 hours)
 ## Files Affected
 
 ### VHS Tapes to Fix (10)
+
 **Font size changes:**
 - teaching-git-workflow.tape (14→18)
 - dot-dispatcher.tape (14→18)
@@ -272,9 +281,11 @@ Phase 4: Verification & Rollout (2-3 hours)
 - first-session.tape (14 lines)
 
 ### GIFs to Regenerate (10)
+
 All corresponding GIFs from tapes above
 
 ### GIFs to Optimize (13)
+
 All teaching-related GIFs (including 3 already using 18px)
 
 ---
@@ -308,6 +319,7 @@ All teaching-related GIFs (including 3 already using 18px)
 ## Next Actions
 
 ### This Session
+
 - [x] Create comprehensive specification
 - [x] Create implementation checklist
 - [x] Create syntax fix examples
@@ -316,6 +328,7 @@ All teaching-related GIFs (including 3 already using 18px)
 - [ ] Get approval for approach
 
 ### Next Session
+
 - [ ] Start Phase 1 implementation
 - [ ] Fix font sizes in 10 tapes
 - [ ] Fix syntax errors in 3 tapes
@@ -323,6 +336,7 @@ All teaching-related GIFs (including 3 already using 18px)
 - [ ] Test visual quality
 
 ### This Week
+
 - [ ] Complete Phase 1 (critical fixes)
 - [ ] Start Phase 2 (optimization)
 - [ ] Create validation script
@@ -341,17 +355,20 @@ All teaching-related GIFs (including 3 already using 18px)
 ## References
 
 ### Internal Documents
+
 - `SPEC-teaching-gifs-enhancement-2026-01-29.md` - Complete specification
 - `CHECKLIST-teaching-gifs-enhancement.md` - Implementation checklist
 - `EXAMPLES-vhs-syntax-fixes.md` - Syntax fix examples
 - `SUMMARY-teaching-gifs-audit.md` - Executive summary
 
 ### External References
+
 - [VHS Documentation](https://github.com/charmbracelet/vhs)
 - [gifsicle Manual](https://www.lcdf.org/gifsicle/man.html)
 - [flow-cli Documentation](https://Data-Wise.github.io/flow-cli/)
 
 ### Project Files
+
 - `docs/demos/tutorials/TEACHING-V3-GIFS-README.md` - Current GIF documentation
 - `docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md` - Teaching workflow guide
 - `docs/guides/TEACHING-V3-MIGRATION-GUIDE.md` - Migration guide

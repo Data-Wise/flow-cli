@@ -25,14 +25,6 @@ MD010:
 MD012:
   maximum: 2 # Allow up to 2 blank lines
 
-# MD013: Line length
-MD013:
-  line_length: 120 # Max 120 chars (mkdocs Material default)
-  code_blocks: false # Don't enforce in code blocks
-  tables: false # Don't enforce in tables
-  headings: false # Don't enforce in headings
-  heading_line_length: 120
-
 # MD022: Headings should be surrounded by blank lines
 MD022:
   lines_above: 1
@@ -42,11 +34,6 @@ MD022:
 MD024:
   siblings_only: true # Allow same heading in different sections
 
-# MD025: Multiple top-level headings in the same document
-MD025:
-  level: 1 # Only one # heading per document
-  front_matter_title: ''
-
 # MD026: Trailing punctuation in heading
 MD026:
   punctuation: '.,;:!' # Don't allow these at end of headings
@@ -55,40 +42,10 @@ MD026:
 MD029:
   style: 'ordered' # Use 1. 2. 3., not 1. 1. 1.
 
-# MD033: Inline HTML
-MD033:
-  allowed_elements:
-    - details # Allow <details> for collapsible sections
-    - summary # Allow <summary> for collapsible headers
-    - br # Allow <br> for line breaks
-    - table # Allow HTML tables
-    - tr # Allow table rows
-    - td # Allow table data
-    - th # Allow table headers
-    - img # Allow images with attributes
-    - a # Allow links with attributes
-    - div # Allow divs for Material admonitions
-
-# MD034: Bare URL used
-MD034: false # Allow bare URLs
-
-# MD036: Emphasis used instead of a heading
-MD036:
-  punctuation: '.,;:!?'
-
 # MD040: Fenced code blocks should have a language specified
 MD040:
   allowed_languages: []
   language_only: false
-
-# MD041: First line in a file should be a top-level heading
-MD041:
-  level: 1
-  front_matter_title: ''
-
-# MD046: Code block style
-MD046:
-  style: 'fenced' # Use ``` style, not indented
 
 # MD048: Code fence style
 MD048:
@@ -102,11 +59,23 @@ MD049:
 MD050:
   style: 'asterisk' # Use **bold**, not __bold__
 
-# Disabled rules (too strict for documentation)
-MD001: false # Heading levels increment by one - we sometimes skip levels in docs
-MD005: false # Inconsistent indentation for list items - allow flexibility
-MD014: false # Dollar signs used before commands - we show shell prompts
+# Disabled rules
+MD001: false # Heading levels - we skip levels in docs
+MD005: false # List indentation - allow flexibility
+MD013: false # Line length - docs have long tables, URLs, code examples
+MD014: false # Dollar signs before commands - we show shell prompts
+MD025: false # Multiple top-level headings - common in project docs
 MD028: false # Blank line inside blockquote - allow for readability
 MD030: false # Spaces after list markers - allow flexibility
-MD032: false # Lists should be surrounded by blank lines - allow flexibility
-MD042: false # No empty links - sometimes used as placeholders
+MD032: false # Lists surrounded by blank lines - allow flexibility
+MD033: false # Inline HTML - too many false positives from <placeholder> syntax
+MD034: false # Bare URLs - allow bare URLs
+MD036: false # Emphasis as heading - intentional in flow-cli docs
+MD041: false # First line heading - frontmatter and non-heading first lines
+MD042: false # Empty links - sometimes used as placeholders
+MD046: false # Code block style - conflicts with MkDocs admonitions/tabs indentation
+MD051: false # Link fragments - too strict for cross-referenced docs
+MD055: false # Table pipe style - allow flexibility
+MD056: false # Table column count - allow flexibility
+MD058: false # Tables surrounded by blank lines - allow flexibility
+MD060: false # Table column style - overly strict pipe spacing

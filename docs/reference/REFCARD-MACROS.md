@@ -29,7 +29,7 @@ teach macros export --format json
 
 # Export as MathJax config
 teach macros export --format mathjax > mathjax-config.js
-```
+```yaml
 
 ## Configuration
 
@@ -50,7 +50,7 @@ scholar:
     export:
       format: "json"
       include_in_prompts: true
-```
+```text
 
 ## Source File Formats
 
@@ -67,8 +67,9 @@ scholar:
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\operatorname{Var}}
 \DeclareMathOperator{\Cov}{Cov}
-```
-```
+```text
+
+```text
 
 ### LaTeX Example (`macros.tex`)
 
@@ -76,7 +77,7 @@ scholar:
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\operatorname{Var}}
 \DeclareMathOperator{\Cov}{Cov}
-```
+```bash
 
 ## Common Macro Categories
 
@@ -108,13 +109,13 @@ teach macros export --format mathjax > _includes/mathjax-macros.js
 
 # LaTeX preamble
 teach macros export --format latex > _macros.tex
-```
+```text
 
 ## teach doctor Integration
 
 The `teach doctor` command includes a MACROS section:
 
-```
+```text
 MACROS
   Macro file          ✓ _macros.qmd found
   Macro count         ✓ 24 macros defined

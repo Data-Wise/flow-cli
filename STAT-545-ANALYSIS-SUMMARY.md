@@ -45,7 +45,7 @@ STAT 545 has a **5-layer validation system** that catches errors at every stage:
 
 **Not just "render the file":**
 
-````bash
+`````bash
 # Layer 1: YAML frontmatter
 grep -qE '^---$' "$file" || error "missing YAML frontmatter"
 
@@ -60,7 +60,7 @@ grep -qE '```\{r\}\s*```' "$file" && warn "empty code chunk"
 
 # Layer 5: Image references
 # Extract ![...](path) and check file existence
-````
+````diff
 
 **Lesson for flow-cli:** We need all 5 layers, not just render. Update hook templates.
 
@@ -72,7 +72,7 @@ grep -qE '```\{r\}\s*```' "$file" && warn "empty code chunk"
 while read local_ref local_sha remote_ref remote_sha; do
     if [[ "$remote_ref" == *"production"* ]]; then
         # ONLY run full site render for production
-```
+```diff
 
 **Why:**
 
@@ -93,7 +93,7 @@ if ! quarto render "$file" > "$TMPFILE" 2>&1; then
     tail -15 "$TMPFILE" | sed 's/^/    /'  # Indent for readability
     rm "$TMPFILE"
 fi
-```
+```bash
 
 **Not full output** - Just last 15 lines (the relevant error context).
 
@@ -108,7 +108,7 @@ fi
 ```bash
 export QUARTO_PRE_COMMIT_RENDER=0
 git commit -m "WIP"
-```
+```bash
 
 Keeps syntax/YAML checks, skips expensive render.
 
@@ -116,13 +116,13 @@ Keeps syntax/YAML checks, skips expensive render.
 
 ```bash
 git commit --no-verify -m "emergency fix"
-```
+```bash
 
 **Level 3: Push to draft instead of production**
 
 ```bash
 git push origin draft  # No pre-push hook
-```
+```bash
 
 **Lesson for flow-cli:** We got this right (Q8: interactive error handling). Add QUARTO_PRE_COMMIT_RENDER env var.
 
@@ -139,7 +139,7 @@ cat > .git/hooks/pre-commit << 'HOOK'
 HOOK
 
 chmod +x .git/hooks/pre-commit
-```
+```diff
 
 **Why HEREDOC:**
 
@@ -162,11 +162,11 @@ chmod +x .git/hooks/pre-commit
 
 # If pass, commit with confidence
 git commit -m "message"
-```
+```text
 
 **Output:**
 
-```
+```bash
 Files to validate:
   - syllabus/syllabus-final.qmd
   - lectures/week-05_factorial-anova.qmd
@@ -183,7 +183,7 @@ Rendering lectures/week-05_factorial-anova.qmd...
 
 You can now commit with confidence:
   git commit -m "your message"
-```
+```diff
 
 **Lesson for flow-cli:** This is exactly `teach validate`. We got this right.
 
@@ -197,7 +197,7 @@ You can now commit with confidence:
 if grep -qE '```\{r\}\s*```' "$file"; then
     echo "  ⚠  WARNING: Empty code chunk detected"
 fi
-````
+````diff
 
 **Why it matters:**
 
@@ -224,7 +224,7 @@ grep -oP '!\[.*?\]\(\K[^)]+' "$file" | while read img; do
         echo "  ⚠  WARNING: Image may not exist: $img"
     fi
 done
-```
+```bash
 
 **Lesson for flow-cli:** Add image validation to pre-commit hook (warning only).
 
@@ -239,7 +239,7 @@ if ! command -v "$QUARTO" &>/dev/null; then
     echo "  ⚠  Quarto not found - skipping validation"
     exit 0  # Don't block commit
 fi
-```
+```diff
 
 **Philosophy:** Hooks should never break git workflow, even if Quarto is missing.
 
@@ -261,11 +261,11 @@ fi
 
 **Problem:**
 
-```
+```text
 ERROR: The extension unm is incompatible with this quarto version.
 Extension requires: >=1.6.0
 Quarto version: 1.4.550
-```
+```diff
 
 **Solution:** Upgraded Quarto to 1.6.40.
 **Flow-cli action:** teach doctor should check Quarto version.
@@ -336,7 +336,7 @@ deployment:
   web:
     type: 'github-pages'
     url: 'https://data-wise.github.io/doe'
-```
+```diff
 
 **Used by:** quick-deploy.sh, semester tracking, automation scripts.
 
@@ -368,7 +368,7 @@ deployment:
 echo -e "${GREEN}✓${NC} YAML frontmatter valid"
 echo -e "${RED}✗${NC} Render failed"
 echo -e "${YELLOW}⚠${NC} WARNING: Empty code chunk"
-```
+```diff
 
 **Colors:**
 
@@ -489,13 +489,13 @@ if [[ $ERRORS -gt 0 ]]; then
 fi
 
 exit 0
-````
+`````
 
 ---
 
 ### 2. Update Pre-Push Hook Template (Production Branch Only)
 
-```zsh
+````zsh
 # templates/hooks/pre-push.template
 #!/usr/bin/env zsh
 
@@ -525,7 +525,7 @@ while read local_ref local_sha remote_ref remote_sha; do
 done
 
 exit 0
-```
+```bash
 
 ---
 
@@ -555,7 +555,7 @@ if [[ ${#MISSING_PKGS[@]} -gt 0 ]]; then
         done
     fi
 fi
-```
+```bash
 
 ---
 
@@ -607,7 +607,7 @@ _teach_validate() {
     echo "✅ All files validated"
     return 0
 }
-```
+```bash
 
 ---
 
@@ -618,7 +618,7 @@ _teach_validate() {
 ```bash
 cp templates/hooks/pre-commit.template .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
-```
+```bash
 
 **Option B: HEREDOC (STAT 545 approach)**
 
@@ -628,7 +628,7 @@ cat > .git/hooks/pre-commit << 'HOOK'
 [hook code here]
 HOOK
 chmod +x .git/hooks/pre-commit
-```
+````
 
 **Recommendation:** Start with template files (easier to maintain), consider HEREDOC for distribution.
 

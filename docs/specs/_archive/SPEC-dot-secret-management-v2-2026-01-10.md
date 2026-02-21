@@ -105,7 +105,7 @@ flowchart TB
 
     Wizard --> Browser
     Expiry --> Meta
-```
+```bash
 
 ### Component Responsibilities
 
@@ -154,7 +154,7 @@ dot secret add npm-token --notes "automation token for CI"
 2. Optional: prompt for expiration
 3. Store in Bitwarden with metadata
 4. Confirm storage
-```
+```bash
 
 #### `dot token github`
 
@@ -170,7 +170,7 @@ dot token github [--type classic|fine-grained] [--scopes <list>]
 5. Validate token against GitHub API
 6. Store with expiration date
 7. Show usage example
-```
+```bash
 
 #### `dot secrets`
 
@@ -189,7 +189,7 @@ dot token github [--type classic|fine-grained] [--scopes <list>]
   Vault: 🔓 Unlocked (12 min remaining)
 
   ⚠ 1 token expiring soon. Run: dot token npm --refresh
-```
+```text
 
 ---
 
@@ -209,17 +209,17 @@ Stored alongside secret in Bitwarden notes field:
   "project": "flow-cli",
   "notes": "user notes here"
 }
-```
+```text
 
 ### Session Cache
 
 File-based cache at `~/.cache/dot/session`:
 
-```
+```text
 BW_SESSION_TOKEN=<encrypted>
 UNLOCK_TIME=1704888000
 IDLE_TIMEOUT=900
-```
+```diff
 
 ---
 
@@ -239,7 +239,7 @@ IDLE_TIMEOUT=900
 
 ### User Flow: Create GitHub Token
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │ $ dot token github                                          │
 ├─────────────────────────────────────────────────────────────┤
@@ -280,11 +280,11 @@ IDLE_TIMEOUT=900
 │                                                             │
 │ 💡 Usage: GITHUB_TOKEN=$(dot secret github-token)           │
 └─────────────────────────────────────────────────────────────┘
-```
+```text
 
 ### Wireframe: Secrets Dashboard
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │ 🔐 Secret Status                                            │
 │ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━                   │

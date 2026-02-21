@@ -79,7 +79,7 @@ The VS Code extension has a built-in mode toggle:
 
 ### Example Workflow
 
-```
+```text
 1. Open VS Code with your project
 2. Start Claude Code chat
 3. Press Shift+Tab until "Auto-accept edits: ON"
@@ -87,7 +87,7 @@ The VS Code extension has a built-in mode toggle:
 5. Claude edits files automatically (no confirmation per edit)
 6. Review changes with: git diff
 7. Commit or revert as needed
-```
+```bash
 
 ---
 
@@ -100,7 +100,7 @@ The **real** YOLO mode only exists in the command-line interface:
 ```bash
 # This bypasses ALL permissions
 claude --dangerously-skip-permissions
-```
+```bash
 
 ### What It Does
 
@@ -148,7 +148,7 @@ git diff commands/
 git add -A && git commit -m "refactor: modernize commands"
 # OR
 git reset --hard HEAD  # Discard everything
-```
+```diff
 
 ---
 
@@ -186,7 +186,7 @@ cc yolo wt pick             # Pick worktree → YOLO (NEW!)
 
 # Alias
 ccy                         # Short for: cc yolo
-```
+```bash
 
 **What it does:** Launches `claude --dangerously-skip-permissions` for true permission bypass.
 
@@ -207,7 +207,7 @@ cc plan wt pick                 # FZF picker → Plan mode
 # Backward compatible (still works)
 cc wt yolo feature/refactor     # Old pattern
 ccwy feature/refactor           # Alias: cc wt yolo
-```
+```diff
 
 **Why worktrees?** Isolated environments with easy cleanup:
 
@@ -240,7 +240,7 @@ git merge experiment/commands-refactor
 
 # Bad: Just delete worktree
 wt remove experiment/commands-refactor
-```
+```bash
 
 **Safest approach:** Worktree + YOLO gives isolation AND speed.
 
@@ -267,7 +267,7 @@ git commit                    # Save good changes
 
 # If things go wrong
 git reset --hard HEAD         # Nuclear option
-```
+```bash
 
 ### 2. Use Worktrees for Isolation
 
@@ -284,7 +284,7 @@ claude --dangerously-skip-permissions
 # Experiment fails? Just delete
 cd ~/projects/flow-cli
 wt remove yolo-experiment
-```
+```diff
 
 ### 3. Start Small
 
@@ -309,7 +309,7 @@ Don't let Claude make 100 changes unchecked:
 # Review every 5-10 operations
 git diff --stat               # See what changed
 git diff lib/core.zsh         # Review specific file
-```
+```bash
 
 ### 5. Backup Critical State
 
@@ -322,7 +322,7 @@ git checkout main
 
 # Or stash current state
 git stash save "pre-yolo-$(date +%Y%m%d-%H%M)"
-```
+```text
 
 ---
 
@@ -339,7 +339,7 @@ These settings **do not exist** in the official extension:
   "claude-code.autoSave": true,          // ❌ Fake
   "claude-code.showTokenCount": true     // ❌ Fake
 }
-```
+```text
 
 **Why the confusion?** These were incorrectly documented earlier. The VS Code extension doesn't have these settings.
 
@@ -354,7 +354,7 @@ Creating a `.code-workspace` file with fake settings **does nothing**:
     "claude-code.yoloMode": true  // ❌ Has no effect
   }
 }
-```
+```bash
 
 **Reality:** The VS Code extension ignores these settings.
 
@@ -365,7 +365,7 @@ The CLI flag **does not work** when using the VS Code extension:
 ```bash
 # This only works in CLI, not VS Code extension
 claude --dangerously-skip-permissions
-```
+```diff
 
 **Why?** The VS Code extension has its own separate permission system.
 
@@ -395,7 +395,7 @@ claude --dangerously-skip-permissions
 cd ~/projects/flow-cli
 git status                    # Clean working tree
 git checkout -b refactor-cmds
-```
+```bash
 
 **Option A: VS Code (Auto-Accept Edits)**
 
@@ -418,7 +418,7 @@ Watch files change in real-time
 # 6. Commit
 git add -A
 git commit -m "refactor: consistent error handling"
-```
+```bash
 
 **Option B: CLI (True YOLO)**
 
@@ -438,7 +438,7 @@ git diff
 git add -A && git commit -m "refactor: error handling"
 # OR
 git reset --hard HEAD
-```
+```text
 
 ---
 
@@ -448,23 +448,23 @@ git reset --hard HEAD
 
 **Check 1:** Are you using Claude Code extension?
 
-```
+```text
 Extensions → Search "Claude Code" → Should be installed
-```
+```text
 
 **Check 2:** Is mode actually toggled?
 
-```
+```text
 Look for indicator: "Auto-accept edits: ON" in chat
 Try pressing Shift+Tab again
-```
+```text
 
 **Check 3:** Are you asking for edits?
 
-```
+```text
 Auto-accept only works for file edits
 Reads/writes/executes still prompt
-```
+```bash
 
 ### CLI Mode Not Bypassing Permissions?
 
@@ -477,7 +477,7 @@ claude --dangerously-skip-permissions
 # Wrong
 claude --yolo               # ❌ Not a real flag
 claude --skip-permissions   # ❌ Missing "dangerously"
-```
+```bash
 
 **Check 2:** Using CLI, not extension?
 

@@ -49,7 +49,7 @@ PROJ_CATEGORIES=(
     "quarto/presentations:q:📊"
     "apps:app:📱"
 )
-```
+```diff
 
 ### Category Breakdown
 
@@ -76,7 +76,7 @@ PROJ_CATEGORIES=(
 --bind="ctrl-o:execute-silent(echo code > $action_file)+accept"
 --bind="ctrl-s:execute-silent(echo status > $action_file)+accept"
 --bind="ctrl-l:execute-silent(echo log > $action_file)+accept"
-```
+```text
 
 | Keybind    | Action | Description                               | Implementation       |
 | ---------- | ------ | ----------------------------------------- | -------------------- |
@@ -96,7 +96,7 @@ pick q         # Filter: Quarto projects only
 pick teach     # Filter: Teaching courses only
 pick rs        # Filter: Research projects only
 pick app       # Filter: Applications only
-```
+```sql
 
 ### Existing Aliases for `pick`
 
@@ -203,13 +203,13 @@ rs      → 🔬 (Research)
 q       → 📝📊 (Quarto manuscript/presentation)
 app     → 📱 (Application)
 mgmt    → ⚙️  (Management - proposed, not yet implemented)
-```
+```text
 
 ---
 
 ## 📁 Project Structure
 
-```
+```text
 ~/projects/
 ├── r-packages/
 │   ├── active/          # Active development (medfit, mediationverse, etc.)

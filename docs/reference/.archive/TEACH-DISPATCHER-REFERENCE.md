@@ -58,7 +58,7 @@ teach deploy
 
 # Create an exam
 teach exam "Midterm"
-```
+```text
 
 ---
 
@@ -72,7 +72,7 @@ Initialize a new teaching project.
 teach init "Course Name"
 teach init -y "Course Name"    # Non-interactive mode
 teach init --yes "Course Name" # Non-interactive mode
-```
+```sql
 
 **Options:**
 - `-y`, `--yes` - Use safe defaults without prompts
@@ -97,7 +97,7 @@ Create a new exam.
 ```bash
 teach exam "Midterm"
 teach exam "Final Exam"
-```
+```text
 
 ### `teach deploy` / `teach d`
 
@@ -106,7 +106,7 @@ Deploy course website to production via PR workflow.
 ```bash
 teach deploy              # Standard PR workflow
 teach deploy --direct-push # Bypass PR (advanced)
-```
+```diff
 
 **Requirements:**
 - Must be in a git repository
@@ -132,7 +132,7 @@ branches:
 git:
   draft_branch: draft
   production_branch: main
-```
+```diff
 
 **Troubleshooting:**
 - "`.flow/teach-config.yml` not found" → Run `teach init` first
@@ -145,7 +145,7 @@ Archive a completed semester.
 
 ```bash
 teach archive
-```
+```bash
 
 Runs `./scripts/semester-archive.sh` if available.
 
@@ -155,7 +155,7 @@ Edit the teaching configuration file.
 
 ```bash
 teach config
-```
+```text
 
 Opens `.flow/teach-config.yml` in your editor.
 
@@ -165,11 +165,11 @@ Show current teaching project status.
 
 ```bash
 teach status
-```
+```text
 
 **Output:**
 
-```
+```text
 ╭────────────────────────────────────────────────────╮
 │  📚 STAT 440 - Regression Analysis                 │
 ├────────────────────────────────────────────────────┤
@@ -180,7 +180,7 @@ teach status
 │  Draft → Production sync: Up to date              │
 │  Last deploy: 2026-01-10 14:30                     │
 ╰────────────────────────────────────────────────────╯
-```
+```text
 
 ### `teach week` / `teach w`
 
@@ -189,7 +189,7 @@ Show current week information.
 ```bash
 teach week        # Current week
 teach week 5      # Week 5 info
-```
+```text
 
 ### `teach help`
 
@@ -199,7 +199,7 @@ Show help information.
 teach help
 teach --help
 teach -h
-```
+```yaml
 
 ---
 
@@ -243,7 +243,7 @@ git:
 workflow:
   teaching_mode: false
   auto_push: false
-```
+```diff
 
 **Config File Location:**
 - **Standard:** `.flow/teach-config.yml` (inside project)
@@ -270,7 +270,7 @@ teach config
 
 # 4. Check status
 teach status
-```
+```bash
 
 ### Weekly Workflow
 
@@ -283,7 +283,7 @@ teach status            # Check deployment status
 
 # End of week
 teach deploy            # Push to production
-```
+```bash
 
 ### End of Semester
 

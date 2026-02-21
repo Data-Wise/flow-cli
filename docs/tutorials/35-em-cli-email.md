@@ -31,7 +31,7 @@ Run `em` with no arguments for an instant summary of what's waiting:
 
 ```zsh
 em
-```
+```text
 
 This shows your unread count and the 10 latest messages — a pulse check before diving in.
 
@@ -39,7 +39,7 @@ The same view is available as a named subcommand:
 
 ```zsh
 em dash
-```
+```text
 
 **Tip:** Put `em` at the top of a morning workflow alias to start every session with inbox awareness.
 
@@ -51,13 +51,13 @@ Read any email by ID:
 
 ```zsh
 em read 42
-```
+```text
 
 Shortcut: a bare number works without the `read` keyword:
 
 ```zsh
 em 42
-```
+```text
 
 **Rendering options** — choose the format that works best for the message:
 
@@ -65,7 +65,7 @@ em 42
 em read --html 42     # Render HTML in w3m or lynx
 em read --md 42       # Convert to Markdown via pandoc
 em read --raw 42      # Show raw MIME source
-```
+```text
 
 | Flag | Renderer | Best For |
 |------|----------|----------|
@@ -86,19 +86,19 @@ List recent messages:
 em inbox          # Default page size (25)
 em inbox 50       # Show 50 messages
 em -n 5           # Shortcut: same as em inbox 5
-```
+```text
 
 Check only the unread count:
 
 ```zsh
 em unread
-```
+```text
 
 See all available mail folders:
 
 ```zsh
 em folders
-```
+```text
 
 **How pagination works:** `em inbox N` fetches the N most recent messages from your default folder. Increase N to look further back. The default page size is controlled by `FLOW_EMAIL_PAGE_SIZE` (see Configuration below).
 
@@ -110,14 +110,14 @@ Search by keyword across your mailbox:
 
 ```zsh
 em find "quarterly report"
-```
+```text
 
 For interactive browsing with a live preview pane, use `pick`:
 
 ```zsh
 em pick              # Browse default folder (INBOX)
 em pick Archive      # Browse a specific folder
-```
+```text
 
 `em pick` opens fzf with a preview of each message. Navigate with arrow keys, press Enter to open the selected email in full, or press Escape to cancel.
 
@@ -131,7 +131,7 @@ Open `$EDITOR` to write a new email:
 
 ```zsh
 em send
-```
+```text
 
 Reply to an existing email with an AI-generated draft:
 
@@ -140,13 +140,13 @@ em reply 42              # AI draft opened in $EDITOR
 em reply 42 --no-ai      # Plain reply template, no AI
 em reply 42 --all        # Reply-all
 em reply 42 --batch      # Non-interactive: preview then confirm
-```
+```text
 
 Every send operation requires explicit confirmation:
 
-```
+```text
 Send this email? [y/N]:
-```
+```text
 
 The default is **N** (no). Press `y` to send, anything else to cancel.
 
@@ -163,7 +163,7 @@ Generate AI reply drafts for all actionable emails at once:
 ```zsh
 em respond             # Draft AI replies for actionable emails
 em respond --review    # Review and send drafts interactively
-```
+```text
 
 ### Per-email AI actions
 
@@ -173,21 +173,21 @@ em summarize 42        # One-line AI summary
 em catch 42            # Capture email as a flow task
 em todo 42             # Extract action items
 em event 42            # Extract calendar event details
-```
+```text
 
 ### AI backend management
 
 ```zsh
 em ai                  # Show current AI backend
 em ai toggle           # Cycle through configured backends
-```
+```text
 
 ### Cache management
 
 ```zsh
 em cache stats         # Show cache size and hit rate
 em cache clear         # Wipe cached AI results
-```
+```text
 
 AI results are cached by default (TTL-based). Clearing the cache forces fresh AI calls on the next run.
 
@@ -199,7 +199,7 @@ Verify that all dependencies are installed and configured:
 
 ```zsh
 em doctor
-```
+```bash
 
 This checks: `himalaya`, `jq`, `fzf`, `pandoc`, `w3m` (or `lynx`), and AI backend availability.
 
@@ -219,7 +219,7 @@ export FLOW_EMAIL_PAGE_SIZE=25        # Default inbox page size
 export FLOW_EMAIL_FOLDER=INBOX        # Default folder
 export FLOW_EMAIL_TRASH_FOLDER=Trash  # Trash folder (Exchange: "Deleted Items")
 export FLOW_EMAIL_AI_TIMEOUT=30       # AI draft timeout in seconds
-```
+```diff
 
 Project-level overrides are supported: create `.flow/email.conf` in a project root and `em` will load those settings automatically when you are inside that project.
 
@@ -250,7 +250,7 @@ Exchange typically uses `"Deleted Items"` instead of `Trash` as the trash folder
 
 ```zsh
 export FLOW_EMAIL_TRASH_FOLDER="Deleted Items"
-```
+```bash
 
 Also make sure your `~/.config/himalaya/config.toml` uses the correct IMAP host and OAuth2 or password credentials for your Exchange account. See the [himalaya documentation](https://pimalaya.org/himalaya/) for account setup details.
 

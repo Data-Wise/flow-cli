@@ -113,7 +113,7 @@ dot secrets sync github
 
 # Generate .envrc for direnv
 dot env init
-```
+```text
 
 ---
 
@@ -127,7 +127,7 @@ Show dotfile sync status and summary.
 
 **Output:**
 
-```
+```text
 Dotfile Status: 🟢 Synced
 
 Last sync:     2 hours ago
@@ -136,7 +136,7 @@ Remote:        git@github.com:user/dotfiles.git
 Modified:      0 files pending
 
 Run 'dot help' for commands
-```
+```diff
 
 **Status Icons:**
 - 🟢 **Synced** - Everything up to date
@@ -170,16 +170,16 @@ Add a file to chezmoi for tracking.
 ```bash
 dot add ~/.bashrc        # Add bash config
 dot add ~/.config/app/config.toml  # Add nested config
-```
+```text
 
 **Output:**
 
-```
+```text
 ✓ Added ~/.bashrc to chezmoi
   Source: ~/.local/share/chezmoi/dot_bashrc
 
 💡 Tip: dot edit .bashrc to make changes
-```
+```diff
 
 ---
 
@@ -206,7 +206,7 @@ dot edit zshrc           # Fuzzy match works too
 dot e gitconfig          # Short alias
 dot edit ~/.bashrc       # Auto-add if untracked (v5.1.1+)
 dot edit ~/.config/new/app.zsh  # Create new file (v5.1.1+)
-```
+```text
 
 **Workflow for tracked files:**
 1. Calculates SHA-256 hash of file before editing
@@ -220,7 +220,7 @@ dot edit ~/.config/new/app.zsh  # Create new file (v5.1.1+)
 
 **Workflow for untracked files (v5.1.1+):**
 
-```
+```bash
 $ dot edit ~/.bashrc
 
 ⚠ File not tracked: ~/.bashrc
@@ -246,11 +246,11 @@ Apply? [Y/n/d] y
 
 📋 ~/.bashrc | Added + Applied
 💡 Tip: dot push to sync to remote
-```
+```text
 
 **Workflow for new files (v5.1.1+):**
 
-```
+```text
 $ dot edit ~/.config/newapp/config.zsh
 
 ⚠ File does not exist: ~/.config/newapp/config.zsh
@@ -264,13 +264,13 @@ Create? [c/n] c
 ✓ Created ~/.config/newapp/config.zsh
 ✓ Added ~/.config/newapp/config.zsh to chezmoi
 ℹ Opening in vim: dot_config/newapp/config.zsh
-```
+```text
 
 **Template auto-unlock (v5.1.1+):**
 
 When editing `.tmpl` files that contain `{{ bitwarden ... }}` syntax:
 
-```
+```bash
 $ dot edit .env.tmpl
 
 [editor opens, you make changes]
@@ -300,7 +300,7 @@ Apply? [Y/n] y
 
 📋 .env.tmpl | Edited (secrets expanded) + Applied
 💡 Tip: dot push to sync to remote
-```
+```diff
 
 If you skip unlock, the diff shows raw template syntax like `{{ bitwarden "item" "field" }}`.
 
@@ -323,7 +323,7 @@ Pull changes from remote repository.
 ```bash
 dot sync                 # Pull with preview
 dot pull                 # Alias
-```
+```diff
 
 **Workflow:**
 1. Fetches from remote
@@ -345,7 +345,7 @@ Commit and push changes to remote.
 ```bash
 dot push                 # Commit & push
 dot p                    # Short alias
-```
+```diff
 
 **Workflow:**
 1. Shows modified files
@@ -368,7 +368,7 @@ Show pending changes.
 dot diff                 # Show all changes
 dot d                    # Short alias
 dot diff .zshrc          # Show changes for specific file
-```
+```diff
 
 #### `dot apply` / `dot a`
 
@@ -391,7 +391,7 @@ dot apply .zshrc         # Apply specific file
 dot apply --dry-run      # Preview all changes (no apply)
 dot apply -n             # Short flag
 dot apply -n .zshrc      # Preview specific file
-```
+```bash
 
 **Dry-Run Mode (v5.1.0):**
 
@@ -412,7 +412,7 @@ M .gitconfig
 [Shows verbose diff of what would change]
 
 ✓ Dry-run complete - no changes applied
-```
+```diff
 
 **Use cases for dry-run:**
 - ✅ Preview changes before applying
@@ -442,14 +442,14 @@ Store a secret in macOS Keychain.
 ```bash
 dot secret add github-token     # Store a GitHub token
 dot secret add api-key          # Store any secret
-```
+```text
 
 **Output:**
 
-```
+```text
 Enter secret value: ········
 ✓ Secret 'github-token' stored in Keychain
-```
+```diff
 
 #### `dot secret <name>` / `dot secret get <name>`
 
@@ -472,7 +472,7 @@ gh auth login --with-token <<< $(dot secret github-token)
 
 # Use in curl
 curl -H "Authorization: Bearer $(dot secret api-key)" https://api.example.com
-```
+```text
 
 #### `dot secret list`
 
@@ -482,16 +482,16 @@ List all secrets stored in Keychain.
 
 ```bash
 dot secret list
-```
+```text
 
 **Output:**
 
-```
+```text
 ℹ Secrets in Keychain (flow-cli):
   • github-token
   • npm-token
   • pypi-token
-```
+```text
 
 #### `dot secret delete <name>`
 
@@ -501,13 +501,13 @@ Remove a secret from Keychain.
 
 ```bash
 dot secret delete old-token
-```
+```text
 
 **Output:**
 
-```
+```text
 ✓ Secret 'old-token' deleted
-```
+```diff
 
 #### `dot secret import`
 
@@ -523,7 +523,7 @@ One-time import from Bitwarden to Keychain.
 ```bash
 dot unlock                    # Unlock Bitwarden first
 dot secret import             # Import to Keychain
-```
+```text
 
 #### `dot secret bw <cmd>`
 
@@ -536,7 +536,7 @@ dot secret bw <name>          # Get secret from Bitwarden
 dot secret bw list            # List Bitwarden items
 dot secret bw add <name>      # Add to Bitwarden
 dot secret bw check           # Check expiring secrets
-```
+```diff
 
 **When to use Bitwarden:**
 - Cloud-synced secrets across devices
@@ -563,11 +563,11 @@ Unlock Bitwarden vault for the current shell session.
 ```bash
 dot unlock               # Unlock vault
 dot u                    # Short alias
-```
+```text
 
 **Output:**
 
-```
+```bash
 ℹ Enter your Bitwarden master password:
 [password prompt]
 
@@ -580,7 +580,7 @@ dot u                    # Short alias
   • Session expires when shell closes
   • Don't export BW_SESSION globally
   • Lock vault when done: bw lock
-```
+```diff
 
 **Security:**
 - Session token stored in memory only
@@ -611,7 +611,7 @@ curl -H "Authorization: Bearer $(dot secret api-key)" https://api.example.com
 if dot secret github-token >/dev/null 2>&1; then
   echo "Secret exists"
 fi
-```
+```bash
 
 **Error Handling (v5.1.0 - Improved):**
 
@@ -637,7 +637,7 @@ Run: dot unlock
 $ dot secret protected-item
 ✗ Access denied for secret: protected-item
 Check Bitwarden permissions for this item
-```
+```diff
 
 **How it works (v5.1.0):**
 
@@ -661,11 +661,11 @@ List all items in Bitwarden vault.
 
 ```bash
 dot secret list
-```
+```text
 
 **Output:**
 
-```
+```text
 ℹ Retrieving items from vault...
 
 🔑 github-token (Work/GitHub)
@@ -674,7 +674,7 @@ dot secret list
 💳 stripe-test-key (Work/Stripe)
 
 ℹ Usage: dot secret <name>
-```
+```diff
 
 #### `dot secret add <name>`
 
@@ -697,11 +697,11 @@ dot secret add github-token --expires 90
 
 # Add with notes
 dot secret add npm-token --notes "Automation token for CI"
-```
+```text
 
 **Output:**
 
-```
+```text
 🔐 Add Secret: api-key
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -711,7 +711,7 @@ dot secret add npm-token --notes "Automation token for CI"
   Expires: never
 
 💡 Usage: $(dot secret api-key)
-```
+```diff
 
 #### `dot secret check`
 
@@ -726,11 +726,11 @@ Show expiring and expired secrets.
 
 ```bash
 dot secret check
-```
+```text
 
 **Output:**
 
-```
+```text
 🔐 Secret Status Check
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -739,7 +739,7 @@ dot secret check
   ❌ old-api-key       Expired 5 days ago
 
 💡 Run: dot token <name> --refresh to rotate
-```
+```text
 
 #### `dot lock`
 
@@ -749,7 +749,7 @@ Lock Bitwarden vault immediately.
 
 ```bash
 dot lock    # Lock vault and clear session
-```
+```diff
 
 ---
 
@@ -775,11 +775,11 @@ GitHub Personal Access Token creation wizard.
 dot token github                          # Interactive wizard
 dot token github --type fine-grained      # Skip type selection
 dot token gh                              # Alias
-```
+```text
 
 **Flow:**
 
-```
+```sql
 🔐 GitHub Token Setup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -806,7 +806,7 @@ Expiration (days, 0=never) [90]: 90
 ✓ Expires: 2026-04-10 (90 days)
 
 💡 Usage: GITHUB_TOKEN=$(dot secret github-token)
-```
+```diff
 
 #### `dot token npm`
 
@@ -822,7 +822,7 @@ NPM token creation wizard.
 
 ```bash
 dot token npm           # Interactive wizard
-```
+```diff
 
 #### `dot token pypi`
 
@@ -838,7 +838,7 @@ PyPI token creation wizard.
 
 ```bash
 dot token pypi          # Interactive wizard
-```
+```diff
 
 ---
 
@@ -864,11 +864,11 @@ Rotate an existing DOT-managed token.
 dot token github-token --refresh     # Flag after name
 dot token github-token -r            # Short flag
 dot token refresh github-token       # Keyword before name
-```
+```text
 
 **Flow:**
 
-```
+```bash
 🔄 Rotating Token: github-token
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -891,7 +891,7 @@ dot token refresh github-token       # Keyword before name
 
 ⚠ Remember to revoke the old token at:
   https://github.com/settings/tokens
-```
+```diff
 
 **Requirements:**
 - Token must have DOT metadata (`dot_version` in notes)
@@ -919,11 +919,11 @@ Show dashboard of all secrets with status and expiration.
 ```bash
 dot secrets             # Show dashboard
 dot secrets help        # Show subcommand help
-```
+```text
 
 **Output:**
 
-```
+```text
 🔐 Secret Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -938,7 +938,7 @@ dot secrets help        # Show subcommand help
 
   ⚠ 1 token expiring soon
   💡 Run: dot token npm --refresh
-```
+```diff
 
 ---
 
@@ -962,11 +962,11 @@ Check GitHub token expiration status across all DOT-managed tokens.
 ```bash
 dot token expiring          # Check all GitHub tokens
 flow token expiring         # Alias via flow command
-```
+```text
 
 **Output (when issues found):**
 
-```
+```text
 🔴 EXPIRED tokens:
   🔴 old-github-token - Expired (revoke ASAP)
 
@@ -974,13 +974,13 @@ flow token expiring         # Alias via flow command
   🟡 github-token - 3 days remaining
 
 Rotate expiring/expired tokens now? [y/n]
-```
+```text
 
 **Output (when healthy):**
 
-```
+```text
 ✅ All GitHub tokens are current (> 7 days remaining)
-```
+```diff
 
 **Integration:**
 - Called by `g push/pull` before GitHub remote operations
@@ -1009,11 +1009,11 @@ Semi-automated token rotation workflow with backup and validation.
 dot token rotate              # Rotate github-token (default)
 dot token rotate my-token     # Rotate specific token
 flow token rotate             # Alias via flow command
-```
+```text
 
 **Workflow:**
 
-```
+```bash
 🔄 Rotating Token: github-token
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1054,7 +1054,7 @@ flow token rotate             # Alias via flow command
   Look for token ending in: ···abc123
 
 ✅ Rotation complete!
-```
+```diff
 
 **Requirements:**
 - Bitwarden CLI (`bw`) installed and configured
@@ -1084,11 +1084,11 @@ Authenticate gh CLI with Keychain-stored GitHub token.
 ```bash
 dot token sync gh           # Sync github-token with gh CLI
 flow token sync gh          # Alias via flow command
-```
+```text
 
 **Output:**
 
-```
+```text
 🔄 Syncing GitHub token with gh CLI...
 
   Reading token from Keychain...
@@ -1098,7 +1098,7 @@ flow token sync gh          # Alias via flow command
   ✓ gh CLI authenticated as @your-username
 
 ✅ gh CLI sync complete
-```
+```diff
 
 **When to use:**
 - After rotating GitHub token (`dot token rotate`)
@@ -1132,18 +1132,18 @@ Automatic session management with 15-minute idle timeout.
 ```bash
 # Set custom timeout (in seconds)
 export DOT_SESSION_IDLE_TIMEOUT=1800  # 30 minutes
-```
+```text
 
 **Status in `dot` output:**
 
-```
+```text
 📁 Dotfiles Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   State: 🟢 Synced
 
   🔐 Vault: 🔓 Unlocked (12 min remaining)
-```
+```diff
 
 ---
 
@@ -1165,11 +1165,11 @@ Sync DOT-managed secrets to GitHub repository secrets.
 
 ```bash
 dot secrets sync github         # Interactive selection
-```
+```text
 
 **Flow:**
 
-```
+```sql
 🔄 Sync Secrets to GitHub
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1188,7 +1188,7 @@ dot secrets sync github         # Interactive selection
 ✓ ANTHROPIC_KEY synced to Data-Wise/flow-cli
 
 💡 These secrets are now available in GitHub Actions
-```
+```diff
 
 #### `dot env init`
 
@@ -1204,11 +1204,11 @@ Generate `.envrc` file for direnv integration.
 
 ```bash
 dot env init            # Interactive selection
-```
+```text
 
 **Flow:**
 
-```
+```sql
 📁 Generate .envrc
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1231,7 +1231,7 @@ dot env init            # Interactive selection
   ─────────────────────────────
 
 💡 Run: direnv allow
-```
+```diff
 
 ---
 
@@ -1253,13 +1253,13 @@ Run diagnostics and health checks.
 ```bash
 dot doctor               # Run diagnostics
 dot dr                   # Short alias
-```
+```text
 
 **Also available via:**
 
 ```bash
 flow doctor              # Includes dotfile checks
-```
+```diff
 
 #### `dot undo`
 
@@ -1274,7 +1274,7 @@ Rollback last apply operation (emergency recovery).
 
 ```bash
 dot undo                 # Rollback last apply
-```
+```diff
 
 ---
 
@@ -1295,7 +1295,7 @@ Initialize dotfile management (first-time setup).
 ```bash
 dot init                                    # Interactive setup
 dot init https://github.com/user/dotfiles  # Clone from repo
-```
+```text
 
 ---
 
@@ -1305,7 +1305,7 @@ dot init https://github.com/user/dotfiles  # Clone from repo
 
 The `dash` command shows dotfile status automatically:
 
-```
+```text
 ╭──────────────────────────────────────────────────────────────╮
 │  🌊 FLOW DASHBOARD ✓                  Jan 09, 2026  🕐 14:30 │
 ╰──────────────────────────────────────────────────────────────╯
@@ -1315,13 +1315,13 @@ The `dash` command shows dotfile status automatically:
   📝 Dotfiles: 🟢 Synced (2h ago) · 12 files tracked
 
   ...
-```
+```text
 
 **Status Line Format:**
 
-```
+```text
 📝 Dotfiles: [icon] [state] [details] · [file count] tracked
-```
+```diff
 
 **Conditional Display:**
 - Only shows if chezmoi is installed
@@ -1332,7 +1332,7 @@ The `dash` command shows dotfile status automatically:
 
 The `flow doctor` command includes dotfile health checks:
 
-```
+```text
 🔌 INTEGRATIONS
   ✓ atlas v3.1.0
   ○ radian (R not installed)
@@ -1348,7 +1348,7 @@ The `flow doctor` command includes dotfile health checks:
 
 🔌 PLUGIN MANAGER
   ...
-```
+```text
 
 ---
 
@@ -1367,7 +1367,7 @@ Use Bitwarden secrets in chezmoi templates:
 
 {{- /* Retrieve from secure notes */ -}}
 {{- bitwardenFields "item" "ssh-key" "notes" -}}
-```
+```bash
 
 ### Example: `.gitconfig` with GitHub Token
 
@@ -1381,14 +1381,14 @@ Use Bitwarden secrets in chezmoi templates:
 [github]
     user = youruser
     token = {{ bitwarden "item" "github-token" }}
-```
+```text
 
 **Apply:**
 
 ```bash
 dot unlock           # Unlock Bitwarden
 dot edit .gitconfig  # Edit and apply template
-```
+```bash
 
 ### Example: `.zshrc` with API Keys
 
@@ -1399,7 +1399,7 @@ dot edit .gitconfig  # Edit and apply template
 export OPENAI_API_KEY="{{ bitwarden "item" "openai-key" }}"
 export ANTHROPIC_API_KEY="{{ bitwarden "item" "anthropic-key" }}"
 export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
-```
+```diff
 
 ---
 
@@ -1431,7 +1431,7 @@ export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 # No configuration needed - uses chezmoi and bw defaults
 # Optional: customize chezmoi directory
 export CHEZMOI_SOURCE_DIR="$HOME/.local/share/chezmoi"
-```
+```diff
 
 ### Prerequisites
 
@@ -1443,7 +1443,7 @@ export CHEZMOI_SOURCE_DIR="$HOME/.local/share/chezmoi"
 
 ```bash
 brew install chezmoi bitwarden-cli jq
-```
+```diff
 
 ---
 
@@ -1484,7 +1484,7 @@ brew install chezmoi bitwarden-cli jq
 dot init                                    # Interactive setup
 # OR
 chezmoi init https://github.com/user/dotfiles  # Clone existing
-```
+```text
 
 ### "Bitwarden vault is locked"
 
@@ -1494,7 +1494,7 @@ chezmoi init https://github.com/user/dotfiles  # Clone existing
 
 ```bash
 dot unlock
-```
+```bash
 
 ### "Secret not found" (v5.1.0)
 
@@ -1508,7 +1508,7 @@ dot secret list
 
 # Check exact name (case-sensitive)
 bw get item github-token
-```
+```bash
 
 ### "Session expired" (v5.1.0)
 
@@ -1519,7 +1519,7 @@ bw get item github-token
 ```bash
 # Simply unlock again
 dot unlock
-```
+```diff
 
 ### "Access denied for secret" (v5.1.0)
 
@@ -1538,7 +1538,7 @@ dot unlock
 
 ```bash
 bw login
-```
+```bash
 
 ### Session Token in History
 
@@ -1553,7 +1553,7 @@ bw login
 echo $HISTIGNORE
 
 # Should include: *bw unlock*:*bw get*:*BW_SESSION*
-```
+```text
 
 ---
 

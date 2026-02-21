@@ -83,7 +83,7 @@ Complete the `em` dispatcher's email management lifecycle: read, reply, **delete
 
 ### em delete
 
-```
+```yaml
 em delete <ID> [<ID>...]       Move email(s) to Trash
 em delete --folder <FOLDER>    Delete all in folder (confirms with count)
 em delete --query "<SEARCH>"   Delete matching emails (confirms with count + samples)
@@ -93,54 +93,54 @@ em delete --folder X --purge   PERMANENT delete all in folder
 
 Aliases: em del, em rm
 Safety: All deletes confirm [y/N] (default No). --purge requires typing "yes".
-```
+```text
 
 ### em move
 
-```
+```yaml
 em move <FOLDER> <ID> [<ID>...]         Move email(s) to target folder
 em move --from <SOURCE> <FOLDER> <ID>   Move from non-default source folder
 em move --pick <ID> [<ID>...]           fzf folder picker -> move to selected folder
 
 Aliases: em mv
-```
+```text
 
 ### em restore
 
-```
+```text
 em restore <ID> [<ID>...]       Move from $FLOW_EMAIL_TRASH_FOLDER (default: Trash) to INBOX
 em restore <ID> --to <FOLDER>   Move from Trash to specific folder
-```
+```text
 
 ### em todo
 
-```
+```yaml
 em todo <ID> [<ID>...]   Extract action items via AI, capture to flow + Reminders.app
 
 Flow: read email -> AI extract action items -> catch command -> Reminders.app (per-email confirm)
 Fallback: Uses email subject if AI unavailable
-```
+```text
 
 ### em event
 
-```
+```yaml
 em event <ID> [<ID>...]   Extract dates/times via AI, capture to flow + Calendar.app
 
 Flow: read email -> AI extract events (JSON) -> display -> catch -> Calendar.app (per-email confirm)
 Returns: title, date, time, duration, location for each extracted event
-```
+```text
 
 ### em flag / em unflag
 
-```
+```text
 em flag <ID> [<ID>...]     Star email for follow-up (IMAP Flagged)
 em unflag <ID> [<ID>...]   Remove star
 Aliases: em fl
-```
+```text
 
 ### em pick (updated)
 
-```
+```yaml
 em pick [FOLDER]   Interactive fzf browser with multi-select
 
 Keybinds:
@@ -155,7 +155,7 @@ Keybinds:
   Ctrl+E           Extract events from selected email(s)
   Ctrl+F           Flag selected email(s) for follow-up
   Esc              Exit picker
-```
+```text
 
 ---
 
@@ -165,20 +165,20 @@ Keybinds:
 
 Three new functions isolate all himalaya CLI specifics:
 
-```
+```text
 _em_hml_delete(folder, IDs...)   -> himalaya message delete -f <folder> <ID>...
 _em_hml_move(src, dst, IDs...)   -> himalaya message move -f <src> <dst> <ID>...
 _em_hml_expunge(folder)          -> himalaya folder expunge <folder>
-```
+```text
 
 ### AI Layer (`lib/em-ai.zsh`)
 
 One new prompt function + timeout entry:
 
-```
+```bash
 _em_ai_todo_prompt()   -> Extract action items (1 per line, max 5, plain text)
 [todo]=15              -> Added to _EM_AI_OP_TIMEOUT map
-```
+```text
 
 Reuse existing `_em_ai_schedule_prompt` for event extraction (already returns JSON with events array).
 
@@ -226,7 +226,7 @@ Helper functions: `_em_delete_confirm`, `_em_create_calendar_event`, `_em_create
 
 Shows count + first 5 subjects from the target set. Returns 0 if user confirms, 1 if declined.
 
-```
+```sql
   Delete 12 emails from Spam?
     1. "Get rich quick scheme"
     2. "Exclusive textbook offer"
@@ -235,7 +235,7 @@ Shows count + first 5 subjects from the target set. Returns 0 if user confirms, 
     5. "Limited time deal"
     ... and 7 more
   Confirm delete? [y/N]
-```
+```yaml
 
 ---
 
@@ -257,19 +257,19 @@ Shows count + first 5 subjects from the target set. Returns 0 if user confirms, 
 
 ### Updated Header
 
-```
+```text
 Folder: INBOX  |  Unread: 5
 Tab=select  Enter=read  Ctrl-D=delete  Ctrl-R=reply  Ctrl-A=archive
 Ctrl-S=summarize  Ctrl-T=catch  Ctrl-O=todo  Ctrl-E=event  Ctrl-F=flag
-```
+```text
 
 ### Action Router
 
-```
+```text
 Parse selected -> extract action prefix + IDs
 Single-item actions (read, reply, summarize): process first ID only
 Multi-item actions (delete, archive, catch, todo, event, flag): process all IDs
-```
+```zsh
 
 ---
 
@@ -293,7 +293,7 @@ _em_create_calendar_event() {
         end tell
 APPLESCRIPT
 }
-```
+```zsh
 
 ### Reminders.app (`_em_create_reminder`)
 
@@ -305,7 +305,7 @@ _em_create_reminder() {
     [[ "$(uname)" != "Darwin" ]] && return 1
     osascript -e "tell application \"Reminders\" to make new reminder with properties {name:\"$title\"}"
 }
-```
+```diff
 
 Both gated behind `[[ "$(uname)" == "Darwin" ]]`. Non-macOS gracefully skips.
 
@@ -380,7 +380,7 @@ Follow pattern from `tests/test-em-catch.zsh`:
 
 ### New MANAGE Section in `_em_help`
 
-```
+```text
 MANAGE:
   em delete <ID>       Delete email (move to Trash)
   em delete --pick     Interactive multi-select delete
@@ -390,11 +390,11 @@ MANAGE:
   em restore <ID>      Restore from Trash to INBOX
   em flag <ID>         Star for follow-up
   em unflag <ID>       Remove star
-```
+```text
 
 ### Enhanced AI FEATURES Section
 
-```
+```text
 AI FEATURES:
   em respond           Batch AI drafts for actionable emails
   em classify <ID>     Classify email (AI)
@@ -402,7 +402,7 @@ AI FEATURES:
   em catch <ID>        Capture email as task
   em todo <ID>         Extract action items -> flow + Reminders.app
   em event <ID>        Extract events -> flow + Calendar.app
-```
+```diff
 
 ### Per-Command Help
 
@@ -441,7 +441,7 @@ Office 365/Exchange uses "Deleted Items", Gmail IMAP uses "[Gmail]/Trash", stand
 
 ```zsh
 : ${FLOW_EMAIL_TRASH_FOLDER:=Trash}
-```
+```diff
 
 `em restore` reads from this variable as the source folder.
 
@@ -460,7 +460,7 @@ Office 365/Exchange uses "Deleted Items", Gmail IMAP uses "[Gmail]/Trash", stand
 - **Enter + 1 selected:** read (current behavior, no surprise)
 - **Enter + N selected:** show a numbered action menu:
 
-```
+```text
 3 emails selected:
   1. Delete
   2. Move

@@ -21,7 +21,7 @@
 
 # ZSH Configuration Tests
 zsh/tests/run-all-tests.zsh
-```
+```bash
 
 **Coverage:** 76+ tests across 8 test suites (100% passing)
 
@@ -52,14 +52,14 @@ zsh/tests/run-all-tests.zsh
 
 ```bash
 ./tests/run-all.sh
-```
+```text
 
 **Run Individual:**
 
 ```bash
 ./tests/test-pick-command.zsh
 ./tests/test-cc-dispatcher.zsh
-```
+```diff
 
 **Features:**
 - Fast execution (< 10 seconds total)
@@ -159,7 +159,7 @@ zsh/tests/run-all-tests.zsh
 
 # Quick (skip performance)
 zsh/tests/run-all-tests.zsh --quick
-```
+```diff
 
 **Best For:**
 
@@ -173,31 +173,31 @@ zsh/tests/run-all-tests.zsh --quick
 
 ### Interactive Dog Feeding
 
-```
+```text
 Tasks Confirmed: 7 / 7
 Final Happiness: 98%
 Grade:           PERFECT!
 Stars:           ⭐⭐⭐⭐⭐
 🐕 The dog is ECSTATIC! All tests confirmed! 😊⭐
-```
+```text
 
 ### Automated Test
 
-```
+```text
 Tests run:    16
 Passed:       16
 Failed:       0
 ✓ All tests passed!
-```
+```text
 
 ### ZSH Tests
 
-```
+```text
 Passed:  2
 Failed:  0
 Skipped: 1
 OVERALL: PASS
-```
+```diff
 
 ---
 
@@ -220,13 +220,13 @@ OVERALL: PASS
 git clone https://github.com/data-wise/flow-cli.git
 cd flow-cli
 ./tests/interactive-dog-feeding.zsh
-```
+```bash
 
 ### Quick CI Check
 
 ```bash
 ./tests/automated-test.zsh && echo "CI: PASS"
-```
+```bash
 
 ### After Code Changes
 
@@ -235,7 +235,7 @@ cd flow-cli
 ./tests/automated-test.zsh
 zsh/tests/run-all-tests.zsh --quick
 ./tests/interactive-dog-feeding.zsh
-```
+```zsh
 
 ---
 

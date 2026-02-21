@@ -101,11 +101,11 @@ Successfully implemented Phases 1-2 of the WT Workflow Enhancement specification
 
 ### Test Results
 
-```
+```text
 Unit Tests:       22/23 PASS (95.7%)
 E2E Tests:        Not run (requires full setup)
 Interactive:      Awaiting manual execution
-```
+```sql
 
 ### Coverage Mapping
 
@@ -258,7 +258,7 @@ $ wt
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 Tip: wt <project> to filter | pick wt for interactive
-```
+```text
 
 ### Filtered View
 
@@ -274,7 +274,7 @@ $ wt flow
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 Tip: wt <project> to filter | pick wt for interactive
-```
+```bash
 
 ### Interactive Delete
 
@@ -284,7 +284,7 @@ $ pick wt
 # Use Tab to select multiple worktrees
 # Press Ctrl-X to delete
 # Confirmation prompts appear for each
-```
+```bash
 
 ### Refresh Cache
 
@@ -297,7 +297,7 @@ $ pick wt
 
 🌳 Worktrees (4 total)
 # (updated overview displays)
-```
+```yaml
 
 ---
 
@@ -340,12 +340,12 @@ $ pick wt
    ./tests/interactive-wt-dogfooding.zsh
    ```
 
-2. **Manual validation**
+1. **Manual validation**
    - Test `pick wt` delete action
    - Test `pick wt` refresh action
    - Verify multi-select works
 
-3. **Update documentation** (Phase 3)
+2. **Update documentation** (Phase 3)
    - WT-DISPATCHER-REFERENCE.md
    - PICK-COMMAND-REFERENCE.md
    - Architecture diagrams
@@ -360,7 +360,7 @@ $ pick wt
 
 ## Commit Message
 
-```
+```diff
 feat(wt): add enhanced overview and pick wt actions
 
 Implements SPEC-wt-workflow-enhancement-2026-01-17.md (Phases 1-2)

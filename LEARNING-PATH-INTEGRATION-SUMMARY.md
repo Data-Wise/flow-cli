@@ -42,14 +42,14 @@ A complete, ADHD-friendly learning path system that integrates flow-cli tutorial
 
 **Key Features:**
 
-```
+````text
 ✓ Visual flowchart showing learning progression
 ✓ "I want to..." selector for role-based paths
 ✓ Progressive plugin introduction (auto → taught → active)
 ✓ Clear time estimates on everything
 ✓ Cross-linked to all tutorials and guides
 ✓ Plugin complexity explained at each level
-```
+```diff
 
 **Who Should Read It:**
 
@@ -87,7 +87,7 @@ A complete, ADHD-friendly learning path system that integrates flow-cli tutorial
 
 **Key Features:**
 
-```
+```text
 ✓ Shows exactly WHEN each plugin is introduced
 ✓ Explains WHY plugins appear at that time
 ✓ "git plugin → Tutorial 8" direct mapping
@@ -95,7 +95,7 @@ A complete, ADHD-friendly learning path system that integrates flow-cli tutorial
 ✓ Shows complexity: zsh-autosuggestions (passive) vs git (active)
 ✓ Explains "zsh-you-should-use teaches you automatically"
 ✓ Mastery checklists for progression tracking
-```
+```diff
 
 **Who Should Read It:**
 
@@ -133,7 +133,7 @@ A complete, ADHD-friendly learning path system that integrates flow-cli tutorial
 
 **Key Features:**
 
-```
+```text
 ✓ "Where am I?" decision tree
 ✓ Every resource with purpose and duration
 ✓ Quick lookup: "I need X in Y minutes"
@@ -141,7 +141,7 @@ A complete, ADHD-friendly learning path system that integrates flow-cli tutorial
 ✓ Troubleshooting: problem → solution
 ✓ Dependency tree showing doc relationships
 ✓ Time estimates on everything
-```
+```diff
 
 **Who Should Read It:**
 
@@ -174,7 +174,7 @@ A complete, ADHD-friendly learning path system that integrates flow-cli tutorial
 
 **Key Features:**
 
-```
+```text
 ✓ ZERO decision fatigue - pick ONE thing
 ✓ Visual boxes with "click here" CTAs
 ✓ Time estimates on EVERYTHING
@@ -183,7 +183,7 @@ A complete, ADHD-friendly learning path system that integrates flow-cli tutorial
 ✓ Success looks like: clear milestones
 ✓ Bookmark-friendly reference section
 ✓ "Stop reading. Start doing." final message
-```
+```diff
 
 **Who Should Read It:**
 
@@ -198,7 +198,7 @@ A complete, ADHD-friendly learning path system that integrates flow-cli tutorial
 
 ### How Documents Work Together
 
-```
+```text
 USER ENTERS SITE
   │
   ├─ In a hurry? Want results NOW?
@@ -225,11 +225,11 @@ USER ENTERS SITE
      └─→ LEARNING-PATH-NAVIGATION.md
          (Find in dependency tree)
          Leads to: Specific guide or reference
-```
+```text
 
 ### Cross-Reference Map
 
-```
+```text
 LEARNING-QUICK-START
 ├─→ Links to Fast Track tutorials (1-5)
 ├─→ Links to Learning Path Index (full context)
@@ -255,7 +255,7 @@ LEARNING-PATH-NAVIGATION
 ├─→ Shows dependency tree
 ├─→ References all other 3 documents
 └─→ Provides "when stuck" solutions
-```
+```yaml
 
 ---
 
@@ -420,7 +420,7 @@ tutorials:
 reference:
   - Plugin Learning Map: reference/PLUGIN-LEARNING-MAP.md
   - Learning Navigation: reference/LEARNING-PATH-NAVIGATION.md
-```
+````
 
 ### Step 2: Link from Homepage
 

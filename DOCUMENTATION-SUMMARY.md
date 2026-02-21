@@ -193,7 +193,7 @@
 
 ## 🔗 Documentation Structure
 
-```
+```text
 docs/
 ├── reference/
 │   └── DOCTOR-TOKEN-API-REFERENCE.md        ← Technical API docs

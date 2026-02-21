@@ -90,7 +90,7 @@
 cd docs/demos
 vhs dot-dispatcher.tape
 # Output: dot-dispatcher.gif
-```
+```yaml
 
 ---
 
@@ -193,7 +193,7 @@ vhs dot-dispatcher.tape
 
 ## File Tree
 
-```
+```yaml
 docs/
 ├── guides/
 │   └── DOTFILE-MANAGEMENT.md          (NEW - 600+ lines)
@@ -210,7 +210,7 @@ Root:
 ├── README.md                          (UPDATED - added dot to dispatchers)
 ├── CLAUDE.md                          (UPDATED - added v5.0.0 status)
 └── mkdocs.yml                         (UPDATED - added navigation)
-```
+```diff
 
 ---
 
@@ -230,7 +230,7 @@ All internal links validated:
 
 MkDocs navigation structure:
 
-```
+```diff
 - Guides
   - Dotfile Management ✓
 - Reference

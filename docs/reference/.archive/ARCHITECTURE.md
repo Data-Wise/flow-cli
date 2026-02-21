@@ -64,7 +64,7 @@ graph TB
     Core --> Files
     Commands --> Project
     Core -.-> Atlas
-```
+```text
 
 ---
 
@@ -83,7 +83,7 @@ graph LR
 
     Handler1 --> External[External Tool]
     Handler2 --> Internal[Internal Logic]
-```
+```bash
 
 ### Dispatcher Pattern
 
@@ -100,7 +100,7 @@ graph LR
         *) _<letter>_default "$cmd" "$@" ;;
     esac
 }
-```
+```text
 
 ---
 
@@ -134,7 +134,7 @@ graph TB
     FLOW_PROJECT --> Session
     Session --> STATUS
     STATUS -.-> AtlasDB
-```
+```text
 
 ### State Locations
 
@@ -182,7 +182,7 @@ graph TB
     KC --> AppleWatch
     BW --> Session
     Session --> Cloud
-```
+```text
 
 ### Secret Storage Comparison
 
@@ -238,7 +238,7 @@ graph TB
     Status --> Validator
     Exam --> Validator
     Quiz --> Validator
-```
+```bash
 
 ### Validation Flow
 
@@ -263,7 +263,7 @@ sequenceDiagram
         Validator-->>teach: Use cached result
     end
     teach->>User: Proceed or show errors
-```
+```text
 
 ### Config Ownership Protocol
 
@@ -298,7 +298,7 @@ graph LR
     Grading --> Config
     Examark --> Config
     Shortcuts --> Config
-```
+```text
 
 ---
 
@@ -319,7 +319,7 @@ sequenceDiagram
     External-->>Handler: selected project
     Handler->>External: claude (launch)
     External-->>User: Claude Code session
-```
+```text
 
 ---
 
@@ -338,13 +338,13 @@ flowchart TD
     Check4 -->|No| Check5{pyproject.toml?}
     Check5 -->|Yes| Python[Python Project]
     Check5 -->|No| Generic[Generic Project]
-```
+```text
 
 ---
 
 ## File Structure
 
-```
+```zsh
 flow-cli/
 ├── flow.plugin.zsh       # Entry point
 ├── lib/

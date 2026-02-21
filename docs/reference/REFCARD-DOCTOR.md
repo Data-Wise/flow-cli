@@ -39,7 +39,7 @@ teach doctor --json
 
 # Combine flags
 teach doctor --full --verbose
-```
+```diff
 
 ## teach doctor Options
 
@@ -167,7 +167,7 @@ Checks:
 
 Interactive menu when running `--fix`:
 
-```
+```text
 ╭─ Select Category to Fix ────────────────────────╮
 │                                                  │
 │  1. 🔑 GitHub Token (1 issue, ~30s)              │
@@ -180,7 +180,7 @@ Interactive menu when running `--fix`:
 │  0. Exit without fixing                          │
 │                                                  │
 ╰──────────────────────────────────────────────────╯
-```
+```text
 
 ## Exit Codes
 
@@ -214,7 +214,7 @@ Interactive menu when running `--fix`:
     }
   ]
 }
-```
+```bash
 
 ## Token Checks (--dot)
 
@@ -226,14 +226,15 @@ flow doctor --dot
 
 # Specific token
 flow doctor --dot=github
-```
+```text
 
 Output:
-```
+
+```text
 🔑 DOT TOKENS
   ✓ Valid (@username)
   ⚠  Expiring in 7 days
-```
+```bash
 
 ## teach doctor Performance
 
@@ -261,7 +262,7 @@ teach doctor --fix
 
 # CI pipeline
 teach doctor --ci --full
-```
+```bash
 
 ## Common Workflows
 

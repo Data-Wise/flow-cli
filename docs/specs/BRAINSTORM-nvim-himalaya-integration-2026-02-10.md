@@ -46,7 +46,8 @@ However, himalaya's `$EDITOR` support means nvim already works perfectly for the
 
 > Build a LazyVim plugin in Lua that wraps himalaya. Inbox in buffer, compose in split, everything inside nvim.
 
-#### What you'd actually need to build:
+#### What you'd actually need to build
+
 - Lua module for async himalaya subprocess calls (300-500 lines)
 - Buffer rendering for email list (custom syntax highlighting)
 - Split window management for read/compose
@@ -78,14 +79,15 @@ You have zero Lua experience, 2-5 emails/day, and an ADHD brain that needs fast 
 
 > Terminal `em` dispatcher (pure ZSH) for listing, searching, picking via fzf. nvim opens ONLY for compose/reply. AI pre-populates the draft file. User edits, saves, confirms, sends.
 
-#### What you'd actually build:
+#### What you'd actually build
+
 - `lib/dispatchers/email-dispatcher.zsh` — ~150 lines of ZSH (same pattern as `g`, `cc`, `obs`)
 - `lib/email-helpers.zsh` — AI draft pipeline, rendering helpers
 - No Lua. No nvim plugins. nvim is just `$EDITOR`.
 
 #### The AI-first Reply Workflow (Step by Step)
 
-```
+```bash
 em reply              # User selected email #42 from fzf picker
     |
     v
@@ -140,7 +142,8 @@ em reply              # User selected email #42 from fzf picker
 
 > Minimal Telescope picker (Lua extension) for email selection inside nvim. Everything else in terminal.
 
-#### What you'd actually need to build:
+#### What you'd actually need to build
+
 - Custom Telescope picker in Lua (200-400 lines)
 - Telescope `finder` that calls himalaya envelope list
 - Telescope `previewer` that renders email body
@@ -173,7 +176,8 @@ fzf in the terminal can do everything Telescope does for email picking, with key
 
 > Everything in terminal. fzf for picking, bat for reading, nvim is generic `$EDITOR` with no email-specific awareness.
 
-#### What you'd build:
+#### What you'd build
+
 - Same `em` dispatcher as Approach B
 - But WITHOUT the AI draft pipeline
 - nvim opens with a blank compose buffer

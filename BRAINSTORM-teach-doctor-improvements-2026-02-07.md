@@ -8,9 +8,9 @@
 
 ### Bug 1: Quarto Extensions Arithmetic Error
 
-```
+````text
 _teach_doctor_check_quarto_extensions:13: bad math expression: operator expected at `Terminal R...'
-```
+```bash
 
 **Root cause:** Line 484 uses `find _extensions -mindepth 2 -maxdepth 2 -type d` piped to `wc -l`. When `_extensions/` exists but contains entries with spaces or special characters in directory names, the `ext_count` variable gets polluted. The `[[ "$ext_count" -gt 0 ]]` comparison on line 486 then fails because `ext_count` contains non-numeric text.
 
@@ -27,7 +27,7 @@ local ext_count=${#ext_dirs}
 local ext_count=$(find _extensions -mindepth 2 -maxdepth 2 -type d 2>/dev/null | wc -l)
 ext_count=${ext_count//[^0-9]/}  # Strip non-numeric
 [[ -z "$ext_count" ]] && ext_count=0
-```
+```bash
 
 ---
 
@@ -58,7 +58,7 @@ _check_r_packages_batch() {
 # Option B: Use installed.packages() file scan (no library loading)
 # Faster than require() which actually loads the package
 R --quiet --slave -e "cat(rownames(installed.packages()), sep='\n')" 2>/dev/null
-```
+```diff
 
 ---
 
@@ -81,16 +81,16 @@ The R package check is called from `_teach_doctor_check_dependencies()` (line 11
 
 ### Medium Effort (1-2 hours)
 
-5. **Add `--dot` quick mode** - Skip slow checks (R packages, cache freshness) for fast < 3s doctor run
-6. **Parallel section execution** - Run independent checks concurrently with background subshells
-7. **Summary with actionable fix commands** - Group warnings by "fix priority" and show copy-pasteable commands
-8. **Add `--section` flag** - Run only specific sections (`teach doctor --section r-packages`)
+1. **Add `--dot` quick mode** - Skip slow checks (R packages, cache freshness) for fast < 3s doctor run
+2. **Parallel section execution** - Run independent checks concurrently with background subshells
+3. **Summary with actionable fix commands** - Group warnings by "fix priority" and show copy-pasteable commands
+4. **Add `--section` flag** - Run only specific sections (`teach doctor --section r-packages`)
 
 ### Long-term (Future sessions)
 
-9. **Doctor result caching** - Cache results for N minutes, skip re-running unchanged checks
-10. **CI integration** - `teach doctor --ci` that exits non-zero on any failure (for GitHub Actions)
-11. **HTML report** - `teach doctor --html` for shareable environment reports
+1. **Doctor result caching** - Cache results for N minutes, skip re-running unchanged checks
+2. **CI integration** - `teach doctor --ci` that exits non-zero on any failure (for GitHub Actions)
+3. **HTML report** - `teach doctor --html` for shareable environment reports
 
 ---
 
@@ -98,7 +98,7 @@ The R package check is called from `_teach_doctor_check_dependencies()` (line 11
 
 ### Current Flow
 
-```
+```text
 _teach_doctor()
   ├── _teach_doctor_check_dependencies()
   │     ├── dep checks (yq, git, quarto, gh, examark, claude)
@@ -111,11 +111,11 @@ _teach_doctor()
   ├── _teach_doctor_check_cache()
   ├── _teach_doctor_check_macros()
   └── _teach_doctor_check_teaching_style()
-```
+```text
 
 ### Proposed Flow
 
-```
+```text
 _teach_doctor()
   ├── _teach_doctor_check_dependencies()   ← CLI tools only
   ├── _teach_doctor_check_r_packages()     ← promoted to top-level
@@ -127,7 +127,7 @@ _teach_doctor()
   ├── _teach_doctor_check_cache()
   ├── _teach_doctor_check_macros()
   └── _teach_doctor_check_teaching_style()
-```
+````
 
 ---
 

@@ -108,7 +108,7 @@ teach exam "Hypothesis Testing" --dry-run --format quarto
 3. _teach_build_command()          # Build Scholar command string
 4. _teach_execute()                # Run Claude with Scholar command
 5. _teach_postprocess()            # Handle output, show summary
-```
+```zsh
 
 ### Preflight Checks
 
@@ -136,7 +136,7 @@ _teach_preflight() {
 
     return 0
 }
-```
+```bash
 
 ### Command Building
 
@@ -167,7 +167,7 @@ _teach_build_command() {
     # Build full command
     echo "claude --print \"$scholar_cmd ${args[*]}\""
 }
-```
+```bash
 
 ---
 
@@ -203,7 +203,7 @@ _teach_warn() {
     echo "⚠️  teach: $message" >&2
     [[ -n "$note" ]] && echo "   $note" >&2
 }
-```
+```yaml
 
 ---
 
@@ -228,7 +228,7 @@ scholar:
   defaults:
     exam_format: "quarto"      # Default --format for teach exam
     lecture_format: "quarto"   # Default --format for teach lecture
-```
+```text
 
 ---
 
@@ -236,7 +236,7 @@ scholar:
 
 ### User's Desired Workflow
 
-```
+```text
 1. Create/update lesson plan (YAML)
    └── .flow/lesson-plans/week05.yml
 
@@ -251,7 +251,7 @@ scholar:
 
 5. Deploy to students
    └── teach deploy
-```
+```zsh
 
 ### Implementation
 
@@ -274,7 +274,7 @@ _teach_lecture_from_plan() {
     # Build Scholar command with context
     claude --print "/teaching:lecture \"$topic\" --objectives \"$objectives\""
 }
-```
+```bash
 
 ---
 
@@ -285,7 +285,7 @@ _teach_lecture_from_plan() {
 ```bash
 # Simple: Just check .flow/teach-config.yml
 teach exam "Topic"  # Scholar reads YAML directly
-```
+```bash
 
 ### Future Behavior (v2.1.0)
 
@@ -296,7 +296,7 @@ teach exam "Topic"
 # 2. Validate JSON schema
 # 3. Run Scholar command
 # 4. Auto-sync any new files
-```
+```zsh
 
 ### Sync Hook (future)
 
@@ -307,7 +307,7 @@ _teach_sync_config() {
         scholar-sync --quiet
     fi
 }
-```
+```text
 
 ---
 
@@ -315,7 +315,7 @@ _teach_sync_config() {
 
 ### File Structure
 
-```
+```text
 lib/dispatchers/
 └── teach-dispatcher.zsh
     ├── _teach_scholar_*        # Scholar wrapper functions
@@ -326,7 +326,7 @@ lib/dispatchers/
 completions/
 └── _teach
     └── (Add Scholar subcommands)
-```
+```zsh
 
 ### Dispatcher Extension
 
@@ -354,7 +354,7 @@ teach() {
             ;;
     esac
 }
-```
+```yaml
 
 ---
 

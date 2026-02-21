@@ -12,13 +12,13 @@
 
 **Added to Tutorials Section:**
 
-```yaml
+````yaml
 - 🎓 Scholar Enhancement:
     - Overview & Learning Path: tutorials/scholar-enhancement/index.md
     - Level 1 - Getting Started: tutorials/scholar-enhancement/01-getting-started.md
     - Level 2 - Intermediate: tutorials/scholar-enhancement/02-intermediate.md
     - Level 3 - Advanced: tutorials/scholar-enhancement/03-advanced.md
-```
+```text
 
 **Added to Reference → Deep Dives:**
 
@@ -26,7 +26,7 @@
 - 🎓 Scholar Enhancement:
     - API Reference: reference/SCHOLAR-ENHANCEMENT-API.md
     - Architecture Guide: architecture/SCHOLAR-ENHANCEMENT-ARCHITECTURE.md
-```
+```text
 
 ---
 
@@ -49,7 +49,7 @@
 
 ```bash
 $ mkdocs build --strict
-```
+```diff
 
 **Results:**
 
@@ -63,14 +63,14 @@ $ mkdocs build --strict
 
 ## Git History
 
-```
+```text
 5c72a522 docs: add Scholar Enhancement to site navigation
 f399a115 docs: add documentation completion summary
 699d098f docs: add Scholar Enhancement tutorial GIF demos (partial)
 b8799044 docs: add Scholar Enhancement tutorial series with VHS demos
 5e829d48 docs: add Scholar Enhancement complete feature summary
 cb240e38 docs: add comprehensive Scholar Enhancement documentation
-```
+```text
 
 **Total Documentation Commits:** 6
 **Files Changed:** 21
@@ -84,7 +84,7 @@ cb240e38 docs: add comprehensive Scholar Enhancement documentation
 
 ```bash
 mkdocs serve
-```
+```diff
 
 → http://127.0.0.1:8000
 
@@ -97,7 +97,7 @@ mkdocs serve
 
 ```bash
 mkdocs gh-deploy --force
-```
+````
 
 → https://Data-Wise.github.io/flow-cli/
 
@@ -206,19 +206,19 @@ mkdocs gh-deploy --force
 
 ### Before Merge to Dev
 
-3. **Technical Review**
+1. **Technical Review**
    - Verify all code examples
    - Check cross-references
    - Validate terminology
 
-4. **Update CHANGELOG.md**
+2. **Update CHANGELOG.md**
    - Add Scholar Enhancement v5.13.0 section
    - Document all new features
    - List all 47 flags
 
 ### After Merge
 
-5. **Deploy to Production**
+1. **Deploy to Production**
 
    ```bash
    git checkout main
@@ -226,12 +226,12 @@ mkdocs gh-deploy --force
    mkdocs gh-deploy --force
    ```
 
-6. **User Testing**
+2. **User Testing**
    - 2-3 educators complete tutorials
    - Track completion times
    - Gather feedback
 
-7. **Regenerate GIFs**
+3. **Regenerate GIFs**
    - With deployed Scholar Enhancement
    - Show authentic output
    - Add to CI/CD

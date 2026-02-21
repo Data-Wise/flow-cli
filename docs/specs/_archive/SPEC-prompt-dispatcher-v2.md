@@ -72,7 +72,7 @@ Integrate the prompt engine management system into flow-cli as a new `prompt` di
 
 ### Dispatcher Architecture
 
-```
+```text
 prompt [subcommand]
     ├── status          → _prompt_status()      [Display all engines + current]
     ├── toggle          → _prompt_toggle()      [Interactive menu for 3+ engines]
@@ -81,7 +81,7 @@ prompt [subcommand]
     ├── ohmyposh        → _prompt_switch()      [Force to ohmyposh]
     ├── list            → _prompt_list()        [Show all engines with details]
     └── help            → _prompt_help()        [Display help]
-```
+```zsh
 
 ### Engine Definitions
 
@@ -100,7 +100,7 @@ Each engine is defined by:
 
 #### Engine 1: Powerlevel10k
 
-```
+```zsh
 Name: powerlevel10k
 Display: Powerlevel10k
 Config: ~/.config/zsh/.p10k.zsh
@@ -108,11 +108,11 @@ Binary: (loaded via antidote plugin manager)
 Description: Feature-rich, highly customizable prompt engine
 Install Check: grep -q "romkatv/powerlevel10k" ~/.config/zsh/.zsh_plugins.txt
 Init Method: source ~/.config/zsh/.p10k.zsh (after antidote loads)
-```
+```text
 
 #### Engine 2: Starship
 
-```
+```text
 Name: starship
 Display: Starship
 Config: ~/.config/starship.toml
@@ -121,11 +121,11 @@ Description: Minimal, fast Rust-based prompt engine
 Install Check: command -v starship >/dev/null 2>&1
 Init Method: eval "$(starship init zsh)"
 Status: ✅ Currently installed and configured
-```
+```text
 
 #### Engine 3: OhMyPosh (NEW)
 
-```
+```text
 Name: ohmyposh
 Display: Oh My Posh
 Config: ~/.config/ohmyposh/config.json
@@ -134,11 +134,11 @@ Description: Modular prompt engine with extensive themes
 Install Check: command -v oh-my-posh >/dev/null 2>&1
 Init Method: eval "$(oh-my-posh init zsh)"
 Status: ⏳ To be implemented in v5.7.0
-```
+```text
 
 ### File Structure
 
-```
+```text
 flow-cli/
 ├── lib/
 │   └── dispatchers/
@@ -157,7 +157,7 @@ flow-cli/
 ├── setup/
 │   └── prompt-setup.zsh                     # NEW: OhMyPosh setup script
 └── CLAUDE.md                                # UPDATE: Add prompt dispatcher
-```
+```diff
 
 ### Environment Variables
 
@@ -174,7 +174,7 @@ export FLOW_PROMPT_ENGINE="${FLOW_PROMPT_ENGINE:-powerlevel10k}"
 if [[ "$FLOW_PROMPT_ENGINE" == "starship" ]]; then
     eval "$(starship init zsh)"
 fi
-```
+```text
 
 ---
 
@@ -186,7 +186,7 @@ fi
 
 **Output Format: Formatted Table**
 
-```
+```text
 Prompt Engines:
 
   ● powerlevel10k (current)
@@ -202,7 +202,7 @@ Prompt Engines:
     Config: ~/.config/ohmyposh/config.json
 
 To switch: prompt toggle
-```
+```diff
 
 **Implementation Notes:**
 - Use Unicode bullets: `●` for current, `○` for available
@@ -220,7 +220,7 @@ To switch: prompt toggle
 **Behavior:**
 - 2 engines: Show simple menu
 
-  ```
+  ```text
   Which prompt engine would you like to use?
   1) starship
   2) powerlevel10k
@@ -228,7 +228,7 @@ To switch: prompt toggle
 
 - 3+ engines: Show full menu
 
-  ```
+  ```text
   Which prompt engine would you like to use?
   1) starship
   2) ohmyposh
@@ -304,7 +304,7 @@ To switch: prompt toggle
 
 **Output Format:**
 
-```
+```yaml
 Available Prompt Engines:
 
 name           status    config file
@@ -314,7 +314,7 @@ starship       ○         ~/.config/starship.toml
 oh-my-posh     ○         ~/.config/ohmyposh/config.json
 
 Legend: ● = current, ○ = available
-```
+```diff
 
 **What's Included:**
 - All 4 columns: name, status (● = current, ○ = available), config path
@@ -328,7 +328,7 @@ Legend: ● = current, ○ = available
 
 **Output Format:**
 
-```
+```yaml
 🎨 PROMPT DISPATCHER v5.7.0
    Manage multiple prompt engines: Powerlevel10k, Starship, OhMyPosh
 
@@ -355,7 +355,7 @@ SETUP:
 
 For more info:
    https://data-wise.github.io/flow-cli/dispatchers/prompt/
-```
+```diff
 
 ---
 
@@ -391,7 +391,7 @@ For more info:
 
 ### Output Format (Standard)
 
-```
+```yaml
 🎨 PROMPT ENGINE DIAGNOSTICS:
 
 Powerlevel10k:
@@ -413,7 +413,7 @@ Active Engine: powerlevel10k ✅
 
 ---
 To fix issues: Select 'F' → 'Prompt engines' or run: flow doctor prompt
-```
+```bash
 
 ### Auto-Fix Workflow (Delegated to Flow Doctor)
 
@@ -430,7 +430,7 @@ $ flow doctor
     2. Create OhMyPosh config
 
 Fix these issues? (y/n)
-```
+```diff
 
 **Smart Flow Doctor Handles:**
 - ✅ Detecting all missing/broken components
@@ -442,7 +442,7 @@ Fix these issues? (y/n)
 
 **Flow Doctor Fix Process:**
 
-```
+```text
 1. Analyze current state (via _doctor_prompt_engines)
 2. Determine what's missing
 3. Ask user for permission
@@ -450,11 +450,11 @@ Fix these issues? (y/n)
 5. Create configs from templates
 6. Validate all fixes
 7. Report results with next steps
-```
+```text
 
 **User Experience:**
 
-```
+```text
 Installing Oh My Posh...
   ✓ Binary installed via homebrew
   ✓ Config created from template
@@ -462,7 +462,7 @@ Installing Oh My Posh...
 
 ✅ Prompt Engines: Ready to use
 Run: prompt help
-```
+```diff
 
 #### Why Delegate to Flow Doctor
 
@@ -517,7 +517,7 @@ _fix_prompt_engines() {
     # Create missing configs
     # Verify all fixed
 }
-```
+```bash
 
 #### Installation Logic
 
@@ -539,7 +539,7 @@ _install_engine_interactive() {
     # Verify installation
     _verify_installation "$engine"
 }
-```
+```zsh
 
 #### Configuration Creation
 
@@ -555,7 +555,7 @@ _create_engine_config() {
             ;;
     esac
 }
-```
+```diff
 
 ### Integration with Existing Doctor
 
@@ -601,7 +601,7 @@ command -v oh-my-posh >/dev/null 2>&1
 
 # Check Antidote (required)
 command -v antidote >/dev/null 2>&1
-```
+```diff
 
 ### Configuration Validation
 
@@ -613,7 +613,7 @@ command -v antidote >/dev/null 2>&1
 
 Example:
 
-```
+```text
 ⚠️  Starship config is invalid
    File: ~/.config/starship.toml
    Error: Failed to parse TOML
@@ -622,7 +622,7 @@ Manual fix:
    1. Edit file: nano ~/.config/starship.toml
    2. Validate syntax with: starship config
    3. Run: flow doctor  (to verify)
-```
+```diff
 
 ### Issue Severity
 
@@ -641,7 +641,7 @@ Manual fix:
 
 #### All Healthy
 
-```
+```text
 🎨 Prompt Engines: ✅ All healthy
   ● Powerlevel10k - installed & configured
   ● Starship - installed & configured
@@ -649,11 +649,11 @@ Manual fix:
   ▸ Current: powerlevel10k ✅
 
   Antidote: ✅ installed
-```
+```text
 
 #### Missing Optional Engine
 
-```
+```yaml
 🎨 Prompt Engines: ⚠️  Suboptimal setup
   ● Powerlevel10k - installed & configured
   ● Starship - installed & configured
@@ -664,11 +664,11 @@ Manual fix:
   Antidote: ✅ installed
 
 Status: Working (2/3 engines available)
-```
+```text
 
 #### Broken Configuration
 
-```
+```text
 🎨 Prompt Engines: ⚠️  Config issue
   ● Powerlevel10k - installed & configured
   ● Starship - installed (config broken)
@@ -683,11 +683,11 @@ Manual fix:
   3. Recheck: flow doctor
 
 ▸ Current: powerlevel10k ✅ (still working)
-```
+```text
 
 #### Missing Antidote
 
-```
+```bash
 🎨 Prompt Engines: ⚠️  Dependency issue
   ❌ Antidote not found
 
@@ -701,13 +701,13 @@ Fix:
 
 ▸ Current: powerlevel10k ⚠️ (P10k won't load)
 Status: Partially working (1/3 engines available)
-```
+```text
 
 ### User Workflow
 
 #### Scenario 1: First Time Setup
 
-```
+```text
 $ flow doctor
 
 🎨 Prompt Engines:
@@ -719,11 +719,11 @@ Fix prompt engines? (y/n) y
 ✅ Oh My Posh installed
 ✅ Config created
 ✅ All checks passing!
-```
+```text
 
 #### Scenario 2: Troubleshooting
 
-```
+```yaml
 $ flow doctor
 
 [Shows all systems]
@@ -735,15 +735,15 @@ User: Selects 'Prompt engines'
 ✅ Fixed: Oh My Posh installation
 ✅ Fixed: OhMyPosh config
 ✅ All issues resolved!
-```
+```text
 
 #### Scenario 3: Maintenance Check
 
-```
+```text
 $ flow doctor
 
 Shows that everything is healthy, no action needed
-```
+```zsh
 
 ---
 
@@ -777,7 +777,7 @@ _prompt_get_current()   # Get current engine safely
 _prompt_get_alternatives() # Get list of non-current engines
 _prompt_init_engine()   # Initialize chosen engine
 _prompt_engine_exists() # Check if engine binary/config exists
-```
+```zsh
 
 ### Engine Registry (Data Structure)
 
@@ -797,7 +797,7 @@ _prompt_parse_engine() {
 
     # Returns requested field (name, display, binary, config, etc.)
 }
-```
+```zsh
 
 ### Validation Logic
 
@@ -820,7 +820,7 @@ _prompt_validate() {
             ;;
     esac
 }
-```
+```sql
 
 ### Toggle Logic with 3 Engines
 
@@ -836,7 +836,7 @@ _prompt_toggle() {
         break
     done
 }
-```
+```text
 
 ---
 
@@ -846,7 +846,7 @@ _prompt_toggle() {
 
 **Example 1: Check Status**
 
-```
+```text
 $ prompt status
 
 Prompt Engines:
@@ -862,11 +862,11 @@ Prompt Engines:
   ○ oh-my-posh
     Modular prompt engine with extensive themes
     Config: ~/.config/ohmyposh/config.json
-```
+```text
 
 **Example 2: Toggle Interactively**
 
-```
+```text
 $ prompt toggle
 
 Which prompt engine would you like to use?
@@ -877,20 +877,20 @@ Which prompt engine would you like to use?
 ✅ Switched to Starship
 
 [shell reloads with new prompt]
-```
+```text
 
 **Example 3: Force Switch**
 
-```
+```bash
 $ prompt starship
 ✅ Switched to Starship
 
 [new shell loads]
-```
+```text
 
 **Example 4: List All Engines**
 
-```
+```yaml
 $ prompt list
 
 Available Prompt Engines:
@@ -902,11 +902,11 @@ starship       ○         ~/.config/starship.toml
 oh-my-posh     ○         ~/.config/ohmyposh/config.json
 
 Legend: ● = current, ○ = available
-```
+```text
 
 **Example 5: Validation Error**
 
-```
+```bash
 $ prompt ohmyposh
 ❌ Oh My Posh not found in PATH
 
@@ -915,7 +915,7 @@ Install with:
 
 Then configure with:
   prompt setup-ohmyposh
-```
+```bash
 
 ---
 
@@ -957,7 +957,7 @@ Then switch:
 
 Or use flow doctor:
   flow doctor  (shows 'F' to fix)
-```
+```text
 
 **Missing Engine Config:**
 
@@ -972,7 +972,7 @@ You can customize it:
   nano ~/.config/ohmyposh/config.json
 
 Ready to switch to Oh My Posh? (y/n)
-```
+```bash
 
 **Invalid/Broken Config:**
 
@@ -993,7 +993,7 @@ Fix manually:
 Or create from template:
   rm ~/.config/starship.toml
   prompt starship  (recreates with defaults)
-```
+```text
 
 ### OhMyPosh Setup Wizard
 
@@ -1001,7 +1001,7 @@ Or create from template:
 
 **Interactive Workflow:**
 
-```
+```sql
 Welcome to OhMyPosh Setup Wizard!
 
 This will help you configure Oh My Posh for your shell.

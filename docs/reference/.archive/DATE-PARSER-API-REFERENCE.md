@@ -60,7 +60,7 @@ typeset -gA MONTH_ABBREV=(
 typeset -g ISO_DATE_PATTERN='[0-9]{4}-[0-9]{2}-[0-9]{2}'
 typeset -g US_DATE_PATTERN='[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}'
 typeset -g ABBREV_DATE_PATTERN='(Jan|Feb|...|Dec) [0-9]{1,2}'
-```
+```bash
 
 **Usage:**
 
@@ -70,7 +70,7 @@ local month_num="${MONTH_ABBREV[Jan]}"  # → "01"
 
 # Use pattern for validation
 [[ "$date" =~ $ISO_DATE_PATTERN ]] && echo "Valid ISO date"
-```
+```text
 
 ---
 
@@ -84,7 +84,7 @@ Extract a date value from Quarto YAML frontmatter.
 
 ```zsh
 _date_parse_quarto_yaml <file> <field>
-```
+```diff
 
 #### Parameters
 
@@ -121,7 +121,7 @@ fi
 # Multiple fields
 local published=$(_date_parse_quarto_yaml "post.qmd" "published")
 local modified=$(_date_parse_quarto_yaml "post.qmd" "modified")
-```
+```bash
 
 #### Error Handling
 
@@ -142,7 +142,7 @@ _date_parse_quarto_yaml "file.qmd" "due"
 # yq not installed
 _date_parse_quarto_yaml "file.qmd" "due"
 # Returns: 1, stderr: "ERROR: yq required for YAML parsing"
-```
+```diff
 
 #### Dependencies
 
@@ -164,7 +164,7 @@ Find all inline dates in Markdown content.
 
 ```zsh
 _date_parse_markdown_inline <file> [pattern]
-```
+```diff
 
 #### Parameters
 
@@ -213,7 +213,7 @@ for entry in "${date_lines[@]}"; do
     local date="${entry#*:}"
     echo "Line $line_num has date: $date"
 done
-```
+```bash
 
 #### Supported Date Patterns
 
@@ -239,7 +239,7 @@ _date_parse_markdown_inline "file-without-dates.qmd"
 # Invalid pattern (grep error)
 _date_parse_markdown_inline "file.qmd" "["
 # Returns: grep error, prints nothing
-```
+```diff
 
 #### Performance
 
@@ -262,7 +262,7 @@ Convert any date format to ISO-8601 (YYYY-MM-DD).
 
 ```zsh
 _date_normalize <date_string>
-```
+```diff
 
 #### Parameters
 
@@ -314,7 +314,7 @@ if normalized_date=$(_date_normalize "$user_input"); then
 else
     echo "Invalid date format"
 fi
-```
+```bash
 
 #### Year Inference
 
@@ -324,7 +324,7 @@ When year is omitted (e.g., "Jan 22"), the function infers the current year:
 # If current year is 2025:
 _date_normalize "Jan 22"      # → "2025-01-22"
 _date_normalize "Dec 31"      # → "2025-12-31"
-```
+```bash
 
 #### Error Handling
 
@@ -340,7 +340,7 @@ _date_normalize "22nd of January"
 # Invalid date values (month/day out of range)
 _date_normalize "13/40/2025"  # Invalid month/day
 # Returns: 1, prints nothing (regex fails)
-```
+```bash
 
 #### Implementation Details
 
@@ -360,7 +360,7 @@ if [[ "$date_string" =~ (January|...|Dec)[[:space:]]+([0-9]{1,2}) ]]; then
     local month_num="${MONTH_ABBREV[$month_str]}"
     printf "%04d-%02d-%02d\n" "$year" "$month_num" "$day"
 fi
-```
+```diff
 
 #### See Also
 
@@ -378,7 +378,7 @@ Compute an ISO date from a week number and day offset.
 
 ```zsh
 _date_compute_from_week <week_num> <offset_days> [config_file]
-```
+```diff
 
 #### Parameters
 
@@ -419,7 +419,7 @@ _date_compute_from_week 5 -2
 # Store result
 local hw_due_date=$(_date_compute_from_week 3 4)
 yq eval ".deadlines.hw3.due_date = \"$hw_due_date\"" -i config.yml
-```
+```yaml
 
 #### Config Schema
 
@@ -433,7 +433,7 @@ semester_info:
     - number: 2
       start_date: "2025-01-20"
     # ... etc
-```
+```bash
 
 #### Error Handling
 
@@ -457,7 +457,7 @@ _date_compute_from_week 2 2 "nonexistent.yml"
 _date_compute_from_week 99 2
 # stderr: "ERROR: Week 99 not found in config"
 # Returns: 1
-```
+```bash
 
 #### Use Cases
 
@@ -469,7 +469,7 @@ for week in {2..10}; do
     local due_date=$(_date_compute_from_week $week 4)
     echo "HW $((week-1)) due: $due_date"
 done
-```
+```bash
 
 **Deadline before week start:**
 
@@ -477,7 +477,7 @@ done
 # Reading due Sunday before week 5
 local reading_due=$(_date_compute_from_week 5 -1)
 echo "Reading due: $reading_due"  # → Sunday before Week 5
-```
+```diff
 
 #### Dependencies
 
@@ -500,7 +500,7 @@ Add (or subtract) days from a date. Cross-platform (GNU date / BSD date).
 
 ```zsh
 _date_add_days <base_date> <days>
-```
+```diff
 
 #### Parameters
 
@@ -563,7 +563,7 @@ for i in {1..5}; do
     current_date=$(_date_add_days "$current_date" 7)
     echo "Week $i: $current_date"
 done
-```
+```bash
 
 #### Error Handling
 
@@ -580,7 +580,7 @@ _date_add_days "2025-01-20" "two"
 # Invalid date (e.g., Feb 30)
 _date_add_days "2025-02-30" 1
 # Returns: 1 (date command error)
-```
+```zsh
 
 #### Implementation Details
 
@@ -599,7 +599,7 @@ else
         date -v+${days}d -j -f "%Y-%m-%d" "$base_date" +%Y-%m-%d
     fi
 fi
-```
+```diff
 
 #### Performance
 
@@ -622,7 +622,7 @@ Find all Quarto/Markdown teaching files in a project.
 
 ```zsh
 _date_find_teaching_files [path]
-```
+```diff
 
 #### Parameters
 
@@ -644,7 +644,7 @@ _date_find_teaching_files [path]
 
 #### Directory Structure
 
-```
+```text
 teaching-project/
 ├── assignments/
 │   ├── hw1.qmd          ← Found
@@ -659,7 +659,7 @@ teaching-project/
 ├── syllabus.qmd         ← Found (root)
 ├── schedule.qmd         ← Found (root)
 └── README.md            ← Found (root)
-```
+```bash
 
 #### Examples
 
@@ -687,7 +687,7 @@ while IFS= read -r file; do
 done < <(_date_find_teaching_files)
 
 echo "Found ${#files[@]} teaching files"
-```
+```diff
 
 #### Search Depth
 
@@ -722,7 +722,7 @@ for file in "${files[@]}"; do
     local due_date=$(_date_parse_quarto_yaml "$file" "due" 2>/dev/null)
     [[ -n "$due_date" ]] && echo "$file: $due_date"
 done
-```
+```bash
 
 **File filtering:**
 
@@ -732,7 +732,7 @@ _date_find_teaching_files | grep "assignments/"
 
 # Find only lectures
 _date_find_teaching_files | grep "lectures/"
-```
+```diff
 
 #### See Also
 
@@ -749,7 +749,7 @@ Load all dates from teach-config.yml into shell variables.
 
 ```zsh
 _date_load_config [config_file]
-```
+```diff
 
 #### Parameters
 
@@ -783,7 +783,7 @@ eval "$(_date_load_config)"
 echo "${CONFIG_DATES[week_1]}"        # → "2025-01-13"
 echo "${CONFIG_DATES[deadline_hw1]}"  # → "2025-01-22"
 echo "${CONFIG_DATES[exam_midterm]}"  # → "2025-03-05"
-```
+```bash
 
 #### Output Format
 
@@ -795,7 +795,7 @@ CONFIG_DATES[deadline_hw1]="2025-01-22"
 CONFIG_DATES[deadline_hw2]="2025-02-05"
 CONFIG_DATES[exam_midterm]="2025-03-05"
 CONFIG_DATES[holiday_spring_break]="2025-03-10"
-```
+```yaml
 
 #### Config Structure
 
@@ -823,7 +823,7 @@ semester_info:
   holidays:
     - name: "Spring Break"
       date: "2025-03-10"
-```
+```text
 
 **Output (Shell):**
 
@@ -834,7 +834,7 @@ CONFIG_DATES[deadline_hw1]="2025-01-22"    # Computed
 CONFIG_DATES[deadline_hw2]="2025-02-05"    # Absolute
 CONFIG_DATES[exam_midterm]="2025-03-05"
 CONFIG_DATES[holiday_spring_break]="2025-03-10"
-```
+```diff
 
 #### Key Naming Convention
 
@@ -867,7 +867,7 @@ eval "$(_date_load_config)"
 eval "$(_date_load_config "bad.yml")"
 # yq errors printed to stderr
 # Partial CONFIG_DATES may be set
-```
+```bash
 
 #### Use Cases
 
@@ -885,7 +885,7 @@ local config_date="${CONFIG_DATES[deadline_hw1]}"
 if [[ "$file_date" != "$config_date" ]]; then
     echo "Mismatch: $file_date vs $config_date"
 fi
-```
+```bash
 
 **List all dates:**
 
@@ -896,7 +896,7 @@ eval "$(_date_load_config)"
 for key in "${(@k)CONFIG_DATES}"; do
     echo "$key: ${CONFIG_DATES[$key]}"
 done
-```
+```diff
 
 #### Dependencies
 
@@ -918,7 +918,7 @@ Apply date changes to a file (YAML frontmatter and inline content).
 
 ```zsh
 _date_apply_to_file <file> <changes...>
-```
+```diff
 
 #### Parameters
 
@@ -949,7 +949,7 @@ _date_apply_to_file <file> <changes...>
 # Format: "field:old_date:new_date"
 "due:2025-01-20:2025-01-22"
 "published:2025-01-15:2025-01-18"
-```
+```bash
 
 #### Examples
 
@@ -970,7 +970,7 @@ if _date_apply_to_file "file.qmd" "due:old:new"; then
 else
     echo "✗ Update failed (restored from backup)"
 fi
-```
+```diff
 
 #### What Gets Modified
 
@@ -980,7 +980,7 @@ fi
 ---
 due: "2025-01-20"    # ← Updated to 2025-01-22
 ---
-```
+```text
 
 **Inline dates (multiple formats):**
 
@@ -988,7 +988,7 @@ due: "2025-01-20"    # ← Updated to 2025-01-22
 Due date: 2025-01-20          # ← Updated (ISO)
 Due: 1/20/2025                # ← Updated (US)
 Assignment due January 20, 2025   # ← Updated (long form)
-```
+```bash
 
 #### Backup Strategy
 
@@ -1001,7 +1001,7 @@ rm file.qmd.bak
 
 # If modification fails
 mv file.qmd.bak file.qmd  # Restore original
-```
+```bash
 
 #### Error Handling
 
@@ -1022,7 +1022,7 @@ _date_apply_to_file "readonly.qmd" "due:old:new"
 _date_apply_to_file "file.qmd" "invalid_change"
 # File restored from backup
 # Returns: 1
-```
+```bash
 
 #### Safety Features
 
@@ -1042,7 +1042,7 @@ The function converts ISO dates to multiple formats for replacement:
 2025-01-20            → 2025-01-22          # ISO
 1/20/2025             → 1/22/2025           # US short
 January 20, 2025      → January 22, 2025    # Long form
-```
+```diff
 
 #### Performance
 
@@ -1073,7 +1073,7 @@ January 20, 2025      → January 22, 2025    # Long form
 
 ```zsh
 _date_extract_from_line <line>
-```
+```bash
 
 #### Behavior
 
@@ -1091,7 +1091,7 @@ Returns first match found, normalized to ISO.
 # Internal use only (called by _date_parse_markdown_inline)
 _date_extract_from_line "Due date: January 22, 2025"
 # → "2025-01-22"
-```
+```zsh
 
 ---
 
@@ -1114,7 +1114,7 @@ typeset ABBREV_DATE="Jan 22, 2025"
 
 # Abbreviated (Mon Day) - infers year
 typeset SHORT_ABBREV="Jan 22"
-```
+```bash
 
 ### Return Values
 
@@ -1129,7 +1129,7 @@ _date_normalize "invalid" || echo "Invalid"
 if _date_parse_quarto_yaml "file.qmd" "due" >/dev/null 2>&1; then
     echo "Field exists"
 fi
-```
+```diff
 
 ---
 
@@ -1232,7 +1232,7 @@ if [[ ${#mismatches[@]} -gt 0 ]]; then
         done
     fi
 fi
-```
+```bash
 
 ### Compute All Assignment Due Dates
 

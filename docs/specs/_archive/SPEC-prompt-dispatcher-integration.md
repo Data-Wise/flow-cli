@@ -75,7 +75,7 @@ Integrate the dual-mode prompt engine (Powerlevel10k ↔ Starship) into flow-cli
 
 #### Dispatcher Pattern
 
-```
+```text
 prompt [action] [options]
     ├── status (s)  → _prompt_status()
     ├── toggle (t)  → _prompt_toggle()
@@ -83,17 +83,17 @@ prompt [action] [options]
     ├── p10k        → _prompt_p10k()
     ├── list (ls)   → _prompt_list()
     └── help        → _prompt_help()
-```
+```text
 
 #### File Structure
 
-```
+```text
 lib/dispatchers/prompt-dispatcher.zsh    # Main dispatcher + functions
 completions/_prompt                       # Tab completion
 docs/reference/MASTER-DISPATCHER-GUIDE.md   # Documentation
 docs/guides/PROMPT-DISPATCHER.md         # Guide
 tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
-```
+```diff
 
 #### Environment
 
@@ -203,11 +203,11 @@ export FLOW_PROMPT_ENGINE="${FLOW_PROMPT_ENGINE:-powerlevel10k}"
 
 # Accessed by dispatcher
 $FLOW_PROMPT_ENGINE  # Current engine
-```
+```text
 
 ### Engine Configuration
 
-```
+```yaml
 Powerlevel10k:
   - Config: ~/.config/zsh/.p10k.zsh
   - Instant prompt: ~/.cache/p10k-instant-prompt-${user}.zsh
@@ -219,7 +219,7 @@ Starship:
   - Binary: /opt/homebrew/bin/starship (or in PATH)
   - Init: eval "$(starship init zsh)"
   - Cache: ~/.cache/starship
-```
+```bash
 
 ---
 
@@ -237,30 +237,30 @@ prompt starship            # Switch to Starship
 prompt p10k                # Switch to P10k
 prompt list                # List available engines
 prompt help                # Show this help
-```
+```text
 
 ### Output Format
 
 #### `prompt status`
 
-```
+```text
 🎨 Current Prompt Engine: powerlevel10k
    Alternative: starship
 
    To switch: prompt toggle
-```
+```text
 
 #### `prompt toggle`
 
-```
+```bash
 ✅ Switched to starship
 
 [... terminal reloads ...]
-```
+```text
 
 #### `prompt list`
 
-```
+```text
 Available Prompt Engines:
 
   ● powerlevel10k (current)
@@ -270,11 +270,11 @@ Available Prompt Engines:
   ○ starship
     Minimal, fast Rust-based prompt
     Config: ~/.config/starship.toml
-```
+```text
 
 #### `prompt help`
 
-```
+```yaml
 🎨 PROMPT DISPATCHER
    Manage dual-mode prompt system (Powerlevel10k ↔ Starship)
 
@@ -295,7 +295,7 @@ EXAMPLES:
    prompt starship          # Go to Starship
    prompt p10k              # Go to Powerlevel10k
    prompt list              # See available engines
-```
+```text
 
 ---
 
@@ -303,7 +303,7 @@ EXAMPLES:
 
 ### Unit Tests (test-prompt-dispatcher.zsh)
 
-```
+```text
 ✓ Dispatcher routing (all actions)
 ✓ Status output format
 ✓ Toggle logic and validation
@@ -314,28 +314,28 @@ EXAMPLES:
 ✓ Validation helper function
 ✓ Get current engine function
 ✓ Get alternatives function
-```
+```text
 
 ### E2E Tests
 
-```
+```text
 ✓ Prompt loads correct engine after toggle
 ✓ No errors in fresh shell
 ✓ Backward compatible aliases work
 ✓ Status shows correct engine after switch
 ✓ Multiple toggles in sequence
 ✓ Switching to same engine (idempotent)
-```
+```text
 
 ### Integration Tests
 
-```
+```text
 ✓ Dispatcher loads with flow-cli
 ✓ Help system recognizes prompt
 ✓ Tab completion works
 ✓ No conflicts with other dispatchers
 ✓ Works with custom flow-cli settings
-```
+```text
 
 ---
 
@@ -345,40 +345,40 @@ EXAMPLES:
 
 #### Scenario 1: Check Current Engine
 
-```
+```text
 User: prompt status
 System: Shows current engine + alternatives
         "To switch: prompt toggle"
 Time: ~100ms
-```
+```text
 
 #### Scenario 2: Switch Engines
 
-```
+```text
 User: prompt toggle
 System: Shows "✅ Switched to starship"
         Shell reloads (exec zsh)
         New prompt loads
 Time: ~500ms
-```
+```text
 
 #### Scenario 3: Learn Available Options
 
-```
+```text
 User: prompt help
 System: Shows all actions with examples
 Time: ~50ms
-```
+```text
 
 #### Scenario 4: Legacy Alias Usage
 
-```
+```text
 User: ptoggle
 System: (maps to prompt toggle)
         Shows "✅ Switched to ..."
         Works exactly as before
 Time: ~500ms
-```
+```diff
 
 ### Error Handling
 

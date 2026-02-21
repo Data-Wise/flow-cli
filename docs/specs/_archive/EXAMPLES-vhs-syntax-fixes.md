@@ -84,7 +84,7 @@ Type "# → GitHub repo creation? (y/N)" Sleep 500ms Enter
 
 # Line 100
 Type "# ✅ All 5 Phases Complete!" Enter
-```
+```bash
 
 ### After (CORRECT)
 
@@ -148,9 +148,10 @@ Type "echo '→ GitHub repo creation? (y/N)'" Sleep 500ms Enter
 
 # Line 100
 Type "echo '✅ All 5 Phases Complete!'" Enter
-```
+```diff
 
 ### Key Changes
+
 - Removed `#` prefix (causes ZSH to parse as comment)
 - Wrapped text in `echo '...'`
 - Changed `#   1)` → `echo '  1)'` (spacing preserved)
@@ -202,7 +203,7 @@ Type@100ms "# Get help anytime"
 
 # Line 103
 Type "# Dotfile management made easy!"
-```
+```bash
 
 ### After (CORRECT)
 
@@ -242,9 +243,10 @@ Type@100ms "echo 'Get help anytime'"
 
 # Line 103
 Type "echo 'Dotfile management made easy!'"
-```
+```diff
 
 ### Key Changes
+
 - All `Type "#..."` → `Type "echo '...'"`
 - Preserved `Type@50ms` and `Type@100ms` typing speed syntax
 - Preserved spacing and formatting
@@ -297,7 +299,7 @@ Type "#   finish       - End session with optional note"
 
 # Line 133
 Type "# That's it! You've completed your first session."
-```
+```bash
 
 ### After (CORRECT)
 
@@ -339,9 +341,10 @@ Type "echo '  finish       - End session with optional note'"
 
 # Line 133
 Type "echo 'That'\''s it! You'\''ve completed your first session.'"
-```
+```diff
 
 ### Key Changes
+
 - All `Type "#..."` → `Type "echo '...'"`
 - Apostrophe escaping: `That's` → `That'\''s`
 - Multi-line reference preserved with individual echo statements
@@ -357,7 +360,7 @@ Type "echo 'That'\''s it! You'\''ve completed your first session.'"
 Set FontSize 14
 Set Width 1200
 Set Height 800
-```
+```text
 
 ### After (CORRECT)
 
@@ -365,7 +368,7 @@ Set Height 800
 Set FontSize 18  # Minimum for teaching workflows
 Set Width 1400   # Increased for better readability
 Set Height 900   # Increased for better readability
-```
+```diff
 
 **Affected files:**
 - teaching-git-workflow.tape (14 → 18)
@@ -391,7 +394,7 @@ Type "# Phase 1: Introduction" Enter
 
 # ✅ CORRECT
 Type "echo 'Phase 1: Introduction'" Enter
-```
+```bash
 
 ### Pattern 2: Bullet Lists
 
@@ -403,7 +406,7 @@ Type "#   • Item 2" Enter
 # ✅ CORRECT
 Type "echo '  • Item 1'" Enter
 Type "echo '  • Item 2'" Enter
-```
+```bash
 
 ### Pattern 3: Numbered Lists
 
@@ -415,7 +418,7 @@ Type "#   2) Second option" Enter
 # ✅ CORRECT
 Type "echo '  1) First option'" Enter
 Type "echo '  2) Second option'" Enter
-```
+```bash
 
 ### Pattern 4: Empty Lines
 
@@ -425,7 +428,7 @@ Type "#" Enter
 
 # ✅ CORRECT
 Type "echo ''" Enter
-```
+```bash
 
 ### Pattern 5: Status Messages
 
@@ -439,7 +442,7 @@ Type "# ⚠ Warning message" Enter
 Type "echo '✓ Success!'" Enter
 Type "echo '✗ Error occurred'" Enter
 Type "echo '⚠ Warning message'" Enter
-```
+```bash
 
 ### Pattern 6: Multiline Blocks
 
@@ -455,7 +458,7 @@ Type "echo 'System Information:'" Enter
 Type "echo '  OS: macOS'" Enter
 Type "echo '  Shell: zsh'" Enter
 Type "echo '  Version: 5.22.0'" Enter
-```
+```bash
 
 ---
 
@@ -471,15 +474,16 @@ Type "echo 'That's great!'" Enter
 
 # ✅ CORRECT (escape apostrophe)
 Type "echo 'That'\''s great!'" Enter
-```
+```bash
 
 **Explanation:** `'\''` breaks out of single quotes, adds escaped apostrophe, resumes single quotes
 
 **Alternative (use double quotes):**
+
 ```bash
 # ✅ ALSO CORRECT (if no other quotes in text)
 Type "echo \"That's great!\"" Enter
-```
+```text
 
 ---
 
@@ -488,28 +492,31 @@ Type "echo \"That's great!\"" Enter
 For bulk fixing in editors:
 
 ### Vim/Neovim
+
 ```vim
 " Replace simple Type "# patterns
 :%s/Type "#/Type "echo '/g
 
 " Add closing quote and parenthesis (manual verification needed)
 :%s/Type "echo '\(.*\)" Enter/Type "echo '\1'" Enter/g
-```
+```text
 
 ### VS Code (Regex Find/Replace)
-```
+
+```text
 Find:    Type "# (.*)\" Enter
 Replace: Type "echo '$1'" Enter
-```
+```bash
 
 ### sed (Command Line)
+
 ```bash
 # Backup file first
 cp teaching-git-workflow.tape teaching-git-workflow.tape.bak
 
 # Simple replacement (requires manual quote fixing)
 sed -i '' 's/Type "#/Type "echo '"'"'/g' teaching-git-workflow.tape
-```
+```bash
 
 **Note:** Automated replacement requires careful review due to quote escaping complexity.
 
@@ -518,23 +525,26 @@ sed -i '' 's/Type "#/Type "echo '"'"'/g' teaching-git-workflow.tape
 ## Validation After Fixes
 
 ### Manual Check
+
 ```bash
 # Check for remaining problematic patterns
 grep 'Type "#' teaching-git-workflow.tape
 
 # Should return no results if all fixed
-```
+```bash
 
 ### Automated Validation
+
 ```bash
 # Use validation script (from Phase 2)
 ./scripts/validate-vhs-tapes.sh teaching-git-workflow.tape
 
 # Expected output:
 # ✓ teaching-git-workflow.tape
-```
+```bash
 
 ### Test Generation
+
 ```bash
 # Generate GIF to verify no errors
 cd docs/demos
@@ -542,7 +552,7 @@ vhs teaching-git-workflow.tape
 
 # Check for ZSH errors in terminal output
 # Verify GIF displays correctly
-```
+```zsh
 
 ---
 
@@ -595,7 +605,7 @@ Sleep 1s
 # Completion
 Type "echo '✓ Demo complete!'" Enter
 Sleep 2s
-```
+```zsh
 
 ### Dispatcher Demo Template (CORRECT)
 

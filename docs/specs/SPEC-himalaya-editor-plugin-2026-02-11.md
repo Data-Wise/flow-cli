@@ -56,7 +56,7 @@ Evaluate and prototype a Himalaya email CLI integration plugin for editor enviro
 
 ### Current (Terminal Layer — DONE)
 
-```
+```text
 +------------------+     spawns      +------------------+
 |  em dispatcher   | -------------> |  himalaya CLI    |
 |  (pure ZSH)      | <------------- |  --output json   |
@@ -68,13 +68,13 @@ Evaluate and prototype a Himalaya email CLI integration plugin for editor enviro
 | claude/  | | w3m/bat/ |           |  Email Server    |
 | gemini   | | glow     |           |  (1 account)     |
 +----------+ +----------+           +------------------+
-```
+```text
 
 **6-layer architecture:** dispatcher -> himalaya adapter (`em-himalaya.zsh`) -> AI layer (`em-ai.zsh`) -> cache (`em-cache.zsh`) -> render (`em-render.zsh`) -> helpers (`email-helpers.zsh`)
 
 ### Planned (Editor Plugins — extend terminal layer)
 
-```
+```text
 +------------------+     spawns/calls  +------------------+
 |  Editor Plugin   | ---------------> |  em dispatcher   |
 |  (TS/Lua/Elisp)  | <--------------- |  OR himalaya CLI |
@@ -86,7 +86,7 @@ Evaluate and prototype a Himalaya email CLI integration plugin for editor enviro
 | Editor-native UI |                   |  Email Server    |
 | (TreeView/buffer)|                   |  (1 account)     |
 +------------------+                   +------------------+
-```
+```diff
 
 ### Integration Pattern (All Editors)
 
@@ -130,7 +130,7 @@ N/A - No persistent data model. All data flows through Himalaya CLI JSON output.
   "date": "2026-02-11T10:00:00Z",
   "flags": ["Seen"]
 }
-```
+```diff
 
 ---
 
@@ -152,18 +152,18 @@ N/A - No persistent data model. All data flows through Himalaya CLI JSON output.
 
 ### User Flow
 
-```
+```text
 Open editor -> Click inbox icon / run command
     -> Sidebar shows envelope list (folder, subject, from, date)
     -> Click/select envelope -> Message opens in reader pane
     -> Keybinds: r(reply), f(forward), d(delete), a(archive)
     -> AI keybinds: ms(summarize), mt(todos), mr(draft-reply)
     -> Compose: opens editor buffer/modal, send on save/confirm
-```
+```text
 
 ### Wireframe (VS Code - Primary Target)
 
-```
+```text
 +--sidebar--+--main-editor-area------------------+
 | Folders   | [Email Reader Tab]                  |
 |  > INBOX  |                                     |

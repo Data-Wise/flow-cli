@@ -114,7 +114,7 @@ flowchart TD
     end
 
     GAP --> NEW
-```
+```text
 
 ### Deliverable Dependencies
 
@@ -128,7 +128,7 @@ flowchart LR
     D --> F[6. mkdocs.yml + build verify]
     E --> F
     F --> G[7. Bidirectional cross-references]
-```
+```text
 
 ---
 
@@ -142,7 +142,7 @@ flowchart LR
 
 **Structure:**
 
-```
+```bash
 # Teach Dispatcher Quick Reference
 
 ## Scholar Wrappers (AI Content Generation)
@@ -173,7 +173,7 @@ flowchart LR
 | teach archive | a | teach archive [SEMESTER] | Archive course |
 | teach hooks | hook | teach hooks [install|remove|status] | Git hooks |
 | teach profiles | prof | teach profiles [list|switch|create] | Profile management |
-```
+```text
 
 **Cross-references:** Link each command to its detailed documentation (guide, tutorial, or REFCARD).
 
@@ -187,7 +187,7 @@ flowchart LR
 
 **Structure:**
 
-```
+```diff
 # Scholar Wrappers Guide
 
 ## Prerequisites
@@ -227,21 +227,23 @@ flowchart LR
 - Generating a full week of content
 - Creating an exam from lesson plan
 - Customizing output with prompts and macros
-```
+```text
 
 **Mermaid Diagrams Required:**
 
 1. **Scholar Integration Architecture:**
-```
+
+```text
 teach exam → Scholar Plugin → Claude → Output
                 ↑
          teach-config.yml + prompts + macros
-```
+```text
 
-2. **Config Resolution Chain:**
-```
+1. **Config Resolution Chain:**
+
+```text
 Course (.flow/prompts/) > User (~/.flow/prompts/) > Plugin (defaults)
-```
+```text
 
 ---
 
@@ -252,7 +254,7 @@ Course (.flow/prompts/) > User (~/.flow/prompts/) > Plugin (defaults)
 
 **Structure:**
 
-```
+```diff
 # teach-config.yml Schema Reference
 
 ## Top-Level Keys
@@ -290,7 +292,7 @@ Course (.flow/prompts/) > User (~/.flow/prompts/) > Plugin (defaults)
 - semester_info.weeks[].number must be unique integers
 - semester_info.weeks[].style must be one of: conceptual, computational, rigorous, applied
 - ...
-```
+```text
 
 **Example:** Full annotated STAT-101 demo course config.
 
@@ -303,7 +305,7 @@ Course (.flow/prompts/) > User (~/.flow/prompts/) > Plugin (defaults)
 
 **Structure:**
 
-```
+```diff
 # Teaching Deployment Guide
 
 ## Local Preview
@@ -326,7 +328,7 @@ Course (.flow/prompts/) > User (~/.flow/prompts/) > Plugin (defaults)
 - Common deployment issues
 - Permission errors
 - Build failures
-```
+```diff
 
 ---
 
@@ -356,14 +358,16 @@ Four diagrams distributed across deliverables:
 | Command Taxonomy | REFCARD-TEACH-DISPATCHER.md | mindmap or flowchart |
 
 **Teaching Workflow Overview:**
-```
+
+```text
 init → config → plan → [generate content] → validate → deploy
                          ↓
               lecture / exam / quiz / slides / ...
-```
+```text
 
 **Command Taxonomy:**
-```
+
+```text
 teach
 ├── Scholar Wrappers (AI)
 │   ├── lecture, slides, exam, quiz
@@ -378,7 +382,7 @@ teach
 └── Infrastructure
     ├── doctor, dates, cache, clean
     └── hooks, profiles
-```
+```diff
 
 ---
 
@@ -387,20 +391,23 @@ teach
 **mkdocs.yml changes:**
 
 Add to the `Teaching > Reference > Quick Reference Cards` section:
+
 ```yaml
 - All Commands: reference/REFCARD-TEACH-DISPATCHER.md
 - Content Analysis: reference/REFCARD-ANALYSIS.md
 - Date Management: reference/REFCARD-DATES.md
 - Health Check: reference/REFCARD-DOCTOR.md
-```
+```diff
 
 Add to the `Teaching > Core Workflows` section:
+
 ```yaml
 - Scholar Wrappers: guides/SCHOLAR-WRAPPERS-GUIDE.md
 - Deployment: guides/TEACH-DEPLOY-GUIDE.md
-```
+```text
 
 Add to the `Teaching > Reference` section:
+
 ```yaml
 - Config Schema: reference/TEACH-CONFIG-SCHEMA.md
 ```
@@ -522,7 +529,7 @@ Read actual implementations to document behavior accurately:
 | Scholar wrappers | `lib/dispatchers/teach-dispatcher.zsh` (wrapper functions) |
 | teach init | `lib/dispatchers/teach-dispatcher.zsh` (_teach_init) |
 | teach deploy | `lib/dispatchers/teach-deploy-enhanced.zsh` |
-| teach config | `lib/dispatchers/teach-dispatcher.zsh` (_teach_config_*) |
+| teach config | `lib/dispatchers/teach-dispatcher.zsh` (*teach_config**) |
 | teach doctor | `lib/dispatchers/teach-doctor-impl.zsh` |
 | teach dates | `lib/dispatchers/teach-dates.zsh` |
 | teach analyze | `commands/teach-analyze.zsh` |

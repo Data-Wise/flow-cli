@@ -23,17 +23,19 @@
 **Problem:** `teach deploy` manually calls `git checkout $draft_branch` in each error path. If an unexpected error occurs (signal, ZSH crash, unhandled case), the user gets stranded on the production branch.
 
 **What quick-deploy.sh does:**
+
 ```bash
 trap return_to_draft EXIT
-```
+```bash
 
 **What teach deploy should do:**
+
 ```zsh
 # At the start of _deploy_direct_merge and PR mode
 trap "git checkout '$draft_branch' 2>/dev/null" EXIT INT TERM
 # ... do work ...
 trap - EXIT INT TERM  # Clear trap before normal return
-```
+```bash
 
 **Effort:** 15 min | **Risk:** Low (additive, no behavior change on happy path)
 **Where:** `_deploy_direct_merge()` (line ~162) and PR mode section (line ~854)
@@ -45,17 +47,19 @@ trap - EXIT INT TERM  # Clear trap before normal return
 **Problem:** When `teach deploy` auto-commits changes (partial deploy mode), if the pre-commit hook fails, the user gets a generic error. quick-deploy.sh shows a specific recovery menu.
 
 **What quick-deploy.sh does:**
-```
+
+```yaml
 Commit failed (likely pre-commit hook)
 
 Options:
   1. Fix the issues reported above, then run deploy again
   2. Skip validation: QUARTO_PRE_COMMIT_RENDER=0 ./scripts/quick-deploy.sh
   3. Force commit: git commit --no-verify -m "message"
-```
+```bash
 
 **What teach deploy should do:**
 Add hook failure detection after `git commit` calls in partial deploy mode (line ~670, ~683):
+
 ```zsh
 if ! git commit -m "$commit_msg"; then
     echo ""
@@ -68,7 +72,7 @@ if ! git commit -m "$commit_msg"; then
     echo "  Your changes are still staged."
     return 1
 fi
-```
+```bash
 
 **Effort:** 20 min | **Risk:** Low
 **Where:** `_teach_deploy_enhanced()` partial deploy commit blocks (lines ~664-686)
@@ -87,6 +91,7 @@ fi
 
 **What teach deploy should add:**
 In `_deploy_direct_merge()` after `git pull origin "$prod_branch" --ff-only` fails (line ~208):
+
 ```zsh
 # Check for divergence specifically
 if ! git merge-base --is-ancestor "$prod_branch" "origin/$prod_branch" &&
@@ -101,7 +106,7 @@ if ! git merge-base --is-ancestor "$prod_branch" "origin/$prod_branch" &&
         [[ "$reset_confirm" == [yY] ]] && git reset --hard "origin/$prod_branch"
     fi
 fi
-```
+```bash
 
 **Effort:** 30 min | **Risk:** Medium (destructive operation, needs careful prompt)
 **Where:** `_deploy_direct_merge()` (line ~208, after ff-only pull fails)
@@ -113,20 +118,22 @@ fi
 **Problem:** After deploy, teach deploy shows a summary box with site URL. But doesn't show the GitHub Actions URL where the user can monitor the actual deployment pipeline.
 
 **What quick-deploy.sh does:**
+
 ```bash
 echo "Tip: Check deployment status at:"
 echo "   https://github.com/<owner>/<repo>/actions"
-```
+```bash
 
 **What teach deploy should add:**
 In `_deploy_summary_box()`, add an optional actions URL:
+
 ```zsh
 local repo_slug
 repo_slug=$(git config --get remote.origin.url 2>/dev/null | sed 's/.*github.com[:\\/]\(.*\)\.git/\1/')
 if [[ -n "$repo_slug" ]]; then
     printf "│  🔗 %-8s %-42s│\n" "Actions:" "https://github.com/${repo_slug}/actions"
 fi
-```
+```bash
 
 **Effort:** 10 min | **Risk:** None
 **Where:** `_deploy_summary_box()` (line ~125)
@@ -138,23 +145,26 @@ fi
 **Problem:** `teach deploy -d` (direct mode) requires a clean working tree and fails if there are uncommitted changes. quick-deploy.sh handles this gracefully: prompts to commit first with smart message, then continues the deploy.
 
 **Current behavior:**
-```
+
+```bash
 teach deploy -d
   [!!] Working tree dirty
   → FAILS
-```
+```bash
 
 **Desired behavior (matching quick-deploy.sh):**
-```
+
+```bash
 teach deploy -d
   [!!] Uncommitted changes detected (3 files)
   Smart commit: content: week-05 lecture
   Commit and continue? [Y/n]:
   → auto-commits, then proceeds with deploy
-```
+```bash
 
 **Implementation:**
 Move the uncommitted-change handling from partial deploy mode into the main `_teach_deploy_enhanced()` flow, before the mode dispatch:
+
 ```zsh
 # After preflight checks, before mode dispatch
 if ! _git_is_clean; then

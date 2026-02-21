@@ -31,7 +31,7 @@ Comprehensive documentation update to clarify that **flow-cli has ZERO dependenc
 
 **Highlights:**
 
-```markdown
+``````markdown
 ## Your Setup: Antidote + OMZ Plugins
 
 What You DON'T Have:
@@ -43,7 +43,8 @@ What You DO Have:
 ✅ Antidote plugin manager (modern, fast)
 ✅ OMZ plugins loaded via antidote (best of both worlds)
 ✅ flow-cli (works independently)
-```
+
+`````diff
 
 #### Created: `docs/getting-started/faq-dependencies.md` (400+ lines)
 
@@ -73,7 +74,7 @@ flow-cli Independence:
 - Homebrew (recommended)
 - antidote (recommended plugin manager)
 - zinit, Oh-My-Zsh, manual install
-```
+```text
 
 ---
 
@@ -91,7 +92,7 @@ works with any plugin manager (or no plugin manager at all).
 
     The installation methods below are just different ways to load
     the same plugin. Choose what matches your existing setup.
-```
+```text
 
 **Added warning for OMZ installation method:**
 
@@ -100,7 +101,7 @@ works with any plugin manager (or no plugin manager at all).
 The Oh-My-Zsh framework receives infrequent updates. Consider
 using **antidote** (which can load OMZ plugins) for a more
 modern approach with automatic updates.
-```
+```text
 
 **Added "Recommended" label to Antidote:**
 
@@ -108,7 +109,7 @@ modern approach with automatic updates.
 === "Antidote (Recommended)"
 ...
 **Why recommended:** Modern, fast, automatic updates
-```
+```bash
 
 #### Modified: `README.md`
 
@@ -125,15 +126,15 @@ brew install data-wise/tap/flow-cli   # macOS (recommended)
 
 # 2. Work
 ...
-```
-````
+```diff
+````text
 
 !!! info "Zero Dependencies"
 flow-cli is a **standalone ZSH plugin** with no dependencies on
 Oh-My-Zsh, antidote, or any other framework. Choose any
 installation method - they all load the same independent plugin.
 
-````
+````diff
 
 #### Modified: `CLAUDE.md`
 
@@ -159,9 +160,9 @@ if [[ -d "$HOME/.oh-my-zsh" ]]; then
 elif [[ -f "$HOME/.antidoterc" ]]; then
     # User has antidote → show relevant help
 fi
-````
+````text
 
-````
+````diff
 
 #### Modified: `mkdocs.yml`
 
@@ -178,7 +179,8 @@ fi
     - Start Here: guides/00-START-HERE.md
     - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md  # NEW
     ...
-````
+`````
+``````
 
 ---
 
@@ -186,7 +188,7 @@ fi
 
 ### flow-cli Independence Test
 
-```bash
+````bash
 # Tested: flow-cli works WITHOUT OMZ
 $ zsh -c 'unfunction g 2>/dev/null; \
   source /path/to/flow.plugin.zsh && \
@@ -196,7 +198,7 @@ $ zsh -c 'unfunction g 2>/dev/null; \
 ✅ work
 ✅ mcp
 ✅ flow-cli works WITHOUT OMZ
-```
+```diff
 
 ### Plugin Ecosystem Analysis
 
@@ -228,7 +230,7 @@ $ zsh -c 'unfunction g 2>/dev/null; \
 
 **What's Loaded:**
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                   ZSH ENVIRONMENT                           │
 ├─────────────────────────────────────────────────────────────┤
@@ -241,7 +243,7 @@ $ zsh -c 'unfunction g 2>/dev/null; \
 │                                                             │
 │  Total: 22 plugins + flow-cli = 351 aliases                │
 └─────────────────────────────────────────────────────────────┘
-```
+```diff
 
 **Most Useful OMZ Plugins:**
 
@@ -283,7 +285,7 @@ cd ~/projects/foo      # zoxide learns this too
 # Later, use z to jump
 z ssh                  # → cd ~/.ssh (smart match)
 z foo                  # → cd ~/projects/foo
-```
+```diff
 
 ---
 
@@ -335,7 +337,7 @@ z foo                  # → cd ~/projects/foo
 
 ## Files Changed
 
-```
+```text
 docs/guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md          NEW (1,200+ lines)
 docs/getting-started/faq-dependencies.md           NEW (400+ lines)
 docs/getting-started/installation.md               MODIFIED
@@ -343,7 +345,7 @@ README.md                                          MODIFIED
 CLAUDE.md                                          MODIFIED
 mkdocs.yml                                         MODIFIED
 DOCUMENTATION-UPDATE-2026-01-24.md                 NEW (this file)
-```
+````
 
 ---
 

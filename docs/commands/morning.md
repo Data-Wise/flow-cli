@@ -10,7 +10,7 @@ The `morning` command provides a structured startup routine to reduce decision f
 
 ```bash
 morning [options]
-```
+```diff
 
 ## Options
 
@@ -37,11 +37,11 @@ The full `morning` command displays:
 
 ```bash
 morning
-```
+```text
 
 Output:
 
-```
+```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ☀️  GOOD MORNING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -64,7 +64,7 @@ Output:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Ready to start? Try: js (just-start) or work <project>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+```bash
 
 ### Quick Mode
 
@@ -72,15 +72,15 @@ Output:
 morning -q
 # or
 am
-```
+```text
 
 Output:
 
-```
+```text
   📥 3 inbox  │  📂 5 active projects
 
   → js to start working
-```
+```text
 
 ---
 
@@ -92,11 +92,11 @@ Quick daily status showing current session and today's wins:
 
 ```bash
 today
-```
+```text
 
 Output:
 
-```
+```text
 📅 TODAY Friday, December 27
 
   🎯 Working on: flow-cli (2h 15m)
@@ -107,7 +107,7 @@ Output:
 
   Active Projects:
      🔧 flow-cli        [ 85%] → Documentation enhancement
-```
+```text
 
 ### week
 
@@ -115,11 +115,11 @@ Weekly review helper showing session stats and wins:
 
 ```bash
 week
-```
+```text
 
 Output:
 
-```
+```text
 📊 WEEKLY REVIEW
 Week of December 27, 2025
 
@@ -136,7 +136,7 @@ Week of December 27, 2025
      ...
 
   Take a moment to celebrate progress! 🎉
-```
+```diff
 
 ---
 

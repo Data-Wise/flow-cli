@@ -13,7 +13,7 @@ pick              # Smart resume or browse all projects
 pick flow         # Direct jump to flow-cli (no picker)
 pick r            # Show only R packages
 pick -a           # Force full picker (bypass resume)
-```
+```text
 
 ---
 
@@ -21,7 +21,7 @@ pick -a           # Force full picker (bypass resume)
 
 ```bash
 pick [options] [category|project-name]
-```
+```text
 
 ### Arguments
 
@@ -44,20 +44,20 @@ Jump directly to a project without the picker:
 pick flow         # → cd to flow-cli (exact match)
 pick med          # → cd to mediationverse
 pick stat         # → Multiple matches? Shows filtered picker
-```
+```text
 
 ### Session-Aware Resume
 
 When you run `pick` with no args and have a recent session:
 
-```
+```bash
 ╔════════════════════════════════════════════════════════════╗
 ║  🔍 PROJECT PICKER                                         ║
 ╚════════════════════════════════════════════════════════════╝
 
   💡 Last: flow-cli (2h ago)
   [Enter] Resume  │  [Space] Browse all  │  Type to search...
-```
+```text
 
 | Key       | Action                            |
 | --------- | --------------------------------- |
@@ -77,7 +77,7 @@ mediationverse       📦 r
 medrobust            📦 r
 flow-cli (feature-x) 🌳 wt   🟢 2h
 scholar (gh-actions) 🌳 wt   🟡 old
-```
+```diff
 
 **Key features:**
 
@@ -93,7 +93,7 @@ scholar (gh-actions) 🌳 wt   🟡 old
 pick wt              # Show only worktrees
 pick wt flow         # Filter worktrees for "flow" project
 pick wt scholar      # Filter worktrees for "scholar" project
-```
+```text
 
 **Supported Structures (v5.9.1+):**
 
@@ -104,7 +104,7 @@ Pick detects **both** worktree naming conventions:
 | **Hierarchical** | `~/.git-worktrees/flow-cli/feature-x/` | `flow-cli (feature-x)` |
 | **Flat** | `~/.git-worktrees/scholar-gh-actions/` | `scholar (gh-actions)` |
 
-```
+```text
 ~/.git-worktrees/
 ├── flow-cli/                      # HIERARCHICAL: project directory
 │   ├── feature-x/                 # └─ branch worktree (has .git file)
@@ -112,7 +112,7 @@ Pick detects **both** worktree naming conventions:
 ├── scholar-gh-actions/            # FLAT: worktree at level-1 (has .git file)
 └── aiterm/
     └── develop/                   # HIERARCHICAL: branch worktree
-```
+```bash
 
 **How detection works:**
 
@@ -130,7 +130,7 @@ git worktree add ~/.git-worktrees/<project>/<branch> <branch>
 
 # Flat (also supported)
 git worktree add ~/.git-worktrees/<any-name> <branch>
-```
+```diff
 
 ### Categories
 
@@ -194,7 +194,7 @@ flow-cli    🔧 dev
 mediationverse       📦 r
 medrobust            📦 r
 apple-notes-sync     🔧 dev
-```
+```diff
 
 **Note:** Git status display was removed for simplicity and reliability. A `--git` flag may be added in future versions to optionally show branch and status information.
 
@@ -222,7 +222,7 @@ pick stat         # → Multiple matches? Shows filtered picker
 
 # Force full picker even with name
 pick -a flow      # Shows picker, pre-filtered to "flow"
-```
+```bash
 
 ### Smart Resume (NEW)
 
@@ -230,7 +230,7 @@ pick -a flow      # Shows picker, pre-filtered to "flow"
 # If you were recently in flow-cli:
 pick              # Shows: "💡 Last: flow-cli (2h ago)"
                   # Press Enter to resume, Space to browse
-```
+```bash
 
 ### Category Filtering
 
@@ -242,7 +242,7 @@ pick DEV          # Case-insensitive
 
 # Fast mode with filter
 pick --fast r
-```
+```bash
 
 ### Interactive Actions
 
@@ -253,7 +253,7 @@ pick --fast r
 #   - Press Space to bypass resume and browse all
 #   - Press Ctrl-S to view .STATUS file
 #   - Press Ctrl-L to view git log
-```
+```text
 
 ---
 
@@ -265,7 +265,7 @@ Shortcuts available for common categories:
 pickr             # Expands to: pick r
 pickdev           # Expands to: pick dev
 pickq             # Expands to: pick q
-```
+```yaml
 
 ---
 
@@ -326,7 +326,7 @@ Reload the function:
 
 ```bash
 source ~/.config/zsh/functions/adhd-helpers.zsh
-```
+```bash
 
 ### Formatting broken?
 

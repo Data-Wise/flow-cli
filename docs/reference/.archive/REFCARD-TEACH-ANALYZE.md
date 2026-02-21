@@ -14,7 +14,7 @@ teach analyze --slide-breaks <file>           # + Slide optimization
 teach analyze --preview-breaks <file>         # Detailed break preview
 teach analyze --interactive <file>            # Guided ADHD-friendly mode
 teach analyze --report analysis.md <file>     # Generate report
-```
+```diff
 
 ---
 
@@ -64,7 +64,7 @@ teach analyze --preview-breaks lectures/week-05-regression.qmd
 
 # 4. Generate slides with optimization
 teach slides --optimize lectures/week-05-regression.qmd
-```
+```bash
 
 ### Course Structure Audit
 
@@ -76,7 +76,7 @@ teach analyze lectures/week-03.qmd --report week3.md
 
 # Or use AI for deeper insights
 teach analyze --ai lectures/week-05.qmd
-```
+```bash
 
 ### Pre-Deployment Check
 
@@ -84,7 +84,7 @@ teach analyze --ai lectures/week-05.qmd
 # Validate prerequisites before deploying
 teach analyze lectures/week-05.qmd --mode strict
 teach deploy --check-prereqs
-```
+```yaml
 
 ---
 
@@ -105,7 +105,7 @@ concepts:
     - correlation
     - variance
 ---
-```
+```text
 
 **Naming:** lowercase, hyphenated (`chi-squared`, not `Chi Squared`)
 
@@ -115,7 +115,7 @@ concepts:
 
 ### Phase 0 Output
 
-```
+```text
 ╔══════════════════════════════════════════╗
 │ CONCEPT COVERAGE                         │
 ├──────────────────────────────────────────┤
@@ -140,13 +140,13 @@ concepts:
 │ SUMMARY                                  │
 │ Phase: 0 (concept-validated)             │
 ╚══════════════════════════════════════════╝
-```
+```text
 
 ### Prerequisite Display Format
 
 The prerequisites section shows a **dependency tree** for each concept introduced in the analyzed file:
 
-```
+```text
 🔗 PREREQUISITES
 
 For concepts introduced in Week 3:
@@ -156,7 +156,7 @@ Linear Regression
     ↳ Descriptive Statistics (Week 1)
       (via Correlation)
   ✓ Statistical Inference (Week 2)
-```
+```diff
 
 **Features:**
 
@@ -178,7 +178,7 @@ In the example above:
 
 ### Phase 4 Output (--slide-breaks)
 
-```
+```text
 ┌──────────────────────────────────────────┐
 │ SLIDE OPTIMIZATION                        │
 ├──────────────────────────────────────────┤
@@ -195,7 +195,7 @@ In the example above:
 │ Estimated time: 28 min                    │
 │ Phase: 4 (slide-optimized)                │
 └──────────────────────────────────────────┘
-```
+```diff
 
 ---
 
@@ -226,10 +226,10 @@ Three strategies find concepts for slide callout boxes:
 
 Slide optimization results are cached by content hash:
 
-```
+```text
 .teach/
 └── slide-optimization-week-05-regression.json
-```
+```diff
 
 - **Cache hit**: File unchanged → instant results
 - **Cache miss**: File modified → re-analyzes

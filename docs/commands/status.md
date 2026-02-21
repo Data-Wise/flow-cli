@@ -12,7 +12,7 @@ Complete reference for the `flow status` command - update and query project stat
 flow status [project] [options]
 flow status [project] <status> <priority> <task> <progress>
 flow status --help
-```
+```yaml
 
 ---
 
@@ -37,11 +37,11 @@ Prompts you for each field:
 
 ```bash
 flow status mediationverse
-```
+```text
 
 **Example interaction:**
 
-```
+```text
 📋 UPDATE STATUS: mediationverse
 ═══════════════════════════════════════════
 
@@ -63,7 +63,7 @@ Progress? [85]
 > 90
 
 ✅ Updated! Press Enter to continue...
-```
+```text
 
 ### Quick Mode
 
@@ -71,13 +71,13 @@ Provide all values at once:
 
 ```bash
 flow status <project> <status> <priority> <task> <progress>
-```
+```text
 
 **Example:**
 
 ```bash
 flow status mediationverse active P0 "Complete sims" 90
-```
+```text
 
 ### Create Mode
 
@@ -85,7 +85,7 @@ Initialize a new `.STATUS` file:
 
 ```bash
 flow status newproject --create
-```
+```text
 
 ### Show Mode
 
@@ -93,7 +93,7 @@ View status without updating:
 
 ```bash
 flow status mediationverse --show
-```
+```bash
 
 ---
 
@@ -110,7 +110,7 @@ flow status mediationverse
 # Update current project
 cd ~/projects/r-packages/active/mediationverse
 flow status .
-```
+```text
 
 ### status
 
@@ -130,7 +130,7 @@ flow status proj active   # Working on it now
 flow status proj paused   # On hold
 flow status proj blocked  # Waiting for review/approval
 flow status proj ready    # Ready when you are
-```
+```text
 
 ### priority
 
@@ -148,7 +148,7 @@ Priority level (one of):
 flow status proj active P0   # Critical priority
 flow status proj active P1   # Important priority
 flow status proj active P2   # Normal priority
-```
+```diff
 
 **Guidelines:**
 
@@ -164,7 +164,7 @@ Next action description (quoted string):
 
 ```bash
 flow status proj active P0 "Run final simulations" 85
-```
+```diff
 
 **Good task descriptions:**
 
@@ -192,7 +192,7 @@ Progress percentage (0-100):
 
 ```bash
 flow status proj active P0 "Task" 75
-```
+```sql
 
 **Progress guidelines:**
 
@@ -222,7 +222,7 @@ Create new `.STATUS` file for project:
 
 ```bash
 flow status newproject --create
-```
+```bash
 
 **What it does:**
 
@@ -245,7 +245,7 @@ progress: 0
 next: Define first task
 updated: 2025-12-24
 category: r-packages
-```
+```text
 
 ### --show
 
@@ -253,11 +253,11 @@ Display status without updating:
 
 ```bash
 flow status mediationverse --show
-```
+```text
 
 **Output:**
 
-```
+```yaml
 📦 mediationverse
 ═══════════════════════════════════════════
 Status:   🔥 ACTIVE
@@ -269,7 +269,7 @@ Category: r-packages
 Type:     r-package
 
 Location: ~/projects/r-packages/active/mediationverse
-```
+```text
 
 ### --json
 
@@ -277,7 +277,7 @@ Output in JSON format (useful for scripts):
 
 ```bash
 flow status mediationverse --json
-```
+```text
 
 **Output:**
 
@@ -293,7 +293,7 @@ flow status mediationverse --json
   "type": "r-package",
   "location": "~/projects/r-packages/active/mediationverse"
 }
-```
+```text
 
 ### --help, -h
 
@@ -301,7 +301,7 @@ Show help message:
 
 ```bash
 flow status --help
-```
+```bash
 
 ---
 
@@ -313,7 +313,7 @@ flow status --help
 cd ~/projects/research/new-study
 flow status new-study --create
 flow status new-study ready P2 "Literature review" 0
-```
+```bash
 
 ### Example 2: Daily Updates
 
@@ -326,7 +326,7 @@ flow status mediationverse active P0 "Halfway through sims" 85
 
 # End of day: Save state
 flow status mediationverse paused P0 "Resume tomorrow - 2 sims left" 90
-```
+```bash
 
 ### Example 3: Project State Changes
 
@@ -346,7 +346,7 @@ flow status proj active P0 "Got data - final push!" 75
 
 # Complete
 flow status proj ready P2 "Done!" 100
-```
+```bash
 
 ### Example 4: Batch Updates
 
@@ -359,7 +359,7 @@ flow status proj4 ready P2 "Not started" 0
 
 # Verify
 flow dash
-```
+```bash
 
 ### Example 5: Integration with Other Commands
 
@@ -376,7 +376,7 @@ flow status . active P0 "Feature X committed" 95
 # After testing
 npm test
 flow status . active P0 "All tests passing!" 100
-```
+```text
 
 ---
 
@@ -388,7 +388,7 @@ Located at project root: `~/projects/category/project/.STATUS`
 
 **Example file:**
 
-```
+```text
 project: mediationverse
 type: r-package
 status: active
@@ -398,7 +398,7 @@ next: Run final simulations
 updated: 2025-12-24
 category: r-packages
 location: ~/projects/r-packages/active/mediationverse
-```
+```diff
 
 **Fields:**
 
@@ -435,7 +435,7 @@ Override default config directory:
 ```bash
 export FLOW_CLI_HOME=~/.flow-cli
 flow status proj --show
-```
+```yaml
 
 ---
 
@@ -468,7 +468,7 @@ Status updates appear in:
 ```bash
 flow dash              # Terminal dashboard
 flow dashboard --web   # Web dashboard
-```
+```bash
 
 Both auto-refresh to show latest status.
 
@@ -479,7 +479,7 @@ Both auto-refresh to show latest status.
 ```bash
 git add .STATUS
 git commit -m "docs: update project status"
-```
+```bash
 
 **Or gitignore it:**
 

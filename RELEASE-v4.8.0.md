@@ -21,7 +21,7 @@ Version 4.8.0 introduces **unified grammar** for the `cc` dispatcher, enabling b
 
 ## 🚀 New Features
 
-### 1. Unified Grammar - Both Orders Work!
+### 1. Unified Grammar - Both Orders Work
 
 You can now write `cc` commands in **either order**:
 

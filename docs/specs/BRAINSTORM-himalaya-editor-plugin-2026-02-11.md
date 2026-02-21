@@ -339,7 +339,7 @@ Build in layers — **Layer -1 is already done:**
 
 The AI integration pattern is consistent across all editors:
 
-```
+```bash
 [Editor Plugin] spawns [himalaya CLI --output json] parses JSON
               captures email text
               spawns [claude/gemini CLI] with email as stdin/arg

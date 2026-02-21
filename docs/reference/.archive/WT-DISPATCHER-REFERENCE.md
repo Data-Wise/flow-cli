@@ -15,7 +15,7 @@ wt list               # Raw git worktree list output
 wt create feature/x   # Create worktree for branch
 wt status             # Show health and disk usage
 pick wt               # Interactive worktree picker with actions
-```
+```text
 
 ---
 
@@ -23,7 +23,7 @@ pick wt               # Interactive worktree picker with actions
 
 ```bash
 wt [command] [args]
-```
+```diff
 
 ### Key Insight
 
@@ -73,7 +73,7 @@ Show formatted overview of all worktrees:
 
 ```bash
 wt
-```
+```diff
 
 **Output includes:**
 - **Status icons:**
@@ -91,7 +91,7 @@ wt
 
 **Sample output:**
 
-```
+```text
 🌳 Worktrees (4 total)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -104,7 +104,7 @@ wt
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 Tip: wt <project> to filter | pick wt for interactive
-```
+```text
 
 ### wt <filter>
 
@@ -116,7 +116,7 @@ Show only worktrees matching filter:
 wt flow               # Show only flow-cli worktrees
 wt scholar            # Show only scholar-related worktrees
 wt feature            # Show worktrees with 'feature' in path
-```
+```sql
 
 **Behavior:**
 - Matches against project name (parent directory of worktree)
@@ -136,7 +136,7 @@ wt create feature/auth
 # For new branch (auto-creates)
 wt create feature/new-feature
 # → Creates branch AND worktree
-```
+```diff
 
 **Behavior:**
 - If branch exists → creates worktree pointing to it
@@ -152,7 +152,7 @@ Move current branch to its own worktree:
 # On feature/auth branch
 wt move
 # → Creates worktree and shows path
-```
+```diff
 
 **Restrictions:**
 - Cannot move `main`, `master`, or `dev`
@@ -164,7 +164,7 @@ Show comprehensive worktree health:
 
 ```bash
 wt status
-```
+```diff
 
 **Output includes:**
 - Branch name for each worktree
@@ -175,7 +175,7 @@ wt status
 
 **Sample output:**
 
-```
+```yaml
 🌳 Worktree Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -188,7 +188,7 @@ wt status
 Summary: 3 worktree(s) | 2 active | 1 merged | 0 stale
 
 💡 Tip: Run wt prune to clean up merged worktrees
-```
+```text
 
 ### wt prune
 
@@ -199,7 +199,7 @@ wt prune              # Clean merged worktrees (with confirmation)
 wt prune --branches   # Also delete merged branches
 wt prune --force      # Skip confirmation
 wt prune --dry-run    # Preview only
-```
+```diff
 
 **Options:**
 
@@ -229,7 +229,7 @@ Simple cleanup (prunes stale references only):
 ```bash
 wt clean
 # → Runs: git worktree prune
-```
+```text
 
 Use this for quick cleanup. Use `wt prune` for comprehensive cleanup.
 
@@ -239,7 +239,7 @@ Remove a specific worktree:
 
 ```bash
 wt remove ~/.git-worktrees/project/feature-x
-```
+```diff
 
 Shows current worktrees if no path provided.
 
@@ -265,7 +265,7 @@ Unknown commands pass through to `git worktree`:
 wt lock <path>     # → git worktree lock <path>
 wt unlock <path>   # → git worktree unlock <path>
 wt repair          # → git worktree repair
-```
+```bash
 
 ---
 
@@ -281,13 +281,13 @@ export FLOW_WORKTREE_DIR="$HOME/.git-worktrees"
 
 # Custom
 export FLOW_WORKTREE_DIR="$HOME/worktrees"
-```
+```text
 
 ### Directory Structure
 
 Worktrees are organized by project:
 
-```
+```text
 ~/.git-worktrees/
 ├── flow-cli/
 │   ├── feature-auth/
@@ -297,7 +297,7 @@ Worktrees are organized by project:
 │   └── feature-ghostty/
 └── mediationverse/
     └── hotfix-urgent/
-```
+```bash
 
 ---
 
@@ -317,7 +317,7 @@ wt flow
 # Interactive cleanup
 pick wt
 # → Use Tab to select old worktrees, Ctrl-X to delete
-```
+```bash
 
 ### Daily Workflow
 
@@ -338,7 +338,7 @@ wt
 # When done, clean up interactively
 pick wt
 # → Select merged worktrees, Ctrl-X to delete
-```
+```bash
 
 ### Parallel Development
 
@@ -352,7 +352,7 @@ wt create feature/tests
 cd ~/.git-worktrees/project/feature-frontend
 cd ~/.git-worktrees/project/feature-backend
 cd ~/.git-worktrees/project/feature-tests
-```
+```bash
 
 ### Check Before Cleanup
 
@@ -365,7 +365,7 @@ wt prune --dry-run
 
 # Do the cleanup
 wt prune --branches
-```
+```bash
 
 ### Move Existing Work
 
@@ -376,7 +376,7 @@ git checkout feature/something
 # Move to worktree
 wt move
 # → Shows: cd ~/.git-worktrees/project/feature-something
-```
+```text
 
 ---
 
@@ -390,7 +390,7 @@ Launch interactive worktree picker with fzf:
 
 ```bash
 pick wt
-```
+```sql
 
 **Features:**
 - Multi-select worktrees with **Tab** key
@@ -415,7 +415,7 @@ When you press `Ctrl-X` on selected worktrees:
 
 1. **Confirmation prompt** for each worktree
 
-   ```
+   ```text
    Delete worktree: ~/.git-worktrees/flow-cli/feature-old [feature/old]?
      [y] Yes, delete worktree
      [n] No, skip this one
@@ -423,15 +423,15 @@ When you press `Ctrl-X` on selected worktrees:
      [q] Quit (cancel all)
    ```
 
-2. **Branch deletion prompt** after each removal
+1. **Branch deletion prompt** after each removal
 
-   ```
+   ```text
    Also delete branch 'feature/old'? [y/N]:
    ```
 
-3. **Cache invalidation** after completion
+2. **Cache invalidation** after completion
 
-   ```
+   ```text
    ✓ Removed 2 worktree(s)
    ```
 
@@ -447,14 +447,14 @@ When you press `Ctrl-R`:
 
 1. **Cache cleared** message
 
-   ```
+   ```text
    ⟳ Refreshing worktree cache...
    ✓ Cache cleared
    ```
 
 2. **Updated overview** displayed
 
-   ```
+   ```text
    🌳 Worktrees (4 total)
    [... formatted overview ...]
    ```
@@ -476,7 +476,7 @@ The worktree picker integrates seamlessly with the pick command:
 ```bash
 pick wt               # Interactive worktree picker
 pick wt --help        # Show worktree-specific keybindings
-```
+```text
 
 See [PICK-COMMAND-REFERENCE.md](PICK-COMMAND-REFERENCE.md) for full pick documentation.
 
@@ -488,7 +488,7 @@ Launch Claude in a worktree:
 cc wt feature/auth    # Claude in worktree
 cc wt pick            # Pick worktree → Claude
 cc wt yolo feature/x  # Worktree + YOLO mode
-```
+```bash
 
 See [CC-DISPATCHER-REFERENCE.md](CC-DISPATCHER-REFERENCE.md) for details.
 
@@ -502,7 +502,7 @@ wt prune
 
 # Or clean branches directly
 g feature prune
-```
+```bash
 
 ---
 
@@ -515,7 +515,7 @@ Worktree commands must be run from within a git repository.
 ```bash
 cd ~/projects/my-project
 wt create feature/x
-```
+```text
 
 ### "Cannot move protected branch"
 
@@ -523,7 +523,7 @@ Main branches cannot be moved to worktrees:
 
 ```bash
 wt move  # On main branch → Error
-```
+```bash
 
 Switch to a feature branch first.
 
@@ -534,7 +534,7 @@ If you manually deleted a worktree folder:
 ```bash
 wt clean
 # → Removes stale references
-```
+```bash
 
 ### Worktree path conflicts
 

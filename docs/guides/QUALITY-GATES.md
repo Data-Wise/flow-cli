@@ -17,9 +17,9 @@ tags:
 
 flow-cli uses multiple validation layers to catch issues at the earliest possible stage. Each layer targets different failure modes and runs at a different point in the development lifecycle.
 
-```
+```text
 Keystroke → Pre-commit → Manual lint → CI → Deploy preflight → Production
-```
+```bash
 
 ---
 
@@ -56,7 +56,7 @@ The same validation runs during `teach deploy` preflight, but this pre-commit ga
 
 ```bash
 git commit --no-verify -m "message"
-```
+```bash
 
 ### Setup
 
@@ -64,7 +64,7 @@ Pre-commit hooks require a one-time install:
 
 ```bash
 npm install   # installs husky + lint-staged
-```
+```bash
 
 Husky auto-configures via the `prepare` script in `package.json`.
 
@@ -84,7 +84,7 @@ teach lint
 
 # Specific file
 teach lint lib/dispatchers/teach-deploy-enhanced.zsh
-```
+```bash
 
 ### Quarto Lint
 
@@ -96,7 +96,7 @@ teach validate lectures/week-05.qmd
 
 # Deep validation with prerequisites
 teach validate --deep
-```
+```bash
 
 ### Markdown Lint
 
@@ -108,7 +108,7 @@ npm run format:check
 
 # Fix automatically
 npm run format
-```
+```bash
 
 ### ESLint
 
@@ -117,7 +117,7 @@ JavaScript/config file linting:
 ```bash
 npm run lint
 npm run lint:fix
-```
+```diff
 
 ---
 
@@ -132,7 +132,7 @@ npm run lint:fix
 | Runner | Ubuntu latest |
 | Tests | `test-flow.zsh` (smoke), `test-install.sh` |
 
-Runs core smoke tests in a clean Ubuntu environment with mock project structure. Full test suite (166 files, 12000+ functions) runs locally via `./tests/run-all.sh`.
+Runs core smoke tests in a clean Ubuntu environment with mock project structure. Full test suite (195 files, 12000+ functions) runs locally via `./tests/run-all.sh`.
 
 ### Install Script Tests (`release.yml`)
 
@@ -179,7 +179,7 @@ The deploy command runs five sequential checks before any branch operations:
 
 Only checks `.qmd` files in the `git diff` between draft and production branches — not the entire course. Reports specific files and issue types:
 
-```
+```bash
 [!!] Blank lines in display math (breaks PDF):
      lectures/week-05.qmd
 

@@ -45,7 +45,7 @@ teach deploy
 
 # Create content with template selection
 teach exam "Midterm" --template typst
-```
+```text
 
 ---
 
@@ -64,7 +64,7 @@ teach doctor                # Full health check
 teach doctor --quiet        # Only show warnings/failures
 teach doctor --fix          # Interactive install mode
 teach doctor --json         # Machine-readable output
-```
+```diff
 
 **Checks Performed:**
 
@@ -118,7 +118,7 @@ teach doctor --json | jq '.summary.status'
 
 # Interactive install
 teach doctor --fix
-```
+```text
 
 **JSON Output Format:**
 
@@ -136,7 +136,7 @@ teach doctor --fix
     {"check": "git_repo", "status": "pass", "message": "initialized"}
   ]
 }
-```
+```sql
 
 ---
 
@@ -153,7 +153,7 @@ teach init "Course Name"                       # Interactive mode
 teach init "Course Name" --config FILE         # Load external config
 teach init "Course Name" --github              # Create GitHub repo
 teach init "Course Name" --config FILE --github  # Both options
-```
+```yaml
 
 **What it does:**
 
@@ -197,13 +197,13 @@ backups:
     assessments: archive
     lectures: semester
     syllabi: archive
-```
+```text
 
 Then:
 
 ```bash
 teach init --config template-config.yml
-```
+```bash
 
 **GitHub Integration (--github):**
 
@@ -228,7 +228,7 @@ teach init "STAT 440" --github
 
 # Full automated setup
 teach init "STAT 440" --config ~/templates/stats-course.yml --github
-```
+```diff
 
 **Files Created:**
 
@@ -256,7 +256,7 @@ Display current project status including git state, deployment info, and backup 
 
 ```bash
 teach status
-```
+```text
 
 **Output Sections:**
 
@@ -291,7 +291,7 @@ teach status
 
 **Example Output:**
 
-```
+```text
 📚 Teaching Project Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Course:   STAT 440 - Regression Analysis
@@ -321,7 +321,7 @@ Content Inventory:
   • Lectures:    5
   • Exams:       2
   • Assignments: 4
-```
+```text
 
 ---
 
@@ -336,7 +336,7 @@ Deploy teaching content to production using pull request workflow with preview.
 ```bash
 teach deploy              # Standard PR workflow with preview
 teach deploy --direct-push # Bypass PR (advanced users)
-```
+```yaml
 
 **Workflow:**
 
@@ -381,11 +381,11 @@ branches:
 git:
   require_clean: true    # Require clean working tree
   auto_pr: true          # Auto-create PR
-```
+```text
 
 **Changes Preview Example:**
 
-```
+```yaml
 📦 Changes Preview
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files changed since last deployment:
@@ -398,7 +398,7 @@ Files changed since last deployment:
 Summary: 1 added, 2 modified, 1 deleted
 
 View full diff? [y/N]
-```
+```bash
 
 **Examples:**
 
@@ -411,7 +411,7 @@ teach deploy --direct-push
 
 # After reviewing changes, create PR
 teach deploy  # Answer 'y' to create PR
-```
+```sql
 
 **Troubleshooting:**
 
@@ -434,7 +434,7 @@ Create exam content using Scholar plugin with enhanced context and templates.
 
 ```bash
 teach exam "Exam Topic" [FLAGS]
-```
+```diff
 
 **Scholar Integration:**
 
@@ -485,7 +485,7 @@ teach exam "Quiz 1" --dry-run
 # With lesson plan context
 # (automatically loads lesson-plan.yml if present)
 teach exam "Week 5 Quiz"
-```
+```yaml
 
 **Lesson Plan Integration:** 🆕
 
@@ -504,7 +504,7 @@ weeks:
     key_concepts:
       - "Adjusted R-squared"
       - "VIF (Variance Inflation Factor)"
-```
+```text
 
 ---
 
@@ -518,7 +518,7 @@ Similar to `teach exam` but optimized for shorter assessments.
 
 ```bash
 teach quiz "Quiz Topic" [FLAGS]
-```
+```bash
 
 **Options:**
 
@@ -546,7 +546,7 @@ teach quiz "Practice Quiz" \
 
 # With template
 teach quiz "Quick Check" --template typst
-```
+```sql
 
 ---
 
@@ -560,7 +560,7 @@ Create homework assignments with Scholar integration.
 
 ```bash
 teach assignment "Assignment Topic" [FLAGS]
-```
+```bash
 
 **Options:**
 
@@ -588,7 +588,7 @@ teach assignment "Problem Set 1" \
 
 # With template
 teach assignment "Homework 4" --template docx
-```
+```sql
 
 ---
 
@@ -602,7 +602,7 @@ Create presentation slides from lecture content.
 
 ```bash
 teach slides "Slide Topic" [FLAGS]
-```
+```bash
 
 **Options:**
 
@@ -630,7 +630,7 @@ teach slides "Week 5 Slides" \
 teach slides "Guest Lecture" \
   --theme academic \
   --template typst
-```
+```sql
 
 ---
 
@@ -644,7 +644,7 @@ Create comprehensive lecture notes with Scholar.
 
 ```bash
 teach lecture "Lecture Topic" [FLAGS]
-```
+```bash
 
 **Options:**
 
@@ -668,7 +668,7 @@ teach lecture "Diagnostics" --week 4
 
 # With template
 teach lecture "Final Review" --template quarto
-```
+```sql
 
 ---
 
@@ -682,7 +682,7 @@ Create comprehensive course syllabus.
 
 ```bash
 teach syllabus [FLAGS]
-```
+```bash
 
 **Options:**
 
@@ -705,7 +705,7 @@ teach syllabus --format pdf
 
 # With template
 teach syllabus --template docx
-```
+```sql
 
 ---
 
@@ -719,7 +719,7 @@ Create grading rubrics for assignments and assessments.
 
 ```bash
 teach rubric "Assignment Name" [FLAGS]
-```
+```bash
 
 **Options:**
 
@@ -745,7 +745,7 @@ teach rubric "Final Project" \
 
 # With template
 teach rubric "Essay Assignment" --template docx
-```
+```text
 
 ---
 
@@ -759,13 +759,13 @@ Provide constructive feedback for student work.
 
 ```bash
 teach feedback "Student Name" [FLAGS]
-```
+```text
 
 **Examples:**
 
 ```bash
 teach feedback "John Doe - HW3"
-```
+```sql
 
 ---
 
@@ -779,14 +779,14 @@ Create solution keys for assignments and exams.
 
 ```bash
 teach solution "Assignment Name" [FLAGS]
-```
+```text
 
 **Examples:**
 
 ```bash
 teach solution "Homework 3"
 teach solution "Midterm Exam" --template typst
-```
+```text
 
 ---
 
@@ -800,7 +800,7 @@ Archive semester backups and clean up old content.
 
 ```bash
 teach archive [SEMESTER_NAME]
-```
+```bash
 
 **What it does:**
 
@@ -818,18 +818,18 @@ teach archive
 
 # Archive specific semester
 teach archive "Spring 2025"
-```
+```text
 
 **Archive Structure:**
 
-```
+```text
 .flow/archives/
 └── Spring-2025/
     ├── exam-midterm-backups/
     ├── exam-final-backups/
     ├── lecture-week01-backups/
     └── ...
-```
+```text
 
 ---
 
@@ -843,13 +843,13 @@ Open teach-config.yml in your default editor.
 
 ```bash
 teach config
-```
+```bash
 
 Equivalent to:
 
 ```bash
 ${EDITOR:-code} .flow/teach-config.yml
-```
+```text
 
 ---
 
@@ -864,11 +864,11 @@ Display current week number and schedule.
 ```bash
 teach week        # Current week
 teach week 5      # Week 5 info
-```
+```text
 
 **Example Output:**
 
-```
+```yaml
 📅 Week 5 (Feb 12-18, 2026)
 
 Topic: Multiple Regression
@@ -877,7 +877,7 @@ Scheduled Content:
   • Lecture: Week 5 - Multiple Regression
   • Assignment: Homework 4 (due Feb 18)
   • Office Hours: Wed 2-4pm
-```
+```text
 
 ---
 
@@ -894,7 +894,7 @@ teach dates sync          # Sync dates from config
 teach dates status        # Show date consistency
 teach dates init          # Initialize date config
 teach dates validate      # Validate date configuration
-```
+```text
 
 ---
 
@@ -910,7 +910,7 @@ Display comprehensive help for the teach dispatcher.
 teach help
 teach --help
 teach -h
-```
+```diff
 
 ---
 
@@ -929,13 +929,13 @@ Teaching Workflow v3.0 introduces an automated backup system for all teaching co
 
 ### Backup Location
 
-```
+```text
 content-folder/
 └── .backups/
     ├── content-name.2026-01-18-1430/
     ├── content-name.2026-01-17-0915/
     └── content-name.2026-01-15-1620/
-```
+```yaml
 
 ### Retention Policies
 
@@ -948,7 +948,7 @@ backups:
     lectures: semester      # Delete lecture backups at semester end
     syllabi: archive        # Keep syllabus backups forever
   archive_dir: .flow/archives
-```
+```diff
 
 **Policy Options:**
 
@@ -968,13 +968,13 @@ teach archive "Spring 2025"
 _teach_backup_content lectures/week-05.qmd
 _teach_list_backups lectures/week-05.qmd
 _teach_delete_backup <path> [--force]
-```
+```text
 
 ### Safe Deletion
 
 All backup deletions require confirmation:
 
-```
+```sql
 ⚠ Delete Backup?
 ────────────────────────────────────────────────
   Path:     lectures/week-05/.backups/week-05.2026-01-15-1620
@@ -985,7 +985,7 @@ All backup deletions require confirmation:
 ⚠ This action cannot be undone!
 
 Delete this backup? [y/N]
-```
+```yaml
 
 Use `--force` to skip confirmation (for scripts).
 
@@ -1045,7 +1045,7 @@ backups:
     lectures: semester
     syllabi: archive
   archive_dir: .flow/archives
-```
+```yaml
 
 ### Lesson Plan File (Optional)
 
@@ -1074,7 +1074,7 @@ weeks:
     key_concepts:
       - "t-tests"
       - "Standard errors"
-```
+```yaml
 
 When present, Scholar commands automatically load this for better context.
 
@@ -1102,7 +1102,7 @@ EOF
 
 # 4. Check status
 teach status
-```
+```bash
 
 ### Weekly Content Creation
 
@@ -1122,7 +1122,7 @@ teach quiz "Week 5 Quiz" --questions 10
 # Review and deploy
 teach status
 teach deploy
-```
+```bash
 
 ### End of Semester
 
@@ -1138,7 +1138,7 @@ ls .flow/archives/Spring-2025/
 
 # 4. Optional: Clean up
 git worktree prune
-```
+```bash
 
 ---
 
@@ -1154,7 +1154,7 @@ brew install yq gh quarto
 
 # Option 2: Use --fix flag
 teach doctor --fix
-```
+```bash
 
 **Issue:** Config validation fails
 
@@ -1164,7 +1164,7 @@ yq eval .flow/teach-config.yml
 
 # Validate against schema
 teach doctor --verbose
-```
+```bash
 
 **Issue:** Deploy fails with conflicts
 
@@ -1176,7 +1176,7 @@ git rebase origin/main
 
 # Resolve conflicts, then
 teach deploy
-```
+```bash
 
 **Issue:** Backup taking too much space
 

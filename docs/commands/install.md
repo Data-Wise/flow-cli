@@ -9,7 +9,7 @@ flow install [options]
 flow install --profile <name>
 flow install --category <name>
 flow install <tool> [tool...]
-```
+```text
 
 ## Description
 
@@ -40,42 +40,42 @@ flow install <tool> [tool...]
 
 **minimal** (3 tools)
 
-```
+```text
 fzf      - Fuzzy finder (required for pick, dash-tui)
 zoxide   - Smart cd replacement
 bat      - Cat with syntax highlighting
-```
+```text
 
 **developer** (9 tools)
 
-```
+```diff
 + eza    - Modern ls replacement
 + fd     - Fast file finder
 + rg     - Ripgrep (fast grep)
 + gh     - GitHub CLI
 + delta  - Git diff viewer
 + jq     - JSON processor
-```
+```text
 
 **researcher** (10 tools)
 
-```
+```text
 + quarto - Scientific publishing
-```
+```text
 
 **writer** (5 tools)
 
-```
+```text
 fzf, bat, pandoc, quarto
-```
+```text
 
 **full** (13 tools)
 
-```
+```diff
 + dust   - Disk usage analyzer
 + duf    - Disk free viewer
 + btop   - System monitor
-```
+```text
 
 ## Categories
 
@@ -93,7 +93,7 @@ fzf, bat, pandoc, quarto
 
 ```bash
 flow install
-```
+```bash
 
 Launches an interactive menu to select tools.
 
@@ -108,7 +108,7 @@ flow install --profile developer
 
 # Academic workflow
 flow install --profile researcher
-```
+```bash
 
 ### Category-Based
 
@@ -118,25 +118,25 @@ flow install --category git
 
 # Core productivity tools
 flow install --category core
-```
+```bash
 
 ### Individual Tools
 
 ```bash
 # Install specific tools
 flow install fzf bat eza
-```
+```bash
 
 ### Dry Run
 
 ```bash
 # See what would be installed
 flow install --profile developer --dry-run
-```
+```text
 
 Output:
 
-```
+```yaml
 🔍 DRY RUN - Would install:
   • fzf
   • zoxide
@@ -149,7 +149,7 @@ Output:
   • jq
 
 Total: 9 tools
-```
+```text
 
 ### List Available Options
 

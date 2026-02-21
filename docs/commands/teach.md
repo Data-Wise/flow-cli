@@ -23,7 +23,7 @@ teach status
 
 # Deploy changes to production
 teach deploy
-```
+```text
 
 ---
 
@@ -56,7 +56,7 @@ flowchart TD
     style D fill:#90EE90
     style M fill:#FFD700
     style N fill:#87CEEB
-```
+```diff
 
 **Key Integration Points:**
 
@@ -93,7 +93,7 @@ sequenceDiagram
     teach->>GitHub: Create PR (draft → main)
     GitHub-->>teach: PR created
     teach-->>User: PR URL
-```
+```text
 
 ---
 
@@ -101,7 +101,7 @@ sequenceDiagram
 
 ```bash
 teach <command> [args]
-```
+```diff
 
 ---
 
@@ -154,7 +154,7 @@ teach init --no-git "TEST 101"
 
 # Preview migration plan without changes
 teach init --dry-run "STAT 545"
-```
+```bash
 
 ### Daily Workflow with Git Integration (v5.12.0)
 
@@ -195,7 +195,7 @@ teach deploy
 #   ✓ No production conflicts
 #
 # Creating PR: draft → main
-```
+```bash
 
 ### Teaching Mode Workflow (v5.12.0)
 
@@ -220,7 +220,7 @@ teach quiz "Chapter 5"
 
 # Deploy all commits at once
 teach deploy
-```
+```bash
 
 ### End of Semester
 
@@ -229,7 +229,7 @@ teach deploy
 teach archive
 
 # This creates a tagged snapshot and prepares for next semester
-```
+```bash
 
 ### Additional Commands
 
@@ -257,7 +257,7 @@ teach backup archive spring-2026
 # Quarto profiles
 teach profiles list
 teach profiles switch draft
-```
+```bash
 
 ### Content Creation Examples (v5.12.0)
 
@@ -279,7 +279,7 @@ teach assignment "Homework 1"
 
 # All commands support --dry-run preview
 teach exam "Topic" --dry-run --verbose
-```
+```diff
 
 ---
 
@@ -325,7 +325,7 @@ teach deploy
 # Creating PR: draft → main
 # → Auto-generated PR body with commit list
 # → Deploy checklist included
-```
+```diff
 
 **Pre-flight checks:**
 - Verifies on `draft` branch
@@ -344,7 +344,7 @@ Archive the current semester before starting a new one.
 ```bash
 teach archive
 # Runs ./scripts/semester-archive.sh
-```
+```diff
 
 ### `teach status`
 
@@ -373,7 +373,7 @@ teach status
 #   2) Stash changes
 #   3) View diff
 #   4) Skip
-```
+```diff
 
 **Git Integration (v5.12.0):**
 - Detects uncommitted teaching content (exams, slides, assignments, etc.)
@@ -393,7 +393,7 @@ teach week
 # 📅 Week 8
 #   Semester started: 2026-01-13
 #   Days elapsed: 52
-```
+```bash
 
 ### `teach migrate-config` (v5.20.0)
 
@@ -411,21 +411,23 @@ teach migrate-config --force
 
 # Don't create backup
 teach migrate-config --no-backup
-```
+```text
 
 **Before Migration:**
-```
+
+```text
 .flow/
 └── teach-config.yml    # 657 lines (course + 14 weeks embedded)
-```
+```text
 
 **After Migration:**
-```
+
+```text
 .flow/
 ├── teach-config.yml      # ~50 lines (course meta + reference)
 ├── teach-config.yml.bak  # Backup of original
 └── lesson-plans.yml      # ~600 lines (all weeks extracted)
-```
+```diff
 
 **Flags:**
 - `--dry-run` - Preview changes without modifying files
@@ -434,10 +436,11 @@ teach migrate-config --no-backup
 - `-h`, `--help` - Show help
 
 **Rollback:**
+
 ```bash
 cp .flow/teach-config.yml.bak .flow/teach-config.yml
 rm .flow/lesson-plans.yml
-```
+```bash
 
 ### `teach templates` (v5.20.0)
 
@@ -464,7 +467,7 @@ teach templates validate lecture.qmd
 teach templates sync --dry-run
 teach templates sync
 teach templates sync --force
-```
+```diff
 
 **Template types:**
 
@@ -486,9 +489,10 @@ Templates use `{{VARIABLE}}` syntax. Auto-filled from config:
 - `{{SEMESTER}}` - Semester from config
 
 **Initialize with templates:**
+
 ```bash
 teach init "STAT-545" --with-templates
-```
+```bash
 
 **Resolution order:** Project templates override plugin defaults.
 
@@ -515,7 +519,7 @@ teach macros export --format json > macros.json
 
 # Get help
 teach macros help
-```
+```diff
 
 **Primary purpose:** Ensure AI-generated content (via Scholar) uses correct notation like `\E{Y}` instead of `E[Y]`.
 
@@ -564,7 +568,7 @@ scholar:
     export:
       format: "json"
       include_in_prompts: true
-```
+```diff
 
 **Integration with Scholar:**
 
@@ -603,7 +607,7 @@ teach plan delete 3 --force  # skip confirmation
 
 # Overwrite existing week
 teach plan create 3 --topic "Updated Topic" --force
-```
+```yaml
 
 **Subcommands:**
 
@@ -641,7 +645,7 @@ weeks:
     key_concepts:
       - "descriptive-stats"
     prerequisites: []
-```
+```diff
 
 **Features:**
 
@@ -668,7 +672,7 @@ teach plan edit 5
 
 # Generate slides using the plan
 teach slides --week 5
-```
+```bash
 
 **See:** [Tutorial 25](../tutorials/25-lesson-plan-migration.md) for migration + plan management workflow.
 
@@ -685,7 +689,7 @@ teach config --view
 
 # Print to stdout
 teach config --cat
-```
+```text
 
 ### Scholar Content Commands
 
@@ -699,7 +703,7 @@ Generate lecture notes with comprehensive content.
 teach lecture "Introduction to Regression"
 teach lecture --week 5 --topic "Linear Models"
 teach lecture "Hypothesis Testing" --style formal
-```
+```diff
 
 **Flags:**
 - `--week`, `-w` - Week number for organization
@@ -716,7 +720,7 @@ Generate presentation slides.
 teach slides "ANOVA Overview"
 teach slides --week 8 --optimize   # With slide break optimization
 teach slides "Regression" --template revealjs
-```
+```diff
 
 **Flags:**
 - `--week`, `-w` - Week number
@@ -731,7 +735,7 @@ Generate exams with customizable question types.
 teach exam "Midterm 1"
 teach exam "Final" --topics "regression,anova,hypothesis-testing"
 teach exam "Quiz 5" --duration 30 --points 50
-```
+```diff
 
 **Flags:**
 - `--topics` - Comma-separated topic list
@@ -746,7 +750,7 @@ Generate quick quizzes.
 ```bash
 teach quiz "Chapter 5"
 teach quiz --week 3 --questions 10
-```
+```text
 
 #### `teach assignment`
 
@@ -755,7 +759,7 @@ Generate homework assignments.
 ```bash
 teach assignment "Homework 3"
 teach assignment "Lab 5" --due "2026-02-15"
-```
+```text
 
 #### `teach syllabus`
 
@@ -764,7 +768,7 @@ Generate course syllabus.
 ```bash
 teach syllabus
 teach syllabus --template formal
-```
+```text
 
 #### `teach rubric`
 
@@ -773,7 +777,7 @@ Generate grading rubrics.
 ```bash
 teach rubric "Final Project"
 teach rubric "Presentation" --criteria "content,delivery,visuals"
-```
+```text
 
 #### `teach feedback`
 
@@ -781,7 +785,7 @@ Generate student feedback templates.
 
 ```bash
 teach feedback "Assignment 3"
-```
+```text
 
 ### `teach doctor`
 
@@ -795,7 +799,7 @@ teach doctor --verbose    # Detailed: per-package R, full macro list
 teach doctor --brief      # Warnings and failures only
 teach doctor --json       # Machine-readable JSON
 teach doctor --ci         # CI mode: no color, exit 1 on failure
-```
+```text
 
 **Quick mode checks:** Dependencies, R environment + renv, config, git setup
 **Full mode adds:** R packages, Quarto extensions, Scholar, hooks, cache, macros (opt-in), teaching style
@@ -815,7 +819,7 @@ teach validate --render           # Full render validation
 teach validate --watch            # Continuous watch mode
 teach validate --concepts         # Concept graph validation
 teach validate --macros           # LaTeX macro validation
-```
+```text
 
 **Validation layers:**
 1. YAML frontmatter validation
@@ -834,7 +838,7 @@ teach analyze --batch lectures/         # Batch directory
 teach analyze --slide-breaks week-05.qmd  # Slide optimization
 teach analyze --ai                       # Include AI analysis
 teach analyze --report markdown          # Generate report
-```
+```diff
 
 **Analysis features:**
 - Concept extraction from frontmatter
@@ -853,7 +857,7 @@ teach hooks install     # Install teaching hooks
 teach hooks status      # Check hook status
 teach hooks upgrade     # Upgrade to latest
 teach hooks uninstall   # Remove hooks
-```
+```diff
 
 **Installed hooks:**
 - `pre-commit` - Validation before commit
@@ -868,7 +872,7 @@ Manage semester dates and scheduling.
 teach dates             # Show current date info
 teach dates --calendar  # Show semester calendar
 teach dates week 8      # What date is week 8?
-```
+```text
 
 ### `teach profiles`
 
@@ -879,7 +883,7 @@ teach profiles list           # Show available profiles
 teach profiles show draft     # Display profile config
 teach profiles set production # Activate profile
 teach profiles create slides  # Create new profile
-```
+```text
 
 **Built-in profiles:** default, draft, production, slides, print
 
@@ -894,7 +898,7 @@ teach cache clear --lectures    # Clear only lectures
 teach cache clear --old 7       # Clear older than 7 days
 teach cache analyze             # Detailed diagnostics
 teach cache rebuild             # Clear and regenerate
-```
+```sql
 
 ### `teach clean`
 
@@ -905,7 +909,7 @@ teach clean              # Interactive cleanup
 teach clean --all        # Remove all artifacts
 teach clean --output     # Remove _output only
 teach clean --freeze     # Remove _freeze only
-```
+```text
 
 ### `teach backup`
 
@@ -917,7 +921,7 @@ teach backup list                      # List all backups
 teach backup restore week-05.2026-01-20  # Restore backup
 teach backup delete old-backup         # Delete backup
 teach backup archive spring-2026       # Archive semester
-```
+```diff
 
 **Retention policies:**
 - Daily backups: 7 days
@@ -931,7 +935,7 @@ Scholar, and Craft — grouped by workflow phase.
 
 ```bash
 teach map    # Shows the full ecosystem map
-```
+```yaml
 
 **Workflow Phases:**
 

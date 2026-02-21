@@ -63,15 +63,17 @@ Predefined combinations of content flags for common teaching scenarios.
 | `applied` | explanation, examples, code, practice-problems | Real-world applications | Case studies, projects, practical work |
 
 **Usage:**
+
 ```bash
 # Use preset as-is
 teach lecture "ANOVA" --style computational
 
 # Use preset + override specific flags
 teach lecture "ANOVA" --style computational --no-practice-problems --diagrams
-```
+```bash
 
 **Overriding Examples:**
+
 ```bash
 # Conceptual lecture with proofs (not in preset)
 teach lecture "Probability" --style conceptual --proof
@@ -81,7 +83,7 @@ teach lecture "Regression" --style computational --no-code
 
 # Rigorous lecture with code (add to preset)
 teach lecture "Measure Theory" --style rigorous --code
-```
+```text
 
 ---
 
@@ -100,10 +102,11 @@ Generate lecture notes in Quarto (.qmd) format.
 | `--length` | Number (pages) | 20-40 | Target page count |
 
 **Example:**
+
 ```bash
 teach lecture "Neural Networks" --week 10 --template quarto \
   --difficulty hard --examples 5 --math --code
-```
+```sql
 
 ---
 
@@ -135,6 +138,7 @@ When `--optimize` is specified, AI analyzes lecture structure and suggests optim
 - Use `--apply-suggestions` for automatic application
 
 **Example:**
+
 ```bash
 # Convert lecture with optimization
 teach slides --from-lecture week-05.qmd --optimize
@@ -144,7 +148,7 @@ teach slides --week 5 --optimize --preview-breaks
 
 # Auto-apply + emphasize key concepts
 teach slides --week 5 --optimize --apply-suggestions --key-concepts
-```
+```text
 
 ---
 
@@ -161,12 +165,14 @@ Generate comprehensive exams with multiple question types.
 | `--difficulty` | easy, medium, hard | medium | Question difficulty level |
 
 **Types Format:**
-```
+
+```text
 "mc:3,sa:2,problem:3"  # 3 multiple choice, 2 short answer, 3 problems
 "short answer:5,problem:3"  # 5 short answer, 3 problems
-```
+```bash
 
 **Examples:**
+
 ```bash
 # Basic exam
 teach exam "Hypothesis Testing" --questions 10
@@ -176,15 +182,16 @@ teach exam "ANOVA" --questions 8 --duration 60 --types "short answer:5,problem:3
 
 # QTI format for LMS import
 teach exam "Final Exam" --questions 30 --format qti
-```
+```text
 
 **LaTeX Macro Integration:**
 
 When `teach macros` is configured, exams automatically inject consistent notation:
+
 ```bash
 teach macros sync  # Ensure macros are up-to-date
 teach exam "Linear Regression" --math  # Auto-uses \E{Y}, \Var{Y}, etc.
-```
+```sql
 
 ---
 
@@ -200,13 +207,14 @@ Create quiz questions for formative assessment.
 | `--difficulty` | easy, medium, hard | medium | Question difficulty |
 
 **Examples:**
+
 ```bash
 # Short quiz
 teach quiz "Correlation" --questions 5
 
 # Timed QTI quiz
 teach quiz "ANOVA" --time-limit 20 --format qti
-```
+```bash
 
 ---
 
@@ -221,13 +229,14 @@ Generate homework assignments with problems and grading rubrics.
 | `--format` | quarto, markdown | quarto | Output format |
 
 **Examples:**
+
 ```bash
 # Basic assignment
 teach assignment "Data Wrangling" --code --practice-problems --points 50
 
 # With due date
 teach assignment "ML Intro" --due-date "2026-02-20" --points 50 --explanation
-```
+```text
 
 ---
 
@@ -240,9 +249,10 @@ Generate course syllabus with schedule and policies.
 | `--format` | quarto, markdown, pdf | quarto | Output format |
 
 **Example:**
+
 ```bash
 teach syllabus --format pdf
-```
+```sql
 
 ---
 
@@ -256,9 +266,10 @@ Create grading rubrics for assignments/projects.
 | `--format` | quarto, markdown | quarto | Output format |
 
 **Example:**
+
 ```bash
 teach rubric "Research Paper" --criteria 6 --explanation
-```
+```text
 
 ---
 
@@ -271,9 +282,10 @@ Generate personalized student feedback on assignments.
 | `--format` | markdown, text | markdown | Output format |
 
 **Example:**
+
 ```bash
 teach feedback "Assignment 3 - Student Name" --format text
-```
+```sql
 
 ---
 
@@ -299,6 +311,7 @@ Control execution behavior and verbosity.
 | `--output` | — | Custom output file path |
 
 **Examples:**
+
 ```bash
 # Preview command
 teach lecture "ANOVA" --week 8 --dry-run
@@ -308,53 +321,60 @@ teach exam "Final Exam" --questions 30 --verbose
 
 # Custom output
 teach slides "Regression" --output custom-slides.qmd
-```
+```bash
 
 ---
 
 ## Quick Examples with STAT-101 Demo Course
 
 ### Conceptual Lecture
+
 ```bash
 # Theory-focused intro lecture
 teach lecture "Introduction to Statistics" --week 1 --style conceptual
-```
+```bash
 
 ### Computational Lab
+
 ```bash
 # Code-heavy data visualization lab
 teach lecture "Data Visualization" --week 2 --style computational --code
-```
+```bash
 
 ### Rigorous Math Lecture
+
 ```bash
 # Proof-based probability lecture
 teach lecture "Probability Foundations" --week 3 --style rigorous --proof --math
-```
+```bash
 
 ### Slides from Lecture
+
 ```bash
 # Convert lecture to optimized slides
 teach slides --from-lecture lectures/week-05-regression.qmd --optimize --apply-suggestions
-```
+```bash
 
 ### Math-Heavy Exam
+
 ```bash
 # Rigorous exam with consistent notation
 teach exam "Linear Regression" --questions 12 --math --style rigorous
-```
+```bash
 
 ### Quick Quiz
+
 ```bash
 # 5-question formative quiz
 teach quiz "Correlation" --questions 5 --time-limit 15
-```
+```bash
 
 ### Hands-On Assignment
+
 ```bash
 # Computational assignment with code
 teach assignment "Data Wrangling" --week 4 --code --practice-problems --points 50
-```
+```bash
 
 ---
 
@@ -363,42 +383,47 @@ teach assignment "Data Wrangling" --week 4 --code --practice-problems --points 5
 Recommended flag combinations for common teaching scenarios.
 
 ### Intro Course (Conceptual Focus)
+
 ```bash
 # Week 1: Conceptual foundation
 teach lecture "Statistical Thinking" --week 1 --style conceptual --examples
 
 # Week 2: Add some rigor
 teach lecture "Probability Basics" --week 2 --style conceptual --math --definitions
-```
+```bash
 
 ### Computational Course (R/Python)
+
 ```bash
 # Lab session with code
 teach lecture "Data Manipulation" --week 3 --style computational --code --practice-problems
 
 # No practice problems (lecture only)
 teach lecture "Advanced Plotting" --week 4 --style computational --no-practice-problems
-```
+```bash
 
 ### Theory Course (Math-Heavy)
+
 ```bash
 # Rigorous proof-based lecture
 teach lecture "Measure Theory" --week 5 --style rigorous --proof --math --no-examples
 
 # Rigorous with computational examples
 teach lecture "Asymptotic Theory" --week 6 --style rigorous --code --examples
-```
+```bash
 
 ### Applied Course (Real-World)
+
 ```bash
 # Case study with applications
 teach lecture "A/B Testing" --week 7 --style applied --code --diagrams
 
 # No code (conceptual case study)
 teach lecture "Experimental Design" --week 8 --style applied --no-code --examples
-```
+```bash
 
 ### Exam Preparation
+
 ```bash
 # Conceptual review exam (definitions + explanations)
 teach exam "Midterm Review" --questions 10 --explanation --definitions --duration 90
@@ -408,9 +433,10 @@ teach exam "R Programming Exam" --questions 8 --code --examples --duration 60
 
 # Rigorous exam (proofs + math)
 teach exam "Probability Theory" --questions 6 --math --proof --duration 120 --style rigorous
-```
+```bash
 
 ### Slide Optimization Workflows
+
 ```bash
 # Preview suggested breaks
 teach slides --from-lecture week-09.qmd --preview-breaks
@@ -420,7 +446,7 @@ teach slides --from-lecture week-09.qmd --optimize
 
 # Auto-apply all suggestions
 teach slides --from-lecture week-09.qmd --apply-suggestions --key-concepts
-```
+```text
 
 ---
 
@@ -430,7 +456,7 @@ When `--interactive` is specified, the wrapper launches a step-by-step wizard:
 
 ```bash
 teach lecture --interactive
-```
+```diff
 
 **Wizard Steps:**
 1. **Week Selection** - Choose from lesson plan weeks (or enter manually)
@@ -446,7 +472,8 @@ teach lecture --interactive
 - Still supports flag overrides
 
 **Example Session:**
-```
+
+```sql
 $ teach lecture --interactive
 
 📚 Interactive Lecture Generation
@@ -486,7 +513,7 @@ Generate lecture? [Y/n]
 > y
 
 🎓 Generating lecture for "Linear Regression" (Week 5)...
-```
+```text
 
 ---
 
@@ -499,7 +526,7 @@ Using both a flag and its negation triggers an error:
 ```bash
 $ teach lecture "ANOVA" --math --no-math
 ❌ Conflicting flags: --math and --no-math
-```
+```text
 
 ### Invalid Style
 
@@ -509,7 +536,7 @@ Unknown style preset:
 $ teach lecture "ANOVA" --style advanced
 ❌ Unknown style preset: advanced
 Valid styles: conceptual, computational, rigorous, applied
-```
+```text
 
 ### Missing Required Arguments
 
@@ -519,7 +546,7 @@ Week without topic (and no lesson plan):
 $ teach lecture --week 99
 ❌ Week 99 not found in lesson plans
 Hint: Run 'teach plan create 99 --topic "Your Topic"' first
-```
+```bash
 
 ---
 
@@ -532,7 +559,7 @@ Override default template with `--template`:
 ```bash
 # Use custom template from .flow/templates/content/
 teach lecture "ANOVA" --template detailed --week 8
-```
+```bash
 
 **Template Resolution:**
 1. `.flow/templates/content/<type>/<name>.qmd` (project-local)
@@ -551,7 +578,7 @@ teach lecture "Regression" --week 5
 # 1. .flow/prompts/lecture.md (course-specific)
 # 2. ~/.flow/prompts/lecture.md (user default)
 # 3. Plugin default prompt
-```
+```diff
 
 **Prompt Variables:**
 - `{{TOPIC}}` - Current topic
@@ -573,7 +600,7 @@ teach plan create 8 --topic "ANOVA" --style computational
 
 # Auto-uses plan data (no need to specify topic/style)
 teach lecture --week 8
-```
+```diff
 
 **Data Pulled from Plans:**
 - `topic` - Week topic
@@ -592,7 +619,7 @@ teach macros sync
 
 # Generate exam (auto-injects _macros.qmd)
 teach exam "Linear Models" --math --week 5
-```
+```diff
 
 **Ensures:**
 - `\E{Y}` instead of `E[Y]` or `\mathbb{E}[Y]`
@@ -612,7 +639,7 @@ teach templates new lecture week-05  # Creates from template
 
 # Generate uses same template style
 teach lecture --week 5  # Matches template format
-```
+```bash
 
 ### Prompts
 
@@ -627,7 +654,7 @@ teach prompt edit lecture
 
 # Export for Scholar integration (automatic)
 teach prompt export
-```
+```diff
 
 ---
 
@@ -656,11 +683,12 @@ All commands run preflight validation before Scholar invocation:
 5. ✓ Output directory writable
 
 **Fail Fast:**
+
 ```bash
 $ teach lecture --week 99
 ❌ Week 99 not found in lesson plans
    (exits immediately, no API call)
-```
+```text
 
 ---
 
@@ -682,7 +710,7 @@ Enable verbose mode for detailed execution info:
 
 ```bash
 teach lecture "ANOVA" --verbose
-```
+```diff
 
 **Output includes:**
 - Resolved flags and style

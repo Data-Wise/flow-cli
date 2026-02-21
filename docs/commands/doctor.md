@@ -16,7 +16,7 @@ flow doctor                 # Check all dependencies
 flow doctor --fix           # Interactive fix mode
 flow doctor --fix -y        # Auto-install everything
 flow doctor --dot           # Check only DOT tokens
-```
+```bash
 
 **Quick examples:**
 
@@ -41,7 +41,7 @@ flow doctor --fix-token
 
 # Detailed output + connectivity checks
 flow doctor --verbose
-```
+```diff
 
 ---
 
@@ -66,7 +66,7 @@ flowchart LR
 
     style A fill:#4CAF50,stroke:#2E7D32,color:#fff
     style F fill:#2196F3,stroke:#1565C0,color:#fff
-```
+```bash
 
 **In plain words:** Check → Report → (Optional) Fix
 
@@ -89,7 +89,7 @@ flow doctor --ai
 
 # Verbose output
 flow doctor --verbose
-```
+```diff
 
 ---
 
@@ -174,7 +174,7 @@ flow doctor --verbose
 
 ### Check Mode (Default)
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │  🩺 flow-cli Health Check                   │
 ╰─────────────────────────────────────────────╯
@@ -233,11 +233,11 @@ flow doctor --verbose
 
 ────────────────────────────────────────────────
 ✅ All dependencies OK!
-```
+```text
 
 ### With Missing Dependencies
 
-```
+```bash
 ⚡ REQUIRED (core functionality)
   ✗ fzf          NOT INSTALLED → brew install fzf
 
@@ -254,7 +254,7 @@ Quick fix options:
   flow doctor --fix       Interactive install (prompts each)
   flow doctor --fix -y    Auto-install all missing
   brew bundle --file=$FLOW_PLUGIN_DIR/setup/Brewfile
-```
+```text
 
 ---
 
@@ -285,13 +285,13 @@ Install dust? (y/N) n
 
 ────────────────────────────────────────────────
 ✅ Installed 2 tools, skipped 1
-```
+```text
 
 ### Fix Mode with Email (`--fix`)
 
 When email dependencies are missing, the fix menu includes an Email Tools category:
 
-```
+```text
 ╭─ Select Category to Fix ────────────────────────╮
 │                                                  │
 │  1. 📦 Missing Tools (2 tools, ~1m)              │
@@ -302,7 +302,7 @@ When email dependencies are missing, the fix menu includes an Email Tools catego
 │  0. Exit without fixing                          │
 │                                                  │
 ╰──────────────────────────────────────────────────╯
-```
+```text
 
 Email fix mode installs missing brew packages (himalaya, glow, w3m, terminal-notifier) and pip packages (email-oauth2-proxy). If no himalaya config is found, it offers a guided setup wizard.
 
@@ -326,7 +326,7 @@ Auto-installing 3 missing tools...
 
 ────────────────────────────────────────────────
 ✅ Installed 3 tools
-```
+```bash
 
 ---
 
@@ -350,7 +350,7 @@ $ flow doctor --verbose
     ✓ IMAP connection OK (1 message fetched)
     ⚠ OAuth2 proxy not running
     ✓ SMTP config present
-```
+```yaml
 
 Connectivity checks have a 5-second timeout per test (15s max total). All failures are shown as warnings, not errors.
 
@@ -381,7 +381,7 @@ Set up OAuth2 proxy for Gmail? (Y/n) y
 
 Testing connectivity...
 ✓ IMAP connection OK
-```
+```text
 
 The wizard auto-detects providers (Gmail, Outlook, Yahoo, iCloud) and configures appropriate IMAP/SMTP settings.
 
@@ -411,7 +411,7 @@ here are my recommendations:
 3. **Your ZSH plugins look good** - All recommended plugins are installed.
 
 Would you like me to run the installation commands? (y/N)
-```
+```bash
 
 ---
 
@@ -425,7 +425,7 @@ brew bundle --file=~/projects/dev-tools/flow-cli/setup/Brewfile
 
 # Then verify
 flow doctor
-```
+```diff
 
 ---
 
@@ -450,7 +450,7 @@ flow doctor
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
+```bash
 
 ### Issue: ZSH plugin shows as missing
 
@@ -464,7 +464,7 @@ echo "romkatv/powerlevel10k" >> ~/.config/zsh/.zsh_plugins.txt
 
 # Rebuild antidote bundle
 antidote bundle < ~/.config/zsh/.zsh_plugins.txt > ~/.config/zsh/.zsh_plugins.zsh
-```
+```bash
 
 ### Issue: npm packages fail to install
 

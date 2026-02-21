@@ -16,15 +16,15 @@ if [[ -n "$_FLOW_MY_LIBRARY_LOADED" ]]; then
     return 0 2>/dev/null || true
 fi
 typeset -g _FLOW_MY_LIBRARY_LOADED=1
-```
+```text
 
 **Naming convention:**
 
-```
+```text
 lib/concept-extraction.zsh  → _FLOW_CONCEPT_EXTRACTION_LOADED
 lib/ai-analysis.zsh         → _FLOW_AI_ANALYSIS_LOADED
 lib/analysis-display.zsh    → _FLOW_ANALYSIS_DISPLAY_LOADED
-```
+```text
 
 ---
 
@@ -34,21 +34,21 @@ lib/analysis-display.zsh    → _FLOW_ANALYSIS_DISPLAY_LOADED
 
 **Before:**
 
-```
+```text
 commands/my-command.zsh (1,203 lines)
 ├── Display functions (270 lines)
 └── Command logic (930 lines)
-```
+```text
 
 **After:**
 
-```
+```zsh
 lib/my-display.zsh (270 lines)
 └── 7 _display_* functions
 
 commands/my-command.zsh (930 lines)
 └── source "${0:A:h:h}/lib/my-display.zsh"
-```
+```diff
 
 **Benefits:**
 - Reusable across commands
@@ -67,7 +67,7 @@ local cache_file="$dir/.cache/${file:t:r}.json"
 
 # Result: lectures/week-05/lab.qmd → .cache/lab.json
 #         exams/week-05/lab.qmd    → .cache/lab.json (COLLISION!)
-```
+```bash
 
 **Solution:** Mirror directory structure
 
@@ -82,7 +82,7 @@ local cache_file="$cache_dir/${cache_name}.json"
 
 # Result: lectures/week-05/lab.qmd → .cache/lectures/week-05/lab.json
 #         exams/week-05/lab.qmd    → .cache/exams/week-05/lab.json (no collision)
-```
+```zsh
 
 ---
 
@@ -117,7 +117,7 @@ run_test() {
         ((FAIL++))
     fi
 }
-```
+```bash
 
 **Exit codes:**
 
@@ -130,7 +130,7 @@ if [[ $TIMEOUT -gt 0 ]]; then
     echo "Note: Timeout tests may require interactive/tmux context"
     exit 2  # Timeouts (expected for some tests)
 fi
-```
+```zsh
 
 ---
 
@@ -148,7 +148,7 @@ source "$FLOW_PLUGIN_DIR/commands/my-command.zsh"
 for cmd_file in "$FLOW_PLUGIN_DIR/commands/"*.zsh(N); do
     source "$cmd_file"
 done
-```
+```bash
 
 **Solution:** Remove explicit source, rely on glob
 
@@ -159,7 +159,7 @@ done
 for cmd_file in "$FLOW_PLUGIN_DIR/commands/"*.zsh(N); do
     source "$cmd_file"
 done
-```
+```bash
 
 ---
 
@@ -176,7 +176,7 @@ if [[ -z "$_FLOW_MY_LIB_LOADED" ]]; then
     [[ -f "$lib_path" ]] && source "$lib_path"
     typeset -g _FLOW_MY_LIB_LOADED=1
 fi
-```
+```bash
 
 **Solution:** Remove dispatcher guards, trust lib guards
 
@@ -185,7 +185,7 @@ fi
 
 # No need - lib/my-lib.zsh has self-protecting guard
 # Just source it (guard prevents double-load)
-```
+```zsh
 
 ---
 
@@ -209,7 +209,7 @@ time (source flow.plugin.zsh)
 # ✓ Tests pass
 ./tests/run-all.sh
 # Check: 0 failures, expected timeouts only
-```
+```zsh
 
 ---
 
@@ -221,7 +221,7 @@ time (source flow.plugin.zsh)
 # BAD - hard to track
 typeset -g LOADED_CONCEPT_EXTRACTOR=1
 typeset -g _concept_extraction_loaded=1
-```
+```zsh
 
 ✅ **Do: Consistent pattern**
 
@@ -229,7 +229,7 @@ typeset -g _concept_extraction_loaded=1
 # GOOD - predictable
 typeset -g _FLOW_CONCEPT_EXTRACTION_LOADED=1
 typeset -g _FLOW_AI_ANALYSIS_LOADED=1
-```
+```bash
 
 ### ❌ Don't: Forget `2>/dev/null || true`
 
@@ -238,7 +238,7 @@ typeset -g _FLOW_AI_ANALYSIS_LOADED=1
 if [[ -n "$_FLOW_MY_LIB_LOADED" ]]; then
     return 0
 fi
-```
+```bash
 
 ✅ **Do: Handle both contexts**
 
@@ -247,14 +247,14 @@ fi
 if [[ -n "$_FLOW_MY_LIB_LOADED" ]]; then
     return 0 2>/dev/null || true
 fi
-```
+```bash
 
 ### ❌ Don't: Flat cache for hierarchical sources
 
 ```zsh
 # BAD - collisions inevitable
 local cache="$dir/.cache/${file:t:r}.json"
-```
+```bash
 
 ✅ **Do: Mirror structure**
 
@@ -262,7 +262,7 @@ local cache="$dir/.cache/${file:t:r}.json"
 # GOOD - collision-free
 local rel="${file#$dir/}"
 local cache="$dir/.cache/${rel:h}/${rel:t:r}.json"
-```
+```bash
 
 ---
 
@@ -276,7 +276,7 @@ if [[ -n "$_FLOW_MY_LIB_LOADED" ]]; then
     return 0 2>/dev/null || true
 fi
 typeset -g _FLOW_MY_LIB_LOADED=1
-```
+```bash
 
 ### 5-Minute: Fix cache collisions
 
@@ -286,7 +286,7 @@ local relative_path="${file#$dir/}"
 local cache_dir="$dir/.cache/${relative_path:h}"
 mkdir -p "$cache_dir" 2>/dev/null
 local cache_file="$cache_dir/${relative_path:t:r}.json"
-```
+```bash
 
 ### 10-Minute: Add test timeout
 

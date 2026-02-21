@@ -275,6 +275,7 @@ After each fix:
    ```
 
 4. **Check integration:**
+
    ```bash
    teach status       # Should display dashboard
    teach doctor       # Should run health checks

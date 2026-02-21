@@ -39,7 +39,7 @@ FLOW_CACHE_ENABLED=0 pick
 
 # Use longer TTL (10 minutes)
 PROJ_CACHE_TTL=600 pick
-```
+```diff
 
 ---
 
@@ -56,7 +56,7 @@ PROJ_CACHE_TTL=600 pick
 
 ## Cache Location
 
-```
+```text
 ~/.cache/flow-cli/projects.cache
 ```
 

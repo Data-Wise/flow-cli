@@ -42,7 +42,7 @@ The teaching ecosystem spans 3 tools (flow-cli, Scholar, Craft) with 35+ command
 
 ## Output Design (Proposed)
 
-```
+```text
 +-----------------------------------------------+
 | teach map -- Teaching Ecosystem               |
 +-----------------------------------------------+
@@ -92,7 +92,7 @@ The teaching ecosystem spans 3 tools (flow-cli, Scholar, Craft) with 35+ command
 
  TIP: /craft and /scholar commands run inside Claude Code
  TIP: teach help -- usage details for any teach subcommand
-```
+```bash
 
 ---
 
@@ -107,7 +107,7 @@ command -v claude &>/dev/null && {
     [[ -d "${HOME}/.claude/plugins/scholar" ]] && has_scholar=true
     [[ -d "${HOME}/.claude/plugins/craft" ]] && has_craft=true
 }
-```
+```diff
 
 ### 2. Dimming Unavailable Commands
 

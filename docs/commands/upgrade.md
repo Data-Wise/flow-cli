@@ -6,7 +6,7 @@
 
 ```bash
 flow upgrade [target] [options]
-```
+```text
 
 ## Description
 
@@ -36,7 +36,7 @@ flow upgrade [target] [options]
 
 ```bash
 flow upgrade self
-```
+```text
 
 This runs `git pull` in the flow-cli directory and reloads the plugin.
 
@@ -44,7 +44,7 @@ This runs `git pull` in the flow-cli directory and reloads the plugin.
 
 ```bash
 flow upgrade tools
-```
+```bash
 
 Runs `brew update && brew upgrade` for flow-cli recommended tools.
 
@@ -52,7 +52,7 @@ Runs `brew update && brew upgrade` for flow-cli recommended tools.
 
 ```bash
 flow upgrade plugins
-```
+```text
 
 Updates plugins via antidote (if installed).
 
@@ -60,7 +60,7 @@ Updates plugins via antidote (if installed).
 
 ```bash
 flow upgrade all
-```
+```text
 
 Updates flow-cli, Homebrew packages, and ZSH plugins in sequence.
 
@@ -68,11 +68,11 @@ Updates flow-cli, Homebrew packages, and ZSH plugins in sequence.
 
 ```bash
 flow upgrade --check
-```
+```text
 
 Output:
 
-```
+```yaml
 📦 Checking for updates...
 
 flow-cli:
@@ -88,13 +88,13 @@ Homebrew:
 
 ZSH Plugins:
   Status: ✅ Up to date
-```
+```text
 
 ### Show Changelog
 
 ```bash
 flow upgrade --changelog
-```
+```text
 
 Shows recent changes from the git log.
 

@@ -6,7 +6,7 @@
 
 ```bash
 flow do [options] "<natural language description>"
-```
+```text
 
 ## Description
 
@@ -28,17 +28,17 @@ Commands that could cause data loss are flagged:
 
 ```bash
 flow do "delete all files"
-```
+```text
 
 Output:
 
-```
+```text
 ⚠️  DANGEROUS COMMAND DETECTED
 📝 Command: rm -rf *
 
 This command could cause data loss.
 Execute anyway? [y/N]:
-```
+```diff
 
 Dangerous patterns detected:
 
@@ -55,16 +55,16 @@ Always preview before executing uncertain commands:
 
 ```bash
 flow do --dry-run "remove all backup files"
-```
+```text
 
 Output:
 
-```
+```text
 🔍 Translating: "remove all backup files"
 📝 Command: find . -name "*.bak" -delete
 
 ⚠️  DRY RUN - command not executed
-```
+```bash
 
 ## Examples
 
@@ -79,7 +79,7 @@ flow do "show files modified in the last hour"
 
 flow do "count lines in all zsh files"
 # → find . -name "*.zsh" -exec wc -l {} +
-```
+```bash
 
 ### Git Operations
 
@@ -92,7 +92,7 @@ flow do "find who last modified this file"
 
 flow do "show branches merged into main"
 # → git branch --merged main
-```
+```bash
 
 ### System Information
 
@@ -105,7 +105,7 @@ flow do "show running node processes"
 
 flow do "what's using port 3000"
 # → lsof -i :3000
-```
+```bash
 
 ### Project-Specific
 
@@ -123,7 +123,7 @@ flow do "run the tests"
 # In a Quarto project:
 flow do "build the document"
 # → quarto render
-```
+```bash
 
 ## Workflow Tips
 

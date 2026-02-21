@@ -36,7 +36,7 @@
 ```zsh
 _flow_log success "Task completed"
 _flow_log error "Operation failed"
-```
+```diff
 
 **Related:**
 - `_flow_log_success(message)` - Shorthand for success messages
@@ -57,13 +57,13 @@ _flow_log error "Operation failed"
 
 ```zsh
 _flow_log_success "Worktree created successfully"
-```
+```text
 
 **Output:**
 
-```
+```text
 ✓ Worktree created successfully
-```
+```diff
 
 ---
 
@@ -95,7 +95,7 @@ root=$(_flow_find_project_root)
 if [[ $? -eq 0 ]]; then
     echo "Project root: $root"
 fi
-```
+```diff
 
 ---
 
@@ -127,7 +127,7 @@ case "$type" in
     r-package) echo "R package detected" ;;
     python) echo "Python project detected" ;;
 esac
-```
+```diff
 
 ---
 
@@ -151,7 +151,7 @@ esac
 # After creating new worktree, invalidate cache
 git worktree add ~/.git-worktrees/project-feature -b feature/new
 _proj_cache_invalidate
-```
+```diff
 
 **Used By:**
 - `wt create` - After successful worktree creation
@@ -236,11 +236,11 @@ _proj_cache_invalidate
 
 **Output Format:**
 
-```
+```text
 🌳 project (branch-name) - /path/to/worktree
 🟢 project (recent-branch) - /path/to/worktree  [< 24h]
 🟡 project (old-branch) - /path/to/worktree     [> 24h]
-```
+```diff
 
 ##### `wt remove <name>`
 
@@ -287,7 +287,7 @@ cc yolo pick        # Mode-first: pick → YOLO
 cc pick yolo        # Target-first: pick → YOLO (same result)
 cc opus pick        # Pick → Opus model
 cc flow             # Direct jump to flow-cli project
-```
+```diff
 
 **Exit Codes:**
 - `0` - Claude launched successfully
@@ -311,11 +311,11 @@ cc flow             # Direct jump to flow-cli project
 
 **Output:**
 
-```
+```text
 ✓ github - Running (npx)
 ✓ statistical-research - Running (Bun)
 ✗ docling - Stopped
-```
+```diff
 
 ##### `mcp test <server>`
 
@@ -368,12 +368,12 @@ cc flow             # Direct jump to flow-cli project
 
 **Output:**
 
-```
+```text
 Course:   STAT 440 - Regression Analysis
 Semester: Fall 2024
 Config:   ✓ Valid (last modified: 2024-01-15)
 Scholar:  ✓ Configured
-```
+```diff
 
 ##### `teach exam <topic> [--format <format>]`
 
@@ -478,7 +478,7 @@ pick r              # Pick from R packages only
 pick wt             # Pick from worktrees only
 pick wt scholar     # Filter worktrees containing "scholar"
 pick flow           # Direct jump to flow-cli
-```
+```diff
 
 **Session Indicators:**
 - 🟢 - Recent session (< 24h ago)
@@ -487,11 +487,11 @@ pick flow           # Direct jump to flow-cli
 
 **Output Format:**
 
-```
+```text
 🌳 scholar (github-actions) - /Users/dt/.git-worktrees/scholar-github-actions
 📦 rmediation - /Users/dt/projects/r-packages/active/rmediation
 🟢 flow-cli - /Users/dt/projects/dev-tools/flow-cli
-```
+```diff
 
 ---
 
@@ -523,18 +523,18 @@ dash                # Show all projects
 dash teach          # Teaching courses only
 dash -i             # Interactive mode
 dash --watch        # Live refresh
-```
+```text
 
 **Output:**
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │ TEACHING COURSES                        │
 ├─────────────────────────────────────────┤
 │ STAT 440          Active    Progress: 75%│
 │ Causal Inference  Draft     Progress: 30%│
 └─────────────────────────────────────────┘
-```
+```diff
 
 ---
 
@@ -557,7 +557,7 @@ dash --watch        # Live refresh
 ```zsh
 work flow-cli
 work ~/projects/dev-tools/flow-cli
-```
+```diff
 
 ---
 
@@ -578,7 +578,7 @@ work ~/projects/dev-tools/flow-cli
 ```zsh
 finish "feat: add new dispatcher"
 finish  # Interactive mode
-```
+```diff
 
 ---
 
@@ -595,7 +595,7 @@ finish  # Interactive mode
 
 ```zsh
 hop flow-cli
-```
+```diff
 
 ---
 
@@ -626,7 +626,7 @@ if _teach_validate_config "teach-config.yml"; then
 else
     echo "✗ Config invalid"
 fi
-```
+```yaml
 
 ---
 
@@ -652,7 +652,7 @@ fi
 ```zsh
 # Array elements:
 "project-name (branch-name)|/path/to/worktree|session-age"
-```
+```bash
 
 **Example:**
 
@@ -662,7 +662,7 @@ for wt in "${(@f)worktrees}"; do
     IFS='|' read -r name path age <<< "$wt"
     echo "$name - $path"
 done
-```
+```diff
 
 ---
 
@@ -684,7 +684,7 @@ path=$(_proj_find_worktree "scholar-github")
 if [[ $? -eq 0 ]]; then
     cd "$path"
 fi
-```
+```diff
 
 ---
 
@@ -704,7 +704,7 @@ fi
 ```zsh
 hash=$(_teach_config_hash "teach-config.yml")
 echo "Config hash: $hash"
-```
+```diff
 
 **Use Cases:**
 - Change detection
@@ -784,13 +784,13 @@ FLOW_COLORS[header]   # Soft purple
 FLOW_COLORS[accent]   # Soft orange
 FLOW_COLORS[muted]    # Gray
 FLOW_COLORS[cmd]      # Calm blue
-```
+```bash
 
 **Usage:**
 
 ```zsh
 echo -e "${FLOW_COLORS[success]}✓ Success${FLOW_COLORS[reset]}"
-```
+```text
 
 ---
 
@@ -808,7 +808,7 @@ type ProjectType =
   | "go"
   | "teaching"
   | "unknown"
-```
+```text
 
 ---
 
@@ -816,20 +816,20 @@ type ProjectType =
 
 **Flat Naming:**
 
-```
+```text
 ~/.git-worktrees/
 └── project-branch/          # Level 1
     └── .git                 # FILE (contains gitdir:)
-```
+```text
 
 **Hierarchical Naming:**
 
-```
+```text
 ~/.git-worktrees/
 └── project/                 # Level 1
     └── branch/              # Level 2
         └── .git             # FILE
-```
+```text
 
 ---
 

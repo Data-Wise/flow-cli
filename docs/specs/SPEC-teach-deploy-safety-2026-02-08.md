@@ -46,7 +46,7 @@ Port 4 safety and developer experience features from STAT-545's battle-tested `q
 
 ## Architecture
 
-```
+```text
 _teach_deploy_enhanced()
     |
     +-- [NEW] Uncommitted change prompt (before mode dispatch)
@@ -69,7 +69,7 @@ _teach_deploy_enhanced()
 
 _deploy_summary_box()
     +-- [NEW] Actions URL line (always)
-```
+```diff
 
 No new files. All changes in existing files.
 
@@ -109,6 +109,7 @@ No new dependencies. Uses existing:
 **File:** `lib/dispatchers/teach-deploy-enhanced.zsh`
 
 **In `_deploy_direct_merge()` (line ~162):**
+
 ```zsh
 _deploy_direct_merge() {
     local draft_branch="$1"
@@ -123,9 +124,10 @@ _deploy_direct_merge() {
     trap - EXIT INT TERM
     return 0
 }
-```
+```bash
 
 **In PR mode section (line ~854):**
+
 ```zsh
 # Before PR mode logic begins
 trap "git checkout '$draft_branch' 2>/dev/null" EXIT INT TERM
@@ -134,7 +136,7 @@ trap "git checkout '$draft_branch' 2>/dev/null" EXIT INT TERM
 
 # Clear trap before _deploy_cleanup_globals
 trap - EXIT INT TERM
-```
+```bash
 
 **Risk:** Low. Trap is additive. Existing manual checkout calls remain as belt-and-suspenders.
 
@@ -159,7 +161,7 @@ if ! git commit -m "$commit_msg"; then
     echo "  ${FLOW_COLORS[dim]}Your changes are still staged. Nothing was lost.${FLOW_COLORS[reset]}"
     return 1
 fi
-```
+```bash
 
 **CI mode:** Same message, exits non-zero (no interactive options).
 
@@ -179,7 +181,7 @@ repo_slug=$(git config --get remote.origin.url 2>/dev/null | \
 if [[ -n "$repo_slug" && "$repo_slug" != "$(git config --get remote.origin.url)" ]]; then
     printf "│  %-10s %-42s│\n" "Actions:" "https://github.com/${repo_slug}/actions"
 fi
-```
+```bash
 
 **Always shown.** If the remote URL isn't GitHub, the regex won't match and the line is skipped.
 
@@ -236,7 +238,7 @@ if ! _git_is_clean; then
             ;;
     esac
 fi
-```
+```text
 
 **Note:** This replaces the existing `require_clean` check for the prompt path. The `require_clean` config option is still respected: if set to `false`, this block is skipped entirely (already handled by preflight).
 
@@ -246,17 +248,17 @@ fi
 
 ### Uncommitted Change Prompt
 
-```
+```text
   Uncommitted changes detected
   Suggested: content: week-05 lecture
   Commit and continue? [Y/n]:
-```
+```text
 
 Uses `FLOW_COLORS[warn]` for header, `FLOW_COLORS[info]` for suggested message, `FLOW_COLORS[prompt]` for input.
 
 ### Hook Failure Message
 
-```
+```yaml
   ERROR: Commit failed (likely pre-commit hook)
 
   Options:
@@ -265,11 +267,11 @@ Uses `FLOW_COLORS[warn]` for header, `FLOW_COLORS[info]` for suggested message, 
     3. Force commit: git commit --no-verify -m "message"
 
   Changes are still staged.
-```
+```text
 
 ### Deploy Summary Box (Updated)
 
-```
+```text
 +-- Deployment Summary ---------------------------+
 |  Mode:     Direct merge                         |
 |  Files:    3 changed (+45 / -12)                |

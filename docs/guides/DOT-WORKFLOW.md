@@ -26,7 +26,7 @@ dots sync
 
 # Push your changes
 dots push
-```
+```bash
 
 ---
 
@@ -43,14 +43,14 @@ chezmoi init
 
 # Track your first file
 chezmoi add ~/.zshrc
-```
+```bash
 
 ### Optional: Bitwarden (for secrets)
 
 ```bash
 brew install bitwarden-cli
 bw login
-```
+```bash
 
 ---
 
@@ -63,11 +63,11 @@ Edit a dotfile with preview and apply workflow.
 ```bash
 # 1. Edit (opens $EDITOR with source file)
 dots edit .zshrc
-```
+```text
 
 **Output:**
 
-```
+```diff
 ℹ Opening in vim: dot_zshrc
 
 [Make changes, save, exit editor]
@@ -84,7 +84,7 @@ dots edit .zshrc
   n - Keep in staging
 
 Apply? [Y/n/d]
-```
+```bash
 
 **Options:**
 
@@ -107,7 +107,7 @@ dots apply
 
 # Preview first
 dots apply --dry-run
-```
+```bash
 
 ---
 
@@ -119,26 +119,26 @@ Preview changes without applying them.
 dots apply --dry-run
 # or
 dots apply -n
-```
+```text
 
 **Output (no changes):**
 
-```
+```text
 ℹ DRY-RUN MODE - No changes will be applied
 
 ✓ No pending changes
-```
+```text
 
 **Output (with changes):**
 
-```
+```bash
 ℹ DRY-RUN MODE - No changes will be applied
 
 ℹ Showing what would change (dry-run)...
 [chezmoi verbose diff]
 
 ✓ Dry-run complete - no changes applied
-```
+```diff
 
 ### When to Use
 
@@ -163,7 +163,7 @@ chezmoi add ~/.tmux.conf
 
 # Push to remote
 dots push
-```
+```bash
 
 ### On Other Machines
 
@@ -173,7 +173,7 @@ chezmoi init https://github.com/user/dotfiles.git
 
 # Apply dotfiles
 dots apply
-```
+```bash
 
 ### Daily Sync
 
@@ -189,7 +189,7 @@ dots sync
 
 # Push local changes
 dots push
-```
+```bash
 
 ---
 
@@ -221,7 +221,7 @@ sec list
 
 # Delete when done
 sec delete github-token
-```
+```diff
 
 **Perfect for:**
 - Shell startup scripts (instant, no unlock)
@@ -239,7 +239,7 @@ bw login
 
 # Unlock vault (each shell session)
 sec unlock
-```
+```bash
 
 **Store Secrets:**
 
@@ -261,7 +261,7 @@ sec list
 
 # Retrieve (no echo)
 TOKEN=$(sec github-token)
-```
+```bash
 
 ### Use in Templates
 
@@ -273,7 +273,7 @@ export PATH=$HOME/bin:$PATH
 
 # Secrets from Bitwarden
 export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
-```
+```text
 
 **Apply with secrets:**
 
@@ -281,7 +281,7 @@ export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 sec unlock
 dots apply --dry-run  # Preview
 dots apply            # Apply
-```
+```bash
 
 ---
 
@@ -298,11 +298,11 @@ tok npm
 
 # PyPI project token
 tok pypi
-```
+```text
 
 **Wizard output:**
 
-```
+```sql
 🧙 GitHub Token Wizard
 
 Select token type:
@@ -317,17 +317,17 @@ Paste your new token: ghp_xxxxxxxxxxxx
 
 ✓ Token validated!
 ✓ Stored as 'github-token' in Bitwarden
-```
+```text
 
 ### Check Token Status
 
 ```bash
 secs
-```
+```text
 
 **Dashboard output:**
 
-```
+```text
 ╭───────────────────────────────────────────────────────────────╮
 │  🔐 Secrets Dashboard                                          │
 ├───────────────────────────────────────────────────────────────┤
@@ -335,7 +335,7 @@ secs
 │  🔑 npm-token          Expires: 180 days                      │
 │  ⚠️  pypi-token         Expires: 9 days  ← EXPIRING SOON      │
 ╰───────────────────────────────────────────────────────────────╯
-```
+```bash
 
 ### Rotate Expiring Tokens
 
@@ -345,11 +345,11 @@ tok pypi-token --refresh
 
 # Short form
 tok pypi-token -r
-```
+```text
 
 **Rotation output:**
 
-```
+```text
 🔄 Rotating token: pypi-token
 
 ℹ Opening PyPI token creation page...
@@ -361,7 +361,7 @@ Paste your new token: pypi-xxxxxxxx
 
 ⚠️  Remember to revoke old token at:
    https://pypi.org/manage/account/token/
-```
+```text
 
 ---
 
@@ -371,11 +371,11 @@ Paste your new token: pypi-xxxxxxxx
 
 ```bash
 sec sync github
-```
+```text
 
 **Output:**
 
-```
+```sql
 ℹ Syncing secrets to: Data-Wise/flow-cli
 
 Select secrets to sync:
@@ -384,17 +384,17 @@ Select secrets to sync:
   [ ] PYPI_TOKEN
 
 ✓ 2 secrets synced to repository
-```
+```text
 
 ### Generate .envrc for direnv
 
 ```bash
 dots env
-```
+```text
 
 **Output:**
 
-```
+```bash
 ✓ Generated .envrc with 3 secrets
 
   Contents:
@@ -404,7 +404,7 @@ dots env
   ─────────────────────────────
 
 💡 Run 'direnv allow' to activate
-```
+```text
 
 ---
 
@@ -414,7 +414,7 @@ dots env
 
 ```bash
 dots edit .gitconfig  # Edit, apply immediately
-```
+```text
 
 ### Safe Batch Changes
 
@@ -424,7 +424,7 @@ dots edit .gitconfig  # Press 'n' to defer
 dots diff             # Review all
 dots apply --dry-run  # Preview
 dots apply            # Apply all
-```
+```bash
 
 ### Emergency Rollback
 
@@ -436,7 +436,7 @@ chezmoi apply --force
 cd ~/.local/share/chezmoi
 git checkout -- .
 dots apply
-```
+```text
 
 ---
 
@@ -444,25 +444,25 @@ dots apply
 
 ### File Not Tracked
 
-```
+```text
 ✗ File not found in managed dotfiles: .zshrc
 ℹ Use 'chezmoi add <file>' to start tracking a new file
-```
+```text
 
 **Fix:** `chezmoi add ~/.zshrc`
 
 ### Vault Locked
 
-```
+```text
 ✗ Bitwarden vault is locked
 ℹ Run: sec unlock
-```
+```text
 
 **Fix:** `sec unlock`
 
 ### Session Expired
 
-```
+```text
 ✗ Session expired
 Run: sec unlock
 ```

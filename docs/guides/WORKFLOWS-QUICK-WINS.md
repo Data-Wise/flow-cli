@@ -44,13 +44,13 @@ tags:
 
 ```bash
 rtest                # Run all tests
-```
+```text
 
 ### Visual Flow
 
-```
+```text
 Code changes → rtest → 2-4 min wait → ✅ Green or ❌ Red
-```
+```diff
 
 ### Decision Points
 
@@ -80,13 +80,13 @@ Code changes → rtest → 2-4 min wait → ✅ Green or ❌ Red
 
 ```bash
 rload && rtest       # Load then test
-```
+```text
 
 ### Visual Flow
 
-```
+```bash
 Start work → rload && rtest → Package loads → Tests run → ✅ or ❌
-```
+```diff
 
 ### Why This Works (ADHD-Optimized)
 
@@ -117,13 +117,13 @@ Start work → rload && rtest → Package loads → Tests run → ✅ or ❌
 
 ```bash
 rdoc && rtest        # Document then test
-```
+```text
 
 ### Visual Flow
 
-```
+```bash
 Change @param docs → rdoc && rtest → Docs regenerate → Tests run → ✅
-```
+```text
 
 ### What This Does
 
@@ -133,12 +133,12 @@ Change @param docs → rdoc && rtest → Docs regenerate → Tests run → ✅
 
 ### Common Scenario
 
-```
+```bash
 You: Added new function parameter
 You: Updated @param documentation
 Run: rdoc && rtest
 Result: Documentation updated + tests verify it works
-```
+```diff
 
 ### Pro Tips
 
@@ -164,13 +164,13 @@ Result: Documentation updated + tests verify it works
 rcycle               # Full cycle: doc → test → check
 # OR (step by step)
 rdoc && rtest && rcheck
-```
+```text
 
 ### Visual Flow
 
-```
+```text
 Ready to commit → rcycle → 60 min wait → ✅ 0 errors/warnings/notes
-```
+```diff
 
 ### What This Does
 
@@ -221,13 +221,13 @@ rdoc && rtest && git add . && git commit -m "message"
 
 # Option 3: Ultra-safe (full check + commit)
 rdoc && rtest && rcheck && git add . && git commit -m "message"
-```
+```text
 
 ### Visual Flow
 
-```
+```text
 Code ready → git commit → Done in 30s
-```
+```bash
 
 ### Commit Message Templates
 
@@ -246,16 +246,16 @@ git commit -m "test: add tests for interaction effects"
 
 # Refactor
 git commit -m "refactor: simplify bootstrap algorithm"
-```
+```text
 
 ### Decision Tree
 
-```
+```bash
 Did you run rcheck?
 ├─ Yes → git add . && git commit -m "message"
 ├─ No → rdoc && rtest then commit (safer)
 └─ Not sure → Full check first (safest)
-```
+```diff
 
 ### Pro Tips
 
@@ -281,7 +281,7 @@ Did you run rcheck?
 
 ```bash
 rtest                # Run tests, read error messages
-```
+```diff
 
 Look for:
 
@@ -294,7 +294,7 @@ Look for:
 ```bash
 # Run specific test file in R:
 devtools::test_file("tests/testthat/test-myfunction.R")
-```
+```bash
 
 #### Step 3: Interactive Debugging (varies)
 
@@ -303,14 +303,14 @@ rload                # Load package
 # Then in R console:
 # debug(myfunction)
 # Run test interactively
-```
+```bash
 
 #### Step 4: Fix and Verify (2 min)
 
 ```bash
 # Fix the code
 rtest                # Re-run all tests
-```
+```diff
 
 ### Common Test Failures
 
@@ -331,13 +331,13 @@ rtest                # Re-run all tests
 
 ### ADHD-Friendly Debug Loop
 
-```
+```text
 1. Read error (30s)
 2. Hypothesize fix (1 min)
 3. Make ONE small change
 4. Test immediately with `rtest`
 5. Repeat until green
-```
+```bash
 
 ### Pro Tips
 
@@ -358,16 +358,16 @@ rtest                # Re-run all tests
 pwd                  # Show current directory
 rpkg                 # Package info & status
 git status           # Check git status
-```
+```text
 
 ### Visual Output
 
-```
+```diff
 rpkg → Shows:
 - 📦 R package name + version
 - 📊 Package description
 - 🔧 Git branch
-```
+```diff
 
 ### Quick Recovery Checklist
 
@@ -384,21 +384,21 @@ rpkg → Shows:
 pwd                  # Current directory
 rpkg                 # Package info
 cat .STATUS          # Check status file
-```
+```bash
 
 **"I don't remember what this package does"**
 
 ```bash
 rpkg                 # Package info
 cat DESCRIPTION      # Read full description
-```
+```bash
 
 **"Did I make changes?"**
 
 ```bash
 git status           # Git status
 git diff             # See changes
-```
+```text
 
 ### Pro Tips
 
@@ -419,7 +419,7 @@ git diff             # See changes
 focus                # Minimize distractions
 focus 25             # Focus + 25-min timer (Pomodoro)
 unfocus              # Restore notifications
-```
+```text
 
 ### What `focus` Does
 
@@ -430,9 +430,9 @@ unfocus              # Restore notifications
 
 ### Visual Flow
 
-```
+```text
 Need focus → focus 25 → Work uninterrupted → Timer alert → Break
-```
+```bash
 
 ### Recommended Focus Workflows
 
@@ -443,7 +443,7 @@ f25                  # 25-minute focus timer
 # Work for 25 min
 # Timer alerts when done
 # Take 5-min break
-```
+```bash
 
 **Deep Work (50 min)**
 
@@ -452,14 +452,14 @@ f50                  # 50-minute deep work timer
 # Work for 50 min
 # Timer alerts when done
 # Take 10-15 min break
-```
+```bash
 
 **Custom Duration**
 
 ```bash
 focus 90             # Custom 90-minute session
 # Work until timer ends
-```
+```bash
 
 ### Pro Tips
 
@@ -472,7 +472,7 @@ focus 90             # Custom 90-minute session
 ```bash
 # Update status and commit progress
 git add . && git commit -m "Progress on X"
-```
+```bash
 
 ---
 
@@ -489,7 +489,7 @@ git add . && git commit -m "Progress on X"
 pwd                  # Verify location
 rpkg                 # Check package info
 git status           # Check git status
-```
+```bash
 
 #### [ ] 2. Create Function File (30s)
 
@@ -497,7 +497,7 @@ git status           # Check git status
 # Create R/myfunction.R manually
 # OR use usethis:
 usethis::use_r("myfunction")
-```
+```bash
 
 #### [ ] 3. Create Test File (30s)
 
@@ -505,7 +505,7 @@ usethis::use_r("myfunction")
 # Create tests/testthat/test-myfunction.R
 # OR use usethis:
 usethis::use_test("myfunction")
-```
+```bash
 
 #### [ ] 4. Document Template (30s)
 
@@ -522,7 +522,7 @@ Add roxygen skeleton:
 myfunction <- function(x) {
   # TODO: Implement
 }
-```
+```text
 
 #### [ ] 5. First Test (30s)
 
@@ -531,21 +531,21 @@ test_that("myfunction works", {
   result <- myfunction(x = 1)
   expect_true(!is.null(result))
 })
-```
+```bash
 
 #### [ ] 6. Verify Setup
 
 ```bash
 rload && rtest       # Load + test
 # Should load successfully, test might fail (that's OK!)
-```
+```bash
 
 ### Quick Start Template
 
 ```bash
 # Create files, then verify:
 rload && rtest
-```
+```bash
 
 ### Pro Tips
 
@@ -568,7 +568,7 @@ rload && rtest
 pwd                  # Where am I?
 git status           # What changed?
 rtest                # Do tests pass?
-```
+```bash
 
 #### Step 2: Identify Problem
 
@@ -578,7 +578,7 @@ rtest                # Do tests pass?
 rtest                # Run tests
 # Read error messages carefully
 # Jump to workflow #6 (Fix Failing Tests)
-```
+```bash
 
 **Package won't load?**
 
@@ -586,14 +586,14 @@ rtest                # Run tests
 rload                # Try to load
 # Read error messages
 # Common: syntax error, missing dependency
-```
+```bash
 
 **Git issues?**
 
 ```bash
 git status           # Git status
 git log --oneline -5 # Recent commits
-```
+```bash
 
 ### Recovery Options (Choose One)
 
@@ -605,7 +605,7 @@ git reset HEAD~1
 # Fix the issue
 rtest                # Verify tests pass
 git add . && git commit -m "fix: ..."
-```
+```bash
 
 #### Option B: Code Error
 
@@ -614,7 +614,7 @@ git add . && git commit -m "fix: ..."
 # Then:
 rload                # Try loading again
 rtest                # Run tests
-```
+```bash
 
 #### Option C: Clean Build (Last Resort)
 
@@ -622,7 +622,7 @@ rtest                # Run tests
 # Clean and rebuild
 rm -rf man/ NAMESPACE
 rdoc && rtest        # Regenerate docs + test
-```
+```diff
 
 ### Prevention Checklist
 
@@ -649,7 +649,7 @@ rdoc && rtest        # Regenerate docs + test
 
 **Use this when you're not sure what to do:**
 
-```
+```bash
 What do you want to do?
 
 ├─ Just made code changes
@@ -679,7 +679,7 @@ What do you want to do?
 │
 └─ Something broke
    └─ See workflow #10 (Emergency Recovery)
-```
+```yaml
 
 ---
 
@@ -780,25 +780,25 @@ What do you want to do?
 
 ```bash
 rpkg → rload && rtest → Coffee while tests run → Review results → Code
-```
+```bash
 
 **Quick Feature (30 min)**
 
 ```bash
 f25 → Create files → Code → rdoc && rtest
-```
+```text
 
 **Pre-Commit (65 min)**
 
 ```bash
 rcheck → f60 focus session → Switch tasks → Check results → commit
-```
+```text
 
 **End of Day (5 min)**
 
 ```bash
 rtest → git commit -m "wip: progress on X" → Update .STATUS for tomorrow
-```
+```bash
 
 ---
 
@@ -821,13 +821,13 @@ g feature sync
 
 # Finish: push + create PR
 g feature finish
-```
+```text
 
 ### Visual Flow
 
-```
+```text
 Start → feature start → code → commit → sync → finish → PR → merge
-```
+```bash
 
 ### Quick Reference
 
@@ -853,7 +853,7 @@ git checkout main && g push   # Direct push to main blocked
 g feature start my-fix        # Create feature branch
 g push                        # Push feature branch OK
 g promote                     # Create PR instead
-```
+```bash
 
 ### Pro Tips
 
@@ -882,13 +882,13 @@ wt
 
 # Clean up stale worktrees
 wt clean
-```
+```text
 
 ### Visual Flow
 
-```
+```text
 Main work → wt create feature/b → Parallel work → wt clean
-```
+```bash
 
 ### Claude Code + Worktrees
 

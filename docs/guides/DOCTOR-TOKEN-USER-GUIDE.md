@@ -37,7 +37,7 @@ The flow doctor token enhancement adds powerful GitHub token management capabili
 $ doctor
 # Checks: shell, tools, integrations, dotfiles (slow)
 # Result: "GitHub token expiring in 5 days"
-```
+```bash
 
 **After Phase 1:**
 
@@ -45,7 +45,7 @@ $ doctor
 $ doctor --dot
 # Checks: GitHub token only (fast)
 # Result: Same info in < 3 seconds
-```
+```text
 
 ---
 
@@ -55,14 +55,14 @@ $ doctor --dot
 
 ```bash
 doctor --dot
-```
+```text
 
 **Output:**
 
-```
+```text
 🔑 GITHUB TOKEN
 ✓ Token valid (45 days remaining)
-```
+```diff
 
 **What happens:**
 - Checks token expiration status
@@ -75,11 +75,11 @@ doctor --dot
 
 ```bash
 doctor --fix-token
-```
+```text
 
 **Interactive menu appears:**
 
-```
+```sql
 ╭─ Select Category to Fix ────────────────────────╮
 │                                                  │
 │  1. 🔑 GitHub Token (2 issues, ~30s)            │
@@ -89,7 +89,7 @@ doctor --fix-token
 ╰──────────────────────────────────────────────────╯
 
 Select [1, 0 to exit]: 1
-```
+```text
 
 **What happens:**
 1. Shows token issues with time estimate
@@ -103,11 +103,11 @@ Select [1, 0 to exit]: 1
 
 ```bash
 doctor --dot --verbose
-```
+```text
 
 **Output:**
 
-```
+```bash
 🔑 GITHUB TOKEN
 [Cache hit - age: 45s, TTL: 300s]
 [Delegation: tok expiring]
@@ -115,7 +115,7 @@ doctor --dot --verbose
   Username: your-username
   Token type: fine-grained
   Age: 100 days
-```
+```diff
 
 **What you see:**
 - Cache status (hit or miss)
@@ -136,7 +136,7 @@ doctor --dot
 
 # If expiring soon, fix it
 doctor --fix-token
-```
+```bash
 
 **Time:** < 3 seconds (cached) or ~30 seconds (rotation)
 
@@ -152,7 +152,7 @@ doctor --dot --quiet
 
 # If check fails, exit code 1
 echo $?  # 0 = success, 1 = issues
-```
+```bash
 
 **Use in scripts:**
 
@@ -164,7 +164,7 @@ if ! doctor --dot --quiet; then
 fi
 
 git push
-```
+```bash
 
 ---
 
@@ -182,7 +182,7 @@ if [ $? -eq 0 ]; then
 else
     echo "Token issues"
 fi
-```
+```bash
 
 ---
 
@@ -200,7 +200,7 @@ _doctor_cache_stats
 # Force fresh check (clear cache)
 _doctor_cache_clear "token-github"
 doctor --dot --verbose
-```
+```text
 
 ---
 
@@ -216,7 +216,7 @@ doctor --dot --verbose
 
 ```bash
 doctor --dot
-```
+```diff
 
 **When to use:**
 - Morning health check
@@ -238,7 +238,7 @@ doctor --dot
 
 ```bash
 doctor --dot=github
-```
+```diff
 
 **When to use:**
 - Multi-token environments
@@ -255,7 +255,7 @@ doctor --dot=github
 
 ```bash
 doctor --fix-token
-```
+```diff
 
 **When to use:**
 - Token expiring warning
@@ -280,7 +280,7 @@ doctor --fix-token
 
 ```bash
 doctor --dot --quiet
-```
+```diff
 
 **Output:**
 - Only errors shown
@@ -302,7 +302,7 @@ doctor --dot --quiet
 
 ```bash
 doctor --dot --verbose
-```
+```diff
 
 **Output:**
 - Cache hit/miss status
@@ -323,7 +323,7 @@ doctor --dot --verbose
 
 ```bash
 doctor --dot --quiet
-```
+```text
 
 **Use case:** Scheduled monitoring
 
@@ -334,7 +334,7 @@ doctor --dot --quiet
 ```bash
 _doctor_cache_clear "token-github"
 doctor --dot --verbose
-```
+```text
 
 **Use case:** Force fresh check with debug info
 
@@ -344,7 +344,7 @@ doctor --dot --verbose
 
 ```bash
 doctor --fix-token --yes
-```
+```bash
 
 **Use case:** Non-interactive rotation
 
@@ -373,7 +373,7 @@ doctor --dot  # Second run (fast < 100ms)
 
 # Clear stale cache
 _doctor_cache_clear
-```
+```bash
 
 ---
 
@@ -392,7 +392,7 @@ ls -ld ~/.flow/cache/doctor/
 
 # Verify cache files
 cat ~/.flow/cache/doctor/token-github.cache
-```
+```bash
 
 **Fix:**
 
@@ -403,7 +403,7 @@ _doctor_cache_init
 
 # Check again
 doctor --dot --verbose
-```
+```bash
 
 ---
 
@@ -427,7 +427,7 @@ type _doctor_select_fix_category
 
 # Disable auto-yes
 doctor --fix-token  # Without --yes
-```
+```bash
 
 ---
 
@@ -450,7 +450,7 @@ doctor --dot --verbose
 
 # Verify delegation
 type _tok_expiring
-```
+```bash
 
 ---
 
@@ -469,7 +469,7 @@ doctor --dot --quiet  # Every 5 min = 80% cache hits
 
 # Bad: Infrequent expensive checks
 doctor  # Every hour = 0% cache hits + slow
-```
+```diff
 
 ---
 
@@ -498,7 +498,7 @@ else
     echo "⚠ Token issues - run 'doctor --fix-token'"
     exit 1
 fi
-```
+```bash
 
 ---
 
@@ -509,7 +509,7 @@ fi
 ```bash
 # crontab
 */5 * * * * doctor --dot --quiet || echo "Token issues" | mail -s "Token Alert" you@example.com
-```
+```diff
 
 ---
 
@@ -539,7 +539,7 @@ fi
 
 ```bash
 _doctor_cache_clear && doctor --dot
-```
+```diff
 
 ---
 
@@ -561,7 +561,7 @@ doctor --dot --verbose
 # Output shows:
 # [Cache hit - age: 45s, TTL: 300s]  ← Cache working
 # [Cache miss - validating...]       ← Cache not used
-```
+```diff
 
 ---
 
@@ -594,7 +594,7 @@ else
     echo "Token issues detected"
     exit 1
 fi
-```
+```text
 
 ---
 

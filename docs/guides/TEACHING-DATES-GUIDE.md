@@ -28,12 +28,12 @@ Teaching a course involves managing dates in multiple places:
 
 **Without date automation:**
 
-```
+```text
 ❌ syllabus.qmd:        "Homework 1 due Jan 22"
 ❌ assignments/hw1.qmd:  due: "2025-01-20"  # ← Mismatch!
 ❌ schedule.qmd:        "Week 2: January 22, 2025"
 ❌ lectures/week02.qmd: "Due: Jan 22, 2025"
-```
+```diff
 
 **Problems:**
 - 📅 40+ dates to update manually each semester
@@ -50,7 +50,7 @@ semester_info:
     hw1:
       week: 2
       offset_days: 2  # Due Friday of Week 2
-```
+```bash
 
 Run `teach dates sync` and all files update automatically.
 
@@ -83,7 +83,7 @@ date --version         # GNU date or BSD date
 
 # flow-cli v5.11.0+
 teach dates help
-```
+```bash
 
 ### Initial Setup
 
@@ -99,7 +99,7 @@ Semester start date (YYYY-MM-DD): 2025-01-13
 
 # Step 3: Verify config was created
 cat .flow/teach-config.yml
-```
+```diff
 
 **What gets created:**
 - 15 weeks with start dates (auto-calculated)
@@ -142,7 +142,7 @@ teach dates sync
 
 # ✅ Date Sync Complete
 # Applied: 1 files
-```
+```yaml
 
 ---
 
@@ -161,7 +161,7 @@ semester_info:
   holidays: []                  # Array of holiday/break objects
   deadlines: {}                 # Object mapping assignment IDs to dates
   exams: []                     # Array of exam objects
-```
+```yaml
 
 ### Required Fields
 
@@ -177,7 +177,7 @@ semester_info:
       start_date: "2025-01-13"
       topic: "Introduction"
     # ... weeks 2-15
-```
+```diff
 
 **Validation:**
 - `start_date` and `end_date` must be ISO format (`YYYY-MM-DD`)
@@ -201,7 +201,7 @@ weeks:
     start_date: "2025-01-20"
     topic: "Data Manipulation with dplyr"
     reading: "Chapter 3"
-```
+```diff
 
 **Fields:**
 - `number` (required): Week number (integer)
@@ -227,7 +227,7 @@ holidays:
   - name: "No class - conference"
     date: "2025-04-15"
     type: "no_class"
-```
+```diff
 
 **Types:**
 - `break` - Multi-day break (Spring/Fall break)
@@ -253,7 +253,7 @@ deadlines:
   project_proposal:
     week: 8
     offset_days: -2      # Due before week 8 starts
-```
+```diff
 
 **Why relative dates?**
 - Automatically adjust when semester dates shift
@@ -280,7 +280,7 @@ exams:
     date: "2025-05-08"
     time: "10:00 AM - 12:00 PM"
     location: "Same as midterm"
-```
+```text
 
 ### Date Formats Supported
 
@@ -291,7 +291,7 @@ exams:
 ```yaml
 start_date: "2025-01-13"
 due_date: "2025-03-22"
-```
+```diff
 
 Used in:
 - ✅ Config file (`teach-config.yml`)
@@ -306,7 +306,7 @@ Used in:
 hw1:
   week: 2
   offset_days: 2   # Week 2 start (Mon) + 2 = Wed
-```
+```diff
 
 **Examples:**
 - `week: 2, offset_days: 0` → Monday of week 2
@@ -323,7 +323,7 @@ spring_break:
   start_date: "2025-03-10"
   end_date: "2025-03-14"
   type: "break"
-```
+```yaml
 
 ---
 
@@ -343,7 +343,7 @@ published: "2025-01-15"         # Publication date
 modified: "2025-01-20"          # Last modified
 exam_date: "2025-03-05"         # Exam date
 ---
-```
+```diff
 
 **Recognized fields:**
 - `date`, `due`, `published`, `modified`
@@ -360,7 +360,7 @@ office_hours_start: "2025-01-13"
 project_checkpoint_1: "2025-02-15"
 peer_review_due: "2025-03-01"
 ---
-```
+```diff
 
 The parser will extract any field ending in `_date` or named `due`.
 
@@ -374,7 +374,7 @@ title: "Homework 1: Data Wrangling"
 due: "2025-01-22"
 points: 100
 ---
-```
+```diff
 
 **Syllabus:**
 
@@ -384,7 +384,7 @@ title: "Course Syllabus"
 date: "2025-01-13"
 semester: "Spring 2025"
 ---
-```
+```diff
 
 **Lecture:**
 
@@ -394,7 +394,7 @@ title: "Week 2: dplyr Basics"
 date: "2025-01-20"
 week: 2
 ---
-```
+```yaml
 
 ### Markdown Inline Dates
 
@@ -406,7 +406,7 @@ The parser also finds dates in prose text:
 **Week 2: January 20, 2025** - Data Manipulation
 
 Due: Week 2, Friday (January 22, 2025)
-```
+```diff
 
 Matches:
 - `Week N: <date>`
@@ -418,7 +418,7 @@ Matches:
 The midterm exam is on **March 5, 2025** at 2:00 PM.
 
 Assignment due: January 22, 2025
-```
+```diff
 
 Matches:
 - `January 22, 2025`
@@ -430,7 +430,7 @@ Matches:
 ```markdown
 Due: 1/22/2025
 Exam: 3/5/2025
-```
+```diff
 
 Matches:
 - `M/D/YYYY`
@@ -446,7 +446,7 @@ Matches:
 | 1    | Jan 13     | Introduction       |
 | 2    | Jan 20     | Data Manipulation  |
 | 3    | Jan 27     | Visualization      |
-```
+```diff
 
 Matches:
 - `Jan 13` (infers current year)
@@ -465,7 +465,7 @@ Synchronize dates from config to all teaching files.
 
 ```bash
 teach dates sync [options]
-```
+```bash
 
 #### Flags
 
@@ -496,7 +496,7 @@ Apply changes? [y/n/d/q]
   n - No, skip this file
   d - Show diff
   q - Quit (no more changes)
-```
+```diff
 
 **Options:**
 - `y` - Apply changes to this file
@@ -520,7 +520,7 @@ teach dates sync --dry-run
 
 ℹ  Dry-run mode: No changes made
   Run without --dry-run to apply changes
-```
+```bash
 
 #### Examples
 
@@ -545,7 +545,7 @@ teach dates sync --file assignments/hw3.qmd
 
 # Verbose output
 teach dates sync -v
-```
+```text
 
 ### teach dates status
 
@@ -555,11 +555,11 @@ Show date configuration summary and consistency status.
 
 ```bash
 teach dates status
-```
+```text
 
 #### Output Format
 
-```
+```text
 📅 Date Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -571,7 +571,7 @@ Upcoming Deadlines (Next 7 Days):
   Jan 24 - Quiz 1 (4 days)
 
 Date Sync Status: ✅ All files in sync
-```
+```bash
 
 #### Examples
 
@@ -582,7 +582,7 @@ teach dates status
 # Check before making changes
 teach dates status
 teach dates sync --dry-run
-```
+```text
 
 ### teach dates init
 
@@ -592,11 +592,11 @@ Initialize date configuration with interactive wizard.
 
 ```bash
 teach dates init
-```
+```text
 
 #### Wizard Flow
 
-```
+```yaml
 📅 Initialize Date Configuration
 
 Semester start date (YYYY-MM-DD): 2025-01-13
@@ -613,7 +613,7 @@ Next: Edit .flow/teach-config.yml to add:
   - Holidays
   - Assignment deadlines
   - Exam dates
-```
+```bash
 
 **What it creates:**
 1. `semester_info.start_date`
@@ -632,7 +632,7 @@ teach dates init
 
 # Config is created, now edit it:
 vim .flow/teach-config.yml
-```
+```text
 
 ### teach dates validate
 
@@ -642,7 +642,7 @@ Validate date configuration for errors.
 
 ```bash
 teach dates validate
-```
+```diff
 
 #### Validation Rules
 
@@ -682,7 +682,7 @@ teach dates validate
 ✓ Week dates chronological
 ⚠️  Warning: holiday "Spring Break" on Saturday
 ✅ Validation complete: 0 errors, 1 warning
-```
+```bash
 
 ---
 
@@ -708,7 +708,7 @@ git diff
 # 5. Commit
 git add -A
 git commit -m "chore: sync dates to config"
-```
+```bash
 
 **Frequency:** Run before each deployment or weekly.
 
@@ -740,7 +740,7 @@ teach dates sync             # Apply
 # 5. Commit setup
 git add -A
 git commit -m "feat: initialize Spring 2025 dates"
-```
+```bash
 
 **Time:** ~15 minutes (vs 2 hours manually)
 
@@ -774,7 +774,7 @@ git commit -m "chore: extend hw3 deadline by 2 days"
 
 # 4. Deploy
 teach deploy
-```
+```bash
 
 **Time:** ~15 seconds with `teach deploy -d` (or < 2 min via PR)
 
@@ -815,7 +815,7 @@ git diff | less
 # 7. Commit
 git add -A
 git commit -m "feat: roll over to Spring 2026"
-```
+```bash
 
 **Time:** ~5 minutes (vs 2+ hours of manual find/replace)
 
@@ -846,7 +846,7 @@ teach dates sync --assignments
 # 4. Commit
 git add assignments/ .flow/teach-config.yml
 git commit -m "chore: update assignment deadlines"
-```
+```yaml
 
 ---
 
@@ -879,12 +879,12 @@ The sync algorithm:
 
 When dates don't match, the **config is always the source of truth**:
 
-```
+```text
 Config: hw1 due 2025-01-22
 File:   hw1.qmd due: 2025-01-20
 
 → File will be updated to 2025-01-22
-```
+```diff
 
 **Override:** Manually edit the file after sync if config is wrong.
 
@@ -900,19 +900,19 @@ Safety mechanisms:
    # Auto-created: file.qmd.bak
    ```
 
-2. **Removed on success**
+1. **Removed on success**
 
    ```bash
    # If sync succeeds, .bak file deleted
    ```
 
-3. **Kept on error**
+2. **Kept on error**
 
    ```bash
    # If sync fails, restore from .bak
    ```
 
-4. **Git is your friend**
+3. **Git is your friend**
 
    ```bash
    # Always review with: git diff
@@ -952,7 +952,7 @@ weeks:
     topic: string (optional)
     notes: string (optional)
     reading: string (optional)
-```
+```yaml
 
 **Example:**
 
@@ -968,7 +968,7 @@ weeks:
     start_date: "2025-01-20"
     topic: "Data Wrangling with dplyr"
     reading: "Chapters 3-4"
-```
+```yaml
 
 ### holidays Array
 
@@ -980,7 +980,7 @@ holidays:
     date: string (YYYY-MM-DD)
     type: enum(break|holiday|no_class)
     notes: string (optional)
-```
+```yaml
 
 **Example:**
 
@@ -998,7 +998,7 @@ holidays:
   - name: "Instructor at conference"
     date: "2025-04-15"
     type: "no_class"
-```
+```yaml
 
 ### deadlines Object
 
@@ -1017,7 +1017,7 @@ deadlines:
     # Optional metadata
     points: integer
     notes: string
-```
+```yaml
 
 **Example:**
 
@@ -1036,7 +1036,7 @@ deadlines:
   final_project:
     due_date: "2025-05-08"  # Fixed: finals week
     points: 300
-```
+```yaml
 
 ### exams Array
 
@@ -1049,7 +1049,7 @@ exams:
     time: string (optional)
     location: string (optional)
     notes: string (optional)
-```
+```yaml
 
 **Example:**
 
@@ -1070,7 +1070,7 @@ exams:
     date: "2025-05-08"
     time: "10:00 AM - 12:00 PM"
     location: "Check registrar for room"
-```
+```text
 
 ---
 
@@ -1082,9 +1082,9 @@ exams:
 
 **Problem:**
 
-```
+```text
 ERROR: Invalid date format: 01/22/2025 (expected YYYY-MM-DD)
-```
+```bash
 
 **Cause:** Date in config is not ISO format
 
@@ -1096,16 +1096,16 @@ start_date: 01/22/2025
 
 # Right:
 start_date: "2025-01-22"
-```
+```text
 
 #### Missing Config Fields
 
 **Problem:**
 
-```
+```text
 ⚠️  No dates found in config
 Add semester_info section to .flow/teach-config.yml
-```
+```bash
 
 **Cause:** Config missing `semester_info` or it's empty
 
@@ -1114,7 +1114,7 @@ Add semester_info section to .flow/teach-config.yml
 ```bash
 # Initialize dates
 teach dates init
-```
+```yaml
 
 Or manually add:
 
@@ -1123,15 +1123,15 @@ semester_info:
   start_date: "2025-01-13"
   end_date: "2025-05-02"
   weeks: []
-```
+```text
 
 #### File Not Found
 
 **Problem:**
 
-```
+```text
 ERROR: File not found: assignments/hw1.qmd
-```
+```bash
 
 **Cause:** Trying to sync a file that doesn't exist
 
@@ -1143,15 +1143,15 @@ ls assignments/
 
 # Use correct path
 teach dates sync --file assignments/homework-1.qmd
-```
+```text
 
 #### Invalid Date Calculation
 
 **Problem:**
 
-```
+```text
 ERROR: Week 5 not found in config
-```
+```bash
 
 **Cause:** Relative date references week that doesn't exist
 
@@ -1163,16 +1163,16 @@ yq eval '.semester_info.weeks | length' .flow/teach-config.yml
 
 # If < 15, add more weeks
 teach dates init  # Regenerates 15 weeks
-```
+```text
 
 #### yq Command Not Found
 
 **Problem:**
 
-```
+```text
 ERROR: yq required for date syncing
 Install: brew install yq
-```
+```bash
 
 **Cause:** `yq` not installed
 
@@ -1187,7 +1187,7 @@ sudo apt install yq
 
 # Verify
 yq --version  # Should be v4.0+
-```
+```diff
 
 #### Dates Not Syncing to Files
 
@@ -1202,7 +1202,7 @@ yq --version  # Should be v4.0+
 ---
 due: "2025-01-22"
 ---
-```
+```yaml
 
 **Cause 2:** Filename doesn't match config key
 
@@ -1216,7 +1216,7 @@ deadlines:
   homework_one:
     week: 2
     offset_days: 4
-```
+```bash
 
 #### Relative Dates Not Computing
 
@@ -1232,7 +1232,7 @@ yq eval '.semester_info.weeks[] | select(.number == 2)' .flow/teach-config.yml
 
 # If empty, add week:
 yq eval '.semester_info.weeks += [{"number": 2, "start_date": "2025-01-20"}]' -i .flow/teach-config.yml
-```
+```bash
 
 #### sed/yq Corruption
 
@@ -1250,7 +1250,7 @@ mv assignments/hw1.qmd.bak assignments/hw1.qmd
 git restore assignments/hw1.qmd
 
 # Report issue to flow-cli
-```
+```bash
 
 ### Error Messages Explained
 
@@ -1277,7 +1277,7 @@ teach dates sync --verbose
 # - Config dates loaded
 # - Comparison logic
 # - sed/yq commands executed
-```
+```yaml
 
 ---
 
@@ -1331,7 +1331,7 @@ teach dates sync
 # 8. Commit
 git add -A
 git commit -m "feat: centralize course dates in config"
-```
+```bash
 
 ### Migrating from Manual Date Management
 
@@ -1345,7 +1345,7 @@ git commit -m "feat: centralize course dates in config"
 # 4. Cross-check syllabus vs assignments
 # 5. Fix inconsistencies
 # Time: 2-4 hours
-```
+```bash
 
 **After (automated):**
 
@@ -1362,7 +1362,7 @@ teach dates sync --force
 git add -A && git commit -m "feat: Spring 2026"
 
 # Time: 5 minutes
-```
+```bash
 
 ### Rollback Strategy
 
@@ -1376,7 +1376,7 @@ git revert HEAD
 
 # Or restore specific files
 git restore assignments/*.qmd
-```
+```bash
 
 **Option 2: Remove automation**
 
@@ -1390,7 +1390,7 @@ semester_info:
 
 # Files keep their current dates (no change)
 # teach dates sync becomes no-op
-```
+```yaml
 
 **Option 3: Hybrid approach**
 
@@ -1404,7 +1404,7 @@ deadlines:
     offset_days: 4
 
 # Don't add exams (keep manual in files)
-```
+```yaml
 
 ---
 
@@ -1423,7 +1423,7 @@ weeks:
         topic: "Introduction"
       - date: "2025-01-15"
         topic: "Setup & RStudio"
-```
+```bash
 
 **Current workaround:** Use single meeting date (Monday) and handle others manually
 
@@ -1434,7 +1434,7 @@ weeks:
 ```bash
 # Planned command:
 teach dates import-calendar university-calendar.ics
-```
+```diff
 
 Would auto-populate `holidays` array
 
@@ -1449,7 +1449,7 @@ due: "2025-01-22"
 available: "2025-01-15"        # Custom field
 peer_review_due: "2025-01-24"  # Custom field
 ---
-```
+```yaml
 
 **To sync custom fields:**
 
@@ -1468,7 +1468,7 @@ semester_info:
     strict_week_spacing: true   # Enforce 7-day week spacing
     allow_weekend_exams: false  # Flag exams on weekends
     warn_tight_deadlines: true  # Warn if deadlines < 7 days apart
-```
+```yaml
 
 ---
 
@@ -1495,7 +1495,7 @@ semester_info:
 
   # 5. Major events (exams)
   exams: [...]
-```
+```yaml
 
 **Add comments for clarity:**
 
@@ -1512,7 +1512,7 @@ deadlines:
   # Major project (due end of semester)
   final_project:
     due_date: "2026-05-08"
-```
+```diff
 
 ### Naming Conventions
 
@@ -1539,7 +1539,7 @@ teach dates sync --force
 teach dates sync --dry-run
 # Review output
 teach dates sync
-```
+```bash
 
 **Workflow:**
 
@@ -1564,14 +1564,14 @@ git commit -m "chore: update hw3 deadline"
 # Commit 2: File sync
 git add assignments/hw3.qmd
 git commit -m "chore: sync hw3 date to config"
-```
+```bash
 
 **Option 2: Combined commit**
 
 ```bash
 git add .flow/teach-config.yml assignments/
 git commit -m "chore: extend hw3 deadline by 2 days"
-```
+```bash
 
 **Recommendation:** Use combined commits (less noise)
 
@@ -1594,7 +1594,7 @@ git commit -m "feat: roll over to Spring 2026"
 # PR/merge
 git push origin spring-2026-dates
 # Create PR on GitHub
-```
+```yaml
 
 ---
 
@@ -1670,7 +1670,7 @@ A: Yes. Add to git pre-commit hook:
 # .git/hooks/pre-commit
 #!/bin/bash
 teach dates sync --dry-run || exit 1
-```
+```yaml
 
 **Q: What if students already have old dates?**
 
@@ -1689,7 +1689,7 @@ teach dates sync --file assignments/hw3.qmd
 
 # 3. Deploy immediately
 teach deploy
-```
+```yaml
 
 **Q: Can I preview semester rollover?**
 
@@ -1697,7 +1697,7 @@ A: Yes (after v5.12.0 `teach semester rollover` ships):
 
 ```bash
 teach semester rollover --dry-run
-```
+```yaml
 
 ---
 
@@ -1791,7 +1791,7 @@ semester_info:
       date: "2025-05-08"
       time: "10:00 AM - 12:00 PM"
       location: "Per registrar (TBD)"
-```
+```diff
 
 ### Example Course Schedule
 
@@ -1829,7 +1829,7 @@ date: "2025-01-13"
 - **Midterm 2:** April 2, 2025 (2:00 PM)
 - **Final Project:** Due May 8, 2025
 - **Final Exam:** May 8, 2025 (10:00 AM)
-```
+```diff
 
 **After running `teach dates sync`, all dates match config automatically.**
 

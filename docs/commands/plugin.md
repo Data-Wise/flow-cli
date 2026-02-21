@@ -9,7 +9,7 @@ flow plugin [command] [options]
 flow plugin list
 flow plugin install <path|gh:user/repo>
 flow plugin create <name>
-```
+```text
 
 ## Description
 
@@ -59,11 +59,11 @@ Plugins can register callbacks for these events:
 
 ```bash
 flow plugin list
-```
+```text
 
 Output:
 
-```
+```text
 INSTALLED PLUGINS
 
   example  v1.0.0  [enabled]
@@ -73,22 +73,22 @@ INSTALLED PLUGINS
   TOTALS
     Installed: 1
     Enabled: 1
-```
+```text
 
 ### Create a Plugin
 
 ```bash
 flow plugin create my-plugin
-```
+```text
 
 Creates:
 
-```
+```text
 ~/.config/flow/plugins/my-plugin/
 ├── main.zsh          # Plugin entry point
 ├── plugin.json       # Metadata (optional)
 └── README.md         # Documentation
-```
+```bash
 
 ### Install from GitHub
 
@@ -98,7 +98,7 @@ flow plugin install gh:username/flow-plugin-name
 
 # Install as dev (symlink)
 flow plugin install --dev ~/code/my-plugin
-```
+```bash
 
 ### Enable/Disable
 
@@ -108,17 +108,17 @@ flow plugin disable example
 
 # Re-enable it
 flow plugin enable example
-```
+```text
 
 ### View Hook Registrations
 
 ```bash
 flow plugin hooks
-```
+```text
 
 Output:
 
-```
+```text
 REGISTERED HOOKS
 
   post-work:
@@ -130,7 +130,7 @@ REGISTERED HOOKS
   TOTALS
     Events with hooks: 2
     Total callbacks: 2
-```
+```zsh
 
 ## Creating Plugins
 
@@ -146,7 +146,7 @@ _flow_plugin_register "hello" "1.0.0" "Says hello"
 hello() {
     echo "Hello from my plugin!"
 }
-```
+```zsh
 
 ### Plugin with Hooks
 
@@ -159,7 +159,7 @@ _notify_on_finish() {
     osascript -e "display notification \"Finished $project\" with title \"flow-cli\""
 }
 _flow_hook_register "post-finish" "_notify_on_finish"
-```
+```zsh
 
 ### Plugin with Dependencies
 
@@ -171,7 +171,7 @@ _flow_plugin_require_tool "git" || return 1
 _flow_plugin_require_tool "gh" || return 1
 
 # Plugin code here...
-```
+```text
 
 ### Plugin Metadata (plugin.json)
 
@@ -187,7 +187,7 @@ _flow_plugin_require_tool "gh" || return 1
   },
   "hooks": ["post-work", "post-finish"]
 }
-```
+```zsh
 
 ## Plugin API
 
@@ -202,7 +202,7 @@ _flow_plugin_exists "name"
 
 # Get plugin info
 _flow_plugin_info "name"
-```
+```zsh
 
 ### Hooks
 
@@ -212,7 +212,7 @@ _flow_hook_register "event-name" "callback_function"
 
 # Run hooks for an event
 _flow_hook_run "event-name" "$arg1" "$arg2"
-```
+```zsh
 
 ### Dependencies
 
@@ -222,7 +222,7 @@ _flow_plugin_require_tool "tool-name"
 
 # Require flow version
 _flow_plugin_require_version "3.3.0"
-```
+```zsh
 
 ### Logging
 
@@ -232,15 +232,15 @@ _flow_log_success "Operation complete"
 _flow_log_error "Something went wrong"
 _flow_log_warning "Watch out"
 _flow_log_debug "Debug info"
-```
+```text
 
 ## Plugin Registry
 
 Disabled plugins are tracked in:
 
-```
+```text
 ~/.config/flow/plugin-registry.json
-```
+```text
 
 Format:
 

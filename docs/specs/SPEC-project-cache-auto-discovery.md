@@ -30,7 +30,7 @@ _proj_list_all() {
     # Full filesystem scan EVERY TIME
     # 8 categories × 15 projects = 120 stat calls per pick invocation
 }
-```
+```diff
 
 **Impact:**
 - 100+ stat calls per `pick` invocation
@@ -44,7 +44,7 @@ _proj_list_all() {
 time pick >/dev/null
 # Current: ~200ms (100 projects)
 # Target: <10ms (cache hit)
-```
+```bash
 
 #### Issue 2: Hardcoded Category List (Medium - Extensibility)
 
@@ -57,7 +57,7 @@ PROJ_CATEGORIES=(
     "dev-tools:dev:🔧"
     # ... must manually update for new categories
 )
-```
+```diff
 
 **Impact:**
 - Users cannot add custom project directories
@@ -79,13 +79,13 @@ PROJ_CATEGORIES=(
 
 ### Three-Phase Rollout
 
-```
+```text
 Phase 1: Caching Layer (v5.3.0)
    ↓
 Phase 2: Auto-Discovery (v5.4.0)
    ↓
 Phase 3: Integration (v5.5.0)
-```
+```text
 
 ---
 
@@ -95,19 +95,19 @@ Phase 3: Integration (v5.5.0)
 
 **Cache File Format:**
 
-```
+```bash
 # Generated: 1736553600
 flow-cli|dev|🔧|/Users/dt/projects/dev-tools/flow-cli|🟢 2h
 aiterm|dev|🔧|/Users/dt/projects/dev-tools/aiterm|
 scribe|app|📱|/Users/dt/projects/apps/scribe|🟡 old
 ...
-```
+```bash
 
 **Cache Location:**
 
 ```bash
 ${XDG_CACHE_HOME:-$HOME/.cache}/flow-cli/projects.cache
-```
+```bash
 
 **TTL:** 5 minutes (balances freshness vs performance)
 
@@ -189,7 +189,7 @@ _format_duration() {
         echo "${secs}s"
     fi
 }
-```
+```zsh
 
 **Modified File:** `commands/pick.zsh`
 
@@ -201,14 +201,14 @@ _proj_list_all_uncached() {
 
 # New cached version (imports from lib/project-cache.zsh)
 # _proj_list_all() is now defined in project-cache.zsh
-```
+```zsh
 
 **Modified File:** `flow.plugin.zsh`
 
 ```zsh
 # Add after other lib/ sources
 source "$FLOW_PLUGIN_ROOT/lib/project-cache.zsh"
-```
+```text
 
 ### User Commands
 
@@ -218,7 +218,7 @@ source "$FLOW_PLUGIN_ROOT/lib/project-cache.zsh"
 flow cache refresh   # Manual invalidation (regenerate now)
 flow cache clear     # Delete cache file
 flow cache status    # Show cache age and stats
-```
+```bash
 
 **Implementation in `commands/flow.zsh`:**
 
@@ -245,7 +245,7 @@ flow-cache() {
             ;;
     esac
 }
-```
+```diff
 
 ### Rollout Strategy
 
@@ -258,7 +258,7 @@ flow-cache() {
 
 ```zsh
 export FLOW_CACHE_ENABLED=0  # Skip cache, use direct scan
-```
+```diff
 
 **Expected Issues:**
 - Stale cache after git clone in another terminal
@@ -300,7 +300,7 @@ work/internal:work:🏢
 
 # Override default icon for dev-tools
 dev-tools:dev:⚙️
-```
+```zsh
 
 ### Implementation
 
@@ -437,14 +437,14 @@ _proj_init_categories() {
         fi
     done
 }
-```
+```bash
 
 **Modified File:** `commands/pick.zsh`
 
 ```zsh
 # Remove hardcoded PROJ_CATEGORIES array (lines 9-18)
 # Now initialized by _proj_init_categories() in auto-discover.zsh
-```
+```zsh
 
 **Modified File:** `flow.plugin.zsh`
 
@@ -454,7 +454,7 @@ source "$FLOW_PLUGIN_ROOT/lib/project-auto-discover.zsh"
 
 # Initialize categories at startup
 _proj_init_categories
-```
+```text
 
 ### User Commands
 
@@ -463,7 +463,7 @@ _proj_init_categories
 ```bash
 flow discover        # Show discovered categories
 flow discover refresh # Re-scan filesystem
-```
+```bash
 
 **Implementation:**
 
@@ -491,7 +491,7 @@ flow-discover() {
             ;;
     esac
 }
-```
+```diff
 
 ### Rollout Strategy
 
@@ -537,7 +537,7 @@ local proj_icon=$(_flow_project_icon "$detected_type")
 # Override category type/icon with detected values if more specific
 local final_type="${detected_type:-$cat_type}"
 local final_icon="${proj_icon:-$cat_icon}"
-```
+```diff
 
 **Benefits:**
 - Quarto project in dev-tools → shows 📝 (not 🔧)
@@ -563,7 +563,7 @@ _flow_project_icon() {
         worktree) echo "🌳" ;;
     esac
 }
-```
+```diff
 
 ---
 
@@ -658,7 +658,7 @@ test_cache_stats() {
     assert_contains "$output" "Cache age:"
     assert_contains "$output" "Projects cached:"
 }
-```
+```bash
 
 **New Test Suite:** `tests/test-auto-discover.zsh`
 
@@ -697,7 +697,7 @@ test_fallback_to_hardcoded() {
 
     rm -rf "$FLOW_PROJECTS_ROOT"
 }
-```
+```bash
 
 ### Integration Tests
 
@@ -732,7 +732,7 @@ flow cache refresh
 # 8. Verify new project appears
 pick dev | grep new-tool
 # Expected: new-tool appears in picker
-```
+```bash
 
 ### Performance Benchmarks
 
@@ -763,15 +763,15 @@ echo "With cache - subsequent runs (hot, 10 runs):"
 for i in {1..10}; do
     /usr/bin/time -p pick >/dev/null 2>&1
 done | grep real | awk '{sum+=$2; count++} END {print "Average:", sum/count, "seconds"}'
-```
+```text
 
 **Expected Results:**
 
-```
+```text
 Without cache: ~0.20s average
 With cache (cold): ~0.20s (initial generation)
 With cache (hot): ~0.005s average (40x faster)
-```
+```yaml
 
 ---
 
@@ -875,7 +875,7 @@ _proj_watch_filesystem() {
         done &
     fi
 }
-```
+```zsh
 
 ### Parallel Category Scanning (v5.7.0)
 
@@ -897,7 +897,7 @@ _proj_cache_generate_parallel() {
     cat "${tmpfiles[@]}" > "$PROJ_CACHE_FILE"
     rm -f "${tmpfiles[@]}"
 }
-```
+```bash
 
 ### Remote Cache Sync (v6.0.0)
 

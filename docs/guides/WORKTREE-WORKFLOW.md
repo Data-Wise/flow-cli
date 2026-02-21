@@ -40,7 +40,7 @@ git checkout -b hotfix     # Create fix branch
 # Fix bug...
 git checkout experiment-refactor  # Back to experiment
 git stash pop              # Restore work
-```
+```diff
 
 **Issues:**
 - ⚠️ Constant stashing/unstashing
@@ -57,7 +57,7 @@ git stash pop              # Restore work
 ~/.git-worktrees/flow-cli-refactor/       # Experiment 1
 ~/.git-worktrees/flow-cli-hotfix/         # Urgent fix
 ~/.git-worktrees/flow-cli-new-feature/    # Feature work
-```
+```diff
 
 **Benefits:**
 - ✅ Each branch has its own directory
@@ -78,7 +78,7 @@ wt create feature/new-auth
 
 # Or via git directly
 git worktree add ~/.git-worktrees/flow-cli-feature-new-auth feature/new-auth
-```
+```bash
 
 **Location:** `~/.git-worktrees/<repo>-<branch>/`
 
@@ -90,14 +90,14 @@ wt list
 
 # Or via git
 git worktree list
-```
+```text
 
 **Output:**
 
-```
+```text
 /Users/dt/projects/flow-cli          abc123 [main]
 /Users/dt/.git-worktrees/flow-cli-refactor  def456 [feature/refactor]
-```
+```bash
 
 ### Remove Worktree
 
@@ -107,7 +107,7 @@ wt remove feature/new-auth
 
 # Or via git
 git worktree remove ~/.git-worktrees/flow-cli-feature-new-auth
-```
+```bash
 
 ---
 
@@ -121,7 +121,7 @@ The CC dispatcher now supports **consistent** mode → target syntax:
 # Pattern: cc [mode] [target]
 # Modes: (none), yolo, plan, opus, haiku
 # Targets: (here), pick, wt <branch>, <project>
-```
+```bash
 
 ### Basic Worktree Launch
 
@@ -134,7 +134,7 @@ cc wt pick
 
 # List worktrees with session info
 cc wt status
-```
+```text
 
 ### Mode-First Pattern (NEW!)
 
@@ -143,21 +143,21 @@ cc wt status
 ```bash
 cc yolo wt feature/refactor     # Mode → worktree
 cc yolo wt pick                 # Mode → worktree picker
-```
+```text
 
 **Plan mode:**
 
 ```bash
 cc plan wt feature/refactor     # Plan mode in worktree
 cc plan wt pick                 # Pick worktree for planning
-```
+```text
 
 **Model selection:**
 
 ```bash
 cc opus wt experiment/ui        # Opus model in worktree
 cc haiku wt feature/docs        # Haiku model in worktree
-```
+```text
 
 ### Backward Compatible Pattern
 
@@ -167,7 +167,7 @@ cc haiku wt feature/docs        # Haiku model in worktree
 cc wt yolo feature/refactor     # Target → mode (still works)
 cc wt plan feature/refactor     # Target → mode (still works)
 cc wt opus experiment/ui        # Target → mode (still works)
-```
+```text
 
 **Aliases:**
 
@@ -176,7 +176,7 @@ ccw feature/refactor            # cc wt
 ccwy feature/refactor           # cc wt yolo
 ccwp                            # cc wt pick
 ccy                             # cc yolo
-```
+```bash
 
 ---
 
@@ -216,7 +216,7 @@ git push
 # Option B: Failed experiment - just delete
 wt remove experiment/commands-refactor
 # All changes gone, main repo untouched
-```
+```diff
 
 **Why this works:**
 - ✅ YOLO mode = no permission prompts
@@ -243,7 +243,7 @@ cd ~/.git-worktrees/flow-cli-feature-docs-update
 cd ~/projects/flow-cli
 git status
 pytest
-```
+```diff
 
 **Benefits:**
 - Each feature isolated
@@ -277,7 +277,7 @@ git push
 # Back to feature work (untouched!)
 cd ~/.git-worktrees/flow-cli-feature-refactor
 # Continue where you left off
-```
+```bash
 
 ### Workflow 4: Experimenting with Different Approaches
 
@@ -316,7 +316,7 @@ git diff experiment/approach-c..main -- commands/ | wc -l
 git merge experiment/approach-b
 wt remove experiment/approach-a
 wt remove experiment/approach-c
-```
+```bash
 
 ---
 
@@ -327,11 +327,11 @@ wt remove experiment/approach-c
 ```bash
 # Show all worktrees with Claude session info
 cc wt status
-```
+```text
 
 **Output:**
 
-```
+```yaml
 Worktrees with Claude Session Info
 ────────────────────────────────────────
 
@@ -340,7 +340,7 @@ Worktrees with Claude Session Info
 ⚪ ~/.git-worktrees/flow-cli-hotfix       [hotfix/bug]
 
 Legend: 🟢 Recent session (< 24h) | 🟡 Old session | ⚪ No session
-```
+```diff
 
 **Indicators:**
 - 🟢 Recent session (< 24 hours ago)
@@ -354,7 +354,7 @@ Legend: 🟢 Recent session (< 24h) | 🟡 Old session | ⚪ No session
 ```bash
 # FZF picker shows worktrees
 cc wt pick
-```
+```diff
 
 **Display includes:**
 - Session indicators (🟢/🟡)
@@ -381,7 +381,7 @@ watch -n 2 'git diff --stat'  # Monitor changes
 # After work
 git diff                      # Review ALL changes
 git add -p                    # Stage selectively
-```
+```bash
 
 ### 2. Cleanup Regularly
 
@@ -395,7 +395,7 @@ git worktree list
 # Remove finished experiments
 wt remove experiment/old-idea
 wt remove feature/completed
-```
+```bash
 
 ### 3. Keep Main Clean
 
@@ -408,7 +408,7 @@ cc yolo wt experiment/risky-change
 # Bad: YOLO mode in main project
 cd ~/projects/flow-cli
 cc yolo                       # ❌ Too risky!
-```
+```diff
 
 ### 4. Name Worktrees Clearly
 
@@ -436,7 +436,7 @@ cc yolo
 cc yolo wt feature/auth
 # Terminal 2
 cc yolo wt feature/auth      # ❌ Two sessions, same files
-```
+```bash
 
 ---
 
@@ -459,7 +459,7 @@ git push origin experiment/new-parser
 git worktree add ~/.git-worktrees/flow-cli-experiment-new-parser origin/experiment/new-parser
 cd ~/.git-worktrees/flow-cli-experiment-new-parser
 cc  # Review with Claude
-```
+```bash
 
 ### Worktree for CI/CD Testing
 
@@ -484,7 +484,7 @@ git merge feature/new-feature
 cd ~/.git-worktrees/flow-cli-feature-new-feature
 cc yolo
 > Fix the failing tests
-```
+```bash
 
 ### Long-Running Experiments
 
@@ -514,7 +514,7 @@ cd ~/projects/flow-cli
 git checkout main
 git merge --squash experiment/async-rewrite
 git commit -m "feat: migrate to async architecture"
-```
+```bash
 
 ---
 
@@ -535,7 +535,7 @@ wt remove feature/auth
 
 # Or use the existing worktree
 cd ~/.git-worktrees/flow-cli-feature-auth
-```
+```bash
 
 ### Can't Find Worktree
 
@@ -549,7 +549,7 @@ wt list
 
 # Or use picker
 cc wt pick
-```
+```bash
 
 ### Worktree Out of Sync
 
@@ -561,7 +561,7 @@ cc wt pick
 cd ~/.git-worktrees/flow-cli-feature-auth
 git status
 git pull origin feature/auth
-```
+```diff
 
 ### Session Indicator Wrong
 
@@ -587,7 +587,7 @@ wt remove experiment/old-2
 
 # Or clean up manually
 git worktree prune
-```
+```diff
 
 ---
 
@@ -646,7 +646,7 @@ cc wt <branch>              # acceptEdits mode
 cc yolo wt <branch>         # YOLO mode
 cc plan wt <branch>         # Plan mode
 cc opus wt <branch>         # Opus model
-```
+```text
 
 ### Pick Existing
 
@@ -654,7 +654,7 @@ cc opus wt <branch>         # Opus model
 cc wt pick                  # acceptEdits mode
 cc yolo wt pick             # YOLO mode
 cc plan wt pick             # Plan mode
-```
+```text
 
 ### Status & Management
 
@@ -662,7 +662,7 @@ cc plan wt pick             # Plan mode
 cc wt status                # Show all with sessions
 wt list                     # List all worktrees
 wt remove <branch>          # Delete worktree
-```
+```text
 
 ### Aliases
 

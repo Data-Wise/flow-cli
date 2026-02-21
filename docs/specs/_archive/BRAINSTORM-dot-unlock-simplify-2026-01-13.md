@@ -8,7 +8,7 @@
 
 ## Current Architecture (Complex)
 
-```
+```bash
 dot unlock
     │
     ├─► _dot_bw_get_status()     # Check bw status JSON
@@ -25,7 +25,7 @@ dot unlock
             ├─► _dot_session_cache_expired()
             ├─► _dot_session_cache_touch()
             └─► _dot_session_time_remaining()
-```
+```bash
 
 ### Problems Identified
 
@@ -57,7 +57,7 @@ if [[ $unlock_status -ne 0 ]]; then
     cat "$temp_err" >&2
 fi
 rm -f "$temp_err"
-```
+```diff
 
 ### Pros
 
@@ -99,7 +99,7 @@ _dot_bw_session_valid() {
     # Just check if BW_SESSION is set and valid
     [[ -n "$BW_SESSION" ]] && bw unlock --check &>/dev/null
 }
-```
+```diff
 
 ### Remove
 
@@ -176,7 +176,7 @@ _dot_unlock() {
 _dot_bw_session_valid() {
     [[ -n "$BW_SESSION" ]] && bw unlock --check &>/dev/null
 }
-```
+```diff
 
 ### Pros
 
@@ -216,7 +216,7 @@ _dot_unlock() {
 _dot_bw_session_valid() {
     bw unlock --check &>/dev/null 2>&1
 }
-```
+```diff
 
 ### Remove Everything Else
 
@@ -234,7 +234,7 @@ if ! bw unlock --check &>/dev/null; then
     _flow_log_error "Vault locked. Run: bw unlock"
     return 1
 fi
-```
+```diff
 
 ### Pros
 
@@ -335,7 +335,7 @@ security find-generic-password \
 security delete-generic-password \
     -a "account-name" \
     -s "service-name"
-```
+```diff
 
 **Benefits:**
 - Native macOS security (Keychain Access)
@@ -371,7 +371,7 @@ dot secret get <name>         # Retrieve from Keychain (silent)
 dot secret list               # List all dot-managed secrets
 dot secret delete <name>      # Remove from Keychain
 dot secret import             # Import from Bitwarden to Keychain (one-time)
-```
+```zsh
 
 ### Implementation
 
@@ -458,7 +458,7 @@ _dot_secret_import() {
         _flow_log_success "Imported: $name"
     done
 }
-```
+```zsh
 
 ### Usage in Other Commands
 
@@ -472,7 +472,7 @@ _dot_get_secret() {
 _dot_get_secret() {
     _dot_secret_get "$1"  # Instant, local, no unlock needed
 }
-```
+```diff
 
 ### Pros
 

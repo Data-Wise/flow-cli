@@ -167,7 +167,7 @@ Keeping it in Help & Quick Reference makes it accessible to all users, not just 
 
 ### Visual Hierarchy
 
-```
+````text
 🎓 Teaching (top-level, emoji icon)
   ├── Overview (landing page)
   ├── Getting Started (3 items, beginner)
@@ -176,7 +176,7 @@ Keeping it in Help & Quick Reference makes it accessible to all users, not just 
   ├── Reference (5 items, quick lookup)
   ├── Advanced (6 items, power users)
   └── Legacy (4 items, archived)
-```
+```diff
 
 ### Progressive Disclosure
 
@@ -205,7 +205,7 @@ Keeping it in Help & Quick Reference makes it accessible to all users, not just 
 
 ### Before (Scattered)
 
-```
+```text
 Tutorials (32 items)
   ├── 14. Teach Dispatcher
   ├── 19. Teaching + Git
@@ -230,11 +230,11 @@ Help & Quick Reference (10 items)
 Commands (22 items)
   ├── teach (dispatcher)
   └── teach-init
-```
+```text
 
 ### After (Consolidated)
 
-```
+```text
 🎓 Teaching (29 items)
   ├── Overview (NEW landing page)
   ├── Getting Started (3 items)
@@ -249,7 +249,7 @@ Workflows (9 items, -3 teaching)
 Guides (8 items, -10 teaching)
 Help & Quick Reference (6 items, -4 teaching refcards)
 Commands (20 items, -2 teaching commands)
-```
+```yaml
 
 ---
 
@@ -285,9 +285,9 @@ Commands (20 items, -2 teaching commands)
    # Visit http://127.0.0.1:8000
    # Navigate to Teaching section
    # Verify all links work
-   ```
+````
 
-2. **Deploy to GitHub Pages**
+1. **Deploy to GitHub Pages**
 
    ```bash
    mkdocs gh-deploy --force
@@ -295,12 +295,12 @@ Commands (20 items, -2 teaching commands)
    # Visit https://Data-Wise.github.io/flow-cli/
    ```
 
-3. **Update CLAUDE.md**
+2. **Update CLAUDE.md**
    - Document new Teaching section structure
    - Update references to teaching docs
    - Add landing page to key files list
 
-4. **Announce Changes**
+3. **Announce Changes**
    - Add to CHANGELOG.md
    - Update README.md if needed
    - Consider GitHub Discussion post

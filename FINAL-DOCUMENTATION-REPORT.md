@@ -217,7 +217,7 @@ Complete documentation generation for WT Workflow Enhancement feature covering P
 
 ## Documentation Structure
 
-```
+```text
 flow-cli/
 ├── docs/
 │   ├── reference/

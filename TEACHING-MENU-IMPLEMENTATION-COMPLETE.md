@@ -27,7 +27,7 @@ Successfully consolidated all teaching documentation into a unified "🎓 Teachi
 
 **Structure:**
 
-```
+````text
 🎓 Teaching (29 pages)
 ├── Overview (landing page)
 ├── Getting Started (3 pages)
@@ -36,7 +36,7 @@ Successfully consolidated all teaching documentation into a unified "🎓 Teachi
 ├── Reference (5 pages)
 ├── Advanced (7 pages)
 └── Legacy v2.x (4 pages)
-```
+```diff
 
 ### 2. Created Landing Page
 
@@ -88,18 +88,18 @@ Successfully consolidated all teaching documentation into a unified "🎓 Teachi
 
 ### Planning & Summary Files
 
-2. **TEACHING-MENU-CONSOLIDATION-PLAN.md**
+1. **TEACHING-MENU-CONSOLIDATION-PLAN.md**
    - Planning document with rationale
    - Proposed structure and design principles
    - Migration notes
 
-3. **TEACHING-MENU-MIGRATION-SUMMARY.md**
+2. **TEACHING-MENU-MIGRATION-SUMMARY.md**
    - Complete migration details
    - Before/after navigation comparison
    - Testing checklist
    - Rollback plan
 
-4. **TEACHING-MENU-IMPLEMENTATION-COMPLETE.md** (this file)
+3. **TEACHING-MENU-IMPLEMENTATION-COMPLETE.md** (this file)
    - Implementation summary
    - Verification results
    - Next steps
@@ -208,14 +208,14 @@ Successfully consolidated all teaching documentation into a unified "🎓 Teachi
 
 Removed:
 
-- 14. Teach Dispatcher
-- 19. Teaching + Git Integration
-- 21. Teach Analyze
-- 24. Template Management
-- 25. Lesson Plan Migration
-- 26. LaTeX Macros
-- 27. Lesson Plan Management
-- 28. Teach Prompt
+- 1. Teach Dispatcher
+- 1. Teaching + Git Integration
+- 1. Teach Analyze
+- 1. Template Management
+- 1. Lesson Plan Migration
+- 1. LaTeX Macros
+- 1. Lesson Plan Management
+- 1. Teach Prompt
 - Scholar Enhancement (4 pages)
 
 Kept in Tutorials (20 items):
@@ -318,19 +318,19 @@ Cross-cutting concern that benefits all users, not just teaching workflow users.
 ```bash
 mkdocs build --strict
 # Result: ✅ SUCCESS (no errors)
-```
+```text
 
 ### File Existence Check
 
 All 29 teaching documentation files verified:
 
-```
+```text
 ✅ teaching/index.md (NEW)
 ✅ tutorials/14-teach-dispatcher.md
 ✅ commands/teach-init.md
 ✅ guides/TEACHING-WORKFLOW-V3-GUIDE.md
 ... (26 more files, all exist)
-```
+```diff
 
 ### Link Validation
 
@@ -356,7 +356,7 @@ nav:
   - Testing
   - Development
   - Planning
-```
+```diff
 
 ---
 
@@ -417,7 +417,7 @@ mkdocs serve
 # Visit http://127.0.0.1:8000
 # Navigate through Teaching section
 # Verify all links and navigation work
-```
+```bash
 
 ### 2. Deploy to Production
 
@@ -426,7 +426,7 @@ mkdocs gh-deploy --force
 # Wait for GitHub Pages deployment
 # Visit https://Data-Wise.github.io/flow-cli/
 # Test Teaching section on live site
-```
+```diff
 
 ### 3. Update Project Documentation
 
@@ -455,7 +455,7 @@ mkdocs gh-deploy --force
 
 - Teaching landing page: https://Data-Wise.github.io/flow-cli/teaching/
 - teach command: https://Data-Wise.github.io/flow-cli/commands/teach/
-```
+```text
 
 ### 4. Announce Changes
 
@@ -471,7 +471,7 @@ mkdocs gh-deploy --force
   - ADHD-friendly design with clear hierarchy and visual icons
   - Preserved legacy v2.x docs in separate subsection
   - No broken links, all navigation validated
-```
+```diff
 
 **Optional: GitHub Discussion**
 
@@ -501,7 +501,7 @@ rm docs/teaching/index.md
 
 # Rebuild and deploy
 mkdocs gh-deploy --force
-```
+````
 
 **Rollback Risk:** Low (pure navigation change, no content modified)
 

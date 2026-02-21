@@ -37,7 +37,7 @@ df edit .zshrc  # Edit dotfile
 df sync         # Pull latest changes
 df push         # Push local changes
 df status       # Show sync status
-```
+```diff
 
 ### Option B: `dot` (Explicit)
 
@@ -100,7 +100,7 @@ df() {
         *)          echo "df: unknown action: $1" >&2; return 1 ;;
     esac
 }
-```
+```bash
 
 ---
 
@@ -118,7 +118,7 @@ df edit .zshrc
 # User makes changes
 # Auto-preview on save
 # Prompt: Apply changes? [Y/n]
-```
+```diff
 
 **ADHD-friendly features:**
 - One command, no mental overhead
@@ -133,7 +133,7 @@ df edit .zshrc     → ~/.config/zsh/.zshrc
 df edit zshrc      → ~/.config/zsh/.zshrc (fuzzy match)
 df edit git        → ~/.gitconfig (intelligent match)
 df edit ssh        → ~/.ssh/config
-```
+```bash
 
 ### 2. `dot sync` - Pull Latest (25% of daily use)
 
@@ -148,7 +148,7 @@ df sync
 #    M ~/.zshrc (3 lines changed)
 #    M ~/.gitconfig (1 line added)
 # Apply now? [Y/n]
-```
+```diff
 
 **Safety features:**
 - Shows diff before applying
@@ -176,7 +176,7 @@ df
 # Secrets: 3 injected
 #
 # 💡 Next: df sync (to pull latest)
-```
+```text
 
 **Information hierarchy:**
 1. Sync state (most critical)
@@ -200,7 +200,7 @@ $ df edit .zshrc
 🔑 Enter master password: ********
 ✓ Unlocked Bitwarden
 ✓ Opening ~/.zshrc in $EDITOR...
-```
+```diff
 
 **Auto-recovery features:**
 - Detects expired session before opening editor
@@ -214,7 +214,7 @@ $ df edit .zshrc
 df unlock
 # OR
 df secret unlock
-```
+```yaml
 
 ### Problem 2: Chezmoi Merge Conflicts
 
@@ -237,7 +237,7 @@ Choice [1-4]: 3
 (After user resolves)
 ✓ Conflict resolved
 Apply merged version? [Y/n]
-```
+```diff
 
 **Safety mechanisms:**
 - Always shows both versions before merge
@@ -261,7 +261,7 @@ Troubleshoot:
 
 Proceed without secrets? [y/N] n
 ✗ Aborted. Fix secrets first.
-```
+```diff
 
 **Graceful degradation:**
 - Clear error message with exact item name
@@ -286,7 +286,7 @@ $ df
   df sync           Pull latest
   df push           Push changes
   df help           Full help
-```
+```text
 
 **Level 2: Full help (`dot help`)**
 
@@ -338,14 +338,14 @@ $ df help
   sec = secret, ls = list, up = push
 
 💡 TIP: Run 'df' without arguments for quick status
-```
+```bash
 
 **Level 3: Command-specific help**
 
 ```bash
 $ df edit --help
 # Detailed help for edit subcommand
-```
+```bash
 
 ### Inline Hints
 
@@ -356,7 +356,7 @@ $ df diff
 # Shows changes...
 💡 Next: df apply (to apply changes)
        df edit <file> (to modify)
-```
+```text
 
 ### Integration with `dash`
 
@@ -381,7 +381,7 @@ $ dash
   💡 df sync to update
 
 ...
-```
+```text
 
 ### Integration with `work`
 
@@ -396,14 +396,14 @@ $ work flow-cli
   Skipped. You can sync later with 'df sync'.
 
 ✓ Session started
-```
+```bash
 
 **Configuration (opt-out):**
 
 ```bash
 # In .zshrc or flow-cli config
 export FLOW_DF_CHECK_ON_WORK=0  # Disable auto-check
-```
+```diff
 
 ---
 
@@ -438,7 +438,7 @@ export FLOW_DF_CHECK_ON_WORK=0  # Disable auto-check
 # Icons (consistent with flow-cli)
 📦 Dotfiles   ✓ Success   ⚠ Warning   ✗ Error
 🔐 Secrets    📝 File     🔄 Sync     💡 Tip
-```
+```bash
 
 ### Layout Pattern
 
@@ -452,7 +452,7 @@ export FLOW_DF_CHECK_ON_WORK=0  # Disable auto-check
 
 [FOOTER]      💡 Next step suggestions
               🔗 Related commands
-```
+```text
 
 ### Example: `dot status` output
 
@@ -487,7 +487,7 @@ export FLOW_DF_CHECK_ON_WORK=0  # Disable auto-check
 
 🔗 See also: df list (all files)
             df doctor (troubleshoot)
-```
+```text
 
 ---
 
@@ -501,7 +501,7 @@ df edit .zshrc      # → ~/.config/zsh/.zshrc
 df edit git         # → ~/.gitconfig
 df edit gitconfig   # → ~/.gitconfig
 df edit ssh         # → ~/.ssh/config
-```
+```diff
 
 **Fuzzy matching logic:**
 1. Exact match in tracked files
@@ -522,7 +522,7 @@ df edit ssh         # → ~/.ssh/config
 df undo             # Undo last apply
 df undo --list      # Show undo history (last 10)
 df undo 3           # Undo to 3 commits ago
-```
+```text
 
 **Implementation:** Leverage chezmoi's backup system
 
@@ -532,7 +532,7 @@ df undo 3           # Undo to 3 commits ago
 df sync --dry-run   # Preview without applying
 df push -n          # Preview without pushing
 df apply --dry      # Show what would change
-```
+```diff
 
 ---
 
@@ -585,7 +585,7 @@ df apply --dry      # Show what would change
 
 ### Files to Create
 
-```
+```text
 flow-cli/
 ├── lib/
 │   └── dispatchers/
@@ -599,7 +599,7 @@ flow-cli/
 │       └── DOT-DISPATCHER-REFERENCE.md # Full documentation
 └── tests/
     └── dot-dispatcher.test.zsh         # Test suite
-```
+```diff
 
 ### Development Phases
 
@@ -646,7 +646,7 @@ flow-cli/
 df version status              # Show R/Python versions across machines
 df version sync                # Sync mise configurations
 df version set R@4.5.2         # Set R version for project
-```
+```text
 
 ### Package Sync
 
@@ -654,7 +654,7 @@ df version set R@4.5.2         # Set R version for project
 df pkg status                  # Compare Homebrew packages
 df pkg sync                    # Install missing packages
 df pkg export                  # Update Brewfile
-```
+```text
 
 ### Template Picker
 
@@ -662,14 +662,14 @@ df pkg export                  # Update Brewfile
 df template                    # Interactive template editor
 df template add-machine        # Add machine-specific config
 df template test               # Preview template rendering
-```
+```text
 
 ### Automated Sync
 
 ```bash
 df watch                       # Auto-sync on file changes
 df schedule hourly             # Scheduled sync (via launchd)
-```
+```text
 
 ---
 
@@ -680,7 +680,7 @@ df schedule hourly             # Scheduled sync (via launchd)
 ```bash
 flow dotfile edit
 flow dotfile sync
-```
+```diff
 
 **Rejected because:**
 - `flow` command is meta-level (flow test, flow build, flow doctor)
@@ -692,7 +692,7 @@ flow dotfile sync
 ```bash
 cm edit .zshrc
 cm sync
-```
+```diff
 
 **Rejected because:**
 - Not integrated with flow-cli ecosystem
@@ -759,7 +759,7 @@ df push
 
 # Check status anytime
 df
-```
+```bash
 
 ### Troubleshooting
 
@@ -778,7 +778,7 @@ df undo
 
 # Show sync status
 df status -v
-```
+```bash
 
 ### One-Time Setup
 

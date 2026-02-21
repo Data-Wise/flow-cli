@@ -71,12 +71,12 @@
 
 **Branch Flow:**
 
-```
+````text
 feature/* ──► dev ──► main
 hotfix/*  ────┴───────┘
 bugfix/*  ────┘
 release/* ────────────┘
-```
+```text
 
 **New g dispatcher commands:**
 
@@ -97,7 +97,7 @@ release/* ────────────┘
 
 **Example Output:**
 
-```
+```yaml
 $ g push  (on main branch)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⛔ Direct push to 'main' blocked
@@ -110,7 +110,7 @@ Commands:
   g release    Create PR: dev → main
 
 Override: GIT_WORKFLOW_SKIP=1 git push
-```
+````
 
 **Integration with aiterm:**
 
@@ -147,22 +147,22 @@ Override: GIT_WORKFLOW_SKIP=1 git push
 
 ### 🔧 Medium Effort (1-3hrs)
 
-5. **Doctor self-update feature**
+1. **Doctor self-update feature**
    - `flow doctor --update-docs` to regenerate help files
    - Auto-update refcards when commands change
    - Keep documentation in sync with implementation
 
-6. **Plugin health checks**
+2. **Plugin health checks**
    - Check ZSH plugins are loaded correctly
    - Verify antidote/zinit configuration
    - Detect plugin conflicts
 
-7. **Environment snapshot/export**
+3. **Environment snapshot/export**
    - `flow doctor --export` to save current setup
    - Share setup with teammates
    - Reproducible development environment
 
-8. **Help system improvements**
+4. **Help system improvements**
    - `flow help --list` to show all commands
    - `flow help --search <term>` for fuzzy search
    - Completions health check in doctor
@@ -316,53 +316,53 @@ Override: GIT_WORKFLOW_SKIP=1 git push
 
 ### 🔧 Medium Effort (1-3hrs each)
 
-6. ✅ **Implement docs/active/ folder for current-phase work** - COMPLETED
+1. ✅ **Implement docs/active/ folder for current-phase work** - COMPLETED
    - Merged planning/current + implementation → docs/active/
    - Clear separation of active vs. archive
 
-7. ✅ **Split docs/user/ into docs/guides/ and docs/reference/** - COMPLETED
+2. ✅ **Split docs/user/ into docs/guides/ and docs/reference/** - COMPLETED
    - guides/ = tutorials and workflows
    - reference/ = command refs, alias cards
 
-8. ✅ **Create docs/decisions/ (ADR-style)** - COMPLETED
+3. ✅ **Create docs/decisions/ (ADR-style)** - COMPLETED
    - Moved from docs/architecture/decisions/
    - Track "why" not just "what"
 
-9. ✅ **Consolidate all testing docs** - COMPLETED
+4. ✅ **Consolidate all testing docs** - COMPLETED
    - Archived phase-specific test results
    - Single comprehensive TESTING.md guide
 
-10. ✅ **Move standards/ to docs/standards/** - COMPLETED
-    - Everything documentation-related in docs/ tree
-    - Simpler navigation
+5. ✅ **Move standards/ to docs/standards/** - COMPLETED
+   - Everything documentation-related in docs/ tree
+   - Simpler navigation
 
 ### 🚀 Big Ideas (1+ days)
 
-11. **Implement versioned documentation**
-    - docs/v1/, docs/v2/ for major releases
-    - Support multiple versions simultaneously
-    - Better for users on older versions
+1. **Implement versioned documentation**
+   - docs/v1/, docs/v2/ for major releases
+   - Support multiple versions simultaneously
+   - Better for users on older versions
 
-12. **Create unified documentation index**
-    - Smart search leveraging MkDocs search + tags
-    - Cross-reference discovery
-    - "Related docs" suggestions
+2. **Create unified documentation index**
+   - Smart search leveraging MkDocs search + tags
+   - Cross-reference discovery
+   - "Related docs" suggestions
 
-13. **Build interactive documentation map**
-    - Mermaid diagrams showing doc relationships
-    - Visual navigation
-    - Understand information architecture at a glance
+3. **Build interactive documentation map**
+   - Mermaid diagrams showing doc relationships
+   - Visual navigation
+   - Understand information architecture at a glance
 
-14. **Automated documentation health checks**
-    - Dead link detection
-    - Outdated content warnings
-    - Missing cross-references
-    - Integration with CI/CD
+4. **Automated documentation health checks**
+   - Dead link detection
+   - Outdated content warnings
+   - Missing cross-references
+   - Integration with CI/CD
 
-15. **Convert r-ecosystem/ to separate repo**
-    - It's ecosystem coordination, not flow-cli specific
-    - Cleaner separation of concerns
-    - Easier to share with other projects
+5. **Convert r-ecosystem/ to separate repo**
+   - It's ecosystem coordination, not flow-cli specific
+   - Cleaner separation of concerns
+   - Easier to share with other projects
 
 ---
 

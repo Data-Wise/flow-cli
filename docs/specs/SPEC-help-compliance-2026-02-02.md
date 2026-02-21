@@ -74,12 +74,12 @@ Create `lib/help-compliance.zsh` as shared validation logic with two consumers:
 
 ### Shared Compliance Library
 
-```
+```zsh
 lib/help-compliance.zsh
   _flow_help_compliance_check()      # Check single dispatcher
   _flow_help_compliance_check_all()  # Check all dispatchers
   _flow_help_compliance_rules()      # Return rule definitions
-```
+```bash
 
 ### Compliance Rules
 
@@ -97,7 +97,7 @@ lib/help-compliance.zsh
 
 ### Integration Points
 
-```
+```text
 flow doctor --help-check
   └── calls _flow_help_compliance_check_all()
        └── calls _flow_help_compliance_check() per dispatcher

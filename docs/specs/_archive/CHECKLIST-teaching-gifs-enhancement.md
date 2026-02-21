@@ -10,6 +10,7 @@
 ## Phase 1: Fix Critical Issues (5-8 hours)
 
 ### Task 1.1: Audit & Categorize (1 hour)
+
 - [x] Create inventory of all GIFs and tapes
 - [x] Identify font size issues
 - [x] Identify syntax errors
@@ -101,6 +102,7 @@
 - [ ] Run: `brew install gifsicle`
 
 **Batch optimize all GIFs:**
+
 ```bash
 cd /Users/dt/projects/dev-tools/flow-cli
 
@@ -192,12 +194,14 @@ done
 - [ ] Create `.git/hooks/pre-commit` or use existing hook system
 - [ ] Add VHS tape validation (from spec section 4.5)
 - [ ] Test with intentionally broken tape:
+
   ```bash
   # Create test tape with small font
   echo "Set FontSize 12" > test.tape
   git add test.tape
   git commit -m "test"  # Should fail
   ```
+
 - [ ] Document hook behavior in contributing guide
 - [ ] Clean up test files
 - [ ] Commit with message: `feat: add pre-commit hook for VHS tape validation`
@@ -212,6 +216,7 @@ done
 - [ ] Add status badge to README (optional)
 
 **Workflow content:**
+
 ```yaml
 name: Validate VHS Tapes
 
@@ -325,6 +330,7 @@ jobs:
 ## Testing Checklist
 
 ### Unit Tests
+
 - [ ] Validation script detects missing FontSize
 - [ ] Validation script detects small fonts (14px, 16px)
 - [ ] Validation script detects `Type "#"` syntax
@@ -332,12 +338,14 @@ jobs:
 - [ ] Validation script detects missing Output directive
 
 ### Integration Tests
+
 - [ ] Create test tape with all issues
 - [ ] Verify validation catches all issues
 - [ ] Fix issues and verify successful generation
 - [ ] Verify optimization reduces file size
 
 ### Visual Quality Tests
+
 - [ ] Font readable on 4K display
 - [ ] Font readable on laptop (1440p)
 - [ ] Font readable on mobile
@@ -346,6 +354,7 @@ jobs:
 - [ ] Text is sharp
 
 ### Performance Tests
+
 - [ ] Total size before optimization: _____ MB
 - [ ] Total size after optimization: _____ MB
 - [ ] Reduction percentage: _____ %
@@ -353,6 +362,7 @@ jobs:
 - [ ] All benchmarks documented
 
 ### Regression Tests
+
 - [ ] All documentation links work
 - [ ] No broken GIF references
 - [ ] MkDocs builds without errors
@@ -363,6 +373,7 @@ jobs:
 ## Rollout Checklist
 
 ### Pre-Rollout
+
 - [ ] All phases complete
 - [ ] All tests passing
 - [ ] Documentation updated
@@ -371,6 +382,7 @@ jobs:
 - [ ] CI/CD working
 
 ### Soft Launch (dev branch)
+
 - [ ] Merge all changes to `dev`
 - [ ] Deploy to staging docs site (if available)
 - [ ] Review with team
@@ -378,6 +390,7 @@ jobs:
 - [ ] Fix any issues
 
 ### Public Release
+
 - [ ] Merge `dev` → `main`
 - [ ] Tag release (e.g., `v5.23.0`)
 - [ ] Push tags: `git push --tags`
@@ -385,6 +398,7 @@ jobs:
 - [ ] Verify live site
 
 ### Communication
+
 - [ ] Update GitHub release notes
 - [ ] Announce in README
 - [ ] Update documentation homepage
@@ -395,6 +409,7 @@ jobs:
 ## Success Metrics
 
 ### Quantitative (Track These)
+
 - [x] Minimum font size: 14px → 18px
 - [x] Font size consistency: 3 sizes → 1 size
 - [x] Syntax errors: 87 lines → 0 lines
@@ -402,12 +417,14 @@ jobs:
 - [ ] Optimization rate: 0% → 100%
 
 ### Qualitative (Monitor Post-Release)
+
 - [ ] User feedback on readability
 - [ ] Bug reports about unreadable GIFs
 - [ ] Bug reports about error commands
 - [ ] Documentation ratings
 
 ### Developer Metrics
+
 - [ ] Time to regenerate GIFs: _____ minutes (target: < 5)
 - [ ] Time to validate tapes: _____ seconds (target: < 30)
 - [ ] Pre-commit hook effectiveness: _____ % caught
@@ -428,15 +445,18 @@ jobs:
 ## Notes & Issues
 
 ### Open Questions
+
 - [ ] Should we use 18px for ALL GIFs or allow 16px for non-teaching?
 - [ ] Git-lfs for large GIFs?
 - [ ] Archive old GIFs or replace in-place?
 - [ ] Block other v5.23.0 features?
 
 ### Blockers
+
 - None identified
 
 ### Future Enhancements
+
 - Automated GIF quality scoring
 - Visual diff tool for before/after
 - Automated accessibility checks (contrast, readability)

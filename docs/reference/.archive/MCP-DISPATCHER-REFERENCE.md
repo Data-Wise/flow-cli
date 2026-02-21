@@ -13,7 +13,7 @@ mcp                   # List all servers with status
 mcp cd shell          # Navigate to server directory
 mcp test docling      # Test server runs
 mcp pick              # Interactive server picker
-```
+```text
 
 ---
 
@@ -21,7 +21,7 @@ mcp pick              # Interactive server picker
 
 ```bash
 mcp [command] [args]
-```
+```diff
 
 ### Key Insight
 
@@ -50,7 +50,7 @@ mcp cd shell          # Navigate to shell server
 mcp test docling      # Test docling server
 mcp edit shell        # Open in VS Code
 mcp pick              # Interactive selection
-```
+```text
 
 ---
 
@@ -68,7 +68,7 @@ mcp pick              # Interactive selection
 mcp status            # Show Desktop/Browser config status
 mcp readme docling    # View docling README
 mcp help              # Show all commands
-```
+```text
 
 ---
 
@@ -76,7 +76,7 @@ mcp help              # Show all commands
 
 Running `mcp` shows each server with:
 
-```
+```yaml
 ● statistical-research
   📁 ~/projects/dev-tools/mcp-servers/statistical-research
   ✓ Desktop/CLI configured
@@ -92,7 +92,7 @@ Total: 3 server(s)
 
 ℹ  Quick access: cd ~/mcp-servers/<name>
 ℹ  Interactive:  mcp pick
-```
+```text
 
 ---
 
@@ -100,7 +100,7 @@ Total: 3 server(s)
 
 Running `mcp status` shows:
 
-```
+```text
 MCP Configuration Status
 
 Desktop/CLI:
@@ -115,7 +115,7 @@ Browser Extension:
   Configured servers:
     • filesystem
     • statistical-research
-```
+```yaml
 
 ---
 
@@ -135,7 +135,7 @@ Browser Extension:
 
 ```bash
 mcpp                  # Quick picker alias
-```
+```text
 
 ---
 
@@ -145,7 +145,7 @@ The test command validates a server can start:
 
 ```bash
 mcp test statistical-research
-```
+```diff
 
 **Behavior:**
 - Detects runtime (bun, node, uv)
@@ -201,7 +201,7 @@ mcp cd statistical-research
 
 # Test after changes
 mcp test statistical-research
-```
+```bash
 
 ### Quick Navigation
 
@@ -211,7 +211,7 @@ mcpp
 
 # Or direct navigation
 mcp cd shell
-```
+```bash
 
 ### Troubleshooting
 
@@ -224,7 +224,7 @@ mcp readme docling
 
 # Edit configuration
 mcp edit docling
-```
+```text
 
 ---
 
@@ -237,7 +237,7 @@ Launch Claude with MCP context:
 ```bash
 mcp cd statistical-research
 cc                    # Claude in MCP server dir
-```
+```text
 
 ### With aiterm (Rich Features)
 
@@ -248,7 +248,7 @@ ait mcp list          # Rich table view with status indicators
 ait mcp validate      # Full JSON validation with error details
 ait mcp test-all      # Batch health checking with timing
 ait mcp info <name>   # Detailed config with masked secrets
-```
+```diff
 
 **When to use aiterm:**
 - Validating MCP configuration before deployment
@@ -267,7 +267,7 @@ Set the directory:
 
 ```bash
 export MCP_SERVERS_DIR="$HOME/projects/dev-tools/mcp-servers"
-```
+```bash
 
 ### "fzf not installed"
 
@@ -275,7 +275,7 @@ Install fzf for interactive picker:
 
 ```bash
 brew install fzf
-```
+```diff
 
 ### "Server failed to start"
 

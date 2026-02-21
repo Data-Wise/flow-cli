@@ -6,7 +6,7 @@
 
 ## Before: Scattered Across 5 Sections
 
-```
+````text
 📚 Documentation Site Navigation
 
 ├── Tutorials (32 items)
@@ -80,13 +80,13 @@
     │ - Help (4 items)                       │
     │ - Commands (2 items)                   │
     └────────────────────────────────────────┘
-```
+```text
 
 ---
 
 ## After: Unified Teaching Section
 
-```
+```text
 📚 Documentation Site Navigation
 
 ├── Tutorials (20 items)
@@ -176,7 +176,7 @@
     │   - Getting Started → Features         │
     │   - Reference → Advanced → Legacy      │
     └────────────────────────────────────────┘
-```
+```text
 
 ---
 
@@ -212,7 +212,7 @@ flowchart TD
     style C fill:#ccffcc
     style D fill:#cce5ff
     style P fill:#ffffcc
-```
+```text
 
 ---
 
@@ -220,13 +220,13 @@ flowchart TD
 
 ### Before: Flat & Scattered
 
-```
+```text
 Documentation (100+ pages)
 ├── Many sections with mixed content
 ├── Teaching docs scattered throughout
 ├── No clear teaching entry point
 └── Hard to discover related content
-```
+```diff
 
 **Problems:**
 
@@ -237,7 +237,7 @@ Documentation (100+ pages)
 
 ### After: Hierarchical & Organized
 
-```
+```text
 🎓 Teaching (29 pages)
 ├── Overview (hub)
 ├── Getting Started (progressive)
@@ -249,7 +249,7 @@ Documentation (100+ pages)
 ├── Reference (quick lookup)
 ├── Advanced (deep dives)
 └── Legacy (historical)
-```
+```diff
 
 **Benefits:**
 
@@ -264,7 +264,7 @@ Documentation (100+ pages)
 
 ### Before: Fragmented
 
-```
+```text
 New Teaching User
   ↓
 "How do I get started?"
@@ -288,11 +288,11 @@ Check Help & Quick Reference → Find refcards
 Check Commands → Find teach dispatcher
   ↓
 😵 5 different navigation paths!
-```
+```text
 
 ### After: Unified
 
-```
+```text
 New Teaching User
   ↓
 "How do I get started with teaching?"
@@ -312,7 +312,7 @@ Return to Overview for next steps
 Navigate to Features, Reference, Advanced as needed
   ↓
 😊 One navigation path!
-```
+```text
 
 ---
 
@@ -320,7 +320,7 @@ Navigate to Features, Reference, Advanced as needed
 
 ### Before: Cognitive Overload
 
-```
+```text
 User: "I need to learn teaching workflow"
 
 Cognitive Steps:
@@ -336,11 +336,11 @@ Cognitive Steps:
 Total Cognitive Load: 🔴 HIGH
 Decision Points: 7+
 Context Switches: 5+
-```
+```text
 
 ### After: Guided Discovery
 
-```
+```text
 User: "I need to learn teaching workflow"
 
 Cognitive Steps:
@@ -354,7 +354,7 @@ Cognitive Steps:
 Total Cognitive Load: 🟢 LOW
 Decision Points: 2-3
 Context Switches: 0 (stay in Teaching section)
-```
+```text
 
 ---
 
@@ -362,7 +362,7 @@ Context Switches: 0 (stay in Teaching section)
 
 ### Before: Mixed Taxonomy
 
-```
+```text
 Tutorials: Skill-based (Tutorial 14, 19, 21, etc.)
 Workflows: Task-based (Teaching Workflow v3.0)
 Guides: Feature-based (Teaching v3.0 subsection)
@@ -372,11 +372,11 @@ Commands: Tool-based (teach, teach-init)
 ❌ No consistent pattern
 ❌ Hard to predict where content lives
 ❌ Requires knowledge of site structure
-```
+```text
 
 ### After: Progressive Taxonomy
 
-```
+```text
 🎓 Teaching:
   - Overview: Hub (all users)
   - Getting Started: Task-based (beginners)
@@ -389,7 +389,7 @@ Commands: Tool-based (teach, teach-init)
 ✅ Consistent progressive pattern
 ✅ Easy to predict content location
 ✅ Self-documenting hierarchy
-```
+```text
 
 ---
 
@@ -397,7 +397,7 @@ Commands: Tool-based (teach, teach-init)
 
 ### Before: Multi-Step Discovery
 
-```
+```text
 To find "How to create templates":
 
 Path 1 (Wrong):
@@ -414,11 +414,11 @@ Found! (but not tutorial)
 
 Average Steps: 5-8 clicks/scans
 Success Rate: Medium (depends on user's mental model)
-```
+```text
 
 ### After: Direct Discovery
 
-```
+```yaml
 To find "How to create templates":
 
 Path (Correct):
@@ -431,7 +431,7 @@ Found! (Reference)
 
 Average Steps: 2-3 clicks
 Success Rate: High (clear hierarchy)
-```
+```text
 
 ---
 
@@ -439,24 +439,24 @@ Success Rate: High (clear hierarchy)
 
 ### Before: No Visual Cues
 
-```
+```text
 Tutorials
 Workflows
 Guides
   🆕 Teaching v3.0  ← Only visual indicator (buried 3 levels deep)
 Help & Quick Reference
 Commands
-```
+```text
 
 ### After: Strong Visual Identity
 
-```
+```text
 📚 Documentation Hub
 🎯 Choose Your Path
 ...
 🎓 Teaching  ← Top-level, emoji icon, clear identity
 ...
-```
+```text
 
 ---
 
@@ -464,7 +464,7 @@ Commands
 
 ### Before: Ambiguous Results
 
-```
+```diff
 User searches: "teaching"
 
 Results (hypothetical):
@@ -474,11 +474,11 @@ Results (hypothetical):
 - teach (Commands section)
 
 User thinks: "Which one do I need? 🤔"
-```
+```text
 
 ### After: Clear Context
 
-```
+```diff
 User searches: "teaching"
 
 Results (hypothetical):
@@ -488,7 +488,7 @@ Results (hypothetical):
 - Content Analysis (Teaching > Features)
 
 User thinks: "Start with Overview! ✓"
-```
+```text
 
 ---
 
@@ -496,7 +496,7 @@ User thinks: "Start with Overview! ✓"
 
 ### Before: Implicit Relationships
 
-```
+```yaml
 Tutorial 14 (Teach Dispatcher)
   ↓ (user must discover)
 Tutorial 19 (Git Integration)
@@ -508,11 +508,11 @@ Teaching Workflow v3.0 (different section!)
 Guides > Teaching v3.0 (different section!)
 
 Relationship: Hidden, user must infer
-```
+```text
 
 ### After: Explicit Relationships
 
-```
+```yaml
 🎓 Teaching > Getting Started
   ├── Quick Start (Tutorial 14)
   ├── Setup & Initialization
@@ -528,7 +528,7 @@ Relationship: Hidden, user must infer
   └── ...
 
 Relationship: Explicit, user can see hierarchy
-```
+```diff
 
 ---
 
@@ -557,7 +557,7 @@ Relationship: Explicit, user can see hierarchy
 
 ### Before: Decision Tree (Complex)
 
-```
+```bash
 User → Documentation
         ↓
     [Guess which section?]
@@ -571,11 +571,11 @@ Tutorials Workflows Guides  Help   Commands
   [Find?] [Find?] [Find?]  [Find?]   [Find?]
     ↓       ↓       ↓        ↓         ↓
   [Try next section if not found...]
-```
+```text
 
 ### After: Directed Path (Simple)
 
-```
+```bash
 User → Documentation
         ↓
     🎓 Teaching
@@ -590,7 +590,7 @@ User → Documentation
   Started Workflows
     ↓       ↓         ↓          ↓          ↓
   [Find!] [Find!]   [Find!]    [Find!]    [Find!]
-```
+````
 
 ---
 

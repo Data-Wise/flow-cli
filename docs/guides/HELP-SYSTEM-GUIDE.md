@@ -31,7 +31,7 @@ $ teach --help
 $ teach help
 # or
 $ teach -h
-```
+```text
 
 Shows complete dispatcher overview with all command categories.
 
@@ -41,7 +41,7 @@ Shows complete dispatcher overview with all command categories.
 $ teach lecture --help       # Lecture generation help
 $ teach exam -h              # Exam creation help
 $ teach validate help        # Validation help
-```
+```bash
 
 All three formats work: `--help`, `-h`, `help`
 
@@ -53,7 +53,7 @@ cat docs/tutorials/14-teach-dispatcher.md
 
 # Or visit on the website
 open https://Data-Wise.github.io/flow-cli/tutorials/14-teach-dispatcher/
-```
+```text
 
 15-minute walkthrough from setup to deployment.
 
@@ -63,7 +63,7 @@ open https://Data-Wise.github.io/flow-cli/tutorials/14-teach-dispatcher/
 
 Every help function follows this **consistent structure**:
 
-```
+```bash
 ╔════════════════════════════════════════════════════════════╗
 ║  teach <command> - Description                            ║
 ╚════════════════════════════════════════════════════════════╝
@@ -102,7 +102,7 @@ LEARN MORE
 SEE ALSO:
   teach related-cmd - Description
   teach another-cmd - Description
-```
+```diff
 
 ---
 
@@ -184,7 +184,7 @@ QUICK START
 
   # Custom template
   $ teach lecture "Bayesian Stats" --template quarto
-```
+```text
 
 **Target:** Users who know what they want, just need syntax
 
@@ -199,7 +199,7 @@ OPTIONS
   Output Format:
     --template FORMAT  markdown|quarto|typst|pdf
     --style TONE       formal|casual
-```
+```bash
 
 **Target:** Users exploring available options
 
@@ -216,7 +216,7 @@ EXAMPLES
     $ teach lecture --week 5
     # Auto-loads topic from lesson-plan.yml
     # Includes learning objectives
-```
+```text
 
 **Target:** Users learning workflows
 
@@ -230,7 +230,7 @@ TIPS
 
 LEARN MORE
   📖 docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md#content-creation
-```
+```bash
 
 **Target:** Power users, troubleshooting
 
@@ -250,11 +250,11 @@ ${FLOW_COLORS[success]}    # Success messages (green)
 ${FLOW_COLORS[info]}       # Info messages (blue)
 ${FLOW_COLORS[dim]}        # Secondary text (dark gray)
 ${FLOW_COLORS[reset]}      # Reset to default
-```
+```text
 
 ### Visual Hierarchy Example
 
-```
+```bash
 ╔════════════════════════════════════════════════════════════╗  ← header
 ║  teach lecture - Generate Lecture Notes                   ║  ← header + cmd
 ╚════════════════════════════════════════════════════════════╝  ← header
@@ -267,7 +267,7 @@ ALIASES                                                         ← bold
 
 # Basic usage                                                   ← muted
 $ teach lecture "Linear Regression"                             ← muted
-```
+```diff
 
 ---
 
@@ -314,7 +314,7 @@ Commands support **three help formats**:
 teach lecture --help     # Long flag
 teach lecture -h         # Short flag
 teach lecture help       # Positional argument
-```
+```bash
 
 ### Routing Implementation
 
@@ -330,7 +330,7 @@ lecture|lec)
             ;;
     esac
     ;;
-```
+```text
 
 **Pattern:**
 1. Check if first argument is help flag
@@ -347,25 +347,25 @@ Every help function includes **cross-references**:
 
 Links to comprehensive guides:
 
-```
+```text
 LEARN MORE
   📖 Full guide: docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md#section
   📖 Quick ref: docs/reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher
-```
+```text
 
 ### SEE ALSO Section
 
 Links to related commands:
 
-```
+```text
 SEE ALSO:
   teach quiz - Create quiz questions
   teach rubric - Generate grading rubric
-```
+```text
 
 ### Cross-Reference Network
 
-```
+```text
 teach lecture
   ↓
   SEE ALSO:
@@ -377,7 +377,7 @@ teach exam
   SEE ALSO:
     • teach quiz    → Shorter assessment format
     • teach rubric  → Create grading rubric
-```
+```bash
 
 ---
 
@@ -403,7 +403,7 @@ EXAMPLES
     --option2 value \
     --option3
   # Complex workflow explanation
-```
+```diff
 
 ### Example Elements
 
@@ -489,7 +489,7 @@ ${FLOW_COLORS[muted]}SEE ALSO:${FLOW_COLORS[reset]}
 
 EOF
 }
-```
+```diff
 
 ### Validation Checklist
 
@@ -524,7 +524,7 @@ for cmd in lecture exam quiz validate deploy doctor; do
     echo "Testing: teach $cmd --help"
     teach $cmd --help > /dev/null || echo "FAIL: $cmd"
 done
-```
+```zsh
 
 ---
 
@@ -553,17 +553,17 @@ teach() {
         # ... other commands
     esac
 }
-```
+```text
 
 ### Box Width Constraints
 
 Box borders are **60 characters wide**:
 
-```
+```text
 ╔════════════════════════════════════════════════════════════╗
 ^                                                          ^
 0                                                         60
-```
+```bash
 
 Title must fit within **58 characters** (60 minus 2 for `║` borders):
 
@@ -572,7 +572,7 @@ Title must fit within **58 characters** (60 minus 2 for `║` borders):
 ║  teach profiles - Manage Quarto Profile Configurations  ║
 ^                                                        ^
 2                                                       60
-```
+```zsh
 
 ### Color Variables
 

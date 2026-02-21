@@ -9,7 +9,7 @@
 
 ### Single Unified Worktree
 
-```bash
+````bash
 # 1. Navigate to worktree
 cd ~/.git-worktrees/flow-cli/quarto-workflow/
 
@@ -22,13 +22,13 @@ cat IMPLEMENTATION-INSTRUCTIONS.md | less
 
 # 4. Start NEW Claude Code session
 claude
-```
+```text
 
 **Inside Claude Code session:**
 
-```
+```text
 Read IMPLEMENTATION-INSTRUCTIONS.md and begin Week 1-2: Hook System implementation.
-```
+```diff
 
 ---
 
@@ -74,32 +74,32 @@ Read IMPLEMENTATION-INSTRUCTIONS.md and begin Week 1-2: Hook System implementati
 
 ```bash
 git worktree list
-```
+```bash
 
 ### Navigate to Worktree
 
 ```bash
 cd ~/.git-worktrees/flow-cli/quarto-workflow/
-```
+```bash
 
 ### Check Branch
 
 ```bash
 git branch --show-current
-```
+```bash
 
 ### Run Tests
 
 ```bash
 ./tests/run-all.sh
-```
+```text
 
 ### Create PR (After All Phases Complete)
 
 ```bash
 gh pr create --base dev --head feature/quarto-workflow \
   --title "feat: Complete Quarto workflow implementation (v4.6.0-v4.8.0)"
-```
+````
 
 ---
 

@@ -49,7 +49,7 @@ This brainstorm identifies features that would strengthen `em` as a terminal-nat
 
 ## Medium Effort (1-2 hours)
 
-6. **em triage** — Interactive inbox triage mode (inspired by himalaya-mcp's `triage_inbox` prompt)
+1. **em triage** — Interactive inbox triage mode (inspired by himalaya-mcp's `triage_inbox` prompt)
    - Step through unread emails one-at-a-time
    - For each: show snippet + AI classification
    - Actions: [a]rchive, [r]eply, [s]tar, [d]elete, [n]ext, [q]uit
@@ -57,27 +57,27 @@ This brainstorm identifies features that would strengthen `em` as a terminal-nat
    - Different from `em respond` (which only handles actionable replies)
    - Effort: Medium (~100 lines, interactive loop)
 
-7. **em templates** — Email template system
+2. **em templates** — Email template system
    - `em templates list` / `em templates use <name>` / `em templates create <name>`
    - Store in `~/.config/flow/email-templates/`
    - Pre-fill subject + body, merge placeholders `{{name}}`, `{{date}}`
    - Use case: recurring emails (status updates, meeting requests, etc.)
    - Effort: Medium (~80 lines + template storage)
 
-8. **em export `<ID>`** — Export email to markdown (himalaya-mcp has `export_to_markdown`)
+3. **em export `<ID>`** — Export email to markdown (himalaya-mcp has `export_to_markdown`)
    - YAML frontmatter (from, to, date, subject, tags)
    - `em export 42` → stdout
    - `em export 42 --obsidian` → saves to Obsidian vault with wikilinks
    - `em export 42 --file notes/` → saves to directory
    - Effort: Medium (~60 lines)
 
-9. **em actions `<ID>`** — Extract action items from email (himalaya-mcp has `create_action_item`)
+4. **em actions `<ID>`** — Extract action items from email (himalaya-mcp has `create_action_item`)
    - AI-powered extraction of todos, deadlines, commitments
    - Output as checklist: `- [ ] Review budget by Friday (from: Jane)`
    - `em actions 42 --catch` → feeds each item to `catch` command
    - Effort: Medium (~50 lines + AI prompt)
 
-10. **em stats** — Email analytics dashboard
+5. **em stats** — Email analytics dashboard
     - Unread by folder, emails per day (7-day sparkline)
     - Top senders, response time estimate
     - Category breakdown (if AI classifications cached)
@@ -87,7 +87,7 @@ This brainstorm identifies features that would strengthen `em` as a terminal-nat
 
 ## Long-term (Future sessions)
 
-11. **em rules** — Client-side email rules engine
+1. **em rules** — Client-side email rules engine
     - `em rules add "from:*@github.com" move "Notifications"`
     - `em rules add "subject:*invoice*" star`
     - `em rules run` — apply rules to inbox
@@ -95,27 +95,27 @@ This brainstorm identifies features that would strengthen `em` as a terminal-nat
     - Store in `~/.config/flow/email-rules.json`
     - Effort: Large (~200 lines + rule parser)
 
-12. **em follow** — Follow-up tracker
+2. **em follow** — Follow-up tracker
     - `em follow 42` — mark email as awaiting reply
     - `em follow list` — show all pending follow-ups with age
     - `em follow check` — notify about stale follow-ups (>3 days)
     - Integrates with `em dash` (show pending follow-up count)
     - Effort: Large (~120 lines + tracking file)
 
-13. **em accounts** — Multi-account support in em
+3. **em accounts** — Multi-account support in em
     - `em accounts list` / `em accounts switch <name>`
     - `em inbox --account work` / `em inbox --account personal`
     - himalaya already supports multi-account in config
     - `em dash` shows aggregate unread across all accounts
     - Effort: Large (touches most functions for --account flag)
 
-14. **em cal `<ID>`** — Calendar event extraction (himalaya-mcp has this)
+4. **em cal `<ID>`** — Calendar event extraction (himalaya-mcp has this)
     - Parse ICS attachments from email
     - Display event details (time, location, attendees)
     - `em cal 42 --add` → add to Apple Calendar via osascript
     - Effort: Large (~100 lines + ICS parser in ZSH or via python)
 
-15. **em compose** — Compose new email with fzf contact picker
+5. **em compose** — Compose new email with fzf contact picker
     - `em compose` → fzf contact list → subject → $EDITOR → send
     - Contact list: scan recent From/To addresses, cache as contacts.json
     - `em compose --template weekly-update`

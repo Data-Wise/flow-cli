@@ -25,7 +25,7 @@ The **Teaching Workflow** is a deployment-focused workflow system designed to so
 ```bash
 cd ~/projects/teaching/my-course
 teach-init "STAT 545"
-```
+```diff
 
 **What happens:**
 - Creates `draft` and `production` branches
@@ -38,7 +38,7 @@ teach-init "STAT 545"
 
 ```bash
 work stat-545
-```
+```diff
 
 **What happens:**
 - Checks current git branch
@@ -51,7 +51,7 @@ work stat-545
 
 ```bash
 ./scripts/quick-deploy.sh
-```
+```diff
 
 **What happens:**
 - Validates you're on `draft` branch
@@ -76,7 +76,7 @@ graph LR
     style A fill:#e1f5ff
     style C fill:#fff4e1
     style E fill:#e8f5e9
-```
+```text
 
 ### Work Session Flow
 
@@ -101,7 +101,7 @@ sequenceDiagram
     Work Command->>Work Command: Load shortcuts
     Work Command->>User: Display course context
     Work Command->>Editor: Open project
-```
+```bash
 
 ### Deployment Pipeline
 
@@ -133,7 +133,7 @@ graph TB
     style F fill:#fff4e1
     style K fill:#e8f5e9
     style E fill:#ffebee
-```
+```text
 
 ---
 
@@ -147,7 +147,7 @@ graph TB
 
 ```bash
 teach-init "Course Name"
-```
+```diff
 
 **Prerequisites:**
 - Git repository initialized
@@ -160,7 +160,7 @@ teach-init "Course Name"
 
 **What it creates:**
 
-```
+```bash
 .flow/
   teach-config.yml       # Course configuration
 
@@ -170,7 +170,7 @@ scripts/
 
 .github/workflows/
   deploy.yml            # GitHub Actions workflow
-```
+```text
 
 **Example:**
 
@@ -202,7 +202,7 @@ Continue? [y/N] y
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🎉 Teaching workflow initialized!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+```text
 
 ---
 
@@ -214,7 +214,7 @@ Continue? [y/N] y
 
 ```bash
 work <course-name>
-```
+```sql
 
 **Features:**
 
@@ -256,7 +256,7 @@ Shortcuts loaded:
   s545d → ./scripts/quick-deploy.sh
 
 [Editor opens]
-```
+```bash
 
 **Example (During Break Week):**
 
@@ -275,7 +275,7 @@ $ work stat-545
 Shortcuts loaded:
   s545 → work stat-545
   s545d → ./scripts/quick-deploy.sh
-```
+```text
 
 **Example (Warning - On Production Branch):**
 
@@ -301,7 +301,7 @@ Switched to branch 'draft'
 
 📚 STAT 545
   Branch: draft
-```
+```yaml
 
 ---
 
@@ -342,7 +342,7 @@ automation:
 shortcuts:
   s545: "work stat-545"
   s545d: "./scripts/quick-deploy.sh"
-```
+```diff
 
 **Required Fields:**
 - `course.name` - Course display name
@@ -369,7 +369,7 @@ shortcuts:
 
 ```bash
 ./scripts/quick-deploy.sh
-```
+```bash
 
 **Safety Checks:**
 1. ✅ Validates on `draft` branch (fails otherwise)
@@ -397,7 +397,7 @@ Pushing to remote...
 
 💡 Tip: Check deployment status at:
    https://github.com/data-wise/stat-545/actions
-```
+```bash
 
 **Error Handling:**
 
@@ -411,7 +411,7 @@ Run: git checkout draft
 ❌ Merge conflict detected
 Resolve conflicts and run again
 [Aborts merge, returns to draft]
-```
+```bash
 
 ---
 
@@ -423,7 +423,7 @@ Resolve conflicts and run again
 
 ```bash
 ./scripts/semester-archive.sh
-```
+```sql
 
 **What it does:**
 1. Reads semester info from config
@@ -448,7 +448,7 @@ Create archive tag? [Y/n] y
    1. Update .flow/teach-config.yml for next semester
    2. Update course.year (or course.semester)
    3. Commit config changes to draft branch
-```
+```bash
 
 ---
 
@@ -492,7 +492,7 @@ gh repo create stat-545 --public --source=. --push
 
 # 8. Start working
 work stat-545
-```
+```bash
 
 ---
 
@@ -523,7 +523,7 @@ git checkout draft
 
 # 7. Verify GitHub Pages still works
 # Check: https://your-username.github.io/stat-440
-```
+```bash
 
 ---
 
@@ -555,7 +555,7 @@ s545d
 # Visit course website
 
 # Total time: ~15 seconds with teach deploy -d (or < 2 min via PR)
-```
+```yaml
 
 ---
 
@@ -590,7 +590,7 @@ git commit -m "Add week 5 lecture"
 s545d
 
 # Lecture is live in < 2 min
-```
+```bash
 
 ---
 
@@ -628,7 +628,7 @@ git add lectures/.gitkeep
 git commit -m "Initialize Fall 2026 lectures"
 
 # Ready for new semester!
-```
+```bash
 
 ---
 
@@ -642,7 +642,7 @@ git commit -m "Initialize Fall 2026 lectures"
 
 ```bash
 brew install yq
-```
+```bash
 
 **Why:** Config validation requires `yq` to parse YAML files
 
@@ -657,7 +657,7 @@ brew install yq
 ```bash
 git checkout draft
 ./scripts/quick-deploy.sh
-```
+```bash
 
 **Why:** Deployment script only runs from draft branch for safety
 
@@ -686,7 +686,7 @@ git commit -m "Resolve merge conflict"
 
 # 4. Try deployment again
 ./scripts/quick-deploy.sh
-```
+```bash
 
 ---
 
@@ -705,7 +705,7 @@ git checkout draft
 # Or set environment variable to skip prompt (not recommended)
 export FLOW_TEACHING_ALLOW_PRODUCTION=1
 work stat-545
-```
+```bash
 
 **Best Practice:** Always work on draft branch
 
@@ -726,7 +726,7 @@ work stat-545
 
 # Now shortcuts are available
 s545d
-```
+```diff
 
 ---
 
@@ -742,21 +742,21 @@ s545d
    # Source should be: production branch, / (root)
    ```
 
-2. Check GitHub Actions status
+1. Check GitHub Actions status
 
    ```bash
    gh run list --limit 5
    # Or visit: https://github.com/user/repo/actions
    ```
 
-3. Verify production branch pushed
+2. Verify production branch pushed
 
    ```bash
    git checkout production
    git log -1  # Should show recent merge
    ```
 
-4. Check workflow file exists
+3. Check workflow file exists
 
    ```bash
    cat .github/workflows/deploy.yml
@@ -778,7 +778,7 @@ work my-r-package
 # Teaching project (has .flow/teach-config.yml)
 work stat-545
 # → Teaching-aware session (branch check + shortcuts)
-```
+```text
 
 No conflict! Teaching features only activate for teaching projects.
 
@@ -794,7 +794,7 @@ $ pick teach
 🎓 stat-545              ~/projects/teaching/stat-545
 🎓 stat-440              ~/projects/teaching/stat-440
 🎓 causal-inference      ~/projects/teaching/causal-inference
-```
+```text
 
 Press Enter → `cd` to project
 Press Ctrl-O → `cd` + launch Claude
@@ -817,7 +817,7 @@ $ dash teach
 │ 🎓 STAT 440          ~/teaching/stat-440     │
 │    spring 2026 • production branch ⚠️         │
 ╰───────────────────────────────────────────────╯
-```
+```yaml
 
 ---
 
@@ -831,7 +831,7 @@ $ dash teach
 branches:
   draft: "dev"           # Instead of "draft"
   production: "main"     # Instead of "production"
-```
+```bash
 
 Scripts adapt automatically.
 
@@ -853,7 +853,7 @@ teach-init "STAT 440"
 # Creates shortcuts: s440, s440d
 
 # No conflicts!
-```
+```yaml
 
 ---
 
@@ -868,7 +868,7 @@ deployment:
     type: "netlify"         # Or vercel, custom, etc.
     branch: "production"
     url: "https://my-course.netlify.app"
-```
+```bash
 
 Adapt `quick-deploy.sh` if needed, or just use it for git workflow.
 
@@ -882,7 +882,7 @@ Adapt `quick-deploy.sh` if needed, or just use it for git workflow.
 export FLOW_TEACHING_ALLOW_PRODUCTION=1
 work stat-545
 # Skip branch warning
-```
+```yaml
 
 **Risk:** Students might see incomplete changes!
 
@@ -898,7 +898,7 @@ shortcuts:
   deploy: "./scripts/quick-deploy.sh"
   preview: "quarto preview"
   archive: "./scripts/semester-archive.sh"
-```
+```diff
 
 Shortcuts load when you run `work stat-545`.
 
@@ -934,7 +934,7 @@ Semester Schedule
   Break name [Spring Break]:
   Break start [2026-03-10]:
   Break end [2026-03-17]:
-```
+```yaml
 
 **Generated Config:**
 
@@ -946,7 +946,7 @@ semester_info:
     - name: "Spring Break"
       start: "2026-03-10"
       end: "2026-03-17"
-```
+```sql
 
 **Result in Work Session:**
 
@@ -961,7 +961,7 @@ $ work stat-545
   Recent Changes:
     Add week 8 lecture notes
     Update assignment rubric
-```
+```diff
 
 **Edge Cases Handled:**
 - Before semester start → Shows no week
@@ -995,7 +995,7 @@ npm install -g examark
 
 # Enable in config
 yq -i '.examark.enabled = true' .flow/teach-config.yml
-```
+```bash
 
 ---
 
@@ -1024,7 +1024,7 @@ Next steps:
 
   3. Upload to Canvas:
      Quizzes → Import → QTI 1.2 format
-```
+```yaml
 
 ---
 
@@ -1041,7 +1041,7 @@ course: STAT 545
 duration: 90 minutes
 points: 100
 ---
-```
+```text
 
 #### 2. Multiple Choice Section
 
@@ -1053,7 +1053,7 @@ points: 100
    - [ ] Option B
    - [x] Option C (correct answer)
    - [ ] Option D
-```
+```text
 
 #### 3. Short Answer Section
 
@@ -1064,7 +1064,7 @@ points: 100
 
    **Answer:**
    <!-- Student writes answer here -->
-```
+```text
 
 #### 4. Computational Problems
 
@@ -1075,7 +1075,7 @@ points: 100
 
    **Solution:**
    <!-- Student shows work here -->
-```
+```text
 
 #### 5. Answer Key (Instructor Only)
 
@@ -1087,7 +1087,7 @@ points: 100
 
 ### Section 2: Short Answer
 1. Expected answer with point breakdown
-```
+```yaml
 
 **Note:** Remove answer key before distributing to students
 
@@ -1120,7 +1120,7 @@ Upload to Canvas:
 6. Click: Import
 
 Note: Review and edit questions in Canvas after import
-```
+```yaml
 
 ---
 
@@ -1136,7 +1136,7 @@ examark:
   question_bank: "exams/questions"  # Reusable questions
   default_duration: 120       # Default exam duration (minutes)
   default_points: 100         # Default total points
-```
+```sql
 
 ---
 
@@ -1144,7 +1144,7 @@ examark:
 
 Create reusable questions by topic:
 
-```
+```text
 exams/
 ├── midterm1.md              # Full exam
 ├── final.md                 # Full exam
@@ -1152,14 +1152,14 @@ exams/
     ├── regression.md        # Regression questions
     ├── anova.md             # ANOVA questions
     └── inference.md         # Inference questions
-```
+```bash
 
 **Reusing questions:**
 
 ```bash
 # Copy questions from bank to exam
 cat exams/questions/regression.md >> exams/midterm1.md
-```
+```bash
 
 ---
 
@@ -1186,7 +1186,7 @@ cat exams/questions/regression.md >> exams/final.md
 
 # 6. Review and publish in Canvas
 # (Manual: Edit point values, time limits, etc.)
-```
+```bash
 
 **Time:** Create exam in markdown (30 min) → Convert and upload (2 min)
 
@@ -1200,7 +1200,7 @@ cat exams/questions/regression.md >> exams/final.md
 
 ```bash
 npm install -g examark
-```
+```diff
 
 **Problem:** Conversion fails with "Invalid markdown format"
 
@@ -1219,7 +1219,7 @@ Check examark documentation: https://github.com/daveagp/examark
    - [ ] Option A
    - [x] Option B (correct)
    - [ ] Option C
-```
+```diff
 
 **Problem:** Questions not importing correctly to Canvas
 

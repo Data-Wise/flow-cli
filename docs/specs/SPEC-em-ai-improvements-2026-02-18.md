@@ -91,7 +91,7 @@ _em_ai_status() {
     echo ""
     echo -e "  ${_C_DIM}Switch: em ai claude | em ai gemini | em ai toggle${_C_NC}"
 }
-```
+```diff
 
 **Acceptance:**
 - `em ai` shows current backend
@@ -112,6 +112,7 @@ _em_ai_status() {
 - `lib/em-ai.zsh` — modify `_EM_AI_BACKENDS` array + `_em_ai_execute()` gemini case
 
 **Config change:**
+
 ```zsh
 # Before:
 typeset -gA _EM_AI_BACKENDS=(
@@ -128,9 +129,10 @@ typeset -gA _EM_AI_BACKENDS=(
     [claude_extra_args]=""             # None needed
     ...
 )
-```
+```bash
 
 **Code change (`_em_ai_execute`):**
+
 ```zsh
 gemini)
     if ! command -v gemini &>/dev/null; then
@@ -141,7 +143,7 @@ gemini)
         gemini ${=extra} "$prompt" 2>/dev/null
     # ... (rest unchanged)
     ;;
-```
+```diff
 
 **Config file override:** `email.conf` can set `FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e none"`.
 
@@ -216,13 +218,14 @@ _em_catch() {
         echo -e "${_C_DIM}(catch command not available — copy manually)${_C_NC}"
     fi
 }
-```
+```text
 
 **fzf integration (em pick):**
 Add to existing `_em_pick()` fzf `--bind`:
-```
+
+```text
 --bind "ctrl-c:execute-silent(_em_catch {1})+reload(...)"
-```
+```diff
 
 **Acceptance:**
 - `em catch 42` produces summary and logs to catch
@@ -250,7 +253,7 @@ Depends on `em respond --category` filter (not in this spec).
 
 ## Architecture
 
-```
+```text
 em ai claude          em catch 42
     │                     │
     ▼                     ▼
@@ -262,7 +265,7 @@ _em_ai_switch()      │   ├── _em_ai_query("summarize")
     ├── validate          │
     ├── export FLOW_EMAIL_AI
     └── update _EM_AI_BACKENDS[default]
-```
+```text
 
 ## API Design
 
@@ -286,7 +289,7 @@ N/A — No new data models. Uses existing `_EM_AI_BACKENDS` associative array (e
 
 ### `em ai` Status Display
 
-```
+```text
 Email AI Backend
 
   Current:   claude
@@ -294,17 +297,17 @@ Email AI Backend
   Timeout:   30s
 
   Switch: em ai claude | em ai gemini | em ai toggle
-```
+```text
 
 ### `em ai toggle` Notification
 
-```
+```text
 ✓ AI backend → gemini
-```
+```text
 
 ### `em catch` Output
 
-```
+```text
 ✓ Captured: Student Jane: absent Mon, requests lecture notes
 ```
 

@@ -26,6 +26,7 @@ The token management tutorial (`sec tutorial`) auto-launched every time flow-cli
 #### Root Causes
 
 1. **Broken Source Detection:**
+
    ```zsh
    # BEFORE (incorrect)
    if [[ "${(%):-%x}" == "${0}" ]]; then
@@ -36,6 +37,7 @@ The token management tutorial (`sec tutorial`) auto-launched every time flow-cli
    When a file is sourced, both `${(%):-%x}` and `${0}` equal the file path, causing the condition to match incorrectly.
 
 2. **Incorrect Path Resolution:**
+
    ```zsh
    # BEFORE (incorrect)
    local tutorial_file="${0:A:h}/../../commands/secret-tutorial.zsh"
@@ -45,6 +47,7 @@ The token management tutorial (`sec tutorial`) auto-launched every time flow-cli
 #### Solution
 
 1. **Fixed Source Detection:**
+
    ```zsh
    # AFTER (correct)
    if [[ "${ZSH_EVAL_CONTEXT}" == "toplevel" ]]; then
@@ -55,6 +58,7 @@ The token management tutorial (`sec tutorial`) auto-launched every time flow-cli
    `ZSH_EVAL_CONTEXT` equals `"toplevel"` only when the script is executed directly, not when sourced by the plugin loader.
 
 2. **Fixed Path Resolution:**
+
    ```zsh
    # AFTER (correct)
    local tutorial_file="${FLOW_PLUGIN_DIR}/commands/secret-tutorial.zsh"
@@ -244,12 +248,14 @@ fi
 ### Path Resolution Best Practices
 
 **❌ Don't use relative paths:**
+
 ```zsh
 local file="${0:A:h}/../../commands/something.zsh"
 # Fragile - breaks if execution context changes
 ```
 
 **✅ Use plugin directory variable:**
+
 ```zsh
 local file="${FLOW_PLUGIN_DIR}/commands/something.zsh"
 # Reliable - set once during plugin load

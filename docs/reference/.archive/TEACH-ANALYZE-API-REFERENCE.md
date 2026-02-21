@@ -40,7 +40,7 @@ Build concept graph and validate prerequisites.
 
 ```bash
 teach analyze [OPTIONS] [FILE]
-```
+```bash
 
 #### Options
 
@@ -86,7 +86,7 @@ teach analyze --preview-breaks lectures/week-05-regression.qmd
 
 # Combine flags
 teach analyze --slide-breaks --quiet lectures/week-05.qmd --report report.md
-```
+```text
 
 ### teach validate --deep
 
@@ -94,7 +94,7 @@ Run Layer 6 deep validation with concept analysis.
 
 ```bash
 teach validate --deep [OPTIONS]
-```
+```bash
 
 #### Options
 
@@ -116,7 +116,7 @@ teach validate --concepts
 
 # Combined with YAML validation
 teach validate --yaml --deep
-```
+```text
 
 ### teach deploy --check-prereqs
 
@@ -124,7 +124,7 @@ Check prerequisites before deployment.
 
 ```bash
 teach deploy --check-prereqs [OPTIONS]
-```
+```diff
 
 #### Behavior
 
@@ -139,7 +139,7 @@ teach deploy --check-prereqs
 
 # Dry run
 teach deploy --check-prereqs --dry-run
-```
+```text
 
 ---
 
@@ -164,7 +164,7 @@ flowchart TD
     J -->|Yes| K[Cache Valid]
     J -->|No| L[Invalidate]
     L --> M[Cascade Invalidate]
-```
+```text
 
 ### Functions
 
@@ -174,7 +174,7 @@ Initialize cache directory structure and index.
 
 ```zsh
 _cache_init [course_dir]
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -186,7 +186,7 @@ _cache_init [course_dir]
 
 ```zsh
 _cache_init "/path/to/course"
-```
+```text
 
 ---
 
@@ -196,7 +196,7 @@ Compute SHA-256 hash of file contents.
 
 ```zsh
 _cache_get_content_hash <file_path>
-```
+```bash
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -209,7 +209,7 @@ _cache_get_content_hash <file_path>
 ```zsh
 local hash=$(_cache_get_content_hash "lectures/week-01.qmd")
 # Returns: sha256:abc123def456...
-```
+```text
 
 ---
 
@@ -219,7 +219,7 @@ Check if cache entry is valid for a file.
 
 ```zsh
 _cache_check_valid <file_path>
-```
+```bash
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -237,7 +237,7 @@ if _cache_check_valid "lectures/week-01.qmd"; then
 else
     echo "Cache miss"
 fi
-```
+```text
 
 ---
 
@@ -247,7 +247,7 @@ Read cached analysis result.
 
 ```zsh
 _cache_read <file_path>
-```
+```bash
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -264,7 +264,7 @@ local cached=$(_cache_read "lectures/week-01.qmd")
 if [[ -n "$cached" ]]; then
     echo "$cached" | jq '.concepts'
 fi
-```
+```text
 
 ---
 
@@ -274,7 +274,7 @@ Write analysis result to cache.
 
 ```zsh
 _cache_write <file_path> <data>
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -290,7 +290,7 @@ _cache_write <file_path> <data>
 ```zsh
 local analysis='{"concepts":["mean","variance"]}'
 _cache_write "lectures/week-01.qmd" "$analysis"
-```
+```text
 
 ---
 
@@ -300,7 +300,7 @@ Invalidate cache entries.
 
 ```zsh
 _cache_invalidate <pattern>
-```
+```diff
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -319,7 +319,7 @@ _cache_invalidate "lectures/week-01.qmd"
 
 # Invalidate all lectures
 _cache_invalidate "lectures/*"
-```
+```text
 
 ---
 
@@ -329,7 +329,7 @@ Invalidate entry and all dependent entries.
 
 ```zsh
 _cache_cascade_invalidate <file_path>
-```
+```bash
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -342,7 +342,7 @@ _cache_cascade_invalidate <file_path>
 ```zsh
 # Changing week 3 invalidates weeks 4+
 _cache_cascade_invalidate "lectures/week-03.qmd"
-```
+```text
 
 ---
 
@@ -352,7 +352,7 @@ Remove expired cache entries.
 
 ```zsh
 _cache_clean_expired
-```
+```bash
 
 **Returns:** Number of entries removed
 
@@ -361,7 +361,7 @@ _cache_clean_expired
 ```zsh
 local removed=$(_cache_clean_expired)
 echo "Cleaned $removed expired entries"
-```
+```text
 
 ---
 
@@ -371,7 +371,7 @@ Get cache statistics.
 
 ```zsh
 _cache_get_stats [--json]
-```
+```text
 
 | Flag | Description |
 |------|-------------|
@@ -379,13 +379,13 @@ _cache_get_stats [--json]
 
 **Output (text):**
 
-```
+```text
 Cache Statistics
   Location: .teach/analysis-cache/
   Entries: 42
   Hit Rate: 87.3%
   Size: 128 KB
-```
+```text
 
 **Output (JSON):**
 
@@ -397,7 +397,7 @@ Cache Statistics
   "hit_rate": 87.3,
   "size_kb": 128
 }
-```
+```text
 
 ---
 
@@ -407,7 +407,7 @@ Rebuild cache index from files on disk.
 
 ```zsh
 _cache_rebuild_index
-```
+```text
 
 **Use Case:** Recovery from corrupted index
 
@@ -415,7 +415,7 @@ _cache_rebuild_index
 
 ```zsh
 _cache_rebuild_index
-```
+```text
 
 ---
 
@@ -445,7 +445,7 @@ flowchart TD
     H --> K
     I --> K
     J --> K
-```
+```text
 
 ### Functions
 
@@ -455,7 +455,7 @@ Main entry point for report generation.
 
 ```zsh
 _report_generate [OPTIONS]
-```
+```text
 
 | Option | Description |
 |--------|-------------|
@@ -470,7 +470,7 @@ _report_generate [OPTIONS]
 
 ```zsh
 _report_generate --output analysis.md --format markdown
-```
+```text
 
 ---
 
@@ -480,7 +480,7 @@ Format report as markdown.
 
 ```zsh
 _report_format_markdown <concepts_json>
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -496,7 +496,7 @@ Format report as JSON.
 
 ```zsh
 _report_format_json <concepts_json>
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -512,7 +512,7 @@ Generate summary statistics.
 
 ```zsh
 _report_summary_stats <concepts_json>
-```
+```text
 
 **Returns:** Summary object with counts
 
@@ -524,7 +524,7 @@ Generate violations table.
 
 ```zsh
 _report_violations_table <violations_json>
-```
+```text
 
 **Returns:** Markdown table or JSON array
 
@@ -536,7 +536,7 @@ Generate fix recommendations.
 
 ```zsh
 _report_recommendations <violations_json>
-```
+```text
 
 **Returns:** Numbered list of recommendations
 
@@ -548,7 +548,7 @@ Save report to file.
 
 ```zsh
 _report_save <content> <file_path>
-```
+```bash
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -575,7 +575,7 @@ stateDiagram-v2
     Results --> ReviewViolations: Display summary
     ReviewViolations --> NextSteps: Review each issue
     NextSteps --> [*]: Show recommendations
-```
+```text
 
 ### Functions
 
@@ -585,7 +585,7 @@ Main entry point for interactive mode.
 
 ```zsh
 _teach_analyze_interactive [file]
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -608,20 +608,20 @@ Prompt user to select analysis scope.
 
 ```zsh
 _interactive_select_scope
-```
+```text
 
 **Returns:** `file`, `week`, or `course`
 
 **UI:**
 
-```
+```sql
 Select analysis scope:
 1) Single file
 2) Single week
 3) Full course
 
 >
-```
+```text
 
 ---
 
@@ -631,7 +631,7 @@ Prompt user to select strictness mode.
 
 ```zsh
 _interactive_select_mode
-```
+```text
 
 **Returns:** `relaxed`, `moderate`, or `strict`
 
@@ -643,17 +643,17 @@ Display analysis results with formatting.
 
 ```zsh
 _interactive_display_results <results_json>
-```
+```text
 
 **Output:**
 
-```
+```text
 Results
   Concepts found: 18
   Weeks covered: 6
   Errors: 0
   Warnings: 2
-```
+```text
 
 ---
 
@@ -663,7 +663,7 @@ Step through violations one by one.
 
 ```zsh
 _interactive_review_violations <violations_json>
-```
+```diff
 
 **Per-violation options:**
 - `y` - Apply suggested fix
@@ -679,16 +679,16 @@ Show recommended next actions.
 
 ```zsh
 _interactive_next_steps <summary>
-```
+```text
 
 **Output:**
 
-```
+```text
 Next Steps
 1. Fix 2 warnings in week 3
 2. Run teach deploy --check-prereqs
 3. Generate report with teach analyze --report
-```
+```text
 
 ---
 
@@ -707,7 +707,7 @@ flowchart TD
     E --> F[Layer 5: Images]
     F --> G[Layer 6: Concepts]
     G --> H[Report Results]
-```
+```text
 
 ### Functions
 
@@ -717,7 +717,7 @@ Run Layer 6 deep validation.
 
 ```zsh
 _teach_validate_deep [OPTIONS]
-```
+```text
 
 **Behavior:**
 1. Run standard validation (Layers 1-5)
@@ -736,7 +736,7 @@ Check prerequisites before deployment.
 
 ```zsh
 _check_prerequisites_for_deploy
-```
+```diff
 
 **Returns:**
 - `0` - OK to deploy (no errors, warnings allowed)
@@ -749,7 +749,7 @@ if ! _check_prerequisites_for_deploy; then
     echo "Deploy blocked: fix prerequisites first"
     exit 1
 fi
-```
+```text
 
 ---
 
@@ -765,7 +765,7 @@ Run Claude-powered pedagogical analysis on lecture content.
 
 ```zsh
 _ai_analyze_content <file_path> [quiet]
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -784,7 +784,7 @@ Format AI analysis results for display.
 
 ```zsh
 _ai_format_results <analysis_json>
-```
+```text
 
 **Returns:** Formatted text output
 
@@ -796,7 +796,7 @@ Record cost of an AI analysis invocation.
 
 ```zsh
 _ai_track_cost <amount>
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -810,7 +810,7 @@ Get cumulative AI usage cost summary.
 
 ```zsh
 _ai_get_cost_summary
-```
+```text
 
 **Returns:** Formatted cost summary to stdout
 
@@ -842,7 +842,7 @@ flowchart TD
     H --> H1[Concept graph]
     H --> H2[Definition patterns]
     H --> H3[Emphasis patterns]
-```
+```text
 
 ### Constants
 
@@ -864,7 +864,7 @@ Parse lecture file into structured section data.
 
 ```zsh
 _slide_analyze_structure <file_path>
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -886,7 +886,7 @@ _slide_analyze_structure <file_path>
     }
   ]
 }
-```
+```text
 
 ---
 
@@ -896,7 +896,7 @@ Apply heuristic rules to suggest where slides need breaks.
 
 ```zsh
 _slide_suggest_breaks <structure_json> <concept_graph_json>
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -910,7 +910,7 @@ _slide_suggest_breaks <structure_json> <concept_graph_json>
   {"section": "Regression", "priority": "high", "reason": "Word density (312 words)"},
   {"section": "Diagnostics", "priority": "medium", "reason": "Multiple code chunks (4)"}
 ]
-```
+```bash
 
 **Rules applied:**
 
@@ -929,7 +929,7 @@ Find concepts worth highlighting as callout boxes on slides.
 
 ```zsh
 _slide_identify_key_concepts <file_path> <concept_graph_json>
-```
+```text
 
 **Returns:** JSON array of key concepts with source:
 
@@ -939,7 +939,7 @@ _slide_identify_key_concepts <file_path> <concept_graph_json>
   {"concept": "residuals", "source": "concept_graph"},
   {"concept": "r-squared", "source": "emphasis"}
 ]
-```
+```text
 
 **Detection strategies:**
 1. **concept_graph** - Concepts from `.teach/concepts.json` appearing in file
@@ -954,15 +954,15 @@ Estimate presentation time from content analysis.
 
 ```zsh
 _slide_estimate_time <structure_json>
-```
+```text
 
 **Returns:** Estimated minutes (integer)
 
 **Formula:**
 
-```
+```text
 time = (total_words ÷ 150) × 2 + (code_blocks × 3) + (examples × 2)
-```
+```text
 
 ---
 
@@ -972,7 +972,7 @@ Full optimization pipeline combining all analyses.
 
 ```zsh
 _slide_optimize <file_path> <concept_graph_json> [quiet]
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -989,7 +989,7 @@ _slide_optimize <file_path> <concept_graph_json> [quiet]
   "key_concepts": [...],
   "estimated_minutes": 28
 }
-```
+```text
 
 ---
 
@@ -999,7 +999,7 @@ Display formatted preview of break suggestions.
 
 ```zsh
 _slide_preview_breaks <optimization_json>
-```
+```text
 
 **Output:** Formatted table with section, priority, and reason columns
 
@@ -1011,7 +1011,7 @@ Apply break suggestions to generate optimized slide content.
 
 ```zsh
 _slide_apply_breaks <file_path> <breaks_json>
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -1032,7 +1032,7 @@ Entry point for `teach slides --optimize` with auto-analyze integration.
 
 ```zsh
 _teach_slides_optimized <lecture_file> [output_dir] [preview_breaks] [apply_suggestions] [key_concepts]
-```
+```text
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -1066,7 +1066,7 @@ flowchart TD
     E --> F[Load generated graph]
     F --> C
     C --> G[Run _slide_optimize]
-```
+```bash
 
 **Examples:**
 
@@ -1085,19 +1085,19 @@ teach slides --optimize --apply-suggestions lectures/week-05.qmd
 
 # Full: generate with callouts applied
 teach slides --optimize --key-concepts --apply-suggestions lectures/week-05.qmd
-```
+```text
 
 **Output (default mode):**
 
-```
+```text
 📐 Optimizing: lectures/week-05-regression.qmd
   ✅ Generated: slides/week-05-regression_slides.qmd
   💡 3 optimization suggestions available (use --apply-suggestions)
-```
+```text
 
 **Output (--key-concepts mode):**
 
-```
+```text
   🔑 Key Concepts for Callout Boxes:
   ─────────────────────────────────────
   • regression-coefficient (concept_graph)
@@ -1108,7 +1108,7 @@ teach slides --optimize --key-concepts --apply-suggestions lectures/week-05.qmd
   ⏱️  Estimated presentation time: 28 min
 
   To generate slides: teach slides --optimize --apply-suggestions lectures/week-05.qmd
-```
+```text
 
 ---
 
@@ -1122,7 +1122,7 @@ Display prerequisite dependency tree for concepts introduced in the analyzed fil
 
 ```zsh
 _display_prerequisites_section <results_file> <analyzed_file>
-```
+```text
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -1149,7 +1149,7 @@ _display_prerequisites_section <results_file> <analyzed_file>
 
 **Output Format:**
 
-```
+```text
 🔗 PREREQUISITES
 
 For concepts introduced in Week 3:
@@ -1163,7 +1163,7 @@ Linear Regression
 Residuals
   ✓ Linear Regression (Week 3)
   ✓ Variance (Week 1)
-```
+```diff
 
 **Design Features:**
 
@@ -1188,7 +1188,7 @@ Residuals
 local results_file="/tmp/concepts-graph-12345.json"
 local analyzed_file="lectures/week-03-regression.qmd"
 _display_prerequisites_section "$results_file" "$analyzed_file"
-```
+```yaml
 
 **Performance:** Typical execution < 100ms for files with 10-15 concepts
 

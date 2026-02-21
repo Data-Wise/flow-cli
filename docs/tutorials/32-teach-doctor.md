@@ -25,10 +25,11 @@ The default `teach doctor` runs a **quick check** targeting < 3 seconds:
 
 ```bash
 teach doctor
-```
+```text
 
 **Output:**
-```
+
+```yaml
 ╭────────────────────────────────────────────────────────────╮
 │  Teaching Environment (quick check)                        │
 ╰────────────────────────────────────────────────────────────╯
@@ -62,7 +63,7 @@ Git Setup:
 ────────────────────────────────────────────────────────────
 Passed: 17  [0s]
 ────────────────────────────────────────────────────────────
-```
+```text
 
 **Quick mode checks 4 categories:**
 
@@ -81,7 +82,7 @@ Add `--full` to run all 11 check categories:
 
 ```bash
 teach doctor --full
-```
+```text
 
 This adds 7 more categories with a spinner for slower checks:
 
@@ -114,13 +115,13 @@ Each check returns one of three statuses:
 
 The summary footer shows totals:
 
-```
+```text
 ────────────────────────────────────────────────────────────
 Warnings: 3 | Passed: 28  [5s]
 
   Run teach doctor --fix to auto-fix issues
 ────────────────────────────────────────────────────────────
-```
+```text
 
 ---
 
@@ -130,11 +131,11 @@ Use `--fix` to interactively resolve issues:
 
 ```bash
 teach doctor --fix
-```
+```text
 
 This implies `--full` and prompts for each fixable issue:
 
-```
+```text
 Dependencies:
   ✗ examark (not found)
     Install examark? [y/N]: y
@@ -145,7 +146,7 @@ R Packages:
   ⚠ 3/5 R packages installed | Missing: tidyr, knitr
     Install via renv or system? [r/s]: r
     → renv::install(c("tidyr", "knitr"))
-```
+```diff
 
 **What `--fix` can resolve:**
 
@@ -164,9 +165,9 @@ Show only warnings and failures:
 
 ```bash
 teach doctor --brief
-```
+```text
 
-```
+```text
   ⚠ Config validation failed
     → Fix with: teach validate
   ⚠ Hook not installed: prepare-commit-msg
@@ -174,7 +175,7 @@ teach doctor --brief
 ────────────────────────────────────────────────────────────
 Warnings: 2  [0s]
 ────────────────────────────────────────────────────────────
-```
+```text
 
 ### Verbose Mode
 
@@ -182,7 +183,7 @@ Show expanded detail for every check (implies `--full`):
 
 ```bash
 teach doctor --verbose
-```
+```diff
 
 Verbose adds:
 
@@ -196,7 +197,7 @@ Machine-readable output for scripting:
 
 ```bash
 teach doctor --json --full | jq '.summary'
-```
+```text
 
 ```json
 {
@@ -205,7 +206,7 @@ teach doctor --json --full | jq '.summary'
   "failures": 0,
   "status": "yellow"
 }
-```
+```text
 
 ### CI Mode
 
@@ -213,16 +214,16 @@ No colors, machine-readable key=value, exits with code 1 on failure:
 
 ```bash
 teach doctor --ci --full
-```
+```text
 
-```
+```text
 doctor:status=pass
 doctor:passed=28
 doctor:warnings=3
 doctor:failures=0
 doctor:mode=full
 doctor:elapsed=5s
-```
+```diff
 
 ---
 
@@ -246,7 +247,7 @@ Run `teach doctor` to refresh the dot.
 
 ```bash
 teach doctor --brief
-```
+```bash
 
 ### Pre-Deploy Full Audit
 
@@ -255,7 +256,7 @@ teach doctor --full
 # Fix any issues before deploying
 teach doctor --fix
 teach deploy --direct
-```
+```bash
 
 ### CI/CD Pipeline
 
@@ -263,7 +264,7 @@ teach deploy --direct
 # GitHub Actions example
 - name: Health check
   run: teach doctor --ci --full || exit 1
-```
+```bash
 
 Or with JSON parsing:
 
@@ -273,14 +274,14 @@ if [ "$status" = "red" ]; then
   echo "Health check failed"
   exit 1
 fi
-```
+```text
 
 ### First-Time Setup
 
 ```bash
 teach init
 teach doctor --fix
-```
+```bash
 
 ### Debugging Issues
 

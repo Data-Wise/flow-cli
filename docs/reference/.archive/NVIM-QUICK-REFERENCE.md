@@ -8,10 +8,10 @@
 
 ## 🆘 Panic Mode - Emergency Exit
 
-```
+```text
 ESC → :q! → ENTER      ❌ Quit without saving (use when stuck!)
 ESC → :wq → ENTER      ✅ Save and quit (normal exit)
-```
+```diff
 
 **Remember:** `ESC` gets you back to normal mode from anywhere. Then type commands starting with `:`.
 
@@ -382,25 +382,25 @@ ESC → :wq → ENTER      ✅ Save and quit (normal exit)
 
 ### Edit Flow Config
 
-```
+```text
 mcp edit statistical-research → nvim opens config → i → edit → ESC → :wq
-```
+```text
 
 ### Find and Fix Code
 
-```
+```text
 <leader>fg "function_name" → Ctrl-j to select → <CR> → edit → <leader>ca for fixes
-```
+```text
 
 ### Multi-file Development
 
-```
+```text
 <leader>e (Neo-tree) → <leader>| (split) → Ctrl-l → <leader>ff (find file) → <leader>- (split) → <leader>fT (terminal)
-```
+```text
 
 ### Git Workflow
 
-```
+```text
 Make edits → :w → <leader>gp (preview hunk) → <leader>gs (stage) → <leader>gg (LazyGit) → commit & push
 ```
 

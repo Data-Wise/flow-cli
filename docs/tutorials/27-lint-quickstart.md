@@ -33,9 +33,11 @@ title: "Lint Test"
 
 Here's some code:
 
-```
+```text
+
 x <- 1 + 1
-```
+
+```text
 
 ::: {.callout-info}
 This is an invalid callout type.
@@ -48,7 +50,7 @@ This callout is never closed.
 
 Content here.
 EOF
-```
+```text
 
 ---
 
@@ -56,11 +58,11 @@ EOF
 
 ```bash
 teach validate --lint /tmp/test-lint.qmd
-```
+```text
 
 **Expected Output:**
 
-```
+```text
 → lint-shared (v1.0.0)
   /tmp/test-lint.qmd:
     ✗ Line 11: LINT_CODE_LANG_TAG: Fenced code block without language tag
@@ -75,7 +77,7 @@ teach validate --lint /tmp/test-lint.qmd
   Files checked: 1
   Validators run: 1
   Time: 0s
-```
+```diff
 
 **What happened?**
 - Detected **4 different error types**
@@ -89,18 +91,23 @@ teach validate --lint /tmp/test-lint.qmd
 ### Fix 1: Add Language Tag
 
 **Before:**
+
 ```markdown
-```
+```text
+
 x <- 1 + 1
-```
-```
+
+```text
+```text
 
 **After:**
+
 ```markdown
 ```{r}
 x <- 1 + 1
-```
-```
+```text
+
+```text
 
 ---
 
@@ -111,55 +118,60 @@ x <- 1 + 1
 ::: {.callout-info}
 This is an invalid callout type.
 :::
-```
+```text
 
 **After:**
+
 ```markdown
 ::: {.callout-note}
 This is now a valid callout type.
 :::
-```
+```text
 
 ---
 
 ### Fix 3: Close the Div
 
 **Before:**
+
 ```markdown
 ::: {.callout-note}
 This callout is never closed.
 
 ## Another Section
-```
+```text
 
 **After:**
+
 ```markdown
 ::: {.callout-note}
 This callout is now properly closed.
 :::
 
 ## Another Section
-```
+```bash
 
 ---
 
 ### Fix 4: Fix Heading Hierarchy
 
 **Before:**
+
 ```markdown
 # Main Section
 
 ### Skipped heading level
-```
+```bash
 
 **After:**
+
 ```markdown
 # Main Section
 
 ## Proper heading level
 
 ### Now this is correct
-```
+```text
 
 ---
 
@@ -169,11 +181,11 @@ Run lint again after fixing:
 
 ```bash
 teach validate --lint /tmp/test-lint.qmd
-```
+```text
 
 **Expected Output:**
 
-```
+```text
 → lint-shared (v1.0.0)
   ✓ All files passed
 
@@ -182,7 +194,7 @@ teach validate --lint /tmp/test-lint.qmd
   Files checked: 1
   Validators run: 1
   Time: 0s
-```
+```bash
 
 **Success!** ✅ All issues resolved.
 
@@ -201,7 +213,7 @@ teach validate --lint slides/*.qmd
 
 # All .qmd files (auto-discover)
 cd slides && teach validate --lint
-```
+```bash
 
 ---
 
@@ -215,7 +227,7 @@ vim slides/week-02.qmd          # Edit file
 teach validate --lint slides/week-02.qmd   # Check for issues
 git add slides/week-02.qmd      # Stage if clean
 git commit -m "Update slides"   # Commit
-```
+```bash
 
 ---
 
@@ -227,7 +239,7 @@ teach validate --lint slides/*.qmd
 
 # Save output to review later
 teach validate --lint slides/*.qmd > lint-report.txt 2>&1
-```
+```text
 
 ---
 
@@ -237,7 +249,7 @@ For faster checking (Phase 1 rules only):
 
 ```bash
 teach validate --quick-checks slides/*.qmd
-```
+```text
 
 ---
 
@@ -251,8 +263,9 @@ teach validate --quick-checks slides/*.qmd
 ```bash         # Shell commands
 ```text         # Plain text / output
 ```sql          # SQL queries
-```
-```
+```text
+
+```text
 
 ### Valid Callout Types
 
@@ -262,7 +275,7 @@ teach validate --quick-checks slides/*.qmd
 ::: {.callout-important}   # Yellow - key points
 ::: {.callout-warning}     # Orange - caution
 ::: {.callout-caution}     # Red - danger
-```
+```text
 
 ### Heading Hierarchy Rules
 
@@ -272,7 +285,7 @@ teach validate --quick-checks slides/*.qmd
 ✅ ### → # (reset is OK)
 ❌ # → ### (skip is NOT OK)
 ❌ ## → #### (skip is NOT OK)
-```
+```yaml
 
 ---
 
@@ -297,22 +310,25 @@ teach validate --quick-checks slides/*.qmd
 **Q: Lint doesn't find any issues**
 
 A: Make sure you're using `--lint` flag:
+
 ```bash
 teach validate --lint file.qmd  # Correct
 teach validate file.qmd          # Wrong (uses default validation)
-```
+```bash
 
 **Q: "Validator not found" error**
 
 A: Copy validator to your project:
+
 ```bash
 mkdir -p .teach/validators
 # Copy from your flow-cli installation
-```
+```yaml
 
 **Q: Too slow on large projects**
 
 A: Use `--quick-checks` for faster validation:
+
 ```bash
 teach validate --quick-checks *.qmd
 ```

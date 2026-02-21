@@ -13,7 +13,7 @@ g                     # Quick status (short)
 g add .               # Stage all changes
 g commit "message"    # Commit with message
 g push                # Push to remote
-```
+```text
 
 ---
 
@@ -21,7 +21,7 @@ g push                # Push to remote
 
 ```bash
 g [command] [args]
-```
+```diff
 
 ### Key Insight
 
@@ -52,7 +52,7 @@ g d                # See unstaged changes
 g ds               # See staged changes
 g l                # Recent commits
 g la               # All branches
-```
+```text
 
 ---
 
@@ -74,7 +74,7 @@ g aa                    # Add all changes
 g commit "fix: bug"     # Commit with message
 g amend                 # Amend without editing message
 g amendm "new message"  # Amend with new message
-```
+```text
 
 ---
 
@@ -98,7 +98,7 @@ g ba                    # List all branches
 g co feature/auth       # Checkout existing branch
 g cob feature/new       # Create and checkout new branch
 g main                  # Go back to main
-```
+```bash
 
 ---
 
@@ -126,7 +126,7 @@ g push   # On main → BLOCKED
 
 # Override (use sparingly):
 GIT_WORKFLOW_SKIP=1 git push
-```
+```text
 
 ---
 
@@ -146,7 +146,7 @@ g st                    # Quick stash
 g stash push -m "WIP"   # Stash with message
 g stl                   # List stashes
 g pop                   # Apply and remove top stash
-```
+```text
 
 ---
 
@@ -167,7 +167,7 @@ g undo                  # Undo last commit (keep changes)
 g unstage src/main.ts   # Unstage specific file
 g discard src/main.ts   # Discard changes to file
 g clean                 # Remove untracked files
-```
+```text
 
 ---
 
@@ -187,7 +187,7 @@ g rb dev                # Rebase onto dev
 g rbc                   # Continue after resolving conflicts
 g rba                   # Abort rebase
 g mg feature/auth       # Merge feature/auth
-```
+```text
 
 ---
 
@@ -195,11 +195,11 @@ g mg feature/auth       # Merge feature/auth
 
 The feature workflow enforces a clean branching pattern:
 
-```
+```text
 feature/* ──► dev ──► main
 hotfix/*  ────┴───────┘
 bugfix/*  ────┘
-```
+```bash
 
 ### Feature Commands
 
@@ -234,7 +234,7 @@ g feature finish
 # 5. After PR merged, cleanup
 g feature prune
 # → Deletes merged branches
-```
+```bash
 
 ### Promotion Commands
 
@@ -249,7 +249,7 @@ g promote    # Creates PR to dev
 
 # On dev branch
 g release    # Creates PR to main
-```
+```text
 
 ---
 
@@ -263,7 +263,7 @@ g feature prune --force      # Skip confirmation
 g feature prune --all        # Also delete remote branches
 g feature prune --dry-run    # Preview only
 g feature prune --older-than 30d  # Only branches >30 days old
-```
+```diff
 
 ### Options
 
@@ -295,11 +295,11 @@ Show which branches are merged and which are active:
 
 ```bash
 g feature status
-```
+```text
 
 **Sample output:**
 
-```
+```text
 📊 Feature Branch Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -314,7 +314,7 @@ g feature status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Summary: 2 stale, 2 active
 💡 Tip: Run g feature prune to clean up merged branches
-```
+```text
 
 ---
 
@@ -327,7 +327,7 @@ g remote -v        # → git remote -v
 g cherry-pick abc  # → git cherry-pick abc
 g reflog           # → git reflog
 g tag v1.0.0       # → git tag v1.0.0
-```
+```bash
 
 ---
 
@@ -351,7 +351,7 @@ g feature sync
 
 # Complete
 g feature finish
-```
+```text
 
 ### Quick Fix
 
@@ -360,7 +360,7 @@ g                       # Check status
 g aa                    # Stage all
 g commit "fix: typo"    # Commit
 g push                  # Push
-```
+```text
 
 ### Undo Mistakes
 
@@ -368,7 +368,7 @@ g push                  # Push
 g undo                  # Undo last commit
 g unstage file.ts       # Unstage file
 g discard file.ts       # Discard changes
-```
+```text
 
 ### Cleanup
 
@@ -376,7 +376,7 @@ g discard file.ts       # Discard changes
 g feature status        # See what needs cleaning
 g feature prune -n      # Preview cleanup
 g feature prune         # Do cleanup
-```
+```bash
 
 ---
 
@@ -390,7 +390,7 @@ Use worktrees for parallel feature development:
 wt create feature/auth   # Create worktree
 cd ~/.git-worktrees/project/feature-auth
 g feature sync           # Keep in sync
-```
+```text
 
 ### With CC Dispatcher
 
@@ -399,7 +399,7 @@ Launch Claude in a feature branch:
 ```bash
 g feature start auth
 cc                       # Launch Claude in feature
-```
+```bash
 
 ---
 
@@ -416,7 +416,7 @@ g release                # Create PR to main (from dev)
 
 # Or override (not recommended):
 GIT_WORKFLOW_SKIP=1 git push
-```
+```text
 
 ### "Not on a feature branch"
 
@@ -425,7 +425,7 @@ Some commands require being on a feature branch:
 ```bash
 g feature start myfeature   # Create one first
 g feature sync              # Then sync
-```
+```bash
 
 ### "Uncommitted changes"
 

@@ -8,7 +8,7 @@
 
 **"Which template should I use?"**
 
-```
+```text
 What are you documenting?
 │
 ├─ Getting someone running in < 5 minutes?
@@ -31,7 +31,7 @@ What are you documenting?
 │
 └─ Creating visual demonstration?
    └─ Use: GIF-GUIDELINES.md
-```
+```yaml
 
 ---
 
@@ -334,11 +334,11 @@ All templates follow these principles:
 
 **Format:** `XX-feature-name.md`
 
-```
+```text
 01-first-session.md
 02-multiple-projects.md
 10-cc-dispatcher.md
-```
+```diff
 
 **Numbering:**
 - 01-09: Core workflow (beginner)
@@ -349,27 +349,27 @@ All templates follow these principles:
 
 **Format:** `task-workflow.md`
 
-```
+```text
 git-feature-workflow.md
 r-package-workflow.md
 worktree-workflow.md
-```
+```text
 
 ### Reference Cards
 
 **Format:** `COMPONENT-REFERENCE.md` or `COMPONENT-QUICK-REFERENCE.md`
 
-```
+```text
 COMMAND-QUICK-REFERENCE.md
 CC-DISPATCHER-REFERENCE.md
 WORKFLOW-QUICK-REFERENCE.md
-```
+```text
 
 ### GIFs
 
 **Format:** `<feature>-<action>-<variant>.gif`
 
-```
+```text
 pick-basic-usage.gif
 cc-dispatcher-opus-mode.gif
 dash-interactive-tui.gif

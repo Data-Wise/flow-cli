@@ -11,6 +11,7 @@ Implemented preview and auto-suggestion functions for `dot add` command in `lib/
 **Purpose:** Show file analysis and warnings before adding files to chezmoi
 
 **Features:**
+
 - ✅ File count calculation (single file or directory)
 - ✅ Total size calculation using Wave 1 helpers
 - ✅ Large file detection (>50KB = 51200 bytes)
@@ -20,7 +21,8 @@ Implemented preview and auto-suggestion functions for `dot add` command in `lib/
 - ✅ Auto-ignore suggestion workflow
 
 **Display Format:**
-```
+
+````yaml
 Preview: dot add /Users/dt/.config/obs
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files to add: 8
@@ -41,7 +43,7 @@ Total size: 301K
 💡 Consider excluding: *.log, *.sqlite, *.db, *.cache
 
 Auto-add ignore patterns? (Y/n):
-```
+```diff
 
 **Exit Codes:**
 - 0: User confirmed, proceed with add
@@ -59,17 +61,19 @@ Auto-add ignore patterns? (Y/n):
 - ✅ Success/info messages for each operation
 
 **Usage:**
+
 ```zsh
 _dot_suggest_ignore_patterns "*.log" "*.sqlite" "*.db"
-```
+```text
 
 **Output:**
-```
+
+```text
 ℹ Created .chezmoiignore
 ✓ Added *.log to .chezmoiignore
 ✓ Added *.sqlite to .chezmoiignore
 ✓ Added *.db to .chezmoiignore
-```
+```diff
 
 **Exit Codes:**
 - 0: Patterns added successfully (or already present)
@@ -110,7 +114,7 @@ Uses the following Wave 1 helper functions from `lib/core.zsh`:
 
 ### File Analysis Accuracy
 
-```
+```yaml
 Test Directory: 8 files
   - config.yml (18 bytes) - normal
   - large-config.json (100K) - large
@@ -122,7 +126,7 @@ Test Directory: 8 files
   - script.sh (15 bytes) - normal
 
 Total: 301K (calculated correctly)
-```
+```diff
 
 ### Detection Categories
 
@@ -146,13 +150,14 @@ Total: 301K (calculated correctly)
 ✅ Preserves existing content
 
 **Example .chezmoiignore:**
-```
+
+```text
 *.log
 *.sqlite
 *.cache
 *.db
 *.tmp
-```
+````
 
 ## Success Criteria
 
@@ -170,17 +175,20 @@ All success criteria from spec met:
 ## Code Quality
 
 **Function Documentation:**
+
 - Full docstrings with purpose, arguments, returns, examples, notes
 - Follows flow-cli conventions (lib/core.zsh style)
 - Consistent with existing dotfile-helpers.zsh structure
 
 **Error Handling:**
+
 - Target existence validation
 - Empty pattern array check
 - Duplicate pattern detection
 - File system error handling (2>/dev/null)
 
 **Performance:**
+
 - Efficient directory traversal (find with type f)
 - Single pass file analysis (count + size + categorization)
 - Cached size calculations using Wave 1 helpers
@@ -190,11 +198,13 @@ All success criteria from spec met:
 This completes Wave 2 (Phase 1) of the dot chezmoi safety enhancement spec.
 
 **Remaining Waves:**
+
 - Wave 3: Integration into `_dot_add()` command
 - Wave 4: End-to-end testing with real dotfiles
 - Wave 5: Documentation updates
 
 **Files Ready for Review:**
+
 - lib/dotfile-helpers.zsh (lines 1496-1804)
 - test-preview-non-interactive.zsh (validation script)
 

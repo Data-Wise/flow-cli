@@ -19,7 +19,7 @@ work course-name
 
 # 3. Deploy
 ./scripts/quick-deploy.sh
-```
+```diff
 
 **Result:** Typo to live in < 2 minutes
 
@@ -56,14 +56,14 @@ Shortcuts are **loaded automatically** when you run `work <course>`:
 shortcuts:
   s545: "work stat-545"
   s545d: "./scripts/quick-deploy.sh"
-```
+```text
 
 **Usage:**
 
 ```bash
 work stat-545   # Loads shortcuts
 s545d           # Deploy (shortcut active!)
-```
+```yaml
 
 ---
 
@@ -78,7 +78,7 @@ course:
 branches:
   draft: "draft"                      # Edit here
   production: "production"            # Students see this
-```
+```yaml
 
 ### Optional Fields
 
@@ -110,13 +110,13 @@ automation:
 shortcuts:
   s545: "work stat-545"               # Custom shortcuts
   s545d: "./scripts/quick-deploy.sh"
-```
+```text
 
 ---
 
 ## 📁 File Structure
 
-```
+```bash
 my-course/
 ├── .flow/
 │   └── teach-config.yml           # Course configuration
@@ -129,19 +129,19 @@ my-course/
 │   └── deploy.yml                 # GitHub Actions
 │
 └── [course content]
-```
+```text
 
 ---
 
 ## 🌿 Branch Workflow
 
-```
+```text
 draft          →  Edit, commit, test
    ↓
 production     →  Students see (deployed via GitHub Pages)
    ↓
 Live Website   →  Auto-deployed by GitHub Actions
-```
+```bash
 
 **Rule:** Always edit on `draft` branch!
 
@@ -166,7 +166,7 @@ git commit -m "Fix typo"
 s545d
 
 # Total time: < 2 min
-```
+```yaml
 
 ---
 
@@ -190,7 +190,7 @@ $ work stat-545
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Continue on production anyway? [y/N]
-```
+```bash
 
 **Best Practice:** Say `n` to auto-switch to `draft`
 
@@ -205,7 +205,7 @@ work stat-545      # Auto-checks branch
 # Edit file
 git add file.qmd && git commit -m "Fix typo"
 s545d              # Deploy
-```
+```diff
 
 **Time:** < 2 minutes
 
@@ -224,7 +224,7 @@ EOF
 git add lectures/week05.qmd
 git commit -m "Add week 5 lecture"
 s545d
-```
+```bash
 
 ---
 
@@ -240,7 +240,7 @@ $EDITOR .flow/teach-config.yml
 git add .flow/teach-config.yml
 git commit -m "Update for Fall 2026"
 ./scripts/quick-deploy.sh
-```
+```bash
 
 ---
 
@@ -266,7 +266,7 @@ $EDITOR exams/midterm1.md
 
 # Upload to Canvas:
 # Quizzes → Import → QTI 1.2 format → exams/midterm1.zip
-```
+```diff
 
 ---
 
@@ -286,7 +286,7 @@ $EDITOR exams/midterm1.md
 ✅ Deployed to production in 47s
 🌐 Site: https://example.com/course
 ⏳ GitHub Actions deploying (usually < 2 min)
-```
+```text
 
 **Error:**
 
@@ -294,7 +294,7 @@ $EDITOR exams/midterm1.md
 ❌ Must be on draft branch
 Current branch: production
 Run: git checkout draft
-```
+```yaml
 
 ---
 
@@ -311,7 +311,7 @@ Tag: spring-2026-final
 Create archive tag? [Y/n] y
 
 ✅ Archived: spring-2026-final
-```
+```diff
 
 **Next Steps (Displayed):**
 1. Update `.flow/teach-config.yml` for next semester
@@ -350,7 +350,7 @@ gh run list --limit 5
 
 # Or visit
 https://github.com/<user>/<repo>/actions
-```
+```bash
 
 ---
 
@@ -386,7 +386,7 @@ work stat-545
 #   Recent Changes:
 #     Add week 8 lecture notes
 #     Update assignment rubric
-```
+```yaml
 
 ---
 

@@ -26,7 +26,7 @@ _dot_check_git_in_path() {
     # Returns: space-separated list of .git directories found
     # Exit code: 0 if found, 1 if none
 }
-```
+```diff
 
 ---
 
@@ -60,19 +60,21 @@ _dot_check_git_in_path() {
 - Default: Yes (just press Enter)
 
 **User declined to follow:**
+
 ```zsh
 # Only checks the symlink target for .git
 local real_target=$(readlink "$target")
 [[ -d "${real_target}/.git" ]] && git_dirs+=("${real_target}/.git")
-```
+```bash
 
 **User follows symlink:**
+
 ```zsh
 # Resolves and scans the real directory
 resolved=$(readlink -f "$target" 2>/dev/null || realpath "$target" 2>/dev/null)
 target="$resolved"
 # Continue with full scan
-```
+```bash
 
 ### 2. Fast Path: Git Repositories
 
@@ -86,7 +88,7 @@ if [[ -d "$target/.git" ]] && command -v git &>/dev/null; then
     # Extract submodule paths
     git -C "$target" submodule foreach --quiet 'echo $sm_path' 2>/dev/null
 fi
-```
+```diff
 
 **Benefits:**
 - 10-50x faster than `find` on large repos
@@ -106,24 +108,26 @@ fi
 
 # Find with 2-second timeout
 _flow_timeout 2 find "$target" -name ".git" -type d -maxdepth 5 2>/dev/null
-```
+```zsh
 
 **Timeout Handling:**
+
 ```zsh
 # Check exit code (124 = timeout)
 if (( find_exit == 124 )); then
     _flow_log_warning "Git directory scan timed out after 2 seconds"
     _flow_log_info "Large directories may have .git subdirectories not detected"
 fi
-```
+```bash
 
 ### 4. Cross-Platform Compatibility
 
 **Symlink Resolution:**
+
 ```zsh
 # Try readlink -f (GNU), fallback to realpath (BSD)
 resolved=$(readlink -f "$target" 2>/dev/null || realpath "$target" 2>/dev/null)
-```
+```diff
 
 **Timeout Command:**
 - Uses `_flow_timeout()` from `lib/core.zsh`
@@ -131,28 +135,33 @@ resolved=$(readlink -f "$target" 2>/dev/null || realpath "$target" 2>/dev/null)
 - Returns exit code 124 on timeout (GNU convention)
 
 **Portable Count Sanitization:**
+
 ```zsh
 count=$(command | wc -l | tr -d ' ')  # Remove all spaces
 count="${count##*( )}"                 # Strip leading spaces (ZSH)
 count="${count%%*( )}"                 # Strip trailing spaces (ZSH)
 [[ "$count" =~ ^[0-9]+$ ]] || count=0  # Validate numeric
-```
+```text
 
 ---
 
 ## Output Format
 
 **Success (found .git):**
-```
+
+```text
 /path/to/target/.git /path/to/target/subdir/.git
-```
+```diff
+
 - Space-separated paths
 - Exit code: 0
 
 **No .git found:**
-```
+
+```text
 (empty string)
-```
+```diff
+
 - Exit code: 1
 
 ---
@@ -172,7 +181,7 @@ if git_dirs=$(_dot_check_git_in_path "$target"); then
     echo
     [[ $REPLY =~ ^[Yy]$ ]] || return 1
 fi
-```
+```bash
 
 ### Example 2: Automatic exclusion
 
@@ -184,7 +193,7 @@ if _dot_check_git_in_path "$target" >/dev/null; then
     echo ".git" >> ~/.local/share/chezmoi/.chezmoiignore
     _flow_log_success "Added .git to ignore patterns"
 fi
-```
+```zsh
 
 ### Example 3: Performance-aware scan
 
@@ -197,7 +206,7 @@ if (( dir_size > 100000 )); then  # > 100MB
 fi
 
 result=$(_dot_check_git_in_path "$target")
-```
+```yaml
 
 ---
 
@@ -238,22 +247,24 @@ _dot_check_git_in_path "/tmp/test-link"
 # Test 4: Performance
 time _dot_check_git_in_path "/large/directory"
 # Should complete in < 2s or timeout gracefully
-```
+```bash
 
 ---
 
 ## Edge Cases Handled
 
 ### 1. Missing git Command
+
 ```zsh
 if [[ -d "$target/.git" ]] && command -v git &>/dev/null; then
     # Use git commands (fast path)
 else
     # Fallback to find (slow path)
 fi
-```
+```bash
 
 ### 2. Symlink Loop Protection
+
 ```zsh
 # readlink -f and realpath both detect loops
 resolved=$(readlink -f "$target" 2>/dev/null || realpath "$target" 2>/dev/null)
@@ -261,28 +272,31 @@ if [[ -z "$resolved" ]]; then
     _flow_log_error "Failed to resolve symlink"
     return 1
 fi
-```
+```bash
 
 ### 3. Permission Denied
+
 ```zsh
 # find stderr redirected to /dev/null
 find "$target" -name ".git" -type d -maxdepth 5 2>/dev/null
-```
+```bash
 
 ### 4. Very Deep Nesting
+
 ```zsh
 # Limit to maxdepth 5 to prevent excessive recursion
 find "$target" -name ".git" -type d -maxdepth 5
-```
+```zsh
 
 ### 5. Timeout Recovery
+
 ```zsh
 if (( find_exit == 124 )); then
     # Warn user but don't fail completely
     _flow_log_warning "Git directory scan timed out after 2 seconds"
     # Return partial results already collected
 fi
-```
+```bash
 
 ---
 
@@ -323,16 +337,19 @@ _dot_add() {
 ## Known Limitations
 
 ### 1. Timeout Not Available
+
 - Fallback: runs without timeout
 - Impact: may be slow on large directories
 - Mitigation: warns user if > 1000 files detected
 
 ### 2. Shallow Scan (maxdepth 5)
+
 - Rationale: prevent excessive recursion
 - Impact: misses .git directories deeper than 5 levels
 - Acceptance: reasonable trade-off for performance
 
 ### 3. Submodule .git Files
+
 - Git submodules may use `.git` files (not directories)
 - Current implementation only detects `.git` directories
 - Future: add check for `.git` files pointing to worktrees
@@ -358,10 +375,12 @@ _dot_add() {
 ## Future Enhancements
 
 ### Phase 2 (Current Wave)
+
 - [ ] Integrate into `dot add` command
 - [ ] Add to `flow doctor` chezmoi health check
 
 ### Phase 3 (Future)
+
 - [ ] Detect `.git` files (submodule worktrees)
 - [ ] Cache results for repeated checks
 - [ ] Parallel scanning for very large directories

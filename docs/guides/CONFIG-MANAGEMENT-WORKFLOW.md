@@ -29,11 +29,11 @@ flow config show
 # Filter by keyword
 flow config show timer
 flow config show adhd
-```
+```text
 
 **Output example:**
 
-```
+```text
 ╔════════════════════════════════════════════╗
 ║ FLOW-CLI CONFIGURATION                     ║
 ╚════════════════════════════════════════════╝
@@ -54,7 +54,7 @@ ADHD Features:
   auto_breadcrumb     yes
   dopamine_mode       yes
   session_timeout     3600
-```
+```bash
 
 ---
 
@@ -71,7 +71,7 @@ flow config set timer_default 30
 
 # Shorthand (key=value)
 flow config timer_default=30
-```
+```bash
 
 ---
 
@@ -82,7 +82,7 @@ flow config timer_default=30
 flow config edit
 
 # Default editor: $EDITOR (vim/nano/etc)
-```
+```bash
 
 **After editing:**
 
@@ -90,7 +90,7 @@ flow config edit
 # Reload configuration?
 # [y/N]: y
 # ✓ Configuration reloaded
-```
+```diff
 
 ---
 
@@ -121,11 +121,11 @@ flow config profile adhd      # Shorthand
 
 # Save current config as custom profile
 flow config profile save my-workflow
-```
+```text
 
 **Example output:**
 
-```
+```text
 Built-in Profiles:
   minimal     Quiet mode, minimal features
   developer   Full dev features
@@ -134,7 +134,7 @@ Built-in Profiles:
 
 Custom Profiles:
   my-workflow (saved 2026-01-10)
-```
+```yaml
 
 ---
 
@@ -148,7 +148,7 @@ show_icons: no
 dopamine_mode: no
 auto_breadcrumb: no
 timer_sound: no
-```
+```text
 
 **Developer Profile:**
 
@@ -158,7 +158,7 @@ debug: yes
 show_icons: yes
 dopamine_mode: yes
 auto_commit: no  # Manual control
-```
+```text
 
 **ADHD Profile:**
 
@@ -169,7 +169,7 @@ timer_default: 25
 timer_break: 5
 session_timeout: 1800  # 30min
 commit_emoji: yes
-```
+```text
 
 **Researcher Profile:**
 
@@ -179,7 +179,7 @@ timer_default: 45
 timer_long_break: 20
 auto_commit: yes
 push_after_finish: yes
-```
+```diff
 
 ---
 
@@ -265,7 +265,7 @@ flow config set projects_root ~/work
 
 # Save configuration
 flow config save
-```
+```bash
 
 ---
 
@@ -282,7 +282,7 @@ flow config set quiet yes
 flow config set auto_commit yes
 flow config set push_after_finish yes
 flow config profile save work
-```
+```bash
 
 **Personal profile:**
 
@@ -292,7 +292,7 @@ flow config profile load adhd
 flow config set dopamine_mode yes
 flow config set timer_default 25
 flow config profile save personal
-```
+```bash
 
 **Switch based on context:**
 
@@ -304,7 +304,7 @@ flow config profile work
 # In personal project
 cd ~/projects/hobby-app
 flow config profile personal
-```
+```bash
 
 ---
 
@@ -319,7 +319,7 @@ flow config export > team-flow-config.sh
 # Team members import
 source team-flow-config.sh
 flow config save
-```
+```bash
 
 **Example export:**
 
@@ -329,7 +329,7 @@ export FLOW_CONFIG_projects_root="$HOME/workspace"
 export FLOW_CONFIG_atlas_enabled="yes"
 export FLOW_CONFIG_auto_commit="yes"
 export FLOW_CONFIG_timer_default="25"
-```
+```bash
 
 ---
 
@@ -348,7 +348,7 @@ flow test
 
 # Exit shell - config reverts to saved
 exit
-```
+```bash
 
 ---
 
@@ -362,7 +362,7 @@ exit
 
 ```bash
 export FLOW_CONFIG_FILE="$HOME/.flow/my-config.sh"
-```
+```bash
 
 ---
 
@@ -388,7 +388,7 @@ FLOW_CONFIG[auto_breadcrumb]="yes"
 # Git
 FLOW_CONFIG[auto_commit]="no"
 FLOW_CONFIG[push_after_finish]="ask"
-```
+```zsh
 
 ---
 
@@ -404,7 +404,7 @@ _flow_config_set "timer_default" "30"
 
 # Reset to default
 _flow_config_reset "timer_default"
-```
+```text
 
 ---
 
@@ -414,11 +414,11 @@ Interactive setup for first-time users:
 
 ```bash
 flow config wizard
-```
+```text
 
 **Wizard flow:**
 
-```
+```sql
 ╔════════════════════════════════════════════╗
 ║ FLOW-CLI CONFIGURATION WIZARD              ║
 ╚════════════════════════════════════════════╝
@@ -445,7 +445,7 @@ flow config wizard
 Saved to: ~/.config/flow-cli/config.sh
 
 Reload shell to apply: exec zsh
-```
+```bash
 
 ---
 
@@ -462,7 +462,7 @@ flow config reset --all
 
 # Force reset without confirmation
 flow config reset --all -f
-```
+```bash
 
 ---
 
@@ -477,7 +477,7 @@ cp ~/.config/flow-cli/config.sh \
 cp ~/.config/flow-cli/config.sh.backup \
    ~/.config/flow-cli/config.sh
 flow config reload
-```
+```bash
 
 ---
 
@@ -499,7 +499,7 @@ git commit -am "Update timer default"
 # Restore old version
 git checkout HEAD~1 config.sh
 flow config reload
-```
+```bash
 
 ---
 
@@ -522,7 +522,7 @@ exec zsh
 
 # Or reload without restarting
 flow config reload
-```
+```bash
 
 ---
 
@@ -540,7 +540,7 @@ flow config save
 
 # Verify location
 flow config path
-```
+```bash
 
 ---
 
@@ -561,7 +561,7 @@ flow config set timer_default
 # Boolean: yes/no (not 1/0 or true/false)
 # Number: integers only
 # Enum: specified values only
-```
+```bash
 
 ---
 
@@ -579,7 +579,7 @@ flow config profile list
 
 # Save profile if needed
 flow config profile save my-profile
-```
+```text
 
 ---
 
@@ -592,7 +592,7 @@ flow config profile save my-profile
 ```bash
 flow config set timer_default 30
 flow config save  # Don't forget!
-```
+```text
 
 **2. Use profiles for different contexts**
 
@@ -600,7 +600,7 @@ flow config save  # Don't forget!
 flow config profile save work
 flow config profile save personal
 flow config profile save client-project
-```
+```bash
 
 **3. Document custom settings**
 
@@ -610,7 +610,7 @@ vim ~/.config/flow-cli/config.sh
 
 # Custom timer for deep work
 FLOW_CONFIG[timer_default]="45"  # 45min focus blocks
-```
+```bash
 
 **4. Test changes before saving**
 
@@ -621,7 +621,7 @@ FLOW_QUIET=1 flow dash
 # If good, make permanent
 flow config set quiet yes
 flow config save
-```
+```bash
 
 ---
 
@@ -637,7 +637,7 @@ flow work my-project  # Session running
 # ✅ Good: Edit before/after
 finish
 flow config edit
-```
+```bash
 
 **2. Don't use environment variables for permanent config**
 
@@ -648,7 +648,7 @@ export FLOW_QUIET=1
 # ✅ Good: Use config system
 flow config set quiet yes
 flow config save
-```
+```bash
 
 **3. Don't forget to reload**
 
@@ -660,7 +660,7 @@ flow config set timer_default 30
 # ✅ Good: Reload
 flow config save
 exec zsh
-```
+```bash
 
 ---
 
@@ -677,7 +677,7 @@ export FLOW_TIMER_DEFAULT="25"
 flow config set projects_root "$HOME/projects"
 flow config set timer_default 25
 flow config save
-```
+```bash
 
 ---
 
@@ -695,7 +695,7 @@ flow config save
 # Remove old vars from .zshrc
 vim ~/.zshrc
 # Delete: export FLOW_* lines
-```
+```bash
 
 ---
 

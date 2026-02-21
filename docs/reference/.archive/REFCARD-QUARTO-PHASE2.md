@@ -17,7 +17,7 @@ export QUARTO_ENABLE_CACHE_ANALYSIS=1 # Cache analysis tools
 teach cache status                     # View cache performance
 teach validate --parallel              # Parallel validation
 teach performance trends               # View performance trends
-```
+```bash
 
 ## Core Commands
 
@@ -37,7 +37,7 @@ teach queue optimize                  # Optimize job order
 teach performance status              # Current metrics
 teach performance trends              # Historical trends
 teach performance report              # Detailed report
-```
+```bash
 
 ### Cache Management
 
@@ -54,7 +54,7 @@ teach cache rebuild                   # Force rebuild
 
 # Cache recommendations
 teach cache doctor                    # Get optimization tips
-```
+```bash
 
 ### Custom Validators
 
@@ -74,7 +74,7 @@ teach validate --validator links      # Check cross-references
 teach validate list                   # List all validators
 teach validate create my-check        # Create new validator
 teach validate test my-check          # Test validator
-```
+```bash
 
 ## Performance Features
 
@@ -89,7 +89,7 @@ teach benchmark full                  # Complete workflow
 # Compare results
 teach benchmark compare v1.0 v2.0     # Compare two versions
 teach benchmark history               # View all benchmarks
-```
+```bash
 
 ### Optimization
 
@@ -101,7 +101,7 @@ teach performance optimize            # Analyze & suggest
 export QUARTO_MAX_PARALLEL=8          # Increase parallelism
 export QUARTO_CHUNK_SIZE=2            # Smaller work chunks
 export QUARTO_WORKER_TIMEOUT=300      # 5-minute timeout
-```
+```bash
 
 ## Configuration
 
@@ -127,7 +127,7 @@ QUARTO_VALIDATOR_TIMEOUT=60           # Validator timeout (default: 60s)
 # Performance
 QUARTO_ENABLE_PERFORMANCE_LOG=1       # Log performance (default: 1)
 QUARTO_PERFORMANCE_LOG_FILE=.teach/performance-log.json
-```
+```yaml
 
 ### Project Configuration
 
@@ -158,7 +158,7 @@ quarto:
     logging: true
     log_file: .teach/performance-log.json
     retention_days: 90
-```
+```bash
 
 ## Custom Validators
 
@@ -172,7 +172,7 @@ teach validate create check-equations
 # Add validation logic
 # Test it
 teach validate test check-equations
-```
+```zsh
 
 ### Validator Template
 
@@ -196,7 +196,7 @@ validate_file() {
 
 # Entry point
 validate_file "$1"
-```
+```zsh
 
 ### Validator API
 
@@ -210,7 +210,7 @@ _flow_log_success "Message"            # Success message
 grep -E 'pattern' "$file"              # Search patterns
 wc -l < "$file"                        # Count lines
 basename "$file"                       # Get filename
-```
+```diff
 
 ## Performance Monitoring
 
@@ -236,7 +236,7 @@ teach performance report | grep "slowest"
 
 # Compare before/after
 teach performance compare before.json after.json
-```
+```bash
 
 ## Common Workflows
 
@@ -249,7 +249,7 @@ teach validate && teach deploy
 # Parallel (Phase 2)
 teach validate --parallel && teach deploy
 # (deploy already uses parallel rendering)
-```
+```bash
 
 ### Weekly Content Update
 
@@ -266,7 +266,7 @@ teach performance status
 
 # 4. Deploy if good
 teach deploy
-```
+```bash
 
 ### Performance Tuning Session
 
@@ -289,7 +289,7 @@ teach benchmark compare baseline.txt optimized.txt
 
 # 6. Check recommendations
 teach performance optimize
-```
+```bash
 
 ### Custom Validator Development
 
@@ -308,7 +308,7 @@ teach validate --validator check-style
 
 # 5. Add to config
 # Edit .teach/config.yml to include in default validators
-```
+```bash
 
 ## Troubleshooting
 
@@ -327,7 +327,7 @@ teach queue clear
 # Disable parallel temporarily
 export QUARTO_PARALLEL_RENDER=0
 teach deploy
-```
+```bash
 
 ### Cache Problems
 
@@ -341,7 +341,7 @@ teach cache clear --stale
 # Force full rebuild
 teach cache clear --force
 teach deploy
-```
+```bash
 
 ### Validator Failures
 
@@ -355,7 +355,7 @@ zsh -x .teach/validators/check-citations.zsh lectures/week-01.qmd
 # Disable problematic validator temporarily
 export QUARTO_ENABLE_VALIDATORS=0
 teach deploy
-```
+```bash
 
 ### Performance Issues
 
@@ -372,7 +372,7 @@ teach cache clear --stale
 
 # Check for slow files
 teach performance report | grep "slowest"
-```
+```text
 
 ## Performance Benchmarks
 
@@ -396,7 +396,7 @@ teach performance report | grep "slowest"
 
 ### Phase 2 Libraries
 
-```
+```text
 lib/
 ├── parallel-helpers.zsh         # Parallel rendering system
 ├── parallel-progress.zsh        # Progress tracking
@@ -405,11 +405,11 @@ lib/
 ├── cache-helpers.zsh            # Cache operations
 ├── custom-validators.zsh        # Validator framework
 └── performance-monitor.zsh      # Performance tracking
-```
+```text
 
 ### Phase 2 Tests
 
-```
+```text
 tests/
 ├── test-parallel-rendering-unit.zsh    # 508 tests
 ├── test-render-queue-unit.zsh          # 571 tests
@@ -418,11 +418,11 @@ tests/
 ├── test-builtin-validators-unit.zsh    # 547 tests
 ├── test-performance-monitor-unit.zsh   # 733 tests
 └── test-phase2-integration.zsh         # 1235 tests
-```
+```text
 
 ### Configuration Files
 
-```
+```text
 .teach/
 ├── config.yml                   # Main configuration
 ├── performance-log.json         # Performance history
@@ -430,7 +430,7 @@ tests/
     ├── check-citations.zsh
     ├── check-formatting.zsh
     └── check-links.zsh
-```
+```text
 
 ## Advanced Topics
 
@@ -438,7 +438,7 @@ tests/
 
 Phase 2 uses a worker pool with atomic job distribution:
 
-```
+```text
 Master Process
     ↓
 Job Queue (flock-based)
@@ -450,13 +450,13 @@ Worker Pool (N workers)
     └── Worker 4 → Job D
     ↓
 Results Collection
-```
+```text
 
 ### Cache Strategy
 
 Smart caching with dependency tracking:
 
-```
+```text
 Source File Changes
     ↓
 Check Dependencies (sourced R, cross-refs)
@@ -464,7 +464,7 @@ Check Dependencies (sourced R, cross-refs)
 Invalidate Affected Cache
     ↓
 Rebuild Only Changed Files
-```
+```bash
 
 ### Validator Plugin System
 

@@ -24,17 +24,17 @@ drwxr-xr-x   5 you  staff   160 Jan 13 10:00 .
 drwxr-xr-x   3 you  staff    96 Jan 13 09:55 ..
 drwxr-xr-x   9 you  staff   288 Jan 13 09:55 .git
 -rw-r--xr-x   1 you  staff  1024 Jan 13 10:00 README.md
-```
+```text
 
 ### Step 2: Initialize teaching workflow
 
 ```bash
 $ teach init -y "STAT 545"
-```
+```text
 
 **What happens behind the scenes:**
 
-```
+```bash
 teach init command
     ├── Read: Course name (STAT 545)
     ├── Create: .flow/teach-config.yml
@@ -53,7 +53,7 @@ teach init command
     ├── Git: git add .
     ├── Git: git commit -m "init: teaching workflow"
     └── Display: Success message
-```
+```yaml
 
 ### Step 3: Verify setup
 
@@ -75,7 +75,7 @@ branches:
 semester_info:
   start_date: "2026-01-13"
   end_date: "2026-05-08"
-```
+```bash
 
 ### Step 4: Verify branches created
 
@@ -91,7 +91,7 @@ Switched to branch 'draft'
 $ git log --oneline | head -3
 a1b2c3d init: teaching workflow
 f4e5d6c initial commit
-```
+```diff
 
 ### Result ✓
 
@@ -124,11 +124,11 @@ $ work stat-545
 # Week: 9
 #
 # Editor opening: /Users/you/projects/teaching/stat-545
-```
+```text
 
 **What `work` command does:**
 
-```
+```text
 work stat-545
     ├── Detect: teaching project (finds .flow/teach-config.yml)
     ├── Git: Check current branch
@@ -137,7 +137,7 @@ work stat-545
     ├── Display: 📚 Course name, week number, branch
     ├── Open: Your editor ($EDITOR)
     └── Ready: Start editing!
-```
+```diff
 
 ### Step 2: Create course materials
 
@@ -156,7 +156,7 @@ title: "Week 9: Hypothesis Testing"
 
 ## Lecture Notes
 ...
-```
+```diff
 
 ```markdown
 # assignments/week09.qmd
@@ -171,7 +171,7 @@ Complete the following exercises...
 
 ## Submission
 Submit your R Markdown file...
-```
+```text
 
 ### Step 3: Check what changed
 
@@ -185,13 +185,13 @@ Untracked files:
     assignments/week09.qmd
 
 nothing added to commit but untracked files present (tracking will use 'git commit' to list all)
-```
+```text
 
 ### Step 4: Stage changes
 
 ```bash
 $ git add lectures/ assignments/
-```
+```sql
 
 ### Step 5: Commit with descriptive message
 
@@ -202,17 +202,17 @@ $ git commit -m "feat: add week 9 course materials"
  2 files changed, 45 insertions(+)
  create mode 100644 assignments/week09.qmd
  create mode 100644 lectures/week09.qmd
-```
+```text
 
 ### Step 6: Deploy to students
 
 ```bash
 $ teach deploy
-```
+```text
 
 **What happens:**
 
-```
+```text
 teach deploy
     ├── Safety Checks:
     │   ├── ✓ Are we on draft branch?
@@ -234,7 +234,7 @@ teach deploy
         ├── Students see materials in ~2 minutes
         ├── No manual steps needed
         └── You're back on draft branch ready for more edits
-```
+```text
 
 ### Output
 
@@ -255,7 +255,7 @@ Insertions: 45
 ⏳ Direct mode: live in ~15 seconds | PR mode: GitHub Actions (< 2 minutes)
 
 💡 Tip: Check Actions tab to monitor build progress
-```
+```bash
 
 ### Step 7: Verify students can access
 
@@ -265,7 +265,7 @@ $ open https://yourname.github.io/stat-545
 # → Week 9 materials visible
 # → Links working
 # → Ready for students
-```
+```diff
 
 ### Result ✓
 
@@ -294,7 +294,7 @@ A student found a typo in assignment 8 answer key. Fix ASAP!
 $ work stat-545
 # → Already on draft
 # → Editor opens
-```
+```bash
 
 ### Step 2: Find and fix typo
 
@@ -306,14 +306,14 @@ solutions/assignment-08.qmd:The regression coefficients is [0.42, -1.3]
 
 # Edit in editor
 # Change: "coefficients is" → "coefficients are"
-```
+```text
 
 ### Step 3: Quick commit
 
 ```bash
 $ git add solutions/assignment-08.qmd
 $ git commit -m "fix: grammar in assignment 8 answer key"
-```
+```bash
 
 ### Step 4: Deploy immediately
 
@@ -322,7 +322,7 @@ $ teach deploy
 
 # Output: (same as before)
 ✅ Deployed in 8 seconds
-```
+```diff
 
 ### Result ✓
 
@@ -360,7 +360,7 @@ $ teach status
 │  ✓ No pending changes                             │
 │  ✓ Ready to archive                               │
 ╰────────────────────────────────────────────────────╯
-```
+```sql
 
 ### Step 2: Archive semester
 
@@ -376,11 +376,11 @@ Archive tag: spring-2026-final
 Create archive? [Y/n] y
 
 ✅ Archive created: spring-2026-final
-```
+```text
 
 **What happened:**
 
-```
+```text
 teach archive
     ├── Git: Create annotated tag
     │   └── Tag name: spring-2026-final
@@ -393,7 +393,7 @@ teach archive
         ├── Complete semester snapshot
         ├── Browse at: github.com/you/repo/releases/tag/spring-2026-final
         └── Can restore if needed
-```
+```bash
 
 ### Step 3: Verify tag created
 
@@ -407,7 +407,7 @@ Tagger: Your Name <you@email.com>
 Date:   May 8, 2026 14:45:00 +0000
 
     Semester archive for Spring 2026
-```
+```bash
 
 ### Step 4: Update config for next semester
 
@@ -424,7 +424,7 @@ $ teach config
 #   semester: "fall"
 #   year: 2026
 #   start_date: "2026-08-25"
-```
+```bash
 
 ### Step 5: Commit and deploy
 
@@ -437,7 +437,7 @@ $ teach deploy
 # ✅ Config updated
 # ✅ Semester metadata updated
 # ✅ New semester ready to go
-```
+```diff
 
 ### Result ✓
 
@@ -483,7 +483,7 @@ $ teach status
 │  💡 Tip: Use 'teach deploy' to publish changes    │
 │                                                    │
 ╰────────────────────────────────────────────────────╯
-```
+```text
 
 ### Step 2: Check current week details
 
@@ -501,7 +501,7 @@ Semester Timeline:
 
 ⚡ No breaks this week
 💡 Coming up: Spring Break (Mar 10-17)
-```
+```diff
 
 ### Result ✓
 
@@ -515,7 +515,7 @@ Semester Timeline:
 
 ## Command Quick Map
 
-```
+```bash
 ┌─────────────────────────────────────┐
 │  ONE-TIME SETUP                     │
 ├─────────────────────────────────────┤
@@ -555,7 +555,7 @@ Semester Timeline:
 │  git commit && teach deploy         │
 │  (ready for new semester)           │
 └─────────────────────────────────────┘
-```
+```diff
 
 ---
 
@@ -582,7 +582,7 @@ Semester Timeline:
 ```bash
 $ git branch --show-current
 production
-```
+```bash
 
 **Solution:**
 
@@ -597,7 +597,7 @@ draft
 # Next time: use 'work' command which auto-warns
 $ work stat-545
 # → Would show warning if on production
-```
+```bash
 
 ---
 
@@ -616,7 +616,7 @@ $ gh run view {run-id}
 # - Build failed: Check Quarto/site build
 # - Deploy failed: Check GitHub Pages settings
 # - Large files: Check file size limits
-```
+```text
 
 ---
 
@@ -629,7 +629,7 @@ $ git status  # See what's changed
 $ git add .
 $ git commit -m "fix: latest changes"
 $ teach deploy
-```
+```bash
 
 ---
 
@@ -640,7 +640,7 @@ $ teach deploy
 ```bash
 git revert HEAD  # Creates new commit that undoes previous
 teach deploy     # Deploys the revert
-```
+```bash
 
 **Option 2: Go back to previous version**
 

@@ -22,7 +22,7 @@ The `em` dispatcher is a pure ZSH email command dispatcher that wraps himalaya C
 
 ### 1.2 Component Diagram
 
-```
+```bash
 +-----------------------------------------------------------------------+
 |                        em() DISPATCHER                                 |
 |  (lib/dispatchers/em-dispatcher.zsh)                                   |
@@ -53,7 +53,7 @@ The `em` dispatcher is a pure ZSH email command dispatcher that wraps himalaya C
          | w3m/bat |
          | /glow   |
          +---------+
-```
+```text
 
 ### 1.3 Layer Responsibilities
 
@@ -70,7 +70,7 @@ The `em` dispatcher is a pure ZSH email command dispatcher that wraps himalaya C
 
 ## 2. File Structure
 
-```
+```text
 flow-cli/
   lib/
     dispatchers/
@@ -87,10 +87,11 @@ flow-cli/
     em-doctor.zsh                # Dependency health check
   completions/
     _em                          # ZSH completions for em
-```
+```text
 
 **Per-project configuration (optional):**
-```
+
+```text
 <project-root>/
   .flow/
     email-config.yml             # Per-project email config
@@ -103,16 +104,17 @@ flow-cli/
       classifications/           # msg-id -> category
       drafts/                    # msg-id -> draft response
       schedules/                 # msg-id -> extracted dates
-```
+```text
 
 **Global configuration:**
-```
+
+```text
 ~/.config/flow/
   email/
     config.yml                   # Global email settings
     templates/                   # Global templates
     backends.yml                 # AI backend preferences per operation
-```
+```zsh
 
 ---
 
@@ -249,7 +251,7 @@ _em_hml_flags() {
         *)      himalaya flag list "$msg_id" ;;
     esac
 }
-```
+```zsh
 
 ### 3.3 Error Handling
 
@@ -272,7 +274,7 @@ _em_hml_check() {
     fi
     return 0
 }
-```
+```yaml
 
 ---
 
@@ -318,7 +320,7 @@ backends:
   mcp:
     server: email-ai               # MCP server name
     tool: process_email             # Tool name to invoke
-```
+```zsh
 
 ### 4.3 Core AI Function
 
@@ -486,7 +488,7 @@ _em_ai_available() {
     command -v gemini &>/dev/null && available+=(gemini)
     echo "${available[*]}"
 }
-```
+```diff
 
 ### 4.4 Operation-Specific Prompts
 
@@ -576,7 +578,7 @@ Return JSON (and ONLY JSON, no markdown fences) in this format:
 If no dates/times found, return: {"events": []}
 PROMPT
 }
-```
+```text
 
 ---
 
@@ -586,7 +588,7 @@ PROMPT
 
 AI results are expensive (2-30 seconds per call). Cache aggressively.
 
-```
+```text
 .flow/email-cache/
   summaries/
     <message-id-hash>.txt        # 1-line summary
@@ -597,7 +599,7 @@ AI results are expensive (2-30 seconds per call). Cache aggressively.
   schedules/
     <message-id-hash>.json       # extracted dates
   metadata.json                  # cache stats, last cleanup timestamp
-```
+```zsh
 
 ### 5.2 Cache Implementation
 
@@ -705,7 +707,7 @@ _em_cache_stats() {
     done
     echo ""
 }
-```
+```bash
 
 ### 5.3 Cache Warming Strategy
 
@@ -734,7 +736,7 @@ _em_cache_warm() {
 
     # Don't wait -- let it run in background
 }
-```
+```text
 
 ---
 
@@ -742,7 +744,7 @@ _em_cache_warm() {
 
 ### 6.1 Flow: `em inbox` with AI Summaries
 
-```
+```yaml
 User: em inbox 25
     |
     v
@@ -791,11 +793,11 @@ _em_inbox(25)
                   [Q] john@uni.edu    Assignment 3 help       Needs extension for Q3   2h
                   [!] dean@uni.edu    Budget deadline          FY27 due Friday          4h
                   [N] nature.com      Weekly digest            Top papers this week     1d
-```
+```text
 
 ### 6.2 Flow: `em respond` Draft Workflow
 
-```
+```text
 User: em respond
     |
     v
@@ -860,11 +862,11 @@ _em_respond_review()
     |                   _em_cache_invalidate(msg_id)
     |
     +---> _flow_log_success "5 replies sent"
-```
+```text
 
 ### 6.3 Flow: Scheduling Extraction
 
-```
+```text
 User: em read 42
     |
     v
@@ -897,7 +899,7 @@ _em_read(42)
                         |       +--[none]----------> Generate .ics file
                         |
                         +---> _flow_log_success "Added to Calendar.app"
-```
+```zsh
 
 ---
 
@@ -951,7 +953,7 @@ em() {
         *)              himalaya "$@" ;;
     esac
 }
-```
+```bash
 
 ### 7.2 Key Command Implementations
 
@@ -1095,7 +1097,7 @@ _em_pick() {
         _em_read "$selected_id"
     fi
 }
-```
+```bash
 
 ### 7.3 Reply with AI Draft Pre-population
 
@@ -1191,7 +1193,7 @@ _em_mml_inject_body() {
         { print }
     '
 }
-```
+```zsh
 
 ### 7.4 Category Icons
 
@@ -1211,7 +1213,7 @@ _em_category_icon() {
         *)                 echo " " ;;
     esac
 }
-```
+```bash
 
 ---
 
@@ -1276,7 +1278,7 @@ _em_render_with() {
             ;;
     esac
 }
-```
+```zsh
 
 ---
 
@@ -1425,7 +1427,7 @@ _em_respond_review() {
     echo ""
     _flow_log_info "Reviewed: ${#approved[@]} approved, $skipped skipped"
 }
-```
+```bash
 
 ---
 
@@ -1537,7 +1539,7 @@ ICS
     _flow_log_success "Generated: $ics_file"
     _flow_log_info "Open with: open $ics_file"
 }
-```
+```bash
 
 ---
 
@@ -1601,7 +1603,7 @@ _em_urgency_level() {
     # Normal: everything else
     echo "normal"
 }
-```
+```yaml
 
 ---
 
@@ -1636,7 +1638,7 @@ ai:
   draft_tone: "friendly-professional"
   sign_off: "Best,\nDT"
   include_office_hours: true
-```
+```yaml
 
 ### 12.2 Email Templates
 
@@ -1659,7 +1661,7 @@ structure: |
 variables:
   office_hours: "from .flow/office-hours.md"
   instructor_name: "from .flow/course-info.yml"
-```
+```bash
 
 ### 12.3 Context Injection
 
@@ -1691,7 +1693,7 @@ _em_project_context_file() {
         echo "$tmp"
     fi
 }
-```
+```zsh
 
 ---
 
@@ -1784,7 +1786,7 @@ _em_doc_check() {
         return 0
     fi
 }
-```
+```yaml
 
 ---
 
@@ -1799,18 +1801,19 @@ _em_doc_check() {
 1. **Opt-in AI** -- AI features are never mandatory. `em inbox --no-ai` works without any AI calls.
 
 2. **Per-project AI policy** -- `.flow/email-config.yml` can disable AI for sensitive projects:
+
    ```yaml
    ai:
      enabled: false  # No AI for this project's emails
    ```
 
-3. **Content filtering** -- Strip signatures, disclaimers, and forwarded chains before sending to AI. Reduce to the minimum content needed for classification/summary.
+1. **Content filtering** -- Strip signatures, disclaimers, and forwarded chains before sending to AI. Reduce to the minimum content needed for classification/summary.
 
-4. **No credential exposure** -- Never pipe email headers containing auth tokens to AI. Extract only From, Subject, Date, and body text.
+2. **No credential exposure** -- Never pipe email headers containing auth tokens to AI. Extract only From, Subject, Date, and body text.
 
-5. **Local cache** -- AI results are cached locally in `.flow/email-cache/` (gitignored). No cache syncing to cloud.
+3. **Local cache** -- AI results are cached locally in `.flow/email-cache/` (gitignored). No cache syncing to cloud.
 
-6. **Audit trail** -- All AI calls logged to `~/.local/share/flow/ai-usage.jsonl` with operation type, timestamp, and backend used. User can review what was sent.
+4. **Audit trail** -- All AI calls logged to `~/.local/share/flow/ai-usage.jsonl` with operation type, timestamp, and backend used. User can review what was sent.
 
 ### 14.2 Attachment Safety
 
@@ -1849,6 +1852,7 @@ The system is designed as a stack of optional enhancements:
 ## 16. Phase Plan
 
 ### Phase 1: Foundation (MVP)
+
 **Goal:** Working email dispatcher that wraps himalaya. No AI yet.
 
 Files to create:
@@ -1866,6 +1870,7 @@ Commands working:
 Estimated effort: 8-12 hours
 
 ### Phase 2: AI Layer + Caching
+
 **Goal:** AI abstraction with classification and summaries in inbox view.
 
 Files to create:
@@ -1881,6 +1886,7 @@ Commands enhanced:
 Estimated effort: 6-8 hours
 
 ### Phase 3: Response Workflow
+
 **Goal:** AI-powered draft responses with review workflow.
 
 Files to create:
@@ -1894,6 +1900,7 @@ Commands working:
 Estimated effort: 6-8 hours
 
 ### Phase 4: Calendar + Notifications
+
 **Goal:** Schedule extraction and notification system.
 
 Files to create:
@@ -1908,6 +1915,7 @@ Commands working:
 Estimated effort: 4-6 hours
 
 ### Phase 5: Project Integration
+
 **Goal:** Per-project email filtering and context injection.
 
 Files to create:
@@ -1975,7 +1983,7 @@ ${_C_DIM}See also:${_C_NC}
   ${_C_CYAN}em respond --review${_C_NC} -- Never sends without your approval
 "
 }
-```
+```zsh
 
 ---
 

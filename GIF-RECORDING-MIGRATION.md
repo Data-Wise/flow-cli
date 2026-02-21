@@ -75,7 +75,7 @@ Migrated Scholar Enhancement tutorial GIF recording workflow from VHS (simulated
 
 ### 1. Record Session
 
-```bash
+````bash
 cd ~/projects/dev-tools/flow-cli/docs/demos/tutorials
 
 # Start recording
@@ -87,7 +87,7 @@ teach slides --help
 teach quiz --help
 teach lecture --help
 exit
-```
+```bash
 
 ### 2. Convert to GIF
 
@@ -104,14 +104,14 @@ agg \
 # Optimize with gifsicle
 gifsicle -O3 --colors 128 --lossy=80 \
   scholar-01-help.gif -o scholar-01-help.gif
-```
+```bash
 
 ### 3. Batch Convert All
 
 ```bash
 # After recording all 8 demos
 ./convert-all.sh
-```
+```bash
 
 ---
 
@@ -119,7 +119,7 @@ gifsicle -O3 --colors 128 --lossy=80 \
 
 ```bash
 brew install asciinema agg gifsicle
-```
+```diff
 
 **Tools:**
 
@@ -168,7 +168,7 @@ asciinema rec scholar-01-help.cast
 # ... run commands in Claude Code
 
 # Continue for all 8 demos
-```
+```bash
 
 ### Phase 2: Convert (5 min)
 
@@ -178,7 +178,7 @@ asciinema rec scholar-01-help.cast
 
 # Verify
 ls -lh scholar-*.gif
-```
+```bash
 
 ### Phase 3: Integrate (10 min)
 
@@ -196,7 +196,7 @@ mkdocs serve
 git add scholar-*.{cast,gif}
 git add docs/tutorials/scholar-enhancement/*.md
 git commit -m "docs: add Scholar Enhancement tutorial GIF demos"
-```
+```diff
 
 ---
 
@@ -210,12 +210,12 @@ git commit -m "docs: add Scholar Enhancement tutorial GIF demos"
 
 ## Git History
 
-```
+```text
 d675f5b4 docs: switch from VHS to asciinema for Scholar Enhancement GIF demos
 7131e7f5 docs: verify Scholar Enhancement cross-link integration
 13d0c672 docs: add Scholar Enhancement links to Teach Dispatcher tutorial
 5c72a522 docs: add Scholar Enhancement to site navigation
-```
+````
 
 ---
 

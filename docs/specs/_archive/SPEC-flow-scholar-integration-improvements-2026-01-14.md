@@ -16,7 +16,7 @@ This spec analyzes the current integration between flow-cli's `teach` dispatcher
 
 ### Two-System Model
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────┐
 │  User Terminal                                                       │
 │                                                                      │
@@ -51,7 +51,7 @@ This spec analyzes the current integration between flow-cli's `teach` dispatcher
 │                                                                      │
 │  Shared Config: .flow/teach-config.yml                              │
 └─────────────────────────────────────────────────────────────────────┘
-```
+```text
 
 ### Current Command Mapping (9 commands)
 
@@ -69,7 +69,7 @@ This spec analyzes the current integration between flow-cli's `teach` dispatcher
 
 ### 4-Layer Teaching Style System
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │ Layer 4: Lesson-Level (highest priority)                        │
 │ Source: YAML frontmatter in lesson file                         │
@@ -87,7 +87,7 @@ This spec analyzes the current integration between flow-cli's `teach` dispatcher
 │ Source: Scholar plugin defaults                                 │
 │ Hardcoded sensible defaults                                     │
 └─────────────────────────────────────────────────────────────────┘
-```
+```bash
 
 ---
 
@@ -105,7 +105,7 @@ The `teach lecture` wrapper exists in flow-cli but Scholar's `/teaching:lecture`
 ```bash
 # Users must use Claude directly
 claude "Create a lecture outline for Week 3: Data Wrangling"
-```
+```bash
 
 ### 2. No Explicit Config Passing
 
@@ -121,7 +121,7 @@ teach exam "Midterm"
 # Translates to:
 claude --print "/teaching:exam" "Midterm"
 # Scholar independently searches for .flow/teach-config.yml
-```
+```bash
 
 **Problem:** If user runs from a subdirectory without config, Scholar uses defaults silently.
 
@@ -136,7 +136,7 @@ Flow-cli passes flags to Scholar without validation. Invalid flags fail inside C
 ```bash
 teach exam --invalid-flag "Midterm"
 # Results in Claude error, not helpful flow-cli error
-```
+```diff
 
 ### 4. No Bidirectional State Sync
 
@@ -200,7 +200,7 @@ _flow_find_teach_config() {
         dir="${dir:h}"
     done
 }
-```
+```yaml
 
 **Scholar changes:** Accept `--config` flag in teaching commands.
 
@@ -220,7 +220,7 @@ output:
   lectures: lectures/
   slides: slides/
   rubrics: rubrics/
-```
+```zsh
 
 **Flow-cli change:**
 
@@ -237,7 +237,7 @@ _teach_post_process() {
         _flow_log_success "Created: $target_dir/$(basename $generated_file)"
     fi
 }
-```
+```zsh
 
 ### 🎯 Enhancement 3: Flag Validation Layer
 
@@ -279,7 +279,7 @@ _teach_validate_flags() {
         fi
     done
 }
-```
+```zsh
 
 ### 🎯 Enhancement 4: Post-Generation Hooks
 
@@ -320,7 +320,7 @@ _teach_show_summary() {
     echo "  • Review: $EDITOR $file"
     echo "  • Deploy: teach deploy"
 }
-```
+```bash
 
 ### 🎯 Enhancement 5: Interactive Mode Support
 
@@ -339,7 +339,7 @@ teach exam --interactive "Midterm"
 # 3. Prompt: "Refine? (y/n/done)"
 # 4. If y: re-run with feedback
 # 5. Loop until done
-```
+```zsh
 
 ### 🎯 Enhancement 6: Progress Indicator
 
@@ -366,7 +366,7 @@ _teach_with_progress() {
 
     return $status
 }
-```
+```bash
 
 ### 🎯 Enhancement 7: teach status Integration
 
@@ -401,7 +401,7 @@ _teach_status_enhanced() {
         echo "   $(basename $f) - $(stat -f '%Sm' -t '%Y-%m-%d' $f)"
     done
 }
-```
+```zsh
 
 ### 🎯 Enhancement 8: Unified teach help
 

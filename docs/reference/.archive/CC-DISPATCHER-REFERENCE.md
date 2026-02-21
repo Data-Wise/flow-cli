@@ -17,7 +17,7 @@ cc yolo           # Launch HERE in YOLO mode (skip all permissions)
 cc yolo pick      # Pick project → YOLO mode
 cc pick yolo      # Pick → YOLO mode (both orders work!)
 cc resume         # Resume previous Claude conversation
-```
+```text
 
 **✨ NEW in v4.8.0:** Unified grammar supports both mode-first (`cc yolo pick`) AND target-first (`cc pick yolo`) patterns! Use whichever feels natural.
 
@@ -27,7 +27,7 @@ cc resume         # Resume previous Claude conversation
 
 ```bash
 cc [subcommand|project-name] [options]
-```
+```diff
 
 ### Key Insight
 
@@ -44,7 +44,7 @@ cc [subcommand|project-name] [options]
 ```bash
 cc [mode] [target]    # Mode-first (unified pattern)
 cc [target] [mode]    # Target-first (natural reading)
-```
+```diff
 
 ### Modes (HOW to launch)
 
@@ -200,7 +200,7 @@ cc yolo wt pick                  # Pick worktree → YOLO
 # 2-argument: both orders work
 cc wt pick               # Recommended
 cc pick wt               # Also works (target-first)
-```
+```text
 
 ### How It Works
 
@@ -213,7 +213,7 @@ cc pick wt               # Also works (target-first)
 
 `cc wt pick` shows **all** worktrees from `~/.git-worktrees/` with session indicators:
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │ 🌳 Select worktree (Enter=select, Esc=cancel)       │
 ├─────────────────────────────────────────────────────┤
@@ -222,7 +222,7 @@ cc pick wt               # Also works (target-first)
 │ rmediation (condescending-shamir) 🟢  ~/.git-worktrees/rmediation/...       │
 │ medfit (hardcore-cerf)           ⚪  ~/.git-worktrees/medfit/hardcore-cerf  │
 └─────────────────────────────────────────────────────┘
-```
+```diff
 
 **Session indicators:**
 - 🟢 Recent session (< 24h)
@@ -240,7 +240,7 @@ The `cc` dispatcher inherits all of `pick`'s smart behaviors:
 ```bash
 cc flow           # → cd to flow-cli → NEW Claude session
 cc med            # → cd to mediationverse → NEW Claude session
-```
+```text
 
 ### Smart Resume (via pick)
 
@@ -255,7 +255,7 @@ When you run `cc` with no args:
 ```bash
 cc resume         # Resume previous Claude conversation (with picker)
 cc continue       # Resume most recent Claude conversation
-```
+```bash
 
 ---
 
@@ -275,7 +275,7 @@ cc ask "how do I handle NA values in R?"
 
 # Review changes before committing
 cc diff
-```
+```bash
 
 ### Different Modes
 
@@ -288,7 +288,7 @@ cc yolo           # Skip all confirmations
 
 # Planning mode
 cc plan           # No code execution
-```
+```bash
 
 ### Model Selection
 

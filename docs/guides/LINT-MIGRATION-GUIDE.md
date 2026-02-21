@@ -51,11 +51,11 @@ teach validate --lint lectures/week-01-intro.qmd
 
 # 6. (Optional) Run on all lecture files
 teach validate --lint lectures/*.qmd
-```
+```text
 
 **Expected output:**
 
-```
+```text
 ✅ Validation Checks:
   ✅ YAML valid
   ✅ Syntax valid
@@ -66,11 +66,11 @@ teach validate --lint lectures/*.qmd
   ✅ DIV_BALANCE: All divs balanced (8 pairs)
   ✅ CALLOUT_VALID: All callouts valid (5 callouts)
   ✅ HEADING_HIERARCHY: Sequential hierarchy (6 headings)
-```
+```text
 
 Or if issues are found:
 
-```
+```text
 ⚠️  Validation Checks:
   ✅ YAML valid
   ✅ Syntax valid
@@ -83,7 +83,7 @@ Or if issues are found:
 
   ❌ DIV_BALANCE: 1 unclosed div
      Line 92: Unclosed div (add closing :::)
-```
+```zsh
 
 ---
 
@@ -104,7 +104,7 @@ npm update -g @data-wise/flow-cli
 cd ~/projects/dev-tools/flow-cli
 git pull origin main
 source flow.plugin.zsh
-```
+```bash
 
 **Verify your environment:**
 
@@ -118,7 +118,7 @@ ls .teach/
 
 # Test lint command
 teach validate --lint --help
-```
+```bash
 
 **No additional setup needed** - lint validators are built into flow-cli.
 
@@ -135,14 +135,14 @@ teach init --with-validators
 # .teach/config.yml          # Course configuration
 # .teach/validators/         # Validator directory (future custom validators)
 # .teach/hooks/              # Git hooks (optional)
-```
+```bash
 
 **Verify setup:**
 
 ```bash
 teach validate --lint lectures/week-01.qmd
 # Should work immediately on any .qmd file
-```
+```bash
 
 ### Troubleshooting Install Issues
 
@@ -158,7 +158,7 @@ which teach
 
 # Solution 3: Reinstall
 brew reinstall flow-cli
-```
+```bash
 
 **Issue:** Version shows v5.23.0 or earlier
 
@@ -169,7 +169,7 @@ brew upgrade --fetch-HEAD flow-cli
 # Or clean install
 brew uninstall flow-cli
 brew install data-wise/tap/flow-cli
-```
+```text
 
 ---
 
@@ -190,13 +190,15 @@ Each rule catches a specific class of errors. Here's what they mean and how to f
 ```qmd
 Here's some R code:
 
-```
+```text
+
 x <- rnorm(100)
 mean(x)
-```
+
+```text
 
 **Problem:** Quarto doesn't know this is R code → no syntax highlighting, no execution.
-```
+```text
 
 ✅ **Good: Tagged code block**
 
@@ -206,10 +208,11 @@ Here's some R code:
 ```{r}
 x <- rnorm(100)
 mean(x)
-```
+```text
 
 **Works:** Quarto recognizes R → highlights syntax, executes code.
-```
+
+```text
 
 ✅ **Alternative: Non-executable text**
 
@@ -220,10 +223,11 @@ Here's pseudocode:
 FOR i = 1 to 100
   PRINT i
 END
-```
+```text
 
 **Works:** Tagged as text → renders as preformatted block.
-```
+
+```text
 
 #### Common Tags
 
@@ -251,7 +255,7 @@ This is important information.
 <!-- Missing closing ::: -->
 
 Next section starts here.
-```
+```text
 
 **Problem:** "Next section" gets swallowed into the callout div.
 
@@ -263,7 +267,7 @@ This is important information.
 :::
 
 Next section starts here.
-```
+```text
 
 ❌ **Bad: Nested divs closed in wrong order**
 
@@ -273,7 +277,7 @@ Next section starts here.
 Nested content
 ::: <!-- Closes column-page, not callout! -->
 :::
-```
+```text
 
 ✅ **Good: Proper nesting**
 
@@ -283,7 +287,7 @@ Nested content
 Nested content
 ::: <!-- Closes callout-tip -->
 ::: <!-- Closes column-page -->
-```
+```text
 
 **Tip:** Match divs like parentheses - inner closes before outer.
 
@@ -314,7 +318,7 @@ Quarto supports exactly 5 callout types:
 <!-- 'info' is not a standard Quarto callout -->
 This won't be styled correctly.
 :::
-```
+```text
 
 ✅ **Good: Valid callout type**
 
@@ -323,7 +327,7 @@ This won't be styled correctly.
 <!-- 'note' is a standard type -->
 This renders with proper styling.
 :::
-```
+```diff
 
 **Common mistakes:**
 
@@ -345,7 +349,7 @@ This renders with proper styling.
 # Week 1: Introduction
 ### Subsection A (skipped ##)
 #### Detail
-```
+```bash
 
 **Problem:** Jump from H1 → H3 breaks document outline.
 
@@ -356,14 +360,14 @@ This renders with proper styling.
 ## Section A
 ### Subsection A
 #### Detail
-```
+```bash
 
 ❌ **Bad: Multiple H1s in same file**
 
 ```qmd
 # Week 1: Introduction
 # Week 2: Foundations (should be ##)
-```
+```bash
 
 **Problem:** Multiple top-level headings fragment document structure.
 
@@ -373,7 +377,7 @@ This renders with proper styling.
 # Week 1 & 2: Foundations
 ## Week 1: Introduction
 ## Week 2: Core Concepts
-```
+```bash
 
 **Tip:** Reserve `#` (H1) for document title, use `##` (H2) for main sections.
 
@@ -399,7 +403,7 @@ grep -n "^\`\`\`$" lectures/*.qmd
 # lectures/week-01.qmd:48:```
 # lectures/week-02.qmd:23:```
 # ...
-```
+```bash
 
 **Fix Strategy A: Bulk tag as R code**
 
@@ -412,7 +416,7 @@ sed -n 's/^```$/```{r}/p' lectures/week-01.qmd
 
 # Apply changes
 sed -i '' 's/^```$/```{r}/' lectures/week-01.qmd
-```
+```bash
 
 **Fix Strategy B: Manual review (recommended)**
 
@@ -423,7 +427,7 @@ teach validate --lint lectures/week-01.qmd
 # Open file, jump to line number
 vim +45 lectures/week-01.qmd
 # Or use your preferred editor
-```
+```diff
 
 Then tag appropriately:
 
@@ -445,14 +449,14 @@ teach validate --lint lectures/week-03.qmd
 # Output:
 # ❌ DIV_BALANCE: 1 unclosed div
 #    Line 92: Unclosed div (add closing :::)
-```
+```bash
 
 **Fix:**
 
 ```bash
 # Open at line 92
 vim +92 lectures/week-03.qmd
-```
+```text
 
 Use your editor's bracket matching (if supported) or manually count:
 
@@ -460,7 +464,7 @@ Use your editor's bracket matching (if supported) or manually count:
 ::: {.callout-note}  # Line 92: Opener
 Content here.
 <!-- Add closing ::: -->
-```
+```bash
 
 **Count trick:**
 
@@ -470,7 +474,7 @@ grep -c "^:::" lectures/week-03.qmd  # Total ::: lines
 grep -c "^::: {" lectures/week-03.qmd  # Openers only
 
 # Should be equal or 2x (if closers are also :::)
-```
+```bash
 
 ### Pattern 3: Custom Callout Types
 
@@ -489,7 +493,7 @@ sed -i '' 's/\.callout-info/.callout-note/g' lectures/*.qmd
 
 # Convert .callout-success → .callout-tip
 sed -i '' 's/\.callout-success/.callout-tip/g' lectures/*.qmd
-```
+```bash
 
 #### Option B: Disable LINT_CALLOUT_VALID (Not Recommended)
 
@@ -499,7 +503,7 @@ If you have custom Quarto extensions that define additional callout types:
 # Skip callout validation for specific files
 teach validate --lint --validators lint-shared lectures/week-custom.qmd
 # (Future: custom validator configs)
-```
+```bash
 
 **Trade-off:** Disabling the rule means you won't catch typos like `.callout-notte`.
 
@@ -515,7 +519,7 @@ teach validate --lint lectures/week-05.qmd
 # Output:
 # ❌ HEADING_HIERARCHY: Skipped heading level
 #    Line 34: H3 follows H1 (expected H2)
-```
+```bash
 
 **Fix:** Restructure headings sequentially:
 
@@ -529,14 +533,14 @@ teach validate --lint lectures/week-05.qmd
 # Week 5: Regression
 ## Model Assumptions
 ## Diagnostics
-```
+```bash
 
 **Mass fix strategy:**
 
 ```bash
 # Downgrade all H3 → H2 (review first!)
 sed -i '' 's/^### /## /' lectures/week-05.qmd
-```
+```bash
 
 ---
 
@@ -555,7 +559,7 @@ teach validate --lint lectures/week-*.qmd
 
 # All .qmd files recursively
 teach validate --lint **/*.qmd
-```
+```bash
 
 ### Quiet Mode (For CI/CD)
 
@@ -565,7 +569,7 @@ teach validate --lint --quiet lectures/week-01.qmd
 
 # Exit code 0 = pass, non-zero = violations found
 echo $?
-```
+```bash
 
 **Use case:** GitHub Actions, pre-commit hooks that need pass/fail only.
 
@@ -576,7 +580,7 @@ echo $?
 teach validate --lint --quick-checks lectures/week-01.qmd
 
 # Alias for: --validators lint-shared
-```
+```bash
 
 **Performance:** ~50% faster on large files, runs core lint rules only.
 
@@ -585,7 +589,7 @@ teach validate --lint --quick-checks lectures/week-01.qmd
 ```bash
 # Coming in v5.25.0: Specify validator plugins
 teach validate --validators lint-shared,lint-slides lectures/slides.qmd
-```
+```diff
 
 **Planned validators:**
 
@@ -637,7 +641,7 @@ chmod +x .teach/hooks/pre-commit
 
 # 4. Link to git hooks
 ln -sf ../../.teach/hooks/pre-commit .git/hooks/pre-commit
-```
+```bash
 
 **Usage:** Violations display as warnings but never block your commit.
 
@@ -678,7 +682,7 @@ jobs:
       - name: Run lint on labs
         run: |
           teach validate --lint labs/*.qmd
-```
+```bash
 
 **Result:** PR checks show pass/fail status, blocking merge if violations found.
 
@@ -694,7 +698,7 @@ teach validate --lint --watch
 # 👀 Watching lectures/*.qmd for changes...
 # 🔄 week-01.qmd changed → running lint...
 # ✅ No violations found
-```
+```bash
 
 **Use case:** Keep lint check running in terminal while editing in IDE.
 
@@ -734,7 +738,7 @@ teach validate --lint lectures/*.qmd labs/*.qmd
 git add -A
 git commit -m "chore: fix all lint violations for v5.24.0"
 git push
-```
+```bash
 
 **Pros:** Done immediately, clean slate going forward.
 
@@ -768,7 +772,7 @@ teach validate --lint lectures/week-05-regression.qmd
 git add lectures/week-05-regression.qmd
 git commit -m "feat(week-05): update regression examples + fix lint"
 git push
-```
+```bash
 
 **Pros:** Low friction, spreads work across semester, no dedicated time block.
 
@@ -799,7 +803,7 @@ git mv lectures/old-* _archive/
 
 # 5. Add .gitignore exception (optional)
 echo "_archive/*.qmd" >> .gitignore
-```
+```text
 
 **Pros:** Focuses effort on content students actually see.
 
@@ -817,14 +821,14 @@ Common issues and solutions during migration.
 
 ```qmd
 Use the `mean()` function to calculate averages.
-```
+```bash
 
 **Diagnosis:**
 
 ```bash
 teach validate --lint lectures/week-01.qmd
 # ❌ CODE_LANG_TAG: Bare code block at line 23
-```
+```bash
 
 **Solution:** The lint rule only checks fenced blocks (3+ backticks). Inline code (1 backtick) is ignored.
 
@@ -833,7 +837,7 @@ teach validate --lint lectures/week-01.qmd
 ```bash
 # Jump to reported line
 vim +23 lectures/week-01.qmd
-```
+```text
 
 **Issue:** Nested divs confuse balance checker
 
@@ -845,14 +849,14 @@ Content
 ::: <!-- Closes fragment -->
 ::: <!-- Closes callout -->
 ::: <!-- Closes column-page -->
-```
+```bash
 
 **Diagnosis:**
 
 ```bash
 teach validate --lint lectures/week-02.qmd
 # ❌ DIV_BALANCE: Unbalanced divs (3 openers, 2 closers)
-```
+```bash
 
 **Solution:** Ensure proper nesting. Inner divs must close before outer divs.
 
@@ -869,7 +873,7 @@ grep -n "^:::" lectures/week-02.qmd
 # 40: :::  # Closes fragment
 # 41: :::  # Closes callout
 # 42: :::  # Closes column-page
-```
+```bash
 
 ### Performance Issues
 
@@ -880,14 +884,14 @@ grep -n "^:::" lectures/week-02.qmd
 ```bash
 time teach validate --lint lectures/week-10-massive.qmd
 # real    0m15.432s  (too slow!)
-```
+```bash
 
 **Solution 1: Use quick checks**
 
 ```bash
 teach validate --lint --quick-checks lectures/week-10-massive.qmd
 # Runs core lint rules only, ~50% faster
-```
+```text
 
 **Solution 2: Split large files**
 
@@ -896,7 +900,7 @@ teach validate --lint --quick-checks lectures/week-10-massive.qmd
 week-10-part1-theory.qmd
 week-10-part2-examples.qmd
 week-10-part3-lab.qmd
-```
+```bash
 
 **Solution 3: Skip lint for specific files (not recommended)**
 
@@ -904,7 +908,7 @@ week-10-part3-lab.qmd
 # Validate YAML/syntax only, skip lint
 teach validate lectures/week-10-massive.qmd
 # (No --lint flag)
-```
+```bash
 
 ### Validator Conflicts
 
@@ -913,7 +917,7 @@ teach validate lectures/week-10-massive.qmd
 ```bash
 teach validate --validators lint-shared,my-custom lectures/week-01.qmd
 # Error: Validator 'my-custom' not found
-```
+```bash
 
 **Diagnosis:**
 
@@ -921,7 +925,7 @@ teach validate --validators lint-shared,my-custom lectures/week-01.qmd
 # Check validator directory
 ls .teach/validators/
 # Expected: lint-shared/ (built-in), my-custom/ (if custom)
-```
+```bash
 
 **Solution:** Custom validators are a future feature (v5.25.0). For now, use built-in validators only:
 
@@ -929,7 +933,7 @@ ls .teach/validators/
 # Correct usage (v5.24.0)
 teach validate --lint lectures/week-01.qmd
 # Uses built-in lint-shared validator
-```
+```bash
 
 ---
 
@@ -959,7 +963,7 @@ teach validate --lint lectures/*.qmd labs/*.qmd
 # - 3 unbalanced divs (copy-paste errors)
 # - 2 invalid callouts (.callout-info → .callout-note)
 # - 0 heading hierarchy issues
-```
+```bash
 
 **Fixes:**
 
@@ -976,7 +980,7 @@ vim +201 labs/lab-07.qmd
 
 # 3. Fixed invalid callouts
 sed -i '' 's/\.callout-info/.callout-note/g' lectures/*.qmd
-```
+```bash
 
 **Outcome:**
 
@@ -987,7 +991,7 @@ teach validate --lint lectures/*.qmd labs/*.qmd
 # Results:
 # ✅ All checks pass (85/85 files)
 # Total time: 52 minutes
-```
+```bash
 
 ### stat-579 Migration (Iowa State University)
 
@@ -1005,7 +1009,7 @@ teach validate --lint lectures/*.qmd labs/*.qmd
 # - Updated week 1-3 lectures → fixed 4 violations
 # - Created new week 4 lab → 0 violations (wrote clean)
 # - Reviewed old exams → skipped (archived content)
-```
+```diff
 
 **Findings:**
 
@@ -1032,7 +1036,7 @@ teach validate lectures/week-01-intro.qmd
 # ❌ Render failed
 #    Error: Div not closed (line 92)
 #    (Spent 15 minutes debugging render error)
-```
+```bash
 
 **After lint adoption:**
 
@@ -1063,6 +1067,7 @@ After completing your migration:
 ### Immediate Actions
 
 - [ ] **Run lint on all course content**
+
   ```bash
   teach validate --lint lectures/*.qmd labs/*.qmd
   ```
@@ -1070,12 +1075,14 @@ After completing your migration:
 - [ ] **Fix violations** (use patterns from "Common Patterns & Fixes")
 
 - [ ] **Verify clean state**
+
   ```bash
   teach validate --lint lectures/*.qmd labs/*.qmd
   # Should show: ✅ All checks pass
   ```
 
 - [ ] **Commit changes**
+
   ```bash
   git add -A
   git commit -m "chore: migrate to flow-cli v5.24.0 lint validation"
@@ -1093,7 +1100,8 @@ After completing your migration:
   - Blocks merges with violations
 
 - [ ] **Update course README**
-  ```markdown
+
+  ````markdown
   ## Content Quality
 
   This course uses flow-cli v5.24.0 lint validation to ensure high-quality materials.
@@ -1102,7 +1110,7 @@ After completing your migration:
   ```bash
   teach validate --lint <file>
   ```
-  ```
+  ````
 
 ### Share Feedback
 

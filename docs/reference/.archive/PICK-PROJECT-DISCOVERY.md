@@ -31,7 +31,7 @@ The `pick` command discovers projects by:
 ~/projects/quarto/presentations/ # Quarto presentations
 ~/projects/apps/                 # Applications
 ~/.git-worktrees/                # Git worktrees (all projects)
-```
+```diff
 
 **Location:** Defined in `PROJ_CATEGORIES` array at the top of `commands/pick.zsh`
 
@@ -54,7 +54,7 @@ For a project to appear in `pick`, it **must**:
 
 ```bash
 [[ -d "$proj_dir/.git" ]] || continue
-```
+```diff
 
 ---
 
@@ -87,7 +87,7 @@ git init
 # It appears in pick immediately!
 pick dev
 # → Shows: my-new-tool 🔧
-```
+```bash
 
 **No configuration needed** - `pick` finds it automatically.
 
@@ -111,7 +111,7 @@ PROJ_CATEGORIES=(
     # Add your own:
     # "my-custom-dir:custom:🎨"
 )
-```
+```bash
 
 **Format:** `"path/to/dir:category-code:icon"`
 
@@ -123,7 +123,7 @@ PROJ_CATEGORIES=(
     "work/frontend:work:💻"
     "work/backend:work:⚙️"
 )
-```
+```bash
 
 Now `pick work` will show those projects!
 
@@ -139,7 +139,7 @@ Now `pick work` will show those projects!
 rm -rf ~/projects/dev-tools/old-project
 pick dev
 # → old-project is gone (removed from list automatically)
-```
+```bash
 
 **Scenario 2: Remove .git (make non-repo)**
 
@@ -148,7 +148,7 @@ cd ~/projects/dev-tools/not-a-project
 rm -rf .git
 pick dev
 # → Project disappears from pick (no longer detected)
-```
+```text
 
 **No cleanup needed** - `pick` scans fresh each time.
 
@@ -161,7 +161,7 @@ When you delete a project, session files remain:
 ```bash
 ~/.current-project-session  # May reference deleted project
 ~/.git-worktrees/           # Stale worktree references
-```
+```bash
 
 **To clean up:**
 
@@ -171,7 +171,7 @@ rm ~/.current-project-session
 
 # Remove stale worktrees
 git worktree prune
-```
+```text
 
 ---
 
@@ -179,7 +179,7 @@ git worktree prune
 
 ### Recommended Structure
 
-```
+```text
 ~/projects/
 ├── r-packages/
 │   ├── active/          # Under development
@@ -196,7 +196,7 @@ git worktree prune
 └── teaching/
     ├── stat-440/       # ✅ Has .git
     └── temp-notes/     # ❌ No .git - not shown
-```
+```bash
 
 **Tip:** If a directory doesn't need version control, it won't clutter your `pick` list!
 
@@ -213,13 +213,13 @@ PROJ_CATEGORIES=(
     "clients/active:client:👥"
     "clients/archive:client:📦"
 )
-```
+```text
 
 Usage:
 
 ```bash
 pick client  # Show all client projects
-```
+```bash
 
 ---
 
@@ -235,14 +235,14 @@ PROJ_CATEGORIES=(
     "personal/hobbies:personal:🎮"
     "personal/learning:personal:📚"
 )
-```
+```text
 
 Usage:
 
 ```bash
 pick work      # Work projects only
 pick personal  # Personal projects only
-```
+```bash
 
 ---
 
@@ -265,7 +265,7 @@ PROJ_CATEGORIES=(
     "work:work:💼"
     "archive:archive:📦"
 )
-```
+```bash
 
 ---
 
@@ -279,7 +279,7 @@ PROJ_CATEGORIES=(
 cd ~/projects/dev-tools/my-project
 ls -la .git
 # Should show: drwxr-xr-x  .git/
-```
+```bash
 
 **Check 2: In scanned directory?**
 
@@ -287,14 +287,14 @@ ls -la .git
 # Project must be in a PROJ_CATEGORIES path
 # Example: ~/projects/dev-tools/my-project ✅
 #          ~/random/location/my-project ❌
-```
+```bash
 
 **Check 3: Permissions?**
 
 ```bash
 # Ensure directory is readable
 chmod +r ~/projects/dev-tools/my-project
-```
+```text
 
 ---
 
@@ -306,7 +306,7 @@ chmod +r ~/projects/dev-tools/my-project
 
 ```bash
 pick dev  # Fresh scan, deleted projects gone
-```
+```text
 
 ---
 
@@ -317,21 +317,21 @@ pick dev  # Fresh scan, deleted projects gone
 ```bash
 pick dev    # Only dev-tools
 pick r      # Only R packages
-```
+```text
 
 **Solution 2: Use --recent flag**
 
 ```bash
 pick --recent  # Only projects with Claude sessions
 pick -r        # Short form
-```
+```bash
 
 **Solution 3: Move inactive projects**
 
 ```bash
 # Move to archive (won't show in pick if not in PROJ_CATEGORIES)
 mv ~/projects/dev-tools/old-project ~/archive/
-```
+```diff
 
 ---
 
@@ -356,7 +356,7 @@ Skip git status checks:
 
 ```bash
 pick --fast dev
-```
+```bash
 
 **Savings:** ~10ms per worktree (doesn't affect regular projects)
 

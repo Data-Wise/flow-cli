@@ -112,7 +112,7 @@
 
 ## 🎯 Key Improvements Over Previous Documentation
 
-### Before:
+### Before
 
 - Basic command descriptions
 - No detailed step-by-step workflows
@@ -120,7 +120,7 @@
 - No GIF creation guidance
 - Limited troubleshooting
 
-### After:
+### After
 
 - ✅ Deep dive explanations (what, when, why for each command)
 - ✅ 13 complete real-world workflows
@@ -137,14 +137,14 @@
 
 All documents are in `/docs/guides/` directory:
 
-```
+````text
 docs/guides/
 ├── TEACHING-COMMANDS-DETAILED.md      (850 lines)
 ├── TEACHING-WORKFLOW-VISUAL.md        (700 lines)
 ├── TEACHING-DEMO-GUIDE.md             (400 lines)
 ├── TEACHING-WORKFLOW.md               (existing, architecture)
 └── [other guides]
-```
+```diff
 
 Updated navigation:
 
@@ -156,7 +156,7 @@ Updated navigation:
 
 The documentation is complete and production-ready. The GIF guide provides everything needed to record demonstrations.
 
-### To Create GIFs (Optional but Recommended):
+### To Create GIFs (Optional but Recommended)
 
 1. **Setup demo course** (2 min):
 
@@ -168,9 +168,9 @@ The documentation is complete and production-ready. The GIF guide provides every
    touch README.md
    git add . && git commit -m "initial"
    teach init -y "STAT 101"
-   ```
+````
 
-2. **Record using asciinema** (10-15 min):
+1. **Record using asciinema** (10-15 min):
 
    ```bash
    brew install asciinema
@@ -179,7 +179,7 @@ The documentation is complete and production-ready. The GIF guide provides every
    # Press Ctrl-D to stop
    ```
 
-3. **Convert to GIF** (5 min):
+2. **Convert to GIF** (5 min):
 
    ```bash
    npm install -g svg-term-cli
@@ -187,13 +187,14 @@ The documentation is complete and production-ready. The GIF guide provides every
    # Or convert SVG → GIF using online tool
    ```
 
-4. **Store and embed**:
+3. **Store and embed**:
 
-   ```
+   ```text
    docs/assets/gifs/teaching/teaching-init.gif
    ```
 
-5. **Embed in docs**:
+4. **Embed in docs**:
+
    ```markdown
    ![GIF Description](../../assets/gifs/teaching/teaching-init.gif)
    ```
@@ -245,7 +246,7 @@ All documents link to each other and existing documentation:
 
 ## 📈 Documentation Completeness
 
-### Coverage by Command:
+### Coverage by Command
 
 | Command         | Detailed Guide | Visual Guide | Demo Guide | Existing Docs     |
 | --------------- | -------------- | ------------ | ---------- | ----------------- |
@@ -261,7 +262,7 @@ All documents link to each other and existing documentation:
 
 ## 💡 Key Insights from Documentation
 
-### Time Benchmarks:
+### Time Benchmarks
 
 - `teach init`: 30-60 seconds (one-time setup)
 - `teach deploy`: < 2 minutes (daily deployments)
@@ -269,14 +270,14 @@ All documents link to each other and existing documentation:
 - Daily maintenance: 15-20 minutes
 - Full week materials: 15-20 minutes
 
-### Error Prevention:
+### Error Prevention
 
 - Always use `work` command (catches branch issues)
 - Commit before deploy (never loses work)
 - Check `teach status` before semester work (orientation)
 - Archive at end of semester (immutable snapshot)
 
-### Integration:
+### Integration
 
 - `work stat-545` shows teaching context
 - `pick` shows teaching projects with 🎓 icon
@@ -298,10 +299,10 @@ All documentation is:
 
 **To deploy to GitHub Pages:**
 
-```bash
+````bash
 # From main branch
 mkdocs gh-deploy --force
-```
+```bash
 
 ---
 
@@ -313,7 +314,7 @@ mkdocs gh-deploy --force
 cd ~/projects/teaching/stat-545
 teach init -y "STAT 545"
 # Completes in 30 seconds
-```
+```bash
 
 ### Daily Workflow
 
@@ -322,39 +323,39 @@ work stat-545            # Start session
 # Edit files...
 git add . && git commit  # Commit
 teach deploy             # Publish in < 2 minutes
-```
+```text
 
 ### Check Progress
 
 ```bash
 teach status             # See dashboard
 teach week              # Current week number
-```
+```text
 
 ### End of Semester
 
 ```bash
 teach archive           # Create snapshot
 teach config            # Update for next semester
-```
+```diff
 
 ---
 
 ## 🎓 Learning Paths
 
-### For New Users:
+### For New Users
 
 1. Start: TEACHING-WORKFLOW-VISUAL.md (5 min)
 2. Learn: TEACHING-COMMANDS-DETAILED.md (20 min)
 3. Reference: REFCARD-TEACHING.md (as needed)
 
-### For Power Users:
+### For Power Users
 
 1. Skip to: Specific command in TEACHING-COMMANDS-DETAILED.md
 2. Reference: TEACH-DISPATCHER-REFERENCE.md for complete options
 3. Demo: TEACHING-DEMO-GUIDE.md if creating content
 
-### For Content Creators (GIFs/Demos):
+### For Content Creators (GIFs/Demos)
 
 1. Start: TEACHING-DEMO-GUIDE.md setup (5 min)
 2. Follow: Demo script for command (10 min)
@@ -366,7 +367,7 @@ teach config            # Update for next semester
 
 ## 📊 Documentation Hierarchy
 
-```
+```text
 REFCARD-TEACHING.md ← Quick lookup (1 page)
     ↑
 TEACH-DISPATCHER-REFERENCE.md ← Complete reference (4 pages)
@@ -376,13 +377,13 @@ TEACH-DISPATCHER-REFERENCE.md ← Complete reference (4 pages)
 └── TEACHING-COMMANDS-DETAILED.md ← Deep dive (25 pages) ✨ NEW
     ↑
 TEACHING-DEMO-GUIDE.md ← Recording guide (12 pages) ✨ NEW
-```
+````
 
 ---
 
 ## 🎁 Value Delivered
 
-### For Users:
+### For Users
 
 - ✅ Clear command explanations
 - ✅ Real-world workflow examples
@@ -390,14 +391,14 @@ TEACHING-DEMO-GUIDE.md ← Recording guide (12 pages) ✨ NEW
 - ✅ Time estimates and benchmarks
 - ✅ Integration with other commands
 
-### For Content Creators:
+### For Content Creators
 
 - ✅ Ready-to-use demo scripts
 - ✅ GIF creation guide
 - ✅ Terminal output examples (copy-paste ready)
 - ✅ Pre-setup demo course instructions
 
-### For Maintainers:
+### For Maintainers
 
 - ✅ Comprehensive reference material
 - ✅ Cross-links and navigation structure

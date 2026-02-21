@@ -32,7 +32,7 @@ df diff             # Preview changes
 df secret list      # Manage secrets
 df doctor           # Troubleshoot
 df help             # Full help
-```
+```diff
 
 **Why dispatcher pattern:**
 - ✅ Consistent with flow-cli architecture (g, mcp, cc, wt, tm, obs, qu, r)
@@ -54,7 +54,7 @@ df edit .zshrc
 # → Auto-preview on save
 # → Prompt: Apply changes? [Y/n]
 # → Apply with backup
-```
+```diff
 
 **Smart features:**
 - Fuzzy path matching: `dot edit zshrc` → `~/.config/zsh/.zshrc`
@@ -71,7 +71,7 @@ df sync
 # → Show diff
 # → Prompt: Apply? [Y/n]
 # → Apply changes
-```
+```diff
 
 **Safety features:**
 - Preview before applying
@@ -89,16 +89,16 @@ df
 # → Show secret status
 # → Show modified files
 # → Suggest next action
-```
+```text
 
 **Output:**
 
-```
+```text
 📦 Dotfiles: 🟢 Synced (2h ago)
 🔐 Secrets: ✓ 3 injected
 📝 Modified: 0 files
 💡 Next: df sync (to pull latest)
-```
+```text
 
 ---
 
@@ -113,7 +113,7 @@ $ df edit .zshrc
 🔑 Enter master password: ********
 ✓ Unlocked
 ✓ Opening ~/.zshrc...
-```
+```yaml
 
 **Auto-recovery:** Detects + prompts + resumes
 
@@ -131,7 +131,7 @@ Options:
 
 Choice [1-4]: 3
 ✓ Opening merge editor...
-```
+```yaml
 
 **Guided resolution:** Clear options, no guessing
 
@@ -147,7 +147,7 @@ Fix:
   3) df doctor (diagnose)
 
 Proceed without? [y/N] n
-```
+```text
 
 **Actionable errors:** Clear next steps
 
@@ -171,7 +171,7 @@ $ dash
 📦 Dotfiles: 🟢 Synced (2h ago)        ← NEW!
   3 secrets active • 0 pending changes
   💡 df sync to update
-```
+```text
 
 **Integration point:** Add `_dash_dotfiles()` section
 
@@ -183,7 +183,7 @@ $ work flow-cli
 📦 Checking dotfiles...               ← NEW!
   ⚠ Behind remote by 2 commits
   💡 Run 'df sync'? [Y/n]
-```
+```bash
 
 **Integration point:** Add check to `work()` function
 
@@ -191,7 +191,7 @@ $ work flow-cli
 
 ```bash
 export FLOW_DF_CHECK_ON_WORK=0  # Disable
-```
+```bash
 
 ### `flow doctor` - Include dotfile health
 
@@ -205,7 +205,7 @@ $ flow doctor
   ✓ Repository connected
   ✓ Secrets configured
   ✓ Synced with remote
-```
+```bash
 
 **Integration point:** Add `_flow_doctor_dotfiles()` check
 
@@ -219,14 +219,14 @@ $ flow doctor
 $ df
 # Shows status + 3 quick actions at bottom
 💡 df edit .zshrc | df sync | df push
-```
+```bash
 
 ### Level 2: Full help
 
 ```bash
 $ df help
 # Complete reference with examples
-```
+```bash
 
 ### Level 3: Inline context
 
@@ -234,14 +234,14 @@ $ df help
 $ df diff
 # Shows changes...
 💡 Next: df apply (to apply) | df edit (to modify)
-```
+```bash
 
 ### Level 4: Dashboard integration
 
 ```bash
 $ dash
 # Shows dotfile status + suggested action
-```
+```diff
 
 ---
 
@@ -299,7 +299,7 @@ $ dash
 
 ## 8. File Structure
 
-```
+```text
 flow-cli/
 ├── lib/
 │   ├── dispatchers/

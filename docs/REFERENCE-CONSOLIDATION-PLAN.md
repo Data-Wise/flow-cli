@@ -47,7 +47,7 @@
 
 ### Master Documents (7 Total)
 
-```
+```text
 docs/
 ├── help/                              # NEW - Consolidated help (moved from zsh/help/)
 │   ├── 00-START-HERE.md              # Master index with learning paths
@@ -59,7 +59,7 @@ docs/
     ├── MASTER-DISPATCHER-GUIDE.md    # All 12 dispatchers (beginner → advanced)
     ├── MASTER-API-REFERENCE.md       # Complete API docs (all libraries)
     └── MASTER-ARCHITECTURE.md        # System architecture & design
-```
+```diff
 
 ### Archive Old Files (59 files)
 
@@ -111,7 +111,7 @@ Move to `docs/reference/.archive/` with README explaining consolidation.
 - [Teaching Workflow](../guides/TEACHING-WORKFLOW-V3-GUIDE.md)
 - [ADHD Features](../guides/DOPAMINE-FEATURES-GUIDE.md)
 - [Project Switching](../tutorials/02-multiple-projects.md)
-```
+```diff
 
 **Sources:**
 - Current INDEX.md
@@ -160,7 +160,7 @@ teach analyze         # Analyze concepts
 
 ## Plugin Commands (22 plugins)
 ...
-```
+```diff
 
 **Sources:**
 - COMMAND-QUICK-REFERENCE.md
@@ -209,7 +209,7 @@ teach analyze         # Analyze concepts
 
 ## Plugin Workflows
 ...
-```
+```diff
 
 **Sources:**
 - WORKFLOW-QUICK-REFERENCE.md
@@ -253,7 +253,7 @@ teach analyze         # Analyze concepts
 
 ## Known Limitations
 ...
-```
+```diff
 
 **Sources:**
 - getting-started/troubleshooting.md
@@ -330,7 +330,7 @@ teach analyze         # Analyze concepts
 g status          # See what's changed
 g push            # Push to remote
 g commit "msg"    # Quick commit
-```
+```diff
 
 ### Common Workflows (Intermediate)
 
@@ -357,7 +357,7 @@ g commit "msg"    # Quick commit
 
 [Repeat for all 12 dispatchers]
 
-```
+```diff
 
 **Sources:**
 - DISPATCHER-REFERENCE.md (master index)
@@ -417,7 +417,7 @@ g commit "msg"    # Quick commit
 **Example:**
 ```bash
 _flow_log_success "Build completed"
-```
+```diff
 
 [Continue for all functions...]
 
@@ -473,7 +473,7 @@ _flow_log_success "Build completed"
 - Added: `_analysis_cache_get()`
 ...
 
-```
+```diff
 
 **Sources:**
 - API-COMPLETE.md
@@ -515,7 +515,7 @@ _flow_log_success "Build completed"
 
 ```mermaid
 [Diagram from ARCHITECTURE-OVERVIEW.md]
-```
+```zsh
 
 ### Technology Stack
 
@@ -552,7 +552,7 @@ x() {
         ...
     esac
 }
-```
+```bash
 
 #### Benefits
 
@@ -578,19 +578,19 @@ x() {
 
 ```mermaid
 [Diagram]
-```
+```bash
 
 ### Project Detection
 
 ```mermaid
 [Diagram]
-```
+```bash
 
 ### Teaching Workflow
 
 ```mermaid
 [Diagram from diagrams/TEACHING-V3-WORKFLOWS.md]
-```
+```diff
 
 ---
 
@@ -642,7 +642,7 @@ x() {
 
 ...
 
-```
+```diff
 
 **Sources:**
 - ARCHITECTURE-OVERVIEW.md

@@ -50,16 +50,16 @@ Rename the `dot` dispatcher to `dots` to avoid collision with Graphviz's `dot` c
 
 ### Current (Monolith)
 
-```
+```text
 dot() ─── 4,395 lines
 ├── Dotfile mgmt (status, edit, sync, push, diff, apply, ignore, init, undo, env, doctor)
 ├── Secret mgmt (secret, secrets, unlock, lock, sync, bw integration)
 └── Token mgmt (token github, token npm, token pypi, token rotate, token refresh)
-```
+```text
 
 ### Target (3 Dispatchers)
 
-```
+```text
 dots() ─── ~1,400 lines
 ├── status/s       # Dotfile sync status
 ├── edit/e         # Edit dotfile
@@ -101,7 +101,7 @@ tok() ─── ~1,300 lines
 ├── sync           # Sync to GitHub secrets
 ├── doctor/dr      # Token-specific diagnostics
 └── help           # Help
-```
+```text
 
 ### Mermaid Diagram
 
@@ -124,7 +124,7 @@ graph LR
     SEC -.->|keychain-helpers.zsh| SHARED[Shared Helpers]
     TOK -.->|keychain-helpers.zsh| SHARED
     DOTS -.->|dotfile-helpers.zsh| SHARED
-```
+```yaml
 
 ---
 
@@ -206,7 +206,7 @@ N/A — No data model changes. Keychain service name (`flow-cli`) and Bitwarden 
 
 Each dispatcher gets a modernized help screen following the existing color scheme from `lib/core.zsh`:
 
-```
+```bash
 ┌─────────────────────────────────────────────────────────────┐
 │  dots - Dotfile Management                                  │
 ├─────────────────────────────────────────────────────────────┤
@@ -236,7 +236,7 @@ Each dispatcher gets a modernized help screen following the existing color schem
 │    $ dots doctor                                            │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
+```text
 
 Cross-references between dispatchers in help output (RELATED section).
 
@@ -246,7 +246,7 @@ N/A — CLI tool, no web UI.
 
 ### User Flow
 
-```
+```text
 Developer types "dots" → sees dotfile status (unchanged UX)
 Developer types "sec github-token" → gets token from Keychain
 Developer types "tok github" → enters GitHub token wizard

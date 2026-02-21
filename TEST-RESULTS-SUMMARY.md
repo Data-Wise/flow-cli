@@ -10,7 +10,7 @@ Complete test suite run for flow-cli v6.0.0 after merging PR #316 (Chezmoi Safet
 
 ### Automated Tests (run-all.sh)
 
-```
+````text
 =========================================
   flow-cli Local Test Suite
 =========================================
@@ -55,13 +55,13 @@ Running e2e-dot-safety... ❌
 =========================================
   Results: 18 passed, 1 failed, 6 timeout
 =========================================
-```
+```text
 
 ### Automated Dogfooding Tests (v6.0.0)
 
 **File:** `tests/automated-dot-safety-dogfood.zsh`
 
-```
+```bash
 ═══════════════════════════════════════════════════════════
 Automated Dogfooding: Dot Safety Features v6.0.0
 ═══════════════════════════════════════════════════════════
@@ -92,7 +92,7 @@ Automated Dogfooding: Dot Safety Features v6.0.0
 ╚══════════════════════════════════════════════════════════════╝
 
 🎉 All dogfooding tests passed!
-```
+````
 
 **Status:** ✅ All 15 tests passing (100%)
 

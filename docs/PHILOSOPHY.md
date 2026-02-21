@@ -22,7 +22,7 @@ g push              # Git: push to remote
 qu preview          # Quarto: preview document
 mcp status          # MCP: server status
 obs daily           # Obsidian: daily note
-```
+```diff
 
 **Rules:**
 
@@ -56,11 +56,11 @@ g                   # No args → status (most common)
 g help              # Forgot command? Help is there
 r test              # Run tests (R package)
 qu preview          # Preview Quarto doc
-```
+```text
 
 ### 3. Modular Architecture
 
-```
+```zsh
 ~/projects/dev-tools/flow-cli/
 ├── flow.plugin.zsh         # Plugin entry point
 ├── lib/
@@ -74,7 +74,7 @@ qu preview          # Preview Quarto doc
     ├── work.zsh            # Session management
     ├── dash.zsh            # Dashboard
     └── adhd.zsh            # ADHD helpers
-```
+```diff
 
 **Rules:**
 
@@ -107,7 +107,7 @@ Every dispatcher MUST have:
 
 **Help Structure:**
 
-```
+```bash
 ╭─────────────────────────────────────────────╮
 │ <cmd> - Domain Description                  │
 ╰─────────────────────────────────────────────╯
@@ -122,7 +122,7 @@ Every dispatcher MUST have:
 
 📋 ALL COMMANDS:
   [grouped by category]
-```
+```bash
 
 ### 6. Graceful Degradation
 
@@ -133,7 +133,7 @@ if command -v eza &>/dev/null; then
 else
     alias ls='ls -G'
 fi
-```
+```bash
 
 ---
 
@@ -154,7 +154,7 @@ alias xyzzy='complex-internal-function'
 
 # ❌ Blocking operations at startup
 $(curl -s api.example.com/motd)  # Don't do this in .zshrc
-```
+```bash
 
 ### Do This Instead
 
@@ -173,13 +173,13 @@ deploy() {
 
 # ✅ Lazy loading
 motd() { curl -s api.example.com/motd; }  # Only runs when called
-```
+```text
 
 ---
 
 ## Command Hierarchy
 
-```
+```text
 TIER 1: Daily Drivers (muscle memory)
 ├── g       Git operations
 ├── r       R package development
@@ -207,7 +207,7 @@ DEPRECATED (2025-12-25):
 ├── v       Use 'flow' command directly
 ├── cc      Use 'ccy' function in .zshrc
 └── gm      Use 'gem*' aliases in .zshrc
-```
+```bash
 
 ---
 

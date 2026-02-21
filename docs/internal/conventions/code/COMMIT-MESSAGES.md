@@ -4,13 +4,13 @@
 
 ## Format
 
-```
+```bash
 <type>(<scope>): <subject>
 
 [optional body]
 
 [optional footer]
-```
+```bash
 
 ## Types
 
@@ -53,7 +53,7 @@ docs: update installation instructions
 feat(mediation): Added sensitivity analysis function.   # Past tense, period
 FIX: Bootstrap zero variance                           # Caps, unclear
 updated docs                                           # Past tense, no type
-```
+```diff
 
 ## Body (When Needed)
 
@@ -61,7 +61,7 @@ updated docs                                           # Past tense, no type
 - Explain **why**, not what (code shows what)
 - Reference issues: `Fixes #123`, `Closes #456`
 
-```
+```text
 fix(bootstrap): handle zero variance edge case
 
 The bootstrap CI calculation failed when sample variance was exactly
@@ -69,18 +69,18 @@ zero (constant values). Now returns NA with a warning instead of
 crashing.
 
 Fixes #42
-```
+```text
 
 ## Breaking Changes
 
 Use `!` after type or `BREAKING CHANGE:` in footer:
 
-```
+```bash
 feat(api)!: change return type to list
 
 BREAKING CHANGE: indirect_effect() now returns a list with
 $estimate and $ci instead of a numeric vector.
-```
+```bash
 
 ---
 
@@ -104,7 +104,7 @@ git commit -m "refactor(scope): improve code structure"
 
 # Chore
 git commit -m "chore(deps): update dependencies"
-```
+```bash
 
 ## R Package Examples
 
@@ -126,7 +126,7 @@ test(nde): add tests for binary mediator
 
 # CRAN submission prep
 chore: prepare for CRAN submission
-```
+```bash
 
 ## Research Project Examples
 
@@ -141,7 +141,7 @@ fix(analysis): correct standard error calculation
 
 # Data
 chore(data): add cleaned dataset
-```
+```bash
 
 ---
 
@@ -159,7 +159,7 @@ if ! grep -qE "^(feat|fix|docs|style|refactor|test|chore|perf)(\(.+\))?!?: .{1,5
     echo "Use: type(scope): subject"
     exit 1
 fi
-```
+```bash
 
 ### Aliases
 

@@ -59,48 +59,53 @@ markdownlint has a **~60% false positive rate** on Quarto syntax because:
 The lint validator is included in flow-cli v5.24.0+.
 
 **Check installation:**
+
 ```bash
 teach validate --help | grep lint
-```
+```text
 
 **Expected output:**
-```
+
+```text
   --lint              Run Quarto-aware lint rules
   --quick-checks      Run fast lint subset only (Phase 1 rules)
-```
+```bash
 
 ### First Lint Run
 
 **1. Navigate to your course project:**
+
 ```bash
 cd ~/projects/teaching/stat-545
-```
+```text
 
 **2. Run lint on a single file:**
+
 ```bash
 teach validate --lint slides/week-01.qmd
-```
+```text
 
 **3. Interpret results:**
 
-```
+```text
 → lint-shared (v1.0.0)
   slides/week-01.qmd:
     ✗ Line 45: LINT_CODE_LANG_TAG: Fenced code block without language tag
     ✗ Line 78: LINT_HEADING_HIERARCHY: Heading level skip (h1 -> h3)
   ✗ 2 errors found
-```
+```bash
 
 **4. Fix issues and re-run:**
+
 ```bash
 # After fixing
 teach validate --lint slides/week-01.qmd
-```
+```text
 
-```
+```text
 → lint-shared (v1.0.0)
   ✓ All files passed
-```
+```diff
 
 ---
 
@@ -118,16 +123,19 @@ teach validate --lint slides/week-01.qmd
 #### ❌ Invalid
 
 ```markdown
-```
+```text
+
 x <- 1 + 1
 mean(x)
-```
-```
+
+```text
+```text
 
 **Error:**
-```
+
+```text
 Line 5: LINT_CODE_LANG_TAG: Fenced code block without language tag
-```
+```text
 
 #### ✅ Valid
 
@@ -135,16 +143,17 @@ Line 5: LINT_CODE_LANG_TAG: Fenced code block without language tag
 ```{r}
 x <- 1 + 1
 mean(x)
-```
+```text
 
 ```python
 print("Hello, World!")
-```
+```text
 
 ```text
 This is plain text output
-```
-```
+```text
+
+```diff
 
 #### Common Language Tags
 
@@ -176,12 +185,13 @@ This note is opened but never closed.
 ## Next Section
 
 Content here...
-```
+```text
 
 **Error:**
-```
+
+```text
 Line 1: LINT_DIV_BALANCE: Unclosed fenced div (:::)
-```
+```text
 
 #### ✅ Valid
 
@@ -195,7 +205,7 @@ This note is properly closed.
 ::: {.column-margin}
 Margin content
 :::
-```
+```text
 
 #### Common Div Types
 
@@ -205,7 +215,7 @@ Margin content
 ::: {.panel-tabset}      # Tab panels
 ::: {.incremental}       # Slide increments
 ::: {.fragment}          # Reveal.js fragments
-```
+```diff
 
 ---
 
@@ -226,7 +236,7 @@ Margin content
 ::: {.callout-important}   # Yellow, key points
 ::: {.callout-warning}     # Orange, caution
 ::: {.callout-caution}     # Red, danger/critical
-```
+```text
 
 #### ❌ Invalid
 
@@ -238,13 +248,14 @@ This will render as an unstyled div.
 ::: {.callout-danger}
 Not a valid Quarto callout type.
 :::
-```
+```text
 
 **Error:**
-```
+
+```text
 Line 1: LINT_CALLOUT_VALID: Unknown callout type '.callout-info'
         (valid: note, tip, important, warning, caution)
-```
+```text
 
 #### ✅ Valid
 
@@ -257,7 +268,7 @@ This renders with blue styling.
 ::: {.callout-warning}
 Be careful with this approach.
 :::
-```
+```diff
 
 #### Visual Reference
 
@@ -290,13 +301,14 @@ Be careful with this approach.
 Content here...
 
 ##### Detail (skipped h3 and h4!)
-```
+```text
 
 **Errors:**
-```
+
+```text
 Line 3: LINT_HEADING_HIERARCHY: Heading level skip (h1 -> h3)
 Line 7: LINT_HEADING_HIERARCHY: Heading level skip (h3 -> h5)
-```
+```bash
 
 #### ✅ Valid
 
@@ -312,7 +324,7 @@ Line 7: LINT_HEADING_HIERARCHY: Heading level skip (h3 -> h5)
 ## Another Section (reset to h2 is fine)
 
 # New Topic (reset to h1 is fine)
-```
+```diff
 
 #### Heading Reset Rules
 
@@ -345,9 +357,10 @@ fi
 EOF
 
 chmod +x .git/hooks/pre-commit
-```
+```bash
 
 **Usage:**
+
 ```bash
 git add slides/week-01.qmd
 git commit -m "Update slides"
@@ -357,7 +370,7 @@ git commit -m "Update slides"
 #   → lint-shared (v1.0.0)
 #     slides/week-01.qmd:
 #       ✗ Line 45: LINT_CODE_LANG_TAG: ...
-```
+```text
 
 **Note:** Lint warnings don't block commits (warn-only mode).
 
@@ -368,19 +381,22 @@ git commit -m "Update slides"
 **Use case:** Audit entire course for lint issues.
 
 **Command:**
+
 ```bash
 teach validate --lint lectures/*.qmd slides/*.qmd labs/*.qmd
-```
+```text
 
 **Save output:**
+
 ```bash
 teach validate --lint **/*.qmd > lint-report.txt 2>&1
-```
+```bash
 
 **Count issues:**
+
 ```bash
 teach validate --lint **/*.qmd 2>&1 | grep "✗ Line" | wc -l
-```
+```yaml
 
 ---
 
@@ -414,7 +430,7 @@ jobs:
       run: |
         teach validate --lint --quick-checks
       continue-on-error: true  # Don't fail build on warnings
-```
+```bash
 
 ---
 
@@ -432,12 +448,13 @@ while true; do
     teach validate --lint --quiet "$1"
     sleep 5
 done
-```
+```bash
 
 **Usage:**
+
 ```bash
 ./watch-lint.sh slides/week-01.qmd
-```
+```bash
 
 ---
 
@@ -450,7 +467,7 @@ Lint before rendering:
 ```bash
 # Check first
 teach validate --lint slides/week-01.qmd && quarto preview
-```
+```text
 
 ### VS Code
 
@@ -472,7 +489,7 @@ Add task (`.vscode/tasks.json`):
     }
   ]
 }
-```
+```bash
 
 **Run:** Cmd+Shift+P → "Tasks: Run Task" → "Lint Quarto"
 
@@ -485,6 +502,7 @@ Add task (`.vscode/tasks.json`):
 **Cause:** Validator not in project's `.teach/validators/` directory.
 
 **Fix:**
+
 ```bash
 # Copy from flow-cli installation
 mkdir -p .teach/validators
@@ -492,7 +510,7 @@ cp ~/.local/share/flow-cli/validators/lint-shared.zsh .teach/validators/
 
 # Or if using Homebrew
 cp $(brew --prefix flow-cli)/share/validators/lint-shared.zsh .teach/validators/
-```
+```bash
 
 ---
 
@@ -501,13 +519,14 @@ cp $(brew --prefix flow-cli)/share/validators/lint-shared.zsh .teach/validators/
 **Cause:** Not running in lint mode.
 
 **Fix:**
+
 ```bash
 # ❌ Wrong (runs default validation)
 teach validate file.qmd
 
 # ✅ Correct (runs lint)
 teach validate --lint file.qmd
-```
+```bash
 
 ---
 
@@ -518,45 +537,52 @@ teach validate --lint file.qmd
 **Strategies:**
 
 **1. Incremental fixing:**
+
 ```bash
 # Fix new files only
 teach validate --lint $(git diff --name-only main | grep '\.qmd$')
-```
+```bash
 
 **2. Suppress specific rules:**
+
 ```bash
 # (Phase 2 feature - not yet available)
 teach validate --lint --ignore LINT_HEADING_HIERARCHY file.qmd
-```
+```text
 
 **3. Use quiet mode:**
+
 ```bash
 teach validate --lint --quiet file.qmd
-```
+```bash
 
 ---
 
 ### Issue: Performance slow
 
 **Diagnosis:**
+
 ```bash
 # Check file count
 teach validate --lint --stats
-```
+```bash
 
 **Solutions:**
 
 1. **Lint specific directories:**
+
    ```bash
    teach validate --lint slides/*.qmd  # Not all files
    ```
 
-2. **Use quick checks:**
+1. **Use quick checks:**
+
    ```bash
    teach validate --quick-checks  # Phase 1 rules only
    ```
 
-3. **Parallel processing** (future):
+2. **Parallel processing** (future):
+
    ```bash
    # Phase 4 feature
    teach validate --lint --parallel
@@ -573,7 +599,7 @@ Don't try to fix all legacy files at once:
 ```bash
 # Lint only files changed in current branch
 git diff --name-only main | grep '\.qmd$' | xargs teach validate --lint
-```
+```bash
 
 ### 2. Fix Before Commit
 
@@ -584,7 +610,7 @@ Add to your git workflow:
 git add slides/week-01.qmd
 teach validate --lint slides/week-01.qmd  # Check first
 git commit -m "Update slides"
-```
+```bash
 
 ### 3. Document Exceptions
 
@@ -597,7 +623,7 @@ If you must violate a rule (rare), document why:
 # Main Title
 
 ### Subtitle (intentional skip for visual hierarchy)
-```
+```bash
 
 ### 4. Use Pre-commit Hooks
 

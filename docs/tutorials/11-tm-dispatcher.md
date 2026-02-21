@@ -29,7 +29,7 @@ tm help
 
 # Check which terminal you're using
 tm which
-```
+```diff
 
 ---
 
@@ -62,7 +62,7 @@ tm t "Bug fix #123"
 
 # Using the alias
 tmt "Code review"
-```
+```diff
 
 **What happens:**
 - Your tab/window title updates immediately
@@ -73,7 +73,7 @@ tmt "Code review"
 
 ```bash
 tm title "Tutorial in progress"
-```
+```bash
 
 Look at your terminal tab - it should show "Tutorial in progress"!
 
@@ -90,7 +90,7 @@ tm profile "Default"
 
 # Using shortcut
 tm p "Writing"
-```
+```diff
 
 **What happens:**
 - Colors, fonts, and settings change instantly
@@ -104,7 +104,7 @@ Find out which terminal you're running:
 ```bash
 tm which
 # → iterm2, ghostty, kitty, alacritty, wezterm, vscode, or terminal
-```
+```diff
 
 This is useful for:
 - Debugging terminal-specific issues
@@ -126,13 +126,13 @@ brew install data-wise/tap/aiterm
 
 # Or via pip
 pip install aiterm-dev
-```
+```text
 
 Verify installation:
 
 ```bash
 ait --version
-```
+```text
 
 ### Step 2.2: Detecting Project Context
 
@@ -140,15 +140,15 @@ Let aiterm analyze your current directory:
 
 ```bash
 tm detect
-```
+```text
 
 **Sample output:**
 
-```
+```text
 Terminal: iTerm2
 Project: flow-cli (zsh)
 Suggested: Coding profile, "flow-cli" title
-```
+```text
 
 ### Step 2.3: Applying Context Automatically
 
@@ -156,7 +156,7 @@ Apply the detected context to your terminal:
 
 ```bash
 tm switch
-```
+```diff
 
 **What happens:**
 - Sets appropriate title based on project
@@ -174,7 +174,7 @@ tm switch     # Apply context
 
 # Or use the alias
 tms
-```
+```text
 
 ---
 
@@ -186,7 +186,7 @@ If you're using Ghostty terminal:
 
 ```bash
 tm ghost theme
-```
+```bash
 
 Shows all 14+ built-in Ghostty themes.
 
@@ -197,19 +197,19 @@ Shows all 14+ built-in Ghostty themes.
 tm ghost theme tokyo-night
 tm ghost theme catppuccin-mocha
 tm ghost theme dracula
-```
+```text
 
 ### Step 3.3: Check Current Font
 
 ```bash
 tm ghost font
-```
+```text
 
 ### Step 3.4: Set Font
 
 ```bash
 tm ghost font "JetBrains Mono"
-```
+```bash
 
 ---
 
@@ -236,7 +236,7 @@ tmp "Default"
 
 # Quick context apply
 tms
-```
+```bash
 
 ---
 
@@ -253,7 +253,7 @@ tm switch
 
 # Or manually set title
 tm title "flow-cli: adding tm dispatcher"
-```
+```bash
 
 ### Workflow 2: Multiple Tabs
 
@@ -268,7 +268,7 @@ tm title "flow-cli: tests"
 
 # Tab 3: Docs
 tm title "flow-cli: docs"
-```
+```bash
 
 Now you can easily identify each tab!
 
@@ -285,7 +285,7 @@ tm profile "Writing Light"
 
 # Review mode
 tm profile "Review"
-```
+```bash
 
 ---
 
@@ -297,7 +297,7 @@ Shell-native commands still work. For full features:
 
 ```bash
 brew install data-wise/tap/aiterm
-```
+```diff
 
 ### Profile switching not working
 
