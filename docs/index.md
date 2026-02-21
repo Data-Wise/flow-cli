@@ -26,10 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New: 31 Email Commands"
-    **Organize:** `em star`, `em thread`, `em snooze`, `em digest` — manage your inbox without leaving the terminal.
-    **Manage:** `em delete`, `em move`, `em restore`, `em flag`, `em todo`, `em event` — full email lifecycle with `--pick` multi-select.
-    **AI:** Switch backends with `em ai gemini`, capture tasks with `em catch 42`.
+!!! success "🎉 What's New in v7.4"
+    **31 Email Commands:** `em star`, `em thread`, `em snooze`, `em digest`, `em delete`, `em move`, `em flag`, `em todo` — full inbox management with `--pick` multi-select and AI backends.
+    **v7.4.1:** Homebrew install reduced from 75MB to 3.5MB. CI version guard prevents release mismatches.
     [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
     [→ Quick Reference](reference/REFCARD-EMAIL-DISPATCHER.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
