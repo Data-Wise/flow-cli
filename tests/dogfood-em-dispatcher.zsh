@@ -578,9 +578,7 @@ manage_fns=(
     _em_flag
     _em_unflag
     _em_todo
-    _em_todo_single
     _em_event
-    _em_event_single
     _em_create_calendar_event
     _em_create_reminder
 )
