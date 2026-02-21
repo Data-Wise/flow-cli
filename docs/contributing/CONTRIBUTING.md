@@ -356,7 +356,7 @@ feature/* → dev → main
 | **CI Tests** | `test.yml` | Push/PR to any branch | Run ZSH plugin tests |
 | **Deploy Docs** | `docs.yml` | Push to `main` (docs/**) | Auto-deploy to GitHub Pages |
 | **Homebrew Release** | `homebrew-release.yml` | GitHub release published | Update Homebrew formula |
-| **Release** | `release.yml` | Push to `main` | Semantic release + install tests |
+| **Version Guard** | `version-guard.yml` | GitHub release created | Verify FLOW_VERSION matches tag |
 
 ### What Happens Automatically
 
@@ -369,10 +369,10 @@ feature/* → dev → main
 - Only triggers if `docs/**` or `mkdocs.yml` changed
 - Install script tests run in Docker (ubuntu, debian, alpine)
 
-**On GitHub Release Published:**
-- Homebrew formula auto-updates in `homebrew-tap` repo
-- Creates PR to update version and SHA256
-- PR is auto-merged (configurable)
+**On GitHub Release Created:**
+- Version guard verifies `FLOW_VERSION` in `flow.plugin.zsh` matches the tag
+- Homebrew formula auto-updates in `homebrew-tap` repo (version + SHA256)
+- Homebrew PR is auto-merged (configurable)
 
 ### Creating a Release
 
@@ -407,7 +407,7 @@ gh workflow run homebrew-release.yml -f version=X.Y.Z
 ├── test.yml              # ZSH plugin tests
 ├── docs.yml              # MkDocs deployment
 ├── homebrew-release.yml  # Homebrew formula updates
-└── release.yml           # Semantic release + install tests
+└── version-guard.yml     # FLOW_VERSION vs tag mismatch check
 ```
 
 ---
