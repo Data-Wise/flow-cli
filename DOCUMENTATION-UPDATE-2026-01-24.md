@@ -31,7 +31,7 @@ Comprehensive documentation update to clarify that **flow-cli has ZERO dependenc
 
 **Highlights:**
 
-`````markdown
+``````markdown
 ## Your Setup: Antidote + OMZ Plugins
 
 What You DON'T Have:
@@ -180,7 +180,7 @@ fi
     - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md  # NEW
     ...
 `````
-`````
+``````
 
 ---
 
