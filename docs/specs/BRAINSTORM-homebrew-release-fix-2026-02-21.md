@@ -254,15 +254,15 @@ jobs:
 
 ## Medium Effort (1-2 hours)
 
-4. Investigate root directories (data/, r-ecosystem/, plugins/, templates/, tui/, zsh/, site/, Formula/)
-5. CI version guard workflow
-6. v7.4.1 release cycle
+1. Investigate root directories (data/, r-ecosystem/, plugins/, templates/, tui/, zsh/, site/, Formula/)
+2. CI version guard workflow
+3. v7.4.1 release cycle
 
 ## Long-term (Future sessions)
 
-7. Add `.gitattributes` export-ignore as defense-in-depth
-8. Consider `brew audit --strict` in flow-cli CI (not just homebrew-tap)
-9. Periodic `du` check in CI to catch size regressions
+1. Add `.gitattributes` export-ignore as defense-in-depth
+2. Consider `brew audit --strict` in flow-cli CI (not just homebrew-tap)
+3. Periodic `du` check in CI to catch size regressions
 
 ---
 
