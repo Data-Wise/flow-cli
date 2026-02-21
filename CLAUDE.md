@@ -244,7 +244,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 | Deploy docs       | `mkdocs gh-deploy --force`                                                                     |
 | Create release    | `./scripts/release.sh X.Y.Z` -> commit -> tag -> push                                          |
 
-**Release script updates:** `package.json`, `README.md`, `CLAUDE.md`, `CC-DISPATCHER-REFERENCE.md`
+**Release script updates:** `flow.plugin.zsh` (FLOW_VERSION), `package.json`, `README.md`, `CLAUDE.md`, `CC-DISPATCHER-REFERENCE.md`
 
 ---
 
