@@ -1188,7 +1188,7 @@ _em_star() {
     # Check current flags to determine toggle direction
     local flags
     flags=$(_em_hml_list "$folder" 100 2>/dev/null \
-        | jq -r --arg id "$msg_id" '.[] | select(.id == $id) | .flags | join(",")' 2>/dev/null)
+        | jq -r --arg id "$msg_id" '.[] | select(.id == ($id | tonumber)) | .flags | join(",")' 2>/dev/null)
 
     if [[ "$flags" == *"Flagged"* ]]; then
         _em_hml_flags remove "$msg_id" Flagged
@@ -1252,7 +1252,7 @@ _em_move() {
     fi
 
     # Safety: confirm before moving
-    printf "  Move #${msg_id} to ${_C_CYAN}${target_folder}${_C_NC}? [y/N] "
+    printf "  Move #%s to %b%s%b? [y/N] " "$msg_id" "${_C_CYAN}" "$target_folder" "${_C_NC}"
     local confirm
     read -r confirm
     if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
