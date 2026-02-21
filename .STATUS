@@ -12,10 +12,14 @@
 ## Current Session (2026-02-21)
 
 **Session activity:**
-- chore: deleted 62 stale root-level files (planning docs, scripts, artifacts)
-- fix: Homebrew formula selective install (74MB → ~4MB)
-- ci: added version guard workflow (block release on FLOW_VERSION mismatch)
-- release: v7.4.1 — Homebrew cleanup release
+- review: PR #408 code review, identified 3 issues (grep portability, SHA256 placeholder, test count)
+- fix: portable grep in version guard (`-oP` → `-oE`), clarify formula SHA256, fix test count (47→45)
+- merge: PR #408 to dev (squash merge)
+- docs: synced 14 files to v7.4.1 (version footers, CHANGELOG, test counts)
+- deploy: docs site deployed to GitHub Pages
+- release: v7.4.1 — full pipeline (PR #409, CI green, merge, tag, GitHub release)
+- fix: Homebrew tap formula still had `Dir["*"]` — pushed selective install directly to homebrew-tap
+- verify: `brew reinstall` confirms 75MB → 3.5MB (95% reduction, 215 files vs 1036)
 
 ## Previous Session (2026-02-20)
 
@@ -72,6 +76,12 @@
 
 ## Recent Releases
 
+### v7.4.1 (2026-02-21) — Homebrew Cleanup
+- Homebrew selective install: 75MB → 3.5MB (95% reduction)
+- Deleted 62 stale root-level files (-21k lines)
+- CI version guard: blocks releases on FLOW_VERSION mismatch
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.4.1
+
 ### v7.4.0 (2026-02-20) — 31 Email Commands
 - em organize: star, thread, snooze, digest (#402)
 - em manage: delete, move, restore, flag, todo, event with --pick multi-select (#403)
@@ -101,8 +111,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.4.1 in progress |
-| feature-homebrew-release-fix | `feature/homebrew-release-fix` | Homebrew cleanup + v7.4.1 |
+| Main repo | `dev` | v7.4.1 released, synced with main |
 
 ---
 
@@ -135,6 +144,6 @@
 
 **Last Updated:** 2026-02-21
 **Status:** v7.4.1 | 45/45 tests passing (1 expected timeout) | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors
-## wins: Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21), fixed the bug (2026-02-21), Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21)
-## streak: 1
-## last_active: 2026-02-21 12:20
+## wins: Homebrew 75MB→3.5MB (2026-02-21), v7.4.1 released (2026-02-21), Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21)
+## streak: 2
+## last_active: 2026-02-21 13:15
