@@ -295,14 +295,14 @@ This document summarizes the updates made to `SPEC-dot-chezmoi-safety-2026-01-30
 
 ### Files to Create/Update During Implementation
 
-3. **lib/core.zsh** - Add 3 cross-platform helpers
-4. **lib/dotfile-helpers.zsh** - Add 4 cache helpers
-5. **lib/dispatchers/dot-dispatcher.zsh** - Update commands with new features
-6. **commands/doctor.zsh** - Add integration point
-7. **tests/test-dot-chezmoi-safety.zsh** - Create complete test suite
-8. **tests/run-all.sh** - Add new test suite
-9. **completions/_dot** - Add new command completions
-10. **docs/reference/REFCARD-DOT.md** - Update quick reference
+1. **lib/core.zsh** - Add 3 cross-platform helpers
+2. **lib/dotfile-helpers.zsh** - Add 4 cache helpers
+3. **lib/dispatchers/dot-dispatcher.zsh** - Update commands with new features
+4. **commands/doctor.zsh** - Add integration point
+5. **tests/test-dot-chezmoi-safety.zsh** - Create complete test suite
+6. **tests/run-all.sh** - Add new test suite
+7. **completions/_dot** - Add new command completions
+8. **docs/reference/REFCARD-DOT.md** - Update quick reference
 
 ---
 

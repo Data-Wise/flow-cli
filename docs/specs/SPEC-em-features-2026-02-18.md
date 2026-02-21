@@ -52,7 +52,7 @@ graph TD
     MOVE --> FZF[fzf folder picker]
     DIGEST --> HML
     DIGEST --> AI[_em_ai_query]
-```
+```text
 
 All new features follow the existing adapter pattern — they delegate to `_em_hml_*` functions in `lib/em-himalaya.zsh` for CLI operations and use `_em_ai_query` for AI features.
 
@@ -72,11 +72,11 @@ All new features follow the existing adapter pattern — they delegate to `_em_h
 
 ### Snooze Tracking
 
-```
+```text
 ~/.flow/email-snooze/
 ├── pending.json          # Active snooze entries
 └── completed.json        # Expired (for cleanup)
-```
+```text
 
 ```json
 {
@@ -90,7 +90,7 @@ All new features follow the existing adapter pattern — they delegate to `_em_h
     }
   ]
 }
-```
+```diff
 
 N/A for thread, star, move, digest — these are stateless operations.
 
@@ -106,7 +106,7 @@ N/A for thread, star, move, digest — these are stateless operations.
 
 ### Thread View
 
-```
+```text
 em thread 42
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   #38  Jane Smith         2026-02-15
@@ -114,11 +114,11 @@ em thread 42
   │  └─ #42  Jane Smith    2026-02-18  ← current
   └─ #41  Bob Lee          2026-02-17
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
+```text
 
 ### Digest Output
 
-```
+```text
 em digest
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 em digest — 2026-02-18

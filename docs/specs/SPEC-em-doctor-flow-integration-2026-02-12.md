@@ -84,15 +84,15 @@ flowchart TD
 
     style Email fill:#e1f5fe
     style Fix fill:#fff3e0
-```
+```text
 
 ### Section Placement in flow doctor
 
-```
+```text
 SHELL → REQUIRED → RECOMMENDED → OPTIONAL → INTEGRATIONS
 → 📧 EMAIL (new, conditional)
 → DOTFILES → PLUGIN MANAGER → ZSH PLUGINS → FLOW-CLI → GITHUB TOKEN → ALIASES
-```
+```bash
 
 ## API Design
 
@@ -106,7 +106,7 @@ _doctor_check_email()
 # Side effects: Populates _doctor_missing_brew[], _doctor_missing_pip[]
 # Output:   Formatted status lines to stdout
 # Verbose:  Tests IMAP connectivity (account, fetch, OAuth2, SMTP config)
-```
+```bash
 
 ### New Function: `_doctor_email_connectivity()`
 
@@ -119,7 +119,7 @@ _doctor_email_connectivity()
 #           4. SMTP config validation (parse config.toml, verify host/port/auth set)
 # Output:   Status lines with yellow warnings on failure
 # Latency:  ~3-5s total (all 4 checks)
-```
+```bash
 
 ### New Function: `_doctor_email_setup()`
 
@@ -133,7 +133,7 @@ _doctor_email_setup()
 #           5. Offer OAuth2 proxy setup (if Gmail/Outlook detected)
 #           6. Run connectivity test to verify
 # Output:   Step-by-step interactive prompts with colored feedback
-```
+```bash
 
 ### New Fix Category
 
@@ -143,14 +143,14 @@ if [[ ${#_doctor_missing_email_brew[@]} -gt 0 || "$_doctor_email_no_config" == t
     categories+=("email")
     category_info[email]="📧 Email Tools + Setup ($detail, ~${time})"
 fi
-```
+```bash
 
 ### New Flag (future): `--email`
 
 ```zsh
 # Mirrors --dot pattern for isolated email check
 doctor --email     # Check only EMAIL section
-```
+```text
 
 N/A for initial implementation — future enhancement.
 
@@ -170,7 +170,7 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
 
 ### Flow Doctor Output (EMAIL section)
 
-```
+```text
 📧 EMAIL (himalaya)
   ✓ himalaya          1.1.0
   ✓ himalaya version  >= 1.0.0
@@ -185,11 +185,11 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
     Page size:   25
     Folder:      INBOX
     Config file: (none — using env defaults)
-```
+```text
 
 ### Fix Mode Menu (with email)
 
-```
+```text
 ╭─ Select Category to Fix ─────────────────────╮
 │                                                │
 │  1. 📦 Missing Tools (2 tools, ~1m)           │
@@ -198,11 +198,11 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
 │                                                │
 │  0. Exit without fixing                        │
 ╰───────────────────────────────────────────────╯
-```
+```text
 
 ### Verbose Mode Output (--verbose)
 
-```
+```text
 📧 EMAIL (himalaya)
   ✓ himalaya          1.1.0
   ✓ himalaya version  >= 1.0.0
@@ -223,21 +223,21 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
     Page size:   25
     Folder:      INBOX
     Config file: ~/.config/himalaya/config.toml
-```
+```text
 
 ### Verbose Connectivity Failure (warning, not error)
 
-```
+```text
   Connectivity:
     ✓ Account config valid (default account)
     △ IMAP: connection timed out (check network/firewall)
     △ OAuth2: email-oauth2-proxy not running
     ○ SMTP config: not configured (send may fail)
-```
+```text
 
 ### Fix Mode Output (email setup)
 
-```
+```text
 🔧 Email Setup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -264,7 +264,7 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
   ✓ Account config valid
   ✓ IMAP connected (fetched 1 message)
   ✓ Email setup complete!
-```
+```diff
 
 ### Provider Auto-Detection
 
@@ -292,6 +292,7 @@ N/A - CLI only, uses existing color scheme from `lib/core.zsh`.
 ## Review Checklist
 
 ### Dep Checking
+
 - [ ] `_doctor_check_email()` uses `_doctor_check_cmd` consistently
 - [ ] Conditional gate: `(( $+functions[em] ))` tested both ways
 - [ ] No duplicate checks for fzf, bat, jq (already in earlier sections)
@@ -300,6 +301,7 @@ N/A - CLI only, uses existing color scheme from `lib/core.zsh`.
 - [ ] Config summary matches em doctor's output format
 
 ### Verbose Connectivity
+
 - [ ] Account config test: `himalaya account list` with timeout
 - [ ] IMAP ping: `himalaya envelope list --page-size 1` with timeout
 - [ ] OAuth2 check: detect if email-oauth2-proxy process running + token validity
@@ -309,6 +311,7 @@ N/A - CLI only, uses existing color scheme from `lib/core.zsh`.
 - [ ] Reasonable timeout (5s per test, 15s total max)
 
 ### Fix Mode
+
 - [ ] `--fix` mode installs email deps via brew/pip correctly
 - [ ] Email category appears in fix menu with correct count/time estimate
 - [ ] Guided config creation: interactive prompts for email/server/auth
@@ -318,6 +321,7 @@ N/A - CLI only, uses existing color scheme from `lib/core.zsh`.
 - [ ] Connectivity test runs after setup to verify
 
 ### General
+
 - [ ] `em doctor` still works independently (no regressions)
 - [ ] Doctor help text updated with EMAIL section mention
 - [ ] Tests added for conditional gate and dep checking
@@ -344,7 +348,7 @@ else
         fi
     done
 fi
-```
+```diff
 
 ### Fix Mode Tracking
 

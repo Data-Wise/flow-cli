@@ -23,7 +23,7 @@ ls ~/.config/nvim/lua/lazyvim.lua
 # Open nvim and check plugins are loaded
 nvim
 # Press :Lazy to see plugin manager
-```
+```diff
 
 ---
 
@@ -51,10 +51,10 @@ LazyVim is a pre-configured nvim distribution with **58 plugins** already set up
 - **100+ keybindings** already mapped
 - **Fast** (sub-100ms startup with lazy loading)
 
-```
+```text
 Vanilla Nvim:  Raw editor, configure everything yourself
 LazyVim:       Batteries included, ready to code
-```
+```bash
 
 **The `<leader>` key:** Most LazyVim commands start with `<leader>` (mapped to `SPACE` by default).
 
@@ -71,7 +71,7 @@ Neo-tree is a file explorer sidebar (like VS Code's file tree).
 ```bash
 cd ~/projects/dev-tools/flow-cli
 nvim
-```
+```diff
 
 **Open Neo-tree:**
 
@@ -278,7 +278,7 @@ Which-key shows available keybindings **as you type**.
 
 **What you see:**
 
-```
+```text
 ╭─ <leader> ────────────────────────╮
 │ b  buffer commands                │
 │ f  find (Telescope)               │
@@ -287,7 +287,7 @@ Which-key shows available keybindings **as you type**.
 │ w  window commands                │
 │ ...                               │
 ╰───────────────────────────────────╯
-```
+```diff
 
 ### Step 4.2: Exploring Submenus
 
@@ -337,7 +337,7 @@ Gitsigns shows **git changes** directly in nvim.
 ```bash
 cd ~/projects/dev-tools/flow-cli
 nvim README.md
-```
+```diff
 
 **What you see:**
 - **Green +** in gutter (left side) = added lines
@@ -469,7 +469,7 @@ LazyVim has built-in terminal support.
 ```bash
 cd ~/projects/dev-tools/flow-cli
 nvim
-```
+```bash
 
 **Workflow:**
 
@@ -486,7 +486,7 @@ nvim
 
 **Your screen layout:**
 
-```
+```text
 ┌────────────────┬──────────────────────────┐
 │                │                          │
 │   Neo-tree     │     work.zsh (editing)   │
@@ -497,7 +497,7 @@ nvim
 │   Terminal (running tests)                │
 │                                           │
 └───────────────────────────────────────────┘
-```
+```diff
 
 ### Practice Challenge
 

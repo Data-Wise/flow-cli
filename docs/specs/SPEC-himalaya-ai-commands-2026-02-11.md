@@ -49,7 +49,7 @@ Add `:HimalayaAi <subcommand>` umbrella command to manage AI prompts and setting
 
 ## Architecture
 
-```
+```text
 :HimalayaAi <subcommand>
     |
     +-- status     --> read M.config --> format + display in split
@@ -57,10 +57,11 @@ Add `:HimalayaAi <subcommand>` umbrella command to manage AI prompts and setting
     +-- edit       --> vsplit config.lua --> BufWritePost auto-reload
     +-- validate   --> select prompt --> detect email source --> run_ai --> result split
     +-- set        --> parse key/value --> validate --> update M.config --> persist to config.lua
-```
+```text
 
 **Config loading flow:**
-```
+
+```text
 config.lua (user overrides)
     |
     v
@@ -68,7 +69,7 @@ tbl_deep_extend(defaults, config)  -->  M.config  (runtime)
     ^                                       |
     |                                       v
     +--- :HimalayaAi set (writes back) <--- M.config update
-```
+```text
 
 ---
 
@@ -78,13 +79,13 @@ N/A — This is a Neovim user command, not an HTTP API.
 
 ### Command Interface
 
-```
+```text
 :HimalayaAi status
 :HimalayaAi prompts
 :HimalayaAi edit
 :HimalayaAi validate [prompt_name]
 :HimalayaAi set <key> <value>
-```
+```text
 
 **Argument table:**
 
@@ -124,7 +125,7 @@ return {
     tldr = "...",
   },
 }
-```
+```yaml
 
 ---
 
@@ -142,7 +143,7 @@ No new external dependencies.
 
 ### Status Dashboard Layout
 
-```
+```bash
 HimalayaAi Status
 ==================
 Backend:     claude (/Users/dt/.local/bin/claude) [OK]
@@ -158,7 +159,7 @@ Prompts (4):
   tldr           You are an executive assistant triag...
 
 [q] close
-```
+```diff
 
 - Opens in `botright vnew` (same pattern as result split)
 - `buftype=nofile`, `filetype=markdown`, closeable with `q`
@@ -168,7 +169,7 @@ Prompts (4):
 
 ### Prompts Buffer Layout
 
-```
+```bash
 HimalayaAi Prompts
 ====================
   summarize      Summarize this email in 2-3 concise...
@@ -177,7 +178,7 @@ HimalayaAi Prompts
   tldr           You are an executive assistant triag...
 
 [e] edit config   [v] validate   [q] close
-```
+```diff
 
 - `e` opens config.lua in split (same as `:HimalayaAi edit`)
 - `v` prompts which prompt to test, then runs validation
@@ -271,7 +272,7 @@ When `:HimalayaAi set` writes to config.lua:
 
 ### Built-in Sample Email
 
-```
+```bash
 From: Sarah Chen <sarah@example.edu>
 Subject: Re: Data science hiring — feedback needed by Friday
 Date: Tue, 11 Feb 2026 09:42:00 -0700

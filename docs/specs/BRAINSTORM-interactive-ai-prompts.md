@@ -9,17 +9,17 @@ Make AI actions prompt for user instructions before running, so the user's inten
 
 ## Current Flow
 
-```
+```text
 <leader>ms → static prompt → AI → result split
 <leader>mr → static prompt → AI → result split
-```
+```text
 
 ## Proposed Flow
 
-```
+```text
 <leader>ms → vim.ui.input("Instructions (Enter=default):") → merge with prompt → AI → result split
 <leader>mr → vim.ui.input("Reply tone/instructions:") → merge with prompt → AI → result split
-```
+```bash
 
 ## Options
 
@@ -28,6 +28,7 @@ Make AI actions prompt for user instructions before running, so the user's inten
 **Effort:** ⚡ Quick (< 30 min)
 
 Append user input to existing prompt:
+
 ```lua
 local base = prompts[key]
 if instructions ~= "" then
@@ -35,7 +36,7 @@ if instructions ~= "" then
 else
   prompt = base
 end
-```
+```text
 
 **Pros:** Minimal code change (~15 lines), works immediately
 **Cons:** No structured guidance to the AI, user input just tacked on
@@ -45,13 +46,14 @@ end
 **Effort:** ⚡ Quick (< 30 min)
 
 Restructure prompts as templates with an `{instructions}` slot:
+
 ```lua
 draft_reply = table.concat({
   "Draft a professional reply to this email.",
   "{instructions}",          -- replaced or removed
   "Format as markdown."
 }, "\n"),
-```
+```text
 
 When user provides input: slot filled. When empty: slot removed.
 
@@ -63,10 +65,11 @@ When user provides input: slot filled. When empty: slot removed.
 **Effort:** 🔧 Medium (1-2 hours)
 
 First prompt analyzes the email, second prompt uses analysis + user instructions:
-```
+
+```text
 Phase 1: "Analyze this email: key points, sender intent, required response"
 Phase 2: "Given this analysis + user instructions, draft reply"
-```
+```text
 
 **Pros:** Best quality output, AI has full context
 **Cons:** 2x API calls, slower, more complex
@@ -91,6 +94,7 @@ Phase 2: "Given this analysis + user instructions, draft reply"
 ### Tier 3: Configurable (User decides)
 
 Add `M.config.ask_before` table:
+
 ```lua
 ask_before = {
   draft_reply = true,   -- always ask
@@ -99,7 +103,7 @@ ask_before = {
   extract_todos = false,
   tldr = false,
 },
-```
+```bash
 
 User can toggle via `:HimalayaAi set ask_before.summarize true`
 
@@ -125,7 +129,7 @@ local function run_ai_with_input(prompt_key, title, hint)
     run_ai(prompt_key, title, nil)
   end
 end
-```
+```bash
 
 ### Prompt Merge in `run_ai()`
 
@@ -140,7 +144,7 @@ local function run_ai(prompt_key, title, instructions)
   end
   -- ... rest of existing code ...
 end
-```
+```text
 
 ### Per-Action Hints
 
@@ -152,7 +156,7 @@ local input_hints = {
   extract_todos = "Filter (Enter=all): ",
   tldr = "Context (Enter=default): ",
 }
-```
+```bash
 
 ### New Compose Action
 
@@ -169,7 +173,7 @@ function M.compose()
     M._run_ai_custom(prompt, get_buffer_text(), "Compose", {})
   end)
 end
-```
+```text
 
 ## Quick Wins
 

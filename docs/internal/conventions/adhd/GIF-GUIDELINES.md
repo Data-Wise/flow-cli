@@ -42,7 +42,7 @@ Height: Auto (maintain aspect ratio)
 FPS: 10-15 (not 30+)
 Colors: 64-128 palette
 Loop: Infinite
-```
+```text
 
 ---
 
@@ -50,9 +50,9 @@ Loop: Infinite
 
 ### Format
 
-```
+```text
 <feature>-<action>-<variant>.gif
-```
+```diff
 
 ### Examples
 
@@ -83,7 +83,7 @@ Loop: Infinite
 
 ### Directory Structure
 
-```
+```text
 docs/
 ├── assets/
 │   └── gifs/
@@ -101,7 +101,7 @@ docs/
 │       └── tutorials/         # Tutorial companion GIFs
 │           ├── 01-*.gif
 │           └── 10-*.gif
-```
+```text
 
 ### Linking in Docs
 
@@ -110,7 +110,7 @@ docs/
 ![Pick basic usage](../../assets/gifs/commands/pick-basic-usage.gif)
 
 *Using `pick` to navigate between projects*
-```
+```diff
 
 ---
 
@@ -142,7 +142,7 @@ export PS1="$ "  # Simple prompt
 
 # 4. Choose high-contrast theme
 # Recommended: Solarized Light (better GIF compression)
-```
+```bash
 
 ### Recording Process
 
@@ -185,7 +185,7 @@ gifsicle -O3 --lossy=80 --colors 128 input.gif -o output.gif
 for gif in docs/assets/gifs/**/*.gif; do
     gifsicle -O3 --colors 128 "$gif" -o "${gif%.gif}-optimized.gif"
 done
-```
+```bash
 
 ### Using ffmpeg
 
@@ -198,7 +198,7 @@ ffmpeg -i input.mov -vf "fps=10,scale=1200:-1:flags=lanczos" \
 ffmpeg -i input.mov -vf \
   "fps=10,scale=1200:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" \
   output.gif
-```
+```diff
 
 ### Optimization Targets
 
@@ -278,7 +278,7 @@ The GIF demonstrates:
 2. Filtering projects by typing
 3. Selecting with Enter key
 4. Changing directory to selected project
-```
+```diff
 
 ---
 
@@ -391,7 +391,7 @@ Demonstrates the complete teaching + git integration workflow including:
 
 The teaching system integrates with Git to provide automated commit
 workflows, branch-aware deployment, and interactive cleanup prompts.
-```
+```text
 
 ### Example 2: DOT Dispatcher Demo
 
@@ -411,7 +411,7 @@ Demonstrates the dots/sec dispatcher functionality for managing dotfiles and sec
 
 The dots and sec dispatchers provide streamlined access to dotfile management
 and secret storage using macOS Keychain integration.
-```
+```yaml
 
 ---
 
@@ -445,7 +445,7 @@ git commit -m "docs: update pick GIF for v4.8 UI changes
 
 - New GIF reflects unified grammar
 - Old GIF archived for reference"
-```
+```diff
 
 ---
 
@@ -470,7 +470,7 @@ git commit -m "docs: update pick GIF for v4.8 UI changes
   src="https://asciinema.org/a/123456.js"
   async>
 </script>
-```
+```diff
 
 ### Interactive Demos
 
@@ -497,7 +497,7 @@ brew install --cask kap
 
 # Install peek alternative (optional)
 brew install --cask licecap
-```
+```bash
 
 ### Linux
 
@@ -510,13 +510,13 @@ sudo apt install ffmpeg
 
 # Install peek
 sudo apt install peek
-```
+```text
 
 ---
 
 ## Quick Reference
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │  GIF CREATION QUICK REFERENCE                           │
 ├─────────────────────────────────────────────────────────┤

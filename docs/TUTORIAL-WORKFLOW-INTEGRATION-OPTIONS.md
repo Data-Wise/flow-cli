@@ -31,7 +31,7 @@ You'll use worktrees when:
 ## Step 2: Creating Your First Worktree
 ```bash
 wt create feature/new-feature
-```
+```bash
 
 **🔄 Workflow: Feature Development**
 1. Create worktree for feature
@@ -55,7 +55,7 @@ wt create feature/new-feature
 
 [Links to next tutorial]
 
-```
+```diff
 
 ### Characteristics
 
@@ -99,7 +99,7 @@ wt create feature/new-feature
 ## Step 2: Creating Your First Worktree
 ```bash
 wt create feature/new-feature
-```
+```bash
 
 [Pure tutorial - practice the mechanics]
 
@@ -139,7 +139,7 @@ work user-auth
 finish "Add user authentication"
 g push
 g pr create
-```
+```bash
 
 ### Workflow 2: Bug Fix + Feature Parallel
 
@@ -175,7 +175,7 @@ g pr create
 # Return to feature work
 cd ~/.git-worktrees/flow-cli/feature-user-auth
 # Continue feature development
-```
+```diff
 
 ### Workflow 3: PR Review
 
@@ -210,7 +210,7 @@ cd ~/.git-worktrees/flow-cli/feature-user-auth
 
 [Links to next tutorial]
 
-```
+```diff
 
 ### Characteristics
 
@@ -254,7 +254,7 @@ cd ~/.git-worktrees/flow-cli/feature-user-auth
 💡 **Quick Workflow Tip:** Use worktrees for feature isolation
 ```bash
 wt create feature/new-feature  # Try it now!
-```
+```diff
 
 ## Step 2: Creating Your First Worktree
 
@@ -308,7 +308,7 @@ Now that you understand the basics, here are complete workflow patterns:
 
 [Links]
 
-```
+```diff
 
 ### Characteristics
 
@@ -334,7 +334,7 @@ Now that you understand the basics, here are complete workflow patterns:
 
 ### Integrated (Option 1)
 
-```
+```yaml
 
 ┌─────────────────────────────────────────────────────────────┐
 │ Tutorial 09: Worktrees                                      │
@@ -360,11 +360,11 @@ Now that you understand the basics, here are complete workflow patterns:
 
 Flow: Learn → Apply → Learn → Apply (interleaved)
 
-```
+```text
 
 ### Separated (Option 2)
 
-```
+```yaml
 
 ┌─────────────────────────────────────────────────────────────┐
 │ Tutorial 09: Worktrees                                      │
@@ -394,11 +394,11 @@ Flow: Learn → Apply → Learn → Apply (interleaved)
 
 Flow: Learn All → Apply All (sequential)
 
-```
+```text
 
 ### Hybrid (Option 3) - RECOMMENDED
 
-```
+```yaml
 
 ┌─────────────────────────────────────────────────────────────┐
 │ Tutorial 09: Worktrees                                      │
@@ -434,7 +434,7 @@ Flow: Learn All → Apply All (sequential)
 
 Flow: Learn + Quick Tips → Complete Workflow Patterns
 
-```
+```diff
 
 ---
 
@@ -485,7 +485,7 @@ Flow: Learn + Quick Tips → Complete Workflow Patterns
 
 ### Workflow 3: Feature + Hotfix Parallel
 [Full workflow]
-```
+```diff
 
 ---
 
@@ -512,7 +512,7 @@ Flow: Learn + Quick Tips → Complete Workflow Patterns
 ### Workflow 1: Feature Development
 ### Workflow 2: Bug Fix + Feature Parallel
 ### Workflow 3: PR Review
-```
+```diff
 
 ---
 

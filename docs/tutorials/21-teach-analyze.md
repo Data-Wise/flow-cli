@@ -29,7 +29,7 @@ teach doctor
 
 # Check you're in a course directory
 ls lectures/*.qmd
-```
+```diff
 
 ---
 
@@ -70,7 +70,7 @@ flowchart LR
     style Phase0 fill:#2ecc71,color:#fff
     style Phase2 fill:#e67e22,color:#fff
     style Phase4 fill:#e74c3c,color:#fff
-```
+```yaml
 
 ---
 
@@ -106,7 +106,7 @@ concepts:
     - mean
     - variance
 ---
-```
+```diff
 
 **Naming conventions:**
 - Use lowercase, hyphenated names: `chi-squared` not `Chi Squared`
@@ -123,11 +123,11 @@ Now run the analysis on a single file:
 
 ```bash
 teach analyze lectures/week-03-correlation.qmd
-```
+```text
 
 **Expected output:**
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  CONCEPT ANALYSIS: week-03-correlation.qmd                   │
 ╰─────────────────────────────────────────────────────────────╯
@@ -143,7 +143,7 @@ teach analyze lectures/week-03-correlation.qmd
 ├────────────────────────────────────────────────────┤
 │ Phase: 0 (concept-validated)                       │
 ╰────────────────────────────────────────────────────╯
-```
+```diff
 
 **What to look for:**
 - Green checkmarks (✓) mean prerequisites are satisfied
@@ -159,7 +159,7 @@ After running analysis, check the generated concept graph:
 ```bash
 # View the concept graph
 cat .teach/concepts.json | jq '.'
-```
+```diff
 
 **The concept graph maps:**
 - Which week introduces each concept
@@ -172,13 +172,13 @@ cat .teach/concepts.json | jq '.'
   "variance": {"week": 1, "file": "lectures/week-01-basics.qmd"},
   "correlation": {"week": 3, "file": "lectures/week-03-correlation.qmd"}
 }
-```
+```text
 
 **Run analysis on your full course** to build the complete graph:
 
 ```bash
 teach analyze
-```
+```text
 
 This scans all `.qmd` files in `lectures/` and validates cross-file prerequisites.
 
@@ -188,11 +188,11 @@ This scans all `.qmd` files in `lectures/` and validates cross-file prerequisite
 
 If analysis finds violations, you'll see:
 
-```
+```text
 ✗ regression (required in Week 3, introduced in Week 5)
   → Move regression introduction to Week 1-2, or
   → Remove from Week 3 requirements
-```
+```bash
 
 **Common fixes:**
 
@@ -211,7 +211,7 @@ teach analyze --mode relaxed lectures/week-05.qmd
 
 # Strict: treat warnings as errors
 teach analyze --mode strict lectures/week-05.qmd
-```
+```text
 
 ---
 
@@ -221,11 +221,11 @@ For a guided walkthrough, use interactive mode:
 
 ```bash
 teach analyze --interactive
-```
+```text
 
 **This walks you through:**
 
-```
+```sql
 Select analysis scope:
   1) Single file
   2) Single week
@@ -239,16 +239,16 @@ Select strictness mode:
   3) Strict (all issues)
 
 > 2
-```
+```text
 
 Then it shows results and offers to step through each violation:
 
-```
+```bash
 Found 2 issues. Review each? (y/n)
 
 [1/2] regression used in Week 3 but taught in Week 5
   [y] Apply fix  [n] Skip  [s] Skip all  [q] Quit
-```
+```bash
 
 **Best for:** First-time analysis of a new course, or when you have many violations to triage.
 
@@ -264,7 +264,7 @@ teach analyze --report analysis-report.md
 
 # JSON report (for CI/automation)
 teach analyze --report results.json --format json
-```
+```diff
 
 **Markdown report includes:**
 - Summary statistics (concepts, weeks, violations)
@@ -279,7 +279,7 @@ teach analyze --report results.json --format json
 # Block deploys on errors
 teach analyze --report /dev/null --format json | jq '.error_count'
 # Returns 0 if no errors
-```
+```text
 
 ---
 
@@ -289,11 +289,11 @@ Before making slides, check where content is too dense:
 
 ```bash
 teach analyze --slide-breaks lectures/week-05-regression.qmd
-```
+```text
 
 **Output shows suggested breaks:**
 
-```
+```text
 SLIDE OPTIMIZATION
   Suggested breaks: 3
 
@@ -304,13 +304,13 @@ SLIDE OPTIMIZATION
 
   Key concepts: regression-coefficient, residuals, r-squared
   Estimated time: 28 min
-```
+```text
 
 **For detailed preview:**
 
 ```bash
 teach analyze --preview-breaks lectures/week-05-regression.qmd
-```
+```diff
 
 This shows each suggested break with:
 - Exact location (heading and line)
@@ -326,11 +326,11 @@ Now use the slides integration for end-to-end generation:
 ```bash
 # See key concepts for callout boxes
 teach slides --optimize --key-concepts lectures/week-05-regression.qmd
-```
+```text
 
 **Output:**
 
-```
+```text
 🔑 Key Concepts for Callout Boxes:
 ─────────────────────────────────────
   • regression-coefficient (concept_graph)
@@ -339,19 +339,19 @@ teach slides --optimize --key-concepts lectures/week-05-regression.qmd
 
   3 concept(s) identified
   ⏱️  Estimated presentation time: 28 min
-```
+```text
 
 **Generate slides with optimizations applied:**
 
 ```bash
 teach slides --optimize --apply-suggestions lectures/week-05-regression.qmd
-```
+```text
 
 **Full workflow with callouts:**
 
 ```bash
 teach slides --optimize --key-concepts --apply-suggestions lectures/week-05-regression.qmd
-```
+```diff
 
 This generates `slides/week-05-regression_slides.qmd` with:
 - Slides split at suggested break points
@@ -372,7 +372,7 @@ teach analyze --ai lectures/week-05-regression.qmd
 
 # Check AI usage costs
 teach analyze --costs
-```
+```diff
 
 AI analysis provides:
 - Learning objective alignment scoring
@@ -388,7 +388,7 @@ teach deploy --check-prereqs
 
 # Deep validation (all layers)
 teach validate --deep
-```
+```bash
 
 ### Automation
 

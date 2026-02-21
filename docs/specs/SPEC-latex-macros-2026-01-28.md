@@ -89,7 +89,7 @@ graph TB
 
     CACHE --> LIST & DOC
     ASSOC --> VAL & ANA & SCH
-```
+```yaml
 
 ---
 
@@ -133,7 +133,7 @@ teaching_style:
     scholar:
       export_format: "json"
       include_in_prompts: true
-```
+```zsh
 
 ---
 
@@ -155,7 +155,7 @@ typeset -gA _FLOW_MACRO_META=(
   [Var]="_macros.qmd:6:0"
   [indep]="_macros.qmd:10:0"
 )
-```
+```yaml
 
 ### Cache File (.flow/macros.yml)
 
@@ -176,7 +176,7 @@ macros:
     description: Variance
     category: operators
     args: 0
-```
+```diff
 
 ---
 
@@ -214,13 +214,13 @@ sequenceDiagram
     User->>CLI: teach macros list
     CLI->>Cache: Read cached macros
     CLI->>User: Display formatted table
-```
+```text
 
 ### Output Examples
 
 **teach macros list:**
 
-```
+```yaml
 LaTeX Macros (14 available)
 
 OPERATORS
@@ -233,11 +233,11 @@ SYMBOLS
   \iid           → \text{i.i.d.}        IID notation
 
 Source: _macros.qmd (synced 2h ago)
-```
+```text
 
 **teach doctor (macro section):**
 
-```
+```text
 MACROS
   Source file     ✓ _macros.qmd exists
   Config sync     ✓ .flow/macros.yml up to date
@@ -276,21 +276,25 @@ MACROS
 ## Implementation Notes
 
 ### Phase 1: Core Parser (4h)
+
 - Add schema to `lib/templates/teaching/teach-config.yml.template`
 - Create `lib/macro-parser.zsh` with format-specific parsers
 - Add unit tests in `tests/test-macro-parser.zsh`
 
 ### Phase 2: Commands (3h)
+
 - Create `commands/teach-macros.zsh`
 - Add `macros` case to `lib/dispatchers/teach-dispatcher.zsh`
 - Add completions to `completions/_teach`
 
 ### Phase 3: Integration (3h)
+
 - Add macro section to `teach doctor`
 - Add `--macros` flag to `teach validate`
 - Extend `teach analyze` for macro cross-reference
 
 ### Phase 4: Cache & Scholar (4h)
+
 - Implement hash-based cache with mtime invalidation
 - Add Scholar export formats (json, mathjax, latex)
 - Auto-generate CLAUDE.md macro section

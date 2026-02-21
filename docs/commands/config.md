@@ -9,7 +9,7 @@ flow config [command] [options]
 flow config show [filter]
 flow config set <key> <value>
 flow config profile load <name>
-```
+```bash
 
 ## Description
 
@@ -112,7 +112,7 @@ flow config profile save work
 
 # Delete a user profile
 flow config profile delete work
-```
+```bash
 
 ## Examples
 
@@ -127,11 +127,11 @@ flow config show timer
 
 # Filter by keyword
 flow config show adhd
-```
+```text
 
 Output:
 
-```
+```text
 FLOW-CLI CONFIGURATION
 
   TIMER
@@ -142,7 +142,7 @@ FLOW-CLI CONFIGURATION
 
   * = modified from default
   Config file: ~/.config/flow/config.zsh
-```
+```bash
 
 ### Get/Set Values
 
@@ -157,7 +157,7 @@ flow config set timer_default 30
 
 # Shorthand syntax
 flow config timer_default=30
-```
+```bash
 
 ### Reset to Defaults
 
@@ -167,7 +167,7 @@ flow config reset timer_default
 
 # Reset everything
 flow config reset --all
-```
+```bash
 
 ### Using Profiles
 
@@ -180,11 +180,11 @@ flow config profile save work
 
 # List available profiles
 flow config profile list
-```
+```text
 
 Output:
 
-```
+```text
 CONFIGURATION PROFILES
 
   Built-in:
@@ -195,13 +195,13 @@ CONFIGURATION PROFILES
 
   User Profiles:
     work (saved: 2025-12-26)
-```
+```text
 
 ### Interactive Setup
 
 ```bash
 flow config wizard
-```
+```bash
 
 Launches an interactive wizard that guides you through:
 
@@ -218,15 +218,15 @@ flow config export > my-config.zsh
 
 # Show config file locations
 flow config path
-```
+```text
 
 ## Configuration File
 
 The configuration file is located at:
 
-```
+```text
 ~/.config/flow/config.zsh
-```
+```bash
 
 Format:
 
@@ -235,15 +235,15 @@ Format:
 FLOW_CONFIG[timer_default]="25"
 FLOW_CONFIG[dopamine_mode]="yes"
 # ...
-```
+```text
 
 ### Profile Storage
 
 User profiles are stored in:
 
-```
+```text
 ~/.config/flow/profiles/<name>.zsh
-```
+```bash
 
 ## Environment Variables
 

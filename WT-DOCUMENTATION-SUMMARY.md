@@ -62,7 +62,7 @@
 
 ## Files Updated/Created
 
-```
+```text
 docs/
 ├── reference/
 │   ├── WT-DISPATCHER-REFERENCE.md    [UPDATED - 120+ lines]

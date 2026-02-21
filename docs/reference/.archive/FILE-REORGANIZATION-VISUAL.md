@@ -7,7 +7,7 @@
 
 ### Current State (Flat Structure)
 
-```
+```text
 ~/.config/zsh/functions/
 │
 ├── adhd-helpers.zsh ⚠️ 3198 lines, 65 functions!
@@ -33,11 +33,11 @@
 ├── status.zsh
 ├── v-utils.zsh
 └── zsh-clean.zsh
-```
+```text
 
 ### Target State (Modular Structure)
 
-```
+```text
 ~/.config/zsh/functions/
 │
 ├── dispatchers/ ✨ NEW
@@ -84,7 +84,7 @@
 ├── status.zsh                     (unchanged)
 ├── v-utils.zsh                    (unchanged)
 └── zsh-clean.zsh                  (unchanged)
-```
+```text
 
 ## File Size Comparison
 
@@ -138,7 +138,7 @@
 
 ### Dispatcher Pattern (Example: r)
 
-```
+```bash
 User types: r test
      ↓
 r-dispatcher.zsh
@@ -149,11 +149,11 @@ case "$1" in
   help) → Display help text
      ↓
 Execute action
-```
+```text
 
 ### Helper Dependencies (Example: pick)
 
-```
+```bash
 User types: pick r
      ↓
 pick-dispatcher.zsh
@@ -169,11 +169,11 @@ fzf selection
 User picks project
      ↓
 cd to project directory
-```
+```text
 
 ### Session Flow (Example: work → finish)
 
-```
+```text
 User types: work
      ↓
 work.zsh
@@ -197,7 +197,7 @@ Calls: endsession()
 Logs completion
      ↓
 Optional: git commit
-```
+```zsh
 
 ## Sourcing Order
 
@@ -213,7 +213,7 @@ source ~/.config/zsh/functions/mcp-dispatcher.zsh
 source ~/.config/zsh/functions/work.zsh
 source ~/.config/zsh/functions/dash.zsh
 # ... etc
-```
+```bash
 
 ### After (.zshrc)
 
@@ -234,7 +234,7 @@ done
 for funcfile in ~/.config/zsh/functions/*.zsh(N); do
     source "$funcfile"
 done
-```
+```diff
 
 **Benefits:**
 - ✅ Correct dependency order guaranteed
@@ -245,7 +245,7 @@ done
 
 ### Phase 1-7: Dispatchers (Automated) ⚡
 
-```
+```text
 smart-dispatchers.zsh
   ├── Extract r()         → dispatchers/r-dispatcher.zsh
   ├── Extract qu()        → dispatchers/quarto-dispatcher.zsh
@@ -260,13 +260,13 @@ mcp-dispatcher.zsh        → dispatchers/mcp-dispatcher.zsh (move)
 
 adhd-helpers.zsh
   └── Extract pick()      → dispatchers/pick-dispatcher.zsh
-```
+```text
 
 **Status:** ✅ Fully automated script available
 
 ### Phase 8+: Helpers (Manual) 🔧
 
-```
+```text
 adhd-helpers.zsh (3198 lines)
   ├── Extract just-start, why, win, wins, morning
   │   → helpers/energy-helpers.zsh
@@ -297,7 +297,7 @@ adhd-helpers.zsh (3198 lines)
   │
   └── Extract mv* functions
       → helpers/mediationverse-helpers.zsh
-```
+```text
 
 **Status:** ⏳ Manual work required (see ADHD-HELPERS-FUNCTION-MAP.md)
 
@@ -305,39 +305,39 @@ adhd-helpers.zsh (3198 lines)
 
 ### Before: Finding a Function 😰
 
-```
+```text
 User: "Where is the pick() function?"
   → Check adhd-helpers.zsh (3198 lines, search required)
   → Found at line 1875
   → But where are the dependencies?
   → _proj_list_all? (search again... line 1743)
   → _proj_find? (search again... line 1708)
-```
+```text
 
 ### After: Finding a Function 😊
 
-```
+```text
 User: "Where is the pick() function?"
   → Check dispatchers/ directory
   → Found: pick-dispatcher.zsh (198 lines, easy to read)
   → Dependencies clearly documented in header
   → Jump to helpers/project-detection.zsh for details
-```
+```text
 
 ### Before: Adding a New Dispatcher 😓
 
-```
+```text
 Developer:
   1. Open smart-dispatchers.zsh (880 lines)
   2. Find a place to add new function
   3. Add function (disrupts existing code)
   4. Hope you didn't break anything
   5. Test entire smart-dispatchers.zsh file
-```
+```text
 
 ### After: Adding a New Dispatcher 😎
 
-```
+```zsh
 Developer:
   1. Create new file: dispatchers/my-dispatcher.zsh
   2. Copy template from existing dispatcher
@@ -345,7 +345,7 @@ Developer:
   4. No other files touched
   5. Auto-sourced by .zshrc
   6. Test only new dispatcher
-```
+```bash
 
 ## File Size Impact
 
@@ -377,7 +377,7 @@ grep -r "devtools::test" ~/.config/zsh/functions/
 # Where are all the dispatchers?
 ls ~/.config/zsh/functions/
 # Mixed in with everything else
-```
+```bash
 
 ### After
 
@@ -391,7 +391,7 @@ ls ~/.config/zsh/functions/dispatchers/
 # All dispatchers, clearly organized
 cat ~/.config/zsh/functions/dispatchers/README.md
 # Complete documentation
-```
+```bash
 
 ## Testing Strategy
 
@@ -401,7 +401,7 @@ cat ~/.config/zsh/functions/dispatchers/README.md
 # Change one function in adhd-helpers.zsh
 # Risk: Broke something else in the same file
 # Must test: All 65 functions
-```
+```bash
 
 ### After
 

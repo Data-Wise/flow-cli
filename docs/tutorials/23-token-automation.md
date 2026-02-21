@@ -65,11 +65,11 @@ Let's see the traditional approach:
 ```bash
 # Full health check (all categories)
 doctor
-```
+```text
 
 **Expected output:**
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │  🩺 flow-cli Health Check                   │
 ╰─────────────────────────────────────────────╯
@@ -86,7 +86,7 @@ doctor
   ✓ GitHub token    Valid (expires in 45 days)
 
 ... (60+ seconds total)
-```
+```bash
 
 !!! note "Full Health Check is Valuable"
     The traditional `doctor` command is still important for comprehensive system checks. Use it weekly or after major changes.
@@ -100,11 +100,11 @@ Now let's use the new isolated token check:
 ```bash
 # Check only tokens (< 3s, cached)
 doctor --dot
-```
+```text
 
 **Expected output:**
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │  🩺 flow-cli Health Check                   │
 ╰─────────────────────────────────────────────╯
@@ -114,7 +114,7 @@ doctor --dot
   ✓ Cache hit       ~/.flow/cache/doctor/token-github.cache
 
 ⏱️ Check completed in 0.85s (cache hit: 0.05s)
-```
+```bash
 
 !!! success "20x Faster!"
     Token check: **0.85s** vs **60s** full doctor run
@@ -132,13 +132,13 @@ doctor --dot
 ```bash
 # Run again immediately
 doctor --dot
-```
+```text
 
 **Expected:**
 
-```
+```text
 ⏱️ Check completed in 0.05s (cache hit: 0.05s)
-```
+```bash
 
 **Cache hit!** The second check is **instant** (~50ms).
 
@@ -167,7 +167,7 @@ sequenceDiagram
         Doctor->>Cache: Store result (TTL: 5 min)
         Doctor-->>User: ✓ Valid (fresh, 2.3s)
     end
-```
+```diff
 
 ### Cache Lifecycle
 
@@ -194,11 +194,11 @@ When you have token issues, use the interactive fix menu:
 ```bash
 # Interactive token fix workflow
 doctor --fix-token
-```
+```text
 
 **Expected output:**
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │  🩺 flow-cli Health Check - Fix Mode        │
 ╰─────────────────────────────────────────────╯
@@ -217,7 +217,7 @@ GitHub Token: Expiring in 7 days
 │  ○ Skip - I'll fix this later               │
 │                                             │
 ╰─────────────────────────────────────────────╯
-```
+```bash
 
 !!! tip "ADHD-Friendly Design"
     - **Single-choice menu** (reduces decision paralysis)
@@ -244,13 +244,13 @@ Control output detail for different scenarios:
 ```bash
 # Minimal output, automation-friendly
 doctor --dot --quiet
-```
+```text
 
 **Output:**
 
-```
+```bash
 # (No output if successful, exit code 0)
-```
+```diff
 
 **Use cases:**
 - CI/CD pipelines
@@ -263,29 +263,29 @@ doctor --dot --quiet
 ```bash
 # Standard output
 doctor --dot
-```
+```text
 
 **Output:**
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │  🩺 flow-cli Health Check                   │
 ╰─────────────────────────────────────────────╯
 
 🔐 TOKENS
   ✓ GitHub token    Valid (expires in 45 days)
-```
+```bash
 
 ### Verbose Mode (Debugging)
 
 ```bash
 # Detailed output with cache status
 doctor --dot --verbose
-```
+```text
 
 **Output:**
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │  🩺 flow-cli Health Check (Verbose)         │
 ╰─────────────────────────────────────────────╯
@@ -303,7 +303,7 @@ doctor --dot --verbose
 ⚡ Performance:
   • Cache check: 5ms
   • Total time: 78ms
-```
+```diff
 
 **Use cases:**
 - Troubleshooting cache issues
@@ -323,16 +323,16 @@ Token validation is integrated across 9 dispatchers:
 ```bash
 # Validates token before push
 g push
-```
+```text
 
 **Output:**
 
-```
+```text
 🔐 Validating GitHub token...
   ✓ Token valid (cached, 0.05s)
 
 Pushing to origin/main...
-```
+```bash
 
 !!! success "Automatic Validation"
     The `g` dispatcher checks your token health before remote operations (push, pull, fetch)
@@ -342,47 +342,47 @@ Pushing to origin/main...
 ```bash
 # Shows token status in dev dashboard
 dash dev
-```
+```text
 
 **Output:**
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │  🚀 Development Dashboard                    │
 ╰─────────────────────────────────────────────╯
 
 🔐 GitHub Token: ✓ Valid (45 days remaining)
-```
+```bash
 
 ### Session Start (`work` command)
 
 ```bash
 # Checks token on session start
 work my-project
-```
+```text
 
 **Output:**
 
-```
+```text
 🎯 Starting session: my-project
 🔐 Token check... ✓ (cached)
-```
+```bash
 
 ### Pre-Push Validation (`finish` command)
 
 ```bash
 # Validates before committing/pushing
 finish
-```
+```text
 
 **Output:**
 
-```
+```text
 🔐 Validating token before push...
   ✓ Token valid (2.1s)
 
 Committing changes...
-```
+```yaml
 
 ### Integration Summary
 
@@ -424,14 +424,14 @@ jobs:
       - name: Run tests
         if: success()
         run: ./tests/run-all.sh
-```
+```bash
 
 ### Cron Job
 
 ```bash
 # Check token health daily
 0 9 * * * /usr/local/bin/doctor --dot --quiet || echo "Token check failed!" | mail -s "flow-cli alert" you@example.com
-```
+```bash
 
 ### Shell Script
 
@@ -447,7 +447,7 @@ fi
 
 # Proceed with deployment
 echo "✓ Token valid. Deploying..."
-```
+```diff
 
 ### Exit Codes
 
@@ -516,7 +516,7 @@ doctor --dot --verbose
 
 # Full health check (all categories)
 doctor
-```
+```bash
 
 ### Common Workflows
 

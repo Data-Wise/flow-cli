@@ -21,7 +21,7 @@ Before starting, you should:
 nvim /tmp/vim-motions-practice.txt
 
 # Remember: ESC → :q! to panic exit
-```
+```diff
 
 ---
 
@@ -41,10 +41,10 @@ By the end of this tutorial, you will:
 
 **The Big Idea:** In vim, you don't move the cursor character-by-character. You move in meaningful units: **words**, **sentences**, **paragraphs**, **functions**.
 
-```
+```text
 Arrow keys:  → → → → → → → → → →  (10 keypresses)
 Vim motions: w w w                 (3 keypresses, same distance)
-```
+```python
 
 **Three types of motions:**
 
@@ -75,7 +75,7 @@ def calculate_total(items):
 EOF
 
 nvim /tmp/vim-motions-practice.txt
-```
+```diff
 
 ### Step 1.2: Forward Word Motion (w)
 
@@ -305,9 +305,9 @@ On the line with function definition:
 
 Vim commands combine:
 
-```
+```text
 {operator} + {motion/text-object}
-```
+```diff
 
 **Examples:**
 
@@ -407,7 +407,7 @@ nvim ~/projects/some-project/src/main.zsh
 # 3. Change a variable name (ciw)
 # 4. Copy a whole function (vap → y)
 # 5. Navigate to top/bottom without arrow keys (gg/G)
-```
+```text
 
 ### What To Learn Next
 
@@ -421,7 +421,7 @@ nvim ~/projects/some-project/src/main.zsh
 
 ```bash
 flow nvim-tutorial
-```
+```text
 
 ---
 
@@ -441,7 +441,7 @@ G      # Bottom of file
 ?text  # Search backward
 f{     # Find character forward
 t{     # Before character forward
-```
+```bash
 
 ### Editing Patterns
 

@@ -84,9 +84,9 @@ Current locations:
 **Pros:** Follows XDG convention, cleaners can reclaim space automatically
 **Cons:** Mole/CleanMyMac *would* wipe it, losing AI summaries (costs API tokens to regenerate)
 
-```
+```bash
 $XDG_CACHE_HOME/flow-cli/email/  (defaults to ~/.cache/flow-cli/email/)
-```
+```text
 
 ### Option C: Split by Expendability
 
@@ -94,7 +94,7 @@ $XDG_CACHE_HOME/flow-cli/email/  (defaults to ~/.cache/flow-cli/email/)
 **Pros:** Correct semantics — drafts are data, summaries are cache
 **Cons:** Complexity, two locations
 
-```
+```bash
 $XDG_CACHE_HOME/flow-cli/email/   → summaries, classifications, unread (expendable)
 $FLOW_DATA_DIR/email-drafts/       → drafts, user-composed content (keep)
 ```

@@ -110,7 +110,7 @@ flowchart TD
     style Learn26 fill:#d1ecf1
     style Learn27 fill:#d1ecf1
     style Learn28 fill:#d1ecf1
-```
+```diff
 
 ---
 
@@ -139,7 +139,7 @@ flowchart TD
 
 **How many plugin mentions per tutorial:**
 
-```
+```text
 Tutorial  Plugin Mentions  Intensity
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 01        ████████ 3       MEDIUM
@@ -156,7 +156,7 @@ Tutorial  Plugin Mentions  Intensity
 22        ██ 1             LIGHT
 
 24-31     ████████████ 3-4 HEAVY (standalone)
-```
+```diff
 
 **Legend:**
 - LIGHT (1-2 plugins): Optional mention, collapsed section
@@ -208,7 +208,7 @@ Tutorial  Plugin Mentions  Intensity
 
 **Beginner → Intermediate → Advanced progression:**
 
-```
+```text
 LEVEL 1: BEGINNERS (Tutorials 01-06)
 ┌────────────────────────────────────────┐
 │ Core Plugins (Auto-loaded)             │

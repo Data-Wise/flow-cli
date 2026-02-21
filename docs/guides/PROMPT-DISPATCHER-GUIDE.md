@@ -13,7 +13,7 @@ prompt status        # See what's active
 prompt toggle        # Switch to another engine (interactive)
 prompt starship      # Force switch to Starship
 prompt list          # List all available engines
-```
+```text
 
 ## Quick Start
 
@@ -37,7 +37,7 @@ Prompt Engines:
     Config: ~/.config/ohmyposh/config.json
 
 To switch: prompt toggle
-```
+```text
 
 ### Switch Engines Interactively
 
@@ -50,7 +50,7 @@ Which prompt engine would you like to use?
 3) powerlevel10k
 #? 1
 ✅ Switched to Starship
-```
+```text
 
 ### Switch Directly
 
@@ -63,7 +63,7 @@ $ prompt p10k
 
 $ prompt ohmyposh
 ✅ Switched to Oh My Posh
-```
+```text
 
 ## Commands
 
@@ -73,7 +73,7 @@ Displays which engine is currently active and what alternatives are available.
 
 ```bash
 $ prompt status
-```
+```diff
 
 **Output:**
 - Current engine marked with `●` (bullet)
@@ -87,7 +87,7 @@ Shows a menu to select a different prompt engine. Best for comparing options.
 
 ```bash
 $ prompt toggle
-```
+```diff
 
 **Behavior:**
 - Shows all available engines except the current one
@@ -101,7 +101,7 @@ Force-switch to Starship without menu.
 
 ```bash
 $ prompt starship
-```
+```diff
 
 **Requirements:**
 - Starship binary installed (`brew install starship`)
@@ -114,7 +114,7 @@ $ prompt starship
 ❌ Starship not found in PATH
 
 Install with: brew install starship
-```
+```text
 
 ### `prompt p10k` - Switch to Powerlevel10k
 
@@ -122,7 +122,7 @@ Force-switch to Powerlevel10k without menu.
 
 ```bash
 $ prompt p10k
-```
+```diff
 
 **Requirements:**
 - Powerlevel10k plugin in `.zsh_plugins.txt`
@@ -134,7 +134,7 @@ Force-switch to Oh My Posh without menu.
 
 ```bash
 $ prompt ohmyposh
-```
+```diff
 
 **Requirements:**
 - Oh My Posh binary installed (`brew install oh-my-posh`)
@@ -156,7 +156,7 @@ Starship       ○          ~/.config/starship.toml
 Oh My Posh     ○          ~/.config/ohmyposh/config.json
 
 Legend: ● = current, ○ = available
-```
+```text
 
 ### `prompt setup-ohmyposh` - Configure Oh My Posh
 
@@ -164,7 +164,7 @@ Interactive wizard for setting up Oh My Posh for the first time.
 
 ```bash
 $ prompt setup-ohmyposh
-```
+```bash
 
 **What it does:**
 1. Checks if Oh My Posh is installed
@@ -183,7 +183,7 @@ oh-my-posh config
 
 # Switch to Oh My Posh
 prompt ohmyposh
-```
+```text
 
 ### `prompt help` - Show Help
 
@@ -191,7 +191,7 @@ Display complete command reference.
 
 ```bash
 $ prompt help
-```
+```diff
 
 Shows all subcommands, examples, and links to full documentation.
 
@@ -214,7 +214,7 @@ echo $FLOW_PROMPT_ENGINE
 
 # Override in .zshrc (before flow-cli loads)
 export FLOW_PROMPT_ENGINE="starship"
-```
+```bash
 
 ## Setup by Engine
 
@@ -230,26 +230,26 @@ romkatv/powerlevel10k
 
 # Load plugins
 antidote install
-```
+```text
 
 **2. Configure:**
 On first load, Powerlevel10k shows a configuration wizard. Or:
 
 ```bash
 p10k configure
-```
+```text
 
 **3. Verify:**
 
 ```bash
 prompt status
-```
+```text
 
 **4. Switch to it:**
 
 ```bash
 prompt p10k
-```
+```bash
 
 ### Starship
 
@@ -259,14 +259,14 @@ Starship is a minimal, language-agnostic prompt engine.
 
 ```bash
 brew install starship
-```
+```bash
 
 **2. Create basic config:**
 
 ```bash
 mkdir -p ~/.config
 starship config  # Validates existing config
-```
+```text
 
 Starship provides a default configuration if none exists.
 
@@ -274,13 +274,13 @@ Starship provides a default configuration if none exists.
 
 ```bash
 nano ~/.config/starship.toml
-```
+```text
 
 **4. Switch to it:**
 
 ```bash
 prompt starship
-```
+```bash
 
 ### Oh My Posh
 
@@ -290,13 +290,13 @@ Oh My Posh provides extensive themes and customization.
 
 ```bash
 brew install oh-my-posh
-```
+```text
 
 **2. Use setup wizard:**
 
 ```bash
 prompt setup-ohmyposh
-```
+```text
 
 This creates `~/.config/ohmyposh/config.json` with defaults.
 
@@ -305,13 +305,13 @@ This creates `~/.config/ohmyposh/config.json` with defaults.
 ```bash
 nano ~/.config/ohmyposh/config.json
 oh-my-posh config  # Validate
-```
+```text
 
 **4. Switch to it:**
 
 ```bash
 prompt ohmyposh
-```
+```text
 
 ## Troubleshooting
 
@@ -319,10 +319,10 @@ prompt ohmyposh
 
 Example:
 
-```
+```text
 ❌ Starship not found in PATH
 Install with: brew install starship
-```
+```bash
 
 **Solution:**
 
@@ -330,22 +330,22 @@ Install with: brew install starship
 brew install starship
 # Restart shell
 exec zsh
-```
+```text
 
 ### "Config missing"
 
 Example:
 
-```
+```text
 ⚠️  OhMyPosh config missing at ~/.config/ohmyposh/config.json
-```
+```bash
 
 **Solution:**
 
 ```bash
 prompt setup-ohmyposh
 # Or manually create the config
-```
+```bash
 
 ### Prompt doesn't change after switching
 
@@ -358,7 +358,7 @@ prompt setup-ohmyposh
 ```bash
 # Reload shell manually
 exec zsh -i
-```
+```bash
 
 ### Antidote not finding Powerlevel10k
 
@@ -366,21 +366,21 @@ exec zsh -i
 
 ```bash
 grep powerlevel10k ~/.config/zsh/.zsh_plugins.txt
-```
+```text
 
 **Solution:**
 Add to `.zsh_plugins.txt`:
 
-```
+```text
 romkatv/powerlevel10k
-```
+```text
 
 Then reload antidote:
 
 ```bash
 antidote install
 exec zsh
-```
+```text
 
 ## Performance Tips
 
@@ -390,7 +390,7 @@ Starship is the fastest option - optimized for shell startup speed.
 
 ```bash
 prompt starship
-```
+```text
 
 ### Powerlevel10k
 
@@ -398,7 +398,7 @@ Very fast with instant prompt feature. Configure for your system:
 
 ```bash
 p10k configure
-```
+```diff
 
 ### Oh My Posh
 
@@ -413,7 +413,7 @@ Performance depends on configuration. For best speed:
 
 ```bash
 p10k configure
-```
+```ini
 
 Interactive configuration wizard with many options.
 
@@ -429,7 +429,7 @@ symbol = "🐍"
 # Example: customize git branch
 [git_branch]
 symbol = "🌿"
-```
+```text
 
 ### Oh My Posh
 
@@ -445,7 +445,7 @@ Edit `~/.config/ohmyposh/config.json`:
     }
   ]
 }
-```
+```text
 
 ## Integration with flow-cli
 
@@ -453,7 +453,7 @@ The prompt dispatcher integrates with `flow doctor` for diagnostics:
 
 ```bash
 flow doctor
-```
+```diff
 
 Checks all prompt engines for:
 - Installation status
@@ -469,7 +469,7 @@ Fast and minimal - great for speed:
 
 ```bash
 prompt starship
-```
+```text
 
 ### Feature Development (Powerlevel10k)
 
@@ -477,7 +477,7 @@ Rich information and customizable:
 
 ```bash
 prompt p10k
-```
+```text
 
 ### Theme Exploration (Oh My Posh)
 
@@ -485,7 +485,7 @@ Extensive themes and modular:
 
 ```bash
 prompt ohmyposh
-```
+```text
 
 ### Test All Engines
 

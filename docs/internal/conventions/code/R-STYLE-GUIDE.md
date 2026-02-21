@@ -16,7 +16,7 @@ styler::style_pkg()
 
 # Check for issues
 lintr::lint_package()
-```
+```r
 
 ## The Rules
 
@@ -43,7 +43,7 @@ z <- function(a, b) a + b
 x<-5
 y<-c(1,2,3)
 z<-function(a,b) a+b
-```
+```diff
 
 ### Line Length
 
@@ -61,7 +61,7 @@ result <- very_long_function_name(
 
 # BAD
 result <- very_long_function_name(argument_one = value_one, argument_two = value_two, argument_three = value_three)
-```
+```r
 
 ### Functions
 
@@ -84,7 +84,7 @@ calculate_indirect_effect <- function(a, b,
 
   effect
 }
-```
+```bash
 
 ### Comments
 
@@ -96,7 +96,7 @@ ci <- bootstrap_ci(effect, n_boot = 1000)
 # BAD: States the obvious
 # Calculate the confidence interval
 ci <- bootstrap_ci(effect, n_boot = 1000)
-```
+```bash
 
 ### roxygen2 Documentation
 
@@ -121,11 +121,11 @@ ci <- bootstrap_ci(effect, n_boot = 1000)
 calculate_indirect_effect <- function(a, b, bootstrap = TRUE, n_boot = 1000) {
   # ...
 }
-```
+```text
 
 ### Package Structure
 
-```
+```text
 mypackage/
 ├── DESCRIPTION
 ├── NAMESPACE
@@ -141,7 +141,7 @@ mypackage/
 │       └── helper-test_utils.R
 ├── vignettes/
 └── inst/
-```
+```bash
 
 ### Testing with testthat
 
@@ -162,7 +162,7 @@ test_that("bootstrap CI has expected length", {
   result <- calculate_indirect_effect(0.5, 0.4, bootstrap = TRUE)
   expect_length(result$ci, 2)
 })
-```
+```bash
 
 ---
 

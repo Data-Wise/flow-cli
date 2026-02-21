@@ -116,7 +116,7 @@ cp docs/examples/course-planning/intermediate-stats/stat-545-config.yml \
 
 # Edit with your course details
 vim /path/to/your/course/.flow/teach-config.yml
-```
+```diff
 
 ### Step 3: Adapt to Your Context
 
@@ -144,7 +144,7 @@ teach doctor
 
 # If missing dependencies, auto-install
 teach doctor --fix
-```
+```diff
 
 **What this gives you:**
 - Automatic YAML validation on commit
@@ -165,7 +165,7 @@ teach assignment "HW1: Data Exploration"
 
 # Content is automatically backed up
 # lesson-plan.yml is auto-loaded for context
-```
+```diff
 
 **Phase 2 features available:**
 - Parallel rendering (3-10x faster for large courses)
@@ -197,7 +197,7 @@ See [Quarto Workflow Phase 2 Guide](../../guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.m
 
 Each example directory contains:
 
-```
+```text
 example-course/
 ├── README.md                      # Implementation notes
 ├── <course>-config.yml            # Complete teach-config.yml

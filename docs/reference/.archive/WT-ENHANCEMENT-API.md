@@ -26,7 +26,7 @@ Generate formatted worktree overview with status icons and session indicators.
 
 ```zsh
 _wt_overview [filter]
-```
+```diff
 
 #### Parameters
 
@@ -83,11 +83,11 @@ if [[ -d "$wt_path/.claude" ]]; then
 else
     wt_session_icon="⚪"  # No .claude directory
 fi
-```
+```text
 
 #### Output Format
 
-```
+```text
 <empty line>
 🌳 Worktrees (<count> total)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -99,7 +99,7 @@ fi
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 Tip: wt <project> to filter | pick wt for interactive
-```
+```bash
 
 #### Example Usage
 
@@ -112,7 +112,7 @@ _wt_overview flow
 
 # Filter to feature branches
 _wt_overview feature
-```
+```diff
 
 #### Performance
 
@@ -142,7 +142,7 @@ Interactive worktree deletion with confirmation and branch cleanup.
 
 ```zsh
 _pick_wt_delete worktree_path [worktree_path...]
-```
+```diff
 
 #### Parameters
 
@@ -191,7 +191,7 @@ if [[ -f "$git_file" ]]; then
         branch=$(basename "$gitdir")
     fi
 fi
-```
+```bash
 
 #### Example Usage
 
@@ -203,7 +203,7 @@ _pick_wt_delete ~/.git-worktrees/flow-cli/feature-old
 _pick_wt_delete \
     ~/.git-worktrees/flow-cli/feature-1 \
     ~/.git-worktrees/flow-cli/feature-2
-```
+```diff
 
 #### Error Handling
 
@@ -221,7 +221,7 @@ Refresh worktree cache and display updated overview.
 
 ```zsh
 _pick_wt_refresh
-```
+```bash
 
 #### Parameters
 
@@ -247,18 +247,18 @@ None
 ```bash
 # Refresh and show overview
 _pick_wt_refresh
-```
+```text
 
 #### Output
 
-```
+```bash
 ⟳ Refreshing worktree cache...
 ✓ Cache cleared
 
 🌳 Worktrees (4 total)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [... formatted overview ...]
-```
+```zsh
 
 ---
 
@@ -294,7 +294,7 @@ wt() {
 
     # ... existing case statement
 }
-```
+```bash
 
 ### pick() Function
 
@@ -310,7 +310,7 @@ if [[ "$1" == "wt" ]]; then
     is_worktree_mode=1
     shift
 fi
-```
+```bash
 
 #### fzf Keybindings
 
@@ -327,7 +327,7 @@ if [[ $is_worktree_mode -eq 1 ]]; then
         --bind="ctrl-x:execute-silent(echo delete > $action_file)+accept" \
         --bind="ctrl-r:execute-silent(echo refresh > $action_file)+accept")
 fi
-```
+```bash
 
 #### Action Handlers
 
@@ -347,7 +347,7 @@ case "$action" in
         _pick_wt_refresh
         ;;
 esac
-```
+```diff
 
 ---
 
@@ -436,14 +436,14 @@ The **only** change in default behavior:
 
 ```bash
 wt           # → Navigates to ~/.git-worktrees
-```
+```text
 
 **After v5.13.0:**
 
 ```bash
 wt           # → Shows formatted overview table
 wt list      # → Shows raw git worktree list (old behavior)
-```
+```diff
 
 **Mitigation:**
 - `wt list` provides the raw output
@@ -509,10 +509,10 @@ No risk:
 
 **Symptom:** Variable assignments appear in output:
 
-```
+```text
 wt_status_icon=🏠
 colored_status='\033[34m🏠 main\033[0m'
-```
+```bash
 
 **Cause:** `setopt xtrace` active in shell
 

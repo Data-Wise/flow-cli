@@ -44,7 +44,7 @@ dash
 
 # Set a daily goal
 flow goal set 3
-```
+```bash
 
 ---
 
@@ -63,7 +63,7 @@ win --category ship "Deployed v3.5.0 to production"
 
 # Short form
 win "Fixed bug #123"
-```
+```bash
 
 ### Win Categories
 
@@ -93,11 +93,11 @@ yay --today
 
 # Wins by category
 yay --category code
-```
+```text
 
 **Example Output:**
 
-```
+```text
 🎉 Recent Wins
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -107,7 +107,7 @@ yay --category code
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Total: 3 wins | Streak: 🔥 5 days
-```
+```diff
 
 ---
 
@@ -135,7 +135,7 @@ dash
 
 # Detailed view
 status --extended
-```
+```bash
 
 ### Streak Benefits
 
@@ -163,15 +163,15 @@ flow goal set 5 --project flow-cli
 
 # View current goal and progress
 flow goal
-```
+```text
 
 ### Goal Progress
 
 The goal appears in the dashboard wins section:
 
-```
+```text
 🎯 Daily Goal: ██████░░░░ 2/3 wins
-```
+```text
 
 ### Per-Project Goals
 
@@ -179,7 +179,7 @@ Add to your project's `.STATUS` file:
 
 ```markdown
 ## daily_goal: 5
-```
+```text
 
 This overrides the global goal when working in that project.
 
@@ -217,7 +217,7 @@ v3.5.0 adds new fields to the `.STATUS` file format:
 ## last_active: 2025-12-26 14:30
 
 ## tags: typescript, api, backend
-```
+```bash
 
 ### New Fields
 
@@ -237,7 +237,7 @@ status --extended
 
 # Or short form
 status -e
-```
+```text
 
 ---
 
@@ -247,11 +247,11 @@ All dopamine features appear in the dashboard:
 
 ```bash
 dash
-```
+```text
 
 **Dashboard Sections:**
 
-```
+```text
 ╭──────────────────────────────────────────────────────────────╮
 │  🌊 FLOW DASHBOARD ✓                     Dec 26, 2025  14:30 │
 ╰──────────────────────────────────────────────────────────────╯
@@ -267,7 +267,7 @@ dash
 │ 🔧 Fixed login redirect bug              11:45               │
 │ 📝 Updated API documentation             09:30               │
 └──────────────────────────────────────────────────────────────┘
-```
+```bash
 
 ---
 
@@ -280,7 +280,7 @@ The dashboard TUI (Terminal UI) now has keyboard shortcuts:
 dash -i
 # or
 dash --interactive
-```
+```bash
 
 ### Keyboard Shortcuts
 
@@ -303,7 +303,7 @@ dash --watch
 
 # Custom interval
 dash --watch 10
-```
+```bash
 
 ---
 
@@ -319,7 +319,7 @@ win "Fixed the API timeout issue"
 
 # After a code review
 win "Reviewed PR #42"
-```
+```bash
 
 ### 2. Keep Goals Achievable
 
@@ -331,7 +331,7 @@ flow goal set 2
 
 # Increase as you build the habit
 flow goal set 3
-```
+```bash
 
 ### 3. Check Dashboard Daily
 
@@ -343,7 +343,7 @@ dash
 
 # Or use the morning command
 morning
-```
+```bash
 
 ### 4. Use Categories
 
@@ -355,7 +355,7 @@ win "Deployed the new feature"  # → 🚀 ship
 
 # Force category when unclear
 win --category test "Wrote integration tests"
-```
+```bash
 
 ---
 
@@ -369,7 +369,7 @@ echo $FLOW_DATA_DIR/wins.log
 
 # View raw wins file
 cat ~/.local/share/flow/wins.log
-```
+```bash
 
 ### Streak Reset Unexpectedly
 
@@ -378,7 +378,7 @@ Streaks require at least one work session per day:
 ```bash
 # Check worklog for gaps
 cat ~/.local/share/flow/worklog | tail -20
-```
+```bash
 
 ### Goal Not Updating
 

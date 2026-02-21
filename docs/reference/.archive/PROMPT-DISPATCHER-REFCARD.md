@@ -26,11 +26,11 @@
 
 ## Configuration Paths
 
-```
+```text
 Powerlevel10k → ~/.config/zsh/.p10k.zsh
 Starship      → ~/.config/starship.toml
 Oh My Posh    → ~/.config/ohmyposh/config.json
-```
+```bash
 
 ## Status Indicators
 
@@ -50,7 +50,7 @@ echo $FLOW_PROMPT_ENGINE
 
 # Valid values: powerlevel10k, starship, ohmyposh
 export FLOW_PROMPT_ENGINE="starship"
-```
+```text
 
 ## Typical Workflows
 
@@ -59,7 +59,7 @@ export FLOW_PROMPT_ENGINE="starship"
 ```bash
 prompt toggle       # Interactive
 prompt starship     # Direct to Starship
-```
+```text
 
 ### First-Time Setup
 
@@ -67,7 +67,7 @@ prompt starship     # Direct to Starship
 prompt setup-ohmyposh    # Setup Oh My Posh
 prompt status            # Verify it worked
 prompt ohmyposh          # Switch to it
-```
+```text
 
 ### Diagnostics
 
@@ -75,7 +75,7 @@ prompt ohmyposh          # Switch to it
 prompt list              # See all engines
 prompt status            # See current
 flow doctor              # Check health
-```
+```text
 
 ## Installation Checklist
 
@@ -87,7 +87,7 @@ flow doctor              # Check health
 ☐ Run: antidote install
 ☐ Restart shell: exec zsh
 ☐ Run: prompt p10k
-```
+```text
 
 ### For Starship
 
@@ -96,7 +96,7 @@ flow doctor              # Check health
 ☐ Create config: mkdir -p ~/.config
 ☐ Run: prompt starship
 ☐ Customize: nano ~/.config/starship.toml
-```
+```text
 
 ### For Oh My Posh
 
@@ -105,7 +105,7 @@ flow doctor              # Check health
 ☐ Setup config: prompt setup-ohmyposh
 ☐ Run: prompt ohmyposh
 ☐ Customize: nano ~/.config/ohmyposh/config.json
-```
+```text
 
 ## Troubleshooting Cheat Sheet
 

@@ -9,7 +9,7 @@
 ```bash
 pick [CATEGORY] [OPTIONS]
 pick [PROJECT-NAME]
-```
+```bash
 
 **Quick examples:**
 
@@ -22,7 +22,7 @@ pick dev
 
 # Jump directly to project
 pick flow
-```
+```diff
 
 ---
 
@@ -85,18 +85,18 @@ The `pick` command provides an interactive, ADHD-friendly way to select and navi
 ```bash
 # Open picker with all projects
 pick
-```
+```text
 
 **Output:**
 
-```
+```text
 📦 rmediation
 📦 medfit
 🔧 flow-cli
 🔧 atlas
 📝 product-of-three
 > _
-```
+```bash
 
 ### Intermediate Usage
 
@@ -105,17 +105,17 @@ pick
 ```bash
 # Show only dev-tools projects
 pick dev
-```
+```text
 
 **Output:**
 
-```
+```text
 🔧 flow-cli
 🔧 atlas
 🔧 aiterm
 🔧 nexus-cli
 > _
-```
+```bash
 
 ### Advanced Usage
 
@@ -124,13 +124,13 @@ pick dev
 ```bash
 # Direct jump (no FZF interface)
 pick flow
-```
+```text
 
 **Output:**
 
-```
+```text
 📁 /Users/dt/projects/dev-tools/flow-cli
-```
+```bash
 
 ---
 
@@ -149,7 +149,7 @@ pick dev
 
 # Evening: Teaching prep
 pick teach
-```
+```bash
 
 ### Pattern 2: Category Aliases
 
@@ -162,7 +162,7 @@ pickdev          # pick dev
 pickq            # pick q
 pickteach        # pick teach
 pickrs           # pick rs
-```
+```bash
 
 ### Pattern 3: Recent Projects Only
 
@@ -173,7 +173,7 @@ pickrs           # pick rs
 pick --recent
 # or
 pick -r
-```
+```bash
 
 ---
 
@@ -187,14 +187,14 @@ pick && cc
 
 # Or use CC dispatcher's built-in pick
 cc pick
-```
+```bash
 
 ### With Work Command
 
 ```bash
 # Pick project, then start work session
 pick && work
-```
+```text
 
 ---
 
@@ -224,10 +224,10 @@ pick && work
 
 When you run `pick` without arguments and have a recent session (< 24 hours):
 
-```
+```bash
 💡 Last: flow-cli (2h ago)
 [Enter] Resume  │  [Space] Browse all  │  Type to search...
-```
+```bash
 
 | Key | Action |
 |-----|--------|
@@ -251,7 +251,7 @@ When you run `pick` without arguments and have a recent session (< 24 hours):
 ```bash
 export FLOW_PROJECTS_ROOT="$HOME/work"
 pick
-```
+```text
 
 ### Project Categories
 
@@ -268,7 +268,7 @@ PROJ_CATEGORIES=(
     "quarto/presentations:q:📊"
     "apps:app:📱"
 )
-```
+```diff
 
 ---
 
@@ -300,7 +300,7 @@ echo $FLOW_PROJECTS_ROOT
 
 # Set in .zshrc
 export FLOW_PROJECTS_ROOT="$HOME/projects"
-```
+```diff
 
 ### Issue 2: Projects missing from list
 
@@ -316,7 +316,7 @@ export FLOW_PROJECTS_ROOT="$HOME/projects"
 # Add .STATUS file to project
 cd missing-project
 echo "status: active" > .STATUS
-```
+```diff
 
 ### Issue 3: Keybindings don't work
 

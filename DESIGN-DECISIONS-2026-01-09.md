@@ -53,7 +53,7 @@ All 8 critical design questions have been answered. This document captures the a
 
 **Example:**
 
-```bash
+`````bash
 $ work flow-cli
 
 📋 Last Session (2h ago):
@@ -62,7 +62,7 @@ $ work flow-cli
   Next: Write tests for capture/restore
 
 🔄 Restore? [Y/n/skip]
-```
+```sql
 
 **Rationale:**
 
@@ -105,7 +105,7 @@ Select project:
   q) quit
 
 Choice [1-3/q]:
-```
+```yaml
 
 **tmux Mode (tmux installed):**
 
@@ -119,7 +119,7 @@ Windows:
   3: rforge
 
 [Attaches to tmux session]
-```
+```diff
 
 **Rationale:**
 
@@ -154,7 +154,7 @@ flow ecosystem cascade   # Plan coordinated updates
 flow ecosystem deps      # Show dependency graph
 flow ecosystem impact    # Analyze change impact
 flow ecosystem status    # Overall ecosystem health
-```
+```diff
 
 **Rationale:**
 
@@ -197,7 +197,7 @@ Suggested low-energy tasks:
   3. Review PR #125 (small change)
 
 Override with: flow energy high
-```
+```text
 
 **Data Tracked:**
 
@@ -211,7 +211,7 @@ Override with: flow energy high
   "task_type": "low-focus",
   "session_quality": "good"
 }
-```
+```diff
 
 **Rationale:**
 
@@ -280,7 +280,7 @@ Override with: flow energy high
 
 **Release Checklist (Each Release):**
 
-```
+```bash
 [ ] Feature complete (all acceptance criteria met)
 [ ] Tests passing (unit + integration + E2E)
 [ ] Documentation complete (reference + tutorial)
@@ -291,7 +291,7 @@ Override with: flow energy high
 [ ] GitHub release created
 [ ] Docs deployed (mkdocs gh-deploy)
 [ ] Announcement (if major feature)
-```
+```diff
 
 **Rationale:**
 
@@ -320,7 +320,7 @@ Override with: flow energy high
 
 **Structure (Each Feature):**
 
-```
+```text
 docs/
 ├── reference/
 │   ├── CONTEXT-RESTORATION-REFERENCE.md    # Command syntax, options
@@ -332,7 +332,7 @@ docs/
     ├── command-search-guide.md
     ├── ecosystem-operations-guide.md
     └── workspace-guide.md
-```
+```diff
 
 **Reference Doc Template:**
 
@@ -357,14 +357,14 @@ command subcommand
 
 # Example 2: Advanced use case
 command --option value
-```
-````
+```diff
+````text
 
 ## Configuration
 
 Environment variables, config files, etc.
 
-````
+````diff
 
 **Tutorial Template:**
 ```markdown
@@ -388,7 +388,7 @@ Environment variables, config files, etc.
 
 ## Troubleshooting
 Common issues and solutions
-````
+`````
 
 **Rationale:**
 
@@ -423,7 +423,7 @@ Common issues and solutions
 
 **Session Metadata Captured:**
 
-```json
+````json
 {
   "project": "flow-cli",
   "timestamp": 1736419200,
@@ -434,7 +434,7 @@ Common issues and solutions
   "uncommitted_changes": true,
   "session_duration_minutes": 120
 }
-```
+```text
 
 **Restoration Prompt:**
 
@@ -446,7 +446,7 @@ Common issues and solutions
   Next: Write tests for capture/restore
 
 🔄 Restore? [Y/n/skip]
-```
+```diff
 
 ---
 
@@ -492,7 +492,7 @@ Common issues and solutions
     }
   ]
 }
-```
+```diff
 
 ---
 
@@ -517,7 +517,7 @@ Common issues and solutions
 # flow ecosystem deps → rforge:deps (MCP)
 # flow ecosystem impact → rforge:impact (MCP)
 # flow ecosystem status → rforge:status (MCP)
-```
+```diff
 
 ---
 
@@ -550,7 +550,7 @@ Common issues and solutions
   "tmux_session": "flow-workspace-mcp-ecosystem",
   "active": true
 }
-```
+```text
 
 **Energy Log Entry:**
 
@@ -564,7 +564,7 @@ Common issues and solutions
   "duration_minutes": 45,
   "session_quality": "good"
 }
-```
+```bash
 
 ---
 
@@ -619,7 +619,7 @@ _workspace_fallback() {
     local selected="${projects[$choice]}"
     work "$selected"
 }
-```
+```bash
 
 ---
 
@@ -711,7 +711,7 @@ flow_next_energy_aware() {
     # Suggest tasks matching energy level
     # ...
 }
-```
+````
 
 **Data Collection Points:**
 

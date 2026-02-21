@@ -23,7 +23,7 @@ flow --version  # Should show 5.21.0+
 
 # Check you're in a course directory
 ls .flow/teach-config.yml
-```
+```diff
 
 ---
 
@@ -61,7 +61,7 @@ flowchart LR
     style Phase1 fill:#2ecc71,color:#fff
     style Phase2 fill:#e67e22,color:#fff
     style Phase3 fill:#e74c3c,color:#fff
-```
+```text
 
 ---
 
@@ -70,16 +70,18 @@ flowchart LR
 When you use `teach exam` or `teach quiz` to generate content via Scholar, the AI needs to know your notation preferences.
 
 **Without macros:**
+
 ```latex
 E[Y] = \mu        % Generic notation
 Var(X) = \sigma^2
-```
+```text
 
 **With macros:**
+
 ```latex
 \E{Y} = \mu       % Your course notation
 \Var{X} = \sigma^2
-```
+```sql
 
 Macro management ensures **consistent notation** across all AI-generated content.
 
@@ -116,9 +118,11 @@ cat > _macros.qmd << 'EOF'
 \newcommand{\bX}{\mathbf{X}}
 \newcommand{\bY}{\mathbf{Y}}
 \newcommand{\bbeta}{\boldsymbol{\beta}}
-```
+```text
+
 EOF
-```
+
+```text
 
 **Alternative: LaTeX format** (`macros.tex`):
 
@@ -127,7 +131,7 @@ EOF
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\operatorname{Var}}
 \DeclareMathOperator{\Cov}{Cov}
-```
+```bash
 
 ---
 
@@ -141,11 +145,11 @@ teach macros sync
 
 # Preview without changes
 teach macros sync --dry-run
-```
+```text
 
 **Expected output:**
 
-```
+```text
 Syncing macros from _macros.qmd...
 
 Found 12 macros:
@@ -156,7 +160,7 @@ Found 12 macros:
 
 Updated .flow/macros/registry.yml
 Done in 0.23s
-```
+```bash
 
 ---
 
@@ -167,11 +171,11 @@ View all synced macros:
 ```bash
 # List all macros
 teach macros list
-```
+```text
 
 **Output:**
 
-```
+```yaml
 LaTeX Macros (12 available)
 
 OPERATORS
@@ -194,7 +198,7 @@ MATRICES
   \bbeta         → \boldsymbol{\beta}   Bold beta
 
 Source: _macros.qmd (synced just now)
-```
+```bash
 
 **Filter by category:**
 
@@ -204,7 +208,7 @@ teach macros list --category operators
 
 # JSON output
 teach macros list --json
-```
+```bash
 
 ---
 
@@ -223,7 +227,7 @@ teach macros export --format json > .flow/macros.json
 teach macros export --format mathjax  # For web
 teach macros export --format latex    # For .tex files
 teach macros export --format qmd      # For Quarto
-```
+```text
 
 **JSON output example:**
 
@@ -236,7 +240,7 @@ teach macros export --format qmd      # For Quarto
   "source": "_macros.qmd",
   "synced": "2026-01-28T16:30:00Z"
 }
-```
+```yaml
 
 ---
 
@@ -269,7 +273,7 @@ scholar:
     export:
       format: "json"
       include_in_prompts: true  # Include in Scholar context
-```
+```text
 
 **Key settings:**
 
@@ -288,18 +292,18 @@ The `teach doctor --full` command includes macro health checks (macros are a ful
 
 ```bash
 teach doctor --full
-```
+```text
 
 **Macros section output:**
 
-```
+```text
 MACROS
   Source file     ✓ _macros.qmd exists
   Config sync     ✓ .flow/macros/registry.yml up to date
   Macro count     ✓ 12 macros defined
   CLAUDE.md       ⚠ Macro section not found
                     Consider adding to CLAUDE.md for AI context
-```
+```bash
 
 ---
 
@@ -314,7 +318,7 @@ When macros are configured, Scholar commands use your notation:
 teach exam "Hypothesis Testing"
 
 # The generated content uses \E{Y} not E[Y]
-```
+```text
 
 ### Include in Quarto Documents
 
@@ -324,7 +328,7 @@ Add to your `.qmd` files:
 {{< include _macros.qmd >}}
 
 The expected value $\E{Y}$ equals...
-```
+```text
 
 ---
 
@@ -352,7 +356,7 @@ The expected value $\E{Y}$ equals...
 % Independence
 \newcommand{\indep}{\perp\!\!\!\perp}
 \newcommand{\iid}{\stackrel{\text{iid}}{\sim}}
-```
+```text
 
 ### Linear Algebra Macros
 

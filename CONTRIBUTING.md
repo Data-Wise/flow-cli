@@ -46,6 +46,7 @@ Thank you for your interest in contributing! This guide will help you get starte
    ```
 
 4. **Build documentation site (optional):**
+
    ```bash
    mkdocs serve
    # Visit http://127.0.0.1:8000
@@ -55,7 +56,7 @@ Thank you for your interest in contributing! This guide will help you get starte
 
 ## Project Structure
 
-```
+````text
 flow-cli/
 ├── cli/                      # Node.js CLI integration
 │   ├── adapters/             # Adapters for ZSH functions
@@ -76,7 +77,7 @@ flow-cli/
 ├── test/                     # CLI tests
 │
 └── mkdocs.yml               # Documentation site config
-```
+```bash
 
 **Important:** The actual ZSH configuration files live in `~/.config/zsh/` (not in this repo).
 
@@ -90,14 +91,14 @@ flow-cli/
 
    ```bash
    git checkout -b feature/your-feature-name
-   ```
+````
 
-2. **Make your changes:**
+1. **Make your changes:**
    - ZSH functions: Edit files in `~/.config/zsh/functions/`
    - CLI adapters: Edit files in `cli/adapters/`
    - Documentation: Edit files in `docs/`
 
-3. **Test your changes:**
+2. **Test your changes:**
 
    ```bash
    # CLI tests
@@ -107,12 +108,13 @@ flow-cli/
    ~/.config/zsh/tests/test-adhd-helpers.zsh
    ```
 
-4. **Update documentation:**
+3. **Update documentation:**
    - If adding features, update relevant docs in `docs/`
    - If changing APIs, update `docs/api/`
    - Keep `CLAUDE.md` in sync with major changes
 
-5. **Commit your changes:**
+4. **Commit your changes:**
+
    ```bash
    git add .
    git commit -m "feat: add new feature"
@@ -122,13 +124,13 @@ flow-cli/
 
 We use conventional commits:
 
-```
+````bash
 <type>(<scope>): <description>
 
 [optional body]
 
 [optional footer]
-```
+```diff
 
 **Types:**
 
@@ -141,11 +143,11 @@ We use conventional commits:
 
 **Examples:**
 
-```
+```text
 feat(cli): add project detector adapter
 fix(validation): handle empty paths correctly
 docs(architecture): add quick wins guide
-```
+```yaml
 
 ---
 
@@ -188,9 +190,9 @@ docs(architecture): add quick wins guide
 
    **Last Updated:** YYYY-MM-DD
    **See Also:** [Related Doc](link.md)
-   ```
+````
 
-4. **Add to mkdocs.yml navigation:**
+1. **Add to mkdocs.yml navigation:**
 
    ```yaml
    nav:
@@ -198,7 +200,7 @@ docs(architecture): add quick wins guide
          - Page Title: path/to/file.md
    ```
 
-5. **Update doc-index.md** if adding major documents
+2. **Update doc-index.md** if adding major documents
 
 ### Documentation Guidelines
 
@@ -223,7 +225,7 @@ docs(architecture): add quick wins guide
 
 ### Running Tests
 
-```bash
+````bash
 # CLI tests (Node.js)
 npm test
 
@@ -232,7 +234,7 @@ npm test -- test/test-project-detector.js
 
 # ZSH function tests
 ~/.config/zsh/tests/test-adhd-helpers.zsh
-```
+```javascript
 
 ### Writing Tests
 
@@ -256,7 +258,7 @@ describe('Your Feature', () => {
     assert.strictEqual(result, 'expected output');
   });
 });
-```
+```zsh
 
 **ZSH Function Tests:**
 
@@ -280,7 +282,7 @@ test_your_function() {
 
 # Run test
 test_your_function
-```
+```diff
 
 **Test Guidelines:**
 
@@ -319,7 +321,7 @@ export async function detectProjectType(projectPath) {
 
   return mapProjectType(result)
 }
-```
+```diff
 
 ### ZSH Functions
 
@@ -363,7 +365,7 @@ EOF
   devtools::load_all()
   devtools::test(filter = "$filter")
 }
-```
+```yaml
 
 ---
 
@@ -376,20 +378,20 @@ EOF
    ```bash
    npm test
    ~/.config/zsh/tests/test-adhd-helpers.zsh
-   ```
+````
 
-2. **Update documentation:**
+1. **Update documentation:**
    - Update relevant docs in `docs/`
    - Add entry to changelog if major change
    - Update `.STATUS` with your work
 
-3. **Create pull request:**
+2. **Create pull request:**
 
    ```bash
    git push origin feature/your-feature-name
    ```
 
-4. **PR description should include:**
+3. **PR description should include:**
    - What changed and why
    - Link to related issues/proposals
    - Screenshots (if UI changes)
@@ -425,7 +427,7 @@ When adding features that touch architecture, follow these patterns:
 
 ### 3. Layer Organization
 
-```
+```text
 lib/domain/      # Business logic (no external dependencies)
 lib/use-cases/   # Application logic
 lib/adapters/    # External integrations (file system, shell, etc)

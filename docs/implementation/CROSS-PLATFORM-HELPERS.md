@@ -16,6 +16,7 @@ Three cross-platform utility functions added to handle BSD (macOS) vs GNU (Linux
 **Purpose:** Get file size in bytes (cross-platform)
 
 **Usage:**
+
 ```zsh
 local size=$(_flow_get_file_size "/path/to/file.txt")
 echo "File is $size bytes"
@@ -28,6 +29,7 @@ echo "File is $size bytes"
 - Returns 0 on error or missing file
 
 **Example:**
+
 ```zsh
 size=$(_flow_get_file_size "lib/core.zsh")
 # Output: 25858
@@ -40,6 +42,7 @@ size=$(_flow_get_file_size "lib/core.zsh")
 **Purpose:** Convert bytes to human-readable format (KB/MB/GB)
 
 **Usage:**
+
 ```zsh
 local human=$(_flow_human_size 1048576)
 echo "Size: $human"  # Output: Size: 1.0M
@@ -52,6 +55,7 @@ echo "Size: $human"  # Output: Size: 1.0M
 - Consistent "X bytes" format for files < 1KB
 
 **Example:**
+
 ```zsh
 _flow_human_size 100          # Output: 100 bytes
 _flow_human_size 5120         # Output: 5.0K
@@ -60,6 +64,7 @@ _flow_human_size 1288490188   # Output: 1.2G
 ```
 
 **Installation (optional):**
+
 ```bash
 # macOS: Install coreutils for numfmt
 brew install coreutils
@@ -72,6 +77,7 @@ brew install coreutils
 **Purpose:** Run command with timeout limit (cross-platform)
 
 **Usage:**
+
 ```zsh
 _flow_timeout 2 find /large/directory -name "*.txt"
 
@@ -87,6 +93,7 @@ _flow_timeout 5 slow_command
 - Returns exit code 124 on timeout (GNU convention)
 
 **Example:**
+
 ```zsh
 _flow_timeout 2 echo "fast"      # Completes normally
 _flow_timeout 2 sleep 1          # Completes in time
@@ -94,6 +101,7 @@ _flow_timeout 1 sleep 5          # Times out with exit 124
 ```
 
 **Installation (optional):**
+
 ```bash
 # macOS: Install coreutils for timeout
 brew install coreutils
@@ -115,6 +123,7 @@ brew install coreutils
 **Location:** `tests/test-cross-platform-helpers.zsh`
 
 **Run tests:**
+
 ```bash
 ./tests/test-cross-platform-helpers.zsh
 ```

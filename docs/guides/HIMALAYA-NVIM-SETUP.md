@@ -42,10 +42,12 @@ Neovim integration for himalaya email client with AI-powered email assistance.
 1. **himalaya CLI** (v1.1.0+) — see [Himalaya Setup](HIMALAYA-SETUP.md) for installation
 2. **Configure email account** — see [Himalaya Setup](HIMALAYA-SETUP.md) for IMAP/SMTP configuration
 3. **Claude CLI** (for AI features)
+
    ```bash
    # Verify installation
    claude --version
    ```
+
 4. **Neovim with LazyVim**
 
 ## Quick Start
@@ -293,6 +295,7 @@ If you still see crashes, increase the margin in `plugins/himalaya.lua` (change 
 ### Plugin not loading
 
 Check plugin installed:
+
 ```vim
 :Lazy
 ```
@@ -322,6 +325,7 @@ echo "test email" | claude -p "summarize this"
 ### Folder picker not working
 
 Set picker to `native` (no dependencies) or install telescope/fzf-lua:
+
 ```vim
 let g:himalaya_folder_picker = 'native'    " Built-in, no deps
 let g:himalaya_folder_picker = 'telescope' " Requires telescope.nvim
@@ -335,6 +339,7 @@ If you see `assertion failed: self.is_char_boundary(new_len)`, the width safety 
 ### Performance issues
 
 Disable AI wrapper if Claude is slow:
+
 ```lua
 -- Comment out in init.lua
 -- require('himalaya-ai').setup()

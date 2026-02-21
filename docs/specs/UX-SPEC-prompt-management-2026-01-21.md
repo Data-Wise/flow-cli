@@ -25,7 +25,7 @@ This document specifies the **complete user experience** for managing teaching p
 
 ```bash
 teach prompt show <type>
-```
+```bash
 
 ### Behavior
 
@@ -50,7 +50,7 @@ Compatible with: flow-cli 5.14.0+, Scholar 2.x
 Generate instructor-facing lecture notes (20-40 pages) for statistics courses...
 
 (Press q to quit, / to search, space for next page)
-```
+```bash
 
 ### Implementation
 
@@ -73,7 +73,7 @@ _teach_prompt_show() {
     echo "📍 Location: $prompt_file"
     echo "🔧 Edit: teach prompt edit $type"
 }
-```
+```text
 
 ---
 
@@ -83,7 +83,7 @@ _teach_prompt_show() {
 
 ```bash
 teach prompt edit <type>
-```
+```yaml
 
 ### Behavior: Copy to Course, Then Edit
 
@@ -123,7 +123,7 @@ Next steps:
   1. Test: teach lecture "Test Topic"
   2. Commit: git add .claude/prompts/ && git commit
   3. Promote to global: teach prompt promote lecture (if you want to use in all courses)
-```
+```text
 
 ### Edge Cases
 
@@ -140,7 +140,7 @@ $ teach prompt edit lecture
 Opening in: $EDITOR
 
 (No copy needed, directly edit local version)
-```
+```text
 
 #### Case 2: No Global, Only Local
 
@@ -155,7 +155,7 @@ $ teach prompt edit lecture
    This prompt is unique to this course
 
 Opening in: $EDITOR
-```
+```text
 
 ---
 
@@ -165,7 +165,7 @@ Opening in: $EDITOR
 
 ```bash
 teach prompt enhance <type>
-```
+```sql
 
 ### Behavior: Interactive Wizard
 
@@ -284,7 +284,7 @@ Next steps:
   1. Test: teach lecture "Test Topic"
   2. Review: teach prompt show lecture (will use enhanced version)
   3. Promote: teach prompt promote lecture (if you want to use globally)
-```
+```text
 
 ---
 
@@ -294,7 +294,7 @@ Next steps:
 
 ```bash
 teach prompt add <name>
-```
+```diff
 
 ### Behavior: Ask Every Time (Detailed Explanation)
 
@@ -382,7 +382,7 @@ Next steps:
      (Optional: adds 'teach lab "Topic"' command)
   2. Use: teach prompt show lab-worksheet
   3. Test: Generate content with Scholar or direct use
-```
+```text
 
 ---
 
@@ -392,7 +392,7 @@ Next steps:
 
 ```bash
 teach prompt promote <type>
-```
+```yaml
 
 ### Behavior: Copy Local → Global
 
@@ -454,7 +454,7 @@ New global version:
 Next steps:
   1. Test in new course: cd ~/teaching/new-course && teach lecture "Topic"
   2. Rollback if needed: teach prompt restore lecture-notes-v1.0.0-backup
-```
+```bash
 
 ---
 
@@ -477,7 +477,7 @@ _detect_prompt_conflict() {
     fi
     return 1
 }
-```
+```yaml
 
 **Resolution Workflow:**
 
@@ -558,7 +558,7 @@ Generating lecture "ANOVA" with course-specific customizations...
 
 💡 Tip: To always use local in this course, run:
    teach prompt prefer local
-```
+```yaml
 
 ---
 
@@ -576,7 +576,7 @@ prompts:
   default_save_location: global  # global | local
   always_confirm: true           # Show default, allow override
   auto_promote: false            # Prompt before promoting
-```
+```text
 
 **Behavior with Preference:**
 
@@ -598,7 +598,7 @@ Choice [g/l] (default: g): [Enter]
 ✅ Using default: global
 
 Creating prompt...
-```
+```diff
 
 ---
 
@@ -710,7 +710,7 @@ Creating prompt...
 
 ### Edit Prompt Flow
 
-```
+```text
 teach prompt edit lecture
          ↓
    Check if .local exists
@@ -729,11 +729,11 @@ teach prompt edit lecture
          ↓
    Show next steps
    (test, commit, promote)
-```
+```text
 
 ### Add Prompt Flow
 
-```
+```text
 teach prompt add exam
          ↓
    Show save location prompt
@@ -752,11 +752,11 @@ teach prompt add exam
          ↓
    Show next steps
    (register, test)
-```
+```text
 
 ### Conflict Resolution Flow
 
-```
+```text
 teach lecture "Topic"
          ↓
    Check for conflict

@@ -30,9 +30,9 @@ Integrate email health checking into `flow doctor` so himalaya and email depende
 
 ### Section Placement
 
-```
+```text
 SHELL → REQUIRED → RECOMMENDED → OPTIONAL → INTEGRATIONS → EMAIL → DOTFILES → ...
-```
+```zsh
 
 ### Conditional Gate
 

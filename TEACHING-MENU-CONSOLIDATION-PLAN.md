@@ -7,13 +7,13 @@
 
 ## Current State Analysis
 
-### Teaching Docs Currently Scattered Across:
+### Teaching Docs Currently Scattered Across
 
 1. **Tutorials Section** (4 items)
    - 14. Teach Dispatcher
-   - 19. Teaching + Git Integration
-   - 21. Teach Analyze
-   - 28. Teach Prompt
+   - 1. Teaching + Git Integration
+   - 1. Teach Analyze
+   - 1. Teach Prompt
 
 2. **Workflows Section** (3 items)
    - Teaching Workflow v3.0
@@ -128,7 +128,7 @@
 
 ## Migration Notes
 
-### Removed from Other Sections:
+### Removed from Other Sections
 
 **Tutorials:**
 
@@ -152,7 +152,7 @@
 
 - teach, teach-init → Teaching/Reference section
 
-### Preserved in Other Sections:
+### Preserved in Other Sections
 
 **Help & Quick Reference:**
 

@@ -25,7 +25,7 @@ node --version
 
 # Check Flow CLI is installed
 which flow
-```
+```diff
 
 ---
 
@@ -45,12 +45,12 @@ By the end of this tutorial, you will:
 
 The web dashboard provides rich browser-based visualizations:
 
-```
+```text
 ┌────────────────┐     ┌────────────────┐     ┌────────────────┐
 │  Launch        │ --> │  Interactive   │ --> │  Take Actions  │
 │  (flow dash)   │     │  Explore       │     │  (terminal)    │
 └────────────────┘     └────────────────┘     └────────────────┘
-```
+```diff
 
 Benefits over terminal dashboard:
 
@@ -70,11 +70,11 @@ Launch the dashboard:
 
 ```bash
 flow dashboard --web
-```
+```text
 
 **What happened:** A web server starts and opens your browser:
 
-```
+```yaml
 🌐 Starting Flow CLI Web Dashboard...
 
 Server: http://localhost:3000
@@ -82,7 +82,7 @@ Dashboard: http://localhost:3000/dashboard
 
 ✨ Dashboard ready!
 Press Ctrl+C to stop server
-```
+```text
 
 **Your browser opens automatically** showing the dashboard.
 
@@ -92,7 +92,7 @@ Press Ctrl+C to stop server
 
 The dashboard has 4 main sections:
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │ 📊 Flow CLI Dashboard          [Filters]    │
 ├─────────────────────────────────────────────┤
@@ -112,7 +112,7 @@ The dashboard has 4 main sections:
 │   Active: 4 | Paused: 6 | Blocked: 1        │
 │   Average Progress: 62%                     │
 └─────────────────────────────────────────────┘
-```
+```diff
 
 ### Step 1.3: Navigation Basics
 
@@ -155,7 +155,7 @@ Use filters to focus:
 
 **By status:**
 
-```
+```bash
 [Filters]
 ☑ Active
 ☐ Ready
@@ -163,11 +163,11 @@ Use filters to focus:
 ☐ Blocked
 
 Apply Filters
-```
+```text
 
 **By category:**
 
-```
+```yaml
 [Category]
 ▼ All Categories
   Teaching
@@ -176,26 +176,26 @@ Apply Filters
   Dev Tools
 
 Select: Teaching
-```
+```text
 
 **By priority:**
 
-```
+```bash
 [Priority]
 ☑ P0 (Critical)
 ☑ P1 (Important)
 ☐ P2 (Normal)
 
 Apply Filters
-```
+```text
 
 ### Step 2.2: Search Projects
 
 Use the search box:
 
-```
+```bash
 [🔍 Search projects...]
-```
+```diff
 
 **Search examples:**
 
@@ -222,7 +222,7 @@ Click column headers to sort:
 
 Click a project name to see details:
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │ 📦 mediationverse                           │
 ├─────────────────────────────────────────────┤
@@ -240,7 +240,7 @@ Click a project name to see details:
 │                                             │
 │ [Open in Terminal] [Update Status]          │
 └─────────────────────────────────────────────┘
-```
+```diff
 
 ### Checkpoint
 
@@ -269,11 +269,11 @@ When you have an active session, the dashboard shows live updates:
 # Start a session (in separate terminal)
 work mediationverse
 f25
-```
+```text
 
 **Dashboard displays:**
 
-```
+```bash
 ╭───────────────────────────────────────────╮
 │ 🔥 ACTIVE SESSION                         │
 ├───────────────────────────────────────────┤
@@ -285,7 +285,7 @@ f25
 ╰───────────────────────────────────────────╯
 
 [Duration updates every second]
-```
+```text
 
 ### Step 3.2: Today's Metrics Charts
 
@@ -293,18 +293,18 @@ View visual metrics:
 
 **Bar Chart:**
 
-```
+```text
 Today's Activity
 ─────────────────
 Sessions │████████░░ 4 sessions
 Time     │██████████ 3.5 hours
 Projects │███░░░░░░░ 3 active
 Progress │███████░░░ +15% total
-```
+```text
 
 **Progress Distribution:**
 
-```
+```text
 Progress Ranges
 ───────────────
 0-25%   │███░░░░░░░░ 3 projects
@@ -312,13 +312,13 @@ Progress Ranges
 51-75%  │████░░░░░░░ 4 projects
 76-99%  │██████░░░░░ 6 projects
 100%    │██░░░░░░░░░ 2 projects
-```
+```text
 
 ### Step 3.3: Statistics Summary
 
 Key metrics at a glance:
 
-```
+```text
 ╭───────────────────────────────────────────╮
 │ 📊 STATISTICS                             │
 ├───────────────────────────────────────────┤
@@ -332,7 +332,7 @@ Key metrics at a glance:
 │ Completed This Week:  3 projects          │
 │ Total Time This Week: 18.5 hours          │
 ╰───────────────────────────────────────────╯
-```
+```bash
 
 ### Step 3.4: Auto-Refresh
 
@@ -346,7 +346,7 @@ flow dashboard --web --interval 2000
 
 # Slower updates (every 10 seconds)
 flow dashboard --web --interval 10000
-```
+```sql
 
 ### Checkpoint
 
@@ -386,7 +386,7 @@ Save dashboard views:
 flow status --json > projects.json
 
 # Share with team or import elsewhere
-```
+```bash
 
 ### Feature 2: Multiple Dashboard Windows
 
@@ -397,21 +397,21 @@ Open multiple views:
 ```bash
 flow dashboard --web --port 3000
 # Main dashboard
-```
+```bash
 
 **Terminal 2:**
 
 ```bash
 flow dashboard --web --port 3001 --category teaching
 # Teaching-only dashboard
-```
+```bash
 
 **Terminal 3:**
 
 ```bash
 flow dashboard --web --port 3002 --category research
 # Research-only dashboard
-```
+```text
 
 Now you have 3 browser tabs, each showing different views!
 
@@ -421,21 +421,21 @@ Use the dashboard URL in other apps:
 
 **Browser bookmark:**
 
-```
+```text
 http://localhost:3000/dashboard
-```
+```bash
 
 **Obsidian/Notion:**
 
 ```markdown
 [My Projects Dashboard](http://localhost:3000/dashboard)
-```
+```text
 
 **Alfred/Raycast workflow:**
 
 ```bash
 open http://localhost:3000/dashboard
-```
+```text
 
 ### Feature 4: Keyboard Shortcuts
 
@@ -458,10 +458,10 @@ Toggle theme (if implemented):
 
 **Top-right corner:**
 
-```
+```bash
 [🌙] Dark Mode
 [☀️] Light Mode
-```
+```sql
 
 Or use browser's dark mode settings.
 
@@ -485,7 +485,7 @@ Combine filters (status, category, priority) and bookmark the result.
 
 **Morning teaching view:**
 
-```
+```text
 1. Launch dashboard: flow dashboard --web
 2. Filters:
    - Category: Teaching
@@ -493,18 +493,18 @@ Combine filters (status, category, priority) and bookmark the result.
    - Status: Active
 3. Sort: Priority (P0 first)
 4. Bookmark: "Morning Teaching Focus"
-```
+```text
 
 **Research progress view:**
 
-```
+```text
 1. Launch dashboard
 2. Filters:
    - Category: Research
    - Progress: 50%+
 3. Sort: Progress (high to low)
 4. Bookmark: "Near-Complete Research"
-```
+```bash
 
 </details>
 
@@ -524,7 +524,7 @@ flow dashboard --web
 # Terminal 2: Start work session
 work mediationverse
 f50
-```
+```bash
 
 **Monitor:**
 
@@ -540,7 +540,7 @@ f50
 status . active P0 "Session complete (+10%)" 95
 
 # Dashboard: See progress update within 5 seconds
-```
+```text
 
 </details>
 
@@ -576,7 +576,7 @@ flow dashboard --web
    - Check: Statistics summary
    - Note: Total progress this week
    - Export: Screenshot for records
-```
+```bash
 
 </details>
 
@@ -597,7 +597,7 @@ flow dashboard --web --port 3001
 # Or manually open browser
 flow dashboard --web
 # Then open: http://localhost:3000/dashboard
-```
+```bash
 
 ### "Data not updating"
 
@@ -609,7 +609,7 @@ flow dashboard --web
 # Press 'r' to refresh manually
 # Or restart dashboard
 # Ctrl+C, then: flow dashboard --web
-```
+```bash
 
 ### "Charts look empty"
 
@@ -623,7 +623,7 @@ status project1 active P0 "Task 1" 50
 status project2 active P1 "Task 2" 75
 
 # Work on them, then refresh dashboard
-```
+```text
 
 ---
 
@@ -648,7 +648,7 @@ flow dashboard --web                  # Launch dashboard
 flow dashboard --web --port 3001      # Custom port
 flow dashboard --web --interval 2000  # Fast refresh
 flow status --json > data.json        # Export data
-```
+```diff
 
 **Dashboard sections:**
 
@@ -672,7 +672,7 @@ You've completed all tutorials! Continue learning:
 
 ## Quick Reference
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │  WEB DASHBOARD QUICK REFERENCE                      │
 ├─────────────────────────────────────────────────────┤

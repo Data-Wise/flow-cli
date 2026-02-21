@@ -9,13 +9,13 @@
 
 flow-cli uses a **three-tier branch strategy** for safe, organized development.
 
-```
+```text
 feature/* ──► dev ──► main
 hotfix/*       │        │
     │          │        │
     └── PR ────┘        │
                └── PR ──┘
-```
+```diff
 
 ---
 
@@ -66,7 +66,7 @@ g feature start my-feature
 # 1. Fetches latest dev
 # 2. Creates feature/my-feature from dev
 # 3. Switches to new branch
-```
+```bash
 
 ### During Development
 
@@ -77,7 +77,7 @@ git commit -m "feat: add new capability"
 
 # Keep in sync with dev
 g feature sync
-```
+```bash
 
 ### Finishing Work
 
@@ -89,7 +89,7 @@ g feature finish
 # 1. Pushes branch to origin
 # 2. Creates PR with dev as base
 # 3. Opens PR in browser
-```
+```bash
 
 ### Release Workflow
 
@@ -101,7 +101,7 @@ g release
 # 1. Creates PR: dev → main
 # 2. Includes all merged features
 # 3. Opens PR for maintainer review
-```
+```yaml
 
 ---
 
@@ -125,7 +125,7 @@ Use instead:
   g promote               Create PR: feature → dev
 
 Override: GIT_WORKFLOW_SKIP=1 git push
-```
+```diff
 
 ### Protected Branches
 
@@ -138,7 +138,7 @@ Override: GIT_WORKFLOW_SKIP=1 git push
 ```bash
 # Only when absolutely necessary
 GIT_WORKFLOW_SKIP=1 git push origin main
-```
+```bash
 
 **Logged:** All blocked attempts are logged to `~/.claude/workflow-violations.log`
 
@@ -161,7 +161,7 @@ g feature sync
 
 # Finish
 g feature finish
-```
+```bash
 
 ### 2. Bug Fix
 
@@ -174,7 +174,7 @@ git commit -m "fix: resolve session timeout race condition"
 
 # Finish
 g feature finish
-```
+```bash
 
 ### 3. Documentation
 
@@ -187,7 +187,7 @@ git commit -m "docs: update dispatcher reference"
 
 # Finish
 g feature finish
-```
+```bash
 
 ### 4. Hotfix (Maintainers Only)
 
@@ -203,7 +203,7 @@ git commit -m "fix: patch security vulnerability"
 # PR directly to main
 git push origin hotfix/security-patch
 gh pr create --base main --title "Security patch"
-```
+```diff
 
 ---
 
@@ -242,7 +242,7 @@ gh api repos/Data-Wise/flow-cli/branches/main/protection \
 
 # Or via GitHub web UI:
 # Settings → Branches → Add rule
-```
+```bash
 
 ---
 
@@ -261,14 +261,14 @@ git branch -a | grep -E "main|dev"
 # 3. Test feature workflow
 g feature start test-workflow
 g feature finish
-```
+```bash
 
 ### Monitor Violations
 
 ```bash
 # Check log file
 tail -f ~/.claude/workflow-violations.log
-```
+```bash
 
 ---
 
@@ -283,7 +283,7 @@ g feature sync
 # Or manually:
 git fetch origin
 git merge origin/dev
-```
+```bash
 
 ### Accidentally Committed to main/dev
 
@@ -293,7 +293,7 @@ git checkout main
 git checkout -b feature/rescued-work
 git checkout main
 git reset --hard origin/main
-```
+```zsh
 
 ### Workflow Guard Not Working
 
@@ -306,7 +306,7 @@ source flow.plugin.zsh
 
 # Check function exists
 type _g_check_workflow
-```
+```bash
 
 ---
 
@@ -339,7 +339,7 @@ git pull origin dev
 git add docs/specs/SPEC-feature-name.md
 git commit -m "docs: add feature X implementation plan"
 git push origin dev
-```
+```bash
 
 **Critical Rule:** ❌ **Never start coding during planning phase**
 
@@ -355,7 +355,7 @@ git worktree add ~/.git-worktrees/flow-cli-<feature-name> -b feature/<feature-na
 
 # Verify creation
 git worktree list
-```
+```diff
 
 **Worktree Location Convention:**
 - Standard: `~/.git-worktrees/flow-cli-<feature-name>`
@@ -380,7 +380,7 @@ git worktree add ~/.git-worktrees/flow-cli-cache -b feature/cache dev
 To start implementation, please start a new session:
   cd ~/.git-worktrees/flow-cli-cache
   claude"
-```
+```diff
 
 **Why?** Fresh session ensures:
 - Clean context (no planning session baggage)
@@ -410,7 +410,7 @@ test:      Add/modify tests
 chore:     Maintenance (deps, config)
 perf:      Performance improvement
 style:     Formatting, whitespace
-```
+```bash
 
 **Examples:**
 
@@ -424,7 +424,7 @@ git commit -m "docs: update CLAUDE.md with cache architecture"
 git commit -m "WIP"
 git commit -m "fixes stuff"
 git commit -m "updated files"
-```
+```diff
 
 **Before Each Commit:**
 1. Run tests: `./tests/run-all.sh` or specific test suite
@@ -452,20 +452,20 @@ git commit -m "updated files"
    # Then: git rebase --continue
    ```
 
-2. **Run full test suite**
+1. **Run full test suite**
 
    ```bash
    ./tests/run-all.sh
    # All tests must pass
    ```
 
-3. **Push feature branch**
+2. **Push feature branch**
 
    ```bash
    git push -u origin feature/<feature-name>
    ```
 
-4. **Create PR to dev**
+3. **Create PR to dev**
 
    ```bash
    # Using gh CLI (recommended)
@@ -475,7 +475,7 @@ git commit -m "updated files"
    g feature finish
    ```
 
-5. **After PR merge, cleanup**
+4. **After PR merge, cleanup**
 
    ```bash
    # Remove worktree
@@ -553,7 +553,7 @@ git worktree list | grep $(pwd)
 
 # Check remote tracking
 git status
-```
+```bash
 
 ### Abort Conditions
 
@@ -561,38 +561,46 @@ Claude Code must **ABORT** and redirect if:
 
 1. **About to commit to main**
 
-   ```
+   ```text
+
    ⛔ ABORT: Cannot commit directly to main
 
    Redirect to: Create feature branch or PR workflow
-   ```
-
-2. **About to commit to dev** (without explicit approval)
 
    ```
+
+1. **About to commit to dev** (without explicit approval)
+
+   ```text
+
    ⚠️  WARNING: Committing to dev branch
 
    Expected: Work should be in feature/* branch
    Confirm: Is this a spec/planning commit? (Y/n)
-   ```
-
-3. **Push to main/dev without PR**
 
    ```
+
+2. **Push to main/dev without PR**
+
+   ```text
+
    ⛔ ABORT: Direct push to protected branch blocked
 
    Workflow: Use PR process instead
    Command: gh pr create --base dev
-   ```
-
-4. **Working in worktree from planning session**
 
    ```
+
+3. **Working in worktree from planning session**
+
+   ```text
+
    ⚠️  STOP: Do not implement features in planning session
 
    Action: Tell user to start NEW session in worktree:
      cd ~/.git-worktrees/flow-cli-<feature>
      claude
+
    ```
 
 ### Override (Emergency Only)

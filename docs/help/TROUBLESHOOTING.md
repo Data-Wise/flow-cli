@@ -56,6 +56,7 @@ flow doctor --fix-token  # Fix token issues only
 ### Issue: flow-cli commands not recognized
 
 **Symptom:**
+
 ```bash
 work
 # Output: command not found: work
@@ -87,6 +88,7 @@ exec zsh
 **Solution 2: Using plugin manager**
 
 For antidote:
+
 ```bash
 # Add to ~/.zsh_plugins.txt
 ~/projects/dev-tools/flow-cli
@@ -96,6 +98,7 @@ antidote update
 ```
 
 For zinit:
+
 ```bash
 # Add to ~/.zshrc
 zinit light ~/projects/dev-tools/flow-cli
@@ -106,6 +109,7 @@ zinit light ~/projects/dev-tools/flow-cli
 ### Issue: Installation via curl failed
 
 **Symptom:**
+
 ```bash
 curl: (7) Failed to connect to raw.githubusercontent.com
 ```
@@ -128,6 +132,7 @@ exec zsh
 ### Issue: Dependencies missing
 
 **Symptom:**
+
 ```bash
 flow doctor
 # Output: ❌ git not found
@@ -158,6 +163,7 @@ exec zsh
 ### Issue: "command not found: <dispatcher>"
 
 **Example:**
+
 ```bash
 g status
 # Output: command not found: g
@@ -195,6 +201,7 @@ g status
 ### Issue: Specific command works but subcommand doesn't
 
 **Example:**
+
 ```bash
 g status        # Works
 g feature start # command not found: feature
@@ -226,6 +233,7 @@ exec zsh
 ### Issue: Git push fails with authentication error
 
 **Symptom:**
+
 ```bash
 g push
 # Output: remote: Invalid username or password.
@@ -283,6 +291,7 @@ git remote set-url origin git@github.com:username/repo.git
 ### Issue: Git operations very slow
 
 **Symptom:**
+
 ```bash
 g status
 # Takes 10+ seconds
@@ -330,6 +339,7 @@ du -sh .git  # Should be smaller
 ### Issue: Merge conflicts
 
 **Symptom:**
+
 ```bash
 g pull
 # Output: CONFLICT (content): Merge conflict in file.txt
@@ -362,6 +372,7 @@ git merge --abort
 ### Issue: Token check takes too long
 
 **Symptom:**
+
 ```bash
 flow doctor --dot
 # Takes 60+ seconds
@@ -388,6 +399,7 @@ flow doctor --dot
 ### Issue: Token rotation fails
 
 **Symptom:**
+
 ```bash
 tok rotate GITHUB_TOKEN
 # Output: Error: Failed to update keychain
@@ -426,6 +438,7 @@ tok rotate GITHUB_TOKEN
 ### Issue: "Token not found in keychain"
 
 **Symptom:**
+
 ```bash
 sec GITHUB_TOKEN
 # Output: Error: Token not found
@@ -450,6 +463,7 @@ sec list
 ### Issue: Commands are slow (> 100ms)
 
 **Symptom:**
+
 ```bash
 work my-project
 # Takes 2-3 seconds
@@ -502,6 +516,7 @@ exec zsh
 ### Issue: Dashboard takes forever to load
 
 **Symptom:**
+
 ```bash
 dash
 # Takes 10+ seconds
@@ -528,6 +543,7 @@ rm -rf ~/.cache/flow/projects/*.cache
 ### Issue: git plugin aliases not working
 
 **Symptom:**
+
 ```bash
 gst
 # Output: command not found: gst
@@ -573,6 +589,7 @@ exec zsh
 ### Issue: fzf not working in pick command
 
 **Symptom:**
+
 ```bash
 pick
 # Output: No fzf found, falling back to basic picker
@@ -602,6 +619,7 @@ which fzf
 ### Issue: "Atlas connection failed"
 
 **Symptom:**
+
 ```bash
 flow doctor
 # Output: ⚠️  Atlas: Connection failed (timeout)
@@ -646,6 +664,7 @@ exec zsh
 ### Issue: "teach command not found"
 
 **Symptom:**
+
 ```bash
 teach init
 # Output: command not found: teach
@@ -668,6 +687,7 @@ teach help
 ### Issue: "Scholar not found" error
 
 **Symptom:**
+
 ```bash
 teach exam "Midterm"
 # Output: Error: Scholar CLI not installed
@@ -692,6 +712,7 @@ which scholar
 ### Issue: Quarto rendering fails
 
 **Symptom:**
+
 ```bash
 qu render lecture.qmd
 # Output: ERROR: Quarto not found
@@ -719,6 +740,7 @@ exec zsh
 ### Issue: GitHub Pages deployment fails
 
 **Symptom:**
+
 ```bash
 teach deploy
 # Output: Error: gh CLI not found
@@ -747,6 +769,7 @@ teach deploy
 ### Issue: .STATUS file not recognized
 
 **Symptom:**
+
 ```bash
 dash my-project
 # Progress: 0% (expected 75%)
@@ -776,6 +799,7 @@ dash my-project
 ### Issue: Environment variables not persisting
 
 **Symptom:**
+
 ```bash
 export FLOW_QUIET=1
 exec zsh
@@ -803,6 +827,7 @@ exec zsh
 ### Issue: Completions not working
 
 **Symptom:**
+
 ```bash
 work <Tab>
 # No completions shown
@@ -903,6 +928,7 @@ ls -la ~/.cache/flow/
 ### Avoid Issues Before They Happen
 
 1. **Regular health checks:**
+
    ```bash
    # Monthly
    flow doctor
@@ -912,6 +938,7 @@ ls -la ~/.cache/flow/
    ```
 
 2. **Keep flow-cli updated:**
+
    ```bash
    cd ~/projects/dev-tools/flow-cli
    git pull
@@ -919,18 +946,21 @@ ls -la ~/.cache/flow/
    ```
 
 3. **Backup configuration:**
+
    ```bash
    cp ~/.zshrc ~/.zshrc.backup
    cp ~/.config/zsh/.zshrc ~/.config/zsh/.zshrc.backup
    ```
 
 4. **Monitor token expiration:**
+
    ```bash
    # Weekly
    flow doctor --dot
    ```
 
 5. **Clear caches periodically:**
+
    ```bash
    # Monthly
    rm -rf ~/.cache/flow/*.cache

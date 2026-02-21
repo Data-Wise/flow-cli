@@ -40,9 +40,9 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 **Before writing any code:**
 
-```bash
+````bash
 git checkout dev && git pull origin dev
-```
+```diff
 
 - Analyze requirements on `dev` branch
 - Create comprehensive implementation plan
@@ -57,7 +57,7 @@ git checkout dev && git pull origin dev
 ```bash
 git worktree add ~/.git-worktrees/flow-cli/<feature> -b feature/<feature> dev
 git worktree list
-```
+```zsh
 
 After creating the worktree, write an `ORCHESTRATE-<feature>.md` file **to the worktree** with the full implementation plan (task list, file changes, verification steps). Commit it to the feature branch.
 
@@ -78,14 +78,14 @@ git fetch origin dev && git rebase origin/dev
 ./tests/run-all.sh
 gh pr create --base dev
 # After merge: git worktree remove ~/.git-worktrees/flow-cli/<feature>
-```
+```bash
 
 #### 6. Release (dev -> main)
 
 ```bash
 gh pr create --base main --head dev --title "Release vX.Y.Z"
 git tag -a vX.Y.Z -m "vX.Y.Z" && git push --tags
-```
+```diff
 
 ### ABORT Conditions
 
@@ -119,7 +119,7 @@ catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check
 flow doctor --fix # Interactive install missing tools
-```
+```text
 
 ### Dopamine Features
 
@@ -128,7 +128,7 @@ win <text>        # Log accomplishment (auto-categorized)
 yay               # Show recent wins
 yay --week        # Weekly summary + graph
 flow goal set 3   # Set daily win target
-```
+```text
 
 ### Active Dispatchers (15)
 
@@ -148,7 +148,7 @@ teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
 em <cmd>      # Email management (himalaya)
-```
+```diff
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
 
@@ -176,7 +176,7 @@ em <cmd>      # Email management (himalaya)
 
 ## Project Structure
 
-```
+```zsh
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
 ├── lib/                      # Core libraries (74 files)
@@ -195,7 +195,7 @@ flow-cli/
 ├── tests/                    # 195 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
-```
+```zsh
 
 ### Key Files
 
@@ -232,7 +232,7 @@ x() {
         *) _x_help ;;
     esac
 }
-```
+```diff
 
 Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
@@ -281,7 +281,7 @@ export FLOW_PROJECTS_ROOT="$HOME/projects"  # Project root
 export FLOW_ATLAS_ENABLED="auto"             # Atlas (auto|yes|no)
 export FLOW_QUIET=1                          # Suppress welcome
 export FLOW_DEBUG=1                          # Debug mode
-```
+````
 
 ---
 

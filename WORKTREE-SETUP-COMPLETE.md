@@ -9,10 +9,10 @@
 
 One unified development branch has been created for implementing ALL Quarto workflow enhancements:
 
-```
+````text
 ~/.git-worktrees/flow-cli/
 └── quarto-workflow/    # Complete implementation (v4.6.0 → v4.8.0)
-```
+```yaml
 
 ---
 
@@ -89,7 +89,7 @@ cat IMPLEMENTATION-INSTRUCTIONS.md | less
 claude
 
 # 5. Inside session, begin Week 1-2: Hook System
-```
+```diff
 
 ---
 
@@ -125,20 +125,20 @@ git worktree list
 # Output:
 # /Users/dt/projects/dev-tools/flow-cli          d0d78358 [dev]
 # ~/.git-worktrees/flow-cli/quarto-workflow      d0d78358 [feature/quarto-workflow]
-```
+```bash
 
 ### Navigate to worktree
 
 ```bash
 cd ~/.git-worktrees/flow-cli/quarto-workflow/
-```
+```bash
 
 ### Check current branch
 
 ```bash
 git branch --show-current
 # Should show: feature/quarto-workflow
-```
+```bash
 
 ---
 
@@ -162,7 +162,7 @@ cd ~/.git-worktrees/flow-cli/quarto-workflow/
 git commit -m "feat: implement pre-commit hook system"
 git commit -m "test: add hook installation tests"
 git commit -m "docs: document hook system usage"
-```
+```diff
 
 ### After Completion
 
@@ -224,7 +224,7 @@ See IMPLEMENTATION-READY-SUMMARY.md for complete specification."
 cd ~/projects/dev-tools/flow-cli/
 git worktree remove ~/.git-worktrees/flow-cli/quarto-workflow
 git branch -d feature/quarto-workflow
-```
+````
 
 ---
 
@@ -277,7 +277,7 @@ git branch -d feature/quarto-workflow
 
 ## ✅ Success Metrics
 
-### Performance Targets:
+### Performance Targets
 
 - Pre-commit validation: < 5s per file
 - Parallel rendering: 3-10x speedup
@@ -285,7 +285,7 @@ git branch -d feature/quarto-workflow
 - CI build: 2-5 min
 - Test coverage: 100%
 
-### Feature Completeness:
+### Feature Completeness
 
 - 21 commands implemented
 - 22 helper libraries created

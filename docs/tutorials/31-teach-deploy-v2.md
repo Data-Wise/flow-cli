@@ -34,7 +34,7 @@ The traditional PR workflow takes 45-90 seconds:
 ```bash
 # The old way (slow)
 teach deploy
-```
+```bash
 
 This creates a PR, waits for GitHub checks, merges, and deploys. For quick updates, this is overkill.
 
@@ -43,11 +43,11 @@ Try the new direct deploy:
 ```bash
 # The new way (fast - 8-15 seconds)
 teach deploy --direct
-```
+```text
 
 Expected output:
 
-```
+```bash
   Pre-flight Checks
 ─────────────────────────────────────────────────
   [ok] Git repository
@@ -72,7 +72,7 @@ Expected output:
 │  🌐 URL:      https://example.github.io/stat-101/    │
 │  ⚙  Actions:  https://github.com/user/stat-101/actions│
 ╰──────────────────────────────────────────────────────╯
-```
+```bash
 
 Use `-d` as a shortcut for `--direct`.
 
@@ -86,7 +86,7 @@ Edit a lecture file:
 # After editing lectures/week-05.qmd
 teach deploy -d
 # → "content: week-05 lecture"
-```
+```bash
 
 Edit a config file:
 
@@ -94,7 +94,7 @@ Edit a config file:
 # After editing _quarto.yml
 teach deploy -d
 # → "config: quarto settings"
-```
+```bash
 
 Edit multiple files:
 
@@ -102,14 +102,14 @@ Edit multiple files:
 # After editing 3 different files
 teach deploy -d
 # → "deploy: 3 file updates"
-```
+```bash
 
 Override with a custom message:
 
 ```bash
 teach deploy -d -m "Fix typo in regression notes"
 # → Uses your custom message
-```
+```text
 
 ## Step 3: Preview with Dry-Run
 
@@ -117,11 +117,11 @@ Always preview before deploying to production:
 
 ```bash
 teach deploy --dry-run --direct
-```
+```text
 
 Expected output:
 
-```
+```text
 🔍 Deploy Preview (DRY RUN)
 
 Changes to deploy:
@@ -137,7 +137,7 @@ Would execute:
   3. Trigger GitHub Pages
 
 🔹 No changes made (dry-run mode)
-```
+```text
 
 This shows exactly what would happen without actually deploying.
 
@@ -147,11 +147,11 @@ View your past deployments:
 
 ```bash
 teach deploy --history
-```
+```text
 
 Output:
 
-```
+```yaml
 Recent Deployments
 ─────────────────────────────────────────────────────────
 
@@ -163,19 +163,19 @@ Recent Deployments
   4  2026-02-02 09:00    d8b2c33     Weekly content update       12   pr
 
 Recent: 4 deploys (3 direct, 1 PR) | Avg time: 11s
-```
+```text
 
 Limit results:
 
 ```bash
 teach deploy --history --limit 10
-```
+```text
 
 View specific deployment:
 
 ```bash
 teach deploy --history --show 1
-```
+```text
 
 The history is stored in `.flow/deploy-history.yml`.
 
@@ -185,11 +185,11 @@ Made a mistake? Roll back to the previous state:
 
 ```bash
 teach deploy --rollback 1
-```
+```text
 
 This performs a **forward rollback** using `git revert`:
 
-```
+```bash
 🔄 Rolling back deployment #1
 
 Previous state:
@@ -203,7 +203,7 @@ Creating revert commit...
 [✓] Rollback recorded in history
 
 🎉 Rollback complete
-```
+```diff
 
 Safety guarantees:
 
@@ -216,7 +216,7 @@ Roll back an older deployment:
 ```bash
 teach deploy --rollback 3
 # Reverts deployment #3 from history (use --history to see index)
-```
+```text
 
 ## Step 6: CI Mode for Automation
 
@@ -224,7 +224,7 @@ Run deployments in scripts or CI without interactive prompts:
 
 ```bash
 teach deploy --ci -d -m "Automated weekly deploy"
-```
+```diff
 
 The `--ci` flag:
 
@@ -237,7 +237,7 @@ Example GitHub Actions workflow:
 ```yaml
 - name: Deploy course website
   run: teach deploy --ci -d -m "Automated deploy from CI"
-```
+```bash
 
 ## Step 7: Combining Flags
 
@@ -248,28 +248,28 @@ Quick deploy with automatic tagging:
 ```bash
 teach deploy -d --auto-tag
 # Deploys and creates a git tag (v1.2.0, v1.2.1, etc.)
-```
+```bash
 
 CI direct deploy with custom message:
 
 ```bash
 teach deploy --ci -d -m "Weekly content update"
 # Non-interactive, direct, custom message
-```
+```bash
 
 Preview partial deploy:
 
 ```bash
 teach deploy --dry-run lectures/week-05.qmd
 # Preview deploying just one file
-```
+```bash
 
 Safe production deploy:
 
 ```bash
 teach deploy --dry-run -d && teach deploy -d
 # Preview first, then deploy
-```
+```text
 
 ## Step 8: Understanding Deploy Modes
 
@@ -279,7 +279,7 @@ Deploy v2 supports two modes:
 
 ```bash
 teach deploy --direct
-```
+```diff
 
 - ✅ No PR created
 - ✅ Direct push to production branch
@@ -290,7 +290,7 @@ teach deploy --direct
 
 ```bash
 teach deploy
-```
+```diff
 
 - ✅ Creates PR for review
 - ✅ Runs GitHub checks
@@ -316,16 +316,16 @@ No need to commit manually first. If you have unsaved work:
 # Edit a file, then deploy without committing
 vim lectures/week-05.qmd
 teach deploy -d
-```
+```text
 
 Deploy detects the dirty tree and prompts:
 
-```
+```text
   Uncommitted changes detected
   Suggested: content: week-05 lecture
 
   Commit and continue? [Y/n]:
-```
+```text
 
 Press Enter to auto-commit and deploy in one step.
 
@@ -333,7 +333,7 @@ Press Enter to auto-commit and deploy in one step.
 
 If your Quarto pre-commit hook fails during the auto-commit:
 
-```
+```yaml
   ERROR: Commit failed (likely pre-commit hook)
 
   Options:
@@ -342,7 +342,7 @@ If your Quarto pre-commit hook fails during the auto-commit:
     3. Force: git commit --no-verify -m "message"
 
   Changes are still staged.
-```
+```diff
 
 Option 2 is useful for urgent deploys when you know the content is correct.
 

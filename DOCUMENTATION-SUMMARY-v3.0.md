@@ -437,7 +437,7 @@ All documentation cross-references each other:
 
 ### Navigation Flow
 
-```
+````text
 User Entry Point
     ↓
 Quick Start (TEACHING-WORKFLOW-V3-GUIDE.md)
@@ -447,7 +447,7 @@ Command Reference (TEACH-DISPATCHER-REFERENCE-v3.0.md)
 Deep Dive (BACKUP-SYSTEM-GUIDE.md)
     ↓
 Advanced Usage & API
-```
+```bash
 
 ---
 
@@ -465,7 +465,7 @@ cat reference/TEACH-DISPATCHER-REFERENCE-v3.0.md | less
 # User guides
 cat guides/TEACHING-WORKFLOW-V3-GUIDE.md | less
 cat guides/BACKUP-SYSTEM-GUIDE.md | less
-```
+```diff
 
 ### 2. Update Existing Documentation
 
@@ -484,7 +484,7 @@ nav:
       - Reference: reference/TEACH-DISPATCHER-REFERENCE-v3.0.md
       - Backup System: guides/BACKUP-SYSTEM-GUIDE.md
       - Dates Management: guides/TEACHING-DATES-GUIDE.md
-```
+```diff
 
 ### 3. Create Pull Request
 
@@ -529,7 +529,7 @@ gh pr create --base dev \
 - TEACHING-WORKFLOW-V3-COMPLETE.md - Task completion summary
 - DOCUMENTATION-SUMMARY-v3.0.md - This file
 "
-```
+```bash
 
 ### 4. Deploy to Documentation Site
 
@@ -544,7 +544,7 @@ mkdocs gh-deploy --force
 
 # Verify
 open https://Data-Wise.github.io/flow-cli/
-```
+```text
 
 ---
 
@@ -552,7 +552,7 @@ open https://Data-Wise.github.io/flow-cli/
 
 ### Documentation Files Created
 
-```
+```text
 docs/
 ├── reference/
 │   └── TEACH-DISPATCHER-REFERENCE-v3.0.md    [NEW] 10,000 lines
@@ -564,18 +564,18 @@ docs/
     ├── TEACHING-WORKFLOW-V3-COMPLETE.md      [EXISTS] Task summary
     ├── ORCHESTRATE.md                        [EXISTS] Implementation tracker
     └── CLAUDE.md                             [UPDATED] Added completion section
-```
+```text
 
 ### Files to Update in Main Branch
 
-```
+```text
 docs/
 ├── reference/
 │   └── TEACH-DISPATCHER-REFERENCE.md         [REPLACE] With v3.0 version
 ├── guides/
 │   └── TEACHING-WORKFLOW.md                  [REPLACE] With v3.0 guide
 └── mkdocs.yml                                [UPDATE] Navigation structure
-```
+````
 
 ---
 

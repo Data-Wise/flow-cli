@@ -30,7 +30,7 @@ g push            # Git push (with workflow guard)
 g pull            # Git pull
 g log             # Git log
 g help            # Show help
-```
+```bash
 
 **Feature Branch Workflow (v4.1.0+):**
 
@@ -52,7 +52,7 @@ g feature prune --all        # Also delete remote branches
 g feature prune -n           # Dry run (preview only)
 g feature prune --force      # Skip confirmation (v4.3.0)
 g feature prune --older-than 30d  # Only branches older than 30 days (v4.3.0)
-```
+```diff
 
 **Workflow Guard:**
 
@@ -62,10 +62,10 @@ g feature prune --older-than 30d  # Only branches older than 30 days (v4.3.0)
 
 **Workflow Diagram:**
 
-```
+```text
 feature/* ──► dev ──► main
      └── g promote    └── g release
-```
+```diff
 
 **Branch Cleanup (v4.2.0):**
 
@@ -102,7 +102,7 @@ mcp test <server> # Test server
 mcp status        # Show server status
 mcp pick          # Interactive picker
 mcp help          # Show help
-```
+```diff
 
 **Features:**
 
@@ -129,7 +129,7 @@ obs vaults        # List all vaults
 obs stats         # Show vault statistics
 obs ai            # AI integration
 obs analyze       # Analyze vault
-```
+```diff
 
 **Features:**
 
@@ -168,7 +168,7 @@ prompt help               # Show help
 
 # Options
 prompt --dry-run toggle   # Preview changes without applying
-```
+```bash
 
 **Supported Engines:**
 
@@ -183,7 +183,7 @@ prompt --dry-run toggle   # Preview changes without applying
 ```bash
 # Control which engine is active
 export FLOW_PROMPT_ENGINE="starship"  # Valid: powerlevel10k, starship, ohmyposh
-```
+```diff
 
 **Features:**
 
@@ -229,7 +229,7 @@ qu present <name> # Create presentation project
 
 # Workflow
 qu commit         # Render and commit changes
-```
+```diff
 
 **Smart Default Workflow:**
 
@@ -300,7 +300,7 @@ r tex             # Remove LaTeX build files
 r commit          # Document, test, and commit
 r info            # Package info summary
 r tree            # Package structure tree
-```
+```diff
 
 **Features:**
 
@@ -358,7 +358,7 @@ cc wt pick              # Pick worktree → Claude (fzf)
 cc wt yolo <branch>     # Worktree + YOLO mode
 cc wt plan <branch>     # Worktree + Plan mode
 cc wt opus <branch>     # Worktree + Opus model
-```
+```diff
 
 **Features:**
 
@@ -402,7 +402,7 @@ wt prune              # Comprehensive cleanup (worktrees + merged branches)
 wt prune --branches   # Also delete merged feature branches
 wt prune --force      # Skip confirmation
 wt prune --dry-run    # Preview only
-```
+```diff
 
 **Aliases:**
 
@@ -417,7 +417,7 @@ wt prune --dry-run    # Preview only
 ```bash
 # Set custom worktree directory (default: ~/.git-worktrees)
 export FLOW_WORKTREE_DIR="$HOME/worktrees"
-```
+```text
 
 **Passthrough:**
 
@@ -426,7 +426,7 @@ Unknown commands pass through to `git worktree`:
 ```bash
 wt lock <path>     # → git worktree lock <path>
 wt unlock <path>   # → git worktree unlock <path>
-```
+```diff
 
 **Features:**
 
@@ -464,7 +464,7 @@ tm doctor             # Check terminal health
 tm compare            # Compare terminal features
 tm features           # Show terminal features
 tm help               # Show help
-```
+```diff
 
 **Shortcuts:**
 
@@ -532,7 +532,7 @@ dot secret list       # List available secrets
 dot doctor            # Run diagnostics
 dot undo              # Rollback last apply
 dot init              # Initialize dotfile management
-```
+```diff
 
 **Shortcuts:**
 
@@ -551,9 +551,9 @@ dot init              # Initialize dotfile management
 
 Shows status automatically in `dash` command:
 
-```
+```text
 📝 Dotfiles: 🟢 Synced (2h ago) · 12 files tracked
-```
+```text
 
 Status icons: 🟢 Synced, 🟡 Modified, 🔴 Behind, 🔵 Ahead
 
@@ -561,14 +561,14 @@ Status icons: 🟢 Synced, 🟡 Modified, 🔴 Behind, 🔵 Ahead
 
 Included in `flow doctor` health checks:
 
-```
+```text
 📁 DOTFILES
   ✓ chezmoi v2.45.0
   ✓ Bitwarden CLI v2024.1.0
   ✓ Chezmoi initialized with git
   ✓ Remote configured
   ✓ Synced with remote
-```
+```diff
 
 **Requirements:**
 
@@ -591,7 +591,7 @@ Use Bitwarden secrets in chezmoi templates:
 # In ~/.local/share/chezmoi/dot_gitconfig.tmpl
 [github]
     token = {{ bitwarden "item" "github-token" }}
-```
+```bash
 
 **Workflow:**
 
@@ -641,7 +641,7 @@ teach archive                  # Archive semester
 teach config                   # Edit teach-config.yml
 teach week                     # Show current week number
 teach help                     # Show help
-```
+```bash
 
 **Git Integration Features (v5.12.0):**
 
@@ -662,7 +662,7 @@ teach exam "Midterm 1"
 #   1) Review in editor, then commit
 #   2) Commit now with auto-generated message
 #   3) Skip commit (do it manually later)
-```
+```bash
 
 **Phase 2 - Branch-Aware Deployment:**
 
@@ -677,7 +677,7 @@ teach deploy
 # Creating PR: draft → main
 # → Auto-generated PR body with commit list
 # → Deploy checklist included
-```
+```bash
 
 **Phase 3 - Git-Aware Status:**
 
@@ -695,7 +695,7 @@ teach status
 #   2) Stash changes
 #   3) View diff
 #   4) Skip
-```
+```yaml
 
 **Phase 4 - Teaching Mode:**
 
@@ -712,7 +712,7 @@ teach exam "Midterm"
 # ✓ Generated exams/midterm.qmd
 # 🎓 Teaching Mode: Auto-committing...
 # ✓ Committed: teach: add exam for Midterm
-```
+```bash
 
 **Phase 5 - Git Initialization:**
 
@@ -730,7 +730,7 @@ teach init --no-git "TEST 101"
 # → Installs teach-config.yml and scripts
 # → Skip all git operations
 # → Manual git setup instructions provided
-```
+```bash
 
 ### Date Management (v5.13.0+)
 
@@ -753,11 +753,11 @@ teach dates validate       # Validate config
 teach dates sync --assignments  # Assignments only
 teach dates sync --lectures     # Lectures only
 teach dates sync --file hw3.qmd # Single file
-```
+```text
 
 **See:** [Teaching Dates Guide](../guides/TEACHING-DATES-GUIDE.md) | [Quick Reference](TEACH-DATES-QUICK-REFERENCE.md)
 
-```
+```yaml
 
 **Shortcuts:**
 
@@ -788,7 +788,7 @@ workflow:
   teaching_mode: false           # Streamlined workflow
   auto_commit: false             # Auto-commit after generation
   auto_push: false               # Auto-push commits (safety: false)
-```
+```bash
 
 **Workflow Examples:**
 
@@ -811,7 +811,7 @@ teach init --no-git "TEST 101"   # Skip git
 # ... manual work ...
 git init && git add . && git commit -m "Initial commit"
 teach init "TEST 101"            # Run again to set up branches
-```
+```diff
 
 **See also:**
 
@@ -837,7 +837,7 @@ v test       →    flow test
 v build      →    flow build
 v preview    →    flow preview
 vibe         →    flow
-```
+```diff
 
 **Use `flow` command directly** - It provides the same functionality with a clearer, unified interface.
 
@@ -862,7 +862,7 @@ gemf, gemp                      # Model selection
 gemj, gemsj                     # Output formats
 gemw, gemws                     # Web search
 gemc, geme, gemd                # Workflows
-```
+```yaml
 
 ---
 
@@ -900,7 +900,7 @@ gemc, geme, gemd                # Workflows
 <dispatcher>              # Show help or default action
 <dispatcher> help         # Show help
 <dispatcher> <command>    # Execute specific command
-```
+```bash
 
 ### Examples
 
@@ -924,7 +924,7 @@ mcp cd statistical        # Go to statistical-research server
 # Obsidian
 obs discover              # Find vaults
 obs stats                 # Show statistics
-```
+```text
 
 ---
 
@@ -945,7 +945,7 @@ flow doctor --fix -y     # Auto-install all (no prompts)
 flow doctor --ai         # AI-assisted troubleshooting (Claude CLI)
 flow doctor --verbose    # Verbose output
 flow doctor --help       # Show help
-```
+```diff
 
 **Features:**
 
@@ -969,7 +969,7 @@ flow doctor --help       # Show help
 
 ```bash
 brew bundle --file=$FLOW_PLUGIN_DIR/setup/Brewfile
-```
+```bash
 
 ---
 
@@ -983,7 +983,7 @@ flow test                 # Calls appropriate dispatcher
 flow build                # Context-aware build
 flow preview              # Context-aware preview
 flow doctor               # Health check
-```
+```bash
 
 ---
 
@@ -1026,7 +1026,7 @@ _my_dispatcher_help() {
 # Help text here
 EOF
 }
-```
+```zsh
 
 **Location:** Place in `lib/dispatchers/my-dispatcher.zsh`  
 **Auto-loading:** Automatically loaded by `flow.plugin.zsh`
@@ -1043,7 +1043,7 @@ source ~/.zsh/plugins/flow-cli/flow.plugin.zsh
 
 # Or reload shell
 exec zsh
-```
+```diff
 
 ### Conflict with System Command
 

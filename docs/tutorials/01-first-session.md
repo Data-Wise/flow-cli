@@ -29,7 +29,7 @@ ls ~/.config/zsh/functions/adhd-helpers.zsh
 
 # Check you have projects
 ls ~/projects/
-```
+```diff
 
 ---
 
@@ -48,12 +48,12 @@ By the end of this tutorial, you will:
 
 Flow CLI helps you stay focused by tracking work sessions. Here's the workflow:
 
-```
+```text
 ┌────────────────┐     ┌────────────────┐     ┌────────────────┐
 │  Pick Project  │ --> │   Work on It   │ --> │  End Session   │
 │  (just-start)  │     │   (commands)   │     │   (finish)     │
 └────────────────┘     └────────────────┘     └────────────────┘
-```
+```text
 
 ---
 
@@ -65,13 +65,13 @@ Let's see what projects you can work on:
 
 ```bash
 dash
-```
+```text
 
 **What happened:** You see a dashboard showing all your projects organized by status (Active, Ready, Paused, Blocked).
 
 Example output:
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │ 🎯 YOUR WORK DASHBOARD                      │
 ╰─────────────────────────────────────────────╯
@@ -82,7 +82,7 @@ Example output:
 
 📋 READY TO START (1):
   📊 research-project [P2] 20% - Literature review
-```
+```text
 
 ### Step 1.2: Let Flow Pick For You
 
@@ -90,11 +90,11 @@ Instead of deciding, let Flow choose based on priority:
 
 ```bash
 just-start
-```
+```text
 
 **What happened:** Flow automatically selects your highest-priority active project and shows you the details:
 
-```
+```text
 🎲 Finding your next task...
 
 ┌─────────────────────────────────────────────┐
@@ -113,7 +113,7 @@ just-start
    dash          = See all projects
 
 📁 /Users/dt/projects/dev-tools/flow-cli
-```
+```text
 
 > **Note:** Flow picks based on: P0 active → P1 active → any active → most recent
 
@@ -123,7 +123,7 @@ Now start a session on the project:
 
 ```bash
 work .
-```
+```diff
 
 **What happened:** Flow starts a work session — it `cd`s into the project, shows context, and begins session tracking.
 
@@ -148,7 +148,7 @@ At this point, you should have:
 ```bash
 pwd
 # Expected: You're in the project directory
-```
+```text
 
 ---
 
@@ -160,18 +160,18 @@ Now set a focus timer to stay on track:
 
 ```bash
 f25
-```
+```text
 
 **What happened:** A 25-minute Pomodoro timer starts. Your terminal shows a countdown.
 
 Example output:
 
-```
+```bash
 🍅 Pomodoro Timer Started!
 ⏱️  25:00 remaining...
 
 [Terminal shows countdown in prompt]
-```
+```text
 
 > **Tip:** Use `f50` for a 50-minute deep work session instead
 
@@ -181,11 +181,11 @@ If you forget what you're working on:
 
 ```bash
 why
-```
+```text
 
 **What happened:** Shows your current project context:
 
-```
+```yaml
 📍 CURRENT CONTEXT
 
 Project:  flow-cli
@@ -196,7 +196,7 @@ Task:     Documentation improvements
 Progress: 95%
 
 Active since: 14 minutes ago
-```
+```diff
 
 ### Step 2.3: Work on Your Task
 
@@ -223,7 +223,7 @@ npm run build # Build project
 gst          # Check status (git status)
 ga .         # Stage changes (git add .)
 gcmsg "msg"  # Commit (git commit -m "msg")
-```
+```text
 
 ### Step 2.4: Log Your Wins
 
@@ -231,7 +231,7 @@ When you accomplish something:
 
 ```bash
 win "Completed first Flow tutorial"
-```
+```diff
 
 **What happened:** Your accomplishment is logged to track progress.
 
@@ -249,7 +249,7 @@ At this point, you should have:
 ```bash
 wins
 # Expected: See your logged wins for today
-```
+```text
 
 ---
 
@@ -261,11 +261,11 @@ Before ending, update the project status:
 
 ```bash
 status .
-```
+```text
 
 **What happened:** Flow asks for updates interactively:
 
-```
+```text
 📋 UPDATE STATUS: flow-cli
 ═══════════════════════════════════════════
 
@@ -287,7 +287,7 @@ Progress? [95]
 > 100
 
 ✅ Updated! Press Enter to continue...
-```
+```text
 
 > **Tip:** Press Enter to keep current values, only type when you want to change something
 
@@ -300,7 +300,7 @@ gst          # Check what changed
 gaa          # Stage all changes
 gcmsg "docs: add first session tutorial"
 gp           # Push to remote
-```
+```text
 
 ### Step 3.3: View Today's Wins
 
@@ -308,18 +308,18 @@ See what you accomplished:
 
 ```bash
 wins
-```
+```text
 
 **What happened:** Lists all wins you logged today:
 
-```
+```text
 🎉 TODAY'S WINS (2025-12-24)
 ═══════════════════════════════════════════
 1. ✅ Completed first Flow tutorial
 2. ✅ Updated project documentation
 
 💪 Great work today!
-```
+```diff
 
 ### Understanding Session Tracking
 
@@ -363,7 +363,7 @@ why                    # Where am I? What am I doing?
 status .               # Update progress
 gaa && gcmsg "msg"     # Commit changes
 wins                   # See accomplishments
-```
+```bash
 
 **Time:** <3 minutes to start/end, focused time in between
 
@@ -398,7 +398,7 @@ pick
 # Option 3: Use dashboard
 dash research        # Filter by category
 work research-project
-```
+```sql
 
 </details>
 
@@ -416,7 +416,7 @@ status stat-440 active P1 "Grade final exams" 80
 
 # Verify
 dash
-```
+```sql
 
 </details>
 
@@ -439,7 +439,7 @@ status new-project ready P2 "Initial setup" 0
 
 # Verify it appears in dashboard
 dash
-```
+```bash
 
 </details>
 
@@ -459,7 +459,7 @@ source ~/.zshrc
 
 # Or check if functions exist
 ls ~/.config/zsh/functions/adhd-helpers.zsh
-```
+```bash
 
 ### "No projects found"
 
@@ -474,7 +474,7 @@ status your-project --create
 
 # Check project structure
 ls ~/projects/
-```
+```bash
 
 ### "Editor didn't open"
 
@@ -491,7 +491,7 @@ work . -e positron # Positron
 # Or open manually
 code .     # VS Code
 rstudio .  # RStudio
-```
+```text
 
 ---
 
@@ -521,7 +521,7 @@ why            # Check context
 win "msg"      # Log accomplishment
 wins           # See today's wins
 status .       # Update progress
-```
+```diff
 
 ---
 
@@ -537,7 +537,7 @@ Continue your learning:
 
 ## Quick Reference
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │  FIRST SESSION WORKFLOW                             │
 ├─────────────────────────────────────────────────────┤

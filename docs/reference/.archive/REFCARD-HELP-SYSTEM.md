@@ -11,7 +11,7 @@ teach --help           # Main dispatcher help
 teach <cmd> --help     # Command-specific help
 teach <cmd> -h         # Short form
 teach <cmd> help       # Alternative form
-```
+```diff
 
 ---
 
@@ -72,7 +72,7 @@ teach <cmd> help       # Alternative form
 
 Every help function follows this pattern:
 
-```
+```text
 ╔════════════════════════════════════════════════════════════╗
 ║  teach <command> - Description                            ║
 ╚════════════════════════════════════════════════════════════╝
@@ -85,7 +85,7 @@ EXAMPLES       Detailed use cases
 TIPS           Pro tips
 LEARN MORE     Documentation links
 SEE ALSO       Related commands
-```
+```bash
 
 ---
 
@@ -106,7 +106,7 @@ teach init "Course Name"     # Create new project
 # 3. Enable quality checks
 teach hooks --help           # See git hook options
 teach hooks install          # Install all hooks
-```
+```bash
 
 ### Content Creation
 
@@ -120,7 +120,7 @@ teach lecture --week 5                  # Week-specific
 teach exam --help                       # See all options
 teach exam "Midterm"                    # Basic exam
 teach exam "Final" --questions 30       # With custom count
-```
+```bash
 
 ### Validation & Quality
 
@@ -136,7 +136,7 @@ teach cache --help          # See cache operations
 teach cache                 # Interactive menu
 teach cache status          # Show cache info
 teach cache clear           # Delete cache
-```
+```bash
 
 ### Deployment
 
@@ -145,7 +145,7 @@ teach cache clear           # Delete cache
 teach deploy --help         # See deployment options
 teach deploy               # Full site deployment
 teach deploy --preview     # Preview changes first
-```
+```bash
 
 ---
 
@@ -167,7 +167,7 @@ QUICK START
 
   # Advanced
   $ teach command "arg" --opt1 --opt2
-```
+```text
 
 ### Level 2: Options (categorized)
 
@@ -182,7 +182,7 @@ OPTIONS
   Output Format:
     --template FORMAT
     --style TONE
-```
+```bash
 
 ### Level 3: Examples (detailed)
 
@@ -194,7 +194,7 @@ EXAMPLES
     $ teach command "arg"
     # Creates: output/file.ext
     # Explanation of what happens
-```
+```text
 
 ### Level 4: Tips & Links
 
@@ -210,7 +210,7 @@ LEARN MORE
 
 SEE ALSO:
   teach related - Description
-```
+```diff
 
 ---
 
@@ -234,7 +234,7 @@ All commands support **three formats**:
 teach lecture --help     # Long flag (verbose)
 teach lecture -h         # Short flag (quick)
 teach lecture help       # Positional (alternative)
-```
+```bash
 
 All three produce identical output.
 
@@ -249,7 +249,7 @@ $ teach lecture --help           # Read QUICK START section
 $ teach lecture "ANOVA"          # Run basic command
 $ teach lecture --help           # Read OPTIONS for more flags
 $ teach lecture "ANOVA" --week 5 # Run with options
-```
+```bash
 
 ---
 
@@ -263,7 +263,7 @@ cat docs/tutorials/TEACHING-QUICK-START.md
 
 # Or visit website
 open https://Data-Wise.github.io/flow-cli/tutorials/TEACHING-QUICK-START/
-```
+```diff
 
 **Tutorial steps:**
 1. Environment Setup (3 min)
@@ -310,7 +310,7 @@ teach cache --help       # Cache management
 # Setup
 teach init --help        # Project initialization
 teach config --help      # Configuration management
-```
+```yaml
 
 ---
 

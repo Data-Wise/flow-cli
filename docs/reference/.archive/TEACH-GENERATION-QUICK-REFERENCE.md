@@ -9,12 +9,12 @@
 
 ### Basic Pattern
 
-```
+```text
 teach <command> "Topic"           # Generate with topic
 teach <command>                   # Auto-detect topic from schedule
 teach <command> -i                # Interactive (guided) mode
 teach <command> --revise FILE     # Improve existing file
-```
+```text
 
 ### Slides & Lectures
 
@@ -27,7 +27,7 @@ teach slides --revise FILE        # Revise existing
 teach lecture "Regression"        # Generate lecture notes
 teach lecture --outline           # Quick outline only
 teach lecture --notes             # Include speaker notes
-```
+```text
 
 ### Quizzes & Exams
 
@@ -39,7 +39,7 @@ teach quiz "Ch 5" --types mc,tf   # Only MC & True/False
 teach exam "Midterm"              # 25 questions, 90 min
 teach exam "Final" -n 40          # 40 questions
 teach exam "Midterm" --duration 120  # 2 hour exam
-```
+```text
 
 ### Feedback & Assignments
 
@@ -50,7 +50,7 @@ teach feedback work/ --batch      # Batch process directory
 teach assignment "HW 3"           # Create assignment
 teach assignment "HW 3" --due 2026-01-24
 teach assignment "Project" --parts 3
-```
+```diff
 
 ---
 
@@ -83,12 +83,12 @@ teach assignment "Project" --parts 3
 
 ## Progress Indicators
 
-```
+```text
  Working...              Spinner (in progress)
  Done!                   Success
  Error message           Failure
  Warning message         Caution
-```
+```diff
 
 **Time estimates:**
 - Slides: ~30 seconds
@@ -106,7 +106,7 @@ When unsure about options, use `-i`:
 
 ```bash
 teach slides -i
-```
+```bash
 
 **Navigation:**
 
@@ -133,7 +133,7 @@ teach slides --revise slides/week08.qmd
 # [4] Add visuals
 # [5] Custom instructions
 # [6] Full regenerate
-```
+```text
 
 ---
 
@@ -145,7 +145,7 @@ When you omit the topic, `teach` auto-detects:
 teach slides        # Uses Week 8's topic from schedule
 teach quiz          # Topics covered this week
 teach exam          # All topics in current unit
-```
+```text
 
 **Auto-detection uses:**
 1. Current date + semester start
@@ -162,26 +162,26 @@ teach exam          # All topics in current unit
 teach lecture "Topic" --outline   # Draft outline first
 teach lecture "Topic"             # Full content
 teach slides "Topic" --from-lecture lectures/week08.qmd
-```
+```text
 
 ### Create Assessment
 
 ```bash
 teach quiz "Chapter 5" -i         # Guided quiz creation
 teach exam "Midterm" --dry-run    # Preview before saving
-```
+```text
 
 ### Improve Existing Content
 
 ```bash
 teach slides --revise slides/old.qmd  # Interactive improvement
-```
+```text
 
 ### Batch Student Feedback
 
 ```bash
 teach feedback submissions/ --batch --rubric rubric.yml
-```
+```diff
 
 ---
 

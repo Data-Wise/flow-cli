@@ -87,7 +87,7 @@ flowchart TD
         E2["Positron installed → Positron (default)"]
         E3["Positron not installed → VS Code (fallback)"]
     end
-```
+```zsh
 
 ## API Design
 
@@ -101,7 +101,7 @@ code() {
         *)  command code "$@" ;;
     esac
 }
-```
+```text
 
 ### Subcommand Table
 
@@ -131,13 +131,13 @@ code() {
 
 Templates are standard VS Code `.code-workspace` JSON files stored with `.json` extension:
 
-```
+```text
 lib/templates/ws/
 ├── r-package.json      # R package template
 ├── python.json         # Python/uv template
 ├── node.json           # Node/Bun template
 └── generic.json        # Minimal template
-```
+```text
 
 ### Template Structure
 
@@ -153,7 +153,7 @@ lib/templates/ws/
     "recommendations": []
   }
 }
-```
+```zsh
 
 ### Template Cascade Resolution
 
@@ -174,7 +174,7 @@ _code_ws_resolve_template() {
         echo "$builtin_tmpl"  # fallback to generic
     fi
 }
-```
+```bash
 
 ### Editor Selection Logic
 
@@ -198,7 +198,7 @@ _code_ws_select_editor() {
     # 3. Fall back to VS Code
     echo "code"
 }
-```
+```text
 
 **Rationale:** Positron handles R, Python, AND Node projects equally well (same extension marketplace, same workspace format). Its native data science features (variables pane, plots viewer, connections pane) benefit all project types. No reason to split by project type — just use the better editor when available.
 
@@ -220,7 +220,7 @@ _code_ws_select_editor() {
 
 ### User Flow: `code ws` (Default)
 
-```
+```text
 $ code ws
 → Found existing: myproject.code-workspace
 → Opening in Positron...
@@ -236,29 +236,29 @@ $ code ws                          # (Positron not installed)
 → Template: node (built-in)
 → Created: myproject.code-workspace
 → Opening in VS Code... (Positron not found, using fallback)
-```
+```text
 
 ### User Flow: `code ws create --type python --editor cursor`
 
-```
+```text
 $ code ws create --type python --editor cursor
 → Template: python (built-in)
 → Created: myproject.code-workspace
 → Opening in Cursor...
-```
+```text
 
 ### User Flow: `code ws add ../shared-lib`
 
-```
+```text
 $ code ws add ../shared-lib
 → Updated: myproject.code-workspace
 → Added folder: ../shared-lib (shared-lib)
 → Workspace now has 2 folders
-```
+```text
 
 ### User Flow: `code ws list`
 
-```
+```yaml
 $ code ws list
 Templates:
   Built-in:
@@ -272,11 +272,11 @@ Templates:
 
   Local (.flow/templates/ws/):
     (none)
-```
+```text
 
 ### Help Output
 
-```
+```text
 $ code ws help
 
   code ws — VS Code Workspace Manager
@@ -307,7 +307,7 @@ $ code ws help
     code ws create --type python
     code ws add ../shared-lib
     code ws --editor code       # Force VS Code
-```
+```diff
 
 ### Accessibility
 
@@ -360,6 +360,7 @@ _work_auto_open_workspace() {
 ## Implementation Notes
 
 ### Phase 1: Core (1-2 hours)
+
 - `code()` wrapper with passthrough
 - `code ws` — smart create/open with auto-detect
 - 4 built-in templates (R, Python, Node, Generic)
@@ -367,6 +368,7 @@ _work_auto_open_workspace() {
 - `code ws help`
 
 ### Phase 2: Templates + CRUD (1 hour)
+
 - Template cascade resolution
 - `code ws list` — show all templates
 - `code ws create` with `--type` and `--name`
@@ -374,11 +376,13 @@ _work_auto_open_workspace() {
 - Global template directory creation
 
 ### Phase 3: Multi-root + Integration (1 hour)
+
 - `code ws add <folder>` — JSON manipulation
 - `work` session auto-open integration
 - `--editor` flag for all subcommands
 
 ### Phase 4: Polish (30 min)
+
 - ZSH completions for `code ws`
 - Test suite (passthrough, create, detect, cascade, multi-root)
 - Documentation updates

@@ -25,13 +25,13 @@ Wave 1 of Phase 2 has been successfully implemented and committed. All success c
 
 Complete system for managing Quarto profiles:
 
-```bash
+````bash
 teach profiles list              # List all profiles
 teach profiles show draft        # Show profile details
 teach profiles set draft         # Switch to draft profile
 teach profiles create custom     # Create new profile
 teach profiles current           # Show active profile
-```
+```diff
 
 **Templates:**
 
@@ -47,7 +47,7 @@ Multi-source R package detection and installation:
 ```bash
 teach doctor                     # Check R packages
 teach doctor --fix               # Auto-install missing packages
-```
+```diff
 
 **Sources:**
 
@@ -111,7 +111,7 @@ teach profiles show draft
 teach profiles current
 ✅ Shows active profile
 ✅ Indicates source (env/config/default)
-```
+```diff
 
 ### Unit Test Coverage
 
@@ -189,7 +189,7 @@ teach profiles current
 # Output:
 # Current Profile: draft
 # Source: .flow/teaching.yml
-```
+```bash
 
 ### R Package Auto-Install Workflow
 
@@ -231,7 +231,7 @@ teach doctor
 # ✓ R Packages
 #   ✓ ggplot2 3.4.2
 #   ✓ dplyr 1.1.2
-```
+```yaml
 
 ---
 
@@ -348,12 +348,12 @@ All dependencies checked by `teach doctor`.
 
 **Commit Message:**
 
-```
+```text
 feat: implement Wave 1 - Profile Management + R Package Detection (Phase 2)
 
 Add comprehensive Quarto profile management and R package auto-installation
 capabilities to the teaching workflow.
-```
+````
 
 ---
 

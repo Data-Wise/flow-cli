@@ -21,7 +21,7 @@ teach validate --lint
 
 # Quick checks only
 teach validate --quick-checks
-```
+```diff
 
 ---
 
@@ -129,7 +129,7 @@ teach validate --quick-checks
 
 ## Commit History
 
-```
+```text
 * 6eec1a9b docs: add comprehensive lint documentation
 * 45119565 docs(test): add comprehensive dogfooding report
 * a13c3ed4 test(teach): add automated dogfooding test with captured output

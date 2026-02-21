@@ -6,13 +6,13 @@
 
 Every project MUST have:
 
-```
+```text
 project/
 ├── README.md          # Quick start (use QUICK-START-TEMPLATE)
 ├── .STATUS            # Machine-readable status
 ├── .gitignore         # Git ignores
 └── CHANGELOG.md       # Version history (for packages/releases)
-```
+```text
 
 ## .STATUS File Format
 
@@ -22,7 +22,7 @@ progress: 75            # 0-100 (optional)
 next: Write discussion  # Next action item
 target: JASA            # Target journal/milestone (optional)
 updated: 2025-12-17     # Last update date
-```
+```text
 
 **Valid statuses:**
 
@@ -40,7 +40,7 @@ updated: 2025-12-17     # Last update date
 
 ## R Package Structure
 
-```
+```text
 mypackage/
 ├── README.md              # Quick start
 ├── .STATUS                # Package status
@@ -76,13 +76,13 @@ mypackage/
 └── .github/
     └── workflows/
         └── R-CMD-check.yaml
-```
+```text
 
 ---
 
 ## Research Project Structure
 
-```
+```text
 my-research/
 ├── README.md              # Quick start
 ├── .STATUS                # Project status
@@ -113,13 +113,13 @@ my-research/
 └── docs/                  # Notes, drafts, reviews
     ├── notes.md
     └── reviews/
-```
+```text
 
 ---
 
 ## Teaching Course Structure
 
-```
+```text
 STAT-440/
 ├── README.md              # Course quick start
 ├── .STATUS                # Current week, next task
@@ -149,13 +149,13 @@ STAT-440/
 ├── data/                  # Course datasets
 │
 └── resources/             # Supplementary materials
-```
+```text
 
 ---
 
 ## Quarto Manuscript Structure
 
-```
+```text
 my-manuscript/
 ├── README.md
 ├── .STATUS
@@ -176,13 +176,13 @@ my-manuscript/
 │
 └── supplementary/
     └── appendix.qmd
-```
+```text
 
 ---
 
 ## Node.js/Dev Tool Structure
 
-```
+```text
 my-tool/
 ├── README.md
 ├── .STATUS
@@ -201,7 +201,7 @@ my-tool/
 │
 └── .github/
     └── workflows/
-```
+```diff
 
 ---
 

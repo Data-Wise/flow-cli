@@ -94,13 +94,13 @@ Every send operation MUST:
 
 ### Subcommands Implemented
 
-```
+```text
 em inbox|i     em read|r      em send|s      em reply|re
 em find|f      em pick|p      em unread|u    em dash|d
 em folders     em html        em attach|a    em doctor
 em respond     em classify    em summarize   em cache
 em help
-```
+```diff
 
 Registered in `flow.plugin.zsh` with 6-layer module loading.
 
@@ -155,13 +155,13 @@ Full fzf email browser with:
 
 ### Smart Rendering Pipeline (`lib/em-render.zsh`, 237 lines)
 
-```
+```text
 Detection chain:
   HTML (<html|<body|<div|<table|<p>) → w3m → lynx → pandoc → bat
   Markdown (#, **, ```, - [)          → glow → bat
   Plain text                          → bat --style=plain
   Fallback                            → cat
-```
+```diff
 
 `_em_render_email_body()` — dims quoted replies (`>`), dims signatures (`--`), strips email noise (CID, Safe Links, MIME markers, URLs, mailto).
 
@@ -190,7 +190,7 @@ Detection chain:
 ```zsh
 export FLOW_EMAIL_AI="claude"      # claude | gemini | none
 export FLOW_EMAIL_AI_TIMEOUT=30    # seconds
-```
+```yaml
 
 ---
 
@@ -331,7 +331,7 @@ Tested with 30 dedicated tests (14 unit + 16 dogfood).
 
 ### Commit History (28 commits)
 
-```
+```text
 c65d7290 feat: add em dispatcher skeleton with help, completions, doctor
 c2c93ef9 feat: implement em send, reply, and inbox rendering
 b45f4ecf docs: add himalaya validation research, update specs for v1.0+
@@ -360,7 +360,7 @@ b943d5b2 fix: em read — validate IDs + fix himalaya v1.1.0 adapter
 cff57aa7 feat: em preview — strip email noise (CID, Safe Links, MIME markers)
 b9b3952e test: add 14 unit tests for email noise cleanup patterns
 5145c2ac test: add 16 dogfood tests for email noise cleanup patterns
-```
+```bash
 
 ---
 

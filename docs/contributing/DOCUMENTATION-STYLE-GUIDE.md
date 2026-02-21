@@ -54,7 +54,7 @@
 
 ### Directory Structure
 
-```
+```text
 docs/
 ├── getting-started/       # New user onboarding
 │   ├── 00-welcome.md      # Learning paths
@@ -83,7 +83,7 @@ docs/
 └── contributing/          # Contributor guides
     ├── PR-WORKFLOW-GUIDE.md
     └── DOCUMENTATION-STYLE-GUIDE.md (this file)
-```
+```diff
 
 ### File Naming
 
@@ -136,8 +136,8 @@ Example:
 
 ```bash
 flow status
-```
-````
+```text
+````diff
 
 **Bad:**
 
@@ -146,7 +146,7 @@ The flow status command, which is obviously one of the most important
 commands in the entire system, provides comprehensive visibility into
 your current workflow state by leveraging our proprietary session
 tracking algorithm.
-```
+```diff
 
 ### Sentence Structure
 
@@ -163,13 +163,13 @@ tracking algorithm.
 
 ```markdown
 The system caches project scans for one hour.
-```
+```text
 
 **Bad (passive voice):**
 
 ```markdown
 Project scans are cached by the system for a duration of one hour.
-```
+```bash
 
 ---
 
@@ -189,7 +189,7 @@ Project scans are cached by the system for a duration of one hour.
 #### H4 - Rarely needed
 
 ##### H5 - Avoid if possible
-```
+```diff
 
 **Best practices:**
 
@@ -205,19 +205,19 @@ Project scans are cached by the system for a duration of one hour.
 ````markdown
 ```bash
 flow status
-```
-````
+```text
+````bash
 
 ```javascript
 const session = new Session('id', 'project', 'task')
-```
+```bash
 
 ```python
 # Python example
 result = process_data()
-```
+```diff
 
-````
+````diff
 
 **Languages we use:**
 - `bash` - Shell commands
@@ -235,13 +235,13 @@ result = process_data()
 ✅ See [Testing Guide](../guides/TESTING.md)
 ✅ Read the [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 ❌ See [Testing Guide](https://data-wise.github.io/flow-cli/testing/TESTING/)
-````
+````diff
 
 **Use full URLs for external links:**
 
 ```markdown
 ✅ [Clean Architecture Book](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-```
+```diff
 
 ### Lists
 
@@ -253,7 +253,7 @@ result = process_data()
   - Nested item
   - Another nested item
 - Third item
-```
+```text
 
 **Ordered lists:**
 
@@ -261,14 +261,14 @@ result = process_data()
 1. First step
 2. Second step
 3. Third step
-```
+```diff
 
 **Task lists:**
 
 ```markdown
 - [ ] Todo item
 - [x] Completed item
-```
+```text
 
 ### Tables
 
@@ -279,7 +279,7 @@ result = process_data()
 | ------------- | -------------------- | ------------------- |
 | `flow status` | Show current session | `flow status`       |
 | `flow work`   | Start session        | `flow work project` |
-```
+```text
 
 **Alignment:**
 
@@ -287,7 +287,7 @@ result = process_data()
 | Left aligned | Center aligned | Right aligned |
 | :----------- | :------------: | ------------: |
 | Text         |      Text      |          Text |
-```
+```text
 
 ---
 
@@ -319,7 +319,7 @@ Use this pattern for better results.
 
 !!! danger "Critical"
 Don't do this - it will break things.
-```
+```text
 
 ### Scannable Content
 
@@ -335,7 +335,7 @@ Don't do this - it will break things.
 3. **Run:** `flow status`
 
 **Time:** 5 minutes
-```
+```text
 
 **Bad (wall of text):**
 
@@ -346,7 +346,7 @@ To get started with flow-cli you'll need to first install the
 dependencies using npm install and then run the test suite to
 make sure everything is working properly and finally you can
 run the flow status command to see your first output.
-```
+```diff
 
 ### Visual Elements
 
@@ -395,8 +395,8 @@ flow status
 # Project: rmediation
 # Task: Fix bug #123
 # Duration: 0 min
-```
-````
+```text
+````text
 
 **What this does:**
 
@@ -404,7 +404,7 @@ flow status
 2. Sets task description
 3. Starts timer
 
-````
+````text
 
 ### Best Practices
 
@@ -414,7 +414,7 @@ flow status
 ✅ Include comments
 ✅ Use realistic data
 ✅ Show error cases
-````
+````text
 
 **DON'T:**
 
@@ -423,7 +423,7 @@ flow status
 ❌ Leave output ambiguous
 ❌ Skip error handling
 ❌ Use outdated examples
-```
+```text
 
 ---
 
@@ -440,10 +440,10 @@ graph LR
     B --> C[Domain]
     C --> D[Use Cases]
     D --> E[Adapters]
-```
-````
+```diff
+````text
 
-````
+````diff
 
 **Diagram types we use:**
 - **Flowcharts** - Process flows
@@ -456,7 +456,7 @@ graph LR
 **For simple visualizations:**
 
 ```markdown
-````
+````diff
 
 ┌─────────────────────────────────────┐
 │ 📊 Dashboard │
@@ -465,9 +465,9 @@ graph LR
 │ Flow %: 85% │
 └─────────────────────────────────────┘
 
-```
+```text
 
-```
+```diff
 
 ### Screenshots
 
@@ -481,7 +481,7 @@ graph LR
 
 ```markdown
 ![Dashboard Screenshot](../assets/dashboard-example.png)
-```
+```diff
 
 ---
 
@@ -503,7 +503,7 @@ graph LR
 ---
 
 [Content begins...]
-```
+```text
 
 ### Version Information
 
@@ -512,7 +512,7 @@ graph LR
 ```markdown
 **Version:** v2.0.0-beta.1
 **Status:** Production Use Phase
-```
+```text
 
 ### Update Protocol
 
@@ -531,7 +531,7 @@ graph LR
 ```markdown
 !!! warning "Deprecated"
 This feature was removed in v2.0.0. Use [new feature](#) instead.
-```
+```diff
 
 ---
 
@@ -586,8 +586,8 @@ This feature was removed in v2.0.0. Use [new feature](#) instead.
 
 ```bash
 # Command example
-```
-````
+```diff
+````diff
 
 **What this does:** [Explanation]
 
@@ -611,7 +611,7 @@ This feature was removed in v2.0.0. Use [new feature](#) instead.
 
 **Questions?** [Link to support]
 
-````
+````bash
 
 ### Reference Template
 
@@ -628,7 +628,7 @@ This feature was removed in v2.0.0. Use [new feature](#) instead.
 
 ```bash
 # Minimal example
-````
+````diff
 
 ## All Options
 
@@ -642,13 +642,13 @@ This feature was removed in v2.0.0. Use [new feature](#) instead.
 
 ```bash
 # Command
-```
+```bash
 
 ### Example 2: [Another Use Case]
 
 ```bash
 # Command
-```
+```yaml
 
 ---
 
@@ -657,7 +657,7 @@ This feature was removed in v2.0.0. Use [new feature](#) instead.
 - [Related doc 1](#)
 - [Related doc 2](#)
 
-````
+````text
 
 ---
 
@@ -668,7 +668,7 @@ This feature was removed in v2.0.0. Use [new feature](#) instead.
 **Bad:**
 ```markdown
 The status command shows your session.
-````
+````yaml
 
 **Good:**
 
@@ -682,10 +682,10 @@ flow status
 # ✅ ACTIVE SESSION
 # Project: rmediation
 # Duration: 45 min 🔥 IN FLOW
-```
+```text
 ````
 
-```
+```diff
 
 ### Mistake 2: Outdated Information
 

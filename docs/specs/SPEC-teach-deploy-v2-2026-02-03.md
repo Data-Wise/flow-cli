@@ -48,7 +48,7 @@ Enhance `teach deploy` with 8 features ported from STAT-545's battle-tested depl
 
 ## Architecture
 
-```
+```text
 teach deploy [args]
   → teach-dispatcher.zsh (routing only)
   → _teach_deploy_enhanced()
@@ -63,7 +63,7 @@ teach deploy [args]
       └── Post-deploy:
           ├── _deploy_history_append()
           └── _deploy_update_status_file()
-```
+```yaml
 
 ---
 
@@ -103,7 +103,7 @@ deploys:
     tag: null
     user: 'dt'
     duration_seconds: 12
-```
+```diff
 
 ---
 
@@ -120,7 +120,7 @@ deploys:
 
 ### Deploy Output Format
 
-```
+```bash
   Deploying to production...
 
   Pre-flight:
@@ -141,11 +141,11 @@ deploys:
 
   Done in 11s
   Site: https://example.github.io/stat-545/
-```
+```text
 
 ### Dry-Run Output
 
-```
+```text
   DRY RUN — No changes will be made
 
   Would deploy 3 files:
@@ -157,11 +157,11 @@ deploys:
   Would merge: draft -> production (direct mode)
   Would log: deploy #12 to .flow/deploy-history.yml
   Would update: .STATUS (teaching_week: 5)
-```
+```text
 
 ### Rollback Interactive
 
-```
+```bash
   Recent deployments:
 
   #  When              Mode     Files  Message

@@ -57,7 +57,7 @@ Scans .STATUS files → Formats for mobile → Updates every 30 min → Check fr
 
 **If successful:**
 
-```
+```text
 📊 PROJECT DASHBOARD (Apple Note)
 Auto-updated every 30 min
 

@@ -35,11 +35,11 @@
 
 ```bash
 teach doctor
-```
+```text
 
 **Output:**
 
-```
+```yaml
 ╭────────────────────────────────────────────────────────────╮
 │  📚 Teaching Environment Health Check                       │
 ╰────────────────────────────────────────────────────────────╯
@@ -97,17 +97,17 @@ Cache Health:
 ────────────────────────────────────────────────────────────
 Summary: 28 passed, 0 warnings, 0 failures
 ────────────────────────────────────────────────────────────
-```
+```text
 
 ### Interactive Fix Mode
 
 ```bash
 teach doctor --fix
-```
+```text
 
 **Interactive Prompts:**
 
-```
+```text
 Dependencies:
   ✗ yq not found
   → Install yq? [Y/n] y
@@ -128,17 +128,17 @@ R Packages:
 Cache Health:
   ⚠ Cache is stale (31 days old)
   → Clear stale cache? [y/N] n
-```
+```text
 
 ### Brief Mode
 
 ```bash
 teach doctor --brief
-```
+```text
 
 **Only shows warnings and failures:**
 
-```
+```text
   ⚠ examark not found (optional)
     → Install: npm install -g examark
 
@@ -151,13 +151,13 @@ teach doctor --brief
 ────────────────────────────────────────────────────────────
 Summary: 25 passed, 3 warnings, 0 failures
 ────────────────────────────────────────────────────────────
-```
+```text
 
 ### JSON Output (CI/CD)
 
 ```bash
 teach doctor --json
-```
+```text
 
 **Output:**
 
@@ -184,7 +184,7 @@ teach doctor --json
     {"check":"cache_freshness","status":"warn","message":"31 days old"}
   ]
 }
-```
+```bash
 
 **CI/CD Integration:**
 
@@ -194,7 +194,7 @@ teach doctor --json
   run: |
     teach doctor --json > health.json
     jq -e '.summary.status == "healthy"' health.json
-```
+```yaml
 
 ---
 
@@ -292,7 +292,7 @@ teach doctor --json
 
 ### Architecture
 
-```
+```text
 teach doctor
   ├── Flag parsing (--brief, --fix, --json, --help)
   ├── Header output
@@ -305,7 +305,7 @@ teach doctor
   │   └── _teach_doctor_check_cache()
   ├── Result tracking (passed, warnings, failures)
   └── Output formatting (text or JSON)
-```
+```zsh
 
 ### State Variables
 
@@ -317,7 +317,7 @@ local -i passed=0      # Pass counter
 local -i warnings=0    # Warning counter
 local -i failures=0    # Failure counter
 local -a json_results  # JSON result array
-```
+```text
 
 ### Helper Functions
 
@@ -327,13 +327,13 @@ local -a json_results  # JSON result array
 _teach_doctor_pass "message"              # ✓ green
 _teach_doctor_warn "message" "fix hint"   # ⚠ yellow
 _teach_doctor_fail "message" "fix hint"   # ✗ red
-```
+```text
 
 **Interactive Fix:**
 
 ```zsh
 _teach_doctor_interactive_fix "name" "install_cmd" ["optional"]
-```
+```text
 
 **Specialized Checks:**
 
@@ -341,7 +341,7 @@ _teach_doctor_interactive_fix "name" "install_cmd" ["optional"]
 _teach_doctor_check_dep "name" "cmd" "fix_cmd" "required"
 _teach_doctor_check_r_packages
 _teach_doctor_check_quarto_extensions
-```
+```text
 
 ### JSON Result Format
 
@@ -349,7 +349,7 @@ Each check appends to `json_results` array:
 
 ```zsh
 json_results+=("{\"check\":\"$name\",\"status\":\"$status\",\"message\":\"$msg\"}")
-```
+```diff
 
 **Status values:** `pass`, `warn`, `fail`
 
@@ -433,14 +433,14 @@ Passed:        39
 Failed:        0
 
 All tests passed! ✓
-```
+```bash
 
 ### Demo Script
 
 ```bash
 # Interactive demo
 ./tests/demo-teach-doctor.sh
-```
+```diff
 
 ---
 
@@ -471,7 +471,7 @@ Uses flow-cli standard colors:
 ✗ Failure   - FLOW_COLORS[error]    # Soft red
 → Action    - FLOW_COLORS[info]     # Calm blue
   Muted     - FLOW_COLORS[muted]    # Gray
-```
+```diff
 
 ---
 
@@ -505,7 +505,7 @@ which yq
 
 # Reinstall
 brew reinstall yq
-```
+```bash
 
 **Issue:** R packages check fails
 
@@ -513,7 +513,7 @@ brew reinstall yq
 # Install R packages manually
 R
 > install.packages(c("ggplot2", "dplyr", "tidyr", "knitr", "rmarkdown"))
-```
+```bash
 
 **Issue:** Git hooks show as "not installed" but exist
 
@@ -523,21 +523,21 @@ ls -la .git/hooks/
 
 # Make executable
 chmod +x .git/hooks/pre-commit
-```
+```bash
 
 **Issue:** Cache freshness check incorrect
 
 ```bash
 # Verify _freeze timestamps
 find _freeze -type f -exec stat -f "%m %N" {} \; | sort -rn | head
-```
+```bash
 
 ### Debug Mode
 
 ```bash
 # Enable debug output
 FLOW_DEBUG=1 teach doctor
-```
+```text
 
 ---
 
@@ -547,7 +547,7 @@ FLOW_DEBUG=1 teach doctor
 
 ```zsh
 _teach_doctor [OPTIONS]
-```
+```diff
 
 **Options:**
 - `--brief` - Only show warnings and failures
@@ -564,7 +564,7 @@ _teach_doctor_check_git()
 _teach_doctor_check_scholar()
 _teach_doctor_check_hooks()
 _teach_doctor_check_cache()
-```
+```text
 
 ### Helper Functions
 

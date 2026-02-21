@@ -111,7 +111,7 @@
 
 ### Key Documentation Hubs
 
-```
+```text
 docs/
 ├── getting-started/     7 files    2,577 lines  ✅
 ├── tutorials/          27 files   13,411 lines  ✅
@@ -119,7 +119,7 @@ docs/
 ├── reference/          50 files   24,563 lines  ✅
 ├── commands/           22 files    6,807 lines  ⚠️
 └── specs/             163 files   82,906 lines  Internal
-```
+```text
 
 ---
 
@@ -133,7 +133,7 @@ docs/
 
 **✅ COMPLETED (Phase 1):**
 
-```
+```text
 lib/core.zsh (14 functions) ✅
 ├── _flow_log() ✅
 ├── _flow_log_success() ✅
@@ -189,11 +189,11 @@ lib/git-helpers.zsh (17 functions) ✅
 ├── _git_generate_pr_body() ✅
 ├── _git_rebase_onto_production() ✅
 └── _git_has_unpushed_commits() ✅
-```
+```text
 
 **✅ COMPLETED (Phase 2):**
 
-```
+```text
 lib/validation-helpers.zsh (19 functions) ✅
 ├── _validate_yaml() ✅
 ├── _validate_yaml_batch() ✅
@@ -264,11 +264,11 @@ lib/teaching-utils.zsh (7 functions) ✅
 ├── _calculate_semester_end() ✅
 ├── _suggest_semester_start() ✅
 └── _get_week_dates() ✅
-```
+```text
 
 **✅ COMPLETED (Phase 3):**
 
-```
+```text
 lib/atlas-bridge.zsh (21 functions) ✅
 ├── _flow_timestamp() ✅
 ├── _flow_timestamp_short() ✅
@@ -360,11 +360,11 @@ lib/project-cache.zsh (9 functions) ✅
 ├── _flow_cache_refresh() ✅
 ├── _flow_cache_clear_all() ✅
 └── _flow_cache_stats() ✅
-```
+```text
 
 **✅ COMPLETED (Phase 4):**
 
-```
+```text
 lib/dotfile-helpers.zsh (27 functions) ✅
 ├── Chezmoi Detection & Verification (3)
 ├── Bitwarden Integration (7)
@@ -394,7 +394,7 @@ lib/cache-analysis.zsh (6 functions) ✅
 lib/status-dashboard.zsh (3 functions) ✅
 lib/inventory.zsh (2 functions) ✅
 lib/help-browser.zsh (2 functions) ✅
-```
+```diff
 
 **Phase 4 Total:** 160 functions across 18 files
 

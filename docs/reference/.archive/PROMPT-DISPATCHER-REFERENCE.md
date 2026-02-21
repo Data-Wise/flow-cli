@@ -21,7 +21,7 @@ prompt toggle
 prompt starship
 prompt p10k
 prompt ohmyposh
-```
+```diff
 
 ---
 
@@ -72,11 +72,11 @@ prompt ohmyposh
 
 ### Configuration Paths
 
-```
+```text
 Powerlevel10k → ~/.config/zsh/.p10k.zsh
 Starship      → ~/.config/starship.toml
 Oh My Posh    → ~/.config/ohmyposh/config.json
-```
+```text
 
 ---
 
@@ -88,7 +88,7 @@ Display the current prompt engine and available alternatives.
 
 **Output:**
 
-```
+```text
 ℹ Prompt Engines:
 
   ● Powerlevel10k (current)
@@ -104,7 +104,7 @@ Display the current prompt engine and available alternatives.
     Config: ~/.config/ohmyposh/config.json
 
 To switch: prompt toggle
-```
+```text
 
 ---
 
@@ -129,7 +129,7 @@ Which prompt engine would you like to use?
 #? 1
 ✓ Switched to Starship
 Reloading shell...
-```
+```bash
 
 ---
 
@@ -154,7 +154,7 @@ Install with: brew install starship
 # Missing config
 $ prompt ohmyposh
 ⚠ OhMyPosh config missing at ~/.config/ohmyposh/config.json
-```
+```text
 
 ---
 
@@ -164,7 +164,7 @@ Tabular view of all registered prompt engines.
 
 **Output:**
 
-```
+```yaml
 ℹ Available Prompt Engines:
 
 name               active     config file
@@ -174,7 +174,7 @@ Starship           ○          ~/.config/starship.toml
 Oh My Posh         ○          ~/.config/ohmyposh/config.json
 
 Legend: ● = current, ○ = available
-```
+```diff
 
 ---
 
@@ -217,7 +217,7 @@ Config file: ~/.config/starship.toml
 
 To apply these changes, run:
   prompt starship
-```
+```bash
 
 ```bash
 # Preview toggle menu
@@ -233,7 +233,7 @@ Available alternatives to switch to:
 
 To switch engines, run:
   prompt toggle
-```
+```bash
 
 ---
 
@@ -255,7 +255,7 @@ echo $FLOW_PROMPT_ENGINE
 
 # Set manually (not recommended - use dispatcher)
 export FLOW_PROMPT_ENGINE="starship"
-```
+```diff
 
 **Where It's Set:**
 - `~/.config/zsh/.zshenv` - persisted across sessions
@@ -276,7 +276,7 @@ antidote install
 
 # Configure (first run prompts wizard)
 p10k configure
-```
+```bash
 
 ### Starship
 
@@ -290,7 +290,7 @@ touch ~/.config/starship.toml
 
 # Customize
 nano ~/.config/starship.toml
-```
+```bash
 
 ### Oh My Posh
 
@@ -304,7 +304,7 @@ prompt setup-ohmyposh
 # Or manually create config
 mkdir -p ~/.config/ohmyposh
 nano ~/.config/ohmyposh/config.json
-```
+```bash
 
 ---
 
@@ -325,7 +325,7 @@ PROMPT ENGINES:
 To install Oh My Posh:
   brew install oh-my-posh
   prompt setup-ohmyposh
-```
+```bash
 
 ---
 
@@ -339,7 +339,7 @@ To install Oh My Posh:
 
 ```bash
 brew install starship
-```
+```bash
 
 ### Config Missing
 
@@ -352,7 +352,7 @@ prompt setup-ohmyposh
 # Or manually create
 mkdir -p ~/.config/ohmyposh
 nano ~/.config/ohmyposh/config.json
-```
+```bash
 
 ### Prompt Doesn't Change After Switch
 
@@ -365,7 +365,7 @@ nano ~/.config/ohmyposh/config.json
 exec zsh -i
 
 # Or start new terminal session
-```
+```bash
 
 ### Wrong Engine Loading on New Shell
 
@@ -379,7 +379,7 @@ echo $FLOW_PROMPT_ENGINE
 
 # Verify .zshenv has the correct value
 grep FLOW_PROMPT_ENGINE ~/.config/zsh/.zshenv
-```
+```bash
 
 ---
 

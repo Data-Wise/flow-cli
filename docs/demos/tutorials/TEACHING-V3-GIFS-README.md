@@ -55,7 +55,7 @@ This directory contains VHS tapes and generated GIF demos for Teaching Workflow 
 # Run the enhanced generation script with validation + optimization
 cd docs/demos/tutorials
 ./generate-teaching-v3-gifs.sh
-```
+```bash
 
 **The script automatically:**
 1. ✅ Validates all VHS tapes before generation
@@ -75,11 +75,11 @@ vhs tutorial-teach-init.tape
 vhs tutorial-teach-deploy.tape
 vhs tutorial-teach-status.tape
 vhs tutorial-scholar-integration.tape
-```
+```text
 
 ### Expected Output
 
-```
+```text
 1/6 Generating teach doctor demo...
   ✅ tutorial-teach-doctor.gif (1.5M)
 
@@ -99,7 +99,7 @@ vhs tutorial-scholar-integration.tape
   ✅ tutorial-scholar-integration.gif (288K)
 
 🎉 All GIFs generated successfully!
-```
+```yaml
 
 ---
 
@@ -196,14 +196,14 @@ Demonstrates:
 
 All tapes use consistent settings:
 
-```
+```text
 Set Shell zsh
 Set FontSize 18
 Set Width 1400
 Set Height 900
 Set TypingSpeed 50ms
 Set PlaybackSpeed 0.8
-```
+```zsh
 
 ### Important Setup Steps
 
@@ -228,7 +228,7 @@ Each tape:
    Type "echo 'This is a comment'" Enter
    ```
 
-2. **Source flow-cli at start of EVERY tape**
+1. **Source flow-cli at start of EVERY tape**
 
    ```bash
    Hide
@@ -238,7 +238,7 @@ Each tape:
 
    This ensures all `teach` commands are available.
 
-3. **Avoid escaped quotes in Type commands**
+2. **Avoid escaped quotes in Type commands**
 
    ```bash
    # ❌ WRONG - VHS parser error:
@@ -248,7 +248,7 @@ Each tape:
    Type "teach exam 'Topic' --template foo" Enter
    ```
 
-4. **Always optimize GIFs after generation**
+3. **Always optimize GIFs after generation**
 
    ```bash
    gifsicle -O3 tutorial-name.gif -o tutorial-name.gif
@@ -256,7 +256,7 @@ Each tape:
 
    Reduces file size by ~30-40% without quality loss.
 
-5. **Test commands before recording**
+4. **Test commands before recording**
    Verify all commands work in the demo course environment before creating the VHS tape.
 
 ---
@@ -272,7 +272,7 @@ brew install gifsicle
 # Optimize GIFs
 gifsicle -O3 tutorial-teach-doctor.gif -o tutorial-teach-doctor.gif
 gifsicle -O3 tutorial-backup-system.gif -o tutorial-backup-system.gif
-```
+```diff
 
 ---
 
@@ -299,7 +299,7 @@ ps aux | grep vhs
 
 # Monitor log output
 tail -f /path/to/vhs/output.log
-```
+```zsh
 
 ### Commands not found
 
@@ -307,7 +307,7 @@ Make sure flow-cli is sourced:
 
 ```bash
 source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
-```
+```bash
 
 ### Demo course missing
 

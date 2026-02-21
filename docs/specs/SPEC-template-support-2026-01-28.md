@@ -43,7 +43,7 @@ Add support for project-local templates at `.flow/templates/` with discovery, co
 
 ### Project Templates (User-Customizable)
 
-```
+```text
 .flow/templates/
 ├── content/                    # Quarto .qmd starters
 │   ├── lecture.qmd
@@ -61,11 +61,11 @@ Add support for project-local templates at `.flow/templates/` with discovery, co
 └── checklists/                 # QA checklists
     ├── pre-publish.md
     └── new-content.md
-```
+```text
 
 ### Plugin Templates (Defaults)
 
-```
+```text
 lib/templates/teaching/         # Already exists
 ├── claude-prompts/             # AI prompts (exists)
 │   ├── lecture-notes.md
@@ -74,14 +74,14 @@ lib/templates/teaching/         # Already exists
 ├── teach-config.yml.template
 ├── lecture-with-concepts.qmd.template
 └── ...
-```
+```text
 
 ### Resolution Order
 
-```
+```text
 1. .flow/templates/<type>/<name>     # Project (highest priority)
 2. lib/templates/teaching/<name>     # Plugin (fallback)
-```
+```yaml
 
 ---
 
@@ -101,7 +101,7 @@ template_variables:
   - DATE                           # Current date (auto-filled)
   - INSTRUCTOR                     # Instructor name (from teach-config.yml)
 ---
-```
+```diff
 
 ### Variable Substitution
 
@@ -131,15 +131,17 @@ template_variables:
 - `_teach_parse_template_metadata()` - Extract YAML frontmatter
 
 **Command:**
+
 ```bash
 teach templates                    # Alias for 'teach templates list'
 teach templates list               # List all templates
 teach templates list --type content   # Filter by type
 teach templates list --source project # Show only project templates
-```
+```text
 
 **Output:**
-```
+
+```text
 ┌──────────────────────────────────────────────────────────────┐
 │ 📁 Teaching Templates                                        │
 ├──────────────────────────────────────────────────────────────┤
@@ -156,7 +158,7 @@ teach templates list --source project # Show only project templates
 │ Legend: [P] = Project, [D] = Default (plugin)                │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```
+```diff
 
 **Flags:**
 - `--type TYPE` - Filter by type: content, prompts, metadata, checklists
@@ -174,14 +176,16 @@ teach templates list --source project # Show only project templates
 - `_teach_prompt_for_variables()` - Interactive prompt for missing vars
 
 **Command:**
+
 ```bash
 teach templates new lecture week-05              # → lectures/week-05/lecture.qmd
 teach templates new lab week-03                  # → labs/week-03/lab.qmd
 teach templates new slides "ANOVA" --week 6      # → slides/week-06/slides-anova.qmd
 teach templates new assignment "Homework 1"      # → assignments/homework-1.qmd
-```
+```yaml
 
 **UX Flow:**
+
 ```bash
 $ teach templates new lecture week-05
 
@@ -200,7 +204,7 @@ Preview:
   lectures/week-05/lecture-05-linear-regression.qmd
 
 ✓ Created: lectures/week-05/lecture-05-linear-regression.qmd
-```
+```diff
 
 **Flags:**
 - `--dry-run` - Preview without creating file
@@ -227,13 +231,15 @@ Preview:
 - `_teach_validate_template_variables()` - Check variable syntax
 
 **Command:**
+
 ```bash
 teach templates validate                 # Validate all project templates
 teach templates validate lecture.qmd     # Validate specific template
-```
+```text
 
 **Output:**
-```
+
+```text
 ┌──────────────────────────────────────────────────────────────┐
 │ 🔍 Template Validation                                       │
 ├──────────────────────────────────────────────────────────────┤
@@ -251,7 +257,7 @@ teach templates validate lecture.qmd     # Validate specific template
 │ Summary: 4 templates, 3 valid, 1 warning                     │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```
+```diff
 
 ---
 
@@ -263,13 +269,15 @@ teach templates validate lecture.qmd     # Validate specific template
 - `_teach_sync_template()` - Copy with backup
 
 **Command:**
+
 ```bash
 teach templates sync                     # Sync all from plugin
 teach templates sync --dry-run           # Preview what would change
 teach templates sync lecture.qmd         # Sync specific template
-```
+```text
 
 **UX Flow:**
+
 ```bash
 $ teach templates sync --dry-run
 
@@ -284,7 +292,7 @@ Would skip:
   content/slides.qmd      v1.2 > v1.0 (project is newer)
 
 Run without --dry-run to apply changes.
-```
+```diff
 
 **Flags:**
 - `--dry-run` - Preview without changes
@@ -306,12 +314,14 @@ Run without --dry-run to apply changes.
 - Show summary of created templates
 
 **Command:**
+
 ```bash
 teach init "STAT 545" --with-templates    # Create course with templates
 teach init --with-templates               # Add templates to existing course
-```
+```yaml
 
 **UX Flow:**
+
 ```bash
 $ teach init "STAT 545" --with-templates
 
@@ -331,7 +341,7 @@ Templates:
 Next steps:
   teach templates list              # View available templates
   teach templates new lecture week-01   # Create first lecture
-```
+```python
 
 ---
 
@@ -354,7 +364,7 @@ def get_prompt(prompt_type: str, course_dir: str) -> str:
     if local_prompt.exists():
         return local_prompt.read_text()
     return get_default_prompt(prompt_type)
-```
+```diff
 
 **Prompt Types:**
 - `lecture-notes` → `lecture-notes.md`
@@ -372,7 +382,8 @@ def get_prompt(prompt_type: str, course_dir: str) -> str:
 - Update `_teach_main_help()` to include templates
 
 **Help Output:**
-```
+
+```text
 ┌──────────────────────────────────────────────────────────────┐
 │ teach templates - Template Management                        │
 ├──────────────────────────────────────────────────────────────┤
@@ -403,7 +414,7 @@ def get_prompt(prompt_type: str, course_dir: str) -> str:
 │   lib/templates/teaching/   Plugin defaults (fallback)       │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```
+```bash
 
 ---
 
@@ -438,7 +449,7 @@ test_templates_sync_creates_directory
 test_templates_sync_dry_run
 test_templates_sync_skips_newer_project
 test_templates_sync_creates_backup
-```
+```bash
 
 ### Integration Tests
 
@@ -447,7 +458,7 @@ test_templates_sync_creates_backup
 test_init_with_templates_creates_structure
 test_new_lecture_then_edit_workflow
 test_scholar_uses_local_prompt
-```
+```bash
 
 ---
 
@@ -464,7 +475,7 @@ teach init --with-templates
 # Or manually create structure
 mkdir -p .flow/templates/{content,prompts,metadata,checklists}
 teach templates sync
-```
+```diff
 
 ### stat-545 Course
 
@@ -534,7 +545,7 @@ By the end of this lecture, students will be able to:
 ## Summary
 
 ## Next Steps
-```
+```diff
 
 ### prompts/lecture-notes.md
 

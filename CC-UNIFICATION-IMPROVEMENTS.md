@@ -9,18 +9,18 @@ The `cc` dispatcher supported **two patterns** for mode chaining:
 
 ### Pattern 1: Unified (Mode First)
 
-```bash
+````bash
 cc yolo wt feature    # ✅ Mode → Target → Args
 cc opus pick          # ✅ Mode → Target
 cc plan wt pick       # ✅ Mode → Target → Subtarget
-```
+```text
 
 ### Pattern 2: Legacy (Target First)
 
 ```bash
 cc wt yolo feature    # 🔄 Target → Mode → Args
 cc wt opus feature    # 🔄 Target → Mode → Args
-```
+```bash
 
 **Result:** Two mental models, confusion, dual code paths
 
@@ -36,7 +36,7 @@ Legacy pattern now shows helpful warnings:
 $ cc wt yolo feature
 ⚠️  Deprecated: Use 'cc yolo wt feature' instead of 'cc wt yolo feature'
 # ... continues to work, but user is informed
-```
+```diff
 
 **Files Changed:**
 
@@ -74,7 +74,7 @@ cc wt yolo feature   # ⚠️  Shows deprecation warning
 cc wt plan feature   # ⚠️  Shows deprecation warning
 cc wt opus feature   # ⚠️  Shows deprecation warning
 ccwy feature         # ⚠️  Shows deprecation warning
-```
+```text
 
 **New Pattern (recommended):**
 
@@ -83,7 +83,7 @@ cc yolo wt feature   # ✅ Mode first!
 cc plan wt feature   # ✅ Mode first!
 cc opus wt feature   # ✅ Mode first!
 ccy wt feature       # ✅ Mode first!
-```
+```text
 
 ### Command Matrix
 
@@ -99,7 +99,7 @@ ccy wt feature       # ✅ Mode first!
 
 ## Unified Pattern Reference
 
-```
+```yaml
 cc [mode] [target] [args]
 
 Modes:
@@ -121,7 +121,7 @@ Examples:
   cc opus pick          → Pick project (Opus)
   cc haiku wt feature   → Worktree (Haiku)
   cc plan wt pick       → Pick worktree (Plan mode)
-```
+```yaml
 
 ---
 
@@ -167,7 +167,7 @@ cc haiku wt test-branch   # Clean output
 # Test help
 cc help          # Should show unified pattern first
 cc wt help       # Should show deprecation section
-```
+````
 
 ---
 

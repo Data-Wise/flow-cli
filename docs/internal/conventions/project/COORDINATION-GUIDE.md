@@ -82,7 +82,7 @@ When standards change:
 
 ### Dependency Map
 
-```
+```text
 zsh-configuration (standards)
     ↓
     ├──→ All projects (use standards)
@@ -103,7 +103,7 @@ MediationVerse (meta-package)
 Teaching projects
     ↓
     └──→ stat-440, causal-inference
-```
+```bash
 
 ### Dependency Rules
 
@@ -121,7 +121,7 @@ grep -r "ALIAS-REFERENCE-CARD" ~/projects/*/README.md
 
 # Update all referencing projects
 # Update .planning/NOW.md with coordination note
-```
+```yaml
 
 ---
 
@@ -157,7 +157,7 @@ A breaking change is ANY change that:
    - Update all docs referencing old command
    ```
 
-2. **Add to CHANGELOG:**
+1. **Add to CHANGELOG:**
 
    ```markdown
    ## [Unreleased]
@@ -168,7 +168,7 @@ A breaking change is ANY change that:
    - See MIGRATION.md for full guide
    ```
 
-3. **Create migration guide:**
+2. **Create migration guide:**
 
    ```markdown
    # Migration Guide v1.0 → v2.0
@@ -179,12 +179,12 @@ A breaking change is ANY change that:
    | `js` | `just-start` | Function still exists |
    ```
 
-4. **Update affected projects:**
+3. **Update affected projects:**
    - grep for usage across all projects
    - Update within 1 week
    - Test after updates
 
-5. **Announce in .planning/NOW.md:**
+4. **Announce in .planning/NOW.md:**
 
    ```markdown
    ## Active Coordination
@@ -311,7 +311,7 @@ A breaking change is ANY change that:
 
 ```bash
 ~/projects/dev-tools/zsh-configuration/scripts/sync-standards.sh
-```
+```bash
 
 **Check Sync Status:**
 
@@ -320,7 +320,7 @@ A breaking change is ANY change that:
 cat ~/projects/project-hub/standards/.version
 cat ~/projects/r-packages/mediation-planning/standards/.version
 cat ~/projects/dev-tools/dev-planning/standards/.version
-```
+```diff
 
 **When to Sync:**
 - After updating any standard document
@@ -347,7 +347,7 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
    ~/projects/dev-tools/zsh-configuration/scripts/sync-standards.sh
    ```
 
-3. **Document change:**
+1. **Document change:**
 
    ```markdown
    ## CHANGELOG
@@ -358,14 +358,14 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
    - See WEBSITE-DESIGN-GUIDE.md
    ```
 
-4. **Identify affected projects:**
+2. **Identify affected projects:**
 
    ```bash
    find ~/projects -name "mkdocs.yml" -type f
    # Lists all projects with documentation sites
    ```
 
-5. **Create propagation plan:**
+3. **Create propagation plan:**
 
    ```markdown
    ## Standards Propagation Plan
@@ -380,7 +380,7 @@ cat ~/projects/dev-tools/dev-planning/standards/.version
    **Timeline:** Week of 2025-12-23
    ```
 
-6. **Track in .planning/NOW.md:**
+4. **Track in .planning/NOW.md:**
 
    ```markdown
    ## Active Coordination
@@ -418,7 +418,7 @@ git commit -m "chore: initial commit with templates"
 
 # 5. Set up in dashboard
 dash  # Should now show new project
-```
+```diff
 
 ### Coordinating Cross-Project Change
 
@@ -461,7 +461,7 @@ echo "- Commit message standard update in progress" >> ~/projects/.planning/NOW.
 # 5. Propagate gradually
 # Don't try to update all at once
 # Update 3-5 projects per day
-```
+```bash
 
 ### Weekly Cross-Project Review
 

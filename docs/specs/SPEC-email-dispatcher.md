@@ -44,7 +44,7 @@ Not a general-purpose AI email app. Not a GUI overlay. A purpose-built, zero-fri
 
 ### Journey 1: Morning Inbox Check (Target: 2 minutes)
 
-```
+```yaml
 TRIGGER: Professor opens terminal, runs `morning` or `am`
 
   morning                          # Existing flow-cli command
@@ -83,7 +83,7 @@ OUTCOME: Professor sees the 3 urgent items, handles the scheduling
          rest to after the first work block.
 
 TIME: ~90 seconds
-```
+```diff
 
 **Key design decisions:**
 - `em` with no arguments shows categorized summary, not raw inbox
@@ -94,7 +94,7 @@ TIME: ~90 seconds
 
 ### Journey 2: Respond to Student Emails (Target: 5 minutes, batch)
 
-```
+```yaml
 TRIGGER: Between work blocks, professor decides to handle student emails
 
   em student                       # Filter to student category
@@ -144,7 +144,7 @@ OUTCOME: 5 student emails handled in ~3 minutes
          AI used syllabus + office hours from .flow/ context
 
 TIME: ~3 minutes
-```
+```diff
 
 **Key design decisions:**
 - fzf multi-select for batch operations
@@ -155,7 +155,7 @@ TIME: ~3 minutes
 
 ### Journey 3: Handle Urgent Faculty Meeting Change (Immediate)
 
-```
+```yaml
 TRIGGER: Notification appears (terminal bell or tmux status bar)
 
   # tmux status bar shows:
@@ -191,7 +191,7 @@ OUTCOME: Urgent email handled in <30 seconds without leaving terminal
          Calendar awareness prevents scheduling conflicts
 
 TIME: ~30 seconds
-```
+```diff
 
 **Key design decisions:**
 - Urgent items get structured breakdown, not just summary
@@ -201,7 +201,7 @@ TIME: ~30 seconds
 
 ### Journey 4: End-of-Day Email Review (Before `finish`)
 
-```
+```yaml
 TRIGGER: Professor runs `finish` to end work session
 
   finish "Completed HW4 solutions"
@@ -247,7 +247,7 @@ OUTCOME: Clean end-of-day with no lingering email anxiety
          Progress visible in session summary
 
 TIME: ~2 minutes
-```
+```diff
 
 **Key design decisions:**
 - `finish` integration is opt-in, not blocking
@@ -546,7 +546,7 @@ The minimum viable product includes **only what is needed to deliver that magic 
 
 **Solution:** The `em review` fzf picker presents ALL classified emails with AI drafts simultaneously. The professor scans, multi-selects, approves in bulk. This transforms email from 20 sequential decisions into 1 batch decision.
 
-```
+```bash
 # Anti-pattern (traditional email):
 for each email:
   open -> read -> decide -> compose -> send    # 20 context switches
@@ -556,7 +556,7 @@ em sync                                         # 1 batch AI call
 em review                                       # 1 fzf session
   [Tab] [Tab] [Tab] [Ctrl-A]                   # bulk approve
                                                 # 0 context switches
-```
+```diff
 
 ### Pattern 2: Visible Progress and Completion Signals
 
@@ -569,14 +569,14 @@ em review                                       # 1 fzf session
 - Progress bar during `em sync`: `Classifying... [========----] 7/14`
 - Session summary in `finish` shows email stats
 
-```
+```bash
 # Completion signals at every step:
 em sync        -> "14 new emails classified"
 em student     -> "5 student emails (3 drafts ready)"
 [approve 3]    -> "3 sent! 2 remaining"
 [approve 2]    -> "Student inbox clear! (+5 win streak)"
 em             -> "Today: 14/14 handled | Inbox at zero"
-```
+```text
 
 ### Pattern 3: Time-Boxing Email Sessions
 
@@ -584,7 +584,7 @@ em             -> "Today: 14/14 handled | Inbox at zero"
 
 **Solution:** Built-in timer with gentle nudge, not hard cutoff.
 
-```
+```bash
 em review --time 5              # Start 5-minute email session
 
 # After 5 minutes:
@@ -594,7 +594,7 @@ em review --time 5              # Start 5-minute email session
 │                                                           │
 │ [c]ontinue (2 more min)  [f]inish  [q]uick-approve-rest │
 └──────────────────────────────────────────────────────────┘
-```
+```diff
 
 - Default timer set in config: `em config timer.default 5`
 - Timer is informational, not enforced (ADHD needs agency, not constraints)
@@ -613,13 +613,13 @@ em review --time 5              # Start 5-minute email session
 | Nudge | Urgent email | tmux badge turns red: `em:1!` | During work session |
 | Interrupt | Critical (dean, deadline <2h) | Terminal bell + tmux message | Only if escalation enabled |
 
-```
+```bash
 # Configuration:
 em config notify.ambient true        # tmux badge (default: on)
 em config notify.nudge true          # red urgent badge (default: on)
 em config notify.interrupt false     # terminal bell (default: OFF)
 em config notify.dnd true            # suppress all during work session deep focus
-```
+```diff
 
 - **Default is conservative:** ambient + nudge, no interrupt
 - DND (do not disturb) mode auto-activates when `FLOW_SESSION_PROJECT` is set and project priority is P0/P1
@@ -636,7 +636,7 @@ em config notify.dnd true            # suppress all during work session deep foc
 - No "edit" prompt by default; edit is available but not suggested
 - After sending: no "undo" anxiety -- drafts are saved locally for 24 hours
 
-```
+```bash
 # Draft display encourages approval:
 ┌──────────────────────────────────────────────────────────┐
 │ To: Alex T.                                               │
@@ -654,7 +654,7 @@ em config notify.dnd true            # suppress all during work session deep foc
 │                     ^                                     │
 │               cursor starts here                          │
 └──────────────────────────────────────────────────────────┘
-```
+```diff
 
 ### Pattern 6: Preventing Email as Overwhelm Source
 
@@ -667,7 +667,7 @@ em config notify.dnd true            # suppress all during work session deep foc
 - `em snooze-all` for "I cannot deal with this right now" moments (defers everything non-urgent by 4 hours)
 - Email stats in `dash` are a single line, not a section
 
-```
+```bash
 # High-anxiety day:
 em zero                            # Hide everything except urgent
 ┌──────────────────────────────────────────────────────────┐
@@ -676,7 +676,7 @@ em zero                            # Hide everything except urgent
 │                                                           │
 │ You're doing fine. Focus on your work.                    │
 └──────────────────────────────────────────────────────────┘
-```
+```diff
 
 ---
 
@@ -740,7 +740,7 @@ The closest competitor is Shortwave, but it requires a GUI, costs $14/month, onl
 
 ### System Diagram
 
-```
+```text
                      ┌─────────────────────────────────────┐
                      │           User Interface             │
                      │                                      │
@@ -772,11 +772,11 @@ The closest competitor is Shortwave, but it requires a GUI, costs $14/month, onl
                      │    corrections.json (feedback)         │
                      │    stats.json      (usage analytics)   │
                      └──────────────────────────────────────┘
-```
+```text
 
 ### File Structure
 
-```
+```text
 flow-cli/
 ├── lib/dispatchers/
 │   └── em-dispatcher.zsh          # Main dispatcher (em command)
@@ -800,7 +800,7 @@ flow-cli/
 └── docs/
     └── reference/
         └── em-dispatcher.md       # User-facing documentation
-```
+```text
 
 ### AI Prompt Architecture
 
@@ -808,7 +808,7 @@ The AI layer uses a single "megaprompt" for batch classification + summary, then
 
 **Classification + Summary Prompt (batched):**
 
-```
+```diff
 You are an email assistant for a university statistics professor.
 Classify each email into exactly one category and provide a 1-line summary.
 
@@ -838,11 +838,11 @@ Subject: Office Hours Wednesday
 Body: [first 500 chars]
 ---
 [...more emails...]
-```
+```text
 
 **Draft Generation Prompt (per-email, only for needs_response=true):**
 
-```
+```diff
 You are drafting a reply for a university statistics professor.
 
 Style: professional, warm, concise (3-5 sentences max).
@@ -863,7 +863,7 @@ Previous thread messages (if any):
 {{thread_context}}
 
 Write ONLY the reply body. No subject line. No greeting repetition if replying in thread.
-```
+```bash
 
 ### AI Backend Abstraction (Phase 4)
 
@@ -894,7 +894,7 @@ _em_ai_call() {
             ;;
     esac
 }
-```
+```zsh
 
 ### Dispatcher Pattern (matches flow-cli conventions)
 
@@ -935,7 +935,7 @@ em() {
         *)            _em_help ;;
     esac
 }
-```
+```text
 
 ### Cache Schema
 

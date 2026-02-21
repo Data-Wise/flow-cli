@@ -76,7 +76,7 @@ teach doctor
 
 # Install homebrew packages
 brew install gh yq
-```
+```bash
 
 ### Project Setup
 
@@ -87,13 +87,13 @@ brew install gh yq
    git remote add origin https://github.com/username/course-repo.git
    ```
 
-2. **Branches configured**
+1. **Branches configured**
 
    Default branch structure (configurable in `.flow/teach-config.yml`):
    - `draft` - Working branch for content development
    - `main` - Production branch (GitHub Pages source)
 
-3. **Configuration file exists**
+2. **Configuration file exists**
 
    `.flow/teach-config.yml` must be present:
 
@@ -123,7 +123,7 @@ git push -u origin main
 
 # Return to draft
 git checkout draft
-```
+```text
 
 ---
 
@@ -144,7 +144,7 @@ Deploys all changes between `draft` and `main` branches:
 
 ```bash
 teach deploy
-```
+```bash
 
 **Process:**
 1. Verify on draft branch
@@ -167,7 +167,7 @@ teach deploy lectures/week-05.qmd lectures/week-06.qmd
 
 # Entire directory
 teach deploy lectures/
-```
+```bash
 
 **Process:**
 1. Find dependencies (sourced files, cross-references)
@@ -192,21 +192,21 @@ teach deploy -d -m "Week 5 lecture updates"
 
 # CI-friendly direct deploy
 teach deploy --ci -d
-```
+```text
 
 **Process (with step progress):**
 
-```
+```text
   ✓ [1/5] Push draft to origin
   ✓ [2/5] Switch to production
   ✓ [3/5] Merge draft → production
   ✓ [4/5] Push production to origin
   ✓ [5/5] Switch back to draft
-```
+```text
 
 After completion, a deployment summary box is displayed:
 
-```
+```text
 ╭─ Deployment Summary ─────────────────────────────────╮
 │  🚀 Mode:     Direct merge                            │
 │  📦 Files:    3 changed (+45 / -12)                   │
@@ -215,7 +215,7 @@ After completion, a deployment summary box is displayed:
 │  🌐 URL:      https://example.github.io/stat-545/    │
 │  ⚙  Actions:  https://github.com/user/stat-545/actions│
 ╰──────────────────────────────────────────────────────╯
-```
+```diff
 
 The **Actions** line links directly to your GitHub Actions page for monitoring the deployment pipeline. It's auto-detected from your remote URL and skipped for non-GitHub remotes.
 
@@ -237,17 +237,18 @@ teach deploy --history
 
 # Show last 20
 teach deploy --history 20
-```
+```text
 
 **Output:**
-```
+
+```bash
 Recent deployments:
 
 #  When              Mode     Files  Message
 1  2026-02-03 14:30  direct   3      content: week-05 lecture
 2  2026-02-02 09:15  pr       15     deploy: full site update
 3  2026-02-01 16:45  partial  2      content: assignment 3
-```
+```bash
 
 ### Rollback
 
@@ -262,7 +263,7 @@ teach deploy --rollback 1
 
 # Rollback 2nd most recent (CI mode)
 teach deploy --rollback 2 --ci
-```
+```yaml
 
 **Safety:** Rollback uses `git revert` (not `git reset`), preserving full history. The rollback itself is recorded in deploy history with mode "rollback".
 
@@ -280,7 +281,7 @@ deploys:
     branch_to: 'main'
     file_count: 15
     commit_message: 'content: week-05 lecture'
-```
+```bash
 
 ---
 
@@ -297,10 +298,11 @@ teach deploy --dry-run --direct
 
 # Preview with custom message
 teach deploy --preview -m "Week 5"
-```
+```text
 
 **Output:**
-```
+
+```text
 DRY RUN — No changes will be made
 
 Would deploy 3 files:
@@ -312,7 +314,7 @@ Would commit: "content: week-05 lecture, analysis script"
 Would merge: draft -> production (direct mode)
 Would log: deploy #12 to .flow/deploy-history.yml
 Would update: .STATUS (teaching_week: 5)
-```
+```bash
 
 ---
 
@@ -328,30 +330,30 @@ git branch --show-current  # Should output: draft
 
 # If on wrong branch
 git checkout draft
-```
+```text
 
 **2. Run deploy command**
 
 ```bash
 teach deploy
-```
+```text
 
 **3. Pre-flight checks**
 
 The command validates:
 
-```
+```text
 🔍 Pre-flight Checks
 ─────────────────────────────────────────────────
 ✓ On draft branch
 ✓ No uncommitted changes
 ✓ Remote is up-to-date
 ✓ No conflicts with production
-```
+```text
 
 **4. Review changes**
 
-```
+```yaml
 📋 Changes Preview
 ─────────────────────────────────────────────────
 
@@ -361,11 +363,11 @@ Files Changed:
   M  home_lectures.qmd
 
 Summary: 3 files (1 added, 2 modified, 0 deleted)
-```
+```text
 
 **5. Create pull request**
 
-```
+```sql
 Create pull request?
 
   [1] Yes - Create PR (Recommended)
@@ -373,21 +375,21 @@ Create pull request?
   [3] Cancel
 
 Your choice [1-3]: 1
-```
+```text
 
 **6. Verify PR created**
 
-```
+```text
 ✅ Pull Request Created
 
 View PR: https://github.com/username/course-repo/pull/42
-```
+```text
 
 ### Handling Conflicts
 
 If production branch (`main`) has new content commits (merge commits from previous deploys are ignored):
 
-```
+```bash
 ⚠️  Production (main) has new commits
 
 Production branch has updates. Rebase first?
@@ -397,7 +399,7 @@ Production branch has updates. Rebase first?
   [3] Cancel deployment
 
 Your choice [1-3]: 1
-```
+```text
 
 **Recommended:** Always choose option [1] to rebase before deploying.
 
@@ -405,7 +407,7 @@ Your choice [1-3]: 1
 
 ```bash
 teach deploy --sync
-```
+```diff
 
 This tries fast-forward first, then falls back to a regular merge if needed.
 
@@ -425,11 +427,11 @@ Deploy before entire course is ready:
 
 ```bash
 teach deploy lectures/week-05.qmd
-```
+```text
 
 **Output:**
 
-```
+```text
 📦 Partial Deploy Mode
 ─────────────────────────────────────────────────
 
@@ -446,7 +448,7 @@ Files to deploy:
 
 Found 2 additional dependencies
 Include dependencies in deployment? [Y/n]: y
-```
+```bash
 
 ### Dependency Tracking
 
@@ -464,7 +466,7 @@ Include dependencies in deployment? [Y/n]: y
 
 # Skip dependencies (deploy only specified file)
 Include dependencies in deployment? [Y/n]: n
-```
+```yaml
 
 ### Index Management
 
@@ -479,7 +481,7 @@ lectures:
   - week-02.qmd
   - week-03.qmd
   - week-04.qmd
-```
+```yaml
 
 **After deploying week-05.qmd:**
 
@@ -490,32 +492,32 @@ lectures:
   - week-03.qmd
   - week-04.qmd
   - week-05.qmd  # ← ADDED
-```
+```text
 
 **Skip index updates:**
 
 ```bash
 teach deploy lectures/week-05.qmd --skip-index
-```
+```text
 
 ### Auto-Commit Workflow
 
 If deploying files have uncommitted changes:
 
-```
+```text
 ⚠️  Uncommitted changes detected
 
   • lectures/week-05.qmd
 
 Commit message (or Enter for auto): Fix regression example
 ✓ Committed changes
-```
+```text
 
 **Auto-commit mode:**
 
 ```bash
 teach deploy lectures/week-05.qmd --auto-commit
-```
+```text
 
 Uses default message: `Update: 2026-02-02`
 
@@ -529,48 +531,48 @@ Before deployment, `teach deploy` validates:
 
 Ensures you're on the draft branch:
 
-```
+```text
 ✓ On draft branch
-```
+```text
 
 If on wrong branch:
 
-```
+```text
 ✗ Not on draft branch (currently on: main)
 
 Switch to draft branch? [Y/n]: y
 ✓ Switched to draft
-```
+```text
 
 ### Check 2: Uncommitted Changes (v6.6.0 Enhanced)
 
 Pre-flight reports working tree status:
 
-```
+```bash
   [ok] Working tree clean
-```
+```text
 
 If uncommitted changes exist, the pre-flight reports a warning:
 
-```
+```bash
   [--] Working tree has uncommitted changes
-```
+```text
 
 Then, after pre-flight, an **interactive prompt** offers to commit:
 
-```
+```text
   Uncommitted changes detected
   Suggested: content: week-05 lecture
 
   Commit and continue? [Y/n]:
-```
+```diff
 
 - Press **Enter** or **Y** — stages all files (`git add -A`), commits with the smart message, continues deploy
 - Press **N** — cancels deploy, nothing changed
 
 **If the commit fails** (e.g., pre-commit hook):
 
-```
+```yaml
   ERROR: Commit failed (likely pre-commit hook)
 
   Options:
@@ -579,21 +581,21 @@ Then, after pre-flight, an **interactive prompt** offers to commit:
     3. Force: git commit --no-verify -m "message"
 
   Changes are still staged.
-```
+```text
 
 **CI mode:** Uncommitted changes fail immediately:
 
-```
+```text
 ERROR: Uncommitted changes detected
   Commit changes before deploying in CI mode
-```
+```yaml
 
 **Disable check** in `.flow/teach-config.yml`:
 
 ```yaml
 git:
   require_clean: false  # Skip uncommitted changes handling entirely
-```
+```text
 
 ### Check 3: Display Math Validation
 
@@ -607,25 +609,25 @@ Only files in the `git diff` between branches are checked (not the entire course
 !!! tip "Early feedback via pre-commit"
     This same validation also runs at **commit time** via lint-staged. Any staged `.qmd` file is checked automatically — no need to wait for deploy to catch math issues. See [Quality Gates](QUALITY-GATES.md) for all validation layers.
 
-```
+```bash
   [ok] Display math blocks valid
-```
+```text
 
 If blank lines are found:
 
-```
+```bash
   [!!] Blank lines in display math (breaks PDF):
        lectures/week-05.qmd
        Remove blank lines between $$ delimiters in the files above
-```
+```text
 
 If an unclosed `$$` block is found:
 
-```
+```bash
   [!!] Unclosed $$ block (breaks render):
        lectures/week-03.qmd
        Add missing closing $$ delimiter in the files above
-```
+```diff
 
 **Interactive mode:** Warns but continues (non-blocking).
 
@@ -641,26 +643,26 @@ If an unclosed `$$` block is found:
 
 Ensures draft branch is synced with remote:
 
-```
+```text
 ✓ Remote is up-to-date
-```
+```text
 
 If unpushed commits exist:
 
-```
+```text
 ⚠️  Unpushed commits detected
 
 Push to origin/draft first? [Y/n]: y
 ✓ Pushed to origin/draft
-```
+```text
 
 ### Check 5: Production Conflicts
 
 Detects if production has real content commits that could cause conflicts. Merge commits from previous `--no-ff` deploys are automatically excluded (fixes #372):
 
-```
+```text
 ✓ No conflicts with production
-```
+```text
 
 If conflicts exist, see [Handling Conflicts](#handling-conflicts). You can also run `teach deploy --sync` to pull production changes into your draft branch.
 
@@ -674,21 +676,21 @@ Block deployment if concepts are used before introduction:
 
 ```bash
 teach deploy --check-prereqs
-```
+```text
 
 **Validation process:**
 
-```
+```text
 🔍 Prerequisite Validation
 ─────────────────────────────────────────────────
   Building concept graph...
   Checking 42 concepts...
 ✓ All prerequisites satisfied
-```
+```text
 
 **If violations found:**
 
-```
+```yaml
 ✗ Found 2 missing prerequisite(s)
   • simple_linear_regression requires normal_distribution (not defined)
   • hypothesis_testing requires probability (not defined)
@@ -697,7 +699,7 @@ Deploy blocked: Prerequisite validation failed
 Fix missing prerequisites before deploying
 
 Tip: Run 'teach validate --deep' to see full details
-```
+```text
 
 ### Auto-Commit
 
@@ -705,7 +707,7 @@ Automatically commit changes without prompts:
 
 ```bash
 teach deploy lectures/week-05.qmd --auto-commit
-```
+```text
 
 Uses default commit message: `Update: YYYY-MM-DD`
 
@@ -715,7 +717,7 @@ Tag deployment with timestamp:
 
 ```bash
 teach deploy --auto-tag
-```
+```text
 
 Creates tag: `deploy-2026-02-02-1430`
 
@@ -725,7 +727,7 @@ Deploy without updating navigation files:
 
 ```bash
 teach deploy lectures/week-05.qmd --skip-index
-```
+```diff
 
 Use when:
 - File isn't listed in navigation
@@ -740,7 +742,7 @@ teach deploy lectures/week-05.qmd \
   --auto-tag \
   --skip-index \
   --check-prereqs
-```
+```yaml
 
 ---
 
@@ -759,7 +761,7 @@ git:
 
 course:
   name: "STAT-101 Regression Analysis"
-```
+```text
 
 ### Branch Setup
 
@@ -767,19 +769,19 @@ GitHub Pages deploys from `main` branch:
 
 **1. Configure in GitHub repository settings:**
 
-```
+```text
 Settings → Pages → Source → Deploy from a branch
 Branch: main
 Folder: / (root)
-```
+```text
 
 **2. Verify deployment:**
 
 After merging PR to main, GitHub Actions builds and deploys:
 
-```
+```text
 https://username.github.io/course-repo/
-```
+```bash
 
 ### Custom Domain
 
@@ -789,23 +791,23 @@ https://username.github.io/course-repo/
 echo "stat101.university.edu" > CNAME
 git add CNAME
 git commit -m "Add custom domain"
-```
+```text
 
 **2. Configure DNS:**
 
-```
+```text
 CNAME record: www → username.github.io
 A records: @ → 185.199.108.153
            @ → 185.199.109.153
            @ → 185.199.110.153
            @ → 185.199.111.153
-```
+```text
 
 **3. Update GitHub Pages settings:**
 
-```
+```text
 Settings → Pages → Custom domain → stat101.university.edu
-```
+```bash
 
 ### First-Time Deployment
 
@@ -820,20 +822,20 @@ echo "GitHub Pages placeholder" > index.html
 git add index.html
 git commit -m "Initialize GitHub Pages"
 git push origin gh-pages
-```
+```text
 
 **2. Configure GitHub Pages source:**
 
-```
+```text
 Settings → Pages → Source → gh-pages branch
-```
+```bash
 
 **3. Run first deployment:**
 
 ```bash
 git checkout draft
 teach deploy
-```
+```text
 
 ---
 
@@ -845,24 +847,24 @@ teach deploy
 
 ```bash
 gh pr list
-```
+```text
 
 **2. Review PR on GitHub:**
 
 Click link from deploy output:
 
-```
+```text
 View PR: https://github.com/username/course-repo/pull/42
-```
+```text
 
 **3. Check CI/CD status:**
 
 GitHub Actions runs on PR creation:
 
-```
+```text
 ✓ Build Quarto site (2m 34s)
 ✓ Deploy preview (15s)
-```
+```text
 
 ### Merge Pull Request
 
@@ -876,7 +878,7 @@ GitHub Actions runs on PR creation:
 
 ```bash
 gh pr merge 42 --squash --delete-branch
-```
+```bash
 
 ### Verify Live Site
 
@@ -887,13 +889,13 @@ gh pr merge 42 --squash --delete-branch
 gh api repos/:owner/:repo/pages/builds/latest
 
 # Typical deployment time: 30-60 seconds
-```
+```text
 
 **2. Visit deployed site:**
 
-```
+```text
 https://username.github.io/course-repo/
-```
+```diff
 
 **3. Verify changes:**
 
@@ -912,24 +914,24 @@ https://username.github.io/course-repo/
 
 **Error:**
 
-```
+```text
 ✗ Not on draft branch (currently on: main)
-```
+```bash
 
 **Solution:**
 
 ```bash
 git checkout draft
 teach deploy
-```
+```text
 
 #### 2. Uncommitted changes
 
 **Error:**
 
-```
+```text
 ✗ Uncommitted changes detected
-```
+```bash
 
 **Solution:**
 
@@ -944,15 +946,15 @@ git stash
 # Option 3: Allow uncommitted (in config)
 # Edit .flow/teach-config.yml:
 #   git.require_clean: false
-```
+```text
 
 #### 3. Permission denied (GitHub Pages)
 
 **Error:**
 
-```
+```text
 gh: Permission denied (publickey)
-```
+```bash
 
 **Solution:**
 
@@ -963,15 +965,15 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 # Add to GitHub
 cat ~/.ssh/id_ed25519.pub
 # Copy output to GitHub Settings → SSH Keys
-```
+```text
 
 #### 4. Build failures (Quarto errors)
 
 **Error:**
 
-```
+```text
 Error: Quarto render failed
-```
+```bash
 
 **Solution:**
 
@@ -984,7 +986,7 @@ quarto --version
 
 # Update Quarto if needed
 brew upgrade quarto
-```
+```bash
 
 #### 5. Missing content after deploy
 
@@ -1002,7 +1004,7 @@ brew upgrade quarto
    teach deploy lectures/week-05.qmd  # Re-deploy with index update
    ```
 
-2. **YAML frontmatter issue:**
+1. **YAML frontmatter issue:**
 
    ```yaml
    # Ensure file has proper frontmatter
@@ -1011,7 +1013,7 @@ brew upgrade quarto
    ---
    ```
 
-3. **File not in _quarto.yml:**
+2. **File not in _quarto.yml:**
 
    ```yaml
    # Check project config
@@ -1028,9 +1030,9 @@ brew upgrade quarto
 
 **Error:**
 
-```
+```text
 ! [rejected] main -> main (non-fast-forward)
-```
+```bash
 
 **Solution:**
 
@@ -1044,15 +1046,15 @@ git rebase origin/main
 
 # Re-run deploy
 teach deploy
-```
+```text
 
 #### 7. Cross-reference validation failures
 
 **Error:**
 
-```
+```text
 ✗ Broken reference: @fig-does-not-exist in lectures/week-05.qmd
-```
+```bash
 
 **Solution:**
 
@@ -1067,7 +1069,7 @@ teach validate lectures/week-05.qmd
 
 # Re-deploy
 teach deploy lectures/week-05.qmd
-```
+```bash
 
 #### 8. Dependency tracking issues
 
@@ -1087,7 +1089,7 @@ teach deploy lectures/week-05.qmd
 
 # Manual workaround: deploy dependencies separately
 teach deploy lectures/week-05.qmd _macros.qmd
-```
+```yaml
 
 ---
 
@@ -1128,7 +1130,7 @@ jobs:
           target: gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
+```diff
 
 **Benefits:**
 
@@ -1148,14 +1150,14 @@ Use Netlify/Vercel for PR previews:
 
 [context.deploy-preview]
   command = "quarto render"
-```
+```text
 
 Deploy preview URL appears in PR comments:
 
-```
+```text
 ✓ Deploy Preview ready!
 https://deploy-preview-42--course-site.netlify.app
-```
+```bash
 
 ### Rollback Procedure
 
@@ -1170,7 +1172,7 @@ teach deploy --rollback 1
 
 # Verify site
 open https://username.github.io/course-repo/
-```
+```bash
 
 **Manual rollback (if needed):**
 
@@ -1178,7 +1180,7 @@ open https://username.github.io/course-repo/
 git log --oneline main | head -5
 git revert -m 1 <merge-commit-hash>
 git push origin main
-```
+```bash
 
 ---
 
@@ -1196,7 +1198,7 @@ This is a belt-and-suspenders approach — existing manual checkout-on-error cal
 
 Instead of blocking with "working tree dirty", deploy now prompts:
 
-```
+```text
   Uncommitted changes detected
   Suggested: content: week-05 lecture
 

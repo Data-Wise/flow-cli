@@ -7,7 +7,7 @@
 
 ## 🎯 The 5-Phase Git Workflow
 
-```
+```text
 ┌───────────────────────────────────────────────────────────┐
 │  Phase 1: Generate → Phase 2: Deploy → Phase 3: Status   │
 │     ↓                    ↓                  ↓             │
@@ -15,7 +15,7 @@
 │                          ↓                                │
 │  Phase 4: Teaching Mode ─┴─ Phase 5: Initialize          │
 └───────────────────────────────────────────────────────────┘
-```
+```bash
 
 ---
 
@@ -36,18 +36,18 @@ teach exam "Midterm 1"
 # → generates exams/midterm1.qmd
 # → shows 3-option menu
 # → auto-commit message: "teach: add exam for Midterm 1"
-```
+```text
 
 **Commit Format:**
 
-```
+```yaml
 teach: <action> <type> for <topic>
 
 Generated via: teach <command>
 Course: <name> (<semester> <year>)
 
 Co-Authored-By: Scholar <scholar@example.com>
-```
+```text
 
 ---
 
@@ -57,7 +57,7 @@ Co-Authored-By: Scholar <scholar@example.com>
 
 ```bash
 teach deploy
-```
+```diff
 
 **Pre-flight checks:**
 - ✓ On draft branch
@@ -78,7 +78,7 @@ git:
   production_branch: "main"
   auto_pr: true
   require_clean: true
-```
+```bash
 
 ---
 
@@ -91,7 +91,7 @@ teach status
 # → Shows course info
 # → Lists uncommitted files
 # → Interactive menu
-```
+```diff
 
 **Interactive Options:**
 1. Commit all teaching files
@@ -117,7 +117,7 @@ workflow:
   teaching_mode: true      # Enable streamlined workflow
   auto_commit: true        # Auto-commit after generation
   auto_push: false         # Safety: never auto-push
-```
+```bash
 
 **Behavior:**
 
@@ -127,7 +127,7 @@ teach exam "Midterm"
 # 🎓 Teaching Mode: Auto-committing...
 # ✓ Committed: teach: add exam for Midterm
 # (no menu, no prompt - instant commit)
-```
+```diff
 
 **Safety:**
 - ✓ Auto-commit: Yes
@@ -152,7 +152,7 @@ teach init "STAT 545"
 teach init --no-git "TEST 101"
 # → Only installs config + scripts
 # → Manual git setup instructions
-```
+```diff
 
 **What it does:**
 1. `git init` (if not exists)
@@ -192,7 +192,7 @@ teach status
 # 5. Deploy when ready
 teach deploy
 # → Creates PR to production
-```
+```bash
 
 ### Teaching Mode Workflow (Rapid Creation)
 
@@ -201,7 +201,7 @@ teach deploy
 ```bash
 teach config
 # → Set teaching_mode: true
-```
+```bash
 
 **Daily use:**
 
@@ -212,7 +212,7 @@ teach slides "Week 3"   # → auto-commits
 teach quiz "Chapter 5"  # → auto-commits
 git push                # → push all commits
 teach deploy            # → create PR
-```
+```bash
 
 ### Fresh Course Setup
 
@@ -236,7 +236,7 @@ git push origin main
 
 # 4. Start creating
 teach exam "Syllabus Review"
-```
+```yaml
 
 ---
 
@@ -262,7 +262,7 @@ workflow:
 scholar:
   enabled: true                  # Enable Scholar skills
   check_on_start: false          # Check Scholar CLI on teach init
-```
+```bash
 
 ---
 
@@ -294,7 +294,7 @@ fi
 # Generate commit message
 msg=$(_git_teaching_commit_message "exam" "Midterm 1" "teach exam 'Midterm 1'" "STAT 545")
 git commit -m "$msg"
-```
+```bash
 
 ---
 
@@ -312,7 +312,7 @@ teach init --no-git "Course Name"  # Skip git (manual setup)
 # OR
 git init
 teach config  # Just configure
-```
+```bash
 
 ### "Uncommitted changes" blocking deploy
 
@@ -331,7 +331,7 @@ git stash
 # Edit .flow/teach-config.yml:
 git:
   require_clean: false
-```
+```yaml
 
 ### Teaching mode not auto-committing
 
@@ -345,7 +345,7 @@ teach config
 workflow:
   teaching_mode: true
   auto_commit: true    # Must be true!
-```
+```bash
 
 ### PR creation fails
 
@@ -368,7 +368,7 @@ gh auth login
 # Add remote if missing
 gh repo create stat-545 --public
 git remote add origin https://github.com/user/stat-545.git
-```
+```bash
 
 ---
 

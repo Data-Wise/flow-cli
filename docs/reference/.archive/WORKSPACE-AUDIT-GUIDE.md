@@ -30,11 +30,11 @@ ga                  # Full audit with file lists
 ga -q               # Quick summary only (recommended for daily use)
 ga -a               # Show clean repos too
 ga ~/code           # Audit specific directory
-```
+```text
 
 ### Output Example
 
-```
+```yaml
 ================
 Git Repository Audit
 ================
@@ -50,7 +50,7 @@ Git Repository Audit
 
 Summary: 9 dirty, 1 unpushed
 ⚠ Consider a cleanup commit spree!
-```
+```bash
 
 ### Environment Variables
 
@@ -68,7 +68,7 @@ ga -q               # Quick check
 cd ~/projects/problem-repo
 gs                  # git status
 qcommit "WIP: save progress"  # Quick commit
-```
+```text
 
 ---
 
@@ -82,11 +82,11 @@ Finds files over 50MB that may need cleanup, archiving, or .gitignore entries.
 fa                  # Find files >50MB in ~/projects
 fa -s 100M          # Find files >100MB
 fa -s 10M ~/data    # Audit data folder with lower threshold
-```
+```text
 
 ### Output Example
 
-```
+```yaml
 ========================
 Large File Audit (>50M)
 ========================
@@ -97,7 +97,7 @@ Large File Audit (>50M)
 
 Found: 3 files
 ⚠ Consider archiving or adding to .gitignore
-```
+```diff
 
 ### Exclusions (Automatic)
 
@@ -139,11 +139,11 @@ ah                  # Last 7 days, top 10 projects
 ah -d 30            # Last 30 days
 ah -n 5             # Top 5 only
 ah -d 1             # Today only
-```
+```text
 
 ### Output Example
 
-```
+```text
 ==============================
 Activity Heatmap (Last 7 Days)
 ==============================
@@ -158,7 +158,7 @@ Activity Heatmap (Last 7 Days)
   23 dev-tools/spacemacs-rstats ████
 
 ℹ Today: 203 files modified
-```
+```text
 
 ### Color Intensity
 
@@ -188,7 +188,7 @@ ma                  # Quick terminal output
 ma -s               # Save markdown report to ~/logs/audit/
 ma -o               # Save and open report (macOS)
 ma -q               # Minimal output
-```
+```bash
 
 ### What It Runs
 
@@ -228,7 +228,7 @@ Found: 1 files
 ## Obsidian Vault
 
 ✓ Vault structure clean.
-```
+```bash
 
 ### Recommended Workflow
 
@@ -242,7 +242,7 @@ ma -o
 # Option 3: Add to shell startup for passive awareness
 # In ~/.zshrc:
 # ma -q 2>/dev/null  # Silent daily check on terminal open
-```
+```bash
 
 ---
 
@@ -258,7 +258,7 @@ obs audit
 
 # Integrated in morning audit
 ma  # Includes obs audit automatically
-```
+```bash
 
 ### With Workflow Logging
 
@@ -272,7 +272,7 @@ startsession "morning"      # Start work session
 # End of day
 endsession                  # End work session
 ga -q                       # Quick commit check
-```
+```bash
 
 ### With Claude Code
 
@@ -284,7 +284,7 @@ cc                          # Start Claude Code
 # After Claude session
 ga                          # Review what changed
 qcommit "feat: implement X" # Commit changes
-```
+```bash
 
 ---
 
@@ -302,7 +302,7 @@ export FILE_AUDIT_SIZE="100M"               # Higher threshold
 export ACTIVITY_HEAT_DAYS=14                # Longer lookback
 export ACTIVITY_HEAT_TOP=15                 # More results
 export AUDIT_LOG_DIR="$HOME/Documents/logs" # Different log location
-```
+```bash
 
 ### Adding to PATH
 
@@ -311,7 +311,7 @@ The commands are in `~/projects/dev-tools/zsh-claude-workflow/commands/`. If not
 ```bash
 # In ~/.zshrc
 export PATH="$HOME/projects/dev-tools/zsh-claude-workflow/commands:$PATH"
-```
+```bash
 
 ### Aliases
 
@@ -323,7 +323,7 @@ alias ga='git-audit'
 alias fa='file-audit'
 alias ah='activity-heat'
 alias ma='morning-audit'
-```
+```diff
 
 ---
 
@@ -356,7 +356,7 @@ echo $PATH | tr ':' '\n' | grep zsh-claude
 cd ~/projects/dev-tools/zsh-claude-workflow
 ./install.sh
 source ~/.zshrc
-```
+```bash
 
 ### "No git repos found"
 
@@ -366,7 +366,7 @@ echo $PROJECTS_DIR  # Should be ~/projects or your custom path
 
 # Verify depth setting
 git-audit -h  # Shows current defaults
-```
+```bash
 
 ### Slow performance
 

@@ -70,7 +70,7 @@ graph TB
     SizeDisp --> ChezmoiRepo
     Helpers --> ChezmoiRepo
     ChezmoiRepo --> GitRepo
-```
+```text
 
 ### Layer Architecture
 
@@ -109,7 +109,7 @@ graph LR
     L3A --> L1A
     L2B --> L1A
     L1A --> L1B
-```
+```zsh
 
 ---
 
@@ -133,7 +133,7 @@ _flow_get_file_size() {
     stat -f%z "$file" 2>/dev/null || echo 0  # BSD macOS
   fi
 }
-```
+```diff
 
 **Detection Logic:**
 - Try `stat --version` and grep for "GNU"
@@ -153,7 +153,7 @@ _flow_human_size() {
     # Manual fallback: divide by 1024 repeatedly
   fi
 }
-```
+```diff
 
 **Output Examples:**
 - `512` → "512 bytes"
@@ -176,12 +176,13 @@ _flow_timeout() {
     "$@"  # No timeout available, run anyway
   fi
 }
-```
+```zsh
 
 **Usage:**
+
 ```bash
 _flow_timeout 2 find /large/dir -type f  # 2-second timeout
-```
+```text
 
 ---
 
@@ -198,7 +199,7 @@ graph TB
     CheckCache -->|No| ComputeData[Compute Data]
     ComputeData --> UpdateCache[Update Cache + Timestamp]
     UpdateCache --> ReturnFresh[Return Fresh Data]
-```
+```zsh
 
 **Cache Variables:**
 
@@ -208,7 +209,7 @@ typeset -g _DOT_SIZE_CACHE_TIME     # Timestamp (Unix epoch)
 typeset -g _DOT_IGNORE_CACHE        # Cached ignore patterns
 typeset -g _DOT_IGNORE_CACHE_TIME   # Timestamp
 typeset -g _DOT_CACHE_TTL=300       # 5 minutes (configurable)
-```
+```zsh
 
 **Functions:**
 
@@ -224,7 +225,7 @@ _dot_is_cache_valid() {
   local now=$(date +%s)
   (( now - cache_time < ttl ))
 }
-```
+```bash
 
 **Validation Logic:**
 1. Check cache timestamp exists
@@ -254,7 +255,7 @@ sequenceDiagram
         Command->>Cache: _dot_cache_size()
         Command-->>User: Display (3-5s)
     end
-```
+```diff
 
 **Performance Metrics:**
 - **Cache hit:** ~5-8ms (85% of requests)
@@ -304,7 +305,7 @@ flowchart TD
     Confirm --> Decision{User Confirms?}
     Decision -->|Yes| Success[Return 0 - Proceed]
     Decision -->|No| Cancel[Return 1 - Cancel]
-```
+```zsh
 
 **Detection Categories:**
 
@@ -332,7 +333,7 @@ fi
 if [[ "$file" =~ \.git/ ]]; then
   ((git_files++))
 fi
-```
+```text
 
 #### Git Directory Detection (`_dot_check_git_in_path`)
 
@@ -362,7 +363,7 @@ graph TD
     Results --> Return{Found Any?}
     Return -->|Yes| ReturnList[Return git_dirs]
     Return -->|No| ReturnEmpty[Return empty]
-```
+```diff
 
 **Performance Optimization:**
 
@@ -386,7 +387,7 @@ else
     git_dirs+=("$gitdir")
   done < <(_flow_timeout 2 find "$target" -name ".git" -type d -maxdepth 5 2>/dev/null)
 fi
-```
+```bash
 
 #### Auto-Suggestion (`_dot_suggest_ignore_patterns`)
 
@@ -414,7 +415,7 @@ sequenceDiagram
             Suggest->>User: Success: Added *.log
         end
     end
-```
+```diff
 
 **Features:**
 
@@ -447,7 +448,7 @@ _dot_suggest_ignore_patterns() {
     fi
   done
 }
-```
+```text
 
 ---
 
@@ -477,7 +478,7 @@ graph LR
     List --> Read
     Remove --> Delete
     Edit --> OpenEditor
-```
+```zsh
 
 **Cross-Platform Remove:**
 
@@ -494,7 +495,7 @@ dot_ignore_remove() {
 
   _flow_log_success "Removed pattern: $pattern"
 }
-```
+```diff
 
 **Why temp file?**
 - BSD `sed -i` requires extension: `sed -i.bak`
@@ -537,7 +538,7 @@ sequenceDiagram
     SizeCmd->>FileSystem: find .git dirs
     FileSystem-->>SizeCmd: Git count
     SizeCmd-->>User: Warning if > 0
-```
+```text
 
 **Doctor Health Checks:**
 
@@ -580,7 +581,7 @@ flowchart TD
     ExitCode -->|0| Success[All Passed]
     ExitCode -->|1| Warnings[Some Warnings]
     ExitCode -->|2| Errors[Errors Found]
-```
+```text
 
 ---
 
@@ -620,7 +621,7 @@ sequenceDiagram
     Preview-->>DotAdd: Return 0 (success)
     DotAdd->>Chezmoi: chezmoi add ~/.config/nvim
     Chezmoi-->>User: Files added
-```
+```bash
 
 ### Size Analysis Workflow
 
@@ -654,7 +655,7 @@ sequenceDiagram
     alt Git dirs found
         SizeCmd-->>User: ⚠️ Warning message
     end
-```
+```bash
 
 ---
 
@@ -671,7 +672,7 @@ stateDiagram-v2
     Expired --> Valid: Recompute
     Valid --> Empty: Manual Clear
     Expired --> Empty: Manual Clear
-```
+```diff
 
 ### Cache Variables & TTL
 
@@ -731,7 +732,7 @@ flowchart TD
 
     UseNumFmt --> Done[Return Result]
     Manual --> Done
-```
+```text
 
 ---
 
@@ -741,7 +742,7 @@ flowchart TD
 
 **Directory Structure:**
 
-```
+```text
 ~/.local/share/chezmoi/
 ├── .git/                    # Git repository
 ├── .chezmoiignore          # Ignore patterns (managed)
@@ -749,7 +750,7 @@ flowchart TD
 ├── dot_config/
 │   └── nvim/
 └── README.md
-```
+```diff
 
 **Operations:**
 
@@ -771,7 +772,7 @@ git submodule status
 
 # Check remote
 git remote get-url origin
-```
+```zsh
 
 ### 3. Doctor Integration
 
@@ -783,7 +784,7 @@ _dot_doctor_check_chezmoi_health() {
   # 9 health checks
   # Returns status codes for doctor summary
 }
-```
+```diff
 
 **Exit Code Mapping:**
 
@@ -807,7 +808,7 @@ _dot_ignore_commands() {
   )
   _describe 'ignore commands' commands
 }
-```
+```diff
 
 ---
 

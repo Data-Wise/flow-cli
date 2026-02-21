@@ -45,16 +45,16 @@ git commit -m "feat: add new feature"
 # 5. Push and create PR to dev (NOT main)
 git push origin feature/your-feature-name
 gh pr create --base dev --title "Add new feature"
-```
+```text
 
 **Branch Workflow (v4.1.0+):**
 
-```
+```text
 feature/* ──► dev ──► main
     │          │        │
     └── PR ────┘        │
                └── PR ──┘
-```
+```diff
 
 - **feature/\*** → **dev**: All development work
 - **dev** → **main**: Releases only
@@ -73,7 +73,7 @@ feature/* ──► dev ──► main
 
 # Search for existing PRs
 # Visit: https://github.com/Data-Wise/flow-cli/pulls
-```
+```diff
 
 ### 2. Read Project Documentation
 
@@ -87,7 +87,7 @@ feature/* ──► dev ──► main
 
 **flow-cli is a pure ZSH plugin with this structure:**
 
-```
+```zsh
 flow-cli/
 ├── flow.plugin.zsh       # Plugin entry point
 ├── lib/
@@ -100,7 +100,7 @@ flow-cli/
 ├── completions/          # ZSH completions
 ├── hooks/                # ZSH hooks
 └── tests/                # Test suite
-```
+```diff
 
 **Key principles:**
 
@@ -121,7 +121,7 @@ zsh tests/run-tests.zsh
 work --help
 dash --help
 r help
-```
+```text
 
 ---
 
@@ -129,13 +129,13 @@ r help
 
 ### Three-Tier Branch Strategy
 
-```
+```text
 feature/* ──► dev ──► main
 hotfix/*       │        │
     │          │        │
     └── PR ────┘        │
                └── PR ──┘
-```
+```text
 
 **Branch Roles:**
 
@@ -162,7 +162,7 @@ The `g` dispatcher will **block** direct pushes to protected branches:
 g push  # On main or dev
 ✗ Cannot push directly to protected branch: main
 ℹ Use PRs: feature → dev → main
-```
+```bash
 
 ### When to Use Each Branch
 
@@ -172,7 +172,7 @@ g push  # On main or dev
 g feature start my-feature    # Creates from dev
 # ... work on feature ...
 g feature finish              # PR to dev
-```
+```bash
 
 **For urgent production fixes:**
 
@@ -182,7 +182,7 @@ git checkout -b hotfix/critical-bug
 # ... fix bug ...
 git push origin hotfix/critical-bug
 gh pr create --base main      # Hotfix goes directly to main
-```
+```bash
 
 ---
 
@@ -200,7 +200,7 @@ g feature start add-dashboard-widget
 git checkout dev
 git pull origin dev
 git checkout -b feature/add-dashboard-widget
-```
+```bash
 
 **Branch naming convention:**
 
@@ -219,7 +219,7 @@ refactor/simplify-cache-logic
 
 # Hotfixes (branch from main for urgent production fixes)
 hotfix/critical-security-patch
-```
+```bash
 
 **Pattern:** `type/short-description-kebab-case`
 
@@ -254,7 +254,7 @@ hotfix/critical-security-patch
 
 # Run tests
 zsh tests/run-tests.zsh
-```
+```diff
 
 **Test requirements:**
 
@@ -291,17 +291,17 @@ git commit -m "perf: optimize project scanning with caching"
 git commit -m "feat!: change session API signature
 
 BREAKING CHANGE: work command now requires project name"
-```
+```text
 
 **Commit message format:**
 
-```
+```bash
 <type>[optional scope]: <description>
 
 [optional body]
 
 [optional footer(s)]
-```
+```diff
 
 **Types:**
 
@@ -329,17 +329,17 @@ gh pr create --base dev --title "Add dashboard auto-refresh" --body "Closes #123
 
 # Or create PR via GitHub web interface
 # ⚠️ IMPORTANT: Change base branch from main to dev
-```
+```text
 
 **PR workflow:**
 
-```
+```text
 feature/your-feature → dev (PR #1)
            ↓
       (After merge)
            ↓
     dev → main (PR #2, releases only)
-```
+```diff
 
 **PR template will guide you through:**
 
@@ -402,7 +402,7 @@ the dispatcher pattern as you suggested. See commit abc123.
 - Fixed variable naming in work.zsh
 - Added edge case test for empty project list
 - Still working on the performance optimization - will update soon
-```
+```bash
 
 **Iterate quickly:**
 
@@ -413,7 +413,7 @@ git commit -m "refactor: address review comments"
 git push origin feature/your-feature-name
 
 # PR automatically updates
-```
+```diff
 
 ### Approval and Merge
 
@@ -446,7 +446,7 @@ git branch -d feature/your-feature-name
 
 # Delete remote branch (usually done automatically by GitHub)
 git push origin --delete feature/your-feature-name
-```
+```bash
 
 ### 2. Update Your Fork
 
@@ -465,7 +465,7 @@ git checkout main
 git fetch upstream
 git merge upstream/main
 git push origin main
-```
+```bash
 
 ### 3. Celebrate
 
@@ -495,7 +495,7 @@ g feature start new-command
 
 # 6. Create PR to dev
 g feature finish
-```
+```bash
 
 ### Scenario 2: Adding a Dispatcher Subcommand
 
@@ -506,7 +506,7 @@ g feature finish
 # 4. Update _<name>_help() function
 # 5. Add tests
 # 6. Update DISPATCHER-REFERENCE.md
-```
+```bash
 
 ### Scenario 3: Fixing a Bug
 
@@ -524,7 +524,7 @@ zsh tests/run-tests.zsh
 # 6. Create PR
 # - Reference issue number: "Fixes #123"
 # - Explain root cause and solution
-```
+```bash
 
 ### Scenario 4: Updating Documentation
 
@@ -543,7 +543,7 @@ mkdocs build --strict
 # 4. Create PR
 # - Explain what was unclear before
 # - Show improvement
-```
+```bash
 
 ---
 
@@ -560,7 +560,7 @@ zsh tests/unit/test-core.zsh
 
 # Check for syntax errors
 zsh -n lib/core.zsh
-```
+```diff
 
 **Common causes:**
 
@@ -586,7 +586,7 @@ g feature sync
 git add .
 git commit -m "resolve merge conflicts with dev"
 git push origin feature/your-feature-name
-```
+```diff
 
 ### CI/CD Checks Failing
 

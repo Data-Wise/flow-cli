@@ -29,7 +29,7 @@ g help
 
 # Check you have main and dev branches
 git branch -a | grep -E "main|dev"
-```
+```diff
 
 ---
 
@@ -46,12 +46,12 @@ By the end of this tutorial, you will:
 
 ## The Workflow Pattern
 
-```
+```text
 feature/* ──► dev ──► main
     │          │        │
     └── PR ────┘        │
                └── PR ──┘
-```
+```diff
 
 **Key Rules:**
 
@@ -68,14 +68,14 @@ feature/* ──► dev ──► main
 ```bash
 # Start a new feature from dev
 g feature start auth-improvements
-```
+```text
 
 **What happened:**
 
-```
+```text
 ✅ Created feature/auth-improvements from dev
 📍 Now on: feature/auth-improvements
-```
+```diff
 
 This:
 
@@ -88,14 +88,14 @@ This:
 ```bash
 # Check current branch
 g
-```
+```text
 
 **Output:**
 
-```
+```text
 On branch feature/auth-improvements
 nothing to commit, working tree clean
-```
+```bash
 
 ---
 
@@ -108,7 +108,7 @@ nothing to commit, working tree clean
 # Then commit
 g add .
 g commit "Add OAuth2 support"
-```
+```bash
 
 ### Step 2.2: Keep in Sync with Dev
 
@@ -117,14 +117,14 @@ While you work, `dev` may have new changes. Stay synced:
 ```bash
 # Rebase your feature onto latest dev
 g feature sync
-```
+```text
 
 **What happened:**
 
-```
+```text
 ✅ Rebased feature/auth-improvements onto dev
 📊 Your branch is 3 commits ahead of dev
-```
+```bash
 
 **Tip:** Run `g feature sync` daily to avoid big merge conflicts!
 
@@ -133,7 +133,7 @@ g feature sync
 ```bash
 # Push to remote
 g push
-```
+```bash
 
 The workflow guard will let this through because you're on a feature branch.
 
@@ -148,16 +148,16 @@ When your feature is ready:
 ```bash
 # Create PR: feature → dev
 g promote
-```
+```text
 
 **What happened:**
 
-```
+```text
 Creating PR: feature/auth-improvements → dev
 
 ✅ PR #42 created
    https://github.com/user/repo/pull/42
-```
+```bash
 
 ### Step 3.2: PR to Main (Release)
 
@@ -169,16 +169,16 @@ git checkout dev
 
 # Create PR: dev → main
 g release
-```
+```text
 
 **What happened:**
 
-```
+```text
 Creating PR: dev → main
 
 ✅ PR #43 created
    https://github.com/user/repo/pull/43
-```
+```bash
 
 ---
 
@@ -191,14 +191,14 @@ Push and create PR in one command:
 ```bash
 # Push + create PR to dev
 g feature finish
-```
+```text
 
 **What happened:**
 
-```
+```text
 📤 Pushing feature/auth-improvements...
 ✅ Created PR #42: feature/auth-improvements → dev
-```
+```bash
 
 ### Step 4.2: Clean Up Merged Branches
 
@@ -213,11 +213,11 @@ g feature prune
 
 # Also clean remote tracking branches
 g feature prune --all
-```
+```text
 
 **Output:**
 
-```
+```sql
 🧹 Cleaning merged feature branches...
 
 Will delete:
@@ -227,7 +227,7 @@ Will delete:
 Delete 2 branches? [y/N] y
 
 ✅ Deleted 2 merged branches
-```
+```bash
 
 ---
 
@@ -241,11 +241,11 @@ The workflow guard protects `main` and `dev` from direct pushes:
 # Try to push to main (blocked)
 git checkout main
 g push
-```
+```text
 
 **Output:**
 
-```
+```yaml
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ⛔ Direct push to 'main' blocked
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -257,7 +257,7 @@ Commands:
   g release    Create PR: dev → main
 
 Override: GIT_WORKFLOW_SKIP=1 git push
-```
+```bash
 
 ### Override When Needed
 
@@ -266,7 +266,7 @@ For emergencies only:
 ```bash
 # Skip the guard (use sparingly!)
 GIT_WORKFLOW_SKIP=1 git push
-```
+```diff
 
 ---
 
@@ -293,7 +293,7 @@ g feature start new-feature    # Create branch
 # ... make changes ...
 g add . && g commit "message"  # Commit
 g feature finish               # Push + PR
-```
+```bash
 
 ### Scenario 2: Hotfix Needed
 
@@ -302,14 +302,14 @@ g feature start hotfix/urgent-fix  # Use hotfix/ prefix
 # ... fix the issue ...
 g promote                          # PR to dev
 g release                          # PR to main (after dev merge)
-```
+```text
 
 ### Scenario 3: Weekly Cleanup
 
 ```bash
 g feature list                 # See all feature branches
 g feature prune --all          # Clean merged + remote
-```
+```bash
 
 ---
 
@@ -321,7 +321,7 @@ g feature prune --all          # Clean merged + remote
 # Delete old branch first
 git branch -d feature/old-name
 g feature start new-name
-```
+```bash
 
 ### "Rebase conflicts"
 
@@ -330,7 +330,7 @@ g feature start new-name
 # 1. Fix conflicts in files
 # 2. git add <fixed-files>
 # 3. git rebase --continue
-```
+```bash
 
 ### "PR creation failed"
 

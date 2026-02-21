@@ -28,28 +28,28 @@
 ```bash
 dot                # Check status
 dot edit .zshrc    # Edit → Preview → Apply
-```
+```text
 
 ### 2. Sync from Remote (10 sec)
 
 ```bash
 dot sync           # Pull → Preview → Apply
 dot apply          # If needed
-```
+```text
 
 ### 3. Push Changes (30 sec)
 
 ```bash
 dot diff           # Review changes
 dot push           # Commit + push
-```
+```text
 
 ### 4. Use Secret (1 min)
 
 ```bash
 dot unlock                    # Unlock vault
 TOKEN=$(dot secret api-key)   # Capture secret
-```
+```bash
 
 ### 5. Create Token (2 min)
 
@@ -58,7 +58,7 @@ dot token github              # Run wizard
 # → Select type (classic/fine-grained)
 # → Open browser, paste token
 # → Validates and stores with expiration
-```
+```bash
 
 ### 6. Rotate Token (1 min)
 
@@ -67,14 +67,14 @@ dot token github-token --refresh
 # → Opens browser for new token
 # → Validates and updates
 # → Reminds to revoke old token
-```
+```text
 
 ### 7. Sync to CI/CD (1 min)
 
 ```bash
 dot secrets sync github       # Select secrets → sync to repo
 dot env init                  # Generate .envrc for direnv
-```
+```bash
 
 ### 8. Edit Template (2 min)
 
@@ -83,7 +83,7 @@ dot unlock                    # Unlock vault
 dot edit .gitconfig           # Edit template
 # Add: {{ bitwarden "item" "github-token" }}
 # Apply → ~/.gitconfig has actual token
-```
+```diff
 
 ---
 
@@ -126,7 +126,7 @@ dot edit zsh
 dot edit .config/zsh/.zshrc
 
 # Chezmoi finds the right file
-```
+```bash
 
 ---
 
@@ -147,7 +147,7 @@ dot secret list
 
 # Delete
 dot secret delete api-key
-```
+```bash
 
 ### Why Keychain?
 
@@ -166,7 +166,7 @@ export GITHUB_TOKEN=$(dot secret github-token)
 export NPM_TOKEN=$(dot secret npm-token)
 
 # Works in .zshrc for shell startup
-```
+```bash
 
 ---
 
@@ -192,7 +192,7 @@ dot secret check
 
 # View all secrets dashboard
 dot secrets
-```
+```bash
 
 ### Token Wizards
 
@@ -205,7 +205,7 @@ dot token pypi                # PyPI token
 # Rotate existing token
 dot token github-token --refresh
 dot token npm-token -r        # Short flag
-```
+```bash
 
 ### CI/CD Integration
 
@@ -215,7 +215,7 @@ dot secrets sync github
 
 # Generate .envrc for direnv
 dot env init
-```
+```bash
 
 ### Template Syntax
 
@@ -228,7 +228,7 @@ dot env init
 
 # Secure note
 {{ bitwardenFields "item" "ssh-key" "notes" }}
-```
+```yaml
 
 ---
 
@@ -270,9 +270,9 @@ dot env init
 
 ### Dashboard Line
 
-```
+```text
 📝 Dotfiles: 🟢 Synced (2h ago) · 12 files tracked
-```
+```bash
 
 **Performance:** < 100ms
 
@@ -284,7 +284,7 @@ flow doctor
 # ✓ Bitwarden CLI installed
 # ✓ Remote configured
 # ✓ No uncommitted changes
-```
+```bash
 
 ---
 
@@ -304,13 +304,13 @@ chezmoi init https://github.com/user/dotfiles
 bw login
 
 # Keychain: No setup needed (built into macOS)
-```
+```text
 
 ---
 
 ## File Structure
 
-```
+```text
 ~/.local/share/chezmoi/          # Source (templates)
 ├── .git/                        # Git repo
 ├── dot_zshrc.tmpl               # Template

@@ -25,7 +25,7 @@ The `flow alias` command provides complete alias lifecycle management:
 
 ```bash
 flow alias doctor
-```
+```diff
 
 **Output shows:**
 - Total alias count
@@ -35,7 +35,7 @@ flow alias doctor
 
 **Example output:**
 
-```
+```bash
 ⚡ ALIAS HEALTH CHECK
 
 📊 SUMMARY
@@ -50,7 +50,7 @@ flow alias doctor
 
 ❌ BROKEN TARGETS
   oldcmd → nonexistent_binary
-```
+```bash
 
 ### 2. Find an Alias
 
@@ -61,7 +61,7 @@ flow alias find devtools   # Aliases containing 'devtools'
 
 # Exact match
 flow alias find --exact gst
-```
+```text
 
 ### 3. Create a New Alias
 
@@ -69,7 +69,7 @@ flow alias find --exact gst
 
 ```bash
 flow alias add myalias='echo hello world'
-```
+```bash
 
 **Interactive mode (wizard):**
 
@@ -82,7 +82,7 @@ flow alias add
 # - Not a duplicate
 # - Doesn't shadow system command
 # - Target command exists
-```
+```diff
 
 **Safety checks performed:**
 - Duplicate detection: prevents overwriting existing alias
@@ -94,7 +94,7 @@ flow alias add
 
 ```bash
 flow alias rm myalias
-```
+```bash
 
 **What happens:**
 1. Creates backup of .zshrc (`~/.zshrc.alias-backup`)
@@ -114,7 +114,7 @@ flow alias test gst --dry-run
 
 # Actually run it
 flow alias test gst --exec
-```
+```text
 
 ---
 
@@ -124,15 +124,15 @@ Running `flow doctor` now includes a quick alias health summary:
 
 ```bash
 flow doctor
-```
+```text
 
 **Output includes:**
 
-```
+```text
 ⚡ ALIASES
   45 aliases (2 shadows, 1 broken)
   Run 'flow alias doctor' for details
-```
+```bash
 
 ---
 
@@ -150,7 +150,7 @@ flow alias find cat
 # This is intentional - bat is a better cat with syntax highlighting
 # If you want the real cat:
 command cat file.txt
-```
+```bash
 
 ### Scenario 2: "I think I have duplicate aliases"
 
@@ -162,7 +162,7 @@ flow alias find log
 # glo='git log --oneline'
 # glog='git log --graph'
 # gl='git pull'
-```
+```bash
 
 ### Scenario 3: "My alias stopped working"
 
@@ -174,7 +174,7 @@ flow alias test myalias
 # - Definition
 # - Whether target command exists
 # - Dry-run output
-```
+```bash
 
 ### Scenario 4: "I want to add an alias but not sure if name conflicts"
 
@@ -185,7 +185,7 @@ flow alias add
 # Or check manually first
 flow alias find myname
 which myname
-```
+```diff
 
 ---
 

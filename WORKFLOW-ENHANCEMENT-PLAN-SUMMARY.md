@@ -123,7 +123,7 @@ This document summarizes the comprehensive workflow enhancement plan for flow-cl
 
 **Example:**
 
-```
+````text
 $ work flow-cli
 
 📋 Last Session (2h ago):
@@ -132,7 +132,7 @@ $ work flow-cli
   Next: Write tests for capture/restore
 
 🔄 Restore? [Y/n/skip]
-```
+```yaml
 
 ---
 
@@ -155,7 +155,7 @@ $ work flow-cli
 $ flow workspace start mcp-ecosystem
 🚀 Creating tmux session with 3 windows
 [Attaches to tmux]
-```
+```sql
 
 **Without tmux:**
 
@@ -163,7 +163,7 @@ $ flow workspace start mcp-ecosystem
 $ flow workspace start mcp-ecosystem
 📦 Workspace: mcp-ecosystem
 Select project: 1) statistical-research 2) nexus 3) rforge
-```
+```yaml
 
 ---
 
@@ -204,7 +204,7 @@ Select project: 1) statistical-research 2) nexus 3) rforge
   "completed": true,
   "duration_minutes": 45
 }
-```
+```yaml
 
 **Prediction:**
 
@@ -218,7 +218,7 @@ Suggested low-energy tasks:
   3. Review small PR
 
 Override: flow energy high
-```
+```yaml
 
 ---
 
@@ -267,11 +267,11 @@ Override: flow energy high
 
 **Structure per feature:**
 
-```
+```text
 docs/
 ├── reference/<feature>-reference.md    # Command syntax, options
 └── guides/<feature>-guide.md           # Step-by-step tutorial
-```
+```diff
 
 ---
 
@@ -415,35 +415,35 @@ All enhancements follow flow-cli's core principles:
 
 ### Sprint 1 (Context Restoration)
 
-```
+```text
 lib/session-metadata.zsh                              # NEW (300+ lines)
 tests/session-metadata.test.zsh                       # NEW (400+ lines)
 docs/reference/CONTEXT-RESTORATION-REFERENCE.md       # NEW
 docs/guides/context-restoration-guide.md              # NEW
-```
+```text
 
 ### Sprint 2 (Command Search)
 
-```
+```text
 commands/search.zsh                                   # NEW (200+ lines)
 lib/search-index.json                                 # NEW (~15 KB)
 tests/command-search.test.zsh                         # NEW (300+ lines)
 docs/reference/COMMAND-SEARCH-REFERENCE.md            # NEW
 docs/guides/command-search-guide.md                   # NEW
-```
+```text
 
 ### Sprint 3 (Ecosystem Operations)
 
-```
+```text
 commands/ecosystem.zsh                                # NEW (150+ lines)
 tests/ecosystem.test.zsh                              # NEW (250+ lines)
 docs/reference/ECOSYSTEM-OPERATIONS-REFERENCE.md      # NEW
 docs/guides/ecosystem-operations-guide.md             # NEW
-```
+```text
 
 ### Sprint 4 (Workspaces + AI Energy)
 
-```
+```text
 commands/workspace.zsh                                # NEW (400+ lines)
 lib/energy-tracking.zsh                               # NEW (350+ lines)
 tests/workspace.test.zsh                              # NEW (400+ lines)
@@ -452,7 +452,7 @@ docs/reference/WORKSPACE-REFERENCE.md                 # NEW
 docs/reference/ENERGY-TRACKING-REFERENCE.md           # NEW
 docs/guides/workspace-guide.md                        # NEW
 docs/guides/energy-aware-workflow.md                  # NEW
-```
+```diff
 
 **Total New Files:** 20 files (~8,000+ lines of code + docs)
 
@@ -568,14 +568,14 @@ docs/guides/energy-aware-workflow.md                  # NEW
 
 ## Timeline Summary
 
-```
+```text
 Week 1-3   ████████████ Sprint 1: Context Restoration (12h) → v5.1.0
 Week 4-5   ██████ Sprint 2: Command Search (6h) → v5.2.0
 Week 6-7   ████ Sprint 3: Ecosystem Operations (4h) → v5.3.0
 Week 8-12  ████████████████████████ Sprint 4: Workspaces + AI (24h) → v5.4.0
            ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
            Total: 12 weeks, 46 hours, 4 releases
-```
+````
 
 ---
 

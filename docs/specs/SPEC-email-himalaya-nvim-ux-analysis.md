@@ -36,6 +36,7 @@ Before analyzing approaches, here are the UX conventions this email workflow mus
 ## Approach A: Full nvim Plugin
 
 ### Concept
+
 Email inbox rendered as nvim buffer. Compose in split window. Everything inside nvim.
 
 ### 1. Learning Curve
@@ -52,7 +53,7 @@ The flow-cli `cc` dispatcher works precisely because it does not try to embed Cl
 
 ### 2. Daily Workflow
 
-```
+```text
 1. Open nvim
 2. Run :HimalayaList (or keymap)          -- Wait: plugin fetches inbox
 3. Navigate buffer with j/k               -- Mental model: "is this a buffer or a list?"
@@ -62,7 +63,7 @@ The flow-cli `cc` dispatcher works precisely because it does not try to embed Cl
 7. Edit draft in buffer
 8. :HimalayaSend or keymap                 -- DID THIS ACTUALLY SEND? Where's confirmation?
 9. Close splits, return to inbox buffer    -- State management: did the inbox refresh?
-```
+```diff
 
 **Problem count:** 4 unresolved UX questions in a single email reply cycle.
 
@@ -113,6 +114,7 @@ The illusion of "zero context switching" is misleading. Mode switching within nv
 ## Approach B: nvim as $EDITOR Only (Hybrid)
 
 ### Concept
+
 Terminal `em` dispatcher for listing/searching/picking (fzf). nvim opens only for compose/reply with AI pre-populated draft. Follows the exact `cc` dispatcher pattern.
 
 ### 1. Learning Curve
@@ -127,7 +129,7 @@ Terminal `em` dispatcher for listing/searching/picking (fzf). nvim opens only fo
 
 ### 2. Daily Workflow
 
-```
+```bash
 em                     # Show inbox (fzf list, unread count)
                        # User sees: sender | subject | date | unread indicator
                        # User picks with fzf (familiar from cc pick, work pick)
@@ -144,7 +146,7 @@ em reply               # AI generates draft, nvim opens with draft pre-filled
                        # User must explicitly type 'y'
 
 em                     # Back to inbox (sub-second)
-```
+```diff
 
 **Step count for one reply: 4 conscious decisions** (pick email, read, edit draft, confirm send).
 
@@ -199,6 +201,7 @@ Each failure degrades gracefully. Nothing crashes silently.
 ## Approach C: Telescope-Only
 
 ### Concept
+
 Telescope picker inside nvim for email selection. Everything else in terminal.
 
 ### 1. Learning Curve
@@ -218,7 +221,7 @@ This is a multi-day yak shave for a Lua beginner.
 
 ### 2. Daily Workflow
 
-```
+```text
 1. Open nvim
 2. <leader>fe (custom keymap for email)       -- Telescope opens
 3. Type to fuzzy-search emails                -- GOOD: familiar Telescope UX
@@ -227,7 +230,7 @@ This is a multi-day yak shave for a Lua beginner.
 6. AI draft appears in buffer somehow (?)     -- UNSOLVED without Lua
 7. Edit draft
 8. Save → send?                               -- Confirmation UX unclear
-```
+```diff
 
 ### 3. Context Switching Cost
 
@@ -260,6 +263,7 @@ This is a multi-day yak shave for a Lua beginner.
 ## Approach D: Terminal-Only
 
 ### Concept
+
 fzf for picking, bat for reading, nvim is generic `$EDITOR`. Everything in terminal.
 
 ### 1. Learning Curve
@@ -314,7 +318,7 @@ This is the critical UX detail. Here is the exact mechanism, designed to match f
 
 ### Draft Generation Pipeline
 
-```
+```yaml
 em reply              # User selected email #42 from fzf
     |
     v
@@ -373,7 +377,7 @@ em reply              # User selected email #42 from fzf
     - Spinner: "Sending..."
     - Success: "Sent reply to sender@example.com"
     - Temp files cleaned up
-```
+```diff
 
 ### Safety Mechanisms (Preventing Accidental Send)
 
@@ -399,12 +403,13 @@ The temp file includes a vim modeline (`# vim: set ft=mail:`), which gives:
 No Lua configuration needed. No plugins needed. This works with stock nvim.
 
 For a nicer experience later (optional, not day-1):
+
 ```lua
 -- In ~/.config/nvim/after/ftplugin/mail.lua (future enhancement)
 vim.opt_local.textwidth = 72
 vim.opt_local.spell = true
 vim.opt_local.spelllang = "en"
-```
+```text
 
 ---
 
@@ -412,7 +417,7 @@ vim.opt_local.spelllang = "en"
 
 Following the exact pattern of `g()`, `cc()`, `obs()`:
 
-```
+```text
 em                     # Inbox (fzf list) -- same as g (no-arg = status)
 em inbox               # Explicit inbox
 em read [id]           # Read email (bat)
@@ -424,7 +429,7 @@ em send                # Send a saved draft
 em accounts            # Show configured accounts
 em doctor              # Health check (himalaya, IMAP, SMTP)
 em help                # Help (80% section + full reference)
-```
+```text
 
 **Grammar:** `em [verb] [target]` -- identical to `g [verb] [target]`.
 
@@ -432,7 +437,7 @@ em help                # Help (80% section + full reference)
 
 ### Inbox Display (fzf)
 
-```
+```text
 em
     ┌──────────────────────────────────────────────────────┐
     │  Inbox (3 unread)                                     │

@@ -45,7 +45,7 @@ The goal is NOT to build a new plugin from scratch. It is to configure an existi
 
 ## Architecture
 
-```
+```text
 +------------------+     built-in      +------------------+
 |  himalaya-vim    | ----------------> |  himalaya CLI    |
 |  (VimScript)     | <---------------- |  --output json   |
@@ -64,7 +64,7 @@ The goal is NOT to build a new plugin from scratch. It is to configure an existi
 | claude -p /      |
 | gemini CLI       |
 +------------------+
-```
+```diff
 
 ### Integration Pattern
 
@@ -124,7 +124,7 @@ N/A — No persistent data. Email content flows through himalaya-vim buffers. AI
 
 ### User Flow
 
-```
+```text
 Open Neovim -> :Himalaya (or keybind)
     -> Envelope list in buffer (from, subject, date)
     -> Select envelope -> Message opens in readonly buffer
@@ -132,11 +132,11 @@ Open Neovim -> :Himalaya (or keybind)
     -> AI: <leader>ms(summarize), <leader>mt(todos), <leader>mr(draft)
     -> AI response appears in floating window
     -> Close float with q or <Esc>
-```
+```text
 
 ### Floating Window Spec
 
-```
+```text
 +-- AI Summary ─────────────────────────+
 |                                        |
 | - Meeting scheduled for Thursday 2pm   |

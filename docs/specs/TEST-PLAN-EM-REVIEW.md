@@ -22,7 +22,7 @@
 
 ```zsh
 em respond --count 3
-```
+```bash
 
 **Expected behavior:**
 1. Header: `em respond — scanning 3 emails in INBOX`
@@ -41,10 +41,11 @@ em respond --count 3
 **Verify:** No variable names (like `content=`, `draft=`, `mid=`) appear in the output.
 
 **Check cache:** After this test, drafts should be cached:
+
 ```zsh
 em cache stats
 # Should show: drafts  N items  ...  TTL=1h
-```
+```text
 
 ---
 
@@ -54,24 +55,26 @@ em cache stats
 
 ```zsh
 em respond --review --count 3
-```
+```diff
 
 **Expected behavior:**
 1. Header: `em respond --review — reviewing cached drafts in INBOX`
 2. Lists ONLY emails that have cached drafts:
-   ```
+
+   ```text
    ✓ #12345  Sender Name  Subject preview...
    ✓ #12346  Sender Name  Subject preview...
    ```
-3. Summary: `N cached drafts found in 3 emails`
-4. Prompt: `Review N cached drafts? [Y/n]` → press **Y**
-5. For each cached draft:
+
+1. Summary: `N cached drafts found in 3 emails`
+2. Prompt: `Review N cached drafts? [Y/n]` → press **Y**
+3. For each cached draft:
    - Shows email header
    - `Cached draft loaded — opening in $EDITOR` (NO "Generating AI draft")
    - $EDITOR opens with the CACHED draft (should match what was generated in Test 1)
    - `Send this reply? [y/N]` → press **N**
    - `Continue to next? [Y/n/q]` → press **Y**
-6. Summary: `0 replied  0 skipped`
+4. Summary: `0 replied  0 skipped`
 
 **Verify:**
 - No classification step (no category icons, no "actionable/skipped" summary)
@@ -88,7 +91,7 @@ em respond --review --count 3
 ```zsh
 em cache clear
 em respond --review --count 3
-```
+```text
 
 **Expected behavior:**
 1. Header: `em respond --review — reviewing cached drafts in INBOX`
@@ -106,7 +109,7 @@ em respond --review --count 3
 
 ```zsh
 em respond -R --count 3
-```
+```bash
 
 **Expected:** Same behavior as `em respond --review --count 3`.
 
@@ -127,7 +130,7 @@ em respond --review --count 1
 # → Y to review
 # → Edit draft in $EDITOR if needed
 # → y to send
-```
+```diff
 
 **Expected:**
 - Draft opens in $EDITOR with cached content
@@ -142,7 +145,7 @@ em respond --review --count 1
 
 ```zsh
 em respond --dry-run --count 3
-```
+```diff
 
 **Expected:**
 - Classifies emails with category icons
@@ -156,7 +159,7 @@ em respond --dry-run --count 3
 
 ```zsh
 em respond --help
-```
+```diff
 
 **Verify these lines appear:**
 - `em respond --review|-R  Review/send cached drafts (skip classification)`
@@ -173,7 +176,7 @@ em respond --review --folder Sent --count 5
 
 # Review with custom count
 em respond -R -n 10
-```
+```bash
 
 **Expected:** Flags combine correctly, no errors.
 

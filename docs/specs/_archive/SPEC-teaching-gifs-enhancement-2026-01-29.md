@@ -95,22 +95,26 @@ This specification addresses readability and quality issues in teaching workflow
 ### 1.3 Identified Issues
 
 #### Issue 1: Inconsistent Font Sizes
+
 - **Critical:** 6 tapes use 14px (too small for comfortable reading)
 - **Moderate:** 4 tapes use 16px (borderline readability)
 - **Good:** 10 tapes use 18px (recommended minimum)
 
 #### Issue 2: ZSH Syntax Errors in VHS Tapes
+
 **Root cause:** Using `Type "# Comment"` in VHS tapes causes ZSH to interpret `#` as command
 
 **Example from `teaching-git-workflow.tape`:**
+
 ```bash
 Type "# Phase 1: Smart Post-Generation" Enter  # ❌ WRONG
-```
+```text
 
 **Correct approach (from v3.0 tutorials):**
+
 ```bash
 Type "echo 'Phase 1: Smart Post-Generation'" Enter  # ✅ CORRECT
-```
+```diff
 
 **Affected tapes:**
 - `teaching-git-workflow.tape` - 60+ problematic lines
@@ -118,11 +122,13 @@ Type "echo 'Phase 1: Smart Post-Generation'" Enter  # ✅ CORRECT
 - `first-session.tape` - 14 problematic lines
 
 #### Issue 3: File Size Optimization
+
 - **Current total:** 7.7MB for 13 GIFs
 - **Potential savings:** 30-40% via `gifsicle -O3` optimization
 - **Target total:** ~5MB (2.7MB reduction)
 
 #### Issue 4: Lack of Standards Documentation
+
 - No central style guide for VHS tape creation
 - Inconsistent terminal dimensions (600px vs 900px height)
 - Varying playback speeds and typing speeds
@@ -165,21 +171,25 @@ Type "echo 'Phase 1: Smart Post-Generation'" Enter  # ✅ CORRECT
 ### 3.1 Functional Requirements
 
 #### FR-1: Font Size Standardization
+
 - **MUST:** All teaching workflow GIFs use minimum 18px font
 - **SHOULD:** Non-teaching GIFs (dispatchers, core demos) use minimum 16px font
 - **MUST:** Update all VHS tapes to set `FontSize 18` (or 16 for non-teaching)
 
 #### FR-2: Syntax Correction
+
 - **MUST:** Replace all `Type "#..."` with `Type "echo '...'"` in VHS tapes
 - **MUST:** Verify corrected tapes generate error-free GIFs
 - **SHOULD:** Add comments explaining why `echo` is required
 
 #### FR-3: File Size Optimization
+
 - **MUST:** Run `gifsicle -O3` on all GIFs after generation
 - **MUST:** Reduce total size by 30% minimum (target: 5MB or less)
 - **SHOULD:** Document optimization steps in generation scripts
 
 #### FR-4: Dimension Standardization
+
 - **MUST:** Use consistent terminal dimensions per category:
   - Teaching tutorials: 1400x900
   - Dispatcher demos: 1200x800
@@ -189,16 +199,19 @@ Type "echo 'Phase 1: Smart Post-Generation'" Enter  # ✅ CORRECT
 ### 3.2 Non-Functional Requirements
 
 #### NFR-1: Automation
+
 - **MUST:** Create validation script to check VHS tape syntax before generation
 - **SHOULD:** Add pre-commit hook to validate tape files
 - **COULD:** Add CI/CD step to validate GIF quality
 
 #### NFR-2: Documentation
+
 - **MUST:** Create VHS tape style guide with examples
 - **MUST:** Update `TEACHING-V3-GIFS-README.md` with new standards
 - **SHOULD:** Create troubleshooting guide for common VHS errors
 
 #### NFR-3: Maintainability
+
 - **MUST:** Version all VHS tapes in git
 - **MUST:** Document regeneration process
 - **SHOULD:** Create helper scripts for batch operations
@@ -215,7 +228,7 @@ Type "echo 'Phase 1: Smart Post-Generation'" Enter  # ✅ CORRECT
 
 ### 4.1 Architecture Overview
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                  VHS Tape Quality Pipeline                  │
 └─────────────────────────────────────────────────────────────┘
@@ -240,7 +253,7 @@ Type "echo 'Phase 1: Smart Post-Generation'" Enter  # ✅ CORRECT
             ├─ File size within target range
             ├─ No visual artifacts
             └─ Update inventory documentation
-```
+```zsh
 
 ### 4.2 VHS Tape Standards (NEW)
 
@@ -280,7 +293,7 @@ Sleep 1s
 # Cleanup
 Type "echo '✓ Demo complete!'" Enter
 Sleep 2s
-```
+```zsh
 
 **Standard template for dispatcher demos:**
 
@@ -309,7 +322,7 @@ Type "echo '<Dispatcher> Demo'" Enter
 Sleep 1s
 
 # Your demo commands here...
-```
+```bash
 
 ### 4.3 Validation Script Design
 
@@ -400,7 +413,7 @@ echo "Results: $PASSED/$TOTAL passed, $FAILED/$TOTAL failed"
 if [[ $FAILED -gt 0 ]]; then
     exit 1
 fi
-```
+```bash
 
 ### 4.4 Batch Generation Script Enhancement
 
@@ -445,7 +458,7 @@ done
 
 echo
 echo "✓ All GIFs generated and optimized!"
-```
+```bash
 
 ### 4.5 Pre-Commit Hook
 
@@ -467,7 +480,7 @@ if git diff --cached --name-only | grep -q '\.tape$'; then
 fi
 
 exit 0
-```
+```text
 
 ---
 
@@ -475,7 +488,7 @@ exit 0
 
 ### 5.1 Phases Overview
 
-```
+```text
 Phase 1: Fix Critical Issues (Week 1)
 ├─ Fix font sizes in all tapes (14px → 18px)
 ├─ Fix ZSH syntax errors in 3 problem tapes
@@ -498,7 +511,7 @@ Phase 4: Verification & Rollout (Week 4)
 ├─ Update documentation site
 ├─ Archive old GIFs
 └─ Announce improvements
-```
+```diff
 
 ### 5.2 Detailed Task Breakdown
 
@@ -547,11 +560,13 @@ Phase 4: Verification & Rollout (Week 4)
 **Task 2.2: Optimize File Sizes (1 hour)**
 - [ ] Install gifsicle: `brew install gifsicle`
 - [ ] Batch optimize all GIFs:
+
   ```bash
   for gif in docs/demos/**/*.gif; do
       gifsicle -O3 "$gif" -o "$gif"
   done
   ```
+
 - [ ] Document size reductions
 - [ ] Verify no quality loss
 
@@ -763,24 +778,27 @@ Phase 4: Verification & Rollout (Week 4)
 ### 9.2 Common VHS Tape Pitfalls
 
 **Problem 1: Comment Syntax**
+
 ```bash
 # ❌ WRONG - causes ZSH error
 Type "# This is a comment" Enter
 
 # ✅ CORRECT - works in ZSH
 Type "echo 'This is a comment'" Enter
-```
+```bash
 
 **Problem 2: Quote Escaping**
+
 ```bash
 # ❌ WRONG - VHS parser error
 Type "teach exam \"Topic\" --template foo" Enter
 
 # ✅ CORRECT - use single quotes
 Type "teach exam 'Topic' --template foo" Enter
-```
+```zsh
 
 **Problem 3: Missing Shell Initialization**
+
 ```bash
 # ✅ ALWAYS source flow-cli at start
 Hide

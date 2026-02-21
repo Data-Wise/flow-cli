@@ -11,22 +11,26 @@
 ## Options Considered
 
 ### Option A: Test-Only
+
 - `tests/test-help-compliance.zsh`
 - CI catches regressions
 - **Rejected:** No on-demand check for developers
 
 ### Option B: CLI-Only (`flow doctor --help-check`)
+
 - Visual pass/fail per dispatcher
 - ADHD-friendly colored output
 - **Rejected:** No CI protection
 
 ### Option C: Both (Shared Core) ✅ SELECTED
+
 - `lib/help-compliance.zsh` shared validation
 - Tests call it -> CI protection
 - `flow doctor` calls it -> on-demand check
 - Single source of truth for rules
 
 ### Option D: Pre-commit Hook
+
 - Block commits breaking standards
 - **Rejected:** Annoying, slows commits
 

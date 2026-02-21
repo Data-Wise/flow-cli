@@ -30,7 +30,7 @@ Check only GitHub token health (isolated mode).
 
 ```bash
 doctor --dot [--verbose | --quiet]
-```
+```diff
 
 **Behavior:**
 - Skips all non-token health checks (tools, aliases, etc.)
@@ -54,7 +54,7 @@ doctor --dot --verbose
 
 # Minimal output
 doctor --dot --quiet
-```
+```diff
 
 **Exit Codes:**
 - `0` - All tokens valid
@@ -71,7 +71,7 @@ Check specific token by provider name.
 
 ```bash
 doctor --dot=<provider> [--verbose | --quiet]
-```
+```diff
 
 **Supported Providers:**
 - `github` - GitHub token (from DOT)
@@ -86,7 +86,7 @@ doctor --dot=github
 
 # Check NPM token (when available)
 doctor --dot=npm
-```
+```diff
 
 **Exit Codes:**
 - `0` - Token valid
@@ -103,7 +103,7 @@ Fix token issues only (shows category menu).
 
 ```bash
 doctor --fix-token [--yes] [--verbose | --quiet]
-```
+```diff
 
 **Behavior:**
 - Shows ADHD-friendly category selection menu
@@ -113,7 +113,7 @@ doctor --fix-token [--yes] [--verbose | --quiet]
 
 **Menu Example:**
 
-```
+```sql
 ╭─ Select Category to Fix ────────────────────────╮
 │                                                  │
 │  1. 🔑 GitHub Token (2 issues, ~30s)            │
@@ -123,14 +123,14 @@ doctor --fix-token [--yes] [--verbose | --quiet]
 ╰──────────────────────────────────────────────────╯
 
 Select [1, 0 to exit]:
-```
+```bash
 
 **With --yes flag:**
 
 ```bash
 # Auto-fix without menu
 doctor --fix-token --yes
-```
+```diff
 
 **Exit Codes:**
 - `0` - Fix successful
@@ -151,7 +151,7 @@ Minimal output (errors only).
 
 ```bash
 doctor --dot --quiet
-```
+```diff
 
 **Output:**
 - Only shows critical errors
@@ -166,7 +166,7 @@ Detailed debug output.
 
 ```bash
 doctor --dot --verbose
-```
+```diff
 
 **Output:**
 - Shows cache hit/miss status
@@ -176,11 +176,11 @@ doctor --dot --verbose
 
 **Example Output:**
 
-```
+```bash
 🔑 GITHUB TOKEN
 [Cache hit - age: 45s, TTL: 300s]
 ✓ Token valid (45 days remaining)
-```
+```diff
 
 ---
 
@@ -209,7 +209,7 @@ Initialize cache directory and cleanup old entries.
 
 ```zsh
 _doctor_cache_init
-```
+```diff
 
 **Behavior:**
 - Creates `~/.flow/cache/doctor/` if missing
@@ -225,7 +225,7 @@ _doctor_cache_init
 ```zsh
 # Initialize cache (called automatically by doctor)
 _doctor_cache_init 2>/dev/null
-```
+```text
 
 ---
 
@@ -237,7 +237,7 @@ Retrieve cached value if fresh (< 5 min).
 
 ```zsh
 _doctor_cache_get <key>
-```
+```diff
 
 **Arguments:**
 - `key` - Cache key (e.g., "token-github")
@@ -258,7 +258,7 @@ if cached=$(_doctor_cache_get "token-github"); then
 else
     echo "Cache miss - fetching fresh data"
 fi
-```
+```text
 
 **Cache Format:**
 
@@ -277,7 +277,7 @@ fi
     "token_type": "fine-grained"
   }
 }
-```
+```text
 
 ---
 
@@ -289,7 +289,7 @@ Store value in cache with TTL.
 
 ```zsh
 _doctor_cache_set <key> <value> [ttl]
-```
+```diff
 
 **Arguments:**
 - `key` - Cache key (e.g., "token-github")
@@ -308,7 +308,7 @@ _doctor_cache_set "token-github" "$json_data"
 
 # Cache for 10 minutes
 _doctor_cache_set "token-github" "$json_data" 600
-```
+```diff
 
 **Atomicity:**
 - Uses temp file + `mv` for atomic writes
@@ -324,7 +324,7 @@ Clear specific entry or entire cache.
 
 ```zsh
 _doctor_cache_clear [key]
-```
+```diff
 
 **Arguments:**
 - `key` - (optional) Specific cache key to clear
@@ -345,7 +345,7 @@ _doctor_cache_clear "token-github"
 
 # Clear all cache
 _doctor_cache_clear
-```
+```diff
 
 **Use Cases:**
 - After token rotation (invalidate cache)
@@ -362,11 +362,11 @@ Show cache statistics and entries.
 
 ```zsh
 _doctor_cache_stats
-```
+```text
 
 **Output:**
 
-```
+```text
 Cache Statistics:
   Directory: ~/.flow/cache/doctor
   Total entries: 3
@@ -376,7 +376,7 @@ Cached Entries:
   token-github    45s ago    valid (45 days remaining)
   token-npm       120s ago   valid (60 days remaining)
   token-pypi      200s ago   expired
-```
+```diff
 
 **Returns:**
 - `0` - Always succeeds
@@ -393,7 +393,7 @@ Get cached token validation result.
 
 ```zsh
 _doctor_cache_token_get <provider>
-```
+```diff
 
 **Arguments:**
 - `provider` - Token provider (e.g., "github", "npm")
@@ -408,7 +408,7 @@ _doctor_cache_token_get <provider>
 if result=$(_doctor_cache_token_get "github"); then
     echo "Cached: $result"
 fi
-```
+```text
 
 ---
 
@@ -420,7 +420,7 @@ Cache token validation result.
 
 ```zsh
 _doctor_cache_token_set <provider> <value> [ttl]
-```
+```diff
 
 **Arguments:**
 - `provider` - Token provider
@@ -431,7 +431,7 @@ _doctor_cache_token_set <provider> <value> [ttl]
 
 ```zsh
 _doctor_cache_token_set "github" "$validation_json" 300
-```
+```text
 
 ---
 
@@ -443,14 +443,14 @@ Clear token cache.
 
 ```zsh
 _doctor_cache_token_clear <provider>
-```
+```bash
 
 **Example:**
 
 ```zsh
 # After token rotation
 _doctor_cache_token_clear "github"
-```
+```text
 
 ---
 
@@ -466,7 +466,7 @@ Display ADHD-friendly category selection menu.
 
 ```zsh
 _doctor_select_fix_category
-```
+```diff
 
 **Returns:**
 - `0` - Category selected (prints to stdout)
@@ -492,7 +492,7 @@ Count categories with issues.
 
 ```zsh
 _doctor_count_categories
-```
+```diff
 
 **Returns:**
 - Count of categories with issues (stdout)
@@ -507,7 +507,7 @@ Route fixes to appropriate handlers.
 
 ```zsh
 _doctor_apply_fixes <category>
-```
+```diff
 
 **Arguments:**
 - `category` - Category to fix ("tokens", "tools", "aliases", "all")
@@ -541,7 +541,7 @@ Log in normal and verbose modes.
 
 ```zsh
 _doctor_log_quiet "Processing request..."
-```
+```diff
 
 **Output:**
 - Quiet mode: Suppressed
@@ -558,7 +558,7 @@ Log only in verbose mode.
 
 ```zsh
 _doctor_log_verbose "Cache hit: 45s old"
-```
+```diff
 
 **Output:**
 - Quiet mode: Suppressed
@@ -575,7 +575,7 @@ Always log (critical messages).
 
 ```zsh
 _doctor_log_always "Error: Token validation failed"
-```
+```diff
 
 **Output:**
 - All modes: Shown
@@ -657,7 +657,7 @@ interface TokenValidation {
     }
   }
 }
-```
+```text
 
 **Example:**
 
@@ -681,7 +681,7 @@ interface TokenValidation {
     }
   }
 }
-```
+```bash
 
 ---
 
@@ -707,7 +707,7 @@ export DOCTOR_CACHE_LOCK_TIMEOUT=1
 
 # Custom cache directory
 export DOCTOR_CACHE_DIR="/tmp/flow-cache"
-```
+```bash
 
 ---
 
@@ -723,7 +723,7 @@ doctor
 
 # Fix everything
 doctor --fix
-```
+```bash
 
 **New workflow (Phase 1):**
 

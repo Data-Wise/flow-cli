@@ -15,7 +15,7 @@ dash [option|category]
 dash -i          # Interactive fzf picker
 dash -w          # Watch mode (auto-refresh every 5s)
 dash -a          # Show all projects (flat list)
-```
+```bash
 
 **Quick examples:**
 
@@ -37,7 +37,7 @@ dash -w 10        # Refresh every 10s
 
 # Show all projects (flat list)
 dash -a
-```
+```diff
 
 ---
 
@@ -90,7 +90,7 @@ flowchart LR
 
     style A fill:#4CAF50,stroke:#2E7D32,color:#fff
     style D fill:#2196F3,stroke:#1565C0,color:#fff
-```
+```text
 
 **In plain words:** Input → Scan → Organize → Display
 
@@ -199,7 +199,7 @@ flowchart TD
     style DisplayPaused fill:#FFF9C4,stroke:#F57F17
     style DisplayBlocked fill:#FFCDD2,stroke:#C62828
     style End fill:#4CAF50,stroke:#2E7D32,color:#fff
-```
+```diff
 
 </details>
 
@@ -292,7 +292,7 @@ Auto-refresh the dashboard:
 ```bash
 dash --watch        # Refresh every 5 seconds
 dash --watch 10     # Custom interval (seconds)
-```
+```text
 
 ### Interactive TUI
 
@@ -310,14 +310,14 @@ Enhanced keyboard shortcuts in `dash -i`:
 
 The dashboard now shows recent wins and streak:
 
-```
+```text
 ┌─ 🎉 Recent Wins ─────────────────────────────────────────────┐
 │ 🎯 Daily Goal: ██████░░░░ 2/3                                │
 │                                                              │
 │ 💻 Implemented auth service              14:20               │
 │ 🔧 Fixed login redirect bug              11:45               │
 └──────────────────────────────────────────────────────────────┘
-```
+```text
 
 See [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md) for details.
 
@@ -329,11 +329,11 @@ See [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md) for details.
 
 ```bash
 $ dash
-```
+```text
 
 **Output:**
 
-```
+```text
 🔄 Updating project coordination...
   ✓ Synced 12 .STATUS files to project-hub
   ✓ Updated coordination timestamp: 2025-12-22 15:30:45
@@ -362,7 +362,7 @@ $ dash
    work <name>         Start working on a project
    status <name>       Update project status
    dash teaching       Filter by category
-```
+```text
 
 ---
 
@@ -370,11 +370,11 @@ $ dash
 
 ```bash
 $ dash teaching
-```
+```text
 
 **Output:**
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │ 🎯 TEACHING DASHBOARD                       │
 ╰─────────────────────────────────────────────╯
@@ -391,7 +391,7 @@ $ dash teaching
    work <name>         Start working on a project
    status <name>       Update project status
    dash                Show all projects
-```
+```text
 
 ---
 
@@ -399,11 +399,11 @@ $ dash teaching
 
 ```bash
 $ dash dev
-```
+```text
 
 **Output:**
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │ 🎯 DEV-TOOLS DASHBOARD                      │
 ╰─────────────────────────────────────────────╯
@@ -412,7 +412,7 @@ No projects found with .STATUS files
 
 💡 Tip: Create .STATUS files with:
    status <project> --create
-```
+```yaml
 
 ---
 
@@ -444,16 +444,16 @@ quick_win: yes
 # Option 2: Set estimate under 30 minutes
 estimate: 15m
 estimate: 20min
-```
+```text
 
 ### Display
 
-```
+```text
   ⚡ QUICK WINS (< 30 min)
   ├─ ⚡ flow-cli      Fix typo in docs          ~15m
   ├─ 🔥 medfit       Update version number     ~10m
   └─ ⏰ stat-440     Post grades               ~20m
-```
+```yaml
 
 ---
 
@@ -478,7 +478,7 @@ deadline: 2025-12-27
 
 # Or via priority
 priority: 1 # Maps to high urgency
-```
+```yaml
 
 ---
 
@@ -489,7 +489,7 @@ priority: 1 # Maps to high urgency
 - `.STATUS` files in project directories
 - Format: Key-value pairs with fields
 
-  ```
+  ```yaml
   status: active
   priority: P0
   progress: 45
@@ -517,18 +517,18 @@ packages  → ~/projects/r-packages
 dev       → ~/projects/dev-tools
 quarto    → ~/projects/quarto
 all       → ~/projects (root)
-```
+```text
 
 ### Status Mapping
 
 The command recognizes these status values (case-insensitive):
 
-```
+```text
 Active:  active, working, in progress
 Ready:   ready, todo, planned
 Paused:  paused, hold, waiting
 Blocked: blocked
-```
+```diff
 
 ---
 
@@ -568,7 +568,7 @@ The `dash` command follows these ADHD-friendly principles:
 # Create .STATUS file in project directory
 cd ~/projects/my-project
 status . --create
-```
+```bash
 
 ---
 
@@ -581,7 +581,7 @@ status . --create
 ```bash
 # Create project-hub manually
 mkdir -p ~/projects/project-hub
-```
+```bash
 
 ---
 

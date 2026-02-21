@@ -131,12 +131,14 @@ Sleep 1s
 **Problem:** Using `Type "# Comment"` causes ZSH to interpret `#` as a command, generating errors.
 
 **❌ WRONG:**
+
 ```bash
 Type "# Phase 1: Smart Post-Generation" Enter
 Type "#   1) Review in editor, then commit" Enter
 ```
 
 **✅ CORRECT:**
+
 ```bash
 Type "echo 'Phase 1: Smart Post-Generation'" Enter
 Type "echo '  1) Review in editor, then commit'" Enter
@@ -165,18 +167,21 @@ Set Shell zsh
 Use consistent dimensions per category:
 
 **Teaching Tutorials:**
+
 ```bash
 Set Width 1400
 Set Height 900
 ```
 
 **Dispatcher Demos:**
+
 ```bash
 Set Width 1200
 Set Height 800
 ```
 
 **Quick Demos:**
+
 ```bash
 Set Width 1200
 Set Height 600
@@ -189,11 +194,13 @@ Set Height 600
 ### Pitfall 1: Quote Escaping
 
 **❌ WRONG:**
+
 ```bash
 Type "teach exam \"Midterm 1\" --template foo" Enter
 ```
 
 **✅ CORRECT:**
+
 ```bash
 Type "teach exam 'Midterm 1' --template foo" Enter
 ```
@@ -203,12 +210,14 @@ Type "teach exam 'Midterm 1' --template foo" Enter
 ### Pitfall 2: Missing Shell Initialization
 
 **❌ WRONG:**
+
 ```bash
 # Starting demo without sourcing flow-cli
 Type "teach status" Enter
 ```
 
 **✅ CORRECT:**
+
 ```bash
 Hide
 Type "source ~/projects/dev-tools/flow-cli/flow.plugin.zsh" Enter
@@ -223,11 +232,13 @@ Type "teach status" Enter
 ### Pitfall 3: Typing Single `#` Character
 
 **This is OKAY:**
+
 ```bash
 Type "#" Enter  # Just typing the character for visual separation
 ```
 
 **This is NOT okay:**
+
 ```bash
 Type "# This is a comment" Enter  # ❌ Should use echo
 ```

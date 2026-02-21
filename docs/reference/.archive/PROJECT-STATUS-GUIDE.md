@@ -14,7 +14,7 @@ status: active           # Current state
 progress: 75            # 0-100 completion
 next: Implement auth    # Next action
 target: v2.0.0          # Goal/milestone
-```
+```diff
 
 **Where it's used:**
 - `dash` - Shows status in project dashboard
@@ -34,7 +34,7 @@ flow-cli looks for `.STATUS` in:
 ~/projects/dev-tools/flow-cli/.STATUS       # Project root
 ~/projects/research/mediation/.STATUS       # Project root
 ~/projects/teaching/stat-440/.STATUS        # Project root
-```
+```diff
 
 **Not searched:**
 - Subdirectories (`.STATUS` must be at project root)
@@ -66,7 +66,7 @@ The `status:` field determines the project state:
 
 ```bash
 cat .STATUS
-```
+```bash
 
 **Programmatic (in ZSH functions):**
 
@@ -79,14 +79,14 @@ if [[ -f "$root/.STATUS" ]]; then
     status=$(grep "^status:" "$root/.STATUS" | cut -d: -f2 | xargs)
     echo "Project status: $status"
 fi
-```
+```text
 
 **Via dashboard:**
 
 ```bash
 dash              # Shows all projects with status
 dash research     # Filter by category
-```
+```yaml
 
 ---
 
@@ -99,7 +99,7 @@ status: active
 progress: 60
 next: Add tests for new API
 target: v2.1.0
-```
+```yaml
 
 **Fields:**
 
@@ -121,7 +121,7 @@ status: active
 progress: 75
 next: Implement authentication middleware
 target: v2.0.0 release
-```
+```text
 
 **Paused (waiting):**
 
@@ -130,7 +130,7 @@ status: paused
 progress: 40
 next: Wait for API review feedback
 target: Launch by Q2
-```
+```text
 
 **Blocked:**
 
@@ -139,7 +139,7 @@ status: blocked
 progress: 30
 next: Need design approval from team
 target: MVP
-```
+```text
 
 **Archived:**
 
@@ -148,7 +148,7 @@ status: archived
 progress: 100
 next: N/A
 target: Completed - migrated to new repo
-```
+```yaml
 
 ---
 
@@ -170,7 +170,7 @@ last-updated: 2026-01-10
 notes: |
   Waiting for code review on PR #234.
   Database migration needs testing.
-```
+```bash
 
 **Note:** flow-cli only reads `status`, `progress`, `next`, and `target`. Other fields are ignored but preserved.
 
@@ -189,7 +189,7 @@ progress: 0
 next: Initialize project structure
 target: v0.1.0
 EOF
-```
+```yaml
 
 ---
 
@@ -209,7 +209,7 @@ target: TBD
 EOF
     echo "✅ Created .STATUS with status: $status"
 }
-```
+```bash
 
 **Usage:**
 
@@ -217,7 +217,7 @@ EOF
 cd my-project
 new_status active
 # → Creates .STATUS file
-```
+```bash
 
 ---
 
@@ -231,7 +231,7 @@ work new-project
 
 # If .STATUS doesn't exist, work prompts:
 # "No .STATUS file found. Create one? [y/N]"
-```
+```text
 
 ---
 
@@ -243,21 +243,21 @@ work new-project
 
 ```bash
 vim .STATUS
-```
+```bash
 
 **Quick edit with bat:**
 
 ```bash
 bat .STATUS             # View
 $EDITOR .STATUS         # Edit
-```
+```bash
 
 **Inline update (status only):**
 
 ```bash
 # Change status to paused
 sed -i '' 's/^status:.*/status: paused/' .STATUS
-```
+```bash
 
 ---
 
@@ -272,14 +272,14 @@ finish "Completed authentication"
 # "Update status? [y/N]"
 # "New status (active/paused/blocked/archived): paused"
 # "Update progress (0-100): 75"
-```
+```bash
 
 **Update via work command:**
 
 ```bash
 work --status paused
 # Updates .STATUS to paused before starting session
-```
+```bash
 
 ---
 
@@ -302,7 +302,7 @@ update_project_status() {
 
 # Usage
 update_project_status paused
-```
+```text
 
 ---
 
@@ -320,7 +320,7 @@ The `dash` command scans all project directories and reads `.STATUS` files:
 
 **Example output:**
 
-```
+```text
 ┌─────────────────┬────────┬──────────┬─────────────────────┬───────────┐
 │ Project         │ Status │ Progress │ Next                │ Target    │
 ├─────────────────┼────────┼──────────┼─────────────────────┼───────────┤
@@ -329,7 +329,7 @@ The `dash` command scans all project directories and reads `.STATUS` files:
 │ research-study  │ 🟡     │ 40%      │ Wait for IRB        │ Submit Q2 │
 │ old-prototype   │ ⚫     │ 100%     │ Archived            │ Completed │
 └─────────────────┴────────┴──────────┴─────────────────────┴───────────┘
-```
+```text
 
 **Filtering:**
 
@@ -338,7 +338,7 @@ dash                  # All projects
 dash --active         # Only active (🟢)
 dash --paused         # Only paused (🟡)
 dash dev              # Category filter
-```
+```text
 
 ---
 
@@ -348,7 +348,7 @@ The `dash --inventory` command auto-generates tool inventory from `.STATUS` file
 
 ```bash
 dash --inventory
-```
+```diff
 
 **Output:**
 
@@ -364,7 +364,7 @@ dash --inventory
 
 ## Archived (1)
 - old-prototype - Completed (100%) - Legacy system
-```
+```bash
 
 ---
 
@@ -378,7 +378,7 @@ dash --inventory
 # Update after major milestones
 vim .STATUS
 # Change: progress: 60 → 75
-```
+```bash
 
 **2. Use descriptive "next" actions**
 
@@ -388,7 +388,7 @@ next: Write unit tests for API endpoints
 
 # Bad
 next: TODO
-```
+```bash
 
 **3. Set realistic targets**
 
@@ -398,14 +398,14 @@ target: v2.0.0 release (March 2026)
 
 # Bad
 target: Soon
-```
+```bash
 
 **4. Commit .STATUS to git**
 
 ```bash
 git add .STATUS
 git commit -m "docs: update project status to active"
-```
+```yaml
 
 ---
 
@@ -424,7 +424,7 @@ status: active
 status: paused
 status: blocked
 status: archived
-```
+```bash
 
 **2. Don't leave status files stale**
 
@@ -439,7 +439,7 @@ next: Start project
 status: active
 progress: 80
 next: Final code review
-```
+```diff
 
 **3. Don't skip .STATUS files**
 - Every project should have one
@@ -471,7 +471,7 @@ EOF
         fi
     fi
 }
-```
+```bash
 
 ---
 
@@ -494,7 +494,7 @@ for status_file in ~/projects/**/.STATUS; do
         echo ""
     fi
 done
-```
+```bash
 
 ---
 
@@ -519,7 +519,7 @@ case "$status" in
         gh repo archive
         ;;
 esac
-```
+```sql
 
 ---
 
@@ -539,7 +539,7 @@ Create `.vscode/settings.json`:
     "./status-schema.json": "**/.STATUS"
   }
 }
-```
+```text
 
 **Schema validation:** Create `status-schema.json`:
 
@@ -562,7 +562,7 @@ Create `.vscode/settings.json`:
   },
   "required": ["status"]
 }
-```
+```sql
 
 ---
 
@@ -578,7 +578,7 @@ cd ~/projects/dev-tools/flow-cli
 status=$(grep "^status:" .STATUS | cut -d: -f2 | xargs)
 progress=$(grep "^progress:" .STATUS | cut -d: -f2 | xargs)
 echo "flow-cli: $status ($progress%)"
-```
+```bash
 
 ---
 
@@ -594,7 +594,7 @@ echo "flow-cli: $status ($progress%)"
 cd project-dir
 ls -la .STATUS
 # → No such file
-```
+```bash
 
 **Solution:**
 
@@ -605,21 +605,21 @@ progress: 50
 next: Continue development
 target: v1.0.0
 EOF
-```
+```bash
 
 **Cause 2:** Invalid YAML syntax
 
 ```bash
 cat .STATUS
 # → status active  (missing colon)
-```
+```bash
 
 **Solution:**
 
 ```bash
 # Fix syntax
 echo "status: active" > .STATUS
-```
+```bash
 
 ---
 
@@ -632,7 +632,7 @@ echo "status: active" > .STATUS
 ```bash
 # Exit watch mode (Ctrl-C) and restart
 dash --watch
-```
+```bash
 
 ---
 
@@ -648,7 +648,7 @@ dash --watch
 # Copy main .STATUS to worktree
 cp ~/projects/dev-tools/flow-cli/.STATUS \
    ~/.git-worktrees/flow-cli/feature-branch/.STATUS
-```
+```yaml
 
 ---
 

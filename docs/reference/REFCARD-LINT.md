@@ -21,7 +21,7 @@ teach validate --lint
 
 # Run only Phase 1 quick checks
 teach validate --quick-checks file.qmd
-```
+```bash
 
 ### Combined Flags
 
@@ -34,7 +34,7 @@ teach validate --quick-checks
 
 # Skip external validators
 teach validate --lint --skip-external file.qmd
-```
+```diff
 
 ---
 
@@ -60,7 +60,7 @@ teach validate --lint --skip-external file.qmd
 
 ::: {.callout-info}        ❌ Invalid
 ::: {.callout-danger}      ❌ Invalid
-```
+```text
 
 ---
 
@@ -71,24 +71,27 @@ teach validate --lint --skip-external file.qmd
 ```markdown
 ```{r}
 x <- 1
-```
+```text
 
 ```python
 print("Hello")
-```
+```text
 
 ```text
 Plain text
-```
-```
+```text
+
+```text
 
 ### ❌ Invalid (bare blocks)
 
 ```markdown
-```
+```text
+
 no language tag
-```
-```
+
+```text
+```diff
 
 ---
 
@@ -106,7 +109,7 @@ no language tag
 
 ### Success
 
-```
+```text
 → lint-shared (v1.0.0)
   ✓ All files passed
 
@@ -115,11 +118,11 @@ no language tag
   Files checked: 3
   Validators run: 1
   Time: 0s
-```
+```text
 
 ### With Errors
 
-```
+```text
 → lint-shared (v1.0.0)
   file.qmd:
     ✗ Line 7: LINT_CODE_LANG_TAG: Fenced code block without language tag
@@ -131,7 +134,7 @@ no language tag
   Files checked: 1
   Validators run: 1
   Time: 0s
-```
+```bash
 
 ---
 
@@ -148,7 +151,7 @@ if command -v teach &>/dev/null; then
         echo "$LINT_OUTPUT" | head -20
     fi
 fi
-```
+```diff
 
 **Note:** Lint runs automatically on commit but never blocks (warn-only mode).
 
@@ -170,18 +173,23 @@ fi
 ### Fix Bare Code Blocks
 
 **Before:**
+
 ```markdown
-```
+```text
+
 x <- 1
-```
-```
+
+```text
+```text
 
 **After:**
+
 ```markdown
 ```{r}
 x <- 1
-```
-```
+```text
+
+```text
 
 ### Fix Unbalanced Divs
 
@@ -189,24 +197,27 @@ x <- 1
 ```markdown
 ::: {.callout-note}
 Content
-```
+```text
 
 **After:**
+
 ```markdown
 ::: {.callout-note}
 Content
 :::
-```
+```bash
 
 ### Fix Skipped Headings
 
 **Before:**
+
 ```markdown
 # Section
 ### Subsection (skipped h2)
-```
+```bash
 
 **After:**
+
 ```markdown
 # Section
 ## Subsection

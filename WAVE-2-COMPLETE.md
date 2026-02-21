@@ -9,13 +9,13 @@
 
 Implemented complete parallel rendering system achieving **3-10x speedup** on multi-file Quarto rendering operations.
 
-```
+````yaml
 Serial:   12 files × 13s = 156s
 Parallel: 8 workers      = <50s  (3.1x speedup)
 
 Serial:   20 files × 8s = 160s
 Parallel: 8 workers     = <30s  (5.3x speedup)
-```
+```yaml
 
 ## Implementation Stats
 
@@ -51,9 +51,9 @@ Parallel: 8 workers     = <30s  (5.3x speedup)
 
 ### Test Files (1,120 lines)
 
-4. **tests/test-parallel-rendering-unit.zsh** (~550 lines, 39 tests)
-5. **tests/test-render-queue-unit.zsh** (~570 lines, 35 tests)
-6. **tests/run-wave-2-tests.sh** (test runner)
+1. **tests/test-parallel-rendering-unit.zsh** (~550 lines, 39 tests)
+2. **tests/test-render-queue-unit.zsh** (~570 lines, 35 tests)
+3. **tests/run-wave-2-tests.sh** (test runner)
 
 ## Test Results
 
@@ -84,7 +84,7 @@ Tests failed:       0
 All tests passed! ✓
 
 Wave 2 implementation is complete and ready for integration.
-```
+```diff
 
 ## Key Features Delivered
 
@@ -111,9 +111,9 @@ Wave 2 implementation is complete and ready for integration.
 
 ### 4. Real-Time Progress
 
-```
+```bash
 [████████░░░░] 67% (8/12) - 45s elapsed, ~22s remaining
-```
+```diff
 
 - Updates every 500ms
 - Accurate ETA calculation
@@ -164,7 +164,7 @@ Statistics:
   Failed: 0
   Total time: 45s
   Avg time: 3.8s per file
-```
+```diff
 
 ## Performance Characteristics
 
@@ -217,23 +217,23 @@ Multi-level strategy:
 
 **Traditional (FIFO):**
 
-```
+```text
 Worker 1: [fast][fast][fast][fast] ── idle ──
 Worker 2: [fast][fast][fast][fast] ── idle ──
 Worker 3: [====== slow ======][== slow ==]
 Worker 4: [====== slow ======][== slow ==]
 Total: ~25s (workers idle)
-```
+```text
 
 **Optimized (slowest-first):**
 
-```
+```text
 Worker 1: [====== slow ======][fast]
 Worker 2: [====== slow ======][fast]
 Worker 3: [== slow ==][fast][fast]
 Worker 4: [== slow ==][fast][fast]
 Total: ~16s (better utilization)
-```
+```diff
 
 ### History Cache
 
@@ -269,7 +269,7 @@ Add flags:
 ```zsh
 teach validate lectures/*.qmd --parallel
 teach validate lectures/*.qmd --parallel --workers 4
-```
+```bash
 
 ### 2. Modify validation-helpers.zsh
 
@@ -285,7 +285,7 @@ else
         quarto render "$file"
     done
 fi
-```
+```bash
 
 ### 3. Error Fallback Strategy
 
@@ -294,7 +294,7 @@ if ! _parallel_render --workers 8 -- "${files[@]}"; then
     echo "Parallel rendering failed, falling back to serial..."
     # Serial retry
 fi
-```
+```diff
 
 ### 4. Documentation Updates
 
@@ -314,7 +314,7 @@ fi
 
 All files are in the `feature/quarto-workflow` branch:
 
-```
+```bash
 lib/
 ├── parallel-helpers.zsh      # Main orchestrator
 ├── render-queue.zsh           # Queue optimization
@@ -328,7 +328,7 @@ tests/
 docs/
 ├── WAVE-2-IMPLEMENTATION-SUMMARY.md  # Detailed docs
 └── WAVE-2-COMPLETE.md                # This file
-```
+````
 
 ## Success Metrics
 

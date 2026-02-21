@@ -67,7 +67,7 @@ git push origin docs/adhd-friendly-enhancements
 
 ## File Structure Overview
 
-````
+````text
 flow-cli/
 ├── docs/
 │   ├── getting-started/

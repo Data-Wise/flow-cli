@@ -75,7 +75,7 @@ flowchart TB
     TEACH -.->|uses| SCHOLAR
     DISP -.->|optional| ATLASEXT
     MCP -.->|manages| MCPSERV
-```
+```text
 
 ---
 
@@ -83,7 +83,7 @@ flowchart TB
 
 ### Layer 1: Entry Point
 
-```
+```zsh
 flow.plugin.zsh
 ├── Sources lib/core.zsh (utilities, colors, logging)
 ├── Sources lib/*.zsh (helper libraries)
@@ -91,7 +91,7 @@ flow.plugin.zsh
 ├── Sources commands/*.zsh (core commands)
 ├── Sets up completions
 └── Initializes hooks
-```
+```text
 
 ### Layer 2: Dispatchers (Smart Commands)
 
@@ -107,7 +107,7 @@ flowchart LR
         CASE --> |help| HELP[_dispatcher_help]
         CASE --> |*| DEFAULT[show help]
     end
-```
+```text
 
 **Active Dispatchers:**
 
@@ -154,7 +154,7 @@ flowchart TB
         INV[inventory.zsh]
         HELP[help-browser.zsh]
     end
-```
+```text
 
 ---
 
@@ -183,7 +183,7 @@ sequenceDiagram
     W->>A: End session
     A->>S: Clear state
     W->>U: Session ended
-```
+```text
 
 ### Teaching Workflow
 
@@ -209,13 +209,13 @@ flowchart LR
 
     D --> E
     G --> E
-```
+```text
 
 ---
 
 ## File Organization
 
-```
+```zsh
 flow-cli/
 ├── flow.plugin.zsh          # Entry point
 │
@@ -263,7 +263,7 @@ flow-cli/
     ├── guides/
     ├── reference/
     └── commands/
-```
+```text
 
 ---
 

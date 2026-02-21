@@ -28,7 +28,7 @@ quarto --version
 
 # Check git
 git config user.name
-```
+```diff
 
 ---
 
@@ -68,7 +68,7 @@ graph LR
     style F fill:#0366d6,color:#fff
     style G fill:#0366d6,color:#fff
     style H fill:#28a745,color:#fff
-```
+```bash
 
 ---
 
@@ -80,14 +80,14 @@ graph LR
 # Create a new directory for your course
 mkdir stat-201-spring-2026
 cd stat-201-spring-2026
-```
+```bash
 
 ### Step 1.2: Initialize Teaching Project
 
 ```bash
 # Initialize with interactive setup
 teach init "STAT-201"
-```
+```diff
 
 **What this does:**
 - Creates `.flow/teach-config.yml` with default settings
@@ -96,7 +96,8 @@ teach init "STAT-201"
 - Commits the initial configuration
 
 **Example output:**
-```
+
+```text
 🎓 Initializing Teaching Project
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -110,7 +111,7 @@ teach init "STAT-201"
     1. Review config: teach config
     2. Check environment: teach doctor
     3. Generate content: teach exam "Topic"
-```
+```text
 
 ### Step 1.3: Initialize with Templates (Optional)
 
@@ -118,7 +119,7 @@ If you prefer working with content templates:
 
 ```bash
 teach init "STAT-201" --with-templates
-```
+```diff
 
 This adds:
 - `.flow/templates/content/` - Content starters (lecture, lab, slides)
@@ -134,7 +135,7 @@ ls -la .flow/teach-config.yml
 
 # Should show: .flow/teach-config.yml exists
 # If not, run: teach init again
-```
+```bash
 
 **Expected result:** `.flow/teach-config.yml` file exists
 
@@ -147,7 +148,7 @@ ls -la .flow/teach-config.yml
 ```bash
 # Open config in your default editor
 teach config
-```
+```sql
 
 This opens `.flow/teach-config.yml` in your `$EDITOR` (defaults to `code` if not set).
 
@@ -191,7 +192,7 @@ backups:
     syllabi: archive         # Keep syllabus backups forever
     lectures: semester       # Delete lecture backups at semester end
   archive_dir: .flow/archives
-```
+```yaml
 
 ### Step 2.3: Add Scholar Settings (If Using AI)
 
@@ -205,7 +206,7 @@ scholar:
       - path: "_macros.qmd"
         format: "qmd"
     auto_discover: false
-```
+```yaml
 
 ### Step 2.4: Add Semester Calendar
 
@@ -216,7 +217,7 @@ semester_info:
   start_date: '2026-01-15'
   end_date: '2026-05-10'
   break_weeks: [9]  # Spring break
-```
+```bash
 
 ### ✅ Verification: Checkpoint 2
 
@@ -226,10 +227,11 @@ teach doctor
 
 # Expected output: All checks should be green
 # If errors, fix them: teach doctor --fix
-```
+```text
 
 **Expected result:**
-```
+
+```yaml
 ✅ Teaching Environment Status
 
 Course Configuration:
@@ -245,7 +247,7 @@ Git Setup:
 Dependencies:
   ✓ Quarto installed (v1.4.550)
   ✓ yq installed (v4.35.1)
-```
+```bash
 
 ---
 
@@ -258,7 +260,7 @@ Lesson plans define your weekly topics and serve as the source of truth for AI c
 ```bash
 # Create week 1 with conceptual style
 teach plan create 1 --topic "Introduction to Statistics" --style conceptual
-```
+```diff
 
 **What this does:**
 - Creates `.flow/lesson-plans.yml` (if it doesn't exist)
@@ -266,7 +268,8 @@ teach plan create 1 --topic "Introduction to Statistics" --style conceptual
 - Sets the pedagogical style for AI generation
 
 **Output:**
-```
+
+```text
 ✅ Created week 1: Introduction to Statistics
 
   Topic: Introduction to Statistics
@@ -274,7 +277,7 @@ teach plan create 1 --topic "Introduction to Statistics" --style conceptual
   Date: 2026-01-15 (auto-calculated from start_date)
 
   View: teach plan show 1
-```
+```bash
 
 ### Step 3.2: Create Multiple Weeks
 
@@ -287,7 +290,7 @@ teach plan create 3 --topic "Hypothesis Testing" --style rigorous
 
 # Week 4 - Applied style (real-world applications)
 teach plan create 4 --topic "Simple Linear Regression" --style applied
-```
+```bash
 
 ### Step 3.3: Understanding Styles
 
@@ -303,10 +306,11 @@ teach plan create 4 --topic "Simple Linear Regression" --style applied
 ```bash
 # List all weeks in a table
 teach plan list
-```
+```text
 
 **Output:**
-```
+
+```text
 Week | Topic                        | Style         | Date       | Status
 -----|------------------------------|---------------|------------|-------
 1    | Introduction to Statistics   | conceptual    | 2026-01-15 | ✓
@@ -315,7 +319,7 @@ Week | Topic                        | Style         | Date       | Status
 4    | Simple Linear Regression    | applied       | 2026-02-05 | ✓
 
 4 weeks defined, 0 gaps detected
-```
+```bash
 
 ### Step 3.5: View Week Details
 
@@ -325,7 +329,7 @@ teach plan show 1
 
 # Shortcut
 teach plan 1
-```
+```bash
 
 ### ✅ Verification: Checkpoint 3
 
@@ -337,7 +341,7 @@ cat .flow/lesson-plans.yml
 teach plan list
 
 # Expected: 4 weeks defined with no gaps
-```
+```bash
 
 **Expected result:** `.flow/lesson-plans.yml` exists with 4 week entries
 
@@ -356,14 +360,14 @@ If you initialized with `--with-templates`:
 teach templates new lecture week-01 --topic "Introduction"
 
 # This creates: lectures/week-01.qmd with boilerplate
-```
+```bash
 
 Then edit `lectures/week-01.qmd` in your editor:
 
 ```bash
 # Open for editing
 code lectures/week-01.qmd
-```
+```bash
 
 ### Option B: AI-Assisted Generation with Scholar
 
@@ -375,7 +379,7 @@ teach lecture 1
 
 # Or specify custom topic
 teach lecture 1 --topic "Getting Started with Statistics"
-```
+```diff
 
 **What this does:**
 - Reads lesson plan for week 1
@@ -385,7 +389,8 @@ teach lecture 1 --topic "Getting Started with Statistics"
 - Saves to `lectures/week-01.qmd`
 
 **Interactive prompts:**
-```
+
+```yaml
 📝 Generating lecture for Week 1...
 
 Topic: Introduction to Statistics
@@ -401,7 +406,7 @@ Include sections:
 Generating... (this takes 1-2 minutes)
 
 ✅ Created: lectures/week-01.qmd
-```
+```bash
 
 ### Step 4.3: Create Additional Content Types
 
@@ -414,7 +419,7 @@ teach assignment 1 --topic "Descriptive Statistics Lab"
 
 # Generate quiz
 teach quiz 1 --questions 10
-```
+```bash
 
 ### ✅ Verification: Checkpoint 4
 
@@ -426,7 +431,7 @@ ls -la lectures/week-01.qmd
 head -n 20 lectures/week-01.qmd
 
 # Expected: Valid Quarto document with YAML header
-```
+```bash
 
 **Expected result:** `lectures/week-01.qmd` exists with proper YAML frontmatter
 
@@ -442,10 +447,11 @@ teach templates list
 
 # Filter by type
 teach templates list --type content
-```
+```text
 
 **Output:**
-```
+
+```yaml
 📚 Available Templates
 
 Content Templates (.flow/templates/content/):
@@ -460,7 +466,7 @@ Prompt Templates (.flow/templates/prompts/):
   - quiz-prompt.md     (Quiz generation)
 
 Total: 7 templates (4 content, 3 prompts)
-```
+```bash
 
 ### Step 5.2: Create from Template
 
@@ -473,7 +479,7 @@ teach templates new lecture week-02 --topic "Probability"
 #   - {{TOPIC}} replaced with "Probability"
 #   - {{COURSE}} replaced with "STAT-201"
 #   - {{DATE}} auto-calculated
-```
+```bash
 
 ### Step 5.3: Set Up LaTeX Macros (If Using Math)
 
@@ -492,7 +498,7 @@ teach macros list
 # Category: distributions
 #   \Normal     - Normal distribution
 #   \Binom      - Binomial distribution
-```
+```sql
 
 Create `_macros.qmd` in your project root:
 
@@ -507,14 +513,14 @@ $$
 \newcommand{\Cov}[2]{\text{Cov}\left(#1, #2\right)}
 \newcommand{\Normal}{\mathcal{N}}
 $$
-```
+```bash
 
 Then sync macros to your config:
 
 ```bash
 # Update teach-config.yml with macro sources
 teach macros sync
-```
+```bash
 
 ### ✅ Verification: Checkpoint 5
 
@@ -526,7 +532,7 @@ teach templates validate
 teach macros list
 
 # Expected: No validation errors
-```
+```bash
 
 ---
 
@@ -542,7 +548,7 @@ teach deploy --preview
 
 # Or use Quarto directly
 quarto preview
-```
+```diff
 
 **What happens:**
 - Quarto starts a local web server
@@ -558,7 +564,7 @@ teach validate lectures/*.qmd
 
 # Validate specific file
 teach validate lectures/week-01.qmd
-```
+```diff
 
 **Validation checks:**
 - YAML frontmatter is valid
@@ -570,7 +576,7 @@ teach validate lectures/week-01.qmd
 
 flow-cli uses a **dual-branch workflow**:
 
-```
+```text
 draft branch (development)
     │
     │  teach deploy (creates PR)
@@ -582,7 +588,7 @@ main branch (production/live site)
     │
     ▼
 GitHub Pages (students see this)
-```
+```diff
 
 **Benefits:**
 - Test changes on `draft` before going live
@@ -596,7 +602,7 @@ First time only - create GitHub repository:
 ```bash
 # Create GitHub repo and push (requires gh CLI)
 gh repo create stat-201-spring-2026 --public --source=. --push
-```
+```bash
 
 Enable GitHub Pages:
 1. Go to your repo on GitHub
@@ -610,7 +616,7 @@ Enable GitHub Pages:
 ```bash
 # Deploy to production (creates PR from draft → main)
 teach deploy
-```
+```text
 
 **What this does:**
 1. Validates you're on `draft` branch
@@ -622,7 +628,8 @@ teach deploy
 7. GitHub Actions builds and deploys to Pages
 
 **Output:**
-```
+
+```text
 🚀 Deploying Course Website
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -649,7 +656,7 @@ Pushing to GitHub:
 
 ✅ Deployed! Site will be live in ~2 minutes
    https://yourusername.github.io/stat-201-spring-2026
-```
+```bash
 
 ### Step 6.6: Partial Deployment (Advanced)
 
@@ -664,7 +671,7 @@ teach deploy lectures/
 
 # Deploy with flags
 teach deploy lectures/week-01.qmd --skip-index --auto-commit
-```
+```bash
 
 ### ✅ Verification: Checkpoint 6
 
@@ -677,7 +684,7 @@ git branch -a
 # Check GitHub Pages
 # Visit: https://yourusername.github.io/stat-201-spring-2026
 # Expected: Your course website is live!
-```
+```diff
 
 **Success indicators:**
 - ✅ PR created and merged on GitHub
@@ -706,7 +713,7 @@ teach deploy
 
 # 4. Check it's live
 open https://yourusername.github.io/stat-201-spring-2026
-```
+```bash
 
 ### 2. Generate Assessments
 
@@ -719,7 +726,7 @@ teach quiz 3 --questions 10
 
 # Create homework assignment
 teach assignment 3 --topic "Regression Analysis"
-```
+```bash
 
 ### 3. Use Scholar AI Integration
 
@@ -730,7 +737,7 @@ If you have Claude Code + Scholar:
 teach lecture 5 --style rigorous
 teach slides 5 --format "revealjs"
 teach exam "Final Exam" --questions 50 --difficulty hard
-```
+```bash
 
 ### 4. Archive at Semester End
 
@@ -743,7 +750,7 @@ teach archive --semester "Spring 2026"
 #   - All assessments
 #   - Lesson plans
 #   - Configuration snapshot
-```
+```sql
 
 ### 5. Set Up Weekly Routine
 
@@ -754,7 +761,7 @@ Create an alias in your `.zshrc`:
 alias teach-week='teach lecture $1 && teach slides $1 && teach deploy --preview'
 
 # Usage: teach-week 5
-```
+```bash
 
 ---
 
@@ -765,6 +772,7 @@ alias teach-week='teach lecture $1 && teach slides $1 && teach deploy --preview'
 **Problem:** Configuration validation fails
 
 **Solution:**
+
 ```bash
 # View detailed errors
 teach doctor --verbose
@@ -773,33 +781,35 @@ teach doctor --verbose
 # - Missing yq: brew install yq
 # - Invalid YAML: teach config (fix syntax)
 # - Missing branches: git branch draft
-```
+```bash
 
 ### "deploy fails with 'not in git repository'"
 
 **Problem:** No git repository initialized
 
 **Solution:**
+
 ```bash
 # Initialize git
 git init
 git add .
 git commit -m "Initial commit"
 git branch draft
-```
+```bash
 
 ### "Scholar not found"
 
 **Problem:** Scholar plugin not installed or not accessible
 
 **Solution:**
+
 ```bash
 # Install Scholar plugin
 # (This requires Claude Code CLI)
 
 # Alternative: Use manual content creation
 teach templates new lecture week-01
-```
+```bash
 
 ### "GitHub Pages shows 404"
 
@@ -816,6 +826,7 @@ teach templates new lecture week-01
 **Problem:** `auto_pr: false` in config
 
 **Solution:**
+
 ```bash
 # Option 1: Enable auto-merge
 teach config
@@ -823,13 +834,14 @@ teach config
 
 # Option 2: Manually merge PR
 gh pr merge --merge
-```
+```bash
 
 ### "LaTeX macros not working in Scholar output"
 
 **Problem:** Macros not being injected into prompts
 
 **Solution:**
+
 ```bash
 # Verify macro configuration
 teach config
@@ -840,7 +852,7 @@ teach macros sync
 
 # Verify Scholar can see them
 teach macros export --format json
-```
+```diff
 
 ---
 
@@ -881,6 +893,7 @@ You've learned how to:
 - ✅ Set up weekly workflows
 
 **Key Commands:**
+
 ```bash
 teach init "STAT-201"              # Initialize
 teach config                       # Configure

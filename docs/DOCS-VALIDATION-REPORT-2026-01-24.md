@@ -80,10 +80,11 @@
 ### Expected Warnings
 
 **Bug fix documents linking to code:**
-```
+
+```text
 WARNING - Doc file 'bugs/BUG-FIX-ccy-alias-missing.md' contains a link
 'lib/dispatchers/cc-dispatcher.zsh#L643', but the target is not found
-```
+```text
 
 **Reason:** Bug fix docs reference actual code files for context. These are internal developer docs, not user-facing.
 
@@ -92,10 +93,11 @@ WARNING - Doc file 'bugs/BUG-FIX-ccy-alias-missing.md' contains a link
 ### Low-Priority Warnings
 
 **Archived reference links:**
-```
+
+```text
 WARNING - Doc file 'architecture/DOCTOR-TOKEN-ARCHITECTURE.md' contains
 a link '../reference/MASTER-API-REFERENCE.md#doctor-cache', but target is not found
-```
+```bash
 
 **Reason:** Files moved to `.archive/` during consolidation. Some internal docs still reference old locations.
 
@@ -106,30 +108,35 @@ a link '../reference/MASTER-API-REFERENCE.md#doctor-cache', but target is not fo
 ## Validation Tests Performed
 
 ### 1. Build Test
+
 ```bash
 mkdocs build --strict
 # Result: ✅ Success (196 warnings, 0 errors)
-```
+```bash
 
 ### 2. New File Test
+
 ```bash
 ls site/troubleshooting/CLAUDE-CODE-ENVIRONMENT/
 # Result: ✅ Directory exists with index.html
-```
+```bash
 
 ### 3. Content Test
+
 ```bash
 grep "Bug Fix" site/troubleshooting/CLAUDE-CODE-ENVIRONMENT/index.html | wc -l
 # Result: ✅ 5 matches (content present)
-```
+```bash
 
 ### 4. Navigation Test
+
 ```bash
 grep "CLAUDE-CODE-ENVIRONMENT" mkdocs.yml
 # Result: ✅ Entry exists in Help & Quick Reference section
-```
+```bash
 
 ### 5. Link Validation
+
 ```bash
 mkdocs build --strict 2>&1 | grep "CLAUDE-CODE-ENVIRONMENT"
 # Result: ✅ No warnings for new file
@@ -150,16 +157,19 @@ mkdocs build --strict 2>&1 | grep "CLAUDE-CODE-ENVIRONMENT"
 ## Recommendations
 
 ### Immediate Actions (Done)
+
 - ✅ Fixed critical index.md broken links
 - ✅ Validated new troubleshooting guide
 - ✅ Confirmed build success
 
 ### Future Actions (Optional)
+
 - [ ] Update archived reference links in internal docs (low priority)
 - [ ] Fix missing anchor links in LEARNING-PATH-INDEX.md
 - [ ] Review bug fix docs for outdated code references
 
 ### Not Recommended
+
 - ❌ Don't fix code file links in bug docs (they're developer references)
 - ❌ Don't remove archived docs (needed for version history)
 

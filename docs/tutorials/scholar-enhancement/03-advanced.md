@@ -53,7 +53,7 @@ teach slides "Linear Regression" --style computational -o test-slides.qmd
 
 # Now revise them
 teach slides --revise test-slides.qmd
-```
+```text
 
 **Revision Flow:**
 
@@ -71,7 +71,7 @@ sequenceDiagram
     S->>A: Generate improvements
     A->>S: Improved content
     S->>U: Save to file
-```
+```html
 
 **What happens:**
 1. **Analyzes** file to detect type (slides, exam, quiz, etc.)
@@ -94,7 +94,7 @@ sequenceDiagram
 
 When you run `--revise`, you'll see this menu:
 
-```
+```bash
 📝 Revision Options
 
 What would you like to improve?
@@ -107,7 +107,7 @@ What would you like to improve?
   [6] Custom instructions          Your own guidance
 
 Your choice [1-6]:
-```
+```diff
 
 **Each Option:**
 
@@ -155,7 +155,7 @@ teach exam --revise exam.qmd --math --examples
 
 # Remove practice problems, add references
 teach lecture --revise lecture.md --no-practice-problems --references
-```
+```bash
 
 **Workflow:**
 1. Select revision option (e.g., "Add missing content")
@@ -168,7 +168,7 @@ teach lecture --revise lecture.md --no-practice-problems --references
 teach slides --revise slides.qmd --diagrams
 # → Select "Add missing content"
 # → Adds missing sections + diagrams throughout
-```
+```yaml
 
 ---
 
@@ -189,7 +189,7 @@ title: "*Quiz*" → quiz
 "# Homework" → assignment
 "Course: " → syllabus
 "Criteria" → rubric
-```
+```diff
 
 **Detected Types:**
 - slides
@@ -214,11 +214,11 @@ Before revising, Scholar shows what's changed.
 
 ```bash
 teach slides --revise slides/week-08.qmd
-```
+```text
 
 **Preview Output:**
 
-```
+```diff
 📝 Revising: slides/week-08.qmd
 📅 Last modified: 2026-01-17 14:30
 
@@ -233,16 +233,16 @@ Git diff:
 ───────────────────────────────────────
 
 [Preview helps you decide which revision to apply]
-```
+```text
 
 **No Git Repo?**
 
-```
+```text
 📝 Revising: slides.qmd
 📅 Last modified: 2026-01-17 14:30
 
 (File is not tracked by git)
-```
+```diff
 
 ---
 
@@ -277,7 +277,7 @@ teach exam "Multiple Regression" --context --style rigorous
 
 # Revise with course awareness
 teach lecture --revise lecture.md --context
-```
+```yaml
 
 **Context Example:**
 
@@ -288,7 +288,7 @@ course:
   semester: "Spring"
   year: 2026
   level: "Undergraduate"
-```
+```bash
 
 **With Context:**
 
@@ -298,7 +298,7 @@ course:
 This lecture covers multiple regression analysis as part of
 STAT 440 (Spring 2026). We build on linear regression from
 Week 6 and prepare for time series in Week 12.
-```
+```bash
 
 **Without Context:**
 
@@ -306,7 +306,7 @@ Week 6 and prepare for time series in Week 12.
 # Multiple Regression
 
 This lecture covers multiple regression analysis.
-```
+```html
 
 <div align="center">
 
@@ -324,7 +324,7 @@ Combine all three for maximum power.
 
 ```bash
 teach slides --revise slides.qmd --context --diagrams --references
-```
+```yaml
 
 **What Happens:**
 1. Loads course context (STAT 440, objectives)
@@ -350,11 +350,11 @@ Master advanced flag patterns.
 
 ```bash
 teach exam "Topic" --style rigorous --no-proof --diagrams --examples
-```
+```text
 
 **Resolution:**
 
-```
+```text
 1. Start: rigorous preset
    → definitions, explanation, math, proof
 
@@ -363,13 +363,13 @@ teach exam "Topic" --style rigorous --no-proof --diagrams --examples
 
 3. Add: --diagrams, --examples
    → definitions, explanation, math, diagrams, examples
-```
+```text
 
 ### Pattern 2: Multiple Removals
 
 ```bash
 teach slides -w 8 --style computational --no-code --no-practice-problems
-```
+```text
 
 **Use Case:** Lecture slides (concepts only, no hands-on)
 
@@ -377,19 +377,19 @@ teach slides -w 8 --style computational --no-code --no-practice-problems
 
 ```bash
 teach quiz "ANOVA" -e -m -x -c -d
-```
+```text
 
 **Expands to:**
 
-```
+```text
 --explanation --math --examples --code --diagrams
-```
+```text
 
 ### Pattern 4: Context-Aware Customization
 
 ```bash
 teach lecture -w 8 --context --style rigorous --diagrams --no-proof
-```
+```bash
 
 **Result:** Math-heavy lecture (no proofs) aligned with course, with visuals
 
@@ -406,7 +406,7 @@ Process multiple files or weeks efficiently.
 for file in week-08-*.qmd; do
   teach slides --revise "$file" --context --diagrams
 done
-```
+```bash
 
 ### Batch Generation
 
@@ -415,7 +415,7 @@ done
 for week in {1..16}; do
   teach assignment -w $week -o "hw/hw-$week.qmd"
 done
-```
+```bash
 
 ### Batch Style Override
 
@@ -424,7 +424,7 @@ done
 for week in {1..16}; do
   teach exam -w $week --style rigorous -o "exams/exam-$week.qmd"
 done
-```
+```bash
 
 **Pro Tip:** Add `--dry-run` to preview first!
 
@@ -454,7 +454,7 @@ teach slides "Multiple Linear Regression with Diagnostics" --style computational
 
 # Fast (short command via lesson plan)
 teach slides -w 8
-```
+```bash
 
 **2. Batch Non-Interactive**
 
@@ -464,7 +464,7 @@ for week in {1..16}; do teach slides -i -w $week; done  # Slow
 
 # Non-interactive is faster
 for week in {1..16}; do teach slides -w $week; done  # Fast
-```
+```bash
 
 **3. Cache Context**
 Scholar reads context files each time. Keep them small (<500 chars) for speed.
@@ -475,7 +475,7 @@ Preview commands without calling Scholar:
 ```bash
 teach exam -w 8 --style rigorous --dry-run
 # Shows what would be generated (instant)
-```
+```sql
 
 ---
 
@@ -506,7 +506,7 @@ teach quiz -w $WEEK --questions 10 -o "quizzes/quiz-$WEEK.qmd"
 teach assignment -w $WEEK -o "homework/hw-$WEEK.qmd"
 
 echo "Week $WEEK complete!"
-```
+```bash
 
 ### Workflow 2: Revision Pipeline
 
@@ -527,7 +527,7 @@ for file in exams/*.qmd; do
 done
 
 echo "Revision complete!"
-```
+```bash
 
 ### Workflow 3: Style Variant Generator
 
@@ -545,7 +545,7 @@ teach slides -w $WEEK --style computational -o "slides/week-$WEEK-main.qmd"
 
 # Rigorous (honors section)
 teach slides -w $WEEK --style rigorous -o "slides/week-$WEEK-honors.qmd"
-```
+```bash
 
 ---
 
@@ -567,7 +567,7 @@ teach slides --revise slides.qmd --diagrams
 
 # 4. Polish formatting
 teach slides --revise slides.qmd  # Select option 5
-```
+```bash
 
 ### Pattern 2: Cross-Format Consistency
 
@@ -579,7 +579,7 @@ teach slides -w 8     # Slides
 teach lecture -w 8    # Detailed notes
 teach exam -w 8       # Assessment
 teach quiz -w 8       # Quick check
-```
+```bash
 
 ### Pattern 3: Collaborative Teaching
 
@@ -594,7 +594,7 @@ teach slides -w 8 --style conceptual -o week-8-ta.qmd
 
 # Honors section (rigorous)
 teach slides -w 8 --style rigorous -o week-8-honors.qmd
-```
+```yaml
 
 ---
 
@@ -608,7 +608,7 @@ teach slides -w 8 --style rigorous -o week-8-honors.qmd
 title: "Week 8 Slides"  # Add "slides" keyword
 format: revealjs        # Explicit format
 ---
-```
+```bash
 
 ### Issue: Context Not Applied
 
@@ -619,7 +619,7 @@ ls .flow/teach-config.yml syllabus.md README.md
 # Check context building
 teach slides -w 8 --context --verbose
 # Should show context in command
-```
+```bash
 
 ### Issue: Too Many Flags
 
@@ -628,7 +628,7 @@ teach slides -w 8 --context --verbose
 teach slides "Topic" --explanation --examples --code --practice-problems
 # → Same as:
 teach slides "Topic" --style computational
-```
+```diff
 
 ---
 
@@ -680,7 +680,7 @@ Built a useful workflow script? Share it with the community!
 teach slides --revise slides.qmd
 # Select option 6 (Custom)
 # Type: "Add more real-world examples from recent research"
-```
+```bash
 
 ### Tip 2: Context from Multiple Sources
 
@@ -691,7 +691,7 @@ syllabus.md            # Objectives
 README.md              # Overview
 
 # All used when --context flag present
-```
+```bash
 
 ### Tip 3: Quick Style Preview
 
@@ -702,7 +702,7 @@ for style in conceptual computational rigorous applied; do
 done
 
 # Review previews, pick best style
-```
+```bash
 
 ### Tip 4: Incremental Improvement
 

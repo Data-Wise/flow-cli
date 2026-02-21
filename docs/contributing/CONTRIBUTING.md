@@ -44,7 +44,7 @@ Thank you for your interest in contributing! This guide will help you get starte
 
 ## Project Structure
 
-```
+```zsh
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
 ├── lib/
@@ -65,7 +65,7 @@ flow-cli/
 ├── completions/              # ZSH completions
 ├── tests/                    # Test suite
 └── docs/                     # Documentation (MkDocs)
-```
+```yaml
 
 ---
 
@@ -80,12 +80,12 @@ flow-cli/
    # or: git checkout -b feature/my-feature
    ```
 
-2. **Make your changes:**
+1. **Make your changes:**
    - Dispatchers: `lib/dispatchers/<name>-dispatcher.zsh`
    - Commands: `commands/<name>.zsh`
    - Core utilities: `lib/core.zsh`
 
-3. **Test your changes:**
+2. **Test your changes:**
 
    ```bash
    # Source and test manually
@@ -96,7 +96,7 @@ flow-cli/
    zsh tests/test-<name>-dispatcher.zsh
    ```
 
-4. **Commit your changes:**
+3. **Commit your changes:**
 
    ```bash
    git add .
@@ -107,9 +107,9 @@ flow-cli/
 
 We use conventional commits:
 
-```
+```text
 <type>(<scope>): <description>
-```
+```diff
 
 **Types:**
 
@@ -122,12 +122,12 @@ We use conventional commits:
 
 **Examples:**
 
-```
+```text
 feat(cc): add worktree integration
 fix(g): handle missing dev branch
 docs(reference): update dispatcher docs
 test(mcp): add validation tests
-```
+```bash
 
 ---
 
@@ -144,7 +144,7 @@ for f in tests/test-*-dispatcher.zsh; do zsh "$f"; done
 
 # Interactive validation (fun!)
 ./tests/interactive-dog-feeding.zsh
-```
+```sql
 
 ### Writing Tests
 
@@ -191,7 +191,7 @@ test_help_shows_usage
 # Summary
 echo "Passed: $TESTS_PASSED, Failed: $TESTS_FAILED"
 [[ $TESTS_FAILED -eq 0 ]] && exit 0 || exit 1
-```
+```diff
 
 ### Test Guidelines
 
@@ -247,7 +247,7 @@ Examples:
   mydisp action2 --flag
 EOF
 }
-```
+```sql
 
 **Avoid:**
 
@@ -266,21 +266,21 @@ EOF
    touch lib/dispatchers/mydisp-dispatcher.zsh
    ```
 
-2. **Implement the pattern:**
+1. **Implement the pattern:**
    - Main function: `mydisp()`
    - Help function: `_mydisp_help()`
    - Action functions: `_mydisp_action()`
 
-3. **Create tests:**
+2. **Create tests:**
 
    ```bash
    touch tests/test-mydisp-dispatcher.zsh
    ```
 
-4. **Add to CI:**
+3. **Add to CI:**
    Edit `.github/workflows/test.yml`
 
-5. **Document:**
+4. **Document:**
    Create `docs/reference/MYDISP-DISPATCHER-REFERENCE.md`
 
 ---
@@ -337,9 +337,9 @@ EOF
 
 ### Merge Flow
 
-```
+```text
 feature/* → dev → main
-```
+```diff
 
 - Feature branches merge to `dev`
 - `dev` merges to `main` for releases
@@ -388,7 +388,7 @@ git push origin vX.Y.Z
 
 # 3. Create GitHub release (triggers Homebrew update)
 gh release create vX.Y.Z --title "vX.Y.Z - Title" --notes "Release notes"
-```
+```bash
 
 ### Manual Deployment (if needed)
 
@@ -398,11 +398,11 @@ mkdocs gh-deploy --force
 
 # Homebrew (via workflow dispatch)
 gh workflow run homebrew-release.yml -f version=X.Y.Z
-```
+```text
 
 ### CI Files Location
 
-```
+```text
 .github/workflows/
 ├── test.yml              # ZSH plugin tests
 ├── docs.yml              # MkDocs deployment

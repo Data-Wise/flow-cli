@@ -48,7 +48,7 @@ graph LR
         P[Slide Cache]
         Q[Dependency Checks]
     end
-```
+```text
 
 ---
 
@@ -93,7 +93,7 @@ graph TD
     style AI fill:#9b59b6,color:#fff
     style SO fill:#e74c3c,color:#fff
     style TD fill:#95a5a6,color:#fff
-```
+```bash
 
 **Legend:** Green = Phase 0, Orange = Phase 2, Purple = Phase 3, Red = Phase 4, Grey = Dispatcher
 
@@ -166,13 +166,13 @@ sequenceDiagram
         SO->>SO: _slide_estimate_time()
         SO-->>CLI: {slide_breaks, key_concepts, time_estimate}
     end
-```
+```text
 
 ---
 
 ## File Structure
 
-```
+```text
 flow-cli/
 ├── commands/
 │   └── teach-analyze.zsh          # Entry point (1203 lines)
@@ -263,7 +263,7 @@ flow-cli/
         ├── TEACH-ANALYZE-API-REFERENCE.md   # API docs
         ├── TEACH-ANALYZE-ARCHITECTURE.md    # This file
         └── REFCARD-TEACH-ANALYZE.md         # Quick reference
-```
+```text
 
 ---
 
@@ -306,11 +306,11 @@ graph TD
     INV --> CI
     INV --> CF
     CINV --> INV
-```
+```text
 
 ### Cache Directory Layout
 
-```
+```text
 .teach/
 ├── analysis-cache/
 │   ├── cache-index.json           # Metadata index
@@ -322,7 +322,7 @@ graph TD
 ├── concepts.json                  # Global concept graph
 ├── prerequisites.json             # Prerequisites database
 └── slide-optimization-*.json      # Slide optimizer cache
-```
+```text
 
 ### Cache Entry Format
 
@@ -340,7 +340,7 @@ graph TD
     "warnings": []
   }
 }
-```
+```text
 
 ---
 
@@ -381,7 +381,7 @@ graph LR
     JSON --> PREVIEW
     JSON --> APPLY
     JSON --> CACHE
-```
+```text
 
 ### Break Detection Rules
 
@@ -430,7 +430,7 @@ graph LR
     ]
   }
 }
-```
+```text
 
 ---
 
@@ -470,7 +470,7 @@ graph TD
     style W5C1 fill:#e74c3c,color:#fff
     style W5C2 fill:#e74c3c,color:#fff
     style W5C3 fill:#e74c3c,color:#fff
-```
+```text
 
 ### Validation Modes
 
@@ -509,7 +509,7 @@ sequenceDiagram
 
     CLI->>Track: _ai_track_usage(tokens, cost)
     Track-->>CLI: Updated .teach/ai-usage.json
-```
+```text
 
 ### AI Response Structure
 
@@ -521,7 +521,7 @@ sequenceDiagram
   "concept_alignment": 0.85,
   "missing_scaffolding": ["variance refresher needed"]
 }
-```
+```text
 
 ---
 
@@ -556,7 +556,7 @@ graph TD
     style SC fill:#e74c3c,color:#fff
     style AC fill:#e67e22,color:#fff
     style AU fill:#9b59b6,color:#fff
-```
+```diff
 
 ### Entry Points
 

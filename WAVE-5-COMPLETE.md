@@ -35,7 +35,7 @@ Successfully implemented comprehensive performance monitoring system for Quarto 
 
 ## Test Results
 
-```
+````text
 ════════════════════════════════════════════════════════════════════
 Performance Monitor Unit Tests (Phase 2 Wave 5)
 ════════════════════════════════════════════════════════════════════
@@ -58,7 +58,7 @@ Passed: 44 (100%)
 Failed: 0
 
 ✓ All tests passed!
-```
+```diff
 
 ---
 
@@ -97,7 +97,7 @@ Failed: 0
 
 ## Dashboard Example
 
-```
+```text
 Performance Trends (Last 7 Days)
 ─────────────────────────────────────────────────────
 
@@ -126,7 +126,7 @@ Top 5 Slowest Files:
   3. assignments/final.qmd   11.5s
   4. lectures/week-04.qmd     9.2s
   5. lectures/week-07.qmd     8.9s
-```
+```bash
 
 ---
 
@@ -137,21 +137,21 @@ Top 5 Slowest Files:
 ```bash
 teach validate lectures/*.qmd
 # → Automatically records performance to .teach/performance-log.json
-```
+```bash
 
 ### View Dashboard
 
 ```bash
 teach status --performance
 # Shows 7-day performance trends with ASCII visualization
-```
+```bash
 
 ### Help
 
 ```bash
 teach status --help
 # Shows new --performance flag documentation
-```
+```yaml
 
 ---
 
@@ -215,7 +215,7 @@ tests/test-performance-monitor-unit.zsh
 # Documentation
 WAVE-5-IMPLEMENTATION-SUMMARY.md
 WAVE-5-COMPLETE.md
-```
+```yaml
 
 ---
 
@@ -253,7 +253,7 @@ git commit -m "test(phase2): add comprehensive performance monitor tests
 - Test dashboard formatting and edge cases
 
 Part of Phase 2 Wave 5: Performance Monitoring System"
-```
+```diff
 
 ---
 
@@ -288,7 +288,7 @@ _format_performance_dashboard 7
 # Test integration
 teach status --performance
 # ✓ Shows performance trends (in teaching project)
-```
+````
 
 ---
 

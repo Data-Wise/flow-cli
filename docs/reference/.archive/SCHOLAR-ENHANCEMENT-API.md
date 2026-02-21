@@ -38,7 +38,7 @@ The Scholar Enhancement extends the teach dispatcher with AI-powered content gen
 
 ### Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │ User Command                                            │
 │ teach slides -w 8 --style computational --diagrams      │
@@ -64,7 +64,7 @@ The Scholar Enhancement extends the teach dispatcher with AI-powered content gen
          │ Claude Code + Scholar   │
          │ (AI content generation) │
          └─────────────────────────┘
-```
+```diff
 
 ---
 
@@ -90,7 +90,7 @@ These flags work with all Scholar commands: `slides`, `exam`, `quiz`, `lecture`,
 teach slides --topic "Linear Regression"      # Direct topic
 teach exam -w 8                                # Week 8 (loads lesson plan)
 teach quiz -t "ANOVA" -w 8                    # Topic overrides week
-```
+```text
 
 ### Content Style Presets
 
@@ -112,7 +112,7 @@ teach quiz -t "ANOVA" -w 8                    # Topic overrides week
 ```bash
 teach slides -w 8 --style computational
 teach exam "Hypothesis Testing" --style rigorous
-```
+```diff
 
 ---
 
@@ -179,7 +179,7 @@ teach slides "Topic" --explanation --math --examples
 # Short forms
 teach quiz "ANOVA" -e -m -x -c
 # → explanation, math, examples, code
-```
+```text
 
 ---
 
@@ -198,7 +198,7 @@ Step-by-step wizard for topic and style selection.
 
 **Menu Example:**
 
-```
+```bash
 ╭────────────────────────────────────────────────╮
 │ 🎓 Interactive Teaching Content Generator     │
 ╰────────────────────────────────────────────────╯
@@ -225,7 +225,7 @@ What style should this content use?
 Your choice [1-4]: 2
 
 → Generating slides for Week 8 with computational style
-```
+```bash
 
 **Examples:**
 
@@ -238,7 +238,7 @@ teach exam -i -w 8
 
 # Interactive with style pre-selected
 teach quiz -i --style rigorous
-```
+```text
 
 ### Revision Workflow
 
@@ -255,7 +255,7 @@ Improve existing content with 6 revision options.
 
 **Revision Menu:**
 
-```
+```bash
 📝 Revision Options
 
 What would you like to improve?
@@ -268,7 +268,7 @@ What would you like to improve?
   [6] Custom instructions          Your own guidance
 
 Your choice [1-6]:
-```
+```diff
 
 **Detected Content Types:**
 - `slides` - Presentation slides (RevealJS, Quarto)
@@ -290,7 +290,7 @@ teach exam --revise exams/midterm.qmd --math --examples
 
 # Revise and add diagrams
 teach lecture --revise lecture.md --diagrams
-```
+```bash
 
 ### Context Integration
 
@@ -317,7 +317,7 @@ teach exam "Multiple Regression" --context --style rigorous
 
 # Context + revision
 teach lecture --revise lecture.md --context
-```
+```text
 
 ---
 
@@ -335,7 +335,7 @@ Generate presentation slides.
 teach slides "Topic" [options]
 teach slides -w N [options]
 teach slides -i [options]
-```
+```diff
 
 **Slides-Specific Options:**
 - `--theme NAME` - Slide theme (default, academic, minimal)
@@ -357,7 +357,7 @@ teach slides "Linear Regression" --diagrams --code
 
 # Revise existing slides
 teach slides --revise slides/week-08.qmd
-```
+```text
 
 ### `teach exam` / `teach e`
 
@@ -367,7 +367,7 @@ Generate exam questions.
 
 ```bash
 teach exam "Topic" [options]
-```
+```diff
 
 **Exam-Specific Options:**
 - `--questions N` - Number of questions (default: 20)
@@ -387,7 +387,7 @@ teach exam "ANOVA" --questions 10 --duration 30
 
 # Computational exam
 teach exam -w 8 --style computational
-```
+```text
 
 ### `teach quiz` / `teach q`
 
@@ -397,7 +397,7 @@ Generate quiz questions.
 
 ```bash
 teach quiz "Topic" [options]
-```
+```diff
 
 **Quiz-Specific Options:**
 - `--questions N` - Number of questions (default: 10)
@@ -413,7 +413,7 @@ teach quiz "Probability" --questions 5
 
 # Week 3 computational quiz
 teach quiz -w 3 --style computational
-```
+```text
 
 ### `teach lecture` / `teach lec`
 
@@ -423,7 +423,7 @@ Generate lecture content.
 
 ```bash
 teach lecture "Topic" [options]
-```
+```diff
 
 **Lecture-Specific Options:**
 - `--outline` - Generate outline only
@@ -443,7 +443,7 @@ teach lecture -w 1 --outline
 
 # With context
 teach lecture "Topic" --context
-```
+```text
 
 ### `teach assignment` / `teach hw`
 
@@ -453,7 +453,7 @@ Generate homework assignment.
 
 ```bash
 teach assignment "Topic" [options]
-```
+```diff
 
 **Assignment-Specific Options:**
 - `--due-date DATE` - Due date (YYYY-MM-DD)
@@ -469,7 +469,7 @@ teach assignment "Linear Models" --style computational
 
 # With practice problems
 teach assignment -w 8 --practice-problems
-```
+```text
 
 ### `teach syllabus` / `teach syl`
 
@@ -479,7 +479,7 @@ Generate course syllabus.
 
 ```bash
 teach syllabus [options]
-```
+```diff
 
 **Syllabus-Specific Options:**
 - `--format FORMAT` - Output format (quarto, markdown, pdf)
@@ -495,7 +495,7 @@ teach syllabus --context
 
 # PDF format
 teach syllabus --format pdf
-```
+```text
 
 ### `teach rubric` / `teach rb`
 
@@ -505,7 +505,7 @@ Generate grading rubric.
 
 ```bash
 teach rubric "Assignment Name" [options]
-```
+```diff
 
 **Rubric-Specific Options:**
 - `--criteria N` - Number of criteria
@@ -520,7 +520,7 @@ teach rubric "Homework 3"
 
 # Detailed rubric
 teach rubric "Final Project" --criteria 8
-```
+```text
 
 ### `teach feedback` / `teach fb`
 
@@ -530,7 +530,7 @@ Generate student feedback.
 
 ```bash
 teach feedback "Student Work" [options]
-```
+```diff
 
 **Feedback-Specific Options:**
 - `--tone TONE` - Feedback tone (supportive, direct, detailed)
@@ -545,7 +545,7 @@ teach feedback "student-submission.pdf" --tone supportive
 
 # Detailed feedback
 teach feedback "homework.R" --tone detailed
-```
+```sql
 
 ### `teach demo`
 
@@ -555,7 +555,7 @@ Create demo course materials.
 
 ```bash
 teach demo [options]
-```
+```diff
 
 **Demo-Specific Options:**
 - `--course-name NAME` - Course name (default: STAT-101)
@@ -569,7 +569,7 @@ teach demo
 
 # Custom course name
 teach demo --course-name "STAT-440"
-```
+```bash
 
 ---
 
@@ -588,7 +588,7 @@ teach slides -w 8 --style computational
 
 # Add content
 teach slides -w 8 --diagrams --references
-```
+```bash
 
 **Example 2: Custom topic with specific content**
 
@@ -601,7 +601,7 @@ teach exam "ANOVA" --style computational
 
 # Rigorous with custom overrides
 teach lecture "Probability Theory" --style rigorous --no-proof --diagrams
-```
+```bash
 
 **Example 3: Interactive mode**
 
@@ -618,7 +618,7 @@ teach exam -i -w 8
 # Partial interactive (style known)
 teach quiz -i --style computational
 # → Select week only
-```
+```bash
 
 ### Advanced Workflows
 
@@ -638,7 +638,7 @@ teach exam --revise exams/midterm.qmd --math --examples
 # Revision with context
 teach lecture --revise lecture.md --context
 # → Uses course context for improvements
-```
+```bash
 
 **Example 5: Context-aware generation**
 
@@ -652,7 +652,7 @@ teach slides -w 8 --context --style computational
 teach exam "Multiple Regression" --context --rigorous
 # → References course metadata
 # → Aligns with course level
-```
+```bash
 
 **Example 6: Complex combinations**
 
@@ -665,7 +665,7 @@ teach lecture --revise lecture.md --style computational --code --practice-proble
 
 # Week + preset + overrides + context
 teach exam -w 8 --style rigorous --no-proof --diagrams --context
-```
+```text
 
 ---
 
@@ -684,7 +684,7 @@ Validates content flags for conflicts.
 ```zsh
 _teach_validate_content_flags --math --examples  # → 0 (valid)
 _teach_validate_content_flags --math --no-math   # → 1 (conflict)
-```
+```diff
 
 ### Phase 2: Content Resolution
 
@@ -704,7 +704,7 @@ _teach_parse_topic_week --topic "Linear Regression"
 
 _teach_parse_topic_week -w 8
 # TEACH_TOPIC="", TEACH_WEEK="8"
-```
+```diff
 
 #### `_teach_resolve_content <style> [flags...]`
 
@@ -721,7 +721,7 @@ Resolves content flags from preset and overrides.
 ```zsh
 _teach_resolve_content "computational" --diagrams --no-practice-problems
 # TEACH_CONTENT_RESOLVED="explanation examples code diagrams"
-```
+```bash
 
 #### `_teach_build_content_instructions`
 
@@ -738,7 +738,7 @@ local instructions=$(_teach_build_content_instructions)
 # "Include conceptual explanations of the topic
 # Use mathematical notation and formulas
 # Include numerical examples to illustrate concepts"
-```
+```diff
 
 ### Phase 3: Lesson Plan Integration
 
@@ -765,7 +765,7 @@ Loads YAML lesson plan for specified week.
 _teach_load_lesson_plan 8
 # Loads .flow/lesson-plans/week-08.yml
 # Sets TEACH_PLAN_* variables
-```
+```bash
 
 #### `_teach_lookup_topic <week>`
 
@@ -781,7 +781,7 @@ Fallback topic lookup from teach-config.yml.
 ```zsh
 local topic=$(_teach_lookup_topic 12)
 # Returns topic from config semester schedule
-```
+```diff
 
 #### `_teach_integrate_lesson_plan <week> <style>`
 
@@ -802,7 +802,7 @@ Main lesson plan integration orchestrator.
 ```zsh
 _teach_integrate_lesson_plan 8 "computational"
 # Loads plan, applies style override, prompts if needed
-```
+```bash
 
 ### Phase 4: Interactive Mode
 
@@ -818,7 +818,7 @@ Shows style selection menu.
 local style=$(_teach_select_style_interactive)
 # User selects from menu
 # Returns: "conceptual" | "computational" | "rigorous" | "applied"
-```
+```bash
 
 #### `_teach_select_topic_interactive`
 
@@ -832,7 +832,7 @@ Shows topic selection menu from schedule.
 local week=$(_teach_select_topic_interactive)
 # User selects from menu
 # Returns: "8"
-```
+```diff
 
 #### `_teach_interactive_wizard <cmd> <topic> <style>`
 
@@ -855,7 +855,7 @@ Main interactive wizard orchestrator.
 local style=$(_teach_interactive_wizard "slides" "" "")
 # Shows topic menu, then style menu
 # Returns selected style
-```
+```diff
 
 ### Phase 5: Revision Workflow
 
@@ -883,7 +883,7 @@ Detects content type from file.
 ```zsh
 local type=$(_teach_analyze_file "slides/week-08.qmd")
 # Returns: "slides"
-```
+```diff
 
 #### `_teach_revision_menu <file> <type>`
 
@@ -901,7 +901,7 @@ Shows revision options menu.
 local instruction=$(_teach_revision_menu "slides.qmd" "slides")
 # User selects option [1-6]
 # Returns formatted instruction for Scholar
-```
+```bash
 
 #### `_teach_show_diff_preview <file>`
 
@@ -915,7 +915,7 @@ Shows git diff preview for file.
 ```zsh
 _teach_show_diff_preview "slides/week-08.qmd"
 # Displays git diff or "untracked" message
-```
+```diff
 
 #### `_teach_revise_workflow <file>`
 
@@ -936,7 +936,7 @@ Main revision workflow orchestrator.
 ```zsh
 _teach_revise_workflow "slides/week-08.qmd"
 # Shows preview, menu, sets globals
-```
+```diff
 
 ### Phase 6: Context Integration
 
@@ -956,7 +956,7 @@ Gathers course context from materials.
 ```zsh
 local context=$(_teach_build_context)
 # Returns formatted context text
-```
+```yaml
 
 ---
 
@@ -996,7 +996,7 @@ key_concepts:
 prerequisites:
   - "Simple linear regression (Week 6)"
   - "Matrix notation basics (Week 7)"
-```
+```diff
 
 **Required Fields:**
 - `topic` - Week's topic (string)
@@ -1024,7 +1024,7 @@ semester_info:
     - week: 8
       topic: "Multiple Regression"
     # ...
-```
+```diff
 
 **Used for:**
 - Interactive mode topic selection
@@ -1039,7 +1039,7 @@ semester_info:
 
 **Issue 1: "Conflicting flags" error**
 
-```
+```yaml
 ❌ teach: Conflicting flags
 
   Both --math and --no-math specified. These are mutually exclusive.
@@ -1047,32 +1047,32 @@ semester_info:
 Fix: Keep one or the other
   teach slides -w 8 --math        # Include math
   teach slides -w 8 --no-math     # Exclude math
-```
+```text
 
 **Solution:** Remove one of the conflicting flags.
 
 **Issue 2: "yq not found" warning**
 
-```
+```text
 ⚠️  yq not installed - lesson plans disabled
    Install: brew install yq
-```
+```bash
 
 **Solution:** Install `yq` for YAML parsing:
 
 ```bash
 brew install yq
-```
+```text
 
 **Issue 3: No lesson plan found**
 
-```
+```text
 ⚠️  No lesson plan found for Week 12
 
 Topic from config: "Time Series"
 
 Continue with this topic? [Y/n]:
-```
+```diff
 
 **Solution:** Either:
 - Create lesson plan: `touch .flow/lesson-plans/week-12.yml`
@@ -1081,17 +1081,17 @@ Continue with this topic? [Y/n]:
 
 **Issue 4: Invalid preset name**
 
-```
+```text
 ❌ Invalid style preset: "advanced"
 
 Valid presets: conceptual, computational, rigorous, applied
-```
+```text
 
 **Solution:** Use one of the 4 valid presets:
 
 ```bash
 teach slides -w 8 --style computational  # Correct
-```
+```bash
 
 ### Debug Mode
 
@@ -1100,7 +1100,7 @@ Enable verbose output to see Scholar command:
 ```bash
 teach slides -w 8 --verbose
 # Shows: claude run /teaching:slides ...
-```
+```bash
 
 ### Validation
 
@@ -1109,7 +1109,7 @@ Check flag combinations before running:
 ```bash
 # This will validate but not execute
 teach slides -w 8 --style rigorous --no-proof --dry-run
-```
+```diff
 
 ---
 

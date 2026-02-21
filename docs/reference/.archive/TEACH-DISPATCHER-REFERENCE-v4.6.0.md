@@ -58,7 +58,7 @@ Intelligent content analysis with concept extraction, AI insights, and slide opt
 
 ```bash
 teach analyze <file> [OPTIONS]
-```
+```bash
 
 ### Options
 
@@ -95,7 +95,7 @@ teach analyze --slide-breaks lectures/week-05.qmd
 
 # Detailed break preview
 teach analyze --preview-breaks lectures/week-05.qmd
-```
+```diff
 
 ### Output Phases
 
@@ -120,7 +120,7 @@ Granular validation with watch mode support.
 
 ```bash
 teach validate [OPTIONS] [FILES...]
-```
+```bash
 
 ### Options
 
@@ -180,13 +180,13 @@ teach validate --syntax --stats
 
 # Quiet mode (errors only)
 teach validate --quiet lectures/week-01.qmd
-```
+```text
 
 ### Output
 
 **Standard output:**
 
-```
+```yaml
 Running full validation for 1 file(s)...
 
 Validating: lectures/week-01.qmd
@@ -195,17 +195,17 @@ Validating: lectures/week-01.qmd
 ✓ Render valid: lectures/week-01.qmd (4s)
 
 ✓ All 1 files passed validation (4.2s)
-```
+```text
 
 **With --stats:**
 
-```
+```text
 Total: 4200ms | Files: 1 | Avg: 4200ms/file
-```
+```text
 
 **Watch mode output:**
 
-```
+```text
 Starting watch mode for 1 file(s)...
 Press Ctrl+C to stop
 
@@ -219,7 +219,7 @@ Validating...
 ✓ Validation passed (523ms)
 
 Watching for changes...
-```
+```text
 
 ### Validation Status File
 
@@ -235,7 +235,7 @@ Creates `.teach/validation-status.json`:
     }
   }
 }
-```
+```diff
 
 ### Return Codes
 
@@ -269,7 +269,7 @@ Interactive freeze cache management.
 
 ```bash
 teach cache [SUBCOMMAND] [OPTIONS]
-```
+```bash
 
 ### Subcommands
 
@@ -308,11 +308,11 @@ teach cache rebuild
 
 # Detailed analysis
 teach cache analyze
-```
+```text
 
 ### Interactive Menu
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │ Freeze Cache Management                                     │
 ├─────────────────────────────────────────────────────────────┤
@@ -327,26 +327,26 @@ teach cache analyze
 │                                                             │
 │ Choice: _                                                   │
 └─────────────────────────────────────────────────────────────┘
-```
+```text
 
 ### teach cache status
 
 **Output:**
 
-```
+```text
 Freeze Cache Status
 
   Location:     /Users/dt/stat-440/_freeze
   Size:         71MB
   Files:        342
   Last render:  2 hours ago
-```
+```text
 
 ### teach cache clear
 
 **Output:**
 
-```
+```sql
 Cache to be deleted:
   Location:   /Users/dt/stat-440/_freeze
   Size:       71MB
@@ -355,13 +355,13 @@ Cache to be deleted:
 Delete freeze cache? [y/N]: y
 
 ✓ Freeze cache cleared (71MB freed)
-```
+```text
 
 ### teach cache rebuild
 
 **Output:**
 
-```
+```text
 Rebuilding freeze cache...
 
 ✓ Freeze cache cleared (71MB freed)
@@ -373,13 +373,13 @@ Rendering Quarto project (~30-60s)
 ✓ Cache rebuilt successfully
 
 New cache: 73MB (348 files)
-```
+```text
 
 ### teach cache analyze
 
 **Output:**
 
-```
+```text
 ╭─ Freeze Cache Analysis ────────────────────────────╮
 │
 │ Overall:
@@ -401,7 +401,7 @@ New cache: 73MB (348 files)
 │   Older:            0 files
 │
 ╰────────────────────────────────────────────────────╯
-```
+```text
 
 ### Cache Status Structure
 
@@ -414,7 +414,7 @@ size_human=<human-readable>
 file_count=<number>
 last_render=<time-ago>
 last_render_timestamp=<unix-timestamp>
-```
+```diff
 
 ### Return Codes
 
@@ -438,7 +438,7 @@ Environment health check with auto-fix.
 
 ```bash
 teach doctor [OPTIONS]
-```
+```diff
 
 ### Options
 
@@ -515,13 +515,13 @@ teach doctor --fix
 
 # JSON output for CI/CD
 teach doctor --json
-```
+```text
 
 ### Output
 
 **Standard output:**
 
-```
+```yaml
 ╭────────────────────────────────────────────────────────────╮
 │  📚 Teaching Environment Health Check                       │
 ╰────────────────────────────────────────────────────────────╯
@@ -566,7 +566,7 @@ Cache Health:
 ────────────────────────────────────────────────────────────
 Summary: 18 passed, 4 warnings, 0 failures
 ────────────────────────────────────────────────────────────
-```
+```text
 
 **JSON output:**
 
@@ -586,25 +586,25 @@ Summary: 18 passed, 4 warnings, 0 failures
     {"check":"course_name","status":"pass","message":"STAT 440"}
   ]
 }
-```
+```text
 
 ### Interactive Fix Mode
 
 With `--fix`, prompts to install missing dependencies:
 
-```
+```text
 ✗ examark (not found)
   → Install examark? [Y/n]: y
   → npm install -g examark
   ✓ examark installed
-```
+```text
 
 **Optional dependencies:**
 
-```
+```text
 ⚠ claude (not found - optional)
   → Install claude (optional)? [y/N]: n
-```
+```bash
 
 ### Return Codes
 
@@ -623,7 +623,7 @@ STATUS=$(jq -r '.summary.status' health.json)
 if [[ "$STATUS" != "healthy" ]]; then
   exit 1
 fi
-```
+```diff
 
 ### Related Commands
 
@@ -641,7 +641,7 @@ Git-based deployment with partial deployment support.
 
 ```bash
 teach deploy [FILES...] [OPTIONS]
-```
+```text
 
 ### Options
 
@@ -667,7 +667,7 @@ teach deploy [FILES...] [OPTIONS]
 
 ```bash
 teach deploy
-```
+```text
 
 **Process:**
 1. Pre-flight checks (branch, uncommitted, conflicts)
@@ -679,7 +679,7 @@ teach deploy
 
 ```bash
 teach deploy lectures/week-05.qmd
-```
+```diff
 
 **Process:**
 1. Pre-flight checks
@@ -706,7 +706,7 @@ Automatically finds:
 
 **Prompt:**
 
-```
+```text
 🔍 Finding dependencies...
   Dependencies for lectures/week-05-mlr.qmd:
     • lectures/week-04-slr.qmd
@@ -714,7 +714,7 @@ Automatically finds:
 
 Found 2 additional dependencies
 Include dependencies in deployment? [Y/n]:
-```
+```text
 
 ### Index Management
 
@@ -722,31 +722,31 @@ Detects changes to index files:
 
 **ADD:**
 
-```
+```text
 📄 New content detected:
   week-05-mlr.qmd: Multiple Linear Regression
 
 Add to index file? [Y/n]:
-```
+```text
 
 **UPDATE:**
 
-```
+```sql
 📝 Title changed:
   Old: Multiple Linear Regression
   New: Multiple Regression and Interactions
 
 Update index link? [y/N]:
-```
+```text
 
 **REMOVE:**
 
-```
+```text
 🗑  Content deleted:
   week-05-mlr.qmd
 
 Remove from index? [Y/n]:
-```
+```bash
 
 ### Examples
 
@@ -771,11 +771,11 @@ teach deploy lectures/week-05.qmd --auto-commit --auto-tag
 
 # Skip index prompts
 teach deploy lectures/week-05.qmd --skip-index
-```
+```text
 
 ### Full Site Deployment Output
 
-```
+```sql
 🔍 Pre-flight Checks
 ─────────────────────────────────────────────────
 ✓ On draft branch
@@ -808,11 +808,11 @@ Create pull request?
   [3] Cancel
 
 Your choice [1-3]:
-```
+```text
 
 ### Partial Deployment Output
 
-```
+```sql
 📦 Partial Deploy Mode
 ─────────────────────────────────────────────────
 
@@ -856,7 +856,7 @@ Create pull request? [Y/n]: y
 ✅ Pull Request Created
 
 View at: https://github.com/user/stat-440/pull/42
-```
+```yaml
 
 ### Configuration
 
@@ -868,7 +868,7 @@ git:
   production_branch: "main"      # Default: main
   auto_pr: true                  # Create PR automatically
   require_clean: true            # Block if uncommitted changes
-```
+```diff
 
 ### Return Codes
 
@@ -893,7 +893,7 @@ Manual backup operations (automatic backups happen during deploy).
 
 ```bash
 teach backup [SUBCOMMAND] [OPTIONS]
-```
+```diff
 
 ### Subcommands
 
@@ -925,7 +925,7 @@ backups:
     syllabi: "archive"        # Keep forever
     lectures: "semester"      # Delete at semester end
   archive_dir: ".flow/archives"
-```
+```bash
 
 ### Examples
 
@@ -944,22 +944,22 @@ teach backup delete lectures/.backups/week-05-mlr.2026-01-20-1030/
 
 # Archive semester
 teach backup archive Fall-2025
-```
+```text
 
 ### teach backup create
 
 **Output:**
 
-```
+```text
 💾 Creating backup...
 ✓ Backup created: lectures/.backups/week-05-mlr.2026-01-20-1534/
-```
+```text
 
 ### teach backup list
 
 **Output:**
 
-```
+```yaml
 Backups for lectures/week-05-mlr.qmd:
 
   1. 2026-01-20-1730  (2 hours ago)    12MB
@@ -967,13 +967,13 @@ Backups for lectures/week-05-mlr.qmd:
   3. 2026-01-20-1030  (9 hours ago)    11MB
 
 Total: 3 backups, 34MB
-```
+```text
 
 ### teach backup restore
 
 **Output:**
 
-```
+```text
 ⚠ Restore Backup?
 ────────────────────────────────────────────────
 
@@ -987,13 +987,13 @@ Total: 3 backups, 34MB
 Restore this backup? [y/N]: y
 
 ✓ Backup restored
-```
+```text
 
 ### teach backup delete
 
 **Output:**
 
-```
+```sql
 ⚠ Delete Backup?
 ────────────────────────────────────────────────
 
@@ -1007,30 +1007,30 @@ Restore this backup? [y/N]: y
 Delete this backup? [y/N]: y
 
 ✓ Backup deleted
-```
+```text
 
 ### teach backup archive
 
 **Output:**
 
-```
+```text
 Archiving Fall-2025...
 
 ✓ Archive complete: .flow/archives/Fall-2025
 
   Archived: 12 content folders
   Deleted:  8 content folders (semester retention)
-```
+```text
 
 **Archive structure:**
 
-```
+```text
 .flow/archives/Fall-2025/
 ├── midterm-backups/
 ├── final-backups/
 ├── assignment-01-backups/
 └── assignment-02-backups/
-```
+```diff
 
 ### Return Codes
 
@@ -1054,7 +1054,7 @@ Comprehensive project dashboard.
 
 ```bash
 teach status [OPTIONS]
-```
+```bash
 
 ### Options
 
@@ -1071,11 +1071,11 @@ teach status
 
 # Full details
 teach status --full
-```
+```text
 
 ### Output
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │              STAT 440 - Spring 2026                             │
 ├─────────────────────────────────────────────────────────────────┤
@@ -1092,7 +1092,7 @@ Current Branch: draft
   ✓ Safe to edit (draft branch)
 
 ✓ Project health: Good
-```
+```diff
 
 ### Dashboard Sections
 
@@ -1142,27 +1142,27 @@ Current Branch: draft
 
 Displays current git branch with context:
 
-```
+```text
 Current Branch: draft
   ✓ Safe to edit (draft branch)
-```
+```text
 
-```
+```text
 Current Branch: production
   ⚠ On production - changes are live!
-```
+```text
 
 ### Health Warnings
 
 Shows warnings if detected:
 
-```
+```text
 ⚠ Config validation issues detected
   Run teach doctor for details
 
 ⚠ Uncommitted changes: 3 teaching files
   Run g status to review
-```
+```diff
 
 ### Return Codes
 
@@ -1187,7 +1187,7 @@ Git hook installation and management.
 
 ```bash
 teach hooks [SUBCOMMAND] [OPTIONS]
-```
+```bash
 
 ### Subcommands
 
@@ -1229,13 +1229,13 @@ teach hooks upgrade
 
 # Uninstall all hooks
 teach hooks uninstall
-```
+```text
 
 ### teach hooks install
 
 **Output:**
 
-```
+```bash
 Installing git hooks for Quarto workflow...
 
 ✓ Installed pre-commit (v1.0.0)
@@ -1254,13 +1254,13 @@ Configuration options:
 To set environment variables:
    export QUARTO_PRE_COMMIT_RENDER=1
    # Or add to ~/.zshrc for persistence
-```
+```text
 
 ### teach hooks status
 
 **Output:**
 
-```
+```yaml
 Hook status:
 
 ✓ pre-commit: v1.0.0 (up to date)
@@ -1268,11 +1268,11 @@ Hook status:
 ✓ prepare-commit-msg: v1.0.0 (up to date)
 
 Summary: 3 up to date, 0 outdated, 0 missing
-```
+```text
 
 **With outdated hooks:**
 
-```
+```yaml
 Hook status:
 
 ⚠ pre-commit: v0.9.0 (upgrade to v1.0.0)
@@ -1282,13 +1282,13 @@ Hook status:
 Summary: 1 up to date, 2 outdated, 0 missing
 
 Run teach hooks upgrade to update outdated hooks
-```
+```text
 
 ### teach hooks upgrade
 
 **Output:**
 
-```
+```text
 Checking for hook upgrades...
 
 Hooks to upgrade: 2
@@ -1301,13 +1301,13 @@ Upgrade these hooks? [Y/n]: y
 ✓ Installed pre-push (v1.0.0)
 
 ✓ All hooks upgraded successfully (2 hooks)
-```
+```text
 
 ### teach hooks uninstall
 
 **Output:**
 
-```
+```text
 ⚠ This will remove all flow-cli managed hooks
 Continue? [y/N]: y
 
@@ -1316,15 +1316,15 @@ Continue? [y/N]: y
 ✓ Removed prepare-commit-msg
 
 ✓ Uninstalled 3 hook(s)
-```
+```text
 
 ### Hook Backup
 
 Non-flow-managed hooks are automatically backed up:
 
-```
+```text
 Backed up existing hook to: pre-commit.backup-20260120-143045
-```
+```diff
 
 ### Return Codes
 
@@ -1348,7 +1348,7 @@ Clean build artifacts (freeze cache + site output).
 
 ```bash
 teach clean [OPTIONS]
-```
+```bash
 
 ### Options
 
@@ -1365,11 +1365,11 @@ teach clean
 
 # Force clean without confirmation
 teach clean --force
-```
+```text
 
 ### Output
 
-```
+```sql
 Directories to be deleted:
   _freeze/ (71MB)
   _site/ (23MB)
@@ -1382,7 +1382,7 @@ Delete all build artifacts? [y/N]: y
 ✓ Deleted _site/
 
 ✓ Clean complete (2 directories deleted)
-```
+```diff
 
 ### What Gets Deleted
 
@@ -1465,7 +1465,7 @@ export QUARTO_PARALLEL_RENDER=1
 export QUARTO_MAX_PARALLEL=8
 export QUARTO_COMMIT_TIMING=1
 export QUARTO_COMMIT_SUMMARY=0
-```
+```yaml
 
 ### Hook Version
 
@@ -1506,7 +1506,7 @@ backups:
     syllabi: "archive"
     lectures: "semester"
   archive_dir: ".flow/archives"
-```
+```text
 
 ### .teach/validation-status.json
 
@@ -1527,7 +1527,7 @@ Validation cache file (auto-generated).
     }
   }
 }
-```
+```bash
 
 ### .git/hooks/*
 

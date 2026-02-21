@@ -84,7 +84,7 @@ Site documentation has been fully updated to reflect the v5.13.0 WT Workflow Enh
 
 **No mkdocs.yml changes required** - all documentation is accessible through existing navigation:
 
-```yaml
+````yaml
 nav:
   - Home: index.md                              ← UPDATED (v5.13.0 highlights)
   - Tutorials:
@@ -93,7 +93,7 @@ nav:
       - WT Dispatcher: reference/WT-DISPATCHER-REFERENCE.md
       - Pick Command: reference/PICK-COMMAND-REFERENCE.md
       - Command Quick Reference: reference/COMMAND-QUICK-REFERENCE.md
-```
+```diff
 
 **User Journey:**
 
@@ -142,13 +142,13 @@ nav:
 
 **Recent Commits:**
 
-```
+```text
 f734e434 docs: update site for v5.13.0 WT enhancement features
 f5b81245 docs: add final documentation report
 9ce5f96d docs: update pick and command quick reference for v5.13.0
 7fd89f4e docs: add documentation summary for WT enhancement
 986620c1 docs: comprehensive documentation for wt enhancement
-```
+```diff
 
 **Status:** ✅ All changes pushed to origin/feature/wt-enhancement
 
@@ -174,14 +174,14 @@ f5b81245 docs: add final documentation report
 ```bash
 mkdocs serve
 # Visit http://127.0.0.1:8000
-```
+```bash
 
 **Deploy to GitHub Pages:**
 
 ```bash
 mkdocs gh-deploy --force
 # Site: https://Data-Wise.github.io/flow-cli/
-```
+````
 
 ---
 

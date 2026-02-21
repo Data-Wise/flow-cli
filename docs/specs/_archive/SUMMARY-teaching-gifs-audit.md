@@ -24,6 +24,7 @@
 ## Critical Issues (P0)
 
 ### Issue 1: Small Font Sizes
+
 **Impact:** Users cannot read GIFs on high-res displays
 
 **Affected GIFs (3):**
@@ -34,6 +35,7 @@
 **Fix:** Update VHS tapes to 18px, regenerate
 
 ### Issue 2: ZSH Syntax Errors
+
 **Impact:** Commands in GIFs generate errors if copy-pasted
 
 **Affected Tapes:**
@@ -50,6 +52,7 @@
 ## Moderate Issues (P1)
 
 ### Issue 3: Borderline Font Sizes
+
 **Impact:** Readability concerns on some displays
 
 **Affected GIFs (4):**
@@ -58,6 +61,7 @@
 **Fix:** Update to 18px for consistency
 
 ### Issue 4: File Size Optimization
+
 **Impact:** Slow page loads, especially mobile
 
 **Current:** 7.7MB total
@@ -70,6 +74,7 @@
 ## File Inventory
 
 ### Teaching Workflow v3.0 (6 GIFs - GOOD)
+
 All use 18px font, proper syntax
 
 - `tutorial-teach-doctor.gif` (1.5MB)
@@ -80,6 +85,7 @@ All use 18px font, proper syntax
 - `tutorial-scholar-integration.gif` (286KB)
 
 ### Token Automation (4 GIFs - BORDERLINE)
+
 All use 16px font
 
 - `23-token-automation-01-isolated-check.gif` (59KB)
@@ -88,6 +94,7 @@ All use 16px font
 - `23-token-automation-04-integration.gif` (71KB)
 
 ### Core Demos (3 GIFs - NEEDS FIXING)
+
 All use 14px font
 
 - `demo.gif` (1.0MB)
@@ -134,22 +141,26 @@ All use 14px font
 ## Recommended Fix Priority
 
 ### Phase 1: Critical Fixes (5-8 hours)
+
 1. Fix font sizes (10 tapes: 6×14px + 4×16px → 18px)
 2. Fix syntax errors (3 tapes: 87 lines total)
 3. Regenerate affected GIFs (10 GIFs)
 
 ### Phase 2: Optimization (4-6 hours)
+
 1. Create validation script
 2. Optimize all GIFs with gifsicle
 3. Create style guide
 4. Update documentation
 
 ### Phase 3: Automation (3-4 hours)
+
 1. Enhance generation scripts
 2. Add pre-commit hooks
 3. Add CI/CD validation
 
 ### Phase 4: Rollout (2-3 hours)
+
 1. Quality verification
 2. Deploy updated docs
 3. Archive old GIFs
@@ -162,6 +173,7 @@ All use 14px font
 ## Before/After Comparison
 
 ### Font Sizes
+
 | Size | Before | After | Change |
 |------|--------|-------|--------|
 | 14px | 6 GIFs | 0 GIFs | -6 |
@@ -169,12 +181,14 @@ All use 14px font
 | 18px | 6 GIFs | 13 GIFs | +7 |
 
 ### Syntax Quality
+
 | Status | Before | After | Change |
 |--------|--------|-------|--------|
 | Clean | 10 tapes | 20 tapes | +10 |
 | Errors | 3 tapes (87 lines) | 0 tapes | -3 |
 
 ### File Sizes
+
 | Metric | Before | After | Change |
 |--------|--------|-------|--------|
 | Total Size | 7.7MB | ~5.0MB | -35% |
@@ -185,22 +199,26 @@ All use 14px font
 ## Standards Established
 
 ### Font Size Standards
+
 - **Teaching tutorials:** 18px (minimum)
 - **Dispatcher demos:** 18px (recommended)
 - **Quick demos:** 18px (recommended)
 - **Never use:** 14px or below
 
 ### Syntax Standards
+
 - **Comments:** `Type "echo 'Comment'"` (NOT `Type "# Comment"`)
 - **Quotes:** Use single quotes to avoid escaping
 - **Initialization:** Always source flow-cli at start
 
 ### Dimension Standards
+
 - **Teaching tutorials:** 1400×900
 - **Dispatcher demos:** 1200×800
 - **Quick demos:** 1200×600
 
 ### Quality Standards
+
 - **Optimization:** All GIFs must be optimized with gifsicle
 - **Validation:** All tapes must pass validation before commit
 - **Testing:** Visual quality check on multiple displays
@@ -232,18 +250,21 @@ All use 14px font
 ## Next Actions
 
 ### Immediate (Today)
+
 - [ ] Review spec with maintainer
 - [ ] Get approval for approach
 - [ ] Decide on rollout option (A/B/C)
 - [ ] Prioritize phases
 
 ### This Week
+
 - [ ] Phase 1: Fix critical issues
   - [ ] Update font sizes in 10 tapes
   - [ ] Fix syntax errors in 3 tapes
   - [ ] Regenerate 10 GIFs
 
 ### Next Week
+
 - [ ] Phase 2: Optimization & standards
   - [ ] Create validation script
   - [ ] Optimize all GIFs
@@ -254,6 +275,7 @@ All use 14px font
 ## Rollout Options
 
 ### Option A: Quick Fix (v5.23.0 - completed in PR #315)
+
 **Timeline:** 1 week
 **Scope:** Phase 1 only
 - Fix fonts + syntax
@@ -261,6 +283,7 @@ All use 14px font
 - Quick release
 
 ### Option B: Complete Solution (v5.23.0)
+
 **Timeline:** 2-3 weeks
 **Scope:** All 4 phases
 - Complete implementation
@@ -268,6 +291,7 @@ All use 14px font
 - Comprehensive solution
 
 ### Option C: Incremental (v5.23.0 + v5.24.0)
+
 **Timeline:** 2 weeks + future work
 **Scope:** Phases 1-2 now, 3-4 later
 - Fix critical issues now

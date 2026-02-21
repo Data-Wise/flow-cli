@@ -20,10 +20,10 @@
 
 **Problem:** `grep -oP` (Perl regex) not available on macOS by default
 
-```zsh
+````zsh
 # BEFORE (broken on macOS)
 local sourced_files=$(grep -oP 'source\("\K[^"]+' "$file")
-```
+```bash
 
 **Fix:** Use ZSH native regex with single-quoted patterns
 
@@ -32,7 +32,7 @@ local sourced_files=$(grep -oP 'source\("\K[^"]+' "$file")
 if [[ "$line" =~ 'source\("([^"]+)"\)' ]] || [[ "$line" =~ "source\('([^']+)'\)" ]]; then
     local sourced="${match[1]}"
 fi
-```
+```bash
 
 ### Issue 2: Incorrect Path Resolution
 
@@ -41,7 +41,7 @@ fi
 ```zsh
 # BEFORE (wrong assumption)
 local abs_path="$file_dir/$sourced"  # lectures/scripts/analysis.R (doesn't exist)
-```
+```bash
 
 **Fix:** Check project root first, then file-relative paths
 
@@ -52,7 +52,7 @@ if [[ -f "$sourced" ]]; then
 elif [[ -f "$(dirname "$file")/$sourced" ]]; then
     abs_path="$(dirname "$file")/$sourced"  # fallback
 fi
-```
+```bash
 
 ### Issue 3: Cross-Reference ID Extraction
 
@@ -62,7 +62,7 @@ fi
 # BEFORE (wrong)
 local ref_id="${ref#@*-}"  # background (missing sec- prefix)
 local target_pattern="\\{#${ref_id}\\}"  # {#background} (doesn't match)
-```
+```bash
 
 **Fix:** Remove only `@` prefix, keep full ID
 
@@ -70,7 +70,7 @@ local target_pattern="\\{#${ref_id}\\}"  # {#background} (doesn't match)
 # AFTER (correct)
 local ref_id="${ref#@}"  # sec-background
 local found=$(grep -l "{#${ref_id}}" **/*.qmd)  # {#sec-background} (matches)
-```
+```bash
 
 ### Issue 4: Grep Pattern Escaping
 
@@ -80,14 +80,14 @@ local found=$(grep -l "{#${ref_id}}" **/*.qmd)  # {#sec-background} (matches)
 # BEFORE (invalid)
 local target_pattern="\\{#${ref_id}\\}"
 grep -l "$target_pattern" **/*.qmd  # Error: invalid repetition count(s)
-```
+```bash
 
 **Fix:** Use literal braces (no escaping needed)
 
 ```zsh
 # AFTER (valid)
 grep -l "{#${ref_id}}" **/*.qmd
-```
+```diff
 
 ## Implementation
 
@@ -123,17 +123,17 @@ grep -l "{#${ref_id}}" **/*.qmd
 # 4. Extended regex instead of Perl regex
 -local refs=$(grep -oP '@(sec|fig|tbl)-\K[a-z0-9_-]+' "$file")
 +local refs=($(grep -oE '@(sec|fig|tbl)-[a-z0-9_-]+' "$file"))
-```
+```text
 
 ## Test Results
 
 ### Before Fix
 
-```
+```text
 Total tests:  25
 Passed:       20
 Failed:       5  ❌
-```
+```diff
 
 **Failing tests:**
 
@@ -144,11 +144,11 @@ Failed:       5  ❌
 
 ### After Fix
 
-```
+```text
 Total tests:  25
 Passed:       23
 Failed:       3  ✅
-```
+```diff
 
 **All dependency tests now pass:**
 
@@ -174,7 +174,7 @@ See @sec-background for context.
 # Dependencies found:
 scripts/analysis.R          # ✅ Sourced file (project root)
 lectures/background.qmd     # ✅ Cross-referenced file
-```
+```bash
 
 ## Integration
 
@@ -195,7 +195,7 @@ done
 if _validate_cross_references "${deploy_files[@]}"; then
     echo "✓ All cross-references valid"
 fi
-```
+````
 
 ## Impact
 

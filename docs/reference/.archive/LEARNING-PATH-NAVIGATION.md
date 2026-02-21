@@ -13,9 +13,9 @@
 
 ### Where Are You in Your Journey?
 
-```
+```text
 Choose your situation below to get directed to exactly what you need:
-```
+```text
 
 | Situation | Jump To | Time | Type |
 |---|---|---|---|
@@ -36,7 +36,7 @@ Choose your situation below to get directed to exactly what you need:
 
 ### Your First 30 Minutes
 
-```
+```text
 Step 1: Read Introduction (5 min)
 └─ Go to: Getting Started Hub
    Link: https://docs.example.com/getting-started/
@@ -51,11 +51,11 @@ Step 3: Understand Your Setup (10 min)
 └─ Go to: Plugin Ecosystem Guide (Beginner section)
    Link: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
    What: What are those 22 plugins doing?
-```
+```text
 
 ### Your First Hour (Add 30 More Minutes)
 
-```
+```text
 Continue from above, then:
 
 Step 4: Get a Quick Win (15 min)
@@ -67,7 +67,7 @@ Step 5: Choose Your Next Path (15 min)
 └─ Go to: Skill-Based Learning Paths
    Link: tutorials/LEARNING-PATH-INDEX.md#skill-based-learning-paths
    What: Which path matches YOUR workflow?
-```
+```diff
 
 ### Next Actions
 
@@ -92,14 +92,14 @@ Step 5: Choose Your Next Path (15 min)
 
 ### Your Learning Path
 
-```
+```text
 Current Level: Beginner
 ├─ Have: Basic commands working
 ├─ Know: How to track work
 └─ Need: Deeper skills in your area
 
 Choose ONE path below based on YOUR needs:
-```
+```text
 
 **Choose Your Focus:**
 
@@ -121,7 +121,7 @@ Choose ONE path below based on YOUR needs:
 
 ### Decision Tree
 
-```
+```text
 What's your biggest need right now?
 
 ├─ "I use Git all day"
@@ -143,7 +143,7 @@ What's your biggest need right now?
 └─ "I teach courses"
    └─ Go to: [Tutorial 14: Teach](tutorials/14-teach-dispatcher.md)
       Then: [Teaching v3 Guide](guides/TEACHING-WORKFLOW-V3-GUIDE.md)
-```
+```diff
 
 ---
 
@@ -164,14 +164,14 @@ What's your biggest need right now?
 
 #### 🔗 Git Mastery
 
-```
+```text
 Tutorial 8 ✓ (complete)
 Tutorial 9 ✓ (complete)
 ├─ Read: Worktree Workflow Guide
 ├─ Explore: [G Dispatcher Reference](reference/MASTER-DISPATCHER-GUIDE.md#g-dispatcher)
 ├─ Reference: [Git Aliases](reference/ALIAS-REFERENCE-CARD.md#git-226-aliases)
 └─ Advanced: [Developer Guide](guides/DEVELOPER-GUIDE.md#building-custom-commands)
-```
+```text
 
 **Time:** 2-3 hours | **Outcome:** Git workflow expert
 
@@ -179,14 +179,14 @@ Tutorial 9 ✓ (complete)
 
 #### 🎓 Teaching Mastery
 
-```
+```text
 Tutorial 14 ✓ (complete)
 ├─ Read: [Teaching Workflow v3](guides/TEACHING-WORKFLOW-V3-GUIDE.md)
 ├─ Try: [Tutorial 21: Teach Analyze](tutorials/21-teach-analyze.md)
 ├─ Reference: [Teach Dispatcher Ref](reference/.archive/TEACH-DISPATCHER-REFERENCE-v3.0.md)
 ├─ Deep Dive: [Course Planning Best Practices](guides/COURSE-PLANNING-BEST-PRACTICES.md)
 └─ Advanced: [Intelligent Content Analysis](guides/INTELLIGENT-CONTENT-ANALYSIS.md)
-```
+```text
 
 **Time:** 3-4 hours | **Outcome:** Teaching pipeline expert
 
@@ -194,14 +194,14 @@ Tutorial 14 ✓ (complete)
 
 #### ⚙️ Plugin Mastery
 
-```
+```text
 Plugin Ecosystem Guide ✓ (read)
 ├─ Explore: [Plugin Learning Map](reference/PLUGIN-LEARNING-MAP.md)
 ├─ Practice: All git/docker/brew aliases
 ├─ Optimize: [Tutorial 22: Optimization](tutorials/22-plugin-optimization.md)
 ├─ Manage: [Plugin Management Workflow](guides/PLUGIN-MANAGEMENT-WORKFLOW.md)
 └─ Advanced: [Developer Guide](guides/DEVELOPER-GUIDE.md) (custom dispatchers)
-```
+```text
 
 **Time:** 2-3 hours | **Outcome:** Plugin ecosystem expert
 
@@ -209,14 +209,14 @@ Plugin Ecosystem Guide ✓ (read)
 
 #### 🖥️ Editor Mastery
 
-```
+```text
 Tutorials 15-18 (explore)
 ├─ [Tutorial 15: Neovim Quick Start](tutorials/15-nvim-quick-start.md)
 ├─ [Tutorial 16: Vim Motions](tutorials/16-vim-motions.md)
 ├─ [Tutorial 17: LazyVim Basics](tutorials/17-lazyvim-basics.md)
 ├─ [Tutorial 18: LazyVim Showcase](tutorials/18-lazyvim-showcase.md)
 └─ Reference: [Neovim Quick Ref](reference/NVIM-QUICK-REFERENCE.md)
-```
+```diff
 
 **Time:** 1.5-2 hours | **Outcome:** Vim/Neovim expert
 
@@ -249,14 +249,14 @@ Tutorials 15-18 (explore)
 
 #### Build Custom Workflows
 
-```
+```text
 Start: [Developer Guide](guides/DEVELOPER-GUIDE.md)
 ├─ Understand: ZSH scripting basics
 ├─ Reference: [Architecture Overview](reference/MASTER-ARCHITECTURE.md)
 ├─ Study: How existing dispatchers work
 ├─ Build: Your first custom dispatcher
 └─ Explore: [Alias Management](guides/ALIAS-MANAGEMENT-WORKFLOW.md)
-```
+```text
 
 **Time:** 2-4 hours | **Create:** Custom dispatcher for your workflow
 
@@ -264,7 +264,7 @@ Start: [Developer Guide](guides/DEVELOPER-GUIDE.md)
 
 #### Optimize Everything
 
-```
+```text
 Start: [Tutorial 22: Optimization](tutorials/22-plugin-optimization.md)
 ├─ Measure: Your startup time baseline
 ├─ Analyze: Which plugins are slow
@@ -272,7 +272,7 @@ Start: [Tutorial 22: Optimization](tutorials/22-plugin-optimization.md)
 ├─ Cache: Expensive operations
 ├─ Test: Measure improvements
 └─ Share: Your optimization patterns
-```
+```text
 
 **Time:** 1-2 hours | **Achieve:** < 1 second startup
 
@@ -280,7 +280,7 @@ Start: [Tutorial 22: Optimization](tutorials/22-plugin-optimization.md)
 
 #### Master the Entire Ecosystem
 
-```
+```text
 Study All These:
 ├─ [API Complete Reference](reference/MASTER-API-REFERENCE.md)
 ├─ [Architecture Diagrams](diagrams/ARCHITECTURE-DIAGRAMS.md)
@@ -288,7 +288,7 @@ Study All These:
 ├─ [Plugin Learning Map](reference/PLUGIN-LEARNING-MAP.md)
 ├─ [Full Plugin Guide](guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md)
 └─ Source Code: `lib/*.zsh` and `commands/*.zsh`
-```
+```diff
 
 **Time:** 4-6 hours | **Outcome:** Complete system understanding
 
@@ -313,9 +313,9 @@ Study All These:
 
 ### Quick Lookup by Plugin Name
 
-```
+```text
 Pick a plugin from your 22:
-```
+```text
 
 #### OMZ Plugins (18)
 
@@ -359,7 +359,7 @@ Pick a plugin from your 22:
 
 ### Find Info About a Plugin
 
-```
+```text
 To learn about a specific plugin:
 
 1. Start: [Plugin Ecosystem Guide](guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md)
@@ -381,7 +381,7 @@ To learn about a specific plugin:
 5. Deep dive: Official plugin documentation
    │
    └─ For technical details, configuration, etc.
-```
+```text
 
 ---
 
@@ -403,18 +403,18 @@ To learn about a specific plugin:
 
 #### Build Custom Alias (30 min)
 
-```
+```text
 1. Why: [Alias Management Workflow](guides/ALIAS-MANAGEMENT-WORKFLOW.md)
 2. See examples: [Alias Reference Card](reference/ALIAS-REFERENCE-CARD.md)
 3. Copy template: From management guide
 4. Test: In your shell
 5. Save: To your config
 6. Done: Start using daily
-```
+```text
 
 #### Build Custom Dispatcher (2 hrs)
 
-```
+```text
 1. Understand: [All Dispatchers](reference/MASTER-DISPATCHER-GUIDE.md)
 2. Pick one to study: e.g., [CC Dispatcher](reference/CC-DISPATCHER-REFERENCE.md)
 3. Learn code: [Developer Guide](guides/DEVELOPER-GUIDE.md)
@@ -423,18 +423,18 @@ To learn about a specific plugin:
 6. Write: Your dispatcher logic
 7. Test: Verify it works
 8. Document: Help text + usage
-```
+```text
 
 #### Build Custom Workflow (1-2 hrs)
 
-```
+```text
 1. Study: Existing [Workflow Guides](guides/WORKFLOWS-QUICK-WINS.md)
 2. Pick: Similar workflow to yours
 3. Adapt: Change commands for your needs
 4. Test: Run through workflow
 5. Automate: Use flow-cli commands
 6. Share: Write guide for others
-```
+```text
 
 ---
 
@@ -442,7 +442,7 @@ To learn about a specific plugin:
 
 ### All Documents Organized by Purpose
 
-```
+```text
 FLOW-CLI LEARNING ECOSYSTEM
 │
 ├─ 🎯 GETTING STARTED (First 2 hours)
@@ -487,11 +487,11 @@ FLOW-CLI LEARNING ECOSYSTEM
    ├─ Contributing Guide
    ├─ Architecture Diagrams
    └─ Source code (/lib, /commands)
-```
+```text
 
 ### Document Dependency Tree
 
-```
+```text
 How documents relate to each other:
 
 START HERE
@@ -518,7 +518,7 @@ START HERE
          ├─→ [Teaching Workflow v3]
          ├─→ [Worktree Workflow]
          └─→ [Other specialized guides]
-```
+```diff
 
 ---
 
@@ -543,7 +543,7 @@ START HERE
 
 **Just ask yourself these questions:**
 
-```
+```text
 Are you:
 ├─ A complete beginner?
 │  └─ Go to: [Absolute Beginner](#absolute-beginner)

@@ -24,7 +24,7 @@ win "Set up flow-cli"
 
 # 4. End session
 finish
-```
+```bash
 
 ---
 
@@ -37,7 +37,7 @@ work my-project     # 1. Start a focused session
 # ... do your work ...
 win "Did the thing"  # 2. Log your wins
 finish "Done!"       # 3. End and optionally commit
-```
+```bash
 
 **That's it!** Everything else builds on this foundation.
 
@@ -53,7 +53,7 @@ flow --version
 
 # Should show help
 flow help
-```
+```zsh
 
 If commands aren't found, ensure the plugin is sourced in your `.zshrc`:
 
@@ -63,7 +63,7 @@ antidote load data-wise/flow-cli
 
 # Or manual source
 source /path/to/flow-cli/flow.plugin.zsh
-```
+```bash
 
 ---
 
@@ -75,17 +75,17 @@ work my-project
 
 # Or use the interactive picker
 work
-```
+```text
 
 You'll see:
 
-```
+```text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📦 my-project (node)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🟢 Status: active
 🎯 Focus: Implement new feature
-```
+```diff
 
 **What happened:**
 
@@ -104,16 +104,16 @@ As you accomplish things, log them:
 win "Implemented user login"
 win "Fixed that annoying bug"
 win --ship "Deployed to production"
-```
+```text
 
 Output:
 
-```
+```text
 🎉 WIN LOGGED! #code
 Implemented user login
 
 Keep it up! 🚀
-```
+```bash
 
 ### Win Categories
 
@@ -141,7 +141,7 @@ yay
 
 # Weekly summary with graph
 yay --week
-```
+```bash
 
 **What you'll see:**
 
@@ -160,7 +160,7 @@ finish "Completed auth feature"
 # You'll be prompted to commit if there are changes
 # Commit 3 change(s)? [y/N] y
 # ✓ Changes committed
-```
+```bash
 
 ---
 
@@ -175,7 +175,7 @@ flow goal set 3
 # Check progress
 flow goal
 # Today: ██████░░░░ 2/3 wins
-```
+```diff
 
 ---
 
@@ -228,7 +228,7 @@ Get help for any dispatcher:
 g help
 r help
 cc help
-```
+```diff
 
 ---
 

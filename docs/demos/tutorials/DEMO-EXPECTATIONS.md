@@ -58,9 +58,11 @@ teach slides "Introduction to Statistics" --style conceptual
 
 1. **Header**
 
-   ```
+   ```text
+
    🎓 Scholar Enhancement - Generating Slides
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
    ```
 
 2. **Configuration Display**
@@ -69,7 +71,8 @@ teach slides "Introduction to Statistics" --style conceptual
 
 3. **Content Structure Progress**
 
-   ```
+   ```text
+
    📝 Content Structure:
       ✓ Title slide
       ✓ Learning objectives
@@ -77,27 +80,32 @@ teach slides "Introduction to Statistics" --style conceptual
       ✓ Conceptual explanations
       ✓ Practical examples
       ✓ Summary & takeaways
+
    ```
 
 4. **Content Preview**
 
-   ```
+   ```text
+
    📊 Included Sections:
       • What is statistics?
       • Descriptive vs. inferential statistics
       • Population vs. sample
       • Variables and data types
       • Real-world applications
+
    ```
 
 5. **Output Summary**
 
-   ```
+   ```text
+
    ✅ Generated: slides/intro-statistics.qmd (1,247 words)
 
       Duration: ~45 minutes
       Slides:   15-20
       Format:   Quarto reveal.js
+
    ```
 
 **Expected Behavior:**
@@ -126,54 +134,64 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
 
 1. **Header with Customization**
 
-   ```
+   ```text
+
    🎓 Scholar Enhancement - Generating Quiz
 
    Topic:            Hypothesis Testing
    Style Preset:     rigorous (definitions + explanation + math + proof)
    Technical Depth:  high
+
    ```
 
 2. **Style Customization Applied**
 
-   ```
+   ```text
+
    📝 Style Customization Applied:
       ✓ Formal mathematical definitions
       ✓ Statistical theory explanations
       ✓ Proof-based questions
       ✓ Advanced technical notation
       ✓ Rigorous problem solving
+
    ```
 
 3. **Question Distribution**
 
-   ```
+   ```text
+
    🎯 Question Types:
       • Theoretical foundations (40%)
       • Mathematical proofs (25%)
       • Statistical derivations (20%)
       • Applied problem solving (15%)
+
    ```
 
 4. **Content Characteristics**
 
-   ```
+   ```text
+
    📊 Content Characteristics:
       • Graduate-level rigor
       • Heavy mathematical notation
       • Proof verification questions
       • Multi-step derivations
+
    ```
 
 5. **Output Summary**
 
-   ```
+   ```text
+
    ✅ Generated: quizzes/hypothesis-testing.qmd (15 questions)
 
       Difficulty:  Advanced/Graduate
       Duration:    60 minutes
       Topics:      Null hypothesis, Type I/II errors, p-values, power
       Format:      Mix of theoretical and computational
+
    ```
 
 **Expected Behavior:**
@@ -201,7 +219,8 @@ teach lecture --lesson content/lesson-plans/week03.yml
 
 1. **Lesson Plan Loading**
 
-   ```
+   ```text
+
    🎓 Scholar Enhancement - YAML-Driven Content Generation
 
    📋 Loading Lesson Plan: content/lesson-plans/week03.yml
@@ -210,43 +229,51 @@ teach lecture --lesson content/lesson-plans/week03.yml
    Topic:     Introduction to Linear Regression
    Duration:  75 minutes
    Level:     Undergraduate
+
    ```
 
 2. **Lesson Plan Structure**
 
-   ```
+   ```text
+
    📚 Lesson Plan Structure:
       ✓ 4 learning objectives (understand → apply → analyze)
       ✓ 4 main topics with 12 subtopics
       ✓ 5 structured activities (lecture → code demo → discussion)
       ✓ Reading materials and datasets specified
       ✓ Teaching style overrides applied
+
    ```
 
 3. **Content Generation Based on Plan**
 
-   ```
+   ```text
+
    🎯 Content Generation Based on Plan:
       • Using OLS derivation activity (20 min, step-by-step)
       • Including R implementation demo (mtcars dataset)
       • Incorporating board work for theory section
       • Adding think-pair-share for practice
+
    ```
 
 4. **Generated Lecture Outline**
 
-   ```
+   ```text
+
    📝 Generating Lecture Outline:
       ✓ Opening: Review correlation, introduce regression (5 min)
       ✓ Theory: Model formulation, OLS derivation (25 min)
       ✓ Application: R demo with visualization (25 min)
       ✓ Practice: Coefficient interpretation (15 min)
       ✓ Closing: Summary & homework preview (5 min)
+
    ```
 
 5. **Output Summary**
 
-   ```
+   ```text
+
    ✅ Generated: lectures/week03-linear-regression.qmd (2,847 words)
 
       Sections:     5 (matches lecture structure)
@@ -254,6 +281,7 @@ teach lecture --lesson content/lesson-plans/week03.yml
       Derivations:  2 (OLS with intuition-first approach)
       Activities:   5 (fully specified with timing)
       Format:       Quarto with reveal.js support
+
    ```
 
 **Expected Behavior:**
@@ -308,7 +336,7 @@ cd ~/projects/teaching/scholar-demo-course
 
 ### Structure
 
-```
+```text
 scholar-demo-course/
 ├── .flow/
 │   └── teach-config.yml          # Course configuration
@@ -354,7 +382,7 @@ When you run `teach` commands in this directory, Scholar uses this configuration
 
 All demos show:
 
-```
+```text
 🎓 Scholar Enhancement - [Action]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -363,7 +391,7 @@ All demos show:
 
 Checkmarks for completed steps:
 
-```
+```text
 ✓ Task completed
 • Bullet point
 ```
@@ -385,7 +413,7 @@ Checkmarks for completed steps:
 
 ### 5. Output Summary Format
 
-```
+```text
 ✅ Generated: path/to/file.qmd (word count)
 
    Metric 1:  Value

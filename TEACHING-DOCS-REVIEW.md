@@ -66,14 +66,14 @@ The teaching workflow documentation is **extensive and well-structured** with a 
 
 The `teach help` output sets the bar for all dispatchers:
 
-```
+````text
 ✅ QUICK START - 3 commands to begin
 ✅ MOST COMMON - 80% of daily use (5 commands)
 ✅ QUICK EXAMPLES - Copy-paste ready with inline comments
 ✅ TIP callout - Clarifies Scholar dependency
 ✅ Categorized sections - Setup, Content, Validation, Deployment
 ✅ Shortcuts - Listed alongside full commands
-```
+```diff
 
 **Impact:** Users can become productive in < 2 minutes.
 
@@ -134,7 +134,7 @@ Option B: Clear version indicators
 
 - Add banner: "⚠️ Legacy v2.0 - See v3.0 Guide for current workflow"
 - Keep for historical reference only
-```
+```sql
 
 ### 2. 🟡 Entry Point Confusion
 
@@ -179,7 +179,7 @@ Choose your path:
 │ → TEACHING-WORKFLOW-VISUAL.md │
 │ Workflows with diagrams and GIFs │
 └─────────────────────────────────────────────────┘
-```
+```diff
 
 ### 3. 🟡 Advanced Feature Discoverability
 
@@ -213,7 +213,7 @@ $ teach templates new lecture week-05 --topic "ANOVA"
 **LaTeX Macros** - Consistent notation
 $ teach macros sync
 → Extract macros from sources, export for Scholar AI
-```
+```text
 
 **B. Update Help System "TIPS" Section:**
 
@@ -222,7 +222,7 @@ $ teach macros sync
   teach analyze --ai         # AI-powered content analysis
   teach templates new        # Create from templates
   teach macros export        # Export for consistent notation
-```
+```diff
 
 ### 4. 🟡 Cross-Reference Gaps
 
@@ -252,7 +252,7 @@ Add **"See Also"** sections at end of each major topic:
 - `teach templates` - Template management
 - `teach macros` - LaTeX macro sync
 - `teach doctor` - Health checks (includes macro validation)
-```
+```sql
 
 ### 5. 🟢 Missing: Troubleshooting Guide
 
@@ -296,7 +296,7 @@ Error: Scholar plugin not found
 ## Git Merge Conflicts
 
 [...]
-```
+```diff
 
 ### 6. 🟢 Missing: Video Tutorials
 
@@ -434,7 +434,7 @@ $ teach tutorial start
 
 $ teach init "My Course"
 ✅ Correct! Let's move to Step 2...
-```
+```diff
 
 **Implementation:**
 
@@ -449,7 +449,7 @@ $ teach init "My Course"
 
 ### Recommended Organization
 
-```
+```text
 docs/
 ├── teaching/
 │   ├── START-HERE.md ⭐ NEW - Navigation hub
@@ -479,7 +479,7 @@ docs/
 │   │   └── *.mp4 or links to YouTube
 │   └── archive/
 │       └── v2.0-WORKFLOW.md (legacy)
-```
+```diff
 
 **Benefits:**
 
@@ -506,27 +506,27 @@ docs/
 
 **Beginner Path:**
 
-```
+```text
 START-HERE.md → QUICK-START.md → First Deploy
 Target: 15 minutes
 Success: Can deploy course website
-```
+```text
 
 **Intermediate Path:**
 
-```
+```text
 WORKFLOW-V3.md → Advanced tutorials → Power features
 Target: 1 hour
 Success: Using templates, validation, Scholar
-```
+```text
 
 **Expert Path:**
 
-```
+```text
 Reference cards → Troubleshooting → Video tutorials
 Target: As needed
 Success: Self-service problem solving
-```
+````
 
 ---
 

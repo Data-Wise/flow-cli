@@ -33,7 +33,7 @@ count="${count%%*( )}"    # Remove trailing spaces
 [[ "$count" =~ ^[0-9]+$ ]] || count=0  # Default to 0 if non-numeric
 
 if [[ $count -gt 0 ]]; then  # Safe: count is always numeric
-```
+```diff
 
 ## Changes Made
 
@@ -91,11 +91,11 @@ Added regression tests:
 
 **All tests pass:**
 
-```
+```text
 Tests run:    56
 Tests passed: 56
 Tests failed: 0
-```
+```diff
 
 **New tests added:** 4 (Test Suite 11)
 **Total test count:** 52 → 56
@@ -122,7 +122,7 @@ $ dot status
 │  Last sync: unknown                              │
 │  Tracked files: 0                                 │
 ╰───────────────────────────────────────────────────╯
-```
+```bash
 
 ## Prevention
 
@@ -133,7 +133,7 @@ local count=$(command | wc -l | tr -d ' ')
 count="${count##*( )}"    # Remove leading spaces
 count="${count%%*( )}"    # Remove trailing spaces
 [[ "$count" =~ ^[0-9]+$ ]] || count=0
-```
+```diff
 
 ## Impact
 
@@ -159,7 +159,7 @@ echo "$matched_files"  # Returns: .test-dotfile-for-e2e
 
 # After:
 echo "$HOME/$matched_files"  # Returns: /Users/dt/.test-dotfile-for-e2e
-```
+```bash
 
 ### Verification
 

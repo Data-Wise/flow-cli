@@ -33,13 +33,13 @@ focus help      # Focus timer help
 note help       # Notes sync help
 obs help        # Obsidian help
 workflow help   # Workflow logging help
-```
+```text
 
 Or use the short alias:
 
 ```bash
 r h             # Same as r help
-```
+```text
 
 ---
 
@@ -49,11 +49,11 @@ Each help screen now features:
 
 ### 1. Visual Header
 
-```
+```text
 ╭─────────────────────────────────────────────╮
 │ command - Description                       │
 ╰─────────────────────────────────────────────╯
-```
+```diff
 
 ### 2. Most Common Commands (🔥)
 
@@ -109,7 +109,7 @@ Each help screen now features:
 
 **Before:**
 
-```
+```text
 r <action> - R Package Development
 
 CORE WORKFLOW:
@@ -117,11 +117,11 @@ CORE WORKFLOW:
   r test         Run tests (devtools::test)
   r doc          Generate docs (devtools::document)
   ... (20+ more lines)
-```
+```text
 
 **After:**
 
-```
+```bash
 ╭─────────────────────────────────────────────╮
 │ r - R Package Development                   │
 ╰─────────────────────────────────────────────╯
@@ -139,7 +139,7 @@ CORE WORKFLOW:
 📋 CORE WORKFLOW:
   r load             Load package (devtools::load_all)
   ...
-```
+```bash
 
 **Time saved:** From 10 seconds scanning → <3 seconds finding what you need
 
@@ -154,7 +154,7 @@ NO_COLOR=1 r help
 # Or set in your environment
 export NO_COLOR=1
 r help
-```
+```text
 
 ---
 
@@ -166,7 +166,7 @@ r help
 flow help -i              # Interactive fzf picker for all commands
 r help -i                 # Works with any dispatcher
 cc help -i                # Browse Claude Code commands
-```
+```diff
 
 **Features:**
 
@@ -182,7 +182,7 @@ flow alias                # Show all custom aliases (29 total)
 flow alias cc             # Claude Code aliases (ccy, ccp, ccr)
 flow alias git            # Git aliases
 flow alias <category>     # Any category
-```
+```diff
 
 **Categories:** `git`, `cc`, `pick`, `dash`, `work`, `capture`, `mcp`, `quarto`, `r`, `obs`
 

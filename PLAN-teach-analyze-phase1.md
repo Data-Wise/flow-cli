@@ -40,13 +40,13 @@
 
 **Functions to implement:**
 
-```zsh
+````zsh
 _extract_concepts_simple()      # Extract from YAML frontmatter only
 _parse_concept_metadata()       # Parse concept: field in frontmatter
 _build_concept_graph()          # Build simple graph structure
 _save_concept_graph()           # Save to .teach/concepts.json
 _load_concept_graph()           # Load from .teach/concepts.json
-```
+```text
 
 **Key Data Structure:**
 
@@ -68,7 +68,7 @@ _load_concept_graph()           # Load from .teach/concepts.json
     }
   }
 }
-```
+```diff
 
 **Implementation Notes:**
 
@@ -98,7 +98,7 @@ _find_missing_prerequisites()   # List missing prereqs
 _validate_prerequisite_order()  # Check week ordering
 _get_prerequisite_chain()       # Build dependency chain
 _format_prerequisite_report()   # Human-readable output
-```
+```diff
 
 **Validation Rules:**
 
@@ -131,11 +131,11 @@ Options:
   --all                 Analyze all content (default)
   --format text|json    Output format (default: text)
   --quiet               Suppress warnings
-```
+```text
 
 **Output Format:**
 
-```
+```text
 ╔═══════════════════════════════════════════════════════════╗
 ║  Content Analysis Report                                  ║
 ╚═══════════════════════════════════════════════════════════╝
@@ -161,7 +161,7 @@ Concept Coverage:
   Total concepts: 18
   Concepts with prerequisites: 15
   Orphaned concepts: 3 (no prerequisites defined)
-```
+```diff
 
 **Implementation:**
 
@@ -189,7 +189,7 @@ Concept Coverage:
 
 ```bash
 teach validate --concepts    # Run concept prerequisite checks
-```
+```diff
 
 **Integration:**
 
@@ -207,7 +207,7 @@ if [[ $validate_concepts == true || $validate_all == true ]]; then
         ((error_count++))
     fi
 fi
-```
+```text
 
 ---
 
@@ -217,13 +217,13 @@ fi
 
 **Add new section:**
 
-```
+```text
 Concept Analysis:
   Total concepts: 18
   Prerequisites validated: ✓
   Last analysis: 2 hours ago
   Run: teach analyze
-```
+```diff
 
 **Implementation:**
 
@@ -248,7 +248,7 @@ case "$1" in
         ;;
     # ... existing cases
 esac
-```
+```zsh
 
 **Add help:**
 
@@ -298,7 +298,7 @@ SEE ALSO
   docs/guides/INTELLIGENT-CONTENT-ANALYSIS.md
 EOF
 }
-```
+```zsh
 
 ---
 
@@ -311,7 +311,7 @@ EOF
 source "$FLOW_PLUGIN_ROOT/lib/concept-extraction.zsh"
 source "$FLOW_PLUGIN_ROOT/lib/prerequisite-checker.zsh"
 source "$FLOW_PLUGIN_ROOT/commands/teach-analyze.zsh"
-```
+```yaml
 
 ---
 
@@ -349,7 +349,7 @@ concepts:
     auto_extract: true # Extract concepts from frontmatter
     strict_ordering: true # Enforce week-based ordering
     warn_orphans: true # Warn about concepts with no prereqs
-```
+```diff
 
 **Implementation:**
 
@@ -377,7 +377,7 @@ concepts:
     - simple-regression
     - residuals
 ---
-```
+```diff
 
 **Documentation:**
 
@@ -579,7 +579,7 @@ concepts:
 
 **New Files (10):**
 
-```
+```text
 lib/
   concept-extraction.zsh           # 400 lines
   prerequisite-checker.zsh         # 300 lines
@@ -600,11 +600,11 @@ docs/
 
 lectures/
   example-with-concepts.qmd        # 150 lines
-```
+```text
 
 **Modified Files (7):**
 
-```
+```zsh
 lib/dispatchers/teach-dispatcher.zsh    # +150 lines (routing + help)
 commands/teach-validate.zsh             # +50 lines (--concepts flag)
 lib/status-dashboard.zsh                # +40 lines (concept section)
@@ -613,7 +613,7 @@ docs/guides/TEACHING-WORKFLOW-V3-GUIDE.md  # +300 lines
 docs/reference/TEACH-DISPATCHER-REFERENCE.md  # +200 lines
 README.md                               # +50 lines
 CHANGELOG.md                            # +100 lines
-```
+```diff
 
 **Total:**
 
@@ -626,19 +626,19 @@ CHANGELOG.md                            # +100 lines
 
 ## Dependencies
 
-### External Tools (already available):
+### External Tools (already available)
 
 - `yq` (YAML parsing) ✅ Available via teach doctor
 - `jq` (JSON parsing) ✅ Available via teach doctor
 - ZSH 5.8+ ✅ Already required
 
-### Internal Dependencies:
+### Internal Dependencies
 
 - `lib/core.zsh` (logging, colors)
 - `lib/validation-helpers.zsh` (YAML validation)
 - `lib/status-dashboard.zsh` (status integration)
 
-### Optional Dependencies:
+### Optional Dependencies
 
 - PR #280 (teach slides) - Recommended to merge first for better integration
 
@@ -646,19 +646,19 @@ CHANGELOG.md                            # +100 lines
 
 ## Testing Strategy
 
-### Unit Testing:
+### Unit Testing
 
 - Test each function in isolation
 - Use mock data for file parsing
 - 60 unit tests targeting 95%+ coverage
 
-### Integration Testing:
+### Integration Testing
 
 - Full workflow tests (8-step scenarios)
 - Command integration (validate, status)
 - 20 integration tests for real-world usage
 
-### Manual Testing:
+### Manual Testing
 
 - Follow Quick Start guide step-by-step
 - Test with real course content
@@ -740,7 +740,7 @@ cd ~/projects/dev-tools/flow-cli
 git checkout dev
 git pull origin dev
 git worktree add ~/.git-worktrees/flow-cli/teach-analyze -b feature/teach-analyze dev
-```
+```bash
 
 ### 2. Start Implementation
 
@@ -749,7 +749,7 @@ cd ~/.git-worktrees/flow-cli/teach-analyze
 claude  # Start NEW session
 
 # Follow task order: Wave 1 → Wave 2 → ... → Wave 6
-```
+```bash
 
 ### 3. Testing During Development
 
@@ -762,7 +762,7 @@ claude  # Start NEW session
 
 # Run full test suite before PR
 ./tests/run-all.sh
-```
+```bash
 
 ### 4. Create PR
 
@@ -772,7 +772,7 @@ git add -A
 git commit -m "feat: add teach analyze (Phase 1 - concept extraction)"
 git push origin feature/teach-analyze
 gh pr create --base dev --title "feat: Intelligent Content Analysis (Phase 1)"
-```
+````
 
 ---
 

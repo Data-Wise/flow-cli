@@ -29,7 +29,7 @@ import { detectProjectType } from 'flow-cli/cli/lib/project-detector-bridge.js'
 // Detect a single project
 const type = await detectProjectType('/Users/dt/projects/r-packages/stable/rmediation')
 console.log(`Project type: ${type}`) // "r-package"
-```
+```bash
 
 ### Using a CLI Tool (Coming Soon)
 
@@ -39,7 +39,7 @@ zsh-config detect
 
 # Detect specific directory
 zsh-config detect ~/projects/teaching/stat-440
-```
+```yaml
 
 ---
 
@@ -54,21 +54,21 @@ zsh-config detect ~/projects/teaching/stat-440
 
 **Example:**
 
-```
+```text
 my-r-package/
 ├── DESCRIPTION       ← Must have "Package: mypackage"
 ├── R/
 │   └── functions.R
 ├── man/
 └── NAMESPACE
-```
+```text
 
 **Detection:**
 
 ```javascript
 const type = await detectProjectType('/path/to/my-r-package')
 // Returns: 'r-package'
-```
+```diff
 
 ---
 
@@ -83,21 +83,21 @@ const type = await detectProjectType('/path/to/my-r-package')
 
 **Example:**
 
-```
+```text
 my-quarto-project/
 ├── _quarto.yml       ← Configuration file
 ├── index.qmd         ← Homepage
 └── chapters/
     ├── chapter1.qmd
     └── chapter2.qmd
-```
+```text
 
 **Detection:**
 
 ```javascript
 const type = await detectProjectType('/path/to/my-quarto-project')
 // Returns: 'quarto'
-```
+```diff
 
 ---
 
@@ -110,11 +110,11 @@ const type = await detectProjectType('/path/to/my-quarto-project')
 
 **Example:**
 
-```
+```text
 my-quarto-extension/
 ├── _extension.yml    ← Extension config
 └── shortcode.lua
-```
+```diff
 
 **Note:** Quarto extensions are detected *before* regular Quarto projects, so a project with both `_extension.yml` and `_quarto.yml` will be identified as an extension.
 
@@ -131,20 +131,20 @@ my-quarto-extension/
 
 **Example:**
 
-```
+```text
 my-research/
 ├── manuscript.tex
 ├── references.bib    ← Any of these triggers detection
 ├── figures/
 └── literature/       ← Research papers directory
-```
+```text
 
 **Detection:**
 
 ```javascript
 const type = await detectProjectType('/path/to/my-research')
 // Returns: 'research'
-```
+```yaml
 
 ---
 
@@ -157,20 +157,20 @@ const type = await detectProjectType('/path/to/my-research')
 
 **Example:**
 
-```
+```text
 my-project/
 ├── .git/            ← Git repository
 ├── README.md
 └── src/
     └── code.js
-```
+```text
 
 **Detection:**
 
 ```javascript
 const type = await detectProjectType('/path/to/my-project')
 // Returns: 'generic'
-```
+```yaml
 
 ---
 
@@ -190,7 +190,7 @@ const type1 = await detectProjectType('/nonexistent/path')
 
 const type2 = await detectProjectType('/random/folder')
 // Returns: 'unknown' (no .git, no markers)
-```
+```javascript
 
 ---
 
@@ -204,7 +204,7 @@ import { cwd } from 'process'
 
 const currentType = await detectProjectType(cwd())
 console.log(`You're working in a ${currentType} project`)
-```
+```text
 
 ### 2. Detect Multiple Projects
 
@@ -223,7 +223,7 @@ const results = await detectMultipleProjects([
 //   '/Users/dt/projects/teaching/stat-440': 'quarto',
 //   '/Users/dt/projects/dev-tools/flow-cli': 'generic'
 // }
-```
+```javascript
 
 ### 3. Filter Projects by Type
 
@@ -245,7 +245,7 @@ const rPackages = Object.entries(types)
   .map(([path, type]) => path)
 
 console.log(`Found ${rPackages.length} R packages`)
-```
+```javascript
 
 ### 4. Check if Type is Supported
 
@@ -261,7 +261,7 @@ if (isTypeSupported('r-package')) {
 const types = getSupportedTypes()
 console.log('Supported types:', types)
 // ['r-package', 'quarto', 'quarto-extension', 'research', 'generic', 'unknown']
-```
+```javascript
 
 ---
 
@@ -278,7 +278,7 @@ console.log(type) // 'r-package'
 // Why? Has DESCRIPTION file with:
 // Package: rmediation
 // Title: Parametric and Nonparametric Mediation Analysis
-```
+```javascript
 
 ### Example 2: Detect Quarto Course
 
@@ -291,7 +291,7 @@ console.log(type) // 'quarto'
 // Why? Has _quarto.yml:
 // project:
 //   type: website
-```
+```text
 
 ### Example 3: Scan All Teaching Projects
 
@@ -314,7 +314,7 @@ const results = await detectMultipleProjects(teachingProjects)
 // }
 
 // All are Quarto projects!
-```
+```bash
 
 ---
 
@@ -339,13 +339,13 @@ ls -la *.tex references.bib literature/
 
 # Git project needs .git directory
 ls -la .git
-```
+```bash
 
 If markers exist but detection still fails, check file permissions:
 
 ```bash
 chmod +r DESCRIPTION _quarto.yml  # Make files readable
-```
+```bash
 
 ---
 
@@ -362,7 +362,7 @@ ls -la /path/to/project
 # Fix permissions
 chmod +r /path/to/project
 chmod +rx /path/to/project  # Also need execute for directories
-```
+```javascript
 
 ---
 
@@ -380,7 +380,7 @@ for (const path of allPaths) {
 
 // ✅ Fast: Parallel batch
 const types = await detectMultipleProjects(allPaths) // All at once
-```
+```diff
 
 **Performance:**
 
@@ -409,7 +409,7 @@ if (type === 'generic') {
     return 'go'
   }
 }
-```
+```diff
 
 ---
 
@@ -455,7 +455,7 @@ const allTypes = getSupportedTypes()
 if (isTypeSupported('r-package')) {
   /* ... */
 }
-```
+```yaml
 
 ---
 
@@ -494,7 +494,7 @@ const dashboard = await buildDashboard('/Users/dt/projects/r-packages/stable')
 
 console.log(`R Packages: ${dashboard['r-package']?.length || 0}`)
 console.log(`Quarto Projects: ${dashboard['quarto']?.length || 0}`)
-```
+```javascript
 
 ### Conditional Workflow Based on Type
 
@@ -525,7 +525,7 @@ async function runBuild(projectPath) {
     // Default build logic
   }
 }
-```
+```yaml
 
 ---
 

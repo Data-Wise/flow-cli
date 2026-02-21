@@ -25,7 +25,7 @@ doctor --dot --verbose
 
 # Combine flags
 doctor --dot --fix-token --verbose
-```
+```bash
 
 ---
 
@@ -36,14 +36,14 @@ doctor --dot --fix-token --verbose
 ```bash
 doctor --dot              # Quick token validation
 # ✓ Token valid (45 days remaining)
-```
+```bash
 
 ### Pre-Push Validation
 
 ```bash
 doctor --dot --quiet      # Silent check
 echo $?                   # 0 = OK, 1 = issues
-```
+```bash
 
 ### Token Rotation
 
@@ -51,7 +51,7 @@ echo $?                   # 0 = OK, 1 = issues
 doctor --fix-token        # Interactive menu
 # Select: 1. GitHub Token
 # Auto-rotates + clears cache
-```
+```bash
 
 ### CI/CD Integration
 
@@ -61,7 +61,7 @@ if ! doctor --dot --quiet; then
     echo "Token issues detected"
     exit 1
 fi
-```
+```diff
 
 ---
 
@@ -104,20 +104,20 @@ fi
 
 ### Quiet (`--quiet`)
 
-```
+```text
 (no output unless errors)
-```
+```text
 
 ### Normal (default)
 
-```
+```text
 🔑 GITHUB TOKEN
 ✓ Token valid (45 days remaining)
-```
+```text
 
 ### Verbose (`--verbose`)
 
-```
+```bash
 🔑 GITHUB TOKEN
 [Cache hit - age: 45s, TTL: 300s]
 [Delegation: dot token expiring]
@@ -125,7 +125,7 @@ fi
   Username: your-username
   Token type: fine-grained
   Age: 100 days
-```
+```diff
 
 ---
 
@@ -151,7 +151,7 @@ ls -la ~/.flow/cache/doctor/
 # Clear and retry
 rm -rf ~/.flow/cache/doctor
 doctor --dot --verbose
-```
+```bash
 
 ### Slow Checks
 
@@ -159,7 +159,7 @@ doctor --dot --verbose
 # Check if cache is being used
 doctor --dot --verbose
 # Look for "[Cache hit...]" or "[Cache miss...]"
-```
+```bash
 
 ### Token Issues Not Detected
 
@@ -167,7 +167,7 @@ doctor --dot --verbose
 # Force fresh check
 rm ~/.flow/cache/doctor/token-github.cache
 doctor --dot --verbose
-```
+```bash
 
 ---
 
@@ -187,7 +187,7 @@ g push
 # In dashboard
 dash
 # Shows token status in dev section
-```
+```bash
 
 ### In Scripts
 

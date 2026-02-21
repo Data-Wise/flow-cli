@@ -34,7 +34,7 @@ teach doctor --quiet            # CI-friendly (errors only)
 # View project status (ENHANCED v3.0)
 teach status                    # Shows deployment + backups
 teach week                      # Current week info
-```
+```bash
 
 ### Content Generation (Scholar Integration)
 
@@ -57,7 +57,7 @@ teach syllabus                 # Generate syllabus
 teach slides [topic]           # Generate slides
 teach feedback [student]       # Generate feedback
 teach plan [course]            # Generate lesson plan
-```
+```bash
 
 ### Deployment Workflow
 
@@ -69,7 +69,7 @@ teach deploy                   # Shows changes preview first
 
 # Check deployment status (NEW v3.0)
 teach status                   # Shows last deploy + open PRs
-```
+```bash
 
 ### Project Setup
 
@@ -79,7 +79,7 @@ teach init "Course Name"                      # Basic init
 teach init --config external.yml             # Load external config
 teach init --github                          # Create GitHub repo
 teach init --config course.yml --github      # Both options
-```
+```bash
 
 ### Git Hooks (NEW v3.0)
 
@@ -106,7 +106,7 @@ teach hooks upgrade
 # Remove hooks
 teach hooks uninstall
 # Safety prompt: confirms before removal
-```
+```bash
 
 #### What Each Hook Does
 
@@ -125,7 +125,7 @@ git commit -m "Add lecture 5"
 # If errors found:
 # ✗ ERROR: lectures/week-05.qmd missing field: 'date'
 # Commit aborted.
-```
+```bash
 
 **pre-push** (validates before push):
 
@@ -141,7 +141,7 @@ git push origin main
 # ✗ ERROR: Uncommitted changes:
 #   M lectures/week-05.qmd
 # Push aborted.
-```
+```bash
 
 **prepare-commit-msg** (enhances commit messages):
 
@@ -157,7 +157,7 @@ git commit
 # - Render time: 3.2s
 #
 # Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
-```
+```bash
 
 #### Configuration
 
@@ -167,7 +167,7 @@ git commit
 export QUARTO_PRE_COMMIT_RENDER=0    # Skip rendering (fast)
 export QUARTO_COMMIT_TIMING=0        # No timing info
 export QUARTO_COMMIT_SUMMARY=0       # Minimal messages
-```
+```bash
 
 **Production Mode** (thorough validation):
 
@@ -177,14 +177,14 @@ export QUARTO_PARALLEL_RENDER=1      # Use parallel (fast)
 export QUARTO_MAX_PARALLEL=8         # Max workers
 export QUARTO_COMMIT_TIMING=1        # Include timing
 export QUARTO_COMMIT_SUMMARY=1       # Detailed messages
-```
+```bash
 
 **CI/CD Mode** (automated workflows):
 
 ```bash
 export QUARTO_HOOKS_QUIET=1          # Non-interactive
 export QUARTO_HOOKS_CI=1             # CI-friendly output
-```
+```bash
 
 #### Common Workflows
 
@@ -208,7 +208,7 @@ git commit -m "Add week 5 lecture"
 git push origin main
 # ✓ Working tree clean
 # ✓ Push successful
-```
+```bash
 
 **Emergency bypass:**
 
@@ -219,7 +219,7 @@ git push --no-verify
 
 # Later: validate manually
 teach validate lectures/
-```
+```bash
 
 **Testing hooks without committing:**
 
@@ -230,7 +230,7 @@ teach validate lectures/
 # Output:
 # Running pre-commit validation...
 # ✓ All checks passed
-```
+```bash
 
 #### Troubleshooting
 
@@ -242,7 +242,7 @@ ls -la .git/hooks/pre-commit
 
 # If not executable:
 chmod +x .git/hooks/pre-commit
-```
+```bash
 
 **Hook too slow:**
 
@@ -252,7 +252,7 @@ export QUARTO_PRE_COMMIT_RENDER=0
 
 # Or use more parallel workers
 export QUARTO_MAX_PARALLEL=8
-```
+```bash
 
 **Conflicts with existing hooks:**
 
@@ -262,25 +262,25 @@ export QUARTO_MAX_PARALLEL=8
 
 # View backup
 cat .git/hooks/pre-commit.backup-20260121-143000
-```
+```text
 
 #### Real-World Benefits
 
 **Without hooks:**
 
-```
+```text
 Push broken YAML → CI fails → Fix → Push again (15 min)
 Forget to commit file → Incomplete push → Add missing (10 min)
 Generic messages → Hard to track changes
-```
+```text
 
 **With hooks:**
 
-```
+```text
 YAML validated before commit → Never push broken files (0 min)
 Pre-push catches missing files → Always complete (0 min)
 Auto-formatted messages → Clear history
-```
+```diff
 
 **Time saved per week:** 2-3 hours on a typical course with 15-20 commits
 
@@ -299,13 +299,13 @@ Backups are created automatically before:
 
 **Example:**
 
-```
+```text
 exams/.backups/
 ├── midterm.2026-01-15-1430/
 │   └── midterm.qmd
 └── final.2026-01-18-0930/
     └── final.qmd
-```
+```yaml
 
 ### Retention Policies
 
@@ -320,7 +320,7 @@ backups:
     assignments: archive  # Keep forever
     syllabi: archive      # Keep forever
     rubrics: semester     # Keep current semester only
-```
+```bash
 
 ### Backup Commands
 
@@ -336,7 +336,7 @@ rm -rf exams/.backups/old-backup.*/
 
 # Archive semester (handles retention automatically)
 teach archive
-```
+```bash
 
 ---
 
@@ -356,7 +356,7 @@ teach slides "ANOVA" --template slides
 
 # Custom template (if configured)
 teach assignment "HW1" --template custom
-```
+```sql
 
 **Available Templates:**
 - `formal` - Academic, professional tone
@@ -388,7 +388,7 @@ topics:
     objectives:
       - "Extend to multiple predictors"
       - "Interpret coefficients"
-```
+```bash
 
 **Automatic Context:**
 When `lesson-plan.yml` exists, all Scholar commands automatically include it as context:
@@ -398,7 +398,7 @@ When `lesson-plan.yml` exists, all Scholar commands automatically include it as 
 teach lecture "Simple Linear Regression"
 
 # No need to specify context files manually
-```
+```bash
 
 ---
 
@@ -431,11 +431,11 @@ teach doctor --json
 # Fix mode (interactive install)
 teach doctor --fix
 # Offers to install missing dependencies
-```
+```text
 
 ### Example Output
 
-```
+```yaml
 📋 Teaching Environment Health Check
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -461,7 +461,7 @@ Git Setup:
 Status: ⚠️  Some issues found
 
 Run with --fix to install missing dependencies.
-```
+```yaml
 
 ---
 
@@ -483,7 +483,7 @@ Run with --fix to install missing dependencies.
 
 ### Example Output
 
-```
+```yaml
 📊 Teaching Project Status
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -511,7 +511,7 @@ Recent Content:
 Git Status:
   Branch: draft (3 commits ahead of production)
   Clean: No (2 uncommitted changes)
-```
+```yaml
 
 ---
 
@@ -552,7 +552,7 @@ View full diff? [y/N]: y
 
 Create PR with these changes? [y/N]: y
 ✅ PR created: https://github.com/user/course/pull/45
-```
+```yaml
 
 ---
 
@@ -579,14 +579,14 @@ Create PR with these changes? [y/N]: y
    zinit update Data-Wise/flow-cli
    ```
 
-2. **Run health check:**
+1. **Run health check:**
 
    ```bash
    teach doctor
    teach doctor --fix  # Install missing dependencies
    ```
 
-3. **Review new features:**
+2. **Review new features:**
 
    ```bash
    teach status        # See new deployment/backup sections
@@ -594,14 +594,14 @@ Create PR with these changes? [y/N]: y
    teach help          # Check updated help
    ```
 
-4. **Optional: Configure backups:**
+3. **Optional: Configure backups:**
 
    ```bash
    # Edit .flow/teach-config.yml
    # Add retention policies (defaults are safe)
    ```
 
-5. **Optional: Add lesson plan:**
+4. **Optional: Add lesson plan:**
 
    ```bash
    # Create lesson-plan.yml
@@ -662,7 +662,7 @@ dates:
     - start: "2026-03-09"
       end: "2026-03-13"
       name: "Spring Break"
-```
+```bash
 
 ---
 
@@ -678,7 +678,7 @@ npm install -g @data-wise/examark
 
 # Or use --fix flag
 teach doctor --fix
-```
+```bash
 
 **Problem:** `Config validation failed`
 
@@ -688,7 +688,7 @@ yq eval .flow/teach-config.yml
 
 # Use default config
 teach init "Course Name"  # Regenerates config
-```
+```bash
 
 ### Backup Issues
 
@@ -700,7 +700,7 @@ teach init "Course Name"  # Regenerates config
 
 # Manual cleanup (with confirmation)
 teach archive  # Cleans semester backups automatically
-```
+```bash
 
 **Problem:** Backup not created
 
@@ -710,7 +710,7 @@ teach archive  # Cleans semester backups automatically
 ls -la lectures/.backups/
 
 # If missing, it will be created on next overwrite
-```
+```bash
 
 ### Deploy Preview Issues
 
