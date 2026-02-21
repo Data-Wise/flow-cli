@@ -936,7 +936,8 @@ em read --raw 42
 em pick
 # Keybindings: Enter=read, Ctrl-R=reply, Ctrl-S=summarize,
 #              Ctrl-T=catch, Ctrl-F=star, Ctrl-M=move,
-#              Ctrl-A=archive, Ctrl-D=delete
+#              Ctrl-A=archive, Ctrl-D=delete,
+#              Ctrl-O=todo, Ctrl-E=event
 
 # Browse specific folder
 em pick Sent
@@ -980,6 +981,36 @@ em digest --week        # This week's emails
 em digest -n 5          # Limit to 5 emails
 ```
 
+### Manage
+
+```bash
+# Delete emails (move to Trash)
+em delete 42                     # Delete by ID (confirm [y/N])
+em del 42 43 44                  # Batch delete
+em delete --folder Spam          # Delete entire folder contents
+em delete --query "newsletter"   # Delete by search query
+em delete --purge 42             # PERMANENT delete (requires "yes")
+em delete --pick                 # fzf multi-select delete
+
+# Move & restore
+em move Archive 42               # Move to Archive
+em mv Archive 10 20 30           # Batch move
+em move --from Sent Archive 42   # Move from specific folder
+em restore 42                    # Restore from Trash → INBOX
+em restore 42 --to Archive       # Restore to specific folder
+
+# Flag management
+em flag 42                       # Star/flag email
+em fl 42 43                      # Batch flag
+em unflag 42                     # Remove star
+
+# AI extraction
+em todo 42                       # Extract action items → Reminders.app
+em event 42                      # Extract calendar events → Calendar.app
+```
+
+> **Safety:** Delete requires `[y/N]` (default: No). Purge requires full word `yes`.
+
 ### Management
 
 ```bash
@@ -997,7 +1028,8 @@ export FLOW_EMAIL_AI=claude     # AI backend (claude/gemini/none)
 export FLOW_EMAIL_PAGE_SIZE=25  # Inbox page size
 ```
 
-> **Safety:** Every send requires `[y/N]` confirmation (default: No)
+> **Safety:** Every send requires `[y/N]` confirmation (default: No).
+> Delete requires `[y/N]` (default: No). Purge requires full word `yes`.
 
 ---
 

@@ -270,6 +270,34 @@ _em_hml_flags() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
+# DELETE / MOVE / EXPUNGE
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_delete() {
+    # Move message(s) to Trash (himalaya message delete)
+    # Args: folder, IDs...
+    # Note: himalaya "delete" = move to Trash, NOT permanent
+    local folder="$1"; shift
+    [[ $# -eq 0 ]] && return 1
+    himalaya message delete -f "$folder" "$@" 2>/dev/null
+}
+
+_em_hml_move() {
+    # Move message(s) between folders
+    # Args: source_folder, target_folder, IDs...
+    local src="$1" dst="$2"; shift 2
+    [[ $# -eq 0 ]] && return 1
+    himalaya message move -f "$src" "$dst" "$@" 2>/dev/null
+}
+
+_em_hml_expunge() {
+    # Permanently remove messages flagged as Deleted from a folder
+    # Args: folder
+    local folder="$1"
+    himalaya folder expunge "$folder" 2>/dev/null
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # IMAP IDLE (WATCH)
 # ═══════════════════════════════════════════════════════════════════
 

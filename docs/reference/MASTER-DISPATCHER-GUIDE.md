@@ -3093,10 +3093,20 @@ AI-powered drafting, smart content rendering, fzf browsing, and explicit send co
 | `em send` | `em s` | Compose new email in $EDITOR |
 | `em reply <ID>` | `em re` | Reply with AI draft (--no-ai, --all, --batch) |
 | `em find <query>` | `em f` | Search emails |
-| `em pick [FOLDER]` | `em p` | fzf email browser with preview |
+| `em pick [FOLDER]` | `em p` | fzf email browser with multi-select |
+| `em delete <ID>` | `em del`, `em rm` | Delete email (move to Trash) |
+| `em delete --folder <F>` | | Delete all in folder (with confirmation) |
+| `em delete --purge <ID>` | | Permanent delete (requires typing "yes") |
+| `em move <FOLDER> <ID>` | `em mv` | Move email to folder |
+| `em restore <ID>` | | Restore from Trash to INBOX |
+| `em flag <ID>` | `em fl` | Star email for follow-up |
+| `em unflag <ID>` | | Remove star |
 | `em respond` | `em resp` | Batch AI drafts for actionable emails |
 | `em classify <ID>` | | AI category classification |
 | `em summarize <ID>` | `em sum` | One-line AI summary |
+| `em catch <ID>` | `em c` | Capture email as task (AI summary → catch) |
+| `em todo <ID>` | `em td` | Extract action items → flow + Reminders.app |
+| `em event <ID>` | `em ev` | Extract calendar events → flow + Calendar.app |
 | `em unread` | | Show unread count |
 | `em dash` | | Quick dashboard |
 | `em folders` | | List mail folders |
@@ -3119,7 +3129,8 @@ AI-powered drafting, smart content rendering, fzf browsing, and explicit send co
 
 ```bash
 em                      # Quick pulse check
-em pick                 # Browse with fzf (Enter=read, Ctrl-S=summarize, Ctrl-F=star, Ctrl-M=move)
+em pick                 # Browse with fzf (Enter=read, Ctrl-S=summarize, Ctrl-F=star, Ctrl-M=move,
+                        #   Ctrl-D=delete, Ctrl-O=todo, Ctrl-E=event)
 em reply 42             # AI-draft reply, opens in $EDITOR
 em respond              # Batch process actionable emails
 em star 42              # Toggle star on email
@@ -3127,8 +3138,11 @@ em move 42 Archive      # Move email to folder
 em thread 42            # Show conversation thread
 em snooze 42 2h         # Snooze for 2 hours
 em digest               # AI-grouped daily summary
+em delete --folder Spam # Delete all spam (with confirmation)
+em move Archive 42      # Move email to Archive
+em restore 42           # Restore from Trash to INBOX
+em todo 42              # Extract action items from email
 em doctor               # Check all dependencies
-
 ```
 
 ### Architecture
@@ -3142,11 +3156,15 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 | `FLOW_EMAIL_AI` | `claude` | AI backend (claude/gemini/none) |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | Default inbox page size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | Default folder |
+| `FLOW_EMAIL_TRASH_FOLDER` | `Trash` | Trash folder (Exchange: "Deleted Items") |
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | AI operation timeout (seconds) |
 
 ### Safety
 
 - Every send requires explicit `[y/N]` confirmation (default: No). No auto-send.
+- Every delete requires `[y/N]` confirmation (default: No). `--purge` requires typing "yes".
+- Folder/query deletes show count + first 5 subjects before confirming.
+- Move, restore, and flag operations are immediate (reversible, no confirmation needed).
 - Listserv emails (`@LIST.*`) auto-skipped in `em respond`; warning shown if actionable.
 - Discarded drafts tracked separately from sent replies (via `script(1)` detection).
 - 9-category AI classification: student, colleague, admin-action, scheduling,

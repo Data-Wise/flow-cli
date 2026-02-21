@@ -1298,16 +1298,32 @@ Trash
 Archive
 ```
 
-### Move Between Folders
+### Delete Emails
 
 ```bash
 em move 42 Archive      # Move email to Archive (with confirmation)
 em move 42              # Move with fzf folder picker
 em inbox Sent           # List sent emails
 em pick Archive         # Browse archive folder
+# Delete by ID (moves to Trash)
+em delete 42                     # Single ID
+em del 42 43 44                  # Batch delete (aliases: del, rm)
+
+# Delete by folder (all emails in folder)
+em delete --folder Spam          # Shows count, requires [y/N]
+
+# Delete by search query
+em delete --query "newsletter"   # Shows matching subjects, requires [y/N]
+
+# Interactive delete (fzf multi-select)
+em delete --pick                 # Tab to select, Enter to confirm
+
+# PERMANENT delete (purge)
+em delete --purge 42             # Flag as Deleted + EXPUNGE
+em delete --folder Trash --purge # Purge entire Trash
 ```
 
-### Flag Management
+**Safety levels:**
 
 Star/flag emails directly:
 
@@ -1325,6 +1341,66 @@ _em_hml_flags add <ID> Seen       # Mark as read
 _em_hml_flags add <ID> Flagged    # Mark as flagged
 _em_hml_flags add <ID> Deleted    # Mark as deleted
 ```
+| Mode | Confirmation | Reversible? |
+|------|-------------|-------------|
+| `em delete <ID>` | `[y/N]` (default No) | Yes (in Trash) |
+| `em delete --folder` | Subject preview + `[y/N]` | Yes (in Trash) |
+| `em delete --query` | Subject preview + `[y/N]` | Yes (in Trash) |
+| `em delete --purge` | Must type full word `yes` | **No** |
+
+### Move Emails
+
+```bash
+# Move to folder
+em move Archive 42               # INBOX → Archive
+em mv Archive 10 20 30           # Batch move
+
+# Move from specific source folder
+em move --from Sent Archive 42   # Sent → Archive
+```
+
+### Restore from Trash
+
+```bash
+# Restore to INBOX (default)
+em restore 42
+
+# Restore to specific folder
+em restore 42 --to Archive
+
+# Batch restore
+em restore 10 20 30
+```
+
+### Flag / Unflag
+
+```bash
+# Star emails (IMAP Flagged)
+em flag 42                       # Single
+em fl 42 43                      # Batch (alias: fl)
+
+# Remove star
+em unflag 42
+em unflag 42 43                  # Batch
+```
+
+### Extract Action Items (AI)
+
+```bash
+em todo 42                       # AI extracts action items
+em td 42 43                      # Batch (alias: td)
+```
+
+Shows numbered list of action items, captures to `catch`, and optionally adds to macOS Reminders.app.
+
+### Extract Calendar Events (AI)
+
+```bash
+em event 42                      # AI extracts dates/times/meetings
+em ev 42 43                      # Batch (alias: ev)
+```
+
+Shows event details (title, date, time, duration, location), captures to `catch`, and optionally adds to macOS Calendar.app.
 
 ## Cache System
 

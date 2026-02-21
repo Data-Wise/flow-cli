@@ -12,33 +12,25 @@
 ## Current Session (2026-02-20)
 
 **Session activity:**
-- spec: wrote SPEC-em-delete-actions-2026-02-20.md (456 lines) — 7 new em commands
-- spec: resolved 4 open questions as design decisions (D1-D4)
-- worktree: created feature/em-delete-actions with spec committed
-- partial: began implementation (adapter + AI layers done, dispatcher commands partially added)
-- rules: updated workflow — dev session must STOP after worktree + orchestration plan
-- rules: updated CLAUDE.md (project + global) and MEMORY.md with dev session boundary rule
+- feat: implemented em delete, move, restore, flag, todo, event commands (7 new commands)
+- feat: restructured em pick with multi-select (Tab), action menu (D4), new keybinds (Ctrl-O/E/F)
+- feat: added adapter functions (_em_hml_delete, _em_hml_move, _em_hml_expunge)
+- feat: added AI todo prompt + [todo]=15 timeout
+- feat: added macOS integration (_em_create_calendar_event, _em_create_reminder)
+- feat: added FLOW_EMAIL_TRASH_FOLDER config variable
+- test: 4 new unit test files (36 functions): delete, move-restore, flag, todo-event
+- test: 43 new dogfood tests (sections 12-19): function existence, help, config, aliases, safety
+- test: 20 new E2E tests (sections 8-12): live operations, flag round-trip, AI extraction
+- docs: updated 4 doc files (tutorial, guide, refcard, dispatcher guide)
+- docs: updated MASTER-DISPATCHER-GUIDE em table (20→27 commands), config, safety
 
-**em delete-actions spec (7 new commands):**
-1. `em delete` — single, batch, --folder, --query, --pick, --purge
-2. `em move` — move between folders, --from, --pick (fzf folder picker)
-3. `em restore` — convenience wrapper (Trash → INBOX, --to)
-4. `em todo` — AI extract action items → catch + Reminders.app
-5. `em event` — AI extract events (JSON) → catch + Calendar.app
-6. `em flag` / `em unflag` — IMAP Flagged flag
-7. Restructured `em pick` — multi-select, action menu, new keybinds
+## Previous Session (2026-02-18)
 
-**Design decisions resolved:**
-- D1: Add `FLOW_EMAIL_TRASH_FOLDER` config (default: Trash)
-- D2: Use macOS default calendar (no config)
-- D3: Use default Reminders list (no config)
-- D4: Action menu on multi-select Enter (not auto-delete)
-
-**Previous session (2026-02-18):**
-- merged: PR #400 (em ai + em catch) → dev
-- merged: PR #401 (dev → main), released v7.3.0
-- docs: brainstorm + spec for em quick-wins
-- worktree: created feature/em-quick-wins with ORCHESTRATE plan
+**Previous session activity:**
+1. `em ai` subcommand — runtime AI backend switching (claude/gemini/none/toggle)
+2. Gemini `extra_args` — `-e none` for fast startup (~1-2s vs ~5-8s)
+3. `em catch <ID>` — AI-summarize email → pipe into `catch` command
+4. `Ctrl-T` in `em pick` — fzf keybind for inline task capture
 
 **Previous session (2026-02-16, evening):**
 - verified: CI all green (tests, docs deploy, pages build)
@@ -106,7 +98,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.3.0 released, synced with main |
-| feature-em-delete-actions | `feature/em-delete-actions` | Spec + partial impl, needs orchestration plan |
+| feature-em-delete-actions | `feature/em-delete-actions` | Implementation complete, ready for PR |
 | feature-em-quick-wins | `feature/em-quick-wins` | ORCHESTRATE ready, not started |
 | feature-code-workspace | `feature/code-workspace` | Spec committed, not started |
 
@@ -133,8 +125,8 @@
 
 ## Next Action
 
-1. **Em delete-actions** — `cd ~/.git-worktrees/flow-cli/feature-em-delete-actions && claude` (needs orchestration plan + finish impl)
-2. **Em quick-wins** — `cd ~/.git-worktrees/flow-cli/feature-em-quick-wins && claude` (star, thread, snooze, digest)
+1. **Em delete-actions PR** — `gh pr create --base dev` from feature/em-delete-actions
+2. **Em quick-wins** — `cd ~/.git-worktrees/flow-cli/feature-em-quick-wins && claude` (thread, snooze, digest)
 3. Scholar Config Sync (#299) — next feature candidate
 4. API documentation push (50% → 80%)
 5. Code workspace manager — spec ready on dev
@@ -142,7 +134,7 @@
 ---
 
 **Last Updated:** 2026-02-20
-**Status:** v7.3.0 released | 45/45 tests passing | 15 dispatchers | 137 test files | 8000+ test functions | 0 lint errors | em delete-actions worktree has partial impl
-## wins: Fixed the regression bug (2026-02-18), --category fix squashed the bug (2026-02-18), fixed the bug (2026-02-18), Fixed the regression bug (2026-02-16), --category fix squashed the bug (2026-02-16)
+**Status:** v7.3.0+em-delete-actions | 45/45 tests passing | 15 dispatchers | 141 test files | 8000+ test functions | 0 lint errors
+## wins: Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20), fixed the bug (2026-02-20), Fixed the regression bug (2026-02-18), --category fix squashed the bug (2026-02-18)
 ## streak: 1
-## last_active: 2026-02-20 10:00
+## last_active: 2026-02-20 12:24
