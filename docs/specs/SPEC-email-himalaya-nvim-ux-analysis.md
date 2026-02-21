@@ -448,7 +448,7 @@ em
     └──────────────────────────────────────────────────────┘
 ```
 
-- `*` = unread (bold, colored)
+- `•` = unread (bold, colored), `★` = starred
 - fzf preview panel shows email body
 - Enter = read full email
 - Ctrl-R = reply directly from picker

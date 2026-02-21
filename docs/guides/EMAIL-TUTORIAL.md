@@ -196,22 +196,22 @@ em — quick pulse
   3 unread
 
 Recent:
-  ID    * + From                 Subject                                   Date
-  ───── ── ─ ──────────────────── ──────────────────────────────────────── ──────────
-  42    *+ Alice Johnson        Re: Project proposal review               2026-02-10
-  41    *  Bob Smith            Meeting notes from yesterday              2026-02-10
-  40       Carol Davis          Weekly update                             2026-02-09
-  39       David Lee            [GitHub] PR #123 merged                   2026-02-09
-  38    *  Emma Wilson          Question about assignment 2               2026-02-08
+  ID       From                 Subject                                   Date
+  ────── ────────────────────── ──────────────────────────────────────── ──────────
+  42 •+  Alice Johnson        Re: Project proposal review               2026-02-10
+  41 •   Bob Smith            Meeting notes from yesterday              2026-02-10
+  40     Carol Davis          Weekly update                             2026-02-09
+  39     David Lee            [GitHub] PR #123 merged                   2026-02-09
+  38 •   Emma Wilson          Question about assignment 2               2026-02-08
 
 Full inbox: em i  Browse: em p  Help: em h
 ```
 
 **Key indicators:**
-- `*` = unread
+- `•` = unread
+- `★` = starred (flagged)
 - `+` = has attachments
-- Yellow text = unread (bold)
-- Dim text = read
+- Yellow/bold = unread, dim = read
 
 ### Command 2: Unread Count
 
@@ -269,7 +269,7 @@ em pick Sent
 - `em unread` shows count only
 - `em inbox [N]` lists N recent emails (default 25)
 - `em folders` lists available folders
-- `*` means unread, `+` means attachments
+- `•` means unread, `★` means starred, `+` means attachments
 - Yellow/bold = unread, dim = read
 
 ---
@@ -443,13 +443,13 @@ em pick
 ```text
 Folder: INBOX  |  Unread: 3
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
-* = unread  + = attachment
+• = unread  ★ = starred  + = attachment
 
-  42 * + Alice Johnson     Re: Project proposal review           2026-02-10
-  41 *   Bob Smith         Meeting notes from yesterday          2026-02-10
-  40     Carol Davis       Weekly update                         2026-02-09
+  42 •+ Alice Johnson     Re: Project proposal review           2026-02-10
+  41 •   Bob Smith         Meeting notes from yesterday          2026-02-10
+  40      Carol Davis       Weekly update                         2026-02-09
 > 39     David Lee         [GitHub] PR #123 merged               2026-02-09
-  38 *   Emma Wilson       Question about assignment 2           2026-02-08
+  38 •   Emma Wilson       Question about assignment 2           2026-02-08
 
 [Preview panel shows selected email →]
 ```

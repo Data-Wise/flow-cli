@@ -106,6 +106,17 @@ em() {
         ai|AI)        shift; _em_ai_cmd "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
+        # ORGANIZE
+        # ─────────────────────────────────────────────────────────────
+        star|flag)    shift; _em_star "$@" ;;
+        starred)      shift; _em_starred "$@" ;;
+        move|mv)      shift; _em_move "$@" ;;
+        thread|th)    shift; _em_thread "$@" ;;
+        snooze|snz)   shift; _em_snooze "$@" ;;
+        snoozed)      shift; _em_snoozed "$@" ;;
+        digest|dg)    shift; _em_digest "$@" ;;
+
+        # ─────────────────────────────────────────────────────────────
         # QUICK INFO
         # ─────────────────────────────────────────────────────────────
         unread|u)     shift; _em_unread "$@" ;;
@@ -178,6 +189,15 @@ ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
   ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR)
   ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch)
   ${_C_CYAN}em attach <ID>${_C_NC}    Download attachments
+
+${_C_BLUE}ORGANIZE${_C_NC}:
+  ${_C_CYAN}em star <ID>${_C_NC}     Toggle starred (flagged) status
+  ${_C_CYAN}em starred${_C_NC}       List starred emails
+  ${_C_CYAN}em move <ID> [F]${_C_NC} Move to folder (fzf picker if no folder)
+  ${_C_CYAN}em thread <ID>${_C_NC}   Show conversation thread
+  ${_C_CYAN}em snooze <ID> <T>${_C_NC} Snooze (2h, 1d, tomorrow, monday)
+  ${_C_CYAN}em snoozed${_C_NC}       List snoozed emails
+  ${_C_CYAN}em digest${_C_NC}        AI-grouped daily summary (--week)
 
 ${_C_BLUE}AI FEATURES${_C_NC}:
   ${_C_CYAN}em respond${_C_NC}        Batch AI drafts for actionable emails
@@ -660,8 +680,8 @@ _em_pick() {
 
     local header_line
     header_line="Folder: ${folder}  |  Unread: ${unread_count:-?}
-Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
-* = unread  + = attachment"
+Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
+• = unread  ★ = starred  + = attachment"
 
     # [2] Write preview script (avoids shell escaping nightmare)
     local preview_script
@@ -722,11 +742,12 @@ PREVIEW_EOF
     local selected
     selected=$(jq -r '.[] | [
             .id,
-            (if (.flags | contains(["Seen"])) then " " else "*" end),
-            (if .has_attachment then "+" else " " end),
+            ([(if (.flags | contains(["Seen"])) then "" else "•" end),
+              (if (.flags | contains(["Flagged"])) then "★" else "" end),
+              (if .has_attachment then "+" else "" end)] | join("")),
             ((.from.name // .from.addr // "unknown") | if length > 20 then .[:17] + "..." else . end),
             ((.subject // "(no subject)") | if length > 50 then .[:47] + "..." else . end),
-            (.date | split("T")[0] // .date)
+            (.date | split(" ")[0] // .date)
           ] | @tsv' "$cache_file" \
         | fzf --delimiter='\t' \
               --with-nth='2..' \
@@ -739,6 +760,8 @@ PREVIEW_EOF
               --bind='ctrl-a:become(echo ARCHIVE:{1})' \
               --bind='ctrl-d:become(echo DELETE:{1})' \
               --bind='ctrl-t:become(echo CATCH:{1})' \
+              --bind='ctrl-f:become(echo STAR:{1})' \
+              --bind='ctrl-m:become(echo MOVE:{1})' \
               --no-multi \
               --ansi)
 
@@ -773,6 +796,12 @@ PREVIEW_EOF
     elif [[ "$selected" == CATCH:* ]]; then
         action_id="${selected#CATCH:}"
         _em_catch "$action_id"
+    elif [[ "$selected" == STAR:* ]]; then
+        action_id="${selected#STAR:}"
+        _em_star "$action_id"
+    elif [[ "$selected" == MOVE:* ]]; then
+        action_id="${selected#MOVE:}"
+        _em_move "$action_id"
     else
         # Default: read the selected email
         action_id=$(echo "$selected" | cut -f1)
@@ -1139,6 +1168,475 @@ ${_C_DIM}Non-actionable (auto-skipped): newsletter, automated, admin-info, vendo
 ${_C_DIM}Listserv emails (*@LIST.*) are always skipped; warnings shown if actionable${_C_NC}
 ${_C_DIM}Safety: every send requires explicit [y/N] confirmation${_C_NC}
 "
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# ORGANIZE — star, move, thread, snooze, digest
+# ═══════════════════════════════════════════════════════════════════
+
+_em_star() {
+    _em_require_himalaya || return 1
+    local msg_id="$1"
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em star <ID>${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
+    # Check current flags to determine toggle direction
+    local flags
+    flags=$(_em_hml_list "$folder" 100 2>/dev/null \
+        | jq -r --arg id "$msg_id" '.[] | select(.id == ($id | tonumber)) | .flags | join(",")' 2>/dev/null)
+
+    if [[ "$flags" == *"Flagged"* ]]; then
+        _em_hml_flags remove "$msg_id" Flagged
+        echo -e "  ${_C_DIM}☆${_C_NC} Unstarred #${msg_id}"
+    else
+        _em_hml_flags add "$msg_id" Flagged
+        echo -e "  ${_C_YELLOW}★${_C_NC} Starred #${msg_id}"
+    fi
+}
+
+_em_starred() {
+    _em_require_himalaya || return 1
+    local folder="${1:-INBOX}"
+
+    echo -e "${_C_BOLD}★ Starred emails${_C_NC} ${_C_DIM}(${folder})${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    local json
+    json=$(_em_hml_list "$folder" 100 2>/dev/null \
+        | jq '[.[] | select(.flags | contains(["Flagged"]))]' 2>/dev/null)
+
+    if [[ -z "$json" || "$json" == "[]" || "$json" == "null" ]]; then
+        echo -e "  ${_C_DIM}No starred emails${_C_NC}"
+        return 0
+    fi
+
+    echo "$json" | _em_render_inbox_json
+
+    local count
+    count=$(echo "$json" | jq 'length' 2>/dev/null)
+    echo -e "\n  ${_C_DIM}${count:-0} starred${_C_NC}"
+}
+
+_em_move() {
+    _em_require_himalaya || return 1
+    local msg_id="$1" target_folder="$2"
+
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em move <ID> [folder]${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
+    # No folder specified → fzf picker
+    if [[ -z "$target_folder" ]]; then
+        if ! command -v fzf &>/dev/null; then
+            _flow_log_error "Folder required (fzf not available for picker)"
+            echo "Usage: ${_C_CYAN}em move <ID> <folder>${_C_NC}"
+            return 1
+        fi
+
+        target_folder=$(_em_hml_folders 2>/dev/null \
+            | fzf --prompt="Move #${msg_id} to > " --height=15 --no-multi \
+            | awk '{print $1}')
+
+        if [[ -z "$target_folder" ]]; then
+            return 0  # User cancelled
+        fi
+    fi
+
+    # Safety: confirm before moving
+    printf "  Move #%s to %b%s%b? [y/N] " "$msg_id" "${_C_CYAN}" "$target_folder" "${_C_NC}"
+    local confirm
+    read -r confirm
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+        _flow_log_info "Cancelled"
+        return 0
+    fi
+
+    if _em_hml_move "$msg_id" "$target_folder" "$folder"; then
+        _flow_log_success "Moved #${msg_id} → ${target_folder}"
+    else
+        _flow_log_error "Failed to move #${msg_id}"
+        return 1
+    fi
+}
+
+_em_thread() {
+    _em_require_himalaya || return 1
+    local msg_id="$1"
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em thread <ID>${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
+    # Get headers of the target message
+    local headers
+    headers=$(_em_hml_headers "$msg_id" "$folder")
+    if [[ -z "$headers" ]]; then
+        _flow_log_error "Could not read headers for #${msg_id}"
+        return 1
+    fi
+
+    # Extract threading headers (unfold RFC 822 continuation lines)
+    local unfolded
+    unfolded=$(echo "$headers" | awk '
+        /^[^ \t]/ { if (line) print line; line=$0; next }
+        /^[ \t]/  { line=line " " substr($0, 2); next }
+        END       { if (line) print line }
+    ')
+    local message_id in_reply_to references
+    message_id=$(echo "$unfolded" | grep -i '^Message-ID:' | head -1 | sed 's/^[^:]*: *//; s/\r$//')
+    in_reply_to=$(echo "$unfolded" | grep -i '^In-Reply-To:' | head -1 | sed 's/^[^:]*: *//; s/\r$//')
+    references=$(echo "$unfolded" | grep -i '^References:' | head -1 | sed 's/^[^:]*: *//; s/\r$//')
+
+    # Build search set: all Message-IDs from References + current + In-Reply-To
+    local -a thread_ids=()
+    if [[ -n "$references" ]]; then
+        # References contains space-separated Message-IDs
+        local ref
+        for ref in ${(z)references}; do
+            thread_ids+=("$ref")
+        done
+    fi
+    [[ -n "$in_reply_to" ]] && thread_ids+=("$in_reply_to")
+    [[ -n "$message_id" ]] && thread_ids+=("$message_id")
+
+    # Remove duplicates
+    thread_ids=(${(u)thread_ids})
+
+    if [[ ${#thread_ids[@]} -le 1 ]]; then
+        echo -e "  ${_C_DIM}No thread found — this appears to be a standalone message${_C_NC}"
+        return 0
+    fi
+
+    echo -e "${_C_BOLD}Thread for #${msg_id}${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    # Fetch all envelopes and match by subject similarity (fallback)
+    # Since IMAP search by Message-ID is unreliable, we search by subject
+    local subject
+    subject=$(echo "$unfolded" | grep -i '^Subject:' | head -1 | sed 's/^[^:]*: *//; s/\r$//')
+    # Strip Re:/Fwd: prefixes for search
+    local base_subject="${subject}"
+    base_subject="${base_subject#Re: }"
+    base_subject="${base_subject#RE: }"
+    base_subject="${base_subject#Fwd: }"
+    base_subject="${base_subject#FW: }"
+
+    local json
+    json=$(_em_hml_search "$base_subject" "$folder" 2>/dev/null)
+
+    # Filter search results to match exact subject (IMAP keyword search is broad)
+    if [[ -n "$json" && "$json" != "[]" ]]; then
+        json=$(echo "$json" | jq --arg subj "$base_subject" '
+            [.[] | select(.subject | ascii_downcase | contains($subj | ascii_downcase))]' 2>/dev/null)
+    fi
+
+    if [[ -z "$json" || "$json" == "[]" ]]; then
+        # Fallback: list recent and filter
+        json=$(_em_hml_list "$folder" 100 2>/dev/null \
+            | jq --arg subj "$base_subject" '
+                [.[] | select(.subject | ascii_downcase | contains($subj | ascii_downcase))]' 2>/dev/null)
+    fi
+
+    if [[ -z "$json" || "$json" == "[]" ]]; then
+        echo -e "  ${_C_DIM}Could not find related messages${_C_NC}"
+        return 0
+    fi
+
+    # Display thread as chronological list with current message highlighted
+    echo "$json" | jq -r '
+        sort_by(.date) | .[] |
+        [.id, .from.name // .from.addr // "unknown", .subject // "(no subject)", (.date | split(" ")[0] // .date)] | join("|")' \
+    | while IFS='|' read -r tid tfrom tsubj tdate; do
+        if [[ "$tid" == "$msg_id" ]]; then
+            echo -e "  ${_C_YELLOW}→${_C_NC} ${_C_BOLD}#${tid}${_C_NC}  ${tfrom}  ${_C_DIM}${tdate}${_C_NC}"
+            echo -e "    ${_C_BOLD}${tsubj}${_C_NC}"
+        else
+            echo -e "    ${_C_DIM}#${tid}${_C_NC}  ${tfrom}  ${_C_DIM}${tdate}${_C_NC}"
+            echo -e "    ${_C_DIM}${tsubj}${_C_NC}"
+        fi
+    done
+
+    local thread_count
+    thread_count=$(echo "$json" | jq 'length' 2>/dev/null)
+    echo -e "\n  ${_C_DIM}${thread_count:-0} messages in thread${_C_NC}"
+}
+
+_em_snooze() {
+    _em_require_himalaya || return 1
+    local msg_id="$1" time_spec="$2"
+
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID and time required"
+        echo "Usage: ${_C_CYAN}em snooze <ID> <time>${_C_NC}"
+        echo "  Times: ${_C_DIM}2h, 4h, tomorrow, monday, 1d, 3d${_C_NC}"
+        return 1
+    fi
+
+    if [[ -z "$time_spec" ]]; then
+        _flow_log_error "Snooze time required"
+        echo "  Times: ${_C_DIM}2h, 4h, tomorrow, monday, 1d, 3d${_C_NC}"
+        return 1
+    fi
+
+    # Parse time spec → epoch timestamp
+    local wake_epoch
+    wake_epoch=$(_em_snooze_parse_time "$time_spec")
+    if [[ -z "$wake_epoch" || "$wake_epoch" == "0" ]]; then
+        _flow_log_error "Could not parse time: $time_spec"
+        echo "  Valid: ${_C_DIM}2h, 4h, tomorrow, monday, tuesday, 1d, 3d, 1w${_C_NC}"
+        return 1
+    fi
+
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+    local wake_display
+    wake_display=$(date -r "$wake_epoch" "+%Y-%m-%d %H:%M" 2>/dev/null)
+
+    # Get subject for display
+    local subject
+    subject=$(_em_hml_list "$folder" 100 2>/dev/null \
+        | jq -r ".[] | select(.id == ($msg_id | tonumber)) | .subject // \"(no subject)\"" 2>/dev/null)
+
+    # Ensure snooze directory exists
+    local snooze_dir="${HOME}/.flow/email-snooze"
+    [[ -d "$snooze_dir" ]] || mkdir -p "$snooze_dir"
+
+    local pending_file="${snooze_dir}/pending.json"
+
+    # Initialize file if needed
+    [[ -f "$pending_file" ]] || echo '[]' > "$pending_file"
+
+    # Add snooze entry
+    local now_epoch
+    now_epoch=$(date +%s)
+    local tmp_file="${pending_file}.tmp"
+    jq --arg id "$msg_id" \
+       --arg subject "$subject" \
+       --arg folder "$folder" \
+       --argjson wake "$wake_epoch" \
+       --argjson created "$now_epoch" \
+       --arg time_spec "$time_spec" \
+       '. + [{id: $id, subject: $subject, folder: $folder, wake: $wake, created: $created, time_spec: $time_spec}]' \
+       "$pending_file" > "$tmp_file" && mv "$tmp_file" "$pending_file"
+
+    # Move to Snoozed folder (best effort — folder may not exist)
+    _em_hml_move "$msg_id" "Snoozed" "$folder" 2>/dev/null
+
+    echo -e "  ${_C_MAGENTA}💤${_C_NC} Snoozed #${msg_id} until ${_C_CYAN}${wake_display}${_C_NC}"
+    [[ -n "$subject" ]] && echo -e "  ${_C_DIM}${subject}${_C_NC}"
+
+    # Schedule notification (if terminal-notifier available)
+    if command -v terminal-notifier &>/dev/null; then
+        local delay=$(( wake_epoch - now_epoch ))
+        if (( delay > 0 )); then
+            (sleep "$delay" && terminal-notifier \
+                -title "Email Reminder" \
+                -message "Snoozed: ${subject:-#${msg_id}}" \
+                -sound default) &>/dev/null &
+            disown
+        fi
+    fi
+}
+
+_em_snoozed() {
+    local snooze_dir="${HOME}/.flow/email-snooze"
+    local pending_file="${snooze_dir}/pending.json"
+
+    if [[ ! -f "$pending_file" ]]; then
+        echo -e "  ${_C_DIM}No snoozed emails${_C_NC}"
+        return 0
+    fi
+
+    local count
+    count=$(jq 'length' "$pending_file" 2>/dev/null)
+
+    if [[ -z "$count" || "$count" == "0" ]]; then
+        echo -e "  ${_C_DIM}No snoozed emails${_C_NC}"
+        return 0
+    fi
+
+    echo -e "${_C_BOLD}💤 Snoozed emails${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    local now_epoch
+    now_epoch=$(date +%s)
+
+    local wake_display
+    jq -r '.[] | [.id, .subject // "(no subject)", (.wake | tostring), .time_spec] | join("|")' "$pending_file" \
+    | while IFS='|' read -r sid ssubj swake stime; do
+        wake_display=$(date -r "$swake" "+%Y-%m-%d %H:%M" 2>/dev/null)
+        if (( swake <= now_epoch )); then
+            echo -e "  ${_C_YELLOW}⏰${_C_NC} #${sid}  ${_C_BOLD}READY${_C_NC}  ${_C_DIM}${ssubj:0:40}${_C_NC}"
+        else
+            echo -e "  ${_C_MAGENTA}💤${_C_NC} #${sid}  ${wake_display}  ${_C_DIM}${ssubj:0:40}${_C_NC}"
+        fi
+    done
+
+    echo -e "\n  ${_C_DIM}${count} snoozed${_C_NC}"
+}
+
+_em_digest() {
+    _em_require_himalaya || return 1
+    local period="today" count=50
+    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --week|-w)   period="week"; shift ;;
+            --all|-a)    period="all"; shift ;;
+            -n)          shift; count="$1"; shift ;;
+            *)           shift ;;
+        esac
+    done
+
+    echo -e "${_C_BOLD}em digest${_C_NC} ${_C_DIM}— ${period}'s email summary${_C_NC}"
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+
+    # Fetch emails
+    local json
+    json=$(_em_hml_list "$folder" "$count" 2>/dev/null)
+
+    if [[ -z "$json" || "$json" == "[]" ]]; then
+        echo -e "  ${_C_DIM}No emails in ${folder}${_C_NC}"
+        return 0
+    fi
+
+    # Filter by date if needed
+    local today_str week_ago_str
+    today_str=$(date "+%Y-%m-%d")
+    week_ago_str=$(date -v-7d "+%Y-%m-%d" 2>/dev/null)
+
+    if [[ "$period" == "today" ]]; then
+        json=$(echo "$json" | jq --arg today "$today_str" \
+            '[.[] | select(.date | split(" ")[0] == $today)]' 2>/dev/null)
+    elif [[ "$period" == "week" ]]; then
+        json=$(echo "$json" | jq --arg since "$week_ago_str" \
+            '[.[] | select(.date | split(" ")[0] >= $since)]' 2>/dev/null)
+    fi
+
+    local total
+    total=$(echo "$json" | jq 'length' 2>/dev/null)
+
+    if [[ -z "$total" || "$total" == "0" ]]; then
+        echo -e "  ${_C_GREEN}No emails ${period}${_C_NC}"
+        return 0
+    fi
+
+    # If AI is available, do AI-powered grouping
+    if [[ "${FLOW_EMAIL_AI:-claude}" != "none" ]]; then
+        # Build a summary of all emails for batch classification
+        local email_list
+        email_list=$(echo "$json" | jq -r '.[] | "#\(.id) | \(.from.name // .from.addr) | \(.subject // "(no subject)")"')
+
+        local ai_result
+        ai_result=$(_em_ai_query "classify" \
+            "Group these emails into exactly 3 categories. Output ONLY the grouping, no commentary.
+Format each group as:
+ACTION REQUIRED:
+- #ID Subject
+FYI:
+- #ID Subject
+LOW PRIORITY:
+- #ID Subject
+
+If a category is empty, omit it." \
+            "$email_list" 2>/dev/null)
+
+        if [[ -n "$ai_result" ]]; then
+            echo ""
+            echo "$ai_result" | while IFS= read -r line; do
+                case "$line" in
+                    ACTION*)    echo -e "${_C_RED}${_C_BOLD}${line}${_C_NC}" ;;
+                    FYI*)       echo -e "${_C_YELLOW}${_C_BOLD}${line}${_C_NC}" ;;
+                    LOW*)       echo -e "${_C_DIM}${_C_BOLD}${line}${_C_NC}" ;;
+                    -*)         echo -e "  ${line}" ;;
+                    *)          echo -e "  ${line}" ;;
+                esac
+            done
+            echo ""
+            echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+            echo -e "  ${_C_DIM}${total} emails ${period}${_C_NC}"
+            return 0
+        fi
+    fi
+
+    # Fallback: simple unread/read grouping (no AI)
+    local unread_json read_json
+    unread_json=$(echo "$json" | jq '[.[] | select(.flags | contains(["Seen"]) | not)]' 2>/dev/null)
+    read_json=$(echo "$json" | jq '[.[] | select(.flags | contains(["Seen"]))]' 2>/dev/null)
+
+    local unread_count read_count
+    unread_count=$(echo "$unread_json" | jq 'length' 2>/dev/null)
+    read_count=$(echo "$read_json" | jq 'length' 2>/dev/null)
+
+    if [[ "${unread_count:-0}" -gt 0 ]]; then
+        echo ""
+        echo -e "${_C_YELLOW}${_C_BOLD}UNREAD (${unread_count}):${_C_NC}"
+        echo "$unread_json" | jq -r '.[] |
+            "  - #\(.id) \(.from.name // .from.addr // "?") — \(.subject // "(no subject)")"' 2>/dev/null
+    fi
+
+    if [[ "${read_count:-0}" -gt 0 ]]; then
+        echo ""
+        echo -e "${_C_DIM}${_C_BOLD}READ (${read_count}):${_C_NC}"
+        echo "$read_json" | jq -r '.[] |
+            "  - #\(.id) \(.from.name // .from.addr // "?") — \(.subject // "(no subject)")"' 2>/dev/null
+    fi
+
+    echo ""
+    echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
+    echo -e "  ${_C_DIM}${total} emails ${period} (${unread_count:-0} unread)${_C_NC}"
+}
+
+_em_snooze_parse_time() {
+    # Parse human-friendly time spec → epoch timestamp
+    # Supports: Nh (hours), Nd (days), Nw (weeks), tomorrow, monday-sunday
+    local spec="${(L)1}"  # lowercase
+    local now_epoch
+    now_epoch=$(date +%s)
+
+    case "$spec" in
+        tomorrow)
+            # Tomorrow at 9am (must be before *w glob — "tomorrow" ends in 'w')
+            date -v+1d -v9H -v0M -v0S +%s 2>/dev/null
+            ;;
+        monday|tuesday|wednesday|thursday|friday|saturday|sunday)
+            # Next occurrence of that day at 9am
+            local -A day_map=(monday 1 tuesday 2 wednesday 3 thursday 4 friday 5 saturday 6 sunday 7)
+            local target_dow="${day_map[$spec]}"
+            local current_dow
+            current_dow=$(date +%u)
+            local days_ahead=$(( (target_dow - current_dow + 7) % 7 ))
+            (( days_ahead == 0 )) && days_ahead=7  # Next week if today
+            date -v+${days_ahead}d -v9H -v0M -v0S +%s 2>/dev/null
+            ;;
+        *h)
+            local hours="${spec%h}"
+            echo $(( now_epoch + hours * 3600 ))
+            ;;
+        *d)
+            local days="${spec%d}"
+            echo $(( now_epoch + days * 86400 ))
+            ;;
+        *w)
+            local weeks="${spec%w}"
+            echo $(( now_epoch + weeks * 604800 ))
+            ;;
+        *)
+            echo "0"
+            ;;
+    esac
 }
 
 # ═══════════════════════════════════════════════════════════════════
