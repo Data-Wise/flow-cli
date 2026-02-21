@@ -52,16 +52,18 @@ git checkout dev && git pull origin dev
 
 **Constraint:** Never write feature code on `dev` branch
 
-#### 2. Create Worktree (Isolation)
+#### 2. Create Worktree + Orchestration Plan
 
 ```bash
 git worktree add ~/.git-worktrees/flow-cli/<feature> -b feature/<feature> dev
 git worktree list
 ```
 
+After creating the worktree, write an `ORCHESTRATE-<feature>.md` file **to the worktree** with the full implementation plan (task list, file changes, verification steps). Commit it to the feature branch.
+
 #### 3. STOP - NEW Session Required
 
-**CRITICAL:** Do NOT start working in the worktree from the planning session. Tell user to `cd` into worktree and start a new `claude` session.
+**CRITICAL:** Do NOT start implementing in the worktree from the dev/planning session. The dev session's job ends after creating the worktree and committing the orchestration plan. Tell user to `cd` into worktree and start a new `claude` session.
 
 #### 4. Atomic Development (In Worktree)
 
@@ -91,6 +93,7 @@ git tag -a vX.Y.Z -m "vX.Y.Z" && git push --tags
 2. About to commit to dev -> Confirm if spec/planning commit
 3. Push to main/dev without PR -> Block, require PR
 4. Working in worktree from planning session -> Stop, tell user new session
+5. About to implement code after creating worktree on dev -> STOP, write orchestration plan only
 
 **See:** `docs/contributing/BRANCH-WORKFLOW.md`
 

@@ -28,26 +28,26 @@ finish             # Done for now
 **That's it.** Everything else is optional.
 
 !!! info "Zero Dependencies"
-flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antidote, or any other framework. Choose any installation method that works for you - they all load the same independent plugin.
+flow-cli is a **standalone ZSH plugin** with no dependencies on Oh-My-Zsh, antidote,
+or any other framework. Choose any installation method that works for you.
 
 ---
 
 ## What's New
 
-### Teach Doctor v2
+### v7.3.0: Email AI Improvements
 
-- **Two-Mode Health Check** - Quick (< 3s, 4 categories) or full (`--full`, 11 categories)
-- **Health Indicator** - Green/yellow/red dot on `teach` startup
-- **Smart Fixes** - `--fix` with renv vs system install choice for R packages
-- **CI Mode** - `--ci` for pipelines (no color, exit 1 on failure)
-- **Batch R Checks** - Single R call instead of N individual checks
-- **renv-Aware** - Detects renv activation, reports lockfile package count
+- **Runtime AI Backend Switching** - `em ai gemini` / `em ai claude` without restarting
+- **Email-to-Task Capture** - `em catch 42` extracts action items from emails
+- **Gemini Speed Boost** - `extra_args` field in backend config for fast startup
+- **Two Interfaces** - `em` (keyboard-driven, fzf) and
+  [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (AI-driven)
 
 ```bash
-teach doctor                 # Quick check (< 3s)
-teach doctor --full          # All 11 categories
-teach doctor --fix           # Interactive fix mode
-teach doctor --ci --full     # CI pipeline mode
+em ai gemini                 # Switch to Gemini backend
+em catch 42                  # Capture email as task
+em inbox                     # Browse inbox with fzf
+em pick                      # Interactive email picker
 ```
 
 [Full Changelog](docs/CHANGELOG.md) | [All Releases](https://github.com/Data-Wise/flow-cli/releases)
@@ -61,7 +61,7 @@ teach doctor --ci --full     # CI pipeline mode
 
 **Or try the commands yourself:**
 
-```
+```text
 $ work my-project
 🚀 Starting session: my-project
    📍 ~/projects/my-project
@@ -147,7 +147,7 @@ Every `win` gives you a category and emoji:
 
 ### 🔥 Streak Tracking
 
-```
+```text
 Day 1: work → 🌱 1 day
 Day 3: work → 🔥 3 days - On a roll!
 Day 7: work → 🔥🔥 Strong week!
@@ -204,15 +204,16 @@ Context-aware commands that adapt to your project:
 | `r test`           | Run R package tests            |
 | `qu preview`       | Preview Quarto doc             |
 | `g push`           | Git push with safety           |
+| `em`               | Email management (himalaya)    |
+| `em inbox`         | Browse inbox with fzf          |
+| `em pick`          | Interactive email picker       |
 | `flow sync`        | Sync data across devices       |
 
-Each dispatcher has built-in help: `cc help`, `dots help`, `r help`, etc.
+Each dispatcher has built-in help: `cc help`, `dots help`, `r help`, `em help`, etc.
 
-**✨ New in v4.8.0:** Unified grammar - both `cc opus pick` AND `cc pick opus` work identically!
-**✨ New in v5.0.0:** Dotfile management with `dots` dispatcher
-**✨ New in v5.5.0:** macOS Keychain secrets with Touch ID - instant access, no unlock needed!
-**✨ New in v5.9.0:** Schema-based config validation with hash-based caching for teaching workflows!
-**✨ New in v5.23.1:** Intelligent safety checks - git detection, preview, auto-suggestions for ignore patterns!
+**✨ New in v7.3.0:** Email AI — runtime backend switching, email-to-task capture, Gemini speed boost
+**✨ v7.1.0:** Dispatcher split — `dot` → `dots` (dotfiles) + `sec` (secrets) + `tok` (tokens)
+**✨ 15 dispatchers** with unified grammar, built-in help, and fzf integration
 
 ---
 

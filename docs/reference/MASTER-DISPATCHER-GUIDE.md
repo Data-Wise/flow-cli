@@ -17,23 +17,27 @@ tags:
 
 ## Overview
 
-flow-cli uses **dispatchers** - single-letter or short commands that group related functionality. Each dispatcher follows a consistent pattern:
+flow-cli uses **dispatchers** - single-letter or short commands that group related functionality.
+Each dispatcher follows a consistent pattern:
 
 ```bash
 <dispatcher> <subcommand> [options] [args]
+
 ```
 
 **Example:**
+
 ```bash
 g status              # Git status
 r test                # Run R tests
 teach init            # Initialize course
+
 ```
 
 ### The 15 Dispatchers
 
 | Dispatcher | Domain | Commands | Complexity |
-|------------|--------|----------|------------|
+| ------------ | -------- | ---------- | ------------ |
 | [g](#g-dispatcher) | Git workflows | 20+ | Beginner → Advanced |
 | [cc](#cc-dispatcher) | Claude Code | 4 | Beginner |
 | [r](#r-dispatcher) | R packages | 10+ | Intermediate |
@@ -122,11 +126,12 @@ Each dispatcher section follows this structure:
 - Complete command list
 - All options
 - Examples
+
 ```
 
 ---
 
-# Dispatchers
+## Dispatchers
 
 ## g Dispatcher
 
@@ -141,43 +146,56 @@ Each dispatcher section follows this structure:
 #### Essential Commands
 
 **Check status:**
+
 ```bash
 g status
 g st                 # Alias for status
+
 ```
 
 **Stage changes:**
+
 ```bash
 g add .              # Add all changes
 g add file.txt       # Add specific file
+
 ```
 
 **Commit:**
+
 ```bash
 g commit "feat: add user authentication"
 g cm "fix: resolve login bug"
+
 ```
 
 **Push/Pull:**
+
 ```bash
 g push               # Push to remote
 g pull               # Pull from remote
+
 ```
 
 **View history:**
+
 ```bash
 g log                # Full log
 g log --oneline      # Compact log
 g log --graph        # Visual graph
+
 ```
 
 **Show changes:**
+
 ```bash
 g diff               # Unstaged changes
 g diff --staged      # Staged changes
+
 ```
 
 **Expected Workflow (Beginner):**
+
 ```bash
 # 1. Check what changed
 g status
@@ -190,6 +208,7 @@ g commit "feat: add feature X"
 
 # 4. Push
 g push
+
 ```
 
 ---
@@ -199,8 +218,10 @@ g push
 #### Feature Branch Workflow
 
 **Create feature branch:**
+
 ```bash
 g feature start my-feature
+
 ```
 
 This:
@@ -209,19 +230,25 @@ This:
 - Ready to work
 
 **Push feature:**
+
 ```bash
 g feature push
+
 ```
 
 **Create PR:**
+
 ```bash
 g feature pr
 # Uses gh cli to create PR to dev branch
+
 ```
 
 **Finish feature (after merge):**
+
 ```bash
 g feature finish
+
 ```
 
 This:
@@ -230,6 +257,7 @@ This:
 - Deletes feature branch locally
 
 **Complete Feature Workflow:**
+
 ```bash
 # Day 1: Start
 g feature start user-profiles
@@ -243,6 +271,7 @@ g feature pr
 
 # Day 5: PR merged
 g feature finish
+
 ```
 
 ---
@@ -250,34 +279,44 @@ g feature finish
 #### Branch Management
 
 **List branches:**
+
 ```bash
 g branch              # Local branches
 g branch -r           # Remote branches
 g branch -a           # All branches
+
 ```
 
 **Create branch:**
+
 ```bash
 g checkout -b new-branch
 g co -b new-branch    # Short form
+
 ```
 
 **Switch branches:**
+
 ```bash
 g checkout branch-name
 g co branch-name
+
 ```
 
 **Delete branch:**
+
 ```bash
 g branch -d branch-name        # Safe delete (merged only)
 g branch -D branch-name        # Force delete
+
 ```
 
 **Cleanup merged branches:**
+
 ```bash
 g feature prune
 # Deletes all local branches that are merged into dev
+
 ```
 
 ---
@@ -285,25 +324,33 @@ g feature prune
 #### Stash Commands
 
 **Save work in progress:**
+
 ```bash
 g stash
 g stash save "WIP: refactoring auth"
+
 ```
 
 **List stashes:**
+
 ```bash
 g stash list
+
 ```
 
 **Apply stash:**
+
 ```bash
 g stash pop            # Apply and remove
 g stash apply          # Apply but keep
+
 ```
 
 **Clear all stashes:**
+
 ```bash
 g stash clear
+
 ```
 
 ---
@@ -313,21 +360,27 @@ g stash clear
 #### Rebase & History Rewriting
 
 **Rebase onto branch:**
+
 ```bash
 g rebase dev
 g rebase origin/dev
+
 ```
 
 **Interactive rebase:**
+
 ```bash
 g rebase -i HEAD~3
 # Allows: pick, reword, edit, squash, fixup, drop
+
 ```
 
 **Squash last 3 commits:**
+
 ```bash
 g rebase -i HEAD~3
 # Change 'pick' to 'squash' for commits to merge
+
 ```
 
 ---
@@ -335,13 +388,17 @@ g rebase -i HEAD~3
 #### Cherry-pick
 
 **Pick specific commit:**
+
 ```bash
 g cherry-pick <commit-hash>
+
 ```
 
 **Pick range:**
+
 ```bash
 g cherry-pick commit1..commit2
+
 ```
 
 ---
@@ -349,23 +406,31 @@ g cherry-pick commit1..commit2
 #### Reset & Restore
 
 **Undo last commit (keep changes):**
+
 ```bash
 g reset HEAD~1
+
 ```
 
 **Undo last commit (discard changes):**
+
 ```bash
 g reset --hard HEAD~1
+
 ```
 
 **Restore file from specific commit:**
+
 ```bash
 g restore --source=<commit> file.txt
+
 ```
 
 **Restore staged file:**
+
 ```bash
 g restore --staged file.txt
+
 ```
 
 ---
@@ -373,8 +438,10 @@ g restore --staged file.txt
 #### Sync Workflow
 
 **Update branch with latest:**
+
 ```bash
 g sync
+
 ```
 
 This:
@@ -383,8 +450,10 @@ This:
 - Pushes if needed
 
 **Force push (DANGEROUS):**
+
 ```bash
 g push --force-with-lease    # Safer force push
+
 ```
 
 ---
@@ -456,15 +525,19 @@ g push --force-with-lease    # Safer force push
 #### Essential Commands
 
 **Launch in current directory:**
+
 ```bash
 cc
+
 ```
 
 Output: [Launches Claude Code CLI in current directory]
 
 **Launch with project picker:**
+
 ```bash
 cc pick
+
 ```
 
 This:
@@ -473,15 +546,19 @@ This:
 - Launch Claude Code in that directory
 
 **Launch in yolo mode (auto-approve all):**
+
 ```bash
 cc yolo
+
 ```
 
 **WARNING:** Auto-approves all permission requests. Only use in trusted environments.
 
 **Show help:**
+
 ```bash
 cc help
+
 ```
 
 ---
@@ -495,6 +572,7 @@ cc help
 work my-project
 cc
 # Claude launches in my-project directory
+
 ```
 
 ---
@@ -502,9 +580,11 @@ cc
 #### Custom Launch Options
 
 **Environment variables respected:**
+
 ```bash
 export CLAUDE_CODE_MODEL="opus"    # Use Opus model
 export CLAUDE_CODE_YOLO=1          # Auto-approve by default
+
 ```
 
 ---
@@ -536,12 +616,16 @@ export CLAUDE_CODE_YOLO=1          # Auto-approve by default
 #### Essential Commands
 
 **Run tests:**
+
 ```bash
 r test
+
 ```
 
 Output:
-```
+
+```text
+
 ✔ | F W  S  OK | Context
 ✔ |     8      | my_function
 
@@ -549,25 +633,32 @@ Output:
 Duration: 0.5 s
 
 [ FAIL 0 | WARN 0 | SKIP 0 | PASS 8 ]
+
 ```
 
 **Build documentation:**
+
 ```bash
 r doc
+
 ```
 
 This runs `roxygen2::roxygenize()` to generate man pages from roxygen comments.
 
 **Check package:**
+
 ```bash
 r check
+
 ```
 
 Runs `R CMD check` - comprehensive package validation.
 
 **Install package:**
+
 ```bash
 r install
+
 ```
 
 Installs package locally for testing.
@@ -579,22 +670,28 @@ Installs package locally for testing.
 #### Development Workflow
 
 **Load package in R session:**
+
 ```bash
 r load
+
 ```
 
 Runs `devtools::load_all()` - fast iteration without full install.
 
 **Build source tarball:**
+
 ```bash
 r build
+
 ```
 
 Creates `.tar.gz` file for distribution.
 
 **Run example:**
+
 ```bash
 r example my_function
+
 ```
 
 Runs examples from function documentation.
@@ -619,6 +716,7 @@ r install
 
 # 6. If all pass, commit
 g commit "feat: add new function"
+
 ```
 
 ---
@@ -628,20 +726,26 @@ g commit "feat: add new function"
 #### Custom Test Options
 
 **Run specific test file:**
+
 ```bash
 r test test-my-function.R
+
 ```
 
 **Run with coverage:**
+
 ```bash
 r coverage
+
 ```
 
 Shows test coverage report.
 
 **Run with profiling:**
+
 ```bash
 r profile
+
 ```
 
 Profiles package performance.
@@ -685,29 +789,37 @@ Profiles package performance.
 #### Essential Commands
 
 **Preview document:**
+
 ```bash
 qu preview
 qu preview document.qmd
+
 ```
 
 Starts preview server at `http://localhost:4567/`
 
 **Render document:**
+
 ```bash
 qu render
 qu render document.qmd
+
 ```
 
 Renders to default output format (usually HTML).
 
 **Render to PDF:**
+
 ```bash
 qu render document.qmd --to pdf
+
 ```
 
 **Render to Word:**
+
 ```bash
 qu render document.qmd --to docx
+
 ```
 
 ---
@@ -717,20 +829,26 @@ qu render document.qmd --to docx
 #### Website/Book Publishing
 
 **Render entire website:**
+
 ```bash
 qu render --website
+
 ```
 
 **Publish to GitHub Pages:**
+
 ```bash
 qu publish gh-pages
+
 ```
 
 **Create new project:**
+
 ```bash
 qu create website
 qu create book
 qu create manuscript
+
 ```
 
 ---
@@ -765,39 +883,52 @@ qu create manuscript
 #### Essential Commands
 
 **List servers:**
+
 ```bash
 mcp list
 mcp ls
+
 ```
 
 Output:
-```
+
+```text
+
 statistical-research (running)
 rforge (running)
 nexus (running)
 playwright (stopped)
+
 ```
 
 **Show status:**
+
 ```bash
 mcp status
+
 ```
 
 Shows detailed status table.
 
 **Start server:**
+
 ```bash
 mcp start statistical-research
+
 ```
 
 **Stop server:**
+
 ```bash
 mcp stop statistical-research
+
 ```
 
 **Restart server:**
+
 ```bash
 mcp restart statistical-research
+
 ```
 
 ---
@@ -805,15 +936,19 @@ mcp restart statistical-research
 ### Intermediate
 
 **Show logs:**
+
 ```bash
 mcp logs statistical-research
+
 ```
 
 Tails server logs in real-time.
 
 **Test server:**
+
 ```bash
 mcp test statistical-research
+
 ```
 
 Tests server connectivity and health.
@@ -851,44 +986,60 @@ Tests server connectivity and health.
 #### Essential Commands
 
 **List vaults:**
+
 ```bash
 obs vaults
+
 ```
 
 Output:
-```
+
+```text
+
 main-vault (/Users/dt/Obsidian/main-vault)
 work-vault (/Users/dt/Obsidian/work-vault)
+
 ```
 
 **Show vault stats:**
+
 ```bash
 obs stats
+
 ```
 
 Output:
-```
+
+```text
+
 Total notes: 1,234
 Total links: 5,678
 Orphan notes: 12
 Broken links: 3
+
 ```
 
 **Search notes:**
+
 ```bash
 obs search "machine learning"
+
 ```
 
 **Open note:**
+
 ```bash
 obs open "My Note"
+
 ```
 
 Opens note in Obsidian.
 
 **Create note:**
+
 ```bash
 obs new "New Note Title"
+
 ```
 
 ---
@@ -917,7 +1068,8 @@ obs new "New Note Title"
 
 ### Basics (Beginner)
 
-**What it does:** Manages multiple working trees for a single git repository, enabling parallel development without branch switching.
+**What it does:** Manages multiple working trees for a single git repository,
+enabling parallel development without branch switching.
 
 **Why use worktrees:**
 - Work on multiple features simultaneously
@@ -928,39 +1080,53 @@ obs new "New Note Title"
 #### Essential Commands
 
 **Create worktree:**
+
 ```bash
 wt create feature/new-feature
 wt create feature/bug-fix dev
+
 ```
 
 Output:
-```
+
+```text
+
 ✅ Created worktree at ~/.git-worktrees/flow-cli/feature-new-feature
 Switched to branch 'feature/new-feature'
+
 ```
 
 **List worktrees:**
+
 ```bash
 wt list
 wt ls
+
 ```
 
 Output:
-```
+
+```text
+
 main      /Users/dt/projects/dev-tools/flow-cli (main branch)
 feature-x ~/.git-worktrees/flow-cli/feature-x (feature/x branch)
 hotfix-y  ~/.git-worktrees/flow-cli/hotfix-y (hotfix/y branch)
+
 ```
 
 **Remove worktree:**
+
 ```bash
 wt remove feature/new-feature
 wt rm feature/new-feature
+
 ```
 
 **Prune deleted worktrees:**
+
 ```bash
 wt prune
+
 ```
 
 Cleans up worktrees that were manually deleted from filesystem.
@@ -976,34 +1142,44 @@ Cleans up worktrees that were manually deleted from filesystem.
 **Steps:**
 
 1. **Feature A in progress (main repo):**
+
    ```bash
    cd ~/projects/dev-tools/flow-cli
    # Working on feature A, uncommitted changes
+
    ```
 
 2. **Create Feature B worktree:**
+
    ```bash
    wt create feature/urgent-fix dev
    cd ~/.git-worktrees/flow-cli/feature-urgent-fix
+
    ```
 
 3. **Work on Feature B:**
+
    ```bash
    # ... implement urgent fix ...
    g commit "fix: urgent bug"
    g push
    gh pr create
+
    ```
 
 4. **Return to Feature A:**
+
    ```bash
    cd ~/projects/dev-tools/flow-cli
    # All your Feature A changes are still here!
+
    ```
 
 5. **Cleanup after merge:**
+
    ```bash
    wt prune
+
    ```
 
 ---
@@ -1011,12 +1187,16 @@ Cleans up worktrees that were manually deleted from filesystem.
 #### Show Worktree Status
 
 **Check status of all worktrees:**
+
 ```bash
 wt status
+
 ```
 
 Output:
-```
+
+```text
+
 main      /Users/dt/projects/dev-tools/flow-cli
   Branch: main
   Status: clean
@@ -1028,6 +1208,7 @@ feature-x ~/.git-worktrees/flow-cli/feature-x
 hotfix-y  ~/.git-worktrees/flow-cli/hotfix-y
   Branch: hotfix/login-bug
   Status: clean, ready to push
+
 ```
 
 ---
@@ -1037,27 +1218,34 @@ hotfix-y  ~/.git-worktrees/flow-cli/hotfix-y
 #### Worktree Best Practices
 
 **1. Keep main repo on stable branch:**
+
 ```bash
 # Main repo should stay on main or dev
 cd ~/projects/dev-tools/flow-cli
 git checkout main
 # Never work directly in main repo
+
 ```
 
 **2. Create worktrees from main repo:**
+
 ```bash
 # Always create worktrees from main repo directory
 cd ~/projects/dev-tools/flow-cli  # Main repo
 wt create feature/new-feature dev
+
 ```
 
 **3. Cleanup regularly:**
+
 ```bash
 # Weekly cleanup
 wt prune
+
 ```
 
 **4. Name worktrees clearly:**
+
 ```bash
 # Good names
 wt create feature/user-authentication
@@ -1067,6 +1255,7 @@ wt create test/performance-optimization
 # Bad names
 wt create fix
 wt create temp
+
 ```
 
 ---
@@ -1074,11 +1263,13 @@ wt create temp
 #### Integration with work Command
 
 **Start work in worktree:**
+
 ```bash
 cd ~/.git-worktrees/flow-cli/feature-new-feature
 work new-feature
 # ... develop feature ...
 finish "Add feature X"
+
 ```
 
 ---
@@ -1088,9 +1279,11 @@ finish "Add feature X"
 **Default location:** `~/.git-worktrees/<repo>/<branch>/`
 
 **Custom location:**
+
 ```bash
 # Not recommended, but possible:
 git worktree add /path/to/custom/location -b branch-name
+
 ```
 
 **Why default is better:**
@@ -1136,38 +1329,50 @@ git worktree add /path/to/custom/location -b branch-name
 #### Dotfile Management
 
 **Edit dotfile:**
+
 ```bash
 dots edit zshrc
 dots edit vimrc
 dots edit gitconfig
+
 ```
 
 Opens dotfile in `$EDITOR`.
 
 **Sync dotfiles:**
+
 ```bash
 dots sync
+
 ```
 
 Output:
-```
+
+```text
+
 ✅ Synced 12 dotfiles
 ~/.zshrc → ~/dotfiles/zshrc
 ~/.vimrc → ~/dotfiles/vimrc
 ~/.gitconfig → ~/dotfiles/gitconfig
+
 ```
 
 **Show sync status:**
+
 ```bash
 dots status
+
 ```
 
 Output:
-```
+
+```text
+
 dotfiles: 12 tracked
   ✅ ~/.zshrc (synced)
   ✅ ~/.vimrc (synced)
   ⚠️  ~/.gitconfig (modified, needs sync)
+
 ```
 
 ---
@@ -1175,48 +1380,66 @@ dotfiles: 12 tracked
 ### Intermediate
 
 **Push dotfile changes:**
+
 ```bash
 dots push
+
 ```
 
 **Show pending changes:**
+
 ```bash
 dots diff
+
 ```
 
 **Apply pending changes:**
+
 ```bash
 dots apply
+
 ```
 
 **Add new dotfile to tracking:**
+
 ```bash
 dots add ~/.zshrc
+
 ```
 
 **Ignore a dotfile:**
+
 ```bash
 dots ignore .DS_Store
+
 ```
 
 **Initialize dotfile management:**
+
 ```bash
 dots init
+
 ```
 
 **Undo last change:**
+
 ```bash
 dots undo
+
 ```
 
 **Generate .envrc for direnv:**
+
 ```bash
 dots env
+
 ```
 
 **Run diagnostics:**
+
 ```bash
 dots doctor
+
 ```
 
 ---
@@ -1258,15 +1481,19 @@ dots doctor
 #### Secret Management (macOS Keychain)
 
 **Get secret:**
+
 ```bash
 sec GITHUB_TOKEN
+
 ```
 
 Touch ID prompt → Shows token value.
 
 **Store secret:**
+
 ```bash
 sec add GITHUB_TOKEN
+
 ```
 
 Workflow:
@@ -1275,21 +1502,28 @@ Workflow:
 3. ✅ Stored in keychain
 
 **List secrets:**
+
 ```bash
 sec list
+
 ```
 
 Output:
-```
+
+```text
+
 GITHUB_TOKEN
 NPM_TOKEN
 HOMEBREW_GITHUB_API_TOKEN
 ANTHROPIC_API_KEY
+
 ```
 
 **Delete secret:**
+
 ```bash
 sec delete GITHUB_TOKEN
+
 ```
 
 Workflow:
@@ -1297,8 +1531,10 @@ Workflow:
 2. ✅ Deleted
 
 **Check secret status:**
+
 ```bash
 sec status
+
 ```
 
 Shows backend configuration and secrets count.
@@ -1311,6 +1547,7 @@ Shows backend configuration and secrets count.
 
 ```bash
 sec dashboard
+
 ```
 
 Shows all secrets with expiration status.
@@ -1319,6 +1556,7 @@ Shows all secrets with expiration status.
 
 ```bash
 sec sync
+
 ```
 
 Interactive wizard to sync between Keychain and Bitwarden.
@@ -1327,6 +1565,7 @@ Interactive wizard to sync between Keychain and Bitwarden.
 
 ```bash
 sec bw github-token
+
 ```
 
 Retrieves secret directly from Bitwarden.
@@ -1334,15 +1573,19 @@ Retrieves secret directly from Bitwarden.
 #### Unlock/Lock Keychain
 
 **Unlock for session:**
+
 ```bash
 sec unlock
+
 ```
 
 Touch ID prompt → Unlocks keychain for 5 minutes.
 
 **Lock keychain:**
+
 ```bash
 sec lock
+
 ```
 
 ---
@@ -1352,6 +1595,7 @@ sec lock
 #### Automation with Secrets
 
 **Safe script pattern:**
+
 ```bash
 #!/bin/bash
 # get-secret-safe.sh
@@ -1366,15 +1610,18 @@ NPM_TOKEN=$(sec NPM_TOKEN)
 # Use in script
 curl -H "Authorization: token $GITHUB_TOKEN" ...
 npm publish --token "$NPM_TOKEN"
+
 ```
 
 **Unsafe pattern (avoid):**
+
 ```bash
 # ❌ DON'T: Hard-code secrets
 export GITHUB_TOKEN="ghp_hardcoded"  # NEVER DO THIS
 
 # ✅ DO: Use keychain
 export GITHUB_TOKEN=$(sec GITHUB_TOKEN)
+
 ```
 
 ---
@@ -1414,20 +1661,26 @@ export GITHUB_TOKEN=$(sec GITHUB_TOKEN)
 #### Token Creation
 
 **Create GitHub token:**
+
 ```bash
 tok github
+
 ```
 
 Interactive wizard guides through token creation.
 
 **Create npm token:**
+
 ```bash
 tok npm
+
 ```
 
 **Create PyPI token:**
+
 ```bash
 tok pypi
+
 ```
 
 ---
@@ -1437,21 +1690,28 @@ tok pypi
 #### Token Expiration
 
 **Check token expiration:**
+
 ```bash
 tok expiring
+
 ```
 
 Output:
-```
+
+```text
+
 GitHub Token: 45 days remaining ✅
 NPM Token: 5 days remaining ⚠️
+
 ```
 
 #### Token Rotation
 
 **Rotate token:**
+
 ```bash
 tok rotate github
+
 ```
 
 Workflow:
@@ -1462,6 +1722,7 @@ Workflow:
 5. ✅ Token rotated
 
 **Complete rotation example:**
+
 ```bash
 # 1. Check expiration
 flow doctor --dot
@@ -1479,11 +1740,14 @@ tok rotate github
 # 4. Verify
 flow doctor --dot=github
 # Output: ✅ Valid (expires in 90 days)
+
 ```
 
 **Refresh token:**
+
 ```bash
 tok refresh github
+
 ```
 
 ---
@@ -1493,22 +1757,29 @@ tok refresh github
 #### Token Cache Management (v5.17.0)
 
 **Check cache status:**
+
 ```bash
 flow doctor --dot --verbose
+
 ```
 
 Output:
-```
+
+```text
+
 GitHub Token
   Status: ✅ Valid
   Expires: 45 days
   Last checked: 2 minutes ago (cached)
   Cache file: ~/.cache/flow/doctor/tokens.cache
+
 ```
 
 **Clear cache:**
+
 ```bash
 rm ~/.cache/flow/doctor/tokens.cache
+
 ```
 
 Forces fresh token check on next `flow doctor --dot`.
@@ -1544,7 +1815,10 @@ Forces fresh token check on next `flow doctor --dot`.
 **Complexity:** Intermediate → Advanced
 **Most Used:** Yes (if teaching)
 
-> **Quick Links:** [All Commands Reference](REFCARD-TEACH-DISPATCHER.md) | [Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md) | [Config Schema](TEACH-CONFIG-SCHEMA.md) | [Deploy Guide](../guides/TEACH-DEPLOY-GUIDE.md)
+> **Quick Links:** [All Commands Reference](REFCARD-TEACH-DISPATCHER.md) |
+> [Scholar Wrappers Guide](../guides/SCHOLAR-WRAPPERS-GUIDE.md) |
+> [Config Schema](TEACH-CONFIG-SCHEMA.md) |
+> [Deploy Guide](../guides/TEACH-DEPLOY-GUIDE.md)
 
 > **Tip:** Run `teach map` to see every teaching command across flow-cli, Scholar, and Craft in one view.
 
@@ -1555,29 +1829,38 @@ Forces fresh token check on next `flow doctor --dot`.
 #### Essential Commands
 
 **Initialize course:**
+
 ```bash
 teach init
 teach init --config course-config.yml
 teach init --github
+
 ```
 
 Creates:
-```
+
+```text
+
 course/
 ├── lectures/
 ├── assignments/
 ├── exams/
 ├── syllabus.qmd
 └── _quarto.yml
+
 ```
 
 **Show course status:**
+
 ```bash
 teach status
+
 ```
 
 Output:
-```
+
+```text
+
 Course: STAT-440 Regression Analysis
 Semester: Spring 2026
 Instructor: Dr. Smith
@@ -1593,11 +1876,14 @@ Next Deadlines:
 
 Last Deploy: 2026-02-10 (2 days ago)
 Site: https://username.github.io/stat-440/
+
 ```
 
 **Deploy course site:**
+
 ```bash
 teach deploy
+
 ```
 
 Deploys to GitHub Pages.
@@ -1609,12 +1895,16 @@ Deploys to GitHub Pages.
 #### Ecosystem Map (v6.6.0)
 
 **Discover all teaching commands across tools:**
+
 ```bash
 teach map
+
 ```
 
 Output:
-```
+
+```text
+
 ╭─────────────────────────────────────────────╮
 │ teach map -- Teaching Ecosystem              │
 ╰─────────────────────────────────────────────╯
@@ -1636,22 +1926,28 @@ Output:
   teach deploy [--preview]    Deploy course site          [flow-cli]
   /craft:site:publish         Full publish workflow       [craft]
   ...
+
 ```
 
-Shows commands grouped by workflow phase. Commands from uninstalled tools appear dimmed with install hints. Slash commands (`/craft:*`, `/scholar:*`) run inside Claude Code.
+Shows commands grouped by workflow phase. Commands from uninstalled tools appear dimmed
+with install hints. Slash commands (`/craft:*`, `/scholar:*`) run inside Claude Code.
 
 ---
 
 #### Content Analysis (AI-Powered)
 
 **Analyze lecture content:**
+
 ```bash
 teach analyze
 teach analyze lectures/week-01/
+
 ```
 
 Output (AI-powered via Scholar):
-```
+
+```text
+
 Analysis: lectures/week-01/01-introduction.qmd
 
 Concepts Identified:
@@ -1671,11 +1967,14 @@ Content Quality:
 Recommendations:
   - Add worked example: Calculating least squares by hand
   - Consider visual: Residual plot explanation
+
 ```
 
 **Batch analysis:**
+
 ```bash
 teach analyze --batch
+
 ```
 
 Analyzes all lectures, generates report.
@@ -1685,8 +1984,10 @@ Analyzes all lectures, generates report.
 #### Exam Generation (Scholar Integration)
 
 **Generate exam:**
+
 ```bash
 teach exam "Midterm 1: Chapters 1-4"
+
 ```
 
 Scholar workflow:
@@ -1697,16 +1998,21 @@ Scholar workflow:
 5. Outputs markdown file
 
 Output:
-```
+
+```text
+
 ✅ Generated: exams/midterm-1.md
    - 10 questions (3 Remember, 4 Apply, 3 Analyze)
    - Answer key included
    - Estimated time: 50 minutes
+
 ```
 
 **With custom template:**
+
 ```bash
 teach exam --template scholar/midterm "Midterm 1"
+
 ```
 
 ---
@@ -1714,8 +2020,10 @@ teach exam --template scholar/midterm "Midterm 1"
 #### Quiz Generation
 
 **Weekly quiz:**
+
 ```bash
 teach quiz "Week 5: Regression Diagnostics"
+
 ```
 
 Similar to exam but shorter, focused on single week.
@@ -1727,30 +2035,39 @@ Similar to exam but shorter, focused on single week.
 Two-mode environment validation for teaching projects.
 
 **Quick check (default, < 1s):**
+
 ```bash
 teach doctor
+
 ```
 
 Checks 4 categories: dependencies, R environment + renv, project config, git setup.
 
 **Full check (3-5s):**
+
 ```bash
 teach doctor --full
+
 ```
 
-Adds 7 categories: R packages, Quarto extensions, Scholar integration, git hooks, cache health, LaTeX macros (opt-in), teaching style.
+Adds 7 categories: R packages, Quarto extensions, Scholar integration, git hooks,
+cache health, LaTeX macros (opt-in), teaching style.
 
 **Output modes:**
+
 ```bash
 teach doctor --brief      # Warnings/failures only
 teach doctor --verbose    # Per-package R detail, full macro list
 teach doctor --json       # Machine-readable JSON
 teach doctor --ci         # No color, exit 1 on failure
+
 ```
 
 **Auto-fix:**
+
 ```bash
 teach doctor --fix        # Interactive fix (implies --full)
+
 ```
 
 Prompts for each fixable issue: missing deps, R packages, git hooks, stale cache.
@@ -1768,12 +2085,16 @@ Prompts for each fixable issue: missing deps, R packages, git hooks, stale cache
 #### Scholar Configuration
 
 **Check Scholar status:**
+
 ```bash
 teach scholar status
+
 ```
 
 Output:
-```
+
+```text
+
 Scholar CLI: ✅ Installed
 Version: 2.1.0
 Path: /opt/homebrew/bin/scholar
@@ -1788,12 +2109,15 @@ Course Config: ✅ Found
   File: .scholar-config.yml
   Course: STAT-440
   Level: Undergraduate
+
 ```
 
 **Select template:**
+
 ```bash
 teach exam --template scholar/final "Final Exam"
 teach quiz --template scholar/weekly "Week 10 Quiz"
+
 ```
 
 ---
@@ -1801,15 +2125,18 @@ teach quiz --template scholar/weekly "Week 10 Quiz"
 #### Content Analysis Workflows
 
 **Pre-lecture analysis:**
+
 ```bash
 # Before creating lecture
 teach analyze lectures/week-05/
 
 # Review recommendations
 # Create lecture with improvements
+
 ```
 
 **Post-lecture analysis:**
+
 ```bash
 # After creating lecture
 teach analyze lectures/week-05/regression.qmd
@@ -1818,11 +2145,14 @@ teach analyze lectures/week-05/regression.qmd
 # - Bloom level distribution
 # - Prerequisite coverage
 # - Complexity progression
+
 ```
 
 **Batch report:**
+
 ```bash
 teach analyze --batch > analysis-report.md
+
 ```
 
 Creates comprehensive course analysis.
@@ -1832,20 +2162,25 @@ Creates comprehensive course analysis.
 #### Deployment Workflows
 
 **Quick direct deploy (v6.4.0):**
+
 ```bash
 teach deploy --direct          # Merge draft → main, push
 teach deploy -d -m "week 5"   # Direct with custom message
 teach deploy --dry-run         # Preview first
+
 ```
 
 **Deploy with rollback safety:**
+
 ```bash
 teach deploy --direct          # Deploy
 teach deploy --history         # Check history
 teach deploy --rollback 1      # Undo most recent deploy
+
 ```
 
 **Preview before deploy:**
+
 ```bash
 qu preview
 # Review site locally
@@ -1853,6 +2188,7 @@ qu preview
 
 teach deploy --direct
 # Deploy to production
+
 ```
 
 ---
@@ -1860,6 +2196,7 @@ teach deploy --direct
 #### Configuration Migration (v5.20.0)
 
 **Extract lesson plans to separate file:**
+
 ```bash
 # Preview what will be migrated
 teach migrate-config --dry-run
@@ -1869,26 +2206,35 @@ teach migrate-config
 
 # Force overwrite existing lesson-plans.yml
 teach migrate-config --force
+
 ```
 
 **Before migration:**
-```
+
+```text
+
 .flow/
 └── teach-config.yml    # 657 lines (course + 14 weeks)
+
 ```
 
 **After migration:**
-```
+
+```text
+
 .flow/
 ├── teach-config.yml      # ~50 lines (course meta)
 ├── teach-config.yml.bak  # Backup
 └── lesson-plans.yml      # ~600 lines (weeks)
+
 ```
 
 **Rollback if needed:**
+
 ```bash
 cp .flow/teach-config.yml.bak .flow/teach-config.yml
 rm .flow/lesson-plans.yml
+
 ```
 
 ---
@@ -1896,14 +2242,18 @@ rm .flow/lesson-plans.yml
 #### Template Management (v5.20.0)
 
 **List available templates:**
+
 ```bash
 teach templates                        # List all templates
 teach templates list --type content    # Filter by type
 teach templates list --source project  # Show only project templates
+
 ```
 
 Output:
-```
+
+```text
+
 ┌──────────────────────────────────────────────────────────────┐
 │ 📁 Teaching Templates                                        │
 ├──────────────────────────────────────────────────────────────┤
@@ -1919,9 +2269,11 @@ Output:
 │                                                              │
 │ Legend: [P] = Project, [D] = Default (plugin)                │
 └──────────────────────────────────────────────────────────────┘
+
 ```
 
 **Create file from template:**
+
 ```bash
 # Create lecture for week 5
 teach templates new lecture week-05
@@ -1931,33 +2283,43 @@ teach templates new lab week-03 --topic "ANOVA"
 
 # Preview without creating
 teach templates new slides week-06 --dry-run
+
 ```
 
 **Validate templates:**
+
 ```bash
 teach templates validate                  # Validate all project templates
 teach templates validate lecture.qmd      # Validate specific template
+
 ```
 
 **Sync from plugin defaults:**
+
 ```bash
 teach templates sync --dry-run    # Preview what would change
 teach templates sync              # Update project templates
 teach templates sync --force      # Overwrite even if newer
+
 ```
 
 **Initialize with templates:**
+
 ```bash
 teach init "STAT-545" --with-templates
+
 ```
 
 Creates:
-```
+
+```text
+
 .flow/templates/
 ├── content/     (4 templates)
 ├── prompts/     (3 templates)
 ├── metadata/    (3 templates)
 └── checklists/  (2 templates)
+
 ```
 
 **Resolution order:** Project templates override plugin defaults:
@@ -1977,15 +2339,19 @@ Manage LaTeX macros for consistent AI-generated notation.
 **Primary use case:** Ensure Scholar generates `\E{Y}` instead of `E[Y]`.
 
 **List macros:**
+
 ```bash
 teach macros                         # Show all macros
 teach macros list                    # Same with more options
 teach macros list --category operators  # Filter by category
 teach macros list --format json      # JSON output
+
 ```
 
 Output:
-```
+
+```text
+
 LaTeX Macros (14 available)
 
 OPERATORS
@@ -2002,24 +2368,30 @@ SYMBOLS
   \iid           → \text{i.i.d.}        IID notation
 
 Source: _macros.qmd (synced 2h ago)
+
 ```
 
 **Sync from source files:**
+
 ```bash
 teach macros sync              # Extract from configured sources
 teach macros sync --dry-run    # Preview without changes
 teach macros sync --force      # Overwrite existing cache
+
 ```
 
 **Export for Scholar:**
+
 ```bash
 teach macros export                 # Default JSON to stdout
 teach macros export --format json   # JSON format
 teach macros export --format mathjax  # MathJax config
 teach macros export --format latex  # LaTeX \newcommand
+
 ```
 
 **Configuration:**
+
 ```yaml
 scholar:
   latex_macros:
@@ -2034,6 +2406,7 @@ scholar:
     export:
       format: "json"
       include_in_prompts: true
+
 ```
 
 **Supported formats:**
@@ -2059,9 +2432,11 @@ scholar:
 
 CRUD management of individual week entries in `.flow/lesson-plans.yml`.
 
-**Primary use case:** Create and manage lesson plans that feed into Scholar content generation (`teach slides --week N`, `teach lecture --week N`).
+**Primary use case:** Create and manage lesson plans that feed into Scholar
+content generation (`teach slides --week N`, `teach lecture --week N`).
 
 **Create a week:**
+
 ```bash
 # With options
 teach plan create 3 --topic "Probability" --style rigorous
@@ -2070,15 +2445,20 @@ teach plan create 3 --topic "Probability" --style rigorous
 teach plan create 5
 
 # Auto-populates topic from teach-config.yml if available
+
 ```
 
 **List all weeks:**
+
 ```bash
 teach plan list
+
 ```
 
 Output:
-```
+
+```text
+
   Week   Topic                               Style           Objectives
   ────   ───────────────────────────────────  ───────────────  ──────────
   1      Introduction to Statistics           conceptual       2
@@ -2087,27 +2467,35 @@ Output:
 
   3 week(s) total
   Gaps: weeks 2 4
+
 ```
 
 **Show week details:**
+
 ```bash
 teach plan show 1
 teach plan show 1 --json     # JSON output
 teach plan 1                 # Shortcut (bare number)
+
 ```
 
 **Edit in $EDITOR:**
+
 ```bash
 teach plan edit 3            # Opens at correct line number
+
 ```
 
 **Delete a week:**
+
 ```bash
 teach plan delete 3          # With confirmation
 teach plan delete 3 --force  # Skip confirmation
+
 ```
 
 **YAML schema:**
+
 ```yaml
 # .flow/lesson-plans.yml
 weeks:
@@ -2121,6 +2509,7 @@ weeks:
     key_concepts:
       - "descriptive-stats"
     prerequisites: []
+
 ```
 
 **Styles:** `conceptual`, `computational`, `rigorous`, `applied`
@@ -2132,20 +2521,26 @@ weeks:
 #### Integration with Quarto
 
 **Render specific lecture:**
+
 ```bash
 qu render lectures/week-05/regression.qmd
+
 ```
 
 **Render all lectures:**
+
 ```bash
 qu render --website
+
 ```
 
 **Preview live:**
+
 ```bash
 qu preview
 # Edit files
 # Auto-refresh in browser
+
 ```
 
 ---
@@ -2240,42 +2635,55 @@ qu preview
 #### Essential Commands
 
 **Set terminal title:**
+
 ```bash
 tm title "flow-cli development"
+
 ```
 
 Window title updates to "flow-cli development".
 
 **Switch profile:**
+
 ```bash
 tm profile "Solarized Dark"
 tm profile "Nord"
+
 ```
 
 Changes iTerm2/Terminal.app color profile.
 
 **Ghost mode (hide from Spotlight/Alfred):**
+
 ```bash
 tm ghost on
+
 ```
 
 Hides terminal from application switchers.
 
 **Disable ghost mode:**
+
 ```bash
 tm ghost off
+
 ```
 
 **Show current settings:**
+
 ```bash
 tm status
+
 ```
 
 Output:
-```
+
+```text
+
 Profile: Solarized Dark
 Title: flow-cli development
 Ghost: enabled
+
 ```
 
 ---
@@ -2285,6 +2693,7 @@ Ghost: enabled
 #### Use Cases
 
 **1. Project-specific profiles:**
+
 ```bash
 # In work session
 work flow-cli
@@ -2295,21 +2704,26 @@ tm profile "Solarized Dark"
 work teaching
 tm title "teaching work"
 tm profile "Nord"
+
 ```
 
 **2. Focus mode:**
+
 ```bash
 # Deep work session
 tm ghost on
 tm title "🎯 Focus Mode"
 # No interruptions from app switcher
+
 ```
 
 **3. Presentation mode:**
+
 ```bash
 # Before demo
 tm profile "High Contrast"
 tm title "Demo - flow-cli"
+
 ```
 
 ---
@@ -2343,27 +2757,36 @@ tm title "Demo - flow-cli"
 #### Essential Commands
 
 **Show current engine:**
+
 ```bash
 prompt status
+
 ```
 
 Output:
-```
+
+```text
+
 Current engine: claude (Anthropic)
 Available: claude, gemini
+
 ```
 
 **Toggle engine:**
+
 ```bash
 prompt toggle
+
 ```
 
 Switches to other engine (claude ↔ gemini).
 
 **Set specific engine:**
+
 ```bash
 prompt use claude
 prompt use gemini
+
 ```
 
 ---
@@ -2373,6 +2796,7 @@ prompt use gemini
 #### Use Cases
 
 **1. Compare responses:**
+
 ```bash
 # Try Claude
 prompt use claude
@@ -2381,21 +2805,26 @@ prompt use claude
 # Try Gemini
 prompt use gemini
 # Ask same question, compare
+
 ```
 
 **2. Cost optimization:**
+
 ```bash
 # Use Gemini for simple queries (cheaper)
 prompt use gemini
 
 # Use Claude for complex tasks (better quality)
 prompt use claude
+
 ```
 
 **3. Availability:**
+
 ```bash
 # If Claude is down
 prompt use gemini
+
 ```
 
 ---
@@ -2427,8 +2856,10 @@ prompt use gemini
 #### Essential Commands
 
 **Enable vibe mode:**
+
 ```bash
 v on
+
 ```
 
 Activates:
@@ -2438,39 +2869,52 @@ Activates:
 - 📱 Hide notifications
 
 Output:
-```
+
+```text
+
 🎵 Vibe coding mode: ON
 Music: ✅ Started "Lo-Fi Beats" playlist
 Do Not Disturb: ✅ Enabled
 Focus: Maximum
 Terminal: Ghost mode enabled
+
 ```
 
 **Disable vibe mode:**
+
 ```bash
 v off
+
 ```
 
 Output:
-```
+
+```text
+
 🎵 Vibe coding mode: OFF
 Music: ⏸️  Paused
 Do Not Disturb: ✅ Disabled
 Focus: Normal
+
 ```
 
 **Show status:**
+
 ```bash
 v status
+
 ```
 
 Output:
-```
+
+```text
+
 Vibe mode: ON
 Started: 2h 15m ago
 Sessions today: 3
 Total time: 6h 45m
 Current playlist: Lo-Fi Beats
+
 ```
 
 ---
@@ -2480,21 +2924,27 @@ Current playlist: Lo-Fi Beats
 #### Configuration
 
 **Custom playlist:**
+
 ```bash
 # Set in ~/.zshrc
 export FLOW_VIBE_PLAYLIST="My Coding Playlist"
+
 ```
 
 **Auto-enable ghost mode:**
+
 ```bash
 # Set in ~/.zshrc
 export FLOW_VIBE_GHOST=1
+
 ```
 
 **Disable music (DND only):**
+
 ```bash
 # Set in ~/.zshrc
 export FLOW_VIBE_MUSIC=0
+
 ```
 
 ---
@@ -2502,6 +2952,7 @@ export FLOW_VIBE_MUSIC=0
 #### Use Cases
 
 **1. Deep work sessions:**
+
 ```bash
 # Start focused work
 v on
@@ -2511,16 +2962,20 @@ work my-project
 
 # Take break
 v off
+
 ```
 
 **2. Flow state:**
+
 ```bash
 # When you hit flow state, lock it in
 v on
 # No interruptions for next 1-2 hours
+
 ```
 
 **3. Pomodoro integration:**
+
 ```bash
 # 25-min work
 v on
@@ -2528,6 +2983,7 @@ sleep 1500  # 25 minutes
 v off
 
 # 5-min break
+
 ```
 
 ---
@@ -2549,7 +3005,7 @@ v off
 ## Dispatcher Comparison Table
 
 | Dispatcher | Complexity | Daily Use | Key Feature |
-|------------|------------|-----------|-------------|
+| ------------ | ------------ | ----------- | ------------- |
 | g | Beginner → Advanced | ⭐⭐⭐⭐⭐ | Git workflows |
 | cc | Beginner | ⭐⭐⭐⭐ | Claude Code launcher |
 | r | Intermediate | ⭐⭐⭐⭐ | R package dev |
@@ -2580,7 +3036,7 @@ Flow CLI uses a minimalist alias approach - high-frequency commands only.
 ### Key Aliases by Category
 
 | Category | Aliases | Purpose |
-|----------|---------|---------|
+| ---------- | --------- | --------- |
 | **R Package** | `rload`, `rtest`, `rdoc`, `rcheck` | Development workflow |
 | **R Quality** | `rcov`, `rcovrep` | Coverage reports |
 | **R CRAN** | `rcheckfast`, `rcheckcran` | Submission checks |
@@ -2596,15 +3052,18 @@ g co          # git checkout
 r t           # r test
 qu p          # qu preview
 cc y          # cc yolo
+
 ```
 
 ### Quick Access
 
 ```bash
 als           # List all aliases by category
+
 ```
 
-> **Full Reference:** See archived [ALIAS-REFERENCE-CARD.md](MASTER-DISPATCHER-GUIDE.md#aliases) for complete alias list with frequencies and descriptions.
+> **Full Reference:** See archived [ALIAS-REFERENCE-CARD.md](MASTER-DISPATCHER-GUIDE.md#aliases)
+> for complete alias list with frequencies and descriptions.
 
 ---
 
@@ -2616,12 +3075,18 @@ als           # List all aliases by category
 
 ### Overview
 
-The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management: AI-powered drafting, smart content rendering, fzf browsing, and explicit send confirmation.
+The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management:
+AI-powered drafting, smart content rendering, fzf browsing, and explicit send confirmation.
+
+> **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and
+> [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven,
+> Claude as interface) both wrap himalaya. Use `em` for fast terminal ops,
+> himalaya-mcp for AI-assisted analysis.
 
 ### Commands
 
 | Command | Alias | Description |
-|---------|-------|-------------|
+| --------- | ------- | ------------- |
 | `em` | | Quick pulse (unread + 10 latest) |
 | `em inbox [N]` | | List N recent emails (default: 25) |
 | `em read <ID>` | `em r` | Read email with smart rendering |
@@ -2663,6 +3128,7 @@ em thread 42            # Show conversation thread
 em snooze 42 2h         # Snooze for 2 hours
 em digest               # AI-grouped daily summary
 em doctor               # Check all dependencies
+
 ```
 
 ### Architecture
@@ -2672,7 +3138,7 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 ### Configuration
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| ---------- | --------- | ------------- |
 | `FLOW_EMAIL_AI` | `claude` | AI backend (claude/gemini/none) |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | Default inbox page size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | Default folder |
@@ -2683,7 +3149,8 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 - Every send requires explicit `[y/N]` confirmation (default: No). No auto-send.
 - Listserv emails (`@LIST.*`) auto-skipped in `em respond`; warning shown if actionable.
 - Discarded drafts tracked separately from sent replies (via `script(1)` detection).
-- 9-category AI classification: student, colleague, admin-action, scheduling, urgent (actionable) + admin-info, newsletter, vendor, automated (auto-skip).
+- 9-category AI classification: student, colleague, admin-action, scheduling,
+  urgent (actionable) + admin-info, newsletter, vendor, automated (auto-skip).
 
 > **Full Reference:** [REFCARD-EMAIL-DISPATCHER.md](REFCARD-EMAIL-DISPATCHER.md)
 > **User Guide:** [EMAIL-DISPATCHER-GUIDE.md](../guides/EMAIL-DISPATCHER-GUIDE.md)

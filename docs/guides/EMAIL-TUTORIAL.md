@@ -7,10 +7,15 @@
 **Difficulty:** Beginner-friendly
 
 !!! tip "Prefer reading email in Neovim?"
-    This tutorial covers the **terminal CLI** (`em` dispatcher). For in-editor email with AI actions, see the [Neovim Himalaya Tutorial](../tutorials/33-himalaya-email.md).
+    This tutorial covers the **terminal CLI** (`em` dispatcher).
+    For in-editor email with AI actions,
+    see the [Neovim Himalaya Tutorial](../tutorials/33-himalaya-email.md).
 
 !!! info "Two interfaces, one backend"
-    Both `em` and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) wrap the same himalaya CLI but serve different interaction models. `em` is keyboard-driven (fzf, $EDITOR, sub-second), while himalaya-mcp is conversation-driven (Claude as the interface). Use `em` for fast terminal operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email content.
+    Both `em` and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) wrap the same himalaya
+    CLI but serve different interaction models. `em` is keyboard-driven (fzf, $EDITOR, sub-second),
+    while himalaya-mcp is conversation-driven (Claude as the interface). Use `em` for fast terminal
+    operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email.
 
 ---
 
@@ -53,13 +58,13 @@ Install and configure the email stack so `em` commands work.
 
 himalaya is the email CLI backend that `em` uses.
 
-**Option A: Homebrew (recommended)**
+#### Option A: Homebrew (recommended)
 
 ```bash
 brew install himalaya
 ```
 
-**Option B: Cargo**
+#### Option B: Cargo
 
 ```bash
 cargo install himalaya
@@ -108,7 +113,7 @@ em doctor
 
 ✅ **Expected output:**
 
-```
+```text
 em doctor — Email Dependency Check
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ok  himalaya             himalaya 1.0.0
@@ -185,7 +190,7 @@ em
 
 ✅ **Expected output:**
 
-```
+```text
 em — quick pulse
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   3 unread
@@ -218,7 +223,7 @@ em unread
 
 ✅ **Expected output:**
 
-```
+```text
 3 unread in INBOX
 ```
 
@@ -295,7 +300,7 @@ em read 42
 
 ✅ **Expected output:**
 
-```
+```text
   Re: Project proposal review
   From: Alice Johnson <alice@example.com>
   Date: 2026-02-10
@@ -356,7 +361,8 @@ em read -H 42
 em read --md 42
 ```
 
-✅ **Expected output:** Email rendered as clean Markdown with proper headings, links, and formatting. Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatically.
+✅ **Expected output:** Email rendered as clean Markdown with proper headings, links, and formatting.
+Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatically.
 
 **Requires:** `pandoc` (`brew install pandoc`)
 
@@ -391,7 +397,7 @@ em attach 42
 
 ✅ **Expected output:**
 
-```
+```text
 Downloading attachments from email #42...
 ✓ Attachments saved to: /Users/dt/Downloads
 ```
@@ -434,7 +440,7 @@ em pick
 
 ✅ **Expected output:**
 
-```
+```text
 Folder: INBOX  |  Unread: 3
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-A=archive  Ctrl-D=delete
 • = unread  ★ = starred  + = attachment
@@ -521,14 +527,14 @@ em reply 42
 
 ✅ **Expected output:**
 
-```
+```text
 Generating AI draft...
 ✓ AI draft ready — edit in $EDITOR
 ```
 
 **In your editor, you'll see:**
 
-```
+```text
 To: alice@example.com
 Subject: Re: Project proposal review
 From: you@example.com
@@ -555,7 +561,7 @@ Best,
 
 **Send confirmation:**
 
-```
+```text
 Send this reply? [y/N] y
 ```
 
@@ -601,7 +607,7 @@ em reply 42 --batch
 
 ✅ **Expected output:**
 
-```
+```text
 Fetching email #42...
 Draft Reply
 ────────────────────────────────────────────────────────────────
@@ -685,14 +691,14 @@ em send
 
 ✅ **Expected interaction:**
 
-```
+```text
 To: colleague@example.com
 Subject: Quick question about project
 ```
 
 **Editor opens with:**
 
-```
+```text
 To: colleague@example.com
 Subject: Quick question about project
 From: you@example.com
@@ -702,7 +708,7 @@ From: you@example.com
 
 **After you save and exit:**
 
-```
+```text
 ────────────────────────────────────────────────────────────────
 [Preview of email shown]
 ────────────────────────────────────────────────────────────────
@@ -737,7 +743,7 @@ em send colleague@example.com "Project timeline" --ai
 
 ✅ **Expected output:**
 
-```
+```text
 Generating AI draft from subject...
 ✓ AI draft ready — edit in $EDITOR
 ```
@@ -774,7 +780,7 @@ em classify 42
 
 ✅ **Expected output:**
 
-```
+```text
   S student
 ```
 
@@ -810,7 +816,7 @@ em summarize 42
 
 ✅ **Expected output:**
 
-```
+```text
   Summary: Alice asks 3 questions about project proposal timeline and budget
 ```
 
@@ -837,7 +843,7 @@ em respond
 
 ✅ **Expected output:**
 
-```
+```text
 em respond — scanning 10 emails in INBOX
   [1/10] Alice Johnson         C colleague  Re: Project proposal
   [2/10] Bob Smith             C colleague  Re: Meeting notes
@@ -848,7 +854,8 @@ em respond — scanning 10 emails in INBOX
 Proceed to draft 3 replies? [Y/n]
 ```
 
-After pressing Y, your `$EDITOR` opens with the first AI-generated draft. Edit, save, and close to send — then the next draft opens automatically.
+After pressing Y, your `$EDITOR` opens with the first AI-generated draft.
+Edit, save, and close to send — then the next draft opens automatically.
 
 **Adjust count:**
 
@@ -879,7 +886,7 @@ em respond --review
 
 ✅ **Expected output:**
 
-```
+```text
 Cached drafts available:
   ✓ #42  Alice Johnson  Re: Project proposal re...
   ✓ #38  Emma Wilson    Re: Question about assig...
@@ -900,7 +907,7 @@ em respond --clear
 
 ✅ **Expected output:**
 
-```
+```text
 ✓ Email cache cleared (2.5M freed)
 ```
 
@@ -935,7 +942,7 @@ em respond --dry-run
 
 ✅ **Expected output:**
 
-```
+```text
 em respond — scanning 10 emails in INBOX
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -986,7 +993,7 @@ em find "quarterly report"
 
 ✅ **Expected output:**
 
-```
+```text
 Searching: quarterly report
 
   42  Alice Johnson  Q3 quarterly report review  2026-02-10
@@ -1011,7 +1018,7 @@ em folders
 
 ✅ **Expected output:**
 
-```
+```text
 INBOX
 Sent
 Drafts
@@ -1083,7 +1090,7 @@ em cache stats
 
 ✅ **Expected output:**
 
-```
+```text
 Email Cache
   summaries          12 items  48K   (1 expired)
   classifications    12 items  1.2K
@@ -1132,7 +1139,7 @@ ls .flow/email-cache/
 
 ✅ **Expected output:**
 
-```
+```text
 summaries/
 classifications/
 drafts/
@@ -1168,7 +1175,7 @@ em cache prune
 
 ✅ **Expected output:**
 
-```
+```text
 ✓ Pruned 4 expired cache entries
 ```
 
@@ -1184,7 +1191,7 @@ em cache clear
 
 ✅ **Expected output:**
 
-```
+```text
 ✓ Email cache cleared (2.5M freed)
 ```
 
@@ -1373,7 +1380,8 @@ FLOW_EMAIL_PAGE_SIZE=25
 EOF
 ```
 
-**Precedence:** Project config (`.flow/email.conf`) > Global config (`~/.config/flow/email.conf`) > Environment variables > Defaults
+**Precedence:** Project config (`.flow/email.conf`) > Global config (`~/.config/flow/email.conf`)
+\> Environment variables > Defaults
 
 ### Keyboard Shortcuts Summary
 
@@ -1430,9 +1438,9 @@ Switch AI backends at runtime and capture emails as tasks.
 em ai
 ```
 
-### ✅ Expected Output
+### ✅ Expected Output: AI Status
 
-```
+```text
 Email AI Backend
 
   Current:     claude
@@ -1474,15 +1482,15 @@ em inbox
 em catch 42
 ```
 
-### ✅ Expected Output
+### ✅ Expected Output: Catch
 
-```
+```text
 ✓ Captured: Student absent Friday, requests notes
 ```
 
 If the `catch` command isn't installed, you'll see the summary for manual capture:
 
-```
+```text
 Capture: Email #42: Student absent Friday, requests notes
 (catch command not available — copy manually)
 ```
@@ -1598,7 +1606,7 @@ export FLOW_EMAIL_PAGE_SIZE=50
 | `em respond`           | Batch AI drafts (full flow)      |
 | `em respond --review`  | Review cached drafts in $EDITOR  |
 | `em respond --dry-run` | Classify only (no drafts)        |
-| `em respond --folder`  | Process specific folder           |
+| `em respond --folder`  | Process specific folder          |
 | `em classify <ID>`     | Categorize email                 |
 | `em summarize <ID>`    | One-line summary                 |
 | `em catch <ID>`        | Capture email as task (AI)       |
@@ -1628,22 +1636,22 @@ export FLOW_EMAIL_PAGE_SIZE=50
 
 **Shortcuts:**
 
-| Shortcut | Expands to  |
-| -------- | ----------- |
-| `em i`   | `em inbox`  |
-| `em r`   | `em read`   |
-| `em re`  | `em reply`  |
-| `em s`   | `em send`   |
-| `em p`   | `em pick`   |
-| `em f`   | `em find`   |
-| `em u`   | `em unread` |
-| `em d`   | `em dash`   |
-| `em cl`  | `em classify` |
-| `em sum` | `em summarize` |
-| `em resp` | `em respond` |
-| `em a`   | `em attach` |
-| `em c`   | `em catch` |
-| `em dr`  | `em doctor` |
+| Shortcut  | Expands to     |
+| --------- | -------------- |
+| `em i`    | `em inbox`     |
+| `em r`    | `em read`      |
+| `em re`   | `em reply`     |
+| `em s`    | `em send`      |
+| `em p`    | `em pick`      |
+| `em f`    | `em find`      |
+| `em u`    | `em unread`    |
+| `em d`    | `em dash`      |
+| `em cl`   | `em classify`  |
+| `em sum`  | `em summarize` |
+| `em resp` | `em respond`   |
+| `em a`    | `em attach`    |
+| `em c`    | `em catch`     |
+| `em dr`   | `em doctor`    |
 
 ---
 
@@ -1668,28 +1676,33 @@ A: himalaya supports multiple accounts. See: `himalaya account list`
 A: `em` is a wrapper with AI features, smart rendering, caching, and flow-cli integration. himalaya is the underlying CLI.
 
 **Q: Can I customize AI prompts?**
-A: Yes — create `~/.config/flow/email-prompts.zsh` to override the default prompt functions. See the [Email Dispatcher Guide](EMAIL-DISPATCHER-GUIDE.md) for details.
+A: Not yet — the prompt functions are defined in `lib/em-ai.zsh` and would require editing
+the source. Custom prompt templates are planned for a future version.
 
 **Q: Can I read email by typing just the number?**
 A: Yes! `em 42` is shorthand for `em read 42`. Similarly, `em -n 5` = `em inbox 5`.
 
 **Q: How big can the cache get?**
-A: By default, 50 MB max (`FLOW_EMAIL_CACHE_MAX_MB`). Oldest files are evicted (LRU) when exceeded. Set to `0` to disable the cap.
+A: By default, 50 MB max (`FLOW_EMAIL_CACHE_MAX_MB`). Oldest files are evicted (LRU)
+when exceeded. Set to `0` to disable the cap.
 
 **Q: Can I auto-prune old cache entries?**
 A: Yes — `em dash` auto-prunes expired entries in the background. Manual: `em cache prune`.
 
 **Q: How do I read Outlook emails with clean formatting?**
-A: `em read --md <ID>` converts HTML to Markdown via pandoc with a 7-stage Outlook cleanup pipeline (SafeLinks, attribute blocks, fenced divs, etc.). Requires `pandoc` (`brew install pandoc`).
+A: `em read --md <ID>` converts HTML to Markdown via pandoc with a 7-stage Outlook cleanup
+pipeline (SafeLinks, attribute blocks, fenced divs, etc.). Requires `pandoc` (`brew install pandoc`).
 
 **Q: How do I read raw MIME source?**
 A: `em read --raw <ID>` exports the full `.eml` file. Useful for debugging or archiving.
 
 **Q: What email noise gets cleaned automatically?**
-A: Six patterns: CID image refs, Microsoft Safe Links, MIME markers, angle-bracket URLs, mailto inline links, and quoted lines (dimmed). This runs on all read operations.
+A: Six patterns: CID image refs, Microsoft Safe Links, MIME markers, angle-bracket URLs,
+mailto inline links, and quoted lines (dimmed). This runs on all read operations.
 
 **Q: How does `em respond --review` differ from `em respond`?**
-A: `em respond` classifies and generates new AI drafts. `em respond --review` skips classification and only shows emails with cached drafts — perfect for resuming where you left off.
+A: `em respond` classifies and generates new AI drafts. `em respond --review` skips classification
+and only shows emails with cached drafts — perfect for resuming where you left off.
 
 **Q: How do I report bugs?**
 A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues
@@ -1698,7 +1711,7 @@ A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues
 
 ## 🎨 Visual Workflow Map
 
-```
+```text
 YOUR EMAIL WORKFLOW
 ═══════════════════
 

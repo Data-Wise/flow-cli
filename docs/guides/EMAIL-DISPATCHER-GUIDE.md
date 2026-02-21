@@ -6,7 +6,9 @@
 
 ## Overview
 
-The email dispatcher (`em`) brings ADHD-friendly email management to your terminal through a pure ZSH interface to [himalaya](https://github.com/pimalaya/himalaya). Think inbox zero in under 5 minutes, with AI-powered draft generation, smart rendering, and zero browser context-switching.
+The email dispatcher (`em`) brings ADHD-friendly email management to your terminal through a pure ZSH interface
+to [himalaya](https://github.com/pimalaya/himalaya). Think inbox zero in under 5 minutes, with AI-powered draft
+generation, smart rendering, and zero browser context-switching.
 
 ```bash
 em                    # Quick pulse (unread + 10 latest)
@@ -31,7 +33,8 @@ em catch 42           # Capture email as task
 
 ## Why em?
 
-Traditional email clients are heavyweight, distraction-prone, and slow. The `em` dispatcher brings email management into your flow-cli workflow:
+Traditional email clients are heavyweight, distraction-prone, and slow. The `em` dispatcher brings email
+management into your flow-cli workflow:
 
 - **Fast** - Sub-second response times for common operations
 - **Focused** - No ads, no social features, no distractions
@@ -42,30 +45,32 @@ Traditional email clients are heavyweight, distraction-prone, and slow. The `em`
 
 ## Two Interfaces, One Backend
 
-Both `em` and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) wrap the same himalaya CLI but serve different interaction models:
+Both `em` and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) wrap the same himalaya CLI but serve
+different interaction models:
 
 | | em (terminal-native) | himalaya-mcp (AI-native) |
-|---|---|---|
+| --- | --- | --- |
 | **Interface** | Keyboard-driven (fzf, $EDITOR) | Conversation-driven (Claude) |
 | **Speed** | Sub-second, interactive | Deliberate, context-rich |
 | **Best for** | Quick triage, reading, replying | Batch analysis, digests, drafting |
 | **AI role** | Optional enhancement | Core interface |
 
-They coexist naturally — use `em` for fast terminal operations and himalaya-mcp when you want Claude to help compose, triage, or analyze email content.
+They coexist naturally — use `em` for fast terminal operations and himalaya-mcp when you want Claude to help
+compose, triage, or analyze email content.
 
 ## Prerequisites
 
 ### Required
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| --- | --- | --- |
 | [himalaya](https://github.com/pimalaya/himalaya) | Email CLI backend (IMAP/SMTP) | `brew install himalaya` or `cargo install himalaya` |
 | [jq](https://stedolan.github.io/jq/) | JSON parsing | `brew install jq` |
 
 ### Recommended
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| --- | --- | --- |
 | [fzf](https://github.com/junegunn/fzf) | Interactive email picker | `brew install fzf` |
 | [bat](https://github.com/sharkdp/bat) | Syntax highlighting | `brew install bat` |
 | [w3m](https://w3m.sourceforge.net/) | HTML rendering (primary) | `brew install w3m` |
@@ -76,7 +81,7 @@ They coexist naturally — use `em` for fast terminal operations and himalaya-mc
 ### Optional
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| --- | --- | --- |
 | [email-oauth2-proxy](https://github.com/simonrob/email-oauth2-proxy) | OAuth2 for Gmail/Outlook | `pip install email-oauth2-proxy` |
 | terminal-notifier | Desktop notifications | `brew install terminal-notifier` |
 | claude CLI | AI drafts (primary) | See [Claude Code docs](https://claude.ai/docs) |
@@ -90,7 +95,7 @@ em doctor
 
 This checks all dependencies and shows your current configuration:
 
-```
+```text
 em doctor — Email Dependency Check
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ok  himalaya             v1.0.0
@@ -134,7 +139,9 @@ himalaya --version
 
 ### 2. Configure himalaya
 
-himalaya supports multiple accounts and authentication methods. See the [himalaya configuration guide](https://pimalaya.org/himalaya/cli/latest/configuration/index.html) for complete setup instructions.
+himalaya supports multiple accounts and authentication methods. See the
+[himalaya configuration guide](https://pimalaya.org/himalaya/cli/latest/configuration/index.html) for complete
+setup instructions.
 
 **Quick Gmail Setup (OAuth2):**
 
@@ -170,7 +177,8 @@ sender.auth.type = "password"
 sender.auth.raw = "your-password-here"  # Or use keychain
 ```
 
-> **Security Note:** Use app-specific passwords or OAuth2 for Gmail/Outlook. Store passwords in your system keychain rather than plaintext config files.
+> **Security Note:** Use app-specific passwords or OAuth2 for Gmail/Outlook. Store passwords in your system
+> keychain rather than plaintext config files.
 
 Test your setup:
 
@@ -184,7 +192,7 @@ If this works, you're ready to use `em`.
 
 Set environment variables in your `.zshrc` or create a config file:
 
-**Option A: Environment Variables**
+#### Option A: Environment Variables
 
 ```bash
 # In ~/.zshrc or ~/.config/zsh/.zshrc
@@ -194,7 +202,7 @@ export FLOW_EMAIL_PAGE_SIZE=25          # Default inbox page size
 export FLOW_EMAIL_FOLDER="INBOX"        # Default folder
 ```
 
-**Option B: Config File**
+#### Option B: Config File
 
 Create `~/.config/flow/email.conf`:
 
@@ -247,7 +255,7 @@ $ em pick
 
 This opens an interactive fzf picker:
 
-```
+```text
 Folder: INBOX  |  Unread: 3
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
 • = unread  ★ = starred  + = attachment
@@ -364,7 +372,7 @@ em -n 10            # Shorthand for inbox 10
 
 Output shows structured table with indicators:
 
-```
+```text
   ID    * + From                 Subject                                  Date
   ───── ── ──────────────────── ──────────────────────────────────────── ──────────
   142   * + Alice Johnson        Re: STAT-101 Exam Grading Question       2026-02-10
@@ -497,7 +505,7 @@ When displaying emails, `em` automatically strips common noise patterns from Mic
 - **Angle-bracket URLs** (`<https://...>`) — removed
 - **Mailto inline** (`(mailto:user@example.com)`) — removed
 - **Quoted lines** (`> original text`) — dimmed for visual separation
-- **Signature blocks** (`-- ` separator onwards) — dimmed
+- **Signature blocks** (`--` separator onwards) — dimmed
 
 This cleanup runs on all read operations, including the fzf preview in `em pick`.
 
@@ -685,7 +693,7 @@ export FLOW_EMAIL_AI="none"      # Disable AI features
 
 If the primary backend fails (timeout, not installed, API error), `em` automatically tries the next available backend:
 
-```
+```text
 claude → gemini → fail gracefully
 ```
 
@@ -707,7 +715,7 @@ em ai none            # Disable AI entirely
 
 Running `em ai` with no arguments shows:
 
-```
+```text
 Email AI Backend
 
   Current:     claude
@@ -720,7 +728,8 @@ Email AI Backend
 
 ### Gemini Speed Optimization
 
-Gemini CLI supports extra arguments via `FLOW_EMAIL_GEMINI_EXTRA_ARGS`. The default `-e none` skips extension loading for faster startup:
+Gemini CLI supports extra arguments via `FLOW_EMAIL_GEMINI_EXTRA_ARGS`. The default `-e none` skips extension
+loading for faster startup:
 
 ```bash
 # Default (fast, no extensions)
@@ -733,7 +742,7 @@ export FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e my_extension"
 ### When to Use Each Backend
 
 | Backend | Best For | Speed | Notes |
-|---------|----------|-------|-------|
+| --- | --- | --- | --- |
 | `claude` | Complex drafts, nuanced classification | ~3-5s | Default, highest quality |
 | `gemini` | Quick classification, summaries | ~1-2s | Faster with `-e none` |
 | `none` | Offline, no AI needed | Instant | Falls back to manual |
@@ -741,7 +750,8 @@ export FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e my_extension"
 
 ### Persistence
 
-Backend selection persists for the current shell session via `FLOW_EMAIL_AI` env var. To make it permanent, add to your config:
+Backend selection persists for the current shell session via `FLOW_EMAIL_AI` env var. To make it permanent,
+add to your config:
 
 ```bash
 # In $FLOW_CONFIG_DIR/email.conf or .flow/email.conf
@@ -758,7 +768,7 @@ em cl <ID>             # Shortcut
 Categorizes an email into one of these types:
 
 | Category | Description | Icon | Color |
-|----------|-------------|------|-------|
+| --- | --- | --- | --- |
 | `student` | Student email: absence, question, grade inquiry, accommodation | S | blue |
 | `colleague` | Faculty/staff discussion: hiring committee, research, departmental | C | green |
 | `admin-action` | Requires YOUR action: accommodation letter, form, review request | ! | red |
@@ -892,22 +902,25 @@ $ em respond --clear
 
 `em respond` includes two layers of protection against accidentally replying to mailing lists:
 
-**Layer 1: Pre-classification skip.** Emails addressed to `*@LIST.*`, `*@list.*`, or `*-L@*` are auto-skipped before AI classification. They appear as:
+**Layer 1: Pre-classification skip.** Emails addressed to `*@LIST.*`, `*@list.*`, or `*-L@*` are
+auto-skipped before AI classification. They appear as:
 
-```
+```text
   [3/10] graduation@unm.edu        L listserv — skip
 ```
 
-**Layer 2: Warning banner.** If an actionable email was sent to a list-like address, a warning appears before drafting:
+**Layer 2: Warning banner.** If an actionable email was sent to a list-like address, a warning appears
+before drafting:
 
-```
+```text
   ⚠ WARNING: This email was sent to a mailing list
     Replying may go to ALL list members. Review carefully.
 ```
 
 ### Discard Detection
 
-When reviewing drafts, himalaya offers "Send it" and "Discard it" options. `em` properly detects both outcomes using `script(1)` to capture the interactive terminal output:
+When reviewing drafts, himalaya offers "Send it" and "Discard it" options. `em` properly detects both
+outcomes using `script(1)` to capture the interactive terminal output:
 
 - **Send** — Counted as replied, marked in cache
 - **Discard** — Counted as skipped, not marked as replied
@@ -920,7 +933,7 @@ This prevents the counter from showing "1 replied" when you actually chose to di
 Each AI operation has a specific timeout to prevent hanging:
 
 | Operation | Timeout | Reason |
-|-----------|---------|--------|
+| --- | --- | --- |
 | classify | 10s | Quick category decision |
 | summarize | 15s | One-line summary generation |
 | draft | 30s | Full reply composition |
@@ -934,35 +947,13 @@ export FLOW_EMAIL_AI_TIMEOUT=45  # Increase to 45s for all ops
 
 ### Prompt Customization
 
-AI prompts are defined in `lib/em-ai.zsh`. To customize:
-
-**Option 1: Override via Config**
-
-Create `~/.config/flow/email-prompts.zsh`:
-
-```bash
-_em_ai_draft_prompt() {
-    cat <<'PROMPT'
-Draft a reply to this email.
-Use casual, friendly tone.
-Keep it under 100 words.
-PROMPT
-}
-```
-
-Source in your `.zshrc`:
-
-```bash
-[[ -f ~/.config/flow/email-prompts.zsh ]] && source ~/.config/flow/email-prompts.zsh
-```
-
-**Option 2: Edit Library File**
-
-Edit `lib/em-ai.zsh` directly (not recommended for upgrades).
+AI prompts are defined in `lib/em-ai.zsh`. Currently, the only way to customize prompts is to edit the
+library file directly. Custom prompt templates are planned for a future version.
 
 ## Email-to-Task Capture
 
-Convert emails into quick-capture tasks with `em catch`. Uses AI to generate a one-line summary, then pipes it to the `catch` command.
+Convert emails into quick-capture tasks with `em catch`. Uses AI to generate a one-line summary, then pipes
+it to the `catch` command.
 
 ### Basic Usage
 
@@ -982,7 +973,7 @@ em catch 99           # Summarize email #99 → pipe to catch
 ### Fallback Chain
 
 | Condition | Behavior |
-|-----------|----------|
+| --- | --- |
 | AI available + catch installed | AI summary → catch → "Captured: ..." |
 | AI available, no catch | AI summary → display for manual capture |
 | No AI, has jq | Falls back to email subject line |
@@ -1192,7 +1183,7 @@ em p                 # Shortcut
 
 ### Interface Layout
 
-```
+```text
 Folder: INBOX  |  Unread: 3
 Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=move  Ctrl-A=archive  Ctrl-D=delete
 • = unread  ★ = starred  + = attachment
@@ -1217,7 +1208,7 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=mo
 ### Keybindings
 
 | Key | Action | Description |
-|-----|--------|-------------|
+| --- | --- | --- |
 | `Enter` | Read | Open selected email with smart rendering |
 | `Ctrl-R` | Reply | Generate AI draft and open in $EDITOR |
 | `Ctrl-S` | Summarize | Show one-line AI summary |
@@ -1231,7 +1222,7 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=mo
 ### Indicators
 
 | Symbol | Meaning |
-|--------|---------|
+| --- | --- |
 | `*` | Unread email |
 | `+` | Has attachment |
 | `[NEW]` | Unread (in preview) |
@@ -1299,7 +1290,7 @@ em folders
 
 Shows all available mail folders:
 
-```
+```text
 INBOX
 Sent
 Drafts
@@ -1341,7 +1332,7 @@ All AI operations are cached with time-to-live (TTL) to avoid redundant API call
 
 ### Cache Structure
 
-```
+```text
 .flow/email-cache/              # Project-local (if in project)
   summaries/<hash>.txt          # One-line summaries
   classifications/<hash>.txt    # Category classifications
@@ -1352,7 +1343,7 @@ All AI operations are cached with time-to-live (TTL) to avoid redundant API call
 
 Or globally:
 
-```
+```text
 $FLOW_DATA_DIR/email-cache/
   (same structure)
 ```
@@ -1360,7 +1351,7 @@ $FLOW_DATA_DIR/email-cache/
 ### TTL Values
 
 | Cache Type | TTL | Reason |
-|------------|-----|--------|
+| --- | --- | --- |
 | summaries | 24 hours | Summaries don't change |
 | classifications | 24 hours | Category is stable |
 | drafts | 1 hour | Drafts might need refreshing |
@@ -1438,7 +1429,8 @@ FLOW_EMAIL_CACHE_MAX_MB=50      # Default: 50 MB
 FLOW_EMAIL_CACHE_MAX_MB=0       # Disable size cap
 ```
 
-When the cache exceeds this limit, the oldest files are evicted first (LRU — Least Recently Used). Eviction runs automatically after every cache write as a non-blocking background process.
+When the cache exceeds this limit, the oldest files are evicted first (LRU -- Least Recently Used). Eviction
+runs automatically after every cache write as a non-blocking background process.
 
 ### Cache Invalidation
 
@@ -1453,7 +1445,7 @@ Cache is automatically invalidated when:
 ### Environment Variables
 
 | Variable | Default | Description |
-|----------|---------|-------------|
+| --- | --- | --- |
 | `FLOW_EMAIL_AI` | `claude` | AI backend: `claude`, `gemini`, `none` |
 | `FLOW_EMAIL_AI_TIMEOUT` | `30` | AI timeout in seconds |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | Default inbox page size |
@@ -1503,7 +1495,7 @@ See [himalaya docs](https://pimalaya.org/himalaya/cli/latest/configuration/index
 
 The `em` dispatcher follows a clean 6-layer architecture:
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │ em (dispatcher)                          │  User-facing commands
 │ lib/dispatchers/email-dispatcher.zsh    │  Routing + help system
@@ -1537,7 +1529,8 @@ The `em` dispatcher follows a clean 6-layer architecture:
 
 ### Design Principles
 
-1. **Adapter Pattern** - All himalaya CLI specifics are isolated in `lib/em-himalaya.zsh`. If himalaya changes its CLI, fix only one file.
+1. **Adapter Pattern** - All himalaya CLI specifics are isolated in `lib/em-himalaya.zsh`. If himalaya changes
+   its CLI, fix only one file.
 
 2. **Fail-Safe Fallbacks** - Every operation has fallbacks:
    - HTML rendering: w3m → lynx → pandoc → bat → cat
@@ -1569,7 +1562,7 @@ The adapter pattern means we could swap backends in the future without changing 
 
 **Error:**
 
-```
+```text
 ❌ himalaya not found
 Install: brew install himalaya or cargo install himalaya
 ```
@@ -1591,7 +1584,7 @@ himalaya --version
 
 **Error:**
 
-```
+```text
 ❌ himalaya cannot connect to mailbox
 Check config: himalaya account list
 ```
@@ -1619,7 +1612,7 @@ himalaya account configure
 
 **Error:**
 
-```
+```text
 ⚠️  Classification failed (no AI backend available?)
 ```
 
@@ -1644,7 +1637,7 @@ export FLOW_EMAIL_AI="none"
 
 **Error:**
 
-```
+```text
 [Raw HTML output with tags visible]
 ```
 
@@ -1740,7 +1733,8 @@ Rejected sends automatically preserve the draft for later:
 $FLOW_DATA_DIR/email-drafts/    # Global draft storage
 ```
 
-AI-generated drafts are also cached in `.flow/email-cache/drafts/` with a 1-hour TTL. Use `em respond --review` to come back to cached drafts.
+AI-generated drafts are also cached in `.flow/email-cache/drafts/` with a 1-hour TTL. Use
+`em respond --review` to come back to cached drafts.
 
 ### 3. Preview Before Send
 

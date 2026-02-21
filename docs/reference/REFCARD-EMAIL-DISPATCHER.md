@@ -4,7 +4,9 @@
 >
 > **Version:** v7.3.0 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
 >
-> **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven, Claude as interface) both wrap himalaya CLI. Use `em` for fast terminal ops, himalaya-mcp for AI-assisted analysis.
+> **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and
+> [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven, Claude as interface)
+> both wrap himalaya CLI. Use `em` for fast terminal ops, himalaya-mcp for AI-assisted analysis.
 
 ## Command Taxonomy
 
@@ -49,7 +51,7 @@ mindmap
 ## All Commands at a Glance
 
 | Command | Aliases | Synopsis | Description |
-|---------|---------|----------|-------------|
+| ------- | ------- | -------- | ----------- |
 | **em** | — | `em` | Quick pulse (unread + 10 latest) |
 | **em \<N\>** | — | `em 42` | Shorthand: read email by number |
 | **em -n N** | — | `em -n 5` | Shorthand: list N emails (= `em inbox N`) |
@@ -87,7 +89,7 @@ mindmap
 Environment variables (set in shell, `.env`, or `.flow/email.conf`):
 
 | Variable | Default | Type | Description |
-|----------|---------|------|-------------|
+| -------- | ------- | ---- | ----------- |
 | `FLOW_EMAIL_AI` | `claude` | enum | AI backend: `claude` \| `gemini` \| `none` |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | int | Default inbox list size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | string | Default folder (mailbox name) |
@@ -128,6 +130,7 @@ Three backends available; configured via `$FLOW_EMAIL_AI`:
 **Command:** `claude -p "<prompt>" --output-format text`
 
 **Availability Check:**
+
 ```bash
 command -v claude &>/dev/null && echo "installed" || echo "missing"
 ```
@@ -139,6 +142,7 @@ command -v claude &>/dev/null && echo "installed" || echo "missing"
 **Command:** `gemini "<prompt>"`
 
 **Availability Check:**
+
 ```bash
 command -v gemini &>/dev/null && echo "installed" || echo "missing"
 ```
@@ -154,7 +158,7 @@ If configured backend unavailable: `claude` → `gemini` → `none` (timeout gra
 Switch AI backends without restarting your shell:
 
 | Command | Action |
-|---------|--------|
+| ------- | ------ |
 | `em ai` | Show current backend + status |
 | `em ai claude` | Switch to Claude |
 | `em ai gemini` | Switch to Gemini |
@@ -171,13 +175,14 @@ Switch AI backends without restarting your shell:
 Smart content detection and rendering:
 
 | Content Type | Detection | Render Chain | Fallback |
-|-------------|-----------|--------------|----------|
+| ------------ | --------- | ------------ | -------- |
 | **HTML** | `<html>`, `<body>`, `<div>`, `<table>`, `<p>` | w3m → lynx → pandoc → bat | raw HTML |
 | **Markdown (--md)** | Explicit `--md` flag | pandoc → SafeLink cleanup → glow → bat | plain text |
 | **Markdown** | `#`, `**`, `` ` ``, `- [` | glow → bat | plain text |
 | **Plain Text** | — | bat --style=plain | cat |
 
 Commands:
+
 - **w3m** (primary): `w3m -dump -T text/html`
 - **lynx** (fallback): `lynx -stdin -dump`
 - **pandoc** (HTML→Markdown): `pandoc -f html -t markdown` + Outlook noise cleanup
@@ -185,7 +190,8 @@ Commands:
 - **bat** (syntax highlighting): `bat --style=plain --color=always`
 - **glow** (markdown): `glow -` (auto-pager)
 
-The `--md` pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL extraction → URL-decode → Outlook attribute block removal → fenced div stripping → CID/backslash cleanup → blank line collapsing.
+The `--md` pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL extraction → URL-decode →
+Outlook attribute block removal → fenced div stripping → CID/backslash cleanup → blank line collapsing.
 
 ---
 
@@ -195,13 +201,14 @@ The `--md` pipeline runs 7 cleanup stages: pandoc conversion → SafeLinks URL e
 
 Every send (compose, reply, batch) requires explicit confirmation:
 
-```
+```text
 Send this email? [y/N]
 ```
 
 **Default:** No (requires `y` or `Y` to proceed)
 
 **Applies to:**
+
 - `em send` → `em send`
 - `em reply <ID>` (batch mode `--batch`) → confirm before send
 - `em respond --review` → per-draft confirmation
@@ -259,7 +266,7 @@ em respond --clear      # Clear AI cache
 Emails are auto-cleaned before display (6 patterns stripped):
 
 | Pattern | Example | Action |
-|---------|---------|--------|
+| ------- | ------- | ------ |
 | CID image refs | `[cid:image001.png@...]` | Removed |
 | Microsoft Safe Links | `https://nam02.safelinks.protection...` | Removed |
 | MIME markers | `<#part type=...>` | Removed |
@@ -290,7 +297,7 @@ em cache warm 20        # Pre-warm latest 20 emails
 Interactive fzf email browser with preview:
 
 | Key | Action | Details |
-|-----|--------|---------|
+| --- | ------ | ------- |
 | **Enter** | Read email | Default action, shows full content |
 | **Ctrl-R** | Reply | Open reply with AI draft |
 | **Ctrl-S** | Summarize | Generate 1-line summary (AI) |
@@ -315,7 +322,7 @@ Interactive fzf email browser with preview:
 Per-operation timeout configuration (seconds):
 
 | Operation | Default Timeout | Backend Preference | Cache TTL |
-|-----------|-----------------|-------------------|-----------|
+| --------- | --------------- | ------------------ | --------- |
 | `classify` | 10s | configured backend | 24h |
 | `summarize` | 15s | configured backend | 24h |
 | `draft` | 30s | configured backend | 1h |
@@ -331,7 +338,7 @@ TTL-based AI result caching (project-local):
 
 ### Cache Directory Structure
 
-```
+```text
 .flow/email-cache/
   summaries/           (one-line summaries)
   classifications/     (email categories)
@@ -343,7 +350,7 @@ TTL-based AI result caching (project-local):
 ### TTL Defaults
 
 | Operation | TTL | Reason |
-|-----------|-----|--------|
+| --------- | --- | ------ |
 | summaries | 24h | Content rarely changes |
 | classifications | 24h | Category is stable |
 | drafts | 1h | May need refreshing |
@@ -361,7 +368,8 @@ em cache warm [N]               # Pre-warm latest N emails (default: 10, backgro
 
 ### Size Cap (LRU Eviction)
 
-Max cache size: `FLOW_EMAIL_CACHE_MAX_MB=50` (default). When exceeded, oldest files are evicted first (LRU). Set to `0` to disable size cap.
+Max cache size: `FLOW_EMAIL_CACHE_MAX_MB=50` (default). When exceeded, oldest files are evicted
+first (LRU). Set to `0` to disable size cap.
 
 Eviction runs automatically after every cache write (non-blocking background process).
 
@@ -462,14 +470,14 @@ Run `em doctor` for dependency health:
 ### Required
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| ---- | ------- | ------- |
 | `himalaya` | Email CLI backend | `brew install himalaya` or `cargo install himalaya` |
 | `jq` | JSON processing | `brew install jq` |
 
 ### Recommended
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| ---- | ------- | ------- |
 | `fzf` | Interactive picker | `brew install fzf` |
 | `bat` | Syntax highlighting | `brew install bat` |
 | `w3m` | HTML rendering (primary) | `brew install w3m` |
@@ -480,14 +488,14 @@ Run `em doctor` for dependency health:
 ### Optional (Infrastructure)
 
 | Tool | Purpose | Install |
-|------|---------|---------|
+| ---- | ------- | ------- |
 | `email-oauth2-proxy` | OAuth2 IMAP/SMTP proxy (Gmail, etc.) | `pip install email-oauth2-proxy` |
 | `terminal-notifier` | Desktop notifications | `brew install terminal-notifier` |
 
 ### Optional (AI)
 
 | Backend | Detection | Install |
-|---------|-----------|---------|
+| ------- | --------- | ------- |
 | Claude | When `FLOW_EMAIL_AI=claude` | `npm install -g @anthropic-ai/claude-code` |
 | Gemini | When `FLOW_EMAIL_AI=gemini` | `pip install google-generativeai` |
 
@@ -498,31 +506,33 @@ Run `em doctor` for dependency health:
 AI classification categories (for `em classify`, `em respond`):
 
 | Category | Icon | Color | Actionable | Description |
-|----------|------|-------|-----------|-------------|
-| `student` | S | blue | ✓ | Student email: absence, question, grade inquiry, accommodation |
-| `colleague` | C | green | ✓ | Faculty/staff: hiring committee, research, departmental threads |
-| `admin-action` | ! | red | ✓ | Requires YOUR action: accommodation letter, form, review request |
-| `scheduling` | @ | cyan | ✓ | Meeting request, event RSVP, calendar invite, office hours |
-| `urgent` | U | red | ✓ | Deadline today, emergency, escalation, time-sensitive |
-| `admin-info` | i | dim | ✗ | FYI only: university blast, mailing list, policy notice |
-| `newsletter` | N | dim | ✗ | Professional journal, academic association digest |
-| `vendor` | V | dim | ✗ | Commercial marketing, textbook promo, EdTech sales |
-| `automated` | A | dim | ✗ | CI/CD, GitHub, system alerts, delivery receipts |
+| -------- | ---- | ----- | ---------- | ----------- |
+| `student` | S | blue | yes | Student email: absence, question, grade inquiry, accommodation |
+| `colleague` | C | green | yes | Faculty/staff: hiring committee, research, departmental threads |
+| `admin-action` | ! | red | yes | Requires YOUR action: accommodation letter, form, review request |
+| `scheduling` | @ | cyan | yes | Meeting request, event RSVP, calendar invite, office hours |
+| `urgent` | U | red | yes | Deadline today, emergency, escalation, time-sensitive |
+| `admin-info` | i | dim | no | FYI only: university blast, mailing list, policy notice |
+| `newsletter` | N | dim | no | Professional journal, academic association digest |
+| `vendor` | V | dim | no | Commercial marketing, textbook promo, EdTech sales |
+| `automated` | A | dim | no | CI/CD, GitHub, system alerts, delivery receipts |
 
 **Non-actionable emails skipped by `em respond`:** admin-info, newsletter, vendor, automated
 
 ### Listserv Safety
 
-Emails to mailing lists (`*@LIST.*`, `*-L@*`) are auto-skipped in `em respond` with an `L` icon. If a listserv email passes classification, a warning banner appears before drafting:
+Emails to mailing lists (`*@LIST.*`, `*-L@*`) are auto-skipped in `em respond` with an `L` icon.
+If a listserv email passes classification, a warning banner appears before drafting:
 
-```
-⚠ WARNING: This email was sent to a mailing list
+```text
+WARNING: This email was sent to a mailing list
   Replying may go to ALL list members. Review carefully.
 ```
 
 ### Discard Detection
 
-When reviewing drafts (`em respond --review`), himalaya's "Discard" action is properly detected. Discarded drafts are counted as skipped, not as sent replies.
+When reviewing drafts (`em respond --review`), himalaya's "Discard" action is properly detected.
+Discarded drafts are counted as skipped, not as sent replies.
 
 ---
 
@@ -597,6 +607,7 @@ em attach 42 ~/Documents        # Custom directory
 **Path:** `$FLOW_CONFIG_DIR/email.conf`
 
 **Example:**
+
 ```bash
 FLOW_EMAIL_AI=claude
 FLOW_EMAIL_PAGE_SIZE=30
@@ -669,6 +680,7 @@ Pure ZSH dispatcher. 27 public commands. <10ms response.
 ### Problem: "himalaya not found"
 
 **Solution:**
+
 ```bash
 brew install himalaya          # macOS (recommended)
 cargo install himalaya         # Cross-platform alternative
@@ -682,6 +694,7 @@ himalaya account list
 **Cause:** Missing message ID argument
 
 **Solution:**
+
 ```bash
 em inbox                        # List emails with IDs
 em read 42                      # Use actual ID
@@ -692,6 +705,7 @@ em read 42                      # Use actual ID
 **Cause:** Himalaya account not configured
 
 **Solution:**
+
 ```bash
 himalaya account add           # Add account interactively
 himalaya account list          # Verify setup
@@ -703,6 +717,7 @@ em doctor                      # Check status
 **Cause:** Backend slow or unavailable
 
 **Solution:**
+
 ```bash
 # Increase timeout
 export FLOW_EMAIL_AI_TIMEOUT=60
@@ -717,6 +732,7 @@ em respond --clear             # Clear bad drafts
 **Cause:** `fzf` not installed
 
 **Solution:**
+
 ```bash
 brew install fzf
 em p                           # Try again
@@ -727,6 +743,7 @@ em p                           # Try again
 **Cause:** Invalid backend name passed to `em ai`
 
 **Solution:**
+
 ```bash
 em ai                          # See available backends
 em ai claude                   # Use a known backend
