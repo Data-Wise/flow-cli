@@ -5,6 +5,7 @@ class FlowCli < Formula
   desc "ZSH workflow tools designed for ADHD brains"
   homepage "https://data-wise.github.io/flow-cli/"
   url "https://github.com/Data-Wise/flow-cli/archive/refs/tags/v7.4.1.tar.gz"
+  # SHA256 is auto-updated in homebrew-tap by .github/workflows/homebrew-release.yml
   sha256 "PLACEHOLDER_SHA256"
   license "MIT"
   head "https://github.com/Data-Wise/flow-cli.git", branch: "main"

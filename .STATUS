@@ -134,7 +134,7 @@
 ---
 
 **Last Updated:** 2026-02-21
-**Status:** v7.4.1 | 47/47 tests passing | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors
-## wins: Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21), fixed the bug (2026-02-21), Fixed the regression bug (2026-02-20), --category fix squashed the bug (2026-02-20)
+**Status:** v7.4.1 | 45/45 tests passing (1 expected timeout) | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors
+## wins: Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21), fixed the bug (2026-02-21), Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21)
 ## streak: 1
-## last_active: 2026-02-21 12:01
+## last_active: 2026-02-21 12:20
