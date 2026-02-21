@@ -259,7 +259,7 @@ $ e R/*.R           # Open all R files
 
 **While in Spacemacs:**
 
-```
+```text
 SPC f s         # Save file
 SPC f f         # Find file
 SPC b b         # Switch buffer

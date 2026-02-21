@@ -3,6 +3,7 @@
 ## Overview
 
 Comprehensive test suite for the `teach validate --lint` feature with 3 test levels:
+
 - **Unit tests** - Individual validator rules
 - **E2E tests** - Command-line interface and workflows
 - **Dogfooding tests** - Real-world usage scenarios
@@ -11,13 +12,13 @@ Comprehensive test suite for the `teach validate --lint` feature with 3 test lev
 
 ## Test Suite Summary
 
-| Suite | File | Tests | Status | Coverage |
-|-------|------|-------|--------|----------|
-| **Unit** | `test-lint-shared-unit.zsh` | 9 | ✅ 9/9 | All 4 lint rules |
-| **E2E** | `test-lint-e2e.zsh` | 10 | ✅ 7/10 | CLI workflows |
-| **Integration** | `test-lint-integration.zsh` | 1 | ✅ PASS | Real stat-545 files |
-| **Dogfooding** | `interactive-dog-lint.zsh` | 10 | 🔄 Manual | Real-world usage |
-| **Command** | `test-teach-validate-unit.zsh` | 1 | ✅ PASS | Flag parsing |
+| Suite           | File                           | Tests | Status    | Coverage            |
+| --------------- | ------------------------------ | ----- | --------- | ------------------- |
+| **Unit**        | `test-lint-shared-unit.zsh`    | 9     | ✅ 9/9    | All 4 lint rules    |
+| **E2E**         | `test-lint-e2e.zsh`            | 10    | ✅ 7/10   | CLI workflows       |
+| **Integration** | `test-lint-integration.zsh`    | 1     | ✅ PASS   | Real stat-545 files |
+| **Dogfooding**  | `interactive-dog-lint.zsh`     | 10    | 🔄 Manual | Real-world usage    |
+| **Command**     | `test-teach-validate-unit.zsh` | 1     | ✅ PASS   | Flag parsing        |
 
 **Total: 31 tests** (27 automated passing + 3 minor E2E issues + 10 manual)
 
@@ -26,22 +27,27 @@ Comprehensive test suite for the `teach validate --lint` feature with 3 test lev
 ## Unit Tests (test-lint-shared-unit.zsh)
 
 ### LINT_CODE_LANG_TAG (2 tests)
+
 - ✅ Detects bare code blocks without language tags
 - ✅ Passes files with all code blocks tagged
 
 ### LINT_DIV_BALANCE (2 tests)
+
 - ✅ Detects unclosed fenced divs (`:::`)
 - ✅ Passes properly balanced divs
 
 ### LINT_CALLOUT_VALID (2 tests)
+
 - ✅ Detects invalid callout types (callout-info, callout-danger)
 - ✅ Passes valid callout types (note, tip, important, warning, caution)
 
 ### LINT_HEADING_HIERARCHY (2 tests)
+
 - ✅ Detects skipped heading levels (h1 → h3)
 - ✅ Passes proper heading hierarchy
 
 ### General (1 test)
+
 - ✅ Skips non-.qmd files
 
 **Run:** `zsh tests/test-lint-shared-unit.zsh`
@@ -51,32 +57,40 @@ Comprehensive test suite for the `teach validate --lint` feature with 3 test lev
 ## E2E Tests (test-lint-e2e.zsh)
 
 ### Single File Operations (2 tests)
+
 - ✅ Detects errors in single file
 - ✅ Passes clean file with no errors
 
 ### Multiple File Operations (1 test)
+
 - ✅ Processes multiple files and reports all errors
 
 ### Flag Combinations (2 tests)
+
 - ✅ --quick-checks runs only lint-shared validator
 - ⚠️ --quiet flag (test needs adjustment for output format)
 
 ### File Discovery (1 test)
+
 - ⚠️ Auto-discovers .qmd files (test expects filename in output, validator may not include it)
 
 ### Error Handling (2 tests)
+
 - ✅ Handles nonexistent files gracefully
 - ✅ Skips non-.qmd files
 
 ### Performance (1 test)
+
 - ✅ Completes in <5s for 5 small files
 
 ### Help Text (1 test)
+
 - ⚠️ --help shows --lint flag (test uses teach-validate vs teach validate)
 
 **Run:** `zsh tests/test-lint-e2e.zsh`
 
 **Known Issues:**
+
 1. Auto-discovery test expects filenames in output
 2. Quiet mode test needs output format adjustment
 3. Help test needs command name fix
@@ -86,6 +100,7 @@ Comprehensive test suite for the `teach validate --lint` feature with 3 test lev
 ## Integration Test (test-lint-integration.zsh)
 
 Tests against real stat-545 course files:
+
 - ✅ Runs on `slides/week-02*.qmd`
 - ✅ Runs on `lectures/week-02*.qmd`
 - ✅ Gracefully skips if stat-545 not present
@@ -94,7 +109,8 @@ Tests against real stat-545 course files:
 **Run:** `zsh tests/test-lint-integration.zsh`
 
 **Output:**
-```
+
+```text
 Files checked: 2
 Warnings: 15 (informational)
 ```
@@ -126,25 +142,25 @@ Warnings: 15 (informational)
 
 ### Rule Coverage
 
-| Rule | Unit Tests | E2E Tests | Integration | Total |
-|------|-----------|-----------|-------------|-------|
-| LINT_CODE_LANG_TAG | 2 | 2 | ✓ | 5 |
-| LINT_DIV_BALANCE | 2 | 1 | ✓ | 4 |
-| LINT_CALLOUT_VALID | 2 | 1 | ✓ | 4 |
-| LINT_HEADING_HIERARCHY | 2 | 2 | ✓ | 5 |
+| Rule                   | Unit Tests | E2E Tests | Integration | Total |
+| ---------------------- | ---------- | --------- | ----------- | ----- |
+| LINT_CODE_LANG_TAG     | 2          | 2         | ✓           | 5     |
+| LINT_DIV_BALANCE       | 2          | 1         | ✓           | 4     |
+| LINT_CALLOUT_VALID     | 2          | 1         | ✓           | 4     |
+| LINT_HEADING_HIERARCHY | 2          | 2         | ✓           | 5     |
 
 ### Workflow Coverage
 
-| Workflow | Tested | Coverage |
-|----------|--------|----------|
-| Single file lint | ✅ | Unit, E2E |
-| Multiple files | ✅ | E2E, Integration |
-| Auto-discovery | ⚠️ | E2E (minor issue) |
-| --quick-checks flag | ✅ | E2E |
-| --quiet flag | ⚠️ | E2E (needs fix) |
-| Pre-commit integration | ✅ | Dogfooding |
-| Error handling | ✅ | E2E |
-| Performance | ✅ | E2E |
+| Workflow               | Tested | Coverage          |
+| ---------------------- | ------ | ----------------- |
+| Single file lint       | ✅     | Unit, E2E         |
+| Multiple files         | ✅     | E2E, Integration  |
+| Auto-discovery         | ⚠️     | E2E (minor issue) |
+| --quick-checks flag    | ✅     | E2E               |
+| --quiet flag           | ⚠️     | E2E (needs fix)   |
+| Pre-commit integration | ✅     | Dogfooding        |
+| Error handling         | ✅     | E2E               |
+| Performance            | ✅     | E2E               |
 
 ### Edge Cases Covered
 
@@ -208,6 +224,7 @@ When adding new lint rules:
 Location: `tests/fixtures/lint/*.qmd`
 
 Current fixtures:
+
 - `bare-code-block.qmd` - Code blocks without language tags
 - `unbalanced-divs.qmd` - Unclosed fenced divs
 - `bad-callout.qmd` - Invalid callout types
@@ -247,6 +264,7 @@ Current fixtures:
 ## Success Criteria
 
 ✅ **Met:**
+
 - 9/9 unit tests passing (100%)
 - 7/10 E2E tests passing (70%, 3 minor issues)
 - Integration test runs successfully
@@ -254,12 +272,14 @@ Current fixtures:
 - All 4 Phase 1 rules covered
 
 ✅ **Quality:**
+
 - Edge cases tested
 - Error handling verified
 - Performance validated
 - Real-world usage tested
 
 🎯 **Future:**
+
 - Fix 3 E2E test issues
 - Add Phase 2-4 rule tests
 - Automate dogfooding tests

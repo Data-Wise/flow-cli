@@ -347,9 +347,11 @@ Based on test coverage, the cache implementation demonstrates:
    Validates all cache functions together
 
 3. ✅ **Manual Interactive Test**
+
    ```bash
    ./tests/interactive-cache-dogfeeding.zsh
    ```
+
    Validates user-facing behavior
 
 ### Future Enhancements
@@ -510,9 +512,11 @@ The test suite provides strong evidence that:
 ### Optional (Before Merge)
 
 1. ⏭️ **Manual Interactive Test**
+
    ```bash
    ./tests/interactive-cache-dogfeeding.zsh
    ```
+
    Validates user-facing behavior with gamified experience
 
 ### Future Enhancements

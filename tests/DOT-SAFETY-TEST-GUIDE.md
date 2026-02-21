@@ -77,7 +77,7 @@ Comprehensive testing guide for dot safety features (v6.0.0).
 
 **Expected Output:**
 
-```
+```text
 ╔══════════════════════════════════════════════════════════════╗
 ║  TEST RESULTS                                                ║
 ╠══════════════════════════════════════════════════════════════╣
@@ -120,7 +120,7 @@ Comprehensive testing guide for dot safety features (v6.0.0).
 
 - Calculate file count
 - Detect large files
-- Detect generated files (_.log, _.db)
+- Detect generated files (_.log,_.db)
 
 #### Scenario 5: Flow Doctor Integration
 
@@ -142,7 +142,7 @@ Comprehensive testing guide for dot safety features (v6.0.0).
 
 **Expected Output:**
 
-```
+```text
 ╔══════════════════════════════════════════════════════════════╗
 ║  E2E TEST RESULTS                                            ║
 ╠══════════════════════════════════════════════════════════════╣
@@ -205,7 +205,7 @@ Comprehensive testing guide for dot safety features (v6.0.0).
 
 **Interaction:**
 
-```
+```text
 TEST 1/15: Display dot help
 Command: dot help
 
@@ -314,10 +314,10 @@ Expected performance (from test suite):
 
 | Operation                | Cached | Uncached | Target |
 | ------------------------ | ------ | -------- | ------ |
-| `dots size`               | 5-8ms  | 3-5s     | <10ms  |
+| `dots size`              | 5-8ms  | 3-5s     | <10ms  |
 | `_flow_get_file_size`    | N/A    | 7ms      | <10ms  |
 | `_dot_check_git_in_path` | N/A    | <2s      | <2s    |
-| `dots ignore list`        | 5ms    | 50ms     | <10ms  |
+| `dots ignore list`       | 5ms    | 50ms     | <10ms  |
 | `flow doctor --dot`      | 2-3s   | 5-10s    | <3s    |
 
 **Note:** First run always slower due to cache population.

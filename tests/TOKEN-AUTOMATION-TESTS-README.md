@@ -231,6 +231,7 @@ jobs:
    ```
 
 3. **Verify dependencies:**
+
    ```bash
    command -v jq
    command -v security  # macOS Keychain
@@ -288,7 +289,7 @@ The interactive dog feeding test is specifically designed for ADHD developers:
 
 **Expected:**
 
-```
+```text
 Unit: ✅
 E2E: ✅
 ```

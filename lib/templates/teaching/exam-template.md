@@ -13,8 +13,8 @@ instructions: |
 # {{TOPIC}}
 
 **Course:** {{COURSE_NAME}}
-**Name:** ******\*\*******\_\_\_******\*\*******
-**Date:** ******\*\*******\_\_\_******\*\*******
+**Name:** **\*\***\*\***\*\***\_\_\_**\*\***\*\***\*\***
+**Date:** **\*\***\*\***\*\***\_\_\_**\*\***\*\***\*\***
 
 **Duration:** {{DURATION}} minutes
 **Total Points:** {{POINTS}}
@@ -314,7 +314,7 @@ examark emulate-canvas exams/your-exam.zip
 
 Use `[x]` to mark correct answers in multiple choice:
 
-```
+```text
 a) Wrong answer
 b) Correct answer [x]
 c) Wrong answer

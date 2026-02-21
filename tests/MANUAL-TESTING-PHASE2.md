@@ -26,6 +26,7 @@
    ```
 
 3. **Create test workspace:**
+
    ```bash
    mkdir -p ~/tmp/teach-init-tests
    cd ~/tmp/teach-init-tests
@@ -51,7 +52,7 @@ teach-init --dry-run "STAT 545"
 
 **Expected Output:**
 
-```
+```text
 🔍 DRY RUN MODE - No changes will be made
 
 ┌────────────────────────────────────────────────────────────┐
@@ -218,7 +219,7 @@ _teach_validate_quarto_project 2>&1
 
 **Expected:**
 
-```
+```text
 Project validation failed:
   Missing _quarto.yml
 ```
@@ -257,7 +258,7 @@ _teach_validate_quarto_project 2>&1
 
 **Expected:**
 
-```
+```text
 Project validation failed:
   Missing index.qmd (homepage)
 ```
@@ -401,7 +402,7 @@ INPUT
 
 **Expected:**
 
-```
+```text
 Choose migration strategy:
   1. Convert existing branch → production (preserve history)
   ...
@@ -615,7 +616,7 @@ INPUT
 **Expected:**
 During migration, should see:
 
-```
+```text
 ⚠️  Detected renv/ directory
   R package management with symlinks (not suitable for git)
 
@@ -682,7 +683,7 @@ INPUT
 **Expected:**
 Should see:
 
-```
+```text
 ℹ️  renv/ already in .gitignore
 ```
 
@@ -741,7 +742,7 @@ INPUT
 **Expected:**
 Should see rollback sequence:
 
-```
+```text
 Installing templates...
 cp: /nonexistent/path/lib/templates/teaching/quick-deploy.sh: No such file or directory
 
@@ -829,7 +830,7 @@ INPUT
 **Expected:**
 Should see:
 
-```
+```text
 GitHub Integration (Optional)
   Push to GitHub remote? [y/N]: n
   ℹ️  Skipped - push manually later:
@@ -892,7 +893,7 @@ INPUT
 **Expected:**
 Should see:
 
-```
+```text
 GitHub Integration (Optional)
   Push to GitHub remote? [y/N]: y
   GitHub remote URL: https://github.com/test/test.git
@@ -1034,7 +1035,7 @@ INPUT
 
 **Expected:**
 
-```
+```text
 Choose migration strategy:
   1. Convert existing branch → production (preserve history)
   2. Create parallel branches (keep existing + add draft/production)

@@ -61,7 +61,7 @@ cd ~/.config/zsh/tests
 
 ### Latest Run (2025-12-14 19:45)
 
-```
+```text
 Total Tests: 91
 Passed: 91 ✅
 Failed: 0

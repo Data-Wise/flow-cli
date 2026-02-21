@@ -50,7 +50,7 @@ teach-exam
 
 **Expected Output:**
 
-```
+```text
 ✗ Usage: teach-exam <topic>
 
 Examples:
@@ -75,7 +75,7 @@ teach-exam "Test Exam"
 
 **Expected Output:**
 
-```
+```text
 ✗ Not in a teaching project
 Run this command from a teaching project directory
 Initialize with: teach-init "Course Name"
@@ -411,7 +411,7 @@ grep -A 20 "Answer Key" exams/midterm2.md
 
 **Expected Output:**
 
-```
+```text
 ❌ No input file specified
 
 Usage: ./scripts/exam-to-qti.sh <exam-file.md>
@@ -435,7 +435,7 @@ Examples:
 
 **Expected Output:**
 
-```
+```text
 ❌ File not found: exams/nonexistent.md
 ```
 
@@ -533,7 +533,7 @@ sudo mv $(which examark).bak $(which examark)
 
 **Expected Output:**
 
-```
+```text
 ❌ examark not installed
 
 Install examark:
@@ -869,7 +869,7 @@ EOF
 
 **Expected Output Should Include:**
 
-```
+```text
 5. (Optional) Enable exam workflow:
      npm install -g examark
      yq -i '.examark.enabled = true' .flow/teach-config.yml
@@ -1060,9 +1060,9 @@ _Record any issues with Canvas import here_
 
 ### Issues Found
 
-1. ***
-2. ***
-3. ***
+1. _[TBD]_
+2. _[TBD]_
+3. _[TBD]_
 
 ### Notes
 
