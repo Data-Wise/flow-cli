@@ -4,7 +4,7 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: --help
+## Focus: Atlas integration update (help browser + bridge + contract)
 ## Phase: Active Development
 ## Priority: 2
 ## Progress: 90
@@ -12,6 +12,17 @@
 ## Current Session (2026-02-22)
 
 **Session activity:**
+- brainstorm: max-depth Atlas integration analysis (2 research agents, 8 expert questions)
+- spec: SPEC-atlas-integration-update-2026-02-22.md (5 proposals, comprehensive)
+- worktree: feature/atlas-integration created with ORCHESTRATE plan (6 increments)
+- findings: Atlas has 43 commands, flow-cli bridges only 6 (27% coverage)
+- findings: help browser missing 7 of 15 dispatchers
+- findings: no API contract between flow-cli and Atlas
+- decisions: enhanced bridge (not dispatcher), hybrid perf model, all-three contract format
+
+## Previous Session (2026-02-22, earlier)
+
+**Previous session activity:**
 - chore: switched flow-cli sourcing from repo symlink to Homebrew (`/opt/homebrew/opt/flow-cli/`)
 - verify: brew cellar matches source repo (v7.4.1, identical files)
 - verify: clean env test confirms all commands load from brew path
@@ -135,6 +146,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.4.1 released, synced with main |
+| `~/.git-worktrees/flow-cli/feature-atlas-integration` | `feature/atlas-integration` | Atlas integration update (6 increments, ~6h) |
 
 ---
 
@@ -159,9 +171,10 @@
 
 ## Next Action
 
-1. Scholar Config Sync (#299) — next feature candidate
-2. API documentation push (50% → 80%)
-3. Code workspace manager — spec ready on dev
+1. **Atlas integration update** — `cd ~/.git-worktrees/flow-cli/feature-atlas-integration` + new claude session
+2. Scholar Config Sync (#299) — next feature candidate
+3. API documentation push (50% → 80%)
+4. Code workspace manager — spec ready on dev
 
 ---
 
