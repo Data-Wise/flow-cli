@@ -352,7 +352,7 @@ doctor() {
     if command -v atlas &>/dev/null; then
       # Atlas installed — show version
       local atlas_version
-      atlas_version="$(atlas -v 2>/dev/null | head -1 | sed 's/[^0-9.]//g')"
+      atlas_version="$(atlas -v 2>/dev/null | head -1 | sed 's/^[^0-9]*//' | sed 's/[[:space:]].*//')"
       atlas_version="${atlas_version:-unknown}"
       _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas installed (v${atlas_version})"
 

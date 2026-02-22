@@ -178,13 +178,15 @@ run_test "at w (alias) shows context" '
 run_test "at crumb leaves breadcrumb" '
     local output
     output=$(at crumb "E2E test breadcrumb" 2>&1)
-    [[ "$output" == *"Breadcrumb"* ]] || [[ "$output" == *"breadcrumb"* ]] || [[ $? -eq 0 ]] || { echo "Failed: $output"; return 1; }
+    local rc=$?
+    [[ "$output" == *"Breadcrumb"* ]] || [[ "$output" == *"breadcrumb"* ]] || [[ $rc -eq 0 ]] || { echo "Failed (rc=$rc): $output"; return 1; }
 '
 
 run_test "at b (alias) leaves breadcrumb" '
     local output
     output=$(at b "E2E alias breadcrumb" 2>&1)
-    [[ "$output" == *"Breadcrumb"* ]] || [[ "$output" == *"breadcrumb"* ]] || [[ $? -eq 0 ]] || { echo "Failed: $output"; return 1; }
+    local rc=$?
+    [[ "$output" == *"Breadcrumb"* ]] || [[ "$output" == *"breadcrumb"* ]] || [[ $rc -eq 0 ]] || { echo "Failed (rc=$rc): $output"; return 1; }
 '
 
 echo ""
