@@ -263,5 +263,5 @@ flow nvim-tutorial
 ---
 
 **Last Updated:** 2026-02-16
-**Command Version:** v7.4.1
+**Command Version:** v7.4.2
 **Status:** ✅ Production ready with session tracking and optional editor integration
