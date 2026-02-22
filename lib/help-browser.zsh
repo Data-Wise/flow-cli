@@ -23,7 +23,7 @@
 #   _flow_show_help_preview "work"   # Shows work command help
 #
 # Notes:
-#   - Dispatchers (g, cc, wt, mcp, r, qu, obs, tm) use: cmd help
+#   - Dispatchers (g, cc, wt, mcp, r, qu, obs, tm, dots, sec, tok, teach, prompt, v, em, at) use: cmd help
 #   - Regular commands try: cmd --help, then cmd help
 #   - Returns helpful message if command not found/loaded
 #   - Designed for use in fzf --preview parameter
@@ -33,7 +33,7 @@ _flow_show_help_preview() {
 
   # Command is available in current shell (plugin loaded)
   if type "${cmd}" >/dev/null 2>&1; then
-    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|obs|tm)$ ]]; then
+    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|obs|tm|dots|sec|tok|teach|prompt|v|em|at)$ ]]; then
       # Dispatcher - call with help
       $cmd help 2>/dev/null || echo "Help not available for $cmd"
     else
@@ -134,6 +134,14 @@ _flow_help_browser() {
     "qu:Quarto publishing (render, preview, publish)"
     "obs:Obsidian notes (vaults, open, stats, sync)"
     "tm:Terminal manager (title, profile, theme, switch)"
+    "dots:Dotfile management (chezmoi sync, diff, edit)"
+    "sec:Secret management (macOS Keychain, Bitwarden)"
+    "tok:Token management (create, rotate, expire)"
+    "teach:Teaching workflow (analyze, deploy, exam, plan)"
+    "prompt:Prompt engine switcher (set, show, compare)"
+    "v:Vibe coding mode (start, stop, status)"
+    "em:Email management (himalaya, 31 commands)"
+    "at:Atlas CLI (stats, plan, park, dash)"
   )
 
   # Format for fzf
@@ -174,7 +182,7 @@ _flow_help_browser() {
     echo ""
 
     # Show full help
-    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|obs|tm)$ ]]; then
+    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|obs|tm|dots|sec|tok|teach|prompt|v|em|at)$ ]]; then
       $cmd help
     else
       $cmd --help 2>/dev/null || $cmd help 2>/dev/null || {
