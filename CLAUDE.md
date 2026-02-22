@@ -149,9 +149,10 @@ teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
 em <cmd>      # Email management (himalaya)
-```diff
+at <cmd>      # Atlas bridge (project intelligence, optional)
+```
 
-**Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
+**Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`, `at help`)
 
 ### Teaching Subcommands
 

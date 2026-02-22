@@ -52,7 +52,7 @@ flow-cli/
 │   ├── atlas-bridge.zsh      # Optional Atlas integration
 │   ├── project-detector.zsh  # Project type detection
 │   ├── tui.zsh               # Terminal UI components
-│   └── dispatchers/          # Smart command dispatchers
+│   └── dispatchers/          # 15 smart command dispatchers
 │       ├── cc-dispatcher.zsh     # Claude Code
 │       ├── g-dispatcher.zsh      # Git workflows
 │       ├── wt-dispatcher.zsh     # Worktrees
@@ -60,7 +60,14 @@ flow-cli/
 │       ├── r-dispatcher.zsh      # R packages
 │       ├── qu-dispatcher.zsh     # Quarto
 │       ├── tm-dispatcher.zsh     # Terminal
-│       └── obs.zsh               # Obsidian
+│       ├── obs.zsh               # Obsidian
+│       ├── dots-dispatcher.zsh   # Dotfiles (chezmoi)
+│       ├── sec-dispatcher.zsh    # Secrets (Keychain)
+│       ├── tok-dispatcher.zsh    # Tokens (API keys)
+│       ├── teach-dispatcher.zsh  # Teaching workflow
+│       ├── prompt-dispatcher.zsh # Prompt engine
+│       ├── v-dispatcher.zsh      # Vibe coding
+│       └── em-dispatcher.zsh     # Email (himalaya)
 ├── commands/                 # Core command implementations
 ├── completions/              # ZSH completions
 ├── tests/                    # Test suite
