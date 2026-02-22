@@ -89,7 +89,8 @@ flow-cli follows a layered architecture:
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 3: Commands & Dispatchers                            │
 │  - Core commands (work, dash, pick, doctor)                 │
-│  - 15 dispatchers (g, cc, r, qu, mcp, obs, wt, dots, sec, tok, teach, em) │
+│  - 15 dispatchers + at bridge (g, cc, r, qu, mcp, obs, wt, tm,│
+│    dots, sec, tok, teach, prompt, v, em)                       │
 └─────────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -218,6 +219,7 @@ _g_status() {
 ### 4. Optional Atlas Integration
 
 **Decision:** Atlas is optional, not required
+**API Contract:** See [`docs/ATLAS-CONTRACT.md`](../ATLAS-CONTRACT.md) for the formal interface contract between flow-cli and Atlas CLI.
 
 **Rationale:**
 - **Flexibility:** Users can choose state management

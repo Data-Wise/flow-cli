@@ -4,7 +4,7 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: --help
+## Focus: v7.4.1 release
 ## Phase: Active Development
 ## Priority: 2
 ## Progress: 90
@@ -12,6 +12,29 @@
 ## Current Session (2026-02-22)
 
 **Session activity:**
+- brainstorm: max-depth Atlas integration analysis (2 research agents, 8 expert questions)
+- spec: SPEC-atlas-integration-update-2026-02-22.md (5 proposals, comprehensive)
+- worktree: feature/atlas-integration created with ORCHESTRATE plan (6 increments)
+- findings: Atlas has 43 commands, flow-cli bridges only 6 (27% coverage)
+- findings: help browser missing 7 of 15 dispatchers
+- findings: no API contract between flow-cli and Atlas
+- decisions: enhanced bridge (not dispatcher), hybrid perf model, all-three contract format
+
+## Previous Session (2026-02-22, earlier)
+
+**Previous session activity:**
+- chore: switched flow-cli sourcing from repo symlink to Homebrew (`/opt/homebrew/opt/flow-cli/`)
+- verify: brew cellar matches source repo (v7.4.1, identical files)
+- verify: clean env test confirms all commands load from brew path
+- cleanup: removed old symlink `~/.zsh/plugins/flow-cli` and stale backup
+- docs: updated CLAUDE.md with Homebrew source path, corrected test count (195→193)
+- docs: updated zshrc dispatcher comment to reflect Homebrew path
+- sync: dotfiles synced via chezmoi
+- merge: PR #413, PR #414 merged to main, dev synced
+
+## Previous Session (2026-02-22, earlier)
+
+**Previous session activity:**
 - lint: ran markdown lint on deployed docs (8 issues in 2 internal files)
 - fix: auto-fixed MD029/MD049 lint errors, committed and pushed
 - fix: resolved 139+ broken anchor links across 220 docs files
@@ -123,6 +146,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.4.1 released, synced with main |
+| `~/.git-worktrees/flow-cli/feature-atlas-integration` | `feature/atlas-integration` | Atlas integration update (6 increments, ~6h) |
 
 ---
 
@@ -147,14 +171,15 @@
 
 ## Next Action
 
-1. Scholar Config Sync (#299) — next feature candidate
-2. API documentation push (50% → 80%)
-3. Code workspace manager — spec ready on dev
+1. **Atlas integration update** — `cd ~/.git-worktrees/flow-cli/feature-atlas-integration` + new claude session
+2. Scholar Config Sync (#299) — next feature candidate
+3. API documentation push (50% → 80%)
+4. Code workspace manager — spec ready on dev
 
 ---
 
 **Last Updated:** 2026-02-22
-**Status:** v7.4.1 | 45/45 tests passing (1 expected timeout) | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
-## wins: 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21), v7.4.1 released (2026-02-21), Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21)
-## streak: 3
-## last_active: 2026-02-22 00:20
+**Status:** v7.4.1 | 46/46 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 196 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+## wins: v7.4.1 release (2026-02-22), Atlas integration update (2026-02-22), Brew sourcing switch (2026-02-22), 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21)
+## streak: 5
+## last_active: 2026-02-22

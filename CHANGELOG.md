@@ -7,14 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [v7.4.1] — 2026-02-21 — Homebrew Cleanup
-
-### Fixed
-- **Homebrew formula**: selective install — reduce 74MB Cellar to ~4MB
-- **Repo cleanup**: delete 62 stale root-level files (planning docs, scripts, artifacts)
+## [v7.4.1] — 2026-02-22 — Atlas Integration + Homebrew Cleanup
 
 ### Added
+- **Atlas bridge (`at`)** — Enhanced bridge with styled help, 10 warm-path commands, 4 ZSH fallbacks
+- **Atlas API contract** — Formal interface spec (`docs/ATLAS-CONTRACT.md`)
+- **77 new tests** — Contract (18), e2e (30), dogfood (29) for Atlas bridge
 - **CI version guard**: new workflow blocks releases when FLOW_VERSION mismatches tag
+
+### Fixed
+- **Help browser** — All 15 dispatchers + at in regex and commands (was 8)
+- **Help compliance** — Added missing `em` dispatcher to checker
+- **Dispatcher counts** — "12 dispatchers" → "15 dispatchers" across docs/tests
+- **Homebrew formula**: selective install — reduce 74MB Cellar to ~4MB
+- **Repo cleanup**: delete 62 stale root-level files
+
+### Documentation
+- New: `docs/commands/at.md`, `docs/guides/ATLAS-INTEGRATION-GUIDE.md`
+- Updated: QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, MASTER-ARCHITECTURE, README, CLAUDE.md, CONTRIBUTING, doctor, mkdocs.yml
 
 ---
 

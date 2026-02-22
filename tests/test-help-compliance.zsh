@@ -3,11 +3,11 @@
 # HELP COMPLIANCE TEST SUITE
 # ══════════════════════════════════════════════════════════════════════════════
 #
-# Validates all 12 dispatcher help functions against CONVENTIONS.md:173-199
+# Validates all 15 dispatcher help functions against CONVENTIONS.md:173-199
 # Uses lib/help-compliance.zsh shared validation library.
 #
 # Usage:    ./tests/test-help-compliance.zsh
-# Expected: All 12 dispatchers pass all 9 compliance rules
+# Expected: All 15 dispatchers pass all 9 compliance rules
 #
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -40,7 +40,7 @@ source "$FLOW_DIR/lib/help-compliance.zsh" 2>/dev/null || {
 }
 
 echo "══════════════════════════════════════════════════════════════"
-echo "  Help Compliance Test Suite (9 rules × 12 dispatchers)"
+echo "  Help Compliance Test Suite (9 rules × 15 dispatchers)"
 echo "══════════════════════════════════════════════════════════════"
 echo ""
 

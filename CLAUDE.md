@@ -149,9 +149,10 @@ teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
 em <cmd>      # Email management (himalaya)
-```diff
+at <cmd>      # Atlas bridge (project intelligence, optional)
+```
 
-**Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
+**Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`, `at help`)
 
 ### Teaching Subcommands
 
@@ -193,7 +194,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 193 test files, 12000+ test functions
+├── tests/                    # 196 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```zsh
@@ -254,13 +255,13 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 1. **Pure ZSH** - Sub-10ms response, no build step, no dependencies
 2. **ADHD-Friendly** - Discoverable (built-in help), consistent patterns, smart defaults, fast (cached scanning)
 3. **Dispatcher Pattern** - `command + keyword + options` (e.g., `r test`, `g push`, `teach exam "Topic"`)
-4. **Optional Enhancement** - Atlas integration is optional; graceful degradation
+4. **Optional Enhancement** - Atlas integration is optional; graceful degradation (see [`docs/ATLAS-CONTRACT.md`](docs/ATLAS-CONTRACT.md) for API contract)
 
 ---
 
 ## Testing
 
-**193 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
+**196 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (46/46 passing, 1 expected timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -288,7 +289,7 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.4.1 | **Tests:** 12000+ (45/45 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.4.1 | **Tests:** 12000+ (46/46 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 

@@ -160,8 +160,8 @@ _test_individual_rules() {
     echo ""
 }
 
-# Test all 14 dispatchers individually
-for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
+# Test all 15 dispatchers individually
+for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt em; do
     _test_individual_rules "$d"
 done
 
@@ -428,12 +428,12 @@ _test_doctor_integration() {
     assert_contains "$output" "Help Function Compliance Check" \
         "doctor --help-check shows compliance header"
 
-    # Output should report all 14 dispatchers
-    assert_contains "$output" "All 14 dispatchers compliant" \
-        "doctor --help-check reports all 14 compliant"
+    # Output should report all 15 dispatchers
+    assert_contains "$output" "All 15 dispatchers compliant" \
+        "doctor --help-check reports all 15 compliant"
 
     # Each dispatcher should appear in output
-    for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
+    for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt em; do
         assert_grep "$output" "✅ $d:" "doctor output includes $d result"
     done
 }
@@ -450,12 +450,12 @@ echo -e "${BLUE}── Section 8: Compliance Library API ──${NC}"
 echo ""
 
 _test_compliance_api() {
-    # Dispatcher list has exactly 14 entries
+    # Dispatcher list has exactly 15 entries
     local count=${#_FLOW_HELP_DISPATCHERS[@]}
-    if [[ $count -eq 14 ]]; then
-        assert_pass "dispatcher list has exactly 14 entries"
+    if [[ $count -eq 15 ]]; then
+        assert_pass "dispatcher list has exactly 15 entries"
     else
-        assert_fail "dispatcher list has exactly 14 entries" "found $count"
+        assert_fail "dispatcher list has exactly 15 entries" "found $count"
     fi
 
     # Function map has entry for every dispatcher

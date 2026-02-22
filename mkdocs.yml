@@ -251,6 +251,7 @@ nav:
           - Config Management: guides/CONFIG-MANAGEMENT-WORKFLOW.md
           - Alias Management: guides/ALIAS-MANAGEMENT-WORKFLOW.md
       - Tools & Integrations:
+          - 🔗 Atlas Integration: guides/ATLAS-INTEGRATION-GUIDE.md
           - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
           - 🔐 Token Management: guides/TOKEN-MANAGEMENT-COMPLETE.md
           - 🩺 Doctor Token Guide: guides/DOCTOR-TOKEN-USER-GUIDE.md
@@ -299,6 +300,7 @@ nav:
           - do: commands/do.md
           - install: commands/install.md
           - upgrade: commands/upgrade.md
+          - at (Atlas bridge): commands/at.md
           - dashboard: commands/dashboard.md
       - Quick Reference Cards:
           - 🔐 Token & Secrets: reference/REFCARD-TOKEN-SECRETS.md
