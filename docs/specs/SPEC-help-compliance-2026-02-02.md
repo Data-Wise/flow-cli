@@ -79,7 +79,7 @@ lib/help-compliance.zsh
   _flow_help_compliance_check()      # Check single dispatcher
   _flow_help_compliance_check_all()  # Check all dispatchers
   _flow_help_compliance_rules()      # Return rule definitions
-```bash
+```
 
 ### Compliance Rules
 

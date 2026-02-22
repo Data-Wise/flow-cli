@@ -38,7 +38,7 @@ teach init        # Initialize teaching project
 teach deploy      # Deploy to GitHub Pages
 teach status      # Show semester status
 teach archive     # Archive semester
-```bash
+```
 
 ### Current Limitations
 
@@ -66,7 +66,7 @@ teach init stat-545
 # 2. Adds _freeze/ to .gitignore
 # 3. Documents freeze in CLAUDE.md
 # 4. Adds freeze commands to README.md
-```yaml
+```
 
 **Configuration:**
 
@@ -76,7 +76,7 @@ project:
   type: website
   execute:
     freeze: auto  # Only re-execute changed files
-```bash
+```
 
 **Benefit:** 10-100x faster subsequent renders
 
@@ -95,7 +95,7 @@ teach hooks install
 # 1. .git/hooks/pre-commit (validates & renders changed files)
 # 2. .git/hooks/pre-push (full site render on production)
 # 3. scripts/validate-changes.sh (manual validation)
-```diff
+```
 
 **Pre-commit Hook Behavior:**
 - ✅ YAML frontmatter validation
@@ -114,7 +114,7 @@ teach hooks install
 ```bash
 # Disable rendering in pre-commit if needed
 QUARTO_PRE_COMMIT_RENDER=0 git commit -m "wip"
-```bash
+```
 
 ---
 
@@ -132,7 +132,7 @@ teach validate
 # 2. Renders each one individually
 # 3. Shows pass/fail status
 # 4. Fast (uses freeze cache)
-```text
+```
 
 **Example Output:**
 
@@ -153,7 +153,7 @@ Rendering syllabus/syllabus-final.qmd...
 ════════════════════════════════════════
   Validation failed: 1 file(s)
 ════════════════════════════════════════
-```diff
+```
 
 ---
 
@@ -185,7 +185,7 @@ Rendering syllabus/syllabus-final.qmd...
 - Use `teach deploy` or `./scripts/quick-deploy.sh`
 - Pre-push hook validates full site
 - GitHub Actions deploys to Pages
-```diff
+```
 
 **CLAUDE.md additions:**
 - Quarto Freeze section
@@ -215,7 +215,7 @@ teach check --full
 # Refresh freeze cache
 teach cache refresh
 teach cache clear
-```diff
+```
 
 ---
 
@@ -273,7 +273,7 @@ flow-cli/
 │       ├── _quarto.yml.template
 │       ├── README.md.template
 │       └── CLAUDE.md.template
-```bash
+```
 
 ### Configuration Files
 
@@ -289,7 +289,7 @@ TEACH_VALIDATION_SHOW_OUTPUT=1     # Show render output
 # Hook behavior
 TEACH_HOOK_PRE_COMMIT_RENDER=1     # Default: enabled
 TEACH_HOOK_PRE_PUSH_FULL_SITE=1    # Default: enabled
-```text
+```
 
 ### Error Handling
 
@@ -308,7 +308,7 @@ Running pre-commit checks...
 
 Pre-commit failed: 1 error(s)
 Fix errors or use: git commit --no-verify
-```diff
+```
 
 **Action on error:**
 1. Commit is BLOCKED
@@ -351,7 +351,7 @@ teach cache refresh
 
 # Optional: update configs
 teach upgrade
-```bash
+```
 
 **New projects:**
 
@@ -360,7 +360,7 @@ teach upgrade
 teach init stat-545
 cd stat-545
 quarto preview
-```bash
+```
 
 ### Opt-Out
 
@@ -375,7 +375,7 @@ export TEACH_HOOK_PRE_COMMIT_RENDER=0
 
 # Skip hooks entirely
 git commit --no-verify
-```yaml
+```
 
 ---
 
@@ -461,7 +461,7 @@ CLAUDE.md (with freeze docs)
 Same as before, but:
 - Pre-push hook validates
 - Faster builds with freeze
-```diff
+```
 
 ---
 

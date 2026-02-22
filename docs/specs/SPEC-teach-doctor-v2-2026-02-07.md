@@ -81,7 +81,7 @@ teach doctor [flags]
        |
        |-- _teach_doctor_summary()  # Severity-grouped
        +-- Exit code (0=ok, 1=failures)
-```text
+```
 
 ### Status Line Integration
 
@@ -90,7 +90,7 @@ teach [any subcommand]
   -> Check last doctor result (file-based, no cache TTL)
   -> If stale or missing: run quick doctor silently
   -> Show dot in header: green/yellow/red
-```zsh
+```
 
 ---
 
@@ -114,7 +114,7 @@ _teach_doctor_check_quarto_extensions() {
     local ext_count=${#ext_dirs}
     # ... rest of function uses ext_count safely ...
 }
-```bash
+```
 
 ### Bug Fix 2: R Package False Negatives (renv Isolation)
 
@@ -137,7 +137,7 @@ _teach_doctor_check_r_packages() {
     # Compare against expected packages
     # ...
 }
-```zsh
+```
 
 ### Bug Fix 3: Section Nesting
 
@@ -174,7 +174,7 @@ _teach_doctor_spinner_start() {
 _teach_doctor_spinner_stop() {
     # Stop spinner, show result
 }
-```text
+```
 
 Implementation: Background subshell writes spinner characters to `/dev/tty`. Main process sends SIGUSR1 or writes to a named pipe to stop it. Elapsed time updates every second after 5s threshold.
 
@@ -190,7 +190,7 @@ Failures (2):
 
 Warnings: 3 | Passed: 12
 ────────────────────────────────────────────────────────────
-```text
+```
 
 ### Feature: renv-Aware R Section
 
@@ -200,7 +200,7 @@ Warnings: 3 | Passed: 12
 R Environment:
   ok R (4.4.2) | renv active | library synced
      -> Run --full for 27 package details
-```text
+```
 
 **Full mode output:**
 
@@ -211,7 +211,7 @@ R Environment:
   ok renv.lock last updated: 2026-02-01
   ok renv sync: 27/27 packages match lock file
   ok R: 25/27 installed | Missing: pkgA, pkgB
-```diff
+```
 
 **renv detection details:**
 - renv status: active/inactive (check `renv/activate.R` exists + sourced in `.Rprofile`)
@@ -228,7 +228,7 @@ Missing R packages: pkgA, pkgB
   -> Install via renv or system? [r/s]
   r) renv::install(c("pkgA", "pkgB"))  # Project-local
   s) install.packages(c("pkgA", "pkgB"))  # System-wide
-```zsh
+```
 
 ### Feature: Status Line Health Indicator
 
@@ -240,7 +240,7 @@ _teach_health_indicator() {
     # If file missing or > 1 hour old, run quick doctor silently
     # Return emoji: green_dot / yellow_dot / red_dot
 }
-```text
+```
 
 Status file: `.flow/doctor-status.json`
 
@@ -252,7 +252,7 @@ Status file: `.flow/doctor-status.json`
     "failures": 0,
     "status": "yellow"
 }
-```bash
+```
 
 ### Feature: --ci Mode + GitHub Action
 
@@ -263,7 +263,7 @@ Status file: `.flow/doctor-status.json`
 # - Exit code 1 on any failure
 # - Stdout: machine-parseable summary
 # - Compatible with GitHub Actions annotation format
-```bash
+```
 
 GitHub Action integration (future):
 
@@ -271,7 +271,7 @@ GitHub Action integration (future):
 # .github/workflows/teach-doctor.yml
 - name: Check teaching environment
   run: teach doctor --ci
-```diff
+```
 
 ### Feature: --brief (renamed from --quiet)
 
@@ -307,7 +307,7 @@ N/A - CLI command, no API changes.
     "totals": {"passed": 14, "warnings": 1, "failures": 0},
     "status": "yellow"
 }
-```yaml
+```
 
 ---
 
@@ -348,7 +348,7 @@ Git:
 Skipped (run --full): quarto extensions, hooks, cache, macros, style
 
 Summary: 14 passed, 0 warnings, 0 failures
-```text
+```
 
 ### Full Mode Output
 

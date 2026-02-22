@@ -54,13 +54,13 @@ assignments/*.qmd     → "content: assignment 3"
 _quarto.yml           → "config: quarto settings"
 styles/*.css          → "style: theme update"
 Mixed files           → "deploy: STAT-101 update"
-```text
+```
 
 Override with custom message:
 
 ```bash
 teach deploy -d -m "Week 5 lecture + lab"
-```yaml
+```
 
 ## Deploy History
 
@@ -75,14 +75,14 @@ deploys:
     branch_to: 'main'
     file_count: 15
     commit_message: 'content: week-05 lecture'
-```text
+```
 
 View history:
 
 ```bash
 teach deploy --history      # Last 10 deploys
 teach deploy --history 20   # Last 20 deploys
-```text
+```
 
 ## Rollback
 
@@ -90,7 +90,7 @@ teach deploy --history 20   # Last 20 deploys
 teach deploy --rollback        # Interactive picker
 teach deploy --rollback 1      # Most recent deploy
 teach deploy --rollback 2 --ci # 2nd most recent, non-interactive
-```text
+```
 
 Uses `git revert` (forward rollback, not destructive reset). Merge commits are detected automatically and reverted with `-m 1` (parent specification). Rollback is recorded in history with `mode: "rollback"`.
 
@@ -104,7 +104,7 @@ Scans changed `.qmd` files for blank lines and unclosed `$$` blocks (both break 
   [ok] Display math blocks valid          ← all clean
   [!!] Blank lines in display math        ← blank line inside $$
   [!!] Unclosed $$ block (breaks render)  ← missing closing $$
-```text
+```
 
 **CI mode:** Math issues block deployment. **Interactive:** Warns only.
 
@@ -118,7 +118,7 @@ With a dirty working tree, deploy prompts to commit instead of blocking:
   Uncommitted changes detected
   Suggested: content: week-05 lecture
   Commit and continue? [Y/n]:
-```text
+```
 
 Press Enter (or Y) to auto-commit with the smart message. Press N to cancel.
 
@@ -137,7 +137,7 @@ If a commit fails (e.g., Quarto pre-commit hook), you get 3 actionable options:
     3. Force commit: git commit --no-verify -m "message"
 
   Your changes are still staged. Nothing was lost.
-```text
+```
 
 ### Trap Handler (Branch Safety)
 
@@ -156,7 +156,7 @@ The deployment summary box now includes a direct link to GitHub Actions:
 │  🌐 URL:      https://example.github.io/stat-545/    │
 │  ⚙  Actions:  https://github.com/user/stat-545/actions│  ← NEW
 ╰──────────────────────────────────────────────────────╯
-```bash
+```
 
 Automatically detected from `remote.origin.url`. Skipped for non-GitHub remotes.
 
@@ -173,7 +173,7 @@ Auto-detected when no TTY (`[[ ! -t 0 ]]`), or forced with `--ci`:
 ```bash
 teach deploy --ci -d           # Direct merge, no prompts
 echo | teach deploy            # Auto-detected (piped input)
-```diff
+```
 
 **CI behavior for safety features:**
 
@@ -225,7 +225,7 @@ Skips if `.STATUS` absent.
 │  🌐 URL:      https://example.github.io/stat-545/    │
 │  ⚙  Actions:  https://github.com/user/stat-545/actions│
 ╰──────────────────────────────────────────────────────╯
-```yaml
+```
 
 ## Configuration
 
@@ -237,7 +237,7 @@ git:
   production_branch: main     # Default: "main"
   auto_pr: true               # Default: true
   require_clean: true         # Default: true
-```bash
+```
 
 ## Workflows
 
@@ -247,7 +247,7 @@ git:
 # Make changes on draft branch
 teach deploy -d
 # 8-15 seconds → live
-```bash
+```
 
 ### Deploy via PR (default)
 
@@ -255,21 +255,21 @@ teach deploy -d
 # Make changes on draft branch
 teach deploy
 # Opens PR → review → merge → live
-```text
+```
 
 ### Partial deploy (specific files)
 
 ```bash
 teach deploy lectures/week-05.qmd
 teach deploy lectures/ assignments/hw-03.qmd
-```bash
+```
 
 ### Preview before deploying
 
 ```bash
 teach deploy --dry-run
 # Shows what would happen without executing
-```bash
+```
 
 ### Rollback to previous version
 
@@ -277,7 +277,7 @@ teach deploy --dry-run
 teach deploy --rollback
 # Interactive picker shows recent deploys
 # Select deployment to revert
-```text
+```
 
 ### Non-interactive (CI/CD)
 

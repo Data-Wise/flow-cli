@@ -12,14 +12,14 @@ Make AI actions prompt for user instructions before running, so the user's inten
 ```text
 <leader>ms → static prompt → AI → result split
 <leader>mr → static prompt → AI → result split
-```text
+```
 
 ## Proposed Flow
 
 ```text
 <leader>ms → vim.ui.input("Instructions (Enter=default):") → merge with prompt → AI → result split
 <leader>mr → vim.ui.input("Reply tone/instructions:") → merge with prompt → AI → result split
-```bash
+```
 
 ## Options
 
@@ -36,7 +36,7 @@ if instructions ~= "" then
 else
   prompt = base
 end
-```text
+```
 
 **Pros:** Minimal code change (~15 lines), works immediately
 **Cons:** No structured guidance to the AI, user input just tacked on
@@ -53,7 +53,7 @@ draft_reply = table.concat({
   "{instructions}",          -- replaced or removed
   "Format as markdown."
 }, "\n"),
-```text
+```
 
 When user provides input: slot filled. When empty: slot removed.
 
@@ -69,7 +69,7 @@ First prompt analyzes the email, second prompt uses analysis + user instructions
 ```text
 Phase 1: "Analyze this email: key points, sender intent, required response"
 Phase 2: "Given this analysis + user instructions, draft reply"
-```text
+```
 
 **Pros:** Best quality output, AI has full context
 **Cons:** 2x API calls, slower, more complex
@@ -103,7 +103,7 @@ ask_before = {
   extract_todos = false,
   tldr = false,
 },
-```bash
+```
 
 User can toggle via `:HimalayaAi set ask_before.summarize true`
 
@@ -129,7 +129,7 @@ local function run_ai_with_input(prompt_key, title, hint)
     run_ai(prompt_key, title, nil)
   end
 end
-```bash
+```
 
 ### Prompt Merge in `run_ai()`
 
@@ -144,7 +144,7 @@ local function run_ai(prompt_key, title, instructions)
   end
   -- ... rest of existing code ...
 end
-```text
+```
 
 ### Per-Action Hints
 
@@ -156,7 +156,7 @@ local input_hints = {
   extract_todos = "Filter (Enter=all): ",
   tldr = "Context (Enter=default): ",
 }
-```bash
+```
 
 ### New Compose Action
 
@@ -173,7 +173,7 @@ function M.compose()
     M._run_ai_custom(prompt, get_buffer_text(), "Compose", {})
   end)
 end
-```text
+```
 
 ## Quick Wins
 

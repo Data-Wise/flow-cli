@@ -74,7 +74,7 @@ prerequisites:
   - "Simple linear regression (Week 6)"
   - "Matrix notation basics (Week 7)"
 EOF
-```html
+```
 
 <div align="center">
 
@@ -95,7 +95,7 @@ Now generate slides using the lesson plan.
 
 ```bash
 teach slides -w 8
-```bash
+```
 
 **What happens:**
 1. Loads `.flow/lesson-plans/week-08.yml`
@@ -112,7 +112,7 @@ teach slides "Multiple Regression" --style computational
 
 # With lesson plan (short command)
 teach slides -w 8
-```html
+```
 
 Same result, but lesson plan is faster and more consistent!
 
@@ -133,13 +133,13 @@ You can override the lesson plan's style.
 ```bash
 # Lesson plan says "computational", but generate rigorous instead
 teach slides -w 8 --style rigorous
-```text
+```
 
 **Precedence:**
 
 ```text
 Command-line style > Lesson plan style > No style
-```text
+```
 
 **Use Case:** Create different versions of the same week's content for different audiences.
 
@@ -151,7 +151,7 @@ What happens if no lesson plan exists?
 
 ```bash
 teach slides -w 12
-```text
+```
 
 **Fallback Flow:**
 
@@ -166,7 +166,7 @@ graph TD
     F -->|Yes| H[Generate slides]
     F -->|No| I[Cancel]
     C --> H
-```text
+```
 
 **Example Prompt:**
 
@@ -176,7 +176,7 @@ graph TD
 Topic from config: "Time Series"
 
 Continue with this topic? [Y/n]:
-```yaml
+```
 
 Press Enter to continue, or `n` to cancel and create a lesson plan first.
 
@@ -198,7 +198,7 @@ semester_info:
     # ...
     - week: 12
       topic: "Time Series"
-```diff
+```
 
 **When to use:**
 - Quick semester setup
@@ -228,7 +228,7 @@ Let's try fully interactive mode.
 
 ```bash
 teach slides -i
-```text
+```
 
 **Wizard Flow:**
 
@@ -259,7 +259,7 @@ What style should this content use?
 Your choice [1-4]: 2
 
 → Generating slides for Week 8 with computational style
-```html
+```
 
 <div align="center">
 
@@ -282,21 +282,21 @@ You can skip either wizard by providing flags.
 ```bash
 teach exam -i -w 8
 # → Shows style menu only
-```bash
+```
 
 **Skip style wizard (style known):**
 
 ```bash
 teach quiz -i --style rigorous
 # → Shows topic menu only
-```bash
+```
 
 **Skip both (just use interactive flag for verbose output):**
 
 ```bash
 teach lecture -i -w 8 --style computational
 # → No menus, proceeds with provided values
-```bash
+```
 
 ---
 
@@ -313,7 +313,7 @@ teach exam -w 8 --no-practice-problems --math
 
 # Interactive + week hint + style hint
 teach quiz -i -w 8 --style computational --examples
-```diff
+```
 
 **Best Practice:**
 - Use lesson plans for semester structure
@@ -355,7 +355,7 @@ You've mastered intermediate Scholar features!
 ├── week-02.yml
 ├── ...
 └── week-16.yml
-```diff
+```
 
 ### 2. Required vs Optional Fields
 
@@ -378,14 +378,14 @@ Choose styles that match your teaching philosophy:
 ```yaml
 style: rigorous  # Most weeks
 # Occasionally use conceptual for intro weeks
-```bash
+```
 
 **Applied Course:**
 
 ```yaml
 style: computational  # Most weeks
 # Occasionally use applied for case studies
-```bash
+```
 
 ### 4. Reusability
 
@@ -408,7 +408,7 @@ EOF
 done
 
 # Fill in topics as you go
-```bash
+```
 
 ### Pattern 2: Quick Generation
 
@@ -417,7 +417,7 @@ done
 teach slides -w 8   # Uses lesson plan
 teach exam -w 8     # Same topic, same style
 teach quiz -w 8     # Consistent across materials
-```bash
+```
 
 ### Pattern 3: Interactive Exploration
 
@@ -426,7 +426,7 @@ teach quiz -w 8     # Consistent across materials
 teach lecture -i
 # → See full schedule
 # → Pick the topic you want
-```bash
+```
 
 ---
 
@@ -439,7 +439,7 @@ teach lecture -i
 brew install yq
 
 # Or continue with fallback (limited functionality)
-```bash
+```
 
 **Issue:** Lesson plan not loading
 
@@ -452,7 +452,7 @@ yq . .flow/lesson-plans/week-08.yml
 
 # Check required field (topic)
 yq '.topic' .flow/lesson-plans/week-08.yml
-```bash
+```
 
 **Issue:** Interactive mode shows no weeks
 

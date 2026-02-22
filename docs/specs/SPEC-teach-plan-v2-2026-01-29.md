@@ -79,7 +79,7 @@ teach plan show <week> [--json]
 teach plan edit <week>
 teach plan delete <week> [--force]
 teach plan help
-```yaml
+```
 
 **Shortcuts:** `teach pl`, `teach plan c`, `teach plan ls`, `teach plan s`
 
@@ -106,7 +106,7 @@ weeks:
     topic: "Probability Foundations"
     style: "rigorous"
     # ...
-```text
+```
 
 ---
 
@@ -127,7 +127,7 @@ Load guard + source deps
      ├─ _teach_plan_edit()   # Extract → $EDITOR → merge back
      ├─ _teach_plan_delete() # Remove from weeks[] array
      └─ _teach_plan_help()   # Standard help output
-```bash
+```
 
 ### Dispatch Integration
 
@@ -141,7 +141,7 @@ plan|pl)
         *) _teach_plan "$@" ;;
     esac
     ;;
-```bash
+```
 
 ### Source Loading (teach-dispatcher.zsh header)
 

@@ -34,7 +34,7 @@ Before starting, you should:
 - [ ] Completed: [Link to prior tutorial if part of series]
 
 **Verify your setup:**
-```bash
+```
 [verification command]
 ```
 
@@ -67,7 +67,7 @@ By the end of this tutorial, you will:
 
 [Brief explanation of what we're doing and why]
 
-```bash
+```
 [command or code]
 ```
 
@@ -77,7 +77,7 @@ By the end of this tutorial, you will:
 
 [Explanation]
 
-```bash
+```
 [command or code]
 ```
 
@@ -90,7 +90,7 @@ At this point, you should have:
 - [x] [What they've accomplished]
 
 **Verify:**
-```bash
+```
 [verification command]
 # Expected: [what they should see]
 ```
@@ -103,7 +103,7 @@ At this point, you should have:
 
 [Explanation]
 
-```bash
+```
 [command or code]
 ```
 
@@ -111,7 +111,7 @@ At this point, you should have:
 
 [Explanation]
 
-```bash
+```
 [command or code]
 ```
 
@@ -120,7 +120,7 @@ At this point, you should have:
 ### Checkpoint
 
 **Verify:**
-```bash
+```
 [verification command]
 ```
 
@@ -132,7 +132,7 @@ At this point, you should have:
 
 [Explanation]
 
-```bash
+```
 [command or code]
 ```
 
@@ -149,14 +149,14 @@ At this point, you should have:
 
 [Explanation]
 
-```bash
+```
 [command or code]
 ```
 
 ### Checkpoint
 
 **Verify:**
-```bash
+```
 [verification command]
 ```
 
@@ -166,7 +166,7 @@ At this point, you should have:
 
 Now let's use everything we learned:
 
-```bash
+```
 # Complete workflow
 [full example combining all parts]
 ```
@@ -191,7 +191,7 @@ Practice what you learned with these challenges:
 <details>
 <summary>Solution</summary>
 
-```bash
+```
 [solution]
 ```
 </details>
@@ -202,7 +202,7 @@ Practice what you learned with these challenges:
 <details>
 <summary>Solution</summary>
 
-```bash
+```
 [solution]
 ```
 </details>
@@ -213,7 +213,7 @@ Practice what you learned with these challenges:
 <details>
 <summary>Solution</summary>
 
-```bash
+```
 [solution]
 ```
 </details>
@@ -227,7 +227,7 @@ Practice what you learned with these challenges:
 **Cause:** [Why this happens]
 
 **Fix:**
-```bash
+```
 [fix command]
 ```
 
@@ -236,7 +236,7 @@ Practice what you learned with these challenges:
 **Cause:** [Why]
 
 **Fix:**
-```bash
+```
 [fix]
 ```
 
@@ -253,7 +253,7 @@ In this tutorial, you learned:
 | [Concept 3] | [Brief description] |
 
 **Key commands:**
-```bash
+```
 [cmd1]    # [what it does]
 [cmd2]    # [what it does]
 [cmd3]    # [what it does]

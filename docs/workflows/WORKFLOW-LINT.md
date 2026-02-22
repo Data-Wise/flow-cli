@@ -29,7 +29,7 @@ This workflow integrates `teach validate --lint` into your daily course developm
 
 ```bash
 brew install Data-Wise/tap/flow-cli
-```bash
+```
 
 **2. Copy validator to course:**
 
@@ -37,7 +37,7 @@ brew install Data-Wise/tap/flow-cli
 cd ~/projects/teaching/my-course
 mkdir -p .teach/validators
 cp $(brew --prefix flow-cli)/share/validators/lint-shared.zsh .teach/validators/
-```bash
+```
 
 **3. Create git pre-commit hook:**
 
@@ -66,7 +66,7 @@ fi
 EOF
 
 chmod +x .git/hooks/pre-commit
-```bash
+```
 
 ### Daily Workflow
 
@@ -84,7 +84,7 @@ git add slides/week-03.qmd
 git commit -m "Add week 3 slides"
 
 # 5. Lint runs automatically, shows warnings but doesn't block
-```bash
+```
 
 ### Weekly Audit
 
@@ -99,7 +99,7 @@ less lint-audit.txt
 
 # Count issues
 grep "✗ Line" lint-audit.txt | wc -l
-```bash
+```
 
 ---
 
@@ -118,7 +118,7 @@ cp lint-shared.zsh .teach/validators/
 git add .teach/validators/lint-shared.zsh
 git commit -m "Add lint validator"
 git push
-```bash
+```
 
 **2. Document lint rules in README:**
 
@@ -129,7 +129,7 @@ cat >> README.md <<'EOF'
 
 Before committing `.qmd` files, run:
 
-```bash
+```
 teach validate --lint your-file.qmd
 ```diff
 
@@ -149,7 +149,7 @@ All code blocks need language tags:
 See `docs/guides/LINT-GUIDE.md` for full details.
 EOF
 
-```bash
+```
 
 **3. Create CI check (`.github/workflows/lint.yml`):**
 ```yaml
@@ -178,7 +178,7 @@ jobs:
           teach validate --lint $CHANGED_FILES
         fi
       continue-on-error: true
-```bash
+```
 
 ### Collaborator Onboarding
 
@@ -198,7 +198,7 @@ chmod +x .git/hooks/pre-commit
 
 # 4. Test lint
 teach validate --lint slides/week-01.qmd
-```bash
+```
 
 ### Pull Request Workflow
 
@@ -223,7 +223,7 @@ git push origin add-week-05-slides
 
 # 6. Create PR
 gh pr create
-```bash
+```
 
 **Reviewer:**
 
@@ -233,7 +233,7 @@ gh pr view 123
 
 # Look for CI check:
 # ✅ Lint Quarto Files passed
-```yaml
+```
 
 ---
 
@@ -283,7 +283,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./_site
-```yaml
+```
 
 ### GitLab CI
 
@@ -303,7 +303,7 @@ lint:
   only:
     changes:
       - "**/*.qmd"
-```sql
+```
 
 ---
 
@@ -340,7 +340,7 @@ while true; do
 
     sleep $INTERVAL
 done
-```bash
+```
 
 ### Usage
 
@@ -358,7 +358,7 @@ chmod +x watch-lint.sh
 #
 # → lint-shared (v1.0.0)
 #   ✓ All files passed
-```bash
+```
 
 ---
 
@@ -378,14 +378,14 @@ chmod +x watch-lint.sh
 # Count current issues
 teach validate --lint **/*.qmd 2>&1 | grep "✗ Line" | wc -l
 # Output: 243 issues
-```bash
+```
 
 **2. Set goal:**
 
 ```bash
 # Fix 10 issues per week
 echo "Goal: Reduce from 243 to 0 by end of semester"
-```bash
+```
 
 **3. Track progress:**
 
@@ -394,7 +394,7 @@ echo "Goal: Reduce from 243 to 0 by end of semester"
 teach validate --lint **/*.qmd 2>&1 | grep "✗ Line" | wc -l > lint-count.txt
 git add lint-count.txt
 git commit -m "Lint audit: $(cat lint-count.txt) issues remaining"
-```bash
+```
 
 **4. Fix as you edit:**
 
@@ -408,14 +408,14 @@ teach validate --lint slides/week-01.qmd
 # Commit clean file
 git add slides/week-01.qmd
 git commit -m "Update week 1 slides (lint-clean)"
-```bash
+```
 
 **5. Celebrate progress:**
 
 ```bash
 # Gamify the cleanup
 echo "🎉 Down to $(cat lint-count.txt) issues! (was 243)"
-```text
+```
 
 ---
 
@@ -450,7 +450,7 @@ graph LR
     J -->|Yes| K[Merge to main]
     J -->|No| L[Request changes]
     L --> D
-```text
+```
 
 ### Weekly Sync
 
@@ -469,7 +469,7 @@ Week 5 Sync:
   → Reminder: Use .callout-note instead
 - 💡 New rule suggestion: Check for empty code blocks
   → Professor approves, adding to Phase 2
-```bash
+```
 
 ---
 
@@ -490,7 +490,7 @@ mkdir -p .teach/validators
 cp lint-shared.zsh .teach/validators/
 git add .teach/
 git commit -m "Initial setup with lint"
-```bash
+```
 
 ### 2. Document Exceptions
 
@@ -504,7 +504,7 @@ If you must violate a rule (rare), document it:
 # Title
 
 ### Subtitle (intentional skip)
-```bash
+```
 
 ### 3. Automate Everything
 
@@ -512,7 +512,7 @@ If you must violate a rule (rare), document it:
 # Pre-commit hook (auto-run)
 # CI checks (auto-run)
 # Weekly reports (auto-generate)
-```diff
+```
 
 ### 4. Educate Team
 
@@ -527,7 +527,7 @@ If you must violate a rule (rare), document it:
 - Lint issues per week
 - Clean files vs total files
 - Time to fix (decreases over time)
-```diff
+```
 
 ---
 

@@ -77,7 +77,7 @@ graph TB
 
     Wrapper --> Claude
     Claude --> Scholar
-```text
+```
 
 ### Key Principles
 
@@ -101,7 +101,7 @@ graph LR
     Check -->|Yes| Error[Error Message]
     Check -->|No| Parse[_teach_parse_topic_week]
     Parse --> SetGlobals[Set TEACH_TOPIC/TEACH_WEEK]
-```diff
+```
 
 **Components:**
 - `TEACH_CONTENT_FLAGS` - Associative array of 9 content flags
@@ -114,7 +114,7 @@ graph LR
 ```zsh
 TEACH_TOPIC=""        # Explicit topic string
 TEACH_WEEK=""         # Week number
-```text
+```
 
 ### Phase 2: Preset System
 
@@ -132,7 +132,7 @@ graph TB
 
     Resolved --> BuildInstr[_teach_build_content_instructions]
     BuildInstr --> Instructions[Scholar Instructions]
-```diff
+```
 
 **Components:**
 - `TEACH_STYLE_PRESETS` - Map of 4 style presets
@@ -143,7 +143,7 @@ graph TB
 
 ```zsh
 TEACH_CONTENT_RESOLVED=""  # Space-separated content list
-```text
+```
 
 **Resolution Algorithm:**
 
@@ -156,7 +156,7 @@ TEACH_CONTENT_RESOLVED=""  # Space-separated content list
 4. For each negation flag (--no-X):
      Remove X from content_list
 5. Return deduplicated content_list
-```text
+```
 
 ### Phase 3: Lesson Plan Integration
 
@@ -177,7 +177,7 @@ graph TB
     SetPlanVars --> SetTopic[Set TEACH_TOPIC]
     Prompt -->|Yes| SetTopic
     Prompt -->|No| Cancel[Cancel]
-```diff
+```
 
 **Components:**
 - `_teach_load_lesson_plan()` - YAML parsing
@@ -195,7 +195,7 @@ TEACH_PLAN_SUBTOPICS=""       # Pipe-separated
 TEACH_PLAN_KEY_CONCEPTS=""    # Pipe-separated
 TEACH_PLAN_PREREQUISITES=""   # Pipe-separated
 TEACH_RESOLVED_STYLE=""       # Final style
-```text
+```
 
 ### Phase 4: Interactive Mode
 
@@ -214,7 +214,7 @@ graph TB
     CheckStyle -->|Yes| Done[Continue]
 
     StyleWizard --> ReturnStyle[Return Style]
-```diff
+```
 
 **Components:**
 - `_teach_select_style_interactive()` - Style menu (4 options)
@@ -230,7 +230,7 @@ graph TB
 4. If no style → Show style selection menu
 5. User selects style [1-4]
 6. Return selected style
-```text
+```
 
 ### Phase 5: Revision Workflow
 
@@ -260,7 +260,7 @@ graph TB
     Opt4 --> SetVars
     Opt5 --> SetVars
     Opt6 --> SetVars
-```diff
+```
 
 **Components:**
 - `_teach_analyze_file()` - Content type detection (56 lines)
@@ -274,7 +274,7 @@ graph TB
 TEACH_REVISE_MODE="improve"       # Always "improve" for now
 TEACH_REVISE_FILE=""              # File being revised
 TEACH_REVISE_INSTRUCTIONS=""      # User-selected instruction
-```bash
+```
 
 **Content Type Detection:**
 
@@ -289,7 +289,7 @@ title: "*Quiz*" → quiz
 "# Homework" → assignment
 "Course: " → syllabus
 "Criteria|Rubric" → rubric
-```text
+```
 
 ### Phase 6: Context Integration
 
@@ -313,7 +313,7 @@ graph TB
     Skip --> BuildContext
 
     BuildContext --> SetVar[Set TEACH_CONTEXT]
-```text
+```
 
 **Components:**
 - `_teach_build_context()` - Context gathering (40 lines)
@@ -322,7 +322,7 @@ graph TB
 
 ```zsh
 TEACH_CONTEXT=""  # Course context text
-```text
+```
 
 **Context Format:**
 
@@ -338,7 +338,7 @@ Course Materials:
 Project Overview:
 - From: README.md
 - Content: [first 500 chars]
-```text
+```
 
 ---
 
@@ -383,7 +383,7 @@ sequenceDiagram
 
     Wrapper-->>Dispatcher: Success
     Dispatcher-->>User: Content saved
-```text
+```
 
 ### Interactive Mode Flow
 
@@ -417,7 +417,7 @@ sequenceDiagram
     Note over Wrapper: Phase 2: Resolve content
     Wrapper->>Phase2: _teach_resolve_content("computational")
     Phase2-->>Wrapper: TEACH_CONTENT_RESOLVED="explanation examples code practice-problems"
-```text
+```
 
 ### Revision Workflow Flow
 
@@ -450,7 +450,7 @@ sequenceDiagram
     Note over Wrapper: Build Scholar command with revision
     Wrapper->>Scholar: claude run /teaching:slides + revision + diagrams
     Scholar-->>Wrapper: Improved content
-```bash
+```
 
 ---
 
@@ -498,7 +498,7 @@ _teach_scholar_wrapper() {
     local scholar_cmd="claude run /teaching:$subcommand"
     # ... add revision, context, instructions
 }
-```zsh
+```
 
 ### Why This Order?
 
@@ -522,13 +522,13 @@ _teach_scholar_wrapper() {
 ```zsh
 typeset -g TEACH_TOPIC=""        # Explicit topic
 typeset -g TEACH_WEEK=""         # Week number
-```zsh
+```
 
 **Phase 2 Variables:**
 
 ```zsh
 typeset -g TEACH_CONTENT_RESOLVED=""  # Resolved content list
-```zsh
+```
 
 **Phase 3 Variables:**
 
@@ -540,7 +540,7 @@ typeset -g TEACH_PLAN_SUBTOPICS=""       # From lesson plan
 typeset -g TEACH_PLAN_KEY_CONCEPTS=""    # From lesson plan
 typeset -g TEACH_PLAN_PREREQUISITES=""   # From lesson plan
 typeset -g TEACH_RESOLVED_STYLE=""       # Final style
-```zsh
+```
 
 **Phase 5 Variables:**
 
@@ -548,13 +548,13 @@ typeset -g TEACH_RESOLVED_STYLE=""       # Final style
 typeset -g TEACH_REVISE_MODE=""          # Always "improve"
 typeset -g TEACH_REVISE_FILE=""          # File being revised
 typeset -g TEACH_REVISE_INSTRUCTIONS=""  # Revision instruction
-```zsh
+```
 
 **Phase 6 Variables:**
 
 ```zsh
 typeset -g TEACH_CONTEXT=""  # Course context
-```bash
+```
 
 ### State Lifecycle
 
@@ -584,7 +584,7 @@ stateDiagram-v2
         - Interactive wizard
         - Default (none)
     end note
-```text
+```
 
 ---
 
@@ -632,7 +632,7 @@ sequenceDiagram
 
     W->>S: Execute with context + instructions
     S-->>U: Generated slides
-```text
+```
 
 ---
 
@@ -644,7 +644,7 @@ Each phase transforms data in sequence:
 
 ```text
 Input → Validation → Parsing → Interactive → Integration → Resolution → Output
-```bash
+```
 
 ### 2. Composition Pattern
 
@@ -668,7 +668,7 @@ teach slides -i --style computational --context
 
 # + Revision
 teach slides --revise file.qmd --context
-```diff
+```
 
 ### 3. Strategy Pattern
 
@@ -691,7 +691,7 @@ _teach_scholar_wrapper() {
     resolve()       # Phase 2
     execute()       # Final step
 }
-```bash
+```
 
 ### 5. Facade Pattern
 

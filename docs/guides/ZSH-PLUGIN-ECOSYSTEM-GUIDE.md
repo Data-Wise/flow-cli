@@ -42,7 +42,7 @@
 │  Total: 22 plugins + flow-cli = 351 aliases                │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```bash
+```
 
 ### Key Concepts
 
@@ -78,7 +78,7 @@
 ├── .zshrc                    # Main config (sources antidote)
 ├── .zsh_plugins.txt          # Plugin list (antidote reads this)
 └── .zsh_plugins.zsh          # Generated cache (auto-updated)
-```zsh
+```
 
 ### How It Works
 
@@ -90,7 +90,7 @@ flowchart LR
     D -->|loads| E[18 OMZ plugins]
     D -->|loads| F[4 community plugins]
     A -->|also sources| G[flow-cli/flow.plugin.zsh]
-```zsh
+```
 
 **Startup sequence:**
 
@@ -149,7 +149,7 @@ These make you faster:
 $ git pu▊                    # Gray text appears
 $ git push origin main       # → to accept full suggestion
 $ git pu                     # Alt+→ to accept next word
-```diff
+```
 
 **Commands:**
 - `→` - Accept full suggestion
@@ -164,7 +164,7 @@ $ ls        # Green (valid)
 $ lss       # Red (command not found)
 $ cd /tmp   # Green path exists
 $ cd /xyz   # Red path doesn't exist
-```bash
+```
 
 **No commands - automatic highlighting**
 
@@ -176,7 +176,7 @@ $ git status
 
 $ docker ps
 # → You should use: dkps
-```bash
+```
 
 **Teaches you to use aliases automatically!**
 
@@ -217,7 +217,7 @@ gstl        # git stash list
 gd          # git diff
 gds         # git diff --staged
 gsh         # git show
-```bash
+```
 
 **Full list:** Run `aliases git` or see [OMZ git plugin docs](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git)
 
@@ -231,7 +231,7 @@ repo user/repo          # Opens specific repo
 # Gist management
 gist file.txt          # Create gist from file
 gist -p file.txt       # Private gist
-```bash
+```
 
 ---
 
@@ -243,7 +243,7 @@ gist -p file.txt       # Private gist
 # Type a long command, then press Ctrl+O
 $ kubectl get pods --all-namespaces --field-selector...
 # [Ctrl+O] → Entire line copied to clipboard
-```bash
+```
 
 #### copypath
 
@@ -253,14 +253,14 @@ copypath              # Copies $(pwd)
 
 # Copy specific file path
 copypath file.txt     # Copies absolute path
-```bash
+```
 
 #### copyfile
 
 ```bash
 # Copy file contents
 copyfile config.json  # File contents → clipboard
-```bash
+```
 
 ---
 
@@ -275,7 +275,7 @@ $ cd bar
 # [Alt+Left] → Back to ~/projects/foo
 # [Alt+Left] → Back to ~/projects
 # [Alt+Right] → Forward to ~/projects/foo
-```bash
+```
 
 **Like browser back/forward buttons!**
 
@@ -289,7 +289,7 @@ zi                     # Interactive picker (fzf)
 
 # Add directory manually
 za ~/custom/path
-```bash
+```
 
 ---
 
@@ -304,7 +304,7 @@ alias-finder git status
 
 alias-finder docker ps
 # → dkps='docker ps'
-```bash
+```
 
 #### aliases (built-in)
 
@@ -316,7 +316,7 @@ aliases                # Categorized view
 aliases git            # All git aliases
 aliases claude         # All Claude Code aliases
 aliases r              # All R package aliases
-```bash
+```
 
 ---
 
@@ -330,7 +330,7 @@ x file.zip
 x archive.tar.gz
 x package.rar
 x data.7z
-```text
+```
 
 **Supports:** zip, tar, tar.gz, tar.bz2, rar, 7z, xz, lzma, and more
 
@@ -347,7 +347,7 @@ dkpsa       # docker ps -a
 dkrm        # docker rm
 dkrmi       # docker rmi
 dkb         # docker build
-```bash
+```
 
 #### fzf plugin
 
@@ -360,7 +360,7 @@ dkb         # docker build
 
 # Fuzzy cd
 [Alt+C]                # Fuzzy cd into subdirectory
-```bash
+```
 
 ---
 
@@ -372,7 +372,7 @@ dkb         # docker build
 # Just view any man page
 man ls                 # Colors automatically applied
 man git                # Much easier to read!
-```bash
+```
 
 #### command-not-found
 
@@ -381,14 +381,14 @@ $ pytohn
 # zsh: command not found: pytohn
 # Did you mean: python?
 # Install with: brew install python
-```bash
+```
 
 #### sudo (ESC ESC)
 
 ```bash
 $ apt install foo
 # [ESC ESC] → sudo apt install foo
-```bash
+```
 
 ---
 
@@ -414,7 +414,7 @@ gp                     # Instead of: git push
 
 # 5. View log
 glog                   # Pretty git log with graph
-```bash
+```
 
 **Practice:**
 1. Create test file: `touch test.txt`
@@ -446,7 +446,7 @@ copyfile config.json   # Contents copied
 # 4. Copy long command (Ctrl+O)
 kubectl get pods --all-namespaces --field-selector status.phase=Running
 # [Ctrl+O] → Entire command copied
-```bash
+```
 
 ---
 
@@ -465,7 +465,7 @@ cd baz
 # 2. Use zoxide
 z medfit               # Jump to recently used "medfit" directory
 zi                     # Interactive picker
-```bash
+```
 
 ---
 
@@ -481,7 +481,7 @@ curl -O https://example.com/backup.zip
 # Extract with x
 x data.tar.gz          # Extracts to current directory
 x backup.zip           # Works for any format!
-```bash
+```
 
 ---
 
@@ -503,7 +503,7 @@ git pu▊                # See suggestion appear
 # 3. Find aliases
 alias-finder docker ps
 # → dkps='docker ps'
-```bash
+```
 
 ---
 
@@ -517,7 +517,7 @@ antidote update
 
 # Check what updated
 # (antidote shows git log for each updated plugin)
-```zsh
+```
 
 **Frequency:** Run monthly or when you see plugin bugs
 
@@ -533,7 +533,7 @@ ohmyzsh/ohmyzsh path:plugins/npm
 
 # Reload shell
 source ~/.zshrc
-```bash
+```
 
 **Popular plugins to consider:**
 
@@ -546,7 +546,7 @@ ohmyzsh/ohmyzsh path:plugins/rust
 # Productivity
 ohmyzsh/ohmyzsh path:plugins/tmux
 ohmyzsh/ohmyzsh path:plugins/ssh-agent
-```zsh
+```
 
 ---
 
@@ -560,7 +560,7 @@ ohmyzsh/ohmyzsh path:plugins/ssh-agent
 
 # Reload
 source ~/.zshrc
-```bash
+```
 
 ---
 
@@ -576,7 +576,7 @@ ohmyzsh/ohmyzsh path:plugins/docker kind:defer
 
 # Load github plugin only when needed
 ohmyzsh/ohmyzsh path:plugins/github kind:defer
-```bash
+```
 
 **Already optimized in your setup!**
 
@@ -592,7 +592,7 @@ ohmyzsh/ohmyzsh path:plugins/github kind:defer
 # Check what the alias does
 which g                # Shows: g is aliased to git
 type g                 # More detailed info
-```bash
+```
 
 **Solution:** Use full command or different alias
 
@@ -602,7 +602,7 @@ git status
 
 # Or find alternative alias
 alias-finder git
-```bash
+```
 
 ---
 
@@ -618,7 +618,7 @@ grep "plugin-name" ~/.config/zsh/.zsh_plugins.zsh
 
 # Check for errors
 source ~/.zshrc 2>&1 | grep -i error
-```bash
+```
 
 **Solution:**
 
@@ -626,7 +626,7 @@ source ~/.zshrc 2>&1 | grep -i error
 # Regenerate cache
 rm ~/.config/zsh/.zsh_plugins.zsh
 source ~/.zshrc
-```bash
+```
 
 ---
 
@@ -639,7 +639,7 @@ source ~/.zshrc
 ```bash
 # Time your shell startup
 time zsh -i -c exit
-```bash
+```
 
 **Solution:**
 
@@ -650,7 +650,7 @@ time zsh -i -c exit
 
 # Example: Only load what you need
 # ohmyzsh/ohmyzsh path:lib  # REMOVE if too slow
-```bash
+```
 
 ---
 
@@ -667,7 +667,7 @@ compinit
 
 # Reload shell
 exec zsh
-```bash
+```
 
 ---
 
@@ -699,7 +699,7 @@ z <dir>                      # Smart cd (zoxide)
 
 # Extraction
 x <archive>                  # Extract any format
-```diff
+```
 
 ---
 

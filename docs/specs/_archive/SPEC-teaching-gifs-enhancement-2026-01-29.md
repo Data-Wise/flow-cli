@@ -108,13 +108,13 @@ This specification addresses readability and quality issues in teaching workflow
 
 ```bash
 Type "# Phase 1: Smart Post-Generation" Enter  # ❌ WRONG
-```text
+```
 
 **Correct approach (from v3.0 tutorials):**
 
 ```bash
 Type "echo 'Phase 1: Smart Post-Generation'" Enter  # ✅ CORRECT
-```diff
+```
 
 **Affected tapes:**
 - `teaching-git-workflow.tape` - 60+ problematic lines
@@ -253,7 +253,7 @@ Type "echo 'Phase 1: Smart Post-Generation'" Enter  # ✅ CORRECT
             ├─ File size within target range
             ├─ No visual artifacts
             └─ Update inventory documentation
-```zsh
+```
 
 ### 4.2 VHS Tape Standards (NEW)
 
@@ -293,7 +293,7 @@ Sleep 1s
 # Cleanup
 Type "echo '✓ Demo complete!'" Enter
 Sleep 2s
-```zsh
+```
 
 **Standard template for dispatcher demos:**
 
@@ -322,7 +322,7 @@ Type "echo '<Dispatcher> Demo'" Enter
 Sleep 1s
 
 # Your demo commands here...
-```bash
+```
 
 ### 4.3 Validation Script Design
 
@@ -413,7 +413,7 @@ echo "Results: $PASSED/$TOTAL passed, $FAILED/$TOTAL failed"
 if [[ $FAILED -gt 0 ]]; then
     exit 1
 fi
-```bash
+```
 
 ### 4.4 Batch Generation Script Enhancement
 
@@ -458,7 +458,7 @@ done
 
 echo
 echo "✓ All GIFs generated and optimized!"
-```bash
+```
 
 ### 4.5 Pre-Commit Hook
 
@@ -480,7 +480,7 @@ if git diff --cached --name-only | grep -q '\.tape$'; then
 fi
 
 exit 0
-```text
+```
 
 ---
 
@@ -511,7 +511,7 @@ Phase 4: Verification & Rollout (Week 4)
 ├─ Update documentation site
 ├─ Archive old GIFs
 └─ Announce improvements
-```diff
+```
 
 ### 5.2 Detailed Task Breakdown
 
@@ -785,7 +785,7 @@ Type "# This is a comment" Enter
 
 # ✅ CORRECT - works in ZSH
 Type "echo 'This is a comment'" Enter
-```bash
+```
 
 **Problem 2: Quote Escaping**
 
@@ -795,7 +795,7 @@ Type "teach exam \"Topic\" --template foo" Enter
 
 # ✅ CORRECT - use single quotes
 Type "teach exam 'Topic' --template foo" Enter
-```zsh
+```
 
 **Problem 3: Missing Shell Initialization**
 

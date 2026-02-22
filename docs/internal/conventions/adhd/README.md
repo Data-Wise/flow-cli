@@ -31,7 +31,7 @@ What are you documenting?
 │
 └─ Creating visual demonstration?
    └─ Use: GIF-GUIDELINES.md
-```yaml
+```
 
 ---
 
@@ -338,7 +338,7 @@ All templates follow these principles:
 01-first-session.md
 02-multiple-projects.md
 10-cc-dispatcher.md
-```diff
+```
 
 **Numbering:**
 - 01-09: Core workflow (beginner)
@@ -353,7 +353,7 @@ All templates follow these principles:
 git-feature-workflow.md
 r-package-workflow.md
 worktree-workflow.md
-```text
+```
 
 ### Reference Cards
 
@@ -363,7 +363,7 @@ worktree-workflow.md
 COMMAND-QUICK-REFERENCE.md
 CC-DISPATCHER-REFERENCE.md
 WORKFLOW-QUICK-REFERENCE.md
-```text
+```
 
 ### GIFs
 

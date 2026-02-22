@@ -29,7 +29,7 @@ status, log, branch, diff, help
 doc  = document
 cov  = coverage
 cob  = checkout -b (create branch)
-```zsh
+```
 
 ### Files
 
@@ -52,7 +52,7 @@ dash()        # Helper function
 _g_help()           # Help for g
 _v_test_run()       # Internal to v dispatcher
 _c_bold()           # Color helper
-```zsh
+```
 
 ### Aliases
 
@@ -65,7 +65,7 @@ alias reload='source ~/.zshrc'
 # Typo tolerance (redirect to dispatcher)
 alias gti='g'
 alias gis='g'
-```text
+```
 
 ---
 
@@ -99,7 +99,7 @@ alias gis='g'
 ├── .zshrc                      # Main config (ccy function, gem* aliases)
 └── functions/                  # Legacy ADHD helpers
     └── adhd-helpers.zsh        # work, dash, pb, pv, pt
-```bash
+```
 
 **Note (2025-12-25):** Moved from ~/.config/zsh to flow-cli plugin structure. `v-dispatcher.zsh` was removed.
 
@@ -123,7 +123,7 @@ alias gis='g'
 #   <cmd> action2 arg       # Description
 #
 # ══════════════════════════════════════════════════════════════════════════════
-```bash
+```
 
 ---
 
@@ -168,7 +168,7 @@ alias gis='g'
             ;;
     esac
 }
-```bash
+```
 
 ### Help Function Template
 
@@ -196,7 +196,7 @@ ${_C_MAGENTA}💡 TIP${_C_NC}: Unknown commands pass through
   ${_C_DIM}<cmd> anything → <underlying> anything${_C_NC}
 "
 }
-```bash
+```
 
 ---
 
@@ -214,7 +214,7 @@ _C_BLUE='\033[34m'     # Categories, info
 _C_CYAN='\033[36m'     # Commands, actions
 _C_MAGENTA='\033[35m'  # Tips, related info
 _C_RED='\033[31m'      # Errors
-```bash
+```
 
 ### Help Function Color Fallbacks
 
@@ -233,7 +233,7 @@ if [[ -z "$_C_BOLD" ]]; then
     _C_MAGENTA='\033[35m'
     _C_CYAN='\033[36m'
 fi
-```diff
+```
 
 **Rules:**
 - Use `if [[ -z "$_C_BOLD" ]]` guard (NOT `local` scoped defaults)
@@ -247,7 +247,7 @@ fi
 echo -e "${_C_GREEN}Success!${_C_NC}"
 echo -e "${_C_RED}Error:${_C_NC} Something went wrong"
 echo -e "${_C_CYAN}g push${_C_NC}  Push to remote"
-```bash
+```
 
 ---
 
@@ -263,14 +263,14 @@ echo -e "${_C_CYAN}g push${_C_NC}  Push to remote"
 # RIGHT: Single source of truth
 # g-dispatcher:   g status → git status
 # .zshrc:         (no gst alias)
-```bash
+```
 
 **Check before adding:**
 
 ```bash
 grep -rn "alias <name>=" ~/.config/zsh/
 grep -rn "^<name>()" ~/.config/zsh/
-```bash
+```
 
 ### R2: Functions > Aliases
 
@@ -285,7 +285,7 @@ deploy() {
     echo "Deploying to server..."
     ssh server "cd /app && git pull && ./restart.sh"
 }
-```zsh
+```
 
 ### R3: Always Provide Help
 
@@ -306,7 +306,7 @@ mycmd() {
         *) echo "Unknown. Run: mycmd help" ;;
     esac
 }
-```bash
+```
 
 ### R4: Graceful Degradation
 
@@ -320,7 +320,7 @@ if command -v eza &>/dev/null; then
 else
     alias ls='ls -G'
 fi
-```zsh
+```
 
 ### R5: No Blocking Startup
 
@@ -332,7 +332,7 @@ WEATHER=$(curl -s wttr.in/\?format=3)
 weather() {
     curl -s "wttr.in/?format=3"
 }
-```bash
+```
 
 ### R6: Document Changes
 
@@ -361,7 +361,7 @@ shellcheck ~/.config/zsh/functions/*.zsh
 
 # 4. Load test (optional)
 time zsh -ic exit
-```bash
+```
 
 ### Test File Template
 
@@ -391,7 +391,7 @@ test_<function>() {
 
 # Run tests
 test_<function>
-```diff
+```
 
 ---
 

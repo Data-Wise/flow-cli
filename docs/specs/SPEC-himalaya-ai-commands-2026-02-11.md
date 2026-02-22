@@ -57,7 +57,7 @@ Add `:HimalayaAi <subcommand>` umbrella command to manage AI prompts and setting
     +-- edit       --> vsplit config.lua --> BufWritePost auto-reload
     +-- validate   --> select prompt --> detect email source --> run_ai --> result split
     +-- set        --> parse key/value --> validate --> update M.config --> persist to config.lua
-```text
+```
 
 **Config loading flow:**
 
@@ -69,7 +69,7 @@ tbl_deep_extend(defaults, config)  -->  M.config  (runtime)
     ^                                       |
     |                                       v
     +--- :HimalayaAi set (writes back) <--- M.config update
-```text
+```
 
 ---
 
@@ -85,7 +85,7 @@ N/A — This is a Neovim user command, not an HTTP API.
 :HimalayaAi edit
 :HimalayaAi validate [prompt_name]
 :HimalayaAi set <key> <value>
-```text
+```
 
 **Argument table:**
 
@@ -125,7 +125,7 @@ return {
     tldr = "...",
   },
 }
-```yaml
+```
 
 ---
 
@@ -159,7 +159,7 @@ Prompts (4):
   tldr           You are an executive assistant triag...
 
 [q] close
-```diff
+```
 
 - Opens in `botright vnew` (same pattern as result split)
 - `buftype=nofile`, `filetype=markdown`, closeable with `q`
@@ -178,7 +178,7 @@ HimalayaAi Prompts
   tldr           You are an executive assistant triag...
 
 [e] edit config   [v] validate   [q] close
-```diff
+```
 
 - `e` opens config.lua in split (same as `:HimalayaAi edit`)
 - `v` prompts which prompt to test, then runs validation

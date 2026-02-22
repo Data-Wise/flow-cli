@@ -49,7 +49,7 @@ my_interactive_picker() {
 # Later in code...
 local dir=$(my_interactive_picker)  # Gets box-drawing chars + messages!
 cd "$dir" && do_something            # FAILS - $dir is garbage
-```bash
+```
 
 ### Correct Pattern: Chain Interactive Functions
 
@@ -66,7 +66,7 @@ my_interactive_picker() {
 
 # Later in code...
 my_interactive_picker && do_something  # Works! Uses side effects
-```bash
+```
 
 ### Alternative: Separate UI from Logic
 
@@ -85,7 +85,7 @@ _get_project_dir() {
 # Later in code...
 local dir=$(_get_project_dir)  # Clean! Only gets the directory
 cd "$dir" && do_something
-```bash
+```
 
 ---
 
@@ -106,13 +106,13 @@ cc() {
         fi
     fi
 }
-```text
+```
 
 **Error:**
 
 ```text
 cc:cd:6: no such file or directory: \n╔════════════════...
-```zsh
+```
 
 **Fix:**
 
@@ -122,7 +122,7 @@ cc() {
         pick && claude  # ✅ Uses side effect (cd)
     fi
 }
-```diff
+```
 
 ### Lint Rules
 
@@ -142,7 +142,7 @@ cc() {
 \$\(pickdev\)
 \$\(pickq\)
 local.*=\$\(pick
-```zsh
+```
 
 ---
 
@@ -164,21 +164,21 @@ alias peek='bat'
 peek() {  # ❌ FAILS - parse error!
     # Advanced peek functionality...
 }
-```text
+```
 
 **Error:**
 
 ```text
 defining function based on alias `peek'
 parse error near `()'
-```bash
+```
 
 **Fix:** Remove the simple alias, let the advanced function take over:
 
 ```zsh
 # In .zshrc
 # Note: peek is now a function in smart-dispatchers.zsh
-```bash
+```
 
 ### Best Practices
 
@@ -230,7 +230,7 @@ my_function() {
 
 # Usage
 result=$(my_function)  # Gets "/path/to/result", sees messages
-```zsh
+```
 
 ```zsh
 # ❌ WRONG
@@ -242,7 +242,7 @@ my_function() {
 
 # Usage
 result=$(my_function)  # Gets "Processing...\nFound 5 files\n/path/to/result"
-```diff
+```
 
 ### When to Print to Stdout
 
@@ -299,7 +299,7 @@ test_interactive_function_side_effects() {
     local after_dir="$PWD"
     assert_not_equal "$before_dir" "$after_dir"
 }
-```diff
+```
 
 ---
 
@@ -335,7 +335,7 @@ echo "Status: processing..." >&2
 # Function before alias definition
 unalias cmd 2>/dev/null
 cmd() { ... }
-```bash
+```
 
 ### Bad Patterns ❌
 

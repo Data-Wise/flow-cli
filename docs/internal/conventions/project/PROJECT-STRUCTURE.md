@@ -12,7 +12,7 @@ project/
 ├── .STATUS            # Machine-readable status
 ├── .gitignore         # Git ignores
 └── CHANGELOG.md       # Version history (for packages/releases)
-```text
+```
 
 ## .STATUS File Format
 
@@ -22,7 +22,7 @@ progress: 75            # 0-100 (optional)
 next: Write discussion  # Next action item
 target: JASA            # Target journal/milestone (optional)
 updated: 2025-12-17     # Last update date
-```text
+```
 
 **Valid statuses:**
 
@@ -76,7 +76,7 @@ mypackage/
 └── .github/
     └── workflows/
         └── R-CMD-check.yaml
-```text
+```
 
 ---
 
@@ -113,7 +113,7 @@ my-research/
 └── docs/                  # Notes, drafts, reviews
     ├── notes.md
     └── reviews/
-```text
+```
 
 ---
 
@@ -149,7 +149,7 @@ STAT-440/
 ├── data/                  # Course datasets
 │
 └── resources/             # Supplementary materials
-```text
+```
 
 ---
 
@@ -176,7 +176,7 @@ my-manuscript/
 │
 └── supplementary/
     └── appendix.qmd
-```text
+```
 
 ---
 
@@ -201,7 +201,7 @@ my-tool/
 │
 └── .github/
     └── workflows/
-```diff
+```
 
 ---
 

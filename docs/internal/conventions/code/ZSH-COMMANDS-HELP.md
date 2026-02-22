@@ -15,7 +15,7 @@ mycommand help        # Subcommand style (for dispatchers)
 # Every function should show usage on:
 myfunction            # No args (if args required)
 myfunction --help     # Explicit help request
-```text
+```
 
 ---
 
@@ -31,7 +31,7 @@ Description of what the command does.
 Options:
   -h, --help    Show this help
   -v, --verbose Verbose output
-```text
+```
 
 ### Full (Complex Commands)
 
@@ -56,7 +56,7 @@ Examples:
   command delete myfile      # Delete a file
 
 See also: related-command, other-command
-```yaml
+```
 
 ---
 
@@ -85,7 +85,7 @@ EOF
     local name="$1"
     # ... actual implementation
 }
-```zsh
+```
 
 ### Pattern 2: With Subcommands
 
@@ -130,7 +130,7 @@ EOF
             ;;
     esac
 }
-```zsh
+```
 
 ### Pattern 3: Dispatcher Function
 
@@ -174,7 +174,7 @@ Examples:
 Aliases: d1 → d sub1, d2 → d sub2
 EOF
 }
-```zsh
+```
 
 ### Pattern 4: With Options Parsing
 
@@ -240,7 +240,7 @@ Examples:
   mycommand -v -o out.txt input.txt
 EOF
 }
-```diff
+```
 
 ---
 
@@ -289,7 +289,7 @@ return 1
 echo "mycommand: unknown command '$cmd'" >&2
 echo "Run 'mycommand help' for available commands" >&2
 return 1
-```bash
+```
 
 ### Pattern: Validation Function
 
@@ -311,7 +311,7 @@ mycommand() {
     _require_arg "mycommand" "file" "$1" || return 1
     # ...
 }
-```bash
+```
 
 ---
 
@@ -326,7 +326,7 @@ mycommand -h              # Same as --help
 mycommand help            # For dispatcher-style
 mycommand                 # Shows help if args required, OR works if no args needed
 mycommand --invalid       # Shows error + hint, exits 1
-```bash
+```
 
 ### Automated Test Pattern
 
@@ -344,7 +344,7 @@ test_help_output() {
 
     echo "PASS: $cmd --help"
 }
-```yaml
+```
 
 ---
 

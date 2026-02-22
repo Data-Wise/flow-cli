@@ -22,7 +22,7 @@ command -v nvim && echo "✅ Nvim found" || echo "❌ Install: brew install neov
 
 # Check version (should be 0.9.0+)
 nvim --version | head -1
-```diff
+```
 
 ---
 
@@ -50,7 +50,7 @@ Nvim has two essential modes:
 │  (Navigation)   │     │  (Type text)    │
 │  Press ESC here │     │  Press i here   │
 └─────────────────┘     └─────────────────┘
-```bash
+```
 
 **The panic button:** `ESC` → `:q!` → `ENTER` (quit without saving)
 
@@ -68,7 +68,7 @@ echo "Hello from nvim practice!" > /tmp/nvim-test.txt
 
 # Open it with nvim
 nvim /tmp/nvim-test.txt
-```bash
+```
 
 **What happened:** Nvim opens showing your file content. You're in **Normal mode** (can't type yet).
 
@@ -85,7 +85,7 @@ Don't want to edit? Here's how to quit immediately:
 ```bash
 nvim /tmp/nvim-test.txt
 # ESC → :q! → ENTER
-```bash
+```
 
 **What happened:** You exited nvim without saving any changes.
 
@@ -101,7 +101,7 @@ To save your work AND quit:
 nvim /tmp/nvim-test.txt
 # Make no changes
 # ESC → :wq → ENTER
-```text
+```
 
 **Checkpoint:** Can you reliably quit nvim now? ✅
 
@@ -115,7 +115,7 @@ Time to actually edit! Open the test file:
 
 ```bash
 nvim /tmp/nvim-test.txt
-```sql
+```
 
 Now press `i` to enter **Insert mode**. You should see `-- INSERT --` at the bottom.
 
@@ -150,7 +150,7 @@ Now quit with `:q` and press ENTER.
 ```bash
 nvim /tmp/nvim-test.txt
 # i → type something → ESC → :w → :q
-```text
+```
 
 **Checkpoint:** Can you open, edit, save, and quit? ✅
 
@@ -164,7 +164,7 @@ Open the test file one more time to practice:
 
 ```bash
 nvim /tmp/nvim-test.txt
-```diff
+```
 
 | Command | What It Does | When To Use |
 |---------|--------------|-------------|
@@ -209,7 +209,7 @@ work test-project
 
 # Open a file (will use nvim)
 # ...when prompted, you'll be in nvim
-```bash
+```
 
 ### Using Nvim with MCP Dispatcher
 
@@ -218,7 +218,7 @@ Edit MCP server configs:
 ```bash
 # Opens MCP config in nvim
 mcp edit statistical-research
-```bash
+```
 
 **What you'll see:** Nvim opens the config file. Use `i` to edit, `ESC :wq` to save and quit.
 
@@ -229,7 +229,7 @@ Edit dotfiles:
 ```bash
 # Opens .zshrc in nvim
 dots edit zsh
-```diff
+```
 
 **Pattern:** Whenever flow-cli needs to edit a file, it uses nvim by default!
 
@@ -258,7 +258,7 @@ dots edit zsh
 
 ```bash
 flow nvim-tutorial
-```diff
+```
 
 ---
 
@@ -299,7 +299,7 @@ nvim ~/.config/zsh/.zshrc
 # 3. Add a new line: "# Edited with nvim!"
 # 4. Press ESC
 # 5. Type :wq and press ENTER
-```text
+```
 
 Verify your edit:
 

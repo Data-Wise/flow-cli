@@ -22,7 +22,7 @@ yq --version
 
 # Check you have a teach-config.yml
 ls .flow/teach-config.yml
-```yaml
+```
 
 ---
 
@@ -58,7 +58,7 @@ semester_info:
       title: "Data Types"
       topics: [vectors, dataframes]
     # ... more weeks embedded here
-```yaml
+```
 
 **After (separate file):**
 
@@ -70,7 +70,7 @@ course:
 semester_info:
   semester: "Spring 2026"
   lesson_plans: "lesson-plans.yml"  # Reference to new file
-```yaml
+```
 
 ```yaml
 # .flow/lesson-plans.yml (NEW)
@@ -81,7 +81,7 @@ weeks:
   week-02:
     title: "Data Types"
     topics: [vectors, dataframes]
-```diff
+```
 
 **Why?**
 
@@ -98,7 +98,7 @@ Always preview before migrating:
 
 ```bash
 teach migrate-config --dry-run
-```text
+```
 
 **Example output:**
 
@@ -126,7 +126,7 @@ teach migrate-config --dry-run
 │                                                             │
 │ Run without --dry-run to apply changes                      │
 ╰─────────────────────────────────────────────────────────────╯
-```text
+```
 
 ---
 
@@ -136,7 +136,7 @@ When you're ready:
 
 ```bash
 teach migrate-config
-```text
+```
 
 **What happens:**
 
@@ -166,7 +166,7 @@ teach migrate-config
 │   2. Test: teach week 1                                     │
 │   3. Delete backup when satisfied                           │
 ╰─────────────────────────────────────────────────────────────╯
-```bash
+```
 
 ---
 
@@ -183,7 +183,7 @@ teach week 1
 
 # Check new file exists
 cat .flow/lesson-plans.yml
-```text
+```
 
 ---
 
@@ -193,13 +193,13 @@ cat .flow/lesson-plans.yml
 
 ```bash
 teach migrate-config --force
-```text
+```
 
 ### Skip Backup
 
 ```bash
 teach migrate-config --no-backup
-```bash
+```
 
 ### Preview + Force (careful!)
 
@@ -209,7 +209,7 @@ teach migrate-config --dry-run
 
 # Then apply without prompts
 teach migrate-config --force
-```text
+```
 
 ---
 
@@ -227,7 +227,7 @@ $ teach week 1
 
 Week 1: Introduction to Statistics
 ...
-```bash
+```
 
 **The warning reminds you to migrate** but doesn't block functionality.
 
@@ -246,7 +246,7 @@ cp .flow/teach-config.yml.bak .flow/teach-config.yml
 
 # Remove migrated file
 rm .flow/lesson-plans.yml
-```diff
+```
 
 ---
 
@@ -268,7 +268,7 @@ rm .flow/lesson-plans.yml
 ├── teach-config.yml          # Course metadata + reference
 ├── lesson-plans.yml          # Extracted lesson plans (NEW)
 └── teach-config.yml.bak      # Backup of original
-```bash
+```
 
 ---
 
@@ -284,7 +284,7 @@ ls .flow/lesson-plans.yml
 
 # Check teach-config.yml structure
 cat .flow/teach-config.yml | grep -A5 semester_info
-```bash
+```
 
 ### "yq not found"
 
@@ -292,7 +292,7 @@ Install yq:
 
 ```bash
 brew install yq
-```bash
+```
 
 ### Migration failed
 
@@ -300,7 +300,7 @@ Restore from backup:
 
 ```bash
 cp .flow/teach-config.yml.bak .flow/teach-config.yml
-```bash
+```
 
 ---
 
@@ -312,7 +312,7 @@ After migration, the Scholar plugin reads from `lesson-plans.yml` directly:
 # Scholar commands work with new format
 teach exam "Midterm" --week 1-7
 teach quiz "Week 5" --topic "Distributions"
-```text
+```
 
 ---
 
@@ -334,7 +334,7 @@ $ teach plan list
   15     Review & Synthesis                   conceptual       0
 
   15 week(s) total
-```bash
+```
 
 ### Add a New Week
 
@@ -347,7 +347,7 @@ $ teach plan create 16 --topic "Final Review" --style conceptual
   View:  teach plan show 16
   Edit:  teach plan edit 16
   List:  teach plan list
-```yaml
+```
 
 ### View Week Details
 
@@ -370,7 +370,7 @@ $ teach plan show 1
 
   Edit:   teach plan edit 1
   Delete: teach plan delete 1
-```bash
+```
 
 ### Edit a Week
 
@@ -381,7 +381,7 @@ $ teach plan edit 5
 Week 5 starts at line 42
 # (editor opens lesson-plans.yml at line 42)
 # YAML validated after saving
-```sql
+```
 
 ### Delete a Week
 
@@ -392,7 +392,7 @@ $ teach plan delete 16
   Confirm [y/N]: y
 
   ✓ Deleted Week 16: "Final Review"
-```bash
+```
 
 ### Use Plans with Scholar
 

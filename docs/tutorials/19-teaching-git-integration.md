@@ -41,7 +41,7 @@ cd ~/projects/teaching
 
 # Initialize a new course WITH git
 teach init "STAT 440"
-```text
+```
 
 **What happens:**
 
@@ -59,7 +59,7 @@ teach init "STAT 440"
 │                                                             │
 │ Would you like to create a GitHub repository? (y/N)         │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 **Git structure created:**
 
@@ -74,7 +74,7 @@ stat-440/
 └── scripts/
     ├── quick-deploy.sh
     └── semester-archive.sh
-```bash
+```
 
 **Current branches:**
 
@@ -82,14 +82,14 @@ stat-440/
 git branch -a
 # * draft
 #   main
-```bash
+```
 
 ### Step 2: Explore Git Configuration
 
 ```bash
 # View config
 teach config
-```yaml
+```
 
 **Git settings (`.flow/teach-config.yml`):**
 
@@ -104,7 +104,7 @@ workflow:
   teaching_mode: false           # Manual workflow (default)
   auto_commit: false             # No auto-commit (default)
   auto_push: false               # Never auto-push (safety)
-```bash
+```
 
 **Exercise:** Try changing `draft_branch` to `dev` and see what happens.
 
@@ -123,7 +123,7 @@ git branch
 
 # Create exam
 teach exam "Syllabus Quiz"
-```text
+```
 
 **What you'll see:**
 
@@ -138,7 +138,7 @@ What would you like to do?
   3) Skip commit (do it manually later)
 
 Choice [1-3]:
-```text
+```
 
 ### Step 2: Try Each Option
 
@@ -153,7 +153,7 @@ Opening exams/syllabus-quiz.qmd in nvim...
 Commit this file? (y/N): y
 
 ✓ Committed: teach: add exam for Syllabus Quiz
-```text
+```
 
 **Option 2: Commit now (auto-message)**
 
@@ -169,7 +169,7 @@ Commit message:
   Course: STAT 440 (Fall 2024)
 
   Co-Authored-By: Scholar <scholar@example.com>
-```text
+```
 
 **Option 3: Skip commit**
 
@@ -180,7 +180,7 @@ Skipped. File saved, not committed.
 You can commit manually later:
   git add exams/syllabus-quiz.qmd
   git commit -m "teach: add exam for Syllabus Quiz"
-```bash
+```
 
 ### Step 3: View Your Commits
 
@@ -191,7 +191,7 @@ git log --oneline -5
 # Example output:
 # a1b2c3d teach: add exam for Syllabus Quiz
 # e4f5g6h Initial commit
-```bash
+```
 
 **Exercise:** Create 3 more exams using different options each time.
 
@@ -211,13 +211,13 @@ teach slides "Week 1 Introduction"
 # Create quiz (choose option 3 - skip)
 teach quiz "Chapter 1"
 # Choice: 3 (skip)
-```text
+```
 
 ### Step 2: Check Status
 
 ```bash
 teach status
-```text
+```
 
 **Output:**
 
@@ -239,7 +239,7 @@ teach status
 │                                                             │
 │ Choice [1-4]:                                               │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 ### Step 3: Try Each Status Option
 
@@ -254,7 +254,7 @@ Choice: 1
 
   - slides/week01-introduction.qmd
   - quizzes/quiz01.qmd
-```text
+```
 
 **Option 2: Stash changes**
 
@@ -262,7 +262,7 @@ Choice: 1
 Choice: 2
 
 ✓ Stashed 2 files: WIP on draft
-```text
+```
 
 **Option 3: View diff**
 
@@ -277,7 +277,7 @@ index 0000000..abcdefg
 ...
 
 (Returns to menu after showing diff)
-```bash
+```
 
 **Exercise:** Create 5 files, leave uncommitted, then use `teach status` to commit them all at once.
 
@@ -296,13 +296,13 @@ teach status
 
 # Push to GitHub (if you created remote repo)
 git push origin draft
-```text
+```
 
 ### Step 2: Deploy to Production
 
 ```bash
 teach deploy
-```text
+```
 
 **Pre-flight checks:**
 
@@ -318,7 +318,7 @@ teach deploy
 │                                                             │
 │ All checks passed. Creating PR...                           │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 **PR creation:**
 
@@ -346,7 +346,7 @@ Body:
 - [ ] Accessibility checked
 
 ✓ PR created: https://github.com/user/stat-440/pull/1
-```bash
+```
 
 ### Step 3: Review and Merge
 
@@ -356,7 +356,7 @@ gh pr view 1 --web
 
 # Merge when ready
 gh pr merge 1 --squash
-```bash
+```
 
 **Exercise:** Create 5 new files, commit them, and deploy to production.
 
@@ -371,7 +371,7 @@ Enable **streamlined auto-commit** for rapid content creation.
 ```bash
 # Edit config
 teach config
-```yaml
+```
 
 **Change these settings:**
 
@@ -380,7 +380,7 @@ workflow:
   teaching_mode: true      # Enable teaching mode
   auto_commit: true        # Auto-commit after generation
   auto_push: false         # Safety: never auto-push
-```bash
+```
 
 Save and close.
 
@@ -389,7 +389,7 @@ Save and close.
 ```bash
 # Create exam (no menu!)
 teach exam "Midterm 1"
-```text
+```
 
 **Output:**
 
@@ -399,7 +399,7 @@ teach exam "Midterm 1"
 🎓 Teaching Mode: Auto-committing...
 
 ✓ Committed: teach: add exam for Midterm 1
-```bash
+```
 
 **No menu, instant commit!**
 
@@ -414,7 +414,7 @@ teach assignment "Homework 2"
 
 # All auto-committed!
 git log --oneline -5
-```text
+```
 
 **Output:**
 
@@ -424,7 +424,7 @@ e0d9c8b teach: add lecture for Hypothesis Testing
 d9c8b7a teach: add slides for Week 3
 c8b7a6f teach: add quiz for Chapter 2
 b7a6d5e teach: add exam for Midterm 1
-```bash
+```
 
 ### Step 4: Deploy All Changes
 
@@ -435,7 +435,7 @@ git push origin draft
 # Deploy to production
 teach deploy
 # (Creates PR with all 5 commits)
-```bash
+```
 
 **Exercise:** Enable teaching mode and create 10 pieces of content in under 5 minutes.
 
@@ -466,7 +466,7 @@ git log --oneline -3
 # Deploy
 git push origin draft
 teach deploy
-```bash
+```
 
 ### Workflow 2: Exam Season
 
@@ -489,7 +489,7 @@ teach exam "Final Exam"
 # Create answer key
 teach exam "Final Exam - Answer Key"
 # Choice: 2 (commit now)
-```bash
+```
 
 ### Workflow 3: Collaborative Teaching
 
@@ -515,7 +515,7 @@ gh pr merge <PR-number>
 
 # Then deploy to production
 teach deploy
-```bash
+```
 
 ---
 
@@ -539,7 +539,7 @@ teach init --no-git "STAT 440"
 git init
 git add .
 git commit -m "Initial commit"
-```text
+```
 
 ### Problem: Deploy fails with uncommitted changes
 
@@ -547,7 +547,7 @@ git commit -m "Initial commit"
 
 ```text
 ❌ Deployment blocked: uncommitted changes detected
-```bash
+```
 
 **Solution:**
 
@@ -564,7 +564,7 @@ git stash
 
 # Then deploy
 teach deploy
-```yaml
+```
 
 ### Problem: Teaching mode not auto-committing
 
@@ -580,7 +580,7 @@ teach config
 workflow:
   teaching_mode: true
   auto_commit: true     # This must be true!
-```text
+```
 
 ### Problem: PR creation fails
 
@@ -588,7 +588,7 @@ workflow:
 
 ```text
 Error: gh: command not found
-```bash
+```
 
 **Solution:**
 
@@ -601,7 +601,7 @@ gh auth login
 
 # Try again
 teach deploy
-```bash
+```
 
 ---
 
@@ -615,7 +615,7 @@ git checkout draft
 
 # Keep main clean (production only)
 # Only merge to main via PR
-```bash
+```
 
 ### 2. Commit Hygiene
 
@@ -626,7 +626,7 @@ git log --oneline -10
 
 # Squash related commits if needed (before PR)
 git rebase -i HEAD~5
-```bash
+```
 
 ### 3. Deployment Timing
 
@@ -638,7 +638,7 @@ git rebase -i HEAD~5
 # Or deploy after major milestones:
 # → After creating full exam
 # → After completing week's content
-```bash
+```
 
 ### 4. Backup Strategy
 
@@ -649,7 +649,7 @@ git push origin draft
 # Even if not deploying yet
 # → Protects against data loss
 # → Enables collaboration
-```text
+```
 
 ---
 

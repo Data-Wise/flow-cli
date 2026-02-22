@@ -58,7 +58,7 @@ Tracks, persists, and restores workflow state across sessions and projects.
    - Show last context (what you were doing)
    - Display next actions from .STATUS
    - Ready to work in <30 seconds
-```diff
+```
 
 **Integration:**
 - Uses **vendored functions** from zsh-claude-workflow (~300 lines ported)
@@ -99,7 +99,7 @@ Dev Tools (Active: 5, Archive: 3)
 
 Quick Wins Available: 7 tasks < 30 minutes
 Next Review: stat-440 (HW 5 due Friday)
-```diff
+```
 
 **Integration:**
 - Adapts **.STATUS parser** logic from apple-notes-sync
@@ -152,7 +152,7 @@ Medium Tasks (1-2 hours):
 Long Projects (> 4 hours):
   🏗️ probmed: Respond to all reviewer comments
   🏗️ obs-cli: Complete simplification phase
-```bash
+```
 
 ---
 
@@ -173,7 +173,7 @@ Fast fuzzy finder for switching between projects.
   🔧 flow-cli  Dev tool     Architecture design
 
 # Select → cd to project + show .STATUS
-```diff
+```
 
 **Features:**
 - Fuzzy search by name
@@ -210,7 +210,7 @@ Fast fuzzy finder for switching between projects.
 │ - aiterm (terminal context switching)                   │
 │ - apple-notes-sync (dashboard patterns)                 │
 └─────────────────────────────────────────────────────────┘
-```yaml
+```
 
 ---
 
@@ -426,7 +426,7 @@ Next actions:
   3. Update documentation
 
 [Ready to work in 20 seconds]
-```bash
+```
 
 ---
 
@@ -455,7 +455,7 @@ Next actions:
 
 Terminal profile: Teaching (yellow theme)
 [Switched in <30 seconds]
-```bash
+```
 
 ---
 
@@ -476,7 +476,7 @@ Quick Wins (< 30 min):
 
 > work rmediation
 # Knock out easy tasks, build momentum
-```yaml
+```
 
 ---
 
@@ -502,7 +502,7 @@ Recommendation:
   4. Update product-of-three analysis if API changed
 
 [Clear understanding of impact in <5 seconds]
-```yaml
+```
 
 ---
 
@@ -545,7 +545,7 @@ Personal Projects Overview (32 total)
   causal-inf    ● 2 days ago     P1  Lecture 14
 
 [Complete overview in <2 seconds]
-```diff
+```
 
 ---
 
@@ -578,7 +578,7 @@ Personal Projects Overview (32 total)
 │   └── dependencies.json         # Project relationships
 └── cache/
     └── last-scan.json            # Cached project scan results
-```yaml
+```
 
 ---
 
@@ -673,7 +673,7 @@ node --version         # Node.js 18+
 # Optional (enhanced features)
 ait --version          # aiterm (terminal context switching)
 fzf --version          # Fuzzy finder (project picker)
-```bash
+```
 
 **No external dependencies required!** flow-cli is standalone.
 
@@ -683,7 +683,7 @@ fzf --version          # Fuzzy finder (project picker)
 
 ```bash
 npm install -g flow-cli
-```bash
+```
 
 **From source (current):**
 

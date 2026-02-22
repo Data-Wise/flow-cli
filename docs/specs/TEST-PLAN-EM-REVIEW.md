@@ -22,7 +22,7 @@
 
 ```zsh
 em respond --count 3
-```bash
+```
 
 **Expected behavior:**
 1. Header: `em respond — scanning 3 emails in INBOX`
@@ -45,7 +45,7 @@ em respond --count 3
 ```zsh
 em cache stats
 # Should show: drafts  N items  ...  TTL=1h
-```text
+```
 
 ---
 
@@ -55,7 +55,7 @@ em cache stats
 
 ```zsh
 em respond --review --count 3
-```diff
+```
 
 **Expected behavior:**
 1. Header: `em respond --review — reviewing cached drafts in INBOX`
@@ -91,7 +91,7 @@ em respond --review --count 3
 ```zsh
 em cache clear
 em respond --review --count 3
-```text
+```
 
 **Expected behavior:**
 1. Header: `em respond --review — reviewing cached drafts in INBOX`
@@ -109,7 +109,7 @@ em respond --review --count 3
 
 ```zsh
 em respond -R --count 3
-```bash
+```
 
 **Expected:** Same behavior as `em respond --review --count 3`.
 
@@ -130,7 +130,7 @@ em respond --review --count 1
 # → Y to review
 # → Edit draft in $EDITOR if needed
 # → y to send
-```diff
+```
 
 **Expected:**
 - Draft opens in $EDITOR with cached content
@@ -145,7 +145,7 @@ em respond --review --count 1
 
 ```zsh
 em respond --dry-run --count 3
-```diff
+```
 
 **Expected:**
 - Classifies emails with category icons
@@ -159,7 +159,7 @@ em respond --dry-run --count 3
 
 ```zsh
 em respond --help
-```diff
+```
 
 **Verify these lines appear:**
 - `em respond --review|-R  Review/send cached drafts (skip classification)`
@@ -176,7 +176,7 @@ em respond --review --folder Sent --count 5
 
 # Review with custom count
 em respond -R -n 10
-```bash
+```
 
 **Expected:** Flags combine correctly, no errors.
 

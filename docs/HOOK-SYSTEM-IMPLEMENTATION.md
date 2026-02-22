@@ -166,7 +166,7 @@ export QUARTO_COMMIT_TIMING=1
 
 # Add validation summary to commits (default: off)
 export QUARTO_COMMIT_SUMMARY=1
-```diff
+```
 
 ## Test Coverage
 
@@ -222,7 +222,7 @@ teach hooks status
 
 # Upgrade hooks (when flow-cli updates)
 teach hooks upgrade
-```bash
+```
 
 ### Daily Workflow
 
@@ -248,7 +248,7 @@ git push origin main
 #   ✓ _site/index.html exists
 #   ✓ Site has 127 files
 #   ✓ Site built 2 hours ago
-```bash
+```
 
 ### Enable Full Rendering
 
@@ -258,7 +258,7 @@ export QUARTO_PRE_COMMIT_RENDER=1
 
 # Or set per-commit
 QUARTO_PRE_COMMIT_RENDER=1 git commit -m "..."
-```bash
+```
 
 ### Parallel Rendering
 
@@ -270,7 +270,7 @@ export QUARTO_MAX_PARALLEL=8
 git add lectures/*.qmd
 git commit -m "feat: add all week 1 lectures"
 # → Renders 5 files in parallel (max 8 jobs)
-```text
+```
 
 ## Architecture
 
@@ -327,7 +327,7 @@ Pre-Push Hook:
 │    │  └─ Block _freeze/ in commits      │
 │    └─ If draft/feature/dev: skip        │
 └─────────────────────────────────────────┘
-```bash
+```
 
 ### Version Management
 
@@ -335,7 +335,7 @@ Hooks use semantic versioning (X.Y.Z) embedded in the file:
 
 ```bash
 # Version: 1.0.0
-```diff
+```
 
 Version comparison logic:
 - `1.0.0 == 1.0.0` → Up to date
@@ -353,7 +353,7 @@ teach hooks install      # Install all hooks
 teach hooks upgrade      # Upgrade to latest version
 teach hooks status       # Show hook status
 teach hooks uninstall    # Remove flow-managed hooks
-```bash
+```
 
 ### teach-dispatcher Integration
 
@@ -366,7 +366,7 @@ if [[ -z "$_FLOW_HOOK_INSTALLER_LOADED" ]]; then
     [[ -f "$hook_installer_path" ]] && source "$hook_installer_path"
     typeset -g _FLOW_HOOK_INSTALLER_LOADED=1
 fi
-```zsh
+```
 
 Then add hook commands to the dispatcher case statement:
 
@@ -386,7 +386,7 @@ teach() {
     # ... other commands
   esac
 }
-```diff
+```
 
 ## Performance
 
@@ -420,7 +420,7 @@ teach hooks status
 
 # Reinstall if needed
 teach hooks install --force
-```bash
+```
 
 #### 2. "yq not found" warning
 
@@ -430,7 +430,7 @@ brew install yq
 
 # Or skip YAML validation (not recommended)
 # Hook will continue with warnings
-```bash
+```
 
 #### 3. "quarto not found" warning
 
@@ -439,7 +439,7 @@ brew install yq
 brew install quarto
 
 # Or the hook will skip syntax validation
-```bash
+```
 
 #### 4. Commit blocked by _freeze/
 
@@ -449,7 +449,7 @@ git restore --staged _freeze/
 
 # Add to .gitignore if needed
 echo "_freeze/" >> .gitignore
-```bash
+```
 
 #### 5. Pre-push blocked: "_site/ not found"
 
@@ -459,7 +459,7 @@ quarto render
 
 # Then push again
 git push
-```text
+```
 
 ### Debug Mode
 

@@ -21,7 +21,7 @@ Before starting, you should:
 dash | grep -E "ACTIVE|READY"
 
 # Should see at least 2-3 projects
-```yaml
+```
 
 ---
 
@@ -51,7 +51,7 @@ Flow CLI helps you juggle these without losing track:
 │  All Projects│ --> │Filter Category│ --> │ Work on One │
 │   (dash)     │     │  (dash X)     │     │   (work X)   │
 └──────────────┘     └──────────────┘     └──────────────┘
-```text
+```
 
 ---
 
@@ -63,7 +63,7 @@ Start by seeing everything:
 
 ```bash
 dash
-```text
+```
 
 **What happened:** You see projects grouped by status:
 
@@ -83,7 +83,7 @@ dash
   📊 product-of-three [P1] 60% - Review simulations
   📦 rmediation [P2] 0% - Add new feature
   📚 causal-inference [P2] 0% - Prep next semester
-```bash
+```
 
 > **Note:** Too many active projects? This is common - we'll fix it!
 
@@ -94,7 +94,7 @@ Focus on one type of work:
 ```bash
 # Teaching projects only
 dash teaching
-```text
+```
 
 **What happened:** Shows only teaching-related projects:
 
@@ -106,7 +106,7 @@ dash teaching
 🔥 ACTIVE (2):
   📚 stat-440 [P0] 60% - Grade midterms
   📚 causal-inference [P2] 0% - Prep next semester
-```text
+```
 
 **Other category filters:**
 
@@ -114,7 +114,7 @@ dash teaching
 dash research      # Research projects only
 dash packages      # R packages only
 dash dev           # Development tools
-```bash
+```
 
 ### Step 1.3: Prioritize What Matters
 
@@ -125,7 +125,7 @@ Identify which projects should be active:
 dash | grep P0     # Critical projects
 dash | grep P1     # Important projects
 dash | grep P2     # Normal projects
-```diff
+```
 
 ### Checkpoint
 
@@ -141,7 +141,7 @@ At this point, you should have:
 # Count active projects
 dash | grep "ACTIVE NOW" -A 20 | grep -c "%"
 # Expected: Number of your active projects (should be 2-4 ideally)
-```bash
+```
 
 ---
 
@@ -163,7 +163,7 @@ work collider
 # Evening: Package development
 dash packages
 work mediationverse
-```text
+```
 
 ### Step 2.2: Priority-Based Switching
 
@@ -171,7 +171,7 @@ Let Flow pick based on priority:
 
 ```bash
 just-start
-```text
+```
 
 **What happened:** Flow selects the highest-priority project automatically:
 
@@ -186,7 +186,7 @@ just-start
 │ Reason:  P0 priority + active               │
 │ Next:    Grade midterms                     │
 └─────────────────────────────────────────────┘
-```text
+```
 
 **How it picks:**
 
@@ -201,7 +201,7 @@ Use the project picker for fuzzy search:
 
 ```bash
 pick
-```text
+```
 
 **What happened:** Interactive fuzzy finder shows all projects. Type to filter:
 
@@ -214,7 +214,7 @@ pick
   📦 medfit
   📦 rmediation
   📚 mediation-planning
-```bash
+```
 
 Use arrow keys to select, press Enter to navigate.
 
@@ -230,7 +230,7 @@ work mediationverse
 work med           # → mediationverse
 work stat          # → stat-440
 work coll          # → collider
-```diff
+```
 
 ### Checkpoint
 
@@ -246,7 +246,7 @@ At this point, you should have:
 ```bash
 pwd
 # Expected: You're in a different project than you started
-```bash
+```
 
 ---
 
@@ -259,7 +259,7 @@ Too many active projects? Pause the less urgent ones:
 ```bash
 # Pause a project
 status medfit
-```text
+```
 
 Interactive prompt:
 
@@ -277,13 +277,13 @@ Progress? [30]
 > 30
 
 ✅ Updated!
-```text
+```
 
 Or quick mode:
 
 ```bash
 status medfit paused P2 "Resume later" 30
-```text
+```
 
 ### Step 3.2: Reactivate Projects
 
@@ -291,7 +291,7 @@ When ready to resume:
 
 ```bash
 status medfit active P1 "Add package vignettes" 30
-```text
+```
 
 ### Step 3.3: Mark Projects as Blocked
 
@@ -299,14 +299,14 @@ If waiting on something:
 
 ```bash
 status collider blocked P1 "Waiting for reviewer comments" 90
-```text
+```
 
 **What happened:** Project moves to BLOCKED section in dashboard:
 
 ```text
 🚫 BLOCKED (1):
   📊 collider [P1] 90% - Waiting for reviewer comments
-```bash
+```
 
 ### Step 3.4: Set Realistic Priorities
 
@@ -321,7 +321,7 @@ status product-of-three active P1 "Review sims" 60
 
 # Normal (when you can)
 status medfit paused P2 "Resume later" 30
-```diff
+```
 
 **Priority guidelines:**
 
@@ -346,7 +346,7 @@ At this point, you should have:
 ```bash
 dash
 # Expected: Fewer ACTIVE projects, some PAUSED/BLOCKED
-```bash
+```
 
 ---
 
@@ -366,7 +366,7 @@ work .
 
 # 4. Set focus timer
 f25
-```bash
+```
 
 **Time:** <30 seconds
 **Result:** Working on most important teaching task
@@ -385,7 +385,7 @@ f50
 
 # 4. Work, then update
 status . active P1 "Completed analysis" 95
-```bash
+```
 
 **Time:** <20 seconds
 **Result:** Focused research session
@@ -407,7 +407,7 @@ rdoc
 # 4. Commit progress
 gaa && gcmsg "feat: add new mediator"
 status . active P0 "Testing complete" 90
-```bash
+```
 
 **Time:** Varies by development
 **Result:** Incremental package progress
@@ -430,7 +430,7 @@ status mediationverse active P0 "Almost done" 95
 
 # 4. Pause what you can't do this week
 status medfit paused P2 "Next week" 30
-```bash
+```
 
 **Time:** 5-10 minutes weekly
 **Result:** Realistic priorities set
@@ -453,7 +453,7 @@ f25
 # 4. Return to original
 work mediationverse
 status . active P0 "Resume work" 75
-```bash
+```
 
 ---
 
@@ -491,7 +491,7 @@ status flow-cli active P1 "Documentation" 95
 # 4. Verify
 dash
 # Should see 2-4 active, rest paused
-```bash
+```
 
 </details>
 
@@ -523,7 +523,7 @@ work mediationverse
 f25
 # ... work ...
 status . active P0 "All tests pass" 90
-```bash
+```
 
 </details>
 
@@ -555,7 +555,7 @@ status . ready P2 "Done - archive if needed" 100
 # 5. Resume original work
 work current-project
 status . active P1 "Resume work" 60
-```bash
+```
 
 </details>
 
@@ -575,7 +575,7 @@ dash | grep ACTIVE
 # Pick 2-3 most important
 # Pause the rest
 status project-name paused P2 "Do later" X
-```bash
+```
 
 ### "Can't decide what to work on"
 
@@ -590,7 +590,7 @@ just-start
 # Or filter and pick
 dash teaching      # Focus on one category
 work stat-440      # Pick the urgent one
-```bash
+```
 
 ### "Switching too frequently"
 
@@ -607,7 +607,7 @@ dash teaching && work . && f50
 dash research && work . && f50
 
 # Use timers to enforce focus
-```text
+```
 
 ---
 
@@ -633,7 +633,7 @@ work <name>        # Switch to project
 status . paused    # Pause current
 status . active    # Activate project
 status . blocked   # Mark blocked
-```diff
+```
 
 **Key insights:**
 

@@ -23,7 +23,7 @@ First, verify Claude CLI is installed:
 
 ```bash
 command -v claude && echo "✅ Claude CLI found" || echo "❌ Install: npm i -g @anthropic-ai/claude-code"
-```text
+```
 
 ---
 
@@ -35,7 +35,7 @@ Ask AI anything about your project:
 
 ```bash
 flow ai "what testing framework should I use for this project?"
-```diff
+```
 
 The AI receives context about:
 
@@ -50,7 +50,7 @@ Get explanations of code or concepts:
 
 ```bash
 flow ai --explain "what does this regex do: ^##\s*Focus:"
-```text
+```
 
 ### Fix Mode
 
@@ -58,7 +58,7 @@ Get help fixing problems:
 
 ```bash
 flow ai --fix "my tests are failing with 'command not found'"
-```text
+```
 
 ### Suggest Mode
 
@@ -66,7 +66,7 @@ Get improvement suggestions:
 
 ```bash
 flow ai --suggest "make this function more efficient"
-```text
+```
 
 ### Create Mode
 
@@ -74,7 +74,7 @@ Generate code from descriptions:
 
 ```bash
 flow ai --create "a function that validates email addresses"
-```bash
+```
 
 ---
 
@@ -96,7 +96,7 @@ flow do "count lines of code in zsh files"
 
 # Check disk usage
 flow do "show largest files in current directory"
-```text
+```
 
 ### Dry Run Mode
 
@@ -104,7 +104,7 @@ See what command would run without executing:
 
 ```bash
 flow do --dry-run "delete all .bak files"
-```text
+```
 
 Output:
 
@@ -113,7 +113,7 @@ Output:
 📝 Command: find . -name "*.bak" -delete
 
 ⚠️  DRY RUN - command not executed
-```text
+```
 
 ### Safety Features
 
@@ -121,7 +121,7 @@ Dangerous commands require confirmation:
 
 ```bash
 flow do "remove all files"
-```text
+```
 
 Output:
 
@@ -131,7 +131,7 @@ Output:
 
 This command could cause data loss.
 Execute anyway? [y/N]:
-```bash
+```
 
 ---
 
@@ -148,7 +148,7 @@ stuck --ai
 
 # Describe your specific problem
 stuck --ai "can't figure out why the tests pass locally but fail in CI"
-```bash
+```
 
 The AI will:
 
@@ -164,7 +164,7 @@ next
 
 # Get AI-powered suggestion
 next --ai
-```diff
+```
 
 The AI considers:
 
@@ -182,7 +182,7 @@ Force context inclusion even for simple queries:
 
 ```bash
 flow ai --context "should I use async here?"
-```text
+```
 
 ### Verbose Mode
 
@@ -190,7 +190,7 @@ See what context is being sent to AI:
 
 ```bash
 flow ai --verbose "how do I add a new command?"
-```text
+```
 
 Output:
 
@@ -203,7 +203,7 @@ Changed files: 3
 ...
 
 🤖 Asking AI...
-```bash
+```
 
 ### Combine Modes
 
@@ -213,7 +213,7 @@ flow ai --explain --context "the _flow_detect_type function"
 
 # Fix with verbose output
 flow ai --fix --verbose "completion not working"
-```yaml
+```
 
 ---
 

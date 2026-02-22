@@ -91,7 +91,7 @@ Creates a timestamped backup of content.
 teach backup create lectures/week-01    # Auto timestamp
 teach backup create exams/midterm       # Backup exam
 teach backup create .                   # Backup all
-```text
+```
 
 ### teach backup list
 
@@ -101,7 +101,7 @@ Lists all backups for content.
 teach backup list                       # List all
 teach backup list lectures/week-01      # List specific
 teach backup list --recent 5            # Show 5 most recent
-```text
+```
 
 ### teach backup restore
 
@@ -111,7 +111,7 @@ Restores content from a backup.
 teach backup restore lectures.2026-01-20-1430
 teach backup restore lectures.2026-01-20-1430 --force  # Skip confirmation
 teach backup restore lectures.2026-01-20-1430 --dry-run  # Preview only
-```text
+```
 
 ### teach backup delete
 
@@ -120,7 +120,7 @@ Permanently deletes a backup.
 ```bash
 teach backup delete old-backup
 teach backup delete old-backup --force  # Skip confirmation
-```text
+```
 
 ### teach backup archive
 
@@ -129,7 +129,7 @@ Archives semester backups based on retention policies.
 ```bash
 teach backup archive spring-2026
 teach backup archive spring-2026 --compress  # Create .tar.gz
-```text
+```
 
 ---
 
@@ -149,13 +149,13 @@ lectures/
     ├── week-01-intro.2026-01-17-0915/
     ├── week-02-regression.2026-01-18-1045/
     └── week-03-inference.2026-01-18-1345/
-```text
+```
 
 ### Timestamp Format
 
 ```text
 <content-name>.<YYYY-MM-DD-HHMM>/
-```diff
+```
 
 Examples:
 - `midterm.2026-01-18-1430/` - Created Jan 18, 2026 at 2:30 PM
@@ -173,7 +173,7 @@ exams/
     │   └── midterm.qmd
     └── midterm.2026-01-15-1620/    # Last week, initial version
         └── midterm.qmd
-```yaml
+```
 
 ---
 
@@ -197,7 +197,7 @@ backups:
     assessments: archive    # Exams, quizzes keep forever
     lectures: semester      # Lectures deleted at semester end
     syllabi: archive        # Syllabi keep forever
-```yaml
+```
 
 ### Content Type Mapping
 
@@ -221,7 +221,7 @@ backups:
     assessments: archive
     lectures: archive      # Changed from semester
     syllabi: archive
-```yaml
+```
 
 Or be more aggressive:
 
@@ -232,7 +232,7 @@ backups:
     assessments: archive   # Only exams kept
     lectures: semester     # All others deleted
     syllabi: semester      # Changed from archive
-```bash
+```
 
 ---
 
@@ -247,7 +247,7 @@ Most commands automatically create backups:
 teach exam "Midterm"       # Backup created automatically
 teach lecture "Topic"      # Backup created automatically
 teach assignment "HW3"     # Backup created automatically
-```bash
+```
 
 ### Manual Creation
 
@@ -259,7 +259,7 @@ _teach_backup_content lectures/week-05.qmd
 
 # Returns path to backup
 # /path/to/lectures/.backups/week-05.2026-01-18-1430
-```text
+```
 
 ### Backup Confirmation
 
@@ -268,7 +268,7 @@ After creating content, you'll see:
 ```text
 ✓ Content created: lectures/week-05-regression.qmd
 ✓ Backup created: lectures/.backups/week-05-regression.2026-01-18-1430/
-```text
+```
 
 ---
 
@@ -278,7 +278,7 @@ After creating content, you'll see:
 
 ```bash
 teach status
-```text
+```
 
 Output:
 
@@ -291,7 +291,7 @@ Backup Summary:
     • Exams:       3 backups (4.2 MB)
     • Lectures:    5 backups (8.1 MB)
     • Assignments: 4 backups (2.3 MB)
-```bash
+```
 
 ### Via Filesystem
 
@@ -304,7 +304,7 @@ find . -type d -name ".backups" | wc -l
 
 # Find specific content backups
 ls -lht lectures/.backups/
-```bash
+```
 
 ### Advanced: List Function
 
@@ -316,7 +316,7 @@ _teach_list_backups lectures/week-05.qmd
 # lectures/.backups/week-05.2026-01-18-1430
 # lectures/.backups/week-05.2026-01-17-0915
 # lectures/.backups/week-05.2026-01-15-1620
-```bash
+```
 
 ### Check Backup Size
 
@@ -325,7 +325,7 @@ _teach_list_backups lectures/week-05.qmd
 _teach_backup_size lectures/week-05.qmd
 
 # Output: 1.2M
-```bash
+```
 
 ### Count Backups
 
@@ -334,7 +334,7 @@ _teach_backup_size lectures/week-05.qmd
 _teach_count_backups lectures/week-05.qmd
 
 # Output: 3
-```bash
+```
 
 ---
 
@@ -352,7 +352,7 @@ ls -lt lectures/.backups/
 # 3. Copy content back
 cp -R lectures/.backups/week-05.2026-01-17-0915/week-05.qmd \
       lectures/week-05.qmd
-```bash
+```
 
 ### Restore with Backup
 
@@ -366,7 +366,7 @@ cp -R lectures/.backups/week-05.2026-01-17-0915/week-05.qmd \
 
 # 3. Verify
 cat lectures/week-05.qmd | head -20
-```bash
+```
 
 ### Compare Versions
 
@@ -378,7 +378,7 @@ diff lectures/week-05.qmd \
 # Or with better formatting
 diff -u lectures/week-05.qmd \
         lectures/.backups/week-05.2026-01-17-0915/week-05.qmd | less
-```bash
+```
 
 ### Partial Restore
 
@@ -392,7 +392,7 @@ awk '/^## Section 2/,/^## Section 3/' \
     lectures/.backups/week-05.2026-01-17-0915/week-05.qmd > section2.md
 
 # 3. Manually merge into current file
-```bash
+```
 
 ### Using Git (Alternative)
 
@@ -407,7 +407,7 @@ git show <commit-hash>:lectures/week-05.qmd
 
 # Restore from git
 git checkout <commit-hash> -- lectures/week-05.qmd
-```bash
+```
 
 ---
 
@@ -432,7 +432,7 @@ _teach_delete_backup lectures/.backups/week-05.2026-01-15-1620
 # ⚠ This action cannot be undone!
 #
 # Delete this backup? [y/N]
-```text
+```
 
 ### Force Delete (Scripts)
 
@@ -440,7 +440,7 @@ Skip confirmation for automation:
 
 ```bash
 _teach_delete_backup lectures/.backups/week-05.2026-01-15-1620 --force
-```bash
+```
 
 ### Delete All Old Backups
 
@@ -450,7 +450,7 @@ find . -type d -name "*.2025-*" -path "*/.backups/*" -exec rm -rf {} \;
 
 # Delete all backups for specific content
 rm -rf lectures/.backups/week-05.*
-```bash
+```
 
 ### Preview Cleanup
 
@@ -467,7 +467,7 @@ _teach_preview_cleanup lectures/week-05.qmd exam
 #   Policy:    archive
 #
 #   ✓ All 3 backups will be archived
-```text
+```
 
 ---
 
@@ -479,7 +479,7 @@ At end of semester:
 
 ```bash
 teach archive "Spring 2025"
-```text
+```
 
 **Process:**
 
@@ -510,7 +510,7 @@ teach archive "Spring 2025"
     • lecture-week03-backups
     • slides-week01-backups
     • slides-week02-backups
-```text
+```
 
 ### Archive Structure
 
@@ -525,7 +525,7 @@ teach archive "Spring 2025"
     │   └── syllabus-backups/
     └── Fall-2024/
         └── ...
-```bash
+```
 
 ### Archive Queries
 
@@ -541,7 +541,7 @@ du -sh .flow/archives/Spring-2025/
 
 # Total archive size
 du -sh .flow/archives/
-```bash
+```
 
 ### Restore from Archive
 
@@ -549,7 +549,7 @@ du -sh .flow/archives/
 # Copy archived backup back
 cp -R .flow/archives/Spring-2025/exam-midterm-backups/ \
       exams/.backups/
-```yaml
+```
 
 ---
 
@@ -566,14 +566,14 @@ backups:
     lectures: semester
     syllabi: archive
   archive_dir: .flow/archives
-```yaml
+```
 
 ### Disable Backups (Not Recommended)
 
 ```yaml
 backups:
   enabled: false
-```yaml
+```
 
 ⚠️ **Warning:** Disabling backups removes safety net. Use git instead.
 
@@ -582,14 +582,14 @@ backups:
 ```yaml
 backups:
   archive_dir: ../course-archives  # Outside project
-```yaml
+```
 
 Or:
 
 ```yaml
 backups:
   archive_dir: /Volumes/Backup/teaching/archives  # External drive
-```yaml
+```
 
 ### Per-Project Configuration
 
@@ -602,7 +602,7 @@ backups:
     assessments: archive   # Keep only exams
     lectures: semester     # Delete everything else
     syllabi: semester
-```bash
+```
 
 ---
 
@@ -618,7 +618,7 @@ teach status
 # - Last backup timestamp (should be recent)
 # - Total backup count (should grow over semester)
 # - Backup sizes (watch for excessive growth)
-```bash
+```
 
 ### 2. Archive Every Semester
 
@@ -629,7 +629,7 @@ teach archive "Spring 2025"
 # Verify archive
 ls -lh .flow/archives/Spring-2025/
 du -sh .flow/archives/Spring-2025/
-```bash
+```
 
 ### 3. Don't Rely on Backups Alone
 
@@ -643,7 +643,7 @@ teach lecture "Week 6"                # Automatic backup
 # Result:
 # - Git history for large-scale recovery
 # - Backups for quick restoration
-```bash
+```
 
 ### 4. Clean Up Periodically
 
@@ -660,7 +660,7 @@ for backup_dir in */.backups/*; do
       xargs -I {} rm -rf "$backup_dir/{}"
   fi
 done
-```bash
+```
 
 ### 5. Backup Configuration
 
@@ -671,7 +671,7 @@ cp .flow/teach-config.yml .flow/teach-config.yml.backup
 # Or commit to git
 g add .flow/teach-config.yml
 g commit "docs: update backup retention policies"
-```bash
+```
 
 ### 6. Test Restores
 
@@ -687,7 +687,7 @@ echo "test change" >> lectures/test.qmd
 cp lectures/.backups/test.LATEST/test.qmd lectures/test.qmd
 
 # 4. Verify original content restored
-```text
+```
 
 ---
 
@@ -699,20 +699,20 @@ cp lectures/.backups/test.LATEST/test.qmd lectures/test.qmd
 
 ```bash
 yq '.backups.enabled // true' .flow/teach-config.yml
-```text
+```
 
 **Verify Scholar integration:**
 
 ```bash
 teach doctor
-```bash
+```
 
 **Manual backup test:**
 
 ```bash
 _teach_backup_content lectures/test.qmd
 ls -lht lectures/.backups/
-```bash
+```
 
 ### Can't Restore Backup
 
@@ -721,13 +721,13 @@ ls -lht lectures/.backups/
 ```bash
 ls -ld lectures/.backups/
 ls -lh lectures/.backups/week-05.TIMESTAMP/
-```bash
+```
 
 **Fix permissions:**
 
 ```bash
 chmod -R u+rw lectures/.backups/
-```bash
+```
 
 **Verify backup integrity:**
 
@@ -737,7 +737,7 @@ ls -lh lectures/.backups/week-05.TIMESTAMP/
 
 # Check file contents
 cat lectures/.backups/week-05.TIMESTAMP/week-05.qmd | head
-```text
+```
 
 ### Excessive Backup Size
 
@@ -746,13 +746,13 @@ cat lectures/.backups/week-05.TIMESTAMP/week-05.qmd | head
 ```bash
 teach status  # View backup summary
 du -sh */.backups/
-```bash
+```
 
 **Identify large backups:**
 
 ```bash
 du -sh */.backups/* | sort -hr | head -10
-```bash
+```
 
 **Solutions:**
 
@@ -782,14 +782,14 @@ du -sh */.backups/* | sort -hr | head -10
 
 ```bash
 df -h .
-```bash
+```
 
 **Check permissions:**
 
 ```bash
 ls -ld .flow/
 mkdir -p .flow/archives  # Ensure exists
-```bash
+```
 
 **Manual archive:**
 
@@ -799,7 +799,7 @@ mkdir -p .flow/archives/Spring-2025
 
 # Move backups manually
 mv exams/.backups .flow/archives/Spring-2025/exam-backups
-```bash
+```
 
 ### Lost Backup Metadata
 
@@ -807,7 +807,7 @@ mv exams/.backups .flow/archives/Spring-2025/exam-backups
 
 ```bash
 find . -type d -name ".backups"
-```bash
+```
 
 **Reconstruct from timestamps:**
 
@@ -818,7 +818,7 @@ ls -lt lectures/.backups/
 # Rename if needed
 mv lectures/.backups/broken-name \
    lectures/.backups/week-05.$(date +%Y-%m-%d-%H%M)
-```bash
+```
 
 ---
 
@@ -854,7 +854,7 @@ for dir in exams lectures assignments quizzes slides syllabi rubrics; do
     echo "  $dir: $count backups ($size)"
   fi
 done
-```bash
+```
 
 **Automatic cleanup:**
 
@@ -885,7 +885,7 @@ for content_dir in lectures exams assignments; do
     done
   done
 done
-```bash
+```
 
 ### Integration with External Storage
 
@@ -899,7 +899,7 @@ rsync -av --delete .flow/archives/ \
 # Sync to external drive
 rsync -av --delete .flow/archives/ \
       /Volumes/Backup/teaching/archives/
-```bash
+```
 
 **Scheduled backup:**
 
@@ -910,7 +910,7 @@ crontab -e
 # Daily backup to external drive at 11 PM
 0 23 * * * cd ~/teaching/stat-440 && \
   rsync -av .flow/archives/ /Volumes/Backup/
-```bash
+```
 
 ---
 

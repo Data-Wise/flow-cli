@@ -29,7 +29,7 @@ Think of your project like a house:
 
 ```text
 🏠 One house = One project
-```text
+```
 
 **Monorepo (this project):**
 
@@ -37,7 +37,7 @@ Think of your project like a house:
 🏘️ One neighborhood = Multiple projects living together
    ├── 🏠 App house (desktop application)
    └── 🏠 CLI house (command-line tools)
-```bash
+```
 
 ### Why Does This Matter?
 
@@ -56,7 +56,7 @@ All commands follow this simple pattern:
 
 ```bash
 npm run [action]:[workspace]
-```diff
+```
 
 **Breaking it down:**
 - `npm run` - "Hey npm, run a command"
@@ -70,7 +70,7 @@ npm run test:cli
      ↑     ↑    ↑
     npm   test  cli
   (tool) (what) (where)
-```yaml
+```
 
 Translation: "Use npm to test the CLI workspace"
 
@@ -88,14 +88,14 @@ Translation: "Use npm to test the CLI workspace"
 
 ```bash
 npm run dev
-```text
+```
 
 **Example output:**
 
 ```text
 > Starting Electron app...
 > App running on http://localhost:3000
-```bash
+```
 
 ---
 
@@ -107,7 +107,7 @@ npm run dev
 
 ```bash
 npm run dev:app
-```diff
+```
 
 **Why two commands?**
 - `dev` = shortcut (most people want the app)
@@ -123,7 +123,7 @@ npm run dev:app
 
 ```bash
 npm run dev:cli
-```text
+```
 
 **Example output:**
 
@@ -132,7 +132,7 @@ npm run dev:cli
   ZSH Workflow CLI - Status Tests
 ═══════════════════════════════════════════════
 ✅ All status tests passed!
-```bash
+```
 
 ---
 
@@ -146,7 +146,7 @@ npm run dev:cli
 
 ```bash
 npm test
-```bash
+```
 
 **What happens:**
 1. Tests the app (using Jest)
@@ -163,7 +163,7 @@ npm test
 
 ```bash
 npm run test:app
-```bash
+```
 
 ---
 
@@ -175,7 +175,7 @@ npm run test:app
 
 ```bash
 npm run test:cli
-```text
+```
 
 **Example output:**
 
@@ -183,7 +183,7 @@ npm run test:cli
 🧪 Testing Status Adapter...
 Test 1: Get Current Session ✅
 Test 2: Get Project Status ✅
-```bash
+```
 
 ---
 
@@ -197,7 +197,7 @@ Test 2: Get Project Status ✅
 
 ```bash
 npm run build
-```diff
+```
 
 **What happens:**
 - Takes your source code
@@ -213,7 +213,7 @@ npm run build
 
 ```bash
 npm run build:app
-```bash
+```
 
 ---
 
@@ -225,7 +225,7 @@ npm run build:app
 
 ```bash
 npm run build:all
-```diff
+```
 
 **Note:** Right now this only builds the app, but in the future if you add more workspaces, this will build them all.
 
@@ -245,7 +245,7 @@ npm run build:all
 
 ```bash
 npm run clean
-```bash
+```
 
 **⚠️ Warning:** This deletes files! You'll need to run `npm install` after.
 
@@ -261,7 +261,7 @@ npm run clean
 
 ```bash
 npm run reset
-```diff
+```
 
 **Use this when:**
 - Weird errors you can't explain
@@ -288,7 +288,7 @@ What do you want to do?
 │
 └─ 🔧 Fix weird errors
    └─ npm run reset
-```bash
+```
 
 ---
 
@@ -307,7 +307,7 @@ npm test
 
 # Step 3: Run the app
 npm run dev
-```bash
+```
 
 **Time:** 2-5 minutes (depending on internet speed)
 
@@ -327,7 +327,7 @@ npm run dev
 npm run test:app
 
 # Step 3: If all good, you're done!
-```bash
+```
 
 ---
 
@@ -346,7 +346,7 @@ npm run test:cli
 
 # Step 3: Test everything to make sure nothing broke
 npm test
-```bash
+```
 
 ---
 
@@ -362,7 +362,7 @@ npm run reset
 
 # Test that it works now
 npm test
-```diff
+```
 
 **Common reasons you'd do this:**
 - "Module not found" errors
@@ -385,7 +385,7 @@ npm run build:all
 
 # Step 3: Find your built app
 ls app/dist/
-```diff
+```
 
 **Result:** You'll have a `.dmg` file (Mac) or `.exe` (Windows) you can distribute
 
@@ -418,7 +418,7 @@ npm run test:cli
 
 # Did you see this?
 # ✅ All status tests passed!
-```bash
+```
 
 **✅ Success!** You just ran your first monorepo command!
 
@@ -435,7 +435,7 @@ npm run test:cli
 
 # 3. Test BOTH
 npm test
-```bash
+```
 
 **Notice:** The third command runs both of the first two!
 
@@ -446,7 +446,7 @@ npm test
 ```bash
 # See all available commands
 npm run
-```diff
+```
 
 **Look for:**
 - All the commands we learned
@@ -464,7 +464,7 @@ npm run testcli
 
 # ✅ Right
 npm run test:cli
-```bash
+```
 
 **Remember:** Action**:**workspace (with the colon!)
 
@@ -480,7 +480,7 @@ npm run dev:app  # Won't work!
 # ✅ Right (in root folder)
 cd /Users/dt/projects/dev-tools/flow-cli/
 npm run dev:app  # Works!
-```bash
+```
 
 **Remember:** Always run from the **root** of the project (where the main `package.json` is)
 
@@ -495,7 +495,7 @@ npm run dev     # Error: modules not found
 # ✅ Right order
 npm install     # Install first
 npm run dev     # Then run
-```diff
+```
 
 **Remember:** First time? Run `npm install` before anything else!
 
@@ -556,7 +556,7 @@ Congratulations! You now know:
 # One big test command
 npm test
 # Tests EVERYTHING (slow!)
-```bash
+```
 
 **Workspace approach:**
 
@@ -565,7 +565,7 @@ npm test
 npm run test:cli   # Fast! Only CLI
 npm run test:app   # Fast! Only app
 npm test           # Slow but thorough
-```bash
+```
 
 **Benefit:** Faster feedback while developing!
 
@@ -580,7 +580,7 @@ npm run dev:app   # Dev mode for app
 npm run dev:cli   # Dev mode for CLI
 npm run test:app  # Test app
 npm run test:cli  # Test CLI
-```diff
+```
 
 **Pattern recognition:** Your brain learns the pattern quickly!
 - First part = action (dev, test, build)
@@ -602,13 +602,13 @@ Sometimes `node_modules/` gets corrupted:
 ```bash
 npm run clean   # Delete everything
 npm install     # Fresh start
-```bash
+```
 
 **Shortcut:**
 
 ```bash
 npm run reset   # Does both!
-```diff
+```
 
 **When to use:**
 - After pulling big changes from git
@@ -636,7 +636,7 @@ npm run test:app  # or test:cli
 
 # 5. Something broken?
 npm run reset
-```bash
+```
 
 **That's it! You're ready to go! 🚀**
 
@@ -651,7 +651,7 @@ npm run reset
 ```bash
 # Just type this to see ALL commands
 npm run
-```diff
+```
 
 **Forget which workspace?**
 - `app` = Desktop application
@@ -668,7 +668,7 @@ npm run test:app   # Super fast
 
 # Full test when done
 npm test           # Comprehensive
-```text
+```
 
 ### Dopamine Hits
 

@@ -14,7 +14,7 @@
 │ ↓                                                           │
 │ Pure ZSH (no dependencies)                                  │
 └─────────────────────────────────────────────────────────────┘
-```diff
+```
 
 **You can use flow-cli:**
 - ✅ Without any plugin manager (manual install)
@@ -54,7 +54,7 @@ if [[ -d "$HOME/.oh-my-zsh" ]]; then
 elif [[ -f "$HOME/.antidoterc" ]]; then
     echo "  ✓ antidote (plugin manager)"
 fi
-```text
+```
 
 ---
 
@@ -72,7 +72,7 @@ Great question! These are **two completely different things**:
 └── custom/                      # Your plugins
     └── plugins/
         └── flow-cli/            ← flow-cli installed HERE
-```diff
+```
 
 **Characteristics:**
 - ❌ Large installation (~50MB)
@@ -89,7 +89,7 @@ Great question! These are **two completely different things**:
 │   ├── ohmyzsh/.../git          ← OMZ git plugin
 │   └── ohmyzsh/.../docker       ← OMZ docker plugin
 └── .zsh_plugins.zsh             # Auto-generated cache
-```diff
+```
 
 **NO ~/.oh-my-zsh/ directory!**
 
@@ -109,7 +109,7 @@ Great question! These are **two completely different things**:
 Plugin Manager:  antidote (modern, fast)
 Plugins Used:    18 OMZ plugins + 4 community + flow-cli
 OMZ Directory:   NONE (no ~/.oh-my-zsh/)
-```diff
+```
 
 **You get:**
 - OMZ's excellent plugins (git, docker, clipboard, etc.)
@@ -151,7 +151,7 @@ OMZ Directory:   NONE (no ~/.oh-my-zsh/)
 ohmyzsh/ohmyzsh path:lib         # YOU load this (optional)
 ohmyzsh/ohmyzsh path:plugins/git # YOU load this (optional)
 Data-Wise/flow-cli               # flow-cli (independent)
-```zsh
+```
 
 All three plugins **coexist independently**.
 
@@ -174,7 +174,7 @@ All three plugins **coexist independently**.
 # In flow-cli/lib/dispatchers/g-dispatcher.zsh
 unalias g 2>/dev/null            # Remove OMZ git alias
 g() { ... }                      # Replace with flow-cli dispatcher
-```bash
+```
 
 **Result:** flow-cli's `g` dispatcher wins, OMZ git aliases (ga, gco, etc.) still work.
 
@@ -193,7 +193,7 @@ gco         # git checkout
 gst         # git status
 gp          # git push
 # ... 226+ more aliases
-```text
+```
 
 **flow-cli `g` dispatcher provides:**
 
@@ -202,7 +202,7 @@ g status    # Enhanced status with branch info
 g push      # Token-validated push
 g commit    # Conventional commit wizard
 g feature   # Feature branch workflow
-```text
+```
 
 **Use together:**
 
@@ -210,7 +210,7 @@ g feature   # Feature branch workflow
 gaa                  # Quick add (OMZ)
 g commit             # Interactive commit (flow-cli)
 gp                   # Quick push (OMZ)
-```diff
+```
 
 ---
 
@@ -247,7 +247,7 @@ zinit list                         # Zinit
 # Check specific plugins
 which g                            # Shows if flow-cli dispatcher
 alias | grep "^g"                  # Shows if OMZ git plugin
-```zsh
+```
 
 ---
 
@@ -264,7 +264,7 @@ echo 'source ~/.flow-cli/flow.plugin.zsh' >> ~/.zshrc
 
 # 3. Reload
 source ~/.zshrc
-```zsh
+```
 
 **No plugin manager required!**
 
@@ -278,7 +278,7 @@ source ~/.zshrc
 # Benchmark
 time ( source flow.plugin.zsh )
 # → ~5-8ms (negligible)
-```diff
+```
 
 **Optimizations:**
 - Load guards prevent double-sourcing
@@ -323,7 +323,7 @@ Covers:
    - zinit
    - Oh-My-Zsh
    - Manual install
-```text
+```
 
 ### Plugin Ecosystem (Optional)
 

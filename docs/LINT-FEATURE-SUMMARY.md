@@ -21,7 +21,7 @@ teach validate --lint
 
 # Quick checks only
 teach validate --quick-checks
-```diff
+```
 
 ---
 

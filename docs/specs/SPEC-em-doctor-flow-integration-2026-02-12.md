@@ -84,7 +84,7 @@ flowchart TD
 
     style Email fill:#e1f5fe
     style Fix fill:#fff3e0
-```text
+```
 
 ### Section Placement in flow doctor
 
@@ -92,7 +92,7 @@ flowchart TD
 SHELL → REQUIRED → RECOMMENDED → OPTIONAL → INTEGRATIONS
 → 📧 EMAIL (new, conditional)
 → DOTFILES → PLUGIN MANAGER → ZSH PLUGINS → FLOW-CLI → GITHUB TOKEN → ALIASES
-```bash
+```
 
 ## API Design
 
@@ -106,7 +106,7 @@ _doctor_check_email()
 # Side effects: Populates _doctor_missing_brew[], _doctor_missing_pip[]
 # Output:   Formatted status lines to stdout
 # Verbose:  Tests IMAP connectivity (account, fetch, OAuth2, SMTP config)
-```bash
+```
 
 ### New Function: `_doctor_email_connectivity()`
 
@@ -119,7 +119,7 @@ _doctor_email_connectivity()
 #           4. SMTP config validation (parse config.toml, verify host/port/auth set)
 # Output:   Status lines with yellow warnings on failure
 # Latency:  ~3-5s total (all 4 checks)
-```bash
+```
 
 ### New Function: `_doctor_email_setup()`
 
@@ -133,7 +133,7 @@ _doctor_email_setup()
 #           5. Offer OAuth2 proxy setup (if Gmail/Outlook detected)
 #           6. Run connectivity test to verify
 # Output:   Step-by-step interactive prompts with colored feedback
-```bash
+```
 
 ### New Fix Category
 
@@ -143,14 +143,14 @@ if [[ ${#_doctor_missing_email_brew[@]} -gt 0 || "$_doctor_email_no_config" == t
     categories+=("email")
     category_info[email]="📧 Email Tools + Setup ($detail, ~${time})"
 fi
-```bash
+```
 
 ### New Flag (future): `--email`
 
 ```zsh
 # Mirrors --dot pattern for isolated email check
 doctor --email     # Check only EMAIL section
-```text
+```
 
 N/A for initial implementation — future enhancement.
 
@@ -185,7 +185,7 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
     Page size:   25
     Folder:      INBOX
     Config file: (none — using env defaults)
-```text
+```
 
 ### Fix Mode Menu (with email)
 
@@ -198,7 +198,7 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
 │                                                │
 │  0. Exit without fixing                        │
 ╰───────────────────────────────────────────────╯
-```text
+```
 
 ### Verbose Mode Output (--verbose)
 
@@ -223,7 +223,7 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
     Page size:   25
     Folder:      INBOX
     Config file: ~/.config/himalaya/config.toml
-```text
+```
 
 ### Verbose Connectivity Failure (warning, not error)
 
@@ -233,7 +233,7 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
     △ IMAP: connection timed out (check network/firewall)
     △ OAuth2: email-oauth2-proxy not running
     ○ SMTP config: not configured (send may fail)
-```text
+```
 
 ### Fix Mode Output (email setup)
 
@@ -264,7 +264,7 @@ N/A - No data model changes. Uses existing `_doctor_missing_brew[]`, `_doctor_mi
   ✓ Account config valid
   ✓ IMAP connected (fetched 1 message)
   ✓ Email setup complete!
-```diff
+```
 
 ### Provider Auto-Detection
 
@@ -348,7 +348,7 @@ else
         fi
     done
 fi
-```diff
+```
 
 ### Fix Mode Tracking
 

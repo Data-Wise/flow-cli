@@ -55,7 +55,7 @@ dot() ─── 4,395 lines
 ├── Dotfile mgmt (status, edit, sync, push, diff, apply, ignore, init, undo, env, doctor)
 ├── Secret mgmt (secret, secrets, unlock, lock, sync, bw integration)
 └── Token mgmt (token github, token npm, token pypi, token rotate, token refresh)
-```text
+```
 
 ### Target (3 Dispatchers)
 
@@ -101,7 +101,7 @@ tok() ─── ~1,300 lines
 ├── sync           # Sync to GitHub secrets
 ├── doctor/dr      # Token-specific diagnostics
 └── help           # Help
-```text
+```
 
 ### Mermaid Diagram
 
@@ -124,7 +124,7 @@ graph LR
     SEC -.->|keychain-helpers.zsh| SHARED[Shared Helpers]
     TOK -.->|keychain-helpers.zsh| SHARED
     DOTS -.->|dotfile-helpers.zsh| SHARED
-```yaml
+```
 
 ---
 
@@ -236,7 +236,7 @@ Each dispatcher gets a modernized help screen following the existing color schem
 │    $ dots doctor                                            │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 Cross-references between dispatchers in help output (RELATED section).
 

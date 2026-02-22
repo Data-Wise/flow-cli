@@ -28,7 +28,7 @@ flow --version  # Should show 5.20.0+
 
 # Check you're in a course directory
 ls .flow/teach-config.yml
-```diff
+```
 
 ---
 
@@ -66,7 +66,7 @@ flowchart LR
     style Phase1 fill:#2ecc71,color:#fff
     style Phase2 fill:#e67e22,color:#fff
     style Phase3 fill:#e74c3c,color:#fff
-```diff
+```
 
 ---
 
@@ -99,7 +99,7 @@ teach templates
 
 # Or use the full command
 teach templates list
-```text
+```
 
 **Example output:**
 
@@ -119,7 +119,7 @@ teach templates list
 │                                                             │
 │ Legend: [P] = Project override exists                       │
 ╰─────────────────────────────────────────────────────────────╯
-```bash
+```
 
 **Filter by type:**
 
@@ -132,7 +132,7 @@ teach templates list --source project
 
 # Only plugin defaults
 teach templates list --source plugin
-```bash
+```
 
 ---
 
@@ -149,7 +149,7 @@ teach templates new lab week-03
 
 # Create slides
 teach templates new slides week-05
-```text
+```
 
 **What happens:**
 
@@ -168,7 +168,7 @@ $ teach templates new lecture week-05
     {{WEEK}} → 05
     {{DATE}} → 2026-01-28
     {{COURSE}} → STAT-545
-```bash
+```
 
 ---
 
@@ -194,7 +194,7 @@ teach templates new lecture week-05 --topic "Linear Regression"
 # Or be prompted
 teach templates new lecture week-05
 # → Enter topic (or press Enter to skip): Linear Regression
-```diff
+```
 
 **Example template content:**
 
@@ -212,7 +212,7 @@ By the end of this lecture, students will be able to:
 
 1. [First objective for {{TOPIC}}]
 2. [Second objective]
-```bash
+```
 
 ---
 
@@ -237,14 +237,14 @@ edit .flow/templates/content/lecture.qmd
 
 # 3. Your version is now used for all new lectures
 teach templates new lecture week-06  # Uses YOUR template
-```bash
+```
 
 **Verify override:**
 
 ```bash
 teach templates list
 # Look for [P] marker indicating project override
-```sql
+```
 
 ---
 
@@ -258,7 +258,7 @@ teach templates sync --dry-run
 
 # Apply updates
 teach templates sync
-```text
+```
 
 **Example output:**
 
@@ -278,13 +278,13 @@ teach templates sync
 │ Skipped (project override):                                 │
 │   assignment.qmd: [P] won't overwrite your customizations   │
 ╰─────────────────────────────────────────────────────────────╯
-```text
+```
 
 **Force sync (overwrite project templates):**
 
 ```bash
 teach templates sync --force
-```bash
+```
 
 ---
 
@@ -298,7 +298,7 @@ teach templates validate
 
 # Validate specific template
 teach templates validate lecture.qmd
-```diff
+```
 
 **What's checked:**
 
@@ -314,7 +314,7 @@ teach templates validate lecture.qmd
 ✓ lab.qmd - Valid
 ✗ slides.qmd - Invalid
     Line 15: Unknown variable {{WEEK_NUM}} (did you mean {{WEEK}}?)
-```bash
+```
 
 ---
 
@@ -325,7 +325,7 @@ When creating a new course:
 ```bash
 # Create course with full template structure
 teach init "STAT 545" --with-templates
-```text
+```
 
 **Creates:**
 
@@ -343,7 +343,7 @@ teach init "STAT 545" --with-templates
 │   │   └── _metadata.yml
 │   └── checklists/
 │       └── pre-publish.md
-```diff
+```
 
 ---
 
@@ -370,7 +370,7 @@ teach init "STAT 545" --with-templates
 teach templates new lecture week-05 --topic "Hypothesis Testing"
 teach templates new lab week-05 --topic "t-tests in R"
 teach templates new slides week-05
-```bash
+```
 
 ### Template Customization Workflow
 
@@ -387,7 +387,7 @@ teach templates validate
 
 # 4. Use
 teach templates new lecture week-06
-```bash
+```
 
 ---
 
@@ -401,7 +401,7 @@ teach templates list
 
 # Check path
 ls .flow/templates/content/
-```bash
+```
 
 ### Variables not substituted
 
@@ -411,7 +411,7 @@ grep '{{' .flow/templates/content/lecture.qmd
 
 # Validate template
 teach templates validate lecture.qmd
-```bash
+```
 
 ### Sync not updating
 

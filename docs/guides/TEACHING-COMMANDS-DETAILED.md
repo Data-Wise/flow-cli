@@ -53,7 +53,7 @@ flowchart TB
     style init fill:#4CAF50,color:#fff
     style deploy fill:#2196F3,color:#fff
     style archive fill:#FF9800,color:#fff
-```text
+```
 
 ### Branch Strategy
 
@@ -73,7 +73,7 @@ gitGraph
     merge draft id: "Deploy v2" tag: "live"
     checkout draft
     commit id: "Week 4 materials"
-```text
+```
 
 **Key Principle:** You always work on `draft`. Students always see `production`. The `teach deploy` command safely moves changes between them.
 
@@ -122,7 +122,7 @@ flowchart TD
     style Start fill:#4CAF50,color:#fff
     style CreateConfig fill:#2196F3,color:#fff
     style End fill:#9E9E9E,color:#fff
-```text
+```
 
 #### Decision Tree
 
@@ -138,7 +138,7 @@ flowchart TD
 teach init "Course Name"              # Interactive mode
 teach init -y "Course Name"           # Non-interactive (safe defaults)
 teach init --dry-run "Course Name"    # Preview without changes
-```diff
+```
 
 **When to use:**
 - First time setting up a course repository
@@ -236,14 +236,14 @@ teach init "STAT 545"
 #
 # Next: push to GitHub
 # $ git push -u origin draft production
-```bash
+```
 
 **Non-interactive (safe defaults):**
 
 ```bash
 teach init -y "STAT 440"
 # Uses all defaults, completes in seconds
-```text
+```
 
 ---
 
@@ -315,7 +315,7 @@ flowchart TD
     style ErrorConfig fill:#f44336,color:#fff
     style ErrorDirty fill:#f44336,color:#fff
     style End fill:#9E9E9E,color:#fff
-```text
+```
 
 #### Pre-flight Checks Summary
 
@@ -333,7 +333,7 @@ flowchart TD
 ```bash
 teach deploy              # Standard PR workflow
 teach deploy --direct-push # Bypass PR (advanced users only)
-```diff
+```
 
 **Requirements:**
 - Must be in a git repository
@@ -432,7 +432,7 @@ teach deploy
 # ✅ Deployed to production in 47s
 # 🌐 Site: https://user.github.io/stat-545
 # ⏳ GitHub Actions deploying (usually < 2 min)
-```text
+```
 
 **Error scenarios:**
 
@@ -442,7 +442,7 @@ teach deploy
 ❌ Must be on draft branch
 Current branch: production
 Run: git checkout draft
-```text
+```
 
 **Uncommitted changes:**
 
@@ -451,7 +451,7 @@ Run: git checkout draft
 Commit or stash changes first:
 $ git add .
 $ git commit -m "your message"
-```diff
+```
 
 **Merge conflicts:**
 - Automatically resolves most conflicts
@@ -502,7 +502,7 @@ flowchart TD
     style Start fill:#9C27B0,color:#fff
     style RenderDashboard fill:#2196F3,color:#fff
     style End fill:#9E9E9E,color:#fff
-```text
+```
 
 #### Status Indicators
 
@@ -517,7 +517,7 @@ flowchart TD
 
 ```bash
 teach status
-```diff
+```
 
 **When to use:**
 - Starting a work session (quick orientation)
@@ -575,7 +575,7 @@ teach status
 │  💡 Tip: Run 'teach deploy' to publish changes     │
 │                                                    │
 ╰────────────────────────────────────────────────────╯
-```text
+```
 
 ---
 
@@ -617,7 +617,7 @@ flowchart TD
     style ShowWeek fill:#4CAF50,color:#fff
     style ShowBreak fill:#9C27B0,color:#fff
     style End fill:#9E9E9E,color:#fff
-```text
+```
 
 #### Week Calculation
 
@@ -636,14 +636,14 @@ flowchart LR
 
     Jan13 --> |14 days| Jan27
     Jan27 --> |14 ÷ 7 + 1| Result
-```text
+```
 
 **Syntax:**
 
 ```bash
 teach week           # Current week
 teach week 5         # Info for week 5
-```diff
+```
 
 **When to use:**
 - Planning course materials
@@ -665,7 +665,7 @@ Semester Timeline:
 
 ⚡ No breaks this week
 💡 Coming up: Spring Break (Mar 10-17)
-```diff
+```
 
 ---
 
@@ -716,7 +716,7 @@ flowchart TD
     style CreateTag fill:#4CAF50,color:#fff
     style ShowNext fill:#2196F3,color:#fff
     style End fill:#9E9E9E,color:#fff
-```text
+```
 
 #### Archive Tag Naming
 
@@ -736,7 +736,7 @@ flowchart LR
         E2["spring-2026-final"]
         E3["summer-2026-final"]
     end
-```bash
+```
 
 #### Semester Lifecycle
 
@@ -753,13 +753,13 @@ stateDiagram-v2
         Creates immutable snapshot
         spring-2026-final
     end note
-```text
+```
 
 **Syntax:**
 
 ```bash
 teach archive
-```diff
+```
 
 **When to use:**
 - End of each semester (after final grades submitted)
@@ -822,7 +822,7 @@ teach archive
 #    $ git add .flow/teach-config.yml
 #    $ git commit -m "prep: update for Fall 2026"
 #    $ teach deploy
-```text
+```
 
 ---
 
@@ -835,7 +835,7 @@ Opens the `.flow/teach-config.yml` file in your editor for customization.
 
 ```bash
 teach config
-```diff
+```
 
 **When to use:**
 - Updating semester dates
@@ -877,7 +877,7 @@ branches:
 shortcuts:
   s545: "work stat-545"      # Quick work shortcut
   s545d: "./scripts/quick-deploy.sh"  # Quick deploy
-```bash
+```
 
 **Common edits:**
 
@@ -894,7 +894,7 @@ semester: "fall"
 year: 2026
 start_date: "2026-08-25"
 end_date: "2026-12-10"
-```yaml
+```
 
 **Adding breaks:**
 
@@ -906,7 +906,7 @@ breaks:
   - name: "Winter Break"
     start: "2026-12-20"
     end: "2027-01-08"
-```text
+```
 
 ---
 
@@ -920,7 +920,7 @@ Creates a new exam/quiz template using the `examark` tool (if installed). Sets u
 ```bash
 teach exam "Midterm 1"
 teach exam "Final Exam"
-```diff
+```
 
 **When to use:**
 - Creating new exams or quizzes
@@ -977,7 +977,7 @@ d) ...
 
 ### Question 2 (10 points)
 ...
-```bash
+```
 
 ---
 
@@ -1012,7 +1012,7 @@ teach deploy
 
 # 5. Verify live
 open https://yoursite.github.io/stat-545
-```bash
+```
 
 **Time:** 5 minutes total
 
@@ -1049,7 +1049,7 @@ teach deploy
 teach status
 # → Shows deployment successful
 # → Shows week number for verification
-```bash
+```
 
 **Time:** 15 minutes
 
@@ -1089,7 +1089,7 @@ teach deploy
 
 # 5. Done!
 # Next semester starts fresh with new dates, same branch structure
-```bash
+```
 
 **Time:** 10 minutes
 
@@ -1116,7 +1116,7 @@ teach deploy
 # No need to email them, they'll see it when they check
 
 # Result: Problem solved in 2 minutes, students notified automatically
-```bash
+```
 
 **Time:** 2 minutes
 
@@ -1136,7 +1136,7 @@ teach init "Course Name"
 
 # Or with non-interactive mode
 teach init -y "Course Name"
-```diff
+```
 
 **What this creates:**
 - `.flow/teach-config.yml` - Configuration file
@@ -1160,7 +1160,7 @@ teach deploy
 # Option 2: Switch manually
 git checkout draft
 teach deploy
-```bash
+```
 
 **Prevention:** Work sessions automatically warn if on production
 
@@ -1184,7 +1184,7 @@ git commit -m "fix: update lecture notes"
 
 # Now deploy
 teach deploy
-```bash
+```
 
 ---
 
@@ -1200,7 +1200,7 @@ gh run list
 
 # Or visit GitHub Actions tab:
 # github.com/your-org/repo-name/actions
-```diff
+```
 
 Usually caused by:
 - Large file changes (PDFs, images)
@@ -1220,7 +1220,7 @@ work stat-545
 # → Course name displayed
 # → Week number shown
 # → Shortcuts loaded
-```bash
+```
 
 ### With `pick` command
 
@@ -1229,7 +1229,7 @@ work stat-545
 pick
 # 🎓 stat-545
 # 🎓 stat-440
-```bash
+```
 
 ### With `dash` command
 

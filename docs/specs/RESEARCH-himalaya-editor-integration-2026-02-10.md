@@ -59,7 +59,7 @@ himalaya provides two mechanisms for editor integration that our spec should lev
 himalaya message write
 himalaya message reply <ID>
 himalaya message forward <ID>
-```diff
+```
 
 These commands:
 - Generate an MML (MIME Meta Language) template with headers pre-filled
@@ -72,7 +72,7 @@ These commands:
 # Pre-fill the body text BEFORE opening $EDITOR
 himalaya message write "Dear Dr. Smith," "Thank you for your email."
 himalaya message reply <ID> "Thank you for reaching out."
-```diff
+```
 
 The `[BODY]...` argument accepts one or more strings that get injected into the template body before `$EDITOR` opens. This means:
 
@@ -91,7 +91,7 @@ himalaya template forward <ID>       # Returns forward template to stdout
 
 # Send template from stdin WITHOUT $EDITOR
 himalaya template send < draft.mml   # Sends MML from stdin directly
-```text
+```
 
 The `template` subsystem is the **scripting API** that separates template generation from the interactive `$EDITOR` step. This enables:
 
@@ -109,7 +109,7 @@ The `template` subsystem is the **scripting API** that separates template genera
 
 ```text
 AI generates draft -> write to temp file -> open $EDITOR -> read back -> himalaya send < file
-```text
+```
 
 **NEW approach (using native himalaya features):**
 
@@ -122,7 +122,7 @@ em reply <ID>
      (himalaya opens $EDITOR with draft pre-populated)
   -> user edits, saves, quits (:wq)
   -> himalaya sends automatically
-```text
+```
 
 #### Non-interactive Reply (AI sends directly after confirmation)
 
@@ -133,7 +133,7 @@ em respond --send <ID>
   -> show preview to user
   -> _flow_confirm "Send this reply? [y/N]"
   -> himalaya template send < modified.mml
-```text
+```
 
 ### 4.2 Updated Adapter Functions
 
@@ -155,7 +155,7 @@ The `em reply` command should support both paths:
 em reply <ID>              # Interactive: AI draft -> $EDITOR -> send
 em reply <ID> --no-ai      # Interactive: blank body -> $EDITOR -> send
 em reply <ID> --batch      # Non-interactive: AI draft -> confirm -> send
-```text
+```
 
 ---
 

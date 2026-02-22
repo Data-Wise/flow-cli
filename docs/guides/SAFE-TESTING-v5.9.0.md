@@ -28,7 +28,7 @@ When testing new software features on production data (your real courses), there
 │  • Display information          • Change permissions       │
 │  • Parse and analyze            • Git commit/push          │
 └─────────────────────────────────────────────────────────────┘
-```bash
+```
 
 **Key insight:** A read operation, by definition, cannot change your data. It's like looking at a photograph vs. editing it.
 
@@ -56,7 +56,7 @@ teach exam "Topic"  → Creates exams/topic-exam.qmd
 
 # With --dry-run: Shows what WOULD be created
 teach exam "Topic" --dry-run  → Prints preview, creates NOTHING
-```bash
+```
 
 ### Why --dry-run Is Trustworthy
 
@@ -73,7 +73,7 @@ fi
 
 # This code only runs if NOT dry-run
 echo "$generated_content" > "exams/$topic-exam.qmd"
-```text
+```
 
 ---
 
@@ -99,7 +99,7 @@ Git is a **time machine** for your files. Any change can be undone:
 │  │  Every commit is saved forever (recoverable)         │   │
 │  └─────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
-```bash
+```
 
 ### Recovery Commands Explained
 
@@ -119,7 +119,7 @@ git stash pop
 # "Nuclear reset" - Discard EVERYTHING since last commit
 git reset --hard HEAD
 # Think: "Time machine back to last commit, forget everything since"
-```text
+```
 
 ---
 
@@ -140,7 +140,7 @@ git reset --hard HEAD
 │  System Cache (~/.local/share/flow-cli/)                    │
 │  └── cache/teach-config.hash   ← Hash cache (harmless)     │
 └─────────────────────────────────────────────────────────────┘
-```bash
+```
 
 **Key insight:** The hash cache is written to YOUR home directory, not the course. Even if something went wrong with caching, your course files are untouched.
 
@@ -162,7 +162,7 @@ teach status
 # NOT idempotent: Each run creates a NEW file
 teach exam "Topic"
 teach exam "Topic"  # Creates topic-exam-2.qmd or overwrites!
-```diff
+```
 
 ### All v5.9.0 Read Operations Are Idempotent
 
@@ -200,7 +200,7 @@ git stash push -m "pre-v5.9.0-test"
 
 # 4. Verify stash saved
 git stash list
-```bash
+```
 
 ---
 
@@ -213,7 +213,7 @@ These commands **NEVER modify files**:
 ```bash
 # Shows course info, validation status, content inventory
 teach status
-```text
+```
 
 **What it does:** Reads config, validates, displays info
 **Risk:** ⚪ NONE
@@ -224,7 +224,7 @@ teach status
 teach help
 teach exam --help
 teach quiz --help
-```zsh
+```
 
 **What it does:** Displays help text
 **Risk:** ⚪ NONE
@@ -244,7 +244,7 @@ _teach_has_scholar_config .flow/teach-config.yml
 # Get config values (read-only)
 _teach_config_get "course.name"
 _teach_config_get "course.semester"
-```zsh
+```
 
 **What it does:** Reads and validates YAML
 **Risk:** ⚪ NONE
@@ -257,7 +257,7 @@ _flow_config_hash .flow/teach-config.yml
 
 # Check if changed (reads cache file)
 _flow_config_changed .flow/teach-config.yml
-```bash
+```
 
 **What it does:** Computes SHA-256, compares with cache
 **Risk:** ⚪ NONE (cache file is in ~/.local/share/flow-cli/)
@@ -268,7 +268,7 @@ _flow_config_changed .flow/teach-config.yml
 # Test flag validation (no execution)
 _teach_validate_flags exam --questions 5 --duration 60
 _teach_validate_flags exam --invalid-flag  # Should error
-```bash
+```
 
 **What it does:** Validates flags, returns error for invalid
 **Risk:** ⚪ NONE
@@ -284,7 +284,7 @@ These commands **preview output without writing**:
 ```bash
 # Preview exam generation (NO files written)
 teach exam "Regression Diagnostics" --dry-run
-```text
+```
 
 **What it does:** Shows what WOULD be generated
 **Risk:** ⚪ NONE (--dry-run prevents file creation)
@@ -293,7 +293,7 @@ teach exam "Regression Diagnostics" --dry-run
 
 ```bash
 teach quiz "Hypothesis Testing" --dry-run --questions 10
-```text
+```
 
 **Risk:** ⚪ NONE
 
@@ -301,7 +301,7 @@ teach quiz "Hypothesis Testing" --dry-run --questions 10
 
 ```bash
 teach slides "ANOVA" --dry-run
-```bash
+```
 
 **Risk:** ⚪ NONE
 
@@ -326,7 +326,7 @@ git checkout -- .
 
 # Or restore from stash
 git stash pop
-```bash
+```
 
 ---
 
@@ -385,7 +385,7 @@ teach exam --help | head -5
 echo "\n═══════════════════════════════════════════════"
 echo "✓ All safe tests complete - no files modified"
 echo "═══════════════════════════════════════════════"
-```zsh
+```
 
 ---
 
@@ -411,7 +411,7 @@ git status  # Should show "nothing to commit"
 
 # 6. Restore stash if needed
 git stash pop
-```yaml
+```
 
 ---
 

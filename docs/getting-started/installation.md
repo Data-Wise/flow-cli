@@ -23,7 +23,7 @@ zsh --version
 # Check Git (required)
 git --version
 # Expected: any recent version
-```bash
+```
 
 ---
 
@@ -39,7 +39,7 @@ brew tap data-wise/tap
 
 # 2. Install flow-cli
 brew install flow-cli
-```diff
+```
 
 **That's it!** Homebrew manages the installation and keeps flow-cli updated.
 
@@ -55,7 +55,7 @@ For auto-detection of your plugin manager:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/install.sh | bash
-```bash
+```
 
 This auto-detects your plugin manager (antidote, zinit, oh-my-zsh) and installs accordingly.
 
@@ -116,7 +116,7 @@ Choose your plugin manager if not using Homebrew:
 ```bash
 source ~/.zshrc
 # Or just restart your terminal
-```diff
+```
 
 ### Checkpoint
 
@@ -133,7 +133,7 @@ Run the built-in doctor command:
 
 ```bash
 flow doctor
-```text
+```
 
 Expected output:
 
@@ -159,7 +159,7 @@ Optional Tools:
   ...
 
 All checks passed!
-```bash
+```
 
 ### Fix Missing Dependencies
 
@@ -171,7 +171,7 @@ flow doctor --fix
 
 # Auto-install all
 flow doctor --fix -y
-```diff
+```
 
 ### Checkpoint
 
@@ -196,7 +196,7 @@ yay
 
 # End session
 finish
-```diff
+```
 
 ### Checkpoint
 
@@ -226,7 +226,7 @@ For the best experience, install these CLI tools:
 ```bash
 # Using Homebrew (macOS)
 brew install fzf eza bat zoxide fd ripgrep
-```bash
+```
 
 **If you installed flow-cli via Homebrew, you likely already have Homebrew installed.**
 
@@ -239,7 +239,7 @@ brew bundle --file=~/.flow-cli/setup/Brewfile
 # Or if installed via Homebrew, download the Brewfile first
 curl -fsSL https://raw.githubusercontent.com/Data-Wise/flow-cli/main/setup/Brewfile -o /tmp/Brewfile
 brew bundle --file=/tmp/Brewfile
-```bash
+```
 
 | Tool | Purpose | Used By |
 |------|---------|---------|
@@ -278,7 +278,7 @@ Flow-cli uses **nvim** as the default editor. If you're new to nvim, we recommen
 ```bash
 nvim --version
 # Expected: v0.9.0 or higher
-```diff
+```
 
 ### Install LazyVim (Optional but Recommended)
 
@@ -307,7 +307,7 @@ rm -rf ~/.config/nvim/.git
 
 # Start nvim and plugins will auto-install
 nvim
-```bash
+```
 
 **Wait for installation:** First launch will install all plugins (~2-3 minutes). Watch the progress at the bottom of the screen.
 
@@ -353,7 +353,7 @@ nvim
 
 # Quit nvim
 # Press: ESC → :q → ENTER
-```bash
+```
 
 ### Learning Nvim
 
@@ -372,7 +372,7 @@ nvim
 ```bash
 # Hands-on practice with checkpoints
 flow nvim-tutorial
-```bash
+```
 
 **Total learning time:** ~70 minutes from zero to productive
 
@@ -390,7 +390,7 @@ source ~/.zshrc
 # Verify
 echo $EDITOR
 # Expected: nvim
-```bash
+```
 
 Now `work`, `mcp edit`, `dots edit`, and other flow-cli commands will use nvim!
 
@@ -403,7 +403,7 @@ Check installation:
 ```bash
 which nvim
 # If empty, nvim is not in PATH
-```bash
+```
 
 **LazyVim plugins not installing:**
 
@@ -412,7 +412,7 @@ Check internet connection and try:
 ```bash
 # Inside nvim, run:
 :Lazy sync
-```text
+```
 
 **No icons showing in Neo-tree:**
 
@@ -424,7 +424,7 @@ Inside nvim, run:
 
 ```bash
 :checkhealth
-```bash
+```
 
 This diagnoses issues with clipboard, Python, Node.js, etc.
 
@@ -451,7 +451,7 @@ brew --prefix flow-cli
 
 # Reinstall if needed
 brew reinstall flow-cli
-```bash
+```
 
 **Homebrew not installed:**
 
@@ -462,7 +462,7 @@ brew reinstall flow-cli
 # Then install flow-cli
 brew tap data-wise/tap
 brew install flow-cli
-```zsh
+```
 
 ### Plugin Manager Issues
 
@@ -473,7 +473,7 @@ Shell hasn't reloaded. Try:
 ```bash
 source ~/.zshrc
 # Or restart your terminal
-```zsh
+```
 
 **"command not found: work"**
 
@@ -487,7 +487,7 @@ ls ~/.oh-my-zsh/custom/plugins/flow-cli/  # OMZ install
 
 # Re-source
 source ~/.zshrc
-```bash
+```
 
 **Plugin Manager Not Detected**
 
@@ -495,7 +495,7 @@ Force a specific method:
 
 ```bash
 INSTALL_METHOD=manual curl -fsSL .../install.sh | bash
-```bash
+```
 
 Options: `antidote`, `zinit`, `omz`, `manual`
 

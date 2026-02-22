@@ -27,14 +27,14 @@ flow plugin list
 # Show all discovered plugins (enabled + disabled)
 flow plugin list --all
 flow plugin list -a
-```text
+```
 
 **Output example:**
 
 ```text
 ✓ example-plugin   v1.0.0  Enabled
 ○ my-custom        v0.1.0  Disabled
-```bash
+```
 
 ---
 
@@ -49,7 +49,7 @@ flow plugin disable my-custom
 
 # Reload shell to apply changes
 exec zsh
-```text
+```
 
 **Note:** Reload required after enable/disable.
 
@@ -63,7 +63,7 @@ The easiest way to create a plugin:
 
 ```bash
 flow plugin create my-workflow
-```text
+```
 
 **Prompts:**
 
@@ -73,7 +73,7 @@ Created: ~/.config/flow/plugins/my-workflow/
   ├── main.zsh
   ├── plugin.json
   └── README.md
-```sql
+```
 
 ---
 
@@ -114,14 +114,14 @@ cat > plugin.json << 'EOF'
   "hooks": ["PreWork"]
 }
 EOF
-```text
+```
 
 **Reload shell:**
 
 ```bash
 exec zsh
 flow plugin list  # Should show your plugin
-```bash
+```
 
 ---
 
@@ -135,7 +135,7 @@ flow plugin install gh:username/flow-plugin-docker
 
 # Example: Install a workflow plugin
 flow plugin install gh:data-wise/flow-plugin-deploy
-```bash
+```
 
 **What happens:**
 1. Clones repo to `~/.config/flow/plugins/`
@@ -152,7 +152,7 @@ flow plugin install /path/to/my-plugin
 
 # Example: Install from Downloads
 flow plugin install ~/Downloads/team-workflow-plugin
-```bash
+```
 
 ---
 
@@ -163,7 +163,7 @@ For active development, symlink instead of copying:
 ```bash
 cd ~/projects/dev-tools/my-flow-plugin
 flow plugin install --dev .
-```diff
+```
 
 **Benefits:**
 - Changes reflect immediately (no reinstall)
@@ -179,7 +179,7 @@ flow plugin install --dev .
 ```bash
 flow plugin create my-awesome-tool
 cd ~/.config/flow/plugins/my-awesome-tool
-```bash
+```
 
 ---
 
@@ -208,7 +208,7 @@ my_deploy() {
 
   echo "✅ Deployed to $env"
 }
-```zsh
+```
 
 ---
 
@@ -228,7 +228,7 @@ _my_plugin_post_finish() {
     slack-cli send "#dev" "Session complete: $session_note"
   fi
 }
-```diff
+```
 
 **Available hooks:**
 - `PreWork` - Before starting work session
@@ -261,7 +261,7 @@ Edit `plugin.json`:
     "notify_slack": true
   }
 }
-```bash
+```
 
 ---
 
@@ -279,7 +279,7 @@ flow plugin info my-awesome-tool
 
 # View hooks
 flow plugin hooks
-```bash
+```
 
 ---
 
@@ -293,13 +293,13 @@ git init
 git add .
 git commit -m "Initial commit"
 gh repo create flow-plugin-my-awesome-tool --public --source=. --push
-```text
+```
 
 **Now others can install:**
 
 ```bash
 flow plugin install gh:yourusername/flow-plugin-my-awesome-tool
-```bash
+```
 
 ---
 
@@ -314,7 +314,7 @@ tar -czf my-awesome-tool.tar.gz my-awesome-tool/
 # Others extract and install:
 tar -xzf my-awesome-tool.tar.gz
 flow plugin install ./my-awesome-tool
-```bash
+```
 
 ---
 
@@ -352,7 +352,7 @@ py() {
       ;;
   esac
 }
-```bash
+```
 
 ---
 
@@ -389,7 +389,7 @@ deploy-all() {
 
   echo "✅ Deployment complete!"
 }
-```bash
+```
 
 ---
 
@@ -416,7 +416,7 @@ _notify_jira() {
     echo "📝 Updated JIRA ticket: $ticket"
   fi
 }
-```bash
+```
 
 ---
 
@@ -443,7 +443,7 @@ my_deploy() {
 # MY_PLUGIN_DEFAULT_ENV="production"
 # MY_PLUGIN_AWS_REGION="eu-west-1"
 # MY_PLUGIN_SLACK_WEBHOOK="https://hooks.slack.com/..."
-```bash
+```
 
 ---
 
@@ -460,7 +460,7 @@ flow plugin hooks
 
 # Show plugin search paths
 flow plugin path
-```bash
+```
 
 ---
 
@@ -475,7 +475,7 @@ flow plugin remove -f my-plugin
 
 # Note: Cannot remove bundled plugins, only disable them
 flow plugin disable bundled-plugin
-```diff
+```
 
 ---
 
@@ -500,7 +500,7 @@ flow plugin disable bundled-plugin
 │   │   └── helpers.zsh
 │   └── completions/      # ZSH completions
 │       └── _my_command
-```bash
+```
 
 ---
 
@@ -529,7 +529,7 @@ exec zsh
 
 # Check for errors
 zsh -x ~/.config/flow/plugins/my-plugin/main.zsh
-```bash
+```
 
 ---
 
@@ -549,7 +549,7 @@ flow plugin hooks
 grep "flow_hook_register" ~/.config/flow/plugins/my-plugin/main.zsh
 
 # Correct event names: PreWork, PostWork, PreFinish, PostFinish
-```bash
+```
 
 ---
 
@@ -568,7 +568,7 @@ grep "flow_hook_register" ~/.config/flow/plugins/my-plugin/main.zsh
 
 # Or namespace with underscore
 # Good: _my_plugin_deploy()
-```zsh
+```
 
 ---
 
@@ -582,7 +582,7 @@ grep "flow_hook_register" ~/.config/flow/plugins/my-plugin/main.zsh
 # Avoid conflicts
 _myplugin_helper() { ... }
 myplugin_command() { ... }
-```zsh
+```
 
 **2. Clean up on disable**
 
@@ -592,7 +592,7 @@ _myplugin_cleanup() {
   unset -f myplugin_command
   unset MY_PLUGIN_VAR
 }
-```bash
+```
 
 **3. Document your plugin**
 
@@ -602,7 +602,7 @@ _myplugin_cleanup() {
 # - How to use it
 # - Configuration options
 # - Examples
-```text
+```
 
 **4. Version your plugin**
 
@@ -614,7 +614,7 @@ _myplugin_cleanup() {
     "1.1.0": "Improved performance"
   }
 }
-```zsh
+```
 
 ---
 
@@ -632,7 +632,7 @@ my_work_wrapper() {
   work "$@"
   # Custom post-work logic
 }
-```bash
+```
 
 **2. Don't block the shell**
 
@@ -645,7 +645,7 @@ done
 
 # ✅ Good: Background processes or one-shot
 (check_status &)
-```bash
+```
 
 **3. Don't assume dependencies**
 
@@ -659,7 +659,7 @@ if command -v docker >/dev/null 2>&1; then
 else
   echo "Docker not installed"
 fi
-```bash
+```
 
 ---
 
@@ -694,7 +694,7 @@ aws_deploy() {
 
   echo "✅ Deployed! https://my-app-$env.example.com"
 }
-```bash
+```
 
 ---
 
@@ -729,7 +729,7 @@ _slack_notify_finish() {
 }
 
 # Config: export SLACK_WEBHOOK="https://hooks.slack.com/..."
-```bash
+```
 
 ---
 

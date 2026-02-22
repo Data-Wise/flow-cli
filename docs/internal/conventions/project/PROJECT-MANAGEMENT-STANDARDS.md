@@ -153,7 +153,7 @@ B) [Alternative task] 🟡 [est. time]
 🎉 WINS
 
 [Recent accomplishments - celebrate progress!]
-```text
+```
 
 ### Visual Elements
 
@@ -163,7 +163,7 @@ B) [Alternative task] 🟡 [est. time]
 Full:     ████████████████████ 100%
 Partial:  ██████████░░░░░░░░░░  50%
 Empty:    ░░░░░░░░░░░░░░░░░░░░   0%
-```diff
+```
 
 **Status Indicators:**
 - ✅ Complete
@@ -238,7 +238,7 @@ Empty:    ░░░░░░░░░░░░░░░░░░░░   0%
 
 ## 📊 Overall Progress
 
-```text
+```
 
 P0: [Phase Name]         ████████████████████ 100% ✅ (date)
 P1: [Phase Name]         ████████████████████ 100% ✅ (date)
@@ -290,7 +290,7 @@ Brief summary of completed phases for reference.
 
 **Created:** [Date]
 **Maintainer:** [Name/Team]
-```diff
+```
 
 ### Sections Explained
 
@@ -379,7 +379,7 @@ newstatus
 
 # Show next action item
 next
-```bash
+```
 
 ### Project Hub Management
 
@@ -392,7 +392,7 @@ edithub
 
 # Create new PROJECT-HUB.md from template
 newhub
-```bash
+```
 
 ### ADHD Helpers
 
@@ -423,7 +423,7 @@ crumbs               # alias: bcs
 
 # Get AI task suggestion
 what-next            # alias: wn
-```bash
+```
 
 ### Focus Timers
 
@@ -443,7 +443,7 @@ time-check           # alias: tc
 
 # Stop timer early
 focus-stop           # alias: fs
-```bash
+```
 
 ---
 
@@ -460,7 +460,7 @@ dash teaching
 dash research
 dash packages
 dash dev
-```text
+```
 
 **Output:**
 
@@ -477,7 +477,7 @@ dash dev
 📋 READY TO START (2):
   📦 medfit [P1] 0% - Add vignette
   📊 product-of-three [P1] 60% - Review simulations
-```bash
+```
 
 ### Work Session Management
 
@@ -496,7 +496,7 @@ wt <project>         # Terminal only
 # Morning routine
 morning              # alias: gm
 # Shows: dashboard → picks project → starts work
-```bash
+```
 
 ### Status Updates
 
@@ -512,7 +512,7 @@ status <project> --create
 
 # Show status
 status <project> --show
-```bash
+```
 
 ---
 
@@ -531,7 +531,7 @@ just-start           # or: js
 
 # 3. Start working
 work .               # Opens current project
-```bash
+```
 
 **During Work:**
 
@@ -544,7 +544,7 @@ bc "Debugging auth flow, suspect issue in line 42"
 
 # Log quick wins
 win "Fixed authentication bug"
-```bash
+```
 
 **End of Session (< 30 seconds):**
 
@@ -556,7 +556,7 @@ editstatus           # Add to "JUST COMPLETED"
 
 # View wins
 wins                 # Celebrate progress!
-```bash
+```
 
 **Weekly Review (5-10 minutes):**
 
@@ -568,7 +568,7 @@ dash
 edithub              # Update progress bars
                     # Move items to "Recent Completions"
                     # Plan next week
-```yaml
+```
 
 ---
 
@@ -582,13 +582,13 @@ Location: `~/.STATUS-template-enhanced`
 
 ```bash
 newstatus
-```bash
+```
 
 **Or manually:**
 
 ```bash
 cp ~/.STATUS-template-enhanced ~/projects/my-project/.STATUS
-```yaml
+```
 
 ### PROJECT-HUB Template
 
@@ -598,13 +598,13 @@ Location: `~/.PROJECT-HUB-template`
 
 ```bash
 newhub
-```bash
+```
 
 **Or manually:**
 
 ```bash
 cp ~/.PROJECT-HUB-template ~/projects/my-project/PROJECT-HUB.md
-```diff
+```
 
 ---
 
@@ -644,7 +644,7 @@ why                  # Shows current location, git status, .STATUS excerpt
 # Or
 status .             # View .STATUS for current project
 next                 # Show next action
-```bash
+```
 
 ### "I don't know what to work on"
 
@@ -654,7 +654,7 @@ just-start           # Auto-picks based on priority
 
 # Or see all options
 dash                 # View all projects
-```bash
+```
 
 ### "I'm stuck on current task"
 
@@ -662,7 +662,7 @@ dash                 # View all projects
 # Leave note and switch
 bc "Blocked waiting for X, need to research Y"
 just-start           # Pick different task
-```bash
+```
 
 ### "Lost track of progress"
 

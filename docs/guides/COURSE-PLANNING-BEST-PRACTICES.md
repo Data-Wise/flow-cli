@@ -92,7 +92,7 @@ Traditional course design often follows this pattern:
 
 ```text
 Content Selection → Delivery Planning → Assessment Creation → Outcomes (if any)
-```diff
+```
 
 **Problems with this approach:**
 - **Misalignment:** Assessments don't measure what was taught
@@ -105,7 +105,7 @@ Content Selection → Delivery Planning → Assessment Creation → Outcomes (if
 
 ```text
 Learning Outcomes → Assessment Design → Content Selection → Delivery Planning
-```diff
+```
 
 **Benefits:**
 - ✅ **Alignment:** Every activity supports measurable outcomes
@@ -164,7 +164,7 @@ timeline
     section Post-Semester (Weeks 17-18)
         Week 17 : Student feedback analysis<br/>(teach backup archive)
         Week 18 : Improvement planning<br/>Update outcomes/assessments
-```bash
+```
 
 ### Phase 1: Pre-Semester Design (8-6 weeks before)
 
@@ -186,7 +186,7 @@ vim .flow/teach-config.yml
 
 # Health check
 teach doctor --fix
-```diff
+```
 
 **Deliverables:**
 - `teach-config.yml` with course metadata
@@ -222,7 +222,7 @@ teach assignment "HW3: Data Wrangling" --template markdown
 # Generate assessments
 teach exam "Midterm 1" --scope "Weeks 1-8"
 teach quiz "Week 3 Quiz" --topics "Probability, Distributions"
-```diff
+```
 
 **Deliverables:**
 - `lesson-plan.yml` with 16-week schedule
@@ -254,7 +254,7 @@ teach status
 
 # Verify environment
 teach doctor
-```diff
+```
 
 **Deliverables:**
 - Production website live
@@ -288,7 +288,7 @@ teach status
 
 # Generate assessments
 teach exam "Final Exam" --scope "Weeks 1-16"
-```diff
+```
 
 **Deliverables:**
 - Weekly content published on schedule
@@ -318,7 +318,7 @@ teach backup archive "Spring 2026"
 # Review backups before cleanup
 teach backup list
 teach backup delete --retention semester  # Prompts for confirmation
-```diff
+```
 
 **Deliverables:**
 - Improvement plan document
@@ -368,7 +368,7 @@ graph TD
     D --> D1
     D1 --> E1
     E --> E1
-```yaml
+```
 
 ### Key Configuration File: teach-config.yml
 
@@ -404,7 +404,7 @@ scholar:
     quizzes: 10
     project: 30
     final: 30
-```bash
+```
 
 **How it supports systematic planning:**
 
@@ -427,7 +427,7 @@ teach exam "Midterm 1" --scope "Weeks 1-8" --template typst
 # - Style preferences (tone, notation, examples)
 
 # Output: Exam aligned with course outcomes and style
-```diff
+```
 
 **Benefits:**
 - ✅ Assessments match course difficulty level
@@ -441,7 +441,7 @@ Before each semester, validate your entire teaching environment:
 
 ```bash
 teach doctor
-```diff
+```
 
 **Checks:**
 - ✅ Required dependencies (git, quarto, yq, gh)
@@ -457,7 +457,7 @@ teach doctor --fix
 # Prompts to install missing dependencies
 # Creates missing configuration files
 # Sets up git branches if needed
-```diff
+```
 
 ---
 
@@ -501,7 +501,7 @@ teach exam "Final Exam" --scope "Weeks 1-16"
 
 # Save to exams/ directory
 # Refine during Phase 2, but structure exists
-```diff
+```
 
 ---
 
@@ -556,13 +556,13 @@ Traditional course design is **forward-thinking**:
 
 ```text
 Content → Activities → Assessment → Hope for learning
-```text
+```
 
 Backward design is **outcome-focused**:
 
 ```text
 Learning Goals → Assessment → Activities → Guaranteed learning
-```diff
+```
 
 **Why "backward"?**
 
@@ -588,7 +588,7 @@ graph LR
     style A fill:#e1f5e1
     style B fill:#e1e5f5
     style C fill:#f5e1e1
-```diff
+```
 
 **Stage 1: Identify Desired Results**
 - What should students understand and be able to do?
@@ -649,7 +649,7 @@ Wiggins & McTighe distinguish three levels:
 
 ```text
 Students will be able to [ACTION VERB] [OBJECT] in order to [PURPOSE/CONTEXT].
-```diff
+```
 
 **Examples:**
 
@@ -705,7 +705,7 @@ scholar:
     - "When should we trust data-driven decisions?"
     - "What makes a statistical model 'good enough'?"
     - "How can we communicate uncertainty to non-statisticians?"
-```yaml
+```
 
 Scholar uses these when generating exams and assignments to create conceptual questions that connect to big ideas.
 
@@ -743,7 +743,7 @@ scholar:
     - "Data visualization (ggplot2)"  # Supports LO1
     - "Regression modeling"           # Supports LO2
     - "Statistical communication"     # Supports LO3
-```diff
+```
 
 **Benefits:**
 - ✅ Outcomes documented and version-controlled
@@ -774,7 +774,7 @@ Wiggins & McTighe recommend three types of assessment evidence:
    Academic        Observations
    Prompts         & Self-Assessment
 (Quizzes/Tests)    (Formative)
-```diff
+```
 
 **Performance Tasks (Transfer Evidence)**
 - Complex, authentic challenges
@@ -850,7 +850,7 @@ analyze it. They need recommendations before their board meeting in 3 weeks.
 - Quality of visualizations and diagnostics (25%)
 - Clarity of technical communication (25%)
 - Effectiveness of executive summary (20%)
-```diff
+```
 
 **Why GRASPS works:**
 - Creates authentic context (not just "solve these problems")
@@ -885,7 +885,7 @@ Week 1-2: Formative
 
 Week 3: Summative
 └── Homework #1 (graded) - students are prepared
-```bash
+```
 
 **flow-cli integration:**
 
@@ -895,7 +895,7 @@ teach quiz "Week 3 Practice Quiz" --topics "Probability" --ungraded
 
 # Summative assessment creation
 teach exam "Midterm 1" --scope "Weeks 1-8" --points 100
-```diff
+```
 
 Set `--ungraded` flag for formative assessments, Scholar generates lower-stakes questions with immediate feedback.
 
@@ -942,7 +942,7 @@ assessment_alignment:
       level: "R"
     - assessment: "Project"
       level: "M"
-```diff
+```
 
 Future feature: `teach alignment matrix` will generate visual matrix from config.
 
@@ -1025,7 +1025,7 @@ Wiggins & McTighe provide the WHERETO acronym for planning learning experiences�
 
 **O - Organized:**
 - Progression: Simple regression (Week 4) → Multiple regression (Week 5) → Model selection (Week 6)
-```yaml
+```
 
 **flow-cli implementation: lesson-plan.yml**
 
@@ -1068,7 +1068,7 @@ weeks:
       - "code/week-05-regression.R"
       - "data/housing-prices.csv"
       - "slides/week-05-slides.qmd"
-```diff
+```
 
 **Scholar integration:**
 
@@ -1181,7 +1181,7 @@ graph TD
     style C1 fill:#e1f5e1
     style C3 fill:#e1f5e1
     style C4 fill:#e1e5f5
-```diff
+```
 
 #### Step 2.2: Design Performance Task (Project)
 
@@ -1217,7 +1217,7 @@ research question and provide statistical recommendations.
 - Diagnostics & model evaluation (20%)
 - Technical writing clarity (10%)
 - Executive summary effectiveness (10%)
-```diff
+```
 
 **Alignment with outcomes:**
 - LO1 (Visualize): 25% weight on visualization quality
@@ -1281,7 +1281,7 @@ Each homework targets 1-2 learning outcomes and progressively builds skills:
 HW1 (Intro) → HW2 (Reinforce) → HW3 (Intro) → HW4 (Reinforce) → Project (Master)
    |              |                 |              |                    |
  Visualize     Visualize         Models         Models            All LOs
-```yaml
+```
 
 ---
 
@@ -1425,14 +1425,14 @@ assessment_alignment:
     - assessment: "Project"
       level: "R"
       weight: 15
-```bash
+```
 
 **Future feature:** Generate matrix visualization
 
 ```bash
 teach alignment matrix --output png
 # Creates: docs/alignment-matrix.png
-```text
+```
 
 ---
 
@@ -1467,7 +1467,7 @@ gantt
     Project work         :w14, 2026-04-13, 7d
     Presentations        :w15, 2026-04-20, 7d
     Final exam           :w16, 2026-04-27, 7d
-```diff
+```
 
 **Scaffolding strategy:**
 - **Weeks 1-4:** Build foundational skills (visualize, wrangle)
@@ -1566,7 +1566,7 @@ weeks:
       code: "code/week-05-regression.R"
       data: "data/advertising.csv"
       homework: "homework/hw3-regression.qmd"
-```diff
+```
 
 **Scholar integration:**
 
@@ -1670,7 +1670,7 @@ When you run `teach lecture "Week 5: Simple Regression"`, Scholar:
 - Lecture: "What have we learned? Revisiting essential questions"
 - Assessments: Final exam (30%), Project report due
 
-```diff
+```
 
 **Alignment check:**
 - ✅ Every week builds toward learning outcomes
@@ -1869,7 +1869,7 @@ deployment:
     type: "github-pages"
     branch: "production"
     url: "https://data-wise.github.io/stat-545"
-```yaml
+```
 
 ---
 
@@ -2043,7 +2043,7 @@ weeks:
       assigned_week: 7  # Not yet, Week 5 is too early
       due_week: 10
       alignment: ["LO2: Build models", "LO4: Wrangle data"]
-```yaml
+```
 
 ---
 
@@ -2334,7 +2334,7 @@ assessment_alignment:
     - assessment: "HW1"
       level: "R"
       weight: 15
-```diff
+```
 
 ---
 
@@ -2400,7 +2400,7 @@ teach init --github                # Auto-create GitHub repo
 teach doctor                       # Validate environment
 teach doctor --fix                 # Interactive dependency installer
 teach status                       # Show course overview
-```bash
+```
 
 **Content Creation with Scholar:**
 
@@ -2415,7 +2415,7 @@ teach quiz "Week 3 Quiz" --topics "Probability, Distributions"
 teach assignment "HW3: Data Wrangling" --template markdown
 
 # Template options: markdown, quarto, typst, pdf, docx
-```text
+```
 
 **Deployment:**
 
@@ -2423,7 +2423,7 @@ teach assignment "HW3: Data Wrangling" --template markdown
 teach deploy                       # Preview changes, create PR
 teach deploy --skip-preview        # Deploy without preview
 teach status                       # Check deployment status
-```text
+```
 
 **Backup Management:**
 
@@ -2433,14 +2433,14 @@ teach backup view <timestamp>      # View specific backup
 teach backup restore <timestamp>   # Restore from backup
 teach backup delete --retention semester  # Delete semester backups
 teach backup archive "Spring 2026"        # Archive semester
-```text
+```
 
 **Git Integration:**
 
 ```bash
 teach git status                   # Enhanced git status for teaching projects
 teach git deploy "Add Week 5"      # Commit + push + PR to production
-```yaml
+```
 
 ---
 
@@ -2462,7 +2462,7 @@ scholar:
     tone: "conversational"    # formal / conversational
     notation: "statistical"   # statistical / mathematical / standard
     examples: true            # Include worked examples
-```diff
+```
 
 **Tone options:**
 - `formal` - Academic writing, technical terminology

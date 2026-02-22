@@ -84,7 +84,7 @@
 ```text
 WARNING - Doc file 'bugs/BUG-FIX-ccy-alias-missing.md' contains a link
 'lib/dispatchers/cc-dispatcher.zsh#L643', but the target is not found
-```text
+```
 
 **Reason:** Bug fix docs reference actual code files for context. These are internal developer docs, not user-facing.
 
@@ -97,7 +97,7 @@ WARNING - Doc file 'bugs/BUG-FIX-ccy-alias-missing.md' contains a link
 ```text
 WARNING - Doc file 'architecture/DOCTOR-TOKEN-ARCHITECTURE.md' contains
 a link '../reference/MASTER-API-REFERENCE.md#doctor-cache', but target is not found
-```bash
+```
 
 **Reason:** Files moved to `.archive/` during consolidation. Some internal docs still reference old locations.
 
@@ -112,28 +112,28 @@ a link '../reference/MASTER-API-REFERENCE.md#doctor-cache', but target is not fo
 ```bash
 mkdocs build --strict
 # Result: ✅ Success (196 warnings, 0 errors)
-```bash
+```
 
 ### 2. New File Test
 
 ```bash
 ls site/troubleshooting/CLAUDE-CODE-ENVIRONMENT/
 # Result: ✅ Directory exists with index.html
-```bash
+```
 
 ### 3. Content Test
 
 ```bash
 grep "Bug Fix" site/troubleshooting/CLAUDE-CODE-ENVIRONMENT/index.html | wc -l
 # Result: ✅ 5 matches (content present)
-```bash
+```
 
 ### 4. Navigation Test
 
 ```bash
 grep "CLAUDE-CODE-ENVIRONMENT" mkdocs.yml
 # Result: ✅ Entry exists in Help & Quick Reference section
-```bash
+```
 
 ### 5. Link Validation
 

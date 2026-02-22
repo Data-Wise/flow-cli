@@ -41,7 +41,7 @@ Map how files are sourced on plugin load:
 ```bash
 # Main plugin file
 cat flow.plugin.zsh | grep -n "source.*teach"
-```text
+```
 
 **Output:**
 
@@ -54,7 +54,7 @@ cat flow.plugin.zsh | grep -n "source.*teach"
 54: source "$FLOW_PLUGIN_DIR/lib/slide-optimizer.zsh"
 56: source "$FLOW_PLUGIN_DIR/commands/teach-analyze.zsh"
 63: for cmd_file in "$FLOW_PLUGIN_DIR/commands/"*.zsh(N); source
-```zsh
+```
 
 **Problem:** Line 56 sources `teach-analyze.zsh` explicitly, but the glob on line 63 sources **all** `commands/*.zsh` files again!
 
@@ -62,7 +62,7 @@ cat flow.plugin.zsh | grep -n "source.*teach"
 
 ```bash
 head -20 commands/teach-analyze.zsh | grep source
-```zsh
+```
 
 **Output:**
 
@@ -73,7 +73,7 @@ source "${0:A:h:h}/lib/analysis-cache.zsh"
 source "${0:A:h:h}/lib/report-generator.zsh"
 source "${0:A:h:h}/lib/ai-analysis.zsh"
 source "${0:A:h:h}/lib/slide-optimizer.zsh"
-```text
+```
 
 **Problem:** `teach-analyze.zsh` sources all 6 libs unconditionally!
 
@@ -86,7 +86,7 @@ flow.plugin.zsh L56:    Source teach-analyze.zsh
 flow.plugin.zsh L63:    Glob sources commands/*.zsh
   └─> teach-analyze.zsh sourced AGAIN (THIRD load)
       └─> 5 libs sourced AGAIN
-```bash
+```
 
 **Result:** ~5,500 lines of ZSH parsed **2-3 times** on every shell startup.
 
@@ -108,7 +108,7 @@ fi
 typeset -g _FLOW_CONCEPT_EXTRACTION_LOADED=1
 
 # ... rest of file
-```diff
+```
 
 **Why `2>/dev/null || true`?**
 - `return` inside a sourced file exits the source
@@ -123,7 +123,7 @@ if [[ -n "$_FLOW_CONCEPT_EXTRACTION_LOADED" ]]; then
     return 0 2>/dev/null || true
 fi
 typeset -g _FLOW_CONCEPT_EXTRACTION_LOADED=1
-```bash
+```
 
 ```bash
 # lib/prerequisite-checker.zsh
@@ -131,7 +131,7 @@ if [[ -n "$_FLOW_PREREQUISITE_CHECKER_LOADED" ]]; then
     return 0 2>/dev/null || true
 fi
 typeset -g _FLOW_PREREQUISITE_CHECKER_LOADED=1
-```diff
+```
 
 Repeat for:
 - `lib/analysis-cache.zsh` → `_FLOW_ANALYSIS_CACHE_LOADED`
@@ -155,7 +155,7 @@ source "$FLOW_PLUGIN_DIR/commands/teach-analyze.zsh"
 
 # AFTER (just rely on the glob)
 # (delete lines 49-56)
-```bash
+```
 
 The glob on line 63 sources all `commands/*.zsh`, which sources the libs (once each, thanks to guards).
 
@@ -171,7 +171,7 @@ echo "Load guards check:"
 [[ -n "$_FLOW_CONCEPT_EXTRACTION_LOADED" ]] && echo "  concept-extraction: ✅"
 [[ -n "$_FLOW_ANALYSIS_CACHE_LOADED" ]] && echo "  analysis-cache: ✅"
 '
-```text
+```
 
 **Expected output:**
 
@@ -179,7 +179,7 @@ echo "Load guards check:"
 Load guards check:
   concept-extraction: ✅
   analysis-cache: ✅
-```bash
+```
 
 ---
 
@@ -190,7 +190,7 @@ Load guards check:
 ```bash
 # Find display functions in the command file
 grep -n "^_display_" commands/teach-analyze.zsh
-```text
+```
 
 **Output:**
 
@@ -202,7 +202,7 @@ grep -n "^_display_" commands/teach-analyze.zsh
 127: _display_ai_section() {
 191: _display_slide_section() {
 235: _display_summary_section() {
-```bash
+```
 
 **Pattern:** 7 functions, ~270 lines, all pure presentation logic.
 
@@ -235,7 +235,7 @@ typeset -g _FLOW_ANALYSIS_DISPLAY_LOADED=1
 
 # ... paste the 7 _display_* functions here ...
 EOF
-```zsh
+```
 
 ### Step 9: Update the Command File
 
@@ -246,7 +246,7 @@ EOF
 ```zsh
 # Load display layer
 source "${0:A:h:h}/lib/analysis-display.zsh"
-```text
+```
 
 **Before:** 1,203 lines
 **After:** ~930 lines (extracted 270+ lines)
@@ -261,7 +261,7 @@ source "${0:A:h:h}/lib/analysis-display.zsh"
 
 ```zsh
 local slide_cache_file="$course_dir/.teach/slide-optimization-${file_path:t:r}.json"
-```bash
+```
 
 **Problem:** `${file_path:t:r}` extracts only the filename stem, ignoring the directory.
 
@@ -282,7 +282,7 @@ local cache_name="${relative_path:t:r}"          # Get filename stem
 local slide_cache_dir="$course_dir/.teach/analysis-cache/$cache_subdir"
 mkdir -p "$slide_cache_dir" 2>/dev/null
 local slide_cache_file="$slide_cache_dir/${cache_name}-slides.json"
-```bash
+```
 
 **Result:**
 
@@ -300,7 +300,7 @@ local slide_cache_file="$slide_cache_dir/${cache_name}-slides.json"
 ```bash
 # Run test suite
 ./tests/run-all.sh
-```zsh
+```
 
 **Problem:** Hangs forever on `test-work.zsh`.
 
@@ -325,7 +325,7 @@ run_test() {
         ((FAIL++))
     fi
 }
-```zsh
+```
 
 ```bash
 # AFTER
@@ -353,7 +353,7 @@ run_test() {
         ((FAIL++))
     fi
 }
-```bash
+```
 
 ### Step 14: Update Summary
 
@@ -369,13 +369,13 @@ if [[ $TIMEOUT -gt 0 ]]; then
     echo "Note: Timeout tests may require interactive/tmux context"
     exit 2  # Different exit code for timeouts vs failures
 fi
-```bash
+```
 
 ### Step 15: Verify Fix
 
 ```bash
 ./tests/run-all.sh
-```text
+```
 
 **Expected output:**
 
@@ -401,7 +401,7 @@ Running test-capture... ✅
 =========================================
 
 Note: Timeout tests may require interactive/tmux context
-```bash
+```
 
 **Before:** Infinite hang
 **After:** Completes in ~3 minutes
@@ -428,7 +428,7 @@ git commit -m "fix: mirror directory structure in slide cache paths"
 # Commit 4: Test timeout
 git add tests/run-all.sh
 git commit -m "fix: add 30s timeout to test runner"
-```bash
+```
 
 ### Step 17: Update Documentation
 
@@ -443,7 +443,7 @@ vim CHANGELOG.md
 # - Load guard double-sourcing (prevents 2-3x parsing on startup)
 # - Slide cache path collisions (directory-mirroring structure)
 # - Test runner hangs (30s timeout mechanism)
-```zsh
+```
 
 ---
 
@@ -456,7 +456,7 @@ if [[ -n "$_FLOW_*_LOADED" ]]; then
     return 0 2>/dev/null || true
 fi
 typeset -g _FLOW_*_LOADED=1
-```diff
+```
 
 **When to use:**
 - Any file that might be sourced multiple times
@@ -482,7 +482,7 @@ typeset -g _FLOW_*_LOADED=1
 ```text
 .teach/cache-file1.json
 .teach/cache-file2.json
-```text
+```
 
 **Mirrored structure (good):**
 

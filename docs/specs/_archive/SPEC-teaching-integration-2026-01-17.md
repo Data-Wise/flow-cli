@@ -109,7 +109,7 @@ Enhance the existing `teach` dispatcher to provide seamless Scholar plugin integ
 │ - Update .STATUS                                                │
 │ - Interactive commit workflow                                   │
 └─────────────────────────────────────────────────────────────────┘
-```yaml
+```
 
 ### Config Schema (teach-config.yml)
 
@@ -177,7 +177,7 @@ workflow:
   teaching_mode: true
   auto_commit: false
   auto_push: false
-```bash
+```
 
 ---
 
@@ -216,7 +216,7 @@ teach exam "Final" --context      # Include syllabus + past materials
 
 # Override week
 teach slides -w 10 "ANOVA"        # Force week 10
-```yaml
+```
 
 ---
 
@@ -243,7 +243,7 @@ units:
 
   - name: "Multiple Regression"
     weeks: [5, 6, 7, 8]
-```diff
+```
 
 ---
 
@@ -266,7 +266,7 @@ units:
 ⠋ Generating slides (~30s)...  12s
 ⠙ Generating slides (~30s)...  13s
 ⠹ Generating slides (~30s)...  14s
-```diff
+```
 
 **Implementation:**
 
@@ -288,7 +288,7 @@ Next steps:
   Preview:  qu preview slides/week08-regression.qmd
 
 Commit this content?  [1] Review  [2] Commit  [3] Skip: _
-```text
+```
 
 ### Error Message
 
@@ -302,7 +302,7 @@ Recovery:
    Edit schedule:             teach config
 
 Retry?  [Y/n] _
-```text
+```
 
 ### Interactive Mode Flow
 
@@ -315,7 +315,7 @@ Topic:
   [3] Enter custom topic
 
 Your choice [1-3]: _
-```text
+```
 
 ### Revision Menu
 

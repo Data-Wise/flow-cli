@@ -61,7 +61,7 @@ flow-cli uses **two storage backends simultaneously** for optimal balance of sec
                      │
                      ▼
             Token available for use
-```text
+```
 
 ### 1.2 Why Two Backends?
 
@@ -90,7 +90,7 @@ Every token stores metadata in JSON format:
   "expires": "2026-04-24",
   "github_user": "username"
 }
-```diff
+```
 
 **Storage locations:**
 - **Bitwarden:** `notes` field (full text)
@@ -107,7 +107,7 @@ security add-generic-password \
   -w "$token_value" \          # Password: ENCRYPTED (Touch ID required)
   -j "$metadata" \             # JSON attrs: searchable metadata
   -U                           # Update if exists
-```diff
+```
 
 **Security properties:**
 - ✅ Password (`-w`) is **encrypted** (requires authentication)
@@ -138,7 +138,7 @@ security add-generic-password \
 
 ```bash
 tok github
-```text
+```
 
 **Interactive steps:**
 
@@ -194,7 +194,7 @@ Expires: 2026-04-24 (90 days)
 │    gh auth login --with-token <<< \              │
 │      $(sec github-token)                  │
 ╰───────────────────────────────────────────────────╯
-```diff
+```
 
 **What happens behind the scenes:**
 
@@ -237,7 +237,7 @@ Expires: 2026-04-24 (90 days)
 
 ```bash
 tok github
-```text
+```
 
 **Interactive steps:**
 
@@ -284,7 +284,7 @@ Token: github_pat_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 Token name: github-token
 Expires: 2026-04-24 (90 days)
-```diff
+```
 
 **Token format:** `github_pat_*` (different from classic `ghp_*`)
 
@@ -299,7 +299,7 @@ Expires: 2026-04-24 (90 days)
 
 ```bash
 tok npm
-```text
+```
 
 **Interactive steps:**
 
@@ -332,7 +332,7 @@ Token: npm_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Token name: npm-token
 Type: Publish
 Expires: 2027-01-24 (365 days)
-```text
+```
 
 **Metadata stored:**
 
@@ -344,7 +344,7 @@ Expires: 2027-01-24 (365 days)
   "created": "2026-01-24T14:30:00Z",
   "expires_days": 365
 }
-```diff
+```
 
 ### 2.3 PyPI API Token
 
@@ -356,7 +356,7 @@ Expires: 2027-01-24 (365 days)
 
 ```bash
 tok pypi
-```text
+```
 
 **Interactive steps:**
 
@@ -390,7 +390,7 @@ Token: pypi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Token name: pypi-my-awesome-package
 Type: Project-specific
 Expires: Never (manual rotation recommended)
-```text
+```
 
 **Important:** PyPI tokens don't expire automatically. Set calendar reminder for 90-day rotation.
 
@@ -404,7 +404,7 @@ Expires: Never (manual rotation recommended)
 
 ```bash
 sec <token-name>
-```bash
+```
 
 **Example:**
 
@@ -415,7 +415,7 @@ GITHUB_TOKEN=$(sec github-token)
 # Verify retrieval (check length, not value)
 echo "Token length: ${#GITHUB_TOKEN}"
 # Output: Token length: 40
-```bash
+```
 
 **What happens:**
 
@@ -439,7 +439,7 @@ gh auth login --with-token <<< $(sec github-token)
 # Method 3: Persistent login
 echo $(sec github-token) | gh auth login --with-token
 gh auth status
-```bash
+```
 
 #### npm Publishing
 
@@ -453,7 +453,7 @@ npm publish
 
 # Or use .npmrc (not recommended - plaintext)
 echo "//registry.npmjs.org/:_authToken=$(sec npm-token)" >> .npmrc
-```bash
+```
 
 #### PyPI Publishing
 
@@ -468,7 +468,7 @@ python -m twine upload dist/*
 # Or use pyproject.toml (poetry)
 poetry config pypi-token.pypi $(sec pypi-my-package)
 poetry publish
-```bash
+```
 
 ### 3.3 CI/CD Integration
 
@@ -505,7 +505,7 @@ jobs:
         run: |
           npm config set //registry.npmjs.org/:_authToken "$NPM_TOKEN"
           npm publish
-```bash
+```
 
 **Note:** For CI/CD, consider using GitHub Secrets instead of Keychain for better portability.
 
@@ -532,7 +532,7 @@ sec delete github-token
 # 2. Add new token
 tok github
 # Create with same name
-```diff
+```
 
 **What happens:**
 
@@ -564,7 +564,7 @@ security add-generic-password \
   -s flow-cli \
   -w "$TOKEN_VALUE" \
   -j '{"dot_version":"2.1","type":"github","token_type":"classic","created":"2026-01-24T15:00:00Z","expires_days":90,"expires":"2026-04-24","github_user":"newusername"}'
-```diff
+```
 
 **Future enhancement:** `sec update-metadata <name>` command planned.
 
@@ -584,7 +584,7 @@ security add-generic-password \
 
 ```bash
 tok rotate
-```text
+```
 
 **Interactive steps:**
 
@@ -628,7 +628,7 @@ Token: ghp_NEWTOKEN...
 │  IMPORTANT: Revoke old token on GitHub!           │
 │  https://github.com/settings/tokens               │
 ╰───────────────────────────────────────────────────╯
-```diff
+```
 
 **What happens:**
 
@@ -686,7 +686,7 @@ sec delete github-token-backup-20260124
 
 # 6. Revoke old token on provider
 # https://github.com/settings/tokens
-```diff
+```
 
 ### 5.3 Backup Strategy
 
@@ -704,7 +704,7 @@ sec add github-token-backup-$(date +%Y%m%d)
 
 # After verification, delete backup
 sec delete github-token-backup-20260124
-```bash
+```
 
 **Backup cleanup:**
 
@@ -719,7 +719,7 @@ sec list | grep backup
 
 # Delete old backups (> 7 days)
 sec delete github-token-backup-20260117
-```text
+```
 
 ---
 
@@ -731,13 +731,13 @@ sec delete github-token-backup-20260117
 
 ```bash
 sec delete <token-name>
-```text
+```
 
 **Example:**
 
 ```bash
 sec delete github-token
-```text
+```
 
 **Interactive confirmation:**
 
@@ -770,7 +770,7 @@ Token deleted successfully.
 
 Remember to revoke on provider:
   https://github.com/settings/tokens
-```bash
+```
 
 **What happens:**
 
@@ -810,7 +810,7 @@ done
 for token in github-token-backup-202601{10..23}; do
   sec delete "$token" 2>/dev/null || true
 done
-```bash
+```
 
 **Future enhancement:** `sec prune` command planned.
 
@@ -829,7 +829,7 @@ open https://github.com/settings/tokens
 # Or use GitHub CLI
 gh auth refresh -s delete_repo
 gh api -X DELETE /applications/{client_id}/token
-```bash
+```
 
 #### npm
 
@@ -840,7 +840,7 @@ open https://www.npmjs.com/settings/~/tokens
 # Or use npm CLI (requires login)
 npm token list
 npm token revoke <token-id>
-```bash
+```
 
 #### PyPI
 
@@ -849,7 +849,7 @@ npm token revoke <token-id>
 open https://pypi.org/manage/account/token/
 
 # No CLI method - manual deletion only
-```text
+```
 
 ---
 
@@ -861,7 +861,7 @@ open https://pypi.org/manage/account/token/
 
 ```bash
 tok expiring
-```text
+```
 
 **Output (multiple tokens):**
 
@@ -890,7 +890,7 @@ Summary:
   1 token expiring soon (⚠️)
   1 token healthy (✅)
   1 token no expiration (⏳)
-```diff
+```
 
 **Exit codes:**
 - `0`: All tokens healthy (> 7 days)
@@ -907,7 +907,7 @@ else
   echo "Tokens expiring soon!" >&2
   exit 1
 fi
-```bash
+```
 
 ### 7.2 Update Expiration Date
 
@@ -941,7 +941,7 @@ security add-generic-password \
 
 # Verify
 tok expiring
-```bash
+```
 
 **Future enhancement:** `tok update-expiration <name> <days>` command planned.
 
@@ -957,7 +957,7 @@ sec config github-token --no-expiration-check
 
 # Disable globally
 export FLOW_TOKEN_CHECK_DISABLED=1
-```diff
+```
 
 **Current workaround:** Ignore warnings in scripts.
 
@@ -988,7 +988,7 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibil
 # Enable Terminal.app or iTerm.app
 # System Settings → Privacy & Security → Accessibility
 # Click [+] → Add Terminal/iTerm → Toggle ON
-```bash
+```
 
 #### Unlock Keychain Manually
 
@@ -1003,7 +1003,7 @@ security unlock-keychain login.keychain-db
 # Verify unlock
 security show-keychain-info login.keychain-db
 # Should show: "no-timeout"
-```bash
+```
 
 #### SSH Session Workaround
 
@@ -1014,7 +1014,7 @@ security unlock-keychain -p "your-password" login.keychain-db
 
 # Or: Use Bitwarden backend directly
 sec bw github-token
-```diff
+```
 
 ### 8.2 Token Validation Failed
 
@@ -1045,7 +1045,7 @@ echo "$TOKEN" | grep -E '^npm_[A-Za-z0-9]{36}$'
 
 # PyPI token
 echo "$TOKEN" | grep -E '^pypi-[A-Za-z0-9_-]+$'
-```bash
+```
 
 #### Manual Token Test
 
@@ -1058,7 +1058,7 @@ curl -H "Authorization: token ghp_YOUR_TOKEN" \
 
 # Expected: {"login":"username",...}
 # If error: {"message":"Bad credentials"}
-```bash
+```
 
 **npm:**
 
@@ -1068,14 +1068,14 @@ curl -H "Authorization: Bearer npm_YOUR_TOKEN" \
   https://registry.npmjs.org/-/whoami
 
 # Expected: {"username":"yourname"}
-```bash
+```
 
 **PyPI:**
 
 ```bash
 # PyPI tokens can't be tested via API
 # Only way: try publishing
-```bash
+```
 
 #### Check Token Scopes
 
@@ -1087,14 +1087,14 @@ curl -I -H "Authorization: token ghp_YOUR_TOKEN" \
   https://api.github.com/user | grep x-oauth-scopes
 
 # Output: x-oauth-scopes: repo, workflow, read:org
-```bash
+```
 
 **npm:**
 
 ```bash
 # npm tokens don't expose scopes via API
 # Check on website: https://www.npmjs.com/settings/~/tokens
-```diff
+```
 
 ### 8.3 Keychain Access Denied
 
@@ -1116,7 +1116,7 @@ security find-generic-password \
 # If error, reset Keychain access:
 security delete-generic-password -s flow-cli -a github-token
 tok github  # Re-add
-```zsh
+```
 
 #### Verify Service Name
 
@@ -1127,7 +1127,7 @@ echo $_DOT_KEYCHAIN_SERVICE
 
 # If empty, reload plugin
 source flow.plugin.zsh
-```diff
+```
 
 ### 8.4 Bitwarden Sync Issues
 
@@ -1146,7 +1146,7 @@ brew install bitwarden-cli
 
 # Verify installation
 bw --version
-```bash
+```
 
 #### Login to Bitwarden
 
@@ -1159,7 +1159,7 @@ bw login
 
 # If session expired:
 export BW_SESSION=$(bw unlock --raw)
-```bash
+```
 
 #### Manual Sync
 
@@ -1169,7 +1169,7 @@ bw sync --session $BW_SESSION
 
 # Verify sync
 bw list items --session $BW_SESSION | jq '.[] | select(.name=="github-token")'
-```text
+```
 
 ---
 
@@ -1201,7 +1201,7 @@ bw list items --session $BW_SESSION | jq '.[] | select(.name=="github-token")'
 ❌ AVOID broad scopes:
   admin:org     (unless truly needed)
   delete_repo   (rarely needed)
-```text
+```
 
 **GitHub Fine-grained PAT:**
 
@@ -1217,7 +1217,7 @@ bw list items --session $BW_SESSION | jq '.[] | select(.name=="github-token")'
 ❌ AVOID:
   All repositories (use specific repos)
   Admin permissions (unless required)
-```text
+```
 
 **npm token:**
 
@@ -1225,7 +1225,7 @@ bw list items --session $BW_SESSION | jq '.[] | select(.name=="github-token")'
 ✅ Use publish token only for publishing
 ✅ Use read-only token for CI/CD installs
 ❌ AVOID automation token for publishing
-```text
+```
 
 #### Token Naming
 
@@ -1241,7 +1241,7 @@ bw list items --session $BW_SESSION | jq '.[] | select(.name=="github-token")'
   token                    (vague)
   github-1                 (meaningless)
   temp                     (forgot to delete?)
-```bash
+```
 
 ### 9.2 Keychain Security
 
@@ -1260,7 +1260,7 @@ security find-generic-password \
   -a github-token \
   -g
 # Should prompt for Touch ID
-```bash
+```
 
 **Fallback to password:**
 
@@ -1268,7 +1268,7 @@ security find-generic-password \
 # If Touch ID fails, use password
 security unlock-keychain login.keychain-db
 # Enter password when prompted
-```text
+```
 
 #### Lock Screen When Away
 
@@ -1279,7 +1279,7 @@ System Settings → Lock Screen
   • Require password: Immediately
   • Turn display off: 5 minutes
   • Show password hints: OFF
-```bash
+```
 
 **Keyboard shortcut:** `⌃⌘Q` (Control-Command-Q) to lock immediately
 
@@ -1297,7 +1297,7 @@ zip -e ~/Backups/keychain-backup-$(date +%Y%m%d).zip \
   ~/Backups/login.keychain-backup-*.db
 
 # Upload to secure storage (iCloud, 1Password, etc.)
-```bash
+```
 
 **Restore Keychain:**
 
@@ -1311,7 +1311,7 @@ cp login.keychain-backup-*.db \
 
 # Unlock
 security unlock-keychain login.keychain-db
-```diff
+```
 
 ### 9.3 Bitwarden Security
 
@@ -1328,7 +1328,7 @@ security unlock-keychain login.keychain-db
 ```bash
 # Use Bitwarden password generator
 bw generate --length 20 --uppercase --lowercase --number --special
-```diff
+```
 
 #### Enable 2FA
 
@@ -1364,7 +1364,7 @@ tok expiring
 
 # 5. Rotate expiring tokens
 tok rotate
-```bash
+```
 
 **Automated audit (script):**
 
@@ -1391,7 +1391,7 @@ done
 
 # Log audit
 echo "Audit completed: $(date)" >> ~/.flow/token-audit.log
-```yaml
+```
 
 ---
 
@@ -1437,7 +1437,7 @@ sec import
 ✓ Storing in Keychain...
 
 Imported: github-token
-```bash
+```
 
 **Manual migration (batch):**
 
@@ -1477,7 +1477,7 @@ EOF
 
 chmod +x migrate-tokens.sh
 ./migrate-tokens.sh
-```bash
+```
 
 ### 10.2 From Environment Variables to Keychain
 
@@ -1489,7 +1489,7 @@ chmod +x migrate-tokens.sh
 # ~/.zshrc
 export GITHUB_TOKEN="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 export NPM_TOKEN="npm_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-```bash
+```
 
 **Migration steps:**
 
@@ -1527,7 +1527,7 @@ source ~/.zshrc
 # 5. Verify
 echo "GitHub token length: ${#GITHUB_TOKEN}"
 echo "npm token length: ${#NPM_TOKEN}"
-```diff
+```
 
 **Result:**
 - ✅ Tokens no longer in plaintext config
@@ -1585,7 +1585,7 @@ rm -rf flow-cli-tokens-$(date +%Y%m%d)/
 
 # 5. Upload encrypted zip to secure storage
 # (iCloud, 1Password, Bitwarden Attachments, etc.)
-```bash
+```
 
 **Restore from backup:**
 

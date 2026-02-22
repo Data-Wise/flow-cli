@@ -44,7 +44,7 @@ For ADHD minds, small visible rewards are essential for sustained focus:
 │  Do Something  →  Log Win  →  See Progress  →  Repeat  │
 │      🎯              🎉            📊           🔄      │
 └─────────────────────────────────────────────────────────┘
-```diff
+```
 
 Each win gives you a dopamine boost, making it easier to keep going.
 
@@ -65,7 +65,7 @@ First, do some work. It could be small:
 
 ```bash
 win "Fixed the typo in README"
-```text
+```
 
 **What happened:** You logged your first win! The output shows:
 
@@ -74,7 +74,7 @@ win "Fixed the typo in README"
 Fixed the typo in README
 
 Keep it up! 🚀
-```bash
+```
 
 Notice how it detected the category `#docs` from the word "README".
 
@@ -91,7 +91,7 @@ win "Fixed login bug"
 
 win "Added unit tests for auth module"
 # → 🧪 test (detected "tests")
-```bash
+```
 
 ---
 
@@ -120,7 +120,7 @@ Sometimes auto-detection doesn't match your intent:
 win --code "Wrote utility function"
 win -f "Resolved edge case"    # -f = fix
 win --ship "Merged feature branch"
-```text
+```
 
 !!! tip "When to Override"
 Use manual categories when: - Keywords are ambiguous ("added docs" → is it code or docs?) - You want a specific categorization for tracking - Auto-detection missed the context
@@ -133,7 +133,7 @@ Use manual categories when: - Keywords are ambiguous ("added docs" → is it cod
 
 ```bash
 yay
-```text
+```
 
 Output:
 
@@ -147,13 +147,13 @@ Output:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Total: 3 wins | Streak: 🔥 5 days
-```text
+```
 
 ### Weekly Summary
 
 ```bash
 yay --week
-```text
+```
 
 Output:
 
@@ -172,7 +172,7 @@ Output:
 Mon Tue Wed Thu Fri Sat Sun
  ▁   ▃   ██  ▅   ▂
      Activity Graph
-```bash
+```
 
 !!! success "Celebrate Your Progress"
 The weekly summary shows your work patterns. Seeing your wins visualized helps reinforce the habit.
@@ -205,7 +205,7 @@ yay
 
 # In extended status
 status --extended
-```text
+```
 
 ### Building a Streak
 
@@ -215,7 +215,7 @@ Day 2: work project → 🌱 2 days
 Day 3: work project → 🔥 3 days - On a roll!
 Day 4: (no work)    → 😢 Streak reset
 Day 5: work project → 🌱 1 day (starting over)
-```bash
+```
 
 !!! tip "Maintain Your Streak"
 Even a 5-minute session counts! On busy days, do a quick `work` → `win "Quick check-in"` → `finish` to keep your streak alive.
@@ -229,19 +229,19 @@ Even a 5-minute session counts! On busy days, do a quick `work` → `win "Quick 
 ```bash
 # Set a goal of 3 wins per day
 flow goal set 3
-```text
+```
 
 Output:
 
 ```text
 🎯 Daily goal set: 3 wins
-```text
+```
 
 ### Check Your Progress
 
 ```bash
 flow goal
-```text
+```
 
 Output:
 
@@ -251,7 +251,7 @@ Output:
 ██████░░░░ 2/3 wins
 
 Log 1 more win to reach your goal!
-```text
+```
 
 ### Goal Shown in Dashboard
 
@@ -259,7 +259,7 @@ The dashboard now shows your goal progress:
 
 ```bash
 dash
-```text
+```
 
 ```text
 ┌─ 🎉 Recent Wins ─────────────────────────────────────────────┐
@@ -268,7 +268,7 @@ dash
 │ 💻 Implemented auth service              14:20               │
 │ 🔧 Fixed login redirect bug              11:45               │
 └──────────────────────────────────────────────────────────────┘
-```bash
+```
 
 ### Adjusting Your Goal
 
@@ -283,7 +283,7 @@ flow goal set 3
 
 # If you're crushing it
 flow goal set 5
-```text
+```
 
 ---
 
@@ -301,7 +301,7 @@ Open your project's `.STATUS` file:
 ## Status: active
 
 ## daily_goal: 5
-```text
+```
 
 ### How Priority Works
 
@@ -317,7 +317,7 @@ Open your project's `.STATUS` file:
 
 ```bash
 dash
-```text
+```
 
 ```text
 ╭──────────────────────────────────────────────────────────────╮
@@ -335,13 +335,13 @@ dash
 │ 🔧 Fixed login redirect bug              11:45               │
 │ 📝 Updated API documentation             09:30               │
 └──────────────────────────────────────────────────────────────┘
-```text
+```
 
 ### Interactive Dashboard
 
 ```bash
 dash -i
-```bash
+```
 
 **Keyboard shortcuts:**
 
@@ -383,7 +383,7 @@ finish "Good progress today"
 
 # Check your streak
 yay
-```bash
+```
 
 ---
 
@@ -396,7 +396,7 @@ Don't wait until the end of the day:
 ```bash
 # Right after finishing something
 win "Just fixed that annoying bug"
-```bash
+```
 
 The immediate feedback reinforces the behavior.
 
@@ -410,7 +410,7 @@ flow goal set 2
 
 # Week 2 (if consistently hitting)
 flow goal set 3
-```diff
+```
 
 ### 3. Use Categories
 
@@ -427,7 +427,7 @@ Make `dash` part of your morning:
 ```bash
 morning    # Morning routine with suggestions
 dash       # Quick dashboard check
-```bash
+```
 
 ---
 
@@ -441,7 +441,7 @@ ls -la ~/.local/share/flow/wins.md
 
 # View raw file
 cat ~/.local/share/flow/wins.md
-```bash
+```
 
 ### Streak Reset Unexpectedly
 
@@ -450,7 +450,7 @@ Streaks require at least one work session per day:
 ```bash
 # Check worklog for gaps
 tail -20 ~/.local/share/flow/worklog
-```bash
+```
 
 ### Goal Not Updating
 

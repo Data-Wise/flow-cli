@@ -78,7 +78,7 @@ df
 │   └── --setup-secrets
 │
 └── help          → Show full help
-```text
+```
 
 ---
 
@@ -106,7 +106,7 @@ RARE (5% of usage)
 │ df undo               (rollback)        │  █             1%
 │ df init               (first-time)      │  █             1%
 └─────────────────────────────────────────┘
-```text
+```
 
 ---
 
@@ -134,7 +134,7 @@ RARE (5% of usage)
                                    ├─→ df doctor (resolve)
                                    │
                                    └─→ df apply --force ──→ SYNCED
-```bash
+```
 
 ---
 
@@ -154,7 +154,7 @@ df edit brew     → ~/.local/share/chezmoi/Brewfile
 # 2. Basename match (.zshrc)
 # 3. Substring match (git → gitconfig)
 # 4. Multiple matches → fzf picker
-```text
+```
 
 ---
 
@@ -179,7 +179,7 @@ df edit brew     → ~/.local/share/chezmoi/Brewfile
          │   └─→ YES: df secret add → Retry
          │
          └─→ [Success]
-```text
+```
 
 ---
 
@@ -201,7 +201,7 @@ Action Colors:
 ⚠ Warning            → Yellow
 ✗ Error              → Red
 ✓ Success            → Green
-```text
+```
 
 ---
 
@@ -223,7 +223,7 @@ $ dash
 📦 Dotfiles: 🟢 Synced (2h ago)        ← NEW!
   3 secrets active • 0 pending changes
   💡 df sync to update
-```text
+```
 
 ### Work Command Integration
 
@@ -233,7 +233,7 @@ $ work my-project
 📦 Checking dotfiles...               ← NEW!
   ⚠ Behind remote by 2 commits
   💡 Run 'df sync' to update? [Y/n]
-```bash
+```
 
 ### Flow Doctor Integration
 
@@ -247,7 +247,7 @@ $ flow doctor
   ✓ Repository connected
   ✓ Secrets configured
   ✓ Synced with remote
-```text
+```
 
 ---
 
@@ -262,7 +262,7 @@ df se<TAB>         → Complete to 'secret'
 df sec <TAB>       → Show: list, add, test, unlock
 df ig<TAB>         → Complete to 'ignore'
 df ignore <TAB>    → Show: add, list, remove, edit, help
-```diff
+```
 
 ---
 
@@ -297,7 +297,7 @@ alias dfd='df diff'        # df diff
 alias dfst='df status'     # df status
 
 # Most users will just use: df edit, df sync, df push
-```text
+```
 
 ---
 
@@ -366,7 +366,7 @@ $ df help
 📚 See also: dash (shows dotfile status)
             work (checks for updates)
             flow doctor (includes dotfile check)
-```bash
+```
 
 ---
 
@@ -404,7 +404,7 @@ dot ignore list
 
 # Edit manually for complex patterns
 dot ignore edit
-```text
+```
 
 **Pattern Format:** Uses gitignore-style patterns (wildcards, directories, negation)
 
@@ -438,7 +438,7 @@ Repository Size Analysis
 💡 Suggestions:
   • Consider adding *.log to .chezmoiignore
   • Large binary detected: dot_background.png (should this be tracked?)
-```diff
+```
 
 **When to Use:**
 - Repository feels slow to sync
@@ -464,7 +464,7 @@ $ dot add ~/projects/my-app/.env
    Adding to chezmoi will duplicate version control.
 
    Continue? [y/N]
-```text
+```
 
 **Auto-Suggest Ignore Patterns:**
 
@@ -479,7 +479,7 @@ $ dot add node_modules/
    Run: dot ignore add "node_modules/"
 
    Continue with add? [y/N]
-```text
+```
 
 **Preview Before Apply:**
 
@@ -493,7 +493,7 @@ $ dot sync
   -  old_config.txt
 
 Apply these changes? [Y/n]
-```text
+```
 
 ---
 
@@ -536,7 +536,7 @@ Need to...
 │
 └─ First-time setup?
    └─→ df init
-```text
+```
 
 ---
 
@@ -560,7 +560,7 @@ Plus:
 🔐 Secret injection (Bitwarden)
 📝 Template rendering (machine-specific)
 🔄 Auto-backup before changes
-```text
+```
 
 ---
 

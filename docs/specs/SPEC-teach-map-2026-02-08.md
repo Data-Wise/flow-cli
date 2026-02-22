@@ -59,7 +59,7 @@ _teach_map()
          +-- Phase: VALIDATION & QUALITY
          +-- Phase: DEPLOYMENT
          +-- Phase: SEMESTER TRACKING
-```text
+```
 
 Single function in `teach-dispatcher.zsh`. No new files.
 
@@ -74,7 +74,7 @@ N/A -- No API changes. This is a pure ZSH print function.
 ```text
 teach map          # Show full ecosystem map
 teach map --help   # Same as teach map (it IS the help)
-```diff
+```
 
 **Aliases:** `map` only (no shortcut needed -- it's a discovery command, not a daily-use one).
 

@@ -29,7 +29,7 @@ You'll use worktrees when:
 - Want to review PR without stashing changes
 
 ## Step 2: Creating Your First Worktree
-```bash
+```
 wt create feature/new-feature
 ```bash
 
@@ -55,7 +55,7 @@ wt create feature/new-feature
 
 [Links to next tutorial]
 
-```diff
+```
 
 ### Characteristics
 
@@ -97,7 +97,7 @@ wt create feature/new-feature
 [Pure concept explanation - no workflows yet]
 
 ## Step 2: Creating Your First Worktree
-```bash
+```
 wt create feature/new-feature
 ```bash
 
@@ -129,7 +129,7 @@ Now that you understand worktrees, here are the most common workflow patterns:
 
 **Example:**
 
-```bash
+```
 # You're on main, want to add a new feature
 wt create feature/user-auth
 cd ~/.git-worktrees/flow-cli/feature-user-auth
@@ -154,7 +154,7 @@ g pr create
 
 **Example:**
 
-```bash
+```
 # You're working on feature in worktree
 # Urgent bug reported!
 
@@ -210,7 +210,7 @@ cd ~/.git-worktrees/flow-cli/feature-user-auth
 
 [Links to next tutorial]
 
-```diff
+```
 
 ### Characteristics
 
@@ -252,7 +252,7 @@ cd ~/.git-worktrees/flow-cli/feature-user-auth
 [Concept]
 
 💡 **Quick Workflow Tip:** Use worktrees for feature isolation
-```bash
+```
 wt create feature/new-feature  # Try it now!
 ```diff
 
@@ -308,7 +308,7 @@ Now that you understand the basics, here are complete workflow patterns:
 
 [Links]
 
-```diff
+```
 
 ### Characteristics
 
@@ -360,7 +360,7 @@ Now that you understand the basics, here are complete workflow patterns:
 
 Flow: Learn → Apply → Learn → Apply (interleaved)
 
-```text
+```
 
 ### Separated (Option 2)
 
@@ -394,7 +394,7 @@ Flow: Learn → Apply → Learn → Apply (interleaved)
 
 Flow: Learn All → Apply All (sequential)
 
-```text
+```
 
 ### Hybrid (Option 3) - RECOMMENDED
 
@@ -434,7 +434,7 @@ Flow: Learn All → Apply All (sequential)
 
 Flow: Learn + Quick Tips → Complete Workflow Patterns
 
-```diff
+```
 
 ---
 
@@ -485,7 +485,7 @@ Flow: Learn + Quick Tips → Complete Workflow Patterns
 
 ### Workflow 3: Feature + Hotfix Parallel
 [Full workflow]
-```diff
+```
 
 ---
 
@@ -512,7 +512,7 @@ Flow: Learn + Quick Tips → Complete Workflow Patterns
 ### Workflow 1: Feature Development
 ### Workflow 2: Bug Fix + Feature Parallel
 ### Workflow 3: PR Review
-```diff
+```
 
 ---
 

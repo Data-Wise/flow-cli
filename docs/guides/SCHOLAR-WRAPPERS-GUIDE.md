@@ -43,7 +43,7 @@ Run health check to verify all dependencies:
 
 ```bash
 teach doctor
-```text
+```
 
 **Expected Output:**
 
@@ -53,7 +53,7 @@ teach doctor
 ✓ Lesson plans available (optional)
 ✓ LaTeX macros configured (optional)
 ✓ Custom prompts detected (optional)
-```yaml
+```
 
 ### Minimum Configuration
 
@@ -68,7 +68,7 @@ course:
 
 locations:
   lectures: 'lectures'
-```text
+```
 
 ---
 
@@ -95,7 +95,7 @@ flowchart LR
     J --> K[Auto-stage files]
     J --> L[Update .STATUS]
     J --> M[Commit menu]
-```text
+```
 
 ### Data Flow
 
@@ -130,7 +130,7 @@ flowchart TD
     P --> Q[AI Prompt]
     Q --> R[Claude Generation]
     R --> S[Output File]
-```text
+```
 
 ### Key Components
 
@@ -148,7 +148,7 @@ flowchart TD
 
 ```bash
 teach init "STAT-101" --github
-```diff
+```
 
 Creates:
 - `.flow/teach-config.yml` - Course metadata
@@ -159,7 +159,7 @@ Creates:
 
 ```bash
 teach doctor --fix
-```diff
+```
 
 Verifies and auto-fixes:
 - Configuration validity
@@ -170,7 +170,7 @@ Verifies and auto-fixes:
 
 ```bash
 teach plan create 1 --topic "Introduction to Statistics" --style conceptual
-```text
+```
 
 Adds week structure to `.flow/lesson-plans.yml` for enhanced AI generation.
 
@@ -178,7 +178,7 @@ Adds week structure to `.flow/lesson-plans.yml` for enhanced AI generation.
 
 ```bash
 teach lecture "Introduction to Statistics" --week 1
-```text
+```
 
 ---
 
@@ -195,7 +195,7 @@ Generate lecture notes in Quarto (.qmd) format.
 ```bash
 teach lecture <topic> [options]
 teach lecture --week N --topic "title"
-```diff
+```
 
 **What It Generates:**
 
@@ -213,7 +213,7 @@ course:
   name: 'STAT-101'              # Course code
 locations:
   lectures: 'lectures'          # Output directory
-```diff
+```
 
 **Style Options:**
 
@@ -233,7 +233,7 @@ teach lecture "Data Visualization" --week 2 --style computational --code
 
 # Generate from lesson plan (auto-fills topic and style)
 teach lecture --week 3
-```diff
+```
 
 **Output Format:**
 
@@ -257,7 +257,7 @@ format: html
 
 # Examples
 ...
-```sql
+```
 
 **Command-Specific Options:**
 
@@ -282,7 +282,7 @@ Create presentation slides from topics or existing lecture files.
 teach slides <topic> [options]
 teach slides --week N --topic "title"
 teach slides --from-lecture <file>
-```diff
+```
 
 **What It Generates:**
 
@@ -307,7 +307,7 @@ teach slides --week 5 --from-lecture week-05-regression.qmd
 teach slides --from-lecture week-05.qmd --optimize
 teach slides --week 5 --optimize --preview-breaks
 teach slides --week 5 --optimize --apply-suggestions
-```diff
+```
 
 **Optimization Flags (v5.15.0+):**
 
@@ -322,7 +322,7 @@ teach slides --week 5 --optimize --apply-suggestions
 locations:
   lectures: 'lectures'          # Source directory
   slides_output: '_site/slides' # Rendered output
-```bash
+```
 
 **Example with STAT-101:**
 
@@ -335,7 +335,7 @@ teach slides --from-lecture lectures/week-03-probability.qmd
 
 # Optimized conversion with key concepts
 teach slides --week 5 --from-lecture week-05-regression.qmd --optimize --key-concepts
-```diff
+```
 
 **Output Format:**
 
@@ -357,7 +357,7 @@ theme: default
 - Random variables
 - Probability mass functions
 - Expected value
-```diff
+```
 
 **Command-Specific Options:**
 
@@ -381,7 +381,7 @@ Generate comprehensive exams with multiple question types.
 ```bash
 teach exam <topic> [options]
 teach exam --questions N --duration minutes
-```diff
+```
 
 **What It Generates:**
 
@@ -402,7 +402,7 @@ teach macros sync
 
 # Generate exam (auto-injects macros)
 teach exam "Linear Regression" --math
-```bash
+```
 
 **Example with STAT-101:**
 
@@ -418,14 +418,14 @@ teach exam "ANOVA" --questions 8 --duration 60 --types "mc:3,sa:2,problem:3"
 
 # Math-heavy exam with consistent notation
 teach exam "Probability" --questions 12 --math --style rigorous
-```yaml
+```
 
 **Required Config Fields:**
 
 ```yaml
 course:
   name: 'STAT-101'
-```yaml
+```
 
 **Optional Config Fields (enhances output):**
 
@@ -439,7 +439,7 @@ scholar:
     sources:
       - path: "_macros.qmd"
         format: "qmd"
-```diff
+```
 
 **Output Format:**
 
@@ -466,7 +466,7 @@ format: pdf
 # Section 3: Problems (30 points)
 
 3. Calculate $\E{Y}$ for the following distribution...
-```sql
+```
 
 **Command-Specific Options:**
 
@@ -489,7 +489,7 @@ Create quiz questions for formative assessment.
 ```bash
 teach quiz <topic> [options]
 teach quiz --questions N --time-limit minutes
-```diff
+```
 
 **What It Generates:**
 
@@ -513,14 +513,14 @@ teach quiz "Regression Basics" --questions 8 --explanation
 
 # Math-focused quiz
 teach quiz "Probability Distributions" --questions 12 --math --style rigorous
-```yaml
+```
 
 **Required Config Fields:**
 
 ```yaml
 course:
   name: 'STAT-101'
-```diff
+```
 
 **Command-Specific Options:**
 
@@ -541,7 +541,7 @@ Generate homework assignments with problems and instructions.
 
 ```bash
 teach assignment <topic> [options]
-```diff
+```
 
 **What It Generates:**
 
@@ -565,7 +565,7 @@ teach assignment "Data Visualization" --style computational --code
 
 # Week-based assignment
 teach assignment "Week 5 Practice" --week 5
-```yaml
+```
 
 **Required Config Fields:**
 
@@ -574,7 +574,7 @@ course:
   name: 'STAT-101'
 locations:
   homework: 'assignments'
-```yaml
+```
 
 **Optional Config Fields:**
 
@@ -584,7 +584,7 @@ semester_info:
     homework5:
       week: 5
       offset_days: 5            # Auto-populate due date
-```sql
+```
 
 **Command-Specific Options:**
 
@@ -604,7 +604,7 @@ Create a complete course syllabus from configuration.
 
 ```bash
 teach syllabus [options]
-```diff
+```
 
 **What It Generates:**
 
@@ -625,7 +625,7 @@ teach syllabus --format pdf
 
 # Verbose mode
 teach syllabus --verbose
-```yaml
+```
 
 **Required Config Fields:**
 
@@ -648,7 +648,7 @@ scholar:
 semester_info:
   start_date: '2026-08-26'
   end_date: '2026-12-15'
-```diff
+```
 
 **Optional Enhancement:**
 
@@ -670,7 +670,7 @@ Generate grading rubrics for assignments or projects.
 
 ```bash
 teach rubric <assignment> [options]
-```diff
+```
 
 **What It Generates:**
 
@@ -690,14 +690,14 @@ teach rubric "Midterm Exam" --criteria 5
 
 # Week-based rubric
 teach rubric "Week 5 Assignment" --week 5
-```yaml
+```
 
 **Required Config Fields:**
 
 ```yaml
 course:
   name: 'STAT-101'
-```sql
+```
 
 **Command-Specific Options:**
 
@@ -716,7 +716,7 @@ Create personalized student feedback.
 
 ```bash
 teach feedback <student> [options]
-```diff
+```
 
 **What It Generates:**
 
@@ -733,14 +733,14 @@ teach feedback "John Doe - Assignment 3"
 
 # Week-based feedback
 teach feedback "Jane Smith - Midterm" --week 8
-```yaml
+```
 
 **Required Config Fields:**
 
 ```yaml
 course:
   name: 'STAT-101'
-```text
+```
 
 ---
 
@@ -752,7 +752,7 @@ Generate demo course content for testing or examples.
 
 ```bash
 teach demo [options]
-```diff
+```
 
 **What It Generates:**
 
@@ -770,7 +770,7 @@ teach demo
 
 # Specific content type
 teach demo --type lecture --topic "Introduction to Statistics"
-```bash
+```
 
 ---
 
@@ -827,7 +827,7 @@ teach slides "ANOVA" --style computational --diagrams
 
 # Custom content mix
 teach exam "Midterm" --math --code --examples --no-practice-problems
-```bash
+```
 
 ### Revision Workflow (--revise)
 
@@ -841,7 +841,7 @@ teach lecture "Linear Regression" --week 5
 
 # Revise with improvements
 teach lecture --revise lectures/week-05-regression.qmd
-```text
+```
 
 **Revision Options (interactive menu):**
 
@@ -863,7 +863,7 @@ flowchart LR
     E --> F[AI Regenerates]
     F --> B
     C -->|Yes| G[Done]
-```bash
+```
 
 ### Interactive Mode (--interactive)
 
@@ -875,7 +875,7 @@ teach lecture --interactive
 
 # Or with topic pre-filled
 teach slides "ANOVA" --interactive
-```text
+```
 
 **Wizard Steps:**
 
@@ -920,7 +920,7 @@ Generating lecture with:
   - Topic: "Probability Basics"
   - Style: computational
   - Flags: --explanation --examples --code
-```text
+```
 
 ---
 
@@ -954,7 +954,7 @@ flowchart LR
     C --> G[Inject into Scholar]
     E --> G
     F --> G
-```bash
+```
 
 **Priority:**
 
@@ -976,7 +976,7 @@ teach prompt validate
 
 # Export for Scholar integration (auto-injected)
 teach prompt export
-```yaml
+```
 
 See [REFCARD-PROMPTS.md](../reference/REFCARD-PROMPTS.md) for complete prompt management guide.
 
@@ -995,7 +995,7 @@ scholar:
         format: "qmd"
     export:
       include_in_prompts: true
-```text
+```
 
 **_macros.qmd:**
 
@@ -1005,7 +1005,7 @@ $$
 \newcommand{\Var}[1]{\text{Var}\left(#1\right)}
 \newcommand{\Cov}[2]{\text{Cov}\left(#1, #2\right)}
 $$
-```bash
+```
 
 **Result in Generated Content:**
 
@@ -1013,7 +1013,7 @@ $$
 # Expected Value
 
 The expected value of $Y$ is denoted $\E{Y}$, and variance as $\Var{Y}$.
-```bash
+```
 
 **Managing Macros:**
 
@@ -1026,7 +1026,7 @@ teach macros sync
 
 # Export for Scholar (auto-injected)
 teach macros export --format json
-```bash
+```
 
 See [Tutorial 26: LaTeX Macros](../tutorials/26-latex-macros.md) for complete macro workflow.
 
@@ -1063,7 +1063,7 @@ quarto preview
 # 8. Deploy
 teach deploy --preview
 teach deploy
-```bash
+```
 
 ### Creating an Exam from Lesson Plan
 
@@ -1087,7 +1087,7 @@ teach rubric "Midterm Exam" --criteria 6
 
 # 5. Preview
 quarto preview exams/
-```bash
+```
 
 ### Iterative Revision Workflow
 
@@ -1113,7 +1113,7 @@ quarto preview lectures/week-04-probability.qmd
 
 # 6. Deploy
 teach deploy
-```bash
+```
 
 ### Customizing Output with Prompts and Macros
 
@@ -1136,7 +1136,7 @@ teach lecture "Data Wrangling" --week 3 --code
 # Output will:
 # - Include tidyverse code examples (from prompt)
 # - Use consistent notation like \E{Y} (from macros)
-```text
+```
 
 ---
 
@@ -1148,7 +1148,7 @@ teach lecture "Data Wrangling" --week 3 --code
 
 ```text
 ❌ Error: Scholar plugin not available
-```bash
+```
 
 **Solution:**
 
@@ -1161,7 +1161,7 @@ claude plugins list | grep scholar
 
 # Verify
 teach doctor
-```text
+```
 
 ---
 
@@ -1171,7 +1171,7 @@ teach doctor
 
 ```text
 ❌ Error: Required field 'course.name' not found in teach-config.yml
-```yaml
+```
 
 **Solution:**
 
@@ -1185,7 +1185,7 @@ course:
 
 # Validate
 teach doctor
-```text
+```
 
 ---
 
@@ -1196,7 +1196,7 @@ teach doctor
 ```text
 ✓ Generation complete
 ✓ File created: lectures/week-05-regression.qmd
-```bash
+```
 
 But file is empty or contains only frontmatter.
 
@@ -1214,7 +1214,7 @@ teach lecture "Topic" --week 5 --verbose
 
 # 4. Check Scholar plugin logs
 # (See Scholar documentation for log location)
-```text
+```
 
 ---
 
@@ -1224,7 +1224,7 @@ teach lecture "Topic" --week 5 --verbose
 
 ```text
 ❌ Error: Conflicting flags: --math and --no-math
-```bash
+```
 
 **Solution:**
 
@@ -1238,7 +1238,7 @@ teach lecture "Topic" --math --no-math
 teach lecture "Topic" --math
 # OR
 teach lecture "Topic" --no-math
-```yaml
+```
 
 ---
 

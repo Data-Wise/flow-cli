@@ -10,7 +10,7 @@ The `hop` command provides fast project switching, especially powerful when usin
 
 ```bash
 hop [project]
-```bash
+```
 
 **Quick examples:**
 
@@ -24,7 +24,7 @@ hop
 # With tmux (creates/switches session)
 hop my-project
 # ✓ Hopped to: my-project
-```text
+```
 
 ---
 
@@ -32,7 +32,7 @@ hop my-project
 
 ```bash
 hop [project]
-```diff
+```
 
 ## Arguments
 
@@ -67,7 +67,7 @@ hop flow-cli
 
 # Interactive picker (if no project specified)
 hop
-```bash
+```
 
 ### With Tmux
 
@@ -77,7 +77,7 @@ hop flow-cli
 
 # View all tmux sessions
 tmux list-sessions
-```bash
+```
 
 ### Without Tmux
 
@@ -85,7 +85,7 @@ tmux list-sessions
 # Simply changes to project directory
 hop my-project
 # Changed to: my-project (start tmux for session management)
-```text
+```
 
 ---
 
@@ -95,7 +95,7 @@ With tmux:
 
 ```text
 ✓ Hopped to: flow-cli
-```text
+```
 
 Without tmux:
 

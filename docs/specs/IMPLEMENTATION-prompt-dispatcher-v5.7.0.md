@@ -145,7 +145,7 @@ declare -gA PROMPT_ENGINES=(
     [engine_description]="Description"
     [engine_binary]="binary_name"
 )
-```text
+```
 
 ### Function Organization
 
@@ -163,7 +163,7 @@ prompt (main dispatcher)
 ├── _prompt_validate_p10k()
 ├── _prompt_validate_starship()
 └── _prompt_validate_ohmyposh()
-```diff
+```
 
 ### Environment Integration
 
@@ -265,7 +265,7 @@ flow-cli/
 ├── .STATUS                               [UPDATED]
 ├── flow.plugin.zsh                       [UNCHANGED] Auto-loads dispatcher
 └── [other files unchanged]
-```diff
+```
 
 ## Design Decisions
 

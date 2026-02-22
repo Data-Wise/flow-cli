@@ -54,7 +54,7 @@ TEACH_PLAN_SUBTOPICS       # Pipe-separated subtopics
 TEACH_PLAN_KEY_CONCEPTS    # Pipe-separated key concepts
 TEACH_PLAN_PREREQUISITES   # Pipe-separated prerequisites
 TEACH_RESOLVED_STYLE       # Final style (plan or override)
-```yaml
+```
 
 ---
 
@@ -113,7 +113,7 @@ What style should this content use?
   [4] applied       Explanation + examples + code + practice
 
 Your choice [1-4]: _
-```bash
+```
 
 ---
 
@@ -143,7 +143,7 @@ teach slides -w 12
 teach slides -w 15
 # → Error: "No topic found for Week 15"
 # → Suggests adding to config or creating lesson plan
-```bash
+```
 
 ### Phase 4: Interactive Mode
 
@@ -165,7 +165,7 @@ teach slides -i --style computational
 # → Shows week selection
 # → Skips style selection
 # → Uses specified style
-```yaml
+```
 
 ---
 
@@ -202,7 +202,7 @@ key_concepts:
 prerequisites:
   - "Simple linear regression (Week 6)"
   - "Matrix notation basics (Week 7)"
-```diff
+```
 
 ### Required Fields
 
@@ -238,7 +238,7 @@ lib/dispatchers/teach-dispatcher.zsh    +320 lines
     - Phase 4 integration                (10 lines)
 
 Total: +320 lines
-```bash
+```
 
 ---
 
@@ -255,7 +255,7 @@ TEACH_PLAN_SUBTOPICS      # Set by _teach_load_lesson_plan()
 TEACH_PLAN_KEY_CONCEPTS   # Set by _teach_load_lesson_plan()
 TEACH_PLAN_PREREQUISITES  # Set by _teach_load_lesson_plan()
 TEACH_RESOLVED_STYLE      # Set by _teach_integrate_lesson_plan()
-```bash
+```
 
 ### New Functions (Public API)
 
@@ -270,7 +270,7 @@ _teach_integrate_lesson_plan <week> <style># Main integration
 _teach_select_style_interactive            # Style selection menu
 _teach_select_topic_interactive            # Topic selection menu
 _teach_interactive_wizard <cmd> <topic> <style>  # Main wizard
-```bash
+```
 
 ### Enhanced Functions
 
@@ -281,7 +281,7 @@ _teach_scholar_wrapper <subcommand> [args...]
   # - Interactive mode (-i, --interactive)
   # - Style from lesson plan
   # - Topic from lesson plan
-```diff
+```
 
 ---
 
@@ -363,7 +363,7 @@ _teach_scholar_wrapper <subcommand> [args...]
 ```text
 Lesson plan globals:    ~3KB  (6 variables)
 Interactive functions:  ~12KB (3 functions)
-```diff
+```
 
 **Total:** ~15KB additional memory
 **Assessment:** ✅ Minimal impact
@@ -471,7 +471,7 @@ $ teach slides -w 8
 # 4. Proceeds to content generation
 
 → Generates slides for "Multiple Regression" with computational style
-```yaml
+```
 
 ### Example 2: Week without Lesson Plan
 
@@ -492,7 +492,7 @@ Continue with this topic? [Y/n]: y
 Hint: Create a lesson plan with: teach plan create 12
 
 → Proceeds with "Time Series"
-```bash
+```
 
 ### Example 3: Interactive Mode
 

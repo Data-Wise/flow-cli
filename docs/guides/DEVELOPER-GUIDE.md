@@ -46,7 +46,7 @@ source flow.plugin.zsh
 
 # Verify installation
 flow --version
-```text
+```
 
 ---
 
@@ -77,7 +77,7 @@ flow-cli/
     ├── reference/           # API reference
     ├── guides/              # How-to guides
     └── tutorials/           # Step-by-step tutorials
-```diff
+```
 
 ### Development Workflow
 
@@ -168,7 +168,7 @@ source lib/core.zsh
 
 _flow_log_success "Task completed"
 root=$(_flow_find_project_root)
-```diff
+```
 
 #### `lib/project-cache.zsh`
 
@@ -189,7 +189,7 @@ _proj_cache_invalidate
 
 # Get cached project list
 projects=$(_proj_scan_projects)
-```diff
+```
 
 #### `lib/config-validator.zsh`
 
@@ -209,7 +209,7 @@ if _teach_validate_config "teach-config.yml"; then
 else
     echo "Invalid"
 fi
-```text
+```
 
 ---
 
@@ -221,7 +221,7 @@ fi
 
 ```bash
 touch lib/dispatchers/my-dispatcher.zsh
-```zsh
+```
 
 **Step 2:** Implement dispatcher
 
@@ -273,14 +273,14 @@ Examples:
   my action2
 EOF
 }
-```zsh
+```
 
 **Step 3:** Register in `flow.plugin.zsh`
 
 ```zsh
 # Add to plugin file
 source "$FLOW_PLUGIN_DIR/lib/dispatchers/my-dispatcher.zsh"
-```zsh
+```
 
 **Step 4:** Add completion
 
@@ -299,7 +299,7 @@ _my() {
 }
 
 _my "$@"
-```zsh
+```
 
 **Step 5:** Add tests
 
@@ -317,7 +317,7 @@ test_my_action1() {
 }
 
 test_my_action1
-```diff
+```
 
 **Step 6:** Update documentation
 
@@ -331,7 +331,7 @@ test_my_action1
 
 ```bash
 touch commands/mycommand.zsh
-```zsh
+```
 
 **Step 2:** Implement command
 
@@ -376,14 +376,14 @@ Examples:
   mycommand --option foo
 EOF
 }
-```zsh
+```
 
 **Step 3:** Source in plugin
 
 ```zsh
 # flow.plugin.zsh
 source "$FLOW_PLUGIN_DIR/commands/mycommand.zsh"
-```zsh
+```
 
 **Step 4:** Add completion**
 
@@ -398,7 +398,7 @@ _mycommand() {
 }
 
 _mycommand "$@"
-```zsh
+```
 
 **Step 5:** Add tests
 
@@ -416,7 +416,7 @@ test_mycommand_basic() {
 }
 
 test_mycommand_basic
-```diff
+```
 
 ---
 
@@ -473,7 +473,7 @@ echo "Passed: $TESTS_PASSED"
 echo "Failed: $TESTS_FAILED"
 
 [[ $TESTS_FAILED -eq 0 ]]
-```bash
+```
 
 ### Assertion Helpers
 
@@ -507,7 +507,7 @@ assert_file_exists() {
         return 1
     }
 }
-```bash
+```
 
 ### Running Tests
 
@@ -515,19 +515,19 @@ assert_file_exists() {
 
 ```bash
 ./tests/run-all.sh
-```text
+```
 
 **Run Specific Test:**
 
 ```bash
 ./tests/test-pick-command.zsh
-```text
+```
 
 **Run with Debug Output:**
 
 ```bash
 FLOW_DEBUG=1 ./tests/test-my-feature.zsh
-```bash
+```
 
 ### Mock Environment
 
@@ -547,7 +547,7 @@ cleanup() {
     rm -rf "$TEST_DIR"
 }
 trap cleanup EXIT
-```diff
+```
 
 ### Test Coverage
 
@@ -597,7 +597,7 @@ if [[ $? -ne 0 ]]; then
     _flow_log_error "Previous command failed"
     return 1
 fi
-```bash
+```
 
 **5. Arrays:**
 
@@ -613,7 +613,7 @@ done
 
 # Length
 echo "${#items[@]}"
-```bash
+```
 
 **6. Associative Arrays:**
 
@@ -632,7 +632,7 @@ echo "${MY_ARRAY[key1]}"
 for key in "${(@k)MY_ARRAY}"; do
     echo "$key = ${MY_ARRAY[$key]}"
 done
-```diff
+```
 
 ### Code Formatting
 
@@ -657,7 +657,7 @@ function_name() {
     # Brief description of function
     local var="value"  # Inline comment
 }
-```bash
+```
 
 ### Color Usage
 
@@ -669,7 +669,7 @@ echo -e "${FLOW_COLORS[success]}✓ Success${FLOW_COLORS[reset]}"
 
 # Bad
 echo -e "\033[32m✓ Success\033[0m"
-```diff
+```
 
 **Available Colors:**
 - `success`, `warning`, `error`, `info`
@@ -708,14 +708,14 @@ echo -e "\033[32m✓ Success\033[0m"
 - `--option` (flag): Description
 
 **Examples:**
-```bash
+```
 command-name foo
 command-name --option bar
 ```text
 
 **See Also:** Related commands
 
-```diff
+```
 
 **API Documentation:**
 ```markdown
@@ -732,11 +732,11 @@ command-name --option bar
 - Exit code: 0 on success, 1 on failure
 
 **Example:**
-```zsh
+```
 result=$(function_name "arg1" "arg2")
 ```text
 
-```diff
+```
 
 ---
 
@@ -771,7 +771,7 @@ git diff
 git add -A
 git commit -m "chore: bump version to v5.10.0"
 git push origin dev
-```bash
+```
 
 **2. Create Release PR:**
 
@@ -782,7 +782,7 @@ gh pr create \
     --head dev \
     --title "Release v5.10.0" \
     --body "$(cat CHANGELOG.md)"
-```bash
+```
 
 **3. After PR Merge:**
 
@@ -794,7 +794,7 @@ git pull origin main
 # Create and push tag
 git tag -a v5.10.0 -m "Release v5.10.0"
 git push origin v5.10.0
-```diff
+```
 
 **4. GitHub Release:**
 - GitHub Actions automatically creates release from tag
@@ -807,7 +807,7 @@ git push origin v5.10.0
 brew update
 brew upgrade flow-cli
 flow --version  # Should show 5.10.0
-```bash
+```
 
 ---
 
@@ -819,19 +819,19 @@ flow --version  # Should show 5.10.0
 
 ```bash
 export FLOW_DEBUG=1
-```bash
+```
 
 **Debug Output:**
 
 ```zsh
 [[ -n "$FLOW_DEBUG" ]] && echo "Debug: $variable"
-```zsh
+```
 
 **Trace Execution:**
 
 ```bash
 zsh -x flow.plugin.zsh
-```zsh
+```
 
 ### Profiling Performance
 
@@ -844,7 +844,7 @@ zmodload zsh/zprof
 source flow.plugin.zsh
 mycommand
 zprof
-```bash
+```
 
 ### Working with Worktrees
 
@@ -860,7 +860,7 @@ git worktree remove ~/.git-worktrees/flow-cli-feature
 
 # Prune deleted worktrees
 git worktree prune
-```zsh
+```
 
 ---
 
@@ -873,7 +873,7 @@ git worktree prune
 
 ```bash
 source flow.plugin.zsh
-```bash
+```
 
 **Issue:** Completion not working
 **Solution:** Rebuild completion cache
@@ -881,14 +881,14 @@ source flow.plugin.zsh
 ```bash
 rm -f ~/.zcompdump
 compinit
-```text
+```
 
 **Issue:** Cache stale
 **Solution:** Invalidate cache
 
 ```zsh
 _proj_cache_invalidate
-```bash
+```
 
 **Issue:** Test failures
 **Solution:** Check for environment differences
@@ -903,7 +903,7 @@ rm -rf ~/.cache/flow-cli
 
 # Run tests
 ./tests/test-feature.zsh
-```diff
+```
 
 ---
 

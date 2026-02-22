@@ -13,7 +13,7 @@ win <text>              # Log an accomplishment
 catch <idea>            # Quick capture to inbox
 crumb <note>            # Leave a breadcrumb
 yay                     # Show recent wins
-```bash
+```
 
 **Quick examples:**
 
@@ -34,7 +34,7 @@ crumb "About to refactor database layer"
 yay                     # Recent wins
 yay --week              # Weekly summary
 inbox                   # View captured ideas
-```diff
+```
 
 ---
 
@@ -59,7 +59,7 @@ inbox                   # View captured ideas
 
 ```bash
 win [options] <text>
-```bash
+```
 
 ### Options
 
@@ -85,7 +85,7 @@ win -f "Fixed login bug"
 # Interactive mode
 win
 # 🎉 What's your win? _
-```text
+```
 
 ### Auto-Detection
 
@@ -107,7 +107,7 @@ If you don't specify a category, `win` automatically detects it from keywords:
   Implemented user authentication
 
   Keep it up! 🚀
-```text
+```
 
 ---
 
@@ -119,14 +119,14 @@ If you don't specify a category, `win` automatically detects it from keywords:
 
 ```bash
 yay [--week|-w]
-```bash
+```
 
 ### Show Recent Wins
 
 ```bash
 # Show last 5 wins
 yay
-```text
+```
 
 Output:
 
@@ -139,14 +139,14 @@ Output:
   🚀 Deployed to staging
 
   Total: 4 wins today | 🔥 3-day streak
-```bash
+```
 
 ### Weekly Summary
 
 ```bash
 # Show this week's wins with stats
 yay --week
-```text
+```
 
 Output:
 
@@ -165,7 +165,7 @@ Output:
   Mon Tue Wed Thu Fri Sat Sun
    ▁   ▃   ██  ▅   ▂
        Activity Graph
-```bash
+```
 
 ---
 
@@ -179,7 +179,7 @@ Output:
 catch [options] <text>
 # or
 c <text>
-```bash
+```
 
 ### Options
 
@@ -205,7 +205,7 @@ catch -t bug "Login redirect fails on Safari"
 # Interactive mode
 catch
 # 💡 Quick capture: _
-```diff
+```
 
 ### Where It Goes
 
@@ -226,7 +226,7 @@ Breadcrumbs help you remember what you were doing and why. Perfect for ADHD when
 crumb <text>
 # or
 b <text>
-```bash
+```
 
 ### Examples
 
@@ -238,7 +238,7 @@ b "Switching to fix urgent bug, will return"
 # Interactive mode
 crumb
 # 🍞 Breadcrumb: _
-```bash
+```
 
 ---
 
@@ -252,7 +252,7 @@ crumb
 trail [project] [limit]
 # or
 t [project] [limit]
-```bash
+```
 
 ### Examples
 
@@ -265,7 +265,7 @@ trail flow-cli
 
 # Limit results
 trail flow-cli 10
-```bash
+```
 
 ---
 
@@ -279,7 +279,7 @@ trail flow-cli 10
 inbox
 # or
 i
-```bash
+```
 
 ---
 

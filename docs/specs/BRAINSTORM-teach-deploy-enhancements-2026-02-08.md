@@ -26,7 +26,7 @@
 
 ```bash
 trap return_to_draft EXIT
-```bash
+```
 
 **What teach deploy should do:**
 
@@ -35,7 +35,7 @@ trap return_to_draft EXIT
 trap "git checkout '$draft_branch' 2>/dev/null" EXIT INT TERM
 # ... do work ...
 trap - EXIT INT TERM  # Clear trap before normal return
-```bash
+```
 
 **Effort:** 15 min | **Risk:** Low (additive, no behavior change on happy path)
 **Where:** `_deploy_direct_merge()` (line ~162) and PR mode section (line ~854)
@@ -55,7 +55,7 @@ Options:
   1. Fix the issues reported above, then run deploy again
   2. Skip validation: QUARTO_PRE_COMMIT_RENDER=0 ./scripts/quick-deploy.sh
   3. Force commit: git commit --no-verify -m "message"
-```bash
+```
 
 **What teach deploy should do:**
 Add hook failure detection after `git commit` calls in partial deploy mode (line ~670, ~683):
@@ -72,7 +72,7 @@ if ! git commit -m "$commit_msg"; then
     echo "  Your changes are still staged."
     return 1
 fi
-```bash
+```
 
 **Effort:** 20 min | **Risk:** Low
 **Where:** `_teach_deploy_enhanced()` partial deploy commit blocks (lines ~664-686)
@@ -106,7 +106,7 @@ if ! git merge-base --is-ancestor "$prod_branch" "origin/$prod_branch" &&
         [[ "$reset_confirm" == [yY] ]] && git reset --hard "origin/$prod_branch"
     fi
 fi
-```bash
+```
 
 **Effort:** 30 min | **Risk:** Medium (destructive operation, needs careful prompt)
 **Where:** `_deploy_direct_merge()` (line ~208, after ff-only pull fails)
@@ -122,7 +122,7 @@ fi
 ```bash
 echo "Tip: Check deployment status at:"
 echo "   https://github.com/<owner>/<repo>/actions"
-```bash
+```
 
 **What teach deploy should add:**
 In `_deploy_summary_box()`, add an optional actions URL:
@@ -133,7 +133,7 @@ repo_slug=$(git config --get remote.origin.url 2>/dev/null | sed 's/.*github.com
 if [[ -n "$repo_slug" ]]; then
     printf "│  🔗 %-8s %-42s│\n" "Actions:" "https://github.com/${repo_slug}/actions"
 fi
-```bash
+```
 
 **Effort:** 10 min | **Risk:** None
 **Where:** `_deploy_summary_box()` (line ~125)
@@ -150,7 +150,7 @@ fi
 teach deploy -d
   [!!] Working tree dirty
   → FAILS
-```bash
+```
 
 **Desired behavior (matching quick-deploy.sh):**
 
@@ -160,7 +160,7 @@ teach deploy -d
   Smart commit: content: week-05 lecture
   Commit and continue? [Y/n]:
   → auto-commits, then proceeds with deploy
-```bash
+```
 
 **Implementation:**
 Move the uncommitted-change handling from partial deploy mode into the main `_teach_deploy_enhanced()` flow, before the mode dispatch:

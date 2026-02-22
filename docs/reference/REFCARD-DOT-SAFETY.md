@@ -59,7 +59,7 @@ Total size: 301K
 💡 Consider excluding: *.log, *.sqlite
 
 Auto-add ignore patterns? (Y/n):
-```bash
+```
 
 ---
 
@@ -100,7 +100,7 @@ build/
 # Git metadata
 **/.git
 **/.git/**
-```diff
+```
 
 ---
 
@@ -165,7 +165,7 @@ unset _DOT_SIZE_CACHE_TIME
 
 # Adjust TTL (in ~/.zshrc)
 export _DOT_CACHE_TTL=1800  # 30 minutes
-```diff
+```
 
 ---
 
@@ -199,7 +199,7 @@ dots ignore add "*.log"
 dots ignore add "*.sqlite"
 dots ignore add "node_modules"
 dots ignore add ".DS_Store"
-```bash
+```
 
 ### Adding Files Safely
 
@@ -211,7 +211,7 @@ dots add ~/.zshrc
 dots add ~/.config/nvim
 
 # Accept auto-ignore suggestions when prompted
-```bash
+```
 
 ### Repository Maintenance
 
@@ -225,7 +225,7 @@ dots size
 # Clean up if too large
 dots ignore add "large-file.db"
 chezmoi remove large-file.db
-```bash
+```
 
 ### Batch Ignore Operations
 
@@ -235,7 +235,7 @@ patterns=("*.log" "*.sqlite" "*.db" "*.cache")
 for pattern in "${patterns[@]}"; do
   dots ignore add "$pattern"
 done
-```diff
+```
 
 ---
 
@@ -260,7 +260,7 @@ export _DOT_CACHE_TTL=600
 
 # Skip preview (not recommended)
 export DOT_SKIP_PREVIEW=1
-```diff
+```
 
 ---
 
@@ -302,7 +302,7 @@ else
   echo "❌ Add cancelled"
   exit 1
 fi
-```bash
+```
 
 ### CI/CD Integration
 
@@ -315,7 +315,7 @@ if [[ $exit_code -ne 0 ]]; then
   echo "❌ Health check failed"
   exit 1
 fi
-```bash
+```
 
 ### Batch File Addition
 
@@ -330,7 +330,7 @@ configs=(
 for config in "${configs[@]}"; do
   dots add "$config"
 done
-```diff
+```
 
 ---
 

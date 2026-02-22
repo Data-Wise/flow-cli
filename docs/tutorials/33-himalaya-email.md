@@ -45,7 +45,7 @@ Press `<leader>mr` on any email. You'll be prompted:
 
 ```text
 Reply instructions (Enter=default):
-```text
+```
 
 Type your instruction (e.g., "accept but suggest next Thursday instead") and press Enter. The AI generates a reply shaped by your instruction.
 
@@ -84,7 +84,7 @@ Press `<leader>mw` anywhere. You'll be prompted:
 
 ```text
 What to write about:
-```diff
+```
 
 Type your topic (e.g., "reschedule tomorrow's meeting to Friday 2pm") and the AI generates a full email.
 
@@ -107,7 +107,7 @@ Change settings at runtime:
 :HimalayaAi set backend gemini
 :HimalayaAi set result_display tab
 :HimalayaAi set todo_target obsidian
-```text
+```
 
 ## Architecture Overview
 
@@ -119,7 +119,7 @@ himalaya CLI (Rust)           Email protocol (IMAP/SMTP)
 himalaya-vim (VimScript)      Buffer management, keybinds, job control
     |
 himalaya-ai.lua (Lua)         AI actions, result display, chaining
-```text
+```
 
 ### himalaya-ai.lua Module Structure
 

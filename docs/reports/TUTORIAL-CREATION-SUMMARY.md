@@ -92,7 +92,7 @@ teach slides --help
 teach slides "Topic" --style computational
 teach slides "Topic" --diagrams
 teach exam "Topic" --no-proof
-```diff
+```
 
 **Concepts Covered:**
 - 4 style presets (conceptual, computational, rigorous, applied)
@@ -118,7 +118,7 @@ teach exam "Topic" --no-proof
 teach slides -w 8
 teach slides -i
 teach exam -i -w 8 --style rigorous
-```diff
+```
 
 **Concepts Covered:**
 - YAML lesson plan structure
@@ -145,7 +145,7 @@ teach exam -i -w 8 --style rigorous
 teach slides --revise file.qmd
 teach slides -w 8 --context
 teach slides --revise file.qmd --context --diagrams
-```diff
+```
 
 **Concepts Covered:**
 - 6 revision menu options

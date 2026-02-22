@@ -27,7 +27,7 @@ List all prompts across all tiers:
 
 ```bash
 teach prompt list
-```text
+```
 
 Output:
 
@@ -40,7 +40,7 @@ Available Teaching Prompts
   derivations-appendix   [P]  Mathematical Derivations Appendix
 
 Legend: [C] Course  [U] User  [P] Plugin  * = overrides lower tier
-```text
+```
 
 The `[P]` indicator means these come from the plugin defaults. You can customize any of them.
 
@@ -50,7 +50,7 @@ See what a prompt contains:
 
 ```bash
 teach prompt show lecture-notes
-```text
+```
 
 This opens the prompt in your `$PAGER` (usually `less`). You'll see the YAML frontmatter with metadata, followed by the prompt body with `{{VARIABLE}}` placeholders.
 
@@ -58,7 +58,7 @@ For quick output without a pager:
 
 ```bash
 teach prompt show lecture-notes --raw
-```text
+```
 
 ## Step 3: Create a Course Override
 
@@ -66,7 +66,7 @@ The real power is customization. Say you want to modify how lecture notes are ge
 
 ```bash
 teach prompt edit lecture-notes
-```text
+```
 
 This:
 
@@ -79,11 +79,11 @@ After saving, verify the override:
 
 ```bash
 teach prompt list
-```text
+```
 
 ```text
   lecture-notes          [C*] AI prompt for generating comprehensive lecture notes
-```text
+```
 
 The `[C*]` means it's now a **Course** override, and the `*` indicates it shadows the plugin default.
 
@@ -93,7 +93,7 @@ Check that all prompts are syntactically correct:
 
 ```bash
 teach prompt validate
-```text
+```
 
 ```text
 Validating Teaching Prompts...
@@ -103,13 +103,13 @@ Validating Teaching Prompts...
   ✓ derivations-appendix   Valid (plugin default)
 
 3 valid, 0 warnings, 0 errors
-```text
+```
 
 For stricter checking (treats warnings as errors):
 
 ```bash
 teach prompt validate --strict
-```text
+```
 
 ## Step 5: Export Rendered Output
 
@@ -117,7 +117,7 @@ See what a prompt looks like after variable substitution:
 
 ```bash
 teach prompt export lecture-notes
-```text
+```
 
 This reads your `teach-config.yml` for variable values like `{{COURSE}}`, `{{INSTRUCTOR}}`, and `{{SEMESTER}}`, then renders the prompt with those values filled in.
 
@@ -125,13 +125,13 @@ Include LaTeX macros:
 
 ```bash
 teach prompt export lecture-notes --macros
-```text
+```
 
 Export as JSON (useful for debugging Scholar integration):
 
 ```bash
 teach prompt export lecture-notes --json
-```text
+```
 
 ## Step 6: Understand Auto-Resolution
 
@@ -139,7 +139,7 @@ When you run Scholar commands like:
 
 ```bash
 teach lecture "ANOVA"
-```text
+```
 
 The system automatically:
 
@@ -164,7 +164,7 @@ Priority 2: User (~/.flow/prompts/)
 Priority 3: Plugin (lib/templates/teaching/claude-prompts/)
   → Built-in defaults
   → Updated when flow-cli updates
-```diff
+```
 
 First match wins. This means:
 

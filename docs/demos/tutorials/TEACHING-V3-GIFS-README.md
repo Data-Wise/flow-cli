@@ -55,7 +55,7 @@ This directory contains VHS tapes and generated GIF demos for Teaching Workflow 
 # Run the enhanced generation script with validation + optimization
 cd docs/demos/tutorials
 ./generate-teaching-v3-gifs.sh
-```bash
+```
 
 **The script automatically:**
 1. ✅ Validates all VHS tapes before generation
@@ -75,7 +75,7 @@ vhs tutorial-teach-init.tape
 vhs tutorial-teach-deploy.tape
 vhs tutorial-teach-status.tape
 vhs tutorial-scholar-integration.tape
-```text
+```
 
 ### Expected Output
 
@@ -99,7 +99,7 @@ vhs tutorial-scholar-integration.tape
   ✅ tutorial-scholar-integration.gif (288K)
 
 🎉 All GIFs generated successfully!
-```yaml
+```
 
 ---
 
@@ -203,7 +203,7 @@ Set Width 1400
 Set Height 900
 Set TypingSpeed 50ms
 Set PlaybackSpeed 0.8
-```zsh
+```
 
 ### Important Setup Steps
 
@@ -272,7 +272,7 @@ brew install gifsicle
 # Optimize GIFs
 gifsicle -O3 tutorial-teach-doctor.gif -o tutorial-teach-doctor.gif
 gifsicle -O3 tutorial-backup-system.gif -o tutorial-backup-system.gif
-```diff
+```
 
 ---
 
@@ -299,7 +299,7 @@ ps aux | grep vhs
 
 # Monitor log output
 tail -f /path/to/vhs/output.log
-```zsh
+```
 
 ### Commands not found
 
@@ -307,7 +307,7 @@ Make sure flow-cli is sourced:
 
 ```bash
 source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
-```bash
+```
 
 ### Demo course missing
 

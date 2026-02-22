@@ -65,7 +65,7 @@ flow-cli/
 ├── completions/              # ZSH completions
 ├── tests/                    # Test suite
 └── docs/                     # Documentation (MkDocs)
-```yaml
+```
 
 ---
 
@@ -109,7 +109,7 @@ We use conventional commits:
 
 ```text
 <type>(<scope>): <description>
-```diff
+```
 
 **Types:**
 
@@ -127,7 +127,7 @@ feat(cc): add worktree integration
 fix(g): handle missing dev branch
 docs(reference): update dispatcher docs
 test(mcp): add validation tests
-```bash
+```
 
 ---
 
@@ -144,7 +144,7 @@ for f in tests/test-*-dispatcher.zsh; do zsh "$f"; done
 
 # Interactive validation (fun!)
 ./tests/interactive-dog-feeding.zsh
-```sql
+```
 
 ### Writing Tests
 
@@ -191,7 +191,7 @@ test_help_shows_usage
 # Summary
 echo "Passed: $TESTS_PASSED, Failed: $TESTS_FAILED"
 [[ $TESTS_FAILED -eq 0 ]] && exit 0 || exit 1
-```diff
+```
 
 ### Test Guidelines
 
@@ -247,7 +247,7 @@ Examples:
   mydisp action2 --flag
 EOF
 }
-```sql
+```
 
 **Avoid:**
 
@@ -339,7 +339,7 @@ EOF
 
 ```text
 feature/* → dev → main
-```diff
+```
 
 - Feature branches merge to `dev`
 - `dev` merges to `main` for releases
@@ -388,7 +388,7 @@ git push origin vX.Y.Z
 
 # 3. Create GitHub release (triggers Homebrew update)
 gh release create vX.Y.Z --title "vX.Y.Z - Title" --notes "Release notes"
-```bash
+```
 
 ### Manual Deployment (if needed)
 
@@ -398,7 +398,7 @@ mkdocs gh-deploy --force
 
 # Homebrew (via workflow dispatch)
 gh workflow run homebrew-release.yml -f version=X.Y.Z
-```text
+```
 
 ### CI Files Location
 

@@ -107,7 +107,7 @@ extra:
 
 extra_css:
   - stylesheets/extra.css
-```yaml
+```
 
 ---
 
@@ -222,7 +222,7 @@ html {
     font-size: 0.85rem;
   }
 }
-```diff
+```
 
 **Key Features:**
 - **Border radius:** 12px for blocks, 6-10px for smaller elements
@@ -245,7 +245,7 @@ html {
 ```bash
 mkdir -p docs/stylesheets
 # Copy template above to docs/stylesheets/extra.css
-```diff
+```
 
 **When to use custom CSS:**
 - Want modern depth (shadows) without being flashy
@@ -279,7 +279,7 @@ nav:
     - Contributing: dev/contributing.md
   - Reference:
     - Complete Index: reference/index.md
-```diff
+```
 
 ### Rules
 
@@ -350,7 +350,7 @@ Brief explanation of approach/principles.
 **Last updated:** 2026-01-16
 **Maintainer:** Data-Wise
 **Repository:** [GitHub](https://github.com/Data-Wise/flow-cli)
-```text
+```
 
 ### Key Elements
 
@@ -374,7 +374,7 @@ Use sparingly in headers for quick scanning:
 ## 🎯 Key Concepts
 ## 🚀 Deployment
 ## 🛠️ Troubleshooting
-```text
+```
 
 **Rule:** Max 1 emoji per major section. Use consistently across pages.
 
@@ -391,7 +391,7 @@ Draw attention to important information:
 
 !!! info "For Existing Users"
     Migration guide available here.
-```diff
+```
 
 **Types to use:**
 - `tip` - Helpful shortcuts, recommendations
@@ -412,7 +412,7 @@ Draw attention to important information:
 |----------|-------|-------------|
 | Item 1 | 10 | Use X instead |
 | Item 2 | 5 | Use Y instead |
-```diff
+```
 
 **Use tables for:**
 - Comparisons (before/after)
@@ -427,7 +427,7 @@ Add at top of long pages:
 > **TL;DR:** One-sentence summary of entire page.
 
 ## Full Content Below
-```text
+```
 
 ### 5. Code Examples First
 
@@ -440,7 +440,7 @@ command here
 \`\`\`
 
 **Explanation:** What this does and why.
-```diff
+```
 
 Lead with action, explain after.
 
@@ -499,7 +499,7 @@ command
 ## What's Next?
 - [Command Reference](reference/command-quick-reference.md)
 - [Tutorials](tutorials/index.md)
-```bash
+```
 
 ### Reference Page
 
@@ -518,7 +518,7 @@ All commands organized by category.
 ## Category 2
 
 ...
-```bash
+```
 
 ### Migration Guide
 
@@ -544,7 +544,7 @@ command
 | Old | New |
 |-----|-----|
 | `old-cmd` | `new-cmd` |
-```yaml
+```
 
 ---
 
@@ -568,7 +568,7 @@ theme:
     - scheme: default
       primary: custom-color
       accent: custom-color
-```yaml
+```
 
 ---
 
@@ -593,7 +593,7 @@ jobs:
           python-version: 3.x
       - run: pip install mkdocs-material
       - run: mkdocs gh-deploy --force
-```diff
+```
 
 Push to main → Docs automatically deploy to `https://username.github.io/repo-name/`
 
@@ -653,7 +653,7 @@ rtest    # Run tests
 
 !!! tip "Start Here"
     Read [Alias Reference](reference/alias-reference-card.md) first!
-```bash
+```
 
 ### Bad Home Page
 
@@ -663,7 +663,7 @@ rtest    # Run tests
 Welcome to the comprehensive documentation portal for our advanced shell configuration...
 
 [Long paragraph about history and philosophy without actionable content]
-```yaml
+```
 
 ---
 
@@ -679,7 +679,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-```yaml
+```
 
 ### Tabs
 
@@ -689,18 +689,18 @@ For multiple code examples:
 markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
-```diff
+```
 
 Usage:
 
 ````markdown
 === "macOS"
-    ```bash
+    ```
     brew install tool
     ```
 
 === "Linux"
-    ```bash
+    ```
     apt install tool
     ```
 ````
@@ -778,7 +778,7 @@ project/
 │       └── index.md
 └── .github/workflows/
     └── deploy-docs.yml  # Auto-deploy
-```text
+```
 
 ### Commands
 
@@ -786,7 +786,7 @@ project/
 mkdocs serve           # Preview at localhost:8000
 mkdocs build           # Build to site/
 mkdocs gh-deploy       # Deploy to GitHub Pages
-```bash
+```
 
 ### Common Fixes
 
@@ -794,7 +794,7 @@ mkdocs gh-deploy       # Deploy to GitHub Pages
 
 ```bash
 mkdocs build 2>&1 | grep WARNING
-```text
+```
 
 **Port in use:**
 
