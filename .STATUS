@@ -12,6 +12,18 @@
 ## Current Session (2026-02-22)
 
 **Session activity:**
+- chore: switched flow-cli sourcing from repo symlink to Homebrew (`/opt/homebrew/opt/flow-cli/`)
+- verify: brew cellar matches source repo (v7.4.1, identical files)
+- verify: clean env test confirms all commands load from brew path
+- cleanup: removed old symlink `~/.zsh/plugins/flow-cli` and stale backup
+- docs: updated CLAUDE.md with Homebrew source path, corrected test count (195→193)
+- docs: updated zshrc dispatcher comment to reflect Homebrew path
+- sync: dotfiles synced via chezmoi
+- merge: PR #413, PR #414 merged to main, dev synced
+
+## Previous Session (2026-02-22, earlier)
+
+**Previous session activity:**
 - lint: ran markdown lint on deployed docs (8 issues in 2 internal files)
 - fix: auto-fixed MD029/MD049 lint errors, committed and pushed
 - fix: resolved 139+ broken anchor links across 220 docs files
@@ -154,7 +166,7 @@
 ---
 
 **Last Updated:** 2026-02-22
-**Status:** v7.4.1 | 45/45 tests passing (1 expected timeout) | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
-## wins: 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21), v7.4.1 released (2026-02-21), Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21)
-## streak: 3
-## last_active: 2026-02-22 00:20
+**Status:** v7.4.1 | 45/45 tests passing (1 expected timeout) | 15 dispatchers | 193 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+## wins: Brew sourcing switch (2026-02-22), 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21), v7.4.1 released (2026-02-21), Fixed the regression bug (2026-02-21)
+## streak: 4
+## last_active: 2026-02-22
