@@ -218,6 +218,7 @@ _g_status() {
 ### 4. Optional Atlas Integration
 
 **Decision:** Atlas is optional, not required
+**API Contract:** See [`docs/ATLAS-CONTRACT.md`](../ATLAS-CONTRACT.md) for the formal interface contract between flow-cli and Atlas CLI.
 
 **Rationale:**
 - **Flexibility:** Users can choose state management
