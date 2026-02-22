@@ -450,12 +450,12 @@ echo -e "${BLUE}── Section 8: Compliance Library API ──${NC}"
 echo ""
 
 _test_compliance_api() {
-    # Dispatcher list has exactly 14 entries
+    # Dispatcher list has exactly 15 entries
     local count=${#_FLOW_HELP_DISPATCHERS[@]}
-    if [[ $count -eq 14 ]]; then
-        assert_pass "dispatcher list has exactly 14 entries"
+    if [[ $count -eq 15 ]]; then
+        assert_pass "dispatcher list has exactly 15 entries"
     else
-        assert_fail "dispatcher list has exactly 14 entries" "found $count"
+        assert_fail "dispatcher list has exactly 15 entries" "found $count"
     fi
 
     # Function map has entry for every dispatcher
