@@ -6,7 +6,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
-## [7.4.1] - 2026-02-22
+## [7.4.2] - 2026-02-22
 
 ### Added
 

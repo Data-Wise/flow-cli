@@ -207,12 +207,12 @@ Context-aware commands that adapt to your project:
 | `em inbox`         | Browse inbox with fzf          |
 | `em pick`          | Interactive email picker       |
 | `flow sync`        | Sync data across devices       |
-| `at catch "idea"`  | Quick capture via Atlas bridge  |
-| `at stats`         | Project stats (requires Atlas)  |
+| `at catch "idea"`  | Quick capture via Atlas bridge |
+| `at stats`         | Project stats (requires Atlas) |
 
 Each dispatcher has built-in help: `cc help`, `dots help`, `r help`, `em help`, `at help`, etc.
 
-**✨ New in v7.4.1:** Atlas bridge (`at`) — project intelligence, context parking, quick capture
+**✨ New in v7.4.2:** Atlas bridge (`at`) — project intelligence, context parking, quick capture
 **✨ v7.4.0:** 31 email commands — organize, manage, AI, plus 10 tutorials
 **✨ v7.1.0:** Dispatcher split — `dot` → `dots` (dotfiles) + `sec` (secrets) + `tok` (tokens)
 **✨ 15 dispatchers + Atlas bridge** with unified grammar, built-in help, and fzf integration

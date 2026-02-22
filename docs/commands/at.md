@@ -370,5 +370,5 @@ Or when not installed:
 ---
 
 **Last Updated:** 2026-02-22
-**Command Version:** v7.4.1
+**Command Version:** v7.4.2
 **Status:** Production ready (Atlas optional)
