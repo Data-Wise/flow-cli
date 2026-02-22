@@ -108,6 +108,7 @@ echo "Dogfooding tests:"
 run_test ./tests/automated-plugin-dogfood.zsh
 run_test ./tests/dogfood-teach-doctor-v2.zsh
 run_test ./tests/dogfood-em-dispatcher.zsh
+run_test ./tests/dogfood-atlas-bridge.zsh
 
 echo ""
 echo "E2E tests:"
@@ -120,6 +121,7 @@ run_test ./tests/e2e-plugin-system.zsh
 run_test ./tests/e2e-teach-prompt.zsh
 run_test ./tests/e2e-teach-doctor-v2.zsh
 run_test ./tests/e2e-em-dispatcher.zsh
+run_test ./tests/e2e-atlas-bridge.zsh
 
 echo ""
 echo "Atlas contract tests:"
