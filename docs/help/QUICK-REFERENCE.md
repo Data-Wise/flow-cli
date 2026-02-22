@@ -31,6 +31,7 @@ tags:
 - [Prompt (prompt)](#prompt-prompt) - Prompt engine switching
 - [Vibe (v)](#vibe-v) - Vibe coding mode
 - [Email (em)](#email-em) - Email management (himalaya)
+- [Atlas (at)](#atlas-at) - Atlas project intelligence
 - [Dopamine Features](#dopamine-features) - ADHD-friendly motivation
 - [Environment Variables](#environment-variables)
 
@@ -1030,6 +1031,70 @@ export FLOW_EMAIL_PAGE_SIZE=25  # Inbox page size
 
 > **Safety:** Every send requires `[y/N]` confirmation (default: No).
 > Delete requires `[y/N]` (default: No). Purge requires full word `yes`.
+
+---
+
+## Atlas (at)
+
+### Project Intelligence (requires Atlas CLI)
+
+```bash
+# Project statistics
+at stats
+# Output: [Project stats from Atlas]
+
+# Quick capture (works without Atlas too)
+at catch "idea for feature"
+# Output: 📝 Captured: idea for feature
+
+# Park current project
+at park
+# Output: ✅ Parked: flow-cli (context saved)
+
+# Unpark project
+at unpark flow-cli
+# Output: ✅ Resumed: flow-cli
+
+# Show parked projects
+at parked
+# Output: [List of parked projects with timestamps]
+
+# Project dashboard (Atlas-enhanced)
+at dash
+# Output: [Rich project dashboard]
+
+# Focus mode
+at focus
+# Output: [Shows current focus project + context]
+
+# Triage inbox
+at triage
+# Output: [AI-prioritized task list]
+
+# Activity trail
+at trail
+# Output: [Recent activity across projects]
+
+# Show help
+at help
+# Output: [Atlas bridge help]
+```
+
+### Available Without Atlas
+
+```bash
+# Quick capture
+at catch "note text"
+
+# Show inbox
+at inbox
+
+# Where am I?
+at where
+
+# Leave breadcrumb
+at crumb "context note"
+```
 
 ---
 

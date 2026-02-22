@@ -344,10 +344,45 @@ doctor() {
       _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} flow-cli not loaded"
     fi
 
-    if _flow_has_atlas 2>/dev/null; then
-      _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas connected"
+    # ──────────────────────────────────────────────────────────────
+    # ATLAS INTEGRATION
+    # ──────────────────────────────────────────────────────────────
+    _doctor_log_quiet "${FLOW_COLORS[bold]}🗺️  ATLAS INTEGRATION${FLOW_COLORS[reset]}"
+
+    if command -v atlas &>/dev/null; then
+      # Atlas installed — show version
+      local atlas_version
+      atlas_version="$(atlas -v 2>/dev/null | head -1 | sed 's/[^0-9.]//g')"
+      atlas_version="${atlas_version:-unknown}"
+      _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas installed (v${atlas_version})"
+
+      # Check connection / backend
+      if _flow_has_atlas 2>/dev/null; then
+        local atlas_backend
+        atlas_backend="$(atlas config get backend 2>/dev/null || echo "unknown")"
+        atlas_backend="${atlas_backend:-filesystem}"
+        _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas connected (${atlas_backend} backend)"
+
+        # Show project count
+        local atlas_project_count
+        atlas_project_count="$(atlas project list --format=names 2>/dev/null | wc -l | tr -d ' ')"
+        if [[ -n "$atlas_project_count" && "$atlas_project_count" -gt 0 ]] 2>/dev/null; then
+          _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} project list works (${atlas_project_count} projects)"
+        else
+          _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} project list empty or unavailable"
+        fi
+      else
+        _doctor_log_quiet "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  atlas installed but not connected"
+      fi
+
+      # Check MCP server (optional)
+      if atlas mcp status &>/dev/null 2>&1; then
+        _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas MCP server running"
+      else
+        _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} atlas MCP server ${FLOW_COLORS[muted]}(optional, not running)${FLOW_COLORS[reset]}"
+      fi
     else
-      _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} atlas not connected ${FLOW_COLORS[muted]}(standalone mode)${FLOW_COLORS[reset]}"
+      _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} atlas ${FLOW_COLORS[muted]}(optional, not installed)${FLOW_COLORS[reset]}"
     fi
     _doctor_log_quiet ""
   fi
