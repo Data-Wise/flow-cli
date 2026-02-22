@@ -9,9 +9,20 @@
 ## Priority: 2
 ## Progress: 90
 
-## Current Session (2026-02-21)
+## Current Session (2026-02-22)
 
 **Session activity:**
+- lint: ran markdown lint on deployed docs (8 issues in 2 internal files)
+- fix: auto-fixed MD029/MD049 lint errors, committed and pushed
+- fix: resolved 139+ broken anchor links across 220 docs files
+- root cause: closing code fences had language tags (e.g., ` ```bash `) which pymdownx.superfences treats as openers, swallowing all subsequent headings
+- deploy: docs site deployed — 0 warnings, 0 broken anchors
+- merge: PR #410 (docs sync), PR #411 (anchor fix) merged to main
+- sync: dev and main in sync at af1e3c67
+
+## Previous Session (2026-02-21)
+
+**Previous session activity:**
 - review: PR #408 code review, identified 3 issues (grep portability, SHA256 placeholder, test count)
 - fix: portable grep in version guard (`-oP` → `-oE`), clarify formula SHA256, fix test count (47→45)
 - merge: PR #408 to dev (squash merge)
@@ -142,8 +153,8 @@
 
 ---
 
-**Last Updated:** 2026-02-21
-**Status:** v7.4.1 | 45/45 tests passing (1 expected timeout) | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors
-## wins: Homebrew 75MB→3.5MB (2026-02-21), v7.4.1 released (2026-02-21), Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21)
-## streak: 2
-## last_active: 2026-02-21 13:15
+**Last Updated:** 2026-02-22
+**Status:** v7.4.1 | 45/45 tests passing (1 expected timeout) | 15 dispatchers | 195 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+## wins: 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21), v7.4.1 released (2026-02-21), Fixed the regression bug (2026-02-21), --category fix squashed the bug (2026-02-21)
+## streak: 3
+## last_active: 2026-02-22 00:20
