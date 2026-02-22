@@ -7578,8 +7578,402 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#why-v590-features-are-mostly-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why v5.9.0 Features Are Mostly Safe
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-dry-run-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Understanding the --dry-run Pattern
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Understanding the --dry-run Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-dry-run-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What --dry-run Means
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-dry-run-is-trustworthy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why --dry-run Is Trustworthy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-git-as-a-safety-net" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Understanding Git as a Safety Net
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Understanding Git as a Safety Net">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-git-makes-testing-fearless" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Git Makes Testing Fearless
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recovery-commands-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recovery Commands Explained
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-where-files-get-written" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Understanding Where Files Get Written
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Understanding Where Files Get Written">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-write-locations-in-v590" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Write Locations in v5.9.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-idempotent-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Understanding Idempotent Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Understanding Idempotent Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-idempotent-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What "Idempotent" Means
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-v590-read-operations-are-idempotent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All v5.9.0 Read Operations Are Idempotent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety Principles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-flight-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Flight Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safe-commands-read-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe Commands (Read-Only)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safe Commands (Read-Only)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-teach-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. teach status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-teach-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. teach help
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-config-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Config Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-hash-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hash Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-flag-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Flag Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safe-commands-with-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe Commands with --dry-run
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safe Commands with --dry-run">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-teach-exam-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. teach exam --dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-teach-quiz-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. teach quiz --dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-teach-slides-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. teach slides --dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands-that-write-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands That WRITE Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-safe-test-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Safe Test Script
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-on-stat-440" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing on stat-440
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-actually-at-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Actually At Risk?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What&#39;s Actually At Risk?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#low-risk-auto-recoverable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Risk (Auto-recoverable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-v590-features-are-read-heavy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The v5.9.0 Features Are Read-Heavy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emergency-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Emergency Recovery
+      
+    </span>
+  </a>
   
 </li>
       
@@ -7990,8 +8384,402 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#why-v590-features-are-mostly-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why v5.9.0 Features Are Mostly Safe
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-dry-run-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Understanding the --dry-run Pattern
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Understanding the --dry-run Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-dry-run-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What --dry-run Means
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-dry-run-is-trustworthy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why --dry-run Is Trustworthy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-git-as-a-safety-net" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Understanding Git as a Safety Net
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Understanding Git as a Safety Net">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-git-makes-testing-fearless" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Git Makes Testing Fearless
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recovery-commands-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recovery Commands Explained
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-where-files-get-written" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Understanding Where Files Get Written
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Understanding Where Files Get Written">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-write-locations-in-v590" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Write Locations in v5.9.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-idempotent-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 Understanding Idempotent Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 Understanding Idempotent Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-idempotent-means" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What "Idempotent" Means
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-v590-read-operations-are-idempotent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All v5.9.0 Read Operations Are Idempotent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety Principles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-flight-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Flight Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safe-commands-read-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe Commands (Read-Only)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safe Commands (Read-Only)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-teach-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. teach status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-teach-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. teach help
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-config-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Config Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-hash-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hash Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-flag-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Flag Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safe-commands-with-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safe Commands with --dry-run
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safe Commands with --dry-run">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-teach-exam-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. teach exam --dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-teach-quiz-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. teach quiz --dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-teach-slides-dry-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. teach slides --dry-run
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands-that-write-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands That WRITE Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-safe-test-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complete Safe Test Script
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-on-stat-440" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing on stat-440
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-actually-at-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Actually At Risk?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What&#39;s Actually At Risk?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#low-risk-auto-recoverable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Risk (Auto-recoverable)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-v590-features-are-read-heavy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The v5.9.0 Features Are Read-Heavy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#emergency-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Emergency Recovery
+      
+    </span>
+  </a>
   
 </li>
       
@@ -8042,434 +8830,435 @@
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│  • Display information          • Change permissions       │
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│  • Parse and analyze            • Git commit/push          │
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└─────────────────────────────────────────────────────────────┘
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>```bash
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>**Key insight:** A read operation, by definition, cannot change your data. It&#39;s like looking at a photograph vs. editing it.
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>### Why v5.9.0 Features Are Mostly Safe
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>| Feature | What It Actually Does | Why Safe |
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>|---------|----------------------|----------|
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>| **Config Validation** | Opens YAML, checks structure | Only reads, never modifies config |
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>| **Hash Detection** | Reads file bytes, computes SHA-256 | Math on bytes, no file changes |
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>| **Flag Validation** | Checks command arguments | String comparison, no I/O |
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>| **teach status** | Reads config + lists files | `ls` and `cat` equivalent |
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>| **Spinner** | Prints characters to terminal | Display only, no file access |
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>---
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>## 🎓 Understanding the --dry-run Pattern
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>### What --dry-run Means
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>`--dry-run` is a widely-used convention meaning: **&quot;Show me what you WOULD do, but don&#39;t actually do it.&quot;**
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>```bash
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a># Without --dry-run: Actually creates exam file
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>teach exam &quot;Topic&quot;  → Creates exams/topic-exam.qmd
-<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a># With --dry-run: Shows what WOULD be created
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>teach exam &quot;Topic&quot; --dry-run  → Prints preview, creates NOTHING
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>```bash
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>
-<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>### Why --dry-run Is Trustworthy
-<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>
-<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>The implementation literally checks for the flag and exits early:
-<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>
-<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>```zsh
-<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a># Simplified logic inside teach exam
-<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>if [[ &quot;$dry_run&quot; == &quot;true&quot; ]]; then
-<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>    echo &quot;Would create: exams/$topic-exam.qmd&quot;
-<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>    echo &quot;Content preview:&quot;
-<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>    echo &quot;$generated_content&quot;
-<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>    return 0  # ← EXIT HERE, never reaches file write
-<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>fi
-<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>
-<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a># This code only runs if NOT dry-run
-<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>echo &quot;$generated_content&quot; &gt; &quot;exams/$topic-exam.qmd&quot;
-<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>```text
-<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>
-<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>---
-<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>
-<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>## 🎓 Understanding Git as a Safety Net
-<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>
-<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>### Why Git Makes Testing Fearless
-<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>
-<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>Git is a **time machine** for your files. Any change can be undone:
-<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>
-<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>```text
-<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>│  Your Course Directory (Working Tree)                       │
-<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>│  ┌─────────────────────────────────────────────────────┐   │
-<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>│  │  files you see and edit                              │   │
-<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>│  └─────────────────────────────────────────────────────┘   │
-<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a>│                          ↓ git add                          │
-<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>│  ┌─────────────────────────────────────────────────────┐   │
-<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a>│  │  Staging Area (index)                                │   │
-<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>│  └─────────────────────────────────────────────────────┘   │
-<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>│                          ↓ git commit                       │
-<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>│  ┌─────────────────────────────────────────────────────┐   │
-<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>│  │  Repository (.git/) - PERMANENT HISTORY              │   │
-<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>│  │  Every commit is saved forever (recoverable)         │   │
-<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>│  └─────────────────────────────────────────────────────┘   │
-<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>└─────────────────────────────────────────────────────────────┘
-<a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>```bash
-<a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>
-<a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a>### Recovery Commands Explained
-<a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a>
-<a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a>```bash
-<a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a># &quot;Undo all uncommitted changes&quot; - Restores files to last commit
-<a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a>git checkout -- .
-<a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a># Think: &quot;Make my files look like the last snapshot&quot;
-<a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>
-<a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a># &quot;Save my work temporarily&quot; - Like a clipboard for changes
-<a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>git stash push -m &quot;description&quot;
-<a id="__codelineno-0-92" name="__codelineno-0-92" href="#__codelineno-0-92"></a># Think: &quot;Put my changes in a drawer for later&quot;
-<a id="__codelineno-0-93" name="__codelineno-0-93" href="#__codelineno-0-93"></a>
-<a id="__codelineno-0-94" name="__codelineno-0-94" href="#__codelineno-0-94"></a># &quot;Get my saved work back&quot;
-<a id="__codelineno-0-95" name="__codelineno-0-95" href="#__codelineno-0-95"></a>git stash pop
-<a id="__codelineno-0-96" name="__codelineno-0-96" href="#__codelineno-0-96"></a># Think: &quot;Take my changes out of the drawer&quot;
-<a id="__codelineno-0-97" name="__codelineno-0-97" href="#__codelineno-0-97"></a>
-<a id="__codelineno-0-98" name="__codelineno-0-98" href="#__codelineno-0-98"></a># &quot;Nuclear reset&quot; - Discard EVERYTHING since last commit
-<a id="__codelineno-0-99" name="__codelineno-0-99" href="#__codelineno-0-99"></a>git reset --hard HEAD
-<a id="__codelineno-0-100" name="__codelineno-0-100" href="#__codelineno-0-100"></a># Think: &quot;Time machine back to last commit, forget everything since&quot;
-<a id="__codelineno-0-101" name="__codelineno-0-101" href="#__codelineno-0-101"></a>```text
-<a id="__codelineno-0-102" name="__codelineno-0-102" href="#__codelineno-0-102"></a>
-<a id="__codelineno-0-103" name="__codelineno-0-103" href="#__codelineno-0-103"></a>---
-<a id="__codelineno-0-104" name="__codelineno-0-104" href="#__codelineno-0-104"></a>
-<a id="__codelineno-0-105" name="__codelineno-0-105" href="#__codelineno-0-105"></a>## 🎓 Understanding Where Files Get Written
-<a id="__codelineno-0-106" name="__codelineno-0-106" href="#__codelineno-0-106"></a>
-<a id="__codelineno-0-107" name="__codelineno-0-107" href="#__codelineno-0-107"></a>### The Write Locations in v5.9.0
-<a id="__codelineno-0-108" name="__codelineno-0-108" href="#__codelineno-0-108"></a>
-<a id="__codelineno-0-109" name="__codelineno-0-109" href="#__codelineno-0-109"></a>```text
-<a id="__codelineno-0-110" name="__codelineno-0-110" href="#__codelineno-0-110"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-0-111" name="__codelineno-0-111" href="#__codelineno-0-111"></a>│  Your Course Directory (e.g., ~/projects/teaching/stat-440) │
-<a id="__codelineno-0-112" name="__codelineno-0-112" href="#__codelineno-0-112"></a>│  ├── .flow/teach-config.yml    ← NEVER written by v5.9.0   │
-<a id="__codelineno-0-113" name="__codelineno-0-113" href="#__codelineno-0-113"></a>│  ├── exams/                    ← Only if teach exam runs   │
-<a id="__codelineno-0-114" name="__codelineno-0-114" href="#__codelineno-0-114"></a>│  ├── quizzes/                  ← Only if teach quiz runs   │
-<a id="__codelineno-0-115" name="__codelineno-0-115" href="#__codelineno-0-115"></a>│  └── .STATUS                   ← Only after generation     │
-<a id="__codelineno-0-116" name="__codelineno-0-116" href="#__codelineno-0-116"></a>└─────────────────────────────────────────────────────────────┘
-<a id="__codelineno-0-117" name="__codelineno-0-117" href="#__codelineno-0-117"></a>
-<a id="__codelineno-0-118" name="__codelineno-0-118" href="#__codelineno-0-118"></a>┌─────────────────────────────────────────────────────────────┐
-<a id="__codelineno-0-119" name="__codelineno-0-119" href="#__codelineno-0-119"></a>│  System Cache (~/.local/share/flow-cli/)                    │
-<a id="__codelineno-0-120" name="__codelineno-0-120" href="#__codelineno-0-120"></a>│  └── cache/teach-config.hash   ← Hash cache (harmless)     │
-<a id="__codelineno-0-121" name="__codelineno-0-121" href="#__codelineno-0-121"></a>└─────────────────────────────────────────────────────────────┘
-<a id="__codelineno-0-122" name="__codelineno-0-122" href="#__codelineno-0-122"></a>```bash
-<a id="__codelineno-0-123" name="__codelineno-0-123" href="#__codelineno-0-123"></a>
-<a id="__codelineno-0-124" name="__codelineno-0-124" href="#__codelineno-0-124"></a>**Key insight:** The hash cache is written to YOUR home directory, not the course. Even if something went wrong with caching, your course files are untouched.
-<a id="__codelineno-0-125" name="__codelineno-0-125" href="#__codelineno-0-125"></a>
-<a id="__codelineno-0-126" name="__codelineno-0-126" href="#__codelineno-0-126"></a>---
-<a id="__codelineno-0-127" name="__codelineno-0-127" href="#__codelineno-0-127"></a>
-<a id="__codelineno-0-128" name="__codelineno-0-128" href="#__codelineno-0-128"></a>## 🎓 Understanding Idempotent Operations
-<a id="__codelineno-0-129" name="__codelineno-0-129" href="#__codelineno-0-129"></a>
-<a id="__codelineno-0-130" name="__codelineno-0-130" href="#__codelineno-0-130"></a>### What &quot;Idempotent&quot; Means
-<a id="__codelineno-0-131" name="__codelineno-0-131" href="#__codelineno-0-131"></a>
-<a id="__codelineno-0-132" name="__codelineno-0-132" href="#__codelineno-0-132"></a>An **idempotent** operation produces the same result no matter how many times you run it.
-<a id="__codelineno-0-133" name="__codelineno-0-133" href="#__codelineno-0-133"></a>
-<a id="__codelineno-0-134" name="__codelineno-0-134" href="#__codelineno-0-134"></a>```bash
-<a id="__codelineno-0-135" name="__codelineno-0-135" href="#__codelineno-0-135"></a># Idempotent: Running 10 times = same as running once
-<a id="__codelineno-0-136" name="__codelineno-0-136" href="#__codelineno-0-136"></a>teach status
-<a id="__codelineno-0-137" name="__codelineno-0-137" href="#__codelineno-0-137"></a>teach status
-<a id="__codelineno-0-138" name="__codelineno-0-138" href="#__codelineno-0-138"></a>teach status
-<a id="__codelineno-0-139" name="__codelineno-0-139" href="#__codelineno-0-139"></a># Result: Same output every time, no side effects
-<a id="__codelineno-0-140" name="__codelineno-0-140" href="#__codelineno-0-140"></a>
-<a id="__codelineno-0-141" name="__codelineno-0-141" href="#__codelineno-0-141"></a># NOT idempotent: Each run creates a NEW file
-<a id="__codelineno-0-142" name="__codelineno-0-142" href="#__codelineno-0-142"></a>teach exam &quot;Topic&quot;
-<a id="__codelineno-0-143" name="__codelineno-0-143" href="#__codelineno-0-143"></a>teach exam &quot;Topic&quot;  # Creates topic-exam-2.qmd or overwrites!
-<a id="__codelineno-0-144" name="__codelineno-0-144" href="#__codelineno-0-144"></a>```diff
-<a id="__codelineno-0-145" name="__codelineno-0-145" href="#__codelineno-0-145"></a>
-<a id="__codelineno-0-146" name="__codelineno-0-146" href="#__codelineno-0-146"></a>### All v5.9.0 Read Operations Are Idempotent
-<a id="__codelineno-0-147" name="__codelineno-0-147" href="#__codelineno-0-147"></a>
-<a id="__codelineno-0-148" name="__codelineno-0-148" href="#__codelineno-0-148"></a>| Command | Run 100 times? |
-<a id="__codelineno-0-149" name="__codelineno-0-149" href="#__codelineno-0-149"></a>|---------|---------------|
-<a id="__codelineno-0-150" name="__codelineno-0-150" href="#__codelineno-0-150"></a>| `teach status` | ✅ Same output, no changes |
-<a id="__codelineno-0-151" name="__codelineno-0-151" href="#__codelineno-0-151"></a>| `_teach_validate_config` | ✅ Same validation result |
-<a id="__codelineno-0-152" name="__codelineno-0-152" href="#__codelineno-0-152"></a>| `_flow_config_hash` | ✅ Same hash (file unchanged) |
-<a id="__codelineno-0-153" name="__codelineno-0-153" href="#__codelineno-0-153"></a>| `teach exam --dry-run` | ✅ Same preview, no files |
-<a id="__codelineno-0-154" name="__codelineno-0-154" href="#__codelineno-0-154"></a>
-<a id="__codelineno-0-155" name="__codelineno-0-155" href="#__codelineno-0-155"></a>---
-<a id="__codelineno-0-156" name="__codelineno-0-156" href="#__codelineno-0-156"></a>
-<a id="__codelineno-0-157" name="__codelineno-0-157" href="#__codelineno-0-157"></a>## Safety Principles
-<a id="__codelineno-0-158" name="__codelineno-0-158" href="#__codelineno-0-158"></a>
-<a id="__codelineno-0-159" name="__codelineno-0-159" href="#__codelineno-0-159"></a>1. **Read-only first** - All status/validation commands are safe
-<a id="__codelineno-0-160" name="__codelineno-0-160" href="#__codelineno-0-160"></a>2. **--dry-run always** - Preview without writing files
-<a id="__codelineno-0-161" name="__codelineno-0-161" href="#__codelineno-0-161"></a>3. **No auto-stage in tests** - Post-generation hooks won&#39;t run with --dry-run
-<a id="__codelineno-0-162" name="__codelineno-0-162" href="#__codelineno-0-162"></a>4. **Git safety net** - Stash changes before testing
-<a id="__codelineno-0-163" name="__codelineno-0-163" href="#__codelineno-0-163"></a>
-<a id="__codelineno-0-164" name="__codelineno-0-164" href="#__codelineno-0-164"></a>---
-<a id="__codelineno-0-165" name="__codelineno-0-165" href="#__codelineno-0-165"></a>
-<a id="__codelineno-0-166" name="__codelineno-0-166" href="#__codelineno-0-166"></a>## Pre-Flight Checklist
-<a id="__codelineno-0-167" name="__codelineno-0-167" href="#__codelineno-0-167"></a>
-<a id="__codelineno-0-168" name="__codelineno-0-168" href="#__codelineno-0-168"></a>Before testing on a real course:
-<a id="__codelineno-0-169" name="__codelineno-0-169" href="#__codelineno-0-169"></a>
-<a id="__codelineno-0-170" name="__codelineno-0-170" href="#__codelineno-0-170"></a>```bash
-<a id="__codelineno-0-171" name="__codelineno-0-171" href="#__codelineno-0-171"></a># 1. Navigate to course
-<a id="__codelineno-0-172" name="__codelineno-0-172" href="#__codelineno-0-172"></a>cd ~/projects/teaching/stat-440
-<a id="__codelineno-0-173" name="__codelineno-0-173" href="#__codelineno-0-173"></a>
-<a id="__codelineno-0-174" name="__codelineno-0-174" href="#__codelineno-0-174"></a># 2. Check git status (should be clean)
-<a id="__codelineno-0-175" name="__codelineno-0-175" href="#__codelineno-0-175"></a>git status
-<a id="__codelineno-0-176" name="__codelineno-0-176" href="#__codelineno-0-176"></a>
-<a id="__codelineno-0-177" name="__codelineno-0-177" href="#__codelineno-0-177"></a># 3. Stash any uncommitted work (safety net)
-<a id="__codelineno-0-178" name="__codelineno-0-178" href="#__codelineno-0-178"></a>git stash push -m &quot;pre-v5.9.0-test&quot;
-<a id="__codelineno-0-179" name="__codelineno-0-179" href="#__codelineno-0-179"></a>
-<a id="__codelineno-0-180" name="__codelineno-0-180" href="#__codelineno-0-180"></a># 4. Verify stash saved
-<a id="__codelineno-0-181" name="__codelineno-0-181" href="#__codelineno-0-181"></a>git stash list
-<a id="__codelineno-0-182" name="__codelineno-0-182" href="#__codelineno-0-182"></a>```bash
-<a id="__codelineno-0-183" name="__codelineno-0-183" href="#__codelineno-0-183"></a>
-<a id="__codelineno-0-184" name="__codelineno-0-184" href="#__codelineno-0-184"></a>---
-<a id="__codelineno-0-185" name="__codelineno-0-185" href="#__codelineno-0-185"></a>
-<a id="__codelineno-0-186" name="__codelineno-0-186" href="#__codelineno-0-186"></a>## Safe Commands (Read-Only)
-<a id="__codelineno-0-187" name="__codelineno-0-187" href="#__codelineno-0-187"></a>
-<a id="__codelineno-0-188" name="__codelineno-0-188" href="#__codelineno-0-188"></a>These commands **NEVER modify files**:
-<a id="__codelineno-0-189" name="__codelineno-0-189" href="#__codelineno-0-189"></a>
-<a id="__codelineno-0-190" name="__codelineno-0-190" href="#__codelineno-0-190"></a>### 1. teach status
-<a id="__codelineno-0-191" name="__codelineno-0-191" href="#__codelineno-0-191"></a>
-<a id="__codelineno-0-192" name="__codelineno-0-192" href="#__codelineno-0-192"></a>```bash
-<a id="__codelineno-0-193" name="__codelineno-0-193" href="#__codelineno-0-193"></a># Shows course info, validation status, content inventory
-<a id="__codelineno-0-194" name="__codelineno-0-194" href="#__codelineno-0-194"></a>teach status
-<a id="__codelineno-0-195" name="__codelineno-0-195" href="#__codelineno-0-195"></a>```text
-<a id="__codelineno-0-196" name="__codelineno-0-196" href="#__codelineno-0-196"></a>
-<a id="__codelineno-0-197" name="__codelineno-0-197" href="#__codelineno-0-197"></a>**What it does:** Reads config, validates, displays info
-<a id="__codelineno-0-198" name="__codelineno-0-198" href="#__codelineno-0-198"></a>**Risk:** ⚪ NONE
-<a id="__codelineno-0-199" name="__codelineno-0-199" href="#__codelineno-0-199"></a>
-<a id="__codelineno-0-200" name="__codelineno-0-200" href="#__codelineno-0-200"></a>### 2. teach help
-<a id="__codelineno-0-201" name="__codelineno-0-201" href="#__codelineno-0-201"></a>
-<a id="__codelineno-0-202" name="__codelineno-0-202" href="#__codelineno-0-202"></a>```bash
-<a id="__codelineno-0-203" name="__codelineno-0-203" href="#__codelineno-0-203"></a>teach help
-<a id="__codelineno-0-204" name="__codelineno-0-204" href="#__codelineno-0-204"></a>teach exam --help
-<a id="__codelineno-0-205" name="__codelineno-0-205" href="#__codelineno-0-205"></a>teach quiz --help
-<a id="__codelineno-0-206" name="__codelineno-0-206" href="#__codelineno-0-206"></a>```zsh
-<a id="__codelineno-0-207" name="__codelineno-0-207" href="#__codelineno-0-207"></a>
-<a id="__codelineno-0-208" name="__codelineno-0-208" href="#__codelineno-0-208"></a>**What it does:** Displays help text
-<a id="__codelineno-0-209" name="__codelineno-0-209" href="#__codelineno-0-209"></a>**Risk:** ⚪ NONE
-<a id="__codelineno-0-210" name="__codelineno-0-210" href="#__codelineno-0-210"></a>
-<a id="__codelineno-0-211" name="__codelineno-0-211" href="#__codelineno-0-211"></a>### 3. Config Validation
-<a id="__codelineno-0-212" name="__codelineno-0-212" href="#__codelineno-0-212"></a>
-<a id="__codelineno-0-213" name="__codelineno-0-213" href="#__codelineno-0-213"></a>```bash
-<a id="__codelineno-0-214" name="__codelineno-0-214" href="#__codelineno-0-214"></a># Source flow-cli first
-<a id="__codelineno-0-215" name="__codelineno-0-215" href="#__codelineno-0-215"></a>source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
-<a id="__codelineno-0-216" name="__codelineno-0-216" href="#__codelineno-0-216"></a>
-<a id="__codelineno-0-217" name="__codelineno-0-217" href="#__codelineno-0-217"></a># Validate config (read-only)
-<a id="__codelineno-0-218" name="__codelineno-0-218" href="#__codelineno-0-218"></a>_teach_validate_config .flow/teach-config.yml
-<a id="__codelineno-0-219" name="__codelineno-0-219" href="#__codelineno-0-219"></a>
-<a id="__codelineno-0-220" name="__codelineno-0-220" href="#__codelineno-0-220"></a># Check Scholar section exists
-<a id="__codelineno-0-221" name="__codelineno-0-221" href="#__codelineno-0-221"></a>_teach_has_scholar_config .flow/teach-config.yml
-<a id="__codelineno-0-222" name="__codelineno-0-222" href="#__codelineno-0-222"></a>
-<a id="__codelineno-0-223" name="__codelineno-0-223" href="#__codelineno-0-223"></a># Get config values (read-only)
-<a id="__codelineno-0-224" name="__codelineno-0-224" href="#__codelineno-0-224"></a>_teach_config_get &quot;course.name&quot;
-<a id="__codelineno-0-225" name="__codelineno-0-225" href="#__codelineno-0-225"></a>_teach_config_get &quot;course.semester&quot;
-<a id="__codelineno-0-226" name="__codelineno-0-226" href="#__codelineno-0-226"></a>```zsh
-<a id="__codelineno-0-227" name="__codelineno-0-227" href="#__codelineno-0-227"></a>
-<a id="__codelineno-0-228" name="__codelineno-0-228" href="#__codelineno-0-228"></a>**What it does:** Reads and validates YAML
-<a id="__codelineno-0-229" name="__codelineno-0-229" href="#__codelineno-0-229"></a>**Risk:** ⚪ NONE
-<a id="__codelineno-0-230" name="__codelineno-0-230" href="#__codelineno-0-230"></a>
-<a id="__codelineno-0-231" name="__codelineno-0-231" href="#__codelineno-0-231"></a>### 4. Hash Functions
-<a id="__codelineno-0-232" name="__codelineno-0-232" href="#__codelineno-0-232"></a>
-<a id="__codelineno-0-233" name="__codelineno-0-233" href="#__codelineno-0-233"></a>```bash
-<a id="__codelineno-0-234" name="__codelineno-0-234" href="#__codelineno-0-234"></a># Compute hash (read-only)
-<a id="__codelineno-0-235" name="__codelineno-0-235" href="#__codelineno-0-235"></a>_flow_config_hash .flow/teach-config.yml
-<a id="__codelineno-0-236" name="__codelineno-0-236" href="#__codelineno-0-236"></a>
-<a id="__codelineno-0-237" name="__codelineno-0-237" href="#__codelineno-0-237"></a># Check if changed (reads cache file)
-<a id="__codelineno-0-238" name="__codelineno-0-238" href="#__codelineno-0-238"></a>_flow_config_changed .flow/teach-config.yml
-<a id="__codelineno-0-239" name="__codelineno-0-239" href="#__codelineno-0-239"></a>```bash
-<a id="__codelineno-0-240" name="__codelineno-0-240" href="#__codelineno-0-240"></a>
-<a id="__codelineno-0-241" name="__codelineno-0-241" href="#__codelineno-0-241"></a>**What it does:** Computes SHA-256, compares with cache
-<a id="__codelineno-0-242" name="__codelineno-0-242" href="#__codelineno-0-242"></a>**Risk:** ⚪ NONE (cache file is in ~/.local/share/flow-cli/)
-<a id="__codelineno-0-243" name="__codelineno-0-243" href="#__codelineno-0-243"></a>
-<a id="__codelineno-0-244" name="__codelineno-0-244" href="#__codelineno-0-244"></a>### 5. Flag Validation
-<a id="__codelineno-0-245" name="__codelineno-0-245" href="#__codelineno-0-245"></a>
-<a id="__codelineno-0-246" name="__codelineno-0-246" href="#__codelineno-0-246"></a>```bash
-<a id="__codelineno-0-247" name="__codelineno-0-247" href="#__codelineno-0-247"></a># Test flag validation (no execution)
-<a id="__codelineno-0-248" name="__codelineno-0-248" href="#__codelineno-0-248"></a>_teach_validate_flags exam --questions 5 --duration 60
-<a id="__codelineno-0-249" name="__codelineno-0-249" href="#__codelineno-0-249"></a>_teach_validate_flags exam --invalid-flag  # Should error
-<a id="__codelineno-0-250" name="__codelineno-0-250" href="#__codelineno-0-250"></a>```bash
-<a id="__codelineno-0-251" name="__codelineno-0-251" href="#__codelineno-0-251"></a>
-<a id="__codelineno-0-252" name="__codelineno-0-252" href="#__codelineno-0-252"></a>**What it does:** Validates flags, returns error for invalid
-<a id="__codelineno-0-253" name="__codelineno-0-253" href="#__codelineno-0-253"></a>**Risk:** ⚪ NONE
-<a id="__codelineno-0-254" name="__codelineno-0-254" href="#__codelineno-0-254"></a>
-<a id="__codelineno-0-255" name="__codelineno-0-255" href="#__codelineno-0-255"></a>---
-<a id="__codelineno-0-256" name="__codelineno-0-256" href="#__codelineno-0-256"></a>
-<a id="__codelineno-0-257" name="__codelineno-0-257" href="#__codelineno-0-257"></a>## Safe Commands with --dry-run
-<a id="__codelineno-0-258" name="__codelineno-0-258" href="#__codelineno-0-258"></a>
-<a id="__codelineno-0-259" name="__codelineno-0-259" href="#__codelineno-0-259"></a>These commands **preview output without writing**:
-<a id="__codelineno-0-260" name="__codelineno-0-260" href="#__codelineno-0-260"></a>
-<a id="__codelineno-0-261" name="__codelineno-0-261" href="#__codelineno-0-261"></a>### 6. teach exam --dry-run
-<a id="__codelineno-0-262" name="__codelineno-0-262" href="#__codelineno-0-262"></a>
-<a id="__codelineno-0-263" name="__codelineno-0-263" href="#__codelineno-0-263"></a>```bash
-<a id="__codelineno-0-264" name="__codelineno-0-264" href="#__codelineno-0-264"></a># Preview exam generation (NO files written)
-<a id="__codelineno-0-265" name="__codelineno-0-265" href="#__codelineno-0-265"></a>teach exam &quot;Regression Diagnostics&quot; --dry-run
-<a id="__codelineno-0-266" name="__codelineno-0-266" href="#__codelineno-0-266"></a>```text
-<a id="__codelineno-0-267" name="__codelineno-0-267" href="#__codelineno-0-267"></a>
-<a id="__codelineno-0-268" name="__codelineno-0-268" href="#__codelineno-0-268"></a>**What it does:** Shows what WOULD be generated
-<a id="__codelineno-0-269" name="__codelineno-0-269" href="#__codelineno-0-269"></a>**Risk:** ⚪ NONE (--dry-run prevents file creation)
-<a id="__codelineno-0-270" name="__codelineno-0-270" href="#__codelineno-0-270"></a>
-<a id="__codelineno-0-271" name="__codelineno-0-271" href="#__codelineno-0-271"></a>### 7. teach quiz --dry-run
-<a id="__codelineno-0-272" name="__codelineno-0-272" href="#__codelineno-0-272"></a>
-<a id="__codelineno-0-273" name="__codelineno-0-273" href="#__codelineno-0-273"></a>```bash
-<a id="__codelineno-0-274" name="__codelineno-0-274" href="#__codelineno-0-274"></a>teach quiz &quot;Hypothesis Testing&quot; --dry-run --questions 10
-<a id="__codelineno-0-275" name="__codelineno-0-275" href="#__codelineno-0-275"></a>```text
-<a id="__codelineno-0-276" name="__codelineno-0-276" href="#__codelineno-0-276"></a>
-<a id="__codelineno-0-277" name="__codelineno-0-277" href="#__codelineno-0-277"></a>**Risk:** ⚪ NONE
-<a id="__codelineno-0-278" name="__codelineno-0-278" href="#__codelineno-0-278"></a>
-<a id="__codelineno-0-279" name="__codelineno-0-279" href="#__codelineno-0-279"></a>### 8. teach slides --dry-run
-<a id="__codelineno-0-280" name="__codelineno-0-280" href="#__codelineno-0-280"></a>
-<a id="__codelineno-0-281" name="__codelineno-0-281" href="#__codelineno-0-281"></a>```bash
-<a id="__codelineno-0-282" name="__codelineno-0-282" href="#__codelineno-0-282"></a>teach slides &quot;ANOVA&quot; --dry-run
-<a id="__codelineno-0-283" name="__codelineno-0-283" href="#__codelineno-0-283"></a>```bash
-<a id="__codelineno-0-284" name="__codelineno-0-284" href="#__codelineno-0-284"></a>
-<a id="__codelineno-0-285" name="__codelineno-0-285" href="#__codelineno-0-285"></a>**Risk:** ⚪ NONE
-<a id="__codelineno-0-286" name="__codelineno-0-286" href="#__codelineno-0-286"></a>
-<a id="__codelineno-0-287" name="__codelineno-0-287" href="#__codelineno-0-287"></a>---
-<a id="__codelineno-0-288" name="__codelineno-0-288" href="#__codelineno-0-288"></a>
-<a id="__codelineno-0-289" name="__codelineno-0-289" href="#__codelineno-0-289"></a>## Commands That WRITE Files
-<a id="__codelineno-0-290" name="__codelineno-0-290" href="#__codelineno-0-290"></a>
-<a id="__codelineno-0-291" name="__codelineno-0-291" href="#__codelineno-0-291"></a>⚠️ **DO NOT run these without --dry-run during testing:**
-<a id="__codelineno-0-292" name="__codelineno-0-292" href="#__codelineno-0-292"></a>
-<a id="__codelineno-0-293" name="__codelineno-0-293" href="#__codelineno-0-293"></a>| Command | What it writes | Reversible? |
-<a id="__codelineno-0-294" name="__codelineno-0-294" href="#__codelineno-0-294"></a>|---------|---------------|-------------|
-<a id="__codelineno-0-295" name="__codelineno-0-295" href="#__codelineno-0-295"></a>| `teach exam &quot;Topic&quot;` | `exams/*.qmd` | Yes (git) |
-<a id="__codelineno-0-296" name="__codelineno-0-296" href="#__codelineno-0-296"></a>| `teach quiz &quot;Topic&quot;` | `quizzes/*.qmd` | Yes (git) |
-<a id="__codelineno-0-297" name="__codelineno-0-297" href="#__codelineno-0-297"></a>| `teach slides &quot;Topic&quot;` | `slides/*.qmd` | Yes (git) |
-<a id="__codelineno-0-298" name="__codelineno-0-298" href="#__codelineno-0-298"></a>| `teach syllabus` | `syllabus.qmd` | Yes (git) |
-<a id="__codelineno-0-299" name="__codelineno-0-299" href="#__codelineno-0-299"></a>
-<a id="__codelineno-0-300" name="__codelineno-0-300" href="#__codelineno-0-300"></a>**Recovery if accidentally run:**
-<a id="__codelineno-0-301" name="__codelineno-0-301" href="#__codelineno-0-301"></a>
-<a id="__codelineno-0-302" name="__codelineno-0-302" href="#__codelineno-0-302"></a>```bash
-<a id="__codelineno-0-303" name="__codelineno-0-303" href="#__codelineno-0-303"></a># Discard all uncommitted changes
-<a id="__codelineno-0-304" name="__codelineno-0-304" href="#__codelineno-0-304"></a>git checkout -- .
-<a id="__codelineno-0-305" name="__codelineno-0-305" href="#__codelineno-0-305"></a>
-<a id="__codelineno-0-306" name="__codelineno-0-306" href="#__codelineno-0-306"></a># Or restore from stash
-<a id="__codelineno-0-307" name="__codelineno-0-307" href="#__codelineno-0-307"></a>git stash pop
-<a id="__codelineno-0-308" name="__codelineno-0-308" href="#__codelineno-0-308"></a>```bash
-<a id="__codelineno-0-309" name="__codelineno-0-309" href="#__codelineno-0-309"></a>
-<a id="__codelineno-0-310" name="__codelineno-0-310" href="#__codelineno-0-310"></a>---
-<a id="__codelineno-0-311" name="__codelineno-0-311" href="#__codelineno-0-311"></a>
-<a id="__codelineno-0-312" name="__codelineno-0-312" href="#__codelineno-0-312"></a>## Complete Safe Test Script
-<a id="__codelineno-0-313" name="__codelineno-0-313" href="#__codelineno-0-313"></a>
-<a id="__codelineno-0-314" name="__codelineno-0-314" href="#__codelineno-0-314"></a>Copy and run this script for comprehensive safe testing:
-<a id="__codelineno-0-315" name="__codelineno-0-315" href="#__codelineno-0-315"></a>
-<a id="__codelineno-0-316" name="__codelineno-0-316" href="#__codelineno-0-316"></a>```bash
-<a id="__codelineno-0-317" name="__codelineno-0-317" href="#__codelineno-0-317"></a>#!/usr/bin/env zsh
-<a id="__codelineno-0-318" name="__codelineno-0-318" href="#__codelineno-0-318"></a># Safe v5.9.0 Test - Real Course
-<a id="__codelineno-0-319" name="__codelineno-0-319" href="#__codelineno-0-319"></a># Run from course directory (e.g., stat-440)
-<a id="__codelineno-0-320" name="__codelineno-0-320" href="#__codelineno-0-320"></a>
-<a id="__codelineno-0-321" name="__codelineno-0-321" href="#__codelineno-0-321"></a>echo &quot;═══════════════════════════════════════════════&quot;
-<a id="__codelineno-0-322" name="__codelineno-0-322" href="#__codelineno-0-322"></a>echo &quot;flow-cli v5.9.0 Safe Testing - $(basename $PWD)&quot;
-<a id="__codelineno-0-323" name="__codelineno-0-323" href="#__codelineno-0-323"></a>echo &quot;═══════════════════════════════════════════════&quot;
-<a id="__codelineno-0-324" name="__codelineno-0-324" href="#__codelineno-0-324"></a>
-<a id="__codelineno-0-325" name="__codelineno-0-325" href="#__codelineno-0-325"></a># Source plugin
-<a id="__codelineno-0-326" name="__codelineno-0-326" href="#__codelineno-0-326"></a>source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
-<a id="__codelineno-0-327" name="__codelineno-0-327" href="#__codelineno-0-327"></a>
-<a id="__codelineno-0-328" name="__codelineno-0-328" href="#__codelineno-0-328"></a>echo &quot;\n[1] teach status (read-only)&quot;
-<a id="__codelineno-0-329" name="__codelineno-0-329" href="#__codelineno-0-329"></a>echo &quot;─────────────────────────────&quot;
-<a id="__codelineno-0-330" name="__codelineno-0-330" href="#__codelineno-0-330"></a>teach status
-<a id="__codelineno-0-331" name="__codelineno-0-331" href="#__codelineno-0-331"></a>
-<a id="__codelineno-0-332" name="__codelineno-0-332" href="#__codelineno-0-332"></a>echo &quot;\n[2] Config validation (read-only)&quot;
-<a id="__codelineno-0-333" name="__codelineno-0-333" href="#__codelineno-0-333"></a>echo &quot;───────────────────────────────────&quot;
-<a id="__codelineno-0-334" name="__codelineno-0-334" href="#__codelineno-0-334"></a>_teach_validate_config .flow/teach-config.yml
-<a id="__codelineno-0-335" name="__codelineno-0-335" href="#__codelineno-0-335"></a>
-<a id="__codelineno-0-336" name="__codelineno-0-336" href="#__codelineno-0-336"></a>echo &quot;\n[3] Config values (read-only)&quot;
-<a id="__codelineno-0-337" name="__codelineno-0-337" href="#__codelineno-0-337"></a>echo &quot;──────────────────────────────&quot;
-<a id="__codelineno-0-338" name="__codelineno-0-338" href="#__codelineno-0-338"></a>echo &quot;Course: $(_teach_config_get &#39;course.name&#39;)&quot;
-<a id="__codelineno-0-339" name="__codelineno-0-339" href="#__codelineno-0-339"></a>echo &quot;Semester: $(_teach_config_get &#39;course.semester&#39;)&quot;
-<a id="__codelineno-0-340" name="__codelineno-0-340" href="#__codelineno-0-340"></a>echo &quot;Year: $(_teach_config_get &#39;course.year&#39;)&quot;
-<a id="__codelineno-0-341" name="__codelineno-0-341" href="#__codelineno-0-341"></a>
-<a id="__codelineno-0-342" name="__codelineno-0-342" href="#__codelineno-0-342"></a>echo &quot;\n[4] Hash detection (read-only)&quot;
-<a id="__codelineno-0-343" name="__codelineno-0-343" href="#__codelineno-0-343"></a>echo &quot;────────────────────────────────&quot;
-<a id="__codelineno-0-344" name="__codelineno-0-344" href="#__codelineno-0-344"></a>echo &quot;Hash: $(_flow_config_hash .flow/teach-config.yml | head -c 16)...&quot;
-<a id="__codelineno-0-345" name="__codelineno-0-345" href="#__codelineno-0-345"></a>
-<a id="__codelineno-0-346" name="__codelineno-0-346" href="#__codelineno-0-346"></a>echo &quot;\n[5] Flag validation (read-only)&quot;
-<a id="__codelineno-0-347" name="__codelineno-0-347" href="#__codelineno-0-347"></a>echo &quot;─────────────────────────────────&quot;
-<a id="__codelineno-0-348" name="__codelineno-0-348" href="#__codelineno-0-348"></a>if _teach_validate_flags exam --questions 5 2&gt;/dev/null; then
-<a id="__codelineno-0-349" name="__codelineno-0-349" href="#__codelineno-0-349"></a>    echo &quot;✓ Valid flags accepted&quot;
-<a id="__codelineno-0-350" name="__codelineno-0-350" href="#__codelineno-0-350"></a>else
-<a id="__codelineno-0-351" name="__codelineno-0-351" href="#__codelineno-0-351"></a>    echo &quot;✗ Flag validation failed&quot;
-<a id="__codelineno-0-352" name="__codelineno-0-352" href="#__codelineno-0-352"></a>fi
-<a id="__codelineno-0-353" name="__codelineno-0-353" href="#__codelineno-0-353"></a>
-<a id="__codelineno-0-354" name="__codelineno-0-354" href="#__codelineno-0-354"></a>if ! _teach_validate_flags exam --bad-flag 2&gt;/dev/null; then
-<a id="__codelineno-0-355" name="__codelineno-0-355" href="#__codelineno-0-355"></a>    echo &quot;✓ Invalid flags rejected&quot;
-<a id="__codelineno-0-356" name="__codelineno-0-356" href="#__codelineno-0-356"></a>else
-<a id="__codelineno-0-357" name="__codelineno-0-357" href="#__codelineno-0-357"></a>    echo &quot;✗ Invalid flag not caught&quot;
-<a id="__codelineno-0-358" name="__codelineno-0-358" href="#__codelineno-0-358"></a>fi
-<a id="__codelineno-0-359" name="__codelineno-0-359" href="#__codelineno-0-359"></a>
-<a id="__codelineno-0-360" name="__codelineno-0-360" href="#__codelineno-0-360"></a>echo &quot;\n[6] Help system (read-only)&quot;
-<a id="__codelineno-0-361" name="__codelineno-0-361" href="#__codelineno-0-361"></a>echo &quot;─────────────────────────────&quot;
-<a id="__codelineno-0-362" name="__codelineno-0-362" href="#__codelineno-0-362"></a>teach exam --help | head -5
-<a id="__codelineno-0-363" name="__codelineno-0-363" href="#__codelineno-0-363"></a>
-<a id="__codelineno-0-364" name="__codelineno-0-364" href="#__codelineno-0-364"></a>echo &quot;\n═══════════════════════════════════════════════&quot;
-<a id="__codelineno-0-365" name="__codelineno-0-365" href="#__codelineno-0-365"></a>echo &quot;✓ All safe tests complete - no files modified&quot;
-<a id="__codelineno-0-366" name="__codelineno-0-366" href="#__codelineno-0-366"></a>echo &quot;═══════════════════════════════════════════════&quot;
-<a id="__codelineno-0-367" name="__codelineno-0-367" href="#__codelineno-0-367"></a>```zsh
-<a id="__codelineno-0-368" name="__codelineno-0-368" href="#__codelineno-0-368"></a>
-<a id="__codelineno-0-369" name="__codelineno-0-369" href="#__codelineno-0-369"></a>---
-<a id="__codelineno-0-370" name="__codelineno-0-370" href="#__codelineno-0-370"></a>
-<a id="__codelineno-0-371" name="__codelineno-0-371" href="#__codelineno-0-371"></a>## Testing on stat-440
-<a id="__codelineno-0-372" name="__codelineno-0-372" href="#__codelineno-0-372"></a>
-<a id="__codelineno-0-373" name="__codelineno-0-373" href="#__codelineno-0-373"></a>```bash
-<a id="__codelineno-0-374" name="__codelineno-0-374" href="#__codelineno-0-374"></a># 1. Go to course
-<a id="__codelineno-0-375" name="__codelineno-0-375" href="#__codelineno-0-375"></a>cd ~/projects/teaching/stat-440
-<a id="__codelineno-0-376" name="__codelineno-0-376" href="#__codelineno-0-376"></a>
-<a id="__codelineno-0-377" name="__codelineno-0-377" href="#__codelineno-0-377"></a># 2. Safety stash
-<a id="__codelineno-0-378" name="__codelineno-0-378" href="#__codelineno-0-378"></a>git stash push -m &quot;pre-test&quot;
-<a id="__codelineno-0-379" name="__codelineno-0-379" href="#__codelineno-0-379"></a>
-<a id="__codelineno-0-380" name="__codelineno-0-380" href="#__codelineno-0-380"></a># 3. Run safe tests
-<a id="__codelineno-0-381" name="__codelineno-0-381" href="#__codelineno-0-381"></a>source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
-<a id="__codelineno-0-382" name="__codelineno-0-382" href="#__codelineno-0-382"></a>teach status
-<a id="__codelineno-0-383" name="__codelineno-0-383" href="#__codelineno-0-383"></a>_teach_validate_config .flow/teach-config.yml
-<a id="__codelineno-0-384" name="__codelineno-0-384" href="#__codelineno-0-384"></a>
-<a id="__codelineno-0-385" name="__codelineno-0-385" href="#__codelineno-0-385"></a># 4. Preview generation (--dry-run = safe)
-<a id="__codelineno-0-386" name="__codelineno-0-386" href="#__codelineno-0-386"></a>teach exam &quot;Model Diagnostics&quot; --dry-run
-<a id="__codelineno-0-387" name="__codelineno-0-387" href="#__codelineno-0-387"></a>
-<a id="__codelineno-0-388" name="__codelineno-0-388" href="#__codelineno-0-388"></a># 5. Verify no changes
-<a id="__codelineno-0-389" name="__codelineno-0-389" href="#__codelineno-0-389"></a>git status  # Should show &quot;nothing to commit&quot;
-<a id="__codelineno-0-390" name="__codelineno-0-390" href="#__codelineno-0-390"></a>
-<a id="__codelineno-0-391" name="__codelineno-0-391" href="#__codelineno-0-391"></a># 6. Restore stash if needed
-<a id="__codelineno-0-392" name="__codelineno-0-392" href="#__codelineno-0-392"></a>git stash pop
-<a id="__codelineno-0-393" name="__codelineno-0-393" href="#__codelineno-0-393"></a>```yaml
-<a id="__codelineno-0-394" name="__codelineno-0-394" href="#__codelineno-0-394"></a>
-<a id="__codelineno-0-395" name="__codelineno-0-395" href="#__codelineno-0-395"></a>---
-<a id="__codelineno-0-396" name="__codelineno-0-396" href="#__codelineno-0-396"></a>
-<a id="__codelineno-0-397" name="__codelineno-0-397" href="#__codelineno-0-397"></a>## What&#39;s Actually At Risk?
-<a id="__codelineno-0-398" name="__codelineno-0-398" href="#__codelineno-0-398"></a>
-<a id="__codelineno-0-399" name="__codelineno-0-399" href="#__codelineno-0-399"></a>### Low Risk (Auto-recoverable)
-<a id="__codelineno-0-400" name="__codelineno-0-400" href="#__codelineno-0-400"></a>
-<a id="__codelineno-0-401" name="__codelineno-0-401" href="#__codelineno-0-401"></a>- Cache files in `~/.local/share/flow-cli/` - Can be deleted
-<a id="__codelineno-0-402" name="__codelineno-0-402" href="#__codelineno-0-402"></a>- Generated content files - Git tracked, easily reverted
-<a id="__codelineno-0-403" name="__codelineno-0-403" href="#__codelineno-0-403"></a>
-<a id="__codelineno-0-404" name="__codelineno-0-404" href="#__codelineno-0-404"></a>### No Risk
-<a id="__codelineno-0-405" name="__codelineno-0-405" href="#__codelineno-0-405"></a>
-<a id="__codelineno-0-406" name="__codelineno-0-406" href="#__codelineno-0-406"></a>- Course config `.flow/teach-config.yml` - Never written by v5.9.0 features
-<a id="__codelineno-0-407" name="__codelineno-0-407" href="#__codelineno-0-407"></a>- Existing course content - Never modified
-<a id="__codelineno-0-408" name="__codelineno-0-408" href="#__codelineno-0-408"></a>- Git history - Never altered
-<a id="__codelineno-0-409" name="__codelineno-0-409" href="#__codelineno-0-409"></a>
-<a id="__codelineno-0-410" name="__codelineno-0-410" href="#__codelineno-0-410"></a>### The v5.9.0 Features Are Read-Heavy
-<a id="__codelineno-0-411" name="__codelineno-0-411" href="#__codelineno-0-411"></a>
-<a id="__codelineno-0-412" name="__codelineno-0-412" href="#__codelineno-0-412"></a>| Feature | Reads | Writes |
-<a id="__codelineno-0-413" name="__codelineno-0-413" href="#__codelineno-0-413"></a>|---------|-------|--------|
-<a id="__codelineno-0-414" name="__codelineno-0-414" href="#__codelineno-0-414"></a>| JSON Schema validation | ✓ config | ✗ nothing |
-<a id="__codelineno-0-415" name="__codelineno-0-415" href="#__codelineno-0-415"></a>| Hash detection | ✓ config | ✓ cache only |
-<a id="__codelineno-0-416" name="__codelineno-0-416" href="#__codelineno-0-416"></a>| Flag validation | ✓ flags | ✗ nothing |
-<a id="__codelineno-0-417" name="__codelineno-0-417" href="#__codelineno-0-417"></a>| Spinner | ✗ nothing | ✗ nothing |
-<a id="__codelineno-0-418" name="__codelineno-0-418" href="#__codelineno-0-418"></a>| teach status | ✓ config, files | ✗ nothing |
-<a id="__codelineno-0-419" name="__codelineno-0-419" href="#__codelineno-0-419"></a>| Post-gen hooks | ✓ output | ✓ .STATUS, git stage |
-<a id="__codelineno-0-420" name="__codelineno-0-420" href="#__codelineno-0-420"></a>
-<a id="__codelineno-0-421" name="__codelineno-0-421" href="#__codelineno-0-421"></a>**Post-generation hooks only run when content is actually generated** (not with --dry-run).
-<a id="__codelineno-0-422" name="__codelineno-0-422" href="#__codelineno-0-422"></a>
-<a id="__codelineno-0-423" name="__codelineno-0-423" href="#__codelineno-0-423"></a>---
-<a id="__codelineno-0-424" name="__codelineno-0-424" href="#__codelineno-0-424"></a>
-<a id="__codelineno-0-425" name="__codelineno-0-425" href="#__codelineno-0-425"></a>## Emergency Recovery
-<a id="__codelineno-0-426" name="__codelineno-0-426" href="#__codelineno-0-426"></a>
-<a id="__codelineno-0-427" name="__codelineno-0-427" href="#__codelineno-0-427"></a>If something goes wrong:
-<a id="__codelineno-0-428" name="__codelineno-0-428" href="#__codelineno-0-428"></a>
-<a id="__codelineno-0-429" name="__codelineno-0-429" href="#__codelineno-0-429"></a>```bash
-<a id="__codelineno-0-430" name="__codelineno-0-430" href="#__codelineno-0-430"></a># Option 1: Discard all changes
-<a id="__codelineno-0-431" name="__codelineno-0-431" href="#__codelineno-0-431"></a>git checkout -- .
-<a id="__codelineno-0-432" name="__codelineno-0-432" href="#__codelineno-0-432"></a>
-<a id="__codelineno-0-433" name="__codelineno-0-433" href="#__codelineno-0-433"></a># Option 2: Restore from stash
-<a id="__codelineno-0-434" name="__codelineno-0-434" href="#__codelineno-0-434"></a>git stash pop
-<a id="__codelineno-0-435" name="__codelineno-0-435" href="#__codelineno-0-435"></a>
-<a id="__codelineno-0-436" name="__codelineno-0-436" href="#__codelineno-0-436"></a># Option 3: Hard reset (nuclear option)
-<a id="__codelineno-0-437" name="__codelineno-0-437" href="#__codelineno-0-437"></a>git reset --hard HEAD
+</code></pre></div>
+<p><strong>Key insight:</strong> A read operation, by definition, cannot change your data. It's like looking at a photograph vs. editing it.</p>
+<h3 id="why-v590-features-are-mostly-safe">Why v5.9.0 Features Are Mostly Safe<a class="headerlink" href="#why-v590-features-are-mostly-safe" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>What It Actually Does</th>
+<th>Why Safe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Config Validation</strong></td>
+<td>Opens YAML, checks structure</td>
+<td>Only reads, never modifies config</td>
+</tr>
+<tr>
+<td><strong>Hash Detection</strong></td>
+<td>Reads file bytes, computes SHA-256</td>
+<td>Math on bytes, no file changes</td>
+</tr>
+<tr>
+<td><strong>Flag Validation</strong></td>
+<td>Checks command arguments</td>
+<td>String comparison, no I/O</td>
+</tr>
+<tr>
+<td><strong>teach status</strong></td>
+<td>Reads config + lists files</td>
+<td><code>ls</code> and <code>cat</code> equivalent</td>
+</tr>
+<tr>
+<td><strong>Spinner</strong></td>
+<td>Prints characters to terminal</td>
+<td>Display only, no file access</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="understanding-the-dry-run-pattern">🎓 Understanding the --dry-run Pattern<a class="headerlink" href="#understanding-the-dry-run-pattern" title="Permanent link">&para;</a></h2>
+<h3 id="what-dry-run-means">What --dry-run Means<a class="headerlink" href="#what-dry-run-means" title="Permanent link">&para;</a></h3>
+<p><code>--dry-run</code> is a widely-used convention meaning: <strong>"Show me what you WOULD do, but don't actually do it."</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Without --dry-run: Actually creates exam file</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">  </span>→<span class="w"> </span>Creates<span class="w"> </span>exams/topic-exam.qmd
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># With --dry-run: Shows what WOULD be created</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--dry-run<span class="w">  </span>→<span class="w"> </span>Prints<span class="w"> </span>preview,<span class="w"> </span>creates<span class="w"> </span>NOTHING
+</code></pre></div>
+<h3 id="why-dry-run-is-trustworthy">Why --dry-run Is Trustworthy<a class="headerlink" href="#why-dry-run-is-trustworthy" title="Permanent link">&para;</a></h3>
+<p>The implementation literally checks for the flag and exits early:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Simplified logic inside teach exam</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dry_run</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Would create: exams/</span><span class="nv">$topic</span><span class="s2">-exam.qmd&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Content preview:&quot;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$generated_content</span><span class="s2">&quot;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">0</span><span class="w">  </span><span class="c1"># ← EXIT HERE, never reaches file write</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">fi</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># This code only runs if NOT dry-run</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$generated_content</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;exams/</span><span class="nv">$topic</span><span class="s2">-exam.qmd&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="understanding-git-as-a-safety-net">🎓 Understanding Git as a Safety Net<a class="headerlink" href="#understanding-git-as-a-safety-net" title="Permanent link">&para;</a></h2>
+<h3 id="why-git-makes-testing-fearless">Why Git Makes Testing Fearless<a class="headerlink" href="#why-git-makes-testing-fearless" title="Permanent link">&para;</a></h3>
+<p>Git is a <strong>time machine</strong> for your files. Any change can be undone:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>┌─────────────────────────────────────────────────────────────┐
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>│  Your Course Directory (Working Tree)                       │
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│  ┌─────────────────────────────────────────────────────┐   │
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│  │  files you see and edit                              │   │
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│  └─────────────────────────────────────────────────────┘   │
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│                          ↓ git add                          │
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>│  ┌─────────────────────────────────────────────────────┐   │
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│  │  Staging Area (index)                                │   │
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│  └─────────────────────────────────────────────────────┘   │
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│                          ↓ git commit                       │
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>│  ┌─────────────────────────────────────────────────────┐   │
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│  │  Repository (.git/) - PERMANENT HISTORY              │   │
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│  │  Every commit is saved forever (recoverable)         │   │
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>│  └─────────────────────────────────────────────────────┘   │
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>└─────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="recovery-commands-explained">Recovery Commands Explained<a class="headerlink" href="#recovery-commands-explained" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># &quot;Undo all uncommitted changes&quot; - Restores files to last commit</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Think: &quot;Make my files look like the last snapshot&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># &quot;Save my work temporarily&quot; - Like a clipboard for changes</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;description&quot;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Think: &quot;Put my changes in a drawer for later&quot;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># &quot;Get my saved work back&quot;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>git<span class="w"> </span>stash<span class="w"> </span>pop
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># Think: &quot;Take my changes out of the drawer&quot;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># &quot;Nuclear reset&quot; - Discard EVERYTHING since last commit</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># Think: &quot;Time machine back to last commit, forget everything since&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="understanding-where-files-get-written">🎓 Understanding Where Files Get Written<a class="headerlink" href="#understanding-where-files-get-written" title="Permanent link">&para;</a></h2>
+<h3 id="the-write-locations-in-v590">The Write Locations in v5.9.0<a class="headerlink" href="#the-write-locations-in-v590" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┌─────────────────────────────────────────────────────────────┐
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│  Your Course Directory (e.g., ~/projects/teaching/stat-440) │
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│  ├── .flow/teach-config.yml    ← NEVER written by v5.9.0   │
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│  ├── exams/                    ← Only if teach exam runs   │
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│  ├── quizzes/                  ← Only if teach quiz runs   │
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│  └── .STATUS                   ← Only after generation     │
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>└─────────────────────────────────────────────────────────────┘
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>┌─────────────────────────────────────────────────────────────┐
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│  System Cache (~/.local/share/flow-cli/)                    │
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>│  └── cache/teach-config.hash   ← Hash cache (harmless)     │
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>└─────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<p><strong>Key insight:</strong> The hash cache is written to YOUR home directory, not the course. Even if something went wrong with caching, your course files are untouched.</p>
+<hr />
+<h2 id="understanding-idempotent-operations">🎓 Understanding Idempotent Operations<a class="headerlink" href="#understanding-idempotent-operations" title="Permanent link">&para;</a></h2>
+<h3 id="what-idempotent-means">What "Idempotent" Means<a class="headerlink" href="#what-idempotent-means" title="Permanent link">&para;</a></h3>
+<p>An <strong>idempotent</strong> operation produces the same result no matter how many times you run it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Idempotent: Running 10 times = same as running once</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>status
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>teach<span class="w"> </span>status
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>teach<span class="w"> </span>status
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Result: Same output every time, no side effects</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># NOT idempotent: Each run creates a NEW file</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">  </span><span class="c1"># Creates topic-exam-2.qmd or overwrites!</span>
+</code></pre></div>
+<h3 id="all-v590-read-operations-are-idempotent">All v5.9.0 Read Operations Are Idempotent<a class="headerlink" href="#all-v590-read-operations-are-idempotent" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Run 100 times?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>teach status</code></td>
+<td>✅ Same output, no changes</td>
+</tr>
+<tr>
+<td><code>_teach_validate_config</code></td>
+<td>✅ Same validation result</td>
+</tr>
+<tr>
+<td><code>_flow_config_hash</code></td>
+<td>✅ Same hash (file unchanged)</td>
+</tr>
+<tr>
+<td><code>teach exam --dry-run</code></td>
+<td>✅ Same preview, no files</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="safety-principles">Safety Principles<a class="headerlink" href="#safety-principles" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Read-only first</strong> - All status/validation commands are safe</li>
+<li><strong>--dry-run always</strong> - Preview without writing files</li>
+<li><strong>No auto-stage in tests</strong> - Post-generation hooks won't run with --dry-run</li>
+<li><strong>Git safety net</strong> - Stash changes before testing</li>
+</ol>
+<hr />
+<h2 id="pre-flight-checklist">Pre-Flight Checklist<a class="headerlink" href="#pre-flight-checklist" title="Permanent link">&para;</a></h2>
+<p>Before testing on a real course:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># 1. Navigate to course</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/stat-440
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># 2. Check git status (should be clean)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>git<span class="w"> </span>status
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># 3. Stash any uncommitted work (safety net)</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;pre-v5.9.0-test&quot;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># 4. Verify stash saved</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>git<span class="w"> </span>stash<span class="w"> </span>list
+</code></pre></div>
+<hr />
+<h2 id="safe-commands-read-only">Safe Commands (Read-Only)<a class="headerlink" href="#safe-commands-read-only" title="Permanent link">&para;</a></h2>
+<p>These commands <strong>NEVER modify files</strong>:</p>
+<h3 id="1-teach-status">1. teach status<a class="headerlink" href="#1-teach-status" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Shows course info, validation status, content inventory</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>teach<span class="w"> </span>status
+</code></pre></div>
+<p><strong>What it does:</strong> Reads config, validates, displays info
+<strong>Risk:</strong> ⚪ NONE</p>
+<h3 id="2-teach-help">2. teach help<a class="headerlink" href="#2-teach-help" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>teach<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>teach<span class="w"> </span>exam<span class="w"> </span>--help
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>teach<span class="w"> </span>quiz<span class="w"> </span>--help
+</code></pre></div>
+<p><strong>What it does:</strong> Displays help text
+<strong>Risk:</strong> ⚪ NONE</p>
+<h3 id="3-config-validation">3. Config Validation<a class="headerlink" href="#3-config-validation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Source flow-cli first</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">source</span><span class="w"> </span>~/projects/dev-tools/flow-cli/flow.plugin.zsh
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Validate config (read-only)</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>_teach_validate_config<span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Check Scholar section exists</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>_teach_has_scholar_config<span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># Get config values (read-only)</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>_teach_config_get<span class="w"> </span><span class="s2">&quot;course.name&quot;</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>_teach_config_get<span class="w"> </span><span class="s2">&quot;course.semester&quot;</span>
+</code></pre></div>
+<p><strong>What it does:</strong> Reads and validates YAML
+<strong>Risk:</strong> ⚪ NONE</p>
+<h3 id="4-hash-functions">4. Hash Functions<a class="headerlink" href="#4-hash-functions" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Compute hash (read-only)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>_flow_config_hash<span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Check if changed (reads cache file)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>_flow_config_changed<span class="w"> </span>.flow/teach-config.yml
+</code></pre></div>
+<p><strong>What it does:</strong> Computes SHA-256, compares with cache
+<strong>Risk:</strong> ⚪ NONE (cache file is in ~/.local/share/flow-cli/)</p>
+<h3 id="5-flag-validation">5. Flag Validation<a class="headerlink" href="#5-flag-validation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Test flag validation (no execution)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>_teach_validate_flags<span class="w"> </span>exam<span class="w"> </span>--questions<span class="w"> </span><span class="m">5</span><span class="w"> </span>--duration<span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>_teach_validate_flags<span class="w"> </span>exam<span class="w"> </span>--invalid-flag<span class="w">  </span><span class="c1"># Should error</span>
+</code></pre></div>
+<p><strong>What it does:</strong> Validates flags, returns error for invalid
+<strong>Risk:</strong> ⚪ NONE</p>
+<hr />
+<h2 id="safe-commands-with-dry-run">Safe Commands with --dry-run<a class="headerlink" href="#safe-commands-with-dry-run" title="Permanent link">&para;</a></h2>
+<p>These commands <strong>preview output without writing</strong>:</p>
+<h3 id="6-teach-exam-dry-run">6. teach exam --dry-run<a class="headerlink" href="#6-teach-exam-dry-run" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Preview exam generation (NO files written)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Regression Diagnostics&quot;</span><span class="w"> </span>--dry-run
+</code></pre></div>
+<p><strong>What it does:</strong> Shows what WOULD be generated
+<strong>Risk:</strong> ⚪ NONE (--dry-run prevents file creation)</p>
+<h3 id="7-teach-quiz-dry-run">7. teach quiz --dry-run<a class="headerlink" href="#7-teach-quiz-dry-run" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Hypothesis Testing&quot;</span><span class="w"> </span>--dry-run<span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
+</code></pre></div>
+<p><strong>Risk:</strong> ⚪ NONE</p>
+<h3 id="8-teach-slides-dry-run">8. teach slides --dry-run<a class="headerlink" href="#8-teach-slides-dry-run" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--dry-run
+</code></pre></div>
+<p><strong>Risk:</strong> ⚪ NONE</p>
+<hr />
+<h2 id="commands-that-write-files">Commands That WRITE Files<a class="headerlink" href="#commands-that-write-files" title="Permanent link">&para;</a></h2>
+<p>⚠️ <strong>DO NOT run these without --dry-run during testing:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it writes</th>
+<th>Reversible?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>teach exam "Topic"</code></td>
+<td><code>exams/*.qmd</code></td>
+<td>Yes (git)</td>
+</tr>
+<tr>
+<td><code>teach quiz "Topic"</code></td>
+<td><code>quizzes/*.qmd</code></td>
+<td>Yes (git)</td>
+</tr>
+<tr>
+<td><code>teach slides "Topic"</code></td>
+<td><code>slides/*.qmd</code></td>
+<td>Yes (git)</td>
+</tr>
+<tr>
+<td><code>teach syllabus</code></td>
+<td><code>syllabus.qmd</code></td>
+<td>Yes (git)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recovery if accidentally run:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Discard all uncommitted changes</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Or restore from stash</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>git<span class="w"> </span>stash<span class="w"> </span>pop
+</code></pre></div>
+<hr />
+<h2 id="complete-safe-test-script">Complete Safe Test Script<a class="headerlink" href="#complete-safe-test-script" title="Permanent link">&para;</a></h2>
+<p>Copy and run this script for comprehensive safe testing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="ch">#!/usr/bin/env zsh</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># Safe v5.9.0 Test - Real Course</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1"># Run from course directory (e.g., stat-440)</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;═══════════════════════════════════════════════&quot;</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;flow-cli v5.9.0 Safe Testing - </span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$PWD</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;═══════════════════════════════════════════════&quot;</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="c1"># Source plugin</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="nb">source</span><span class="w"> </span>~/projects/dev-tools/flow-cli/flow.plugin.zsh
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[1] teach status (read-only)&quot;</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;─────────────────────────────&quot;</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>teach<span class="w"> </span>status
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[2] Config validation (read-only)&quot;</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;───────────────────────────────────&quot;</span>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>_teach_validate_config<span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[3] Config values (read-only)&quot;</span>
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;──────────────────────────────&quot;</span>
+<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Course: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">&#39;course.name&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Semester: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">&#39;course.semester&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Year: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">&#39;course.year&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>
+<a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[4] Hash detection (read-only)&quot;</span>
+<a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;────────────────────────────────&quot;</span>
+<a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hash: </span><span class="k">$(</span>_flow_config_hash<span class="w"> </span>.flow/teach-config.yml<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">16</span><span class="k">)</span><span class="s2">...&quot;</span>
+<a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>
+<a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[5] Flag validation (read-only)&quot;</span>
+<a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;─────────────────────────────────&quot;</span>
+<a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a><span class="k">if</span><span class="w"> </span>_teach_validate_flags<span class="w"> </span>exam<span class="w"> </span>--questions<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ Valid flags accepted&quot;</span>
+<a id="__codelineno-17-34" name="__codelineno-17-34" href="#__codelineno-17-34"></a><span class="k">else</span>
+<a id="__codelineno-17-35" name="__codelineno-17-35" href="#__codelineno-17-35"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✗ Flag validation failed&quot;</span>
+<a id="__codelineno-17-36" name="__codelineno-17-36" href="#__codelineno-17-36"></a><span class="k">fi</span>
+<a id="__codelineno-17-37" name="__codelineno-17-37" href="#__codelineno-17-37"></a>
+<a id="__codelineno-17-38" name="__codelineno-17-38" href="#__codelineno-17-38"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_teach_validate_flags<span class="w"> </span>exam<span class="w"> </span>--bad-flag<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-17-39" name="__codelineno-17-39" href="#__codelineno-17-39"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ Invalid flags rejected&quot;</span>
+<a id="__codelineno-17-40" name="__codelineno-17-40" href="#__codelineno-17-40"></a><span class="k">else</span>
+<a id="__codelineno-17-41" name="__codelineno-17-41" href="#__codelineno-17-41"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✗ Invalid flag not caught&quot;</span>
+<a id="__codelineno-17-42" name="__codelineno-17-42" href="#__codelineno-17-42"></a><span class="k">fi</span>
+<a id="__codelineno-17-43" name="__codelineno-17-43" href="#__codelineno-17-43"></a>
+<a id="__codelineno-17-44" name="__codelineno-17-44" href="#__codelineno-17-44"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[6] Help system (read-only)&quot;</span>
+<a id="__codelineno-17-45" name="__codelineno-17-45" href="#__codelineno-17-45"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;─────────────────────────────&quot;</span>
+<a id="__codelineno-17-46" name="__codelineno-17-46" href="#__codelineno-17-46"></a>teach<span class="w"> </span>exam<span class="w"> </span>--help<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
+<a id="__codelineno-17-47" name="__codelineno-17-47" href="#__codelineno-17-47"></a>
+<a id="__codelineno-17-48" name="__codelineno-17-48" href="#__codelineno-17-48"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n═══════════════════════════════════════════════&quot;</span>
+<a id="__codelineno-17-49" name="__codelineno-17-49" href="#__codelineno-17-49"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ All safe tests complete - no files modified&quot;</span>
+<a id="__codelineno-17-50" name="__codelineno-17-50" href="#__codelineno-17-50"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;═══════════════════════════════════════════════&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="testing-on-stat-440">Testing on stat-440<a class="headerlink" href="#testing-on-stat-440" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># 1. Go to course</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/stat-440
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># 2. Safety stash</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;pre-test&quot;</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># 3. Run safe tests</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="nb">source</span><span class="w"> </span>~/projects/dev-tools/flow-cli/flow.plugin.zsh
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>teach<span class="w"> </span>status
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>_teach_validate_config<span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="c1"># 4. Preview generation (--dry-run = safe)</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Model Diagnostics&quot;</span><span class="w"> </span>--dry-run
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="c1"># 5. Verify no changes</span>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>git<span class="w"> </span>status<span class="w">  </span><span class="c1"># Should show &quot;nothing to commit&quot;</span>
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>
+<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="c1"># 6. Restore stash if needed</span>
+<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>git<span class="w"> </span>stash<span class="w"> </span>pop
+</code></pre></div>
+<hr />
+<h2 id="whats-actually-at-risk">What's Actually At Risk?<a class="headerlink" href="#whats-actually-at-risk" title="Permanent link">&para;</a></h2>
+<h3 id="low-risk-auto-recoverable">Low Risk (Auto-recoverable)<a class="headerlink" href="#low-risk-auto-recoverable" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Cache files in <code>~/.local/share/flow-cli/</code> - Can be deleted</li>
+<li>Generated content files - Git tracked, easily reverted</li>
+</ul>
+<h3 id="no-risk">No Risk<a class="headerlink" href="#no-risk" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Course config <code>.flow/teach-config.yml</code> - Never written by v5.9.0 features</li>
+<li>Existing course content - Never modified</li>
+<li>Git history - Never altered</li>
+</ul>
+<h3 id="the-v590-features-are-read-heavy">The v5.9.0 Features Are Read-Heavy<a class="headerlink" href="#the-v590-features-are-read-heavy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Reads</th>
+<th>Writes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON Schema validation</td>
+<td>✓ config</td>
+<td>✗ nothing</td>
+</tr>
+<tr>
+<td>Hash detection</td>
+<td>✓ config</td>
+<td>✓ cache only</td>
+</tr>
+<tr>
+<td>Flag validation</td>
+<td>✓ flags</td>
+<td>✗ nothing</td>
+</tr>
+<tr>
+<td>Spinner</td>
+<td>✗ nothing</td>
+<td>✗ nothing</td>
+</tr>
+<tr>
+<td>teach status</td>
+<td>✓ config, files</td>
+<td>✗ nothing</td>
+</tr>
+<tr>
+<td>Post-gen hooks</td>
+<td>✓ output</td>
+<td>✓ .STATUS, git stage</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Post-generation hooks only run when content is actually generated</strong> (not with --dry-run).</p>
+<hr />
+<h2 id="emergency-recovery">Emergency Recovery<a class="headerlink" href="#emergency-recovery" title="Permanent link">&para;</a></h2>
+<p>If something goes wrong:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Option 1: Discard all changes</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Option 2: Restore from stash</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>git<span class="w"> </span>stash<span class="w"> </span>pop
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># Option 3: Hard reset (nuclear option)</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD
 </code></pre></div>
 <hr />
 <p><em>Generated: 2026-01-14</em>
