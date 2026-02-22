@@ -1039,8 +1039,8 @@ export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 # ============================================
 # Modern ZSH plugin architecture with single source location
 # Replaces old ~/.config/zsh/functions/ and .zshenv loading
-[[ -f ~/.zsh/plugins/flow-cli/flow.plugin.zsh ]] && \
-    source ~/.zsh/plugins/flow-cli/flow.plugin.zsh
+[[ -f /opt/homebrew/opt/flow-cli/flow.plugin.zsh ]] && \
+    source /opt/homebrew/opt/flow-cli/flow.plugin.zsh
 
 # obs CLI completion
 fpath=(~/.zsh/completions $fpath)
