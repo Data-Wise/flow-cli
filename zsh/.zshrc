@@ -1016,7 +1016,7 @@ export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 # Smart Function Dispatchers (ADHD-Optimized)
 # NOTE 2025-12-25: Dispatchers in flow-cli plugin (loaded via flow.plugin.zsh)
 #
-# Active dispatchers in ~/projects/dev-tools/flow-cli/lib/dispatchers/:
+# Active dispatchers (via Homebrew: /opt/homebrew/opt/flow-cli/lib/dispatchers/):
 #   g      - Git workflows
 #   mcp    - MCP server management
 #   obs    - Obsidian integration
