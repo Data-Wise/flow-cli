@@ -9,6 +9,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
 - **Current Version:** v7.4.1
 - **Install:** Homebrew (recommended), or any plugin manager
+- **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
 - **Health Check:** `flow doctor` for dependency verification
 - **User ZSH Config:** `~/.config/zsh/` (not `~/.zshrc`)
@@ -192,7 +193,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 195 test files, 12000+ test functions
+├── tests/                    # 193 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```zsh
@@ -259,7 +260,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**195 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
+**193 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (45/45 passing, 1 expected timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
