@@ -7,7 +7,7 @@ tags:
 
 # Master Dispatcher Guide
 
-**Purpose:** Complete reference for all 15 flow-cli dispatchers
+**Purpose:** Complete reference for all flow-cli dispatchers (15 + at bridge)
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
 **Version:** v7.4.1
@@ -53,6 +53,7 @@ teach init            # Initialize course
 | [prompt](#prompt-dispatcher) | Prompt engine | 3 | Beginner |
 | [v](#v-dispatcher) | Vibe coding mode | 4 | Beginner |
 | [em](#em-dispatcher) | Email (himalaya) | 31 | Beginner → Advanced |
+| [at](#at--atlas-project-intelligence) | Atlas project intelligence | 12+ | Beginner → Intermediate |
 
 ---
 
@@ -3176,16 +3177,149 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 
 ---
 
+## at — Atlas Project Intelligence
+
+**Domain:** Project intelligence and context management
+**Complexity:** Beginner → Intermediate
+**Most Used:** Occasionally (enhanced workflows)
+**Type:** Bridge command (not a traditional dispatcher — passes through to Atlas CLI)
+
+> **Note:** `at` is a thin bridge, not a dispatcher. When Atlas is installed, commands pass directly to the `atlas` CLI. When Atlas is not installed, a subset of commands (catch, inbox, where, crumb) fall back to built-in flow-cli functions. All other subcommands require the Atlas CLI.
+
+### Basics (Beginner)
+
+**What it does:** Provides project intelligence — statistics, parking/resuming projects, focus tracking, and enhanced capture — by bridging to the Atlas CLI.
+
+#### Commands Available Without Atlas
+
+These work even when Atlas is not installed:
+
+| Command | Description |
+| ------- | ----------- |
+| `at catch "text"` | Quick capture (aliases: `at c`) |
+| `at inbox` | Show capture inbox (aliases: `at i`) |
+| `at where` | Show current project context (aliases: `at w`) |
+| `at crumb "text"` | Leave breadcrumb note (aliases: `at b`) |
+| `at help` | Show help |
+
+**Examples:**
+
+```bash
+# Quick capture an idea
+at catch "Add dark mode to dashboard"
+
+# Check where you are
+at where
+
+# Leave a breadcrumb for future you
+at crumb "Left off debugging the cache layer"
+
+# Show captured items
+at inbox
+
+```
+
+### Intermediate (Requires Atlas CLI)
+
+#### Full Command Reference
+
+| Command | Description |
+| ------- | ----------- |
+| `at stats` | Project statistics and insights |
+| `at plan` | Show/manage project plans |
+| `at park` | Park current project (save context) |
+| `at unpark <project>` | Resume a parked project |
+| `at parked` | List all parked projects |
+| `at dash` | Atlas-enhanced project dashboard |
+| `at dashboard` | Full dashboard (alias for dash) |
+| `at focus` | Show/set focus project |
+| `at triage` | AI-prioritized task inbox |
+| `at trail` | Recent activity trail across projects |
+
+**Examples:**
+
+```bash
+# Get project statistics
+at stats
+# Output: Projects: 12 | Active: 3 | Parked: 5 | Archived: 4
+#         This week: 23 commits, 5 captures, 2 wins
+
+# Park a project before switching
+at park
+# Output: ✅ Parked: flow-cli (context saved)
+
+# See what's parked
+at parked
+# Output: flow-cli    (2h ago)  "Working on atlas bridge"
+#         my-app      (1d ago)  "Auth module half done"
+
+# Resume a parked project
+at unpark flow-cli
+# Output: ✅ Resumed: flow-cli
+#         Context: Working on atlas bridge
+
+# Focus mode
+at focus
+# Output: 🎯 Focus: flow-cli
+#         Session: 1h 23m
+#         Captures: 3 pending
+
+# Activity trail
+at trail
+# Output: [Chronological activity across all projects]
+
+```
+
+### Architecture
+
+`at` uses a **bridge pattern**: it is a thin shell function defined in `lib/atlas-bridge.zsh` that delegates to the `atlas` CLI when available. This differs from dispatchers (like `g`, `r`, `teach`) which implement their logic directly in ZSH.
+
+```text
+at <subcommand> [args]
+  │
+  ├─ Atlas installed? → atlas <subcommand> [args]  (passthrough)
+  │
+  └─ Atlas missing?
+       ├─ catch/inbox/where/crumb → built-in flow-cli fallback
+       └─ anything else → error + install instructions
+```
+
+### Installation
+
+Atlas CLI is optional. Install for the full feature set:
+
+```bash
+# Homebrew
+brew install data-wise/tap/atlas
+
+# npm
+npm i -g @data-wise/atlas
+
+# Verify
+at stats
+```
+
+### Configuration
+
+| Variable | Default | Description |
+| -------- | ------- | ----------- |
+| `FLOW_ATLAS_ENABLED` | `auto` | Atlas integration mode (auto/yes/no) |
+
+> **Contract Reference:** See [ATLAS-CONTRACT.md](../ATLAS-CONTRACT.md) for the full integration contract between flow-cli and Atlas.
+
+---
+
 ## Next Steps
 
 - **Beginners:** Start with [g](#g-dispatcher), [cc](#cc-dispatcher), [tm](#tm-dispatcher), [em](#em-dispatcher)
 - **Intermediate:** Explore [r](#r-dispatcher), [qu](#qu-dispatcher), [dots](#dots-dispatcher), [sec](#sec-dispatcher)
 - **Advanced:** Master [wt](#wt-dispatcher), [teach](#teach-dispatcher) advanced features
+- **Atlas Users:** See [at](#at--atlas-project-intelligence) for project intelligence
 - **Quick Reference:** See [QUICK-REFERENCE.md](../help/QUICK-REFERENCE.md)
 - **Workflows:** See [WORKFLOWS.md](../help/WORKFLOWS.md)
 
 ---
 
 **Version:** v7.4.1
-**Last Updated:** 2026-02-21
-**Total:** 15 dispatchers fully documented
+**Last Updated:** 2026-02-22
+**Total:** 15 dispatchers + at bridge fully documented

@@ -179,7 +179,7 @@
 ---
 
 **Last Updated:** 2026-02-22
-**Status:** v7.4.1 | 45/45 tests passing (1 expected timeout) | 15 dispatchers | 193 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
-## wins: Brew sourcing switch (2026-02-22), 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21), v7.4.1 released (2026-02-21), Fixed the regression bug (2026-02-21)
-## streak: 4
-## last_active: 2026-02-22
+**Status:** v7.4.1 | 46/46 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 196 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+## wins: Fixed the regression bug (2026-02-22), --category fix squashed the bug (2026-02-22), fixed the bug (2026-02-22), Atlas integration update (2026-02-22), Brew sourcing switch (2026-02-22)
+## streak: 1
+## last_active: 2026-02-22 16:08

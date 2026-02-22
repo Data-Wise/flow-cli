@@ -6,16 +6,31 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
-## [7.4.1] - 2026-02-21
-
-### Fixed
-
-- **Homebrew formula**: selective install — reduce 74MB Cellar to ~4MB
-- **Repo cleanup**: delete 62 stale root-level files (planning docs, scripts, artifacts)
+## [7.4.1] - 2026-02-22
 
 ### Added
 
+- **Atlas bridge (`at`)** — Enhanced bridge to Atlas CLI with styled help page, 10 warm-path commands (stats, plan, park, unpark, parked, dash, focus, triage, trail, session), and 4 ZSH-native fallbacks (catch, inbox, where, crumb) when Atlas is not installed
+- **`_at_help()` function** — ADHD-friendly help page following dispatcher conventions (box header, MOST COMMON, QUICK EXAMPLES, categorized sections)
+- **Atlas API contract** — Formal contract (`docs/ATLAS-CONTRACT.md`) specifying version compatibility, output formats, exit codes, and breaking change policy
+- **Atlas contract tests** — 18 tests verifying bridge functions, help page, fallback behavior, and Atlas CLI compliance (`tests/test-atlas-contract.zsh`)
+- **Atlas e2e tests** — 30 end-to-end tests covering help display, fallback commands, warm-path messages, capture roundtrip (`tests/e2e-atlas-bridge.zsh`)
+- **Atlas dogfood tests** — 29 integration tests verifying bridge loading, help browser integration, doctor section, contract docs (`tests/dogfood-atlas-bridge.zsh`)
 - **CI version guard**: new workflow blocks releases when FLOW_VERSION mismatches tag
+
+### Fixed
+
+- **Help browser** — Added all 15 dispatchers + at to regex and commands array (was only 8)
+- **Help compliance** — Added `em` dispatcher to compliance checker (was missing from 15-dispatcher list)
+- **Dispatcher counts** — Updated "12 dispatchers" → "15 dispatchers" across active docs, tests, and code comments
+- **Homebrew formula**: selective install — reduce 74MB Cellar to ~4MB
+- **Repo cleanup**: delete 62 stale root-level files (planning docs, scripts, artifacts)
+
+### Documentation
+
+- **`docs/commands/at.md`** — Full command reference page (synopsis, all subcommands, architecture diagram, integration table)
+- **`docs/guides/ATLAS-INTEGRATION-GUIDE.md`** — Setup, bridge pattern, workflows (daily ADHD, capture-triage, project parking)
+- **Updated 8 docs** — QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, MASTER-ARCHITECTURE, README, CLAUDE.md, CONTRIBUTING, doctor.zsh, mkdocs.yml
 
 ---
 

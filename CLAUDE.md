@@ -149,9 +149,10 @@ teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
 em <cmd>      # Email management (himalaya)
-```diff
+at <cmd>      # Atlas bridge (project intelligence, optional)
+```
 
-**Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
+**Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`, `at help`)
 
 ### Teaching Subcommands
 
@@ -254,7 +255,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 1. **Pure ZSH** - Sub-10ms response, no build step, no dependencies
 2. **ADHD-Friendly** - Discoverable (built-in help), consistent patterns, smart defaults, fast (cached scanning)
 3. **Dispatcher Pattern** - `command + keyword + options` (e.g., `r test`, `g push`, `teach exam "Topic"`)
-4. **Optional Enhancement** - Atlas integration is optional; graceful degradation
+4. **Optional Enhancement** - Atlas integration is optional; graceful degradation (see [`docs/ATLAS-CONTRACT.md`](docs/ATLAS-CONTRACT.md) for API contract)
 
 ---
 

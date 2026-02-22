@@ -902,12 +902,106 @@ _flow_crumb() {
 }
 
 # ============================================================================
-# ALIAS FOR DIRECT ATLAS ACCESS
+# ATLAS HELP
+# ============================================================================
+
+# =============================================================================
+# Function: _at_help
+# Purpose: Display flow-cli-styled help page for Atlas bridge commands
+# =============================================================================
+# Arguments:
+#   None
+#
+# Returns:
+#   0 - Always
+#
+# Output:
+#   stdout - Styled help page following flow-cli help conventions
+#
+# Notes:
+#   - Always shows flow-cli styled help (never Atlas native help)
+#   - Shows Atlas version and install status
+#   - Groups commands: MOST COMMON, SESSION, CAPTURE, CONTEXT, PROJECT
+# =============================================================================
+_at_help() {
+  local atlas_status
+  if _flow_has_atlas; then
+    local atlas_ver=$(atlas -v 2>/dev/null | head -1)
+    atlas_status="${_C_GREEN}installed${_C_NC} ${_C_DIM}(${atlas_ver:-unknown})${_C_NC}"
+  else
+    atlas_status="${_C_YELLOW}not installed${_C_NC}"
+  fi
+
+  echo ""
+  echo "${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}"
+  echo "${_C_BOLD}│ at - Atlas Project Intelligence             │${_C_NC}"
+  echo "${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}"
+  echo ""
+  echo "${_C_BOLD}Usage:${_C_NC} at [subcommand] [args]"
+  echo "${_C_DIM}Atlas: ${atlas_status}${_C_NC}"
+  echo ""
+
+  echo "${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}"
+  echo "  ${_C_CYAN}at stats${_C_NC}              ${_C_DIM}Project statistics overview${_C_NC}"
+  echo "  ${_C_CYAN}at plan${_C_NC}               ${_C_DIM}Planning view (priorities, deadlines)${_C_NC}"
+  echo "  ${_C_CYAN}at catch${_C_NC} ${_C_DIM}<text>${_C_NC}      ${_C_DIM}Quick capture a thought or task${_C_NC}"
+  echo "  ${_C_CYAN}at park${_C_NC}               ${_C_DIM}Park current project (context saved)${_C_NC}"
+  echo "  ${_C_CYAN}at dash${_C_NC}               ${_C_DIM}Dashboard (all projects at a glance)${_C_NC}"
+  echo ""
+
+  echo "${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}"
+  echo "  ${_C_DIM}\$${_C_NC} at catch \"Fix login bug\"          ${_C_DIM}# capture idea${_C_NC}"
+  echo "  ${_C_DIM}\$${_C_NC} at stats                           ${_C_DIM}# project overview${_C_NC}"
+  echo "  ${_C_DIM}\$${_C_NC} at park                            ${_C_DIM}# park & switch${_C_NC}"
+  echo "  ${_C_DIM}\$${_C_NC} at where                           ${_C_DIM}# where was I?${_C_NC}"
+  echo "  ${_C_DIM}\$${_C_NC} at crumb \"Debugging auth flow\"    ${_C_DIM}# leave breadcrumb${_C_NC}"
+  echo ""
+
+  echo "${_C_BLUE}📋 SESSION${_C_NC}"
+  echo "  ${_C_CYAN}at session start${_C_NC} ${_C_DIM}<project>${_C_NC}  ${_C_DIM}Start work session${_C_NC}"
+  echo "  ${_C_CYAN}at session end${_C_NC} ${_C_DIM}[note]${_C_NC}      ${_C_DIM}End session with optional note${_C_NC}"
+  echo ""
+
+  echo "${_C_BLUE}📥 CAPTURE${_C_NC}"
+  echo "  ${_C_CYAN}at catch${_C_NC} ${_C_DIM}<text>${_C_NC}             ${_C_DIM}Quick capture (works without Atlas)${_C_NC}"
+  echo "  ${_C_CYAN}at inbox${_C_NC}                    ${_C_DIM}Show captured items${_C_NC}"
+  echo "  ${_C_CYAN}at triage${_C_NC}                   ${_C_DIM}Process inbox items${_C_NC}"
+  echo ""
+
+  echo "${_C_BLUE}🗺️  CONTEXT${_C_NC}"
+  echo "  ${_C_CYAN}at where${_C_NC} ${_C_DIM}[project]${_C_NC}         ${_C_DIM}Where was I? (works without Atlas)${_C_NC}"
+  echo "  ${_C_CYAN}at crumb${_C_NC} ${_C_DIM}<text>${_C_NC}            ${_C_DIM}Leave breadcrumb (works without Atlas)${_C_NC}"
+  echo "  ${_C_CYAN}at trail${_C_NC}                    ${_C_DIM}Show breadcrumb trail${_C_NC}"
+  echo "  ${_C_CYAN}at focus${_C_NC} ${_C_DIM}[project]${_C_NC}         ${_C_DIM}Set focus project${_C_NC}"
+  echo ""
+
+  echo "${_C_BLUE}📊 PROJECT${_C_NC}"
+  echo "  ${_C_CYAN}at stats${_C_NC}                    ${_C_DIM}Project statistics${_C_NC}"
+  echo "  ${_C_CYAN}at plan${_C_NC}                     ${_C_DIM}Planning view${_C_NC}"
+  echo "  ${_C_CYAN}at park${_C_NC} ${_C_DIM}[project]${_C_NC}          ${_C_DIM}Park a project${_C_NC}"
+  echo "  ${_C_CYAN}at unpark${_C_NC} ${_C_DIM}[project]${_C_NC}        ${_C_DIM}Resume a parked project${_C_NC}"
+  echo "  ${_C_CYAN}at parked${_C_NC}                   ${_C_DIM}List parked projects${_C_NC}"
+  echo "  ${_C_CYAN}at dash${_C_NC}                     ${_C_DIM}Project dashboard${_C_NC}"
+  echo ""
+
+  if ! _flow_has_atlas; then
+    echo "${_C_YELLOW}⚠  Atlas not installed${_C_NC}"
+    echo "  ${_C_DIM}Available without Atlas:${_C_NC} catch, inbox, where, crumb"
+    echo "  ${_C_DIM}Install:${_C_NC} ${_C_CYAN}npm i -g @data-wise/atlas${_C_NC}"
+    echo "  ${_C_DIM}Or:${_C_NC}      ${_C_CYAN}brew install data-wise/tap/atlas${_C_NC}"
+    echo ""
+  fi
+
+  echo "${_C_DIM}at = atlas shortcut │ at help for this page${_C_NC}"
+}
+
+# ============================================================================
+# ATLAS BRIDGE (DIRECT ACCESS)
 # ============================================================================
 
 # =============================================================================
 # Function: at
-# Purpose: Shortcut alias for Atlas CLI (or fallback commands)
+# Purpose: Enhanced bridge to Atlas CLI with flow-cli help and graceful fallbacks
 # =============================================================================
 # Arguments:
 #   $@ - Command and arguments to pass to Atlas
@@ -916,35 +1010,58 @@ _flow_crumb() {
 #   0 - Command succeeded
 #   1 - Atlas not available and command not supported
 #
-# Subcommands (fallback mode):
-#   catch|c  <text>     - Quick capture
-#   inbox|i             - Show inbox
-#   where|w  [project]  - Show context
-#   crumb|b  <text>     - Leave breadcrumb
+# Subcommands (always available):
+#   help|--help|-h       - Show flow-cli styled help
+#
+# Subcommands (fallback when Atlas not installed):
+#   catch|c  <text>      - Quick capture
+#   inbox|i              - Show inbox
+#   where|w  [project]   - Show context
+#   crumb|b  <text>      - Leave breadcrumb
+#
+# Warm path (Atlas required):
+#   stats, plan, park, unpark, parked, dash, dashboard, focus, triage, trail
 #
 # Example:
-#   at session start my-project    # Atlas mode
+#   at help                        # Flow-cli styled help (always)
+#   at stats                       # Atlas stats (or install message)
 #   at catch "Fix bug"             # Works with or without Atlas
-#   at inbox                       # Show captured items
 #
 # Notes:
-#   - Passes through to atlas CLI if available
-#   - Provides essential fallback commands without Atlas
-#   - 'at' chosen for easy typing (2 chars)
+#   - 'at help' always shows flow-cli styled page (never Atlas native)
+#   - With Atlas: all commands pass through to atlas CLI
+#   - Without Atlas: catch/inbox/where/crumb use ZSH-native fallbacks
+#   - Warm-path commands show install instructions when Atlas missing
 # =============================================================================
 at() {
-  if _flow_has_atlas; then
-    atlas "$@"
-  else
-    case "$1" in
-      catch|c)  shift; _flow_catch "$@" ;;
-      inbox|i)  _flow_inbox ;;
-      where|w)  shift; _flow_where "$@" ;;
-      crumb|b)  shift; _flow_crumb "$@" ;;
-      *)
-        _flow_log_error "Atlas not installed. Install: npm install -g @data-wise/atlas"
-        echo "Available fallback commands: catch, inbox, where, crumb"
-        ;;
-    esac
-  fi
+  case "$1" in
+    help|--help|-h) _at_help ;;
+    *)
+      if _flow_has_atlas; then
+        atlas "$@"
+      else
+        case "$1" in
+          catch|c)   shift; _flow_catch "$@" ;;
+          inbox|i)   _flow_inbox ;;
+          where|w)   shift; _flow_where "$@" ;;
+          crumb|b)   shift; _flow_crumb "$@" ;;
+          stats|plan|park|unpark|parked|dash|dashboard|focus|triage|trail)
+            _flow_log_error "'at $1' requires Atlas CLI"
+            echo "  Install: ${_C_CYAN}npm i -g @data-wise/atlas${_C_NC}"
+            echo "  Or:      ${_C_CYAN}brew install data-wise/tap/atlas${_C_NC}"
+            ;;
+          "")
+            _at_help
+            ;;
+          *)
+            _flow_log_error "Atlas not installed"
+            echo "  Available without Atlas: catch, inbox, where, crumb"
+            echo "  Install: ${_C_CYAN}npm i -g @data-wise/atlas${_C_NC}"
+            echo ""
+            echo "  Run ${_C_CYAN}at help${_C_NC} for all commands"
+            ;;
+        esac
+      fi
+      ;;
+  esac
 }
