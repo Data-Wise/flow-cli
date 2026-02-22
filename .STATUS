@@ -4,14 +4,27 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: v7.4.2 release
+## Focus: v7.4.2 released
 ## Phase: Active Development
 ## Priority: 2
-## Progress: 90
+## Progress: 100
 
 ## Current Session (2026-02-22)
 
 **Session activity:**
+- review: PR #415 code review (7 issues: ORCHESTRATE file, .STATUS wins, sed fragility, crumb test bug, Prettier noise)
+- fix: all 7 review issues resolved, tests passing (48/0)
+- merge: PR #415 (Atlas integration update) to dev
+- docs: post-merge update — test counts 193→196, suites 45→46, assertions ~8000→~12000
+- release: v7.4.2 — Atlas Integration Update (full pipeline)
+  - PRs #416, #417 created/merged
+  - GitHub release, docs deployed, Homebrew tap updated
+  - All downstream verified: CI green, badges passing, formula correct
+- verify: all CI workflows passing, Homebrew formula at v7.4.2
+
+## Previous Session (2026-02-22, earlier)
+
+**Previous session activity:**
 - brainstorm: max-depth Atlas integration analysis (2 research agents, 8 expert questions)
 - spec: SPEC-atlas-integration-update-2026-02-22.md (5 proposals, comprehensive)
 - worktree: feature/atlas-integration created with ORCHESTRATE plan (6 increments)
@@ -110,6 +123,14 @@
 
 ## Recent Releases
 
+### v7.4.2 (2026-02-22) — Atlas Integration Update
+- Enhanced `at` bridge: styled help, warm-path commands, ZSH-native fallbacks
+- API contract: `docs/ATLAS-CONTRACT.md` (version compat, output formats, exit codes)
+- Help browser: fixed dispatcher regex (8→16 dispatchers)
+- Doctor: Atlas section with version, backend, project count, MCP status
+- 3 new test files (e2e, contract, dogfood), 48 tests passing
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.4.2
+
 ### v7.4.1 (2026-02-21) — Homebrew Cleanup
 - Homebrew selective install: 75MB → 3.5MB (95% reduction)
 - Deleted 62 stale root-level files (-21k lines)
@@ -145,8 +166,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.4.1 released, synced with main |
-| `~/.git-worktrees/flow-cli/feature-atlas-integration` | `feature/atlas-integration` | Atlas integration update (6 increments, ~6h) |
+| Main repo | `dev` | v7.4.2 released, synced with main |
 
 ---
 
@@ -171,15 +191,15 @@
 
 ## Next Action
 
-1. **Atlas integration update** — `cd ~/.git-worktrees/flow-cli/feature-atlas-integration` + new claude session
-2. Scholar Config Sync (#299) — next feature candidate
-3. API documentation push (50% → 80%)
-4. Code workspace manager — spec ready on dev
+1. Scholar Config Sync (#299) — next feature candidate
+2. API documentation push (50% → 80%)
+3. Code workspace manager — spec ready on dev
+4. `brew upgrade data-wise/tap/flow-cli` — update local install to v7.4.2
 
 ---
 
 **Last Updated:** 2026-02-22
 **Status:** v7.4.2 | 46/46 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 196 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
-## wins: v7.4.2 release (2026-02-22), Atlas integration update (2026-02-22), Brew sourcing switch (2026-02-22), 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21)
-## streak: 5
+## wins: v7.4.2 released + full pipeline (2026-02-22), PR #415 review + 7 fixes (2026-02-22), Atlas integration update (2026-02-22), Brew sourcing switch (2026-02-22), 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21)
+## streak: 6
 ## last_active: 2026-02-22
