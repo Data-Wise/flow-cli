@@ -122,6 +122,10 @@ run_test ./tests/e2e-teach-doctor-v2.zsh
 run_test ./tests/e2e-em-dispatcher.zsh
 
 echo ""
+echo "Atlas contract tests:"
+run_test ./tests/test-atlas-contract.zsh
+
+echo ""
 echo "Additional unit tests:"
 run_test ./tests/test-status-fields.zsh
 run_test ./tests/test-lint-e2e.zsh
