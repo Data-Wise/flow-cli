@@ -70,7 +70,7 @@ graph TD
     TEACH --> Scholar[Scholar CLI]
     MCP --> MCPServers[MCP Servers]
     EM --> Himalaya[himalaya CLI]
-```text
+```
 
 ---
 
@@ -117,7 +117,7 @@ flow-cli follows a layered architecture:
 │  - MCP Servers                                               │
 │  - himalaya CLI (IMAP/SMTP email)                            │
 └─────────────────────────────────────────────────────────────┘
-```diff
+```
 
 **Benefits:**
 - **Separation of concerns:** Each layer has single responsibility
@@ -175,7 +175,7 @@ echo "$(_flow_color_green 'SUCCESS:')" "Operation complete"
 
 # Dopamine
 win "Implemented feature X"  # Tracks progress + streak
-```diff
+```
 
 ---
 
@@ -206,7 +206,7 @@ g() {
 _g_status() {
     git status "$@"
 }
-```diff
+```
 
 **Benefits:**
 - **Unified interface:** All dispatchers work the same way
@@ -234,7 +234,7 @@ else
     # Use local state
     _flow_local_state
 fi
-```text
+```
 
 ---
 
@@ -269,7 +269,7 @@ graph LR
     Cache --> CacheGet[_flow_cache_get]
     Cache --> CacheSet[_flow_cache_set]
     Cache --> CacheClear[_flow_cache_clear]
-```diff
+```
 
 **Design Decisions:**
 
@@ -339,7 +339,7 @@ Usage:
 See: g help for full list
 EOF
 }
-```diff
+```
 
 **Benefits:**
 - Consistent UX across all dispatchers
@@ -403,7 +403,7 @@ graph TB
     HML --> HIMALAYA
     SEND --> EDITOR
     REPLY --> EDITOR
-```text
+```
 
 **Key Decisions:**
 
@@ -432,7 +432,7 @@ graph TD
     TTL[TTL Check] --> L1
     TTL --> L2
     TTL -->|Expired| Invalidate[Invalidate]
-```diff
+```
 
 **Cache Types:**
 
@@ -499,7 +499,7 @@ teach doctor                    teach doctor --full
 ┌──────────────┐
 │ Health Dot   │  Green/Yellow/Red on `teach` startup
 └──────────────┘
-```diff
+```
 
 **Key design decisions:**
 
@@ -541,7 +541,7 @@ sequenceDiagram
     work->>Core: Git commit
     Core-->>work: Committed
     work->>User: ✅ Session complete
-```bash
+```
 
 ---
 
@@ -574,7 +574,7 @@ sequenceDiagram
     g->>GitHub: git push
     GitHub-->>g: Success
     g-->>User: ✅ Pushed to origin/dev
-```bash
+```
 
 ---
 
@@ -606,7 +606,7 @@ sequenceDiagram
     ConceptExtract-->>teach: All concepts
     teach->>Report: Generate report
     Report-->>User: ✅ Analysis complete
-```zsh
+```
 
 ---
 
@@ -631,7 +631,7 @@ graph LR
     Init --> Dispatchers[Load Dispatchers]
     Init --> Commands[Load Commands]
     Init --> Completions[Setup Completions]
-```zsh
+```
 
 **Loading Sequence:**
 
@@ -667,7 +667,7 @@ graph TD
 
     FZF --> pick[pick command]
     Z --> hop[hop command]
-```text
+```
 
 **Design:** flow-cli doesn't require OMZ, but enhances workflow if plugins present.
 
@@ -693,7 +693,7 @@ graph TD
     TouchID2 -->|Denied| Error2[❌ Access Denied]
     Keychain --> Decrypt[Decrypt]
     Decrypt --> App
-```bash
+```
 
 **Security Features:**
 
@@ -732,7 +732,7 @@ export GITHUB_TOKEN="ghp_hardcoded_in_zshrc"  # ❌ Plain text
 # After (secure):
 # Token stored in keychain via Touch ID
 g push  # ✅ Retrieves token from keychain, validates, uses, discards
-```diff
+```
 
 **Benefits:**
 - Tokens never in plain text files
@@ -758,7 +758,7 @@ _flow_cache_get "projects" || {
     result=$(_flow_scan_projects)
     _flow_cache_set "projects" "$result" 3600
 }
-```zsh
+```
 
 **2. Lazy Loading:**
 
@@ -772,14 +772,14 @@ g() {
     fi
     _g_dispatch "$@"
 }
-```zsh
+```
 
 **3. Background Processes:**
 
 ```zsh
 # Slow operations in background
 _flow_update_cache &!  # zsh disown syntax
-```bash
+```
 
 **4. Minimal External Calls:**
 
@@ -789,7 +789,7 @@ result=$(git status | grep modified | wc -l)  # 3 processes
 
 # Prefer:
 result=$(git status --porcelain | awk '/^ M/ {count++} END {print count}')  # 2 processes
-```diff
+```
 
 ---
 
@@ -826,7 +826,7 @@ result=$(git status --porcelain | awk '/^ M/ {count++} END {print count}')  # 2 
       ┌─────────────────┐
       │      Unit       │  70% - Function-level tests
       └─────────────────┘
-```diff
+```
 
 **423 Total Tests:**
 - **70% Unit:** Function-level (296 tests)
@@ -849,7 +849,7 @@ tests/
 ├── e2e-teach-analyze.zsh           # E2E: 29 tests
 ├── interactive-dog-teaching.zsh    # Interactive: 10 tasks
 └── run-all.sh                      # Test runner
-```bash
+```
 
 ---
 
@@ -878,7 +878,7 @@ test_project_detection() {
 teardown_test() {
     rm -rf "$TEST_DIR"
 }
-```zsh
+```
 
 **Integration Test Pattern:**
 
@@ -891,7 +891,7 @@ test_full_workflow() {
     assert_git_clean
     assert_session_complete
 }
-```text
+```
 
 ---
 
@@ -908,7 +908,7 @@ graph LR
     Cloud --> Device1[Device 1]
     Cloud --> Device2[Device 2]
     Cloud --> Device3[Device 3]
-```diff
+```
 
 **Features:**
 - Multi-device sync
@@ -928,7 +928,7 @@ graph TD
 
     API --> Registry[Plugin Registry]
     Registry --> Install[Install Plugins]
-```diff
+```
 
 **Features:**
 - Third-party plugin support

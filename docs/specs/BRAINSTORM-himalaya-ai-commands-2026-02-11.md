@@ -46,7 +46,7 @@ Prompts (4):
   extract_todos "Extract all action items from this..."
   draft_reply   "Draft a professional reply to this..."
   tldr          "You are an executive assistant tri..."
-```diff
+```
 
 **Design decisions:**
 - Shows `[OK]` or `[MISSING]` next to backend binary (via `vim.fn.executable()`)
@@ -69,7 +69,7 @@ Prompts
   tldr           You are an executive assistant triaging email. Ana...
 
   [e] edit config   [v] validate prompt   [q] close
-```diff
+```
 
 Keybinds in the prompts buffer:
 - `e` — opens config.lua for editing (same as `:HimalayaAi edit`)
@@ -123,7 +123,7 @@ Also, the budget was approved at the higher band ($95-105k).
 
 Thanks,
 Sarah
-```diff
+```
 
 **Why this works:** Short enough to be fast, complex enough to test all 4 prompts (has action items, needs reply, has deadline, needs summary).
 
@@ -185,7 +185,7 @@ return {
     -- add custom prompts here
   },
 }
-```text
+```
 
 **Loading priority:** config.lua `prompts` table merges over built-in defaults (via `tbl_deep_extend`). If a user deletes a prompt from config, the built-in default is used.
 

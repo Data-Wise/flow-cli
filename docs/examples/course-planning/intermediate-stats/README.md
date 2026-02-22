@@ -100,7 +100,7 @@ This example demonstrates complete 3-stage backward design:
 
 ```text
 HW3 (R/20%) → HW4 (M/25%) → Midterm (R/20%) → Project (M/20%) → Final (M/30%)
-```diff
+```
 
 ---
 

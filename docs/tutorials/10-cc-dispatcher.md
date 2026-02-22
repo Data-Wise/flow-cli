@@ -29,7 +29,7 @@ cc help
 
 # Check Claude CLI
 claude --version
-```diff
+```
 
 ---
 
@@ -57,7 +57,7 @@ cc
 
 # Explicit HERE (same as above, more explicit)
 cc .
-```diff
+```
 
 **What happens:**
 - Claude starts with `--permission-mode acceptEdits`
@@ -73,7 +73,7 @@ For trusted tasks where you want maximum speed:
 ```bash
 # Launch with no confirmations
 cc yolo
-```diff
+```
 
 **What happens:**
 - Claude starts with `--dangerously-skip-permissions`
@@ -89,7 +89,7 @@ For exploration without code changes:
 ```bash
 # Launch in planning mode
 cc plan
-```diff
+```
 
 **What happens:**
 - Claude starts with `--permission-mode plan`
@@ -105,7 +105,7 @@ cc plan
 ```bash
 # Open project picker, then launch Claude
 cc pick
-```bash
+```
 
 **What happens:**
 1. fzf picker shows your projects
@@ -125,7 +125,7 @@ cc med
 
 # Jump to stat-440 → launch Claude
 cc stat
-```diff
+```
 
 **What happens:**
 - Uses `pick`'s fuzzy matching
@@ -148,7 +148,7 @@ cc yolo pick
 
 # Plan mode + direct jump
 cc plan med
-```bash
+```
 
 **Pattern:** `cc [mode] [project|pick]`
 
@@ -168,7 +168,7 @@ cc pick plan     # target-first ✨
 # These are equivalent:
 cc opus pick     # mode-first
 cc pick opus     # target-first ✨
-```diff
+```
 
 **Why this matters:**
 - Type in whatever order feels natural
@@ -190,7 +190,7 @@ cc opus flow
 
 # Opus + project picker
 cc opus pick
-```diff
+```
 
 **When to use Opus:**
 - Complex architectural decisions
@@ -208,7 +208,7 @@ cc haiku flow
 
 # Haiku + project picker
 cc haiku pick
-```diff
+```
 
 **When to use Haiku:**
 - Quick questions
@@ -224,7 +224,7 @@ cc haiku pick
 ```bash
 # Show Claude session picker
 cc resume
-```diff
+```
 
 **What happens:**
 - Lists your recent Claude conversations
@@ -236,7 +236,7 @@ cc resume
 ```bash
 # Resume the most recent conversation
 cc continue
-```diff
+```
 
 **What happens:**
 - Jumps directly to your last Claude session
@@ -252,7 +252,7 @@ cc continue
 ```bash
 # Get an answer without full session
 cc ask "how do I handle missing data in R?"
-```diff
+```
 
 **What happens:**
 - Claude answers in print mode
@@ -264,7 +264,7 @@ cc ask "how do I handle missing data in R?"
 ```bash
 # Review uncommitted changes
 cc diff
-```diff
+```
 
 **What happens:**
 - Pipes `git diff` to Claude
@@ -279,7 +279,7 @@ cc file R/myfunction.R
 
 # With custom prompt
 cc file R/myfunction.R "explain the algorithm"
-```diff
+```
 
 **What happens:**
 - Claude analyzes the file
@@ -291,7 +291,7 @@ cc file R/myfunction.R "explain the algorithm"
 ```bash
 # In an R package directory
 cc rpkg "add input validation"
-```diff
+```
 
 **What happens:**
 - Reads DESCRIPTION file
@@ -307,7 +307,7 @@ cc rpkg "add input validation"
 ```bash
 # Create/use worktree → launch Claude
 cc wt feature/auth
-```bash
+```
 
 **What happens:**
 1. Creates worktree if it doesn't exist
@@ -325,14 +325,14 @@ cc wt plan feature/complex
 
 # Worktree + Opus
 cc wt opus feature/refactor
-```bash
+```
 
 ### Step 6.3: Pick from Existing Worktrees
 
 ```bash
 # fzf picker for worktrees
 cc wt pick
-```diff
+```
 
 ---
 
@@ -379,7 +379,7 @@ cc continue
 
 # Option 2: Start fresh on a project
 cc flow
-```bash
+```
 
 ### Feature Development
 
@@ -389,7 +389,7 @@ cc plan pick
 
 # Switch to YOLO for implementation
 cc yolo
-```bash
+```
 
 ### Code Review
 
@@ -399,14 +399,14 @@ cc diff
 
 # Or analyze specific file
 cc file src/complex-function.js "review for bugs"
-```bash
+```
 
 ### Quick Questions
 
 ```bash
 # Get quick answers without full session
 cc ask "what's the best way to mock API calls in jest?"
-```bash
+```
 
 ### Parallel Work with Worktrees
 
@@ -416,7 +416,7 @@ cc wt feature/auth
 
 # Another terminal: quick fix in different worktree
 ccwy hotfix/urgent
-```text
+```
 
 ---
 
@@ -432,7 +432,7 @@ What's your task?
 │  └─ cc plan (or ccp)
 └─ Normal development
    └─ cc (default acceptEdits)
-```text
+```
 
 ### Which Model?
 
@@ -444,7 +444,7 @@ Task complexity?
 │  └─ cc haiku (or cch)
 └─ Normal tasks
    └─ cc (default Sonnet)
-```text
+```
 
 ### Resume vs New Session?
 
@@ -454,7 +454,7 @@ Do you need previous context?
 │  └─ cc resume or cc continue
 └─ No, fresh start
    └─ cc [mode] [project]
-```zsh
+```
 
 ---
 
@@ -468,14 +468,14 @@ source ~/.zshrc
 
 # Or check pick command
 pick help
-```bash
+```
 
 ### "claude: command not found"
 
 ```bash
 # Install Claude CLI
 # See: https://claude.ai/code
-```bash
+```
 
 ### "Not in a git repository" (for cc diff)
 

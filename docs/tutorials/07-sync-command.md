@@ -44,7 +44,7 @@ Flow CLI tracks data in multiple places:
                     │ flow sync   │
                     │ all         │
                     └─────────────┘
-```text
+```
 
 The `sync` command orchestrates keeping all this data consistent.
 
@@ -58,7 +58,7 @@ Run sync without arguments to see the current state:
 
 ```bash
 flow sync
-```text
+```
 
 Output:
 
@@ -72,13 +72,13 @@ Suggested sync targets:
 • status: 2 projects not updated today
 
 Run: flow sync all
-```text
+```
 
 ### Sync Everything
 
 ```bash
 flow sync all
-```text
+```
 
 Output:
 
@@ -93,7 +93,7 @@ Output:
 [5/5] git... done (pushed 3 commits)
 
 ✓ Sync complete (2s)
-```text
+```
 
 ---
 
@@ -107,13 +107,13 @@ Persists your current session data to the worklog:
 
 ```bash
 flow sync session
-```text
+```
 
 Output:
 
 ```text
 45m on flow-cli
-```text
+```
 
 ### Status Sync
 
@@ -121,13 +121,13 @@ Updates `.STATUS` timestamps and streaks for active projects:
 
 ```bash
 flow sync status
-```text
+```
 
 Output:
 
 ```text
 2 projects updated
-```text
+```
 
 ### Wins Sync
 
@@ -135,13 +135,13 @@ Aggregates project wins to the global wins file:
 
 ```bash
 flow sync wins
-```text
+```
 
 Output:
 
 ```text
 3 new wins aggregated
-```text
+```
 
 ### Goals Sync
 
@@ -149,13 +149,13 @@ Recalculates daily goal progress:
 
 ```bash
 flow sync goals
-```text
+```
 
 Output:
 
 ```text
 2/3 (67%)
-```text
+```
 
 ### Git Sync
 
@@ -163,13 +163,13 @@ Smart git sync with stash handling:
 
 ```bash
 flow sync git
-```text
+```
 
 Output:
 
 ```text
 pushed 3 commits
-```text
+```
 
 **What git sync does:**
 
@@ -187,7 +187,7 @@ Before syncing, preview what will happen:
 
 ```bash
 flow sync all --dry-run
-```text
+```
 
 Output:
 
@@ -208,7 +208,7 @@ Output:
              Would: fetch, rebase, push
 
 Run without --dry-run to execute
-```text
+```
 
 !!! tip "Use Dry Run First"
 Always run `--dry-run` before syncing if you're unsure what will happen.
@@ -223,7 +223,7 @@ When you just want to sync local data quickly:
 
 ```bash
 flow sync all --skip-git
-```text
+```
 
 This skips the git sync target, which can be slow if you have network issues.
 
@@ -233,7 +233,7 @@ See detailed output:
 
 ```bash
 flow sync all --verbose
-```text
+```
 
 ### Quiet Mode
 
@@ -241,7 +241,7 @@ Minimal output for scripts:
 
 ```bash
 flow sync all --quiet
-```text
+```
 
 ---
 
@@ -253,7 +253,7 @@ Set up automatic background sync using macOS launchd.
 
 ```bash
 flow sync schedule
-```text
+```
 
 Output:
 
@@ -263,7 +263,7 @@ Output:
 Status: Not configured
 
 Run 'flow sync schedule enable [minutes]' to start
-```bash
+```
 
 ### Enable Scheduled Sync
 
@@ -276,7 +276,7 @@ flow sync schedule enable 15
 
 # Every hour
 flow sync schedule enable 60
-```text
+```
 
 Output:
 
@@ -289,7 +289,7 @@ Targets: session, status, wins, goals (git skipped)
 
 View logs: flow sync schedule logs
 Disable: flow sync schedule disable
-```text
+```
 
 !!! note "Git Skipped"
 Scheduled sync skips git because it may require user interaction (merge conflicts, auth).
@@ -298,7 +298,7 @@ Scheduled sync skips git because it may require user interaction (merge conflict
 
 ```bash
 flow sync schedule logs
-```text
+```
 
 Output:
 
@@ -310,13 +310,13 @@ Last 20 entries:
 2025-12-27 14:30:00 Sync completed
 2025-12-27 14:00:00 Sync completed
 2025-12-27 13:30:00 Sync completed
-```text
+```
 
 ### Disable Scheduled Sync
 
 ```bash
 flow sync schedule disable
-```text
+```
 
 Output:
 
@@ -325,7 +325,7 @@ Output:
 
 ✓ Schedule disabled
 Plist removed
-```text
+```
 
 ---
 
@@ -335,7 +335,7 @@ View your sync history:
 
 ```bash
 flow sync --status
-```text
+```
 
 Output:
 
@@ -345,7 +345,7 @@ Output:
 Last full sync: 2025-12-27T14:30:00Z
 
 Run 'flow sync all' to sync everything
-```bash
+```
 
 ---
 
@@ -362,7 +362,7 @@ flow sync all
 
 # End of day: Full sync including git
 flow sync all
-```text
+```
 
 ### Before Switching Computers
 
@@ -370,7 +370,7 @@ Make sure everything is synced:
 
 ```bash
 flow sync all
-```bash
+```
 
 ### After Extended Break
 
@@ -385,7 +385,7 @@ flow sync all
 
 # Check your dashboard
 dash
-```text
+```
 
 ### CI/Automation
 
@@ -393,7 +393,7 @@ For scripts, use quiet mode:
 
 ```bash
 flow sync all --quiet --skip-git
-```text
+```
 
 ---
 
@@ -404,7 +404,7 @@ The sync runs in dependency order:
 ```text
 session → status → wins → goals → git
    1        2        3       4      5
-```bash
+```
 
 1. **Session** - Capture current session first
 2. **Status** - Update project statuses
@@ -429,7 +429,7 @@ git rebase --abort
 
 # Then retry
 flow sync git
-```text
+```
 
 ### Sync Takes Too Long
 
@@ -437,7 +437,7 @@ Skip git for quick local sync:
 
 ```bash
 flow sync all --skip-git
-```bash
+```
 
 ### Scheduled Sync Not Running
 
@@ -445,7 +445,7 @@ Check if the launch agent is loaded:
 
 ```bash
 launchctl list | grep flow
-```text
+```
 
 If not listed, re-enable:
 

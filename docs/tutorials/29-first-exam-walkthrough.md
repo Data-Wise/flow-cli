@@ -31,7 +31,7 @@ ls .flow/teach-config.yml
 
 # Check your config has required fields
 teach config --view
-```yaml
+```
 
 **Minimum Required Config:**
 
@@ -41,7 +41,7 @@ course:
   full_name: 'Introduction to Statistics'
   semester: 'Fall'
   year: 2026
-```diff
+```
 
 ---
 
@@ -74,7 +74,7 @@ graph TD
     style D fill:#e1ffe1
     style E fill:#ffe1f5
     style F fill:#ffe1e1
-```text
+```
 
 ---
 
@@ -86,7 +86,7 @@ The Scholar plugin is required for all AI content generation:
 
 ```bash
 teach doctor
-```text
+```
 
 **Expected output:**
 
@@ -94,13 +94,13 @@ teach doctor
 ✓ Scholar plugin found
 ✓ teach-config.yml valid
 ✓ Configuration schema valid
-```text
+```
 
 **If Scholar is missing:**
 
 ```text
 ❌ Error: Scholar plugin not available
-```text
+```
 
 **Solution:** Install the Scholar plugin from the Claude Code plugin marketplace. See [Troubleshooting](#scholar-plugin-not-found) for details.
 
@@ -110,7 +110,7 @@ Check that your `teach-config.yml` has the required fields:
 
 ```bash
 teach config --view
-```yaml
+```
 
 **Required fields for exam generation:**
 
@@ -120,7 +120,7 @@ course:
   full_name: 'Introduction...'  # Full course title
   semester: 'Fall'              # Current semester
   year: 2026                    # Academic year
-```yaml
+```
 
 **Optional fields (enhance output):**
 
@@ -134,7 +134,7 @@ scholar:
     sources:
       - path: "_macros.qmd"
         format: "qmd"
-```text
+```
 
 ---
 
@@ -146,7 +146,7 @@ Let's create a basic 5-question exam on hypothesis testing:
 
 ```bash
 teach exam "Hypothesis Testing"
-```text
+```
 
 **What happens:**
 
@@ -170,7 +170,7 @@ teach exam "Hypothesis Testing"
   • 5 questions (default)
   • Mixed format (multiple choice, short answer, problems)
   • Estimated duration: 60 minutes
-```bash
+```
 
 ### Step 2.2: View Generated Content
 
@@ -182,7 +182,7 @@ $EDITOR exams/exam-hypothesis-testing-2026-02-02.qmd
 
 # Or preview with Quarto
 quarto preview exams/
-```diff
+```
 
 **File structure:**
 
@@ -214,7 +214,7 @@ format: pdf
 # Section 3: Problems (30 points)
 
 3. A researcher tests whether the mean exam score differs from 75...
-```text
+```
 
 ### Step 2.3: Customize with Options
 
@@ -225,7 +225,7 @@ teach exam "Hypothesis Testing" \
   --questions 10 \
   --duration 90 \
   --types "mc:4,sa:3,problem:3"
-```diff
+```
 
 **Flag breakdown:**
 
@@ -240,7 +240,7 @@ teach exam "Hypothesis Testing" \
   • 10 questions
   • Duration: 90 minutes
   • Question breakdown: 4 MC, 3 SA, 3 Problems
-```bash
+```
 
 ---
 
@@ -264,7 +264,7 @@ Use style presets to control the depth and approach:
 ```bash
 # Rigorous math-heavy exam
 teach exam "Probability" --style rigorous --questions 8
-```bash
+```
 
 ### Step 3.2: Content Toggle Flags
 
@@ -278,7 +278,7 @@ teach exam "Probability" --math --proof --examples
 
 # Computational exam with code problems
 teach exam "Linear Regression" --code --practice-problems --diagrams
-```bash
+```
 
 **Remove Content:**
 
@@ -288,7 +288,7 @@ teach exam "Regression" --style rigorous --no-proof
 
 # Computational style WITHOUT code
 teach exam "ANOVA" --style computational --no-code
-```bash
+```
 
 **Available Flags:**
 
@@ -311,7 +311,7 @@ teach exam "Hypothesis Testing" --week 4
 
 # Exam covering weeks 1-4
 teach exam "Midterm 1" --week 4 --questions 20
-```yaml
+```
 
 **What happens:**
 
@@ -335,7 +335,7 @@ weeks:
     subtopics:
       - "Type I and II errors"
       - "One-sample and two-sample tests"
-```text
+```
 
 Scholar uses this to generate questions targeting these specific objectives.
 
@@ -349,7 +349,7 @@ Quizzes are shorter, formative assessments:
 
 ```bash
 teach quiz "Descriptive Statistics"
-```sql
+```
 
 **Differences from exams:**
 
@@ -367,7 +367,7 @@ Create a quick 10-minute check quiz:
 
 ```bash
 teach quiz "Correlation" --questions 5 --time-limit 10
-```diff
+```
 
 **Output:**
 
@@ -387,7 +387,7 @@ format: html
    d) No relationship
 
    **Answer:** b)
-```text
+```
 
 ### Step 4.3: Quiz with Explanations
 
@@ -395,7 +395,7 @@ Generate a quiz with answer explanations for self-study:
 
 ```bash
 teach quiz "Regression Basics" --questions 8 --explanation
-```text
+```
 
 **Each question includes:**
 
@@ -411,7 +411,7 @@ teach quiz "Regression Basics" --questions 8 --explanation
    **Explanation:** The slope coefficient (β₁) represents the expected
    change in the response variable (Y) for each one-unit increase in the
    predictor variable (X), holding all else constant.
-```text
+```
 
 ---
 
@@ -425,25 +425,25 @@ Generated files are automatically staged for git:
 
 ```bash
 teach exam "Topic"
-```text
+```
 
 **Output:**
 
 ```text
 ✓ Created: exams/exam-topic-2026-02-02.qmd
   ✓ Staged: exams/exam-topic-2026-02-02.qmd
-```bash
+```
 
 **What was staged:**
 
 ```bash
 git status
-```text
+```
 
 ```text
 Changes to be committed:
   new file:   exams/exam-topic-2026-02-02.qmd
-```bash
+```
 
 ### Step 5.2: Commit Menu (Interactive)
 
@@ -467,7 +467,7 @@ quarto preview exams/
 
 # Commit when satisfied
 git commit -m "Add exam: Hypothesis Testing"
-```bash
+```
 
 ### Step 5.3: .STATUS File Updates
 
@@ -475,7 +475,7 @@ If your course has a `.STATUS` file, it's automatically updated:
 
 ```bash
 cat .STATUS
-```text
+```
 
 ```text
 status: Active
@@ -485,7 +485,7 @@ last_updated: 2026-02-02
 recent_activity:
   - "Generated exam: Hypothesis Testing"
   - "Generated lecture: ANOVA"
-```bash
+```
 
 ---
 
@@ -516,7 +516,7 @@ quarto preview rubrics/
 
 # 5. Commit when satisfied
 git commit -m "Add midterm exam and rubric"
-```bash
+```
 
 ### Workflow 2: Weekly Quiz Routine
 
@@ -534,7 +534,7 @@ quarto preview quizzes/
 
 # Deploy to course website
 teach deploy
-```sql
+```
 
 ### Workflow 3: Practice Exam with Explanations
 
@@ -549,7 +549,7 @@ teach exam "Practice Exam: Regression" \
   --examples
 
 # Generates exam with detailed answer explanations
-```text
+```
 
 ---
 
@@ -561,7 +561,7 @@ teach exam "Practice Exam: Regression" \
 
 ```text
 ❌ Error: Scholar plugin not available
-```bash
+```
 
 **Solution:**
 
@@ -569,7 +569,7 @@ teach exam "Practice Exam: Regression" \
 
 ```bash
 claude plugins list | grep scholar
-```text
+```
 
 1. If missing, install from Claude Code plugin marketplace:
 
@@ -582,7 +582,7 @@ claude plugins list | grep scholar
 
 ```bash
 teach doctor
-```text
+```
 
 ### Missing Configuration Fields
 
@@ -590,7 +590,7 @@ teach doctor
 
 ```text
 ❌ Error: Required field 'course.name' not found in teach-config.yml
-```yaml
+```
 
 **Solution:**
 
@@ -607,7 +607,7 @@ course:
 
 # Validate
 teach doctor
-```text
+```
 
 ### Empty or Incomplete Output
 
@@ -616,7 +616,7 @@ teach doctor
 ```text
 ✓ Generation complete
 ✓ File created: exams/exam-topic.qmd
-```bash
+```
 
 But the file is empty or contains only frontmatter.
 
@@ -640,7 +640,7 @@ teach exam "Topic" --verbose
 
 # 4. Check Scholar plugin logs
 # (See Scholar documentation for log location)
-```text
+```
 
 ### Conflicting Flags Error
 
@@ -648,7 +648,7 @@ teach exam "Topic" --verbose
 
 ```text
 ❌ Error: Conflicting flags: --math and --no-math
-```bash
+```
 
 **Solution:**
 
@@ -662,7 +662,7 @@ teach exam "Topic" --math --no-math
 teach exam "Topic" --math
 # OR
 teach exam "Topic" --no-math
-```yaml
+```
 
 ### LaTeX Macros Not Rendering
 
@@ -690,7 +690,7 @@ scholar:
 
 # 4. Regenerate content
 teach exam "Topic" --math
-```text
+```
 
 ### File Already Exists
 
@@ -698,7 +698,7 @@ teach exam "Topic" --math
 
 ```text
 ⚠️  File exists: exams/exam-topic-2026-02-02.qmd
-```text
+```
 
 **Auto-backup:**
 
@@ -707,13 +707,13 @@ flow-cli automatically backs up existing files:
 ```text
 ✓ Backed up: exams/exam-topic-2026-02-02.qmd → exams/exam-topic-2026-02-02.qmd.bak
 ✓ Created: exams/exam-topic-2026-02-02.qmd
-```bash
+```
 
 **Restore backup:**
 
 ```bash
 mv exams/exam-topic-2026-02-02.qmd.bak exams/exam-topic-2026-02-02.qmd
-```text
+```
 
 ---
 
@@ -725,12 +725,12 @@ mv exams/exam-topic-2026-02-02.qmd.bak exams/exam-topic-2026-02-02.qmd
 
 ```bash
 teach exam "Topic" --week 5
-```text
+```
 
 ```text
 ⚠️  No lesson plan found for week 5
 Continuing with topic only...
-```text
+```
 
 **Not an error**, but generation will be less targeted.
 
@@ -738,7 +738,7 @@ Continuing with topic only...
 
 ```bash
 teach plan create 5 --topic "Linear Regression" --style computational
-```bash
+```
 
 ### Mistake 2: Using --interactive Without Input
 
@@ -747,13 +747,13 @@ teach plan create 5 --topic "Linear Regression" --style computational
 ```bash
 teach exam --interactive
 # Hangs waiting for input
-```text
+```
 
 **Solution:** Follow the wizard prompts or provide a topic:
 
 ```bash
 teach exam "Topic" --interactive
-```bash
+```
 
 ### Mistake 3: Forgetting to Commit
 
@@ -764,19 +764,19 @@ Files are staged but never committed:
 ```bash
 git status
 # Shows: Changes to be committed
-```bash
+```
 
 **Solution:** Commit after reviewing:
 
 ```bash
 git commit -m "Add exam: Hypothesis Testing"
-```bash
+```
 
 Or unstage if not ready:
 
 ```bash
 git reset HEAD exams/exam-*.qmd
-```diff
+```
 
 ---
 

@@ -47,7 +47,7 @@ teach dates validate
 
 # Verbose output
 teach dates sync --verbose
-```bash
+```
 
 ## sync Options
 
@@ -74,7 +74,7 @@ deadline_hw1: "2026-02-03"
 # Invalid
 start_date: "01/13/2026"
 deadline_hw1: "Feb 3, 2026"
-```yaml
+```
 
 ## Configuration Structure
 
@@ -102,7 +102,7 @@ semester_info:
   holidays:
     - date: "2026-03-16"
       name: "Spring Break"
-```text
+```
 
 ## Workflow
 
@@ -116,7 +116,7 @@ teach dates sync --dry-run    # Step 3: Preview changes
 teach dates sync              # Step 4: Apply changes interactively
   ↓
 teach dates validate          # Step 5: Verify configuration
-```text
+```
 
 ## Sync Behavior
 
@@ -131,7 +131,7 @@ File: assignments/hw1.qmd
 │   due: 2026-01-30 → 2026-02-03
 ├─────────────────────────────────────────────────────────────┤
 Apply changes? [y/n/d/q]
-```diff
+```
 
 Options:
 - `y` - Apply changes
@@ -162,7 +162,7 @@ assignments/*.qmd
 assignments/*.md
 syllabus.qmd
 schedule.qmd
-```text
+```
 
 ## Status Output
 
@@ -174,7 +174,7 @@ teach dates status
 
 Config Dates Loaded: 17
 Teaching Files Found: 12
-```text
+```
 
 ## init Wizard
 
@@ -189,7 +189,7 @@ Generating 15 weeks starting from 2026-01-13...
   Start: 2026-01-13
   End:   2026-04-28
   Weeks: 15
-```text
+```
 
 ## Validation Checks
 
@@ -202,7 +202,7 @@ teach dates validate
 ✓ Course name: STAT-101
 ✓ Semester: Spring 2026
 ✓ Dates configured (2026-01-13 - 2026-04-28)
-```bash
+```
 
 ## STAT-101 Demo Example
 
@@ -224,7 +224,7 @@ teach dates sync --force
 
 # Verify
 teach dates validate
-```bash
+```
 
 ## Integration
 

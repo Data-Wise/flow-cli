@@ -57,7 +57,7 @@ concepts:
     - mean
     - variance
 ---
-```bash
+```
 
 ### 2. Run Analysis
 
@@ -73,7 +73,7 @@ teach analyze --report analysis-report.md
 
 # Or use validation integration
 teach validate --concepts
-```bash
+```
 
 ### 3. Check Status
 
@@ -83,7 +83,7 @@ teach status
 
 # View cache statistics
 teach analyze --stats
-```yaml
+```
 
 ---
 
@@ -99,7 +99,7 @@ concepts:
   requires:             # Prerequisites from earlier weeks
     - prerequisite-1
     - prerequisite-2
-```diff
+```
 
 ### Naming Conventions
 
@@ -133,7 +133,7 @@ concepts:
 # Introduction to Regression
 
 Today we'll build on our understanding of correlation...
-```bash
+```
 
 ---
 
@@ -166,7 +166,7 @@ teach analyze --stats
 
 # Help
 teach analyze --help
-```text
+```
 
 **Output:**
 
@@ -180,7 +180,7 @@ Validating prerequisites...
 ✓ All prerequisites satisfied (18 concepts checked)
 
 Concept graph saved to .teach/concepts.json
-```bash
+```
 
 ### teach analyze --interactive
 
@@ -190,7 +190,7 @@ Guided, ADHD-friendly analysis with step-by-step prompts.
 teach analyze --interactive
 # or
 teach analyze -i
-```text
+```
 
 **Interactive Mode Flow:**
 
@@ -221,7 +221,7 @@ teach analyze -i
 │  Review violations? (y/n) > y                                │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
-```diff
+```
 
 **Features:**
 - Step-by-step scope and mode selection
@@ -246,7 +246,7 @@ teach analyze --report summary.md --summary-only
 
 # Violations only
 teach analyze --report violations.md --violations-only
-```bash
+```
 
 **Markdown Report Structure:**
 
@@ -279,7 +279,7 @@ teach analyze --report violations.md --violations-only
 
 1. Move `correlation` introduction to Week 1
 2. Consider adding prerequisites for orphan concepts
-```text
+```
 
 **JSON Report Structure:**
 
@@ -299,7 +299,7 @@ teach analyze --report violations.md --violations-only
   "violations": [...],
   "recommendations": [...]
 }
-```text
+```
 
 ### teach analyze --stats
 
@@ -307,7 +307,7 @@ View cache statistics and performance metrics.
 
 ```bash
 teach analyze --stats
-```text
+```
 
 **Output:**
 
@@ -329,7 +329,7 @@ Storage:
 
 Last Rebuild: 2h ago
 Next Expiry: 4 entries in 6h
-```bash
+```
 
 ### teach validate --concepts
 
@@ -344,7 +344,7 @@ teach validate --concepts --quiet
 
 # Combined with YAML validation
 teach validate --yaml --concepts
-```bash
+```
 
 ### teach validate --deep
 
@@ -359,7 +359,7 @@ teach validate --yaml --syntax --deep
 
 # Quiet mode for CI
 teach validate --deep --quiet
-```text
+```
 
 **Output:**
 
@@ -376,7 +376,7 @@ Validating prerequisites...
 ✗ 0 concepts: missing prerequisites (errors)
 
 Layer 6 Result: PASS (2 warnings)
-```bash
+```
 
 **Validation Layers:**
 
@@ -399,7 +399,7 @@ teach deploy --check-prereqs
 
 # Dry-run to see what would be blocked
 teach deploy --check-prereqs --dry-run
-```diff
+```
 
 **Behavior:**
 
@@ -423,7 +423,7 @@ Fix these issues before deploying:
   2. Or use --force to override (not recommended)
 
 Run 'teach analyze --interactive' for guided fixes.
-```text
+```
 
 ### teach status
 
@@ -431,7 +431,7 @@ View concept summary in status dashboard.
 
 ```bash
 teach status
-```text
+```
 
 Shows:
 
@@ -441,7 +441,7 @@ Shows:
 ├─────────────────────────────────────────────────┤
 │ 📊 Concepts    │ 18 concepts, 6 weeks (2h ago) │
 └─────────────────────────────────────────────────┘
-```text
+```
 
 ---
 
@@ -483,7 +483,7 @@ Analysis creates `.teach/concepts.json`:
     }
   }
 }
-```diff
+```
 
 ### Use Cases
 
@@ -515,7 +515,7 @@ The caching system accelerates analysis by storing results based on content hash
     ├── lectures/           # Lecture analysis cache
     ├── assignments/        # Assignment analysis cache
     └── exams/              # Exam analysis cache
-```text
+```
 
 ### Cache Index Structure
 
@@ -533,7 +533,7 @@ The caching system accelerates analysis by storing results based on content hash
     }
   }
 }
-```bash
+```
 
 ### Cache Operations
 
@@ -549,7 +549,7 @@ teach cache clean --expired
 
 # Clear all analysis cache
 teach cache clear --analysis
-```text
+```
 
 ### Performance Targets
 
@@ -568,7 +568,7 @@ When a concept is modified, dependent concepts are automatically invalidated:
 correlation (modified)
     └── simple-regression (invalidated)
         └── multiple-regression (invalidated)
-```yaml
+```
 
 ---
 
@@ -603,7 +603,7 @@ concepts:
   #   - concept: calculus
   #     required_for: [optimization, derivatives]
   #     introduced: 'external'
-```text
+```
 
 ### Configuration Options
 
@@ -625,7 +625,7 @@ concepts:
 ✗ ERROR: Missing prerequisite: variance
    Week 2 requires 'variance' but it's never introduced
    Suggestion: Add variance to earlier week
-```text
+```
 
 **Fix:** Add the missing concept to an earlier lecture's `introduces:` list.
 
@@ -637,7 +637,7 @@ concepts:
 ⚠ WARNING: Future prerequisite: correlation
    Week 2 requires 'correlation' but it's introduced in week 4
    Suggestion: Reorder content or move correlation earlier
-```text
+```
 
 **Fix:** Either reorder lectures or adjust the prerequisite declaration.
 
@@ -649,7 +649,7 @@ Concepts with no prerequisites (when `warn_orphans: true`):
 ⚠ WARNING: Orphan concept: probability
    'probability' has no prerequisites
    This may be intentional for foundational concepts
-```yaml
+```
 
 ---
 
@@ -667,7 +667,7 @@ concepts:
     - variance
     - standard-deviation
   requires: []  # No prerequisites for first week
-```yaml
+```
 
 ### 2. Build Incrementally
 
@@ -682,7 +682,7 @@ concepts:
   requires:
     - mean      # From week 1
     - variance  # From week 1
-```yaml
+```
 
 ### 3. Be Explicit
 
@@ -697,7 +697,7 @@ concepts:
     - correlation  # Direct prerequisite
     - variance     # Also needed for regression
     - mean         # Foundation for everything
-```yaml
+```
 
 ### 4. Use Consistent Naming
 
@@ -715,7 +715,7 @@ introduces:
   - Standard_Deviation  # ❌ Mixed case and underscores
   - chi squared         # ❌ Spaces
   - TTest               # ❌ Camel case
-```bash
+```
 
 ### 5. Run Analysis Regularly
 
@@ -730,7 +730,7 @@ teach analyze
 
 # Check status dashboard
 teach status
-```yaml
+```
 
 ---
 
@@ -751,7 +751,7 @@ concepts:          # Add this block
     - mean
   requires: []
 ---
-```bash
+```
 
 ### "yq not found"
 
@@ -765,7 +765,7 @@ brew install yq
 
 # Or verify with teach doctor
 teach doctor --fix
-```bash
+```
 
 ### Concept count mismatch
 
@@ -778,7 +778,7 @@ teach doctor --fix
 cat .teach/concepts.json | jq '.concepts | keys'
 
 # Look for duplicates or variations
-```bash
+```
 
 ### Prerequisites not detected
 
@@ -792,7 +792,7 @@ grep -r "introduces:" lectures/ | sort -u
 grep -r "requires:" lectures/ | sort -u
 
 # Compare for inconsistencies
-```bash
+```
 
 ### Cache not updating (Phase 2)
 
@@ -809,7 +809,7 @@ teach cache clear --analysis
 
 # Check cache stats
 teach analyze --stats
-```bash
+```
 
 ### Report generation fails (Phase 2)
 
@@ -826,7 +826,7 @@ teach analyze --report analysis.md
 
 # Check if concepts.json exists
 ls -la .teach/concepts.json
-```bash
+```
 
 ### Interactive mode not responding (Phase 2)
 
@@ -840,7 +840,7 @@ teach analyze --verbose
 
 # Or ensure you're in a proper terminal
 echo $TERM  # Should show xterm-256color or similar
-```bash
+```
 
 ### Deploy blocked unexpectedly (Phase 2)
 
@@ -857,7 +857,7 @@ teach analyze --interactive
 
 # Or override (not recommended)
 teach deploy --force
-```bash
+```
 
 ---
 
@@ -874,7 +874,7 @@ teach quiz "Week 3 Check" --concepts-from-week 3
 
 # Validate that exam covers prerequisites
 teach validate --exam exams/midterm1.md --concepts
-```diff
+```
 
 ---
 
@@ -988,7 +988,7 @@ teach analyze --ai --costs lectures/week-05-regression.qmd
 
 # View cumulative AI costs
 teach analyze --costs
-```text
+```
 
 ### What AI Analysis Provides
 
@@ -1008,7 +1008,7 @@ AI Analysis Costs:
   This session: $0.03 (2 analyses)
   Total tracked: $0.42 (28 analyses)
   Avg per analysis: $0.015
-```diff
+```
 
 ### Requirements
 
@@ -1030,7 +1030,7 @@ teach analyze --slide-breaks lectures/week-05-regression.qmd
 
 # Detailed preview of all suggested breaks
 teach analyze --preview-breaks lectures/week-05-regression.qmd
-```text
+```
 
 ### How It Works
 
@@ -1066,7 +1066,7 @@ The optimizer uses 4 heuristic rules to detect where slides need breaks:
 ├──────────────────────────────────────────────────────┤
 │ Phase: 4 (slide-optimized)                            │
 └──────────────────────────────────────────────────────┘
-```diff
+```
 
 ### Key Concept Detection
 
@@ -1100,7 +1100,7 @@ teach slides --apply-suggestions lectures/week-05-regression.qmd
 
 # Show key concepts for callout boxes
 teach slides --key-concepts lectures/week-05-regression.qmd
-```diff
+```
 
 ### Caching
 
@@ -1130,7 +1130,7 @@ Examples:
   teach analyze --interactive
 
 Run 'teach analyze --help' for full documentation.
-```text
+```
 
 When a file is not found, alternatives are suggested:
 
@@ -1141,7 +1141,7 @@ Available .qmd files in lectures/:
   lectures/week-01-foundations.qmd
   lectures/week-02-building.qmd
   lectures/week-03-applications.qmd
-```text
+```
 
 ### Extension Validation
 
@@ -1150,7 +1150,7 @@ Non-.qmd files trigger a warning:
 ```text
 Warning: Expected .qmd or .md file, got .txt
 Analysis works best with Quarto (.qmd) files containing YAML frontmatter.
-```text
+```
 
 ### Dependency Checks
 
@@ -1161,7 +1161,7 @@ Warning: jq not installed - some features unavailable
   Install: brew install jq
 Warning: yq not installed - prerequisite checking limited
   Install: brew install yq
-```diff
+```
 
 ---
 

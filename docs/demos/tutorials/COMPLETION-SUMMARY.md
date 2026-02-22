@@ -42,7 +42,7 @@ agg \
   --theme dracula \       # High contrast theme
   --fps-cap 10 \          # Smooth playback
   input.cast output.gif
-```diff
+```
 
 ### File Sizes
 
@@ -80,7 +80,7 @@ agg \
 
 ```bash
 teach slides "Introduction to Statistics" --style conceptual
-```diff
+```
 
 **Shows:**
 - Topic specification
@@ -104,7 +104,7 @@ teach slides "Introduction to Statistics" --style conceptual
 
 ```bash
 teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
-```diff
+```
 
 **Shows:**
 - Combining style presets with modifiers
@@ -127,7 +127,7 @@ teach quiz "Hypothesis Testing" --style rigorous --technical-depth high
 
 ```bash
 teach lecture --lesson content/lesson-plans/week03.yml
-```diff
+```
 
 **Shows:**
 - Loading structured lesson plan
@@ -153,7 +153,7 @@ teach lecture --lesson content/lesson-plans/week03.yml
 
 ```bash
 teach exam --interactive
-```diff
+```
 
 **Interactive Flow:**
 1. **Topic selection** → "Statistical Inference"
@@ -183,7 +183,7 @@ teach exam --interactive
 
 ```bash
 teach slides --revise slides-v1.md --feedback "Add more practical examples"
-```diff
+```
 
 **Revision Process:**
 1. **Load existing content** (847 words, 12 slides)
@@ -213,7 +213,7 @@ teach slides --revise slides-v1.md --feedback "Add more practical examples"
 
 ```bash
 teach quiz --week 5
-```diff
+```
 
 **Auto-Detection:**
 - Week 5 → Feb 10-14, 2026 (from config)
@@ -243,7 +243,7 @@ teach quiz --week 5
 
 ```bash
 teach assignment "Hypothesis Testing Practice" --with-readings
-```diff
+```
 
 **Context Sources:**
 - `.flow/teach-config.yml` (course settings)
@@ -292,7 +292,7 @@ docs/demos/tutorials/
 ├── STATUS.md                     # Progress tracker
 ├── COMPLETION-SUMMARY.md         # This file
 └── convert-all.sh                # Batch conversion script
-```diff
+```
 
 ---
 
@@ -344,7 +344,7 @@ docs/demos/tutorials/
 ![Demo: Help System](../../demos/tutorials/scholar-01-help.gif)
 
 *Figure 1: Discovering Scholar Enhancement flags with --help*
-```diff
+```
 
 ---
 

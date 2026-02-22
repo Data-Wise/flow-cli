@@ -110,7 +110,7 @@ Auto-create ignore rule? (Y/n): y
 
 Adding .config/ghostty to chezmoi...
 ✓ Added 12 files (skipped 45 .git files)
-```diff
+```
 
 **Acceptance:**
 - Detects both `path/.git` and nested `path/subdir/.git`
@@ -147,7 +147,7 @@ $ dot ignore remove "*.log"
 # Edit directly (fallback)
 $ dot ignore edit
 # Opens .chezmoiignore in $EDITOR
-```diff
+```
 
 **Acceptance:**
 - `add` creates .chezmoiignore if missing
@@ -185,7 +185,7 @@ Top 10 largest files:
 
 ⚠ Found 1 nested .git directory (should be ignored)
   Run 'dot ignore add "**/.git"' to fix
-```diff
+```
 
 **Acceptance:**
 - Shows total repository size (human-readable)
@@ -224,7 +224,7 @@ Auto-add ignore patterns? (Y/n): y
 
 Proceed with add? (Y/n): y
 ✓ Added 2 files (skipped 2 generated files)
-```diff
+```
 
 **Acceptance:**
 - Shows file count and total size before adding
@@ -260,7 +260,7 @@ Dotfile Management:
      Consider: dot ignore add "nvim/lazy-lock.json"
   ✓ No nested .git directories tracked
   ✓ Last sync: 2 hours ago (synced)
-```diff
+```
 
 **Acceptance:**
 - Checks chezmoi installation and version
@@ -306,7 +306,7 @@ Total size: 12 KB
 
 Proceed with add? (Y/n): y
 ✓ Added 6 files (skipped 2 cache files)
-```diff
+```
 
 **Acceptance:**
 - Detects patterns automatically during preview
@@ -337,7 +337,7 @@ lib/dispatchers/dot-dispatcher.zsh:
   - dot ignore [add|list|remove|edit]  # Ignore management
   - dot size                            # Repository analysis
   - _dot_doctor_check_chezmoi_health() # Doctor integration
-```text
+```
 
 **Modified Commands:**
 
@@ -348,7 +348,7 @@ dot add <path>:
   3. Run _dot_suggest_ignore_patterns() - auto-suggest ignores
   4. Prompt for confirmation
   5. Execute chezmoi add with filtered paths
-```text
+```
 
 ### Performance Targets
 
@@ -375,7 +375,7 @@ flow-cli/
 └── docs/specs/
     ├── dot-dispatcher-refcard.md         # Update with new commands
     └── SPEC-dot-chezmoi-safety-2026-01-30.md  # This spec
-```bash
+```
 
 ---
 
@@ -392,7 +392,7 @@ flow-cli/
 ```zsh
 # Line 473 uses BSD-specific stat
 local size=$(stat -f%z "$file" 2>/dev/null || echo 0)
-```zsh
+```
 
 **Solution:** Add cross-platform helper in `lib/core.zsh`:
 
@@ -410,14 +410,14 @@ _flow_get_file_size() {
         stat -f%z "$file" 2>/dev/null || echo 0
     fi
 }
-```bash
+```
 
 **Usage:**
 
 ```zsh
 # In _dot_preview_add()
 local size=$(_flow_get_file_size "$file")
-```bash
+```
 
 #### 2. Ignore Pattern Removal
 
@@ -426,7 +426,7 @@ local size=$(_flow_get_file_size "$file")
 ```zsh
 # Line 669 uses sed -i.bak (works differently on BSD vs GNU)
 sed -i.bak "/^${escaped}$/d" "$ignore_file"
-```bash
+```
 
 **Solution:** Use temp file approach (portable):
 
@@ -436,7 +436,7 @@ local temp_file=$(mktemp)
 grep -vF "$3" "$ignore_file" > "$temp_file"
 mv "$temp_file" "$ignore_file"
 _dot_success "Removed pattern from .chezmoiignore: $3"
-```bash
+```
 
 #### 3. Human-Readable Sizes
 
@@ -445,7 +445,7 @@ _dot_success "Removed pattern from .chezmoiignore: $3"
 ```zsh
 # Line 498 assumes numfmt is available
 echo "Total size: $(numfmt --to=iec $total_size)"
-```zsh
+```
 
 **Solution:** Add fallback helper in `lib/core.zsh`:
 
@@ -469,7 +469,7 @@ _flow_human_size() {
         fi
     fi
 }
-```bash
+```
 
 ---
 
@@ -483,7 +483,7 @@ _flow_human_size() {
 while IFS= read -r gitdir; do
     git_dirs+=("$gitdir")
 done < <(find "$target" -name ".git" -type d -maxdepth 5 2>/dev/null)
-```zsh
+```
 
 **Impact:** Could take 10+ seconds on directories like `~/.config` with 10,000+ files.
 
@@ -528,7 +528,7 @@ _dot_check_git_in_path() {
     fi
     return 1
 }
-```bash
+```
 
 ### Solution 2: Optimize for Git Repos
 
@@ -550,7 +550,7 @@ else
     # Not a git repo - use find with timeout
     # ... (timeout logic from Solution 1)
 fi
-```zsh
+```
 
 ### Performance Targets (Updated)
 
@@ -576,7 +576,7 @@ fi
 # Existing cache variables
 typeset -g _DOT_CHEZMOI_CACHE
 typeset -g _DOT_CHEZMOI_CACHE_TIME
-```zsh
+```
 
 **Add New Cache Variables:**
 
@@ -589,7 +589,7 @@ typeset -g _DOT_IGNORE_CACHE_TIME
 
 # Cache TTL (5 minutes)
 typeset -g _DOT_CACHE_TTL=300
-```zsh
+```
 
 **Cache Helper Functions:**
 
@@ -622,7 +622,7 @@ _dot_cache_size() {
     _DOT_SIZE_CACHE="$1"
     _DOT_SIZE_CACHE_TIME=$(date +%s)
 }
-```zsh
+```
 
 #### 2. Doctor Integration Point
 
@@ -647,7 +647,7 @@ else
     _flow_log_info "Dotfile Management: chezmoi not installed (optional)"
     _flow_log_info "Install with: brew install chezmoi"
 fi
-```zsh
+```
 
 #### 3. Update `dot status` Command
 
@@ -690,7 +690,7 @@ if [[ -d "$HOME/.local/share/chezmoi/.git" ]]; then
         _flow_log_info "  Fix with: dot ignore add '**/.git'"
     fi
 fi
-```bash
+```
 
 #### 4. Edge Case: Symlink Handling
 
@@ -722,7 +722,7 @@ if [[ -L "$target" ]]; then
         return 0
     fi
 fi
-```bash
+```
 
 #### 5. Integration with `.gitignore`
 
@@ -764,7 +764,7 @@ _dot_suggest_from_gitignore() {
         fi
     fi
 }
-```zsh
+```
 
 ---
 
@@ -1166,7 +1166,7 @@ main() {
 if [[ "${ZSH_EVAL_CONTEXT}" == "toplevel" ]]; then
     main "$@"
 fi
-```bash
+```
 
 ### Integration with `./tests/run-all.sh`
 
@@ -1176,7 +1176,7 @@ Add to `tests/run-all.sh`:
 # Add after existing test suites
 echo "Running dot chezmoi safety tests..."
 ./tests/test-dot-chezmoi-safety.zsh || FAILED=$((FAILED + 1))
-```yaml
+```
 
 ---
 
@@ -1206,7 +1206,7 @@ Top 10 largest files:
 
 ⚠ Found 1 nested .git directory (should be ignored)
   Run 'dot ignore add "**/.git"' to fix
-```bash
+```
 
 Alternatively, check manually:
 
@@ -1218,7 +1218,7 @@ find . -name ".git" -type d -not -path "./.git"
 
 # Check specific config directories
 ls -la ~/.local/share/chezmoi/dot_config/*/dot_git
-```bash
+```
 
 #### Step 2: Add Ignore Patterns
 
@@ -1240,7 +1240,7 @@ dot ignore list
    2  **/.git/**
    3  **/dot_git
    4  **/dot_git/**
-```bash
+```
 
 #### Step 3: Remove Tracked `.git` Files
 
@@ -1265,7 +1265,7 @@ find . -name "dot_git" -type d | while read -r gitdir; do
         rm -rf "$gitdir"
     fi
 done
-```diff
+```
 
 #### Step 4: Commit Changes
 
@@ -1286,7 +1286,7 @@ git commit -m "chore: remove tracked .git directories
 
 # Push to remote
 git push
-```bash
+```
 
 #### Step 5: Verify Cleanup
 
@@ -1307,7 +1307,7 @@ Total: 1.2 MB  (was 1.4 MB)
 flow doctor
 
 # Expected: All chezmoi checks should pass
-```yaml
+```
 
 #### Step 6: Re-add Directories (Clean)
 
@@ -1332,7 +1332,7 @@ Total size: 24 KB
 
 Proceed with add? (Y/n): y
 ✓ Added /Users/dt/.config/nvim to chezmoi
-```bash
+```
 
 ### Common Patterns to Add to `.chezmoiignore`
 
@@ -1365,7 +1365,7 @@ dot ignore add ".idea/"
 
 # Lazy.nvim state (changes frequently)
 dot ignore add "nvim/lazy-lock.json"
-```bash
+```
 
 ### Troubleshooting Migration
 
@@ -1377,7 +1377,7 @@ dot ignore add "nvim/lazy-lock.json"
 cd ~/.local/share/chezmoi
 git rm -r dot_config/nvim/dot_git
 git commit -m "remove: nvim git metadata"
-```bash
+```
 
 **Issue:** Files keep reappearing
 
@@ -1391,7 +1391,7 @@ dot ignore list
 cd ~/.local/share/chezmoi
 chezmoi ignored ~/.config/nvim/.git
 # Should output: true
-```bash
+```
 
 **Issue:** Repository still large after cleanup
 
@@ -1412,7 +1412,7 @@ git push origin --force --all
 rm -rf .git/refs/original/
 git reflog expire --expire=now --all
 git gc --prune=now --aggressive
-```zsh
+```
 
 ---
 
@@ -1472,7 +1472,7 @@ _flow_timeout() {
         "$@"
     fi
 }
-```zsh
+```
 
 **Testing:**
 
@@ -1485,7 +1485,7 @@ _flow_get_file_size ~/.zshrc
 
 # Test human sizes
 _flow_human_size 1048576  # Should show 1 MB
-```zsh
+```
 
 #### 0.2 Cache Infrastructure
 
@@ -1518,7 +1518,7 @@ _dot_cache_size() {
     _DOT_SIZE_CACHE="$1"
     _DOT_SIZE_CACHE_TIME=$(date +%s)
 }
-```bash
+```
 
 ### Phase 1: Safety Features (Week 1, Days 3-5)
 
@@ -1582,7 +1582,7 @@ _dot_check_git_in_path() {
     fi
     return 1
 }
-```bash
+```
 
 **Modify:** `dot add` command in `dot-dispatcher.zsh`
 
@@ -1636,7 +1636,7 @@ _dot_check_git_in_path() {
     chezmoi add "$target"
     _dot_success "Added $target to chezmoi"
     ;;
-```bash
+```
 
 #### 1.2 Preview Before Add
 
@@ -1775,7 +1775,7 @@ _dot_suggest_ignore_patterns() {
         fi
     done
 }
-```bash
+```
 
 **Testing:**
 
@@ -1795,7 +1795,7 @@ mkdir -p /tmp/test-gen
 touch /tmp/test-gen/app.log /tmp/test-gen/db.sqlite
 dot add /tmp/test-gen
 # Expected: Preview warns about .log/.sqlite, suggests ignoring
-```bash
+```
 
 #### 1.3 Ignore Management Commands
 
@@ -1887,7 +1887,7 @@ dot add /tmp/test-gen
             ;;
     esac
     ;;
-```bash
+```
 
 **Testing:**
 
@@ -1904,7 +1904,7 @@ dot ignore list
 
 dot ignore edit
 # Expected: Opens .chezmoiignore in $EDITOR
-```bash
+```
 
 ### Phase 2: Health & Visibility (Week 2, Days 6-8)
 
@@ -1974,14 +1974,14 @@ dot ignore edit
         _dot_info "Consider reviewing with: find ~/.local/share/chezmoi -type f -size +100k"
     fi
     ;;
-```bash
+```
 
 **Testing:**
 
 ```bash
 dot size
 # Expected: Shows total size, top 10 files, warnings for .git dirs
-```bash
+```
 
 #### 2.2 Doctor Integration
 
@@ -2120,7 +2120,7 @@ _dot_doctor_check_chezmoi_health() {
             ;;
     esac
 }
-```bash
+```
 
 **Integration:** Add call to existing `flow doctor` command
 
@@ -2129,7 +2129,7 @@ _dot_doctor_check_chezmoi_health() {
 ```bash
 flow doctor
 # Expected: Includes "Dotfile Management" section with all checks
-```zsh
+```
 
 ### Phase 3: Integration & Architecture (Week 2, Days 9-10)
 
@@ -2159,14 +2159,14 @@ else
     _flow_log_info "Dotfile Management: chezmoi not installed (optional)"
     _flow_log_info "Install with: brew install chezmoi"
 fi
-```bash
+```
 
 **Testing:**
 
 ```bash
 flow doctor
 # Expected: Chezmoi health section appears after token checks
-```zsh
+```
 
 #### 3.2 Update `dot status` Command
 
@@ -2210,7 +2210,7 @@ if [[ -d "$HOME/.local/share/chezmoi/.git" ]]; then
         _flow_log_info "  Fix with: dot ignore add '**/.git'"
     fi
 fi
-```bash
+```
 
 #### 3.3 `.gitignore` Integration
 
@@ -2254,7 +2254,7 @@ _dot_suggest_from_gitignore() {
 }
 
 # Call from _dot_preview_add() after git detection
-```sql
+```
 
 ### Phase 4: Testing & Documentation (Week 2, Days 11-14)
 
@@ -2272,7 +2272,7 @@ chmod +x tests/test-dot-chezmoi-safety.zsh
 
 # Add to tests/run-all.sh
 echo "./tests/test-dot-chezmoi-safety.zsh || FAILED=\$((FAILED + 1))" >> tests/run-all.sh
-```bash
+```
 
 See "Test Infrastructure" section above for complete test implementation.
 
@@ -2286,7 +2286,7 @@ See "Test Infrastructure" section above for complete test implementation.
 ./tests/test-dot-chezmoi-safety.zsh
 
 # Expected: All tests pass
-```zsh
+```
 
 #### 4.2 Completions & Documentation
 
@@ -2316,7 +2316,7 @@ case $state in
         _describe -t commands 'ignore commands' ignore_cmds
         ;;
 esac
-```diff
+```
 
 #### 3.2 Update Documentation
 
@@ -2385,7 +2385,7 @@ test_git_detection
 test_ignore_management
 test_preview_calculation
 echo "Tests complete"
-```diff
+```
 
 ### Integration Tests
 
@@ -2452,7 +2452,7 @@ echo "Tests complete"
 - [ ] Run `dot size` with no chezmoi repo - verify error
 - [ ] Run with empty .chezmoiignore - verify works
 - [ ] Run with missing .chezmoiignore - verify creates
-```diff
+```
 
 ---
 
@@ -2487,7 +2487,7 @@ Add sections:
 - **Preview**: Shows file count/size before adding
 - **Auto-suggestions**: Intelligent ignore pattern suggestions
 - **Large file warnings**: Alerts for files >50KB
-```sql
+```
 
 ### Help Text
 
@@ -2538,7 +2538,7 @@ Update `dot` help command:
     echo "  dot ignore add '**/.git'"
     echo "  dot size"
     ;;
-```yaml
+```
 
 ---
 
@@ -2615,7 +2615,7 @@ A: Yes. Use the `--no-preview` flag:
 
 ```bash
 dot add ~/.config/nvim --no-preview
-```yaml
+```
 
 **Q: What if I accidentally added .git files before this update?**
 
@@ -2630,7 +2630,7 @@ chezmoi forget '.config/nvim/.git'
 
 # 3. Verify
 dot size
-```yaml
+```
 
 **Q: How do I know if I have .git directories tracked?**
 
@@ -2638,14 +2638,14 @@ A: Run the new size analysis command:
 
 ```bash
 dot size
-```bash
+```
 
 Look for warnings about git directories. Or check manually:
 
 ```bash
 cd ~/.local/share/chezmoi
 find . -name "dot_git" -type d
-```yaml
+```
 
 **Q: Will this slow down my workflow?**
 
@@ -2693,7 +2693,7 @@ A: Verify patterns are in `.chezmoiignore`:
 
 ```bash
 dot ignore list
-```bash
+```
 
 Test if pattern matches:
 
@@ -2701,7 +2701,7 @@ Test if pattern matches:
 cd ~/.local/share/chezmoi
 chezmoi ignored ~/.config/nvim/.git
 # Should output: true
-```diff
+```
 
 **Q: Preview shows wrong file count**
 
@@ -2754,7 +2754,7 @@ Total size: 24 KB
 
 Proceed with add? (Y/n): y
 ✓ Added /Users/dt/.config/ghostty to chezmoi
-```text
+```
 
 #### `dot size` output
 
@@ -2778,7 +2778,7 @@ Top 10 largest files:
       0.4 KB  dot_zshrc
 
 ✓ No nested git directories tracked
-```text
+```
 
 #### `flow doctor` with chezmoi checks
 

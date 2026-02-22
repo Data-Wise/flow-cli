@@ -106,7 +106,7 @@ Each content flag has a negation form:
 --no-practice-problems
 --no-definitions
 --no-references
-```bash
+```
 
 ---
 
@@ -137,7 +137,7 @@ teach slides -w 8 --style rigorous --no-proof
 
 # Preset + both
 teach slides -w 8 --style computational --diagrams --no-practice-problems
-```text
+```
 
 ---
 
@@ -168,7 +168,7 @@ teach slides -w 8 --style computational --diagrams --no-practice-problems
         └── Prompt: "No plan found. Continue with topic 'X'? [Y/n]"
             └── If Y: Use topic from semester_info.weeks
             └── If N: Abort
-```yaml
+```
 
 ---
 
@@ -209,7 +209,7 @@ key_concepts:
 prerequisites:
   - "Simple linear regression (Week 6)"
   - "Matrix notation basics (Week 7)"
-```yaml
+```
 
 ### Minimal Schema (From Config)
 
@@ -222,7 +222,7 @@ semester_info:
     - number: 8
       start_date: "2026-03-02"
       topic: "Multiple Regression"  # Used as fallback
-```bash
+```
 
 ---
 
@@ -240,7 +240,7 @@ teach slides -w 8 --style rigorous --style conceptual
 
 teach slides  # No --topic or --week
 # Error: Must specify --topic or --week
-```text
+```
 
 ### Validation Messages
 
@@ -252,7 +252,7 @@ Error: Conflicting flags detected
 Fix: Remove one of the conflicting flags
 
   teach slides -w 8 --style rigorous --no-proof  ✓
-```zsh
+```
 
 ---
 
@@ -301,7 +301,7 @@ typeset -gA TEACH_SLIDES_FLAGS=(
     [-r]="--references"
     [--no-references]="boolean"
 )
-```zsh
+```
 
 ### Content Resolution Function
 
@@ -354,7 +354,7 @@ _teach_resolve_content() {
     # Return as comma-separated list
     print "${(kj:,:)content}"
 }
-```zsh
+```
 
 ### Lesson Plan Loading
 
@@ -382,7 +382,7 @@ _teach_load_lesson_plan() {
 
     return 1  # No plan found
 }
-```text
+```
 
 ---
 
@@ -403,7 +403,7 @@ What style should this content use?
   [4] applied       Explanation + examples + code + practice
 
 Your choice [1-4]: _
-```text
+```
 
 ### Missing Lesson Plan Prompt
 
@@ -415,7 +415,7 @@ Topic from config: "Multiple Regression"
 Continue with this topic? [Y/n]: _
 
 Hint: Create a lesson plan with: teach plan create 8
-```text
+```
 
 ### Flag Conflict Error
 
@@ -429,7 +429,7 @@ Hint: Create a lesson plan with: teach plan create 8
 Fix:
   teach slides -w 8 --style rigorous --no-proof
                                      ^^^^^^^^^ keep one
-```bash
+```
 
 ---
 
@@ -446,7 +446,7 @@ teach slides -w 8  # Uses week 8 plan defaults
 
 # Week with style override
 teach slides -w 8 --style rigorous
-```bash
+```
 
 ### Content Customization
 
@@ -462,7 +462,7 @@ teach slides -w 8 --explanation --examples --code
 
 # Kitchen sink
 teach slides -w 8 --style computational --diagrams --definitions --no-practice-problems
-```bash
+```
 
 ### Interactive Mode
 
@@ -472,7 +472,7 @@ teach slides -i -w 8
 
 # Interactive with preset (skips style prompt)
 teach slides -i -w 8 --style applied
-```bash
+```
 
 ---
 
@@ -495,7 +495,7 @@ test_teach_resolve_content_with_removals()
 test_teach_load_lesson_plan()
 test_teach_missing_lesson_plan()
 test_teach_week_topic_override()
-```bash
+```
 
 ### Integration Tests
 

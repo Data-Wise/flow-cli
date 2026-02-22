@@ -90,7 +90,7 @@
 cd docs/demos
 vhs dot-dispatcher.tape
 # Output: dot-dispatcher.gif
-```yaml
+```
 
 ---
 
@@ -210,7 +210,7 @@ Root:
 ├── README.md                          (UPDATED - added dot to dispatchers)
 ├── CLAUDE.md                          (UPDATED - added v5.0.0 status)
 └── mkdocs.yml                         (UPDATED - added navigation)
-```diff
+```
 
 ---
 

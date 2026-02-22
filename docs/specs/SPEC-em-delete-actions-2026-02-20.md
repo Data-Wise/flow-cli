@@ -93,7 +93,7 @@ em delete --folder X --purge   PERMANENT delete all in folder
 
 Aliases: em del, em rm
 Safety: All deletes confirm [y/N] (default No). --purge requires typing "yes".
-```text
+```
 
 ### em move
 
@@ -103,14 +103,14 @@ em move --from <SOURCE> <FOLDER> <ID>   Move from non-default source folder
 em move --pick <ID> [<ID>...]           fzf folder picker -> move to selected folder
 
 Aliases: em mv
-```text
+```
 
 ### em restore
 
 ```text
 em restore <ID> [<ID>...]       Move from $FLOW_EMAIL_TRASH_FOLDER (default: Trash) to INBOX
 em restore <ID> --to <FOLDER>   Move from Trash to specific folder
-```text
+```
 
 ### em todo
 
@@ -119,7 +119,7 @@ em todo <ID> [<ID>...]   Extract action items via AI, capture to flow + Reminder
 
 Flow: read email -> AI extract action items -> catch command -> Reminders.app (per-email confirm)
 Fallback: Uses email subject if AI unavailable
-```text
+```
 
 ### em event
 
@@ -128,7 +128,7 @@ em event <ID> [<ID>...]   Extract dates/times via AI, capture to flow + Calendar
 
 Flow: read email -> AI extract events (JSON) -> display -> catch -> Calendar.app (per-email confirm)
 Returns: title, date, time, duration, location for each extracted event
-```text
+```
 
 ### em flag / em unflag
 
@@ -136,7 +136,7 @@ Returns: title, date, time, duration, location for each extracted event
 em flag <ID> [<ID>...]     Star email for follow-up (IMAP Flagged)
 em unflag <ID> [<ID>...]   Remove star
 Aliases: em fl
-```text
+```
 
 ### em pick (updated)
 
@@ -155,7 +155,7 @@ Keybinds:
   Ctrl+E           Extract events from selected email(s)
   Ctrl+F           Flag selected email(s) for follow-up
   Esc              Exit picker
-```text
+```
 
 ---
 
@@ -169,7 +169,7 @@ Three new functions isolate all himalaya CLI specifics:
 _em_hml_delete(folder, IDs...)   -> himalaya message delete -f <folder> <ID>...
 _em_hml_move(src, dst, IDs...)   -> himalaya message move -f <src> <dst> <ID>...
 _em_hml_expunge(folder)          -> himalaya folder expunge <folder>
-```text
+```
 
 ### AI Layer (`lib/em-ai.zsh`)
 
@@ -178,7 +178,7 @@ One new prompt function + timeout entry:
 ```bash
 _em_ai_todo_prompt()   -> Extract action items (1 per line, max 5, plain text)
 [todo]=15              -> Added to _EM_AI_OP_TIMEOUT map
-```text
+```
 
 Reuse existing `_em_ai_schedule_prompt` for event extraction (already returns JSON with events array).
 
@@ -235,7 +235,7 @@ Shows count + first 5 subjects from the target set. Returns 0 if user confirms, 
     5. "Limited time deal"
     ... and 7 more
   Confirm delete? [y/N]
-```yaml
+```
 
 ---
 
@@ -261,7 +261,7 @@ Shows count + first 5 subjects from the target set. Returns 0 if user confirms, 
 Folder: INBOX  |  Unread: 5
 Tab=select  Enter=read  Ctrl-D=delete  Ctrl-R=reply  Ctrl-A=archive
 Ctrl-S=summarize  Ctrl-T=catch  Ctrl-O=todo  Ctrl-E=event  Ctrl-F=flag
-```text
+```
 
 ### Action Router
 
@@ -269,7 +269,7 @@ Ctrl-S=summarize  Ctrl-T=catch  Ctrl-O=todo  Ctrl-E=event  Ctrl-F=flag
 Parse selected -> extract action prefix + IDs
 Single-item actions (read, reply, summarize): process first ID only
 Multi-item actions (delete, archive, catch, todo, event, flag): process all IDs
-```zsh
+```
 
 ---
 
@@ -293,7 +293,7 @@ _em_create_calendar_event() {
         end tell
 APPLESCRIPT
 }
-```zsh
+```
 
 ### Reminders.app (`_em_create_reminder`)
 
@@ -305,7 +305,7 @@ _em_create_reminder() {
     [[ "$(uname)" != "Darwin" ]] && return 1
     osascript -e "tell application \"Reminders\" to make new reminder with properties {name:\"$title\"}"
 }
-```diff
+```
 
 Both gated behind `[[ "$(uname)" == "Darwin" ]]`. Non-macOS gracefully skips.
 
@@ -390,7 +390,7 @@ MANAGE:
   em restore <ID>      Restore from Trash to INBOX
   em flag <ID>         Star for follow-up
   em unflag <ID>       Remove star
-```text
+```
 
 ### Enhanced AI FEATURES Section
 
@@ -402,7 +402,7 @@ AI FEATURES:
   em catch <ID>        Capture email as task
   em todo <ID>         Extract action items -> flow + Reminders.app
   em event <ID>        Extract events -> flow + Calendar.app
-```diff
+```
 
 ### Per-Command Help
 
@@ -441,7 +441,7 @@ Office 365/Exchange uses "Deleted Items", Gmail IMAP uses "[Gmail]/Trash", stand
 
 ```zsh
 : ${FLOW_EMAIL_TRASH_FOLDER:=Trash}
-```diff
+```
 
 `em restore` reads from this variable as the source folder.
 

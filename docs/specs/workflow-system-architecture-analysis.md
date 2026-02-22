@@ -54,7 +54,7 @@ flow-cli manages state across **three persistence layers**:
 │ - Cross-project context                                 │
 │ - Advanced querying                                     │
 └─────────────────────────────────────────────────────────┘
-```diff
+```
 
 **Key Pattern:** Each layer is **self-sufficient** for its scope:
 - Layer 1 provides in-session context (environment variables)
@@ -87,7 +87,7 @@ _flow_session_start() {
     echo "$(_flow_timestamp) START $project" >> "$worklog"
   fi
 }
-```diff
+```
 
 **No distributed locks or transactions** - State propagates through:
 1. Function calls (synchronous)
@@ -108,7 +108,7 @@ _flow_session_start() {
 project=flow-cli
 start=1736451234
 date=2026-01-09
-```diff
+```
 
 **Operations:**
 - Read: `grep "^key=" file | cut -d= -f2`
@@ -121,7 +121,7 @@ date=2026-01-09
 # worklog format (timestamped events)
 2026-01-09 14:30:00 START flow-cli
 2026-01-09 15:45:00 END 75m (Completed CC unified grammar)
-```diff
+```
 
 **Operations:**
 - Append: `echo "$timestamp $event" >> logfile`
@@ -138,7 +138,7 @@ date=2026-01-09
 # wins.md format (structured markdown)
 - 💻 Implemented CC unified grammar (@flow-cli) #code [2026-01-09 14:30]
 - 🚀 Deployed v4.9.2 to production #ship [2026-01-09 15:45]
-```diff
+```
 
 **Operations:**
 - Append: `echo "- $icon $text #$category [$timestamp]" >> wins.md`
@@ -188,7 +188,7 @@ date=2026-01-09
 │ - Unset environment vars        │
 │ - Sync to atlas (optional)      │
 └─────────────────────────────────┘
-```diff
+```
 
 **State Recovery:** If shell crashes, `.current-session` persists:
 - Next shell reads orphaned session file
@@ -210,7 +210,7 @@ flow-cli supports **implicit chaining** through command sequences:
 work flow-cli       # Start session, export $FLOW_CURRENT_PROJECT
 win "Fixed bug"     # Log accomplishment (reads $FLOW_CURRENT_PROJECT)
 finish "All done"   # End session, optionally commit git changes
-```diff
+```
 
 **Context propagation:**
 - `work` → Exports `$FLOW_CURRENT_PROJECT`
@@ -224,7 +224,7 @@ finish "All done"   # End session, optionally commit git changes
 pick                # cd to project (changes $PWD)
 cc                  # Launch Claude in $PWD
 g push              # Push changes (reads $PWD/.git)
-```diff
+```
 
 **Context propagation:**
 - `pick` → Changes `$PWD` via `cd`
@@ -238,7 +238,7 @@ g push              # Push changes (reads $PWD/.git)
 r test              # Run R package tests
 qu preview          # Preview Quarto document
 g feature start foo # Start feature branch
-```diff
+```
 
 **Context propagation:**
 - Dispatchers read `$PWD` for project context
@@ -253,7 +253,7 @@ g feature start foo # Start feature branch
 ```bash
 # NOT SUPPORTED: Pipe output between commands
 pick --format=json | cc --from-json  # ❌ No JSON pipe interface
-```diff
+```
 
 **Why missing:** Commands are designed for **human interaction**, not machine consumption.
 
@@ -267,7 +267,7 @@ pick --format=json | cc --from-json  # ❌ No JSON pipe interface
 ```bash
 # NOT SUPPORTED: Run next command only if previous succeeds
 work flow-cli && r test && g push  # ✅ Shell-level (bash &&)
-```diff
+```
 
 **Actually works:** Shell's `&&` provides conditional chaining.
 
@@ -280,7 +280,7 @@ work flow-cli && r test && g push  # ✅ Shell-level (bash &&)
 ```bash
 # NOT SUPPORTED: Named workflow templates
 flow workflow run "feature-complete"  # ❌ No workflow engine
-```zsh
+```
 
 **Workaround:** User creates shell functions:
 
@@ -293,7 +293,7 @@ feature_complete() {
   gh pr create --fill
   finish "Feature complete"
 }
-```diff
+```
 
 **Integration point:** flow-cli could provide:
 - `flow workflow define <name> <commands>`
@@ -339,7 +339,7 @@ Add **structured output mode**:
 pick --format=json
 # Output:
 # {"project":"flow-cli","path":"/Users/dt/projects/dev-tools/flow-cli","type":"node"}
-```bash
+```
 
 Add **command hooks**:
 
@@ -347,7 +347,7 @@ Add **command hooks**:
 # Example: Run script after successful command
 work --after="notify-send 'Session started'"
 finish --after="~/scripts/backup-session.sh"
-```zsh
+```
 
 ---
 
@@ -364,7 +364,7 @@ flow-cli propagates **three context types**:
 _flow_detect_project_type "$PWD"  # → "r-package" | "node" | "quarto"
 _flow_find_project_root           # → "/Users/dt/projects/dev-tools/flow-cli"
 _flow_project_name "$path"        # → "flow-cli"
-```diff
+```
 
 **Propagation:**
 - Every command that needs project context calls these functions
@@ -377,7 +377,7 @@ _flow_project_name "$path"        # → "flow-cli"
 $FLOW_CURRENT_PROJECT              # Exported by work command
 $FLOW_SESSION_START                # Exported by work command
 ~/.config/flow-cli/.current-session # Persisted session state
-```diff
+```
 
 **Propagation:**
 - Environment variables (exported, inherited by subshells)
@@ -390,7 +390,7 @@ $FLOW_SESSION_START                # Exported by work command
 ~/Library/Application Support/flow-cli/wins.md        # Accomplishments
 ~/Library/Application Support/flow-cli/inbox.md       # Captured items
 ~/Library/Application Support/flow-cli/goal.json      # Daily goal
-```diff
+```
 
 **Propagation:**
 - Read/written by commands as needed
@@ -413,7 +413,7 @@ win() {
   # 2. Tag win with project context
   echo "- $icon $text${project:+ (@$project)} #$category [$timestamp]" >> "$wins"
 }
-```diff
+```
 
 **Resolution order:**
 1. Explicit argument (if provided)
@@ -433,7 +433,7 @@ win() {
 - Active sessions across projects
 - Project relationships
 - Cross-project breadcrumbs
-```diff
+```
 
 **Without atlas:**
 - Each project's context is isolated
@@ -449,7 +449,7 @@ Support **project relationships** in `.STATUS`:
 - aiterm (CLI tool)
 - atlas (state engine)
 - homebrew-tap (distribution)
-```diff
+```
 
 Commands can then:
 - Suggest related projects to work on
@@ -502,7 +502,7 @@ flow-cli provides **zero formal extension points**. All customization is:
     hooks/
       pre-work.zsh          # Runs before 'work' command
       post-finish.zsh       # Runs after 'finish' command
-```bash
+```
 
 #### Plugin Manifest
 
@@ -519,7 +519,7 @@ flow_plugin_register_command "backup" "$PLUGIN_DIR/commands/backup.zsh"
 # Register hooks
 flow_plugin_register_hook "pre-work" "$PLUGIN_DIR/hooks/pre-work.zsh"
 flow_plugin_register_hook "post-finish" "$PLUGIN_DIR/hooks/post-finish.zsh"
-```zsh
+```
 
 #### Hook Points
 
@@ -548,7 +548,7 @@ work() {
 
   _flow_run_hook "post-work" "$project"  # ← Hook point
 }
-```bash
+```
 
 **Hook API:**
 
@@ -560,7 +560,7 @@ work() {
 if [[ "$1" == "production" ]]; then
   echo "⚠️  Working on production - be careful!"
 fi
-```bash
+```
 
 ### 4.3 Workflow Plugin Example
 
@@ -596,13 +596,13 @@ flow-feature-complete() {
   # 6. End session
   finish "Feature $branch shipped"
 }
-```text
+```
 
 **Usage:**
 
 ```bash
 flow feature-complete  # Runs entire workflow
-```text
+```
 
 ---
 
@@ -635,7 +635,7 @@ commands/                    # 7 files (core commands)
   flow.zsh                   # Meta-command
   doctor.zsh                 # Health check
   pick.zsh                   # Project picker
-```diff
+```
 
 **Pattern: Dispatchers for domains**
 
@@ -670,7 +670,7 @@ Option 2: Subcommand of `flow`
 
 Decision: Option 2 (subcommand)
 Reason: Workflow management is meta-functionality, fits under `flow` namespace
-```zsh
+```
 
 ### 5.2 Namespace Collision Avoidance
 
@@ -717,7 +717,7 @@ real    0m0.125s   # 125ms (fzf startup)
 
 $ time g
 real    0m0.004s   # 4ms
-```diff
+```
 
 **Performance bottlenecks:**
 
@@ -757,7 +757,7 @@ _flow_list_projects_cached() {
   echo "$projects" > "$cache_file"
   echo "$projects"
 }
-```zsh
+```
 
 ---
 
@@ -797,7 +797,7 @@ _flow_session_start() {
     echo "START $project $timestamp" >> "$worklog"
   fi
 }
-```diff
+```
 
 **Benefits:**
 - Zero runtime overhead when atlas not installed
@@ -820,7 +820,7 @@ g() {
     *) git "$@" ;;
   esac
 }
-```diff
+```
 
 **Benefits:**
 - Progressive enhancement (add shortcuts without breaking existing usage)
@@ -844,7 +844,7 @@ catch() {
     read "text?💡 Quick capture: "
   fi
 }
-```yaml
+```
 
 ---
 
@@ -886,7 +886,7 @@ Based on flow-cli analysis, a workflow system should:
 # flow-cli delegates to workflow engine
 work flow-cli  # → workflow start session flow-cli
 finish         # → workflow end session
-```diff
+```
 
 **Pros:**
 - Separation of concerns
@@ -904,7 +904,7 @@ finish         # → workflow end session
 # flow-cli has workflow subcommands
 flow workflow define deploy "r test && g push && gh pr create"
 flow workflow run deploy
-```diff
+```
 
 **Pros:**
 - Integrated experience
@@ -926,7 +926,7 @@ flow workflow run deploy  # Sequential: r test && g push
 
 # Complex (external)
 atlas workflow run ci-pipeline  # Parallel, conditional, cross-project
-```bash
+```
 
 ### 7.3 Proposed Workflow API
 
@@ -950,7 +950,7 @@ flow workflow delete <name>
 
 # Show workflow steps
 flow workflow show <name>
-```text
+```
 
 **Storage:**
 
@@ -959,7 +959,7 @@ flow workflow show <name>
   deploy.yaml
   ci.yaml
   release.yaml
-```yaml
+```
 
 **Format:**
 

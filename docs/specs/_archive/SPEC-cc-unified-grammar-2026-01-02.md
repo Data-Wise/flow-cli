@@ -52,7 +52,7 @@ Add support for **both mode-first and target-first** command orders in the `cc` 
 cc .                  # Explicit HERE
 cc here               # Readable HERE
 cc opus .             # Opus mode HERE
-```text
+```
 
 ### Story 3: Reserved Keyword Handling
 
@@ -65,7 +65,7 @@ cc opus .             # Opus mode HERE
 ```bash
 cc opus               # Mode (Opus HERE)
 cc pick opus          # Project (jump to 'opus')
-```text
+```
 
 ---
 
@@ -79,7 +79,7 @@ cc pick opus          # Project (jump to 'opus')
 cc [mode] [target]
   mode   = (empty) | yolo | plan | opus | haiku
   target = (empty) | pick | <project> | wt <branch>
-```text
+```
 
 **Parsing:** Mode-first only, positional
 
@@ -89,7 +89,7 @@ cc [mode] [target]
 cc [mode|target] [target|mode]
   mode   = (empty) | yolo | y | plan | p | opus | o | haiku | h
   target = (empty) | . | here | pick | <project> | wt <branch>
-```text
+```
 
 **Parsing:** Detect mode vs target, accept either order
 
@@ -120,7 +120,7 @@ flowchart TD
 
     LaunchHere --> End[Done]
     Execute --> End
-```text
+```
 
 ### Grammar Specification
 
@@ -131,7 +131,7 @@ yolo, y       → --dangerously-skip-permissions
 plan, p       → --permission-mode plan
 opus, o       → --model opus --permission-mode acceptEdits
 haiku, h      → --model haiku --permission-mode acceptEdits
-```text
+```
 
 #### Reserved Keywords (Targets)
 
@@ -141,7 +141,7 @@ haiku, h      → --model haiku --permission-mode acceptEdits
 pick          → Project picker (fzf)
 wt, w         → Worktree (requires branch arg)
 <string>      → Project name (via pick direct jump)
-```text
+```
 
 #### Precedence Rules
 
@@ -156,7 +156,7 @@ wt, w         → Worktree (requires branch arg)
 
 ```bash
 cc [mode|target] [target|mode] [args...]
-```diff
+```
 
 #### Examples Table
 
@@ -214,7 +214,7 @@ Execute: pick --no-claude "flow" && claude --model opus --permission-mode accept
 
    ↓
 Result: Changed to flow-cli directory, launched Claude with Opus
-```text
+```
 
 ### Help Text Updates
 
@@ -223,7 +223,7 @@ Result: Changed to flow-cli directory, launched Claude with Opus
 ```text
 🚀 LAUNCH MODES:
   cc opus pick          Pick project → Opus model
-```text
+```
 
 #### After (v4.8.0)
 
@@ -233,7 +233,7 @@ Result: Changed to flow-cli directory, launched Claude with Opus
   cc pick opus          Target first (natural reading)
 
   Both work! Use whichever feels natural.
-```diff
+```
 
 ### Accessibility
 
@@ -355,7 +355,7 @@ cc pick wt            # Two targets
 
 cc opus haiku         # Two modes
 → Error: "Cannot combine modes 'opus' and 'haiku'"
-```text
+```
 
 **Unknown arguments:**
 
@@ -363,7 +363,7 @@ cc opus haiku         # Two modes
 cc invalidmode
 → Assume project name, attempt pick direct jump
 → If pick fails: "Project 'invalidmode' not found"
-```text
+```
 
 ### Backward Compatibility
 
@@ -376,7 +376,7 @@ cc opus               ✅ Opus HERE
 cc opus pick          ✅ Opus + picker
 cc flow               ✅ Jump to flow
 cc yolo wt feature    ✅ YOLO + worktree
-```text
+```
 
 **New v4.8.0 patterns:**
 
@@ -385,7 +385,7 @@ cc pick opus          ✅ NEW: Opus + picker
 cc flow opus          ✅ NEW: Jump to flow + Opus
 cc here               ✅ NEW: Explicit HERE
 cc .                  ✅ NEW: Explicit HERE (short)
-```yaml
+```
 
 ---
 
@@ -427,14 +427,14 @@ cc .                  ✅ NEW: Explicit HERE (short)
 
 ```bash
 cc                    # Smart: HERE if in project, PICK if not
-```text
+```
 
 ### v5.0: Project Namespacing
 
 ```bash
 cc @opus              # Always project
 cc %opus              # Always mode
-```text
+```
 
 ### v5.0: REPL Mode
 
@@ -443,7 +443,7 @@ cc repl
 > mode opus
 > target pick
 > go
-```text
+```
 
 ### v6.0: Custom Modes
 

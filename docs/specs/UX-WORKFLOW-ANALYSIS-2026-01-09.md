@@ -219,7 +219,7 @@ win "Fixed bug"           # Log win
 flow goal                 # Check progress manually
 # ...end of day...
 yay --week                # Review wins manually
-```diff
+```
 
 **Problems:**
 - No automatic "you hit your goal!" celebration
@@ -248,7 +248,7 @@ why                       # Shows current project + last commit
 trail                     # Shows breadcrumbs
 git log -3                # Recent commits
 cat .STATUS               # Check focus field
-```bash
+```
 
 **Recommendation:** Single command to restore context
 
@@ -260,7 +260,7 @@ flow resume               # or `flow context`
 # - Current focus from .STATUS
 # - Recent breadcrumbs
 # - Next task suggestion
-```diff
+```
 
 #### 4. Break Management Workflow
 
@@ -280,7 +280,7 @@ brk                       # Smart break workflow
 # 2. Show timer + break suggestion
 # 3. After break: restore context
 # 4. Suggest easy warmup task
-```yaml
+```
 
 ---
 
@@ -345,7 +345,7 @@ if [[ $wins_today -ge $daily_goal ]]; then
   echo "You did $wins_today wins today!"
   echo ""
 fi
-```bash
+```
 
 **Medium effort:**
 
@@ -353,14 +353,14 @@ fi
 # Streak grace period
 ## Instead of: streak = 0
 ## Use: streak_buffer = 1 (allow 1 missed day)
-```text
+```
 
 **Long term:**
 
 ```bash
 flow share                # Share today's wins to Slack/Discord
 flow team                 # Team dashboard (shared wins)
-```diff
+```
 
 ### Overwhelm (dash complexity vs quick info)
 
@@ -388,14 +388,14 @@ Today: 2/3 wins · 2h 15m · 🔥 5 days
 🎯 Next: Review PR #185
 
 💡 Tip: Try `morning` to plan your day
-```bash
+```
 
 **2. Full dash (opt-in):**
 
 ```bash
 dash -v    # or dash --full
 # Current 50+ line output
-```bash
+```
 
 ### Paralysis (js vs next vs stuck)
 
@@ -421,7 +421,7 @@ flow stuck               # Smart workflow
 # - Mid-task → "Try `brk` for a break"
 # - Multiple tasks → "Try `next --ai` for priority"
 # - Frustrated → "Try `stuck --ai` for help"
-```text
+```
 
 ---
 
@@ -439,7 +439,7 @@ flow goal                 # Check goal
 dash                      # Review projects
 next                      # Pick task
 work project              # Start
-```bash
+```
 
 **Recommendation:** Integrated morning workflow
 
@@ -450,7 +450,7 @@ morning                   # Single command
 # 3. Show top 3 projects (frecency)
 # 4. AI suggest: "Start with X because..."
 # 5. Offer to launch with `js`
-```diff
+```
 
 #### End of Day Routine (Missing entirely)
 
@@ -469,7 +469,7 @@ flow eod                  # End of day
 # 4. Prompt to commit/push
 # 5. Suggest tomorrow's focus
 # 6. Ask to set tomorrow's goal
-```bash
+```
 
 #### Weekly Review (Opt-in, easy to forget)
 
@@ -484,7 +484,7 @@ flow eod                  # End of day
 # Or automatic in `flow eod` on Fridays:
 flow eod
 # (shows week summary automatically)
-```diff
+```
 
 ---
 
@@ -507,7 +507,7 @@ flow review today         # Today's activity
 flow review yesterday     # Yesterday (for standup)
 flow review week          # This week
 flow review project       # Current project only
-```text
+```
 
 **Output format:**
 
@@ -531,7 +531,7 @@ flow review project       # Current project only
 🔥 Streak: 9 days
 
 💡 Great work! Tomorrow: Plan v5.1.0
-```diff
+```
 
 ### 2. Planning Sessions ("help me plan my day")
 
@@ -548,7 +548,7 @@ flow review project       # Current project only
 flow plan today           # Today's plan with AI help
 flow plan week            # Weekly planning
 flow plan sprint          # Sprint planning (project-specific)
-```text
+```
 
 **Interactive workflow:**
 
@@ -570,7 +570,7 @@ Active projects:
   End with nexus docs (low energy task)
 
 Set today's goal? [3]
-```bash
+```
 
 ### 3. Context Restoration ("I was working on X, what was I doing?")
 
@@ -589,7 +589,7 @@ flow resume               # Restore context
 # - Recent breadcrumbs
 # - Pending tasks from inbox
 # - Suggested next action
-```text
+```
 
 **Smart context detection:**
 
@@ -608,7 +608,7 @@ Recent activity:
 
 💡 Suggested next:
   Monitor Homebrew PR, then start v5.1.0 planning
-```diff
+```
 
 ### 4. Energy Management ("I'm tired, what should I do?")
 
@@ -627,14 +627,14 @@ Recent activity:
 flow energy low           # Show low-energy tasks
 flow energy high          # Show high-energy tasks
 flow energy               # Log current energy (track patterns)
-```text
+```
 
 **Task energy tagging (in .STATUS):**
 
 ```markdown
 ## Focus: Fix bug #123
 ## Energy: high          # New field
-```bash
+```
 
 **Medium implementation:**
 
@@ -643,7 +643,7 @@ flow energy               # Log current energy (track patterns)
 next --energy low         # Filter for low-energy tasks
 next --energy high        # Filter for high-energy tasks
 next                      # Auto-detect from time of day + history
-```diff
+```
 
 **Long-term implementation:**
 - Track energy patterns (time of day, day of week)
@@ -675,7 +675,7 @@ next                      # Auto-detect from time of day + history
 ```bash
 flow learn                # First-week tutorial (new)
 flow tips beginner        # Top 10 commands to learn
-```diff
+```
 
 ### Intermediate User (Month 1-3)
 
@@ -697,7 +697,7 @@ flow tips beginner        # Top 10 commands to learn
 ```bash
 flow tips intermediate    # Next 10 commands
 flow stats                # Show your usage patterns
-```diff
+```
 
 ### Power User (Month 3+)
 
@@ -719,7 +719,7 @@ flow stats                # Show your usage patterns
 ```bash
 flow tips power           # Hidden gems + flags
 flow customize            # Customization guide
-```bash
+```
 
 ---
 
@@ -732,7 +732,7 @@ flow customize            # Customization guide
 ```bash
 flow resume               # or flow context
 # Shows: project, focus, commits, breadcrumbs, next task
-```bash
+```
 
 **Impact:** Reduces 5-step manual process to 1 command
 **ADHD Benefit:** Instant context recovery after interruptions
@@ -743,7 +743,7 @@ flow resume               # or flow context
 flow eod                  # End of day review
 # Shows: wins, goal progress, celebration if met
 # Prompts: commit, tomorrow's plan
-```text
+```
 
 **Impact:** Creates daily closure ritual
 **ADHD Benefit:** Dopamine from reviewing accomplishments
@@ -753,7 +753,7 @@ flow eod                  # End of day review
 ```bash
 dash                      # Quick mode (10 lines)
 dash -v                   # Full mode (current)
-```bash
+```
 
 **Impact:** Reduces cognitive load for quick glances
 **ADHD Benefit:** Less overwhelm, faster decisions
@@ -765,7 +765,7 @@ dash -v                   # Full mode (current)
 ```bash
 flow plan today           # Interactive daily planning
 # Shows: yesterday, suggests priorities, AI help
-```bash
+```
 
 **Impact:** Structured morning routine
 **ADHD Benefit:** Reduces morning paralysis
@@ -775,7 +775,7 @@ flow plan today           # Interactive daily planning
 ```bash
 flow review today|yesterday|week
 # Unified activity review for standups
-```bash
+```
 
 **Impact:** One command for all review needs
 **ADHD Benefit:** Easy standup prep, accomplishment visibility
@@ -786,7 +786,7 @@ flow review today|yesterday|week
 flow stuck                # Context-aware unstuck help
 # Detects: paralysis, frustration, low energy
 # Routes to: js, brk, next --ai, stuck --ai
-```bash
+```
 
 **Impact:** ONE path when paralyzed
 **ADHD Benefit:** Reduces decision paralysis
@@ -798,7 +798,7 @@ flow stuck                # Context-aware unstuck help
 ```bash
 flow energy low|high|log
 # Tag tasks by energy, get energy-aware suggestions
-```text
+```
 
 **Impact:** Task recommendations match energy level
 **ADHD Benefit:** Work with your energy, not against it
@@ -808,7 +808,7 @@ flow energy low|high|log
 ```bash
 flow tips beginner|intermediate|power|adhd
 flow learn                # Interactive tutorials
-```diff
+```
 
 **Impact:** Progressive feature discovery
 **ADHD Benefit:** Less overwhelm, guided learning
@@ -833,7 +833,7 @@ flow learn                # Interactive tutorials
 ```bash
 flow map                  # Visual command relationships
 flow map session|dopamine|git
-```diff
+```
 
 **Impact:** Better mental model
 **ADHD Benefit:** Understand connections, not memorize
@@ -857,7 +857,7 @@ morning                   # (hidden gem, manual)
 work project              # (requires decision)
 win "text"                # (manual throughout day)
 # (no eod command)
-```bash
+```
 
 **Recommended:** Integrated flow
 
@@ -872,7 +872,7 @@ flow eod                  # New end of day command
 # → Shows wins + goal
 # → Celebrates if met
 # → Preps tomorrow
-```bash
+```
 
 ### Pattern 2: Pick → Code → Review → Merge
 
@@ -885,7 +885,7 @@ g status                  # Manual check
 g commit                  # Manual commit
 g push                    # Manual push
 # (create PR manually)
-```bash
+```
 
 **Recommended:** Streamlined
 
@@ -897,7 +897,7 @@ g feature finish          # All-in-one
 # → Auto push
 # → Create PR
 # → Log win
-```bash
+```
 
 ### Pattern 3: Break → Resume Context
 
@@ -908,7 +908,7 @@ brk 5                     # Timer only
 # (after break, manual context restore)
 why                       # Show context (manual)
 trail                     # Show breadcrumbs (manual)
-```bash
+```
 
 **Recommended:** Automatic
 
@@ -918,7 +918,7 @@ brk                       # Smart break
 # → Timer
 # → After break: restore context automatically
 # → Suggest warmup task
-```diff
+```
 
 ---
 
@@ -963,7 +963,7 @@ brk                       # Smart break
 
 🤖 AI ASSISTANCE
   cc → next --ai → stuck --ai
-```text
+```
 
 **Implementation:**
 

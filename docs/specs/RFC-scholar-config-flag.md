@@ -26,7 +26,7 @@ teach exam "Hypothesis Testing" --format quarto --output exams/
 
 # Translates to:
 claude --print "/teaching:exam 'Hypothesis Testing' --format quarto --output exams/"
-```diff
+```
 
 **Limitations:**
 - ❌ Scholar has no access to full course context (name, semester, grading, etc.)
@@ -44,7 +44,7 @@ teach exam "Hypothesis Testing"
 
 # Translates to:
 claude --print "/teaching:exam 'Hypothesis Testing' --config teach-config.yml"
-```diff
+```
 
 **Benefits:**
 - ✅ Scholar reads course name, semester, grading policy, style preferences
@@ -79,7 +79,7 @@ All Scholar teaching skills accept an optional `--config` flag:
     }
   ]
 }
-```diff
+```
 
 **Affected Commands:**
 - `/teaching:exam`
@@ -115,7 +115,7 @@ def validate_config(config_path):
         validate_scholar_section(config['scholar'])
 
     return config
-```diff
+```
 
 **Error Handling:**
 - Invalid config → Show clear error with field name and expected format
@@ -161,7 +161,7 @@ scholar:
     homework: 30
     project: 20
     participation: 10
-```diff
+```
 
 **Protocol:**
 - Scholar can READ `course.*` for context (course name, semester, instructor)
@@ -177,7 +177,7 @@ With config access, Scholar generates more contextually aware content:
 
 ```bash
 teach exam "Hypothesis Testing"
-```bash
+```
 
 Scholar reads config and generates:
 
@@ -192,13 +192,13 @@ Scholar reads config and generates:
 [Exam follows course grading policy: 40% exams]
 [Notation style: Statistical (as configured)]
 [Difficulty: Intermediate (as configured)]
-```text
+```
 
 **Example 2: Syllabus Generation**
 
 ```bash
 teach syllabus
-```diff
+```
 
 Scholar reads ENTIRE config (course, semester_info, grading) and generates complete syllabus with correct dates, grading breakdown, course info.
 
@@ -257,7 +257,7 @@ Scholar reads ENTIRE config (course, semester_info, grading) and generates compl
 
 ```bash
 claude --print "/teaching:exam 'Topic' --format quarto --difficulty intermediate"
-```bash
+```
 
 **After (with config):**
 
@@ -267,7 +267,7 @@ teach init "STAT 440"
 
 # Scholar reads course context automatically
 teach exam "Topic"
-```diff
+```
 
 **Backward Compatibility:**
 - Commands work without `--config` flag (use defaults)
@@ -292,7 +292,7 @@ Example:
 teach exam "Topic" --config teach-config.yml --tone conversational
 
 # Result: Uses "conversational" (flag overrides config)
-```text
+```
 
 ### Error Messages
 
@@ -305,7 +305,7 @@ teach exam "Topic" --config teach-config.yml --tone conversational
   • course.semester must be one of: Spring, Summer, Fall, Winter (got: "spring")
 
 Fix the config file and try again.
-```text
+```
 
 **Missing Scholar Section:**
 

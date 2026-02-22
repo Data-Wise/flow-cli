@@ -42,7 +42,7 @@ dots add ~/.config/nvim
 # - Auto-ignore suggestions
 
 # Confirm or cancel the add operation
-```bash
+```
 
 ### Managing Ignore Patterns
 
@@ -56,7 +56,7 @@ dots ignore list
 
 # Edit patterns manually
 dots ignore edit
-```bash
+```
 
 ### Repository Health
 
@@ -66,7 +66,7 @@ dots size
 
 # Full health check
 flow doctor --dot
-```diff
+```
 
 ---
 
@@ -106,7 +106,7 @@ Total size: 301K
 💡 Consider excluding: *.log, *.sqlite, *.db, *.cache
 
 Auto-add ignore patterns? (Y/n):
-```bash
+```
 
 ### 2. Ignore Pattern Management
 
@@ -129,7 +129,7 @@ dots ignore remove "*.tmp"
 
 # Edit manually in $EDITOR
 dots ignore edit
-```diff
+```
 
 **Pattern Syntax:**
 
@@ -144,7 +144,7 @@ dots ignore edit
 
 ```bash
 dots size
-```text
+```
 
 **Output:**
 
@@ -160,7 +160,7 @@ Top 10 largest files:
 
 ⚠️  Found 2 nested git directories
  ℹ Consider adding to .chezmoiignore
-```diff
+```
 
 **Performance Features:**
 
@@ -174,7 +174,7 @@ Top 10 largest files:
 
 ```bash
 flow doctor --dot
-```diff
+```
 
 **9 Health Checks:**
 
@@ -228,7 +228,7 @@ dots add ~/.config/nvim
 
 # Add with automatic ignore suggestion
 dots add ~/.config/obs
-```diff
+```
 
 **Preview Features:**
 
@@ -255,7 +255,7 @@ Add new ignore pattern.
 dots ignore add "*.log"
 dots ignore add "node_modules"
 dots ignore add ".DS_Store"
-```diff
+```
 
 **Features:**
 
@@ -269,7 +269,7 @@ List all ignore patterns with line numbers.
 
 ```bash
 dots ignore list
-```text
+```
 
 **Output:**
 
@@ -278,7 +278,7 @@ dots ignore list
  2  *.sqlite
  3  node_modules
  4  .DS_Store
-```text
+```
 
 #### `dots ignore remove <pattern>` (alias: `rm`)
 
@@ -286,7 +286,7 @@ Remove ignore pattern.
 
 ```bash
 dots ignore remove "*.log"
-```diff
+```
 
 **Features:**
 
@@ -300,7 +300,7 @@ Open `.chezmoiignore` in `$EDITOR`.
 
 ```bash
 dots ignore edit
-```text
+```
 
 **Default Editor:** `$EDITOR` environment variable (fallback: `vim`)
 
@@ -312,7 +312,7 @@ Analyze repository size and identify large files.
 
 ```bash
 dots size
-```diff
+```
 
 **Features:**
 
@@ -336,7 +336,7 @@ Top 10 largest files:
 ...
 
 ⚠️  Found 2 nested git directories
-```bash
+```
 
 ### `flow doctor --dot`
 
@@ -356,7 +356,7 @@ flow doctor --dot --quiet
 
 # Verbose mode (debugging)
 flow doctor --dot --verbose
-```diff
+```
 
 **Exit Codes:**
 
@@ -386,7 +386,7 @@ flow doctor --dot --verbose
 ⚠️  Large files detected:
   - vault.sqlite (200K)
   - large-config.json (100K)
-```bash
+```
 
 **Recommendation:**
 
@@ -394,7 +394,7 @@ flow doctor --dot --verbose
 # Add to ignore patterns
 dots ignore add "*.sqlite"
 dots ignore add "large-config.json"
-```text
+```
 
 ### Generated File Detection
 
@@ -413,7 +413,7 @@ dots ignore add "large-config.json"
 💡 Consider excluding: *.log, *.sqlite, *.db, *.cache
 
 Auto-add ignore patterns? (Y/n):
-```text
+```
 
 **Common Patterns to Exclude:**
 
@@ -424,7 +424,7 @@ dots ignore add "*.db"
 dots ignore add "*.cache"
 dots ignore add "*.tmp"
 dots ignore add "*.swp"
-```text
+```
 
 ### Git Metadata Detection
 
@@ -437,7 +437,7 @@ dots ignore add "*.swp"
 ```text
 ⚠️  1 git metadata files detected
  ℹ These will be skipped (covered by .chezmoiignore)
-```text
+```
 
 **Default Pattern:**
 
@@ -446,7 +446,7 @@ The `.chezmoiignore` file should include:
 ```text
 **/.git
 **/.git/**
-```diff
+```
 
 ### Performance Timeouts
 
@@ -463,7 +463,7 @@ The `.chezmoiignore` file should include:
 ```text
 ⚠️  Large directory detected (>1000 files)
  ℹ This may take a moment to analyze...
-```bash
+```
 
 ---
 
@@ -477,7 +477,7 @@ export _DOT_CACHE_TTL=600
 
 # Disable preview (skip safety checks)
 export DOT_SKIP_PREVIEW=1
-```diff
+```
 
 ### Cache Management
 
@@ -495,7 +495,7 @@ unset _DOT_SIZE_CACHE
 unset _DOT_SIZE_CACHE_TIME
 
 dots size  # Will recalculate
-```text
+```
 
 ### Ignore File Location
 
@@ -529,7 +529,7 @@ build/
 # Git metadata
 **/.git
 **/.git/**
-```bash
+```
 
 ---
 
@@ -546,7 +546,7 @@ build/
 unset _DOT_SIZE_CACHE
 unset _DOT_SIZE_CACHE_TIME
 dots size
-```bash
+```
 
 **Cause:** Stale cache after large file operations.
 
@@ -562,7 +562,7 @@ dots ignore add "node_modules"
 
 # Then add parent without the large subdirectory
 dots add ~/.config/my-app
-```bash
+```
 
 **Alternative:**
 
@@ -570,7 +570,7 @@ dots add ~/.config/my-app
 # Add specific files instead of directory
 dots add ~/.config/my-app/config.yml
 dots add ~/.config/my-app/settings.json
-```bash
+```
 
 ### Ignore Patterns Not Working
 
@@ -588,7 +588,7 @@ dots ignore add "**/*.log"  # Recursive matching
 
 # Force re-apply
 chezmoi re-add
-```bash
+```
 
 ### Performance Issues with Size Command
 
@@ -603,7 +603,7 @@ echo "Current time: $(date +%s)"
 
 # Verbose mode for debugging
 flow doctor --dot --verbose
-```bash
+```
 
 **Solution:**
 
@@ -614,7 +614,7 @@ export _DOT_CACHE_TTL=1800  # 30 minutes
 # Or analyze only top-level
 cd ~/.local/share/chezmoi
 du -sh .  # Quick size check
-```bash
+```
 
 ### Cross-Platform Compatibility Issues
 
@@ -629,7 +629,7 @@ stat --version 2>/dev/null | grep -q GNU && echo "GNU" || echo "BSD"
 # Test helper function
 source lib/core.zsh
 _flow_get_file_size ~/.zshrc
-```bash
+```
 
 **Solution:**
 
@@ -641,7 +641,7 @@ brew install coreutils
 
 # Use gstat instead of stat
 alias stat=gstat
-```diff
+```
 
 ### Doctor Check Fails
 
@@ -720,14 +720,14 @@ alias stat=gstat
 ```bash
 # Weekly or before major changes
 flow doctor --dot
-```bash
+```
 
 ### 2. Use Preview Before Add
 
 ```bash
 # Always preview, especially for directories
 dots add ~/.config/new-app
-```bash
+```
 
 ### 3. Maintain Ignore Patterns
 
@@ -740,14 +740,14 @@ dots ignore add "*.log"
 dots ignore add "*.sqlite"
 dots ignore add "node_modules"
 dots ignore add ".DS_Store"
-```bash
+```
 
 ### 4. Monitor Repository Size
 
 ```bash
 # Check monthly or after bulk adds
 dots size
-```bash
+```
 
 ### 5. Clean Up Large Files
 
@@ -756,7 +756,7 @@ dots size
 dots size  # Identify culprits
 dots ignore add "large-file.db"
 chezmoi remove large-file.db
-```bash
+```
 
 ---
 
@@ -767,7 +767,7 @@ chezmoi remove large-file.db
 ```bash
 # In ~/.zshrc or session
 export _DOT_CACHE_TTL=1800  # 30 minutes
-```bash
+```
 
 ### Batch Ignore Operations
 
@@ -777,7 +777,7 @@ patterns=("*.log" "*.sqlite" "*.db" "*.cache")
 for pattern in "${patterns[@]}"; do
   dots ignore add "$pattern"
 done
-```bash
+```
 
 ### Integration with Scripts
 
@@ -792,7 +792,7 @@ else
   echo "❌ Add cancelled"
   exit 1
 fi
-```bash
+```
 
 ### CI/CD Integration
 

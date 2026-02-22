@@ -33,7 +33,7 @@
 ✓ Conflicting flags should fail
 ✓ Short form flags should pass
 ✓ Mixed long/short forms should pass
-```diff
+```
 
 **Analysis:**
 - ✅ Correctly detects `--math --no-math` conflicts
@@ -48,7 +48,7 @@
 ✓ Short flags (-t, -w)
 ✓ Both specified (precedence: topic > week)
 ✓ Neither specified (graceful handling)
-```diff
+```
 
 **Analysis:**
 - ✅ Correctly parses `--topic "Linear Regression"`
@@ -66,7 +66,7 @@
 ✓ Rigorous preset (definitions, explanation, math, proof)
 ✓ Applied preset (explanation, examples, code, practice-problems)
 ✓ Invalid preset detection
-```diff
+```
 
 **Analysis:**
 - ✅ All 4 presets correctly defined
@@ -80,7 +80,7 @@
 ✓ Preset + removals (--style rigorous --no-proof)
 ✓ Multiple overrides (add 2, remove 1)
 ✓ No preset, individual flags only
-```diff
+```
 
 **Analysis:**
 - ✅ Additions correctly merged into preset
@@ -93,7 +93,7 @@
 ```text
 ✓ Instruction building from resolved content
 ✓ Empty content handling (no instructions)
-```diff
+```
 
 **Analysis:**
 - ✅ Maps content flags to human-readable instructions
@@ -117,7 +117,7 @@
 ✓ Dispatcher routing (teach → _teach_scholar_wrapper)   [4 tests]
 ✓ Shortcuts (e, q, sl, lec, hw, etc)                    [1 test]
 ✓ Help system integration                               [3 tests]
-```diff
+```
 
 **Critical Finding:**
 - ✅ **Zero breaking changes** - All existing functionality intact
@@ -143,7 +143,7 @@
 ✓ Error handling                        [1 test]
 ✓ Interactive prompts                   [2 tests]
 ✓ Help system                           [4 tests]
-```diff
+```
 
 **Analysis:**
 - ✅ Teaching dates functionality unaffected by Phase 1-2 changes
@@ -161,7 +161,7 @@
 ```zsh
 _teach_validate_content_flags()    # 45 lines - manageable
 _teach_parse_topic_week()          # 48 lines - manageable
-```text
+```
 
 **Phase 2 Functions:**
 
@@ -169,7 +169,7 @@ _teach_parse_topic_week()          # 48 lines - manageable
 TEACH_STYLE_PRESETS               # 10 lines - simple map
 _teach_resolve_content()          # 67 lines - moderate complexity
 _teach_build_content_instructions() # 27 lines - simple
-```diff
+```
 
 **Assessment:**
 - ✅ All functions under 100 lines (ZSH best practice)
@@ -187,7 +187,7 @@ Topic/week parsing:          100% (all edge cases)
 Style presets:               100% (all 4 presets + invalid)
 Content resolution:          100% (all combinations)
 Content instructions:        100% (empty + populated)
-```diff
+```
 
 **Edge Cases Tested:**
 - ✅ Conflicting flags (--X and --no-X)
@@ -209,7 +209,7 @@ Content instructions:        100% (empty + populated)
 Fix: Keep one or the other
   teach slides -w 8 --math        # Include math
   teach slides -w 8 --no-math     # Exclude math
-```diff
+```
 
 **Assessment:**
 - ✅ Clear error messages
@@ -250,7 +250,7 @@ TEACH_CONTENT_FLAGS:      ~2KB  (9 flags × 3 forms)
 TEACH_SELECTION_FLAGS:    ~1KB  (6 flags)
 TEACH_STYLE_PRESETS:      ~512B (4 presets)
 Functions (code):         ~8KB  (5 new functions)
-```diff
+```
 
 **Total:** ~12KB additional memory
 **Assessment:** ✅ Minimal impact
@@ -338,7 +338,7 @@ Functions (code):         ~8KB  (5 new functions)
 # Plugin load test
 source flow.plugin.zsh
 # Result: ✅ Plugin loaded successfully
-```text
+```
 
 ### Total Test Coverage
 
@@ -352,7 +352,7 @@ Total:                    106 ✅
 Pass rate:               100%
 Failures:                  0
 Breaking changes:          0
-```diff
+```
 
 ---
 
@@ -409,7 +409,7 @@ Fix: Keep one or the other
   teach slides -w 8 --math        # Include math
   teach slides -w 8 --no-math     # Exclude math
   ✓ Conflicting flags should fail
-```text
+```
 
 ### B. Style Preset Resolution
 
@@ -419,7 +419,7 @@ Fix: Keep one or the other
   ✓ Should include examples
   ✓ Should include code
   ✓ Should include practice-problems
-```text
+```
 
 ### C. Content Resolution with Overrides
 

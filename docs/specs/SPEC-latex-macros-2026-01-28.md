@@ -89,7 +89,7 @@ graph TB
 
     CACHE --> LIST & DOC
     ASSOC --> VAL & ANA & SCH
-```yaml
+```
 
 ---
 
@@ -133,7 +133,7 @@ teaching_style:
     scholar:
       export_format: "json"
       include_in_prompts: true
-```zsh
+```
 
 ---
 
@@ -155,7 +155,7 @@ typeset -gA _FLOW_MACRO_META=(
   [Var]="_macros.qmd:6:0"
   [indep]="_macros.qmd:10:0"
 )
-```yaml
+```
 
 ### Cache File (.flow/macros.yml)
 
@@ -176,7 +176,7 @@ macros:
     description: Variance
     category: operators
     args: 0
-```diff
+```
 
 ---
 
@@ -214,7 +214,7 @@ sequenceDiagram
     User->>CLI: teach macros list
     CLI->>Cache: Read cached macros
     CLI->>User: Display formatted table
-```text
+```
 
 ### Output Examples
 
@@ -233,7 +233,7 @@ SYMBOLS
   \iid           → \text{i.i.d.}        IID notation
 
 Source: _macros.qmd (synced 2h ago)
-```text
+```
 
 **teach doctor (macro section):**
 

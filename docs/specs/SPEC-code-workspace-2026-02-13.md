@@ -87,7 +87,7 @@ flowchart TD
         E2["Positron installed → Positron (default)"]
         E3["Positron not installed → VS Code (fallback)"]
     end
-```zsh
+```
 
 ## API Design
 
@@ -101,7 +101,7 @@ code() {
         *)  command code "$@" ;;
     esac
 }
-```text
+```
 
 ### Subcommand Table
 
@@ -137,7 +137,7 @@ lib/templates/ws/
 ├── python.json         # Python/uv template
 ├── node.json           # Node/Bun template
 └── generic.json        # Minimal template
-```text
+```
 
 ### Template Structure
 
@@ -153,7 +153,7 @@ lib/templates/ws/
     "recommendations": []
   }
 }
-```zsh
+```
 
 ### Template Cascade Resolution
 
@@ -174,7 +174,7 @@ _code_ws_resolve_template() {
         echo "$builtin_tmpl"  # fallback to generic
     fi
 }
-```bash
+```
 
 ### Editor Selection Logic
 
@@ -198,7 +198,7 @@ _code_ws_select_editor() {
     # 3. Fall back to VS Code
     echo "code"
 }
-```text
+```
 
 **Rationale:** Positron handles R, Python, AND Node projects equally well (same extension marketplace, same workspace format). Its native data science features (variables pane, plots viewer, connections pane) benefit all project types. No reason to split by project type — just use the better editor when available.
 
@@ -236,7 +236,7 @@ $ code ws                          # (Positron not installed)
 → Template: node (built-in)
 → Created: myproject.code-workspace
 → Opening in VS Code... (Positron not found, using fallback)
-```text
+```
 
 ### User Flow: `code ws create --type python --editor cursor`
 
@@ -245,7 +245,7 @@ $ code ws create --type python --editor cursor
 → Template: python (built-in)
 → Created: myproject.code-workspace
 → Opening in Cursor...
-```text
+```
 
 ### User Flow: `code ws add ../shared-lib`
 
@@ -254,7 +254,7 @@ $ code ws add ../shared-lib
 → Updated: myproject.code-workspace
 → Added folder: ../shared-lib (shared-lib)
 → Workspace now has 2 folders
-```text
+```
 
 ### User Flow: `code ws list`
 
@@ -272,7 +272,7 @@ Templates:
 
   Local (.flow/templates/ws/):
     (none)
-```text
+```
 
 ### Help Output
 
@@ -307,7 +307,7 @@ $ code ws help
     code ws create --type python
     code ws add ../shared-lib
     code ws --editor code       # Force VS Code
-```diff
+```
 
 ### Accessibility
 

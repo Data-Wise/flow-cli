@@ -16,7 +16,7 @@ Add a `--clear-cache` (or `--cc`) option to the `qu` dispatcher that clears Quar
 ```bash
 qu render   # Fails with: "NotFound: No such file or directory (os error 2)"
 # User must manually run: rm -rf ~/Library/Caches/quarto/sass/
-```text
+```
 
 **Proposed behavior:**
 
@@ -24,7 +24,7 @@ qu render   # Fails with: "NotFound: No such file or directory (os error 2)"
 qu render --clear-cache   # Clears sass cache first, then renders
 qu --cc                   # Short form, clears cache then runs default workflow
 qu clear-cache            # Standalone command to just clear cache
-```text
+```
 
 ---
 
@@ -37,7 +37,7 @@ Quarto caches compiled SCSS/Sass files at `~/Library/Caches/quarto/sass/` on mac
 ```text
 ERROR: NotFound: No such file or directory (os error 2): lstat
 '/Users/dt/Library/Caches/quarto/sass/0920dd6d7437995b8cdf7429764427b1.css'
-```diff
+```
 
 ### When This Happens
 
@@ -71,7 +71,7 @@ qu --cc                    # Short form for default workflow
 # Standalone cache clearing
 qu clear-cache            # Just clear cache, no render
 qu cc                     # Alias
-```bash
+```
 
 ### Implementation Sketch
 
@@ -94,7 +94,7 @@ _qu_clear_cache() {
         echo "📦 No sass cache to clear"
     fi
 }
-```diff
+```
 
 ---
 

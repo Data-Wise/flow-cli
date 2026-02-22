@@ -50,7 +50,7 @@ teach plan delete 3 --force
 
 # Overwrite existing week
 teach plan create 3 --topic "Updated" --force
-```yaml
+```
 
 ## Options
 
@@ -87,7 +87,7 @@ weeks:
       - "Conditional probability"
     key_concepts: []
     prerequisites: []
-```yaml
+```
 
 ## Auto-Populate from Config
 
@@ -99,7 +99,7 @@ semester_info:
   weeks:
     - number: 5
       topic: "Polynomial Regression"   # ← auto-used
-```text
+```
 
 ## Integration
 
@@ -122,7 +122,7 @@ teach plan create N           # Step 3: Add missing weeks
 teach plan edit N             # Step 4: Refine details
   ↓
 teach slides --week N         # Step 5: Generate content
-```text
+```
 
 ## Gap Detection
 

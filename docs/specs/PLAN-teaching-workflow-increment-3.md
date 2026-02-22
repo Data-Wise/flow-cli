@@ -83,7 +83,7 @@ Next steps:
   1. Edit: $EDITOR exams/midterm1.md
   2. Convert: ./scripts/exam-to-qti.sh exams/midterm1.md
   3. Upload: exams/midterm1.qti → Canvas
-```bash
+```
 
 ### 2. Convert to Canvas QTI
 
@@ -104,7 +104,7 @@ Upload to Canvas:
   1. Go to: [course] → Quizzes → Import
   2. Select: QTI 1.2 format
   3. Upload: exams/midterm1.qti
-```text
+```
 
 ### 3. Reuse Questions
 
@@ -122,7 +122,7 @@ exams/
     ├── regression.md     # Topic-based
     ├── anova.md
     └── inference.md
-```yaml
+```
 
 ---
 
@@ -157,7 +157,7 @@ examark:
   question_bank: "exams/questions"
   default_duration: 120
   default_points: 100
-```diff
+```
 
 #### 1.2 Create Exam Template (1 hour)
 
@@ -218,7 +218,7 @@ instructions: |
 1. C
 2. [Expected answer]
 3. [Expected solution with rubric]
-```yaml
+```
 
 #### 1.3 Update Config Template (1 hour)
 
@@ -234,7 +234,7 @@ examark:
   question_bank: "exams/questions"
   default_duration: 120       # Minutes
   default_points: 100
-```bash
+```
 
 ---
 
@@ -295,7 +295,7 @@ else
   echo "Check exam format: https://github.com/daveagp/examark"
   exit 1
 fi
-```bash
+```
 
 #### 2.2 Add Script to teach-init (30 min)
 
@@ -309,7 +309,7 @@ cp "$template_dir/quick-deploy.sh" scripts/
 cp "$template_dir/semester-archive.sh" scripts/
 cp "$template_dir/exam-to-qti.sh" scripts/      # NEW
 chmod +x scripts/*.sh
-```bash
+```
 
 #### 2.3 Update Next Steps Message (30 min)
 
@@ -321,7 +321,7 @@ chmod +x scripts/*.sh
 echo "  5. (Optional) Enable exam workflow:"
 echo "     npm install -g examark"
 echo "     yq -i '.examark.enabled = true' .flow/teach-config.yml"
-```diff
+```
 
 ---
 
@@ -350,7 +350,7 @@ echo "     yq -i '.examark.enabled = true' .flow/teach-config.yml"
 |---------|---------|---------|
 | `teach-exam <topic>` | Create exam template | `teach-exam "Midterm 1"` |
 | `./scripts/exam-to-qti.sh <file>` | Convert to Canvas QTI | `./scripts/exam-to-qti.sh exams/midterm1.md` |
-```diff
+```
 
 #### 3.3 Update README.md (30 min)
 

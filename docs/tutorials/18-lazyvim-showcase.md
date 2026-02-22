@@ -24,7 +24,7 @@ ls ~/.config/nvim/lua/lazyvim.lua
 # Check plugin count
 nvim +'Lazy' +q
 # Should show ~58 plugins
-```diff
+```
 
 ---
 
@@ -80,7 +80,7 @@ LazyVim config lives in `~/.config/nvim/`:
 │   │   └── example.lua       # Add new plugins here
 │   └── lazyvim/              # LazyVim core (don't edit)
 └── lazyvim.json              # Language extras config
-```bash
+```
 
 **Inspect your config:**
 
@@ -90,7 +90,7 @@ ls ~/.config/nvim/lua/config/
 
 # Check current options
 nvim ~/.config/nvim/lua/config/options.lua
-```diff
+```
 
 ### Step 1.2: The Plugin Manager (Lazy.nvim)
 
@@ -164,7 +164,7 @@ print(result)
 EOF
 
 nvim /tmp/test.py
-```diff
+```
 
 **What you should see:**
 - Red squiggly underline under `totla`
@@ -205,7 +205,7 @@ nvim /tmp/test.py
 [d     # Previous diagnostic
 <leader>xx    # Show all diagnostics in Trouble window
 <leader>xd    # Show document diagnostics
-```diff
+```
 
 **Try it:**
 1. Open a file with multiple issues
@@ -236,7 +236,7 @@ Mason is a **package manager for LSP servers**, formatters, and linters.
 ```bash
 nvim
 :Mason
-```diff
+```
 
 **What you see:**
 - List of available language servers
@@ -270,7 +270,7 @@ nvim /tmp/test.py
 
 # LSP should now be active
 # Check: :LspInfo (shows attached servers)
-```bash
+```
 
 ### Step 3.4: Common Language Servers
 
@@ -292,7 +292,7 @@ nvim /tmp/test.py
 :Mason
 # Search for your language
 # Press 'i' to install
-```diff
+```
 
 **Checkpoint:** Can you install language servers with Mason? ✅
 
@@ -361,7 +361,7 @@ greet("World")
 EOF
 
 nvim /tmp/test.py
-```text
+```
 
 1. Put cursor anywhere in function
 2. Press `vaf` (visual around function)
@@ -375,7 +375,7 @@ nvim /tmp/test.py
 ```bash
 nvim
 :TSInstallInfo
-```diff
+```
 
 **What you see:**
 - List of languages
@@ -388,7 +388,7 @@ nvim
 :TSInstall python
 :TSInstall r
 :TSInstall bash
-```text
+```
 
 **Checkpoint:** Can you use Treesitter selections? ✅
 
@@ -404,14 +404,14 @@ Let's add a custom keybinding to save files with `<leader>w`:
 
 ```bash
 nvim ~/.config/nvim/lua/config/keymaps.lua
-```text
+```
 
 **Add this line:**
 
 ```lua
 -- Quick save
 vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
-```diff
+```
 
 **What this does:**
 - `"n"` = normal mode
@@ -434,7 +434,7 @@ Let's customize some settings:
 
 ```bash
 nvim ~/.config/nvim/lua/config/options.lua
-```text
+```
 
 **Add these options:**
 
@@ -452,7 +452,7 @@ vim.opt.scrolloff = 8
 
 -- Persistent undo
 vim.opt.undofile = true
-```text
+```
 
 **Options explained:**
 
@@ -478,7 +478,7 @@ Let's add a new plugin (example: vim-surround):
 
 ```bash
 nvim ~/.config/nvim/lua/plugins/custom.lua
-```text
+```
 
 **Add this:**
 
@@ -494,7 +494,7 @@ return {
     end,
   },
 }
-```diff
+```
 
 **What this does:**
 - Adds nvim-surround plugin
@@ -533,7 +533,7 @@ LazyVim has **optional language packs** called "extras".
 ```bash
 nvim
 :LazyExtras
-```diff
+```
 
 **What you see:**
 - List of available extras
@@ -551,7 +551,7 @@ Edit `~/.config/nvim/lazyvim.json`:
 
 ```bash
 nvim ~/.config/nvim/lazyvim.json
-```text
+```
 
 **Add extras:**
 
@@ -564,7 +564,7 @@ nvim ~/.config/nvim/lazyvim.json
     "lazyvim.plugins.extras.formatting.prettier"
   ]
 }
-```bash
+```
 
 **Save and restart nvim**.
 
@@ -607,7 +607,7 @@ work test-project
 mcp edit statistical-research  # Edit MCP config
 dots edit zsh                   # Edit dotfiles
 r edit                          # Edit R package files
-```text
+```
 
 ### Step 7.2: Custom Flow Keybinding
 
@@ -625,7 +625,7 @@ end, { desc = "Flow status" })
 vim.keymap.set("n", "<leader>ft", function()
   require("lazyvim.util").float_term({ "flow", "test" })
 end, { desc = "Flow tests" })
-```bash
+```
 
 **Test it:**
 1. Save and reload config
@@ -647,7 +647,7 @@ vim.opt.shiftwidth = 2
 vim.keymap.set("n", "<leader>rt", ":!Rscript tests/testthat.R<CR>")
 vim.keymap.set("n", "<leader>rc", ":!R CMD check .<CR>")
 EOF
-```diff
+```
 
 **Now when you open nvim in that directory:**
 - Tab width = 2 (R style)
@@ -667,7 +667,7 @@ EOF
 ```bash
 cd ~/projects/app/examify
 nvim
-```text
+```
 
 **Setup:**
 1. `<leader>e` → Neo-tree (left sidebar)
@@ -688,14 +688,14 @@ nvim
 │          │  Terminal      │
 │          │  (npm dev)     │
 └──────────┴────────────────┘
-```bash
+```
 
 ### Workflow 2: R Package Development
 
 ```bash
 cd ~/projects/r-packages/active/rmediation
 nvim
-```bash
+```
 
 **Setup:**
 1. `<leader>ff` → Open `R/mediation.R`
@@ -711,7 +711,7 @@ nvim
 ```bash
 cd ~/projects/teaching/stat-440
 nvim lectures/week-01/lecture.qmd
-```diff
+```
 
 **Setup:**
 1. Open Quarto file
@@ -747,7 +747,7 @@ nvim lectures/week-01/lecture.qmd
 :LazyExtras     # Enable language extras
 :Mason          # Install LSP servers
 :TSInstallInfo  # Treesitter parsers
-```bash
+```
 
 **LSP:**
 
@@ -758,7 +758,7 @@ gr             # Find references
 <leader>ca     # Code actions
 <leader>rn     # Rename symbol
 [d / ]d        # Next/prev diagnostic
-```text
+```
 
 **Customization Files:**
 

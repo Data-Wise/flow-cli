@@ -22,7 +22,7 @@ himalaya (CLI email client)
 email-oauth2-proxy (localhost)     <-- Only needed for OAuth2 providers
   IMAP: 127.0.0.1:1993 --> outlook.office365.com:993 (OAuth2/TLS)
   SMTP: 127.0.0.1:1587 --> smtp.office365.com:587  (OAuth2/STARTTLS)
-```yaml
+```
 
 **For app-password providers** (Gmail with app passwords, Fastmail, etc.), you connect himalaya directly — no proxy needed.
 
@@ -60,7 +60,7 @@ Verify:
 
 ```bash
 himalaya --version
-```sql
+```
 
 ---
 
@@ -126,13 +126,13 @@ message.send.backend.encryption.type = "tls"
 message.send.backend.login = "you@example.com"
 message.send.backend.auth.type = "password"
 message.send.backend.auth.cmd = "security find-generic-password -a you@example.com -s himalaya -w"
-```text
+```
 
 Store your app password in macOS Keychain:
 
 ```bash
 security add-generic-password -a you@example.com -s himalaya -w "your-app-password"
-```bash
+```
 
 ### Option B: OAuth2 via Proxy (Microsoft 365, Google Workspace)
 
@@ -142,7 +142,7 @@ For providers requiring OAuth2, use [email-oauth2-proxy](https://github.com/simo
 
 ```bash
 pip install emailproxy
-```bash
+```
 
 **2. Configure the proxy** at `~/.config/email-oauth2-proxy/emailproxy.config`:
 
@@ -173,7 +173,7 @@ client_secret =
 server_address = smtp.office365.com
 server_port = 587
 local_address = 127.0.0.1:1587
-```bash
+```
 
 **3. Configure himalaya** to connect through the proxy (no TLS — proxy handles it):
 
@@ -195,7 +195,7 @@ message.send.backend.encryption.type = "none"
 message.send.backend.login = "you@example.com"
 message.send.backend.auth.type = "password"
 message.send.backend.auth.cmd = "echo you@example.com"
-```html
+```
 
 **4. Set up the proxy as a LaunchAgent** (starts on login):
 
@@ -229,7 +229,7 @@ EOF
 
 # Load it
 launchctl load ~/Library/LaunchAgents/com.emailproxy.plist
-```bash
+```
 
 **5. Initial OAuth2 authentication:**
 
@@ -241,7 +241,7 @@ himalaya envelope list
 tail -f ~/.local/share/email-oauth2-proxy/proxy.log
 # You'll see: "Visit https://microsoft.com/devicelogin and use code XXXXXXXX"
 # Open that URL and enter the code
-```bash
+```
 
 ---
 
@@ -256,7 +256,7 @@ himalaya envelope list
 
 # Check em dispatcher
 em doctor
-```bash
+```
 
 You should see your inbox. If everything works, `em` commands are ready.
 
@@ -275,21 +275,21 @@ tail -20 ~/.local/share/email-oauth2-proxy/proxy.log
 # Trigger re-auth
 himalaya envelope list
 # Follow the device code instructions in the log
-```text
+```
 
 ### Restart the Proxy
 
 ```bash
 launchctl unload ~/Library/LaunchAgents/com.emailproxy.plist
 launchctl load ~/Library/LaunchAgents/com.emailproxy.plist
-```bash
+```
 
 ### Check Proxy Status
 
 ```bash
 ps aux | grep emailproxy | grep -v grep
 tail -20 ~/.local/share/email-oauth2-proxy/proxy.log
-```bash
+```
 
 ### Common Issues
 

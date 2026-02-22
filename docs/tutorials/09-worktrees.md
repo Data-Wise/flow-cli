@@ -29,7 +29,7 @@ wt help
 
 # Check cc wt integration
 cc wt help
-```diff
+```
 
 ---
 
@@ -55,7 +55,7 @@ git checkout feature-b       # Switch branches
 # ... work ...
 git checkout feature-a       # Switch back
 git stash pop                # Restore work
-```text
+```
 
 **The Worktree Solution:**
 
@@ -65,7 +65,7 @@ git stash pop                # Restore work
 ~/.git-worktrees/
   └── project/
       └── feature-b/    # Second worktree (feature-b)
-```text
+```
 
 Each worktree is a separate directory with its own working copy.
 
@@ -77,13 +77,13 @@ Each worktree is a separate directory with its own working copy.
 
 ```bash
 wt list
-```text
+```
 
 **Output:**
 
 ```text
 /Users/you/projects/myproject  abc1234 [main]
-```bash
+```
 
 ### Step 1.2: Create a Worktree
 
@@ -93,7 +93,7 @@ wt create feature/auth
 
 # Or for a new branch (auto-creates)
 wt create feature/new-thing
-```text
+```
 
 **What happened:**
 
@@ -101,7 +101,7 @@ wt create feature/new-thing
 ✓ Created worktree: ~/.git-worktrees/myproject/feature-auth
 
 Navigate: cd ~/.git-worktrees/myproject/feature-auth
-```bash
+```
 
 ### Step 1.3: View Worktree Overview
 
@@ -110,7 +110,7 @@ Navigate: cd ~/.git-worktrees/myproject/feature-auth
 ```bash
 # View all worktrees with status icons and session indicators
 wt
-```text
+```
 
 **Output:**
 
@@ -124,7 +124,7 @@ feature/dashboard   🧹 merged  🟡 2h   ~/.git-worktrees/myproject/feature-da
 main                🏠 main    ⚪      /Users/you/projects/myproject
 
 💡 Filter: wt <project> | Interactive picker: pick wt (Tab=multi-select, Ctrl-X=delete, Ctrl-R=refresh)
-```diff
+```
 
 **Status Icons:**
 - ✅ **active** - Unmerged feature branch
@@ -142,20 +142,20 @@ main                🏠 main    ⚪      /Users/you/projects/myproject
 ```bash
 # Show only flow-cli worktrees
 wt flow
-```bash
+```
 
 ### Step 1.5: Navigate to Worktrees Folder
 
 ```bash
 # Go to worktrees base directory (use 'cd')
 wt cd
-```text
+```
 
 **Output:**
 
 ```text
 ℹ Changed to: /Users/you/.git-worktrees
-```bash
+```
 
 ---
 
@@ -166,7 +166,7 @@ wt cd
 ```bash
 # Launch Claude in worktree (creates if needed!)
 cc wt feature/auth
-```text
+```
 
 **What happened:**
 
@@ -174,7 +174,7 @@ cc wt feature/auth
 ℹ Creating worktree for feature/auth...
 ✓ Created worktree: ~/.git-worktrees/myproject/feature-auth
 ✓ Launching Claude in ~/.git-worktrees/myproject/feature-auth
-```bash
+```
 
 Claude Code opens in the worktree directory, completely isolated from your main work.
 
@@ -183,7 +183,7 @@ Claude Code opens in the worktree directory, completely isolated from your main 
 ```bash
 # fzf picker for worktrees
 cc wt pick
-```bash
+```
 
 A picker appears showing all worktrees. Select one to launch Claude there.
 
@@ -203,7 +203,7 @@ cc wt opus feature/important
 
 # Haiku model in worktree
 cc wt haiku feature/quick
-```text
+```
 
 ---
 
@@ -215,7 +215,7 @@ cc wt haiku feature/quick
 ccw feature/auth     # = cc wt feature/auth
 ccwy feature/auth    # = cc wt yolo feature/auth
 ccwp                 # = cc wt pick
-```bash
+```
 
 ### Quick Reference
 
@@ -236,7 +236,7 @@ ccwp                 # = cc wt pick
 ```bash
 # Interactive worktree picker with actions
 pick wt
-```diff
+```
 
 The picker shows all worktrees with status icons and session indicators. You can:
 
@@ -257,7 +257,7 @@ The picker shows all worktrees with status icons and session indicators. You can
 
 ```sql
 Delete worktree: ~/.git-worktrees/myproject/feature-old? [y/n/a/q]
-```diff
+```
 
 - **y** - Yes, delete this one
 - **n** - No, skip this one
@@ -268,7 +268,7 @@ Delete worktree: ~/.git-worktrees/myproject/feature-old? [y/n/a/q]
 
 ```text
 Also delete branch 'feature-old'? [y/N]
-```bash
+```
 
 ### Step 4.3: Refresh Cache
 
@@ -288,33 +288,33 @@ Useful after making git changes outside the picker.
 ```bash
 # Remove specific worktree
 wt remove ~/.git-worktrees/myproject/feature-auth
-```text
+```
 
 **Output:**
 
 ```text
 ✓ Removed worktree: ~/.git-worktrees/myproject/feature-auth
-```bash
+```
 
 ### Step 5.2: Clean Stale Worktrees
 
 ```bash
 # Prune worktrees with missing directories
 wt clean
-```text
+```
 
 **Output:**
 
 ```text
 ✓ Pruned stale worktrees
-```bash
+```
 
 ### Step 5.3: Move Current Branch to Worktree
 
 ```bash
 # On feature/something branch
 wt move
-```bash
+```
 
 Creates a worktree for your current branch. Useful for moving in-progress work to a dedicated directory.
 
@@ -335,7 +335,7 @@ ccw hotfix/urgent
 # ... commit and push ...
 
 # Back to Terminal 1, no context lost!
-```bash
+```
 
 ### Pattern 2: Code Review
 
@@ -345,7 +345,7 @@ ccw feature/pr-123
 
 # Claude can help review without affecting your work
 cc wt plan feature/pr-123  # Plan mode for thorough review
-```bash
+```
 
 ### Pattern 3: Experimentation
 
@@ -356,7 +356,7 @@ ccwy experiment/new-approach
 # If it doesn't work out:
 wt remove ~/.git-worktrees/project/experiment-new-approach
 git branch -D experiment/new-approach
-```bash
+```
 
 ---
 
@@ -370,7 +370,7 @@ git branch -D experiment/new-approach
 
 # Customize in .zshrc
 export FLOW_WORKTREE_DIR="$HOME/worktrees"
-```text
+```
 
 ### Directory Structure
 
@@ -385,7 +385,7 @@ Worktrees are organized by project:
 │   └── feature-new-method/
 └── my-app/
     └── feature-dashboard/
-```diff
+```
 
 ---
 
@@ -425,7 +425,7 @@ Worktrees are organized by project:
 # Can't have same branch in two worktrees
 # Solution: Use a different branch name
 wt create feature/auth-v2
-```bash
+```
 
 ### "Worktree not found"
 
@@ -435,7 +435,7 @@ wt clean
 
 # Then try again
 wt list
-```bash
+```
 
 ### "Not in a git repository"
 

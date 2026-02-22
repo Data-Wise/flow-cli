@@ -24,7 +24,7 @@ Priority 2: User
 
 Priority 3 (lowest): Plugin
   lib/templates/teaching/claude-prompts/<name>.md
-```text
+```
 
 First match wins. Course overrides User overrides Plugin.
 
@@ -39,7 +39,7 @@ Available Teaching Prompts
   derivations-appendix   [P]  Mathematical Derivations Appendix
 
 Legend: [C] Course  [U] User  [P] Plugin  * = overrides lower tier
-```diff
+```
 
 ## Flags
 
@@ -98,7 +98,7 @@ variables:
 
 ## Purpose
 Generate content for {{COURSE}} on {{TOPIC}}...
-```bash
+```
 
 ## Variables
 
@@ -138,21 +138,21 @@ Generate content for {{COURSE}} on {{TOPIC}}...
 teach prompt edit lecture-notes
 # Creates .flow/templates/prompts/lecture-notes.md from plugin default
 # Opens in $EDITOR
-```bash
+```
 
 ### Validate all prompts
 
 ```bash
 teach prompt validate
 # Checks all prompts across all tiers
-```bash
+```
 
 ### Export rendered prompt
 
 ```bash
 teach prompt export lecture-notes --macros
 # Renders with variables from teach-config.yml + LaTeX macros
-```bash
+```
 
 ### Scholar auto-resolve
 

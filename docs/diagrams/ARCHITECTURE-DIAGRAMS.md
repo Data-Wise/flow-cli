@@ -72,7 +72,7 @@ graph TB
     style Core fill:#e1f5ff
     style Dispatchers fill:#fff3e0
     style Commands fill:#f3e5f5
-```text
+```
 
 ---
 
@@ -100,7 +100,7 @@ graph LR
 
     style Router fill:#4fc3f7
     style Help fill:#ffb74d
-```text
+```
 
 **Example Flow:**
 
@@ -116,7 +116,7 @@ Route to: _g_push origin main
 Execute: git push origin main
     ↓
 Log result with _flow_log_success
-```text
+```
 
 ---
 
@@ -159,7 +159,7 @@ flowchart TD
     style CheckGit fill:#fff9c4
     style ParseGit fill:#c5e1a5
     style Merge fill:#b3e5fc
-```text
+```
 
 **Worktree Structure Detection:**
 
@@ -185,7 +185,7 @@ graph TB
 
     style Flat1 fill:#ffccbc
     style Hier1 fill:#c5cae9
-```text
+```
 
 ---
 
@@ -215,7 +215,7 @@ sequenceDiagram
     Pick-->>User: Show all worktrees (including new)
 
     Note over Cache,Pick: No TTL wait - immediate visibility
-```text
+```
 
 ---
 
@@ -259,7 +259,7 @@ graph TB
     style Config fill:#fff59d
     style Validator fill:#a5d6a7
     style Claude fill:#90caf9
-```text
+```
 
 **Config Ownership Protocol:**
 
@@ -284,7 +284,7 @@ graph LR
     style ScholarPlugin fill:#64b5f6
     style Course fill:#fff59d
     style Scholar fill:#ce93d8
-```yaml
+```
 
 ---
 
@@ -314,7 +314,7 @@ stateDiagram-v2
         Optional git commit
         Session duration logged
     end note
-```sql
+```
 
 ---
 
@@ -365,7 +365,7 @@ flowchart LR
     style Cache fill:#fff9c4
     style Format fill:#c5e1a5
     style FZF fill:#b3e5fc
-```text
+```
 
 ---
 
@@ -413,7 +413,7 @@ graph TD
     style FZF fill:#ff9800
     style Claude fill:#ff9800
     style Atlas fill:#9e9e9e
-```text
+```
 
 ---
 
@@ -443,7 +443,7 @@ graph TB
     style Status fill:#c8e6c9
     style Project fill:#fff9c4
     style UI fill:#b3e5fc
-```text
+```
 
 **Color Palette (ADHD-Friendly):**
 
@@ -456,7 +456,7 @@ Active:   #729C51 (Green)
 Paused:   #E5C07B (Yellow)
 Header:   #9D9CC9 (Soft Purple)
 Accent:   #D19A66 (Soft Orange)
-```text
+```
 
 ---
 
@@ -491,7 +491,7 @@ graph TB
 
     style PluginLoader fill:#4fc3f7
     style PluginAPI fill:#81c784
-```text
+```
 
 ---
 
@@ -525,7 +525,7 @@ graph TD
     style Project fill:#4caf50
     style Global fill:#2196f3
     style Defaults fill:#9e9e9e
-```text
+```
 
 **Priority Order:**
 
@@ -566,7 +566,7 @@ flowchart TD
     style Warning fill:#fff9c4
     style Error fill:#ffcdd2
     style Fatal fill:#ef9a9a
-```diff
+```
 
 **Error Types:**
 
@@ -610,7 +610,7 @@ graph TB
     style Unit fill:#c5e1a5
     style Integration fill:#b3e5fc
     style E2E fill:#f8bbd0
-```text
+```
 
 ---
 

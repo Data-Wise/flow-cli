@@ -45,7 +45,7 @@ flowchart TD
     style Sync fill:#f9e2af
     style Status fill:#a6e3a1
     style Done fill:#a6e3a1
-```text
+```
 
 ---
 
@@ -60,7 +60,7 @@ Teaching a course means managing dates in dozens of files:
 ❌ assignments/hw1.qmd:  due: "2025-01-20"  # ← Mismatch!
 ❌ schedule.qmd:        "Week 2: January 22, 2025"
 ❌ lectures/week02.qmd: "Due: Jan 22, 2025"
-```diff
+```
 
 **Issues:**
 - 📅 40+ dates to update manually each semester
@@ -79,7 +79,7 @@ semester_info:
     hw1:
       week: 2
       offset_days: 2  # Friday of Week 2 = Jan 22
-```bash
+```
 
 Run `teach dates sync` and all files update automatically! ⚡
 
@@ -100,7 +100,7 @@ flow --version
 
 # Test teach dates command
 teach dates help
-```bash
+```
 
 **If missing:**
 
@@ -110,7 +110,7 @@ brew install yq
 
 # Install GNU date (macOS only)
 brew install coreutils
-```bash
+```
 
 !!! tip "Why yq?"
     yq is a powerful YAML processor that safely reads and updates structured data without corrupting your config files.
@@ -127,13 +127,13 @@ cd ~/projects/teaching/stat-545
 
 # Initialize dates
 teach dates init
-```text
+```
 
 **The wizard will ask:**
 
 ```text
 Semester start date (YYYY-MM-DD): 2025-01-13
-```bash
+```
 
 **What happens:**
 
@@ -147,7 +147,7 @@ Semester start date (YYYY-MM-DD): 2025-01-13
 
 ```bash
 cat .flow/teach-config.yml
-```yaml
+```
 
 **Expected output:**
 
@@ -166,7 +166,7 @@ semester_info:
   holidays: []
   deadlines: {}
   exams: []
-```yaml
+```
 
 **Demo:**
 
@@ -189,7 +189,7 @@ The `semester_info` section has 5 key parts:
 semester_info:
   start_date: "2025-01-13"
   end_date: "2025-04-28"
-```diff
+```
 
 - `start_date`: First day of classes
 - `end_date`: Last day of classes (auto-calculated: start + 15 weeks)
@@ -204,7 +204,7 @@ semester_info:
     - number: 2
       start_date: "2025-01-20"
       topic: "Data Visualization"
-```diff
+```
 
 - Auto-generated for 15 weeks
 - You can add `topic` for each week
@@ -216,7 +216,7 @@ semester_info:
   holidays:
     - name: "Spring Break"
       date: "2025-03-10"
-```diff
+```
 
 - Optional section
 - Helps explain schedule gaps
@@ -231,7 +231,7 @@ semester_info:
       offset_days: 2  # Friday of Week 2
     midterm_project:
       date: "2025-03-05"  # Absolute date
-```diff
+```
 
 **Two ways to specify:**
 - **Relative:** `week` + `offset_days` (flexible, adjusts automatically)
@@ -247,7 +247,7 @@ semester_info:
     - name: "Final Exam"
       date: "2025-05-02"
       time: "10:00-12:00"
-```bash
+```
 
 ---
 
@@ -259,7 +259,7 @@ Let's add some real deadlines and exams. Open your config:
 vim .flow/teach-config.yml
 # Or: code .flow/teach-config.yml
 # Or: open -a "iA Writer" .flow/teach-config.yml
-```yaml
+```
 
 **Add these sections:**
 
@@ -301,7 +301,7 @@ semester_info:
     - name: "Final Exam"
       date: "2025-05-02"
       time: "10:00-12:00"
-```text
+```
 
 **Save the file.**
 
@@ -313,7 +313,7 @@ semester_info:
 
 ```bash
 teach dates validate
-```text
+```
 
 **Expected output:**
 
@@ -324,7 +324,7 @@ teach dates validate
 ✓ All dates in valid format (YYYY-MM-DD)
 ✓ Week numbers sequential (1-15)
 ✓ Deadline references valid weeks
-```text
+```
 
 ---
 
@@ -334,7 +334,7 @@ Before applying changes, let's preview what would change:
 
 ```bash
 teach dates sync --dry-run
-```text
+```
 
 **Example output:**
 
@@ -360,7 +360,7 @@ teach dates sync --dry-run
 
 DRY RUN MODE - No changes applied
 Run without --dry-run to apply changes
-```text
+```
 
 **Demo:**
 
@@ -382,7 +382,7 @@ Now let's apply the changes. The command will ask for confirmation on each file:
 
 ```bash
 teach dates sync
-```text
+```
 
 **Interactive prompts:**
 
@@ -405,7 +405,7 @@ Apply changes to this file? [y/n/d/q]
   n = no, skip
   d = diff, show full changes
   q = quit
-```diff
+```
 
 **Choose your action:**
 
@@ -425,7 +425,7 @@ Applied changes to 3 files:
   ✓ schedule.md
 
 Skipped: 0 files
-```text
+```
 
 **Demo:**
 
@@ -442,7 +442,7 @@ If you're confident and want to apply all changes without prompts:
 
 ```bash
 teach dates sync --force
-```text
+```
 
 !!! warning "Use Force Carefully"
     Force mode applies all changes without asking. Only use if you've reviewed the dry-run output.
@@ -455,7 +455,7 @@ Verify everything is synchronized:
 
 ```bash
 teach dates status
-```text
+```
 
 **Expected output:**
 
@@ -483,7 +483,7 @@ Exams: 2
 
 Files checked: 25
 Mismatches: 0
-```diff
+```
 
 !!! tip "Run status anytime"
     Run `teach dates status` after editing files manually to catch any inconsistencies.
@@ -520,7 +520,7 @@ teach dates sync --syllabus
 
 # Single file
 teach dates sync --file syllabus.qmd
-```text
+```
 
 #### 2. Verbose Mode
 
@@ -528,7 +528,7 @@ See detailed processing:
 
 ```bash
 teach dates sync --verbose
-```diff
+```
 
 Shows:
 - Which files are being scanned
@@ -549,7 +549,7 @@ teach dates sync --dry-run
 
 # Step 3: Apply (5 minutes vs 2 hours manual!)
 teach dates sync --force
-```yaml
+```
 
 #### 4. Complex Date Patterns
 
@@ -566,7 +566,7 @@ deadlines:
     date: "2025-03-07"
     time: "14:00-15:50"
     location: "Room 301"
-```bash
+```
 
 ### Troubleshooting
 
@@ -579,7 +579,7 @@ pwd
 
 # Check for teaching files
 find . -name "*.qmd" -o -name "*.md" | head
-```bash
+```
 
 **Problem:** Dates not updating in file
 
@@ -591,7 +591,7 @@ teach dates sync --file syllabus.qmd --verbose
 # - YAML: due: "2025-01-22"
 # - Inline: "due Jan 22, 2025"
 # - Inline: "January 22, 2025"
-```bash
+```
 
 **Problem:** Config validation fails
 

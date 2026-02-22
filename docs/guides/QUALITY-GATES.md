@@ -19,7 +19,7 @@ flow-cli uses multiple validation layers to catch issues at the earliest possibl
 
 ```text
 Keystroke → Pre-commit → Manual lint → CI → Deploy preflight → Production
-```bash
+```
 
 ---
 
@@ -56,7 +56,7 @@ The same validation runs during `teach deploy` preflight, but this pre-commit ga
 
 ```bash
 git commit --no-verify -m "message"
-```bash
+```
 
 ### Setup
 
@@ -64,7 +64,7 @@ Pre-commit hooks require a one-time install:
 
 ```bash
 npm install   # installs husky + lint-staged
-```bash
+```
 
 Husky auto-configures via the `prepare` script in `package.json`.
 
@@ -84,7 +84,7 @@ teach lint
 
 # Specific file
 teach lint lib/dispatchers/teach-deploy-enhanced.zsh
-```bash
+```
 
 ### Quarto Lint
 
@@ -96,7 +96,7 @@ teach validate lectures/week-05.qmd
 
 # Deep validation with prerequisites
 teach validate --deep
-```bash
+```
 
 ### Markdown Lint
 
@@ -108,7 +108,7 @@ npm run format:check
 
 # Fix automatically
 npm run format
-```bash
+```
 
 ### ESLint
 
@@ -117,7 +117,7 @@ JavaScript/config file linting:
 ```bash
 npm run lint
 npm run lint:fix
-```diff
+```
 
 ---
 

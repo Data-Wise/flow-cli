@@ -114,7 +114,7 @@ flowchart TD
     end
 
     GAP --> NEW
-```text
+```
 
 ### Deliverable Dependencies
 
@@ -128,7 +128,7 @@ flowchart LR
     D --> F[6. mkdocs.yml + build verify]
     E --> F
     F --> G[7. Bidirectional cross-references]
-```text
+```
 
 ---
 
@@ -173,7 +173,7 @@ flowchart LR
 | teach archive | a | teach archive [SEMESTER] | Archive course |
 | teach hooks | hook | teach hooks [install|remove|status] | Git hooks |
 | teach profiles | prof | teach profiles [list|switch|create] | Profile management |
-```text
+```
 
 **Cross-references:** Link each command to its detailed documentation (guide, tutorial, or REFCARD).
 
@@ -227,7 +227,7 @@ flowchart LR
 - Generating a full week of content
 - Creating an exam from lesson plan
 - Customizing output with prompts and macros
-```text
+```
 
 **Mermaid Diagrams Required:**
 
@@ -237,13 +237,13 @@ flowchart LR
 teach exam → Scholar Plugin → Claude → Output
                 ↑
          teach-config.yml + prompts + macros
-```text
+```
 
 1. **Config Resolution Chain:**
 
 ```text
 Course (.flow/prompts/) > User (~/.flow/prompts/) > Plugin (defaults)
-```text
+```
 
 ---
 
@@ -292,7 +292,7 @@ Course (.flow/prompts/) > User (~/.flow/prompts/) > Plugin (defaults)
 - semester_info.weeks[].number must be unique integers
 - semester_info.weeks[].style must be one of: conceptual, computational, rigorous, applied
 - ...
-```text
+```
 
 **Example:** Full annotated STAT-101 demo course config.
 
@@ -328,7 +328,7 @@ Course (.flow/prompts/) > User (~/.flow/prompts/) > Plugin (defaults)
 - Common deployment issues
 - Permission errors
 - Build failures
-```diff
+```
 
 ---
 
@@ -363,7 +363,7 @@ Four diagrams distributed across deliverables:
 init → config → plan → [generate content] → validate → deploy
                          ↓
               lecture / exam / quiz / slides / ...
-```text
+```
 
 **Command Taxonomy:**
 
@@ -382,7 +382,7 @@ teach
 └── Infrastructure
     ├── doctor, dates, cache, clean
     └── hooks, profiles
-```diff
+```
 
 ---
 
@@ -397,14 +397,14 @@ Add to the `Teaching > Reference > Quick Reference Cards` section:
 - Content Analysis: reference/REFCARD-ANALYSIS.md
 - Date Management: reference/REFCARD-DATES.md
 - Health Check: reference/REFCARD-DOCTOR.md
-```diff
+```
 
 Add to the `Teaching > Core Workflows` section:
 
 ```yaml
 - Scholar Wrappers: guides/SCHOLAR-WRAPPERS-GUIDE.md
 - Deployment: guides/TEACH-DEPLOY-GUIDE.md
-```text
+```
 
 Add to the `Teaching > Reference` section:
 

@@ -27,7 +27,7 @@ export FLOW_SECRET_BACKEND=both       # Cloud backup enabled
 
 # Check current status
 sec status
-```diff
+```
 
 ---
 
@@ -70,7 +70,7 @@ tok github
 #    - both: Keychain + Bitwarden
 
 # ✅ Token ready to use instantly
-```bash
+```
 
 ### Use Token in Scripts
 
@@ -84,7 +84,7 @@ gh auth login --with-token <<< $(sec github-token)
 # Use in scripts (no echo to terminal)
 curl -H "Authorization: token $(sec github-token)" \
   https://api.github.com/user/repos
-```bash
+```
 
 ### Check Token Expiration
 
@@ -95,7 +95,7 @@ tok expiring
 # Output shows tokens expiring in next 7 days:
 # ⚠️  github-token expires in 5 days
 # ✅  npm-token expires in 67 days
-```bash
+```
 
 ### Rotate Expiring Token
 
@@ -110,7 +110,7 @@ tok rotate
 # 4. Paste new token
 # 5. Updates both Bitwarden & Keychain
 # 6. Old token backed up for 7 days
-```bash
+```
 
 ### Delete Old Token
 
@@ -125,7 +125,7 @@ sec list
 
 # Delete backup
 sec delete old-github-token-backup-20260117
-```text
+```
 
 ---
 
@@ -149,7 +149,7 @@ User runs: tok github
 User runs: sec github-token
     ↓
 Retrieves from Keychain (< 50ms, Touch ID supported)
-```text
+```
 
 ### Why Both Backends?
 
@@ -176,7 +176,7 @@ Each token stores metadata in JSON format (v2.1):
   "expires": "2026-04-24",
   "github_user": "username"
 }
-```diff
+```
 
 **Metadata fields:**
 - `dot_version`: Format version (current: 2.1)
@@ -200,7 +200,7 @@ Security add-generic-password command:
   -j "$metadata"       ← JSON ATTRS: Searchable, not password-protected
   -a "$token_name"     ← ACCOUNT: Searchable identifier
   -s "flow-cli"        ← SERVICE: Namespace for flow-cli secrets
-```diff
+```
 
 **Key Points:**
 - ✅ Token value encrypted in Keychain (requires Touch ID/password)
@@ -270,7 +270,7 @@ Security add-generic-password command:
 
 # Verify Keychain unlocked
 security unlock-keychain login.keychain-db
-```bash
+```
 
 ### Token Validation Failed
 
@@ -284,7 +284,7 @@ npm whoami --registry https://registry.npmjs.org/
 
 # PyPI token validation
 pip install keyring  # Test with pip
-```bash
+```
 
 ### Bitwarden Sync Issues
 
@@ -297,7 +297,7 @@ bw status
 
 # Re-login if needed
 bw login
-```diff
+```
 
 ---
 

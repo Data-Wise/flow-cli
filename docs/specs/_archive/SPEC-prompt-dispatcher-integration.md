@@ -83,7 +83,7 @@ prompt [action] [options]
     ├── p10k        → _prompt_p10k()
     ├── list (ls)   → _prompt_list()
     └── help        → _prompt_help()
-```text
+```
 
 #### File Structure
 
@@ -93,7 +93,7 @@ completions/_prompt                       # Tab completion
 docs/reference/MASTER-DISPATCHER-GUIDE.md   # Documentation
 docs/guides/PROMPT-DISPATCHER.md         # Guide
 tests/test-prompt-dispatcher.zsh         # Unit & E2E tests
-```diff
+```
 
 #### Environment
 
@@ -203,7 +203,7 @@ export FLOW_PROMPT_ENGINE="${FLOW_PROMPT_ENGINE:-powerlevel10k}"
 
 # Accessed by dispatcher
 $FLOW_PROMPT_ENGINE  # Current engine
-```text
+```
 
 ### Engine Configuration
 
@@ -219,7 +219,7 @@ Starship:
   - Binary: /opt/homebrew/bin/starship (or in PATH)
   - Init: eval "$(starship init zsh)"
   - Cache: ~/.cache/starship
-```bash
+```
 
 ---
 
@@ -237,7 +237,7 @@ prompt starship            # Switch to Starship
 prompt p10k                # Switch to P10k
 prompt list                # List available engines
 prompt help                # Show this help
-```text
+```
 
 ### Output Format
 
@@ -248,7 +248,7 @@ prompt help                # Show this help
    Alternative: starship
 
    To switch: prompt toggle
-```text
+```
 
 #### `prompt toggle`
 
@@ -256,7 +256,7 @@ prompt help                # Show this help
 ✅ Switched to starship
 
 [... terminal reloads ...]
-```text
+```
 
 #### `prompt list`
 
@@ -270,7 +270,7 @@ Available Prompt Engines:
   ○ starship
     Minimal, fast Rust-based prompt
     Config: ~/.config/starship.toml
-```text
+```
 
 #### `prompt help`
 
@@ -295,7 +295,7 @@ EXAMPLES:
    prompt starship          # Go to Starship
    prompt p10k              # Go to Powerlevel10k
    prompt list              # See available engines
-```text
+```
 
 ---
 
@@ -314,7 +314,7 @@ EXAMPLES:
 ✓ Validation helper function
 ✓ Get current engine function
 ✓ Get alternatives function
-```text
+```
 
 ### E2E Tests
 
@@ -325,7 +325,7 @@ EXAMPLES:
 ✓ Status shows correct engine after switch
 ✓ Multiple toggles in sequence
 ✓ Switching to same engine (idempotent)
-```text
+```
 
 ### Integration Tests
 
@@ -335,7 +335,7 @@ EXAMPLES:
 ✓ Tab completion works
 ✓ No conflicts with other dispatchers
 ✓ Works with custom flow-cli settings
-```text
+```
 
 ---
 
@@ -350,7 +350,7 @@ User: prompt status
 System: Shows current engine + alternatives
         "To switch: prompt toggle"
 Time: ~100ms
-```text
+```
 
 #### Scenario 2: Switch Engines
 
@@ -360,7 +360,7 @@ System: Shows "✅ Switched to starship"
         Shell reloads (exec zsh)
         New prompt loads
 Time: ~500ms
-```text
+```
 
 #### Scenario 3: Learn Available Options
 
@@ -368,7 +368,7 @@ Time: ~500ms
 User: prompt help
 System: Shows all actions with examples
 Time: ~50ms
-```text
+```
 
 #### Scenario 4: Legacy Alias Usage
 
@@ -378,7 +378,7 @@ System: (maps to prompt toggle)
         Shows "✅ Switched to ..."
         Works exactly as before
 Time: ~500ms
-```diff
+```
 
 ### Error Handling
 

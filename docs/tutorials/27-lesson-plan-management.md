@@ -26,7 +26,7 @@ ls .flow/teach-config.yml
 
 # Check yq is available
 yq --version
-```diff
+```
 
 ---
 
@@ -62,7 +62,7 @@ All plans live in a single centralized file:
 
 ```text
 .flow/lesson-plans.yml
-```text
+```
 
 This is different from the old format where plans were embedded in `teach-config.yml`. If you have an existing config with embedded weeks, see [Tutorial 25: Migration](25-lesson-plan-migration.md) first.
 
@@ -74,7 +74,7 @@ Plans inform Scholar's content generation. When you run:
 teach slides --week 5
 teach lecture --week 5
 teach exam --week 5
-```text
+```
 
 Scholar reads the plan for week 5 to generate more targeted, course-specific content.
 
@@ -86,7 +86,7 @@ Scholar reads the plan for week 5 to generate more targeted, course-specific con
 
 ```bash
 teach plan create 1 --topic "Introduction to Regression" --style conceptual
-```text
+```
 
 You'll be prompted for optional objectives and subtopics:
 
@@ -95,7 +95,7 @@ Objectives (comma-separated, Enter to skip): Define regression, Identify variabl
 Subtopics (comma-separated, Enter to skip): Dependent vs independent, Scatter plots
 
 ✓ Created lesson plan for Week 1: "Introduction to Regression" (conceptual)
-```text
+```
 
 ### Fully Interactive
 
@@ -103,7 +103,7 @@ Just provide the week number:
 
 ```bash
 teach plan create 2
-```text
+```
 
 You'll be prompted for everything:
 
@@ -112,7 +112,7 @@ Topic for Week 2: Multiple Regression
 Style [conceptual/computational/rigorous/applied] (default: conceptual): computational
 Objectives (comma-separated, Enter to skip): Fit multiple regression, Interpret coefficients
 Subtopics (comma-separated, Enter to skip): Matrix formulation, Adjusted R-squared
-```bash
+```
 
 ### Auto-Populate from Config
 
@@ -121,11 +121,11 @@ If your `teach-config.yml` has week topics defined, they're used automatically:
 ```bash
 # Creates week 5 with topic from config — no --topic needed
 teach plan create 5 --style applied
-```text
+```
 
 ```text
 ℹ Auto-populated topic from config: "Polynomial Regression"
-```text
+```
 
 ---
 
@@ -135,7 +135,7 @@ teach plan create 5 --style applied
 
 ```bash
 teach plan list
-```text
+```
 
 ```text
   Week   Topic                               Style           Objectives
@@ -146,7 +146,7 @@ teach plan list
 
   3 week(s) total
   ⚠ Gaps: weeks 3 4
-```text
+```
 
 The gap detection tells you which weeks still need plans.
 
@@ -154,7 +154,7 @@ The gap detection tells you which weeks still need plans.
 
 ```bash
 teach plan list --json
-```text
+```
 
 ```json
 [
@@ -162,7 +162,7 @@ teach plan list --json
   {"number": 2, "topic": "Multiple Regression", "style": "computational", ...},
   {"number": 5, "topic": "Polynomial Regression", "style": "applied", ...}
 ]
-```text
+```
 
 ---
 
@@ -172,7 +172,7 @@ teach plan list --json
 
 ```bash
 teach plan show 1
-```text
+```
 
 ```yaml
 ╔════════════════════════════════════════════════════╗
@@ -191,19 +191,19 @@ teach plan show 1
 
   Edit:   teach plan edit 1
   Delete: teach plan delete 1
-```text
+```
 
 ### Quick View (Shortcut)
 
 ```bash
 teach plan 1    # Same as teach plan show 1
-```text
+```
 
 ### JSON Output
 
 ```bash
 teach plan show 1 --json
-```text
+```
 
 ---
 
@@ -213,24 +213,24 @@ Open a plan in your `$EDITOR` — it jumps directly to the correct line:
 
 ```bash
 teach plan edit 1
-```text
+```
 
 ```text
 ℹ Week 1 starts at line 3
-```text
+```
 
 Your editor opens `lesson-plans.yml` at the right position. After saving, YAML is validated automatically:
 
 ```text
 ✓ YAML validated successfully
-```text
+```
 
 If the YAML is invalid after editing, you get up to 3 retries:
 
 ```text
 ✗ Invalid YAML detected after edit
 Re-open editor to fix? [Y/n]:
-```bash
+```
 
 ---
 
@@ -247,7 +247,7 @@ teach lecture --week 2
 
 # Generate exam — references key concepts
 teach exam --week 5
-```diff
+```
 
 Scholar reads the plan and adjusts its output:
 
@@ -270,14 +270,14 @@ done
 
 # Review the full semester
 teach plan list
-```bash
+```
 
 ### Modify a Plan
 
 ```bash
 # Overwrite an existing week
 teach plan create 5 --topic "Updated Topic" --style rigorous --force
-```bash
+```
 
 ### Remove a Week
 
@@ -287,7 +287,7 @@ teach plan delete 8
 
 # Skip confirmation
 teach plan delete 8 --force
-```text
+```
 
 ### Review Before Content Generation
 

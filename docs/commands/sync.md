@@ -14,7 +14,7 @@ Synchronize workflow data across all flow-cli components with a single command. 
 flow sync              # Smart sync - see what needs syncing
 flow sync all          # Sync everything
 flow sync --status     # View sync dashboard
-```text
+```
 
 ---
 
@@ -22,7 +22,7 @@ flow sync --status     # View sync dashboard
 
 ```bash
 flow sync [target] [options]
-```bash
+```
 
 ### Targets
 
@@ -66,7 +66,7 @@ flow sync all --dry-run
 
 # Quick local sync (skip git)
 flow sync all --skip-git
-```bash
+```
 
 ### Individual Targets
 
@@ -82,7 +82,7 @@ flow sync goals
 
 # Sync git (fetch, rebase, push)
 flow sync git
-```bash
+```
 
 ### Scripting
 
@@ -92,7 +92,7 @@ flow sync all --quiet
 
 # Check sync status
 flow sync --status
-```diff
+```
 
 ---
 
@@ -145,7 +145,7 @@ iCloud sync for multi-device access (v4.7.0+).
 flow sync remote              # Show sync status
 flow sync remote init         # Set up iCloud sync
 flow sync remote disable      # Revert to local storage
-```diff
+```
 
 **Setup:**
 
@@ -195,7 +195,7 @@ When running `flow sync all`, targets execute in dependency order:
 session → status → wins → goals → git
    ↓         ↓        ↓       ↓      ↓
  (2ms)    (120ms)  (15ms)  (5ms)  (1.2s)
-```diff
+```
 
 - **Session** must run first (captures current state)
 - **Status** updates timestamps before win aggregation
@@ -219,7 +219,7 @@ session → status → wins → goals → git
   [5/5] git... done (pushed 2 commits)
 
 ✓ Sync complete (1.4s)
-```text
+```
 
 ### Quiet Output
 
@@ -235,7 +235,7 @@ With `--quiet`, only errors are shown.
   ...
 
 Run without --dry-run to execute
-```text
+```
 
 ---
 
@@ -256,7 +256,7 @@ Sync state is stored in `$FLOW_DATA_DIR/sync-state.json`:
     "git": "skipped"
   }
 }
-```bash
+```
 
 View with `flow sync --status`.
 
@@ -286,7 +286,7 @@ git rebase --abort
 git add <resolved-files>
 git rebase --continue
 git push
-```text
+```
 
 ---
 
@@ -298,7 +298,7 @@ The `finish` command can optionally sync before ending a session:
 
 ```bash
 finish "Completed feature"  # Commits and optionally syncs
-```text
+```
 
 ### With `dash` Command
 
@@ -307,14 +307,14 @@ The dashboard shows sync status:
 ```bash
 dash          # Shows last sync time
 dash --watch  # Auto-refreshes with sync status
-```bash
+```
 
 ### With CI/CD
 
 ```bash
 # In a pre-push hook
 flow sync all --quiet || exit 1
-```diff
+```
 
 ---
 

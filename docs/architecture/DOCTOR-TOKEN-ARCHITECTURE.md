@@ -56,7 +56,7 @@ graph TB
     CacheClear --> CacheFiles
     TokExpiring --> CacheSet
     CacheSet --> CacheFiles
-```diff
+```
 
 ---
 
@@ -78,7 +78,7 @@ doctor                    # Main entry (existing)
 doctor --dot              # New: Token check only
 doctor --dot=github       # New: Specific token
 doctor --fix-token        # New: Token fixes only
-```text
+```
 
 **Flow:**
 
@@ -88,7 +88,7 @@ User Input → Flag Parser → Mode Selection → Handler
          Verbosity Level Set
                 ↓
          Cache Manager Init
-```bash
+```
 
 ---
 
@@ -124,7 +124,7 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
-```diff
+```
 
 **State Variables:**
 - `dot_check` - Enable token-only mode
@@ -160,7 +160,7 @@ sequenceDiagram
         Doctor->>Cache: _doctor_cache_set("token-github", result)
         Cache->>Filesystem: Write cache file (atomic)
     end
-```text
+```
 
 **Cache Structure:**
 
@@ -171,7 +171,7 @@ sequenceDiagram
         ├── token-github.cache
         ├── token-npm.cache
         └── token-pypi.cache
-```text
+```
 
 **Cache Entry Format:**
 
@@ -187,7 +187,7 @@ sequenceDiagram
   "username": "your-username",
   "metadata": {...}
 }
-```diff
+```
 
 **Concurrency Safety:**
 - Uses `flock` for lock files
@@ -220,7 +220,7 @@ flowchart TD
     ApplyFix --> ClearCache[Clear Cache]
     FixAll --> ClearCache
     ClearCache --> Done[Done]
-```text
+```
 
 **Menu Design Principles:**
 
@@ -251,7 +251,7 @@ flowchart TD
 │  0. Exit without fixing                         │
 │                                                  │
 ╰──────────────────────────────────────────────────╯
-```bash
+```
 
 ---
 
@@ -280,7 +280,7 @@ sequenceDiagram
     end
 
     Doctor->>Doctor: Display status
-```yaml
+```
 
 **Key Functions:**
 
@@ -305,7 +305,7 @@ sequenceDiagram
 _doctor_log_quiet()     # Normal + Verbose
 _doctor_log_verbose()   # Verbose only
 _doctor_log_always()    # All modes
-```text
+```
 
 **Output Control:**
 
@@ -321,7 +321,7 @@ _doctor_log_always()    # All modes
 _doctor_log_quiet "Processing..."        # Normal flow
 _doctor_log_verbose "Cache hit: 45s"     # Debug info
 _doctor_log_always "Error: Failed"       # Critical
-```text
+```
 
 ---
 
@@ -343,7 +343,7 @@ Cache Hit: < 5 min old
 Parse JSON: Extract status
   ↓
 Display: "✓ Token valid (45 days)"
-```text
+```
 
 **Time:** < 100ms
 
@@ -369,7 +369,7 @@ GitHub API: Validate token
 Cache Set: Store result (5 min TTL)
   ↓
 Display: "✓ Token valid (45 days)"
-```text
+```
 
 **Time:** ~2-3 seconds
 
@@ -395,7 +395,7 @@ Cache Clear: _doctor_cache_token_clear("github")
 Win Log: "Security maintenance"
   ↓
 Display: "✅ Token rotated (28s)"
-```text
+```
 
 **Time:** ~30 seconds
 
@@ -427,7 +427,7 @@ Cache Hit Rate (5-minute TTL):
 API Call Reduction: ~85%
 Storage per entry: ~1.5 KB
 Cleanup frequency: Daily (> 1 day old)
-```diff
+```
 
 ---
 
@@ -453,7 +453,7 @@ Cleanup frequency: Daily (> 1 day old)
 ~/.flow/cache/doctor/     # drwx------  (700)
 ├── token-github.cache    # -rw-------  (600)
 └── token-npm.cache       # -rw-------  (600)
-```diff
+```
 
 **Data Sensitivity:**
 - ✅ Stores: Status, expiration, username
@@ -471,7 +471,7 @@ flock -w $DOCTOR_CACHE_LOCK_TIMEOUT 200
 mv "$temp_file" "$cache_file"
 
 # Release lock (automatic)
-```diff
+```
 
 **Guarantees:**
 - No race conditions
@@ -499,7 +499,7 @@ fi
 # Cache set fails → Log but don't block
 _doctor_cache_set "token-github" "$result" || \
     _doctor_log_verbose "Cache write failed"
-```bash
+```
 
 **Impact:** Slower checks (no cache benefit), but functionality preserved
 
@@ -521,7 +521,7 @@ if ! result=$(_tok_expiring 2>&1); then
     _doctor_log_error "Token check failed: $result"
     return 1
 fi
-```diff
+```
 
 ---
 
@@ -607,7 +607,7 @@ graph LR
     F -->|Yes| G[Update]
     F -->|No| H[Rollback]
     H --> D
-```diff
+```
 
 **Features:**
 - Atomic fixes with rollback

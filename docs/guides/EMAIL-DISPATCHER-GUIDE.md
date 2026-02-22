@@ -23,7 +23,7 @@ em snooze 42 2h       # Snooze for later
 em digest             # AI-grouped daily summary
 em ai gemini          # Switch AI backend at runtime
 em catch 42           # Capture email as task
-```diff
+```
 
 **Philosophy:**
 - **Pure ZSH** - No Node.js runtime, no build step, sub-100ms commands
@@ -91,7 +91,7 @@ compose, triage, or analyze email content.
 
 ```bash
 em doctor
-```yaml
+```
 
 This checks all dependencies and shows your current configuration:
 
@@ -115,7 +115,7 @@ Config:
   Page size:   25
   Folder:      INBOX
   Config file: (none — using env defaults)
-```bash
+```
 
 ## Setup
 
@@ -129,13 +129,13 @@ brew install himalaya
 
 # Option 2: Cargo (cross-platform alternative)
 cargo install himalaya
-```text
+```
 
 Verify installation:
 
 ```bash
 himalaya --version
-```bash
+```
 
 ### 2. Configure himalaya
 
@@ -151,7 +151,7 @@ pip install email-oauth2-proxy
 
 # Configure himalaya with Gmail account
 himalaya account configure gmail
-```sql
+```
 
 **Quick IMAP/SMTP Setup:**
 
@@ -175,7 +175,7 @@ sender.port = 587
 sender.login = "you@example.com"
 sender.auth.type = "password"
 sender.auth.raw = "your-password-here"  # Or use keychain
-```text
+```
 
 > **Security Note:** Use app-specific passwords or OAuth2 for Gmail/Outlook. Store passwords in your system
 > keychain rather than plaintext config files.
@@ -184,7 +184,7 @@ Test your setup:
 
 ```bash
 himalaya envelope list --page-size 5
-```bash
+```
 
 If this works, you're ready to use `em`.
 
@@ -200,7 +200,7 @@ export FLOW_EMAIL_AI="claude"           # claude | gemini | none
 export FLOW_EMAIL_AI_TIMEOUT=30         # AI timeout in seconds
 export FLOW_EMAIL_PAGE_SIZE=25          # Default inbox page size
 export FLOW_EMAIL_FOLDER="INBOX"        # Default folder
-```sql
+```
 
 #### Option B: Config File
 
@@ -211,7 +211,7 @@ FLOW_EMAIL_AI="claude"
 FLOW_EMAIL_AI_TIMEOUT=30
 FLOW_EMAIL_PAGE_SIZE=25
 FLOW_EMAIL_FOLDER="INBOX"
-```yaml
+```
 
 Or for project-specific settings, create `.flow/email.conf` in your project root.
 
@@ -237,7 +237,7 @@ Recent:
   138     Eve Martinez          Office Hours Schedule Change             2026-02-09
 
 Full inbox: em i  Browse: em p  Help: em h
-```diff
+```
 
 **What I see:**
 - Unread count (ADHD dopamine hit when it's zero)
@@ -251,7 +251,7 @@ Full inbox: em i  Browse: em p  Help: em h
 
 ```bash
 $ em pick
-```yaml
+```
 
 This opens an interactive fzf picker:
 
@@ -275,7 +275,7 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=mo
 
 ──────────────────────────────────────────────────
   [email content preview...]
-```diff
+```
 
 **Keyboard shortcuts:**
 - `Enter` - Read selected email
@@ -317,7 +317,7 @@ I've reviewed the rubric and here's my assessment...
 # Explicit confirmation (safety feature)
   Send this reply? [y/N] y
 ✅ Reply sent
-```bash
+```
 
 ### 4. Batch Process Remaining (1-2 minutes)
 
@@ -337,7 +337,7 @@ Analyzing 20 emails for actionable messages...
 $ em respond --review
 
 # fzf picker with drafts, edit or send each
-```text
+```
 
 **Total time:** 5 minutes or less. Inbox zero achieved.
 
@@ -351,13 +351,13 @@ The dispatcher accepts convenient shorthand patterns:
 em 42               # Shorthand for: em read 42
 em -n 5             # Shorthand for: em inbox 5
 em                  # Shorthand for: em dash (quick pulse)
-```text
+```
 
 ### Quick Dashboard
 
 ```bash
 em                  # or: em dash
-```text
+```
 
 Shows unread count + latest 10 emails. Perfect for a quick pulse check between tasks.
 
@@ -368,7 +368,7 @@ em inbox            # Default page size (25)
 em inbox 50         # Show 50 emails
 em i                # Shortcut
 em -n 10            # Shorthand for inbox 10
-```text
+```
 
 Output shows structured table with indicators:
 
@@ -377,13 +377,13 @@ Output shows structured table with indicators:
   ───── ── ──────────────────── ──────────────────────────────────────── ──────────
   142   * + Alice Johnson        Re: STAT-101 Exam Grading Question       2026-02-10
   141     Bob Smith             Department Meeting Notes                 2026-02-10
-```text
+```
 
 ### Read Individual Email
 
 ```bash
 em read <ID>        # or: em r <ID>
-```bash
+```
 
 **Smart Rendering Pipeline:**
 
@@ -427,13 +427,13 @@ Hi Prof. Davis,
 
 I have a question about the grading rubric for Problem 3...
 [rendered content with proper formatting]
-```text
+```
 
 ### Force HTML Rendering
 
 ```bash
 em html <ID>
-```text
+```
 
 Explicitly renders HTML emails in the terminal. Useful for HTML-heavy newsletters.
 
@@ -442,7 +442,7 @@ Explicitly renders HTML emails in the terminal. Useful for HTML-heavy newsletter
 ```bash
 em read --md <ID>
 em read -M <ID>       # Short flag
-```diff
+```
 
 Converts the HTML email to clean Markdown via pandoc, with a 7-stage Outlook cleanup pipeline:
 
@@ -485,13 +485,13 @@ $ em read --md 42
 - Submit feedback via the [shared document](https://docs.example.com/proposal)
 
 Let me know if you have questions.
-```text
+```
 
 ### Raw MIME Export
 
 ```bash
 em read --raw <ID>
-```diff
+```
 
 Exports the full `.eml` MIME source. Useful for debugging email formatting, forwarding to other tools, or archiving.
 
@@ -515,7 +515,7 @@ This cleanup runs on all read operations, including the fzf preview in `em pick`
 em unread           # INBOX
 em unread Sent      # Specific folder
 em u                # Shortcut
-```text
+```
 
 ## Composing & Replying
 
@@ -526,7 +526,7 @@ em reply <ID>              # Basic reply
 em reply <ID> --all        # Reply-all
 em reply <ID> --no-ai      # Skip AI draft
 em reply <ID> --batch      # Non-interactive (preview + confirm)
-```bash
+```
 
 **Interactive Flow (Default):**
 
@@ -551,7 +551,7 @@ Generating AI draft...
 
   Send this reply? [y/N] y
 ✅ Reply sent
-```text
+```
 
 **Batch Mode (Non-Interactive):**
 
@@ -574,7 +574,7 @@ Thanks for reaching out. I've reviewed Problem 3...
 
   Send this reply? [y/N] y
 ✅ Reply sent
-```bash
+```
 
 **Reply-All:**
 
@@ -582,7 +582,7 @@ Thanks for reaching out. I've reviewed Problem 3...
 $ em reply 142 --all
 
 # Includes all original recipients (To + Cc)
-```text
+```
 
 > **Safety Note:** Every send requires explicit `[y/N]` confirmation with default set to **No**. Hit Enter = No send.
 
@@ -593,7 +593,7 @@ em send                    # Interactive prompts
 em send alice@example.com  # Pre-fill recipient
 em send alice@example.com "Grant Proposal"  # Pre-fill recipient + subject
 em send --ai alice@example.com "Weekly Report"  # AI draft from subject
-```yaml
+```
 
 **Interactive Flow:**
 
@@ -629,7 +629,7 @@ Just a reminder that I have office hours...
 
   Send this email? [y/N] y
 ✅ Email sent
-```bash
+```
 
 **With AI Draft:**
 
@@ -644,7 +644,7 @@ Generating AI draft from subject...
 
   Send this email? [y/N] y
 ✅ Email sent
-```text
+```
 
 ### Download Attachments
 
@@ -652,7 +652,7 @@ Generating AI draft from subject...
 em attach <ID>              # Download to ~/Downloads
 em attach <ID> /tmp/files   # Download to specific directory
 em a <ID>                   # Shortcut
-```diff
+```
 
 ## AI Features Deep Dive
 
@@ -670,7 +670,7 @@ Configure via environment variable:
 export FLOW_EMAIL_AI="claude"    # Default (claude CLI)
 export FLOW_EMAIL_AI="gemini"    # Google Gemini CLI
 export FLOW_EMAIL_AI="none"      # Disable AI features
-```text
+```
 
 **Backend Selection:**
 
@@ -695,7 +695,7 @@ If the primary backend fails (timeout, not installed, API error), `em` automatic
 
 ```text
 claude → gemini → fail gracefully
-```text
+```
 
 ## AI Backend Switching
 
@@ -709,7 +709,7 @@ em ai gemini          # Switch to Gemini (faster startup)
 em ai claude          # Switch back to Claude
 em ai toggle          # Cycle through available backends
 em ai none            # Disable AI entirely
-```text
+```
 
 ### Status Display
 
@@ -724,7 +724,7 @@ Email AI Backend
   Gemini args: -e none
 
   Switch: em ai claude | em ai gemini | em ai toggle
-```bash
+```
 
 ### Gemini Speed Optimization
 
@@ -737,7 +737,7 @@ export FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e none"
 
 # Custom extensions
 export FLOW_EMAIL_GEMINI_EXTRA_ARGS="-e my_extension"
-```bash
+```
 
 ### When to Use Each Backend
 
@@ -756,14 +756,14 @@ add to your config:
 ```bash
 # In $FLOW_CONFIG_DIR/email.conf or .flow/email.conf
 FLOW_EMAIL_AI=gemini
-```text
+```
 
 ### Classify Email
 
 ```bash
 em classify <ID>
 em cl <ID>             # Shortcut
-```text
+```
 
 Categorizes an email into one of these types:
 
@@ -784,7 +784,7 @@ Categorizes an email into one of these types:
 ```bash
 $ em classify 142
   S student
-```bash
+```
 
 **Use Case:**
 
@@ -796,14 +796,14 @@ if [[ "$category" == "urgent" ]]; then
 else
     em reply 142          # Take time to craft response
 fi
-```text
+```
 
 ### Summarize Email
 
 ```bash
 em summarize <ID>
 em sum <ID>            # Shortcut
-```text
+```
 
 Generates a one-line summary (max 80 characters) focused on: **who wants what and by when**.
 
@@ -812,7 +812,7 @@ Generates a one-line summary (max 80 characters) focused on: **who wants what an
 ```bash
 $ em summarize 142
   Summary: Alice needs clarification on exam Problem 3 grading by Friday
-```bash
+```
 
 **Use Case:**
 
@@ -822,7 +822,7 @@ for id in {140..145}; do
     echo -n "$id: "
     em summarize $id
 done
-```text
+```
 
 ### Batch Draft Generation
 
@@ -833,7 +833,7 @@ em respond --review         # Review/send cached drafts (skip classification)
 em respond --dry-run        # Classify only (see what's actionable, no drafts)
 em respond --folder Sent    # Process specific folder
 em respond --clear          # Clear draft cache
-```text
+```
 
 **How it works:**
 
@@ -858,7 +858,7 @@ Analyzing 20 emails for actionable messages...
 
 3 drafts generated (17 skipped)
   Review: em respond --review
-```bash
+```
 
 **Review Cached Drafts:**
 
@@ -880,7 +880,7 @@ em respond --review — reviewing cached drafts in INBOX
 #   - Loads cached draft into $EDITOR
 #   - Confirm send [y/N]
 #   - Continue to next? [Y/n/q]
-```bash
+```
 
 **Dry Run (Classify Only):**
 
@@ -889,14 +889,14 @@ $ em respond --dry-run
 
 # Shows classification results without generating drafts
 # Useful to preview what's actionable before committing time
-```text
+```
 
 **Clear Draft Cache:**
 
 ```bash
 $ em respond --clear
 ✅ Email cache cleared (2.4M freed)
-```bash
+```
 
 ### Listserv Safety
 
@@ -907,7 +907,7 @@ auto-skipped before AI classification. They appear as:
 
 ```text
   [3/10] graduation@unm.edu        L listserv — skip
-```text
+```
 
 **Layer 2: Warning banner.** If an actionable email was sent to a list-like address, a warning appears
 before drafting:
@@ -915,7 +915,7 @@ before drafting:
 ```text
   ⚠ WARNING: This email was sent to a mailing list
     Replying may go to ALL list members. Review carefully.
-```diff
+```
 
 ### Discard Detection
 
@@ -943,7 +943,7 @@ Configure global timeout:
 
 ```bash
 export FLOW_EMAIL_AI_TIMEOUT=45  # Increase to 45s for all ops
-```text
+```
 
 ### Prompt Customization
 
@@ -960,7 +960,7 @@ it to the `catch` command.
 ```bash
 em catch 42           # Summarize email #42 → pipe to catch
 em catch 99           # Summarize email #99 → pipe to catch
-```bash
+```
 
 ### How It Works
 
@@ -986,7 +986,7 @@ Press **Ctrl-T** in `em pick` to capture the highlighted email as a task — no 
 ```bash
 em pick               # Browse emails
 # Ctrl-T on any email → instant capture
-```text
+```
 
 ## Organize: Star, Move, Thread, Snooze, Digest
 
@@ -999,19 +999,19 @@ Toggle the IMAP `Flagged` flag on an email:
 ```bash
 em star 42              # Toggle star on email #42
 em flag 42              # Alias for em star
-```text
+```
 
 **Output:**
 
 ```text
 ★ Starred #42 — Re: STAT-101 Exam Grading Question
-```text
+```
 
 Run again to unstar:
 
 ```text
 ☆ Unstarred #42 — Re: STAT-101 Exam Grading Question
-```bash
+```
 
 **List all starred emails:**
 
@@ -1027,7 +1027,7 @@ em starred — flagged emails
   140    Carol Davis        Urgent: Grant Proposal Deadline       2026-02-09
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 2 starred emails
-```text
+```
 
 ### Move
 
@@ -1037,14 +1037,14 @@ Move an email to a different folder:
 em move 42 Archive      # Move to Archive (with confirmation)
 em move 42              # fzf folder picker (requires fzf)
 em mv 42 Trash          # Alias
-```text
+```
 
 **With explicit folder:**
 
 ```text
 Move #42 → Archive? [y/N] y
 ✅ Moved #42 to Archive
-```text
+```
 
 **Without folder (fzf picker):**
 
@@ -1057,7 +1057,7 @@ View the conversation thread for an email — finds related messages by `Referen
 ```bash
 em thread 42            # Show thread for email #42
 em th 42                # Alias
-```text
+```
 
 **Output:**
 
@@ -1069,13 +1069,13 @@ em thread — conversation for #42
 → #142   Alice Johnson     Re: STAT-101 Exam Grading...      2026-02-10
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 3 messages in thread
-```text
+```
 
 The `→` arrow marks the message you started from. If the email is standalone (no thread), you'll see:
 
 ```text
 This is a standalone message (no thread found)
-```text
+```
 
 ### Snooze
 
@@ -1088,14 +1088,14 @@ em snooze 42 3w         # Snooze for 3 weeks
 em snooze 42 tomorrow   # Snooze until tomorrow 9:00 AM
 em snooze 42 monday     # Snooze until next Monday 9:00 AM
 em snz 42 2h            # Alias
-```text
+```
 
 **Output:**
 
 ```text
 💤 Snoozed #42 until 2026-02-18 14:30
    Re: STAT-101 Exam Grading Question
-```bash
+```
 
 **Supported time formats:**
 
@@ -1121,7 +1121,7 @@ em snoozed — pending reminders
   99     Budget Proposal                     in 3h          1d
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 2 snoozed emails (1 ready)
-```text
+```
 
 `READY` means the snooze time has passed — time to handle it.
 
@@ -1136,7 +1136,7 @@ em digest               # Today's emails
 em digest --week        # This week's emails
 em digest -n 5          # Limit to 5 emails
 em dg                   # Alias
-```text
+```
 
 **Output (with AI):**
 
@@ -1154,7 +1154,7 @@ Informational:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 4 emails today (2 unread)
-```text
+```
 
 **Output (without AI):**
 
@@ -1179,7 +1179,7 @@ The `em pick` command provides a powerful fzf-based email browser with live prev
 em pick              # Browse INBOX
 em pick Sent         # Browse Sent folder
 em p                 # Shortcut
-```text
+```
 
 ### Interface Layout
 
@@ -1200,7 +1200,7 @@ Enter=read  Ctrl-R=reply  Ctrl-S=summarize  Ctrl-T=catch  Ctrl-F=star  Ctrl-M=mo
 │
 │──────────────────────────────────────────────────
 │  [First 60 lines of email content...]
-```bash
+```
 
 **Left Panel:** Email list with indicators
 **Right Panel:** Live preview of selected email
@@ -1249,14 +1249,14 @@ Generating AI draft...
 ✅ Reply sent
 
 # Continue browsing or press Esc to exit
-```text
+```
 
 ## Search
 
 ```bash
 em find <query>
 em f <query>           # Shortcut
-```yaml
+```
 
 Searches across email metadata (subject, sender name, sender address). Client-side filtering for speed.
 
@@ -1272,7 +1272,7 @@ Searching: quarterly report
 28    alice@dept.edu       Quarterly Teaching Summary   2026-01-05
 
 3 results
-```diff
+```
 
 **Search Tips:**
 - Searches are case-insensitive
@@ -1286,7 +1286,7 @@ Searching: quarterly report
 
 ```bash
 em folders
-```text
+```
 
 Shows all available mail folders:
 
@@ -1296,7 +1296,7 @@ Sent
 Drafts
 Trash
 Archive
-```bash
+```
 
 ### Delete Emails
 
@@ -1321,7 +1321,7 @@ em delete --pick                 # Tab to select, Enter to confirm
 # PERMANENT delete (purge)
 em delete --purge 42             # Flag as Deleted + EXPUNGE
 em delete --folder Trash --purge # Purge entire Trash
-```text
+```
 
 **Safety levels:**
 
@@ -1330,7 +1330,7 @@ Star/flag emails directly:
 ```bash
 em star 42              # Toggle Flagged flag
 em starred              # List all flagged emails
-```text
+```
 
 Or use the fzf picker (`em pick`) with `Ctrl-F` to toggle star on the selected email.
 
@@ -1340,7 +1340,7 @@ Lower-level flag management is available via `lib/em-himalaya.zsh` adapter:
 _em_hml_flags add <ID> Seen       # Mark as read
 _em_hml_flags add <ID> Flagged    # Mark as flagged
 _em_hml_flags add <ID> Deleted    # Mark as deleted
-```bash
+```
 
 | Mode | Confirmation | Reversible? |
 |------|-------------|-------------|
@@ -1358,7 +1358,7 @@ em mv Archive 10 20 30           # Batch move
 
 # Move from specific source folder
 em move --from Sent Archive 42   # Sent → Archive
-```bash
+```
 
 ### Restore from Trash
 
@@ -1371,7 +1371,7 @@ em restore 42 --to Archive
 
 # Batch restore
 em restore 10 20 30
-```bash
+```
 
 ### Flag / Unflag
 
@@ -1383,14 +1383,14 @@ em fl 42 43                      # Batch (alias: fl)
 # Remove star
 em unflag 42
 em unflag 42 43                  # Batch
-```text
+```
 
 ### Extract Action Items (AI)
 
 ```bash
 em todo 42                       # AI extracts action items
 em td 42 43                      # Batch (alias: td)
-```text
+```
 
 Shows numbered list of action items, captures to `catch`, and optionally adds to macOS Reminders.app.
 
@@ -1399,7 +1399,7 @@ Shows numbered list of action items, captures to `catch`, and optionally adds to
 ```bash
 em event 42                      # AI extracts dates/times/meetings
 em ev 42 43                      # Batch (alias: ev)
-```text
+```
 
 Shows event details (title, date, time, duration, location), captures to `catch`, and optionally adds to macOS Calendar.app.
 
@@ -1416,14 +1416,14 @@ All AI operations are cached with time-to-live (TTL) to avoid redundant API call
   drafts/<hash>.txt             # Generated reply drafts
   schedules/<hash>.json         # Extracted dates/times
   unread/<hash>.txt             # Unread counts
-```bash
+```
 
 Or globally:
 
 ```text
 $FLOW_DATA_DIR/email-cache/
   (same structure)
-```text
+```
 
 ### TTL Values
 
@@ -1442,7 +1442,7 @@ em cache stats         # Show cache size, per-op counts, expired count
 em cache prune         # Remove expired entries only (report count)
 em cache clear         # Clear all cached AI results (report freed space)
 em cache warm [N]      # Pre-warm latest N emails (default: 10, background)
-```text
+```
 
 **Stats Output:**
 
@@ -1455,14 +1455,14 @@ Email Cache
   drafts             5 items    24K
   schedules          8 items    16K
   Location: .flow/email-cache
-```text
+```
 
 **Prune Expired Entries:**
 
 ```bash
 $ em cache prune
 ✅ Pruned 4 expired cache entries
-```text
+```
 
 Prune only removes entries past their TTL — fresh items are untouched.
 
@@ -1471,7 +1471,7 @@ Prune only removes entries past their TTL — fresh items are untouched.
 ```bash
 $ em cache clear
 ✅ Email cache cleared (2.4M freed)
-```bash
+```
 
 **Warm Cache (Background):**
 
@@ -1484,7 +1484,7 @@ $ em cache warm 20
 # - Summarizes each (AI)
 # - Caches results
 # - Does NOT block shell
-```diff
+```
 
 > **Tip:** Run `em cache warm` at the start of your work session to pre-populate summaries for faster browsing.
 
@@ -1504,7 +1504,7 @@ The cache enforces a maximum size to prevent unbounded growth:
 ```bash
 FLOW_EMAIL_CACHE_MAX_MB=50      # Default: 50 MB
 FLOW_EMAIL_CACHE_MAX_MB=0       # Disable size cap
-```diff
+```
 
 When the cache exceeds this limit, the oldest files are evicted first (LRU -- Least Recently Used). Eviction
 runs automatically after every cache write as a non-blocking background process.
@@ -1555,7 +1555,7 @@ FLOW_EMAIL_FOLDER="INBOX"
 
 # Editor
 EDITOR="nvim"
-```diff
+```
 
 ### himalaya Configuration
 
@@ -1602,7 +1602,7 @@ The `em` dispatcher follows a clean 6-layer architecture:
 │ himalaya CLI                             │  IMAP/SMTP backend
 │ (external)                               │  Handles actual email
 └─────────────────────────────────────────┘
-```diff
+```
 
 ### Design Principles
 
@@ -1642,7 +1642,7 @@ The adapter pattern means we could swap backends in the future without changing 
 ```text
 ❌ himalaya not found
 Install: brew install himalaya or cargo install himalaya
-```bash
+```
 
 **Solution:**
 
@@ -1655,7 +1655,7 @@ cargo install himalaya
 
 # Verify
 himalaya --version
-```text
+```
 
 ### "himalaya cannot connect to mailbox"
 
@@ -1664,7 +1664,7 @@ himalaya --version
 ```text
 ❌ himalaya cannot connect to mailbox
 Check config: himalaya account list
-```bash
+```
 
 **Solution:**
 
@@ -1677,7 +1677,7 @@ himalaya envelope list --page-size 1
 
 # Reconfigure if needed
 himalaya account configure
-```diff
+```
 
 **Common causes:**
 - Wrong IMAP credentials
@@ -1691,7 +1691,7 @@ himalaya account configure
 
 ```text
 ⚠️  Classification failed (no AI backend available?)
-```bash
+```
 
 **Solution:**
 
@@ -1708,7 +1708,7 @@ pip install google-generativeai
 
 # Or disable AI entirely
 export FLOW_EMAIL_AI="none"
-```bash
+```
 
 ### HTML emails not rendering properly
 
@@ -1716,7 +1716,7 @@ export FLOW_EMAIL_AI="none"
 
 ```text
 [Raw HTML output with tags visible]
-```bash
+```
 
 **Solution:**
 
@@ -1730,7 +1730,7 @@ brew install pandoc
 
 # Verify
 em doctor
-```text
+```
 
 ### Cache taking up too much space
 
@@ -1738,13 +1738,13 @@ em doctor
 
 ```bash
 em cache stats
-```text
+```
 
 **Clear cache:**
 
 ```bash
 em cache clear
-```zsh
+```
 
 **Reduce cache lifetime (edit `lib/em-cache.zsh`):**
 
@@ -1754,7 +1754,7 @@ typeset -gA _EM_CACHE_TTL=(
     [classifications]=3600 # 1 hour instead of 24
     [drafts]=1800          # 30 min instead of 1 hour
 )
-```bash
+```
 
 ### fzf picker not showing preview
 
@@ -1763,13 +1763,13 @@ typeset -gA _EM_CACHE_TTL=(
 ```bash
 brew install fzf
 brew install jq
-```text
+```
 
 **Check:**
 
 ```bash
 em doctor
-```bash
+```
 
 ### Editor not opening for compose/reply
 
@@ -1777,13 +1777,13 @@ em doctor
 
 ```bash
 echo $EDITOR
-```bash
+```
 
 **Set in ~/.zshrc:**
 
 ```bash
 export EDITOR="nvim"    # or vim, nano, etc.
-```text
+```
 
 ## Safety Design
 
@@ -1795,7 +1795,7 @@ Every send operation requires explicit confirmation:
 
 ```bash
   Send this reply? [y/N]
-```diff
+```
 
 - **Default is No** - Hitting Enter = no send
 - **Must type 'y' or 'Y'** - Any other input cancels
@@ -1808,7 +1808,7 @@ Rejected sends automatically preserve the draft for later:
 ```bash
 # Drafts saved to:
 $FLOW_DATA_DIR/email-drafts/    # Global draft storage
-```yaml
+```
 
 AI-generated drafts are also cached in `.flow/email-cache/drafts/` with a 1-hour TTL. Use
 `em respond --review` to come back to cached drafts.
@@ -1828,7 +1828,7 @@ Subject: Re: STAT-101 Exam Grading Question
 ────────────────────────────────────────────────────────
 
   Send this reply? [y/N]
-```bash
+```
 
 ### 4. Editor Interception
 
@@ -1842,7 +1842,7 @@ em reply 42
 # 3. You edit/review
 # 4. Save and close
 # 5. Only then: confirmation prompt
-```bash
+```
 
 ### 5. Batch Mode Safety
 
@@ -1859,7 +1859,7 @@ $ em respond
 $ em respond --review
 
 # Each draft requires individual confirmation
-```diff
+```
 
 ### 6. No Auto-Reply
 
@@ -1897,7 +1897,7 @@ em pick
 em respond
 
 # Done - inbox triaged
-```bash
+```
 
 ### Reply to Urgent Email
 
@@ -1909,7 +1909,7 @@ em reply 142
 em reply 142 --batch
 
 # Both provide AI draft, both require confirmation
-```bash
+```
 
 ### Review Emails from Specific Person
 
@@ -1924,7 +1924,7 @@ em find "alice"
 # Read and reply
 em read 42
 em reply 42
-```bash
+```
 
 ### Process All Actionable Emails
 
@@ -1936,7 +1936,7 @@ em respond -n 50
 em respond --review
 
 # Or manually review specific drafts via cache
-```bash
+```
 
 ### Weekly Newsletter Cleanup
 

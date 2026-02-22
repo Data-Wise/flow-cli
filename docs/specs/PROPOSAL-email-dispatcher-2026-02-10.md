@@ -33,7 +33,7 @@ em() {
         *) _em_help ;;
     esac
 }
-```diff
+```
 
 **Pros:** Ships fast, establishes pattern, zero optional deps
 **Cons:** Not much value over raw himalaya
@@ -148,7 +148,7 @@ Ship Option B as v1, then incrementally add Option C features.
 │ │                   │ │ glow    │ bat   │
 │ └───────────────────┘ └─────────┘       │
 └─────────────────────────────────────────┘
-```zsh
+```
 
 ### fzf Picker Design
 
@@ -166,7 +166,7 @@ _em_pick() {
               --bind='ctrl-r:execute(himalaya message reply {1})' \
               --bind='ctrl-d:execute(himalaya envelope flag add {1} Deleted)'
 }
-```yaml
+```
 
 ### Config Integration
 
@@ -178,7 +178,7 @@ email:
   render_html: true      # auto-detect and render HTML
   notifications: false   # IMAP IDLE watch
   color_theme: tokyo     # tokyo | default | minimal
-```text
+```
 
 ### Doctor Integration
 
@@ -193,7 +193,7 @@ Email Dependencies:
   ✓ fzf (interactive picker)
   ✗ glow (Markdown rendering — optional)
   ✗ terminal-notifier (notifications — optional)
-```ini
+```
 
 ---
 

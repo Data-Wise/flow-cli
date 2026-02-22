@@ -63,7 +63,7 @@ The flow-cli `cc` dispatcher works precisely because it does not try to embed Cl
 7. Edit draft in buffer
 8. :HimalayaSend or keymap                 -- DID THIS ACTUALLY SEND? Where's confirmation?
 9. Close splits, return to inbox buffer    -- State management: did the inbox refresh?
-```diff
+```
 
 **Problem count:** 4 unresolved UX questions in a single email reply cycle.
 
@@ -146,7 +146,7 @@ em reply               # AI generates draft, nvim opens with draft pre-filled
                        # User must explicitly type 'y'
 
 em                     # Back to inbox (sub-second)
-```diff
+```
 
 **Step count for one reply: 4 conscious decisions** (pick email, read, edit draft, confirm send).
 
@@ -230,7 +230,7 @@ This is a multi-day yak shave for a Lua beginner.
 6. AI draft appears in buffer somehow (?)     -- UNSOLVED without Lua
 7. Edit draft
 8. Save → send?                               -- Confirmation UX unclear
-```diff
+```
 
 ### 3. Context Switching Cost
 
@@ -377,7 +377,7 @@ em reply              # User selected email #42 from fzf
     - Spinner: "Sending..."
     - Success: "Sent reply to sender@example.com"
     - Temp files cleaned up
-```diff
+```
 
 ### Safety Mechanisms (Preventing Accidental Send)
 
@@ -409,7 +409,7 @@ For a nicer experience later (optional, not day-1):
 vim.opt_local.textwidth = 72
 vim.opt_local.spell = true
 vim.opt_local.spelllang = "en"
-```text
+```
 
 ---
 
@@ -429,7 +429,7 @@ em send                # Send a saved draft
 em accounts            # Show configured accounts
 em doctor              # Health check (himalaya, IMAP, SMTP)
 em help                # Help (80% section + full reference)
-```text
+```
 
 **Grammar:** `em [verb] [target]` -- identical to `g [verb] [target]`.
 

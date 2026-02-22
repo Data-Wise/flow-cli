@@ -63,7 +63,7 @@ teach deploy [args]
       └── Post-deploy:
           ├── _deploy_history_append()
           └── _deploy_update_status_file()
-```yaml
+```
 
 ---
 
@@ -103,7 +103,7 @@ deploys:
     tag: null
     user: 'dt'
     duration_seconds: 12
-```diff
+```
 
 ---
 
@@ -141,7 +141,7 @@ deploys:
 
   Done in 11s
   Site: https://example.github.io/stat-545/
-```text
+```
 
 ### Dry-Run Output
 
@@ -157,7 +157,7 @@ deploys:
   Would merge: draft -> production (direct mode)
   Would log: deploy #12 to .flow/deploy-history.yml
   Would update: .STATUS (teaching_week: 5)
-```text
+```
 
 ### Rollback Interactive
 

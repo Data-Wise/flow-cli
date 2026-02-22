@@ -70,7 +70,7 @@ teach week                # Current week info
 teach archive             # Create semester snapshot
 teach config              # Update settings
 teach exam "Midterm"      # Create exam (placeholder for Scholar integration)
-```diff
+```
 
 **Key Features:**
 
@@ -97,7 +97,7 @@ teach exam "Midterm"      # Create exam (placeholder for Scholar integration)
 ├─────────────────────────────────────────┤
 │  Underlying: Git + GitHub Actions       │
 └─────────────────────────────────────────┘
-```yaml
+```
 
 ---
 
@@ -120,7 +120,7 @@ teach exam "Midterm"      # Create exam (placeholder for Scholar integration)
 /teaching:slides "Topic"      # Create lecture slides
 /teaching:feedback "Work"     # Generate student feedback
 /teaching:demo                # Create demo course environment
-```diff
+```
 
 **Key Features (v2.0.1 - COMPLETE ✅):**
 
@@ -160,7 +160,7 @@ teach exam "Midterm"      # Create exam (placeholder for Scholar integration)
 ├─────────────────────────────────────────┤
 │  Underlying: Claude API + Templates     │
 └─────────────────────────────────────────┘
-```bash
+```
 
 ---
 
@@ -178,7 +178,7 @@ work stat-545
 
 # 3. Deploy
 teach deploy
-```bash
+```
 
 **Result:** Full teaching workflow, no Scholar needed
 
@@ -200,7 +200,7 @@ work stat-545
 
 # 4. Deploy
 teach deploy
-```text
+```
 
 **Result:** flow-cli handles workflow, Scholar handles content generation
 

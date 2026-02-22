@@ -108,7 +108,7 @@ teach prompt
 ├── create     [Phase 2] Create new prompt from scratch/template
 ├── diff       [Phase 2] Compare override against default
 └── promote    [Phase 2] Copy course prompt to user tier
-```text
+```
 
 ### Zero-Friction Scholar Integration
 

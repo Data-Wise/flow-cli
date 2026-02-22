@@ -57,7 +57,7 @@
 TEACH_REVISE_MODE          # Always "improve" for now
 TEACH_REVISE_FILE          # Path to file being revised
 TEACH_REVISE_INSTRUCTIONS  # User-selected revision instructions
-```yaml
+```
 
 ---
 
@@ -120,7 +120,7 @@ TEACH_REVISE_INSTRUCTIONS  # User-selected revision instructions
 
 ```zsh
 TEACH_CONTEXT   # Course context from materials
-```bash
+```
 
 ---
 
@@ -145,7 +145,7 @@ teach exam --revise exams/midterm.qmd --math --examples
 teach lecture --revise lecture-notes.md
 # → Select option 2
 # → Scholar improves organization and clarity
-```text
+```
 
 **Revision Menu:**
 
@@ -162,7 +162,7 @@ What would you like to improve?
   [6] Custom instructions          Your own guidance
 
 Your choice [1-6]:
-```bash
+```
 
 ### Phase 6: Context Integration
 
@@ -183,7 +183,7 @@ teach exam "Multiple Regression" --context --rigorous
 teach lecture --revise lecture.md --context
 # → Revises with awareness of course structure
 # → Maintains consistency with other materials
-```text
+```
 
 ---
 
@@ -208,7 +208,7 @@ tests/test-teach-integration-phases-1-6.zsh  +412 lines (new file)
   - 38 integration tests for Phases 1-6
 
 Total: +707 lines across all phases 5-6
-```bash
+```
 
 ---
 
@@ -224,7 +224,7 @@ TEACH_REVISE_INSTRUCTIONS # Set by _teach_revision_menu()
 
 # Phase 6: Context Integration
 TEACH_CONTEXT             # Set by _teach_build_context()
-```bash
+```
 
 ### New Functions (Public API)
 
@@ -237,7 +237,7 @@ _teach_revise_workflow <file>                 # Main revision orchestrator
 
 # Phase 6
 _teach_build_context                          # Gather course context
-```bash
+```
 
 ### Enhanced Functions
 
@@ -254,7 +254,7 @@ _teach_scholar_help <command>
   # - Universal flags section (all Phase 1-6 flags)
   # - Color-coded sections
   # - Complete flag documentation
-```diff
+```
 
 ---
 
@@ -327,7 +327,7 @@ Revision functions:     ~15KB (4 functions)
 Context functions:      ~5KB  (1 function)
 Help updates:           ~3KB  (enhanced help)
 Completion updates:     ~2KB  (enhanced completions)
-```diff
+```
 
 **Total:** ~28KB additional memory (Phases 5-6)
 **Assessment:** ✅ Minimal impact
@@ -479,7 +479,7 @@ Your choice: 2
 # Phase 2: Applies computational preset
 # Phase 1: Validates flags
 # → Generates slides with Scholar
-```bash
+```
 
 ### Example 2: Revision (Phases 1-2, 5)
 
@@ -500,7 +500,7 @@ Your choice: 1
 # Phase 2: Adds --diagrams to content
 # Phase 1: Validates flags
 # → Improves slides with Scholar (adds missing content + diagrams)
-```bash
+```
 
 ### Example 3: Context-Aware Generation (All Phases)
 

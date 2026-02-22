@@ -12,7 +12,7 @@ The `flow help -i` interactive help browser showed "command not found" errors in
 
 ```text
 flow help -i preview pane does not work. it says command not found
-```text
+```
 
 ### Symptom
 
@@ -23,7 +23,7 @@ Command not found: work
 Command not found: dash
 Command not found: finish
 ...
-```bash
+```
 
 ## Root Cause
 
@@ -42,7 +42,7 @@ The fzf `--preview` option runs commands in a **new subshell** that doesn't have
     echo "Command not found: $cmd"           # ← Always hits this
   fi
 '
-```bash
+```
 
 The `type` check failed because commands like `work`, `dash`, `cc`, etc. weren't defined in the subshell.
 
@@ -73,7 +73,7 @@ _flow_show_help_preview() {
   cmd=$(echo {} | awk "{print \$1}" | sed "s/\x1b\[[0-9;]*m//g")
   _flow_show_help_preview "$cmd"
 '
-```text
+```
 
 ## Files Changed
 
@@ -92,7 +92,7 @@ _flow_show_help_preview() {
 
 ```bash
 ./tests/test-help-browser-preview.zsh
-```diff
+```
 
 **Results:** ✅ All 6 tests pass
 
@@ -109,7 +109,7 @@ Run interactive help and confirm preview pane shows help text:
 
 ```bash
 flow help -i
-```text
+```
 
 **Expected:** Preview pane shows formatted help (e.g., "DASH - Project Dashboard")
 **Before fix:** Preview pane showed "Command not found: dash"
@@ -121,7 +121,7 @@ Updated Phase 2 interactive test to explicitly check for this fix:
 
 ```bash
 ./tests/interactive-dog-feeding-phase2.zsh
-```diff
+```
 
 Expected behavior now includes:
 

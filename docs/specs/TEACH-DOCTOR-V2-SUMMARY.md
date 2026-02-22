@@ -140,7 +140,7 @@
   → Install yq? [Y/n] y
   → brew install yq
   ✓ yq installed
-```diff
+```
 
 **Supported fixes:**
 
@@ -166,7 +166,7 @@
     ...
   ]
 }
-```text
+```
 
 **GitHub Actions Example:**
 
@@ -175,7 +175,7 @@
   run: |
     teach doctor --json > health.json
     jq -e '.summary.status == "healthy"' health.json
-```diff
+```
 
 ### 4. Performance
 
@@ -236,7 +236,7 @@
 
 ```bash
 teach doctor
-```text
+```
 
 **Output:** Complete health report with all 6 categories
 
@@ -244,7 +244,7 @@ teach doctor
 
 ```bash
 teach doctor --quiet
-```text
+```
 
 **Output:** Only warnings and failures
 
@@ -252,7 +252,7 @@ teach doctor --quiet
 
 ```bash
 teach doctor --fix
-```bash
+```
 
 **Output:** Prompts to install missing dependencies
 
@@ -261,13 +261,13 @@ teach doctor --fix
 ```bash
 teach doctor --json | jq '.summary.status'
 # Output: "healthy" or "unhealthy"
-```text
+```
 
 ### Get Help
 
 ```bash
 teach doctor --help
-```text
+```
 
 **Output:** Complete usage guide with examples
 
@@ -286,7 +286,7 @@ Test Summary:
   Failed:        0
 
 All tests passed! ✓
-```bash
+```
 
 **Test execution time:** ~5 seconds
 
@@ -303,7 +303,7 @@ All tests passed! ✓
 doctor)
     _teach_doctor "$@"
     ;;
-```bash
+```
 
 **Usage:** `teach doctor [OPTIONS]`
 

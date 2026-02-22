@@ -29,7 +29,7 @@ Location: Lines 249-332
   📝 Dotfiles: 🟡 Modified (3 files pending) · 12 files tracked
   📝 Dotfiles: 🔴 Behind (5 commits) · 12 files tracked
   📝 Dotfiles: 🔵 Ahead (2 commits) · 12 files tracked
-```diff
+```
 
 **Implementation Details:**
 - Icon selection based on sync status
@@ -67,7 +67,7 @@ _dash_dotfiles() {
     echo ""
   fi
 }
-```bash
+```
 
 ### 3. Updated `dash()` Function Call Order
 
@@ -85,7 +85,7 @@ _dash_dotfiles    # <-- NEW
 _dash_quick_wins
 _dash_quick_access
 _dash_recent_wins
-```diff
+```
 
 **Rationale:** Dotfile status appears after active session info but before task lists, providing system health context without disrupting workflow focus.
 
@@ -154,7 +154,7 @@ _dash_recent_wins
   └─ ⚪    examify           Planning stage
 
   ...
-```zsh
+```
 
 ## Testing
 

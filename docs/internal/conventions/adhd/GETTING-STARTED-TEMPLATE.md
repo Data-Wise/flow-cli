@@ -34,7 +34,7 @@
 - [ ] [Nice-to-have tool]
 
 **Check everything:**
-```bash
+```
 # Run this to verify prerequisites
 [verification command]
 ```
@@ -44,17 +44,17 @@
 ## 1. Installation (2 min)
 
 ### Step 1.1: [First action]
-```bash
+```
 [command]
 ```
 
 ### Step 1.2: [Second action]
-```bash
+```
 [command]
 ```
 
 ### Verify installation:
-```bash
+```
 [verification command]
 # Expected output: [what they should see]
 ```
@@ -64,7 +64,7 @@
 ## 2. First Use (3 min)
 
 ### Try it now:
-```bash
+```
 # Your first [action]
 [command]
 ```
@@ -72,7 +72,7 @@
 **What happened:** [Brief explanation of what they just did]
 
 ### Try another:
-```bash
+```
 # [Second basic action]
 [command]
 ```
@@ -90,17 +90,17 @@ The typical workflow is:
 ### Practice the workflow:
 
 **Step 1:** [Action]
-```bash
+```
 [command]
 ```
 
 **Step 2:** [Action]
-```bash
+```
 [command]
 ```
 
 **Step 3:** [Action]
-```bash
+```
 [command]
 ```
 
@@ -114,7 +114,7 @@ Complete these tasks to verify you understand the basics:
 <details>
 <summary>Hint</summary>
 
-```bash
+```
 [hint command]
 ```
 </details>
@@ -122,7 +122,7 @@ Complete these tasks to verify you understand the basics:
 <details>
 <summary>Solution</summary>
 
-```bash
+```
 [solution command]
 ```
 </details>
@@ -137,7 +137,7 @@ Complete these tasks to verify you understand the basics:
 <details>
 <summary>Solution</summary>
 
-```bash
+```
 [solution command]
 ```
 </details>
@@ -146,7 +146,7 @@ Complete these tasks to verify you understand the basics:
 <details>
 <summary>Solution</summary>
 
-```bash
+```
 [solution command]
 ```
 </details>
@@ -165,7 +165,7 @@ Complete these tasks to verify you understand the basics:
 
 ### Common Patterns
 
-```bash
+```
 # Pattern 1: [name]
 [command pattern]
 
@@ -180,14 +180,14 @@ Complete these tasks to verify you understand the basics:
 ### "[Error message 1]"
 **Cause:** [why this happens]
 **Fix:**
-```bash
+```
 [fix command]
 ```
 
 ### "[Error message 2]"
 **Cause:** [why this happens]
 **Fix:**
-```bash
+```
 [fix command]
 ```
 

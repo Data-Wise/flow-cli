@@ -68,7 +68,7 @@ Evaluate and prototype a Himalaya email CLI integration plugin for editor enviro
 | claude/  | | w3m/bat/ |           |  Email Server    |
 | gemini   | | glow     |           |  (1 account)     |
 +----------+ +----------+           +------------------+
-```text
+```
 
 **6-layer architecture:** dispatcher -> himalaya adapter (`em-himalaya.zsh`) -> AI layer (`em-ai.zsh`) -> cache (`em-cache.zsh`) -> render (`em-render.zsh`) -> helpers (`email-helpers.zsh`)
 
@@ -86,7 +86,7 @@ Evaluate and prototype a Himalaya email CLI integration plugin for editor enviro
 | Editor-native UI |                   |  Email Server    |
 | (TreeView/buffer)|                   |  (1 account)     |
 +------------------+                   +------------------+
-```diff
+```
 
 ### Integration Pattern (All Editors)
 
@@ -130,7 +130,7 @@ N/A - No persistent data model. All data flows through Himalaya CLI JSON output.
   "date": "2026-02-11T10:00:00Z",
   "flags": ["Seen"]
 }
-```diff
+```
 
 ---
 
@@ -159,7 +159,7 @@ Open editor -> Click inbox icon / run command
     -> Keybinds: r(reply), f(forward), d(delete), a(archive)
     -> AI keybinds: ms(summarize), mt(todos), mr(draft-reply)
     -> Compose: opens editor buffer/modal, send on save/confirm
-```text
+```
 
 ### Wireframe (VS Code - Primary Target)
 

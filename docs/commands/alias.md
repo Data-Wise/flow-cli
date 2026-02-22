@@ -23,7 +23,7 @@ flow alias rm <name>    # Safe removal (backup + comment out)
 flow alias test <name>  # Validate and dry-run
 flow alias edit         # Open .zshrc at alias section
 flow alias help         # Show all commands
-```diff
+```
 
 ---
 
@@ -71,7 +71,7 @@ $ flow alias
   flow alias cc for details
 
 ...
-```yaml
+```
 
 ### View Category Details
 
@@ -86,7 +86,7 @@ $ flow alias cc
 
 Tip: Use cc dispatcher for full Claude workflow
 See also: cc help for all Claude commands
-```bash
+```
 
 ### Common Categories
 
@@ -102,7 +102,7 @@ flow alias r
 
 # Quarto publishing
 flow alias quarto
-```yaml
+```
 
 ---
 
@@ -188,7 +188,7 @@ Most commonly used:
 
 ```bash
 flow alias doctor
-```diff
+```
 
 Scans all aliases and reports:
 
@@ -204,14 +204,14 @@ Scans all aliases and reports:
   Healthy: 42 (93%)
   Shadows: 2 (cat, gem)
   Broken: 1 (oldcmd)
-```text
+```
 
 ### Find - Search Aliases
 
 ```bash
 flow alias find git        # All git-related aliases
 flow alias find --exact gst # Exact match only
-```text
+```
 
 ### Add - Create Alias
 
@@ -219,14 +219,14 @@ flow alias find --exact gst # Exact match only
 
 ```bash
 flow alias add myalias='echo hello'
-```bash
+```
 
 **Interactive mode:**
 
 ```bash
 flow alias add
 # Prompts for name and command with validation
-```diff
+```
 
 **Safety checks:**
 
@@ -238,7 +238,7 @@ flow alias add
 
 ```bash
 flow alias rm myalias
-```text
+```
 
 **What happens:**
 

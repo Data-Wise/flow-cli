@@ -64,7 +64,7 @@ The goal is NOT to build a new plugin from scratch. It is to configure an existi
 | claude -p /      |
 | gemini CLI       |
 +------------------+
-```diff
+```
 
 ### Integration Pattern
 
@@ -132,7 +132,7 @@ Open Neovim -> :Himalaya (or keybind)
     -> AI: <leader>ms(summarize), <leader>mt(todos), <leader>mr(draft)
     -> AI response appears in floating window
     -> Close float with q or <Esc>
-```text
+```
 
 ### Floating Window Spec
 

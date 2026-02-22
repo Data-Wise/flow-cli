@@ -21,7 +21,7 @@ Before starting, you should:
 dash | grep "%"
 
 # Should see percentage values for projects
-```diff
+```
 
 ---
 
@@ -45,7 +45,7 @@ Flow CLI uses visual indicators to make progress tangible:
 │  Update %     │ --> │  See Progress │ --> │ Stay Motivated│
 │  (status)     │     │   (dash)      │     │   (wins)      │
 └───────────────┘     └───────────────┘     └───────────────┘
-```diff
+```
 
 Visual feedback helps ADHD-friendly workflows by:
 
@@ -63,7 +63,7 @@ View a project's progress:
 
 ```bash
 dash
-```text
+```
 
 **What you'll see:**
 
@@ -72,7 +72,7 @@ dash
   📦 mediationverse [P0] 85% - Final simulations
   📚 stat-440 [P1] 60% - Grade midterms
   🔧 flow-cli [P2] 95% - Documentation
-```bash
+```
 
 **Progress breakdown:**
 
@@ -91,7 +91,7 @@ Some commands show full progress bars:
 ```bash
 # View detailed status (if implemented)
 status mediationverse --show
-```text
+```
 
 **What you might see:**
 
@@ -109,7 +109,7 @@ Recent progress:
   Dec 20: 60% → 70% (+10%)
   Dec 22: 70% → 80% (+10%)
   Dec 24: 80% → 85% (+5%)
-```text
+```
 
 ### Step 1.3: Category Summaries
 
@@ -117,7 +117,7 @@ See aggregate progress:
 
 ```bash
 dash teaching
-```text
+```
 
 **What you'll see:**
 
@@ -130,7 +130,7 @@ dash teaching
 🔥 ACTIVE (2):
   📚 stat-440 [P0] 60% - Grade midterms
   📚 causal-inference [P2] 30% - Prep syllabus
-```diff
+```
 
 ### Checkpoint
 
@@ -145,7 +145,7 @@ At this point, you should understand:
 ```bash
 dash | grep "%"
 # Expected: See projects with different progress levels
-```bash
+```
 
 ---
 
@@ -159,14 +159,14 @@ When starting fresh:
 cd ~/projects/new-project
 status new-project --create
 status new-project ready P2 "Initial setup" 0
-```text
+```
 
 **What happened:** Project created at 0%:
 
 ```text
 📋 READY TO START (1):
   📊 new-project [P2] 0% - Initial setup
-```sql
+```
 
 ### Step 2.2: Small Incremental Updates
 
@@ -181,7 +181,7 @@ status new-project active P2 "First feature" 25
 
 # Week later: Halfway
 status new-project active P2 "Core complete" 50
-```diff
+```
 
 **Why small increments?**
 
@@ -197,7 +197,7 @@ Many projects follow this pattern:
 0-80%:   Fast progress (easy work)
 80-95%:  Slow progress (hard/tedious work)
 95-100%: Very slow (polish, edge cases)
-```bash
+```
 
 **Example progression:**
 
@@ -216,7 +216,7 @@ status project active P1 "Documentation" 95
 
 # Week 6: Complete
 status project ready P2 "Done!" 100
-```diff
+```
 
 > **Tip:** Don't be discouraged when 80-100% takes as long as 0-80%!
 
@@ -248,7 +248,7 @@ At this point, you should:
 status . active P1 "Reached 75% milestone" 75
 dash
 # Expected: See updated progress
-```bash
+```
 
 ---
 
@@ -270,7 +270,7 @@ win "75% complete - final push!"
 # Hit 100%!
 status . ready P2 "Complete!" 100
 win "COMPLETED mediationverse package!!!"
-```bash
+```
 
 ### Step 3.2: Track Velocity
 
@@ -285,13 +285,13 @@ status project active P1 "Week complete" 30
 
 # Velocity: 20% per week
 # Estimate: 3.5 weeks to complete (70% remaining / 20% per week)
-```text
+```
 
 **Track in your task description:**
 
 ```bash
 status project active P1 "Week 2 - on track (+20%)" 30
-```bash
+```
 
 ### Step 3.3: Use Visual Momentum
 
@@ -311,7 +311,7 @@ dash
 # flow-cli: 90% ⬆️ +10%
 
 win "Productive week! All projects advanced!"
-```bash
+```
 
 ### Step 3.4: Handle Setbacks
 
@@ -322,7 +322,7 @@ Sometimes progress goes backward:
 status project active P0 "Fix critical bug - set back" 70
 
 # Previous was 85%, now 70% (-15%)
-```diff
+```
 
 **This is OK!** Accurate progress > inflated numbers.
 
@@ -340,7 +340,7 @@ At this point, you should:
 ```bash
 wins
 # Expected: See celebration wins for milestones
-```bash
+```
 
 ---
 
@@ -363,7 +363,7 @@ status mediationverse active P0 "Package development" 75
 
 # Update based on weighted average
 status mediationverse active P0 "Focus on docs/vignettes" 70
-```bash
+```
 
 ### Technique 2: Must-Have vs Nice-to-Have
 
@@ -377,7 +377,7 @@ status project active P1 "All features" 60
 status project active P1 "Core features only" 85
 
 # Suddenly much closer to done!
-```bash
+```
 
 ### Technique 3: Time-Based vs Work-Based
 
@@ -388,14 +388,14 @@ Two ways to track:
 ```bash
 # Week 1 of 10 = 10%
 status project active P1 "Week 1" 10
-```bash
+```
 
 **Work-based (recommended):**
 
 ```bash
 # 3 of 10 features done = 30%
 status project active P1 "3/10 features" 30
-```bash
+```
 
 > **Tip:** Work-based is more accurate because work rarely distributes evenly over time.
 
@@ -413,7 +413,7 @@ win "Shipped project v1.0 - done is better than perfect!"
 
 # Future improvements are a new project
 status project-v2 ready P2 "Enhancements for v2" 0
-```bash
+```
 
 ---
 
@@ -455,7 +455,7 @@ status newpackage active P1 "Package skeleton created" 5
 status newpackage active P1 "Main functions working" 35
 
 # Continue incrementally...
-```bash
+```
 
 </details>
 
@@ -481,7 +481,7 @@ status project active P0 "Fixed root cause" 70
 status project active P0 "Re-implemented correctly" 80
 status project active P0 "Validated thoroughly" 90
 status project ready P2 "Done right this time!" 100
-```bash
+```
 
 </details>
 
@@ -515,7 +515,7 @@ win "PROJECT COMPLETE! Shipped and proud!"
 
 # View all celebrations
 wins
-```bash
+```
 
 </details>
 
@@ -539,7 +539,7 @@ status . active P1 "Fixed bug #2" 87
 status . active P1 "Added validation" 88
 
 # Smaller wins feel better!
-```bash
+```
 
 ### "Not sure what percentage to use"
 
@@ -558,7 +558,7 @@ status . active P1 "Added validation" 88
 # 100% = Complete and shipped
 
 # Estimate based on work done vs work remaining
-```bash
+```
 
 ### "Progress feels arbitrary"
 
@@ -573,7 +573,7 @@ status . active P1 "7 of 15 tests passing" 47
 status . active P1 "2 of 4 vignettes written" 80
 
 # % = (completed / total) * 100
-```bash
+```
 
 ---
 
@@ -604,7 +604,7 @@ status . active P0 "Reset to fix properly" 60
 
 # Ship at 95-100%, don't wait for perfection
 status . ready P2 "Good enough!" 100
-```diff
+```
 
 **Progress tips:**
 

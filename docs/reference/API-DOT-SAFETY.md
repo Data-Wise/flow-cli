@@ -29,7 +29,7 @@ _flow_get_file_size() {
   local file="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -58,7 +58,7 @@ size=$(_flow_get_file_size vault.sqlite)
 if (( size > 51200 )); then
   echo "Large file detected"
 fi
-```diff
+```
 
 **Exit Codes:**
 
@@ -85,7 +85,7 @@ _flow_human_size() {
   local bytes="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -116,7 +116,7 @@ for file in *.log; do
   ((total_bytes += size))
 done
 echo "Total: $(_flow_human_size $total_bytes)"
-```diff
+```
 
 **Output Format:**
 
@@ -147,7 +147,7 @@ _flow_timeout() {
   shift
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -180,7 +180,7 @@ fi
 
 # Capture output with timeout
 large_files=$(_flow_timeout 3 find . -size +100k)
-```diff
+```
 
 **Exit Codes:**
 
@@ -212,7 +212,7 @@ _dot_is_cache_valid() {
   local ttl="${2:-$_DOT_CACHE_TTL}"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -238,7 +238,7 @@ fi
 if _dot_is_cache_valid "$timestamp" 1800; then
   echo "Valid for 30 min"
 fi
-```text
+```
 
 **Cache Logic:**
 
@@ -246,7 +246,7 @@ fi
 current_time - cache_time < TTL  →  Valid (return 0)
 current_time - cache_time >= TTL  →  Invalid (return 1)
 cache_time is empty  →  Invalid (return 1)
-```diff
+```
 
 **Exit Codes:**
 
@@ -267,7 +267,7 @@ cache_time is empty  →  Invalid (return 1)
 _dot_get_cached_size() {
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -290,7 +290,7 @@ else
   _dot_cache_size "$size"
   echo "Total: $size"
 fi
-```diff
+```
 
 **Exit Codes:**
 
@@ -311,7 +311,7 @@ _dot_cache_size() {
   local size="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -335,7 +335,7 @@ _dot_cache_size "$size"
 
 # Later retrieval
 cached=$(_dot_get_cached_size)
-```diff
+```
 
 **Exit Codes:**
 
@@ -358,7 +358,7 @@ _dot_preview_add() {
   local target="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -406,7 +406,7 @@ _dot_add() {
   # Execute
   chezmoi add "$target"
 }
-```text
+```
 
 **Output Format:**
 
@@ -425,7 +425,7 @@ Total size: 301K
 💡 Consider excluding: *.log, *.sqlite
 
 Auto-add ignore patterns? (Y/n):
-```diff
+```
 
 **Exit Codes:**
 
@@ -454,7 +454,7 @@ _dot_check_git_in_path() {
   local target="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -491,7 +491,7 @@ if git_dirs=$(_dot_check_git_in_path "$target"); then
   git_count=$(echo "$git_dirs" | wc -w)
   _dot_warn "$git_count git metadata files detected"
 fi
-```diff
+```
 
 **Performance:**
 
@@ -525,7 +525,7 @@ _dot_suggest_ignore_patterns() {
   local patterns=("$@")
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -557,7 +557,7 @@ if [[ -n "$generated_files" ]]; then
   patterns=("*.log" "*.sqlite" "*.cache")
   _dot_suggest_ignore_patterns "${patterns[@]}"
 fi
-```text
+```
 
 **Output:**
 
@@ -566,7 +566,7 @@ fi
 ✓ Added *.log to .chezmoiignore
 ✓ Added *.sqlite to .chezmoiignore
 ℹ *.db already in .chezmoiignore
-```diff
+```
 
 **Exit Codes:**
 
@@ -590,7 +590,7 @@ _dot_warn() {
   local message="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -605,13 +605,13 @@ _dot_warn() {
 ```zsh
 _dot_warn "Large file detected: config.db"
 _dot_warn "Repository size exceeds 5MB"
-```text
+```
 
 **Output:**
 
 ```text
 ⚠️  Large file detected: config.db
-```zsh
+```
 
 ---
 
@@ -628,7 +628,7 @@ _dot_info() {
   local message="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -643,13 +643,13 @@ _dot_info() {
 ```zsh
 _dot_info "Scanning directory..."
 _dot_info "These will be skipped (covered by .chezmoiignore)"
-```text
+```
 
 **Output:**
 
 ```text
 ℹ Scanning directory...
-```zsh
+```
 
 ---
 
@@ -666,7 +666,7 @@ _dot_success() {
   local message="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -681,13 +681,13 @@ _dot_success() {
 ```zsh
 _dot_success "Added 3 files to chezmoi"
 _dot_success "Repository health check passed"
-```text
+```
 
 **Output:**
 
 ```text
 ✓ Added 3 files to chezmoi
-```zsh
+```
 
 ---
 
@@ -704,7 +704,7 @@ _dot_header() {
   local text="$1"
   # Implementation
 }
-```diff
+```
 
 **Arguments:**
 
@@ -719,7 +719,7 @@ _dot_header() {
 ```zsh
 _dot_header "Preview: dots add ~/.config"
 _dot_header "Repository Health Check"
-```text
+```
 
 **Output:**
 
@@ -727,7 +727,7 @@ _dot_header "Repository Health Check"
 
 Preview: dots add ~/.config
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```zsh
+```
 
 ---
 
@@ -741,7 +741,7 @@ typeset -g _DOT_SIZE_CACHE_TIME     # Timestamp (Unix epoch)
 typeset -g _DOT_IGNORE_CACHE        # Cached ignore patterns
 typeset -g _DOT_IGNORE_CACHE_TIME   # Timestamp
 typeset -g _DOT_CACHE_TTL=300       # 5 minutes (default)
-```bash
+```
 
 **Environment Variables:**
 
@@ -769,7 +769,7 @@ LARGE_DIR_COUNT=1000            # Files in directory
 # Timeouts
 GIT_FIND_TIMEOUT=2              # Seconds
 LARGE_DIR_TIMEOUT=5             # Seconds
-```text
+```
 
 ---
 
@@ -786,7 +786,7 @@ GENERATED_PATTERNS=(
   "*.tmp"
   "*.swp"
 )
-```text
+```
 
 **Ignore Patterns (Default):**
 
@@ -798,7 +798,7 @@ DEFAULT_IGNORE=(
   "*.tmp"
   ".DS_Store"
 )
-```diff
+```
 
 ---
 
@@ -845,7 +845,7 @@ _dot_add_safe() {
   chezmoi add "$target"
   _dot_success "Added successfully"
 }
-```bash
+```
 
 ### Pattern 2: Cached Size Calculation
 
@@ -864,7 +864,7 @@ _dot_get_size_with_cache() {
   _dot_cache_size "$size"
   echo "Total: $size"
 }
-```zsh
+```
 
 ### Pattern 3: Batch Ignore Addition
 

@@ -105,7 +105,7 @@ Successfully implemented Phases 1-2 of the WT Workflow Enhancement specification
 Unit Tests:       22/23 PASS (95.7%)
 E2E Tests:        Not run (requires full setup)
 Interactive:      Awaiting manual execution
-```sql
+```
 
 ### Coverage Mapping
 
@@ -258,7 +258,7 @@ $ wt
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 Tip: wt <project> to filter | pick wt for interactive
-```text
+```
 
 ### Filtered View
 
@@ -274,7 +274,7 @@ $ wt flow
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 Tip: wt <project> to filter | pick wt for interactive
-```bash
+```
 
 ### Interactive Delete
 
@@ -284,7 +284,7 @@ $ pick wt
 # Use Tab to select multiple worktrees
 # Press Ctrl-X to delete
 # Confirmation prompts appear for each
-```bash
+```
 
 ### Refresh Cache
 
@@ -297,7 +297,7 @@ $ pick wt
 
 🌳 Worktrees (4 total)
 # (updated overview displays)
-```yaml
+```
 
 ---
 

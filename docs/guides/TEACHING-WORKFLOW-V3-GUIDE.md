@@ -47,7 +47,7 @@ Teaching Workflow v3.0 provides a complete solution for managing course content 
 ```bash
 teach doctor            # Quick check (< 3s): deps, R, config, git
 teach doctor --full     # Full check: all 11 categories
-```bash
+```
 
 Quick mode validates essentials: dependencies, R environment + renv, project configuration, and git setup.
 Full mode adds: R packages, Quarto extensions, Scholar integration, hooks, cache, macros (opt-in), teaching style.
@@ -77,7 +77,7 @@ teach validate --watch
 # Validate specific files or directories
 teach validate lectures/week-05.qmd
 teach validate lectures/
-```text
+```
 
 **Validation modes:**
 
@@ -98,7 +98,7 @@ lectures/.backups/
   └── week-05-regression.2026-01-18-1430/
   └── week-05-regression.2026-01-17-0915/
   └── week-05-regression.2026-01-15-1620/
-```diff
+```
 
 **Retention policies:**
 - **Archive** - Keep forever, move to `.flow/archives/` at semester end
@@ -114,7 +114,7 @@ lectures/.backups/
 
 ```bash
 teach status
-```diff
+```
 
 Shows everything at a glance:
 - Course and semester info
@@ -130,7 +130,7 @@ Shows everything at a glance:
 
 ```bash
 teach deploy
-```text
+```
 
 Before creating a PR, see exactly what changed:
 
@@ -146,7 +146,7 @@ Files changed since last deployment:
 Summary: 1 added, 2 modified, 1 deleted
 
 View full diff? [y/N]
-```text
+```
 
 **Why it matters:** No surprises. Know exactly what students will see.
 
@@ -159,7 +159,7 @@ View full diff? [y/N]
 ```bash
 teach exam "Midterm" --template typst
 teach assignment "HW4" --template docx
-```sql
+```
 
 Choose output format for generated content:
 - `markdown` - Standard Markdown (default)
@@ -192,7 +192,7 @@ teach plan show 5
 
 # Edit in $EDITOR (jumps to correct line)
 teach plan edit 5
-```yaml
+```
 
 Plans are stored in `.flow/lesson-plans.yml`:
 
@@ -207,7 +207,7 @@ weeks:
     subtopics: []
     key_concepts: []
     prerequisites: []
-```bash
+```
 
 Scholar commands automatically load plans for enhanced context.
 
@@ -223,7 +223,7 @@ teach init --config ~/templates/stats-course.yml
 
 # Create and push to GitHub in one step
 teach init "STAT 440" --github
-```bash
+```
 
 **Why it matters:** Faster setup, consistent configuration across courses.
 
@@ -242,7 +242,7 @@ teach hooks install --force
 
 # Check what's installed
 teach hooks status
-```text
+```
 
 **Example output from `teach hooks status`:**
 
@@ -254,7 +254,7 @@ Hook status:
 ✓ prepare-commit-msg: v1.0.0 (up to date)
 
 Summary: 3 up to date, 0 outdated, 0 missing
-```bash
+```
 
 #### What Each Hook Does
 
@@ -272,7 +272,7 @@ git commit -m "Add lecture 5"
 ✓ Cross-reference integrity
 ✓ Sourced R file dependencies
 ✓ Code chunk syntax
-```text
+```
 
 **Real-world example:**
 
@@ -286,7 +286,7 @@ Running pre-commit validation...
 ✗ ERROR: lectures/week-05.qmd missing required field: 'date'
 
 Commit aborted. Fix the errors above and try again.
-```bash
+```
 
 **2. pre-push Hook** - Ensures deployment readiness
 
@@ -301,7 +301,7 @@ git push origin main
 ✓ No untracked files in critical directories
 ✓ All required files present
 ✓ Git working tree is clean
-```text
+```
 
 **Real-world example:**
 
@@ -316,7 +316,7 @@ Running pre-push checks...
 
 Please commit or stash these changes before pushing.
 Push aborted.
-```bash
+```
 
 **3. prepare-commit-msg Hook** - Auto-formats commit messages
 
@@ -331,7 +331,7 @@ git commit
 # - Timing information (if enabled)
 # - Content type detection
 # - Change summary
-```diff
+```
 
 **Real-world example:**
 
@@ -346,7 +346,7 @@ Your commit message: "update lecture"
 - Render time: 3.2s
 
 Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
-```bash
+```
 
 #### Configuration Options
 
@@ -370,7 +370,7 @@ export QUARTO_COMMIT_SUMMARY=1
 
 # Skip hooks temporarily (use sparingly!)
 git commit --no-verify -m "WIP: draft changes"
-```bash
+```
 
 **Configuration Examples:**
 
@@ -383,7 +383,7 @@ export QUARTO_COMMIT_TIMING=0
 export QUARTO_COMMIT_SUMMARY=0
 
 # Commits are fast, hooks only check YAML syntax
-```bash
+```
 
 **Scenario 2: Production mode** (before deployment)
 
@@ -396,7 +396,7 @@ export QUARTO_COMMIT_TIMING=1
 export QUARTO_COMMIT_SUMMARY=1
 
 # Commits are slower but catch all issues
-```bash
+```
 
 **Scenario 3: CI/CD mode** (automated workflows)
 
@@ -406,7 +406,7 @@ export QUARTO_HOOKS_QUIET=1
 export QUARTO_HOOKS_CI=1
 
 # Hooks run non-interactively, suitable for automation
-```bash
+```
 
 #### Hook Management
 
@@ -420,7 +420,7 @@ teach hooks status
 ⚠ pre-push: v0.9.0 (upgrade to v1.0.0)
 
 Run 'teach hooks upgrade' to update outdated hooks
-```bash
+```
 
 **Upgrade hooks:**
 
@@ -438,7 +438,7 @@ Upgrade these hooks? [Y/n] y
 ✓ Upgraded pre-push (v1.0.0)
 
 All hooks upgraded successfully (2 hooks)
-```bash
+```
 
 **Uninstall hooks:**
 
@@ -455,7 +455,7 @@ Continue? [y/N] y
 ✓ Removed prepare-commit-msg
 
 Uninstalled 3 hook(s)
-```diff
+```
 
 #### Common Workflows
 
@@ -487,7 +487,7 @@ git push origin main
 ✓ Working tree clean
 ✓ All files committed
 Push successful!
-```bash
+```
 
 **Emergency bypass (use with caution):**
 
@@ -498,7 +498,7 @@ git push --no-verify
 
 # Later: validate manually
 teach validate lectures/
-```bash
+```
 
 **Testing hooks without committing:**
 
@@ -509,7 +509,7 @@ teach validate lectures/
 # Output shows what would happen:
 Running pre-commit validation...
 ✓ All checks passed
-```bash
+```
 
 #### Troubleshooting
 
@@ -528,7 +528,7 @@ ls -la .git/hooks/
 chmod +x .git/hooks/pre-commit
 chmod +x .git/hooks/pre-push
 chmod +x .git/hooks/prepare-commit-msg
-```bash
+```
 
 **Hook fails with "command not found":**
 
@@ -538,7 +538,7 @@ teach doctor
 
 # Install missing dependencies
 teach doctor --fix
-```bash
+```
 
 **Hook takes too long:**
 
@@ -549,7 +549,7 @@ export QUARTO_PRE_COMMIT_RENDER=0
 # Or use parallel rendering
 export QUARTO_PARALLEL_RENDER=1
 export QUARTO_MAX_PARALLEL=8
-```bash
+```
 
 **Hook conflicts with existing hooks:**
 
@@ -565,7 +565,7 @@ teach hooks install
 
 # Existing hooks are backed up as:
 # .git/hooks/pre-commit.backup-<timestamp>
-```text
+```
 
 #### Why Use Hooks?
 
@@ -589,7 +589,7 @@ With hooks:
 - YAML validated before commit → Never push broken files
 - Pre-push checks catch missing files → Always complete
 - Auto-formatted messages → Clear history
-```text
+```
 
 See [Teaching Git Workflow Refcard](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) for complete hook documentation and advanced configuration.
 
@@ -603,7 +603,7 @@ Before creating your first course:
 
 ```bash
 teach doctor
-```bash
+```
 
 If any checks fail:
 
@@ -613,7 +613,7 @@ teach doctor --fix
 
 # Manual install
 brew install yq gh quarto
-```bash
+```
 
 ### Step 2: Initialize Course
 
@@ -630,7 +630,7 @@ teach init "STAT 440" --config ~/templates/stats-course.yml
 
 # With GitHub repo creation
 teach init "STAT 440" --github
-```diff
+```
 
 **What gets created:**
 
@@ -658,7 +658,7 @@ teach plan create 3 --topic "Model Diagnostics" --style applied
 
 # Review what you've created
 teach plan list
-```text
+```
 
 Plans are stored in `.flow/lesson-plans.yml` and loaded by Scholar for targeted content generation.
 
@@ -670,7 +670,7 @@ Plans are stored in `.flow/lesson-plans.yml` and loaded by Scholar for targeted 
 
 ```bash
 teach status
-```text
+```
 
 Expected output:
 
@@ -689,7 +689,7 @@ Content Inventory:
   • Lectures:    0
   • Exams:       0
   • Assignments: 0
-```diff
+```
 
 ---
 
@@ -717,7 +717,7 @@ Quick mode runs 4 essential categories. Full mode adds R packages, Quarto extens
 
 ```bash
 teach doctor
-```text
+```
 
 Output:
 
@@ -755,13 +755,13 @@ Git Setup:
 ────────────────────────────────────────────────────────────
 Passed: 17  [0s]
 ────────────────────────────────────────────────────────────
-```text
+```
 
 ### Full Check
 
 ```bash
 teach doctor --full
-```text
+```
 
 Adds 7 more categories with a spinner for slower checks (R packages, cache analysis).
 
@@ -772,13 +772,13 @@ teach doctor --brief      # Warnings and failures only
 teach doctor --verbose    # Detailed: per-package R, full macro list (implies --full)
 teach doctor --json       # Machine-readable JSON
 teach doctor --ci         # CI mode: no color, key=value, exit 1 on failure
-```text
+```
 
 ### Interactive Fix Mode
 
 ```bash
 teach doctor --fix
-```yaml
+```
 
 Implies `--full` and prompts for each fixable issue:
 
@@ -795,7 +795,7 @@ R Packages:
   ⚠ 3/5 R packages installed | Missing: tidyr, knitr
     Install via renv or system? [r/s]: r
     → renv::install(c("tidyr", "knitr"))
-```bash
+```
 
 ### Health Indicator
 
@@ -817,7 +817,7 @@ Run `teach doctor` to refresh the dot.
 teach doctor --fix
 # Installs missing: yq, quarto, gh, R packages
 # Ready to start teaching!
-```bash
+```
 
 **Scenario 2: Semester preparation**
 
@@ -833,7 +833,7 @@ teach doctor --full
 vim .flow/teach-config.yml
 git checkout -b draft
 teach doctor
-```bash
+```
 
 **Scenario 3: CI/CD integration**
 
@@ -847,7 +847,7 @@ if [ "$status" = "red" ]; then
   echo "Health check failed"
   exit 1
 fi
-```bash
+```
 
 **Scenario 4: Troubleshooting deployment**
 
@@ -859,7 +859,7 @@ teach doctor --brief
 git add -A && git commit -m "Update content"
 git remote add origin https://github.com/user/stat-440
 teach deploy
-```bash
+```
 
 ### Common Issues and Solutions
 
@@ -910,7 +910,7 @@ cat lesson-plan.yml | yq ".weeks[] | select(.number == 5)"
 #   - "VIF (Variance Inflation Factor)"
 #   - "Partial F-tests"
 #   - "Model selection criteria"
-```bash
+```
 
 **Tuesday-Thursday:** Create content
 
@@ -925,7 +925,7 @@ teach lecture "Multiple Regression" --week 5
 
 # Content is automatically backed up
 # Scholar auto-loads lesson-plan.yml for context
-```bash
+```
 
 **Friday:** Create assessments
 
@@ -937,7 +937,7 @@ teach quiz "Week 5 Quiz" --questions 10 --time-limit 15
 teach assignment "Homework 4" \
   --due-date "2026-02-18" \
   --points 100
-```bash
+```
 
 **Weekend:** Review and deploy
 
@@ -947,7 +947,7 @@ teach status
 
 # Deploy with preview
 teach deploy
-```text
+```
 
 ### Creating Exams
 
@@ -959,7 +959,7 @@ teach exam "Midterm - Chapters 1-5" \
   --duration 120 \
   --types "mc,short,essay" \
   --template typst
-```text
+```
 
 **What happens:**
 
@@ -975,7 +975,7 @@ teach exam "Final Exam - Comprehensive" \
   --questions 50 \
   --duration 180 \
   --format quarto
-```text
+```
 
 ### Creating Assignments
 
@@ -984,7 +984,7 @@ teach assignment "Problem Set 3 - Diagnostics" \
   --due-date "2026-03-01" \
   --points 100 \
   --template docx
-```diff
+```
 
 **Scholar will include:**
 
@@ -999,7 +999,7 @@ teach assignment "Problem Set 3 - Diagnostics" \
 
 ```bash
 teach lecture "Collinearity and VIF" --week 6
-```text
+```
 
 **Slides from lecture:**
 
@@ -1007,7 +1007,7 @@ teach lecture "Collinearity and VIF" --week 6
 teach slides "Week 6 Slides" \
   --from-lecture lectures/week-06-collinearity.qmd \
   --theme academic
-```text
+```
 
 **Guest lecture (custom styling):**
 
@@ -1015,7 +1015,7 @@ teach slides "Week 6 Slides" \
 teach slides "Guest: Machine Learning in Stats" \
   --theme minimal \
   --template typst
-```bash
+```
 
 ### Template Selection Guide
 
@@ -1060,7 +1060,7 @@ g commit "feat: add Week 6 content"
 
 # 4. Deploy with preview
 teach deploy
-```text
+```
 
 ### Deploy Preview
 
@@ -1078,7 +1078,7 @@ Files changed since last deployment:
 Summary: 2 added, 2 modified, 1 deleted
 
 View full diff? [y/N]
-```diff
+```
 
 **Options:**
 
@@ -1100,7 +1100,7 @@ Commits included:
   • i7j8k9l - docs: update schedule
 
 Review and merge on GitHub when ready.
-```text
+```
 
 ### Pre-flight Checks
 
@@ -1124,7 +1124,7 @@ You have 3 uncommitted files:
 → Commit or stash changes first:
     g commit "your message"
     g stash
-```text
+```
 
 ### Direct Push (Advanced)
 
@@ -1132,7 +1132,7 @@ Bypass PR workflow for hotfixes:
 
 ```bash
 teach deploy --direct-push
-```diff
+```
 
 ⚠️ **Warning:** Use sparingly. PR workflow provides:
 - Change review before going live
@@ -1159,7 +1159,7 @@ lectures/.backups/
   └── week-05.2026-01-18-1430/  # Latest
   └── week-05.2026-01-17-0915/  # Yesterday
   └── week-05.2026-01-15-1620/  # Last week
-```yaml
+```
 
 **Retention policies:**
 
@@ -1171,13 +1171,13 @@ backups:
     assessments: archive    # Keep exam/quiz backups
     lectures: semester      # Delete at semester end
     syllabi: archive        # Keep syllabus backups
-```text
+```
 
 ### View Backup Status
 
 ```bash
 teach status
-```text
+```
 
 Output includes:
 
@@ -1190,7 +1190,7 @@ Backup Summary:
     • Exams:       3 backups (4.2 MB)
     • Lectures:    5 backups (8.1 MB)
     • Assignments: 4 backups (2.3 MB)
-```bash
+```
 
 ### Restore from Backup
 
@@ -1203,7 +1203,7 @@ ls -lt lectures/.backups/
 # 2. Copy content back
 cp -R lectures/.backups/week-05.2026-01-15-1620/* \
       lectures/week-05.qmd
-```bash
+```
 
 **Using git (if backed up):**
 
@@ -1213,7 +1213,7 @@ git log --oneline lectures/week-05.qmd
 
 # Restore specific version
 git checkout <commit-hash> lectures/week-05.qmd
-```bash
+```
 
 ### Delete Old Backups
 
@@ -1222,19 +1222,19 @@ git checkout <commit-hash> lectures/week-05.qmd
 ```bash
 # Will prompt before deleting
 rm -rf lectures/.backups/week-05.2026-01-15-1620
-```text
+```
 
 **Force deletion (scripts):**
 
 ```bash
 _teach_delete_backup lectures/.backups/week-05.2026-01-15-1620 --force
-```text
+```
 
 ### Archive at Semester End
 
 ```bash
 teach archive "Spring 2025"
-```text
+```
 
 **What happens:**
 
@@ -1249,7 +1249,7 @@ teach archive "Spring 2025"
 
   Archived: 8 content folders
   Deleted:  5 content folders (semester retention)
-```diff
+```
 
 ---
 
@@ -1277,13 +1277,13 @@ teach deploy
 
 # Verify PR merged
 gh pr list --state merged
-```text
+```
 
 **2. Archive backups**
 
 ```bash
 teach archive "Spring 2025"
-```bash
+```
 
 **3. Create semester tag**
 
@@ -1291,7 +1291,7 @@ teach archive "Spring 2025"
 # Tag final state
 git tag -a spring-2025-final -m "End of Spring 2025 semester"
 git push origin spring-2025-final
-```yaml
+```
 
 **4. Update .STATUS**
 
@@ -1304,7 +1304,7 @@ next_semester: Fall 2025
 notes: |
   Spring 2025 semester complete.
   Archive: .flow/archives/Spring-2025
-```bash
+```
 
 **5. Prepare for next semester**
 
@@ -1319,7 +1319,7 @@ teach config
 
 # Initialize dates
 teach dates init
-```bash
+```
 
 ---
 
@@ -1341,7 +1341,7 @@ done
 
 # Review for gaps
 teach plan list
-```diff
+```
 
 **Benefits:**
 
@@ -1358,7 +1358,7 @@ teach doctor --brief
 
 # Monthly full check
 teach doctor
-```bash
+```
 
 ### 3. Commit Often
 
@@ -1369,7 +1369,7 @@ g commit "feat: add Homework 4"
 
 # Not this
 g commit "added a bunch of stuff"
-```bash
+```
 
 **Why:** Easy to track what changed, revert if needed.
 
@@ -1378,7 +1378,7 @@ g commit "added a bunch of stuff"
 ```bash
 # Always review changes
 teach deploy   # Don't skip the preview!
-```yaml
+```
 
 ### 5. Backup Configuration
 
@@ -1390,7 +1390,7 @@ backups:
     assessments: archive   # Safe: keep forever
     lectures: archive      # Safe: keep forever
     syllabi: archive       # Safe: keep forever
-```yaml
+```
 
 **Aggressive settings (if disk space limited):**
 
@@ -1400,7 +1400,7 @@ backups:
     assessments: archive   # Keep exams
     lectures: semester     # Delete lecture backups
     syllabi: archive       # Keep syllabus
-```yaml
+```
 
 ### 6. Use Templates
 
@@ -1423,13 +1423,13 @@ backups:
     assessments: archive
     lectures: semester
     syllabi: archive
-```text
+```
 
 **Use it:**
 
 ```bash
 teach init "STAT 440" --config ~/templates/stats-course.yml
-```bash
+```
 
 ---
 
@@ -1448,7 +1448,7 @@ brew install yq gh quarto
 
 # Verify fix
 teach doctor
-```bash
+```
 
 **Issue:** Config validation fails
 
@@ -1463,7 +1463,7 @@ cat lib/templates/teaching/teach-config.schema.json
 # - Invalid date format (use YYYY-MM-DD)
 # - Missing required fields (course.name, semester_info)
 # - Invalid YAML syntax
-```bash
+```
 
 ### teach deploy Fails
 
@@ -1475,7 +1475,7 @@ git checkout draft
 
 # Try again
 teach deploy
-```bash
+```
 
 **Issue:** Uncommitted changes
 
@@ -1488,7 +1488,7 @@ g commit "your message"
 
 # Or stash
 g stash
-```bash
+```
 
 **Issue:** Conflicts with production
 
@@ -1506,7 +1506,7 @@ git rebase --continue
 
 # Deploy
 teach deploy
-```bash
+```
 
 **Issue:** Config file not found
 
@@ -1516,7 +1516,7 @@ teach init "Course Name"
 
 # Verify
 ls -la .flow/teach-config.yml
-```bash
+```
 
 ### Backup Issues
 
@@ -1531,7 +1531,7 @@ teach archive "Fall 2024"
 
 # Or manual cleanup
 rm -rf lectures/.backups/*2024*
-```bash
+```
 
 **Issue:** Can't restore backup
 
@@ -1544,7 +1544,7 @@ ls -ld lectures/.backups/
 
 # Restore manually
 cp -R lectures/.backups/week-05.LATEST/* lectures/
-```bash
+```
 
 ### Scholar Integration Issues
 
@@ -1559,7 +1559,7 @@ yq eval lesson-plan.yml
 
 # Validate against schema
 teach doctor
-```bash
+```
 
 **Issue:** Scholar not generating context-aware content
 
@@ -1572,7 +1572,7 @@ cat lesson-plan.yml
 
 # Try explicit context
 teach exam "Topic" --context
-```bash
+```
 
 ---
 
@@ -1600,7 +1600,7 @@ teach deploy --dry-run
 # Prompt for confirmation
 read -q "REPLY?Deploy to production? [y/N] "
 [[ "$REPLY" = "y" ]] && teach deploy
-```bash
+```
 
 **Backup verification script:**
 
@@ -1621,7 +1621,7 @@ if (( count < 5 )); then
 fi
 
 echo "✓ Backup verification passed: $count backups"
-```bash
+```
 
 ### Custom Workflows
 
@@ -1643,7 +1643,7 @@ teach rubric "Midterm" --criteria 5
 # 5. Commit all together
 g add exams/
 g commit "feat: add midterm exam with solutions and rubric"
-```bash
+```
 
 **Lecture workflow:**
 
@@ -1662,7 +1662,7 @@ teach assignment "Practice Problems N" \
 # 4. Deploy together
 g commit "feat: complete Week N materials"
 teach deploy
-```yaml
+```
 
 ---
 
@@ -1748,7 +1748,7 @@ teach deploy
 # ✓ URL: https://github.com/user/stat-440/pull/1
 #
 # Merge PR and site will deploy automatically!
-```bash
+```
 
 ### Example 2: Weekly Content Creation Cycle
 
@@ -1857,7 +1857,7 @@ teach deploy
 # Preview changes, create PR
 # GitHub Actions builds site, deploys to Pages
 # Students see updated content within 2 minutes
-```bash
+```
 
 ### Example 3: Midterm Exam Creation
 
@@ -1930,7 +1930,7 @@ git push origin exam-midterm-private
 git checkout main
 git rm exams/midterm-solutions.qmd
 git commit -m "Remove solution key from public branch"
-```bash
+```
 
 ### Example 4: End of Semester Workflow
 
@@ -1999,7 +1999,7 @@ teach deploy
 # Output:
 # ✓ Created PR #1: Fall 2026 setup
 # ✓ Course ready for new semester!
-```bash
+```
 
 ### Example 5: Fixing Common Issues
 
@@ -2052,7 +2052,7 @@ teach deploy
 # Output:
 # ✓ Fix deployed in ~15 seconds (direct mode)
 # ✓ Student can access corrected content
-```text
+```
 
 ---
 
@@ -2068,7 +2068,7 @@ teach deploy
 
 ```bash
 teach doctor
-```text
+```
 
 1. **Enable backups:**
 
@@ -2076,7 +2076,7 @@ Already enabled by default! Check status:
 
 ```bash
 teach status  # See "Backup Summary" section
-```yaml
+```
 
 1. **Configure retention policies:**
 
@@ -2088,7 +2088,7 @@ backups:
     assessments: archive
     lectures: semester   # New option
     syllabi: archive
-```yaml
+```
 
 1. **Create lesson plan (optional):**
 
@@ -2100,7 +2100,7 @@ weeks:
   - number: 1
     topic: "Introduction"
 EOF
-```bash
+```
 
 1. **Use new features:**
 

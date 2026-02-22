@@ -39,7 +39,7 @@ brew install starship
 
 # Option 3: Oh My Posh
 brew install oh-my-posh
-```diff
+```
 
 ---
 
@@ -57,7 +57,7 @@ The `prompt` dispatcher lets you:
 
 ```bash
 prompt status
-```text
+```
 
 **Example output:**
 
@@ -77,7 +77,7 @@ prompt status
     Config: ~/.config/ohmyposh/config.json
 
 To switch: prompt toggle
-```text
+```
 
 The `●` indicates your current engine; `○` shows available alternatives.
 
@@ -91,7 +91,7 @@ The easiest way to switch is using the toggle command:
 
 ```bash
 prompt toggle
-```text
+```
 
 **You'll see:**
 
@@ -101,7 +101,7 @@ Which prompt engine would you like to use?
 1) starship
 2) ohmyposh
 #?
-```bash
+```
 
 Enter the number of your choice and press Enter. The shell will reload automatically.
 
@@ -118,14 +118,14 @@ prompt p10k
 
 # Switch to Oh My Posh
 prompt ohmyposh
-```text
+```
 
 **Output:**
 
 ```text
 ✓ Switched to Starship
 Reloading shell...
-```text
+```
 
 ---
 
@@ -137,7 +137,7 @@ Not sure what will happen? Preview first:
 
 ```bash
 prompt --dry-run starship
-```text
+```
 
 **Output:**
 
@@ -153,13 +153,13 @@ Config file: ~/.config/starship.toml
 
 To apply these changes, run:
   prompt starship
-```text
+```
 
 ### Preview Toggle Options
 
 ```bash
 prompt --dry-run toggle
-```text
+```
 
 **Output:**
 
@@ -174,7 +174,7 @@ Available alternatives to switch to:
 
 To switch engines, run:
   prompt toggle
-```text
+```
 
 ---
 
@@ -186,7 +186,7 @@ If you haven't configured Oh My Posh yet, use the setup wizard:
 
 ```bash
 prompt setup-ohmyposh
-```text
+```
 
 **Output:**
 
@@ -200,13 +200,13 @@ Next steps:
   1. Customize your config: nano ~/.config/ohmyposh/config.json
   2. Validate: oh-my-posh config
   3. Switch to OhMyPosh: prompt ohmyposh
-```text
+```
 
 ### Step 2: Switch to Oh My Posh
 
 ```bash
 prompt ohmyposh
-```text
+```
 
 ### Step 3: Customize (Optional)
 
@@ -214,7 +214,7 @@ Edit the config file to customize your prompt:
 
 ```bash
 nano ~/.config/ohmyposh/config.json
-```text
+```
 
 Or browse the [Oh My Posh themes](https://ohmyposh.dev/docs/themes) for inspiration.
 
@@ -228,7 +228,7 @@ Get a tabular overview of all engines:
 
 ```bash
 prompt list
-```text
+```
 
 **Output:**
 
@@ -242,7 +242,7 @@ Starship           ○          ~/.config/starship.toml
 Oh My Posh         ○          ~/.config/ohmyposh/config.json
 
 Legend: ● = current, ○ = available
-```text
+```
 
 ---
 
@@ -255,13 +255,13 @@ Legend: ● = current, ○ = available
 ```text
 ✗ Starship not found in PATH
 Install with: brew install starship
-```bash
+```
 
 **Solution:**
 
 ```bash
 brew install starship
-```text
+```
 
 ### Config Missing
 
@@ -269,13 +269,13 @@ brew install starship
 
 ```text
 ⚠ OhMyPosh config missing at ~/.config/ohmyposh/config.json
-```text
+```
 
 **Solution:**
 
 ```bash
 prompt setup-ohmyposh
-```text
+```
 
 ### Prompt Doesn't Change After Switch
 
@@ -285,7 +285,7 @@ prompt setup-ohmyposh
 
 ```bash
 exec zsh -i
-```bash
+```
 
 Or simply open a new terminal tab.
 

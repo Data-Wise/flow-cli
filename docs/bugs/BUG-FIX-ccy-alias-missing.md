@@ -13,7 +13,7 @@ The `flow alias` command didn't show the `ccy` alias (shortcut for `cc yolo`), e
 
 ```text
 fix: ccy is also an alias that flow alias command missed?
-```bash
+```
 
 ### Verification
 
@@ -28,7 +28,7 @@ $ flow alias cc
   ccp → claude -p (print mode)
   ccr → claude -r (resume session)
   # ❌ ccy missing!
-```diff
+```
 
 ## Root Cause
 
@@ -76,7 +76,7 @@ _flow_alias_show_claude() {
 # Total count
 - echo "Total: 28 custom aliases + 8 dispatchers + 226+ git aliases"
 + echo "Total: 29 custom aliases + 8 dispatchers + 226+ git aliases"
-```zsh
+```
 
 ## Verification
 
@@ -103,7 +103,7 @@ $ flow alias cc
 
 Tip: Use cc dispatcher for full Claude workflow
 See also: cc help for all Claude commands
-```bash
+```
 
 ### Automated Test
 

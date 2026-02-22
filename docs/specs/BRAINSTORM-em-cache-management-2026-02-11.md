@@ -86,7 +86,7 @@ Current locations:
 
 ```bash
 $XDG_CACHE_HOME/flow-cli/email/  (defaults to ~/.cache/flow-cli/email/)
-```text
+```
 
 ### Option C: Split by Expendability
 

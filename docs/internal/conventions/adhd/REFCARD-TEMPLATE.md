@@ -32,7 +32,7 @@
 ````markdown
 # [Tool Name] Reference Card
 
-```text
+```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  [TOOL NAME] REFERENCE CARD                                        v[X.X]  │
 ├─────────────────────────────────────────────────────────────────────────────┤
@@ -58,13 +58,13 @@
 │  TIPS: [tip 1] • [tip 2] • [tip 3]                                          │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```diff
-````diff
+```
 
 ---
 
 ## Template: Markdown Table Style
 
-````markdown
+````
 # [Tool Name] Reference Card
 
 > **Version:** X.X | **Last Updated:** YYYY-MM-DD
@@ -99,13 +99,13 @@
 
 ## Common Patterns
 
-```bash
+```
 # [Pattern name]
 [command pattern]
 
 # [Pattern name]
 [command pattern]
-```diff
+```
 
 ---
 
@@ -114,13 +114,13 @@
 - [Tip 1]
 - [Tip 2]
 - [Tip 3]
-````bash
+```
 
 ---
 
 ## Template: Compact Grid Style
 
-````markdown
+````
 # [Tool Name] Refcard
 
 | Essential | Navigation | Editing |
@@ -169,7 +169,7 @@
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  TIPS: Use aliases (f, wk, dh, rh) • All hubs have same subcommands         │
 └─────────────────────────────────────────────────────────────────────────────┘
-```bash
+```
 
 ---
 
@@ -192,7 +192,7 @@
 | `gbl` blame | `gstl` list | `grs file` |
 
 **Patterns:** `ga . && gc "msg" && gp` • `gf && gm origin/main`
-```text
+```
 
 ---
 
@@ -204,7 +204,7 @@
 SHORT (≤6 chars)     Align descriptions at column 20
 MEDIUM (7-12 chars)  Align descriptions at column 25
 LONG (>12 chars)     Put description on next line or use table
-```diff
+```
 
 ### Descriptions
 

@@ -16,7 +16,7 @@
 │  status     → Update its status              │
 │                                              │
 └──────────────────────────────────────────────┘
-```diff
+```
 
 **That's it!** Four commands.
 
@@ -52,7 +52,7 @@ dash teaching        # Just teaching projects
 dash research        # Just research projects
 dash packages        # Just R packages
 dash dev             # Just dev tools
-```diff
+```
 
 ### ✅ When to use it
 
@@ -81,7 +81,7 @@ dash dev             # Just dev tools
   📊 collider [P2] 90% - Waiting for review
 
 💡 Quick: work <name> to start
-```diff
+```
 
 **Colors:**
 
@@ -108,7 +108,7 @@ Automatically picks your highest-priority project and takes you there.
 
 ```bash
 just-start      # That's it!
-```diff
+```
 
 ### ✅ When to use it
 
@@ -137,7 +137,7 @@ just-start      # That's it!
    dash          = See all projects
 
 📁 /Users/dt/projects/r-packages/active/mediationverse
-```bash
+```
 
 **How it picks:**
 
@@ -172,7 +172,7 @@ work .              # Open current project
 
 # No args (not implemented yet)
 work                # Would open current project or show picker
-```diff
+```
 
 ### ✅ When to use it
 
@@ -185,7 +185,7 @@ work                # Would open current project or show picker
 
 ```bash
 work mediationverse
-```yaml
+```
 
 **What happens:**
 
@@ -229,25 +229,25 @@ status mediationverse
    New progress (0-100): 95
 
 ✅ Updated mediationverse!
-```text
+```
 
 **Quick mode** (if you know all values):
 
 ```bash
 status mediationverse active P0 "Complete sims" 95
-```text
+```
 
 **Create mode** (start tracking a new project):
 
 ```bash
 status newproject --create
-```text
+```
 
 **Show mode** (just view, don't update):
 
 ```bash
 status mediationverse --show
-```diff
+```
 
 ### ✅ When to use it
 
@@ -281,7 +281,7 @@ Progress? [85]
 > 95
 
 ✅ Updated! Press Enter to continue...
-```diff
+```
 
 **Fields explained:**
 
@@ -316,7 +316,7 @@ just-start
 
 # 3. Start working
 work .
-```bash
+```
 
 **Time:** <30 seconds
 **Decisions:** Zero
@@ -334,7 +334,7 @@ dash teaching
 
 # Jump to a project
 work stat-440
-```bash
+```
 
 **Time:** <10 seconds
 
@@ -352,7 +352,7 @@ status mediationverse
 > Progress: 95
 
 ✅ Updated!
-```bash
+```
 
 **Time:** <30 seconds
 **Benefit:** You'll remember where you left off!
@@ -378,7 +378,7 @@ category: r-packages
 
 # Now appears in dashboard!
 dash
-```bash
+```
 
 ---
 
@@ -394,7 +394,7 @@ work mediationverse
 
 # Update its status
 status mediationverse active P0 "Critical fix" 0
-```diff
+```
 
 ---
 
@@ -424,7 +424,7 @@ work mediationverse
 
 # Type:
 work med
-```bash
+```
 
 ### Tip 2: Morning + Evening Routine
 
@@ -434,7 +434,7 @@ dash && just-start && work .
 
 # Evening:
 status . paused P0 "Resume here tomorrow" 90
-```bash
+```
 
 ### Tip 3: Categories for Focus
 
@@ -447,7 +447,7 @@ dash research
 
 # Package work
 dash packages
-```bash
+```
 
 ### Tip 4: Combine with `win` command
 
@@ -457,7 +457,7 @@ win "Completed Phase 1 of help system"
 
 # See today's wins
 wins
-```bash
+```
 
 ### Tip 5: Use Dispatchers
 
@@ -467,7 +467,7 @@ cc               # Claude Code (project-aware)
 gm               # Gemini (project-aware)
 peek <file>      # Smart file viewer
 qu               # Quarto operations
-```yaml
+```
 
 ---
 
@@ -519,7 +519,7 @@ Evening:
   win "..."     → Log your win
     ↓
   wins          → Feel good about progress!
-```diff
+```
 
 ---
 

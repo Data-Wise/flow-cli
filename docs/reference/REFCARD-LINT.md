@@ -21,7 +21,7 @@ teach validate --lint
 
 # Run only Phase 1 quick checks
 teach validate --quick-checks file.qmd
-```bash
+```
 
 ### Combined Flags
 
@@ -34,7 +34,7 @@ teach validate --quick-checks
 
 # Skip external validators
 teach validate --lint --skip-external file.qmd
-```diff
+```
 
 ---
 
@@ -60,7 +60,7 @@ teach validate --lint --skip-external file.qmd
 
 ::: {.callout-info}        ❌ Invalid
 ::: {.callout-danger}      ❌ Invalid
-```text
+```
 
 ---
 
@@ -69,29 +69,29 @@ teach validate --lint --skip-external file.qmd
 ### ✅ Valid (with language tag)
 
 ```markdown
-```{r}
+```
 x <- 1
 ```text
 
-```python
+```
 print("Hello")
 ```text
 
-```text
+```
 Plain text
 ```text
 
-```text
+```
 
 ### ❌ Invalid (bare blocks)
 
 ```markdown
-```text
+```
 
 no language tag
 
 ```text
-```diff
+```
 
 ---
 
@@ -118,7 +118,7 @@ no language tag
   Files checked: 3
   Validators run: 1
   Time: 0s
-```text
+```
 
 ### With Errors
 
@@ -134,7 +134,7 @@ no language tag
   Files checked: 1
   Validators run: 1
   Time: 0s
-```bash
+```
 
 ---
 
@@ -151,7 +151,7 @@ if command -v teach &>/dev/null; then
         echo "$LINT_OUTPUT" | head -20
     fi
 fi
-```diff
+```
 
 **Note:** Lint runs automatically on commit but never blocks (warn-only mode).
 
@@ -175,21 +175,21 @@ fi
 **Before:**
 
 ```markdown
-```text
+```
 
 x <- 1
 
 ```text
-```text
+```
 
 **After:**
 
 ```markdown
-```{r}
+```
 x <- 1
 ```text
 
-```text
+```
 
 ### Fix Unbalanced Divs
 
@@ -197,7 +197,7 @@ x <- 1
 ```markdown
 ::: {.callout-note}
 Content
-```text
+```
 
 **After:**
 
@@ -205,7 +205,7 @@ Content
 ::: {.callout-note}
 Content
 :::
-```bash
+```
 
 ### Fix Skipped Headings
 
@@ -214,7 +214,7 @@ Content
 ```markdown
 # Section
 ### Subsection (skipped h2)
-```bash
+```
 
 **After:**
 

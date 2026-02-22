@@ -26,7 +26,7 @@ _dot_check_git_in_path() {
     # Returns: space-separated list of .git directories found
     # Exit code: 0 if found, 1 if none
 }
-```diff
+```
 
 ---
 
@@ -65,7 +65,7 @@ _dot_check_git_in_path() {
 # Only checks the symlink target for .git
 local real_target=$(readlink "$target")
 [[ -d "${real_target}/.git" ]] && git_dirs+=("${real_target}/.git")
-```bash
+```
 
 **User follows symlink:**
 
@@ -74,7 +74,7 @@ local real_target=$(readlink "$target")
 resolved=$(readlink -f "$target" 2>/dev/null || realpath "$target" 2>/dev/null)
 target="$resolved"
 # Continue with full scan
-```bash
+```
 
 ### 2. Fast Path: Git Repositories
 
@@ -88,7 +88,7 @@ if [[ -d "$target/.git" ]] && command -v git &>/dev/null; then
     # Extract submodule paths
     git -C "$target" submodule foreach --quiet 'echo $sm_path' 2>/dev/null
 fi
-```diff
+```
 
 **Benefits:**
 - 10-50x faster than `find` on large repos
@@ -108,7 +108,7 @@ fi
 
 # Find with 2-second timeout
 _flow_timeout 2 find "$target" -name ".git" -type d -maxdepth 5 2>/dev/null
-```zsh
+```
 
 **Timeout Handling:**
 
@@ -118,7 +118,7 @@ if (( find_exit == 124 )); then
     _flow_log_warning "Git directory scan timed out after 2 seconds"
     _flow_log_info "Large directories may have .git subdirectories not detected"
 fi
-```bash
+```
 
 ### 4. Cross-Platform Compatibility
 
@@ -127,7 +127,7 @@ fi
 ```zsh
 # Try readlink -f (GNU), fallback to realpath (BSD)
 resolved=$(readlink -f "$target" 2>/dev/null || realpath "$target" 2>/dev/null)
-```diff
+```
 
 **Timeout Command:**
 - Uses `_flow_timeout()` from `lib/core.zsh`
@@ -141,7 +141,7 @@ count=$(command | wc -l | tr -d ' ')  # Remove all spaces
 count="${count##*( )}"                 # Strip leading spaces (ZSH)
 count="${count%%*( )}"                 # Strip trailing spaces (ZSH)
 [[ "$count" =~ ^[0-9]+$ ]] || count=0  # Validate numeric
-```text
+```
 
 ---
 
@@ -151,7 +151,7 @@ count="${count%%*( )}"                 # Strip trailing spaces (ZSH)
 
 ```text
 /path/to/target/.git /path/to/target/subdir/.git
-```diff
+```
 
 - Space-separated paths
 - Exit code: 0
@@ -160,7 +160,7 @@ count="${count%%*( )}"                 # Strip trailing spaces (ZSH)
 
 ```text
 (empty string)
-```diff
+```
 
 - Exit code: 1
 
@@ -181,7 +181,7 @@ if git_dirs=$(_dot_check_git_in_path "$target"); then
     echo
     [[ $REPLY =~ ^[Yy]$ ]] || return 1
 fi
-```bash
+```
 
 ### Example 2: Automatic exclusion
 
@@ -193,7 +193,7 @@ if _dot_check_git_in_path "$target" >/dev/null; then
     echo ".git" >> ~/.local/share/chezmoi/.chezmoiignore
     _flow_log_success "Added .git to ignore patterns"
 fi
-```zsh
+```
 
 ### Example 3: Performance-aware scan
 
@@ -206,7 +206,7 @@ if (( dir_size > 100000 )); then  # > 100MB
 fi
 
 result=$(_dot_check_git_in_path "$target")
-```yaml
+```
 
 ---
 
@@ -247,7 +247,7 @@ _dot_check_git_in_path "/tmp/test-link"
 # Test 4: Performance
 time _dot_check_git_in_path "/large/directory"
 # Should complete in < 2s or timeout gracefully
-```bash
+```
 
 ---
 
@@ -261,7 +261,7 @@ if [[ -d "$target/.git" ]] && command -v git &>/dev/null; then
 else
     # Fallback to find (slow path)
 fi
-```bash
+```
 
 ### 2. Symlink Loop Protection
 
@@ -272,21 +272,21 @@ if [[ -z "$resolved" ]]; then
     _flow_log_error "Failed to resolve symlink"
     return 1
 fi
-```bash
+```
 
 ### 3. Permission Denied
 
 ```zsh
 # find stderr redirected to /dev/null
 find "$target" -name ".git" -type d -maxdepth 5 2>/dev/null
-```bash
+```
 
 ### 4. Very Deep Nesting
 
 ```zsh
 # Limit to maxdepth 5 to prevent excessive recursion
 find "$target" -name ".git" -type d -maxdepth 5
-```zsh
+```
 
 ### 5. Timeout Recovery
 
@@ -296,7 +296,7 @@ if (( find_exit == 124 )); then
     _flow_log_warning "Git directory scan timed out after 2 seconds"
     # Return partial results already collected
 fi
-```bash
+```
 
 ---
 

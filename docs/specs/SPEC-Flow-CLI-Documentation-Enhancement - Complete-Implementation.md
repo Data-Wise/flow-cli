@@ -122,7 +122,7 @@ description: Quick solutions when Flow CLI isn't working as expected
 # 🆘 I'm Stuck
 
 !!! tldr "TL;DR - Try These First (30 seconds)"
-```bash
+```
     source ~/.zshrc              # Reload shell
     flow doctor                  # Run diagnostics
     ls ~/.config/zsh/functions/  # Check installation
@@ -139,7 +139,7 @@ Try these in order - most common solutions first:
 **What this means:** Flow CLI commands aren't loaded in your shell.
 
 **Fix it:**
-```bash
+```
 # Option 1: Reload your shell config
 source ~/.zshrc
 
@@ -159,7 +159,7 @@ brew reinstall flow-cli  # If using Homebrew
 **What this means:** Flow CLI can't find any projects with `.STATUS` files.
 
 **Fix it:**
-```bash
+```
 # Check your projects directory
 ls ~/projects/
 
@@ -180,7 +180,7 @@ status your-project ready P2 "Initial setup"
 **What this means:** Project type not detected or editor not in PATH.
 
 **Fix it:**
-```bash
+```
 # Check what's in your project
 cd ~/projects/your-project
 ls -la
@@ -203,7 +203,7 @@ which code    # Should show path to executable
 **What this means:** Timer functions not loaded or tmux not installed.
 
 **Fix it:**
-```bash
+```
 # Check if tmux is installed
 which tmux
 
@@ -221,7 +221,7 @@ source ~/.zshrc
 **What this means:** Worklog file permissions or path issue.
 
 **Fix it:**
-```bash
+```
 # Check worklog file
 ls -la ~/.config/zsh/.worklog
 
@@ -238,7 +238,7 @@ win "Test win"
 ## 🔍 Still Stuck?
 
 ### Run Full Diagnostics
-```bash
+```
 flow doctor
 ```
 
@@ -250,7 +250,7 @@ This checks:
 - ✓ Common issues
 
 ### Check Your Setup
-```bash
+```
 # Verify installation
 echo $PATH | grep flow-cli
 
@@ -344,7 +344,7 @@ description: Find the right starting point for your goals
 
 === "Track my work sessions"
     **Solution:** [Session Tracking Workflow](../guides/WORKFLOWS-QUICK-WINS.md#quick-test-cycle)
-```bash
+```
     work my-project
     win "Completed feature X"
     finish
@@ -352,7 +352,7 @@ description: Find the right starting point for your goals
 
 === "Manage multiple projects"
     **Solution:** [Project Management Guide](../tutorials/02-multiple-projects.md)
-```bash
+```
     dash              # See all projects
     pick              # Choose one
     hop other-project # Quick switch
@@ -360,7 +360,7 @@ description: Find the right starting point for your goals
 
 === "See my progress/stats"
     **Solution:** [Dopamine Features Guide](../guides/DOPAMINE-FEATURES-GUIDE.md)
-```bash
+```
     wins              # Today's wins
     yay --week        # Weekly summary
     flow goal         # Progress tracking
@@ -368,7 +368,7 @@ description: Find the right starting point for your goals
 
 === "Set up dotfile management"
     **Solution:** [Dotfile Workflow](../guides/DOT-WORKFLOW.md)
-```bash
+```
     dot status        # Check dotfiles
     dot link          # Create symlinks
     dot push          # Backup to git
@@ -376,7 +376,7 @@ description: Find the right starting point for your goals
 
 === "Integrate with git workflow"
     **Solution:** [Git Feature Workflow](../tutorials/08-git-feature-workflow.md)
-```bash
+```
     g new feature-x   # Start feature
     g push            # Safe push with checks
     g done            # Merge and cleanup
@@ -472,7 +472,7 @@ description: Essential commands on one page - print friendly
 ## ⚡ Quick Workflows
 
 ### Start Your Day
-```bash
+```
 dash              # See all projects
 just-start        # Auto-pick high priority
 work .            # Open in editor
@@ -480,14 +480,14 @@ f25               # Start 25-min timer
 ```
 
 ### During Work
-```bash
+```
 why               # Where am I?
 win "did thing"   # Log progress
 hop other         # Switch project
 ```
 
 ### End of Day
-```bash
+```
 status .          # Update progress
 wins              # See today's wins
 finish            # Close session
@@ -510,7 +510,7 @@ finish            # Close session
 ## 🔌 Smart Dispatchers
 
 ### R Package Development: `r`
-```bash
+```
 r load            # Load package
 r test            # Run tests
 r doc             # Generate docs
@@ -518,7 +518,7 @@ r help            # Show all commands
 ```
 
 ### Git with Safety: `g`
-```bash
+```
 g status          # Safe git status
 g push            # Push with checks
 g new feature-x   # Start feature branch
@@ -526,7 +526,7 @@ g help            # Show all commands
 ```
 
 ### Claude Code: `cc`
-```bash
+```
 cc pick           # Open project in Claude
 cc ask "query"    # Ask Claude
 cc help           # Show all commands
@@ -562,7 +562,7 @@ cc help           # Show all commands
 **Priority:** `P0` (urgent) → `P4` (someday)
 
 **Update status:**
-```bash
+```
 status my-project active P0 "Next task description"
 ```
 
@@ -878,7 +878,7 @@ details[open] {
 
 ````markdown
 !!! tldr "⚡ TL;DR - Get Started in 30 Seconds"
-```bash
+```
     brew tap data-wise/tap && brew install flow-cli
     dash                    # See your projects
     work my-project         # Start working

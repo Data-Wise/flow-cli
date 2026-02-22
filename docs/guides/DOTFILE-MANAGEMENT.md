@@ -37,7 +37,7 @@ brew install bitwarden-cli
 
 # Optional (for pretty secret listings)
 brew install jq
-```bash
+```
 
 ### 2. Initialize Chezmoi
 
@@ -47,14 +47,14 @@ chezmoi init
 
 # Option B: Clone existing dotfiles
 chezmoi init https://github.com/yourusername/dotfiles
-```bash
+```
 
 ### 3. Authenticate Bitwarden
 
 ```bash
 # One-time login
 bw login
-```bash
+```
 
 ### 4. Start Using
 
@@ -67,7 +67,7 @@ dots edit .zshrc
 
 # Unlock secrets
 sec unlock
-```text
+```
 
 ---
 
@@ -118,7 +118,7 @@ flowchart TD
     style D6 fill:#FFD700
     style E6 fill:#FFD700
     style G3 fill:#FF6B6B
-```diff
+```
 
 **Key Components:**
 
@@ -148,7 +148,7 @@ dots edit .zshrc
 # Press: y
 
 # 5. Changes applied to home directory
-```bash
+```
 
 **Time:** < 30 seconds
 **Commands:** 2 (`dots`, `dots edit .zshrc`)
@@ -168,7 +168,7 @@ dots sync
 
 # 4. Apply changes (if needed)
 dots apply
-```bash
+```
 
 **Time:** 10-30 seconds
 **Commands:** 2 (`dots sync`, `dots apply`)
@@ -187,7 +187,7 @@ dots push
 # Type: "Update ZSH aliases"
 
 # 4. Committed and pushed
-```bash
+```
 
 **Time:** 20-40 seconds
 **Commands:** 2-3 (`dots diff`, `dots push`)
@@ -206,7 +206,7 @@ dots edit .gitconfig
 
 # 4. Apply template (automatic)
 # Result: ~/.gitconfig contains actual token
-```text
+```
 
 **Time:** 1-2 minutes
 **Commands:** 2-3 (`sec unlock`, `dots edit`)
@@ -229,7 +229,7 @@ dots edit .gitconfig
 ├── .zshrc                       # Generated from template
 ├── .gitconfig                   # Generated from template
 └── ...
-```bash
+```
 
 ### Naming Convention
 
@@ -250,7 +250,7 @@ chezmoi add ~/.zshrc
 
 # Add as template (for variable substitution)
 chezmoi add --template ~/.gitconfig
-```bash
+```
 
 ### Removing Files
 
@@ -260,7 +260,7 @@ chezmoi forget ~/.old_config
 
 # Remove from chezmoi directory
 rm ~/.local/share/chezmoi/dot_old_config
-```bash
+```
 
 ---
 
@@ -281,7 +281,7 @@ sec unlock
 
 # 4. Verify unlock
 sec list
-```bash
+```
 
 ### Creating Items
 
@@ -299,7 +299,7 @@ bw create item \
 # 3. Name: github-token
 # 4. Password: ghp_...
 # 5. Save
-```text
+```
 
 ### Organizing Items
 
@@ -320,7 +320,7 @@ Work/
 Personal/
 ├── ssh-passphrase
 └── gpg-key
-```sql
+```
 
 ### Item Types
 
@@ -347,7 +347,7 @@ tok npm
 
 # PyPI project token
 tok pypi
-```text
+```
 
 **Example wizard session:**
 
@@ -370,7 +370,7 @@ Paste your new token: ghp_xxxxxxxxxxxx
 
 ✓ Stored as 'github-token' in Bitwarden
   Expires: 2026-04-10 (90 days)
-```bash
+```
 
 ### Session Cache (15-minute)
 
@@ -383,7 +383,7 @@ sec x   # Works without re-prompting
 sec y   # Still works (cached)
 # ... 16 minutes later ...
 sec z   # Prompts to unlock again
-```text
+```
 
 ### Secrets Dashboard
 
@@ -391,7 +391,7 @@ View all tokens with expiration status:
 
 ```bash
 sec dashboard
-```text
+```
 
 **Dashboard output:**
 
@@ -413,7 +413,7 @@ sec dashboard
 │     Scope: project:mypackage                                  │
 │                                                               │
 ╰───────────────────────────────────────────────────────────────╯
-```bash
+```
 
 ### Token Rotation
 
@@ -425,7 +425,7 @@ tok pypi-token --refresh
 
 # Short form
 tok pypi-token -r
-```text
+```
 
 **Rotation output:**
 
@@ -444,7 +444,7 @@ Paste your new token: pypi-xxxxxxxx
 
 ⚠️  Remember to revoke old token at:
    https://pypi.org/manage/account/token/
-```text
+```
 
 ### CI/CD Integration
 
@@ -452,7 +452,7 @@ Paste your new token: pypi-xxxxxxxx
 
 ```bash
 sec sync github
-```text
+```
 
 ```sql
 ℹ Syncing secrets to: Data-Wise/flow-cli
@@ -463,13 +463,13 @@ Select secrets to sync:
   [ ] PYPI_TOKEN
 
 ✓ 2 secrets synced to repository
-```text
+```
 
 **Generate .envrc for direnv:**
 
 ```bash
 dots env
-```text
+```
 
 ```bash
 ✓ Generated .envrc with 3 secrets
@@ -481,7 +481,7 @@ dots env
   ─────────────────────────────
 
 💡 Run 'direnv allow' to activate
-```bash
+```
 
 ---
 
@@ -502,7 +502,7 @@ dots env
 
 [core]
     editor = vim
-```bash
+```
 
 **Apply:**
 
@@ -510,7 +510,7 @@ dots env
 sec unlock
 dots edit .gitconfig
 # Changes applied → ~/.gitconfig has actual token
-```bash
+```
 
 ### Example 2: ZSH with API Keys
 
@@ -524,7 +524,7 @@ export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 
 # Regular config
 export PATH="$HOME/bin:$PATH"
-```zsh
+```
 
 **Apply:**
 
@@ -532,7 +532,7 @@ export PATH="$HOME/bin:$PATH"
 sec unlock
 dots edit .zshrc
 source ~/.zshrc
-```bash
+```
 
 ### Example 3: Environment File
 
@@ -547,7 +547,7 @@ export OPENAI_API_KEY="{{ bitwarden "item" "openai-key" }}"
 export ANTHROPIC_API_KEY="{{ bitwarden "item" "anthropic-key" }}"
 export GITHUB_TOKEN="{{ bitwarden "item" "github-token" }}"
 export NPM_TOKEN="{{ bitwarden "item" "npm-token" }}"
-```bash
+```
 
 **Apply:**
 
@@ -555,7 +555,7 @@ export NPM_TOKEN="{{ bitwarden "item" "npm-token" }}"
 sec unlock
 chezmoi apply ~/.env.sh
 source ~/.env.sh
-```text
+```
 
 ### Example 4: SSH Config
 
@@ -570,13 +570,13 @@ Host github.com
 Host bitbucket.org
     User git
     IdentityFile ~/.ssh/bitbucket_rsa
-```text
+```
 
 **Apply:**
 
 ```bash
 dots edit .ssh/config
-```text
+```
 
 ---
 
@@ -594,7 +594,7 @@ The `dash` command automatically shows dotfile status:
   📝 Dotfiles: 🟢 Synced (2h ago) · 12 files tracked
 
   ...
-```text
+```
 
 **Status Icons:**
 
@@ -622,7 +622,7 @@ The `flow doctor` command includes dotfile health checks:
   ✓ No uncommitted changes
   ✓ Synced with remote
   ✓ Bitwarden vault unlocked
-```bash
+```
 
 **Run diagnostics:**
 
@@ -632,7 +632,7 @@ dots doctor
 
 # Via flow doctor
 flow doctor
-```diff
+```
 
 ---
 
@@ -652,7 +652,7 @@ chezmoi init
 
 # Option B: Clone existing repo
 chezmoi init https://github.com/yourusername/dotfiles
-```diff
+```
 
 ### "Bitwarden vault is locked"
 
@@ -668,7 +668,7 @@ sec unlock
 
 # Try again
 sec github-token
-```diff
+```
 
 ### "Item not found or access denied"
 
@@ -684,7 +684,7 @@ sec list
 
 # Check item exists
 bw get item github-token
-```diff
+```
 
 ### Changes Not Applied
 
@@ -704,7 +704,7 @@ dots apply
 # For templates, ensure vault unlocked
 sec unlock
 dots apply
-```bash
+```
 
 ### Session Token in History
 
@@ -720,7 +720,7 @@ The `sec unlock` command safely captures tokens without exposing them. History e
 echo $HISTIGNORE
 
 # Should include: *bw unlock*:*bw get*:*BW_SESSION*
-```diff
+```
 
 This is automatically configured when dotfile helpers load.
 
@@ -762,7 +762,7 @@ git log -p | grep -i "token\|password\|secret" | grep -v "bitwarden"
 # 4. Audit applied files (should contain actual secrets, not templates)
 grep "bitwarden" ~/.gitconfig ~/.zshrc 2>/dev/null
 # Should return nothing (templates are processed)
-```bash
+```
 
 ---
 
@@ -780,7 +780,7 @@ dots push
 # Machine B (MacBook): Pull changes
 dots sync
 dots apply
-```bash
+```
 
 ### Conditional Templates
 
@@ -792,7 +792,7 @@ export WORK_MODE=true
 {{ else }}
 export WORK_MODE=false
 {{ end }}
-```bash
+```
 
 ### Custom Fields
 
@@ -801,7 +801,7 @@ Access custom fields in Bitwarden items:
 ```bash
 # In template
 {{ bitwardenFields "item" "api-key" "custom-field-name" }}
-```bash
+```
 
 ### Secret Rotation
 
@@ -813,7 +813,7 @@ tok github-token --refresh
 
 # This opens browser, validates new token, updates Bitwarden
 # and reminds you to revoke the old token
-```bash
+```
 
 **Method 2: Manual Update**
 
