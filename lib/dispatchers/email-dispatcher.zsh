@@ -2280,7 +2280,9 @@ _em_snooze() {
     # Add snooze entry
     local now_epoch
     now_epoch=$(date +%s)
-    local tmp_file="${pending_file}.tmp"
+    local tmp_file
+    tmp_file=$(mktemp "${snooze_dir}/pending-XXXXXX.json")
+    trap "rm -f '$tmp_file'" INT TERM
     jq --arg id "$msg_id" \
        --arg subject "$subject" \
        --arg folder "$folder" \
@@ -2289,6 +2291,7 @@ _em_snooze() {
        --arg time_spec "$time_spec" \
        '. + [{id: $id, subject: $subject, folder: $folder, wake: $wake, created: $created, time_spec: $time_spec}]' \
        "$pending_file" > "$tmp_file" && mv "$tmp_file" "$pending_file"
+    trap - INT TERM
 
     # Move to Snoozed folder (best effort — folder may not exist)
     _em_hml_move "$msg_id" "Snoozed" "$folder" 2>/dev/null
@@ -2300,9 +2303,12 @@ _em_snooze() {
     if command -v terminal-notifier &>/dev/null; then
         local delay=$(( wake_epoch - now_epoch ))
         if (( delay > 0 )); then
+            # Sanitize subject: strip non-printable chars, truncate to 100 chars
+            local safe_subject="${subject//[^[:print:]]/}"
+            safe_subject="${safe_subject:0:100}"
             (sleep "$delay" && terminal-notifier \
-                -title "Email Reminder" \
-                -message "Snoozed: ${subject:-#${msg_id}}" \
+                -title "Snoozed Email" \
+                -message "${safe_subject:-Email #${msg_id}}" \
                 -sound default) &>/dev/null &
             disown
         fi
