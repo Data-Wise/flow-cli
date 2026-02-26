@@ -2558,22 +2558,118 @@ _em_html() {
 _em_attach() {
     [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
+
+    # Subcommand dispatch
+    case "$1" in
+        list|ls)   shift; _em_attach_list "$@" ;;
+        get|dl)    shift; _em_attach_get "$@" ;;
+        *)
+            # Default: download all attachments (legacy behavior)
+            local msg_id="$1"
+            if [[ -z "$msg_id" ]]; then
+                _flow_log_error "Email ID required"
+                echo "Usage: ${_C_CYAN}em attach <ID>${_C_NC}           Download all"
+                echo "       ${_C_CYAN}em attach list <ID>${_C_NC}      List attachments"
+                echo "       ${_C_CYAN}em attach get <ID> <file>${_C_NC} Download specific file"
+                return 1
+            fi
+
+            _em_validate_msg_id "$msg_id" || return 1
+
+            local download_dir="${2:-${HOME}/Downloads}"
+            [[ -d "$download_dir" ]] || mkdir -p "$download_dir"
+
+            _flow_log_info "Downloading attachments from email #${msg_id}..."
+            _em_hml_attachments "$msg_id" "$download_dir"
+            if [[ $? -eq 0 ]]; then
+                _flow_log_success "Attachments saved to: $download_dir"
+            else
+                _flow_log_error "No attachments or download failed"
+            fi
+            ;;
+    esac
+}
+
+_em_attach_list() {
+    # em attach list <ID> — show table: filename, MIME type, size
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em attach <ID>${_C_NC}"
+        echo "Usage: ${_C_CYAN}em attach list <ID>${_C_NC}"
         return 1
     fi
 
-    local download_dir="${2:-${HOME}/Downloads}"
-    [[ -d "$download_dir" ]] || mkdir -p "$download_dir"
+    _em_validate_msg_id "$msg_id" || return 1
 
-    _flow_log_info "Downloading attachments from email #${msg_id}..."
-    _em_hml_attachments "$msg_id" "$download_dir"
-    if [[ $? -eq 0 ]]; then
-        _flow_log_success "Attachments saved to: $download_dir"
+    local json
+    json=$(_em_hml_attachment_list "$msg_id")
+
+    if [[ -z "$json" || "$json" == "[]" || "$json" == "null" ]]; then
+        echo -e "  ${_C_DIM}No attachments on email #${msg_id}${_C_NC}"
+        return 0
+    fi
+
+    echo -e "${_C_BOLD}Attachments for email #${msg_id}${_C_NC}"
+    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+
+    if command -v jq &>/dev/null; then
+        # Structured JSON output (himalaya 1.2+)
+        echo "$json" | jq -r '.[] | [.filename // "(unnamed)", .mime_type // "unknown", (.size // 0 | tostring)] | @tsv' 2>/dev/null \
+        | while IFS=$'\t' read -r fname mime size; do
+            # Human-readable size
+            local hr_size="$size B"
+            (( size > 1024 )) && hr_size="$(( size / 1024 )) KB"
+            (( size > 1048576 )) && hr_size="$(( size / 1048576 )) MB"
+            printf "  ${_C_CYAN}%-30s${_C_NC} %-25s %s\n" "$fname" "$mime" "$hr_size"
+        done
     else
-        _flow_log_error "No attachments or download failed"
+        # Plain text fallback
+        echo "$json"
+    fi
+}
+
+_em_attach_get() {
+    # em attach get <ID> <filename> [dir]
+    # Download specific attachment by filename
+    local msg_id="$1"
+    local filename="$2"
+    local out_dir="${3:-${HOME}/Downloads}"
+
+    if [[ -z "$msg_id" || -z "$filename" ]]; then
+        _flow_log_error "Email ID and filename required"
+        echo "Usage: ${_C_CYAN}em attach get <ID> <filename> [dir]${_C_NC}"
+        return 1
+    fi
+
+    _em_validate_msg_id "$msg_id" || return 1
+
+    # Path traversal protection: strip directory components and control chars
+    local safe_filename="${filename##*/}"           # strip directory components
+    safe_filename="${safe_filename//[^[:print:]]/}"  # strip control chars
+    safe_filename="${safe_filename//\.\./}"           # strip ..
+
+    if [[ -z "$safe_filename" ]]; then
+        _flow_log_error "Invalid filename after sanitization"
+        return 1
+    fi
+
+    [[ -d "$out_dir" ]] || mkdir -p "$out_dir"
+
+    # Verify output dir containment (realpath check)
+    local resolved_dir
+    resolved_dir=$(cd "$out_dir" 2>/dev/null && pwd -P)
+    local target_path="${resolved_dir}/${safe_filename}"
+
+    # Download all, then check if the file appeared
+    _flow_log_info "Downloading '$safe_filename' from email #${msg_id}..."
+    _em_hml_attachment_download "$msg_id" "$safe_filename" "$resolved_dir"
+
+    if [[ -f "$target_path" ]]; then
+        _flow_log_success "Saved: $target_path"
+    else
+        _flow_log_error "File '$safe_filename' not found in attachments"
+        echo "Use ${_C_CYAN}em attach list ${msg_id}${_C_NC} to see available files"
+        return 1
     fi
 }
 
