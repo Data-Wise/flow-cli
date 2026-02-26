@@ -107,6 +107,12 @@ em() {
         unflag)        shift; _em_unflag "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
+        # FOLDERS
+        # ─────────────────────────────────────────────────────────────
+        create-folder|cf)  shift; _em_create_folder "$@" ;;
+        delete-folder|df)  shift; _em_delete_folder "$@" ;;
+
+        # ─────────────────────────────────────────────────────────────
         # AI FEATURES
         # ─────────────────────────────────────────────────────────────
         respond|resp|repond) shift; _em_respond "$@" ;;
@@ -2568,6 +2574,61 @@ _em_attach() {
         _flow_log_success "Attachments saved to: $download_dir"
     else
         _flow_log_error "No attachments or download failed"
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# FOLDER CRUD (v2.0)
+# ═══════════════════════════════════════════════════════════════════
+
+_em_create_folder() {
+    _em_require_himalaya || return 1
+    local name="$1"
+    if [[ -z "$name" ]]; then
+        _flow_log_error "Folder name required"
+        echo "Usage: ${_C_CYAN}em create-folder <name>${_C_NC}"
+        return 1
+    fi
+
+    # Validate folder name (Wave 1 adapter security check)
+    _em_validate_folder_name "$name" || return 1
+
+    if _em_hml_folder_create "$name"; then
+        _flow_log_success "Folder created: $name"
+    else
+        _flow_log_error "Failed to create folder: $name"
+        return 1
+    fi
+}
+
+_em_delete_folder() {
+    _em_require_himalaya || return 1
+    local name="$1"
+    if [[ -z "$name" ]]; then
+        _flow_log_error "Folder name required"
+        echo "Usage: ${_C_CYAN}em delete-folder <name>${_C_NC}"
+        return 1
+    fi
+
+    # Validate folder name
+    _em_validate_folder_name "$name" || return 1
+
+    # Type-to-confirm: user must type exact folder name
+    echo -e "  ${_C_RED}Warning:${_C_NC} This will permanently delete folder ${_C_BOLD}${name}${_C_NC} and all its contents."
+    printf "  Type folder name to confirm deletion: "
+    local confirmation
+    read -r confirmation
+
+    if [[ "$confirmation" != "$name" ]]; then
+        _flow_log_info "Deletion cancelled (name did not match)"
+        return 2
+    fi
+
+    if _em_hml_folder_delete "$name"; then
+        _flow_log_success "Folder deleted: $name"
+    else
+        _flow_log_error "Failed to delete folder: $name"
+        return 1
     fi
 }
 
