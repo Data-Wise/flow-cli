@@ -59,6 +59,16 @@ fi
 _em_load_config 2>/dev/null
 
 # ═══════════════════════════════════════════════════════════════════
+# V2.0 MODULE SOURCING (lazy — only if files exist)
+# ═══════════════════════════════════════════════════════════════════
+
+{
+    local _em_lib_dir="${0:A:h:h}"  # lib/ directory (parent of dispatchers/)
+    [[ -f "$_em_lib_dir/em-ics.zsh" ]]   && source "$_em_lib_dir/em-ics.zsh"
+    [[ -f "$_em_lib_dir/em-watch.zsh" ]]  && source "$_em_lib_dir/em-watch.zsh"
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # MAIN EM() DISPATCHER
 # ═══════════════════════════════════════════════════════════════════
 
@@ -140,6 +150,12 @@ em() {
         unread|u)     shift; _em_unread "$@" ;;
         dash|d)       shift; _em_dash "$@" ;;
         folders)      shift; _em_folders "$@" ;;
+
+        # ─────────────────────────────────────────────────────────────
+        # CALENDAR & WATCH (v2.0)
+        # ─────────────────────────────────────────────────────────────
+        calendar|cal)  shift; em_calendar "$@" ;;
+        watch|w)       shift; em_watch "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
         # UTILITIES
