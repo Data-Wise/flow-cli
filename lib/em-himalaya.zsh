@@ -87,7 +87,13 @@ _em_validate_folder_name() {
         return 1
     fi
 
-    # Reject control characters (0x00–0x1F) by checking each byte
+    # Reject null bytes (0x00)
+    if [[ "$name" == *$'\x00'* ]]; then
+        _flow_log_error "Folder name cannot contain control characters"
+        return 1
+    fi
+
+    # Reject control characters (0x01–0x1F) by checking each byte
     # ZSH regex alternation with literal $'...' requires a variable
     local _ctrl_re=$'[\x01-\x1f]'
     if [[ "$name" =~ $_ctrl_re ]]; then
