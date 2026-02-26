@@ -528,15 +528,16 @@ em reply <ID> --no-ai      # Skip AI draft
 em reply <ID> --batch      # Non-interactive (preview + confirm)
 ```
 
-**Interactive Flow (Default):**
+**Interactive Flow (v2.0 Default — Two-Phase Safety Gate):**
 
 1. `em` fetches the original email
 2. If AI is enabled, generates a draft reply
 3. Opens `$EDITOR` with draft pre-populated
 4. You edit the draft as needed
 5. Save and close `$EDITOR`
-6. Explicit confirmation prompt (default: No)
-7. Send on confirmation
+6. **Full preview shown** (headers + body)
+7. Confirmation prompt `[y/N/e]` — default is **No**
+8. Press `e` to re-open editor; `y` to send; anything else cancels
 
 **Example:**
 
@@ -549,8 +550,23 @@ Generating AI draft...
 # $EDITOR opens with pre-filled draft
 # Edit as needed, save, close
 
-  Send this reply? [y/N] y
+─────────────────────────────────────────────────
+  To:      alice@university.edu
+  Subject: Re: STAT-101 Exam Grading Question
+  ─────────────────────────────────────────────
+  Hi Alice, thanks for reaching out. I've reviewed
+  Problem 3 and the grading was applied correctly...
+─────────────────────────────────────────────────
+
+  Send this reply? [y/N/e] y
 ✅ Reply sent
+```
+
+**Bypass the preview (use with care):**
+
+```bash
+em reply 142 --force           # Skip preview, send immediately
+em reply 142 --yes             # Same as --force
 ```
 
 **Batch Mode (Non-Interactive):**
@@ -617,17 +633,16 @@ Subject: Office Hours Reminder
 # $EDITOR opens with blank email template
 # Compose email, save, close
 
-Preview:
-────────────────────────────────────────────────────────
-To: alice@university.edu
-Subject: Office Hours Reminder
+─────────────────────────────────────────────────
+  To:      alice@university.edu
+  Subject: Office Hours Reminder
+  ─────────────────────────────────────────────
+  Hi Alice,
 
-Hi Alice,
+  Just a reminder that I have office hours on...
+─────────────────────────────────────────────────
 
-Just a reminder that I have office hours...
-────────────────────────────────────────────────────────
-
-  Send this email? [y/N] y
+  Send this email? [y/N/e] y
 ✅ Email sent
 ```
 
@@ -642,17 +657,171 @@ Generating AI draft from subject...
 # $EDITOR opens with AI-generated draft about weekly status
 # Edit/refine, save, close
 
-  Send this email? [y/N] y
+  Send this email? [y/N/e] y
 ✅ Email sent
 ```
 
 ### Download Attachments
 
 ```bash
-em attach <ID>              # Download to ~/Downloads
-em attach <ID> /tmp/files   # Download to specific directory
-em a <ID>                   # Shortcut
+em attach <ID>                  # Download all attachments to ~/Downloads
+em attach <ID> /tmp/files       # Download all to specific directory
+em a <ID>                       # Shortcut
+
+# v2.0: Targeted attachment operations
+em attach list <ID>             # Show attachment table (name, MIME, size)
+em attach get <ID> report.pdf   # Download specific file to ~/Downloads
+em attach get <ID> report.pdf ~/Documents  # Download to custom directory
 ```
+
+**Example — attachment list:**
+
+```bash
+$ em attach list 42
+
+#  Name              Type              Size
+─  ────────────────  ────────────────  ──────
+1  agenda.pdf        application/pdf   142 KB
+2  invite.ics        text/calendar     2 KB
+3  notes.docx        application/mswd  58 KB
+
+# Download just the ICS file
+$ em attach get 42 invite.ics
+✅ Saved invite.ics → ~/Downloads/invite.ics
+```
+
+## Folder Management (v2.0)
+
+Create and delete mail folders directly from the terminal.
+
+### Create a Folder
+
+```bash
+em create-folder "Team Updates"    # Create new folder
+em cf "Team Updates"               # Alias
+```
+
+Folder names are sanitized automatically — characters unsafe for IMAP (backslash, quotes, etc.)
+are rejected with a clear error message.
+
+### Delete a Folder
+
+Folder deletion requires typing the folder name to confirm (similar to GitHub repository deletion):
+
+```bash
+$ em delete-folder "Old Archive"
+
+  This will permanently delete the folder "Old Archive" and all its contents.
+  Type the folder name to confirm: Old Archive
+✅ Folder "Old Archive" deleted
+```
+
+```bash
+em delete-folder "Old Archive"    # Requires type-to-confirm
+em df "Old Archive"               # Alias
+```
+
+> **Warning:** Folder deletion is permanent and cannot be undone. All messages in the folder
+> are deleted. Move important emails first using `em move`.
+
+---
+
+## Calendar Integration (v2.0)
+
+Parse ICS calendar attachments directly from email.
+
+### Extract and View Calendar Events
+
+```bash
+em calendar 42     # Parse ICS attachment from email #42
+em cal 42          # Alias
+```
+
+**Example output:**
+
+```text
+Event: Department Meeting
+Date:  Thursday, March 5, 2026
+Time:  2:00 PM – 3:30 PM (UTC-5)
+Loc:   Room 401, Science Building
+Org:   Dr. Smith <smith@university.edu>
+
+Add to Apple Calendar? [y/N] y
+✅ Event added to Calendar.app
+```
+
+**Behavior:**
+
+- Scans email attachments for `.ics` / `text/calendar` MIME parts
+- Parses DTSTART, DTEND, SUMMARY, LOCATION, ORGANIZER fields
+- Displays a human-readable event card
+- Optionally adds to Apple Calendar.app via `osascript` (macOS only)
+- Requires `terminal-notifier` for confirmation notifications (optional)
+
+**Apple Calendar integration:**
+
+If you choose `y` at the prompt, `em calendar` creates the event in Apple Calendar. This uses
+the same `_em_ics_create_event` function used by `em event` for AI-extracted events — but with
+exact datetime precision from the ICS data instead of AI inference.
+
+---
+
+## IMAP Watch — Background Notifications (v2.0, Experimental)
+
+`em watch` starts a background IMAP IDLE process that delivers desktop notifications when new
+email arrives.
+
+> **Experimental:** IMAP IDLE support depends on your mail server. Gmail, Fastmail, and most
+> Exchange servers support it. Some servers may disconnect idle connections after a short timeout.
+
+### Starting and Stopping
+
+```bash
+em watch start         # Start background watcher (daemonized)
+em w start             # Alias
+
+em watch stop          # Stop the watcher (sends SIGTERM)
+em watch status        # Show PID, uptime, last activity
+em watch log           # Tail the watcher log
+```
+
+**Start output:**
+
+```text
+Starting IMAP watcher for INBOX...
+✅ Watcher started (PID 12345)
+   Notifications via terminal-notifier
+   Log: ~/.local/share/flow/em-watch.log
+```
+
+**Status output:**
+
+```text
+em watch: running (PID 12345, uptime 2h 14m)
+  Folder: INBOX
+  Last activity: 14 minutes ago (3 new messages)
+  Notifications: terminal-notifier ✓
+```
+
+### Notification Behavior
+
+When a new message arrives:
+- A desktop notification appears via `terminal-notifier`
+- Subject is truncated to 60 chars (injection-safe)
+- Notification title is always "New Email" (static, not interpolated from message data)
+- Clicking the notification opens the em dispatcher help
+
+### Requirements
+
+```bash
+brew install terminal-notifier   # Desktop notifications
+em doctor                        # Verify watcher dependencies
+```
+
+> **Note:** `em watch` requires `terminal-notifier` for notifications. Without it, the watcher
+> runs silently in the background and only logs to file.
+
+---
 
 ## AI Features Deep Dive
 
@@ -1787,19 +1956,34 @@ export EDITOR="nvim"    # or vim, nano, etc.
 
 ## Safety Design
 
-The `em` dispatcher is designed with multiple safety layers to prevent accidental sends:
+The `em` dispatcher is designed with multiple safety layers to prevent accidental sends.
 
-### 1. Explicit Confirmation
+> **v2.0 Breaking Change:** `em send` and `em reply` now show a **full preview** before the
+> confirmation prompt. Use `--force` to bypass. The prompt is now `[y/N/e]` where `e` re-opens
+> the editor for last-minute edits.
 
-Every send operation requires explicit confirmation:
+### 1. Two-Phase Safety Gate (v2.0)
+
+Every send operation goes through the `_em_safety_gate` function:
 
 ```bash
-  Send this reply? [y/N]
+─────────────────────────────────────────────────────────
+  To:      alice@university.edu
+  Subject: Re: STAT-101 Exam Grading Question
+  ───────────────────────────────────────────────────────
+  Hi Alice, thanks for reaching out. I've reviewed
+  Problem 3 and the grading was correct...
+─────────────────────────────────────────────────────────
+
+  Send this email? [y/N/e]
+  y = send now   N = discard (default)   e = edit again
 ```
 
-- **Default is No** - Hitting Enter = no send
-- **Must type 'y' or 'Y'** - Any other input cancels
-- **Always shown** - Even in batch mode
+**Behavior:**
+- **Default is No** — Hitting Enter = no send
+- **`e`** — Re-opens `$EDITOR` for revisions (loop repeats)
+- **`y` or `Y`** — Sends immediately
+- **`--force` / `--yes`** — Bypasses the gate entirely (for scripts/automation)
 
 ### 2. Draft Preservation
 
@@ -1813,26 +1997,21 @@ $FLOW_DATA_DIR/email-drafts/    # Global draft storage
 AI-generated drafts are also cached in `.flow/email-cache/drafts/` with a 1-hour TTL. Use
 `em respond --review` to come back to cached drafts.
 
-### 3. Preview Before Send
+### 3. Preview Always Shown (v2.0 Change)
 
-In batch mode, draft is previewed before confirmation:
+In v2.0, the preview is shown for **all** send paths — not just batch mode:
 
-```bash
-Draft Reply
-────────────────────────────────────────────────────────
-From: me@example.com
-To: alice@university.edu
-Subject: Re: STAT-101 Exam Grading Question
----
-[Full draft content shown]
-────────────────────────────────────────────────────────
-
-  Send this reply? [y/N]
-```
+| Mode | Before v2.0 | v2.0 |
+| ---- | ----------- | ----- |
+| `em send` (interactive) | Preview shown before `[y/N]` | Preview + `[y/N/e]` gate |
+| `em reply` (interactive) | Preview shown before `[y/N]` | Preview + `[y/N/e]` gate |
+| `em reply --batch` | Preview + `[y/N]` | Preview + `[y/N]` (no editor step) |
+| `em send --force` | n/a | Skip gate, send immediately |
+| `em respond --review` | Per-draft `[y/N]` | Per-draft `[y/N]` (unchanged) |
 
 ### 4. Editor Interception
 
-In interactive mode, you always edit in $EDITOR before send:
+In interactive mode, you always edit in $EDITOR before the gate:
 
 ```bash
 em reply 42
@@ -1841,7 +2020,8 @@ em reply 42
 # 2. $EDITOR opens with draft
 # 3. You edit/review
 # 4. Save and close
-# 5. Only then: confirmation prompt
+# 5. Full preview shown
+# 6. [y/N/e] gate — press 'e' to loop back to editor
 ```
 
 ### 5. Batch Mode Safety
@@ -1865,7 +2045,7 @@ $ em respond --review
 
 There is **no** auto-reply feature. Every reply requires:
 1. Manual invocation (`em reply`)
-2. Manual confirmation
+2. Manual confirmation (or `--force` for scripted automation)
 
 ### Why Default-No?
 
