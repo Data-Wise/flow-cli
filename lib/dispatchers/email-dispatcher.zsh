@@ -220,9 +220,27 @@ ${_C_BLUE}📋 INBOX & READING${_C_NC}:
   ${_C_CYAN}em html <ID>${_C_NC}      Render HTML email ${_C_DIM}(alias for read --html)${_C_NC}
 
 ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
-  ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR)
-  ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch)
-  ${_C_CYAN}em attach <ID>${_C_NC}    Download attachments
+  ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR, preview before send)
+  ${_C_CYAN}em send --force${_C_NC}   Compose + send without preview
+  ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch, --force)
+
+${_C_BLUE}FOLDERS${_C_NC}:
+  ${_C_CYAN}em create-folder <name>${_C_NC}   Create new mail folder
+  ${_C_CYAN}em delete-folder <name>${_C_NC}   Delete folder (type-to-confirm)
+
+${_C_BLUE}ATTACHMENTS${_C_NC}:
+  ${_C_CYAN}em attach <ID>${_C_NC}            Download all attachments
+  ${_C_CYAN}em attach list <ID>${_C_NC}       Show attachment list (name, MIME, size)
+  ${_C_CYAN}em attach get <ID> <file>${_C_NC} Download specific attachment
+
+${_C_BLUE}CALENDAR${_C_NC}:
+  ${_C_CYAN}em calendar <ID>${_C_NC}    Parse ICS attachment + add to Apple Calendar
+
+${_C_BLUE}WATCH${_C_NC} ${_C_DIM}[experimental]${_C_NC}:
+  ${_C_CYAN}em watch start${_C_NC}     Start IMAP IDLE notification watcher
+  ${_C_CYAN}em watch stop${_C_NC}      Stop watcher
+  ${_C_CYAN}em watch status${_C_NC}    Show watcher status
+  ${_C_CYAN}em watch log${_C_NC}       Show recent notifications
 
 ${_C_BLUE}ORGANIZE${_C_NC}:
   ${_C_CYAN}em star <ID>${_C_NC}     Toggle starred (flagged) status
@@ -261,7 +279,7 @@ ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
   ${_C_CYAN}em cache clear${_C_NC}    Clear AI cache
   ${_C_CYAN}em doctor${_C_NC}         Check dependencies
 
-${_C_MAGENTA}SAFETY${_C_NC}: Every send requires explicit ${_C_YELLOW}[y/N]${_C_NC} confirmation (default: No)
+${_C_MAGENTA}SAFETY${_C_NC}: Two-phase gate — preview then ${_C_YELLOW}[y/N/e]${_C_NC} confirm (default: No, e=edit)
 
 ${_C_BLUE}AI BACKEND${_C_NC}:
   ${_C_CYAN}em ai${_C_NC}              Show current AI backend
