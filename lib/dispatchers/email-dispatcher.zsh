@@ -407,14 +407,160 @@ _em_read() {
     fi
 }
 
+# ═══════════════════════════════════════════════════════════════════
+# TWO-PHASE SAFETY GATE (v2.0) — preview + confirm before send
+# ═══════════════════════════════════════════════════════════════════
+
+_em_compose_draft() {
+    # Create temp draft file from to/subject/body
+    # Args: $1=to, $2=subject, $3=body
+    # Returns: path to temp file on stdout
+    local to="$1" subject="$2" body="$3"
+    local tmpfile
+    tmpfile=$(mktemp "${TMPDIR:-/tmp}/em-draft-XXXXXX.eml")
+    chmod 0600 "$tmpfile"
+
+    {
+        echo "To: $to"
+        echo "Subject: $subject"
+        echo ""
+        [[ -n "$body" ]] && echo "$body"
+    } > "$tmpfile"
+
+    echo "$tmpfile"
+}
+
+_em_safety_gate() {
+    # Two-phase preview + confirm before send
+    # Args: $1=draft_file, $2=action_label (e.g., "Send" or "Reply")
+    # Optional: $3=--force or --yes bypasses gate
+    # Returns: 0=proceed, 1=error, 2=user-abort
+    #
+    # TOCTOU fix: read draft into variable BEFORE confirm, send from variable
+    local draft_file="$1"
+    local action_label="${2:-Send}"
+    local force_flag="$3"
+
+    if [[ ! -f "$draft_file" ]]; then
+        _flow_log_error "Draft file not found: $draft_file"
+        return 1
+    fi
+
+    # Read draft into variable BEFORE user interaction (TOCTOU fix)
+    local draft_content
+    draft_content=$(<"$draft_file")
+
+    if [[ -z "$draft_content" ]]; then
+        _flow_log_error "Draft file is empty"
+        return 1
+    fi
+
+    # Force mode: skip preview/confirm
+    if [[ "$force_flag" == "--force" || "$force_flag" == "--yes" ]]; then
+        return 0
+    fi
+
+    # Parse header fields for preview
+    local to_line subject_line body_text
+    to_line=$(echo "$draft_content" | sed -n 's/^To: //p' | head -1)
+    subject_line=$(echo "$draft_content" | sed -n 's/^Subject: //p' | head -1)
+    body_text=$(echo "$draft_content" | awk '/^$/{found=1;next} found{print}')
+
+    # Check for empty body
+    if [[ -z "$body_text" || "$(echo "$body_text" | tr -d '[:space:]')" == "" ]]; then
+        _flow_log_warning "Empty email body"
+    fi
+
+    # Phase 1: Preview
+    echo ""
+    echo -e "${_C_BOLD}${action_label} Preview${_C_NC}"
+    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+    [[ -n "$to_line" ]] && echo -e "  ${_C_BLUE}To:${_C_NC}      $to_line"
+    [[ -n "$subject_line" ]] && echo -e "  ${_C_BLUE}Subject:${_C_NC} $subject_line"
+    echo ""
+    if [[ -n "$body_text" ]]; then
+        echo "$body_text" | head -15
+        local total_lines
+        total_lines=$(echo "$body_text" | wc -l | tr -d ' ')
+        (( total_lines > 15 )) && echo -e "  ${_C_DIM}... ($((total_lines - 15)) more lines)${_C_NC}"
+    fi
+    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+    echo ""
+
+    # Phase 2: Confirm [y/N/e]
+    while true; do
+        printf "  ${action_label}? [y/N/e] "
+        local response
+        read -r response
+        case "$response" in
+            [Yy]|[Yy]es)
+                return 0
+                ;;
+            [Ee]|edit)
+                # Re-open editor, then re-preview
+                _em_open_in_editor "$draft_file"
+                # Re-read after edit (content may have changed)
+                draft_content=$(<"$draft_file")
+                to_line=$(echo "$draft_content" | sed -n 's/^To: //p' | head -1)
+                subject_line=$(echo "$draft_content" | sed -n 's/^Subject: //p' | head -1)
+                body_text=$(echo "$draft_content" | awk '/^$/{found=1;next} found{print}')
+                echo ""
+                echo -e "${_C_BOLD}${action_label} Preview (updated)${_C_NC}"
+                echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+                [[ -n "$to_line" ]] && echo -e "  ${_C_BLUE}To:${_C_NC}      $to_line"
+                [[ -n "$subject_line" ]] && echo -e "  ${_C_BLUE}Subject:${_C_NC} $subject_line"
+                echo ""
+                if [[ -n "$body_text" ]]; then
+                    echo "$body_text" | head -15
+                fi
+                echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+                echo ""
+                ;;
+            *)
+                # Default is No — save draft and abort
+                local draft_dir="${FLOW_DATA_DIR}/email-drafts"
+                [[ -d "$draft_dir" ]] || mkdir -p "$draft_dir"
+                local saved="${draft_dir}/draft-$(date +%Y%m%d-%H%M%S).eml"
+                cp "$draft_file" "$saved"
+                _flow_log_info "Draft saved: $saved"
+                return 2
+                ;;
+        esac
+    done
+}
+
+_em_draft_cleanup() {
+    # Remove temp draft file
+    # Args: $1=draft_file_path
+    local draft_file="$1"
+    [[ -n "$draft_file" && -f "$draft_file" ]] && rm -f "$draft_file"
+}
+
+_em_v2_migration_notice() {
+    # One-time notice: "em v2.0 now previews emails before sending"
+    # Tracked via ~/.config/flow/em-v2-notice-shown
+    local notice_file="${HOME}/.config/flow/em-v2-notice-shown"
+    [[ -f "$notice_file" ]] && return 0
+
+    echo ""
+    echo -e "  ${_C_MAGENTA}em v2.0${_C_NC}: Emails are now previewed before sending."
+    echo -e "  ${_C_DIM}Use [y] to send, [e] to edit, [N] to cancel (default).${_C_NC}"
+    echo -e "  ${_C_DIM}Pass --force or --yes to skip preview.${_C_NC}"
+    echo ""
+
+    mkdir -p "${notice_file:h}" 2>/dev/null
+    touch "$notice_file"
+}
+
 _em_send() {
     _em_require_himalaya || return 1
-    local to="" subject="" use_ai=false
+    local to="" subject="" use_ai=false force_flag=""
 
-    # Parse args: em send [--ai] [to] [subject]
+    # Parse args: em send [--ai] [--force|--yes] [to] [subject]
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --ai) use_ai=true; shift ;;
+            --force|--yes) force_flag="$1"; shift ;;
             *)
                 if [[ -z "$to" ]]; then
                     to="$1"
@@ -425,6 +571,9 @@ _em_send() {
                 ;;
         esac
     done
+
+    # Show v2 migration notice (once)
+    _em_v2_migration_notice
 
     # [1] Prompt for missing fields
     if [[ -z "$to" ]]; then
@@ -455,21 +604,41 @@ _em_send() {
 
     # [3] Create temp file + open in $EDITOR
     local draft_file
-    draft_file=$(_em_create_draft_file "$to" "$subject" "$ai_body")
+    draft_file=$(_em_compose_draft "$to" "$subject" "$ai_body")
+
+    # Trap: clean up temp file on interrupt
+    trap "_em_draft_cleanup '$draft_file'" INT TERM
+
     _em_open_in_editor "$draft_file"
 
-    # [4] SAFETY GATE — preview + confirm
-    if _em_confirm_send "$draft_file"; then
-        # [5] Send via himalaya
+    # [4] TWO-PHASE SAFETY GATE — preview + confirm
+    local gate_result
+    _em_safety_gate "$draft_file" "Send" "$force_flag"
+    gate_result=$?
+
+    if [[ $gate_result -eq 0 ]]; then
+        # [5] Send via himalaya (read from file to avoid TOCTOU)
         himalaya message send < "$draft_file"
         if [[ $? -eq 0 ]]; then
             _flow_log_success "Email sent"
-            rm -f "$draft_file"
+            _em_draft_cleanup "$draft_file"
         else
             _flow_log_error "Failed to send — draft preserved: $draft_file"
+            trap - INT TERM
             return 1
         fi
+    elif [[ $gate_result -eq 2 ]]; then
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 0  # user chose to cancel — not an error
+    else
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 1  # actual error
     fi
+
+    trap - INT TERM
+    return 0
 }
 
 _em_reply() {
@@ -479,20 +648,22 @@ _em_reply() {
     local skip_ai=false
     local reply_all=false
     local batch_mode=false
+    local force_flag=""
 
     # Parse flags
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --no-ai)     skip_ai=true; shift ;;
-            --all|-a)    reply_all=true; shift ;;
-            --batch|-b)  batch_mode=true; shift ;;
-            *)           msg_id="$1"; shift ;;
+            --no-ai)         skip_ai=true; shift ;;
+            --all|-a)        reply_all=true; shift ;;
+            --batch|-b)      batch_mode=true; shift ;;
+            --force|--yes)   force_flag="$1"; shift ;;
+            *)               msg_id="$1"; shift ;;
         esac
     done
 
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em reply <ID>${_C_NC}  ${_C_DIM}(--no-ai --all --batch)${_C_NC}"
+        echo "Usage: ${_C_CYAN}em reply <ID>${_C_NC}  ${_C_DIM}(--no-ai --all --batch --force)${_C_NC}"
         return 1
     fi
 
@@ -546,28 +717,39 @@ _em_reply() {
     local mml_with_body
     mml_with_body=$(_em_mml_inject_body "$mml" "$draft")
 
-    # Preview
-    echo ""
-    echo -e "${_C_BOLD}Draft Reply${_C_NC}"
-    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
-    echo "$mml_with_body" | head -5
-    echo -e "${_C_DIM}---${_C_NC}"
-    echo "$draft"
-    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
-    echo ""
+    # Write to temp file for safety gate
+    local draft_file
+    draft_file=$(mktemp "${TMPDIR:-/tmp}/em-reply-draft-XXXXXX.eml")
+    chmod 0600 "$draft_file"
+    echo "$mml_with_body" > "$draft_file"
 
-    # Safety gate: explicit confirmation, default NO
-    printf "  Send this reply? [y/N] "
-    local response
-    read -r response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-        echo "$mml_with_body" | _em_hml_template_send
+    # Trap: clean up temp file on interrupt
+    trap "_em_draft_cleanup '$draft_file'" INT TERM
+
+    # Two-phase safety gate
+    local gate_result
+    _em_safety_gate "$draft_file" "Reply" "$force_flag"
+    gate_result=$?
+
+    if [[ $gate_result -eq 0 ]]; then
+        # TOCTOU fix: read draft content before sending
+        local send_content
+        send_content=$(<"$draft_file")
+        echo "$send_content" | _em_hml_template_send
         _em_cache_invalidate "$msg_id"
         _flow_log_success "Reply sent"
-    else
+        _em_draft_cleanup "$draft_file"
+    elif [[ $gate_result -eq 2 ]]; then
         _em_cache_set "drafts" "$msg_id" "$draft"
         _flow_log_info "Draft saved. Review with: ${_C_CYAN}em respond --review${_C_NC}"
+        _em_draft_cleanup "$draft_file"
+    else
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 1
     fi
+
+    trap - INT TERM
 }
 
 # ═══════════════════════════════════════════════════════════════════
