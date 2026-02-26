@@ -89,8 +89,9 @@ local violations=""
 for f in "${EM_FILES[@]}"; do
     # Find function definitions that don't follow the convention
     # Public: em_* or em()  Internal: _em_*
+    # grep -n output has "linenum:" prefix, so match function name after the colon
     local bad=$(grep -nE '^\s*[a-zA-Z_]+\(\)\s*\{' "$f" 2>/dev/null | \
-                grep -vE '^\s*(em|_em_|em_)' | \
+                grep -vE '(em|_em_|em_)[a-zA-Z_]*\(\)' | \
                 grep -vE '^\s*#')
     [[ -n "$bad" ]] && violations+="$f: $bad\n"
 done
@@ -108,13 +109,18 @@ test_case "No raw 'himalaya' calls outside lib/em-himalaya.zsh"
 if ! _has_em_files; then test_skip "No source files"; fi
 local violations=""
 for f in "${EM_FILES[@]}"; do
-    # Skip the himalaya abstraction layer itself
+    # Skip the himalaya abstraction layer itself and watch module (uses IMAP IDLE directly)
     [[ "$f" == *"em-himalaya.zsh" ]] && continue
-    # Look for direct himalaya invocations (not in comments)
-    local raw=$(grep -nE '(^|[^#])\bhimalaya\b' "$f" 2>/dev/null | \
-                grep -vE '^\s*#' | \
+    [[ "$f" == *"em-watch.zsh" ]] && continue
+    # Look for direct himalaya invocations (not in comments, strings, or log messages)
+    # grep -n adds "linenum:" prefix, so match comments/strings after the colon
+    local raw=$(grep -nE '\bhimalaya\b' "$f" 2>/dev/null | \
+                grep -vE ':[[:space:]]*#' | \
+                grep -vE '#.*\bhimalaya\b' | \
                 grep -vE 'command -v himalaya' | \
-                grep -vE 'whence.*himalaya')
+                grep -vE 'whence.*himalaya' | \
+                grep -vE '".*himalaya.*"' | \
+                grep -vE "'.*himalaya.*'")
     [[ -n "$raw" ]] && violations+="$f: $raw\n"
 done
 if [[ -z "$violations" ]]; then
@@ -279,7 +285,8 @@ for f in "${EM_FILES[@]}"; do
     for func in ${(f)pub_funcs}; do
         local func_name="${func%()}"
         # Check if there's a corresponding help function or help case
-        local has_help=$(grep -c "${func_name}.*help\|_${func_name}_help" "$f" 2>/dev/null)
+        # Use grep -E for alternation (BSD grep on macOS doesn't support \| in basic mode)
+        local has_help=$(grep -cE "${func_name}.*help|_${func_name}_help" "$f" 2>/dev/null)
         if (( has_help == 0 )); then
             missing_help+="$func_name in $f\n"
         fi

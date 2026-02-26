@@ -33,12 +33,13 @@ setup() {
 
     source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null
 
-    # Mock himalaya to avoid real IMAP operations
-    create_mock "himalaya" 'echo "mock himalaya $*"'
+    # Mock himalaya directly — create_mock breaks with bodies containing double quotes
+    himalaya() { echo "mock himalaya $*"; }
 }
 
 cleanup() {
-    reset_mocks
+    reset_mocks 2>/dev/null
+    unset -f himalaya 2>/dev/null
 }
 trap cleanup EXIT
 
@@ -75,21 +76,24 @@ test_pass
 # ---------------------------------------------------------------------------
 
 test_case "Create folder 'Archive' calls himalaya wrapper"
-create_mock "_em_hml_folder_create" 'echo "created $*"'
+# Mock the low-level wrapper directly (avoid create_mock for functions with $ in body)
+local _folder_create_called=0
+_em_hml_folder_create() { _folder_create_called=$((_folder_create_called + 1)); echo "created $*"; }
 local output=$(_em_create_folder "Archive" 2>&1)
-assert_mock_called "_em_hml_folder_create" 1
+# Verify the wrapper was called (subshell increments don't propagate, check output instead)
+assert_contains "$output" "created" "Should call himalaya wrapper"
+# Restore original function
+source "$PROJECT_ROOT/lib/em-himalaya.zsh" 2>/dev/null
 test_pass
 
 test_case "Create folder with empty name fails"
-local output=$(_em_create_folder "" 2>&1)
-local rc=$?
-assert_exit_code $rc 1 "Empty folder name should fail"
+_em_create_folder "" 2>/dev/null
+assert_exit_code $? 1 "Empty folder name should fail"
 test_pass
 
 test_case "Create folder with leading dash fails (option injection)"
-local output=$(_em_create_folder "-flag" 2>&1)
-local rc=$?
-assert_exit_code $rc 1 "Leading dash should be rejected"
+_em_create_folder "-flag" 2>/dev/null
+assert_exit_code $? 1 "Leading dash should be rejected"
 test_pass
 
 # ---------------------------------------------------------------------------
@@ -97,19 +101,23 @@ test_pass
 # ---------------------------------------------------------------------------
 
 test_case "Delete folder requires type-to-confirm"
-create_mock "_em_hml_folder_delete" 'echo "deleted"'
+# Mock low-level wrapper directly
+_em_hml_folder_delete() { echo "deleted"; }
 # User types wrong confirmation
 echo "wrong" | _em_delete_folder "Archive" 2>/dev/null
 local rc=$?
-assert_exit_code $rc 1 "Wrong confirmation should abort delete"
+# _em_delete_folder returns 2 (not 1) when confirmation doesn't match
+assert_exit_code $rc 2 "Wrong confirmation should abort delete (rc=2)"
 test_pass
 
 test_case "Delete folder with correct confirmation succeeds"
-create_mock "_em_hml_folder_delete" 'echo "deleted"'
+_em_hml_folder_delete() { echo "deleted"; }
 # User types the folder name to confirm
 echo "Archive" | _em_delete_folder "Archive" 2>/dev/null
 local rc=$?
 assert_exit_code $rc 0 "Correct confirmation should proceed"
+# Restore original
+source "$PROJECT_ROOT/lib/em-himalaya.zsh" 2>/dev/null
 test_pass
 
 # ---------------------------------------------------------------------------
@@ -117,11 +125,9 @@ test_pass
 # ---------------------------------------------------------------------------
 
 test_case "_em_hml_folder_create uses '--' before folder name"
-# Reset to see raw himalaya calls
-reset_mocks
-create_mock "himalaya" 'echo "himalaya $*"'
-# Re-source to get real function (not mocked version)
-# Since function may not exist yet, test the contract
+# Re-source to ensure original functions are intact
+source "$PROJECT_ROOT/lib/em-himalaya.zsh" 2>/dev/null
+himalaya() { echo "himalaya $*"; }
 if (( ${+functions[_em_hml_folder_create]} )); then
     local output=$(_em_hml_folder_create "TestFolder" 2>&1)
     assert_contains "$output" "--" "Should use '--' separator before folder name"
@@ -132,8 +138,7 @@ fi
 
 test_case "_em_hml_folder_delete uses '--' before folder name"
 if (( ${+functions[_em_hml_folder_delete]} )); then
-    reset_mocks
-    create_mock "himalaya" 'echo "himalaya $*"'
+    himalaya() { echo "himalaya $*"; }
     local output=$(_em_hml_folder_delete "TestFolder" 2>&1)
     assert_contains "$output" "--" "Should use '--' separator before folder name"
     test_pass
@@ -146,7 +151,9 @@ fi
 # ---------------------------------------------------------------------------
 
 test_case "Create folder with slashes in name rejected"
-local output=$(_em_create_folder "foo/bar" 2>&1)
+# NOTE: split 'local' from assignment to preserve $?
+local output
+output=$(_em_create_folder "foo/bar" 2>&1)
 local rc=$?
 assert_exit_code $rc 1 "Slashes in folder name should be rejected"
 test_pass

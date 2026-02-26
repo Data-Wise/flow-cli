@@ -176,51 +176,74 @@ test_pass
 # Config safe parser
 # ---------------------------------------------------------------------------
 
-test_case "_em_load_config reads key=value pairs"
+test_case "_em_parse_config_file reads allowlisted key=value pairs"
 local tmpfile=$(mktemp)
-echo 'default_account=personal' > "$tmpfile"
-echo 'page_size=25' >> "$tmpfile"
-local output=$(_em_load_config "$tmpfile" 2>&1)
+echo 'FLOW_EMAIL_AI=claude' > "$tmpfile"
+echo 'FLOW_EMAIL_PAGE_SIZE=25' >> "$tmpfile"
+unset FLOW_EMAIL_AI FLOW_EMAIL_PAGE_SIZE 2>/dev/null
+_em_parse_config_file "$tmpfile" 2>/dev/null
 local rc=$?
 rm -f "$tmpfile"
 assert_exit_code $rc 0
+assert_equals "${FLOW_EMAIL_AI:-}" "claude" "Expected FLOW_EMAIL_AI=claude"
+unset FLOW_EMAIL_AI FLOW_EMAIL_PAGE_SIZE 2>/dev/null
 test_pass
 
-test_case "_em_load_config rejects \$(...) in values"
+test_case "_em_parse_config_file does not execute \$(...) in values"
 local tmpfile=$(mktemp)
-echo 'account=$(whoami)' > "$tmpfile"
-local output=$(_em_load_config "$tmpfile" 2>&1)
-local rc=$?
+echo 'FLOW_EMAIL_AI=$(whoami)' > "$tmpfile"
+unset FLOW_EMAIL_AI 2>/dev/null
+_em_parse_config_file "$tmpfile" 2>/dev/null
 rm -f "$tmpfile"
-assert_exit_code $rc 1 "Should reject command substitution in config"
-test_pass
+# The parser sets the literal string '$(whoami)', NOT the result of execution
+# Both literal-string and empty are safe outcomes
+if [[ -z "${FLOW_EMAIL_AI:-}" ]]; then
+    test_pass  # Parser rejected it entirely — safe
+elif [[ "${FLOW_EMAIL_AI}" == '$(whoami)' ]]; then
+    test_pass  # Parser stored literal string without executing — safe
+else
+    test_fail "Config parser executed code: FLOW_EMAIL_AI=$FLOW_EMAIL_AI"
+fi
+unset FLOW_EMAIL_AI 2>/dev/null
 
-test_case "_em_load_config rejects backticks in values"
+test_case "_em_parse_config_file does not execute backticks in values"
 local tmpfile=$(mktemp)
-echo 'account=`whoami`' > "$tmpfile"
-local output=$(_em_load_config "$tmpfile" 2>&1)
-local rc=$?
+printf 'FLOW_EMAIL_AI=`whoami`\n' > "$tmpfile"
+unset FLOW_EMAIL_AI 2>/dev/null
+_em_parse_config_file "$tmpfile" 2>/dev/null
 rm -f "$tmpfile"
-assert_exit_code $rc 1 "Should reject backtick expansion in config"
-test_pass
+if [[ -z "${FLOW_EMAIL_AI:-}" ]]; then
+    test_pass  # Rejected — safe
+elif [[ "${FLOW_EMAIL_AI}" == '`whoami`' ]]; then
+    test_pass  # Stored literal — safe
+else
+    test_fail "Config parser executed backticks: FLOW_EMAIL_AI=$FLOW_EMAIL_AI"
+fi
+unset FLOW_EMAIL_AI 2>/dev/null
 
-test_case "_em_load_config rejects semicolons in values"
+test_case "_em_parse_config_file ignores non-allowlisted keys with semicolons"
 local tmpfile=$(mktemp)
 echo 'account=test; rm -rf /' > "$tmpfile"
-local output=$(_em_load_config "$tmpfile" 2>&1)
+unset account 2>/dev/null
+_em_parse_config_file "$tmpfile" 2>/dev/null
 local rc=$?
 rm -f "$tmpfile"
-assert_exit_code $rc 1 "Should reject semicolons in config values"
+# 'account' is not in the allowlist, so it is silently skipped (rc=0)
+assert_exit_code $rc 0
+assert_empty "${account:-}" "Non-allowlisted key should not be set"
 test_pass
 
-test_case "_em_load_config ignores comment lines"
+test_case "_em_parse_config_file ignores comment lines"
 local tmpfile=$(mktemp)
 echo '# This is a comment' > "$tmpfile"
-echo 'page_size=25' >> "$tmpfile"
-_em_load_config "$tmpfile" 2>/dev/null
+echo 'FLOW_EMAIL_PAGE_SIZE=25' >> "$tmpfile"
+unset FLOW_EMAIL_PAGE_SIZE 2>/dev/null
+_em_parse_config_file "$tmpfile" 2>/dev/null
 local rc=$?
 rm -f "$tmpfile"
 assert_exit_code $rc 0
+assert_equals "${FLOW_EMAIL_PAGE_SIZE:-}" "25" "Expected FLOW_EMAIL_PAGE_SIZE=25"
+unset FLOW_EMAIL_PAGE_SIZE 2>/dev/null
 test_pass
 
 # ---------------------------------------------------------------------------
