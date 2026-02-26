@@ -117,7 +117,7 @@ _em_cache_invalidate() {
 }
 
 _em_cache_clear() {
-    # Clear entire cache
+    # Clear entire cache (AI results + version cache)
     local cache_base="$(_em_cache_dir)"
     if [[ -d "$cache_base" ]]; then
         local size
@@ -126,6 +126,11 @@ _em_cache_clear() {
         _flow_log_success "Email cache cleared ($size freed)"
     else
         _flow_log_info "No email cache to clear"
+    fi
+
+    # Also clear himalaya version cache (adapter layer)
+    if typeset -f _em_hml_version_clear_cache &>/dev/null; then
+        _em_hml_version_clear_cache
     fi
 }
 
