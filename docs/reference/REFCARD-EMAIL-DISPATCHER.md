@@ -2,7 +2,10 @@
 
 > All `em` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v7.4.2 | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+> **Version:** v2.0 (flow-cli v7.4.2+) | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+>
+> **BREAKING CHANGE (v2.0):** `em send` and `em reply` now show a full preview before sending.
+> Use `--force` to bypass and send without the confirmation step.
 >
 > **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and
 > [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven, Claude as interface)
@@ -12,7 +15,7 @@
 
 ```mermaid
 mindmap
-  root((em<br/>31 commands))
+  root((em<br/>v2.0<br/>37 commands))
     Core Email<br/>4 commands
       inbox
       read
@@ -37,7 +40,7 @@ mindmap
       snooze
       snoozed
       digest
-    Manage<br/>7 commands
+    Manage<br/>9 commands
       delete
       move
       restore
@@ -45,14 +48,19 @@ mindmap
       unflag
       todo
       event
+      create-folder
+      delete-folder
     Quick Info<br/>3 commands
       unread
       dash
       folders
-    Utilities<br/>3 commands
+    Utilities<br/>6 commands
       attach
       html
       cache
+      calendar
+      watch
+      version
     Infrastructure<br/>2 commands
       doctor
       help
@@ -87,11 +95,17 @@ mindmap
 | **em dash** | `d` | `em dash` | Quick dashboard (unread + recent) |
 | **em folders** | — | `em folders` | List mail folders |
 | **em html** | — | `em html <ID>` | Render HTML email in terminal |
-| **em attach** | `a` | `em attach <ID> [OUT_DIR]` | Download attachments |
+| **em attach** | `a` | `em attach <ID> [OUT_DIR]` | Download all attachments from email |
+| **em attach list** | — | `em attach list <ID>` | Show attachment table (name, MIME type, size) |
+| **em attach get** | — | `em attach get <ID> <file> [dir]` | Download a specific named attachment |
 | **em cache** | — | `em cache <action>` | Cache operations (stats, prune, clear, warm) |
+| **em calendar** | `cal` | `em calendar <ID>` | Parse ICS attachment; optionally add to Apple Calendar |
+| **em watch** | `w` | `em watch start\|stop\|status\|log` | IMAP IDLE background watcher [experimental] |
 | **em doctor** | `dr` | `em doctor` | Dependency health check |
 | **em help** | `h, --help` | `em help` | Show all commands |
 | **em delete** | `del, rm` | `em delete <ID> [--folder F] [--query Q] [--pick] [--purge]` | Delete email(s) — move to Trash (or permanent with --purge) |
+| **em create-folder** | `cf` | `em create-folder <name>` | Create a new mail folder |
+| **em delete-folder** | `df` | `em delete-folder <name>` | Delete folder (type-to-confirm) |
 | **em move** | `mv` | `em move <FOLDER> <ID> [--from F]` | Move email(s) to folder |
 | **em restore** | — | `em restore <ID> [--to F]` | Restore from Trash (default: to INBOX) |
 | **em flag** | `fl` | `em flag <ID> [<ID>...]` | Star/flag email(s) |
@@ -124,11 +138,14 @@ Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/emai
 
 ```mermaid
 graph TD
-    A["em dispatcher<br/>31 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
+    A["em dispatcher<br/>v2.0 — 37 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
     A -->|cache layer| C["em-cache<br/>(TTL: 1h-24h)"]
     A -->|AI abstraction| D["em-ai<br/>Backend: claude/gemini"]
     A -->|render pipeline| E["em-render<br/>Smart content detection"]
-    A -->|manage ops| F["himalaya delete/move/flag"]
+    A -->|manage ops| F["himalaya delete/move/flag/folder"]
+    A -->|safety gate| G["em-safety<br/>Preview → y/N/e"]
+    A -->|version detect| H["_em_hml_version<br/>Progressive enhancement"]
+    A -->|watch| I["em-watch<br/>IMAP IDLE + notifications"]
     D -->|fallback chain| D1["claude"]
     D -->|fallback chain| D2["gemini"]
     E -->|HTML| E1["w3m → lynx → pandoc → bat"]
@@ -216,21 +233,53 @@ Outlook attribute block removal → fenced div stripping → CID/backslash clean
 
 ## Safety Features
 
-### Send Safety Gate
+### Send Safety Gate (v2.0 — BREAKING CHANGE)
 
-Every send (compose, reply, batch) requires explicit confirmation:
+`em send` and `em reply` now show a **full preview** before sending. This is a two-phase flow:
 
 ```text
-Send this email? [y/N]
+─────────────────────────────────────────────────
+  To:      recipient@example.com
+  Subject: Re: Quarterly Report
+  ─────────────────────────────────────────────
+  [email body preview shown here]
+─────────────────────────────────────────────────
+Send this email? [y/N/e]
+  y = send now
+  N = discard (default)
+  e = open in $EDITOR to revise
 ```
 
-**Default:** No (requires `y` or `Y` to proceed)
+**Default:** No (requires `y` or `Y` to proceed). Press `e` to edit before sending.
+
+**Bypass:** Use `--force` (or `--yes`) to skip the preview and send immediately:
+
+```bash
+em send --force                  # Skip preview, send immediately
+em reply 42 --force              # Skip preview for reply
+em reply 42 --batch              # Non-interactive batch mode (preview + y/N only)
+```
 
 **Applies to:**
 
-- `em send` → `em send`
-- `em reply <ID>` (batch mode `--batch`) → confirm before send
-- `em respond --review` → per-draft confirmation
+- `em send` — preview draft before sending
+- `em reply <ID>` — preview reply before sending
+- `em reply <ID> --batch` — preview + `[y/N]` (no editor step)
+- `em respond --review` — per-draft confirmation
+
+### Version Detection
+
+`em` automatically detects the installed himalaya version and enables features accordingly:
+
+```bash
+# Version-gated features activate based on himalaya CLI version
+_em_hml_version          # Returns "X.Y.Z" string
+_em_hml_version_gte 1.0  # Returns 0 if himalaya >= 1.0
+```
+
+`em doctor` reports the himalaya version and which progressive-enhancement features are active.
+
+---
 
 ### Delete Safety Gate
 
@@ -500,9 +549,32 @@ em folders                      # List folders
 em html 42                      # Render HTML in terminal
 
 # ─────────────────────────────────────────────────────────────
-# Attachments
-em attach 42                    # Download attachments
+# Attachments (v2.0: enhanced)
+em attach 42                    # Download all attachments
 em attach 42 ~/Downloads        # Save to specific directory
+em attach list 42               # Show attachment table (name, MIME, size)
+em attach get 42 report.pdf     # Download specific file to ~/Downloads
+em attach get 42 report.pdf ~/Documents  # Download to custom directory
+
+# ─────────────────────────────────────────────────────────────
+# Calendar integration (v2.0: new)
+em calendar 42                  # Parse ICS attachment from email
+em cal 42                       # Alias: same as em calendar
+
+# ─────────────────────────────────────────────────────────────
+# Folder management (v2.0: new)
+em create-folder "Team Updates" # Create a new mail folder
+em cf "Team Updates"            # Alias
+em delete-folder "Old Archive"  # Delete folder (type name to confirm)
+em df "Old Archive"             # Alias
+
+# ─────────────────────────────────────────────────────────────
+# IMAP watch / notifications (v2.0: experimental)
+em watch start                  # Start background IMAP IDLE watcher
+em watch stop                   # Stop the background watcher
+em watch status                 # Show watcher PID + uptime
+em watch log                    # Tail the watcher log
+em w start                      # Alias
 
 # ─────────────────────────────────────────────────────────────
 # Management
@@ -711,20 +783,22 @@ For Gmail/OAuth2: `email-oauth2-proxy` recommended (see `em doctor`)
 
 ### Layer 1: Dispatcher (`em()`)
 
-Pure ZSH dispatcher. 27 public commands. <10ms response.
+Pure ZSH dispatcher. 37 public commands. <10ms response.
 
 ### Layer 2: Adapters
 
-- **`em-himalaya.zsh`** — Isolates himalaya CLI specifics
+- **`em-himalaya.zsh`** — Isolates himalaya CLI specifics; version detection
 - **`em-cache.zsh`** — TTL-based AI caching
-- **`em-ai.zsh`** — Backend abstraction (claude/gemini), runtime switching, extra_args
+- **`em-ai.zsh`** — Backend abstraction (claude/gemini), runtime switching, extra_args allowlist
 - **`em-render.zsh`** — Content detection + rendering
+- **`email-helpers.zsh`** — Two-phase safety gate, draft lifecycle, folder CRUD, calendar, watch
 
 ### Layer 3: Infrastructure
 
 - **Himalaya CLI** — IMAP/SMTP backend
 - **email-oauth2-proxy** — OAuth2 for Gmail, Outlook, etc.
 - **render chain** — w3m, lynx, pandoc, bat, glow
+- **terminal-notifier** — Desktop notifications for `em watch` (optional)
 
 ---
 
@@ -825,6 +899,7 @@ em ai claude                   # Use a known backend
 
 ---
 
-**Version:** v7.4.2
-**Last Updated:** 2026-02-21
-**Commands:** 34 total (4 core + 2 search + 5 AI + 7 organize + 7 manage + 3 info + 3 util + 2 infra + 1 help)
+**Version:** v2.0 (em dispatcher) — flow-cli v7.4.2+
+**Last Updated:** 2026-02-26
+**Commands:** 37 total (4 core + 2 search + 5 AI + 7 organize + 9 manage + 3 info + 6 util + 2 infra + 1 help)
+**Breaking Change:** `em send` / `em reply` preview before send. Use `--force` to bypass.
