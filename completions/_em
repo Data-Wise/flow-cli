@@ -1,6 +1,7 @@
 #compdef em
 
 # Completion for em command - email dispatcher (himalaya wrapper)
+# Version: 2.0
 
 _em() {
   local -a subcommands
@@ -10,9 +11,9 @@ _em() {
     'i:List recent emails (alias)'
     'read:Read email by ID'
     'r:Read email (alias)'
-    'send:Compose new email'
+    'send:Compose new email (preview + [y/N/e] gate)'
     's:Compose new email (alias)'
-    'reply:Reply with AI draft'
+    'reply:Reply with AI draft (preview + [y/N/e] gate)'
     're:Reply (alias)'
     'find:Search emails'
     'f:Search emails (alias)'
@@ -24,18 +25,52 @@ _em() {
     'd:Dashboard (alias)'
     'folders:List mail folders'
     'html:Render HTML email'
-    'attach:Download attachments'
+    'attach:Download attachments (or use: attach list, attach get)'
     'a:Attachments (alias)'
+    'calendar:Parse ICS attachment; add to Apple Calendar'
+    'cal:Calendar (alias)'
+    'watch:IMAP IDLE background watcher [experimental]'
+    'w:Watch (alias)'
+    'create-folder:Create a new mail folder'
+    'cf:Create folder (alias)'
+    'delete-folder:Delete folder (type-to-confirm)'
+    'df:Delete folder (alias)'
     'respond:Batch AI draft generation'
     'resp:Batch draft (alias)'
     'classify:AI-classify email'
     'cl:Classify (alias)'
     'summarize:AI-summarize email'
     'sum:Summarize (alias)'
+    'ai:Show or switch AI backend'
+    'catch:Capture email as task (AI summary → catch)'
+    'c:Catch (alias)'
+    'star:Toggle starred (Flagged) status'
+    'starred:List starred emails'
+    'move:Move email to folder'
+    'mv:Move (alias)'
+    'thread:Show conversation thread'
+    'th:Thread (alias)'
+    'snooze:Snooze email for later'
+    'snz:Snooze (alias)'
+    'snoozed:List snoozed emails'
+    'digest:AI-grouped daily/weekly digest'
+    'dg:Digest (alias)'
+    'delete:Delete email (move to Trash)'
+    'del:Delete (alias)'
+    'rm:Delete (alias)'
+    'restore:Restore from Trash'
+    'flag:Star/flag email(s)'
+    'fl:Flag (alias)'
+    'unflag:Remove star from email(s)'
+    'todo:Extract action items (AI → Reminders.app)'
+    'td:Todo (alias)'
+    'event:Extract calendar events (AI → Calendar.app)'
+    'ev:Event (alias)'
     'cache:Cache management'
     'doctor:Check dependencies'
     'dr:Check dependencies (alias)'
     'help:Show help'
+    'h:Help (alias)'
   )
 
   _arguments -C \
@@ -49,13 +84,60 @@ _em() {
       ;;
     args)
       case "$line[1]" in
-        read|r|reply|re|html|attach|a|classify|cl|summarize|sum)
+        read|r|html|classify|cl|summarize|sum|thread|th|snooze|snz|catch|c|star|todo|td|event|ev|flag|fl|unflag|restore|delete|del|rm)
           # These take an email ID
           _message "email ID"
           ;;
+        reply|re)
+          # Reply takes an ID and optional flags
+          _arguments \
+            '--force[Skip preview gate, send immediately]' \
+            '--yes[Skip preview gate (alias for --force)]' \
+            '--no-ai[Reply without AI draft]' \
+            '--all[Reply-all (include all recipients)]' \
+            '--batch[Non-interactive: preview + y/N only]' \
+            ':email ID:_message "email ID"'
+          ;;
+        send|s)
+          # Send takes optional recipient and flags
+          _arguments \
+            '--force[Skip preview gate, send immediately]' \
+            '--yes[Skip preview gate (alias for --force)]' \
+            '--ai[Generate AI draft from subject]' \
+            ':recipient:_message "recipient email"'
+          ;;
+        attach|a)
+          # Attach takes an ID, optional dir, or subcommand
+          local -a attach_cmds=(
+            'list:Show attachment table (name, MIME type, size)'
+            'get:Download a specific named attachment'
+          )
+          _describe -t attach_cmds 'attach subcommand' attach_cmds \
+            || _message "email ID (or: attach list <ID>, attach get <ID> <file> [dir])"
+          ;;
+        calendar|cal)
+          _message "email ID (with ICS attachment)"
+          ;;
+        watch|w)
+          local -a watch_cmds=(
+            'start:Start IMAP IDLE background watcher'
+            'stop:Stop the background watcher'
+            'status:Show watcher PID and uptime'
+            'log:Tail the watcher activity log'
+          )
+          _describe -t watch_cmds 'watch subcommand' watch_cmds
+          ;;
+        create-folder|cf)
+          _message "folder name"
+          ;;
+        delete-folder|df)
+          _message "folder name (must type again to confirm)"
+          ;;
         inbox|i)
-          # Optional page size
-          _message "page size (default: 25)"
+          # Optional page size and folder
+          _arguments \
+            ':page size (default\: 25):_message "number of emails"' \
+            ':folder (default\: INBOX):_message "folder name"'
           ;;
         find|f)
           # Search query
@@ -65,13 +147,38 @@ _em() {
           # Optional folder name
           _message "folder (default: INBOX)"
           ;;
-        send|s)
-          # Optional recipient
-          _message "recipient email"
+        move|mv)
+          _message "folder name or email ID"
+          ;;
+        snooze|snz)
+          local -a time_examples=(
+            '2h:Snooze for 2 hours'
+            '1d:Snooze for 1 day'
+            '3d:Snooze for 3 days'
+            '1w:Snooze for 1 week'
+            'tomorrow:Snooze until tomorrow 9am'
+            'monday:Snooze until next Monday 9am'
+          )
+          _describe -t time_examples 'snooze time' time_examples
           ;;
         respond|resp)
           # Optional flags
-          _arguments '--review[Review drafts with fzf]' '--all[Process all, not just unread]'
+          _arguments \
+            '--review[Review cached drafts with fzf]' \
+            '--dry-run[Classify only (no drafts)]' \
+            '--clear[Clear all cached drafts]' \
+            '-n[Number of emails to process]:count:_message "number"' \
+            '--folder[Folder to process]:folder:_message "folder name"'
+          ;;
+        ai)
+          local -a ai_backends=(
+            'claude:Switch to Claude backend'
+            'gemini:Switch to Gemini backend'
+            'none:Disable AI'
+            'auto:Smart per-operation routing'
+            'toggle:Cycle through available backends'
+          )
+          _describe -t ai_backends 'AI backend' ai_backends
           ;;
         cache)
           local -a cache_cmds=(
@@ -81,6 +188,19 @@ _em() {
             'warm:Background-warm cache'
           )
           _describe -t cache_cmds 'cache command' cache_cmds
+          ;;
+        digest|dg)
+          _arguments \
+            '--week[Show weekly digest]' \
+            '-n[Number of emails to process]:count:_message "number"'
+          ;;
+        delete|del|rm)
+          _arguments \
+            '--folder[Delete all in folder]:folder:_message "folder name"' \
+            '--query[Delete by search query]:query:_message "search query"' \
+            '--pick[fzf multi-select mode]' \
+            '--purge[Permanent delete (requires typing yes)]' \
+            ':email ID:_message "email ID"'
           ;;
       esac
       ;;

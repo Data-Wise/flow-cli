@@ -518,13 +518,14 @@ Generate AI-powered draft replies that open in your editor.
 em reply 42
 ```
 
-**What happens:**
+**What happens (v2.0 — Two-Phase Safety Gate):**
 
 1. AI reads the original email
 2. Generates a professional draft reply
 3. Opens your `$EDITOR` (nvim/vim/emacs/nano) with the draft
 4. You edit, save, and exit
-5. Confirms before sending
+5. **Full preview is shown** (headers + first few lines of body)
+6. `[y/N/e]` prompt — press `e` to loop back to editor, `y` to send, Enter to cancel
 
 ✅ **Expected output:**
 
@@ -560,11 +561,24 @@ Best,
 - Fix any errors
 - Save and exit when done
 
-**Send confirmation:**
+**Preview + send confirmation (v2.0):**
 
 ```text
-Send this reply? [y/N] y
+─────────────────────────────────────────────────────────
+  To:      alice@example.com
+  Subject: Re: Project proposal review
+  ───────────────────────────────────────────────────────
+  Hi Alice,
+  Thanks for reviewing the proposal. Here are answers...
+─────────────────────────────────────────────────────────
+
+  Send this reply? [y/N/e]
+  y = send now   N = discard (default)   e = edit again
 ```
+
+> **New in v2.0:** The `[y/N/e]` gate replaces the old `[y/N]` prompt. Press `e` to re-open
+> your editor if you spot something to fix after the preview. Use `--force` to skip the gate
+> entirely (useful for scripts or automation).
 
 ### Reply-All
 
@@ -1892,6 +1906,90 @@ End of Day:
 
 ---
 
+## New in v2.0
+
+This section covers the major new features added in em dispatcher v2.0.
+
+### Two-Phase Safety Gate
+
+`em send` and `em reply` now preview before sending. This is a **breaking change** — the
+old `[y/N]` prompt is now `[y/N/e]` and always shows a preview first.
+
+```bash
+# Old behavior (v1.x)
+em reply 42
+# → Editor → Send this reply? [y/N]
+
+# New behavior (v2.0)
+em reply 42
+# → Editor → [preview shown] → Send this reply? [y/N/e]
+
+# Skip the gate (automation / scripting)
+em reply 42 --force
+```
+
+### Attachment Inspector
+
+```bash
+# List all attachments with metadata
+em attach list 42
+# → #  Name           Type              Size
+# → 1  agenda.pdf     application/pdf   142 KB
+# → 2  invite.ics     text/calendar     2 KB
+
+# Download a specific file
+em attach get 42 agenda.pdf
+em attach get 42 agenda.pdf ~/Documents   # Custom directory
+```
+
+### Folder Management
+
+```bash
+# Create a new mail folder
+em create-folder "Project X"
+em cf "Project X"    # alias
+
+# Delete a folder (type-to-confirm)
+em delete-folder "Old Archive"
+em df "Old Archive"  # alias
+```
+
+### Calendar from ICS Attachments
+
+```bash
+# Parse ICS attachment and display event card
+em calendar 42
+em cal 42    # alias
+
+# Output:
+# Event: Department Meeting
+# Date:  Thursday, March 5, 2026
+# Time:  2:00 PM – 3:30 PM
+# Add to Apple Calendar? [y/N]
+```
+
+### IMAP Watch (Background Notifications)
+
+```bash
+# Start background IMAP IDLE watcher
+em watch start
+
+# Check status
+em watch status
+# → em watch: running (PID 12345, uptime 2h 14m)
+
+# View activity log
+em watch log
+
+# Stop
+em watch stop
+```
+
+> **Experimental:** `em watch` requires `terminal-notifier` for desktop notifications.
+> Run `em doctor` to verify all dependencies.
+
+---
+
 ## ✅ Skills Checklist
 
 After this tutorial, you should be able to:
@@ -1920,17 +2018,22 @@ After this tutorial, you should be able to:
 - [ ] Extract action items with AI (`em todo`)
 - [ ] Extract calendar events with AI (`em event`)
 - [ ] Use new management keybinds in `em pick`
+- [ ] Use the v2.0 two-phase safety gate (`[y/N/e]`)
+- [ ] List and download specific attachments (`em attach list`, `em attach get`)
+- [ ] Create and delete mail folders
+- [ ] Parse ICS calendar attachments with `em calendar`
+- [ ] Start and stop the IMAP watch background watcher
 
 ---
 
-**Total Time:** ~70 minutes hands-on
-**Commands Learned:** 30+ commands
-**Workflows Mastered:** 4 (morning, teaching, ADHD batch, quick check)
+**Total Time:** ~80 minutes hands-on
+**Commands Learned:** 37+ commands
+**Workflows Mastered:** 5 (morning, teaching, ADHD batch, quick check, v2.0 features)
 
 **You're now an email power user!** 🎯
 
 ---
 
-*Last updated: 2026-02-18*
-*flow-cli version: 7.4.0*
-*Tutorial version: 1.2*
+*Last updated: 2026-02-26*
+*flow-cli version: 7.4.2 (em dispatcher v2.0)*
+*Tutorial version: 2.0*
