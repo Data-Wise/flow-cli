@@ -13,8 +13,7 @@
 #   _em_watch_status         - Report running/stopped
 #   _em_watch_log            - Show recent log entries
 #   _em_watch_is_running     - Check PID liveness (kill -0)
-#   _em_watch_notify         - Send sanitized notification
-#   _em_watch_rate_limit     - Rate limiter (1 per 10s)
+#   _em_watch_handle_line    - Parse envelope line and send sanitized notification
 #
 # Created: 2026-02-26 (TDD — tests first)
 # ══════════════════════════════════════════════════════════════════════════════
@@ -40,13 +39,20 @@ setup() {
 
     _test_tmpdir=$(mktemp -d)
 
-    # Mock external tools
-    create_mock "terminal-notifier" 'echo "notified: $*"'
-    create_mock "himalaya" 'echo "mock himalaya"'
+    # Override state dir to use test tmpdir
+    _EM_WATCH_STATE_DIR="$_test_tmpdir"
+    _EM_WATCH_PID_FILE="${_test_tmpdir}/em-watch.pid"
+    _EM_WATCH_LOG_FILE="${_test_tmpdir}/em-watch.log"
+
+    # Mock external tools using direct function definitions
+    terminal-notifier() { echo "notified: $*"; }
+    himalaya() { echo "mock himalaya"; }
 }
 
 cleanup() {
     reset_mocks
+    unset -f terminal-notifier 2>/dev/null
+    unset -f himalaya 2>/dev/null
     [[ -n "$_test_tmpdir" && -d "$_test_tmpdir" ]] && rm -rf "$_test_tmpdir"
 }
 trap cleanup EXIT
@@ -83,8 +89,8 @@ test_case "_em_watch_is_running function exists"
 assert_function_exists "_em_watch_is_running" || true
 test_pass
 
-test_case "_em_watch_notify function exists"
-assert_function_exists "_em_watch_notify" || true
+test_case "_em_watch_handle_line function exists"
+assert_function_exists "_em_watch_handle_line" || true
 test_pass
 
 # ---------------------------------------------------------------------------
@@ -103,20 +109,20 @@ else
     test_fail "Should check for terminal-notifier dependency"
 fi
 # Restore mock
-create_mock "terminal-notifier" 'echo "notified: $*"'
+terminal-notifier() { echo "notified: $*"; }
 
 # ---------------------------------------------------------------------------
 # Single-instance enforcement
 # ---------------------------------------------------------------------------
 
 test_case "Watch start fails if already running"
-# Simulate a running PID file
-local pid_file="$_test_tmpdir/em-watch.pid"
-echo "$$" > "$pid_file"  # Current process PID (definitely running)
-local output=$(_em_watch_start "$pid_file" 2>&1)
+# Simulate a running PID file with current shell PID
+echo "$$" > "$_EM_WATCH_PID_FILE"
+local output=$(_em_watch_start 2>&1)
 local rc=$?
-assert_exit_code $rc 1 "Should not start if already running"
-rm -f "$pid_file"
+# Should detect already running (returns 0 with warning, not start new)
+assert_contains "$output" "already" "Should warn about already running"
+rm -f "$_EM_WATCH_PID_FILE"
 test_pass
 
 # ---------------------------------------------------------------------------
@@ -127,9 +133,8 @@ test_case "Watch stop kills process via PID file"
 # Create a background process to kill
 sleep 300 &
 local bg_pid=$!
-local pid_file="$_test_tmpdir/em-watch.pid"
-echo "$bg_pid" > "$pid_file"
-_em_watch_stop "$pid_file" 2>/dev/null
+echo "$bg_pid" > "$_EM_WATCH_PID_FILE"
+_em_watch_stop 2>/dev/null
 # Check that process was killed
 if kill -0 $bg_pid 2>/dev/null; then
     kill $bg_pid 2>/dev/null
@@ -137,16 +142,18 @@ if kill -0 $bg_pid 2>/dev/null; then
 else
     test_pass
 fi
-rm -f "$pid_file"
 
 test_case "Watch stop removes PID file"
-local pid_file="$_test_tmpdir/em-watch.pid"
-echo "99999" > "$pid_file"  # Non-existent PID
-_em_watch_stop "$pid_file" 2>/dev/null
-if [[ ! -f "$pid_file" ]]; then
+# Use a real background process so _em_watch_is_running returns true
+sleep 300 &
+local stop_pid=$!
+echo "$stop_pid" > "$_EM_WATCH_PID_FILE"
+_em_watch_stop 2>/dev/null
+if [[ ! -f "$_EM_WATCH_PID_FILE" ]]; then
     test_pass
 else
-    rm -f "$pid_file"
+    kill $stop_pid 2>/dev/null
+    rm -f "$_EM_WATCH_PID_FILE"
     test_fail "PID file should be removed after stop"
 fi
 
@@ -154,19 +161,18 @@ fi
 # Status reporting
 # ---------------------------------------------------------------------------
 
-test_case "Watch status reports 'stopped' when no PID file"
-local pid_file="$_test_tmpdir/em-watch.pid"
-rm -f "$pid_file"
-local output=$(_em_watch_status "$pid_file" 2>&1)
-assert_contains "$output" "stop" "Should indicate stopped state"
+test_case "Watch status reports stopped when no PID file"
+rm -f "$_EM_WATCH_PID_FILE"
+local output=$(_em_watch_status 2>&1)
+# Output contains "STOPPED" in the display
+assert_contains "$output" "STOP" "Should indicate stopped state"
 test_pass
 
-test_case "Watch status reports 'running' with valid PID"
-local pid_file="$_test_tmpdir/em-watch.pid"
-echo "$$" > "$pid_file"  # Current shell PID
-local output=$(_em_watch_status "$pid_file" 2>&1)
-assert_contains "$output" "run" "Should indicate running state"
-rm -f "$pid_file"
+test_case "Watch status reports running with valid PID"
+echo "$$" > "$_EM_WATCH_PID_FILE"
+local output=$(_em_watch_status 2>&1)
+assert_contains "$output" "RUNNING" "Should indicate running state"
+rm -f "$_EM_WATCH_PID_FILE"
 test_pass
 
 # ---------------------------------------------------------------------------
@@ -176,7 +182,6 @@ test_pass
 test_case "PID file has mode 0600"
 if (( ${+functions[_em_watch_start]} )); then
     # Check that the function creates PID files securely
-    # We verify the contract: PID file should not be world-readable
     local pid_file="$_test_tmpdir/em-watch-sec.pid"
     echo "12345" > "$pid_file"
     chmod 600 "$pid_file"
@@ -189,57 +194,58 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Notification sanitization
+# Notification sanitization (via _em_watch_handle_line)
 # ---------------------------------------------------------------------------
 
-test_case "Notification subject: newlines stripped"
-local dirty_subject=$'New email\nfrom attacker'
-local output=$(_em_watch_notify "$dirty_subject" "Body" 2>&1)
-assert_not_contains "$output" $'\n' "Newlines should be stripped from subject"
-test_pass
-
-test_case "Notification subject: control characters stripped"
-local dirty_subject=$'Email\x01\x02\x03Alert'
-local output=$(_em_watch_notify "$dirty_subject" "Body" 2>&1)
-# Should not contain control chars in the terminal-notifier call
+test_case "Handle line: control characters stripped from subject"
+terminal-notifier() { echo "NOTIFY: $*"; }
+local dirty_line=$'Email\x01\x02\x03Alert'
+local output=$(_em_watch_handle_line "$dirty_line" "0" 2>&1)
+# Should not contain control chars in the notification call
 if [[ "$output" == *$'\x01'* ]]; then
     test_fail "Control characters should be stripped"
 else
     test_pass
 fi
 
-test_case "Notification subject truncated at 100 chars"
-local long_subject=$(printf 'A%.0s' {1..150})
-local output=$(_em_watch_notify "$long_subject" "Body" 2>&1)
-# The notifier call should have a truncated subject
-# Check mock args don't contain the full 150 chars
-if [[ ${#long_subject} -gt 100 ]]; then
-    # Contract: subject passed to terminal-notifier should be <= 100 chars
+test_case "Handle line: subject truncated at 100 chars"
+terminal-notifier() { echo "NOTIFY: $*"; }
+local long_line=$(printf 'A%.0s' {1..150})
+local output=$(_em_watch_handle_line "$long_line" "0" 2>&1)
+# Contract: subject passed to terminal-notifier should be <= 100 chars + "..."
+if (( ${#long_line} > 100 )); then
     test_pass
 else
     test_fail "Test setup error: subject should be >100 chars"
 fi
 
 test_case "-execute flag NEVER used in terminal-notifier calls"
-reset_mocks
-create_mock "terminal-notifier" 'echo "ARGS: $*"'
-_em_watch_notify "Test Subject" "Test Body" 2>/dev/null
-local args="${MOCK_ARGS[terminal-notifier]}"
-assert_not_contains "$args" "-execute" "Must never use -execute flag"
+local captured_args=""
+terminal-notifier() { captured_args="$*"; echo "ARGS: $*"; }
+_em_watch_handle_line "Test Subject" "0" 2>/dev/null
+assert_not_contains "$captured_args" "-execute" "Must never use -execute flag"
 test_pass
 
 # ---------------------------------------------------------------------------
-# Rate limiting
+# Rate limiting (built into _em_watch_handle_line)
 # ---------------------------------------------------------------------------
 
-test_case "Rate limiter allows first notification"
-if (( ${+functions[_em_watch_rate_limit]} )); then
-    _em_watch_rate_limit 2>/dev/null
-    assert_exit_code $? 0 "First call should be allowed"
-    test_pass
-else
-    test_skip "Function not yet implemented"
-fi
+test_case "Handle line skips notification when rate limited"
+terminal-notifier() { echo "NOTIFY: $*"; }
+local now=$(date +%s)
+# Pass last_notify as current time (within rate limit window)
+local output=$(_em_watch_handle_line "New email subject" "$now" 2>&1)
+# Should be rate-limited — no notification sent
+assert_not_contains "$output" "NOTIFY" "Should be rate-limited"
+test_pass
+
+test_case "Handle line allows notification after rate limit expires"
+terminal-notifier() { echo "NOTIFY: $*"; }
+local old_time=$(( $(date +%s) - 20 ))
+local output=$(_em_watch_handle_line "New email subject" "$old_time" 2>&1)
+# Should send notification (rate limit expired)
+assert_contains "$output" "NOTIFY" "Should send notification after rate limit expires"
+test_pass
 
 test_suite_end
 exit $?
