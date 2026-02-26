@@ -30,10 +30,26 @@ _EM_ICS_MAX_EVENTS=10
 # PUBLIC API
 # ═══════════════════════════════════════════════════════════════════
 
+_em_calendar_help() {
+    echo -e "${_C_BOLD}em calendar${_C_NC} — Parse ICS calendar events from email"
+    echo ""
+    echo -e "  ${_C_CYAN}em calendar <message-id>${_C_NC}   Extract and display ICS events"
+    echo ""
+    echo -e "${_C_DIM}Downloads .ics attachment, parses VEVENT blocks, and optionally${_C_NC}"
+    echo -e "${_C_DIM}adds events to Apple Calendar via osascript.${_C_NC}"
+}
+
 em_calendar() {
     # Parse and display ICS calendar event(s) from an email attachment
-    # Args: $1 - message ID
+    # Args: $1 - message ID or 'help'
     local msg_id="$1"
+
+    # Help text
+    if [[ "$msg_id" == "help" || "$msg_id" == "--help" || "$msg_id" == "-h" ]]; then
+        _em_calendar_help
+        return 0
+    fi
+
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Usage: em calendar <message-id>"
         return 1
