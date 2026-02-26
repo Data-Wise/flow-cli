@@ -350,8 +350,9 @@ _em_read() {
     # [1] Validate ID exists — himalaya silently returns empty for non-existent UIDs
     local envelope=""
     if command -v jq &>/dev/null; then
+        _em_validate_msg_id "$msg_id" || return 1
         envelope=$(_em_hml_list "$folder" 100 2>/dev/null \
-            | jq -r ".[] | select(.id == \"$msg_id\")" 2>/dev/null)
+            | jq -r --argjson id "$msg_id" '.[] | select(.id == $id)' 2>/dev/null)
     fi
 
     if [[ -z "$envelope" ]]; then
@@ -830,8 +831,9 @@ _em_preview_message() {
 
     # Fetch envelope metadata (JSON)
     local envelope
+    _em_validate_msg_id "$msg_id" || return 1
     envelope=$(himalaya envelope list --page-size 100 --output json 2>/dev/null \
-        | jq -r ".[] | select(.id == ($msg_id | tonumber))" 2>/dev/null)
+        | jq -r --argjson id "$msg_id" '.[] | select(.id == $id)' 2>/dev/null)
 
     # Extract fields from envelope
     local from_name from_addr subject edate flags
@@ -1194,8 +1196,9 @@ _em_catch() {
     # Fallback to subject line if AI unavailable or failed
     if [[ -z "$summary" ]]; then
         if command -v jq &>/dev/null; then
+            _em_validate_msg_id "$msg_id" || return 1
             summary=$(_em_hml_list "${FLOW_EMAIL_FOLDER:-INBOX}" 100 2>/dev/null \
-                | jq -r ".[] | select(.id == \"$msg_id\") | .subject" 2>/dev/null)
+                | jq -r --argjson id "$msg_id" '.[] | select(.id == $id) | .subject' 2>/dev/null)
         fi
     fi
 
@@ -1595,8 +1598,9 @@ _em_todo() {
         if [[ -z "$items" || "$items" == "NONE" ]]; then
             local subj=""
             if command -v jq &>/dev/null; then
+                _em_validate_msg_id "$msg_id" || continue
                 subj=$(_em_hml_list "${FLOW_EMAIL_FOLDER:-INBOX}" 100 2>/dev/null \
-                    | jq -r ".[] | select(.id == \"$msg_id\") | .subject" 2>/dev/null)
+                    | jq -r --argjson id "$msg_id" '.[] | select(.id == $id) | .subject' 2>/dev/null)
             fi
             if [[ -n "$subj" ]]; then
                 items="Follow up on: $subj"
@@ -2260,8 +2264,9 @@ _em_snooze() {
 
     # Get subject for display
     local subject
+    _em_validate_msg_id "$msg_id" || return 1
     subject=$(_em_hml_list "$folder" 100 2>/dev/null \
-        | jq -r ".[] | select(.id == ($msg_id | tonumber)) | .subject // \"(no subject)\"" 2>/dev/null)
+        | jq -r --argjson id "$msg_id" '.[] | select(.id == $id) | .subject // "(no subject)"' 2>/dev/null)
 
     # Ensure snooze directory exists
     local snooze_dir="${HOME}/.flow/email-snooze"
