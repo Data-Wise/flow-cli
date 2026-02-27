@@ -54,7 +54,7 @@ teach validate --quick-checks
 |----------|---------|----------|
 | **[REFCARD-LINT.md](reference/REFCARD-LINT.md)** | Command reference | All users |
 | **[LINT-GUIDE.md](guides/LINT-GUIDE.md)** | Complete guide | Course developers |
-| **[Tutorial 27](tutorials/27-lint-quickstart.md)** | 10-minute quickstart | New users |
+| **[Tutorial 45](tutorials/45-lint-quickstart.md)** | 10-minute quickstart | New users |
 | **[WORKFLOW-LINT.md](workflows/WORKFLOW-LINT.md)** | Integration patterns | Teams |
 
 ### Technical Documentation
@@ -224,7 +224,7 @@ teach validate --quick-checks
 
 ### For Users
 
-- **Get Started:** [Tutorial 27](tutorials/27-lint-quickstart.md) (10 min)
+- **Get Started:** [Tutorial 45](tutorials/45-lint-quickstart.md) (10 min)
 - **Quick Reference:** [REFCARD-LINT.md](reference/REFCARD-LINT.md)
 - **Full Guide:** [LINT-GUIDE.md](guides/LINT-GUIDE.md)
 

@@ -106,7 +106,7 @@ Health checks, validation, caching, backups, and Git hooks.
 | Command | Aliases | Synopsis | Description | Docs |
 |---------|---------|----------|-------------|------|
 | `teach doctor` | `doc` | `teach doctor [--fix] [--json]` | Health checks (6 categories) with auto-fix | [doctor](../commands/doctor.md) |
-| `teach validate` | `val`, `v` | `teach validate [files] [--yaml\|--syntax\|--render] [--watch]` | Validate .qmd files | [Tutorial 27](../tutorials/27-lint-quickstart.md) |
+| `teach validate` | `val`, `v` | `teach validate [files] [--yaml\|--syntax\|--render] [--watch]` | Validate .qmd files | [Tutorial 27](../tutorials/45-lint-quickstart.md) |
 | `teach dates` | — | `teach dates <action> [args]` | Date management (add, list, show, edit, delete, sync) | [Tutorial 20](../tutorials/20-teaching-dates-automation.md) |
 | `teach cache` | — | `teach cache <action>` | Cache operations (status, clear, rebuild) | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
 | `teach clean` | `cl` | `teach clean [--dry-run]` | Delete `_freeze/` and `_site/` | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
@@ -429,7 +429,7 @@ teach status --performance        # Review metrics
 - [Tutorial 24: Template Management](../tutorials/24-template-management.md)
 - [Tutorial 25: Lesson Plan Migration](../tutorials/25-lesson-plan-migration.md)
 - [Tutorial 26: LaTeX Macros](../tutorials/26-latex-macros.md)
-- [Tutorial 27: Lint Quickstart](../tutorials/27-lint-quickstart.md)
+- [Tutorial 45: Lint Quickstart](../tutorials/45-lint-quickstart.md)
 - [Tutorial 28: AI Prompt Management](../tutorials/28-teach-prompt.md)
 
 **Guides**

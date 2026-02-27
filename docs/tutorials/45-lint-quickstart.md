@@ -1,4 +1,4 @@
-# Tutorial 27: Lint Quickstart
+# Tutorial 45: Lint Quickstart
 
 **Time:** 10 minutes
 **Level:** Beginner

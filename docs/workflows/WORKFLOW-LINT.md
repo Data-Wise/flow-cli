@@ -562,7 +562,7 @@ brew install flow-cli@5.24.0  # Specific version
 ## See Also
 
 - **Lint Guide:** [LINT-GUIDE.md](../guides/LINT-GUIDE.md)
-- **Tutorial:** [27-lint-quickstart.md](../tutorials/27-lint-quickstart.md)
+- **Tutorial:** [45-lint-quickstart.md](../tutorials/45-lint-quickstart.md)
 - **Quick Reference:** [REFCARD-LINT.md](../reference/REFCARD-LINT.md)
 
 ---

@@ -240,7 +240,7 @@ Content
 ## See Also
 
 - **Full Guide:** `docs/guides/LINT-GUIDE.md`
-- **Tutorial:** `docs/tutorials/27-lint-quickstart.md`
+- **Tutorial:** `docs/tutorials/45-lint-quickstart.md`
 - **Test Coverage:** `tests/TEST-COVERAGE-LINT.md`
 - **Validator API:** `.teach/validators/lint-shared.zsh`
 
