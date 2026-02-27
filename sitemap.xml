@@ -349,6 +349,10 @@
          <lastmod>2026-02-27</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/guides/SCHOLAR-INTEGRATION-GUIDE/</loc>
+         <lastmod>2026-02-27</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/guides/SCHOLAR-WRAPPERS-GUIDE/</loc>
          <lastmod>2026-02-27</lastmod>
     </url>
@@ -517,7 +521,15 @@
          <lastmod>2026-02-27</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-DOTFILE-DISPATCHER/</loc>
+         <lastmod>2026-02-27</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-EMAIL-DISPATCHER/</loc>
+         <lastmod>2026-02-27</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-GIT-DISPATCHER/</loc>
          <lastmod>2026-02-27</lastmod>
     </url>
     <url>
@@ -541,6 +553,14 @@
          <lastmod>2026-02-27</lastmod>
     </url>
     <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-SCHOLAR-WRAPPERS/</loc>
+         <lastmod>2026-02-27</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-SECRET-DISPATCHER/</loc>
+         <lastmod>2026-02-27</lastmod>
+    </url>
+    <url>
          <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-TEACH-DISPATCHER/</loc>
          <lastmod>2026-02-27</lastmod>
     </url>
@@ -554,6 +574,10 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-TOKEN-SECRETS/</loc>
+         <lastmod>2026-02-27</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/reference/REFCARD-WORKTREE-DISPATCHER/</loc>
          <lastmod>2026-02-27</lastmod>
     </url>
     <url>
@@ -689,10 +713,6 @@
          <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/tutorials/27-lint-quickstart/</loc>
-         <lastmod>2026-02-27</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/28-teach-prompt/</loc>
          <lastmod>2026-02-27</lastmod>
     </url>
@@ -729,10 +749,6 @@
          <lastmod>2026-02-27</lastmod>
     </url>
     <url>
-         <loc>https://data-wise.github.io/flow-cli/tutorials/37-em-v2-features/</loc>
-         <lastmod>2026-02-27</lastmod>
-    </url>
-    <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/37-mcp-dispatcher/</loc>
          <lastmod>2026-02-27</lastmod>
     </url>
@@ -762,6 +778,14 @@
     </url>
     <url>
          <loc>https://data-wise.github.io/flow-cli/tutorials/44-quick-capture/</loc>
+         <lastmod>2026-02-27</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/tutorials/45-lint-quickstart/</loc>
+         <lastmod>2026-02-27</lastmod>
+    </url>
+    <url>
+         <loc>https://data-wise.github.io/flow-cli/tutorials/46-em-v2-features/</loc>
          <lastmod>2026-02-27</lastmod>
     </url>
     <url>

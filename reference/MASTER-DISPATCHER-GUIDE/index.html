@@ -2467,6 +2467,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../guides/SCHOLAR-INTEGRATION-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scholar Config Sync
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../guides/TEACH-DEPLOY-GUIDE/" class="md-nav__link">
         
   
@@ -2753,7 +2781,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/27-lint-quickstart/" class="md-nav__link">
+      <a href="../../tutorials/45-lint-quickstart/" class="md-nav__link">
         
   
   
@@ -3499,6 +3527,34 @@
     
   
     Scholar Flags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFCARD-SCHOLAR-WRAPPERS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scholar Wrappers
   
 
     
@@ -4458,14 +4514,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/37-em-v2-features/" class="md-nav__link">
+      <a href="../../tutorials/46-em-v2-features/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    37. em v2.0 Features
+    46. em v2.0 Features
   
 
     
@@ -4887,6 +4943,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFCARD-GIT-DISPATCHER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Git Dispatcher (g)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -8873,6 +8957,90 @@
   
   
     <li class="md-nav__item">
+      <a href="../REFCARD-WORKTREE-DISPATCHER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🌳 Worktree (wt)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFCARD-DOTFILE-DISPATCHER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📁 Dotfiles (dots)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REFCARD-SECRET-DISPATCHER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔑 Secrets (sec)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../REFCARD-TOKEN-SECRETS/" class="md-nav__link">
         
   
@@ -12084,7 +12252,7 @@ Each dispatcher follows a consistent pattern:</p>
 <td>Beginner → Advanced</td>
 </tr>
 <tr>
-<td><a href="#at--atlas-project-intelligence">at</a></td>
+<td><a href="#at-atlas-project-intelligence">at</a></td>
 <td>Atlas project intelligence</td>
 <td>12+</td>
 <td>Beginner → Intermediate</td>
@@ -13607,6 +13775,16 @@ content generation (<code>teach slides --week N</code>, <code>teach lecture --we
 - `teach exam <topic>` - Generate exam
 - `teach exam --template <name> <topic>` - Use template
 - `teach quiz <topic>` - Generate quiz
+- `teach solution <topic>` - Generate solution key
+- `teach sync` - Sync config to Scholar format
+- `teach validate-r` - Validate R code in .qmd files
+
+**Config Management (v7.6.0, #423):**
+- `teach config check` - Validate config (strict, pre-flight)
+- `teach config diff` - Compare prompts vs defaults
+- `teach config show` - Show resolved 4-layer config
+- `teach config scaffold` - Copy default prompts for customization
+- `teach config edit` - Open config in editor (existing)
 
 **Deployment (v6.4.0):**
 - `teach deploy` - Deploy via PR (default)
@@ -14557,7 +14735,7 @@ enhancement based on the installed himalaya CLI version.</p>
 <li><strong>Beginners:</strong> Start with <a href="#g-dispatcher">g</a>, <a href="#cc-dispatcher">cc</a>, <a href="#tm-dispatcher">tm</a>, <a href="#em-dispatcher">em</a></li>
 <li><strong>Intermediate:</strong> Explore <a href="#r-dispatcher">r</a>, <a href="#qu-dispatcher">qu</a>, <a href="#dots-dispatcher">dots</a>, <a href="#sec-dispatcher">sec</a></li>
 <li><strong>Advanced:</strong> Master <a href="#wt-dispatcher">wt</a>, <a href="#teach-dispatcher">teach</a> advanced features</li>
-<li><strong>Atlas Users:</strong> See <a href="#at--atlas-project-intelligence">at</a> for project intelligence</li>
+<li><strong>Atlas Users:</strong> See <a href="#at-atlas-project-intelligence">at</a> for project intelligence</li>
 <li><strong>Quick Reference:</strong> See <a href="../../help/QUICK-REFERENCE/">QUICK-REFERENCE.md</a></li>
 <li><strong>Workflows:</strong> See <a href="../../help/WORKFLOWS/">WORKFLOWS.md</a></li>
 </ul>
