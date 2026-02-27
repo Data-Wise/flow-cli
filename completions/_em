@@ -97,6 +97,8 @@ _em() {
             '--no-ai[Reply without AI draft]' \
             '--all[Reply-all (include all recipients)]' \
             '--batch[Non-interactive: preview + y/N only]' \
+            '--prompt[AI draft with custom instructions]:instructions:_message "prompt text"' \
+            '--backend[Override AI backend]:backend:(claude gemini)' \
             ':email ID:_message "email ID"'
           ;;
         send|s)
@@ -105,6 +107,8 @@ _em() {
             '--force[Skip preview gate, send immediately]' \
             '--yes[Skip preview gate (alias for --force)]' \
             '--ai[Generate AI draft from subject]' \
+            '--prompt[AI compose from instructions (implies --ai)]:instructions:_message "prompt text"' \
+            '--backend[Override AI backend]:backend:(claude gemini)' \
             ':recipient:_message "recipient email"'
           ;;
         attach|a)

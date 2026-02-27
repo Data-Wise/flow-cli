@@ -275,6 +275,11 @@ ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
 
 ${_C_MAGENTA}SAFETY${_C_NC}: Two-phase gate — preview then ${_C_YELLOW}[y/N/e]${_C_NC} confirm (default: No, e=edit)
 
+${_C_BLUE}AI-POWERED COMPOSITION${_C_NC}:
+  ${_C_CYAN}em reply <ID> --prompt 'instructions'${_C_NC}       AI draft with custom instructions
+  ${_C_CYAN}em send <to> <subj> --prompt 'instructions'${_C_NC} AI compose from instructions
+  ${_C_DIM}--backend claude|gemini${_C_NC}                     Override AI backend per-command
+
 ${_C_BLUE}AI BACKEND${_C_NC}:
   ${_C_CYAN}em ai${_C_NC}              Show current AI backend
   ${_C_CYAN}em ai claude${_C_NC}       Switch to Claude
