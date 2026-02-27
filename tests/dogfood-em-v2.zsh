@@ -32,25 +32,25 @@ source "$SCRIPT_DIR/test-framework.zsh" || { echo "ERROR: Cannot source test-fra
 # ============================================================================
 
 # Em v2.0 source files to scan
-# These are the expected file locations for the v2.0 implementation
-EM_DISPATCHER="$PROJECT_ROOT/lib/dispatchers/em-dispatcher.zsh"
+# Actual file locations for the v2.0 implementation
+EM_DISPATCHER="$PROJECT_ROOT/lib/dispatchers/email-dispatcher.zsh"
 EM_HIMALAYA="$PROJECT_ROOT/lib/em-himalaya.zsh"
-EM_SECURITY="$PROJECT_ROOT/lib/em-security.zsh"
 EM_ICS="$PROJECT_ROOT/lib/em-ics.zsh"
 EM_WATCH="$PROJECT_ROOT/lib/em-watch.zsh"
-EM_SAFETY="$PROJECT_ROOT/lib/em-safety-gate.zsh"
-EM_ATTACHMENTS="$PROJECT_ROOT/lib/em-attachments.zsh"
-EM_CONFIG="$PROJECT_ROOT/lib/em-config.zsh"
+EM_HELPERS="$PROJECT_ROOT/lib/email-helpers.zsh"
+EM_AI="$PROJECT_ROOT/lib/em-ai.zsh"
+EM_CACHE="$PROJECT_ROOT/lib/em-cache.zsh"
+EM_RENDER="$PROJECT_ROOT/lib/em-render.zsh"
 
 # Collect all em source files that exist
 typeset -a EM_FILES
-for f in "$EM_DISPATCHER" "$EM_HIMALAYA" "$EM_SECURITY" "$EM_ICS" \
-         "$EM_WATCH" "$EM_SAFETY" "$EM_ATTACHMENTS" "$EM_CONFIG"; do
+for f in "$EM_DISPATCHER" "$EM_HIMALAYA" "$EM_ICS" "$EM_WATCH" \
+         "$EM_HELPERS" "$EM_AI" "$EM_CACHE" "$EM_RENDER"; do
     [[ -f "$f" ]] && EM_FILES+=("$f")
 done
 
-# Also scan for any em-related files in lib/
-for f in "$PROJECT_ROOT"/lib/em-*.zsh(N) "$PROJECT_ROOT"/lib/dispatchers/em-*.zsh(N); do
+# Also scan for any em-related files in lib/ (catch new additions)
+for f in "$PROJECT_ROOT"/lib/em-*.zsh(N) "$PROJECT_ROOT"/lib/dispatchers/email-*.zsh(N); do
     # Avoid duplicates
     if [[ ! " ${EM_FILES[*]} " == *" $f "* ]]; then
         EM_FILES+=("$f")

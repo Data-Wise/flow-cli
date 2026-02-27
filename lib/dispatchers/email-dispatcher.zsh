@@ -59,14 +59,8 @@ fi
 _em_load_config 2>/dev/null
 
 # ═══════════════════════════════════════════════════════════════════
-# V2.0 MODULE SOURCING (lazy — only if files exist)
+# V2.0 MODULES — sourced by flow.plugin.zsh (em-ics.zsh, em-watch.zsh)
 # ═══════════════════════════════════════════════════════════════════
-
-{
-    local _em_lib_dir="${0:A:h:h}"  # lib/ directory (parent of dispatchers/)
-    [[ -f "$_em_lib_dir/em-ics.zsh" ]]   && source "$_em_lib_dir/em-ics.zsh"
-    [[ -f "$_em_lib_dir/em-watch.zsh" ]]  && source "$_em_lib_dir/em-watch.zsh"
-}
 
 # ═══════════════════════════════════════════════════════════════════
 # MAIN EM() DISPATCHER
@@ -648,7 +642,7 @@ _em_send() {
     draft_file=$(_em_compose_draft "$to" "$subject" "$ai_body")
 
     # Trap: clean up temp file on interrupt
-    trap "_em_draft_cleanup '$draft_file'" INT TERM
+    trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
 
     _em_open_in_editor "$draft_file"
 
@@ -658,8 +652,10 @@ _em_send() {
     gate_result=$?
 
     if [[ $gate_result -eq 0 ]]; then
-        # [5] Send via himalaya (read from file to avoid TOCTOU)
-        himalaya message send < "$draft_file"
+        # [5] TOCTOU fix: read draft into variable, send from variable (not file)
+        local send_content
+        send_content=$(<"$draft_file")
+        echo "$send_content" | himalaya message send
         if [[ $? -eq 0 ]]; then
             _flow_log_success "Email sent"
             _em_draft_cleanup "$draft_file"
@@ -765,7 +761,7 @@ _em_reply() {
     echo "$mml_with_body" > "$draft_file"
 
     # Trap: clean up temp file on interrupt
-    trap "_em_draft_cleanup '$draft_file'" INT TERM
+    trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
 
     # Two-phase safety gate
     local gate_result

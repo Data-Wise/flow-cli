@@ -309,10 +309,6 @@ _em_ics_create_event() {
     end_dt="${end_dt//[^[:print:]]/}"
     location="${location//[^[:print:]]/}"
 
-    # Escape double quotes for AppleScript
-    summary="${summary//\"/\\\"}"
-    location="${location//\"/\\\"}"
-
     # Confirm before creating
     echo "Create calendar event:"
     echo "  ${FLOW_COLORS[bold]}$summary${FLOW_COLORS[reset]}"
@@ -324,13 +320,23 @@ _em_ics_create_event() {
     read -r confirm
     [[ "$confirm" != [yY] ]] && { _flow_log_info "Cancelled"; return 0; }
 
-    osascript -e "
-        tell application \"Calendar\"
-            tell calendar \"Calendar\"
-                set newEvent to make new event with properties {summary:\"${summary}\", start date:date \"${start_dt}\", end date:date \"${end_dt}\"}
-            end tell
+    # Use 'on run argv' to pass data as arguments (prevents injection)
+    osascript - "$summary" "$start_dt" "$end_dt" "$location" <<'APPLESCRIPT' 2>/dev/null
+on run argv
+    set eventSummary to item 1 of argv
+    set eventStart to item 2 of argv
+    set eventEnd to item 3 of argv
+    set eventLocation to item 4 of argv
+    tell application "Calendar"
+        tell calendar "Calendar"
+            set newEvent to make new event with properties {summary:eventSummary, start date:date eventStart, end date:date eventEnd}
+            if eventLocation is not "" then
+                set location of newEvent to eventLocation
+            end if
         end tell
-    " 2>/dev/null
+    end tell
+end run
+APPLESCRIPT
 
     if [[ $? -eq 0 ]]; then
         _flow_log_success "Event created in Apple Calendar"

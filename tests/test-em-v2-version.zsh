@@ -56,20 +56,16 @@ test_suite_start "Em v2.0 - Version Detection"
 # ---------------------------------------------------------------------------
 
 test_case "_em_hml_version function exists"
-assert_function_exists "_em_hml_version" || true
-test_pass
+if (( ${+functions[_em_hml_version]} )); then test_pass; else test_fail "_em_hml_version not defined"; fi
 
 test_case "_em_hml_version_gte function exists"
-assert_function_exists "_em_hml_version_gte" || true
-test_pass
+if (( ${+functions[_em_hml_version_gte]} )); then test_pass; else test_fail "_em_hml_version_gte not defined"; fi
 
 test_case "_em_require_version function exists"
-assert_function_exists "_em_require_version" || true
-test_pass
+if (( ${+functions[_em_require_version]} )); then test_pass; else test_fail "_em_require_version not defined"; fi
 
 test_case "_em_hml_version_clear_cache function exists"
-assert_function_exists "_em_hml_version_clear_cache" || true
-test_pass
+if (( ${+functions[_em_hml_version_clear_cache]} )); then test_pass; else test_fail "_em_hml_version_clear_cache not defined"; fi
 
 # ---------------------------------------------------------------------------
 # Version parsing

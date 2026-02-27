@@ -52,20 +52,16 @@ test_suite_start "Em v2.0 - Security Validation"
 # ---------------------------------------------------------------------------
 
 test_case "_em_validate_msg_id function exists"
-assert_function_exists "_em_validate_msg_id" || true
-test_pass
+if (( ${+functions[_em_validate_msg_id]} )); then test_pass; else test_fail "_em_validate_msg_id not defined"; fi
 
 test_case "_em_validate_folder_name function exists"
-assert_function_exists "_em_validate_folder_name" || true
-test_pass
+if (( ${+functions[_em_validate_folder_name]} )); then test_pass; else test_fail "_em_validate_folder_name not defined"; fi
 
 test_case "_em_load_config function exists"
-assert_function_exists "_em_load_config" || true
-test_pass
+if (( ${+functions[_em_load_config]} )); then test_pass; else test_fail "_em_load_config not defined"; fi
 
 test_case "_em_ai_validate_extra_args function exists"
-assert_function_exists "_em_ai_validate_extra_args" || true
-test_pass
+if (( ${+functions[_em_ai_validate_extra_args]} )); then test_pass; else test_fail "_em_ai_validate_extra_args not defined"; fi
 
 # ---------------------------------------------------------------------------
 # Message ID validation

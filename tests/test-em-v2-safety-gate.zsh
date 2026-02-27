@@ -57,16 +57,13 @@ test_suite_start "Em v2.0 - Safety Gate (Two-Phase Send)"
 # ---------------------------------------------------------------------------
 
 test_case "_em_safety_gate function exists"
-assert_function_exists "_em_safety_gate" || true
-test_pass
+if (( ${+functions[_em_safety_gate]} )); then test_pass; else test_fail "_em_safety_gate not defined"; fi
 
 test_case "_em_compose_draft function exists"
-assert_function_exists "_em_compose_draft" || true
-test_pass
+if (( ${+functions[_em_compose_draft]} )); then test_pass; else test_fail "_em_compose_draft not defined"; fi
 
 test_case "_em_draft_cleanup function exists"
-assert_function_exists "_em_draft_cleanup" || true
-test_pass
+if (( ${+functions[_em_draft_cleanup]} )); then test_pass; else test_fail "_em_draft_cleanup not defined"; fi
 
 # ---------------------------------------------------------------------------
 # Draft preview display

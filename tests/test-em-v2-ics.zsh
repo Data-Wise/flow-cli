@@ -105,20 +105,16 @@ test_suite_start "Em v2.0 - ICS Calendar Parser"
 # ---------------------------------------------------------------------------
 
 test_case "_em_ics_parse function exists"
-assert_function_exists "_em_ics_parse" || true
-test_pass
+if (( ${+functions[_em_ics_parse]} )); then test_pass; else test_fail "_em_ics_parse not defined"; fi
 
 test_case "_em_ics_format_dt function exists"
-assert_function_exists "_em_ics_format_dt" || true
-test_pass
+if (( ${+functions[_em_ics_format_dt]} )); then test_pass; else test_fail "_em_ics_format_dt not defined"; fi
 
 test_case "_em_ics_display_event function exists"
-assert_function_exists "_em_ics_display_event" || true
-test_pass
+if (( ${+functions[_em_ics_display_event]} )); then test_pass; else test_fail "_em_ics_display_event not defined"; fi
 
 test_case "_em_ics_create_event function exists"
-assert_function_exists "_em_ics_create_event" || true
-test_pass
+if (( ${+functions[_em_ics_create_event]} )); then test_pass; else test_fail "_em_ics_create_event not defined"; fi
 
 # ---------------------------------------------------------------------------
 # Field extraction (via _em_ics_parse which displays events)

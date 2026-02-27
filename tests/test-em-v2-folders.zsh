@@ -56,20 +56,16 @@ test_suite_start "Em v2.0 - Folder CRUD"
 # ---------------------------------------------------------------------------
 
 test_case "_em_create_folder function exists"
-assert_function_exists "_em_create_folder" || true
-test_pass
+if (( ${+functions[_em_create_folder]} )); then test_pass; else test_fail "_em_create_folder not defined"; fi
 
 test_case "_em_delete_folder function exists"
-assert_function_exists "_em_delete_folder" || true
-test_pass
+if (( ${+functions[_em_delete_folder]} )); then test_pass; else test_fail "_em_delete_folder not defined"; fi
 
 test_case "_em_hml_folder_create function exists"
-assert_function_exists "_em_hml_folder_create" || true
-test_pass
+if (( ${+functions[_em_hml_folder_create]} )); then test_pass; else test_fail "_em_hml_folder_create not defined"; fi
 
 test_case "_em_hml_folder_delete function exists"
-assert_function_exists "_em_hml_folder_delete" || true
-test_pass
+if (( ${+functions[_em_hml_folder_delete]} )); then test_pass; else test_fail "_em_hml_folder_delete not defined"; fi
 
 # ---------------------------------------------------------------------------
 # Folder creation

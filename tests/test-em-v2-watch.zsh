@@ -70,28 +70,22 @@ test_suite_start "Em v2.0 - IMAP Watch"
 # ---------------------------------------------------------------------------
 
 test_case "_em_watch_start function exists"
-assert_function_exists "_em_watch_start" || true
-test_pass
+if (( ${+functions[_em_watch_start]} )); then test_pass; else test_fail "_em_watch_start not defined"; fi
 
 test_case "_em_watch_stop function exists"
-assert_function_exists "_em_watch_stop" || true
-test_pass
+if (( ${+functions[_em_watch_stop]} )); then test_pass; else test_fail "_em_watch_stop not defined"; fi
 
 test_case "_em_watch_status function exists"
-assert_function_exists "_em_watch_status" || true
-test_pass
+if (( ${+functions[_em_watch_status]} )); then test_pass; else test_fail "_em_watch_status not defined"; fi
 
 test_case "_em_watch_log function exists"
-assert_function_exists "_em_watch_log" || true
-test_pass
+if (( ${+functions[_em_watch_log]} )); then test_pass; else test_fail "_em_watch_log not defined"; fi
 
 test_case "_em_watch_is_running function exists"
-assert_function_exists "_em_watch_is_running" || true
-test_pass
+if (( ${+functions[_em_watch_is_running]} )); then test_pass; else test_fail "_em_watch_is_running not defined"; fi
 
 test_case "_em_watch_handle_line function exists"
-assert_function_exists "_em_watch_handle_line" || true
-test_pass
+if (( ${+functions[_em_watch_handle_line]} )); then test_pass; else test_fail "_em_watch_handle_line not defined"; fi
 
 # ---------------------------------------------------------------------------
 # Prerequisites
@@ -209,14 +203,20 @@ else
 fi
 
 test_case "Handle line: subject truncated at 100 chars"
-terminal-notifier() { echo "NOTIFY: $*"; }
+local _notified_message=""
+terminal-notifier() {
+    while [[ $# -gt 0 ]]; do
+        [[ "$1" == "-message" ]] && { shift; _notified_message="$1"; shift; continue; }
+        shift
+    done
+}
 local long_line=$(printf 'A%.0s' {1..150})
-local output=$(_em_watch_handle_line "$long_line" "0" 2>&1)
-# Contract: subject passed to terminal-notifier should be <= 100 chars + "..."
-if (( ${#long_line} > 100 )); then
+_em_watch_handle_line "$long_line" "0" 2>/dev/null
+# Verify: notified message should be truncated (100 chars + "...")
+if (( ${#_notified_message} <= 104 )); then
     test_pass
 else
-    test_fail "Test setup error: subject should be >100 chars"
+    test_fail "Subject not truncated: got ${#_notified_message} chars (expected <= 104)"
 fi
 
 test_case "-execute flag NEVER used in terminal-notifier calls"

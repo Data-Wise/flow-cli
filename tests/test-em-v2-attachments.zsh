@@ -60,16 +60,13 @@ test_suite_start "Em v2.0 - Attachments"
 # ---------------------------------------------------------------------------
 
 test_case "_em_attach_list function exists"
-assert_function_exists "_em_attach_list" || true
-test_pass
+if (( ${+functions[_em_attach_list]} )); then test_pass; else test_fail "_em_attach_list not defined"; fi
 
 test_case "_em_attach_get function exists"
-assert_function_exists "_em_attach_get" || true
-test_pass
+if (( ${+functions[_em_attach_get]} )); then test_pass; else test_fail "_em_attach_get not defined"; fi
 
 test_case "_em_hml_attachment_list function exists"
-assert_function_exists "_em_hml_attachment_list" || true
-test_pass
+if (( ${+functions[_em_hml_attachment_list]} )); then test_pass; else test_fail "_em_hml_attachment_list not defined"; fi
 
 # ---------------------------------------------------------------------------
 # Attachment listing
@@ -120,30 +117,43 @@ test_pass
 
 test_case "Path traversal '../../../etc/passwd' sanitized in attach get"
 _em_validate_msg_id() { return 0; }
+local _download_got_filename=""
 _em_hml_attachment_download() {
-    # Simulate: nothing downloaded (traversal filename won't match)
+    _download_got_filename="$2"
     return 0
 }
-# The function should sanitize the filename internally
-# It strips directory components and ".." sequences
 local output=$(_em_attach_get "42" "../../../etc/passwd" "$_test_tmpdir" 2>&1)
-# Should either succeed with sanitized name or fail gracefully (file not found after download)
-# Key: it must NOT attempt to write outside the target dir
-test_pass
+local rc=$?
+# Must fail (file won't exist after download) or sanitize the filename
+# Critical: must NOT contain path traversal in the resolved filename
+if [[ "$_download_got_filename" == *".."* ]]; then
+    test_fail "Path traversal not stripped from filename passed to download"
+else
+    # rc=1 means file not found after download (expected: sanitized name doesn't match)
+    assert_exit_code $rc 1 "Should fail: sanitized filename won't match downloaded files"
+    test_pass
+fi
 
 test_case "Directory components stripped from filename in attach get"
 _em_validate_msg_id() { return 0; }
+local _strip_got_filename=""
 _em_hml_attachment_download() {
+    _strip_got_filename="$2"
     local target_dir="$3"
-    local fname="$2"
-    touch "${target_dir}/${fname}"
+    # Create file matching the sanitized name (no directory prefix)
+    touch "${target_dir}/file.txt"
     return 0
 }
 local output=$(_em_attach_get "42" "subdir/file.txt" "$_test_tmpdir" 2>&1)
-# The function strips directory prefix: "subdir/file.txt" -> "file.txt"
-# So it looks for "file.txt" in the output dir
-rm -f "$_test_tmpdir/file.txt" "$_test_tmpdir/subdir/file.txt" 2>/dev/null
-test_pass
+local rc=$?
+# Verify directory component was stripped before passing to download
+if [[ "$_strip_got_filename" == *"/"* ]]; then
+    test_fail "Directory components should be stripped: got '$_strip_got_filename'"
+else
+    assert_exit_code $rc 0 "Should succeed with sanitized filename"
+    test_pass
+fi
+rm -f "$_test_tmpdir/file.txt" 2>/dev/null
 
 test_case "Empty filename rejected by attach get"
 local output

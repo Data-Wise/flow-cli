@@ -5877,7 +5877,7 @@ fi
 
 **Purpose:** Internal helper functions for the `em` email dispatcher (v2.0)
 **Audience:** Developers and contributors extending the email dispatcher
-**Files:** `lib/email-helpers.zsh`, `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`
+**Files:** `lib/email-helpers.zsh`, `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`, `lib/em-ics.zsh`, `lib/em-watch.zsh`
 
 ### Safety Gate
 
@@ -5888,7 +5888,7 @@ Two-phase send gate: shows a full email preview, then prompts `[y/N/e]`.
 **Signature:**
 
 ```zsh
-_em_safety_gate <draft_file> [--force]
+_em_safety_gate <draft_file> [--force|--yes]
 ```
 
 **Parameters:**
@@ -5897,13 +5897,13 @@ _em_safety_gate <draft_file> [--force]
 
 **Returns:**
 - `0` - User confirmed send (`y`)
-- `1` - User cancelled (Enter or `N`)
-- `2` - User chose to edit (`e`) — caller should re-open editor and call again
+- `1` - Error (missing draft file, invalid input)
+- `2` - User cancelled (Enter or `N`)
 
 **Behavior:**
 - Displays headers (To, Subject) + truncated body preview
-- Prompts `[y/N/e]`
-- `e` loops back to caller for editor re-open
+- Prompts `[y/N/e]` in a loop
+- `e` re-opens the editor internally and re-displays preview (does not return to caller)
 - Used by both `em send` and `em reply` (breaking change in v2.0)
 
 **Example:**
@@ -6064,13 +6064,16 @@ em_calendar <msg_id>
 
 #### `_em_ics_parse`
 
-Parse raw ICS content and extract event fields.
+Parse VEVENT blocks from an ICS file (pure ZSH, RFC 5545).
 
 **Signature:**
 
 ```zsh
-_em_ics_parse <ics_content>
+_em_ics_parse <ics_file_path>
 ```
+
+**Parameters:**
+- `$1` - Path to `.ics` file on disk
 
 **Output (env vars set):**
 - `_ICS_SUMMARY` - Event title
@@ -6122,12 +6125,18 @@ Add an event to Apple Calendar.app via osascript (macOS only).
 **Signature:**
 
 ```zsh
-_em_ics_create_event
+_em_ics_create_event <summary> <start_dt> <end_dt> [location]
 ```
 
+**Parameters:**
+- `$1` - Event summary/title
+- `$2` - Start datetime string
+- `$3` - End datetime string
+- `$4` - Location (optional)
+
 **Behavior:**
-- Reads `_ICS_*` env vars
-- All string values passed through AppleScript escaping (injection-safe)
+- Takes positional arguments (not env vars)
+- All string values passed as `on run argv` arguments to osascript (injection-safe)
 - Creates event in default calendar via `osascript`
 
 ---

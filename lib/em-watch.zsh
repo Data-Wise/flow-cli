@@ -92,13 +92,14 @@ _em_watch_start() {
     _flow_log_info "Starting email watcher on folder: $folder"
 
     # Launch background watcher
+    # Uses process substitution (not pipe) so last_notify persists in loop scope
     (
         local last_notify=0
 
         # Log startup
         echo "[$(date '+%Y-%m-%d %H:%M:%S')] STARTED watching $folder (PID $$)" >> "$_EM_WATCH_LOG_FILE"
 
-        himalaya envelope watch --folder "$folder" 2>/dev/null | while IFS= read -r line; do
+        while IFS= read -r line; do
             _em_watch_handle_line "$line" "$last_notify"
             # Update last notify time if notification was sent
             local now
@@ -106,7 +107,7 @@ _em_watch_start() {
             if (( now - last_notify >= _EM_WATCH_RATE_LIMIT )); then
                 last_notify=$now
             fi
-        done
+        done < <(himalaya envelope watch --folder "$folder" 2>/dev/null)
 
         # Log shutdown
         echo "[$(date '+%Y-%m-%d %H:%M:%S')] STOPPED (envelope watch exited)" >> "$_EM_WATCH_LOG_FILE"

@@ -66,6 +66,7 @@ _em() {
     'td:Todo (alias)'
     'event:Extract calendar events (AI → Calendar.app)'
     'ev:Event (alias)'
+    'version:Show himalaya version and em v2.0 info'
     'cache:Cache management'
     'doctor:Check dependencies'
     'dr:Check dependencies (alias)'
