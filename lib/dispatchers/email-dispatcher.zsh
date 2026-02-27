@@ -94,6 +94,7 @@ em() {
         read|r)       shift; _em_read "$@" ;;
         send|s)       shift; _em_send "$@" ;;
         reply|re)     shift; _em_reply "$@" ;;
+        forward|fwd)  shift; _em_forward "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
         # SEARCH & BROWSE
@@ -217,6 +218,7 @@ ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
   ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR, preview before send)
   ${_C_CYAN}em send --force${_C_NC}   Compose + send without preview
   ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch, --force)
+  ${_C_CYAN}em forward <ID> [to]${_C_NC} Forward email (--prompt, --backend, --force)
 
 ${_C_BLUE}FOLDERS${_C_NC}:
   ${_C_CYAN}em create-folder <name>${_C_NC}   Create new mail folder
@@ -278,6 +280,7 @@ ${_C_MAGENTA}SAFETY${_C_NC}: Two-phase gate — preview then ${_C_YELLOW}[y/N/e]
 ${_C_BLUE}AI-POWERED COMPOSITION${_C_NC}:
   ${_C_CYAN}em reply <ID> --prompt 'instructions'${_C_NC}       AI draft with custom instructions
   ${_C_CYAN}em send <to> <subj> --prompt 'instructions'${_C_NC} AI compose from instructions
+  ${_C_CYAN}em forward <ID> <to> --prompt 'text'${_C_NC}        AI forward with custom note
   ${_C_DIM}--backend claude|gemini${_C_NC}                     Override AI backend per-command
 
 ${_C_BLUE}AI BACKEND${_C_NC}:
@@ -690,6 +693,118 @@ _em_send() {
 
     trap - INT TERM
     return 0
+}
+
+_em_forward() {
+    _em_require_himalaya || return 1
+    local msg_id="" to=""
+    local force_flag=""
+    local prompt_text="" backend_override=""
+
+    # Parse args: em forward <ID> <to> [--prompt text] [--backend name] [--force]
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --force|--yes) force_flag="$1"; shift ;;
+            --prompt) prompt_text="$2"; shift 2 ;;
+            --backend) backend_override="$2"; shift 2 ;;
+            *)
+                if [[ -z "$msg_id" ]]; then
+                    msg_id="$1"
+                elif [[ -z "$to" ]]; then
+                    to="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em forward <ID> [to] [--prompt text] [--backend name]${_C_NC}"
+        return 1
+    fi
+
+    # Smart path selection (same pattern as _em_reply)
+    local use_interactive=false
+    if [[ -z "$prompt_text" && -t 0 && -t 1 ]]; then
+        use_interactive=true
+    fi
+
+    # --- Path 1: Interactive forward (opens $EDITOR via himalaya) ---
+    if [[ "$use_interactive" == "true" ]]; then
+        _em_hml_forward "$msg_id" ""
+        return $?
+    fi
+
+    # --- Path 2: Batch/non-interactive ---
+    if [[ ! -t 0 || ! -t 1 ]]; then
+        _flow_log_info "Non-interactive mode (no TTY detected)"
+    fi
+
+    # Read original for AI context
+    _flow_log_info "Fetching email #${msg_id}..."
+    local content
+    content=$(_em_hml_read "$msg_id" plain)
+    if [[ -z "$content" ]]; then
+        _flow_log_error "Could not read email #${msg_id}"
+        return 1
+    fi
+
+    # Generate forwarding note via AI
+    local fwd_note=""
+    if [[ "$FLOW_EMAIL_AI" != "none" && "$FLOW_EMAIL_AI" != "off" ]]; then
+        local draft_prompt
+        if [[ -n "$prompt_text" ]]; then
+            draft_prompt=$(_em_ai_prompt_with_instructions "$prompt_text")
+        else
+            draft_prompt=$(_em_ai_draft_prompt)
+        fi
+        fwd_note=$(_em_ai_query "draft" "$draft_prompt" "$content" "$backend_override" "$msg_id")
+    fi
+
+    # Get MML forward template (includes forwarded content)
+    local mml
+    mml=$(_em_hml_template_forward "$msg_id")
+
+    # Inject forwarding note if we have one
+    if [[ -n "$fwd_note" ]]; then
+        mml=$(_em_mml_inject_body "$mml" "$fwd_note")
+    fi
+
+    # Inject recipient if provided
+    if [[ -n "$to" ]]; then
+        mml=$(echo "$mml" | sed "s/^To:.*/To: $to/")
+    fi
+
+    # Write to temp file for safety gate
+    local draft_file
+    draft_file=$(mktemp "${TMPDIR:-/tmp}/em-forward-draft-XXXXXX.eml")
+    chmod 0600 "$draft_file"
+    echo "$mml" > "$draft_file"
+
+    trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
+
+    local gate_result
+    _em_safety_gate "$draft_file" "Forward" "$force_flag"
+    gate_result=$?
+
+    if [[ $gate_result -eq 0 ]]; then
+        local send_content
+        send_content=$(<"$draft_file")
+        echo "$send_content" | _em_hml_template_send
+        _flow_log_success "Email forwarded"
+        _em_draft_cleanup "$draft_file"
+    elif [[ $gate_result -eq 2 ]]; then
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 0
+    else
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 1
+    fi
+
+    trap - INT TERM
 }
 
 _em_reply() {

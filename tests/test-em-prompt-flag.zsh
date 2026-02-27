@@ -211,7 +211,77 @@ test_send_backend_flag() {
 }
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Section 6: Help Output
+# Section 6: _em_forward
+# ══════════════════════════════════════════════════════════════════════════════
+
+test_forward_exists() {
+    test_case "_em_forward function exists"
+    if ! whence -f _em_forward &>/dev/null; then
+        test_fail "Function _em_forward not found"
+        return
+    fi
+    test_case_end
+}
+
+test_forward_prompt_flag() {
+    test_case "_em_forward accepts --prompt flag"
+    local fn_body
+    fn_body="$(whence -f _em_forward 2>/dev/null)"
+    if [[ -z "$fn_body" ]]; then
+        test_skip "_em_forward not loaded"
+        return
+    fi
+    assert_contains "$fn_body" "--prompt" "Should contain --prompt in case statement"
+    assert_contains "$fn_body" "prompt_text" "Should declare prompt_text variable"
+    test_case_end
+}
+
+test_forward_backend_flag() {
+    test_case "_em_forward accepts --backend flag"
+    local fn_body
+    fn_body="$(whence -f _em_forward 2>/dev/null)"
+    if [[ -z "$fn_body" ]]; then
+        test_skip "_em_forward not loaded"
+        return
+    fi
+    assert_contains "$fn_body" "--backend" "Should contain --backend in case statement"
+    assert_contains "$fn_body" "backend_override" "Should declare backend_override variable"
+    test_case_end
+}
+
+test_forward_tty_detection() {
+    test_case "_em_forward has TTY detection"
+    local fn_body
+    fn_body="$(whence -f _em_forward 2>/dev/null)"
+    if [[ -z "$fn_body" ]]; then
+        test_skip "_em_forward not loaded"
+        return
+    fi
+    assert_contains "$fn_body" "use_interactive" "Should contain use_interactive"
+    assert_contains "$fn_body" "-t 0" "Should contain stdin TTY check"
+    test_case_end
+}
+
+test_hml_forward_exists() {
+    test_case "_em_hml_forward adapter function exists"
+    if ! whence -f _em_hml_forward &>/dev/null; then
+        test_fail "Function _em_hml_forward not found"
+        return
+    fi
+    test_case_end
+}
+
+test_hml_template_forward_exists() {
+    test_case "_em_hml_template_forward function exists"
+    if ! whence -f _em_hml_template_forward &>/dev/null; then
+        test_fail "Function _em_hml_template_forward not found"
+        return
+    fi
+    test_case_end
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Section 7: Help Output
 # ══════════════════════════════════════════════════════════════════════════════
 
 test_help_includes_prompt() {
@@ -260,7 +330,15 @@ test_send_prompt_flag
 test_send_prompt_enables_ai
 test_send_backend_flag
 
-# Section 6: Help
+# Section 6: Forward
+test_forward_exists
+test_forward_prompt_flag
+test_forward_backend_flag
+test_forward_tty_detection
+test_hml_forward_exists
+test_hml_template_forward_exists
+
+# Section 7: Help
 test_help_includes_prompt
 test_help_includes_backend
 

@@ -324,6 +324,45 @@ _em_hml_reply() {
     }
 }
 
+_em_hml_forward() {
+    # Forward message interactively (opens $EDITOR)
+    # Args: message_id, body (optional forwarding note)
+    # Returns: 0 = sent, 1 = error, 2 = user discarded
+    #
+    # Uses same script(1) + always-block pattern as _em_hml_reply
+    local msg_id="$1" body="$2"
+
+    if ! _em_validate_msg_id "$msg_id"; then
+        return 1
+    fi
+
+    local tmplog
+    tmplog=$(mktemp "${TMPDIR:-/tmp}/em-forward-XXXXXX.log")
+    chmod 0600 "$tmplog"
+
+    {
+        if [[ -n "$body" ]]; then
+            local tmpbody
+            tmpbody=$(mktemp "${TMPDIR:-/tmp}/em-fwd-body-XXXXXX")
+            chmod 0600 "$tmpbody"
+            printf '%s' "$body" > "$tmpbody"
+            script -q "$tmplog" sh -c "himalaya message forward '$msg_id' < '$tmpbody'"
+            rm -f "$tmpbody"
+        else
+            script -q "$tmplog" himalaya message forward "$msg_id"
+        fi
+    } always {
+        local _fwd_discard=false
+        if grep -aq "Discard" "$tmplog" 2>/dev/null; then
+            _fwd_discard=true
+        fi
+        rm -f "$tmplog"
+        if [[ "$_fwd_discard" == true ]]; then
+            return 2
+        fi
+    }
+}
+
 # ═══════════════════════════════════════════════════════════════════
 # TEMPLATE SUBSYSTEM — NON-INTERACTIVE (for scripting/batch)
 # ═══════════════════════════════════════════════════════════════════
@@ -344,6 +383,14 @@ _em_hml_template_write() {
     # Get compose template as MML (no $EDITOR, for scripting)
     # Returns: MML template on stdout
     himalaya template write 2>/dev/null
+}
+
+_em_hml_template_forward() {
+    # Get forward template as MML (no $EDITOR, for scripting/batch)
+    # Args: message_id
+    # Returns: MML template on stdout (headers + forwarded content)
+    local msg_id="$1"
+    himalaya template forward "$msg_id" 2>/dev/null
 }
 
 _em_hml_template_send() {
