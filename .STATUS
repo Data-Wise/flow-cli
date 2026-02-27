@@ -9,26 +9,20 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-02-27)
+## Current Session (2026-02-27, evening)
 
 **Session activity:**
-- docs: PR #427 (docs gap fix) — 7-phase documentation overhaul
-  - 4 new refcards: g, wt, dots, sec dispatchers
-  - help files updated to v7.6.0 (TROUBLESHOOTING, WORKFLOWS)
-  - stale version sweep: v5.x/v6.x → v7.6.0 across 7 guides
-  - teach dispatcher refcard: +4 Scholar commands, config subcommands
-  - tutorial renaming: 27→45 (lint-quickstart), 37→46 (em-v2-features)
-  - broken anchor fixes: 5 anchors across 5 files
-  - test suite: 53/53 passing (205 files, 1 expected timeout)
-- docs: Scholar wrappers refcard, integration guide expansion
-- docs: site update — index.md What's New, stale test counts, README Teaching section
-- merged: PR #425 (Scholar Config Sync), PR #424 (em --prompt), PR #427 (docs gap fix)
-- cleanup: worktree removed, stale branches deleted
-- release: v7.6.0 — full pipeline (PR #428, CI green, merge, retag, GitHub release)
-  - Homebrew tap updated, docs deployed, all downstream verified
-  - Stale remote branches deleted (atlas-integration, em-v2, homebrew-release-fix, swarm-em-v2-dispatcher)
+- docs: teaching docs refresh — 30 files updated (v5.x/v6.x → v7.6.0 version refs + dates)
+- docs: content gaps fixed — teach.md commands table + subsections (solution, sync, validate-r, style, config check/diff/show/scaffold), teaching hub features table (+5 entries), tutorial 14 branch naming (production → main)
+- docs: CHANGELOG sync — root v7.6.0 entry synced with docs/ (Scholar Config Sync, fixes, 53/53)
+- docs: lint fixes — MD031, MD029, MD040 across 7 teaching files
+- docs: consolidation — merged duplicate TEACHING-SYSTEM-ARCHITECTURE, archived 11 orphaned files to docs/.archive/, simplified mkdocs exclude list
+- docs: moved 2 BRAINSTORM-*.md from repo root to docs/specs/
+- fix: broken relative links in TEACHING-SYSTEM-ARCHITECTURE after file move
+- merged: PR #429 (docs update) to main, dev synced
+- deploy: docs site deployed (CI auto-deploy)
 
-## Previous Session (2026-02-27, earlier)
+## Previous Session (2026-02-27)
 
 **Session activity:**
 - feat: Scholar Config Sync (#423) — config injection, teach config/solution/sync/validate-r
@@ -149,6 +143,13 @@
 
 ## Recent Releases
 
+### v7.6.0 (2026-02-27) — em --prompt + Scholar Config Sync
+- em --prompt/--backend flags, em forward, smart TTY detection
+- Scholar Config Sync: teach config check/diff/show/scaffold, teach solution/sync/validate-r
+- Help guards on all 34 em subcommands, doctor config sync section
+- 53/53 tests passing, 205 test files, 1 expected timeout
+- PR #428, Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.6.0
+
 ### v7.5.0 (2026-02-26) — em v2.0 Safety Gate
 - em v2.0: two-phase safety gate for send/reply, ICS calendar, IMAP watch, folder CRUD
 - Enhanced attachments, `em send --confirm`, `em calendar`, `em watch`, `em create-folder`
@@ -222,7 +223,7 @@
 
 1. API documentation push (50% → 80%)
 2. Code workspace manager — spec ready on dev
-3. Release v7.7.0 (Scholar Config Sync + em --prompt already on dev)
+3. Consider next feature work (all docs current, site clean)
 
 ---
 
