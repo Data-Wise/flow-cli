@@ -704,8 +704,18 @@ _em_reply() {
         return 1
     fi
 
+    # --- Path selection: smart TTY detection ---
+    # --prompt flag → always batch (prompt-driven = non-interactive)
+    # --batch flag → always batch (explicit)
+    # No TTY → batch (non-interactive context, e.g. Claude Code)
+    # TTY available → interactive (existing behavior)
+    local use_interactive=false
+    if [[ "$batch_mode" != "true" && -z "$prompt_text" && -t 0 && -t 1 ]]; then
+        use_interactive=true
+    fi
+
     # --- Path 1: Interactive reply (opens $EDITOR via himalaya) ---
-    if [[ "$batch_mode" != "true" ]]; then
+    if [[ "$use_interactive" == "true" ]]; then
         local body=""
 
         # Generate AI draft if available and enabled
@@ -731,6 +741,9 @@ _em_reply() {
     fi
 
     # --- Path 2: Batch/non-interactive (preview + confirm + send) ---
+    if [[ ! -t 0 || ! -t 1 ]]; then
+        _flow_log_info "Non-interactive mode (no TTY detected)"
+    fi
     _flow_log_info "Fetching email #${msg_id}..."
     local content
     content=$(_em_hml_read "$msg_id" plain)
