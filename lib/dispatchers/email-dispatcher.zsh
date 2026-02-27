@@ -686,6 +686,8 @@ _em_reply() {
     local reply_all=false
     local batch_mode=false
     local force_flag=""
+    local prompt_text=""
+    local backend_override=""
 
     # Parse flags
     while [[ $# -gt 0 ]]; do
@@ -694,6 +696,8 @@ _em_reply() {
             --all|-a)        reply_all=true; shift ;;
             --batch|-b)      batch_mode=true; shift ;;
             --force|--yes)   force_flag="$1"; shift ;;
+            --prompt)        prompt_text="$2"; shift 2 ;;
+            --backend)       backend_override="$2"; shift 2 ;;
             *)               msg_id="$1"; shift ;;
         esac
     done
@@ -726,7 +730,7 @@ _em_reply() {
             if [[ -n "$original" ]]; then
                 body=$(_em_ai_query "draft" \
                     "$(_em_ai_draft_prompt)" \
-                    "$original" "" "$msg_id" 2>/dev/null)
+                    "$original" "$backend_override" "$msg_id" 2>/dev/null)
                 if [[ -n "$body" ]]; then
                     _flow_log_success "AI draft ready — edit in \$EDITOR"
                 else
@@ -752,8 +756,16 @@ _em_reply() {
         return 1
     fi
 
+    # Build prompt — use user instructions if provided
+    local draft_prompt
+    if [[ -n "$prompt_text" ]]; then
+        draft_prompt=$(_em_ai_prompt_with_instructions "$prompt_text")
+    else
+        draft_prompt=$(_em_ai_draft_prompt)
+    fi
+
     local draft
-    draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$msg_id")
+    draft=$(_em_ai_query "draft" "$draft_prompt" "$content" "$backend_override" "$msg_id")
     if [[ -z "$draft" ]]; then
         _flow_log_error "Could not generate draft"
         return 1
