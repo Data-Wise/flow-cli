@@ -31,7 +31,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] — em v2.0
+## [v7.6.0] — 2026-02-27 — Email Polish & Help Guards
+
+### Added
+
+- **`em --prompt`** flag for AI-guided email composition
+- **`em --backend`** flag to override AI provider (openai, anthropic, etc.)
+- **`em forward`** command with address validation and attachment passthrough
+- **`--help` guards** on all 34 em subcommand functions — consistent help access everywhere
+
+### Changed
+
+- Test suite expanded to **50/50 passing** (was 49/49), 198 test files
+
+### Documentation
+
+- Synced site for 38 commands with forward/--prompt/--backend docs
+- Updated test counts across TESTING.md, CLAUDE.md, site footers
+
+---
+
+## [v7.5.0] — 2026-02-27 — em v2.0: Safety Gate, Calendar & Watch
 
 ### Breaking Changes
 

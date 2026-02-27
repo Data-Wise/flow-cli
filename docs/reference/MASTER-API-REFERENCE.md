@@ -8,7 +8,7 @@ tags:
 **Purpose:** Complete API documentation for all flow-cli library functions
 **Audience:** Developers, contributors, advanced users
 **Format:** Function signatures, parameters, return values, examples
-**Version:** v7.5.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-21
 
 ---
@@ -7492,7 +7492,7 @@ URL line is omitted when `$url` is empty or `"null"`.
 
 ---
 
-**Version:** v7.5.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-21
 **Auto-Generation:** Run `./scripts/generate-api-docs.sh` to update function index
 **Total Functions:** 880 (428 documented, 452 pending)

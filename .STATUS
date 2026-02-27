@@ -241,7 +241,7 @@
 ---
 
 **Last Updated:** 2026-02-27
-**Status:** v7.5.0 | 47/47 tests passing (2 expected timeouts) | 15 dispatchers + at bridge | 196 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+**Status:** v7.6.0 | 50/50 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 198 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
 ## wins: two max-depth brainstorms with spec capture (2026-02-27), diagnosed em reply RETURN trap + TTY bugs (2026-02-27)
 ## streak: 2
 ## last_active: 2026-02-27 05:20

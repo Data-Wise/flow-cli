@@ -335,4 +335,4 @@ export FLOW_ATLAS_ENABLED=no
 ---
 
 **Last Updated:** 2026-02-22
-**Version:** v7.5.0
+**Version:** v7.6.0

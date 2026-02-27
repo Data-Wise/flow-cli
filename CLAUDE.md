@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.5.0
+- **Current Version:** v7.6.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
@@ -261,7 +261,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**198 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (49/49 passing, 2 expected timeouts) or individual suites in `tests/`.
+**198 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (50/50 passing, 1 expected timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -289,8 +289,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.5.0 | **Tests:** 12000+ (49/49 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.6.0 | **Tests:** 12000+ (50/50 suite) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-26 (v7.5.0)
+**Last Updated:** 2026-02-27 (v7.6.0)

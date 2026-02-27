@@ -26,9 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.5"
-    **em v2.0:** Two-phase safety gate for send/reply/forward, ICS calendar integration, IMAP watch, folder CRUD, enhanced attachments — plus `--prompt` for AI-guided composition and `--backend` override.
-    **v7.5.0:** Safety-first email with `em send --confirm`, `em calendar`, `em watch`, `em create-folder`, `em forward`, `--prompt`/`--backend` flags.
+!!! success "🎉 What's New in v7.6"
+    **Email polish:** `em --prompt` for AI-guided composition, `--backend` provider override, `em forward` command, and `--help` guards on all 34 em subcommands.
+    **50 test suites** passing (198 files, 12000+ assertions).
     [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
     [→ Quick Reference](reference/REFCARD-EMAIL-DISPATCHER.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
@@ -281,4 +281,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.5.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.6.0** · Pure ZSH · Zero Dependencies · MIT License
