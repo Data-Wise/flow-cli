@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
     
     
       
@@ -5806,6 +5806,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#new-in-v20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New in v2.0
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New in v2.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-phase-safety-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two-Phase Safety Gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attachment-inspector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attachment Inspector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendar-from-ics-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calendar from ICS Attachments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap-watch-background-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP Watch (Background Notifications)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#skills-checklist" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5868,6 +5940,62 @@
     
   
     36. Email Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/37-em-v2-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37. em v2.0 Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EMAIL-COOKBOOK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cookbook
   
 
     
@@ -10717,6 +10845,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#new-in-v20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New in v2.0
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New in v2.0">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-phase-safety-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two-Phase Safety Gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attachment-inspector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attachment Inspector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendar-from-ics-attachments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calendar from ICS Attachments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap-watch-background-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP Watch (Background Notifications)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#skills-checklist" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -11107,13 +11307,14 @@ Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatical
 <p><strong>Try it now!</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
-<p><strong>What happens:</strong></p>
+<p><strong>What happens (v2.0 — Two-Phase Safety Gate):</strong></p>
 <ol>
 <li>AI reads the original email</li>
 <li>Generates a professional draft reply</li>
 <li>Opens your <code>$EDITOR</code> (nvim/vim/emacs/nano) with the draft</li>
 <li>You edit, save, and exit</li>
-<li>Confirms before sending</li>
+<li><strong>Full preview is shown</strong> (headers + first few lines of body)</li>
+<li><code>[y/N/e]</code> prompt — press <code>e</code> to loop back to editor, <code>y</code> to send, Enter to cancel</li>
 </ol>
 <p>✅ <strong>Expected output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>Generating AI draft...
@@ -11142,9 +11343,23 @@ Outlook noise (SafeLinks, attribute blocks, fenced divs) is stripped automatical
 - Add personal touches
 - Fix any errors
 - Save and exit when done</p>
-<p><strong>Send confirmation:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>Send this reply? [y/N] y
+<p><strong>Preview + send confirmation (v2.0):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>─────────────────────────────────────────────────────────
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>  To:      alice@example.com
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>  Subject: Re: Project proposal review
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>  ───────────────────────────────────────────────────────
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>  Hi Alice,
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>  Thanks for reviewing the proposal. Here are answers...
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>─────────────────────────────────────────────────────────
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>  Send this reply? [y/N/e]
+<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>  y = send now   N = discard (default)   e = edit again
 </code></pre></div>
+<blockquote>
+<p><strong>New in v2.0:</strong> The <code>[y/N/e]</code> gate replaces the old <code>[y/N]</code> prompt. Press <code>e</code> to re-open
+your editor if you spot something to fix after the preview. Use <code>--force</code> to skip the gate
+entirely (useful for scripts or automation).</p>
+</blockquote>
 <h3 id="reply-all">Reply-All<a class="headerlink" href="#reply-all" title="Permanent link">&para;</a></h3>
 <p><strong>Try it now!</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--all
@@ -12272,6 +12487,72 @@ A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues</p>
 <a id="__codelineno-115-39" name="__codelineno-115-39" href="#__codelineno-115-39"></a>  win &quot;Answered 15 emails&quot; → Log accomplishment
 </code></pre></div>
 <hr />
+<h2 id="new-in-v20">New in v2.0<a class="headerlink" href="#new-in-v20" title="Permanent link">&para;</a></h2>
+<p>This section covers the major new features added in em dispatcher v2.0.</p>
+<h3 id="two-phase-safety-gate">Two-Phase Safety Gate<a class="headerlink" href="#two-phase-safety-gate" title="Permanent link">&para;</a></h3>
+<p><code>em send</code> and <code>em reply</code> now preview before sending. This is a <strong>breaking change</strong> — the
+old <code>[y/N]</code> prompt is now <code>[y/N/e]</code> and always shows a preview first.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a><span class="c1"># Old behavior (v1.x)</span>
+<a id="__codelineno-116-2" name="__codelineno-116-2" href="#__codelineno-116-2"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span>
+<a id="__codelineno-116-3" name="__codelineno-116-3" href="#__codelineno-116-3"></a><span class="c1"># → Editor → Send this reply? [y/N]</span>
+<a id="__codelineno-116-4" name="__codelineno-116-4" href="#__codelineno-116-4"></a>
+<a id="__codelineno-116-5" name="__codelineno-116-5" href="#__codelineno-116-5"></a><span class="c1"># New behavior (v2.0)</span>
+<a id="__codelineno-116-6" name="__codelineno-116-6" href="#__codelineno-116-6"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span>
+<a id="__codelineno-116-7" name="__codelineno-116-7" href="#__codelineno-116-7"></a><span class="c1"># → Editor → [preview shown] → Send this reply? [y/N/e]</span>
+<a id="__codelineno-116-8" name="__codelineno-116-8" href="#__codelineno-116-8"></a>
+<a id="__codelineno-116-9" name="__codelineno-116-9" href="#__codelineno-116-9"></a><span class="c1"># Skip the gate (automation / scripting)</span>
+<a id="__codelineno-116-10" name="__codelineno-116-10" href="#__codelineno-116-10"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--force
+</code></pre></div>
+<h3 id="attachment-inspector">Attachment Inspector<a class="headerlink" href="#attachment-inspector" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a><span class="c1"># List all attachments with metadata</span>
+<a id="__codelineno-117-2" name="__codelineno-117-2" href="#__codelineno-117-2"></a>em<span class="w"> </span>attach<span class="w"> </span>list<span class="w"> </span><span class="m">42</span>
+<a id="__codelineno-117-3" name="__codelineno-117-3" href="#__codelineno-117-3"></a><span class="c1"># → #  Name           Type              Size</span>
+<a id="__codelineno-117-4" name="__codelineno-117-4" href="#__codelineno-117-4"></a><span class="c1"># → 1  agenda.pdf     application/pdf   142 KB</span>
+<a id="__codelineno-117-5" name="__codelineno-117-5" href="#__codelineno-117-5"></a><span class="c1"># → 2  invite.ics     text/calendar     2 KB</span>
+<a id="__codelineno-117-6" name="__codelineno-117-6" href="#__codelineno-117-6"></a>
+<a id="__codelineno-117-7" name="__codelineno-117-7" href="#__codelineno-117-7"></a><span class="c1"># Download a specific file</span>
+<a id="__codelineno-117-8" name="__codelineno-117-8" href="#__codelineno-117-8"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>agenda.pdf
+<a id="__codelineno-117-9" name="__codelineno-117-9" href="#__codelineno-117-9"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>agenda.pdf<span class="w"> </span>~/Documents<span class="w">   </span><span class="c1"># Custom directory</span>
+</code></pre></div>
+<h3 id="folder-management">Folder Management<a class="headerlink" href="#folder-management" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a><span class="c1"># Create a new mail folder</span>
+<a id="__codelineno-118-2" name="__codelineno-118-2" href="#__codelineno-118-2"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Project X&quot;</span>
+<a id="__codelineno-118-3" name="__codelineno-118-3" href="#__codelineno-118-3"></a>em<span class="w"> </span>cf<span class="w"> </span><span class="s2">&quot;Project X&quot;</span><span class="w">    </span><span class="c1"># alias</span>
+<a id="__codelineno-118-4" name="__codelineno-118-4" href="#__codelineno-118-4"></a>
+<a id="__codelineno-118-5" name="__codelineno-118-5" href="#__codelineno-118-5"></a><span class="c1"># Delete a folder (type-to-confirm)</span>
+<a id="__codelineno-118-6" name="__codelineno-118-6" href="#__codelineno-118-6"></a>em<span class="w"> </span>delete-folder<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span>
+<a id="__codelineno-118-7" name="__codelineno-118-7" href="#__codelineno-118-7"></a>em<span class="w"> </span>df<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span><span class="w">  </span><span class="c1"># alias</span>
+</code></pre></div>
+<h3 id="calendar-from-ics-attachments">Calendar from ICS Attachments<a class="headerlink" href="#calendar-from-ics-attachments" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a><span class="c1"># Parse ICS attachment and display event card</span>
+<a id="__codelineno-119-2" name="__codelineno-119-2" href="#__codelineno-119-2"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">42</span>
+<a id="__codelineno-119-3" name="__codelineno-119-3" href="#__codelineno-119-3"></a>em<span class="w"> </span>cal<span class="w"> </span><span class="m">42</span><span class="w">    </span><span class="c1"># alias</span>
+<a id="__codelineno-119-4" name="__codelineno-119-4" href="#__codelineno-119-4"></a>
+<a id="__codelineno-119-5" name="__codelineno-119-5" href="#__codelineno-119-5"></a><span class="c1"># Output:</span>
+<a id="__codelineno-119-6" name="__codelineno-119-6" href="#__codelineno-119-6"></a><span class="c1"># Event: Department Meeting</span>
+<a id="__codelineno-119-7" name="__codelineno-119-7" href="#__codelineno-119-7"></a><span class="c1"># Date:  Thursday, March 5, 2026</span>
+<a id="__codelineno-119-8" name="__codelineno-119-8" href="#__codelineno-119-8"></a><span class="c1"># Time:  2:00 PM – 3:30 PM</span>
+<a id="__codelineno-119-9" name="__codelineno-119-9" href="#__codelineno-119-9"></a><span class="c1"># Add to Apple Calendar? [y/N]</span>
+</code></pre></div>
+<h3 id="imap-watch-background-notifications">IMAP Watch (Background Notifications)<a class="headerlink" href="#imap-watch-background-notifications" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a><span class="c1"># Start background IMAP IDLE watcher</span>
+<a id="__codelineno-120-2" name="__codelineno-120-2" href="#__codelineno-120-2"></a>em<span class="w"> </span>watch<span class="w"> </span>start
+<a id="__codelineno-120-3" name="__codelineno-120-3" href="#__codelineno-120-3"></a>
+<a id="__codelineno-120-4" name="__codelineno-120-4" href="#__codelineno-120-4"></a><span class="c1"># Check status</span>
+<a id="__codelineno-120-5" name="__codelineno-120-5" href="#__codelineno-120-5"></a>em<span class="w"> </span>watch<span class="w"> </span>status
+<a id="__codelineno-120-6" name="__codelineno-120-6" href="#__codelineno-120-6"></a><span class="c1"># → em watch: running (PID 12345, uptime 2h 14m)</span>
+<a id="__codelineno-120-7" name="__codelineno-120-7" href="#__codelineno-120-7"></a>
+<a id="__codelineno-120-8" name="__codelineno-120-8" href="#__codelineno-120-8"></a><span class="c1"># View activity log</span>
+<a id="__codelineno-120-9" name="__codelineno-120-9" href="#__codelineno-120-9"></a>em<span class="w"> </span>watch<span class="w"> </span>log
+<a id="__codelineno-120-10" name="__codelineno-120-10" href="#__codelineno-120-10"></a>
+<a id="__codelineno-120-11" name="__codelineno-120-11" href="#__codelineno-120-11"></a><span class="c1"># Stop</span>
+<a id="__codelineno-120-12" name="__codelineno-120-12" href="#__codelineno-120-12"></a>em<span class="w"> </span>watch<span class="w"> </span>stop
+</code></pre></div>
+<blockquote>
+<p><strong>Experimental:</strong> <code>em watch</code> requires <code>terminal-notifier</code> for desktop notifications.
+Run <code>em doctor</code> to verify all dependencies.</p>
+</blockquote>
+<hr />
 <h2 id="skills-checklist">✅ Skills Checklist<a class="headerlink" href="#skills-checklist" title="Permanent link">&para;</a></h2>
 <p>After this tutorial, you should be able to:</p>
 <ul>
@@ -12299,16 +12580,21 @@ A: Open an issue on GitHub: https://github.com/Data-Wise/flow-cli/issues</p>
 <li>[ ] Extract action items with AI (<code>em todo</code>)</li>
 <li>[ ] Extract calendar events with AI (<code>em event</code>)</li>
 <li>[ ] Use new management keybinds in <code>em pick</code></li>
+<li>[ ] Use the v2.0 two-phase safety gate (<code>[y/N/e]</code>)</li>
+<li>[ ] List and download specific attachments (<code>em attach list</code>, <code>em attach get</code>)</li>
+<li>[ ] Create and delete mail folders</li>
+<li>[ ] Parse ICS calendar attachments with <code>em calendar</code></li>
+<li>[ ] Start and stop the IMAP watch background watcher</li>
 </ul>
 <hr />
-<p><strong>Total Time:</strong> ~70 minutes hands-on
-<strong>Commands Learned:</strong> 30+ commands
-<strong>Workflows Mastered:</strong> 4 (morning, teaching, ADHD batch, quick check)</p>
+<p><strong>Total Time:</strong> ~80 minutes hands-on
+<strong>Commands Learned:</strong> 37+ commands
+<strong>Workflows Mastered:</strong> 5 (morning, teaching, ADHD batch, quick check, v2.0 features)</p>
 <p><strong>You're now an email power user!</strong> 🎯</p>
 <hr />
-<p><em>Last updated: 2026-02-18</em>
-<em>flow-cli version: 7.4.0</em>
-<em>Tutorial version: 1.2</em></p>
+<p><em>Last updated: 2026-02-26</em>
+<em>flow-cli version: 7.4.2 (em dispatcher v2.0)</em>
+<em>Tutorial version: 2.0</em></p>
 
 
 

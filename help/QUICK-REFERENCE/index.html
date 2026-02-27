@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
     
     
       
@@ -1260,6 +1260,39 @@
     <span class="md-ellipsis">
       
         Organize
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-management-v20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder Management (v2.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendar-attachments-v20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calendar &amp; Attachments (v2.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap-watch-v20-experimental" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP Watch (v2.0, experimental)
       
     </span>
   </a>
@@ -5235,6 +5268,62 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/37-em-v2-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37. em v2.0 Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/EMAIL-COOKBOOK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cookbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/REFCARD-EMAIL-DISPATCHER/" class="md-nav__link">
         
   
@@ -9128,6 +9217,39 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#folder-management-v20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder Management (v2.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendar-attachments-v20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calendar &amp; Attachments (v2.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap-watch-v20-experimental" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP Watch (v2.0, experimental)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#manage" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10226,21 +10348,27 @@
 <a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span>
 </code></pre></div>
 <h3 id="compose-reply">Compose &amp; Reply<a class="headerlink" href="#compose-reply" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Compose new email (opens $EDITOR)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Compose new email (opens $EDITOR → preview → [y/N/e])</span>
 <a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>em<span class="w"> </span>send
 <a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Reply with AI draft</span>
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span>
-<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="c1"># Output: [AI generates draft → opens in $EDITOR → confirm send]</span>
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>
-<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="c1"># Reply-all</span>
-<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--all
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Compose and skip preview gate</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>em<span class="w"> </span>send<span class="w"> </span>--force
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="c1"># Reply with AI draft (v2.0: preview + [y/N/e] before send)</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="c1"># Output: [AI generates draft → $EDITOR → preview shown → y/N/e]</span>
 <a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>
-<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="c1"># Reply without AI draft</span>
-<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--no-ai
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="c1"># Reply and skip preview gate</span>
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--force
 <a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>
-<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="c1"># Non-interactive batch reply</span>
-<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--batch
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="c1"># Reply-all</span>
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--all
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a>
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="c1"># Reply without AI draft</span>
+<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--no-ai
+<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a>
+<a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a><span class="c1"># Non-interactive batch reply</span>
+<a id="__codelineno-23-21" name="__codelineno-23-21" href="#__codelineno-23-21"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--batch
 </code></pre></div>
 <h3 id="ai-features">AI Features<a class="headerlink" href="#ai-features" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Classify email category</span>
@@ -10325,47 +10453,78 @@
 <a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a>em<span class="w"> </span>digest<span class="w"> </span>--week<span class="w">        </span><span class="c1"># This week&#39;s emails</span>
 <a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a>em<span class="w"> </span>digest<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span><span class="w">          </span><span class="c1"># Limit to 5 emails</span>
 </code></pre></div>
+<h3 id="folder-management-v20">Folder Management (v2.0)<a class="headerlink" href="#folder-management-v20" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Create a new mail folder</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Team Updates&quot;</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>em<span class="w"> </span>cf<span class="w"> </span><span class="s2">&quot;Team Updates&quot;</span><span class="w">             </span><span class="c1"># alias</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># Delete a folder (type-to-confirm)</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>em<span class="w"> </span>delete-folder<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>em<span class="w"> </span>df<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span><span class="w">              </span><span class="c1"># alias</span>
+</code></pre></div>
+<h3 id="calendar-attachments-v20">Calendar &amp; Attachments (v2.0)<a class="headerlink" href="#calendar-attachments-v20" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># List all attachments with name, MIME type, size</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>em<span class="w"> </span>attach<span class="w"> </span>list<span class="w"> </span><span class="m">42</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Download a specific attachment</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>report.pdf
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>report.pdf<span class="w"> </span>~/Documents<span class="w">  </span><span class="c1"># Custom directory</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="c1"># Parse ICS calendar attachment, add to Apple Calendar</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">42</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>em<span class="w"> </span>cal<span class="w"> </span><span class="m">42</span><span class="w">                        </span><span class="c1"># alias</span>
+</code></pre></div>
+<h3 id="imap-watch-v20-experimental">IMAP Watch (v2.0, experimental)<a class="headerlink" href="#imap-watch-v20-experimental" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Start background IMAP IDLE watcher (desktop notifications)</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>em<span class="w"> </span>watch<span class="w"> </span>start
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>em<span class="w"> </span>w<span class="w"> </span>start<span class="w">                       </span><span class="c1"># alias</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>em<span class="w"> </span>watch<span class="w"> </span>stop<span class="w">                    </span><span class="c1"># Stop watcher</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>em<span class="w"> </span>watch<span class="w"> </span>status<span class="w">                  </span><span class="c1"># Show PID + uptime</span>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>em<span class="w"> </span>watch<span class="w"> </span>log<span class="w">                     </span><span class="c1"># Tail activity log</span>
+</code></pre></div>
 <h3 id="manage">Manage<a class="headerlink" href="#manage" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Delete emails (move to Trash)</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>em<span class="w"> </span>delete<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># Delete by ID (confirm [y/N])</span>
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>em<span class="w"> </span>del<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="m">43</span><span class="w"> </span><span class="m">44</span><span class="w">                  </span><span class="c1"># Batch delete</span>
-<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>em<span class="w"> </span>delete<span class="w"> </span>--folder<span class="w"> </span>Spam<span class="w">          </span><span class="c1"># Delete entire folder contents</span>
-<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>em<span class="w"> </span>delete<span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;newsletter&quot;</span><span class="w">   </span><span class="c1"># Delete by search query</span>
-<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>em<span class="w"> </span>delete<span class="w"> </span>--purge<span class="w"> </span><span class="m">42</span><span class="w">             </span><span class="c1"># PERMANENT delete (requires &quot;yes&quot;)</span>
-<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>em<span class="w"> </span>delete<span class="w"> </span>--pick<span class="w">                 </span><span class="c1"># fzf multi-select delete</span>
-<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>
-<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="c1"># Move &amp; restore</span>
-<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>em<span class="w"> </span>move<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w">               </span><span class="c1"># Move to Archive</span>
-<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>em<span class="w"> </span>mv<span class="w"> </span>Archive<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">30</span><span class="w">           </span><span class="c1"># Batch move</span>
-<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>em<span class="w"> </span>move<span class="w"> </span>--from<span class="w"> </span>Sent<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w">   </span><span class="c1"># Move from specific folder</span>
-<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Restore from Trash → INBOX</span>
-<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w"> </span>--to<span class="w"> </span>Archive<span class="w">       </span><span class="c1"># Restore to specific folder</span>
-<a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a>
-<a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a><span class="c1"># Flag management</span>
-<a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a>em<span class="w"> </span>flag<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># Star/flag email</span>
-<a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a>em<span class="w"> </span>fl<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="m">43</span><span class="w">                      </span><span class="c1"># Batch flag</span>
-<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a>em<span class="w"> </span>unflag<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># Remove star</span>
-<a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a>
-<a id="__codelineno-28-21" name="__codelineno-28-21" href="#__codelineno-28-21"></a><span class="c1"># AI extraction</span>
-<a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># Extract action items → Reminders.app</span>
-<a id="__codelineno-28-23" name="__codelineno-28-23" href="#__codelineno-28-23"></a>em<span class="w"> </span>event<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Extract calendar events → Calendar.app</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Delete emails (move to Trash)</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>em<span class="w"> </span>delete<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># Delete by ID (confirm [y/N])</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>em<span class="w"> </span>del<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="m">43</span><span class="w"> </span><span class="m">44</span><span class="w">                  </span><span class="c1"># Batch delete</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>em<span class="w"> </span>delete<span class="w"> </span>--folder<span class="w"> </span>Spam<span class="w">          </span><span class="c1"># Delete entire folder contents</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>em<span class="w"> </span>delete<span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;newsletter&quot;</span><span class="w">   </span><span class="c1"># Delete by search query</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>em<span class="w"> </span>delete<span class="w"> </span>--purge<span class="w"> </span><span class="m">42</span><span class="w">             </span><span class="c1"># PERMANENT delete (requires &quot;yes&quot;)</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>em<span class="w"> </span>delete<span class="w"> </span>--pick<span class="w">                 </span><span class="c1"># fzf multi-select delete</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="c1"># Move &amp; restore</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>em<span class="w"> </span>move<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w">               </span><span class="c1"># Move to Archive</span>
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>em<span class="w"> </span>mv<span class="w"> </span>Archive<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">30</span><span class="w">           </span><span class="c1"># Batch move</span>
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a>em<span class="w"> </span>move<span class="w"> </span>--from<span class="w"> </span>Sent<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w">   </span><span class="c1"># Move from specific folder</span>
+<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Restore from Trash → INBOX</span>
+<a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w"> </span>--to<span class="w"> </span>Archive<span class="w">       </span><span class="c1"># Restore to specific folder</span>
+<a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a>
+<a id="__codelineno-31-16" name="__codelineno-31-16" href="#__codelineno-31-16"></a><span class="c1"># Flag management</span>
+<a id="__codelineno-31-17" name="__codelineno-31-17" href="#__codelineno-31-17"></a>em<span class="w"> </span>flag<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># Star/flag email</span>
+<a id="__codelineno-31-18" name="__codelineno-31-18" href="#__codelineno-31-18"></a>em<span class="w"> </span>fl<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="m">43</span><span class="w">                      </span><span class="c1"># Batch flag</span>
+<a id="__codelineno-31-19" name="__codelineno-31-19" href="#__codelineno-31-19"></a>em<span class="w"> </span>unflag<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># Remove star</span>
+<a id="__codelineno-31-20" name="__codelineno-31-20" href="#__codelineno-31-20"></a>
+<a id="__codelineno-31-21" name="__codelineno-31-21" href="#__codelineno-31-21"></a><span class="c1"># AI extraction</span>
+<a id="__codelineno-31-22" name="__codelineno-31-22" href="#__codelineno-31-22"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># Extract action items → Reminders.app</span>
+<a id="__codelineno-31-23" name="__codelineno-31-23" href="#__codelineno-31-23"></a>em<span class="w"> </span>event<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Extract calendar events → Calendar.app</span>
 </code></pre></div>
 <blockquote>
-<p><strong>Safety:</strong> Delete requires <code>[y/N]</code> (default: No). Purge requires full word <code>yes</code>.</p>
+<p><strong>Safety:</strong> Delete requires <code>[y/N]</code> (default: No). Purge requires full word <code>yes</code>.
+<strong>v2.0:</strong> Send/reply now shows preview + <code>[y/N/e]</code> gate. Use <code>--force</code> to bypass.</p>
 </blockquote>
 <h3 id="management">Management<a class="headerlink" href="#management" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Check dependencies</span>
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>em<span class="w"> </span>doctor
-<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
-<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Cache management</span>
-<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>em<span class="w"> </span>cache<span class="w"> </span>stats<span class="w">                </span><span class="c1"># Show cache size, TTLs, counts</span>
-<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>em<span class="w"> </span>cache<span class="w"> </span>clear<span class="w">                </span><span class="c1"># Remove all cached AI results</span>
-<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>em<span class="w"> </span>cache<span class="w"> </span>prune<span class="w">                </span><span class="c1"># Remove expired entries only</span>
-<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>em<span class="w"> </span>cache<span class="w"> </span>warm<span class="w"> </span><span class="m">20</span><span class="w">              </span><span class="c1"># Pre-warm latest 20 emails (background)</span>
-<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
-<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="c1"># Configuration</span>
-<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>claude<span class="w">     </span><span class="c1"># AI backend (claude/gemini/none)</span>
-<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_PAGE_SIZE</span><span class="o">=</span><span class="m">25</span><span class="w">  </span><span class="c1"># Inbox page size</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Check dependencies</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>em<span class="w"> </span>doctor
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Cache management</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>em<span class="w"> </span>cache<span class="w"> </span>stats<span class="w">                </span><span class="c1"># Show cache size, TTLs, counts</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>em<span class="w"> </span>cache<span class="w"> </span>clear<span class="w">                </span><span class="c1"># Remove all cached AI results</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>em<span class="w"> </span>cache<span class="w"> </span>prune<span class="w">                </span><span class="c1"># Remove expired entries only</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>em<span class="w"> </span>cache<span class="w"> </span>warm<span class="w"> </span><span class="m">20</span><span class="w">              </span><span class="c1"># Pre-warm latest 20 emails (background)</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="c1"># Configuration</span>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>claude<span class="w">     </span><span class="c1"># AI backend (claude/gemini/none)</span>
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_PAGE_SIZE</span><span class="o">=</span><span class="m">25</span><span class="w">  </span><span class="c1"># Inbox page size</span>
 </code></pre></div>
 <blockquote>
 <p><strong>Safety:</strong> Every send requires <code>[y/N]</code> confirmation (default: No).
@@ -10374,245 +10533,245 @@ Delete requires <code>[y/N]</code> (default: No). Purge requires full word <code
 <hr />
 <h2 id="atlas-at">Atlas (at)<a class="headerlink" href="#atlas-at" title="Permanent link">&para;</a></h2>
 <h3 id="project-intelligence-requires-atlas-cli">Project Intelligence (requires Atlas CLI)<a class="headerlink" href="#project-intelligence-requires-atlas-cli" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Project statistics</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>at<span class="w"> </span>stats
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="c1"># Output: [Project stats from Atlas]</span>
-<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>
-<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="c1"># Quick capture (works without Atlas too)</span>
-<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;idea for feature&quot;</span>
-<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="c1"># Output: 📝 Captured: idea for feature</span>
-<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>
-<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="c1"># Park current project</span>
-<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>at<span class="w"> </span>park
-<a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="c1"># Output: ✅ Parked: flow-cli (context saved)</span>
-<a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a>
-<a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="c1"># Unpark project</span>
-<a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a>at<span class="w"> </span>unpark<span class="w"> </span>flow-cli
-<a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a><span class="c1"># Output: ✅ Resumed: flow-cli</span>
-<a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a>
-<a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a><span class="c1"># Show parked projects</span>
-<a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a>at<span class="w"> </span>parked
-<a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a><span class="c1"># Output: [List of parked projects with timestamps]</span>
-<a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a>
-<a id="__codelineno-30-21" name="__codelineno-30-21" href="#__codelineno-30-21"></a><span class="c1"># Project dashboard (Atlas-enhanced)</span>
-<a id="__codelineno-30-22" name="__codelineno-30-22" href="#__codelineno-30-22"></a>at<span class="w"> </span>dash
-<a id="__codelineno-30-23" name="__codelineno-30-23" href="#__codelineno-30-23"></a><span class="c1"># Output: [Rich project dashboard]</span>
-<a id="__codelineno-30-24" name="__codelineno-30-24" href="#__codelineno-30-24"></a>
-<a id="__codelineno-30-25" name="__codelineno-30-25" href="#__codelineno-30-25"></a><span class="c1"># Focus mode</span>
-<a id="__codelineno-30-26" name="__codelineno-30-26" href="#__codelineno-30-26"></a>at<span class="w"> </span>focus
-<a id="__codelineno-30-27" name="__codelineno-30-27" href="#__codelineno-30-27"></a><span class="c1"># Output: [Shows current focus project + context]</span>
-<a id="__codelineno-30-28" name="__codelineno-30-28" href="#__codelineno-30-28"></a>
-<a id="__codelineno-30-29" name="__codelineno-30-29" href="#__codelineno-30-29"></a><span class="c1"># Triage inbox</span>
-<a id="__codelineno-30-30" name="__codelineno-30-30" href="#__codelineno-30-30"></a>at<span class="w"> </span>triage
-<a id="__codelineno-30-31" name="__codelineno-30-31" href="#__codelineno-30-31"></a><span class="c1"># Output: [AI-prioritized task list]</span>
-<a id="__codelineno-30-32" name="__codelineno-30-32" href="#__codelineno-30-32"></a>
-<a id="__codelineno-30-33" name="__codelineno-30-33" href="#__codelineno-30-33"></a><span class="c1"># Activity trail</span>
-<a id="__codelineno-30-34" name="__codelineno-30-34" href="#__codelineno-30-34"></a>at<span class="w"> </span>trail
-<a id="__codelineno-30-35" name="__codelineno-30-35" href="#__codelineno-30-35"></a><span class="c1"># Output: [Recent activity across projects]</span>
-<a id="__codelineno-30-36" name="__codelineno-30-36" href="#__codelineno-30-36"></a>
-<a id="__codelineno-30-37" name="__codelineno-30-37" href="#__codelineno-30-37"></a><span class="c1"># Show help</span>
-<a id="__codelineno-30-38" name="__codelineno-30-38" href="#__codelineno-30-38"></a>at<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-30-39" name="__codelineno-30-39" href="#__codelineno-30-39"></a><span class="c1"># Output: [Atlas bridge help]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Project statistics</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>at<span class="w"> </span>stats
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="c1"># Output: [Project stats from Atlas]</span>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="c1"># Quick capture (works without Atlas too)</span>
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;idea for feature&quot;</span>
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="c1"># Output: 📝 Captured: idea for feature</span>
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="c1"># Park current project</span>
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>at<span class="w"> </span>park
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a><span class="c1"># Output: ✅ Parked: flow-cli (context saved)</span>
+<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>
+<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a><span class="c1"># Unpark project</span>
+<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>at<span class="w"> </span>unpark<span class="w"> </span>flow-cli
+<a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a><span class="c1"># Output: ✅ Resumed: flow-cli</span>
+<a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a>
+<a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a><span class="c1"># Show parked projects</span>
+<a id="__codelineno-33-18" name="__codelineno-33-18" href="#__codelineno-33-18"></a>at<span class="w"> </span>parked
+<a id="__codelineno-33-19" name="__codelineno-33-19" href="#__codelineno-33-19"></a><span class="c1"># Output: [List of parked projects with timestamps]</span>
+<a id="__codelineno-33-20" name="__codelineno-33-20" href="#__codelineno-33-20"></a>
+<a id="__codelineno-33-21" name="__codelineno-33-21" href="#__codelineno-33-21"></a><span class="c1"># Project dashboard (Atlas-enhanced)</span>
+<a id="__codelineno-33-22" name="__codelineno-33-22" href="#__codelineno-33-22"></a>at<span class="w"> </span>dash
+<a id="__codelineno-33-23" name="__codelineno-33-23" href="#__codelineno-33-23"></a><span class="c1"># Output: [Rich project dashboard]</span>
+<a id="__codelineno-33-24" name="__codelineno-33-24" href="#__codelineno-33-24"></a>
+<a id="__codelineno-33-25" name="__codelineno-33-25" href="#__codelineno-33-25"></a><span class="c1"># Focus mode</span>
+<a id="__codelineno-33-26" name="__codelineno-33-26" href="#__codelineno-33-26"></a>at<span class="w"> </span>focus
+<a id="__codelineno-33-27" name="__codelineno-33-27" href="#__codelineno-33-27"></a><span class="c1"># Output: [Shows current focus project + context]</span>
+<a id="__codelineno-33-28" name="__codelineno-33-28" href="#__codelineno-33-28"></a>
+<a id="__codelineno-33-29" name="__codelineno-33-29" href="#__codelineno-33-29"></a><span class="c1"># Triage inbox</span>
+<a id="__codelineno-33-30" name="__codelineno-33-30" href="#__codelineno-33-30"></a>at<span class="w"> </span>triage
+<a id="__codelineno-33-31" name="__codelineno-33-31" href="#__codelineno-33-31"></a><span class="c1"># Output: [AI-prioritized task list]</span>
+<a id="__codelineno-33-32" name="__codelineno-33-32" href="#__codelineno-33-32"></a>
+<a id="__codelineno-33-33" name="__codelineno-33-33" href="#__codelineno-33-33"></a><span class="c1"># Activity trail</span>
+<a id="__codelineno-33-34" name="__codelineno-33-34" href="#__codelineno-33-34"></a>at<span class="w"> </span>trail
+<a id="__codelineno-33-35" name="__codelineno-33-35" href="#__codelineno-33-35"></a><span class="c1"># Output: [Recent activity across projects]</span>
+<a id="__codelineno-33-36" name="__codelineno-33-36" href="#__codelineno-33-36"></a>
+<a id="__codelineno-33-37" name="__codelineno-33-37" href="#__codelineno-33-37"></a><span class="c1"># Show help</span>
+<a id="__codelineno-33-38" name="__codelineno-33-38" href="#__codelineno-33-38"></a>at<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-33-39" name="__codelineno-33-39" href="#__codelineno-33-39"></a><span class="c1"># Output: [Atlas bridge help]</span>
 </code></pre></div>
 <h3 id="available-without-atlas">Available Without Atlas<a class="headerlink" href="#available-without-atlas" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Quick capture</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;note text&quot;</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1"># Show inbox</span>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>at<span class="w"> </span>inbox
-<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>
-<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="c1"># Where am I?</span>
-<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>at<span class="w"> </span>where
-<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>
-<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="c1"># Leave breadcrumb</span>
-<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">&quot;context note&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Quick capture</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;note text&quot;</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># Show inbox</span>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>at<span class="w"> </span>inbox
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="c1"># Where am I?</span>
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>at<span class="w"> </span>where
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>
+<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="c1"># Leave breadcrumb</span>
+<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">&quot;context note&quot;</span>
 </code></pre></div>
 <hr />
 <h2 id="dopamine-features">Dopamine Features<a class="headerlink" href="#dopamine-features" title="Permanent link">&para;</a></h2>
 <h3 id="win-logging-adhd-motivation">Win Logging (ADHD Motivation)<a class="headerlink" href="#win-logging-adhd-motivation" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Log a win</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>win<span class="w"> </span><span class="s2">&quot;Implemented user authentication&quot;</span>
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1"># Output: 🎉 Win logged!</span>
-<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1">#         Category: 💻 code</span>
-<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="c1">#         Streak: 5 days</span>
-<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="c1">#         Daily goal: 2/3</span>
-<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>
-<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="c1"># Show recent wins</span>
-<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>yay
-<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="c1"># Output: 🎉 Recent Wins (Last 24h):</span>
-<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a><span class="c1">#         💻 Implemented user authentication (14:32)</span>
-<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a><span class="c1">#         📝 Updated documentation (12:15)</span>
-<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a><span class="c1">#         🔧 Fixed login bug (10:30)</span>
-<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a>
-<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a><span class="c1"># Show weekly summary</span>
-<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a>yay<span class="w"> </span>--week
-<a id="__codelineno-32-17" name="__codelineno-32-17" href="#__codelineno-32-17"></a><span class="c1"># Output: 📊 Week Summary:</span>
-<a id="__codelineno-32-18" name="__codelineno-32-18" href="#__codelineno-32-18"></a><span class="c1">#         Total wins: 15</span>
-<a id="__codelineno-32-19" name="__codelineno-32-19" href="#__codelineno-32-19"></a><span class="c1">#         💻 code: 8</span>
-<a id="__codelineno-32-20" name="__codelineno-32-20" href="#__codelineno-32-20"></a><span class="c1">#         📝 docs: 4</span>
-<a id="__codelineno-32-21" name="__codelineno-32-21" href="#__codelineno-32-21"></a><span class="c1">#         🔧 fix: 3</span>
-<a id="__codelineno-32-22" name="__codelineno-32-22" href="#__codelineno-32-22"></a><span class="c1">#         [ASCII graph]</span>
-<a id="__codelineno-32-23" name="__codelineno-32-23" href="#__codelineno-32-23"></a>
-<a id="__codelineno-32-24" name="__codelineno-32-24" href="#__codelineno-32-24"></a><span class="c1"># Show monthly summary</span>
-<a id="__codelineno-32-25" name="__codelineno-32-25" href="#__codelineno-32-25"></a>yay<span class="w"> </span>--month
-<a id="__codelineno-32-26" name="__codelineno-32-26" href="#__codelineno-32-26"></a><span class="c1"># Output: [Monthly statistics]</span>
-<a id="__codelineno-32-27" name="__codelineno-32-27" href="#__codelineno-32-27"></a>
-<a id="__codelineno-32-28" name="__codelineno-32-28" href="#__codelineno-32-28"></a><span class="c1"># Win categories</span>
-<a id="__codelineno-32-29" name="__codelineno-32-29" href="#__codelineno-32-29"></a><span class="c1"># 💻 code    - Code written</span>
-<a id="__codelineno-32-30" name="__codelineno-32-30" href="#__codelineno-32-30"></a><span class="c1"># 📝 docs    - Documentation</span>
-<a id="__codelineno-32-31" name="__codelineno-32-31" href="#__codelineno-32-31"></a><span class="c1"># 👀 review  - Code reviews</span>
-<a id="__codelineno-32-32" name="__codelineno-32-32" href="#__codelineno-32-32"></a><span class="c1"># 🚀 ship    - Deployed features</span>
-<a id="__codelineno-32-33" name="__codelineno-32-33" href="#__codelineno-32-33"></a><span class="c1"># 🔧 fix     - Bug fixes</span>
-<a id="__codelineno-32-34" name="__codelineno-32-34" href="#__codelineno-32-34"></a><span class="c1"># 🧪 test    - Tests written</span>
-<a id="__codelineno-32-35" name="__codelineno-32-35" href="#__codelineno-32-35"></a><span class="c1"># ✨ other   - Miscellaneous</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Log a win</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>win<span class="w"> </span><span class="s2">&quot;Implemented user authentication&quot;</span>
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="c1"># Output: 🎉 Win logged!</span>
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1">#         Category: 💻 code</span>
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="c1">#         Streak: 5 days</span>
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a><span class="c1">#         Daily goal: 2/3</span>
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a><span class="c1"># Show recent wins</span>
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>yay
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a><span class="c1"># Output: 🎉 Recent Wins (Last 24h):</span>
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="c1">#         💻 Implemented user authentication (14:32)</span>
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a><span class="c1">#         📝 Updated documentation (12:15)</span>
+<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="c1">#         🔧 Fixed login bug (10:30)</span>
+<a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
+<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="c1"># Show weekly summary</span>
+<a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>yay<span class="w"> </span>--week
+<a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a><span class="c1"># Output: 📊 Week Summary:</span>
+<a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a><span class="c1">#         Total wins: 15</span>
+<a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a><span class="c1">#         💻 code: 8</span>
+<a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a><span class="c1">#         📝 docs: 4</span>
+<a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a><span class="c1">#         🔧 fix: 3</span>
+<a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a><span class="c1">#         [ASCII graph]</span>
+<a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a>
+<a id="__codelineno-35-24" name="__codelineno-35-24" href="#__codelineno-35-24"></a><span class="c1"># Show monthly summary</span>
+<a id="__codelineno-35-25" name="__codelineno-35-25" href="#__codelineno-35-25"></a>yay<span class="w"> </span>--month
+<a id="__codelineno-35-26" name="__codelineno-35-26" href="#__codelineno-35-26"></a><span class="c1"># Output: [Monthly statistics]</span>
+<a id="__codelineno-35-27" name="__codelineno-35-27" href="#__codelineno-35-27"></a>
+<a id="__codelineno-35-28" name="__codelineno-35-28" href="#__codelineno-35-28"></a><span class="c1"># Win categories</span>
+<a id="__codelineno-35-29" name="__codelineno-35-29" href="#__codelineno-35-29"></a><span class="c1"># 💻 code    - Code written</span>
+<a id="__codelineno-35-30" name="__codelineno-35-30" href="#__codelineno-35-30"></a><span class="c1"># 📝 docs    - Documentation</span>
+<a id="__codelineno-35-31" name="__codelineno-35-31" href="#__codelineno-35-31"></a><span class="c1"># 👀 review  - Code reviews</span>
+<a id="__codelineno-35-32" name="__codelineno-35-32" href="#__codelineno-35-32"></a><span class="c1"># 🚀 ship    - Deployed features</span>
+<a id="__codelineno-35-33" name="__codelineno-35-33" href="#__codelineno-35-33"></a><span class="c1"># 🔧 fix     - Bug fixes</span>
+<a id="__codelineno-35-34" name="__codelineno-35-34" href="#__codelineno-35-34"></a><span class="c1"># 🧪 test    - Tests written</span>
+<a id="__codelineno-35-35" name="__codelineno-35-35" href="#__codelineno-35-35"></a><span class="c1"># ✨ other   - Miscellaneous</span>
 </code></pre></div>
 <hr />
 <h3 id="goal-tracking">Goal Tracking<a class="headerlink" href="#goal-tracking" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Show daily goal</span>
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>flow<span class="w"> </span>goal
-<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="c1"># Output: Daily Goal: 2/3 wins ⚡⚡○</span>
-<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1">#         Streak: 5 days 🔥</span>
-<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>
-<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="c1"># Set daily goal</span>
-<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span>
-<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="c1"># Output: ✅ Daily goal set to 3 wins</span>
-<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>
-<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="c1"># Show streak</span>
-<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>flow<span class="w"> </span>streak
-<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a><span class="c1"># Output: Current streak: 5 days 🔥</span>
-<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a><span class="c1">#         Best streak: 12 days</span>
-<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a><span class="c1">#         Total days: 45</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Show daily goal</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>flow<span class="w"> </span>goal
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="c1"># Output: Daily Goal: 2/3 wins ⚡⚡○</span>
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="c1">#         Streak: 5 days 🔥</span>
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="c1"># Set daily goal</span>
+<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>flow<span class="w"> </span>goal<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="c1"># Output: ✅ Daily goal set to 3 wins</span>
+<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>
+<a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="c1"># Show streak</span>
+<a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>flow<span class="w"> </span>streak
+<a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="c1"># Output: Current streak: 5 days 🔥</span>
+<a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a><span class="c1">#         Best streak: 12 days</span>
+<a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a><span class="c1">#         Total days: 45</span>
 </code></pre></div>
 <hr />
 <h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
 <h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Set in ~/.zshrc BEFORE sourcing flow.plugin.zsh:</span>
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="c1"># Project root directory</span>
-<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROJECTS_ROOT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/projects&quot;</span>
-<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>
-<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="c1"># Atlas integration (auto|yes|no)</span>
-<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
-<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>
-<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a><span class="c1"># Quiet mode (suppress welcome message)</span>
-<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_QUIET</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>
-<a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a><span class="c1"># Debug mode (verbose logging)</span>
-<a id="__codelineno-34-13" name="__codelineno-34-13" href="#__codelineno-34-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_DEBUG</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-34-14" name="__codelineno-34-14" href="#__codelineno-34-14"></a>
-<a id="__codelineno-34-15" name="__codelineno-34-15" href="#__codelineno-34-15"></a><span class="c1"># Default editor for dotfile editing</span>
-<a id="__codelineno-34-16" name="__codelineno-34-16" href="#__codelineno-34-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;nvim&quot;</span>
-<a id="__codelineno-34-17" name="__codelineno-34-17" href="#__codelineno-34-17"></a>
-<a id="__codelineno-34-18" name="__codelineno-34-18" href="#__codelineno-34-18"></a><span class="c1"># GitHub token (for git operations)</span>
-<a id="__codelineno-34-19" name="__codelineno-34-19" href="#__codelineno-34-19"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;ghp_xxxx&quot;</span><span class="w">  </span><span class="c1"># Or use keychain</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Set in ~/.zshrc BEFORE sourcing flow.plugin.zsh:</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="c1"># Project root directory</span>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROJECTS_ROOT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/projects&quot;</span>
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a><span class="c1"># Atlas integration (auto|yes|no)</span>
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
+<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>
+<a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a><span class="c1"># Quiet mode (suppress welcome message)</span>
+<a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_QUIET</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>
+<a id="__codelineno-37-12" name="__codelineno-37-12" href="#__codelineno-37-12"></a><span class="c1"># Debug mode (verbose logging)</span>
+<a id="__codelineno-37-13" name="__codelineno-37-13" href="#__codelineno-37-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_DEBUG</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-37-14" name="__codelineno-37-14" href="#__codelineno-37-14"></a>
+<a id="__codelineno-37-15" name="__codelineno-37-15" href="#__codelineno-37-15"></a><span class="c1"># Default editor for dotfile editing</span>
+<a id="__codelineno-37-16" name="__codelineno-37-16" href="#__codelineno-37-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;nvim&quot;</span>
+<a id="__codelineno-37-17" name="__codelineno-37-17" href="#__codelineno-37-17"></a>
+<a id="__codelineno-37-18" name="__codelineno-37-18" href="#__codelineno-37-18"></a><span class="c1"># GitHub token (for git operations)</span>
+<a id="__codelineno-37-19" name="__codelineno-37-19" href="#__codelineno-37-19"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;ghp_xxxx&quot;</span><span class="w">  </span><span class="c1"># Or use keychain</span>
 </code></pre></div>
 <hr />
 <h3 id="feature-flags">Feature Flags<a class="headerlink" href="#feature-flags" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Enable experimental features</span>
-<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EXPERIMENTAL</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
-<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Enable performance profiling</span>
-<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROFILE</span><span class="o">=</span><span class="m">1</span>
-<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>
-<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="c1"># Cache timeout (seconds)</span>
-<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_CACHE_TTL</span><span class="o">=</span><span class="m">300</span>
-<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>
-<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a><span class="c1"># Token cache timeout (seconds)</span>
-<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_TOKEN_CACHE_TTL</span><span class="o">=</span><span class="m">300</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># Enable experimental features</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EXPERIMENTAL</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="c1"># Enable performance profiling</span>
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROFILE</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>
+<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="c1"># Cache timeout (seconds)</span>
+<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_CACHE_TTL</span><span class="o">=</span><span class="m">300</span>
+<a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a>
+<a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="c1"># Token cache timeout (seconds)</span>
+<a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_TOKEN_CACHE_TTL</span><span class="o">=</span><span class="m">300</span>
 </code></pre></div>
 <hr />
 <h2 id="keyboard-shortcuts">Keyboard Shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permanent link">&para;</a></h2>
 <h3 id="terminal-shortcuts">Terminal Shortcuts<a class="headerlink" href="#terminal-shortcuts" title="Permanent link">&para;</a></h3>
 <p>These work if configured in your terminal app (iTerm2, Terminal.app):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>Ctrl+R<span class="w">    </span><span class="c1"># Reverse search history (fzf if installed)</span>
-<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>Ctrl+T<span class="w">    </span><span class="c1"># File fuzzy finder (fzf)</span>
-<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>Ctrl+Alt+F<span class="w">  </span><span class="c1"># Project switcher (custom binding)</span>
-<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>
-<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="c1"># In flow-cli commands:</span>
-<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>Tab<span class="w">       </span><span class="c1"># Auto-completion</span>
-<a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>Ctrl+C<span class="w">    </span><span class="c1"># Cancel operation</span>
-<a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>Ctrl+D<span class="w">    </span><span class="c1"># Exit interactive mode</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>Ctrl+R<span class="w">    </span><span class="c1"># Reverse search history (fzf if installed)</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>Ctrl+T<span class="w">    </span><span class="c1"># File fuzzy finder (fzf)</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>Ctrl+Alt+F<span class="w">  </span><span class="c1"># Project switcher (custom binding)</span>
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="c1"># In flow-cli commands:</span>
+<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>Tab<span class="w">       </span><span class="c1"># Auto-completion</span>
+<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a>Ctrl+C<span class="w">    </span><span class="c1"># Cancel operation</span>
+<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a>Ctrl+D<span class="w">    </span><span class="c1"># Exit interactive mode</span>
 </code></pre></div>
 <hr />
 <h2 id="common-workflows">Common Workflows<a class="headerlink" href="#common-workflows" title="Permanent link">&para;</a></h2>
 <h3 id="daily-development-workflow">Daily Development Workflow<a class="headerlink" href="#daily-development-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Morning routine</span>
-<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>work<span class="w"> </span>my-project<span class="w">          </span><span class="c1"># Start session</span>
-<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>dash<span class="w">                     </span><span class="c1"># Check status</span>
-<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>g<span class="w"> </span>pull<span class="w">                   </span><span class="c1"># Sync with remote</span>
-<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>
-<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a><span class="c1"># During work</span>
-<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>catch<span class="w"> </span><span class="s2">&quot;Implement X&quot;</span><span class="w">      </span><span class="c1"># Quick notes</span>
-<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>win<span class="w"> </span><span class="s2">&quot;Fixed bug&quot;</span><span class="w">          </span><span class="c1"># Log progress</span>
-<a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>crumb<span class="w"> </span><span class="s2">&quot;Important decision&quot;</span><span class="w"> </span><span class="c1"># Leave breadcrumb</span>
-<a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a>
-<a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a><span class="c1"># End of day</span>
-<a id="__codelineno-37-12" name="__codelineno-37-12" href="#__codelineno-37-12"></a>finish<span class="w"> </span><span class="s2">&quot;Daily progress&quot;</span><span class="w">  </span><span class="c1"># Commit &amp; end session</span>
-<a id="__codelineno-37-13" name="__codelineno-37-13" href="#__codelineno-37-13"></a>yay<span class="w">                      </span><span class="c1"># Review wins</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Morning routine</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>work<span class="w"> </span>my-project<span class="w">          </span><span class="c1"># Start session</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>dash<span class="w">                     </span><span class="c1"># Check status</span>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>g<span class="w"> </span>pull<span class="w">                   </span><span class="c1"># Sync with remote</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>
+<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="c1"># During work</span>
+<a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>catch<span class="w"> </span><span class="s2">&quot;Implement X&quot;</span><span class="w">      </span><span class="c1"># Quick notes</span>
+<a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a>win<span class="w"> </span><span class="s2">&quot;Fixed bug&quot;</span><span class="w">          </span><span class="c1"># Log progress</span>
+<a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a>crumb<span class="w"> </span><span class="s2">&quot;Important decision&quot;</span><span class="w"> </span><span class="c1"># Leave breadcrumb</span>
+<a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a>
+<a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a><span class="c1"># End of day</span>
+<a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a>finish<span class="w"> </span><span class="s2">&quot;Daily progress&quot;</span><span class="w">  </span><span class="c1"># Commit &amp; end session</span>
+<a id="__codelineno-40-13" name="__codelineno-40-13" href="#__codelineno-40-13"></a>yay<span class="w">                      </span><span class="c1"># Review wins</span>
 </code></pre></div>
 <hr />
 <h3 id="feature-development-workflow">Feature Development Workflow<a class="headerlink" href="#feature-development-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># Start feature</span>
-<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>my-feature<span class="w">    </span><span class="c1"># Create feature branch</span>
-<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>wt<span class="w"> </span>create<span class="w"> </span>feature/my-feature<span class="w">  </span><span class="c1"># OR use worktree</span>
-<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>
-<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="c1"># Work</span>
-<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>work<span class="w"> </span>my-project
-<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="c1"># ... code ...</span>
-<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>win<span class="w"> </span><span class="s2">&quot;Implemented X&quot;</span>
-<a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a>
-<a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="c1"># Finish</span>
-<a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a>g<span class="w"> </span>feature<span class="w"> </span>push<span class="w">               </span><span class="c1"># Push feature</span>
-<a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a>g<span class="w"> </span>feature<span class="w"> </span>pr<span class="w">                 </span><span class="c1"># Create PR</span>
-<a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a><span class="c1"># ... after PR merge ...</span>
-<a id="__codelineno-38-14" name="__codelineno-38-14" href="#__codelineno-38-14"></a>g<span class="w"> </span>feature<span class="w"> </span>finish<span class="w">             </span><span class="c1"># Cleanup</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># Start feature</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>my-feature<span class="w">    </span><span class="c1"># Create feature branch</span>
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>wt<span class="w"> </span>create<span class="w"> </span>feature/my-feature<span class="w">  </span><span class="c1"># OR use worktree</span>
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="c1"># Work</span>
+<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>work<span class="w"> </span>my-project
+<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="c1"># ... code ...</span>
+<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>win<span class="w"> </span><span class="s2">&quot;Implemented X&quot;</span>
+<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>
+<a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a><span class="c1"># Finish</span>
+<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a>g<span class="w"> </span>feature<span class="w"> </span>push<span class="w">               </span><span class="c1"># Push feature</span>
+<a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a>g<span class="w"> </span>feature<span class="w"> </span>pr<span class="w">                 </span><span class="c1"># Create PR</span>
+<a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a><span class="c1"># ... after PR merge ...</span>
+<a id="__codelineno-41-14" name="__codelineno-41-14" href="#__codelineno-41-14"></a>g<span class="w"> </span>feature<span class="w"> </span>finish<span class="w">             </span><span class="c1"># Cleanup</span>
 </code></pre></div>
 <hr />
 <h3 id="teaching-workflow">Teaching Workflow<a class="headerlink" href="#teaching-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># Setup</span>
-<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>teach<span class="w"> </span>init<span class="w"> </span>--config<span class="w"> </span>course.yml
-<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
-<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>
-<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="c1"># Content creation</span>
-<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/<span class="w">      </span><span class="c1"># Analyze content</span>
-<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm Topics&quot;</span><span class="w">  </span><span class="c1"># Generate exam</span>
-<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a>
-<a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a><span class="c1"># Deployment (v6.4.0)</span>
-<a id="__codelineno-39-10" name="__codelineno-39-10" href="#__codelineno-39-10"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct<span class="w">        </span><span class="c1"># Direct merge deploy</span>
-<a id="__codelineno-39-11" name="__codelineno-39-11" href="#__codelineno-39-11"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run<span class="w">       </span><span class="c1"># Preview deploy</span>
-<a id="__codelineno-39-12" name="__codelineno-39-12" href="#__codelineno-39-12"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">    </span><span class="c1"># Undo last deploy</span>
-<a id="__codelineno-39-13" name="__codelineno-39-13" href="#__codelineno-39-13"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--history<span class="w">       </span><span class="c1"># Show deploy log</span>
-<a id="__codelineno-39-14" name="__codelineno-39-14" href="#__codelineno-39-14"></a>teach<span class="w"> </span>status<span class="w">                 </span><span class="c1"># Verify</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Setup</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>teach<span class="w"> </span>init<span class="w"> </span>--config<span class="w"> </span>course.yml
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>teach<span class="w"> </span>scholar<span class="w"> </span>status
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="c1"># Content creation</span>
+<a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/<span class="w">      </span><span class="c1"># Analyze content</span>
+<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm Topics&quot;</span><span class="w">  </span><span class="c1"># Generate exam</span>
+<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a>
+<a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a><span class="c1"># Deployment (v6.4.0)</span>
+<a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct<span class="w">        </span><span class="c1"># Direct merge deploy</span>
+<a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run<span class="w">       </span><span class="c1"># Preview deploy</span>
+<a id="__codelineno-42-12" name="__codelineno-42-12" href="#__codelineno-42-12"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">    </span><span class="c1"># Undo last deploy</span>
+<a id="__codelineno-42-13" name="__codelineno-42-13" href="#__codelineno-42-13"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--history<span class="w">       </span><span class="c1"># Show deploy log</span>
+<a id="__codelineno-42-14" name="__codelineno-42-14" href="#__codelineno-42-14"></a>teach<span class="w"> </span>status<span class="w">                 </span><span class="c1"># Verify</span>
 </code></pre></div>
 <hr />
 <h2 id="tips-tricks">Tips &amp; Tricks<a class="headerlink" href="#tips-tricks" title="Permanent link">&para;</a></h2>
 <h3 id="aliases">Aliases<a class="headerlink" href="#aliases" title="Permanent link">&para;</a></h3>
 <p>flow-cli integrates with 22 ZSH plugins providing 351 aliases. See <a href="../../tutorials/22-plugin-optimization/">Tutorial 22: Plugin Optimization</a> for complete guide.</p>
 <p><strong>Most useful git aliases:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>gst<span class="w">     </span>→<span class="w"> </span>git<span class="w"> </span>status
-<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>ga<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>add
-<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>gcmsg<span class="w">   </span>→<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m
-<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>gp<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>push
-<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>gl<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>pull
-<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>glog<span class="w">    </span>→<span class="w"> </span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>gst<span class="w">     </span>→<span class="w"> </span>git<span class="w"> </span>status
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>ga<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>add
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>gcmsg<span class="w">   </span>→<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>gp<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>push
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>gl<span class="w">      </span>→<span class="w"> </span>git<span class="w"> </span>pull
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>glog<span class="w">    </span>→<span class="w"> </span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph
 </code></pre></div>
 <hr />
 <h3 id="tab-completion">Tab Completion<a class="headerlink" href="#tab-completion" title="Permanent link">&para;</a></h3>
 <p>All commands support tab completion:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>work<span class="w"> </span>&lt;Tab&gt;<span class="w">        </span><span class="c1"># List all projects</span>
-<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>g<span class="w"> </span>&lt;Tab&gt;<span class="w">           </span><span class="c1"># List all git subcommands</span>
-<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>teach<span class="w"> </span>&lt;Tab&gt;<span class="w">       </span><span class="c1"># List all teach subcommands</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>work<span class="w"> </span>&lt;Tab&gt;<span class="w">        </span><span class="c1"># List all projects</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>g<span class="w"> </span>&lt;Tab&gt;<span class="w">           </span><span class="c1"># List all git subcommands</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>teach<span class="w"> </span>&lt;Tab&gt;<span class="w">       </span><span class="c1"># List all teach subcommands</span>
 </code></pre></div>
 <hr />
 <h3 id="help-system">Help System<a class="headerlink" href="#help-system" title="Permanent link">&para;</a></h3>
 <p>Every dispatcher has help:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>&lt;dispatcher&gt;<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>
-<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="c1"># Examples:</span>
-<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>g<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>r<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>teach<span class="w"> </span><span class="nb">help</span>
-<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>mcp<span class="w"> </span><span class="nb">help</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>&lt;dispatcher&gt;<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="c1"># Examples:</span>
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>g<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>r<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>teach<span class="w"> </span><span class="nb">help</span>
+<a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a>mcp<span class="w"> </span><span class="nb">help</span>
 </code></pre></div>
 <hr />
 <h3 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h3>

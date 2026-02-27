@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
     
     
       
@@ -4438,6 +4438,62 @@
     
   
     36. Email Management
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/37-em-v2-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37. em v2.0 Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/EMAIL-COOKBOOK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cookbook
   
 
     
@@ -9056,6 +9112,412 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#email-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Email Libraries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Email Libraries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#safety-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety Gate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety Gate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_safety_gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_safety_gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_compose_draft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_compose_draft
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_draft_cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_draft_cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Folder Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_create_folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_create_folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_delete_folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_delete_folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attachment-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attachment Helpers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attachment Helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_attach_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_attach_list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_attach_get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_attach_get
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendar-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calendar Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calendar Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#em_calendar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        em_calendar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ics_parse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ics_parse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ics_format_dt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ics_format_dt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ics_display_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ics_display_event
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ics_create_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ics_create_event
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap-watch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP Watch
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IMAP Watch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#em_watch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        em_watch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_watch_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_watch_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_watch_stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_watch_stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_watch_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_watch_status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version Detection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Version Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_hml_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_hml_version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_hml_version_gte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_hml_version_gte
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_require_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_require_version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_validate_msg_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_validate_msg_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_validate_folder_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_validate_folder_name
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Loading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config Loading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_load_config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_load_config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ai_validate_extra_args" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ai_validate_extra_args
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#function-index" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9173,10 +9635,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#v5170-dev-current" class="md-nav__link">
+  <a href="#em-v20-current-flow-cli-v742" class="md-nav__link">
     <span class="md-ellipsis">
       
-        v5.17.0-dev (Current)
+        em v2.0 (Current — flow-cli v7.4.2+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v5170-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v5.17.0-dev
       
     </span>
   </a>
@@ -14604,6 +15077,412 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#email-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Email Libraries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Email Libraries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#safety-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety Gate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety Gate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_safety_gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_safety_gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_compose_draft" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_compose_draft
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_draft_cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_draft_cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#folder-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Folder Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Folder Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_create_folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_create_folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_delete_folder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_delete_folder
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attachment-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attachment Helpers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attachment Helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_attach_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_attach_list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_attach_get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_attach_get
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendar-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calendar Integration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calendar Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#em_calendar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        em_calendar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ics_parse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ics_parse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ics_format_dt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ics_format_dt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ics_display_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ics_display_event
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ics_create_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ics_create_event
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap-watch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP Watch
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IMAP Watch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#em_watch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        em_watch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_watch_start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_watch_start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_watch_stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_watch_stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_watch_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_watch_status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Version Detection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Version Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_hml_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_hml_version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_hml_version_gte" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_hml_version_gte
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_require_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_require_version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_validate_msg_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_validate_msg_id
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_validate_folder_name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_validate_folder_name
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#config-loading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Loading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config Loading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_em_load_config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_load_config
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_em_ai_validate_extra_args" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        _em_ai_validate_extra_args
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#function-index" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -14721,10 +15600,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#v5170-dev-current" class="md-nav__link">
+  <a href="#em-v20-current-flow-cli-v742" class="md-nav__link">
     <span class="md-ellipsis">
       
-        v5.17.0-dev (Current)
+        em v2.0 (Current — flow-cli v7.4.2+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v5170-dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v5.17.0-dev
       
     </span>
   </a>
@@ -15371,7 +16261,7 @@
 <li><a href="#doctor-cache">Doctor Cache</a> - Token validation caching (v5.17.0+)</li>
 <li><a href="#commands-internal-api">Commands Internal API</a> - Command helper functions</li>
 <li><a href="#teaching-libraries">Teaching Libraries</a> - AI-powered teaching workflow (v5.16.0+)</li>
-<li><a href="#teaching-libraries">Teaching Libraries</a> - AI-powered teaching</li>
+<li><a href="#email-libraries">Email Libraries</a> - em dispatcher internals (v2.0)</li>
 <li><a href="../MASTER-DISPATCHER-GUIDE/">Dispatcher Guide</a> - Dispatcher functions (separate document)</li>
 <li><a href="#function-index">Function Index</a> - Alphabetical index</li>
 </ul>
@@ -19171,9 +20061,306 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <a id="__codelineno-336-8" name="__codelineno-336-8" href="#__codelineno-336-8"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
+<h2 id="email-libraries">Email Libraries<a class="headerlink" href="#email-libraries" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose:</strong> Internal helper functions for the <code>em</code> email dispatcher (v2.0)
+<strong>Audience:</strong> Developers and contributors extending the email dispatcher
+<strong>Files:</strong> <code>lib/email-helpers.zsh</code>, <code>lib/em-himalaya.zsh</code>, <code>lib/em-ai.zsh</code>, <code>lib/em-cache.zsh</code>, <code>lib/em-render.zsh</code>, <code>lib/em-ics.zsh</code>, <code>lib/em-watch.zsh</code></p>
+<h3 id="safety-gate">Safety Gate<a class="headerlink" href="#safety-gate" title="Permanent link">&para;</a></h3>
+<h4 id="_em_safety_gate"><code>_em_safety_gate</code><a class="headerlink" href="#_em_safety_gate" title="Permanent link">&para;</a></h4>
+<p>Two-phase send gate: shows a full email preview, then prompts <code>[y/N/e]</code>.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-337-1" name="__codelineno-337-1" href="#__codelineno-337-1"></a>_em_safety_gate<span class="w"> </span>&lt;draft_file&gt;<span class="w"> </span><span class="o">[</span>--force<span class="p">|</span>--yes<span class="o">]</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Path to the draft file (headers + body)
+- <code>--force</code> / <code>--yes</code> - Skip the gate and send immediately</p>
+<p><strong>Returns:</strong>
+- <code>0</code> - User confirmed send (<code>y</code>)
+- <code>1</code> - Error (missing draft file, invalid input)
+- <code>2</code> - User cancelled (Enter or <code>N</code>)</p>
+<p><strong>Behavior:</strong>
+- Displays headers (To, Subject) + truncated body preview
+- Prompts <code>[y/N/e]</code> in a loop
+- <code>e</code> re-opens the editor internally and re-displays preview (does not return to caller)
+- Used by both <code>em send</code> and <code>em reply</code> (breaking change in v2.0)</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-338-1" name="__codelineno-338-1" href="#__codelineno-338-1"></a>_em_safety_gate<span class="w"> </span>/tmp/draft.eml
+<a id="__codelineno-338-2" name="__codelineno-338-2" href="#__codelineno-338-2"></a><span class="c1"># Displays preview, waits for [y/N/e]</span>
+</code></pre></div>
+<hr />
+<h4 id="_em_compose_draft"><code>_em_compose_draft</code><a class="headerlink" href="#_em_compose_draft" title="Permanent link">&para;</a></h4>
+<p>Create a temp draft file from headers and body content.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-339-1" name="__codelineno-339-1" href="#__codelineno-339-1"></a>_em_compose_draft<span class="w"> </span>&lt;to&gt;<span class="w"> </span>&lt;subject&gt;<span class="w"> </span>&lt;body_file&gt;
+</code></pre></div>
+<p><strong>Returns:</strong>
+- stdout - Path to the created draft temp file</p>
+<p><strong>Behavior:</strong>
+- Uses <code>mktemp</code> for unpredictable temp file paths (security fix)
+- Caller is responsible for cleanup via <code>_em_draft_cleanup</code></p>
+<hr />
+<h4 id="_em_draft_cleanup"><code>_em_draft_cleanup</code><a class="headerlink" href="#_em_draft_cleanup" title="Permanent link">&para;</a></h4>
+<p>Remove a temp draft file securely.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-340-1" name="__codelineno-340-1" href="#__codelineno-340-1"></a>_em_draft_cleanup<span class="w"> </span>&lt;draft_file&gt;
+</code></pre></div>
+<p><strong>Behavior:</strong>
+- Removes draft temp file if it exists
+- Called in <code>EXIT</code> trap to prevent temp file leaks</p>
+<hr />
+<h3 id="folder-management">Folder Management<a class="headerlink" href="#folder-management" title="Permanent link">&para;</a></h3>
+<h4 id="_em_create_folder"><code>_em_create_folder</code><a class="headerlink" href="#_em_create_folder" title="Permanent link">&para;</a></h4>
+<p>Create a new IMAP mail folder via himalaya.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-341-1" name="__codelineno-341-1" href="#__codelineno-341-1"></a>_em_create_folder<span class="w"> </span>&lt;folder_name&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Folder name (validated via <code>_em_validate_folder_name</code> before use)</p>
+<p><strong>Returns:</strong>
+- <code>0</code> - Folder created successfully
+- <code>1</code> - Invalid folder name or himalaya error</p>
+<hr />
+<h4 id="_em_delete_folder"><code>_em_delete_folder</code><a class="headerlink" href="#_em_delete_folder" title="Permanent link">&para;</a></h4>
+<p>Delete an IMAP mail folder with type-to-confirm safety gate.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-342-1" name="__codelineno-342-1" href="#__codelineno-342-1"></a>_em_delete_folder<span class="w"> </span>&lt;folder_name&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Folder name (user must type it again to confirm)</p>
+<p><strong>Behavior:</strong>
+- Shows warning about permanent deletion
+- Prompts user to type the folder name in full
+- Only proceeds if input matches exactly
+- Validated via <code>_em_validate_folder_name</code></p>
+<hr />
+<h3 id="attachment-helpers">Attachment Helpers<a class="headerlink" href="#attachment-helpers" title="Permanent link">&para;</a></h3>
+<h4 id="_em_attach_list"><code>_em_attach_list</code><a class="headerlink" href="#_em_attach_list" title="Permanent link">&para;</a></h4>
+<p>List attachments for an email as a formatted table.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-343-1" name="__codelineno-343-1" href="#__codelineno-343-1"></a>_em_attach_list<span class="w"> </span>&lt;msg_id&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Email message ID (validated via <code>_em_validate_msg_id</code>)</p>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-344-1" name="__codelineno-344-1" href="#__codelineno-344-1"></a>#  Name              Type              Size
+<a id="__codelineno-344-2" name="__codelineno-344-2" href="#__codelineno-344-2"></a>─  ────────────────  ────────────────  ──────
+<a id="__codelineno-344-3" name="__codelineno-344-3" href="#__codelineno-344-3"></a>1  agenda.pdf        application/pdf   142 KB
+<a id="__codelineno-344-4" name="__codelineno-344-4" href="#__codelineno-344-4"></a>2  invite.ics        text/calendar     2 KB
+</code></pre></div>
+<hr />
+<h4 id="_em_attach_get"><code>_em_attach_get</code><a class="headerlink" href="#_em_attach_get" title="Permanent link">&para;</a></h4>
+<p>Download a specific named attachment from an email.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-345-1" name="__codelineno-345-1" href="#__codelineno-345-1"></a>_em_attach_get<span class="w"> </span>&lt;msg_id&gt;<span class="w"> </span>&lt;filename&gt;<span class="w"> </span><span class="o">[</span>output_dir<span class="o">]</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Email message ID
+- <code>$2</code> - Attachment filename (exact match)
+- <code>$3</code> - Output directory (default: <code>~/Downloads</code>)</p>
+<p><strong>Returns:</strong>
+- <code>0</code> - File downloaded successfully (prints save path)
+- <code>1</code> - Attachment not found or download error</p>
+<hr />
+<h3 id="calendar-integration">Calendar Integration<a class="headerlink" href="#calendar-integration" title="Permanent link">&para;</a></h3>
+<h4 id="em_calendar"><code>em_calendar</code><a class="headerlink" href="#em_calendar" title="Permanent link">&para;</a></h4>
+<p>Parse ICS calendar attachments from an email and optionally add to Apple Calendar.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-346-1" name="__codelineno-346-1" href="#__codelineno-346-1"></a>em_calendar<span class="w"> </span>&lt;msg_id&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Email message ID</p>
+<p><strong>Behavior:</strong>
+- Finds <code>text/calendar</code> or <code>.ics</code> attachment in the email
+- Calls <code>_em_ics_parse</code> to extract event fields
+- Displays formatted event card via <code>_em_ics_display_event</code>
+- Prompts to add to Apple Calendar.app (macOS only)</p>
+<hr />
+<h4 id="_em_ics_parse"><code>_em_ics_parse</code><a class="headerlink" href="#_em_ics_parse" title="Permanent link">&para;</a></h4>
+<p>Parse VEVENT blocks from an ICS file (pure ZSH, RFC 5545).</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-347-1" name="__codelineno-347-1" href="#__codelineno-347-1"></a>_em_ics_parse<span class="w"> </span>&lt;ics_file_path&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Path to <code>.ics</code> file on disk</p>
+<p><strong>Output (env vars set):</strong>
+- <code>_ICS_SUMMARY</code> - Event title
+- <code>_ICS_DTSTART</code> - Start datetime (raw ICAL format)
+- <code>_ICS_DTEND</code> - End datetime (raw ICAL format)
+- <code>_ICS_LOCATION</code> - Location string
+- <code>_ICS_ORGANIZER</code> - Organizer email/name</p>
+<hr />
+<h4 id="_em_ics_format_dt"><code>_em_ics_format_dt</code><a class="headerlink" href="#_em_ics_format_dt" title="Permanent link">&para;</a></h4>
+<p>Convert ICAL datetime string to human-readable format.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-348-1" name="__codelineno-348-1" href="#__codelineno-348-1"></a>_em_ics_format_dt<span class="w"> </span>&lt;ical_dt&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Raw ICAL datetime (e.g., <code>20260305T140000Z</code>)</p>
+<p><strong>Returns:</strong>
+- stdout - Formatted string (e.g., <code>Thursday, March 5, 2026 at 2:00 PM UTC</code>)</p>
+<hr />
+<h4 id="_em_ics_display_event"><code>_em_ics_display_event</code><a class="headerlink" href="#_em_ics_display_event" title="Permanent link">&para;</a></h4>
+<p>Print formatted event card to terminal.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-349-1" name="__codelineno-349-1" href="#__codelineno-349-1"></a>_em_ics_display_event
+</code></pre></div>
+<p><strong>Behavior:</strong>
+- Reads <code>_ICS_*</code> env vars set by <code>_em_ics_parse</code>
+- Prints a human-readable event summary with color formatting</p>
+<hr />
+<h4 id="_em_ics_create_event"><code>_em_ics_create_event</code><a class="headerlink" href="#_em_ics_create_event" title="Permanent link">&para;</a></h4>
+<p>Add an event to Apple Calendar.app via osascript (macOS only).</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-350-1" name="__codelineno-350-1" href="#__codelineno-350-1"></a>_em_ics_create_event<span class="w"> </span>&lt;summary&gt;<span class="w"> </span>&lt;start_dt&gt;<span class="w"> </span>&lt;end_dt&gt;<span class="w"> </span><span class="o">[</span>location<span class="o">]</span>
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Event summary/title
+- <code>$2</code> - Start datetime string
+- <code>$3</code> - End datetime string
+- <code>$4</code> - Location (optional)</p>
+<p><strong>Behavior:</strong>
+- Takes positional arguments (not env vars)
+- All string values passed as <code>on run argv</code> arguments to osascript (injection-safe)
+- Creates event in default calendar via <code>osascript</code></p>
+<hr />
+<h3 id="imap-watch">IMAP Watch<a class="headerlink" href="#imap-watch" title="Permanent link">&para;</a></h3>
+<h4 id="em_watch"><code>em_watch</code><a class="headerlink" href="#em_watch" title="Permanent link">&para;</a></h4>
+<p>IMAP IDLE background watcher dispatcher.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-351-1" name="__codelineno-351-1" href="#__codelineno-351-1"></a>em_watch<span class="w"> </span>&lt;subcommand&gt;
+</code></pre></div>
+<p><strong>Subcommands:</strong> <code>start</code>, <code>stop</code>, <code>status</code>, <code>log</code></p>
+<hr />
+<h4 id="_em_watch_start"><code>_em_watch_start</code><a class="headerlink" href="#_em_watch_start" title="Permanent link">&para;</a></h4>
+<p>Daemonize the IMAP IDLE watcher process.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-352-1" name="__codelineno-352-1" href="#__codelineno-352-1"></a>_em_watch_start
+</code></pre></div>
+<p><strong>Behavior:</strong>
+- Requires <code>terminal-notifier</code> for desktop notifications (optional but recommended)
+- Writes PID to <code>~/.local/share/flow/em-watch.pid</code>
+- Writes activity log to <code>~/.local/share/flow/em-watch.log</code>
+- Connects to <code>$FLOW_EMAIL_FOLDER</code> (default: INBOX) via himalaya IMAP IDLE
+- On new message: fires <code>terminal-notifier</code> with static title "New Email" and truncated subject</p>
+<hr />
+<h4 id="_em_watch_stop"><code>_em_watch_stop</code><a class="headerlink" href="#_em_watch_stop" title="Permanent link">&para;</a></h4>
+<p>Stop the background IMAP IDLE watcher.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-353-1" name="__codelineno-353-1" href="#__codelineno-353-1"></a>_em_watch_stop
+</code></pre></div>
+<p><strong>Behavior:</strong>
+- Reads PID from <code>~/.local/share/flow/em-watch.pid</code>
+- Sends <code>SIGTERM</code> to the watcher process
+- Removes PID file on success</p>
+<hr />
+<h4 id="_em_watch_status"><code>_em_watch_status</code><a class="headerlink" href="#_em_watch_status" title="Permanent link">&para;</a></h4>
+<p>Display watcher status (PID, uptime, last activity).</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-354-1" name="__codelineno-354-1" href="#__codelineno-354-1"></a>_em_watch_status
+</code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-355-1" name="__codelineno-355-1" href="#__codelineno-355-1"></a>em watch: running (PID 12345, uptime 2h 14m)
+<a id="__codelineno-355-2" name="__codelineno-355-2" href="#__codelineno-355-2"></a>  Folder: INBOX
+<a id="__codelineno-355-3" name="__codelineno-355-3" href="#__codelineno-355-3"></a>  Last activity: 14 minutes ago (3 new messages)
+<a id="__codelineno-355-4" name="__codelineno-355-4" href="#__codelineno-355-4"></a>  Notifications: terminal-notifier ✓
+</code></pre></div>
+<hr />
+<h3 id="version-detection">Version Detection<a class="headerlink" href="#version-detection" title="Permanent link">&para;</a></h3>
+<h4 id="_em_hml_version"><code>_em_hml_version</code><a class="headerlink" href="#_em_hml_version" title="Permanent link">&para;</a></h4>
+<p>Return the installed himalaya CLI version as a string.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-356-1" name="__codelineno-356-1" href="#__codelineno-356-1"></a>_em_hml_version
+</code></pre></div>
+<p><strong>Returns:</strong>
+- stdout - Version string (e.g., <code>1.0.0</code>) or empty string if not installed</p>
+<p><strong>Behavior:</strong>
+- Parses <code>himalaya --version</code> output
+- Result is cached for the session to avoid repeated subprocess calls</p>
+<hr />
+<h4 id="_em_hml_version_gte"><code>_em_hml_version_gte</code><a class="headerlink" href="#_em_hml_version_gte" title="Permanent link">&para;</a></h4>
+<p>Check if installed himalaya version is &gt;= a required version.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-357-1" name="__codelineno-357-1" href="#__codelineno-357-1"></a>_em_hml_version_gte<span class="w"> </span>&lt;min_version&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Minimum version string (e.g., <code>1.0</code>)</p>
+<p><strong>Returns:</strong>
+- <code>0</code> - Installed version &gt;= min_version
+- <code>1</code> - Installed version &lt; min_version (or not installed)</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-358-1" name="__codelineno-358-1" href="#__codelineno-358-1"></a><span class="k">if</span><span class="w"> </span>_em_hml_version_gte<span class="w"> </span><span class="m">1</span>.0<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-358-2" name="__codelineno-358-2" href="#__codelineno-358-2"></a><span class="w">  </span><span class="c1"># Use himalaya 1.x feature</span>
+<a id="__codelineno-358-3" name="__codelineno-358-3" href="#__codelineno-358-3"></a><span class="k">fi</span>
+</code></pre></div>
+<hr />
+<h4 id="_em_require_version"><code>_em_require_version</code><a class="headerlink" href="#_em_require_version" title="Permanent link">&para;</a></h4>
+<p>Exit with an error if himalaya does not meet the minimum version.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-359-1" name="__codelineno-359-1" href="#__codelineno-359-1"></a>_em_require_version<span class="w"> </span>&lt;min_version&gt;<span class="w"> </span>&lt;feature_name&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Minimum version string
+- <code>$2</code> - Human-readable feature name (for error message)</p>
+<hr />
+<h3 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h3>
+<h4 id="_em_validate_msg_id"><code>_em_validate_msg_id</code><a class="headerlink" href="#_em_validate_msg_id" title="Permanent link">&para;</a></h4>
+<p>Validate an email message ID before passing to himalaya.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-360-1" name="__codelineno-360-1" href="#__codelineno-360-1"></a>_em_validate_msg_id<span class="w"> </span>&lt;id&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Message ID string</p>
+<p><strong>Returns:</strong>
+- <code>0</code> - Valid (numeric or UID format)
+- <code>1</code> - Invalid — prints error and aborts caller</p>
+<p><strong>Behavior:</strong>
+- Accepts only digits (and optional folder-prefixed UIDs)
+- Rejects IDs containing shell metacharacters, path traversal, or whitespace</p>
+<hr />
+<h4 id="_em_validate_folder_name"><code>_em_validate_folder_name</code><a class="headerlink" href="#_em_validate_folder_name" title="Permanent link">&para;</a></h4>
+<p>Validate and sanitize an IMAP folder name.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-361-1" name="__codelineno-361-1" href="#__codelineno-361-1"></a>_em_validate_folder_name<span class="w"> </span>&lt;name&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Folder name string</p>
+<p><strong>Returns:</strong>
+- <code>0</code> - Valid
+- <code>1</code> - Invalid — prints error describing the rejected character</p>
+<p><strong>Behavior:</strong>
+- Rejects names containing: <code>\</code>, <code>"</code>, <code>%</code>, <code>*</code> (IMAP-unsafe characters)
+- Rejects empty strings and names longer than 255 characters
+- Does not mutate the input; caller uses original string after validation passes</p>
+<hr />
+<h3 id="config-loading">Config Loading<a class="headerlink" href="#config-loading" title="Permanent link">&para;</a></h3>
+<h4 id="_em_load_config"><code>_em_load_config</code><a class="headerlink" href="#_em_load_config" title="Permanent link">&para;</a></h4>
+<p>Load email configuration from <code>.flow/email.conf</code> or <code>$FLOW_CONFIG_DIR/email.conf</code>.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-362-1" name="__codelineno-362-1" href="#__codelineno-362-1"></a>_em_load_config
+</code></pre></div>
+<p><strong>Behavior (v2.0 security fix):</strong>
+- Parses key=value pairs with a safe line-by-line reader
+- Does <strong>not</strong> <code>source</code> the config file (prevents arbitrary code execution)
+- Skips comment lines (<code>#</code>) and blank lines
+- Only sets known <code>FLOW_EMAIL_*</code> variables; unknown keys are silently ignored</p>
+<hr />
+<h4 id="_em_ai_validate_extra_args"><code>_em_ai_validate_extra_args</code><a class="headerlink" href="#_em_ai_validate_extra_args" title="Permanent link">&para;</a></h4>
+<p>Validate AI backend extra arguments against a known-safe allowlist.</p>
+<p><strong>Signature:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-363-1" name="__codelineno-363-1" href="#__codelineno-363-1"></a>_em_ai_validate_extra_args<span class="w"> </span>&lt;args_string&gt;
+</code></pre></div>
+<p><strong>Parameters:</strong>
+- <code>$1</code> - Space-separated argument string from <code>FLOW_EMAIL_GEMINI_EXTRA_ARGS</code></p>
+<p><strong>Returns:</strong>
+- <code>0</code> - All args valid
+- <code>1</code> - Rejected arg found (prints error)</p>
+<p><strong>Behavior:</strong>
+- Compares each token against an allowlist of known safe flags (e.g., <code>-e none</code>, <code>--model</code>)
+- Prevents injection of arbitrary shell commands through config file</p>
+<hr />
 <h2 id="function-index">Function Index<a class="headerlink" href="#function-index" title="Permanent link">&para;</a></h2>
 <p><strong>Auto-generated alphabetical index will appear here after running:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-337-1" name="__codelineno-337-1" href="#__codelineno-337-1"></a>./scripts/generate-api-docs.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-364-1" name="__codelineno-364-1" href="#__codelineno-364-1"></a>./scripts/generate-api-docs.sh
 </code></pre></div>
 <h3 id="a">A<a class="headerlink" href="#a" title="Permanent link">&para;</a></h3>
 <ul>
@@ -19211,7 +20398,39 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <p><strong>[Will be auto-generated by scripts/generate-api-docs.sh]</strong></p>
 <hr />
 <h2 id="change-log">Change Log<a class="headerlink" href="#change-log" title="Permanent link">&para;</a></h2>
-<h3 id="v5170-dev-current">v5.17.0-dev (Current)<a class="headerlink" href="#v5170-dev-current" title="Permanent link">&para;</a></h3>
+<h3 id="em-v20-current-flow-cli-v742">em v2.0 (Current — flow-cli v7.4.2+)<a class="headerlink" href="#em-v20-current-flow-cli-v742" title="Permanent link">&para;</a></h3>
+<p><strong>Added:</strong>
+- <code>_em_safety_gate</code> - Two-phase preview + <code>[y/N/e]</code> gate for all outgoing email
+- <code>_em_compose_draft</code> - Create draft temp file with <code>mktemp</code> (secure)
+- <code>_em_draft_cleanup</code> - Remove draft temp file on EXIT
+- <code>_em_create_folder</code> - Create IMAP folder via himalaya
+- <code>_em_delete_folder</code> - Delete IMAP folder with type-to-confirm
+- <code>_em_attach_list</code> - Show attachment table (name, MIME, size)
+- <code>_em_attach_get</code> - Download specific named attachment
+- <code>em_calendar</code> - Parse ICS attachment from email
+- <code>_em_ics_parse</code> - Extract VEVENT fields from ICS content
+- <code>_em_ics_format_dt</code> - Convert ICAL datetime to human-readable format
+- <code>_em_ics_display_event</code> - Print formatted event card
+- <code>_em_ics_create_event</code> - Add event to Apple Calendar via osascript (injection-safe)
+- <code>em_watch</code> - IMAP IDLE dispatcher (start/stop/status/log)
+- <code>_em_watch_start</code> - Daemonize IMAP IDLE watcher with desktop notifications
+- <code>_em_watch_stop</code> - Stop background watcher (SIGTERM + PID file cleanup)
+- <code>_em_watch_status</code> - Show watcher PID, uptime, last activity
+- <code>_em_hml_version</code> - Return installed himalaya version string
+- <code>_em_hml_version_gte</code> - Check version constraint (&gt;= min_version)
+- <code>_em_require_version</code> - Abort with error if version constraint not met
+- <code>_em_validate_msg_id</code> - Validate message ID (reject metacharacters)
+- <code>_em_validate_folder_name</code> - Validate/sanitize IMAP folder name</p>
+<p><strong>Changed:</strong>
+- <code>_em_load_config</code> - Now uses safe key-value parser instead of <code>source</code> (security fix)
+- <code>_em_ai_validate_extra_args</code> - New allowlist validation for AI extra args (injection fix)
+- <code>em send</code> / <code>em reply</code> - Now route through <code>_em_safety_gate</code> (breaking: preview always shown)
+- Temp files throughout - replaced predictable paths with <code>mktemp</code>
+- <code>terminal-notifier</code> calls - subject truncated, title is static (injection-safe)
+- jq string interpolation - replaced with <code>--argjson</code> / <code>--arg</code> throughout</p>
+<p><strong>Breaking:</strong>
+- <code>em send</code> and <code>em reply</code> show full preview before <code>[y/N/e]</code> prompt. Use <code>--force</code> to skip.</p>
+<h3 id="v5170-dev">v5.17.0-dev<a class="headerlink" href="#v5170-dev" title="Permanent link">&para;</a></h3>
 <p><strong>Added:</strong>
 - Token cache management (5-min TTL)
 - <code>_flow_token_cache_get</code> - Get cached token status
@@ -19248,38 +20467,38 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <ol>
 <li><strong>Write function with documentation:</strong></li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-338-1" name="__codelineno-338-1" href="#__codelineno-338-1"></a><span class="c1"># Description: What the function does</span>
-<a id="__codelineno-338-2" name="__codelineno-338-2" href="#__codelineno-338-2"></a><span class="c1"># Parameters:</span>
-<a id="__codelineno-338-3" name="__codelineno-338-3" href="#__codelineno-338-3"></a><span class="c1">#   $1 - First parameter description</span>
-<a id="__codelineno-338-4" name="__codelineno-338-4" href="#__codelineno-338-4"></a><span class="c1">#   $2 - Second parameter (optional)</span>
-<a id="__codelineno-338-5" name="__codelineno-338-5" href="#__codelineno-338-5"></a><span class="c1"># Returns:</span>
-<a id="__codelineno-338-6" name="__codelineno-338-6" href="#__codelineno-338-6"></a><span class="c1">#   0 - Success</span>
-<a id="__codelineno-338-7" name="__codelineno-338-7" href="#__codelineno-338-7"></a><span class="c1">#   1 - Error condition</span>
-<a id="__codelineno-338-8" name="__codelineno-338-8" href="#__codelineno-338-8"></a><span class="c1"># Example:</span>
-<a id="__codelineno-338-9" name="__codelineno-338-9" href="#__codelineno-338-9"></a><span class="c1">#   my_function &quot;arg1&quot; &quot;arg2&quot;</span>
-<a id="__codelineno-338-10" name="__codelineno-338-10" href="#__codelineno-338-10"></a><span class="k">function</span><span class="w"> </span>my_function<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-338-11" name="__codelineno-338-11" href="#__codelineno-338-11"></a><span class="w">    </span><span class="c1"># Implementation</span>
-<a id="__codelineno-338-12" name="__codelineno-338-12" href="#__codelineno-338-12"></a><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-365-1" name="__codelineno-365-1" href="#__codelineno-365-1"></a><span class="c1"># Description: What the function does</span>
+<a id="__codelineno-365-2" name="__codelineno-365-2" href="#__codelineno-365-2"></a><span class="c1"># Parameters:</span>
+<a id="__codelineno-365-3" name="__codelineno-365-3" href="#__codelineno-365-3"></a><span class="c1">#   $1 - First parameter description</span>
+<a id="__codelineno-365-4" name="__codelineno-365-4" href="#__codelineno-365-4"></a><span class="c1">#   $2 - Second parameter (optional)</span>
+<a id="__codelineno-365-5" name="__codelineno-365-5" href="#__codelineno-365-5"></a><span class="c1"># Returns:</span>
+<a id="__codelineno-365-6" name="__codelineno-365-6" href="#__codelineno-365-6"></a><span class="c1">#   0 - Success</span>
+<a id="__codelineno-365-7" name="__codelineno-365-7" href="#__codelineno-365-7"></a><span class="c1">#   1 - Error condition</span>
+<a id="__codelineno-365-8" name="__codelineno-365-8" href="#__codelineno-365-8"></a><span class="c1"># Example:</span>
+<a id="__codelineno-365-9" name="__codelineno-365-9" href="#__codelineno-365-9"></a><span class="c1">#   my_function &quot;arg1&quot; &quot;arg2&quot;</span>
+<a id="__codelineno-365-10" name="__codelineno-365-10" href="#__codelineno-365-10"></a><span class="k">function</span><span class="w"> </span>my_function<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-365-11" name="__codelineno-365-11" href="#__codelineno-365-11"></a><span class="w">    </span><span class="c1"># Implementation</span>
+<a id="__codelineno-365-12" name="__codelineno-365-12" href="#__codelineno-365-12"></a><span class="o">}</span>
 </code></pre></div>
 <ol>
 <li><strong>Run documentation generator:</strong></li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-339-1" name="__codelineno-339-1" href="#__codelineno-339-1"></a>./scripts/generate-api-docs.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-366-1" name="__codelineno-366-1" href="#__codelineno-366-1"></a>./scripts/generate-api-docs.sh
 </code></pre></div>
 <ol>
 <li><strong>Test function:</strong></li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-340-1" name="__codelineno-340-1" href="#__codelineno-340-1"></a><span class="nb">source</span><span class="w"> </span>lib/my-library.zsh
-<a id="__codelineno-340-2" name="__codelineno-340-2" href="#__codelineno-340-2"></a>my_function<span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="w"> </span><span class="s2">&quot;args&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-367-1" name="__codelineno-367-1" href="#__codelineno-367-1"></a><span class="nb">source</span><span class="w"> </span>lib/my-library.zsh
+<a id="__codelineno-367-2" name="__codelineno-367-2" href="#__codelineno-367-2"></a>my_function<span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="w"> </span><span class="s2">&quot;args&quot;</span>
 </code></pre></div>
 <ol>
 <li><strong>Commit with API docs:</strong></li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-341-1" name="__codelineno-341-1" href="#__codelineno-341-1"></a>git<span class="w"> </span>add<span class="w"> </span>lib/my-library.zsh<span class="w"> </span>docs/reference/MASTER-API-REFERENCE.md
-<a id="__codelineno-341-2" name="__codelineno-341-2" href="#__codelineno-341-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add my_function</span>
-<a id="__codelineno-341-3" name="__codelineno-341-3" href="#__codelineno-341-3"></a>
-<a id="__codelineno-341-4" name="__codelineno-341-4" href="#__codelineno-341-4"></a><span class="s2">- Description of function</span>
-<a id="__codelineno-341-5" name="__codelineno-341-5" href="#__codelineno-341-5"></a><span class="s2">- Updates API reference&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-368-1" name="__codelineno-368-1" href="#__codelineno-368-1"></a>git<span class="w"> </span>add<span class="w"> </span>lib/my-library.zsh<span class="w"> </span>docs/reference/MASTER-API-REFERENCE.md
+<a id="__codelineno-368-2" name="__codelineno-368-2" href="#__codelineno-368-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add my_function</span>
+<a id="__codelineno-368-3" name="__codelineno-368-3" href="#__codelineno-368-3"></a>
+<a id="__codelineno-368-4" name="__codelineno-368-4" href="#__codelineno-368-4"></a><span class="s2">- Description of function</span>
+<a id="__codelineno-368-5" name="__codelineno-368-5" href="#__codelineno-368-5"></a><span class="s2">- Updates API reference&quot;</span>
 </code></pre></div>
 <hr />
 <h3 id="documentation-standards">Documentation Standards<a class="headerlink" href="#documentation-standards" title="Permanent link">&para;</a></h3>
@@ -19306,7 +20525,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_doctor_log_quiet"><code>_doctor_log_quiet</code><a class="headerlink" href="#_doctor_log_quiet" title="Permanent link">&para;</a></h4>
 <p>Log message unless in quiet mode.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-342-1" name="__codelineno-342-1" href="#__codelineno-342-1"></a>_doctor_log_quiet<span class="w"> </span>&lt;message&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-369-1" name="__codelineno-369-1" href="#__codelineno-369-1"></a>_doctor_log_quiet<span class="w"> </span>&lt;message&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$@</code> - Message to log</p>
@@ -19314,13 +20533,13 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Logs message in normal and verbose modes
 - Suppresses output in quiet mode (<code>--quiet</code> flag)</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-343-1" name="__codelineno-343-1" href="#__codelineno-343-1"></a>_doctor_log_quiet<span class="w"> </span><span class="s2">&quot;Checking GitHub token...&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-370-1" name="__codelineno-370-1" href="#__codelineno-370-1"></a>_doctor_log_quiet<span class="w"> </span><span class="s2">&quot;Checking GitHub token...&quot;</span>
 </code></pre></div>
 <hr />
 <h4 id="_doctor_log_verbose"><code>_doctor_log_verbose</code><a class="headerlink" href="#_doctor_log_verbose" title="Permanent link">&para;</a></h4>
 <p>Log message only in verbose mode.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-344-1" name="__codelineno-344-1" href="#__codelineno-344-1"></a>_doctor_log_verbose<span class="w"> </span>&lt;message&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-371-1" name="__codelineno-371-1" href="#__codelineno-371-1"></a>_doctor_log_verbose<span class="w"> </span>&lt;message&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$@</code> - Message to log</p>
@@ -19328,13 +20547,13 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Logs message only when <code>--verbose</code> flag is used
 - Silent in normal and quiet modes</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-345-1" name="__codelineno-345-1" href="#__codelineno-345-1"></a>_doctor_log_verbose<span class="w"> </span><span class="s2">&quot;Cache hit for token-github (expires in 240s)&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-372-1" name="__codelineno-372-1" href="#__codelineno-372-1"></a>_doctor_log_verbose<span class="w"> </span><span class="s2">&quot;Cache hit for token-github (expires in 240s)&quot;</span>
 </code></pre></div>
 <hr />
 <h4 id="_doctor_log_always"><code>_doctor_log_always</code><a class="headerlink" href="#_doctor_log_always" title="Permanent link">&para;</a></h4>
 <p>Log message regardless of verbosity level.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-346-1" name="__codelineno-346-1" href="#__codelineno-346-1"></a>_doctor_log_always<span class="w"> </span>&lt;message&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-373-1" name="__codelineno-373-1" href="#__codelineno-373-1"></a>_doctor_log_always<span class="w"> </span>&lt;message&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$@</code> - Message to log</p>
@@ -19342,13 +20561,13 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Always logs message (quiet, normal, verbose)
 - Used for critical messages and errors</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-347-1" name="__codelineno-347-1" href="#__codelineno-347-1"></a>_doctor_log_always<span class="w"> </span><span class="s2">&quot;Error: Invalid token&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-374-1" name="__codelineno-374-1" href="#__codelineno-374-1"></a>_doctor_log_always<span class="w"> </span><span class="s2">&quot;Error: Invalid token&quot;</span>
 </code></pre></div>
 <hr />
 <h4 id="_doctor_select_fix_category"><code>_doctor_select_fix_category</code><a class="headerlink" href="#_doctor_select_fix_category" title="Permanent link">&para;</a></h4>
 <p>Show ADHD-friendly menu for selecting which category to fix.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-348-1" name="__codelineno-348-1" href="#__codelineno-348-1"></a>_doctor_select_fix_category<span class="w"> </span><span class="o">[</span>token_only<span class="o">]</span><span class="w"> </span><span class="o">[</span>auto_yes<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-375-1" name="__codelineno-375-1" href="#__codelineno-375-1"></a>_doctor_select_fix_category<span class="w"> </span><span class="o">[</span>token_only<span class="o">]</span><span class="w"> </span><span class="o">[</span>auto_yes<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (optional) Token-only mode (true/false) [default: false]
@@ -19365,29 +20584,29 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Auto-yes mode for CI/CD
 - Exit option (0)</p>
 <p><strong>Example Menu:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-349-1" name="__codelineno-349-1" href="#__codelineno-349-1"></a>╭─ Select Category to Fix ────────────────────────╮
-<a id="__codelineno-349-2" name="__codelineno-349-2" href="#__codelineno-349-2"></a>│                                                  │
-<a id="__codelineno-349-3" name="__codelineno-349-3" href="#__codelineno-349-3"></a>│  1. 🔑 GitHub Token (1 issue, ~30s)             │
-<a id="__codelineno-349-4" name="__codelineno-349-4" href="#__codelineno-349-4"></a>│  2. 📦 Missing Tools (3 tools, ~1m 30s)         │
-<a id="__codelineno-349-5" name="__codelineno-349-5" href="#__codelineno-349-5"></a>│  3. ⚡ Aliases (2 issues, ~10s)                 │
-<a id="__codelineno-349-6" name="__codelineno-349-6" href="#__codelineno-349-6"></a>│                                                  │
-<a id="__codelineno-349-7" name="__codelineno-349-7" href="#__codelineno-349-7"></a>│  4. ✨ Fix All Categories (~2m 10s)             │
-<a id="__codelineno-349-8" name="__codelineno-349-8" href="#__codelineno-349-8"></a>│                                                  │
-<a id="__codelineno-349-9" name="__codelineno-349-9" href="#__codelineno-349-9"></a>│  0. Exit without fixing                          │
-<a id="__codelineno-349-10" name="__codelineno-349-10" href="#__codelineno-349-10"></a>│                                                  │
-<a id="__codelineno-349-11" name="__codelineno-349-11" href="#__codelineno-349-11"></a>╰──────────────────────────────────────────────────╯
+<div class="highlight"><pre><span></span><code><a id="__codelineno-376-1" name="__codelineno-376-1" href="#__codelineno-376-1"></a>╭─ Select Category to Fix ────────────────────────╮
+<a id="__codelineno-376-2" name="__codelineno-376-2" href="#__codelineno-376-2"></a>│                                                  │
+<a id="__codelineno-376-3" name="__codelineno-376-3" href="#__codelineno-376-3"></a>│  1. 🔑 GitHub Token (1 issue, ~30s)             │
+<a id="__codelineno-376-4" name="__codelineno-376-4" href="#__codelineno-376-4"></a>│  2. 📦 Missing Tools (3 tools, ~1m 30s)         │
+<a id="__codelineno-376-5" name="__codelineno-376-5" href="#__codelineno-376-5"></a>│  3. ⚡ Aliases (2 issues, ~10s)                 │
+<a id="__codelineno-376-6" name="__codelineno-376-6" href="#__codelineno-376-6"></a>│                                                  │
+<a id="__codelineno-376-7" name="__codelineno-376-7" href="#__codelineno-376-7"></a>│  4. ✨ Fix All Categories (~2m 10s)             │
+<a id="__codelineno-376-8" name="__codelineno-376-8" href="#__codelineno-376-8"></a>│                                                  │
+<a id="__codelineno-376-9" name="__codelineno-376-9" href="#__codelineno-376-9"></a>│  0. Exit without fixing                          │
+<a id="__codelineno-376-10" name="__codelineno-376-10" href="#__codelineno-376-10"></a>│                                                  │
+<a id="__codelineno-376-11" name="__codelineno-376-11" href="#__codelineno-376-11"></a>╰──────────────────────────────────────────────────╯
 </code></pre></div>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-350-1" name="__codelineno-350-1" href="#__codelineno-350-1"></a><span class="nv">selected</span><span class="o">=</span><span class="k">$(</span>_doctor_select_fix_category<span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="nb">false</span><span class="k">)</span>
-<a id="__codelineno-350-2" name="__codelineno-350-2" href="#__codelineno-350-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-350-3" name="__codelineno-350-3" href="#__codelineno-350-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;User selected: </span><span class="nv">$selected</span><span class="s2">&quot;</span>
-<a id="__codelineno-350-4" name="__codelineno-350-4" href="#__codelineno-350-4"></a><span class="k">fi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-377-1" name="__codelineno-377-1" href="#__codelineno-377-1"></a><span class="nv">selected</span><span class="o">=</span><span class="k">$(</span>_doctor_select_fix_category<span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="nb">false</span><span class="k">)</span>
+<a id="__codelineno-377-2" name="__codelineno-377-2" href="#__codelineno-377-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-377-3" name="__codelineno-377-3" href="#__codelineno-377-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;User selected: </span><span class="nv">$selected</span><span class="s2">&quot;</span>
+<a id="__codelineno-377-4" name="__codelineno-377-4" href="#__codelineno-377-4"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h4 id="_doctor_count_categories"><code>_doctor_count_categories</code><a class="headerlink" href="#_doctor_count_categories" title="Permanent link">&para;</a></h4>
 <p>Count total number of categories with issues.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-351-1" name="__codelineno-351-1" href="#__codelineno-351-1"></a>_doctor_count_categories
+<div class="highlight"><pre><span></span><code><a id="__codelineno-378-1" name="__codelineno-378-1" href="#__codelineno-378-1"></a>_doctor_count_categories
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - None</p>
@@ -19398,16 +20617,16 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Tools (Homebrew, npm, pip packages)
 - Aliases (Shell aliases)</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-352-1" name="__codelineno-352-1" href="#__codelineno-352-1"></a><span class="nv">count</span><span class="o">=</span><span class="k">$(</span>_doctor_count_categories<span class="k">)</span>
-<a id="__codelineno-352-2" name="__codelineno-352-2" href="#__codelineno-352-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$count</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-352-3" name="__codelineno-352-3" href="#__codelineno-352-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;No issues found&quot;</span>
-<a id="__codelineno-352-4" name="__codelineno-352-4" href="#__codelineno-352-4"></a><span class="k">fi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-379-1" name="__codelineno-379-1" href="#__codelineno-379-1"></a><span class="nv">count</span><span class="o">=</span><span class="k">$(</span>_doctor_count_categories<span class="k">)</span>
+<a id="__codelineno-379-2" name="__codelineno-379-2" href="#__codelineno-379-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$count</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-379-3" name="__codelineno-379-3" href="#__codelineno-379-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;No issues found&quot;</span>
+<a id="__codelineno-379-4" name="__codelineno-379-4" href="#__codelineno-379-4"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h4 id="_doctor_apply_fixes"><code>_doctor_apply_fixes</code><a class="headerlink" href="#_doctor_apply_fixes" title="Permanent link">&para;</a></h4>
 <p>Apply fixes for selected category.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-353-1" name="__codelineno-353-1" href="#__codelineno-353-1"></a>_doctor_apply_fixes<span class="w"> </span>&lt;category&gt;<span class="w"> </span><span class="o">[</span>auto_yes<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-380-1" name="__codelineno-380-1" href="#__codelineno-380-1"></a>_doctor_apply_fixes<span class="w"> </span>&lt;category&gt;<span class="w"> </span><span class="o">[</span>auto_yes<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Category to fix ("tokens", "tools", "aliases", "all")
@@ -19418,14 +20637,14 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Aliases: Shows message (not yet implemented)
 - All: Applies fixes to all categories sequentially</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-354-1" name="__codelineno-354-1" href="#__codelineno-354-1"></a>_doctor_apply_fixes<span class="w"> </span><span class="s2">&quot;tokens&quot;</span>
-<a id="__codelineno-354-2" name="__codelineno-354-2" href="#__codelineno-354-2"></a>_doctor_apply_fixes<span class="w"> </span><span class="s2">&quot;all&quot;</span><span class="w"> </span><span class="nb">true</span><span class="w">  </span><span class="c1"># Auto-yes mode</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-381-1" name="__codelineno-381-1" href="#__codelineno-381-1"></a>_doctor_apply_fixes<span class="w"> </span><span class="s2">&quot;tokens&quot;</span>
+<a id="__codelineno-381-2" name="__codelineno-381-2" href="#__codelineno-381-2"></a>_doctor_apply_fixes<span class="w"> </span><span class="s2">&quot;all&quot;</span><span class="w"> </span><span class="nb">true</span><span class="w">  </span><span class="c1"># Auto-yes mode</span>
 </code></pre></div>
 <hr />
 <h4 id="_doctor_fix_tokens"><code>_doctor_fix_tokens</code><a class="headerlink" href="#_doctor_fix_tokens" title="Permanent link">&para;</a></h4>
 <p>Fix token-related issues (missing, invalid, expiring).</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-355-1" name="__codelineno-355-1" href="#__codelineno-355-1"></a>_doctor_fix_tokens
+<div class="highlight"><pre><span></span><code><a id="__codelineno-382-1" name="__codelineno-382-1" href="#__codelineno-382-1"></a>_doctor_fix_tokens
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - None (uses global <code>_doctor_token_issues</code> array)</p>
@@ -19438,8 +20657,8 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - May prompt for GitHub authentication
 - Updates keychain secrets</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-356-1" name="__codelineno-356-1" href="#__codelineno-356-1"></a><span class="c1"># Called internally by doctor --fix or doctor --fix-token</span>
-<a id="__codelineno-356-2" name="__codelineno-356-2" href="#__codelineno-356-2"></a>_doctor_fix_tokens
+<div class="highlight"><pre><span></span><code><a id="__codelineno-383-1" name="__codelineno-383-1" href="#__codelineno-383-1"></a><span class="c1"># Called internally by doctor --fix or doctor --fix-token</span>
+<a id="__codelineno-383-2" name="__codelineno-383-2" href="#__codelineno-383-2"></a>_doctor_fix_tokens
 </code></pre></div>
 <hr />
 <h3 id="work-command-helpers">work Command Helpers<a class="headerlink" href="#work-command-helpers" title="Permanent link">&para;</a></h3>
@@ -19448,7 +20667,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_work_project_uses_github"><code>_work_project_uses_github</code><a class="headerlink" href="#_work_project_uses_github" title="Permanent link">&para;</a></h4>
 <p>Check if project uses GitHub as remote.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-357-1" name="__codelineno-357-1" href="#__codelineno-357-1"></a>_work_project_uses_github<span class="w"> </span>&lt;project_path&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-384-1" name="__codelineno-384-1" href="#__codelineno-384-1"></a>_work_project_uses_github<span class="w"> </span>&lt;project_path&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Path to project directory</p>
@@ -19456,15 +20675,15 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - 0 - Project uses GitHub remote
 - 1 - No GitHub remote found</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-358-1" name="__codelineno-358-1" href="#__codelineno-358-1"></a><span class="k">if</span><span class="w"> </span>_work_project_uses_github<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/projects/my-repo&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-358-2" name="__codelineno-358-2" href="#__codelineno-358-2"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Project uses GitHub&quot;</span>
-<a id="__codelineno-358-3" name="__codelineno-358-3" href="#__codelineno-358-3"></a><span class="k">fi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-385-1" name="__codelineno-385-1" href="#__codelineno-385-1"></a><span class="k">if</span><span class="w"> </span>_work_project_uses_github<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/projects/my-repo&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-385-2" name="__codelineno-385-2" href="#__codelineno-385-2"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Project uses GitHub&quot;</span>
+<a id="__codelineno-385-3" name="__codelineno-385-3" href="#__codelineno-385-3"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h4 id="_work_get_token_status"><code>_work_get_token_status</code><a class="headerlink" href="#_work_get_token_status" title="Permanent link">&para;</a></h4>
 <p>Get GitHub token status for work session.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-359-1" name="__codelineno-359-1" href="#__codelineno-359-1"></a>_work_get_token_status
+<div class="highlight"><pre><span></span><code><a id="__codelineno-386-1" name="__codelineno-386-1" href="#__codelineno-386-1"></a>_work_get_token_status
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - None (uses keychain token)</p>
@@ -19476,27 +20695,27 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - <code>"expiring in N days"</code> - Token valid but expires soon (&lt; 7 days)
 - <code>"ok"</code> - Token valid with sufficient time remaining</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-360-1" name="__codelineno-360-1" href="#__codelineno-360-1"></a><span class="nv">status</span><span class="o">=</span><span class="k">$(</span>_work_get_token_status<span class="k">)</span>
-<a id="__codelineno-360-2" name="__codelineno-360-2" href="#__codelineno-360-2"></a><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$status</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
-<a id="__codelineno-360-3" name="__codelineno-360-3" href="#__codelineno-360-3"></a><span class="w">    </span><span class="s2">&quot;not configured&quot;</span><span class="o">)</span>
-<a id="__codelineno-360-4" name="__codelineno-360-4" href="#__codelineno-360-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Set up GitHub token: tok github&quot;</span>
-<a id="__codelineno-360-5" name="__codelineno-360-5" href="#__codelineno-360-5"></a><span class="w">        </span><span class="p">;;</span>
-<a id="__codelineno-360-6" name="__codelineno-360-6" href="#__codelineno-360-6"></a><span class="w">    </span><span class="s2">&quot;expired/invalid&quot;</span><span class="o">)</span>
-<a id="__codelineno-360-7" name="__codelineno-360-7" href="#__codelineno-360-7"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Token expired, rotate: tok rotate&quot;</span>
-<a id="__codelineno-360-8" name="__codelineno-360-8" href="#__codelineno-360-8"></a><span class="w">        </span><span class="p">;;</span>
-<a id="__codelineno-360-9" name="__codelineno-360-9" href="#__codelineno-360-9"></a><span class="w">    </span><span class="s2">&quot;expiring in &quot;</span>*<span class="o">)</span>
-<a id="__codelineno-360-10" name="__codelineno-360-10" href="#__codelineno-360-10"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  </span><span class="nv">$status</span><span class="s2">&quot;</span>
-<a id="__codelineno-360-11" name="__codelineno-360-11" href="#__codelineno-360-11"></a><span class="w">        </span><span class="p">;;</span>
-<a id="__codelineno-360-12" name="__codelineno-360-12" href="#__codelineno-360-12"></a><span class="w">    </span><span class="s2">&quot;ok&quot;</span><span class="o">)</span>
-<a id="__codelineno-360-13" name="__codelineno-360-13" href="#__codelineno-360-13"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ GitHub token valid&quot;</span>
-<a id="__codelineno-360-14" name="__codelineno-360-14" href="#__codelineno-360-14"></a><span class="w">        </span><span class="p">;;</span>
-<a id="__codelineno-360-15" name="__codelineno-360-15" href="#__codelineno-360-15"></a><span class="k">esac</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-387-1" name="__codelineno-387-1" href="#__codelineno-387-1"></a><span class="nv">status</span><span class="o">=</span><span class="k">$(</span>_work_get_token_status<span class="k">)</span>
+<a id="__codelineno-387-2" name="__codelineno-387-2" href="#__codelineno-387-2"></a><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$status</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-387-3" name="__codelineno-387-3" href="#__codelineno-387-3"></a><span class="w">    </span><span class="s2">&quot;not configured&quot;</span><span class="o">)</span>
+<a id="__codelineno-387-4" name="__codelineno-387-4" href="#__codelineno-387-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Set up GitHub token: tok github&quot;</span>
+<a id="__codelineno-387-5" name="__codelineno-387-5" href="#__codelineno-387-5"></a><span class="w">        </span><span class="p">;;</span>
+<a id="__codelineno-387-6" name="__codelineno-387-6" href="#__codelineno-387-6"></a><span class="w">    </span><span class="s2">&quot;expired/invalid&quot;</span><span class="o">)</span>
+<a id="__codelineno-387-7" name="__codelineno-387-7" href="#__codelineno-387-7"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  Token expired, rotate: tok rotate&quot;</span>
+<a id="__codelineno-387-8" name="__codelineno-387-8" href="#__codelineno-387-8"></a><span class="w">        </span><span class="p">;;</span>
+<a id="__codelineno-387-9" name="__codelineno-387-9" href="#__codelineno-387-9"></a><span class="w">    </span><span class="s2">&quot;expiring in &quot;</span>*<span class="o">)</span>
+<a id="__codelineno-387-10" name="__codelineno-387-10" href="#__codelineno-387-10"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️  </span><span class="nv">$status</span><span class="s2">&quot;</span>
+<a id="__codelineno-387-11" name="__codelineno-387-11" href="#__codelineno-387-11"></a><span class="w">        </span><span class="p">;;</span>
+<a id="__codelineno-387-12" name="__codelineno-387-12" href="#__codelineno-387-12"></a><span class="w">    </span><span class="s2">&quot;ok&quot;</span><span class="o">)</span>
+<a id="__codelineno-387-13" name="__codelineno-387-13" href="#__codelineno-387-13"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ GitHub token valid&quot;</span>
+<a id="__codelineno-387-14" name="__codelineno-387-14" href="#__codelineno-387-14"></a><span class="w">        </span><span class="p">;;</span>
+<a id="__codelineno-387-15" name="__codelineno-387-15" href="#__codelineno-387-15"></a><span class="k">esac</span>
 </code></pre></div>
 <hr />
 <h4 id="_work_will_push_to_remote"><code>_work_will_push_to_remote</code><a class="headerlink" href="#_work_will_push_to_remote" title="Permanent link">&para;</a></h4>
 <p>Check if current branch will push to remote.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-361-1" name="__codelineno-361-1" href="#__codelineno-361-1"></a>_work_will_push_to_remote
+<div class="highlight"><pre><span></span><code><a id="__codelineno-388-1" name="__codelineno-388-1" href="#__codelineno-388-1"></a>_work_will_push_to_remote
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - None (checks current git branch)</p>
@@ -19507,13 +20726,13 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Determine if token validation needed before <code>work</code> session
 - Skip token check for local-only work</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-362-1" name="__codelineno-362-1" href="#__codelineno-362-1"></a><span class="k">if</span><span class="w"> </span>_work_will_push_to_remote<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-362-2" name="__codelineno-362-2" href="#__codelineno-362-2"></a><span class="w">    </span><span class="c1"># Validate token before allowing push</span>
-<a id="__codelineno-362-3" name="__codelineno-362-3" href="#__codelineno-362-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_flow_git_validate_token<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-362-4" name="__codelineno-362-4" href="#__codelineno-362-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid token, cannot push&quot;</span>
-<a id="__codelineno-362-5" name="__codelineno-362-5" href="#__codelineno-362-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
-<a id="__codelineno-362-6" name="__codelineno-362-6" href="#__codelineno-362-6"></a><span class="w">    </span><span class="k">fi</span>
-<a id="__codelineno-362-7" name="__codelineno-362-7" href="#__codelineno-362-7"></a><span class="k">fi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-389-1" name="__codelineno-389-1" href="#__codelineno-389-1"></a><span class="k">if</span><span class="w"> </span>_work_will_push_to_remote<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-389-2" name="__codelineno-389-2" href="#__codelineno-389-2"></a><span class="w">    </span><span class="c1"># Validate token before allowing push</span>
+<a id="__codelineno-389-3" name="__codelineno-389-3" href="#__codelineno-389-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_flow_git_validate_token<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-389-4" name="__codelineno-389-4" href="#__codelineno-389-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid token, cannot push&quot;</span>
+<a id="__codelineno-389-5" name="__codelineno-389-5" href="#__codelineno-389-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-389-6" name="__codelineno-389-6" href="#__codelineno-389-6"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-389-7" name="__codelineno-389-7" href="#__codelineno-389-7"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h3 id="dotssectok-dispatcher-helpers">dots/sec/tok Dispatcher Helpers<a class="headerlink" href="#dotssectok-dispatcher-helpers" title="Permanent link">&para;</a></h3>
@@ -19522,7 +20741,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_tok_expiring"><code>_tok_expiring</code><a class="headerlink" href="#_tok_expiring" title="Permanent link">&para;</a></h4>
 <p>Check all GitHub tokens for expiration status.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-363-1" name="__codelineno-363-1" href="#__codelineno-363-1"></a>_tok_expiring
+<div class="highlight"><pre><span></span><code><a id="__codelineno-390-1" name="__codelineno-390-1" href="#__codelineno-390-1"></a>_tok_expiring
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - None (scans all GitHub tokens in keychain)</p>
@@ -19533,14 +20752,14 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Lists expiring tokens (&lt; 7 days)
 - Lists expired tokens (invalid)</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-364-1" name="__codelineno-364-1" href="#__codelineno-364-1"></a>tok<span class="w"> </span>expiring
-<a id="__codelineno-364-2" name="__codelineno-364-2" href="#__codelineno-364-2"></a><span class="c1"># Shows tokens expiring in &lt; 7 days</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-391-1" name="__codelineno-391-1" href="#__codelineno-391-1"></a>tok<span class="w"> </span>expiring
+<a id="__codelineno-391-2" name="__codelineno-391-2" href="#__codelineno-391-2"></a><span class="c1"># Shows tokens expiring in &lt; 7 days</span>
 </code></pre></div>
 <hr />
 <h4 id="_tok_age_days"><code>_tok_age_days</code><a class="headerlink" href="#_tok_age_days" title="Permanent link">&para;</a></h4>
 <p>Get token age in days since creation.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-365-1" name="__codelineno-365-1" href="#__codelineno-365-1"></a>_tok_age_days<span class="w"> </span>&lt;secret_name&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-392-1" name="__codelineno-392-1" href="#__codelineno-392-1"></a>_tok_age_days<span class="w"> </span>&lt;secret_name&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Secret name (e.g., "github-token")</p>
@@ -19552,16 +20771,16 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Parses JSON metadata field
 - Calculates days elapsed</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-366-1" name="__codelineno-366-1" href="#__codelineno-366-1"></a><span class="nv">age_days</span><span class="o">=</span><span class="k">$(</span>_tok_age_days<span class="w"> </span><span class="s2">&quot;github-token&quot;</span><span class="k">)</span>
-<a id="__codelineno-366-2" name="__codelineno-366-2" href="#__codelineno-366-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$age_days</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-366-3" name="__codelineno-366-3" href="#__codelineno-366-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Token is </span><span class="nv">$age_days</span><span class="s2"> days old, consider rotating&quot;</span>
-<a id="__codelineno-366-4" name="__codelineno-366-4" href="#__codelineno-366-4"></a><span class="k">fi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-393-1" name="__codelineno-393-1" href="#__codelineno-393-1"></a><span class="nv">age_days</span><span class="o">=</span><span class="k">$(</span>_tok_age_days<span class="w"> </span><span class="s2">&quot;github-token&quot;</span><span class="k">)</span>
+<a id="__codelineno-393-2" name="__codelineno-393-2" href="#__codelineno-393-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$age_days</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-393-3" name="__codelineno-393-3" href="#__codelineno-393-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Token is </span><span class="nv">$age_days</span><span class="s2"> days old, consider rotating&quot;</span>
+<a id="__codelineno-393-4" name="__codelineno-393-4" href="#__codelineno-393-4"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h4 id="_tok_rotate"><code>_tok_rotate</code><a class="headerlink" href="#_tok_rotate" title="Permanent link">&para;</a></h4>
 <p>Rotate GitHub token (delete old, create new).</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-367-1" name="__codelineno-367-1" href="#__codelineno-367-1"></a>_tok_rotate<span class="w"> </span><span class="o">[</span>token_name<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-394-1" name="__codelineno-394-1" href="#__codelineno-394-1"></a>_tok_rotate<span class="w"> </span><span class="o">[</span>token_name<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (optional) Token name [default: "github-token"]</p>
@@ -19582,32 +20801,32 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Updates keychain
 - Syncs gh CLI configuration</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-368-1" name="__codelineno-368-1" href="#__codelineno-368-1"></a>tok<span class="w"> </span>rotate<span class="w"> </span>github-token
-<a id="__codelineno-368-2" name="__codelineno-368-2" href="#__codelineno-368-2"></a><span class="c1"># Rotates token automatically</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-395-1" name="__codelineno-395-1" href="#__codelineno-395-1"></a>tok<span class="w"> </span>rotate<span class="w"> </span>github-token
+<a id="__codelineno-395-2" name="__codelineno-395-2" href="#__codelineno-395-2"></a><span class="c1"># Rotates token automatically</span>
 </code></pre></div>
 <hr />
 <h4 id="_tok_log_rotation"><code>_tok_log_rotation</code><a class="headerlink" href="#_tok_log_rotation" title="Permanent link">&para;</a></h4>
 <p>Log token rotation event.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-369-1" name="__codelineno-369-1" href="#__codelineno-369-1"></a>_tok_log_rotation<span class="w"> </span>&lt;provider&gt;<span class="w"> </span>&lt;old_username&gt;<span class="w"> </span>&lt;new_username&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-396-1" name="__codelineno-396-1" href="#__codelineno-396-1"></a>_tok_log_rotation<span class="w"> </span>&lt;provider&gt;<span class="w"> </span>&lt;old_username&gt;<span class="w"> </span>&lt;new_username&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Provider name (e.g., "github")
 - <code>$2</code> - (required) Old token username
 - <code>$3</code> - (required) New token username</p>
 <p><strong>Log Format:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-370-1" name="__codelineno-370-1" href="#__codelineno-370-1"></a>[2026-01-23T12:30:00Z] ROTATION github old_user→new_user
+<div class="highlight"><pre><span></span><code><a id="__codelineno-397-1" name="__codelineno-397-1" href="#__codelineno-397-1"></a>[2026-01-23T12:30:00Z] ROTATION github old_user→new_user
 </code></pre></div>
 <p><strong>Log Location:</strong>
 - <code>~/.flow/logs/token-rotations.log</code></p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-371-1" name="__codelineno-371-1" href="#__codelineno-371-1"></a>_tok_log_rotation<span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="w"> </span><span class="s2">&quot;user&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-398-1" name="__codelineno-398-1" href="#__codelineno-398-1"></a>_tok_log_rotation<span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="w"> </span><span class="s2">&quot;user&quot;</span>
 </code></pre></div>
 <hr />
 <h4 id="_tok_sync_gh"><code>_tok_sync_gh</code><a class="headerlink" href="#_tok_sync_gh" title="Permanent link">&para;</a></h4>
 <p>Sync token to gh CLI configuration.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-372-1" name="__codelineno-372-1" href="#__codelineno-372-1"></a>_tok_sync_gh<span class="w"> </span>&lt;token&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-399-1" name="__codelineno-399-1" href="#__codelineno-399-1"></a>_tok_sync_gh<span class="w"> </span>&lt;token&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) GitHub token value</p>
@@ -19619,8 +20838,8 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Uses <code>gh</code> CLI's token storage
 - Enables <code>gh</code> commands to work seamlessly</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-373-1" name="__codelineno-373-1" href="#__codelineno-373-1"></a><span class="nv">token</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
-<a id="__codelineno-373-2" name="__codelineno-373-2" href="#__codelineno-373-2"></a>_tok_sync_gh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$token</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-400-1" name="__codelineno-400-1" href="#__codelineno-400-1"></a><span class="nv">token</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
+<a id="__codelineno-400-2" name="__codelineno-400-2" href="#__codelineno-400-2"></a>_tok_sync_gh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$token</span><span class="s2">&quot;</span>
 </code></pre></div>
 <hr />
 <h3 id="g-dispatcher-helpers">g Dispatcher Helpers<a class="headerlink" href="#g-dispatcher-helpers" title="Permanent link">&para;</a></h3>
@@ -19629,7 +20848,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_g_is_github_remote"><code>_g_is_github_remote</code><a class="headerlink" href="#_g_is_github_remote" title="Permanent link">&para;</a></h4>
 <p>Check if current repository has GitHub remote.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-374-1" name="__codelineno-374-1" href="#__codelineno-374-1"></a>_g_is_github_remote
+<div class="highlight"><pre><span></span><code><a id="__codelineno-401-1" name="__codelineno-401-1" href="#__codelineno-401-1"></a>_g_is_github_remote
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - None (checks current directory git repo)</p>
@@ -19640,19 +20859,19 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Determine if token validation needed before <code>g push</code>
 - Skip token check for non-GitHub remotes</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-375-1" name="__codelineno-375-1" href="#__codelineno-375-1"></a><span class="k">if</span><span class="w"> </span>_g_is_github_remote<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-375-2" name="__codelineno-375-2" href="#__codelineno-375-2"></a><span class="w">    </span><span class="c1"># Validate token before push</span>
-<a id="__codelineno-375-3" name="__codelineno-375-3" href="#__codelineno-375-3"></a><span class="w">    </span>_g_validate_github_token_silent<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-375-4" name="__codelineno-375-4" href="#__codelineno-375-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid token&quot;</span>
-<a id="__codelineno-375-5" name="__codelineno-375-5" href="#__codelineno-375-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
-<a id="__codelineno-375-6" name="__codelineno-375-6" href="#__codelineno-375-6"></a><span class="w">    </span><span class="o">}</span>
-<a id="__codelineno-375-7" name="__codelineno-375-7" href="#__codelineno-375-7"></a><span class="k">fi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-402-1" name="__codelineno-402-1" href="#__codelineno-402-1"></a><span class="k">if</span><span class="w"> </span>_g_is_github_remote<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-402-2" name="__codelineno-402-2" href="#__codelineno-402-2"></a><span class="w">    </span><span class="c1"># Validate token before push</span>
+<a id="__codelineno-402-3" name="__codelineno-402-3" href="#__codelineno-402-3"></a><span class="w">    </span>_g_validate_github_token_silent<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-402-4" name="__codelineno-402-4" href="#__codelineno-402-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid token&quot;</span>
+<a id="__codelineno-402-5" name="__codelineno-402-5" href="#__codelineno-402-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-402-6" name="__codelineno-402-6" href="#__codelineno-402-6"></a><span class="w">    </span><span class="o">}</span>
+<a id="__codelineno-402-7" name="__codelineno-402-7" href="#__codelineno-402-7"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h4 id="_g_validate_github_token_silent"><code>_g_validate_github_token_silent</code><a class="headerlink" href="#_g_validate_github_token_silent" title="Permanent link">&para;</a></h4>
 <p>Quick token validation without output.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-376-1" name="__codelineno-376-1" href="#__codelineno-376-1"></a>_g_validate_github_token_silent
+<div class="highlight"><pre><span></span><code><a id="__codelineno-403-1" name="__codelineno-403-1" href="#__codelineno-403-1"></a>_g_validate_github_token_silent
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - None (uses keychain token)</p>
@@ -19666,12 +20885,12 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 - Cached: ~50-80ms
 - Uncached: ~2-3s (API roundtrip)</p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-377-1" name="__codelineno-377-1" href="#__codelineno-377-1"></a><span class="k">if</span><span class="w"> </span>_g_validate_github_token_silent<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-377-2" name="__codelineno-377-2" href="#__codelineno-377-2"></a><span class="w">    </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>dev
-<a id="__codelineno-377-3" name="__codelineno-377-3" href="#__codelineno-377-3"></a><span class="k">else</span>
-<a id="__codelineno-377-4" name="__codelineno-377-4" href="#__codelineno-377-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid token, run: tok rotate&quot;</span>
-<a id="__codelineno-377-5" name="__codelineno-377-5" href="#__codelineno-377-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
-<a id="__codelineno-377-6" name="__codelineno-377-6" href="#__codelineno-377-6"></a><span class="k">fi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-404-1" name="__codelineno-404-1" href="#__codelineno-404-1"></a><span class="k">if</span><span class="w"> </span>_g_validate_github_token_silent<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-404-2" name="__codelineno-404-2" href="#__codelineno-404-2"></a><span class="w">    </span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>dev
+<a id="__codelineno-404-3" name="__codelineno-404-3" href="#__codelineno-404-3"></a><span class="k">else</span>
+<a id="__codelineno-404-4" name="__codelineno-404-4" href="#__codelineno-404-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid token, run: tok rotate&quot;</span>
+<a id="__codelineno-404-5" name="__codelineno-404-5" href="#__codelineno-404-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-404-6" name="__codelineno-404-6" href="#__codelineno-404-6"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h3 id="teach-plan-command-helpers">teach-plan Command Helpers<a class="headerlink" href="#teach-plan-command-helpers" title="Permanent link">&para;</a></h3>
@@ -19680,7 +20899,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_teach_plan"><code>_teach_plan</code><a class="headerlink" href="#_teach_plan" title="Permanent link">&para;</a></h4>
 <p>Main dispatcher for lesson plan subcommands.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-378-1" name="__codelineno-378-1" href="#__codelineno-378-1"></a>_teach_plan<span class="w"> </span>&lt;action&gt;<span class="w"> </span><span class="o">[</span>args...<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-405-1" name="__codelineno-405-1" href="#__codelineno-405-1"></a>_teach_plan<span class="w"> </span>&lt;action&gt;<span class="w"> </span><span class="o">[</span>args...<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - Action: <code>create|c|new</code>, <code>list|ls|l</code>, <code>show|s|view</code>, <code>edit|e</code>, <code>delete|del|rm</code>, <code>help</code>
@@ -19695,7 +20914,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_teach_plan_create"><code>_teach_plan_create</code><a class="headerlink" href="#_teach_plan_create" title="Permanent link">&para;</a></h4>
 <p>Create a new week entry in <code>.flow/lesson-plans.yml</code>.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-379-1" name="__codelineno-379-1" href="#__codelineno-379-1"></a>_teach_plan_create<span class="w"> </span>&lt;week&gt;<span class="w"> </span><span class="o">[</span>--topic<span class="w"> </span>TOPIC<span class="o">]</span><span class="w"> </span><span class="o">[</span>--style<span class="w"> </span>STYLE<span class="o">]</span><span class="w"> </span><span class="o">[</span>--force<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-406-1" name="__codelineno-406-1" href="#__codelineno-406-1"></a>_teach_plan_create<span class="w"> </span>&lt;week&gt;<span class="w"> </span><span class="o">[</span>--topic<span class="w"> </span>TOPIC<span class="o">]</span><span class="w"> </span><span class="o">[</span>--style<span class="w"> </span>STYLE<span class="o">]</span><span class="w"> </span><span class="o">[</span>--force<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Week number (1-20)
@@ -19717,7 +20936,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_teach_plan_list"><code>_teach_plan_list</code><a class="headerlink" href="#_teach_plan_list" title="Permanent link">&para;</a></h4>
 <p>List all week entries in <code>.flow/lesson-plans.yml</code>.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-380-1" name="__codelineno-380-1" href="#__codelineno-380-1"></a>_teach_plan_list<span class="w"> </span><span class="o">[</span>--json<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-407-1" name="__codelineno-407-1" href="#__codelineno-407-1"></a>_teach_plan_list<span class="w"> </span><span class="o">[</span>--json<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>--json|-j</code> - Output as JSON array instead of formatted table</p>
@@ -19732,7 +20951,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_teach_plan_show"><code>_teach_plan_show</code><a class="headerlink" href="#_teach_plan_show" title="Permanent link">&para;</a></h4>
 <p>Display a single week's lesson plan details.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-381-1" name="__codelineno-381-1" href="#__codelineno-381-1"></a>_teach_plan_show<span class="w"> </span>&lt;week&gt;<span class="w"> </span><span class="o">[</span>--json<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-408-1" name="__codelineno-408-1" href="#__codelineno-408-1"></a>_teach_plan_show<span class="w"> </span>&lt;week&gt;<span class="w"> </span><span class="o">[</span>--json<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Week number
@@ -19747,7 +20966,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_teach_plan_edit"><code>_teach_plan_edit</code><a class="headerlink" href="#_teach_plan_edit" title="Permanent link">&para;</a></h4>
 <p>Open <code>.flow/lesson-plans.yml</code> in <code>$EDITOR</code>, jumping to the specified week's line.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-382-1" name="__codelineno-382-1" href="#__codelineno-382-1"></a>_teach_plan_edit<span class="w"> </span>&lt;week&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-409-1" name="__codelineno-409-1" href="#__codelineno-409-1"></a>_teach_plan_edit<span class="w"> </span>&lt;week&gt;
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Week number</p>
@@ -19763,7 +20982,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_teach_plan_delete"><code>_teach_plan_delete</code><a class="headerlink" href="#_teach_plan_delete" title="Permanent link">&para;</a></h4>
 <p>Remove a week entry from <code>.flow/lesson-plans.yml</code>.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-383-1" name="__codelineno-383-1" href="#__codelineno-383-1"></a>_teach_plan_delete<span class="w"> </span>&lt;week&gt;<span class="w"> </span><span class="o">[</span>--force<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-410-1" name="__codelineno-410-1" href="#__codelineno-410-1"></a>_teach_plan_delete<span class="w"> </span>&lt;week&gt;<span class="w"> </span><span class="o">[</span>--force<span class="o">]</span>
 </code></pre></div>
 <p><strong>Parameters:</strong>
 - <code>$1</code> - (required) Week number
@@ -19775,7 +20994,7 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 <h4 id="_teach_plan_help"><code>_teach_plan_help</code><a class="headerlink" href="#_teach_plan_help" title="Permanent link">&para;</a></h4>
 <p>Display formatted help for all teach plan commands.</p>
 <p><strong>Signature:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-384-1" name="__codelineno-384-1" href="#__codelineno-384-1"></a>_teach_plan_help
+<div class="highlight"><pre><span></span><code><a id="__codelineno-411-1" name="__codelineno-411-1" href="#__codelineno-411-1"></a>_teach_plan_help
 </code></pre></div>
 <p><strong>Output:</strong> Usage, actions, options, shortcuts, examples, file locations, see-also references.</p>
 <hr />
@@ -19908,17 +21127,17 @@ Passes through to Atlas CLI when available. See Atlas documentation for all comm
 </tbody>
 </table>
 <p><strong><code>_deploy_step</code></strong> (v6.4.1)</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-385-1" name="__codelineno-385-1" href="#__codelineno-385-1"></a>_deploy_step<span class="w"> </span>&lt;step&gt;<span class="w"> </span>&lt;total&gt;<span class="w"> </span>&lt;label&gt;<span class="w"> </span>&lt;step_status&gt;
-<a id="__codelineno-385-2" name="__codelineno-385-2" href="#__codelineno-385-2"></a><span class="c1"># step_status: &quot;done&quot; (✓), &quot;active&quot; (⏳), &quot;fail&quot; (✗)</span>
-<a id="__codelineno-385-3" name="__codelineno-385-3" href="#__codelineno-385-3"></a>
-<a id="__codelineno-385-4" name="__codelineno-385-4" href="#__codelineno-385-4"></a>_deploy_step<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;Push draft to origin&quot;</span><span class="w"> </span><span class="k">done</span>
-<a id="__codelineno-385-5" name="__codelineno-385-5" href="#__codelineno-385-5"></a><span class="c1"># Output: ✓ [1/5] Push draft to origin</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-412-1" name="__codelineno-412-1" href="#__codelineno-412-1"></a>_deploy_step<span class="w"> </span>&lt;step&gt;<span class="w"> </span>&lt;total&gt;<span class="w"> </span>&lt;label&gt;<span class="w"> </span>&lt;step_status&gt;
+<a id="__codelineno-412-2" name="__codelineno-412-2" href="#__codelineno-412-2"></a><span class="c1"># step_status: &quot;done&quot; (✓), &quot;active&quot; (⏳), &quot;fail&quot; (✗)</span>
+<a id="__codelineno-412-3" name="__codelineno-412-3" href="#__codelineno-412-3"></a>
+<a id="__codelineno-412-4" name="__codelineno-412-4" href="#__codelineno-412-4"></a>_deploy_step<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;Push draft to origin&quot;</span><span class="w"> </span><span class="k">done</span>
+<a id="__codelineno-412-5" name="__codelineno-412-5" href="#__codelineno-412-5"></a><span class="c1"># Output: ✓ [1/5] Push draft to origin</span>
 </code></pre></div>
 <p><strong><code>_deploy_summary_box</code></strong> (v6.4.1)</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-386-1" name="__codelineno-386-1" href="#__codelineno-386-1"></a>_deploy_summary_box<span class="w"> </span>&lt;mode&gt;<span class="w"> </span>&lt;file_count&gt;<span class="w"> </span>&lt;insertions&gt;<span class="w"> </span>&lt;deletions&gt;<span class="w"> </span>&lt;duration&gt;<span class="w"> </span>&lt;commit_hash&gt;<span class="w"> </span><span class="o">[</span>url<span class="o">]</span>
-<a id="__codelineno-386-2" name="__codelineno-386-2" href="#__codelineno-386-2"></a>
-<a id="__codelineno-386-3" name="__codelineno-386-3" href="#__codelineno-386-3"></a>_deploy_summary_box<span class="w"> </span><span class="s2">&quot;Direct merge&quot;</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">45</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="s2">&quot;a1b2c3d4&quot;</span><span class="w"> </span><span class="s2">&quot;https://example.github.io/stat-545/&quot;</span>
-<a id="__codelineno-386-4" name="__codelineno-386-4" href="#__codelineno-386-4"></a><span class="c1"># Output: Unicode box with mode, files, duration, commit, URL</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-413-1" name="__codelineno-413-1" href="#__codelineno-413-1"></a>_deploy_summary_box<span class="w"> </span>&lt;mode&gt;<span class="w"> </span>&lt;file_count&gt;<span class="w"> </span>&lt;insertions&gt;<span class="w"> </span>&lt;deletions&gt;<span class="w"> </span>&lt;duration&gt;<span class="w"> </span>&lt;commit_hash&gt;<span class="w"> </span><span class="o">[</span>url<span class="o">]</span>
+<a id="__codelineno-413-2" name="__codelineno-413-2" href="#__codelineno-413-2"></a>
+<a id="__codelineno-413-3" name="__codelineno-413-3" href="#__codelineno-413-3"></a>_deploy_summary_box<span class="w"> </span><span class="s2">&quot;Direct merge&quot;</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">45</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="s2">&quot;a1b2c3d4&quot;</span><span class="w"> </span><span class="s2">&quot;https://example.github.io/stat-545/&quot;</span>
+<a id="__codelineno-413-4" name="__codelineno-413-4" href="#__codelineno-413-4"></a><span class="c1"># Output: Unicode box with mode, files, duration, commit, URL</span>
 </code></pre></div>
 <p>URL line is omitted when <code>$url</code> is empty or <code>"null"</code>.</p>
 <p><strong>Exported variables</strong> (from <code>_deploy_direct_merge</code> and <code>_deploy_perform_rollback</code>):</p>
