@@ -2442,15 +2442,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-3-config-validation-v590" class="md-nav__link">
+  <a href="#part-3-config-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 3: Config Validation (v5.9.0+)
+        Part 3: Config Validation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 3: Config Validation (v5.9.0+)">
+    <nav class="md-nav" aria-label="Part 3: Config Validation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2647,15 +2647,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-7-date-management-v5110" class="md-nav__link">
+  <a href="#part-7-date-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 7: Date Management (v5.11.0+)
+        Part 7: Date Management
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 7: Date Management (v5.11.0+)">
+    <nav class="md-nav" aria-label="Part 7: Date Management">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2881,10 +2881,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#on-production-branch" class="md-nav__link">
+  <a href="#on-main-production-branch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "On production branch"
+        "On main (production) branch"
       
     </span>
   </a>
@@ -8962,15 +8962,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-3-config-validation-v590" class="md-nav__link">
+  <a href="#part-3-config-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 3: Config Validation (v5.9.0+)
+        Part 3: Config Validation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 3: Config Validation (v5.9.0+)">
+    <nav class="md-nav" aria-label="Part 3: Config Validation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -9167,15 +9167,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#part-7-date-management-v5110" class="md-nav__link">
+  <a href="#part-7-date-management" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part 7: Date Management (v5.11.0+)
+        Part 7: Date Management
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Part 7: Date Management (v5.11.0+)">
+    <nav class="md-nav" aria-label="Part 7: Date Management">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -9401,10 +9401,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#on-production-branch" class="md-nav__link">
+  <a href="#on-main-production-branch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        "On production branch"
+        "On main (production) branch"
       
     </span>
   </a>
@@ -9542,7 +9542,7 @@
 <blockquote>
 <p><strong>What you'll learn:</strong> Manage course websites with fast deployment, config validation, and AI-assisted content creation</p>
 <p><strong>Time:</strong> ~20 minutes | <strong>Level:</strong> Beginner
-<strong>Version:</strong> v5.14.0</p>
+<strong>Version:</strong> v7.6.0</p>
 </blockquote>
 <hr />
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
@@ -9577,11 +9577,11 @@
 <p>Deploying course website updates typically takes 5-15 minutes:
 - Edit locally → commit → push → wait for build → verify</p>
 <p><strong>The Solution:</strong>
-- Branch-based workflow with draft (development) and production (live)
+- Branch-based workflow with <code>draft</code> (development) and <code>main</code> (production/live)
 - One-command deployment: <code>teach deploy</code>
 - &lt; 2 minute turnaround from typo fix to live</p>
 <h3 id="the-workflow">The Workflow<a class="headerlink" href="#the-workflow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>draft<span class="w"> </span>branch<span class="w">              </span>production<span class="w"> </span>branch
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>draft<span class="w"> </span>branch<span class="w">              </span>main<span class="w"> </span>branch<span class="w"> </span><span class="o">(</span>production<span class="o">)</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">     </span>│<span class="w">                           </span>│
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">     </span>│<span class="w">  </span>┌─<span class="w"> </span>teach<span class="w"> </span>deploy<span class="w"> </span>─┐<span class="w">       </span>│
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">     </span>│<span class="w">  </span>│<span class="w">                </span>│<span class="w">       </span>│
@@ -9606,7 +9606,7 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
-1. Creates <code>draft</code> and <code>production</code> branches
+1. Creates <code>draft</code> and <code>main</code> branches
 2. Generates <code>.flow/teach-config.yml</code> configuration
 3. Installs automation scripts in <code>scripts/</code>
 4. Sets up GitHub Actions workflow
@@ -9631,7 +9631,7 @@
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  teach week      Show current week info
 </code></pre></div>
 <hr />
-<h2 id="part-3-config-validation-v590">Part 3: Config Validation (v5.9.0+)<a class="headerlink" href="#part-3-config-validation-v590" title="Permanent link">&para;</a></h2>
+<h2 id="part-3-config-validation">Part 3: Config Validation<a class="headerlink" href="#part-3-config-validation" title="Permanent link">&para;</a></h2>
 <p>Flow-cli automatically validates your <code>teach-config.yml</code> to catch errors early.</p>
 <h3 id="step-31-understanding-validation">Step 3.1: Understanding Validation<a class="headerlink" href="#step-31-understanding-validation" title="Permanent link">&para;</a></h3>
 <p>When you run <code>teach status</code> or any Scholar command, flow-cli validates:</p>
@@ -9765,7 +9765,7 @@
 </code></pre></div>
 <p><strong>What happens:</strong>
 1. Commits any uncommitted changes
-2. Merges <code>draft</code> → <code>production</code>
+2. Merges <code>draft</code> → <code>main</code>
 3. Pushes to GitHub
 4. GitHub Actions builds the site
 5. Students see updates in seconds (direct) or &lt; 2 minutes (PR)</p>
@@ -9872,7 +9872,7 @@
 </tbody>
 </table>
 <hr />
-<h2 id="part-7-date-management-v5110">Part 7: Date Management (v5.11.0+)<a class="headerlink" href="#part-7-date-management-v5110" title="Permanent link">&para;</a></h2>
+<h2 id="part-7-date-management">Part 7: Date Management<a class="headerlink" href="#part-7-date-management" title="Permanent link">&para;</a></h2>
 <p>Flow-cli can centralize all semester dates in <code>teach-config.yml</code> and automatically sync them across your entire course repository.</p>
 <h3 id="step-71-initialize-date-configuration">Step 7.1: Initialize Date Configuration<a class="headerlink" href="#step-71-initialize-date-configuration" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>teach<span class="w"> </span>dates<span class="w"> </span>init
@@ -10087,7 +10087,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Initialize first</span>
 <a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span>
 </code></pre></div>
-<h3 id="on-production-branch">"On production branch"<a class="headerlink" href="#on-production-branch" title="Permanent link">&para;</a></h3>
+<h3 id="on-main-production-branch">"On main (production) branch"<a class="headerlink" href="#on-main-production-branch" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Switch to draft for editing</span>
 <a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>draft
 </code></pre></div>

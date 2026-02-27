@@ -8705,7 +8705,7 @@
 <blockquote>
 <p><strong>What you'll learn:</strong> Configure LaTeX macros for consistent AI-generated notation with <code>teach macros</code></p>
 <p><strong>Time:</strong> ~15 minutes | <strong>Level:</strong> Beginner → Intermediate
-<strong>Version:</strong> v5.21.0</p>
+<strong>Version:</strong> v7.6.0</p>
 </blockquote>
 <hr />
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
@@ -8768,14 +8768,14 @@
 <hr />
 <h2 id="step-1-create-a-macro-source-file">Step 1: Create a Macro Source File<a class="headerlink" href="#step-1-create-a-macro-source-file" title="Permanent link">&para;</a></h2>
 <p>Create a <code>_macros.qmd</code> file in your course root:</p>
-<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Create the macros file</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Create the macros file</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>_macros.qmd<span class="w"> </span>&lt;&lt;<span class="w"> </span><span class="s1">&#39;EOF&#39;</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>---
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># LaTeX Macros for Course</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Included via: {{&lt; include _macros.qmd &gt;}}</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>---
 </code></pre></div>
-% Operators
+<p>% Operators
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\Cov}{\operatorname{Cov}}
@@ -8789,9 +8789,9 @@
 <p>% Matrices (bold)
 \newcommand{\bX}{\mathbf{X}}
 \newcommand{\bY}{\mathbf{Y}}
-\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>EOF
-</code></pre></div></p>
+</code></pre></div>
 <p><strong>Alternative: LaTeX format</strong> (<code>macros.tex</code>):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c">% macros.tex</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">\newcommand</span><span class="nb">{</span><span class="k">\E</span><span class="nb">}{</span><span class="k">\mathbb</span><span class="nb">{</span>E<span class="nb">}}</span>
