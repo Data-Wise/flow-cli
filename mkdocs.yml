@@ -204,6 +204,7 @@ nav:
               - Prompts: reference/REFCARD-PROMPTS.md
               - Deploy v2: reference/REFCARD-DEPLOY-V2.md
               - Scholar Flags: reference/REFCARD-SCHOLAR-FLAGS.md
+              - Scholar Wrappers: reference/REFCARD-SCHOLAR-WRAPPERS.md
           - Troubleshooting: guides/TEACHING-TROUBLESHOOTING.md
           - Help System: guides/HELP-SYSTEM-GUIDE.md
       - Advanced:

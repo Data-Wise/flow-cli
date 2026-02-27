@@ -208,24 +208,11 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.5.0 released, synced with main |
-| `feature-scholar-config` | `feature/scholar-config` | ORCHESTRATE ready (7 increments) |
-| `feature-em-prompt` | `feature/em-prompt` | ORCHESTRATE ready (8 increments) |
+| Main repo | `dev` | v7.6.0 released, both features merged |
 
 ---
 
 ## Pending
-
-### Feature #423: Scholar Config Sync + New Wrappers
-- **Status:** Worktree ready, ORCHESTRATE committed
-- **Issue:** https://github.com/Data-Wise/flow-cli/issues/423
-- **Spec:** docs/specs/SPEC-scholar-config-sync-2026-02-26.md
-- **Effort:** 3-4 hours (7 increments)
-
-### Email AI Prompt + Bug Fixes
-- **Status:** Worktree ready, ORCHESTRATE committed
-- **Spec:** docs/specs/SPEC-em-prompt-fix-2026-02-27.md
-- **Effort:** 3-4 hours (8 increments)
 
 ### API Documentation Improvement
 - Current coverage: ~50% (348 functions documented)
@@ -241,15 +228,14 @@
 
 ## Next Action
 
-1. **Implement em --prompt + bug fixes** — `cd ~/.git-worktrees/flow-cli/feature-em-prompt` → new claude session (quick wins: RETURN trap fix + TTY detection)
-2. **Implement Scholar Config Sync (#423)** — `cd ~/.git-worktrees/flow-cli/feature-scholar-config` → new claude session
-3. API documentation push (50% → 80%)
-4. Code workspace manager — spec ready on dev
+1. API documentation push (50% → 80%)
+2. Code workspace manager — spec ready on dev
+3. Release v7.7.0 (Scholar Config Sync + em --prompt already on dev)
 
 ---
 
 **Last Updated:** 2026-02-27
-**Status:** v7.6.0 | 50/50 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 201 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
-## wins: Fixed the regression bug (2026-02-27), --category fix squashed the bug (2026-02-27), released v7.6.0 (2026-02-27)
+**Status:** v7.6.0 | 52/52 tests passing (2 expected timeouts) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+## wins: Fixed the regression bug (2026-02-27), --category fix squashed the bug (2026-02-27), fixed the bug (2026-02-27), Fixed the regression bug (2026-02-27), --category fix squashed the bug (2026-02-27)
 ## streak: 1
-## last_active: 2026-02-27 10:52
+## last_active: 2026-02-27 11:24

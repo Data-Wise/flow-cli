@@ -104,3 +104,150 @@ teaching_style:
   tone: "conversational"
   examples: true
 ```
+
+### Config injection not working
+
+Check these in order:
+
+1. **File exists?** — `ls .flow/teach-config.yml`
+2. **Valid YAML?** — `yq '.' .flow/teach-config.yml`
+3. **Doctor sees it?** — `teach doctor` (look for Scholar Config line)
+4. **Function loaded?** — `which _teach_find_config` (should show function body)
+
+---
+
+## Config Layer Resolution
+
+Scholar resolves configuration in 4 layers (later layers override earlier):
+
+```
+Layer 1: Scholar built-in defaults
+    ↓ overridden by
+Layer 2: Project config (.flow/teach-config.yml)
+    ↓ overridden by
+Layer 3: User config (~/.config/scholar/config.yml)
+    ↓ overridden by
+Layer 4: CLI flags (--config, --style, --format)
+```
+
+### Viewing resolved config
+
+```bash
+# Show what Scholar actually sees (all 4 layers merged)
+teach config show
+
+# Output:
+#   teaching_style:
+#     approach: interactive     ← from project config
+#     tone: conversational      ← from project config
+#     examples: true            ← from Scholar defaults
+#   exam:
+#     format: pdf               ← from user config
+#     difficulty: mixed         ← from Scholar defaults
+```
+
+### Comparing against defaults
+
+```bash
+# See what you've customized
+teach config diff
+
+# Output:
+#   teaching_style.approach:
+#     Default: "standard"
+#     Yours:   "interactive"
+#   teaching_style.tone:
+#     Default: "formal"
+#     Yours:   "conversational"
+```
+
+---
+
+## Wrapper Commands Reference
+
+All Scholar wrappers are thin `teach` subcommands that invoke Scholar skills:
+
+| Command | Shortcut | What it generates |
+|---------|----------|-------------------|
+| `teach lecture <topic>` | `lec` | Lecture notes with examples |
+| `teach slides <topic>` | `sl` | Slide deck (Quarto reveal.js) |
+| `teach exam <topic>` | `e` | Exam with rubric and key |
+| `teach quiz <topic>` | `q` | Quiz questions |
+| `teach assignment <topic>` | `hw` | Homework with rubric |
+| `teach syllabus` | `syl` | Full course syllabus |
+| `teach rubric <topic>` | `rb` | Standalone grading rubric |
+| `teach feedback <topic>` | `fb` | Student feedback template |
+| `teach solution <topic>` | `sol` | Solution key (v7.6.0) |
+| `teach demo` | — | Demo course scaffolding |
+
+### New in v7.6.0
+
+**`teach solution`** — Generates a standalone solution key for any topic:
+
+```bash
+teach solution "Bayesian inference"
+teach sol "HW4 problems"
+```
+
+**`teach sync`** — Syncs local config edits to Scholar's expected format:
+
+```bash
+teach sync   # Run after editing .flow/teach-config.yml
+```
+
+**`teach validate-r`** — Validates R code chunks in `.qmd` files before deploy:
+
+```bash
+teach validate-r   # or: teach vr
+# Checks: syntax errors, undefined vars, missing library() calls
+```
+
+---
+
+## End-to-End Workflow
+
+### New Course Setup
+
+```bash
+# 1. Initialize
+teach init "STAT 440"
+
+# 2. Customize config
+teach config scaffold exam        # Copy exam prompt for editing
+teach config edit                 # Customize in $EDITOR
+
+# 3. Validate
+teach config check
+teach doctor
+
+# 4. Generate content
+teach syllabus
+teach lecture "Introduction"
+teach exam "Midterm 1"
+teach solution "Midterm 1"
+
+# 5. Validate and deploy
+teach validate-r
+teach deploy --direct
+```
+
+### Mid-Semester Content Update
+
+```bash
+# 1. Edit config if needed
+teach config edit
+teach sync
+
+# 2. Generate new content
+teach lecture "Week 8: ANOVA"
+teach quiz "Chapter 8"
+
+# 3. Check and deploy
+teach validate-r
+teach config check
+teach deploy --direct
+```
+
+---
+
+**See also:** [Scholar Wrappers Refcard](../reference/REFCARD-SCHOLAR-WRAPPERS.md) | [Teach Dispatcher](../reference/MASTER-DISPATCHER-GUIDE.md#teaching-teach) | [Config Schema](../reference/TEACH-CONFIG-SCHEMA.md)

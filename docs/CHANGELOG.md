@@ -6,28 +6,45 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
-## [Unreleased] — Scholar Config Sync (#423)
+## [Unreleased]
+
+---
+
+## [7.6.0] — 2026-02-27 — em --prompt + Scholar Config Sync
 
 ### Added
 
-- **Config injection** — `--config` flag auto-appended to all Scholar commands when `.flow/teach-config.yml` exists
+- **em --prompt flag** — Natural-language instructions for AI-drafted replies, sends, and forwards (`em reply 123 --prompt 'decline politely'`)
+- **em --backend flag** — Per-command AI backend override (`--backend claude|gemini`)
+- **em forward command** — Forward emails with optional AI body and `--prompt` support
+- **Smart TTY detection** — Non-interactive contexts (Claude Code) auto-route to batch send path
+- **Scholar Config Sync** — `--config` flag auto-appended to all Scholar commands when `.flow/teach-config.yml` exists
 - **Config subcommands** — `teach config check`, `teach config diff`, `teach config show`, `teach config scaffold`
-- **New wrappers** — `teach solution`, `teach sync`, `teach validate-r` (with shortcuts `sol`, `vr`)
+- **New teach wrappers** — `teach solution`, `teach sync`, `teach validate-r` (with shortcuts `sol`, `vr`)
 - **Doctor config sync** — New section in `teach doctor` quick mode (5 categories now)
 - **Stale config detection** — Warns when config changes since last Scholar run
-- **Legacy deprecation** — Warns when `.claude/teaching-style.local.md` coexists with new config
+- **Help guards** — `--help` flag support added to all 34 em subcommand functions
+
+### Fixed
+
+- **RETURN trap bug** — Replaced ZSH-incompatible `trap "..." RETURN` with `always` block in `_em_hml_reply`
+- **Config arg duplication** — Fixed `_teach_build_command` config case passing args twice
+- **Legacy path anchoring** — `teaching-style.local.md` path now anchored to `$FLOW_PROJECT_ROOT`
 
 ### Tests
 
-- `test-scholar-config-sync.zsh` — 13 unit tests for config injection and detection
-- `e2e-scholar-config-sync.zsh` — 28 end-to-end tests with real project scenarios
-- `dogfood-scholar-config-sync.zsh` — 41 structural checks for wiring integrity
-- Test suite: 50/50 passing (201 test files, 1 expected timeout)
+- `test-em-prompt-flag.zsh` — 14 tests for --prompt/--backend flag parsing
+- `test-em-help-guards.zsh` — Help guard coverage for all em subcommands
+- `test-scholar-config-sync.zsh` — 13 unit tests for config injection
+- `e2e-scholar-config-sync.zsh` — 28 end-to-end tests
+- `dogfood-scholar-config-sync.zsh` — 41 structural checks
+- Test suite: 52/52 passing (205 test files, 2 expected timeouts)
 
 ### Documentation
 
 - New: `docs/guides/SCHOLAR-INTEGRATION-GUIDE.md`
-- Updated: QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, TEACHING-SYSTEM-ARCHITECTURE, CLAUDE.md
+- Updated: QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, TEACHING-SYSTEM-ARCHITECTURE
+- Updated: em help, completions, cookbook, refcard, architecture docs
 
 ---
 
