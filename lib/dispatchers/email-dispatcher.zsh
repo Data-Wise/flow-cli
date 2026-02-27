@@ -2831,7 +2831,7 @@ _em_doctor() {
 
     # Infrastructure
     _em_doctor_check "email-oauth2-proxy" "recommended" "OAuth2 IMAP/SMTP proxy" "pip install email-oauth2-proxy"
-    _em_doctor_check "terminal-notifier"  "optional"    "Desktop notifications"   "brew install terminal-notifier"
+    _em_doctor_check "terminal-notifier"  "recommended" "Desktop notifications (required for em watch)"  "brew install terminal-notifier"
 
     # Optional (AI)
     if [[ "$FLOW_EMAIL_AI" == "claude" ]]; then
