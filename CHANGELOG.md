@@ -31,9 +31,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [Unreleased] — em v2.0
+
+### Breaking Changes
+
+- **`em send` and `em reply` now show a preview before sending.** The confirmation prompt changed
+  from `[y/N]` to `[y/N/e]` where `e` re-opens `$EDITOR` for last-minute edits. Use `--force`
+  (or `--yes`) to bypass the gate and send immediately.
 
 ### Added
+
+- **Two-phase safety gate** (`_em_safety_gate`) — full email preview before every send/reply
+- **`em create-folder <name>`** (`em cf`) — create IMAP mail folders; name is validated/sanitized
+- **`em delete-folder <name>`** (`em df`) — delete folder with type-to-confirm gate (permanent)
+- **`em attach list <ID>`** — show attachment table (filename, MIME type, size)
+- **`em attach get <ID> <file> [dir]`** — download a specific named attachment
+- **`em calendar <ID>`** (`em cal`) — parse ICS attachment, display event card, optionally add to Apple Calendar
+- **`em watch start|stop|status|log`** (`em w`) — IMAP IDLE background watcher with desktop notifications [experimental]
+- **himalaya version detection** — `_em_hml_version`, `_em_hml_version_gte`, `_em_require_version` for progressive enhancement
+- **Message ID validation** — `_em_validate_msg_id` rejects metacharacters before passing to himalaya
+- **Folder name sanitization** — `_em_validate_folder_name` rejects IMAP-unsafe characters
+- **Draft lifecycle helpers** — `_em_compose_draft`, `_em_draft_cleanup` for secure temp-file management
+
+### Security
+
+- **Fix: jq string interpolation** — all `--arg`/`--argjson` usage replaces inline `$var` interpolation (injection prevention)
+- **Fix: Config file `source`** — `_em_load_config` now uses a safe key-value parser; config files are never `source`d
+- **Fix: AppleScript injection** — all string values escaped through `_em_ics_create_event` before osascript
+- **Fix: Body injection in reply** — reply body is written to temp file, not passed as shell argument
+- **Fix: Predictable temp files** — all temp file paths replaced with `mktemp` throughout
+- **Fix: terminal-notifier subjects** — notification title is now static ("New Email"); message body is truncated
+- **Fix: AI extra args** — `_em_ai_validate_extra_args` checks against an allowlist before use
+
+### Added (previously Unreleased)
 
 - **`em` organize commands** — 7 new subcommands for email management:
   - `em star` / `em flag` — toggle starred (Flagged) status

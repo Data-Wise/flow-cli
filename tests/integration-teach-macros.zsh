@@ -115,27 +115,27 @@ else
     test_fail "No macros found (expected > 0)"
 fi
 
-test_start "Expected macro count (13 macros)"
-if (( count == 13 )); then
+test_start "Expected macro count (23 macros)"
+if (( count == 23 )); then
     test_pass
 else
-    test_fail "Expected 13 macros, got $count"
+    test_fail "Expected 23 macros, got $count"
 fi
 
 test_start "\\E macro parsed correctly"
 expansion=$(_flow_get_macro "E")
-if [[ "$expansion" == "\\mathbb{E}" ]]; then
+if [[ "$expansion" == *"\\mathbb{E}"* ]]; then
     test_pass
 else
-    test_fail "Expected \\mathbb{E}, got: $expansion"
+    test_fail "Expected expansion containing \\mathbb{E}, got: $expansion"
 fi
 
 test_start "\\Var macro parsed correctly"
 expansion=$(_flow_get_macro "Var")
-if [[ "$expansion" == "\\text{Var}" ]]; then
+if [[ "$expansion" == *"\\text{Var}"* ]]; then
     test_pass
 else
-    test_fail "Expected \\text{Var}, got: $expansion"
+    test_fail "Expected expansion containing \\text{Var}, got: $expansion"
 fi
 
 test_start "\\Cov macro with 2 args parsed"

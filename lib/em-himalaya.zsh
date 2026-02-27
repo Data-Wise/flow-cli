@@ -39,6 +39,165 @@ _em_hml_check() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
+# INPUT VALIDATION — MESSAGE ID & FOLDER NAME
+# ═══════════════════════════════════════════════════════════════════
+
+_em_validate_msg_id() {
+    # Validate message ID is numeric only (Finding 2 — prevents arg injection)
+    # Args: message_id
+    # Returns: 0 if valid, 1 if invalid
+    local msg_id="$1"
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Message ID is required"
+        return 1
+    fi
+    if [[ ! "$msg_id" =~ ^[0-9]+$ ]]; then
+        _flow_log_error "Invalid message ID: must be numeric only"
+        return 1
+    fi
+    return 0
+}
+
+_em_validate_folder_name() {
+    # Validate folder name to prevent argument injection (Finding 7)
+    # Rejects: empty, leading dash, path separators, control chars, >255 chars
+    # Args: folder_name
+    # Returns: 0 if valid, 1 if invalid
+    local name="$1"
+
+    if [[ -z "$name" ]]; then
+        _flow_log_error "Folder name cannot be empty"
+        return 1
+    fi
+
+    if [[ "${#name}" -gt 255 ]]; then
+        _flow_log_error "Folder name too long (max 255 chars)"
+        return 1
+    fi
+
+    # Reject leading dash (would be interpreted as a flag)
+    if [[ "$name" == -* ]]; then
+        _flow_log_error "Folder name cannot start with a dash"
+        return 1
+    fi
+
+    # Reject path separators and control characters
+    if [[ "$name" == */* || "$name" == *\\* ]]; then
+        _flow_log_error "Folder name cannot contain path separators"
+        return 1
+    fi
+
+    # Reject null bytes (0x00)
+    if [[ "$name" == *$'\x00'* ]]; then
+        _flow_log_error "Folder name cannot contain control characters"
+        return 1
+    fi
+
+    # Reject control characters (0x01–0x1F) by checking each byte
+    # ZSH regex alternation with literal $'...' requires a variable
+    local _ctrl_re=$'[\x01-\x1f]'
+    if [[ "$name" =~ $_ctrl_re ]]; then
+        _flow_log_error "Folder name cannot contain control characters"
+        return 1
+    fi
+
+    return 0
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# VERSION DETECTION — PROGRESSIVE ENHANCEMENT
+# ═══════════════════════════════════════════════════════════════════
+
+# Session-scoped cache — zero disk I/O after first call
+typeset -g _EM_HML_VERSION=""
+
+_em_hml_version() {
+    # Parse and cache himalaya version string
+    # Returns: version string (e.g. "1.2.0") on stdout, sets $_EM_HML_VERSION
+    # Caches in session-scoped global to avoid repeated subprocess forks
+    if [[ -n "$_EM_HML_VERSION" ]]; then
+        echo "$_EM_HML_VERSION"
+        return 0
+    fi
+
+    if ! command -v himalaya &>/dev/null; then
+        return 1
+    fi
+
+    # `himalaya --version` outputs: "himalaya 1.2.0"
+    local raw
+    raw=$(himalaya --version 2>/dev/null)
+    if [[ -z "$raw" ]]; then
+        return 1
+    fi
+
+    # Extract the version number (last whitespace-delimited token)
+    local version
+    version="${raw##* }"
+
+    # Sanity check: must look like X.Y.Z (or X.Y or X)
+    if [[ ! "$version" =~ ^[0-9]+(\.[0-9]+)*$ ]]; then
+        _flow_log_warning "em: could not parse himalaya version from: $raw"
+        return 1
+    fi
+
+    _EM_HML_VERSION="$version"
+    echo "$version"
+    return 0
+}
+
+_em_hml_version_gte() {
+    # Compare current himalaya version >= min_version (semver, numeric)
+    # Correctly handles 1.9.0 vs 1.10.0 (numeric comparison per segment)
+    # Args: min_version (e.g. "1.2.0")
+    # Returns: 0 if installed version >= min_version, 1 otherwise
+    local min_version="$1"
+    local current
+    current=$(_em_hml_version 2>/dev/null)
+    [[ -z "$current" ]] && return 1
+
+    # Split on '.' into arrays
+    local -a cur_parts=( ${(s:.:)current} )
+    local -a min_parts=( ${(s:.:)min_version} )
+
+    # Pad shorter array with zeros
+    local max_len=$(( ${#cur_parts} > ${#min_parts} ? ${#cur_parts} : ${#min_parts} ))
+    local i
+    for (( i=1; i<=max_len; i++ )); do
+        local cur_seg="${cur_parts[$i]:-0}"
+        local min_seg="${min_parts[$i]:-0}"
+        if (( cur_seg > min_seg )); then
+            return 0
+        elif (( cur_seg < min_seg )); then
+            return 1
+        fi
+    done
+
+    # All segments equal — versions are identical, satisfies >=
+    return 0
+}
+
+_em_require_version() {
+    # Gate a feature behind a minimum version requirement
+    # Args: min_version, feature_name (for user-friendly error)
+    # Returns: 0 if requirement met, 1 with error message if not
+    local min_version="$1" feature="$2"
+    if ! _em_hml_version_gte "$min_version"; then
+        local current
+        current=$(_em_hml_version 2>/dev/null)
+        _flow_log_error "em: '$feature' requires himalaya >= $min_version (installed: ${current:-unknown})"
+        echo "Upgrade: ${_C_CYAN}brew upgrade himalaya${_C_NC} or ${_C_CYAN}cargo install --force himalaya${_C_NC}"
+        return 1
+    fi
+    return 0
+}
+
+_em_hml_version_clear_cache() {
+    # Clear the cached version (called by em doctor --fix or after upgrade)
+    _EM_HML_VERSION=""
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # MESSAGE LISTING
 # ═══════════════════════════════════════════════════════════════════
 
@@ -119,25 +278,46 @@ _em_hml_reply() {
     #
     # himalaya exits 0 for both "Send" and "Discard" — we use script(1)
     # to capture terminal output and detect which action the user chose.
+    #
+    # Security (Finding 2): validate msg_id is numeric before use
+    # Security (Finding 5): body passed via temp file, not positional arg
+    # Security (Finding 14): tmplog via mktemp + chmod 0600 + trap cleanup
     local msg_id="$1" body="$2" reply_all="${3:-false}"
+
+    # Finding 2: validate message ID
+    if ! _em_validate_msg_id "$msg_id"; then
+        return 1
+    fi
+
     local -a flags=()
     [[ "$reply_all" == "true" ]] && flags+=(--all)
 
-    local tmplog="${TMPDIR:-/tmp}/em-reply-$$.log"
+    # Finding 14: use mktemp for log file, restrict permissions, register cleanup
+    local tmplog
+    tmplog=$(mktemp "${TMPDIR:-/tmp}/em-reply-XXXXXX.log")
+    chmod 0600 "$tmplog"
+    # Trap ensures cleanup even if function exits early
+    trap "rm -f '$tmplog'" RETURN
 
     if [[ -n "$body" ]]; then
-        script -q "$tmplog" himalaya message reply "${flags[@]}" "$msg_id" "$body"
+        # Finding 5: pass body via temp file instead of positional arg
+        # Prevents body content from being interpreted as himalaya flags
+        local tmpbody
+        tmpbody=$(mktemp "${TMPDIR:-/tmp}/em-body-XXXXXX")
+        chmod 0600 "$tmpbody"
+        printf '%s' "$body" > "$tmpbody"
+        # himalaya reads body from stdin when no positional body arg is given
+        script -q "$tmplog" sh -c "himalaya message reply ${(j: :)${(@q)flags}} '$msg_id' < '$tmpbody'"
+        rm -f "$tmpbody"
     else
         script -q "$tmplog" himalaya message reply "${flags[@]}" "$msg_id"
     fi
 
     # Detect discard from himalaya's interactive prompt output
     if grep -aq "Discard" "$tmplog" 2>/dev/null; then
-        rm -f "$tmplog"
         return 2
     fi
 
-    rm -f "$tmplog"
     return 0
 }
 
@@ -323,4 +503,72 @@ _em_mml_inject_body() {
         /^$/ && !found { found=1; print; print body; next }
         { print }
     '
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# FOLDER CRUD — with -- terminator to prevent arg injection (Finding 7)
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_folder_create() {
+    # Create a new mail folder
+    # Args: folder_name
+    # Security: validates name, uses -- terminator before user-supplied name
+    local name="$1"
+    if ! _em_validate_folder_name "$name"; then
+        return 1
+    fi
+    himalaya folder create -- "$name" 2>/dev/null
+}
+
+_em_hml_folder_delete() {
+    # Delete a mail folder
+    # Args: folder_name
+    # Security: validates name, uses -- terminator before user-supplied name
+    local name="$1"
+    if ! _em_validate_folder_name "$name"; then
+        return 1
+    fi
+    himalaya folder delete -- "$name" 2>/dev/null
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# ATTACHMENT OPERATIONS — version-aware
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_attachment_list() {
+    # List attachments for a message (version-aware output format)
+    # Args: message_id
+    # v1.2+: JSON output; v1.0–v1.1: plain text
+    local msg_id="$1"
+    if ! _em_validate_msg_id "$msg_id"; then
+        return 1
+    fi
+
+    if _em_hml_version_gte "1.2.0"; then
+        himalaya attachment list --output json "$msg_id" 2>/dev/null
+    else
+        himalaya attachment list "$msg_id" 2>/dev/null
+    fi
+}
+
+_em_hml_attachment_download() {
+    # Download a specific attachment to a directory
+    # Args: message_id, filename (for logging), output_dir
+    local msg_id="$1" file="$2" out_dir="${3:-.}"
+    if ! _em_validate_msg_id "$msg_id"; then
+        return 1
+    fi
+    himalaya attachment download "$msg_id" --dir "$out_dir" 2>/dev/null
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# ENVELOPE WATCH (non-blocking wrapper for IMAP IDLE)
+# ═══════════════════════════════════════════════════════════════════
+
+_em_hml_watch() {
+    # Watch a folder for new messages via IMAP IDLE (blocking)
+    # Args: folder (default: INBOX)
+    # Named _em_hml_watch to distinguish from the older _em_hml_idle
+    local folder="${1:-INBOX}"
+    himalaya envelope watch --folder "$folder" 2>/dev/null
 }

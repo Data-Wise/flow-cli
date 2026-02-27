@@ -118,9 +118,30 @@ _em_ai_query() {
 # BACKEND EXECUTION
 # ═══════════════════════════════════════════════════════════════════
 
+_em_ai_validate_extra_args() {
+    # Validate extra_args string against a strict allowlist (Finding 13)
+    # Only permits: letters, digits, hyphens, underscores, spaces
+    # Rejects: semicolons, pipes, backticks, $(), redirection, etc.
+    # Args: args_string
+    # Returns: 0 if safe, 1 if rejected
+    local args="$1"
+
+    # Empty args are always safe
+    [[ -z "$args" ]] && return 0
+
+    # Allowlist: flag-like tokens only (e.g. "--model claude-3-5-sonnet", "-e none")
+    if [[ ! "$args" =~ ^[-a-zA-Z0-9_[:space:]]*$ ]]; then
+        _flow_log_error "em-ai: extra_args contains disallowed characters: $args"
+        _flow_log_error "Only letters, digits, hyphens, underscores and spaces are permitted"
+        return 1
+    fi
+    return 0
+}
+
 _em_ai_execute() {
     # Execute a single AI backend call
     # Args: backend, prompt, input, timeout_seconds
+    # Security (Finding 13): extra_args validated via _em_ai_validate_extra_args
     local backend="$1" prompt="$2" input="$3" timeout_s="${4:-15}"
 
     case "$backend" in
@@ -129,6 +150,10 @@ _em_ai_execute() {
                 return 1
             fi
             local extra="${_EM_AI_BACKENDS[claude_extra_args]:-}"
+            # Finding 13: validate before word-splitting and interpolating into command
+            if ! _em_ai_validate_extra_args "$extra"; then
+                return 1
+            fi
             echo "$input" | timeout "$timeout_s" \
                 claude -p "$prompt" --output-format text ${=extra} 2>/dev/null
             local rc=$?
@@ -142,6 +167,10 @@ _em_ai_execute() {
                 return 1
             fi
             local extra="${_EM_AI_BACKENDS[gemini_extra_args]:-}"
+            # Finding 13: validate before word-splitting and interpolating into command
+            if ! _em_ai_validate_extra_args "$extra"; then
+                return 1
+            fi
             echo "$input" | timeout "$timeout_s" \
                 gemini ${=extra} "$prompt" 2>/dev/null
             local rc=$?
