@@ -292,33 +292,36 @@ _em_hml_reply() {
     local -a flags=()
     [[ "$reply_all" == "true" ]] && flags+=(--all)
 
-    # Finding 14: use mktemp for log file, restrict permissions, register cleanup
+    # Finding 14: use mktemp for log file, restrict permissions
+    # Uses ZSH always block for cleanup (trap RETURN is not supported in ZSH)
     local tmplog
     tmplog=$(mktemp "${TMPDIR:-/tmp}/em-reply-XXXXXX.log")
     chmod 0600 "$tmplog"
-    # Trap ensures cleanup even if function exits early
-    trap "rm -f '$tmplog'" RETURN
 
-    if [[ -n "$body" ]]; then
-        # Finding 5: pass body via temp file instead of positional arg
-        # Prevents body content from being interpreted as himalaya flags
-        local tmpbody
-        tmpbody=$(mktemp "${TMPDIR:-/tmp}/em-body-XXXXXX")
-        chmod 0600 "$tmpbody"
-        printf '%s' "$body" > "$tmpbody"
-        # himalaya reads body from stdin when no positional body arg is given
-        script -q "$tmplog" sh -c "himalaya message reply ${(j: :)${(@q)flags}} '$msg_id' < '$tmpbody'"
-        rm -f "$tmpbody"
-    else
-        script -q "$tmplog" himalaya message reply "${flags[@]}" "$msg_id"
-    fi
-
-    # Detect discard from himalaya's interactive prompt output
-    if grep -aq "Discard" "$tmplog" 2>/dev/null; then
-        return 2
-    fi
-
-    return 0
+    {
+        if [[ -n "$body" ]]; then
+            # Finding 5: pass body via temp file instead of positional arg
+            # Prevents body content from being interpreted as himalaya flags
+            local tmpbody
+            tmpbody=$(mktemp "${TMPDIR:-/tmp}/em-body-XXXXXX")
+            chmod 0600 "$tmpbody"
+            printf '%s' "$body" > "$tmpbody"
+            # himalaya reads body from stdin when no positional body arg is given
+            script -q "$tmplog" sh -c "himalaya message reply ${(j: :)${(@q)flags}} '$msg_id' < '$tmpbody'"
+            rm -f "$tmpbody"
+        else
+            script -q "$tmplog" himalaya message reply "${flags[@]}" "$msg_id"
+        fi
+    } always {
+        local _reply_discard=false
+        if grep -aq "Discard" "$tmplog" 2>/dev/null; then
+            _reply_discard=true
+        fi
+        rm -f "$tmplog"
+        if [[ "$_reply_discard" == true ]]; then
+            return 2
+        fi
+    }
 }
 
 # ═══════════════════════════════════════════════════════════════════
