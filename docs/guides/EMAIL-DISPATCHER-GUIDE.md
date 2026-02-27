@@ -2327,7 +2327,7 @@ Now that you understand the `em` dispatcher:
 
 ### References
 
-- [Email Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) — All 37 commands at a glance
+- [Email Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) — All 38 commands at a glance
 - [Email Cookbook](EMAIL-COOKBOOK.md) — Practical recipes for common workflows
 - [EM-V2-ARCHITECTURE.md](../internal/EM-V2-ARCHITECTURE.md) — Internal architecture documentation
 - [MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md) — All 15 dispatchers

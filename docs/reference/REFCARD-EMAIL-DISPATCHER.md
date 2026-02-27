@@ -140,7 +140,7 @@ Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/emai
 
 ```mermaid
 graph TD
-    A["em dispatcher<br/>v2.0 — 37 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
+    A["em dispatcher<br/>v2.0 — 38 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
     A -->|cache layer| C["em-cache<br/>(TTL: 1h-24h)"]
     A -->|AI abstraction| D["em-ai<br/>Backend: claude/gemini"]
     A -->|render pipeline| E["em-render<br/>Smart content detection"]

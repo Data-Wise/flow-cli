@@ -560,7 +560,7 @@ em h     # em help
 ## See Also
 
 - [EMAIL-DISPATCHER-GUIDE.md](EMAIL-DISPATCHER-GUIDE.md) — Complete workflow guide with setup, daily routine, and all command details
-- [REFCARD-EMAIL-DISPATCHER.md](../reference/REFCARD-EMAIL-DISPATCHER.md) — All 37 commands at a glance with flags, aliases, and configuration reference
+- [REFCARD-EMAIL-DISPATCHER.md](../reference/REFCARD-EMAIL-DISPATCHER.md) — All 38 commands at a glance with flags, aliases, and configuration reference
 - [HIMALAYA-SETUP.md](HIMALAYA-SETUP.md) — Email account configuration (IMAP/SMTP, Gmail OAuth2, Exchange)
 - [HIMALAYA-NVIM-SETUP.md](HIMALAYA-NVIM-SETUP.md) — Neovim integration with AI actions
 
