@@ -2322,7 +2322,7 @@ Now that you understand the `em` dispatcher:
 
 - [Tutorial 35: Email from the Terminal](../tutorials/35-em-cli-email.md) — Core email workflow (20 min)
 - [Tutorial 36: Email Management](../tutorials/36-em-delete-actions.md) — Delete, move, flag, extract (20 min)
-- [Tutorial 37: em v2.0 Features](../tutorials/37-em-v2-features.md) — Calendar, watch, folders, safety gate (15 min)
+- [Tutorial 46: em v2.0 Features](../tutorials/46-em-v2-features.md) — Calendar, watch, folders, safety gate (15 min)
 - [Tutorial 33: Email in Neovim](../tutorials/33-himalaya-email.md) — Neovim-native email with AI actions
 
 ### References

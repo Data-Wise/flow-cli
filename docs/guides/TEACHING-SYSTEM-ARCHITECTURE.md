@@ -360,13 +360,24 @@ See these planning documents:
 - Fully documented in 3 comprehensive guides (1,995 lines)
 - Tested and deployed in v5.4.1 and v5.5.0
 
-**Scholar teaching** 🎯 **Planned (Not Yet Implemented):**
+**Scholar teaching** ✅ **Integrated:**
 
 - Optional Node.js content generation plugin
-- Commands: `/teaching:exam`, `/teaching:quiz`, `/teaching:lecture`, `/teaching:assignment`, `/teaching:syllabus`
-- Spec written, implementation pending
+- Commands: `/teaching:exam`, `/teaching:quiz`, `/teaching:lecture`, `/teaching:assignment`, `/teaching:syllabus`, `/teaching:solution`, `/teaching:sync`, `/teaching:validate-r`
+- Config Sync (v7.6.0, #423): `--config` auto-injected when `.flow/teach-config.yml` exists
+- Config management: `teach config check/diff/show/scaffold`
 
 **They work together but function independently:**
 
 - **flow-cli** = deployment engine (pure ZSH, <10ms, always available)
 - **Scholar** = content generator (AI-powered, optional enhancement)
+
+### Config Sync Architecture (v7.6.0)
+
+Config discovery and injection flow:
+
+1. **Discovery**: `_teach_find_config()` searches for `.flow/teach-config.yml`
+2. **Change detection**: `_flow_config_changed()` compares stored hash vs current file
+3. **Auto-injection**: `_teach_scholar_wrapper()` appends `--config` to all Scholar commands
+4. **Legacy migration**: Warns when both `.claude/teaching-style.local.md` and new config coexist
+5. **4-layer style resolution**: Scholar resolves defaults → project → user → command overrides

@@ -7,7 +7,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [v7.4.2] — 2026-02-22 — Atlas Integration + Homebrew Cleanup
+## [Unreleased]
+
+---
+
+## [7.6.0] — 2026-02-27 — em --prompt + Scholar Config Sync
+
+### Added
+
+- **em --prompt flag** — Natural-language instructions for AI-drafted replies, sends, and forwards (`em reply 123 --prompt 'decline politely'`)
+- **em --backend flag** — Per-command AI backend override (`--backend claude|gemini`)
+- **em forward command** — Forward emails with optional AI body and `--prompt` support
+- **Smart TTY detection** — Non-interactive contexts (Claude Code) auto-route to batch send path
+- **Scholar Config Sync** — `--config` flag auto-appended to all Scholar commands when `.flow/teach-config.yml` exists
+- **Config subcommands** — `teach config check`, `teach config diff`, `teach config show`, `teach config scaffold`
+- **New teach wrappers** — `teach solution`, `teach sync`, `teach validate-r` (with shortcuts `sol`, `vr`)
+- **Doctor config sync** — New section in `teach doctor` quick mode (5 categories now)
+- **Stale config detection** — Warns when config changes since last Scholar run
+- **Help guards** — `--help` flag support added to all 34 em subcommand functions
+
+### Fixed
+
+- **RETURN trap bug** — Replaced ZSH-incompatible `trap "..." RETURN` with `always` block in `_em_hml_reply`
+- **Config arg duplication** — Fixed `_teach_build_command` config case passing args twice
+- **Legacy path anchoring** — `teaching-style.local.md` path now anchored to `$FLOW_PROJECT_ROOT`
+
+### Tests
+
+- `test-em-prompt-flag.zsh` — 14 tests for --prompt/--backend flag parsing
+- `test-em-help-guards.zsh` — Help guard coverage for all em subcommands
+- `test-scholar-config-sync.zsh` — 13 unit tests for config injection
+- `e2e-scholar-config-sync.zsh` — 28 end-to-end tests
+- `dogfood-scholar-config-sync.zsh` — 41 structural checks
+- Test suite: 53/53 passing (205 test files, 1 expected timeout)
+
+### Documentation
+
+- New: `docs/guides/SCHOLAR-INTEGRATION-GUIDE.md`
+- Updated: QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, TEACHING-SYSTEM-ARCHITECTURE
+- Updated: em help, completions, cookbook, refcard, architecture docs
+
+---
+
+## [7.5.0] — 2026-02-26 — em v2.0 Safety Gate
+
+### Added
+
+- **em v2.0: Two-phase safety gate** — `em send` and `em reply` require explicit `--confirm`, with preview before sending
+- **em v2.0: ICS calendar integration** — `em calendar <ID>` parses ICS attachments, adds to Apple Calendar
+- **em v2.0: IMAP watch** — `em watch start|stop|status|log` for real-time inbox monitoring
+- **em v2.0: Folder CRUD** — `em create-folder`, `em delete-folder` for mailbox management
+- **em v2.0: Enhanced attachments** — `em attach list <ID>`, get-by-filename support
+
+### Fixed
+
+- **Macro parser** — Supports both `{=tex}` and `{=latex}` Quarto raw block formats
+- **Concept graph builder** — Handles simple YAML format in addition to array-of-objects
+- **8 integration test suites** — Variable shadowing, stale paths, format mismatches
+
+### Security
+
+- Safe config parser, jq injection prevention, terminal-notifier sanitization
+- Message ID validation, folder name sanitization, AI extra args validation
+
+---
+
+## [7.4.2] — 2026-02-22 — Atlas Integration + Homebrew Cleanup
 
 ### Added
 

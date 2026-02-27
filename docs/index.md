@@ -27,10 +27,12 @@ tags:
     **That's it!** No configuration required.
 
 !!! success "🎉 What's New in v7.6"
-    **Email polish:** `em --prompt` for AI-guided composition, `--backend` provider override, `em forward` command, and `--help` guards on all 34 em subcommands.
-    **50 test suites** passing (198 files, 12000+ assertions).
+    **Email polish:** `em --prompt` AI-guided composition, `--backend` provider override, `em forward`, help guards on all 34 em subcommands.
+    **Scholar Config Sync:** `teach config check/diff/show/scaffold`, `teach solution`, `teach sync`, `teach validate-r` — 4-layer config auto-injection.
+    **Docs overhaul:** 4 new dispatcher refcards (g, wt, dots, sec), stale version sweep, broken anchor fixes.
+    **53 test suites** passing (205 files, 12000+ assertions).
     [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
-    [→ Quick Reference](reference/REFCARD-EMAIL-DISPATCHER.md){ .md-button }
+    [→ Scholar Guide](guides/SCHOLAR-INTEGRATION-GUIDE.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
 
 ---

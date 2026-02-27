@@ -14,8 +14,8 @@
 4. [Data Flow Diagrams](#4-data-flow-diagrams)
    - [Send Flow](#41-send-flow)
    - [Reply Flow](#42-reply-flow)
-   - [Calendar Flow](#43-calendar-flow)
-   - [Watch Flow](#44-watch-flow)
+   - [Calendar Flow](#45-calendar-flow)
+   - [Watch Flow](#46-watch-flow)
 5. [Module Reference Table](#5-module-reference-table)
 6. [Version Detection and Progressive Enhancement](#6-version-detection-and-progressive-enhancement)
 7. [Testing Architecture](#7-testing-architecture)
@@ -407,7 +407,7 @@ sequenceDiagram
     ICS->>ICS: rm -f ics_file (cleanup)
 ```
 
-### 4.4 Watch Flow
+### 4.6 Watch Flow
 
 The `em watch start` command launches a background ZSH subshell that runs
 `himalaya envelope watch` in IMAP IDLE mode. New envelope lines trigger

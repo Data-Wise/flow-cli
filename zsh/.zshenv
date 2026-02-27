@@ -77,3 +77,4 @@ fi
 # - bg-agents.zsh (background job management)
 #
 # They will still be available in interactive shells via .zshrc
+. "$HOME/.cargo/env"

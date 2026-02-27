@@ -111,6 +111,7 @@ run_test ./tests/automated-plugin-dogfood.zsh
 run_test ./tests/dogfood-teach-doctor-v2.zsh
 run_test ./tests/dogfood-em-dispatcher.zsh
 run_test ./tests/dogfood-atlas-bridge.zsh
+run_test ./tests/dogfood-scholar-config-sync.zsh
 
 echo ""
 echo "E2E tests:"
@@ -124,6 +125,7 @@ run_test ./tests/e2e-teach-prompt.zsh
 run_test ./tests/e2e-teach-doctor-v2.zsh
 run_test ./tests/e2e-em-dispatcher.zsh
 run_test ./tests/e2e-atlas-bridge.zsh
+run_test ./tests/e2e-scholar-config-sync.zsh
 
 echo ""
 echo "Atlas contract tests:"
@@ -134,6 +136,7 @@ echo "Additional unit tests:"
 run_test ./tests/test-status-fields.zsh
 run_test ./tests/test-lint-e2e.zsh
 run_test ./tests/test-teach-prompt-unit.zsh
+run_test ./tests/test-scholar-config-sync.zsh
 
 echo ""
 echo "========================================="

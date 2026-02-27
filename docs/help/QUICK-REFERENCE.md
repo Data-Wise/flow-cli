@@ -693,6 +693,22 @@ teach exam "Midterm 1 Topics"
 # Output: [Uses Scholar to generate exam]
 #         ✅ Generated exam in exams/midterm-1.md
 
+# Generate solution key (v7.6.0)
+teach solution "Bayesian inference"
+# Output: [Uses Scholar to generate solution key]
+
+# Validate R code in .qmd files (v7.6.0)
+teach validate-r
+
+# Sync config to Scholar format (v7.6.0)
+teach sync
+
+# Config management (v7.6.0)
+teach config check       # Validate config (pre-flight)
+teach config diff        # Compare prompts vs defaults
+teach config show        # Show resolved 4-layer config
+teach config scaffold    # Copy default prompts for customization
+
 # Deploy course site
 teach deploy
 # Output: [Deploys to GitHub Pages]
@@ -711,15 +727,122 @@ teach map
 
 ---
 
+### Scholar Content Generation
+
+```bash
+# Generate lecture notes
+teach lecture "Bayesian Inference"     # or: teach lec
+# Output: [Scholar generates lecture content via AI]
+
+# Generate slides
+teach slides "Regression Analysis"     # or: teach sl
+# Output: [Scholar generates slide deck]
+
+# Generate quiz
+teach quiz "Chapter 5"                 # or: teach q
+# Output: [Scholar generates quiz questions]
+
+# Generate assignment
+teach assignment "Homework 4"          # or: teach hw
+# Output: [Scholar generates assignment]
+
+# Generate syllabus
+teach syllabus                         # or: teach syl
+# Output: [Scholar generates course syllabus]
+
+# Generate rubric
+teach rubric "Final Project"           # or: teach rb
+# Output: [Scholar generates grading rubric]
+
+# Generate feedback
+teach feedback "HW3"                   # or: teach fb
+# Output: [Scholar generates student feedback]
+
+# Generate demo course
+teach demo
+# Output: [Scholar creates demo course structure]
+```
+
+---
+
+### Course Utilities
+
+```bash
+# Show current week's content
+teach week                             # or: teach w
+# Output: Week 5: Hypothesis Testing
+#         Lectures: 2 (both deployed)
+#         Assignments: HW3 (due 2026-02-20)
+
+# Date management
+teach dates                            # Date dispatcher (sub-commands)
+teach dates sync                       # Sync dates from schedule
+teach dates show                       # Show upcoming dates
+
+# Backup course content
+teach backup                           # or: teach bk
+# Output: ✅ Backed up to .flow/backups/2026-02-27/
+
+# Lesson plan management
+teach plan create "Week 6"             # or: teach pl create
+teach plan list
+teach plan show "Week 6"
+teach plan edit "Week 6"
+teach plan delete "Week 6"
+
+# Validate course content
+teach validate                         # or: teach val
+# Output: ✅ All .qmd files valid
+
+# Cache management
+teach cache                            # Show cache status
+teach cache clear                      # Clear cached data
+
+# Clean generated artifacts
+teach clean                            # or: teach cl
+# Output: ✅ Removed 12 generated files
+
+# Profile management
+teach profiles                         # or: teach prof
+teach profiles list                    # List teaching profiles
+teach profiles use "advanced"          # Switch profile
+
+# Git hooks for teaching
+teach hooks install                    # Install pre-commit hooks
+teach hooks status                     # Show hook status
+teach hooks upgrade                    # Upgrade hooks
+teach hooks uninstall                  # Remove hooks
+
+# LaTeX macros
+teach macros list                      # or: teach m list
+teach macros sync                      # Sync macro definitions
+teach macros export                    # Export macros
+
+# AI prompt management
+teach prompt list                      # or: teach pr list
+teach prompt show "exam"               # Show specific prompt
+teach prompt edit "exam"               # Edit prompt template
+teach prompt validate                  # Check all prompts
+teach prompt export                    # Export prompts
+
+# Teaching style
+teach style                            # or: teach st
+teach style show                       # Show current style config
+teach style edit                       # Edit teaching style
+```
+
+---
+
 ### Health Check (Doctor v2)
 
 ```bash
-# Quick check (default, < 3s) — deps, R, config, git
+# Quick check (default, < 3s) — deps, R, config, git, scholar config
 teach doctor
-# Output: ✅ Dependencies   yq, git, quarto, gh, claude
-#         ✅ R Environment  R 4.4.2, renv active (48 packages)
-#         ✅ Configuration  .flow/teach-config.yml
-#         ✅ Git Setup      main + gh-pages, clean
+# Output: ✅ Dependencies    yq, git, quarto, gh, claude
+#         ✅ R Environment   R 4.4.2, renv active (48 packages)
+#         ✅ Configuration   .flow/teach-config.yml
+#         ✅ Git Setup       main + gh-pages, clean
+#         ✅ Scholar Config  Auto-injection enabled, config current
 
 # Full check (all 11 categories)
 teach doctor --full

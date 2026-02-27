@@ -6,8 +6,8 @@ tags:
 
 # Quarto Workflow Phase 2 Guide
 
-**Version:** 5.14.0
-**Last Updated:** 2026-01-21
+**Version:** v7.6.0
+**Last Updated:** 2026-02-27
 **Status:** Production Ready
 
 > **Quick Reference**: For command syntax and common workflows, see the [Phase 2 Quick Reference Card](../reference/MASTER-DISPATCHER-GUIDE.md#qu-dispatcher).

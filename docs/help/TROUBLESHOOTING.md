@@ -3,8 +3,8 @@
 **Purpose:** Common issues and solutions for flow-cli
 **Audience:** All users experiencing problems
 **Format:** Problem → Diagnosis → Solution
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v7.6.0
+**Last Updated:** 2026-02-27
 
 ---
 
@@ -75,17 +75,26 @@ grep "flow.plugin.zsh" ~/.zshrc
 grep "flow-cli" ~/.config/zsh/.zshrc
 ```
 
-**Solution 1: Plugin not sourced**
+**Solution 1: Install via Homebrew (recommended)**
+
+```bash
+brew install Data-Wise/tap/flow-cli
+
+# Verify
+flow doctor
+```
+
+**Solution 2: Plugin not sourced (manual install)**
 
 ```bash
 # Add to ~/.zshrc or ~/.config/zsh/.zshrc
-source ~/projects/dev-tools/flow-cli/flow.plugin.zsh
+source /opt/homebrew/opt/flow-cli/flow.plugin.zsh
 
 # Reload shell
 exec zsh
 ```
 
-**Solution 2: Using plugin manager**
+**Solution 3: Using plugin manager**
 
 For antidote:
 
@@ -187,10 +196,13 @@ flow doctor
 exec zsh
 
 # If still failing, check dispatcher file exists
+# Homebrew install:
+ls -la /opt/homebrew/opt/flow-cli/lib/dispatchers/g-dispatcher.zsh
+# Manual install:
 ls -la ~/projects/dev-tools/flow-cli/lib/dispatchers/g-dispatcher.zsh
 
 # Source manually to test
-source ~/projects/dev-tools/flow-cli/lib/dispatchers/g-dispatcher.zsh
+source /opt/homebrew/opt/flow-cli/flow.plugin.zsh
 
 # Try command
 g status
@@ -381,7 +393,7 @@ flow doctor --dot
 **Solution:**
 
 ```bash
-# Use cached check (v5.17.0+)
+# Use cached check
 flow doctor --dot
 # Should be < 3s with cache
 
@@ -696,8 +708,12 @@ teach exam "Midterm"
 **Solution:**
 
 ```bash
-# Check Scholar status
-teach scholar status
+# Check Scholar status with teach doctor
+teach doctor
+# Quick mode checks: CLI deps, R + renv, config, git, Scholar config
+
+# For full diagnostics (11 categories):
+teach doctor --full
 
 # Install Scholar (if missing)
 # Follow Scholar installation guide
@@ -705,6 +721,33 @@ teach scholar status
 # Verify
 which scholar
 # Output: /path/to/scholar
+```
+
+---
+
+### Issue: Scholar config out of sync
+
+**Symptom:**
+
+```bash
+teach config check
+# Output: ⚠️  Config drift detected
+```
+
+**Solution:**
+
+```bash
+# See what changed
+teach config diff
+
+# Show current config
+teach config show
+
+# Sync config files
+teach sync
+
+# Scaffold new config if needed
+teach config scaffold
 ```
 
 ---
@@ -760,6 +803,34 @@ gh auth status
 
 # Retry deployment
 teach deploy
+```
+
+---
+
+## Email Dispatcher Issues
+
+### Issue: "em command not found" or email not working
+
+**Symptom:**
+
+```bash
+em inbox
+# Output: command not found: em
+# OR: Error: himalaya not installed
+```
+
+**Solution:**
+
+```bash
+# Install himalaya (email CLI backend)
+brew install himalaya
+
+# Configure himalaya
+# See: https://github.com/pimalaya/himalaya
+
+# Verify
+em help
+em inbox
 ```
 
 ---
@@ -887,6 +958,15 @@ flow doctor --dot
 # Fix issues interactively
 flow doctor --fix
 
+# Teaching workflow health (quick mode, < 3s)
+teach doctor
+
+# Teaching workflow health (full, 11 categories)
+teach doctor --full
+
+# Teaching CI mode (non-zero exit on failure)
+teach doctor --ci
+
 # Check specific category
 flow doctor --dependencies
 flow doctor --git
@@ -968,6 +1048,6 @@ ls -la ~/.cache/flow/
 
 ---
 
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v7.6.0
+**Last Updated:** 2026-02-27
 **Need more help?** https://github.com/Data-Wise/flow-cli/issues

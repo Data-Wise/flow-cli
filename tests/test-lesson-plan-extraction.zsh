@@ -347,6 +347,9 @@ test_migrate_dry_run_no_changes() {
     test_start "Dry run makes no file changes"
     setup_test_env
 
+    # Remove lesson-plans.yml if fixture ships one (dry-run shouldn't create it)
+    rm -f .flow/lesson-plans.yml
+
     # Get original file hash
     local original_hash=$(md5 -q .flow/teach-config.yml)
 
@@ -544,7 +547,10 @@ test_loader_shows_warning_for_fallback() {
     test_start "Loader shows warning when using embedded weeks"
     setup_test_env
 
-    # Don't migrate - use embedded weeks
+    # Remove lesson-plans.yml so loader falls back to embedded weeks
+    rm -f .flow/lesson-plans.yml
+
+    # Use embedded weeks (fallback)
     local output=$(_teach_load_lesson_plan 1 2>&1)
     # Strip ANSI codes for reliable matching
     local clean_output=$(strip_ansi "$output")

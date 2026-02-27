@@ -53,7 +53,7 @@ teach init            # Initialize course
 | [prompt](#prompt-dispatcher) | Prompt engine | 3 | Beginner |
 | [v](#v-dispatcher) | Vibe coding mode | 4 | Beginner |
 | [em](#em-dispatcher) | Email (himalaya) | 31 | Beginner → Advanced |
-| [at](#at--atlas-project-intelligence) | Atlas project intelligence | 12+ | Beginner → Intermediate |
+| [at](#at-atlas-project-intelligence) | Atlas project intelligence | 12+ | Beginner → Intermediate |
 
 ---
 
@@ -2568,6 +2568,16 @@ qu preview
 - `teach exam <topic>` - Generate exam
 - `teach exam --template <name> <topic>` - Use template
 - `teach quiz <topic>` - Generate quiz
+- `teach solution <topic>` - Generate solution key
+- `teach sync` - Sync config to Scholar format
+- `teach validate-r` - Validate R code in .qmd files
+
+**Config Management (v7.6.0, #423):**
+- `teach config check` - Validate config (strict, pre-flight)
+- `teach config diff` - Compare prompts vs defaults
+- `teach config show` - Show resolved 4-layer config
+- `teach config scaffold` - Copy default prompts for customization
+- `teach config edit` - Open config in editor (existing)
 
 **Deployment (v6.4.0):**
 - `teach deploy` - Deploy via PR (default)
@@ -3341,7 +3351,7 @@ at stats
 - **Beginners:** Start with [g](#g-dispatcher), [cc](#cc-dispatcher), [tm](#tm-dispatcher), [em](#em-dispatcher)
 - **Intermediate:** Explore [r](#r-dispatcher), [qu](#qu-dispatcher), [dots](#dots-dispatcher), [sec](#sec-dispatcher)
 - **Advanced:** Master [wt](#wt-dispatcher), [teach](#teach-dispatcher) advanced features
-- **Atlas Users:** See [at](#at--atlas-project-intelligence) for project intelligence
+- **Atlas Users:** See [at](#at-atlas-project-intelligence) for project intelligence
 - **Quick Reference:** See [QUICK-REFERENCE.md](../help/QUICK-REFERENCE.md)
 - **Workflows:** See [WORKFLOWS.md](../help/WORKFLOWS.md)
 

@@ -507,5 +507,5 @@ Run: sec unlock
 
 ---
 
-**Version:** v5.2.0
+**Version:** v7.6.0
 **See Also:** [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md#dots-dispatcher) | [Tutorial](../tutorials/12-dot-dispatcher.md)

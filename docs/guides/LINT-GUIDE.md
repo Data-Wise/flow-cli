@@ -56,7 +56,7 @@ markdownlint has a **~60% false positive rate** on Quarto syntax because:
 
 ### Installation
 
-The lint validator is included in flow-cli v5.24.0+.
+The lint validator is included in flow-cli v7.0.0+.
 
 **Check installation:**
 
@@ -643,7 +643,7 @@ echo "See docs/guides/LINT-GUIDE.md for Quarto lint rules" >> README.md
 ## See Also
 
 - **Quick Reference:** `docs/reference/REFCARD-LINT.md`
-- **Tutorial:** `docs/tutorials/27-lint-quickstart.md`
+- **Tutorial:** `docs/tutorials/45-lint-quickstart.md`
 - **Test Coverage:** `tests/TEST-COVERAGE-LINT.md`
 - **Implementation Plan:** `docs/plans/2026-01-31-teach-validate-lint.md`
 

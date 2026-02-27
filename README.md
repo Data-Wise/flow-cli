@@ -221,16 +221,16 @@ Each dispatcher has built-in help: `cc help`, `dots help`, `r help`, `em help`, 
 
 ---
 
-## 🎓 Teaching Workflow (v5.3.0+)
+## 🎓 Teaching Workflow
 
 **Deployment-focused workflow for course websites.** Solve the 5-15 minute deployment pain point.
 
-**v5.9.0:** Now with schema-based config validation and Scholar AI integration!
+**v7.6.0:** Scholar Config Sync — `teach config check/diff/show/scaffold`, `teach solution`, `teach sync`, `teach validate-r`.
 
 ```bash
 # Initialize teaching workflow (with semester scheduling)
 cd ~/teaching/my-course
-teach-init "STAT 545"
+teach init "STAT 545"
 # Prompts for: semester dates, break weeks, auto-calculates end date
 
 # Start session (shows semester context)
