@@ -5079,6 +5079,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forwarding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#search-find" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9360,6 +9371,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forwarding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#search-find" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9728,12 +9750,13 @@ both wrap himalaya CLI. Use <code>em</code> for fast terminal ops, himalaya-mcp 
 </blockquote>
 <h2 id="command-taxonomy">Command Taxonomy<a class="headerlink" href="#command-taxonomy" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>mindmap
-  root((em&lt;br/&gt;v2.0&lt;br/&gt;37 commands))
-    Core Email&lt;br/&gt;4 commands
+  root((em&lt;br/&gt;v2.0&lt;br/&gt;38 commands))
+    Core Email&lt;br/&gt;5 commands
       inbox
       read
       send
       reply
+      forward
     Search &amp; Browse&lt;br/&gt;2 commands
       find
       pick
@@ -9821,14 +9844,20 @@ both wrap himalaya CLI. Use <code>em</code> for fast terminal ops, himalaya-mcp 
 <tr>
 <td><strong>em send</strong></td>
 <td><code>s</code></td>
-<td><code>em send [--ai] [to] [subject]</code></td>
+<td><code>em send [--ai] [--prompt P] [--backend B] [to] [subject]</code></td>
 <td>Compose new email</td>
 </tr>
 <tr>
 <td><strong>em reply</strong></td>
 <td><code>re</code></td>
-<td><code>em reply &lt;ID&gt; [--no-ai] [--all] [--batch]</code></td>
+<td><code>em reply &lt;ID&gt; [--no-ai] [--all] [--batch] [--prompt P] [--backend B]</code></td>
 <td>Reply with optional AI draft</td>
+</tr>
+<tr>
+<td><strong>em forward</strong></td>
+<td><code>fwd</code></td>
+<td><code>em forward &lt;ID&gt; [--prompt P] [--backend B] [to]</code></td>
+<td>Forward email with optional AI note</td>
 </tr>
 <tr>
 <td><strong>em find</strong></td>
@@ -10109,7 +10138,7 @@ both wrap himalaya CLI. Use <code>em</code> for fast terminal ops, himalaya-mcp 
 <hr />
 <h2 id="architecture-diagram">Architecture Diagram<a class="headerlink" href="#architecture-diagram" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>graph TD
-    A["em dispatcher&lt;br/&gt;v2.0 — 37 commands"] --&gt;|adapter layer| B["himalaya CLI&lt;br/&gt;(email backend)"]
+    A["em dispatcher&lt;br/&gt;v2.0 — 38 commands"] --&gt;|adapter layer| B["himalaya CLI&lt;br/&gt;(email backend)"]
     A --&gt;|cache layer| C["em-cache&lt;br/&gt;(TTL: 1h-24h)"]
     A --&gt;|AI abstraction| D["em-ai&lt;br/&gt;Backend: claude/gemini"]
     A --&gt;|render pipeline| E["em-render&lt;br/&gt;Smart content detection"]
@@ -10253,8 +10282,10 @@ Outlook attribute block removal → fenced div stripping → CID/backslash clean
 <ul>
 <li><code>em send</code> — preview draft before sending</li>
 <li><code>em reply &lt;ID&gt;</code> — preview reply before sending</li>
+<li><code>em forward &lt;ID&gt;</code> — preview forward before sending</li>
 <li><code>em reply &lt;ID&gt; --batch</code> — preview + <code>[y/N]</code> (no editor step)</li>
 <li><code>em respond --review</code> — per-draft confirmation</li>
+<li>Any command with <code>--prompt</code> — AI drafts go through preview gate</li>
 </ul>
 <h3 id="version-detection">Version Detection<a class="headerlink" href="#version-detection" title="Permanent link">&para;</a></h3>
 <p><code>em</code> automatically detects the installed himalaya version and enables features accordingly:</p>
@@ -10556,106 +10587,114 @@ first (LRU). Set to <code>0</code> to disable size cap.</p>
 <a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--no-ai<span class="w">                </span><span class="c1"># Reply without AI</span>
 <a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--all<span class="w">                  </span><span class="c1"># Reply-all</span>
 <a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--batch<span class="w">                </span><span class="c1"># Non-interactive (preview+confirm)</span>
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>
-<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="c1"># Composing</span>
-<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>em<span class="w"> </span>s<span class="w">                            </span><span class="c1"># New email (opens $EDITOR)</span>
-<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>em<span class="w"> </span>s<span class="w"> </span>--ai<span class="w"> </span><span class="s2">&quot;Subject here&quot;</span><span class="w">        </span><span class="c1"># AI draft from subject</span>
-<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>
-<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="c1"># Browsing &amp; search</span>
-<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>em<span class="w"> </span>i<span class="w">                            </span><span class="c1"># List recent emails (25)</span>
-<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>em<span class="w"> </span>i<span class="w"> </span><span class="m">50</span><span class="w">                         </span><span class="c1"># List 50 emails</span>
-<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>em<span class="w"> </span>i<span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="s2">&quot;Sent Items&quot;</span><span class="w">            </span><span class="c1"># List folder</span>
-<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>em<span class="w"> </span>p<span class="w">                            </span><span class="c1"># fzf browser (interactive)</span>
-<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>em<span class="w"> </span>f<span class="w"> </span><span class="s2">&quot;quarterly report&quot;</span><span class="w">         </span><span class="c1"># Search emails</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;decline, suggest office hours&quot;</span><span class="w">  </span><span class="c1"># AI draft with instructions</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--backend<span class="w"> </span>gemini<span class="w">       </span><span class="c1"># Override AI backend for this reply</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="c1"># Composing</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>em<span class="w"> </span>s<span class="w">                            </span><span class="c1"># New email (opens $EDITOR)</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>em<span class="w"> </span>s<span class="w"> </span>--ai<span class="w"> </span><span class="s2">&quot;Subject here&quot;</span><span class="w">        </span><span class="c1"># AI draft from subject</span>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>em<span class="w"> </span>s<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;thank Alice for the report&quot;</span><span class="w">  </span><span class="c1"># AI compose from instructions</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="c1"># Forwarding</span>
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>em<span class="w"> </span>fwd<span class="w"> </span><span class="m">42</span><span class="w"> </span>colleague@unm.edu<span class="w">    </span><span class="c1"># Forward with optional note</span>
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>em<span class="w"> </span>fwd<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;FYI, see the budget section&quot;</span><span class="w">  </span><span class="c1"># AI forwarding note</span>
 <a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a>
 <a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="c1"># AI features</span>
-<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>em<span class="w"> </span>classify<span class="w"> </span><span class="m">42</span><span class="w">                  </span><span class="c1"># Classify email (AI)</span>
-<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>em<span class="w"> </span>sum<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># One-line summary (AI)</span>
-<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a>em<span class="w"> </span>respond<span class="w">                      </span><span class="c1"># Batch draft generation</span>
-<a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a>em<span class="w"> </span>respond<span class="w"> </span>--review<span class="w">             </span><span class="c1"># Review/send cached drafts</span>
-<a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a>em<span class="w"> </span>respond<span class="w"> </span>--dry-run<span class="w">            </span><span class="c1"># Classify only (no drafts)</span>
-<a id="__codelineno-13-37" name="__codelineno-13-37" href="#__codelineno-13-37"></a>em<span class="w"> </span>respond<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w">                </span><span class="c1"># Process 50 emails</span>
-<a id="__codelineno-13-38" name="__codelineno-13-38" href="#__codelineno-13-38"></a>
-<a id="__codelineno-13-39" name="__codelineno-13-39" href="#__codelineno-13-39"></a><span class="c1"># AI backend switching</span>
-<a id="__codelineno-13-40" name="__codelineno-13-40" href="#__codelineno-13-40"></a>em<span class="w"> </span>ai<span class="w">                           </span><span class="c1"># Show current backend</span>
-<a id="__codelineno-13-41" name="__codelineno-13-41" href="#__codelineno-13-41"></a>em<span class="w"> </span>ai<span class="w"> </span>gemini<span class="w">                    </span><span class="c1"># Switch to Gemini</span>
-<a id="__codelineno-13-42" name="__codelineno-13-42" href="#__codelineno-13-42"></a>em<span class="w"> </span>ai<span class="w"> </span>toggle<span class="w">                    </span><span class="c1"># Cycle: claude → gemini → claude</span>
-<a id="__codelineno-13-43" name="__codelineno-13-43" href="#__codelineno-13-43"></a>em<span class="w"> </span>ai<span class="w"> </span>none<span class="w">                      </span><span class="c1"># Disable AI entirely</span>
-<a id="__codelineno-13-44" name="__codelineno-13-44" href="#__codelineno-13-44"></a>
-<a id="__codelineno-13-45" name="__codelineno-13-45" href="#__codelineno-13-45"></a><span class="c1"># Email-to-task capture</span>
-<a id="__codelineno-13-46" name="__codelineno-13-46" href="#__codelineno-13-46"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># AI summarize → pipe to catch</span>
-<a id="__codelineno-13-47" name="__codelineno-13-47" href="#__codelineno-13-47"></a>
-<a id="__codelineno-13-48" name="__codelineno-13-48" href="#__codelineno-13-48"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-49" name="__codelineno-13-49" href="#__codelineno-13-49"></a><span class="c1"># Organizing</span>
-<a id="__codelineno-13-50" name="__codelineno-13-50" href="#__codelineno-13-50"></a>em<span class="w"> </span>star<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Toggle star (flagged)</span>
-<a id="__codelineno-13-51" name="__codelineno-13-51" href="#__codelineno-13-51"></a>em<span class="w"> </span>starred<span class="w">                      </span><span class="c1"># List starred emails</span>
-<a id="__codelineno-13-52" name="__codelineno-13-52" href="#__codelineno-13-52"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w"> </span>Archive<span class="w">              </span><span class="c1"># Move to Archive</span>
-<a id="__codelineno-13-53" name="__codelineno-13-53" href="#__codelineno-13-53"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># fzf folder picker</span>
-<a id="__codelineno-13-54" name="__codelineno-13-54" href="#__codelineno-13-54"></a>em<span class="w"> </span>thread<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Show conversation thread</span>
-<a id="__codelineno-13-55" name="__codelineno-13-55" href="#__codelineno-13-55"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">42</span><span class="w"> </span>2h<span class="w">                 </span><span class="c1"># Snooze for 2 hours</span>
-<a id="__codelineno-13-56" name="__codelineno-13-56" href="#__codelineno-13-56"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">42</span><span class="w"> </span>tomorrow<span class="w">           </span><span class="c1"># Snooze until tomorrow 9am</span>
-<a id="__codelineno-13-57" name="__codelineno-13-57" href="#__codelineno-13-57"></a>em<span class="w"> </span>snoozed<span class="w">                      </span><span class="c1"># List snoozed emails</span>
-<a id="__codelineno-13-58" name="__codelineno-13-58" href="#__codelineno-13-58"></a>em<span class="w"> </span>digest<span class="w">                       </span><span class="c1"># AI-grouped today&#39;s summary</span>
-<a id="__codelineno-13-59" name="__codelineno-13-59" href="#__codelineno-13-59"></a>em<span class="w"> </span>digest<span class="w"> </span>--week<span class="w">                </span><span class="c1"># Weekly summary</span>
-<a id="__codelineno-13-60" name="__codelineno-13-60" href="#__codelineno-13-60"></a><span class="c1"># Email management</span>
-<a id="__codelineno-13-61" name="__codelineno-13-61" href="#__codelineno-13-61"></a>em<span class="w"> </span>delete<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Move to Trash (with confirm)</span>
-<a id="__codelineno-13-62" name="__codelineno-13-62" href="#__codelineno-13-62"></a>em<span class="w"> </span>del<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="m">43</span><span class="w"> </span><span class="m">44</span><span class="w">                 </span><span class="c1"># Batch delete</span>
-<a id="__codelineno-13-63" name="__codelineno-13-63" href="#__codelineno-13-63"></a>em<span class="w"> </span>delete<span class="w"> </span>--folder<span class="w"> </span>Spam<span class="w">         </span><span class="c1"># Delete all in folder</span>
-<a id="__codelineno-13-64" name="__codelineno-13-64" href="#__codelineno-13-64"></a>em<span class="w"> </span>delete<span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;newsletter&quot;</span><span class="w">  </span><span class="c1"># Delete by search</span>
-<a id="__codelineno-13-65" name="__codelineno-13-65" href="#__codelineno-13-65"></a>em<span class="w"> </span>delete<span class="w"> </span>--purge<span class="w"> </span><span class="m">42</span><span class="w">            </span><span class="c1"># PERMANENT delete (requires &quot;yes&quot;)</span>
-<a id="__codelineno-13-66" name="__codelineno-13-66" href="#__codelineno-13-66"></a>em<span class="w"> </span>move<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w">              </span><span class="c1"># Move to Archive</span>
-<a id="__codelineno-13-67" name="__codelineno-13-67" href="#__codelineno-13-67"></a>em<span class="w"> </span>mv<span class="w"> </span>Archive<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">30</span><span class="w">          </span><span class="c1"># Batch move</span>
-<a id="__codelineno-13-68" name="__codelineno-13-68" href="#__codelineno-13-68"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w">                   </span><span class="c1"># Restore from Trash → INBOX</span>
-<a id="__codelineno-13-69" name="__codelineno-13-69" href="#__codelineno-13-69"></a>em<span class="w"> </span>flag<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Star/flag email</span>
-<a id="__codelineno-13-70" name="__codelineno-13-70" href="#__codelineno-13-70"></a>em<span class="w"> </span>unflag<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Remove star</span>
-<a id="__codelineno-13-71" name="__codelineno-13-71" href="#__codelineno-13-71"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># AI → extract action items</span>
-<a id="__codelineno-13-72" name="__codelineno-13-72" href="#__codelineno-13-72"></a>em<span class="w"> </span>event<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># AI → extract calendar events</span>
-<a id="__codelineno-13-73" name="__codelineno-13-73" href="#__codelineno-13-73"></a>
-<a id="__codelineno-13-74" name="__codelineno-13-74" href="#__codelineno-13-74"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-75" name="__codelineno-13-75" href="#__codelineno-13-75"></a><span class="c1"># Quick info</span>
-<a id="__codelineno-13-76" name="__codelineno-13-76" href="#__codelineno-13-76"></a>em<span class="w"> </span>u<span class="w">                            </span><span class="c1"># Show unread count</span>
-<a id="__codelineno-13-77" name="__codelineno-13-77" href="#__codelineno-13-77"></a>em<span class="w"> </span>d<span class="w">                            </span><span class="c1"># Quick dashboard</span>
-<a id="__codelineno-13-78" name="__codelineno-13-78" href="#__codelineno-13-78"></a>em<span class="w"> </span>folders<span class="w">                      </span><span class="c1"># List folders</span>
-<a id="__codelineno-13-79" name="__codelineno-13-79" href="#__codelineno-13-79"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Render HTML in terminal</span>
-<a id="__codelineno-13-80" name="__codelineno-13-80" href="#__codelineno-13-80"></a>
-<a id="__codelineno-13-81" name="__codelineno-13-81" href="#__codelineno-13-81"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-82" name="__codelineno-13-82" href="#__codelineno-13-82"></a><span class="c1"># Attachments (v2.0: enhanced)</span>
-<a id="__codelineno-13-83" name="__codelineno-13-83" href="#__codelineno-13-83"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Download all attachments</span>
-<a id="__codelineno-13-84" name="__codelineno-13-84" href="#__codelineno-13-84"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w"> </span>~/Downloads<span class="w">        </span><span class="c1"># Save to specific directory</span>
-<a id="__codelineno-13-85" name="__codelineno-13-85" href="#__codelineno-13-85"></a>em<span class="w"> </span>attach<span class="w"> </span>list<span class="w"> </span><span class="m">42</span><span class="w">               </span><span class="c1"># Show attachment table (name, MIME, size)</span>
-<a id="__codelineno-13-86" name="__codelineno-13-86" href="#__codelineno-13-86"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>report.pdf<span class="w">     </span><span class="c1"># Download specific file to ~/Downloads</span>
-<a id="__codelineno-13-87" name="__codelineno-13-87" href="#__codelineno-13-87"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>report.pdf<span class="w"> </span>~/Documents<span class="w">  </span><span class="c1"># Download to custom directory</span>
+<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="c1"># Browsing &amp; search</span>
+<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>em<span class="w"> </span>i<span class="w">                            </span><span class="c1"># List recent emails (25)</span>
+<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>em<span class="w"> </span>i<span class="w"> </span><span class="m">50</span><span class="w">                         </span><span class="c1"># List 50 emails</span>
+<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a>em<span class="w"> </span>i<span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="s2">&quot;Sent Items&quot;</span><span class="w">            </span><span class="c1"># List folder</span>
+<a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a>em<span class="w"> </span>p<span class="w">                            </span><span class="c1"># fzf browser (interactive)</span>
+<a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a>em<span class="w"> </span>f<span class="w"> </span><span class="s2">&quot;quarterly report&quot;</span><span class="w">         </span><span class="c1"># Search emails</span>
+<a id="__codelineno-13-37" name="__codelineno-13-37" href="#__codelineno-13-37"></a>
+<a id="__codelineno-13-38" name="__codelineno-13-38" href="#__codelineno-13-38"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-13-39" name="__codelineno-13-39" href="#__codelineno-13-39"></a><span class="c1"># AI features</span>
+<a id="__codelineno-13-40" name="__codelineno-13-40" href="#__codelineno-13-40"></a>em<span class="w"> </span>classify<span class="w"> </span><span class="m">42</span><span class="w">                  </span><span class="c1"># Classify email (AI)</span>
+<a id="__codelineno-13-41" name="__codelineno-13-41" href="#__codelineno-13-41"></a>em<span class="w"> </span>sum<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># One-line summary (AI)</span>
+<a id="__codelineno-13-42" name="__codelineno-13-42" href="#__codelineno-13-42"></a>em<span class="w"> </span>respond<span class="w">                      </span><span class="c1"># Batch draft generation</span>
+<a id="__codelineno-13-43" name="__codelineno-13-43" href="#__codelineno-13-43"></a>em<span class="w"> </span>respond<span class="w"> </span>--review<span class="w">             </span><span class="c1"># Review/send cached drafts</span>
+<a id="__codelineno-13-44" name="__codelineno-13-44" href="#__codelineno-13-44"></a>em<span class="w"> </span>respond<span class="w"> </span>--dry-run<span class="w">            </span><span class="c1"># Classify only (no drafts)</span>
+<a id="__codelineno-13-45" name="__codelineno-13-45" href="#__codelineno-13-45"></a>em<span class="w"> </span>respond<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w">                </span><span class="c1"># Process 50 emails</span>
+<a id="__codelineno-13-46" name="__codelineno-13-46" href="#__codelineno-13-46"></a>
+<a id="__codelineno-13-47" name="__codelineno-13-47" href="#__codelineno-13-47"></a><span class="c1"># AI backend switching</span>
+<a id="__codelineno-13-48" name="__codelineno-13-48" href="#__codelineno-13-48"></a>em<span class="w"> </span>ai<span class="w">                           </span><span class="c1"># Show current backend</span>
+<a id="__codelineno-13-49" name="__codelineno-13-49" href="#__codelineno-13-49"></a>em<span class="w"> </span>ai<span class="w"> </span>gemini<span class="w">                    </span><span class="c1"># Switch to Gemini</span>
+<a id="__codelineno-13-50" name="__codelineno-13-50" href="#__codelineno-13-50"></a>em<span class="w"> </span>ai<span class="w"> </span>toggle<span class="w">                    </span><span class="c1"># Cycle: claude → gemini → claude</span>
+<a id="__codelineno-13-51" name="__codelineno-13-51" href="#__codelineno-13-51"></a>em<span class="w"> </span>ai<span class="w"> </span>none<span class="w">                      </span><span class="c1"># Disable AI entirely</span>
+<a id="__codelineno-13-52" name="__codelineno-13-52" href="#__codelineno-13-52"></a>
+<a id="__codelineno-13-53" name="__codelineno-13-53" href="#__codelineno-13-53"></a><span class="c1"># Email-to-task capture</span>
+<a id="__codelineno-13-54" name="__codelineno-13-54" href="#__codelineno-13-54"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># AI summarize → pipe to catch</span>
+<a id="__codelineno-13-55" name="__codelineno-13-55" href="#__codelineno-13-55"></a>
+<a id="__codelineno-13-56" name="__codelineno-13-56" href="#__codelineno-13-56"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-13-57" name="__codelineno-13-57" href="#__codelineno-13-57"></a><span class="c1"># Organizing</span>
+<a id="__codelineno-13-58" name="__codelineno-13-58" href="#__codelineno-13-58"></a>em<span class="w"> </span>star<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Toggle star (flagged)</span>
+<a id="__codelineno-13-59" name="__codelineno-13-59" href="#__codelineno-13-59"></a>em<span class="w"> </span>starred<span class="w">                      </span><span class="c1"># List starred emails</span>
+<a id="__codelineno-13-60" name="__codelineno-13-60" href="#__codelineno-13-60"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w"> </span>Archive<span class="w">              </span><span class="c1"># Move to Archive</span>
+<a id="__codelineno-13-61" name="__codelineno-13-61" href="#__codelineno-13-61"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># fzf folder picker</span>
+<a id="__codelineno-13-62" name="__codelineno-13-62" href="#__codelineno-13-62"></a>em<span class="w"> </span>thread<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Show conversation thread</span>
+<a id="__codelineno-13-63" name="__codelineno-13-63" href="#__codelineno-13-63"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">42</span><span class="w"> </span>2h<span class="w">                 </span><span class="c1"># Snooze for 2 hours</span>
+<a id="__codelineno-13-64" name="__codelineno-13-64" href="#__codelineno-13-64"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">42</span><span class="w"> </span>tomorrow<span class="w">           </span><span class="c1"># Snooze until tomorrow 9am</span>
+<a id="__codelineno-13-65" name="__codelineno-13-65" href="#__codelineno-13-65"></a>em<span class="w"> </span>snoozed<span class="w">                      </span><span class="c1"># List snoozed emails</span>
+<a id="__codelineno-13-66" name="__codelineno-13-66" href="#__codelineno-13-66"></a>em<span class="w"> </span>digest<span class="w">                       </span><span class="c1"># AI-grouped today&#39;s summary</span>
+<a id="__codelineno-13-67" name="__codelineno-13-67" href="#__codelineno-13-67"></a>em<span class="w"> </span>digest<span class="w"> </span>--week<span class="w">                </span><span class="c1"># Weekly summary</span>
+<a id="__codelineno-13-68" name="__codelineno-13-68" href="#__codelineno-13-68"></a><span class="c1"># Email management</span>
+<a id="__codelineno-13-69" name="__codelineno-13-69" href="#__codelineno-13-69"></a>em<span class="w"> </span>delete<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Move to Trash (with confirm)</span>
+<a id="__codelineno-13-70" name="__codelineno-13-70" href="#__codelineno-13-70"></a>em<span class="w"> </span>del<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="m">43</span><span class="w"> </span><span class="m">44</span><span class="w">                 </span><span class="c1"># Batch delete</span>
+<a id="__codelineno-13-71" name="__codelineno-13-71" href="#__codelineno-13-71"></a>em<span class="w"> </span>delete<span class="w"> </span>--folder<span class="w"> </span>Spam<span class="w">         </span><span class="c1"># Delete all in folder</span>
+<a id="__codelineno-13-72" name="__codelineno-13-72" href="#__codelineno-13-72"></a>em<span class="w"> </span>delete<span class="w"> </span>--query<span class="w"> </span><span class="s2">&quot;newsletter&quot;</span><span class="w">  </span><span class="c1"># Delete by search</span>
+<a id="__codelineno-13-73" name="__codelineno-13-73" href="#__codelineno-13-73"></a>em<span class="w"> </span>delete<span class="w"> </span>--purge<span class="w"> </span><span class="m">42</span><span class="w">            </span><span class="c1"># PERMANENT delete (requires &quot;yes&quot;)</span>
+<a id="__codelineno-13-74" name="__codelineno-13-74" href="#__codelineno-13-74"></a>em<span class="w"> </span>move<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w">              </span><span class="c1"># Move to Archive</span>
+<a id="__codelineno-13-75" name="__codelineno-13-75" href="#__codelineno-13-75"></a>em<span class="w"> </span>mv<span class="w"> </span>Archive<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">30</span><span class="w">          </span><span class="c1"># Batch move</span>
+<a id="__codelineno-13-76" name="__codelineno-13-76" href="#__codelineno-13-76"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w">                   </span><span class="c1"># Restore from Trash → INBOX</span>
+<a id="__codelineno-13-77" name="__codelineno-13-77" href="#__codelineno-13-77"></a>em<span class="w"> </span>flag<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Star/flag email</span>
+<a id="__codelineno-13-78" name="__codelineno-13-78" href="#__codelineno-13-78"></a>em<span class="w"> </span>unflag<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Remove star</span>
+<a id="__codelineno-13-79" name="__codelineno-13-79" href="#__codelineno-13-79"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># AI → extract action items</span>
+<a id="__codelineno-13-80" name="__codelineno-13-80" href="#__codelineno-13-80"></a>em<span class="w"> </span>event<span class="w"> </span><span class="m">42</span><span class="w">                     </span><span class="c1"># AI → extract calendar events</span>
+<a id="__codelineno-13-81" name="__codelineno-13-81" href="#__codelineno-13-81"></a>
+<a id="__codelineno-13-82" name="__codelineno-13-82" href="#__codelineno-13-82"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-13-83" name="__codelineno-13-83" href="#__codelineno-13-83"></a><span class="c1"># Quick info</span>
+<a id="__codelineno-13-84" name="__codelineno-13-84" href="#__codelineno-13-84"></a>em<span class="w"> </span>u<span class="w">                            </span><span class="c1"># Show unread count</span>
+<a id="__codelineno-13-85" name="__codelineno-13-85" href="#__codelineno-13-85"></a>em<span class="w"> </span>d<span class="w">                            </span><span class="c1"># Quick dashboard</span>
+<a id="__codelineno-13-86" name="__codelineno-13-86" href="#__codelineno-13-86"></a>em<span class="w"> </span>folders<span class="w">                      </span><span class="c1"># List folders</span>
+<a id="__codelineno-13-87" name="__codelineno-13-87" href="#__codelineno-13-87"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Render HTML in terminal</span>
 <a id="__codelineno-13-88" name="__codelineno-13-88" href="#__codelineno-13-88"></a>
 <a id="__codelineno-13-89" name="__codelineno-13-89" href="#__codelineno-13-89"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-90" name="__codelineno-13-90" href="#__codelineno-13-90"></a><span class="c1"># Calendar integration (v2.0: new)</span>
-<a id="__codelineno-13-91" name="__codelineno-13-91" href="#__codelineno-13-91"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">42</span><span class="w">                  </span><span class="c1"># Parse ICS attachment from email</span>
-<a id="__codelineno-13-92" name="__codelineno-13-92" href="#__codelineno-13-92"></a>em<span class="w"> </span>cal<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># Alias: same as em calendar</span>
-<a id="__codelineno-13-93" name="__codelineno-13-93" href="#__codelineno-13-93"></a>
-<a id="__codelineno-13-94" name="__codelineno-13-94" href="#__codelineno-13-94"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-95" name="__codelineno-13-95" href="#__codelineno-13-95"></a><span class="c1"># Folder management (v2.0: new)</span>
-<a id="__codelineno-13-96" name="__codelineno-13-96" href="#__codelineno-13-96"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Team Updates&quot;</span><span class="w"> </span><span class="c1"># Create a new mail folder</span>
-<a id="__codelineno-13-97" name="__codelineno-13-97" href="#__codelineno-13-97"></a>em<span class="w"> </span>cf<span class="w"> </span><span class="s2">&quot;Team Updates&quot;</span><span class="w">            </span><span class="c1"># Alias</span>
-<a id="__codelineno-13-98" name="__codelineno-13-98" href="#__codelineno-13-98"></a>em<span class="w"> </span>delete-folder<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span><span class="w">  </span><span class="c1"># Delete folder (type name to confirm)</span>
-<a id="__codelineno-13-99" name="__codelineno-13-99" href="#__codelineno-13-99"></a>em<span class="w"> </span>df<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span><span class="w">             </span><span class="c1"># Alias</span>
-<a id="__codelineno-13-100" name="__codelineno-13-100" href="#__codelineno-13-100"></a>
-<a id="__codelineno-13-101" name="__codelineno-13-101" href="#__codelineno-13-101"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-102" name="__codelineno-13-102" href="#__codelineno-13-102"></a><span class="c1"># IMAP watch / notifications (v2.0: experimental)</span>
-<a id="__codelineno-13-103" name="__codelineno-13-103" href="#__codelineno-13-103"></a>em<span class="w"> </span>watch<span class="w"> </span>start<span class="w">                  </span><span class="c1"># Start background IMAP IDLE watcher</span>
-<a id="__codelineno-13-104" name="__codelineno-13-104" href="#__codelineno-13-104"></a>em<span class="w"> </span>watch<span class="w"> </span>stop<span class="w">                   </span><span class="c1"># Stop the background watcher</span>
-<a id="__codelineno-13-105" name="__codelineno-13-105" href="#__codelineno-13-105"></a>em<span class="w"> </span>watch<span class="w"> </span>status<span class="w">                 </span><span class="c1"># Show watcher PID + uptime</span>
-<a id="__codelineno-13-106" name="__codelineno-13-106" href="#__codelineno-13-106"></a>em<span class="w"> </span>watch<span class="w"> </span>log<span class="w">                    </span><span class="c1"># Tail the watcher log</span>
-<a id="__codelineno-13-107" name="__codelineno-13-107" href="#__codelineno-13-107"></a>em<span class="w"> </span>w<span class="w"> </span>start<span class="w">                      </span><span class="c1"># Alias</span>
+<a id="__codelineno-13-90" name="__codelineno-13-90" href="#__codelineno-13-90"></a><span class="c1"># Attachments (v2.0: enhanced)</span>
+<a id="__codelineno-13-91" name="__codelineno-13-91" href="#__codelineno-13-91"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Download all attachments</span>
+<a id="__codelineno-13-92" name="__codelineno-13-92" href="#__codelineno-13-92"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w"> </span>~/Downloads<span class="w">        </span><span class="c1"># Save to specific directory</span>
+<a id="__codelineno-13-93" name="__codelineno-13-93" href="#__codelineno-13-93"></a>em<span class="w"> </span>attach<span class="w"> </span>list<span class="w"> </span><span class="m">42</span><span class="w">               </span><span class="c1"># Show attachment table (name, MIME, size)</span>
+<a id="__codelineno-13-94" name="__codelineno-13-94" href="#__codelineno-13-94"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>report.pdf<span class="w">     </span><span class="c1"># Download specific file to ~/Downloads</span>
+<a id="__codelineno-13-95" name="__codelineno-13-95" href="#__codelineno-13-95"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>report.pdf<span class="w"> </span>~/Documents<span class="w">  </span><span class="c1"># Download to custom directory</span>
+<a id="__codelineno-13-96" name="__codelineno-13-96" href="#__codelineno-13-96"></a>
+<a id="__codelineno-13-97" name="__codelineno-13-97" href="#__codelineno-13-97"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-13-98" name="__codelineno-13-98" href="#__codelineno-13-98"></a><span class="c1"># Calendar integration (v2.0: new)</span>
+<a id="__codelineno-13-99" name="__codelineno-13-99" href="#__codelineno-13-99"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">42</span><span class="w">                  </span><span class="c1"># Parse ICS attachment from email</span>
+<a id="__codelineno-13-100" name="__codelineno-13-100" href="#__codelineno-13-100"></a>em<span class="w"> </span>cal<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># Alias: same as em calendar</span>
+<a id="__codelineno-13-101" name="__codelineno-13-101" href="#__codelineno-13-101"></a>
+<a id="__codelineno-13-102" name="__codelineno-13-102" href="#__codelineno-13-102"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-13-103" name="__codelineno-13-103" href="#__codelineno-13-103"></a><span class="c1"># Folder management (v2.0: new)</span>
+<a id="__codelineno-13-104" name="__codelineno-13-104" href="#__codelineno-13-104"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Team Updates&quot;</span><span class="w"> </span><span class="c1"># Create a new mail folder</span>
+<a id="__codelineno-13-105" name="__codelineno-13-105" href="#__codelineno-13-105"></a>em<span class="w"> </span>cf<span class="w"> </span><span class="s2">&quot;Team Updates&quot;</span><span class="w">            </span><span class="c1"># Alias</span>
+<a id="__codelineno-13-106" name="__codelineno-13-106" href="#__codelineno-13-106"></a>em<span class="w"> </span>delete-folder<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span><span class="w">  </span><span class="c1"># Delete folder (type name to confirm)</span>
+<a id="__codelineno-13-107" name="__codelineno-13-107" href="#__codelineno-13-107"></a>em<span class="w"> </span>df<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span><span class="w">             </span><span class="c1"># Alias</span>
 <a id="__codelineno-13-108" name="__codelineno-13-108" href="#__codelineno-13-108"></a>
 <a id="__codelineno-13-109" name="__codelineno-13-109" href="#__codelineno-13-109"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
-<a id="__codelineno-13-110" name="__codelineno-13-110" href="#__codelineno-13-110"></a><span class="c1"># Management</span>
-<a id="__codelineno-13-111" name="__codelineno-13-111" href="#__codelineno-13-111"></a>em<span class="w"> </span>cache<span class="w"> </span>stats<span class="w">                  </span><span class="c1"># Show cache size, TTLs, expired count</span>
-<a id="__codelineno-13-112" name="__codelineno-13-112" href="#__codelineno-13-112"></a>em<span class="w"> </span>cache<span class="w"> </span>prune<span class="w">                  </span><span class="c1"># Remove expired entries only</span>
-<a id="__codelineno-13-113" name="__codelineno-13-113" href="#__codelineno-13-113"></a>em<span class="w"> </span>cache<span class="w"> </span>clear<span class="w">                  </span><span class="c1"># Clear cached AI results</span>
-<a id="__codelineno-13-114" name="__codelineno-13-114" href="#__codelineno-13-114"></a>em<span class="w"> </span>doctor<span class="w">                       </span><span class="c1"># Check dependencies</span>
-<a id="__codelineno-13-115" name="__codelineno-13-115" href="#__codelineno-13-115"></a>em<span class="w"> </span>h<span class="w">                            </span><span class="c1"># Show help</span>
+<a id="__codelineno-13-110" name="__codelineno-13-110" href="#__codelineno-13-110"></a><span class="c1"># IMAP watch / notifications (v2.0: experimental)</span>
+<a id="__codelineno-13-111" name="__codelineno-13-111" href="#__codelineno-13-111"></a>em<span class="w"> </span>watch<span class="w"> </span>start<span class="w">                  </span><span class="c1"># Start background IMAP IDLE watcher</span>
+<a id="__codelineno-13-112" name="__codelineno-13-112" href="#__codelineno-13-112"></a>em<span class="w"> </span>watch<span class="w"> </span>stop<span class="w">                   </span><span class="c1"># Stop the background watcher</span>
+<a id="__codelineno-13-113" name="__codelineno-13-113" href="#__codelineno-13-113"></a>em<span class="w"> </span>watch<span class="w"> </span>status<span class="w">                 </span><span class="c1"># Show watcher PID + uptime</span>
+<a id="__codelineno-13-114" name="__codelineno-13-114" href="#__codelineno-13-114"></a>em<span class="w"> </span>watch<span class="w"> </span>log<span class="w">                    </span><span class="c1"># Tail the watcher log</span>
+<a id="__codelineno-13-115" name="__codelineno-13-115" href="#__codelineno-13-115"></a>em<span class="w"> </span>w<span class="w"> </span>start<span class="w">                      </span><span class="c1"># Alias</span>
+<a id="__codelineno-13-116" name="__codelineno-13-116" href="#__codelineno-13-116"></a>
+<a id="__codelineno-13-117" name="__codelineno-13-117" href="#__codelineno-13-117"></a><span class="c1"># ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-13-118" name="__codelineno-13-118" href="#__codelineno-13-118"></a><span class="c1"># Management</span>
+<a id="__codelineno-13-119" name="__codelineno-13-119" href="#__codelineno-13-119"></a>em<span class="w"> </span>cache<span class="w"> </span>stats<span class="w">                  </span><span class="c1"># Show cache size, TTLs, expired count</span>
+<a id="__codelineno-13-120" name="__codelineno-13-120" href="#__codelineno-13-120"></a>em<span class="w"> </span>cache<span class="w"> </span>prune<span class="w">                  </span><span class="c1"># Remove expired entries only</span>
+<a id="__codelineno-13-121" name="__codelineno-13-121" href="#__codelineno-13-121"></a>em<span class="w"> </span>cache<span class="w"> </span>clear<span class="w">                  </span><span class="c1"># Clear cached AI results</span>
+<a id="__codelineno-13-122" name="__codelineno-13-122" href="#__codelineno-13-122"></a>em<span class="w"> </span>doctor<span class="w">                       </span><span class="c1"># Check dependencies</span>
+<a id="__codelineno-13-123" name="__codelineno-13-123" href="#__codelineno-13-123"></a>em<span class="w"> </span>h<span class="w">                            </span><span class="c1"># Show help</span>
 </code></pre></div>
 <hr />
 <h2 id="doctor-checks">Doctor Checks<a class="headerlink" href="#doctor-checks" title="Permanent link">&para;</a></h2>
@@ -10882,40 +10921,49 @@ Discarded drafts are counted as skipped, not as sent replies.</p>
 <a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
 <a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="c1"># Non-interactive (batch, preview + confirm)</span>
 <a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--batch<span class="w">                </span><span class="c1"># Preview, then [y/N]</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="c1"># AI-guided with custom instructions</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;decline politely&quot;</span><span class="w">    </span><span class="c1"># Custom AI draft</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;be brief&quot;</span><span class="w"> </span>--backend<span class="w"> </span>gemini<span class="w">  </span><span class="c1"># With backend override</span>
+</code></pre></div>
+<h3 id="forwarding">Forwarding<a class="headerlink" href="#forwarding" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>em<span class="w"> </span>fwd<span class="w"> </span><span class="m">42</span><span class="w">                       </span><span class="c1"># Forward (opens $EDITOR for note)</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>em<span class="w"> </span>fwd<span class="w"> </span><span class="m">42</span><span class="w"> </span>colleague@unm.edu<span class="w">    </span><span class="c1"># Pre-fill recipient</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>em<span class="w"> </span>fwd<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;FYI&quot;</span><span class="w">       </span><span class="c1"># AI forwarding note (no $EDITOR)</span>
 </code></pre></div>
 <h3 id="search-find">Search &amp; Find<a class="headerlink" href="#search-find" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>em<span class="w"> </span>f<span class="w"> </span><span class="s2">&quot;quarterly report&quot;</span><span class="w">         </span><span class="c1"># Subject/from/body search</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;from:john&quot;</span><span class="w">             </span><span class="c1"># Search emails from John</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;before:2026-01-01&quot;</span><span class="w">     </span><span class="c1"># IMAP search syntax</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>em<span class="w"> </span>f<span class="w"> </span><span class="s2">&quot;quarterly report&quot;</span><span class="w">         </span><span class="c1"># Subject/from/body search</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;from:john&quot;</span><span class="w">             </span><span class="c1"># Search emails from John</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;before:2026-01-01&quot;</span><span class="w">     </span><span class="c1"># IMAP search syntax</span>
 </code></pre></div>
 <h3 id="html-emails">HTML Emails<a class="headerlink" href="#html-emails" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>em<span class="w"> </span>r<span class="w"> </span><span class="m">42</span><span class="w">                         </span><span class="c1"># Auto-detects HTML, renders smart</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Force HTML rendering</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>em<span class="w"> </span>r<span class="w"> </span>--md<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Clean Markdown via pandoc (best for Outlook)</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>less<span class="w">               </span><span class="c1"># Pipe to pager</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>em<span class="w"> </span>r<span class="w"> </span><span class="m">42</span><span class="w">                         </span><span class="c1"># Auto-detects HTML, renders smart</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Force HTML rendering</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>em<span class="w"> </span>r<span class="w"> </span>--md<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Clean Markdown via pandoc (best for Outlook)</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>em<span class="w"> </span>html<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>less<span class="w">               </span><span class="c1"># Pipe to pager</span>
 </code></pre></div>
 <h3 id="attachments">Attachments<a class="headerlink" href="#attachments" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Download to ~/Downloads</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w"> </span>~/Documents<span class="w">        </span><span class="c1"># Custom directory</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w">                    </span><span class="c1"># Download to ~/Downloads</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>em<span class="w"> </span>attach<span class="w"> </span><span class="m">42</span><span class="w"> </span>~/Documents<span class="w">        </span><span class="c1"># Custom directory</span>
 </code></pre></div>
 <hr />
 <h2 id="dispatcher-configuration-files">Dispatcher Configuration Files<a class="headerlink" href="#dispatcher-configuration-files" title="Permanent link">&para;</a></h2>
 <h3 id="global-config">Global Config<a class="headerlink" href="#global-config" title="Permanent link">&para;</a></h3>
 <p><strong>Path:</strong> <code>$FLOW_CONFIG_DIR/email.conf</code></p>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>claude
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="nv">FLOW_EMAIL_PAGE_SIZE</span><span class="o">=</span><span class="m">30</span>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nv">FLOW_EMAIL_FOLDER</span><span class="o">=</span>INBOX
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="nv">FLOW_EMAIL_TRASH_FOLDER</span><span class="o">=</span>Trash<span class="w">          </span><span class="c1"># Exchange: &quot;Deleted Items&quot;</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">45</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>claude
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nv">FLOW_EMAIL_PAGE_SIZE</span><span class="o">=</span><span class="m">30</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="nv">FLOW_EMAIL_FOLDER</span><span class="o">=</span>INBOX
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="nv">FLOW_EMAIL_TRASH_FOLDER</span><span class="o">=</span>Trash<span class="w">          </span><span class="c1"># Exchange: &quot;Deleted Items&quot;</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">45</span>
 </code></pre></div>
 <h3 id="project-config-override">Project Config (Override)<a class="headerlink" href="#project-config-override" title="Permanent link">&para;</a></h3>
 <p><strong>Path:</strong> <code>.flow/email.conf</code> (in project root)</p>
 <p>Takes precedence over global config.</p>
 <h3 id="himalaya-setup">Himalaya Setup<a class="headerlink" href="#himalaya-setup" title="Permanent link">&para;</a></h3>
 <p><strong>Required:</strong> Configure email account first</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>himalaya<span class="w"> </span>account<span class="w"> </span>list<span class="w">           </span><span class="c1"># Show configured accounts</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>himalaya<span class="w"> </span>account<span class="w"> </span>add<span class="w">            </span><span class="c1"># Add new account (interactive)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>himalaya<span class="w"> </span>account<span class="w"> </span>list<span class="w">           </span><span class="c1"># Show configured accounts</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>himalaya<span class="w"> </span>account<span class="w"> </span>add<span class="w">            </span><span class="c1"># Add new account (interactive)</span>
 </code></pre></div>
 <p>For Gmail/OAuth2: <code>email-oauth2-proxy</code> recommended (see <code>em doctor</code>)</p>
 <hr />
@@ -10959,46 +11007,46 @@ Discarded drafts are counted as skipped, not as sent replies.</p>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="problem-himalaya-not-found">Problem: "himalaya not found"<a class="headerlink" href="#problem-himalaya-not-found" title="Permanent link">&para;</a></h3>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>brew<span class="w"> </span>install<span class="w"> </span>himalaya<span class="w">          </span><span class="c1"># macOS (recommended)</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>cargo<span class="w"> </span>install<span class="w"> </span>himalaya<span class="w">         </span><span class="c1"># Cross-platform alternative</span>
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Verify</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>himalaya<span class="w"> </span>account<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>brew<span class="w"> </span>install<span class="w"> </span>himalaya<span class="w">          </span><span class="c1"># macOS (recommended)</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>cargo<span class="w"> </span>install<span class="w"> </span>himalaya<span class="w">         </span><span class="c1"># Cross-platform alternative</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Verify</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>himalaya<span class="w"> </span>account<span class="w"> </span>list
 </code></pre></div>
 <h3 id="problem-email-id-required">Problem: "Email ID required"<a class="headerlink" href="#problem-email-id-required" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Missing message ID argument</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>em<span class="w"> </span>inbox<span class="w">                        </span><span class="c1"># List emails with IDs</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Use actual ID</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>em<span class="w"> </span>inbox<span class="w">                        </span><span class="c1"># List emails with IDs</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="m">42</span><span class="w">                      </span><span class="c1"># Use actual ID</span>
 </code></pre></div>
 <h3 id="problem-cannot-connect-to-mailbox">Problem: "Cannot connect to mailbox"<a class="headerlink" href="#problem-cannot-connect-to-mailbox" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Himalaya account not configured</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>himalaya<span class="w"> </span>account<span class="w"> </span>add<span class="w">           </span><span class="c1"># Add account interactively</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>himalaya<span class="w"> </span>account<span class="w"> </span>list<span class="w">          </span><span class="c1"># Verify setup</span>
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>em<span class="w"> </span>doctor<span class="w">                      </span><span class="c1"># Check status</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>himalaya<span class="w"> </span>account<span class="w"> </span>add<span class="w">           </span><span class="c1"># Add account interactively</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>himalaya<span class="w"> </span>account<span class="w"> </span>list<span class="w">          </span><span class="c1"># Verify setup</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>em<span class="w"> </span>doctor<span class="w">                      </span><span class="c1"># Check status</span>
 </code></pre></div>
 <h3 id="problem-ai-timed-out">Problem: "AI timed out"<a class="headerlink" href="#problem-ai-timed-out" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Backend slow or unavailable</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Increase timeout</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">60</span>
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Or skip AI</span>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--no-ai<span class="w">               </span><span class="c1"># Reply without draft</span>
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>em<span class="w"> </span>respond<span class="w"> </span>--clear<span class="w">             </span><span class="c1"># Clear bad drafts</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Increase timeout</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">60</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Or skip AI</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>em<span class="w"> </span>re<span class="w"> </span><span class="m">42</span><span class="w"> </span>--no-ai<span class="w">               </span><span class="c1"># Reply without draft</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>em<span class="w"> </span>respond<span class="w"> </span>--clear<span class="w">             </span><span class="c1"># Clear bad drafts</span>
 </code></pre></div>
 <h3 id="problem-no-fzf-for-picker">Problem: "No fzf for picker"<a class="headerlink" href="#problem-no-fzf-for-picker" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> <code>fzf</code> not installed</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>brew<span class="w"> </span>install<span class="w"> </span>fzf
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>em<span class="w"> </span>p<span class="w">                           </span><span class="c1"># Try again</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>brew<span class="w"> </span>install<span class="w"> </span>fzf
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>em<span class="w"> </span>p<span class="w">                           </span><span class="c1"># Try again</span>
 </code></pre></div>
 <h3 id="problem-unknown-backend">Problem: "Unknown backend"<a class="headerlink" href="#problem-unknown-backend" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Invalid backend name passed to <code>em ai</code></p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>em<span class="w"> </span>ai<span class="w">                          </span><span class="c1"># See available backends</span>
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>em<span class="w"> </span>ai<span class="w"> </span>claude<span class="w">                   </span><span class="c1"># Use a known backend</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>em<span class="w"> </span>ai<span class="w">                          </span><span class="c1"># See available backends</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>em<span class="w"> </span>ai<span class="w"> </span>claude<span class="w">                   </span><span class="c1"># Use a known backend</span>
 </code></pre></div>
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
@@ -11029,7 +11077,7 @@ Discarded drafts are counted as skipped, not as sent replies.</p>
 <hr />
 <p><strong>Version:</strong> v2.0 (em dispatcher) — flow-cli v7.5.0+
 <strong>Last Updated:</strong> 2026-02-26
-<strong>Commands:</strong> 37 total (4 core + 2 search + 5 AI + 7 organize + 9 manage + 3 info + 6 util + 2 infra + 1 help)
+<strong>Commands:</strong> 38 total (5 core + 2 search + 5 AI + 7 organize + 9 manage + 3 info + 6 util + 2 infra + 1 help)
 <strong>Breaking Change:</strong> <code>em send</code> / <code>em reply</code> preview before send. Use <code>--force</code> to bypass.</p>
 
 

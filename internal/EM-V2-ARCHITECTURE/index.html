@@ -8097,10 +8097,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#43-calendar-flow" class="md-nav__link">
+  <a href="#43-forward-flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.3 Calendar Flow
+        4.3 Forward Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-prompt-layering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Prompt Layering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-calendar-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Calendar Flow
       
     </span>
   </a>
@@ -8534,8 +8556,8 @@ user-supplied value passes through before reaching the himalaya CLI.</p>
 </tr>
 <tr>
 <td>14</td>
-<td><code>_em_hml_reply</code></td>
-<td><code>mktemp</code> + <code>chmod 0600</code> + <code>trap "rm -f" RETURN</code></td>
+<td><code>_em_hml_reply</code>, <code>_em_hml_forward</code></td>
+<td><code>mktemp</code> + <code>chmod 0600</code> + ZSH <code>always</code> block (replaced <code>trap RETURN</code>)</td>
 </tr>
 </tbody>
 </table>
@@ -8616,7 +8638,62 @@ confirmation.</p>
     Editor--&gt;&gt;HML: user edits and sends/discards
     HML-&gt;&gt;HML: grep Discard from log
     HML--&gt;&gt;Dispatcher: 0=sent, 1=error, 2=discarded</code></pre>
-<h3 id="43-calendar-flow">4.3 Calendar Flow<a class="headerlink" href="#43-calendar-flow" title="Permanent link">&para;</a></h3>
+<h3 id="43-forward-flow">4.3 Forward Flow<a class="headerlink" href="#43-forward-flow" title="Permanent link">&para;</a></h3>
+<p>The <code>em forward &lt;ID&gt;</code> command supports both interactive (editor) and batch
+(<code>--prompt</code>) paths with optional AI-generated forwarding notes.</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User
+    participant Dispatcher as email-dispatcher.zsh&lt;br/&gt;_em_forward()
+    participant AI as em-ai.zsh&lt;br/&gt;_em_ai_query()
+    participant HML as em-himalaya.zsh
+    participant Backend as himalaya CLI
+    participant Editor as $EDITOR
+
+    User-&gt;&gt;Dispatcher: em forward &lt;ID&gt; [to] [--prompt P] [--backend B]
+    Dispatcher-&gt;&gt;Dispatcher: Parse flags: prompt_text, backend_override, force
+    Dispatcher-&gt;&gt;Dispatcher: TTY detection (-t 0 &amp;&amp; -t 1)
+
+    alt --prompt provided (batch path)
+        Dispatcher-&gt;&gt;AI: _em_ai_query("draft", prompt_with_instructions, original, backend)
+        AI--&gt;&gt;Dispatcher: AI forwarding note
+        Dispatcher-&gt;&gt;HML: _em_hml_template_forward(ID)
+        HML-&gt;&gt;Backend: himalaya template forward ID
+        Backend--&gt;&gt;Dispatcher: MML template
+        Dispatcher-&gt;&gt;HML: _em_mml_inject_body(template, note)
+        Dispatcher-&gt;&gt;Dispatcher: _em_confirm_send() → [y/N/e]
+        alt User confirms
+            Dispatcher-&gt;&gt;HML: _em_hml_template_send(mml)
+            HML-&gt;&gt;Backend: himalaya message send
+        end
+    else Interactive path (TTY)
+        Dispatcher-&gt;&gt;HML: _em_hml_forward(ID)
+        HML-&gt;&gt;Backend: script -q himalaya message forward ID
+        Backend-&gt;&gt;Editor: opens editor with forwarded message
+        Editor--&gt;&gt;HML: user adds note, sends/discards
+    end</code></pre>
+<h3 id="44-prompt-layering">4.4 Prompt Layering<a class="headerlink" href="#44-prompt-layering" title="Permanent link">&para;</a></h3>
+<p>When <code>--prompt</code> is used, the AI receives a layered prompt:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌─────────────────────────────────────────┐
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│ Base prompt (_em_ai_draft_prompt)        │
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>│ - Category-aware tone guidance           │
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>│ - Email conventions                      │
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>├─────────────────────────────────────────┤
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>│ User instructions (_em_ai_prompt_with_  │
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>│ _instructions)                           │
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>│ - &quot;decline politely, suggest office hrs&quot; │
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>│ - Marked as PRIMARY guide                │
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>├─────────────────────────────────────────┤
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>│ Original email content                   │
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>│ - Full message for context               │
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>└─────────────────────────────────────────┘
+</code></pre></div>
+<p>The function <code>_em_ai_prompt_with_instructions()</code> in <code>em-ai.zsh</code> appends:</p>
+<blockquote>
+<p>User instructions: {text}</p>
+<p>IMPORTANT: Follow the user's instructions above as the primary guide for tone,
+content, and intent. The category-specific guidance is secondary.</p>
+</blockquote>
+<h3 id="45-calendar-flow">4.5 Calendar Flow<a class="headerlink" href="#45-calendar-flow" title="Permanent link">&para;</a></h3>
 <p>The <code>em calendar &lt;ID&gt;</code> command extracts an <code>.ics</code> attachment, parses VEVENT
 blocks, displays them, then optionally creates an Apple Calendar event.</p>
 <pre class="mermaid"><code>sequenceDiagram
@@ -8831,12 +8908,12 @@ config parser or environment, never <code>source</code>d from user files.</p>
 </tbody>
 </table>
 <h3 id="cache-structure">Cache Structure<a class="headerlink" href="#cache-structure" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>.flow/email-cache/          (project-local, gitignored)
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  summaries/&lt;md5&gt;.txt       1-line summary (TTL: 24h)
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  classifications/&lt;md5&gt;.txt category label (TTL: 24h)
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  drafts/&lt;md5&gt;.txt          AI draft text (TTL: 1h)
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  schedules/&lt;md5&gt;.json      extracted dates (TTL: 24h)
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  unread/&lt;md5&gt;.txt          unread count (TTL: 1min)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>.flow/email-cache/          (project-local, gitignored)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  summaries/&lt;md5&gt;.txt       1-line summary (TTL: 24h)
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  classifications/&lt;md5&gt;.txt category label (TTL: 24h)
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  drafts/&lt;md5&gt;.txt          AI draft text (TTL: 1h)
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  schedules/&lt;md5&gt;.json      extracted dates (TTL: 24h)
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  unread/&lt;md5&gt;.txt          unread count (TTL: 1min)
 </code></pre></div>
 <p>Cache keys are MD5 hashes of the message ID, preventing special characters
 from appearing in filesystem paths. TTL is enforced at read time by comparing
@@ -8844,9 +8921,9 @@ file mtime against the current epoch. Stale entries are deleted on read miss.
 A background size cap prunes the oldest entries when the cache exceeds
 <code>FLOW_EMAIL_CACHE_MAX_MB</code>.</p>
 <h3 id="watch-state-files">Watch State Files<a class="headerlink" href="#watch-state-files" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>~/.flow/em-watch.pid        PID of background watcher (mode 0600)
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>~/.flow/em-watch.log        Timestamped event log
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>~/.flow/em-watch.folder     Currently watched folder name
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>~/.flow/em-watch.pid        PID of background watcher (mode 0600)
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>~/.flow/em-watch.log        Timestamped event log
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>~/.flow/em-watch.folder     Currently watched folder name
 </code></pre></div>
 <p>These paths use <code>${FLOW_STATE_DIR:-$HOME/.flow}</code> as the base, respecting the
 user's configured state directory.</p>
@@ -8855,41 +8932,41 @@ user's configured state directory.</p>
 <p>The <code>_em_hml_version</code> function in <code>lib/em-himalaya.zsh</code> implements a
 session-scoped cache for the himalaya version string, avoiding repeated
 subprocess forks on every operation.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># lib/em-himalaya.zsh, lines 112–147</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">_EM_HML_VERSION</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">   </span><span class="c1"># session-scoped, persists across em() calls</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>_em_hml_version<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="c1"># Returns cached version on second+ call — zero disk I/O</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$_EM_HML_VERSION</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$_EM_HML_VERSION</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">fi</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span>raw<span class="p">;</span><span class="w"> </span><span class="nv">raw</span><span class="o">=</span><span class="k">$(</span>himalaya<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span>version<span class="p">;</span><span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">raw</span><span class="p">##* </span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="c1"># Validate: must match X.Y.Z pattern</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$version</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span>^<span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>+<span class="o">(</span><span class="se">\.</span><span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>+<span class="o">)</span>*$<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="nv">_EM_HML_VERSION</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$version</span><span class="s2">&quot;</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$version</span><span class="s2">&quot;</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># lib/em-himalaya.zsh, lines 112–147</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">_EM_HML_VERSION</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">   </span><span class="c1"># session-scoped, persists across em() calls</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>_em_hml_version<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="c1"># Returns cached version on second+ call — zero disk I/O</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$_EM_HML_VERSION</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$_EM_HML_VERSION</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span>raw<span class="p">;</span><span class="w"> </span><span class="nv">raw</span><span class="o">=</span><span class="k">$(</span>himalaya<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span>version<span class="p">;</span><span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">raw</span><span class="p">##* </span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="c1"># Validate: must match X.Y.Z pattern</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$version</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span>^<span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>+<span class="o">(</span><span class="se">\.</span><span class="o">[</span><span class="m">0</span>-9<span class="o">]</span>+<span class="o">)</span>*$<span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="nv">_EM_HML_VERSION</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$version</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$version</span><span class="s2">&quot;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="o">}</span>
 </code></pre></div>
 <h3 id="version-comparison">Version Comparison<a class="headerlink" href="#version-comparison" title="Permanent link">&para;</a></h3>
 <p><code>_em_hml_version_gte</code> performs a numeric per-segment comparison that correctly
 handles minor version rollovers (e.g., <code>1.9.0 &lt; 1.10.0</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Pads shorter version array with zeros</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># Returns 0 if installed &gt;= min_version</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>_em_hml_version_gte<span class="w"> </span><span class="s2">&quot;1.2.0&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Pads shorter version array with zeros</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># Returns 0 if installed &gt;= min_version</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>_em_hml_version_gte<span class="w"> </span><span class="s2">&quot;1.2.0&quot;</span>
 </code></pre></div>
 <h3 id="feature-gating-pattern">Feature Gating Pattern<a class="headerlink" href="#feature-gating-pattern" title="Permanent link">&para;</a></h3>
 <p>Features that require a minimum himalaya version use <code>_em_require_version</code> as
 a guard at the top of the function:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Example: attachment JSON output requires v1.2+</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>_em_hml_attachment_list<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_em_validate_msg_id<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$msg_id</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span>_em_hml_version_gte<span class="w"> </span><span class="s2">&quot;1.2.0&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span>himalaya<span class="w"> </span>attachment<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$msg_id</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="k">else</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span>himalaya<span class="w"> </span>attachment<span class="w"> </span>list<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$msg_id</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="k">fi</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="o">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Example: attachment JSON output requires v1.2+</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>_em_hml_attachment_list<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_em_validate_msg_id<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$msg_id</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span>_em_hml_version_gte<span class="w"> </span><span class="s2">&quot;1.2.0&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">        </span>himalaya<span class="w"> </span>attachment<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$msg_id</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="k">else</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span>himalaya<span class="w"> </span>attachment<span class="w"> </span>list<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$msg_id</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="k">fi</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="o">}</span>
 </code></pre></div>
 <h3 id="progressive-enhancement-matrix">Progressive Enhancement Matrix<a class="headerlink" href="#progressive-enhancement-matrix" title="Permanent link">&para;</a></h3>
 <table>
@@ -8992,24 +9069,24 @@ files they cover.</p>
 </table>
 <h3 id="tdd-contract-approach">TDD Contract Approach<a class="headerlink" href="#tdd-contract-approach" title="Permanent link">&para;</a></h3>
 <p>Each test file documents its contract in the header comment block:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># Functions under test:
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>#   _em_validate_msg_id       - Numeric message ID validation
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>#   _em_validate_folder_name  - Folder name safety checks
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a># Created: 2026-02-26 (TDD — tests first)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a># Functions under test:
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>#   _em_validate_msg_id       - Numeric message ID validation
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>#   _em_validate_folder_name  - Folder name safety checks
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a># Created: 2026-02-26 (TDD — tests first)
 </code></pre></div>
 <p>The contract approach means:
 - The test file defines the expected API signature before the implementation file exists.
 - If the implementation changes the function name, the test file catches it on the next run.
 - Each test case targets one behaviour, not one function, making failures immediately diagnostic.</p>
 <h3 id="running-the-em-test-suites">Running the Em Test Suites<a class="headerlink" href="#running-the-em-test-suites" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Run all em v2.0 specific tests</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">for</span><span class="w"> </span>f<span class="w"> </span><span class="k">in</span><span class="w"> </span>tests/test-em-v2-*.zsh<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>zsh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$f</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Run a single suite</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>zsh<span class="w"> </span>tests/test-em-v2-security.zsh
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># Run full test suite (includes em tests)</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>./tests/run-all.sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Run all em v2.0 specific tests</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">for</span><span class="w"> </span>f<span class="w"> </span><span class="k">in</span><span class="w"> </span>tests/test-em-v2-*.zsh<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>zsh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$f</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Run a single suite</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>zsh<span class="w"> </span>tests/test-em-v2-security.zsh
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Run full test suite (includes em tests)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>./tests/run-all.sh
 </code></pre></div>
 <p>Tests must be run from the repository root. The test framework stubs
 <code>FLOW_QUIET=1</code> and <code>FLOW_ATLAS_ENABLED=no</code> to suppress interactive output and

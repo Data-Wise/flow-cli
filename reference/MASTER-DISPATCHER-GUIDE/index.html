@@ -11969,7 +11969,7 @@
 <p><strong>Purpose:</strong> Complete reference for all flow-cli dispatchers (15 + at bridge)
 <strong>Audience:</strong> All users (beginner → intermediate → advanced)
 <strong>Format:</strong> Progressive disclosure (basics → advanced features)
-<strong>Version:</strong> v7.5.0
+<strong>Version:</strong> v7.6.0
 <strong>Last Updated:</strong> 2026-02-21</p>
 <hr />
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
@@ -14092,6 +14092,11 @@ himalaya-mcp for AI-assisted analysis.</p>
 <td>Reply with AI draft — preview + <code>[y/N/e]</code> gate</td>
 </tr>
 <tr>
+<td><code>em forward &lt;ID&gt; [to]</code></td>
+<td><code>em fwd</code></td>
+<td>Forward email with optional AI note</td>
+</tr>
+<tr>
 <td><code>em find &lt;query&gt;</code></td>
 <td><code>em f</code></td>
 <td>Search emails</td>
@@ -14284,21 +14289,25 @@ himalaya-mcp for AI-assisted analysis.</p>
 <a id="__codelineno-215-3" name="__codelineno-215-3" href="#__codelineno-215-3"></a><span class="w">                           </span><span class="c1">#   Ctrl-D=delete, Ctrl-O=todo, Ctrl-E=event)</span>
 <a id="__codelineno-215-4" name="__codelineno-215-4" href="#__codelineno-215-4"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w">                </span><span class="c1"># AI-draft reply, opens in $EDITOR, then preview gate</span>
 <a id="__codelineno-215-5" name="__codelineno-215-5" href="#__codelineno-215-5"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--force<span class="w">        </span><span class="c1"># Skip preview gate (v2.0)</span>
-<a id="__codelineno-215-6" name="__codelineno-215-6" href="#__codelineno-215-6"></a>em<span class="w"> </span>respond<span class="w">                 </span><span class="c1"># Batch process actionable emails</span>
-<a id="__codelineno-215-7" name="__codelineno-215-7" href="#__codelineno-215-7"></a>em<span class="w"> </span>star<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Toggle star on email</span>
-<a id="__codelineno-215-8" name="__codelineno-215-8" href="#__codelineno-215-8"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w"> </span>Archive<span class="w">         </span><span class="c1"># Move email to folder</span>
-<a id="__codelineno-215-9" name="__codelineno-215-9" href="#__codelineno-215-9"></a>em<span class="w"> </span>thread<span class="w"> </span><span class="m">42</span><span class="w">               </span><span class="c1"># Show conversation thread</span>
-<a id="__codelineno-215-10" name="__codelineno-215-10" href="#__codelineno-215-10"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">42</span><span class="w"> </span>2h<span class="w">            </span><span class="c1"># Snooze for 2 hours</span>
-<a id="__codelineno-215-11" name="__codelineno-215-11" href="#__codelineno-215-11"></a>em<span class="w"> </span>digest<span class="w">                  </span><span class="c1"># AI-grouped daily summary</span>
-<a id="__codelineno-215-12" name="__codelineno-215-12" href="#__codelineno-215-12"></a>em<span class="w"> </span>delete<span class="w"> </span>--folder<span class="w"> </span>Spam<span class="w">    </span><span class="c1"># Delete all spam (with confirmation)</span>
-<a id="__codelineno-215-13" name="__codelineno-215-13" href="#__codelineno-215-13"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w">              </span><span class="c1"># Restore from Trash to INBOX</span>
-<a id="__codelineno-215-14" name="__codelineno-215-14" href="#__codelineno-215-14"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Extract action items from email</span>
-<a id="__codelineno-215-15" name="__codelineno-215-15" href="#__codelineno-215-15"></a>em<span class="w"> </span>attach<span class="w"> </span>list<span class="w"> </span><span class="m">42</span><span class="w">          </span><span class="c1"># Show attachment table (v2.0)</span>
-<a id="__codelineno-215-16" name="__codelineno-215-16" href="#__codelineno-215-16"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>file.ics<span class="w">  </span><span class="c1"># Download specific attachment (v2.0)</span>
-<a id="__codelineno-215-17" name="__codelineno-215-17" href="#__codelineno-215-17"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">42</span><span class="w">             </span><span class="c1"># Parse ICS and add to Calendar.app (v2.0)</span>
-<a id="__codelineno-215-18" name="__codelineno-215-18" href="#__codelineno-215-18"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Work&quot;</span><span class="w">    </span><span class="c1"># Create mail folder (v2.0)</span>
-<a id="__codelineno-215-19" name="__codelineno-215-19" href="#__codelineno-215-19"></a>em<span class="w"> </span>watch<span class="w"> </span>start<span class="w">             </span><span class="c1"># Start IMAP IDLE watcher (v2.0, experimental)</span>
-<a id="__codelineno-215-20" name="__codelineno-215-20" href="#__codelineno-215-20"></a>em<span class="w"> </span>doctor<span class="w">                  </span><span class="c1"># Check all dependencies</span>
+<a id="__codelineno-215-6" name="__codelineno-215-6" href="#__codelineno-215-6"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;decline politely&#39;</span><span class="w">  </span><span class="c1"># AI draft with custom instructions</span>
+<a id="__codelineno-215-7" name="__codelineno-215-7" href="#__codelineno-215-7"></a>em<span class="w"> </span>send<span class="w"> </span>user@example.com<span class="w"> </span><span class="s2">&quot;Meeting&quot;</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;suggest Tuesday 2pm&#39;</span>
+<a id="__codelineno-215-8" name="__codelineno-215-8" href="#__codelineno-215-8"></a>em<span class="w"> </span>forward<span class="w"> </span><span class="m">42</span><span class="w"> </span>user@example.com<span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;FYI re: our discussion&#39;</span>
+<a id="__codelineno-215-9" name="__codelineno-215-9" href="#__codelineno-215-9"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--backend<span class="w"> </span>gemini<span class="w">  </span><span class="c1"># Override AI backend per-command</span>
+<a id="__codelineno-215-10" name="__codelineno-215-10" href="#__codelineno-215-10"></a>em<span class="w"> </span>respond<span class="w">                 </span><span class="c1"># Batch process actionable emails</span>
+<a id="__codelineno-215-11" name="__codelineno-215-11" href="#__codelineno-215-11"></a>em<span class="w"> </span>star<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Toggle star on email</span>
+<a id="__codelineno-215-12" name="__codelineno-215-12" href="#__codelineno-215-12"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w"> </span>Archive<span class="w">         </span><span class="c1"># Move email to folder</span>
+<a id="__codelineno-215-13" name="__codelineno-215-13" href="#__codelineno-215-13"></a>em<span class="w"> </span>thread<span class="w"> </span><span class="m">42</span><span class="w">               </span><span class="c1"># Show conversation thread</span>
+<a id="__codelineno-215-14" name="__codelineno-215-14" href="#__codelineno-215-14"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">42</span><span class="w"> </span>2h<span class="w">            </span><span class="c1"># Snooze for 2 hours</span>
+<a id="__codelineno-215-15" name="__codelineno-215-15" href="#__codelineno-215-15"></a>em<span class="w"> </span>digest<span class="w">                  </span><span class="c1"># AI-grouped daily summary</span>
+<a id="__codelineno-215-16" name="__codelineno-215-16" href="#__codelineno-215-16"></a>em<span class="w"> </span>delete<span class="w"> </span>--folder<span class="w"> </span>Spam<span class="w">    </span><span class="c1"># Delete all spam (with confirmation)</span>
+<a id="__codelineno-215-17" name="__codelineno-215-17" href="#__codelineno-215-17"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w">              </span><span class="c1"># Restore from Trash to INBOX</span>
+<a id="__codelineno-215-18" name="__codelineno-215-18" href="#__codelineno-215-18"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Extract action items from email</span>
+<a id="__codelineno-215-19" name="__codelineno-215-19" href="#__codelineno-215-19"></a>em<span class="w"> </span>attach<span class="w"> </span>list<span class="w"> </span><span class="m">42</span><span class="w">          </span><span class="c1"># Show attachment table (v2.0)</span>
+<a id="__codelineno-215-20" name="__codelineno-215-20" href="#__codelineno-215-20"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>file.ics<span class="w">  </span><span class="c1"># Download specific attachment (v2.0)</span>
+<a id="__codelineno-215-21" name="__codelineno-215-21" href="#__codelineno-215-21"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">42</span><span class="w">             </span><span class="c1"># Parse ICS and add to Calendar.app (v2.0)</span>
+<a id="__codelineno-215-22" name="__codelineno-215-22" href="#__codelineno-215-22"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Work&quot;</span><span class="w">    </span><span class="c1"># Create mail folder (v2.0)</span>
+<a id="__codelineno-215-23" name="__codelineno-215-23" href="#__codelineno-215-23"></a>em<span class="w"> </span>watch<span class="w"> </span>start<span class="w">             </span><span class="c1"># Start IMAP IDLE watcher (v2.0, experimental)</span>
+<a id="__codelineno-215-24" name="__codelineno-215-24" href="#__codelineno-215-24"></a>em<span class="w"> </span>doctor<span class="w">                  </span><span class="c1"># Check all dependencies</span>
 </code></pre></div>
 <h3 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h3>
 <p>Seven-layer stack: <code>em()</code> dispatcher → himalaya adapter → himalaya CLI, with safety gate,
@@ -14343,13 +14352,16 @@ enhancement based on the installed himalaya CLI version.</p>
 </table>
 <h3 id="safety">Safety<a class="headerlink" href="#safety" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>v2.0:</strong> <code>em send</code> and <code>em reply</code> show full preview + <code>[y/N/e]</code> gate before sending. Use <code>--force</code> to bypass.</li>
+<li><strong>v2.0:</strong> <code>em send</code>, <code>em reply</code>, and <code>em forward</code> show full preview + <code>[y/N/e]</code> gate before sending. Use <code>--force</code> to bypass.</li>
+<li><strong>Smart TTY detection:</strong> Non-interactive contexts (no TTY) auto-route to batch path, preventing <code>$EDITOR</code> hangs.</li>
+<li><strong><code>--prompt</code> flag:</strong> Available on <code>reply</code>, <code>send</code>, and <code>forward</code>. Forces batch mode. Implies <code>--ai</code> on <code>em send</code>.</li>
+<li><strong><code>--backend</code> flag:</strong> Override AI backend per-command (e.g. <code>--backend gemini</code>).</li>
 <li>Every delete requires <code>[y/N]</code> confirmation (default: No). <code>--purge</code> requires typing "yes".</li>
 <li>Folder/query deletes show count + first 5 subjects before confirming.</li>
 <li><code>em delete-folder</code> requires typing the folder name in full.</li>
 <li>Move, restore, and flag operations are immediate (reversible, no confirmation needed).</li>
 <li>Listserv emails (<code>@LIST.*</code>) auto-skipped in <code>em respond</code>; warning shown if actionable.</li>
-<li>Discarded drafts tracked separately from sent replies (via <code>script(1)</code> detection).</li>
+<li>Discarded drafts tracked separately from sent replies (via <code>script(1)</code> + ZSH <code>always</code> block detection).</li>
 <li>Message IDs validated before use; folder names sanitized (IMAP-safe characters only).</li>
 <li>AI extra args validated against allowlist to prevent injection.</li>
 <li>9-category AI classification: student, colleague, admin-action, scheduling,
@@ -14550,7 +14562,7 @@ enhancement based on the installed himalaya CLI version.</p>
 <li><strong>Workflows:</strong> See <a href="../../help/WORKFLOWS/">WORKFLOWS.md</a></li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v7.5.0
+<p><strong>Version:</strong> v7.6.0
 <strong>Last Updated:</strong> 2026-02-22
 <strong>Total:</strong> 15 dispatchers + at bridge fully documented</p>
 
