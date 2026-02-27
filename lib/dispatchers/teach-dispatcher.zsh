@@ -1375,7 +1375,24 @@ _teach_preflight() {
             "Scholar commands will use defaults"
     fi
 
-    # 4. Check Claude Code available
+    # 4. Stale config warning (#423)
+    if _flow_config_changed 2>/dev/null; then
+        _teach_warn "Config changed since last Scholar run" \
+            "Run: teach config check"
+    fi
+
+    # 5. Legacy file deprecation warning (#423)
+    local legacy_style=".claude/teaching-style.local.md"
+    if [[ -f "$legacy_style" ]]; then
+        local config_path
+        config_path=$(_teach_find_config 2>/dev/null)
+        if [[ -n "$config_path" ]]; then
+            _teach_warn "Deprecated: .claude/teaching-style.local.md" \
+                "Scholar now reads from: .flow/teach-config.yml (teaching_style section takes precedence)"
+        fi
+    fi
+
+    # 6. Check Claude Code available
     if ! command -v claude &>/dev/null; then
         _teach_error "Claude Code CLI not found" \
             "Install: https://claude.ai/code"
@@ -2192,6 +2209,13 @@ _teach_scholar_wrapper() {
                 scholar_cmd="$scholar_cmd --prompt \"$rendered_prompt\""
             fi
         fi
+    fi
+
+    # Config injection (Scholar Config Sync, #423)
+    local config_path
+    config_path=$(_teach_find_config 2>/dev/null)
+    if [[ -n "$config_path" ]]; then
+        scholar_cmd="$scholar_cmd --config \"$config_path\""
     fi
 
     # Build full command string for commit message (v5.11.0+)
