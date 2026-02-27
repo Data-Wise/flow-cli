@@ -1382,7 +1382,7 @@ _teach_preflight() {
     fi
 
     # 5. Legacy file deprecation warning (#423)
-    local legacy_style=".claude/teaching-style.local.md"
+    local legacy_style="${FLOW_PROJECT_ROOT:-.}/.claude/teaching-style.local.md"
     if [[ -f "$legacy_style" ]]; then
         local config_path
         config_path=$(_teach_find_config 2>/dev/null)
@@ -1420,7 +1420,7 @@ _teach_build_command() {
         rubric)     scholar_cmd="/teaching:rubric" ;;
         feedback)   scholar_cmd="/teaching:feedback" ;;
         demo)       scholar_cmd="/teaching:demo" ;;
-        config)     scholar_cmd="/teaching:config $*" ;;
+        config)     scholar_cmd="/teaching:config" ;;
         solution)   scholar_cmd="/teaching:solution" ;;
         sync)       scholar_cmd="/teaching:sync" ;;
         validate-r) scholar_cmd="/teaching:validate-r" ;;

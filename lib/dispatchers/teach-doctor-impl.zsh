@@ -1274,7 +1274,7 @@ _teach_doctor_config_sync() {
     fi
 
     # Legacy file check
-    local legacy_style=".claude/teaching-style.local.md"
+    local legacy_style="${FLOW_PROJECT_ROOT:-.}/.claude/teaching-style.local.md"
     if [[ -f "$legacy_style" ]]; then
         _teach_doctor_warn "Legacy file: .claude/teaching-style.local.md (deprecated)" \
             "Migrate to .flow/teach-config.yml"
