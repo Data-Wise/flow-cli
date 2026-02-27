@@ -787,9 +787,11 @@ Now that you can generate exams and quizzes, explore:
 ### Related Commands
 
 - `teach rubric "Assignment"` - Create grading rubrics
+- `teach solution "Topic"` - Generate solution keys
 - `teach assignment "Topic"` - Generate homework assignments
 - `teach lecture "Topic"` - Generate lecture notes
 - `teach slides "Topic"` - Create presentation slides
+- `teach config check` - Validate config before generation
 
 ### Advanced Features
 

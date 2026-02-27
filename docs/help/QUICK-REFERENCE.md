@@ -693,6 +693,22 @@ teach exam "Midterm 1 Topics"
 # Output: [Uses Scholar to generate exam]
 #         ✅ Generated exam in exams/midterm-1.md
 
+# Generate solution key (v7.6.0)
+teach solution "Bayesian inference"
+# Output: [Uses Scholar to generate solution key]
+
+# Validate R code in .qmd files (v7.6.0)
+teach validate-r
+
+# Sync config to Scholar format (v7.6.0)
+teach sync
+
+# Config management (v7.6.0)
+teach config check       # Validate config (pre-flight)
+teach config diff        # Compare prompts vs defaults
+teach config show        # Show resolved 4-layer config
+teach config scaffold    # Copy default prompts for customization
+
 # Deploy course site
 teach deploy
 # Output: [Deploys to GitHub Pages]

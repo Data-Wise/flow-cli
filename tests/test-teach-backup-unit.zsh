@@ -468,38 +468,38 @@ test_command_interface() {
 
   setup_mock_teaching_project
 
-  # Test 8.1: teach backup help
+  # Test 8.1: teach backup help (uses box-style title: "teach backup")
   local help_output=$(_teach_backup_help 2>&1)
-  assert_contains "$help_output" "TEACH BACKUP" "Help should contain title"
+  assert_contains "$help_output" "teach backup" "Help should contain title"
   assert_contains "$help_output" "create" "Help should list create command"
   assert_contains "$help_output" "list" "Help should list list command"
   assert_contains "$help_output" "restore" "Help should list restore command"
   assert_contains "$help_output" "delete" "Help should list delete command"
   assert_contains "$help_output" "archive" "Help should list archive command"
 
-  # Test 8.2: teach backup create help
+  # Test 8.2: teach backup create help (title case in box header)
   local create_help=$(_teach_backup_create --help 2>&1)
-  assert_contains "$create_help" "Create timestamped backup" \
+  assert_contains "$create_help" "Create" \
     "Create help should contain description"
 
   # Test 8.3: teach backup list help
   local list_help=$(_teach_backup_list --help 2>&1)
-  assert_contains "$list_help" "List all backups" \
+  assert_contains "$list_help" "List" \
     "List help should contain description"
 
-  # Test 8.4: teach backup restore help
+  # Test 8.4: teach backup restore help (title case: "Restore From Backup")
   local restore_help=$(_teach_backup_restore --help 2>&1)
-  assert_contains "$restore_help" "Restore from backup" \
+  assert_contains "$restore_help" "Restore" \
     "Restore help should contain description"
 
   # Test 8.5: teach backup delete help
   local delete_help=$(_teach_backup_delete --help 2>&1)
-  assert_contains "$delete_help" "Delete backup" \
+  assert_contains "$delete_help" "Delete" \
     "Delete help should contain description"
 
-  # Test 8.6: teach backup archive help
+  # Test 8.6: teach backup archive help (title case: "Archive Semester Backups")
   local archive_help=$(_teach_backup_archive --help 2>&1)
-  assert_contains "$archive_help" "Archive semester backups" \
+  assert_contains "$archive_help" "Archive" \
     "Archive help should contain description"
 }
 

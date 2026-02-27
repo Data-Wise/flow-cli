@@ -737,6 +737,14 @@ If you have Claude Code + Scholar:
 teach lecture 5 --style rigorous
 teach slides 5 --format "revealjs"
 teach exam "Final Exam" --questions 50 --difficulty hard
+
+# Generate solution keys and validate R code:
+teach solution "Homework 3"
+teach validate-r
+
+# Check and sync config:
+teach config check
+teach sync
 ```
 
 ### 4. Archive at Semester End

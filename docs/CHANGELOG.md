@@ -6,21 +6,28 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
-## [Unreleased]
+## [Unreleased] — Scholar Config Sync (#423)
 
 ### Added
 
-- **em --prompt flag** — Custom AI instructions for `em reply`, `em send`, and `em forward` (`--prompt "decline politely"`)
-- **em --backend flag** — Per-command AI backend override (`--backend gemini`)
-- **em forward command** — Forward email with optional AI-generated note, full dual-path (interactive/batch) support
-- **_em_ai_prompt_with_instructions()** — Layers user instructions on top of category-aware base prompt
-- **Smart TTY detection** — Auto-routes to batch path when stdin/stdout is not a terminal
+- **Config injection** — `--config` flag auto-appended to all Scholar commands when `.flow/teach-config.yml` exists
+- **Config subcommands** — `teach config check`, `teach config diff`, `teach config show`, `teach config scaffold`
+- **New wrappers** — `teach solution`, `teach sync`, `teach validate-r` (with shortcuts `sol`, `vr`)
+- **Doctor config sync** — New section in `teach doctor` quick mode (5 categories now)
+- **Stale config detection** — Warns when config changes since last Scholar run
+- **Legacy deprecation** — Warns when `.claude/teaching-style.local.md` coexists with new config
 
-### Fixed
+### Tests
 
-- **RETURN trap bug** — Replaced Bash-only `trap RETURN` with ZSH `always` block in `_em_hml_reply`
-- **MML body injection** — Fixed multiline body handling in `_em_mml_inject_body` (awk → ZSH loop)
-- **em send batch path** — `em send --prompt` no longer opens `$EDITOR`; uses proper MML template with From: header
+- `test-scholar-config-sync.zsh` — 13 unit tests for config injection and detection
+- `e2e-scholar-config-sync.zsh` — 28 end-to-end tests with real project scenarios
+- `dogfood-scholar-config-sync.zsh` — 41 structural checks for wiring integrity
+- Test suite: 50/50 passing (201 test files, 1 expected timeout)
+
+### Documentation
+
+- New: `docs/guides/SCHOLAR-INTEGRATION-GUIDE.md`
+- Updated: QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, TEACHING-SYSTEM-ARCHITECTURE, CLAUDE.md
 
 ---
 

@@ -344,7 +344,8 @@ test_case "teach help shows Scholar commands section" && {
     local output
     output=$(teach help 2>&1)
 
-    assert_contains "$output" "SCHOLAR COMMANDS" "Should have Scholar section"
+    # Help uses "CONTENT CREATION" header, not "SCHOLAR COMMANDS"
+    assert_contains "$output" "CONTENT CREATION" "Should have content creation section"
     assert_contains "$output" "exam" "Should list exam"
     assert_contains "$output" "quiz" "Should list quiz"
     assert_contains "$output" "slides" "Should list slides"
@@ -353,19 +354,20 @@ test_case "teach help shows Scholar commands section" && {
     assert_contains "$output" "syllabus" "Should list syllabus"
     assert_contains "$output" "rubric" "Should list rubric"
     assert_contains "$output" "feedback" "Should list feedback"
-    assert_contains "$output" "demo" "Should list demo"
+    assert_contains "$output" "solution" "Should list solution"
 
     test_pass
 }
 
-test_case "teach help shows universal flags" && {
+test_case "teach help shows key sections" && {
     local output
     output=$(teach help 2>&1)
 
-    assert_contains "$output" "--dry-run" "Should show --dry-run"
-    assert_contains "$output" "--format" "Should show --format"
-    assert_contains "$output" "--output" "Should show --output"
-    assert_contains "$output" "--verbose" "Should show --verbose"
+    # Help organizes by workflow phase, not universal flags
+    assert_contains "$output" "SETUP" "Should show setup section"
+    assert_contains "$output" "CONTENT CREATION" "Should show content creation section"
+    assert_contains "$output" "VALIDATION" "Should show validation section"
+    assert_contains "$output" "DEPLOYMENT" "Should show deployment section"
 
     test_pass
 }
@@ -374,10 +376,12 @@ test_case "teach help shows shortcuts" && {
     local output
     output=$(teach help 2>&1)
 
-    assert_contains "$output" "SHORTCUTS" "Should have shortcuts section"
+    assert_contains "$output" "Shortcuts" "Should have shortcuts section"
     assert_contains "$output" "hw" "Should show hw shortcut"
     assert_contains "$output" "syl" "Should show syl shortcut"
     assert_contains "$output" "rb" "Should show rb shortcut"
+    assert_contains "$output" "sol" "Should show sol shortcut"
+    assert_contains "$output" "vr" "Should show vr shortcut"
 
     test_pass
 }
