@@ -54,14 +54,13 @@ restore_function() {
 
 test_case "Config injection when config found"
 
-# Mock _teach_find_config to return a path
-mock_function "_teach_find_config" 'echo "/tmp/test-config.yml"'
-
-# Source the dispatcher to get _teach_build_command
+# Source the dispatcher first to get _teach_build_command
 source "${PROJECT_ROOT}/lib/dispatchers/teach-dispatcher.zsh" 2>/dev/null
 
-# Check that _teach_scholar_wrapper would inject --config
-# We test the config injection block in isolation by simulating what it does
+# Mock AFTER source so it doesn't get overridden
+_teach_find_config() { echo "/tmp/test-config.yml"; }
+
+# Test the config injection block in isolation
 local config_path
 config_path=$(_teach_find_config 2>/dev/null)
 local scholar_cmd="/teaching:exam Topic"
@@ -70,8 +69,6 @@ if [[ -n "$config_path" ]]; then
 fi
 assert_contains "$scholar_cmd" "--config"
 test_case_end
-
-restore_function "_teach_find_config"
 
 # ==============================================================================
 # TEST 2: Config injection when config missing
