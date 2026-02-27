@@ -156,10 +156,10 @@ at <cmd>      # Atlas bridge (project intelligence, optional)
 
 ### Teaching Subcommands
 
-`teach analyze`, `teach init`, `teach deploy`, `teach doctor`, `teach exam`, `teach macros`, `teach map`, `teach plan`, `teach style`, `teach templates`, `teach prompt`, `teach cache`, `teach profiles`, `teach migrate`, `teach validate`
+`teach analyze`, `teach init`, `teach deploy`, `teach doctor`, `teach exam`, `teach macros`, `teach map`, `teach plan`, `teach style`, `teach templates`, `teach prompt`, `teach cache`, `teach profiles`, `teach migrate`, `teach validate`, `teach solution`, `teach sync`, `teach validate-r`, `teach config check`, `teach config diff`, `teach config show`, `teach config scaffold`
 
 - **Doctor (v2):** Two-mode architecture — quick (default, < 3s) and full (`--full`, 11 categories)
-  - Quick mode: CLI deps, R + renv, config, git (4 categories)
+  - Quick mode: CLI deps, R + renv, config, git, Scholar config (5 categories)
   - Full mode: + per-package R checks, quarto ext, scholar, hooks, cache, macros, style
   - Flags: `--full`, `--brief`, `--fix`, `--json`, `--ci`, `--verbose`
   - `--fix` offers renv vs system install choice for R packages
