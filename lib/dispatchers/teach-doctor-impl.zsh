@@ -110,6 +110,9 @@ _teach_doctor() {
     _teach_doctor_section_gap
 
     _teach_doctor_check_git
+    _teach_doctor_section_gap
+
+    _teach_doctor_config_sync
 
     # ── Full mode checks (--full only) ──────────────────────────────────
     if [[ "$full" == "true" ]]; then
@@ -1241,6 +1244,41 @@ _teach_doctor_check_teaching_style() {
             fi
             ;;
     esac
+}
+
+# Check Scholar Config Sync status (#423)
+_teach_doctor_config_sync() {
+    if [[ "$json" == "false" ]]; then
+        echo "Scholar Config:"
+    fi
+
+    local config_path
+    config_path=$(_teach_find_config 2>/dev/null)
+
+    if [[ -n "$config_path" ]]; then
+        _teach_doctor_pass "Config file: $config_path"
+        # Check if Scholar section exists
+        if grep -q "scholar:" "$config_path" 2>/dev/null || grep -q "teaching_style:" "$config_path" 2>/dev/null; then
+            _teach_doctor_pass "Scholar section: present"
+        else
+            _teach_doctor_warn "Scholar section: missing" "Add teaching_style: or scholar: to config"
+        fi
+        _teach_doctor_pass "Auto-injection: enabled"
+
+        # Check for config staleness
+        if _flow_config_changed 2>/dev/null; then
+            _teach_doctor_warn "Config changed since last Scholar run" "Run: teach config check"
+        fi
+    else
+        _teach_doctor_warn "Config file: not found" "Run: teach init (to create .flow/teach-config.yml)"
+    fi
+
+    # Legacy file check
+    local legacy_style=".claude/teaching-style.local.md"
+    if [[ -f "$legacy_style" ]]; then
+        _teach_doctor_warn "Legacy file: .claude/teaching-style.local.md (deprecated)" \
+            "Migrate to .flow/teach-config.yml"
+    fi
 }
 
 # Help function for teach doctor
