@@ -230,6 +230,8 @@ nav:
           - Tutorial: guides/EMAIL-TUTORIAL.md
           - 35. Email CLI: tutorials/35-em-cli-email.md
           - 36. Email Management: tutorials/36-em-delete-actions.md
+          - 37. em v2.0 Features: tutorials/37-em-v2-features.md
+          - Cookbook: guides/EMAIL-COOKBOOK.md
           - Quick Reference: reference/REFCARD-EMAIL-DISPATCHER.md
       - Editor (Neovim):
           - Guide: guides/HIMALAYA-NVIM-SETUP.md

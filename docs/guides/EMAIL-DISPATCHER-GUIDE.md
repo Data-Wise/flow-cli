@@ -1,8 +1,8 @@
 # Email Dispatcher Guide
 
-**Available Since:** v7.0.0
+**Available Since:** v7.0.0 | **v2.0 Since:** v7.4.2
 **Status:** Production Ready
-**Last Updated:** 2026-02-18
+**Last Updated:** 2026-02-26
 
 ## Overview
 
@@ -2130,6 +2130,137 @@ em find "newsletter"
 # Ctrl-A to archive each one
 ```
 
+## New in v2.0
+
+### Calendar Integration (ICS Parsing)
+
+Parse ICS calendar attachments directly from email and optionally add events to Apple Calendar:
+
+```bash
+em calendar 42              # Parse ICS from email #42
+em cal 42                   # Alias
+```
+
+**How it works:**
+
+1. Reads the email and finds ICS/iCalendar attachments (`.ics` or `text/calendar` MIME type)
+2. Parses the ICS file using a pure ZSH parser (RFC 5545 compliant)
+3. Displays an event card with title, date, time, location, and organizer
+4. Prompts to add to Apple Calendar via AppleScript
+
+```text
+em calendar — ICS event from email #42
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Event:     Department Meeting
+  Date:      Thursday, March 5, 2026
+  Time:      2:00 PM - 3:30 PM
+  Location:  Room 204, Science Building
+  Organizer: chair@dept.edu
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Add to Apple Calendar? [y/N]
+```
+
+**Security:** ICS files are limited to 1MB and 10 events per file. AppleScript values are sanitized to prevent injection.
+
+### IMAP Watch (Background Notifications)
+
+Monitor your inbox in the background with IMAP IDLE and get desktop notifications for new email:
+
+```bash
+em watch start              # Start background watcher
+em watch stop               # Stop the watcher
+em watch status             # Show PID and uptime
+em watch log                # Tail the watch log
+em w start                  # Alias
+```
+
+**Status output:**
+
+```text
+em watch: running (PID 12345, uptime 2h 14m)
+```
+
+**Requirements:** `terminal-notifier` (`brew install terminal-notifier`) for desktop notifications.
+
+**How it works:**
+
+1. Launches a background subshell that connects to IMAP IDLE
+2. On new email: sends a desktop notification via `terminal-notifier`
+3. PID and log are tracked in `$FLOW_DATA_DIR/email-watch/`
+4. Rate-limited to prevent notification storms (max 1 per 5 seconds)
+
+**Security:** Notification titles use a static "New Email" string (no user-controlled content in `-execute` flag). The `-execute` flag is never used to prevent RCE.
+
+> **Experimental:** `em watch` is marked experimental. It works well for single-account setups but may not handle all IMAP server disconnects gracefully.
+
+### Enhanced Attachments
+
+Download all, list, or selectively download attachments:
+
+```bash
+# Download all attachments
+em attach 42                # Save to ~/Downloads (default)
+em attach 42 ~/Documents   # Save to custom directory
+
+# List attachments with metadata
+em attach list 42
+```
+
+**List output:**
+
+```text
+em attach — attachments for email #42
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  #  Name           Type              Size
+  ─  ─────────────  ────────────────  ──────
+  1  agenda.pdf     application/pdf   142 KB
+  2  invite.ics     text/calendar     2 KB
+  3  budget.xlsx    application/xlsx  45 KB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3 attachments
+```
+
+```bash
+# Download a specific file by name
+em attach get 42 agenda.pdf
+em attach get 42 agenda.pdf ~/Documents   # Custom directory
+```
+
+### Folder Management
+
+Create and delete mail folders on your IMAP server:
+
+```bash
+# Create a new folder
+em create-folder "Project X"
+em cf "Project X"           # Alias
+
+# Delete a folder (type-to-confirm)
+em delete-folder "Old Archive"
+em df "Old Archive"         # Alias
+```
+
+**Delete confirmation:**
+
+```text
+Delete folder "Old Archive"?
+Type the folder name to confirm: _
+```
+
+You must type the exact folder name to proceed — a safety gate to prevent accidental deletion.
+
+### Version Detection
+
+`em` detects the installed himalaya version and enables features progressively:
+
+```bash
+em version                  # Show himalaya version info
+```
+
+The `_em_hml_version_gte` function gates features by version. `em doctor` reports which progressive-enhancement features are available.
+
+---
+
 ## Next Steps
 
 Now that you understand the `em` dispatcher:
@@ -2141,7 +2272,23 @@ Now that you understand the `em` dispatcher:
 5. **Try the 5-minute routine** - `em` → `em pick` → `em reply` → `em respond`
 6. **Customize shortcuts** - Add `alias mail=em` to your `.zshrc`
 
-## More Information
+## See Also
+
+### Tutorials
+
+- [Tutorial 35: Email from the Terminal](../tutorials/35-em-cli-email.md) — Core email workflow (20 min)
+- [Tutorial 36: Email Management](../tutorials/36-em-delete-actions.md) — Delete, move, flag, extract (20 min)
+- [Tutorial 37: em v2.0 Features](../tutorials/37-em-v2-features.md) — Calendar, watch, folders, safety gate (15 min)
+- [Tutorial 33: Email in Neovim](../tutorials/33-himalaya-email.md) — Neovim-native email with AI actions
+
+### References
+
+- [Email Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) — All 37 commands at a glance
+- [Email Cookbook](EMAIL-COOKBOOK.md) — Practical recipes for common workflows
+- [EM-V2-ARCHITECTURE.md](../internal/EM-V2-ARCHITECTURE.md) — Internal architecture documentation
+- [MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md) — All 15 dispatchers
+
+### External
 
 - **himalaya docs:** https://pimalaya.org/himalaya/
 - **flow-cli docs:** https://data-wise.github.io/flow-cli/

@@ -883,8 +883,15 @@ em ai claude                   # Use a known backend
 ### Comprehensive Guides
 
 - [EMAIL-DISPATCHER-GUIDE.md](../guides/EMAIL-DISPATCHER-GUIDE.md) — Complete workflow guide
+- [EMAIL-COOKBOOK.md](../guides/EMAIL-COOKBOOK.md) — Practical recipes for common workflows
 - [HIMALAYA-SETUP.md](../guides/HIMALAYA-SETUP.md) — Email account configuration
 - [HIMALAYA-NVIM-SETUP.md](../guides/HIMALAYA-NVIM-SETUP.md) — Neovim email with AI actions
+
+### Tutorials
+
+- [Tutorial 35: em CLI Email](../tutorials/35-em-cli-email.md) — Core email workflow (20 min)
+- [Tutorial 36: Email Management](../tutorials/36-em-delete-actions.md) — Delete, move, flag, extract (20 min)
+- [Tutorial 37: em v2.0 Features](../tutorials/37-em-v2-features.md) — Calendar, watch, folders, safety gate (15 min)
 
 ### References
 

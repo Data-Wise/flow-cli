@@ -274,5 +274,7 @@ After installing, configure an account in `~/.config/himalaya/config.toml` and r
 ## Next Steps
 
 - **[Tutorial 36: Email Management](36-em-delete-actions.md)** — Delete, move, restore, flag, and extract actions from email
+- **[Tutorial 37: em v2.0 Features](37-em-v2-features.md)** — Calendar integration, IMAP watch, folder management, safety gate
 - **[Tutorial 33: Email in Neovim](33-himalaya-email.md)** — Read, reply, and process email without leaving your editor
+- **[Email Cookbook](../guides/EMAIL-COOKBOOK.md)** — Practical recipes for common workflows
 - **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
