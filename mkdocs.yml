@@ -307,6 +307,9 @@ nav:
           - at (Atlas bridge): commands/at.md
           - dashboard: commands/dashboard.md
       - Quick Reference Cards:
+          - 🌳 Worktree (wt): reference/REFCARD-WORKTREE-DISPATCHER.md
+          - 📁 Dotfiles (dots): reference/REFCARD-DOTFILE-DISPATCHER.md
+          - 🔑 Secrets (sec): reference/REFCARD-SECRET-DISPATCHER.md
           - 🔐 Token & Secrets: reference/REFCARD-TOKEN-SECRETS.md
           - 🛡️ Chezmoi Safety: reference/REFCARD-DOT-SAFETY.md
           - 🛡️ Chezmoi Safety API: reference/API-DOT-SAFETY.md
