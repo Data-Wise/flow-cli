@@ -590,12 +590,15 @@ _em_v2_migration_notice() {
 _em_send() {
     _em_require_himalaya || return 1
     local to="" subject="" use_ai=false force_flag=""
+    local prompt_text="" backend_override=""
 
-    # Parse args: em send [--ai] [--force|--yes] [to] [subject]
+    # Parse args: em send [--ai] [--force|--yes] [--prompt text] [--backend name] [to] [subject]
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --ai) use_ai=true; shift ;;
             --force|--yes) force_flag="$1"; shift ;;
+            --prompt) prompt_text="$2"; use_ai=true; shift 2 ;;
+            --backend) backend_override="$2"; shift 2 ;;
             *)
                 if [[ -z "$to" ]]; then
                     to="$1"
@@ -625,13 +628,19 @@ _em_send() {
         read -r subject
     fi
 
-    # [2] Optional AI draft from subject
+    # [2] Optional AI draft from subject or prompt
     local ai_body=""
-    if [[ "$use_ai" == true && -n "$subject" && "$FLOW_EMAIL_AI" != "none" ]]; then
-        _flow_log_info "Generating AI draft from subject..."
+    if [[ "$use_ai" == true && "$FLOW_EMAIL_AI" != "none" ]]; then
+        _flow_log_info "Generating AI draft..."
+        local compose_input
+        if [[ -n "$prompt_text" ]]; then
+            compose_input="Write a professional email. User instructions: ${prompt_text}"
+        else
+            compose_input="Compose a professional email about: $subject"
+        fi
         ai_body=$(_em_ai_query "draft" \
             "$(_em_ai_draft_prompt)" \
-            "Compose a professional email about: $subject" 2>/dev/null)
+            "$compose_input" "$backend_override" 2>/dev/null)
         if [[ -n "$ai_body" ]]; then
             _flow_log_success "AI draft ready — edit in \$EDITOR"
         fi
