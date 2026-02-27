@@ -4,44 +4,34 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: --help
-## Phase: Active Development
-## Priority: 2
-## Progress: 100
+## Focus: pre-release docs sync
+## Phase: Release Prep
+## Priority: 1
+## Progress: 95
 
 ## Current Session (2026-02-27)
 
 **Session activity:**
-- brainstorm: max-depth Scholar Config Sync (#423) — 2 agents, 8 expert questions
-  - spec: SPEC-scholar-config-sync-2026-02-26.md (7 increments, config wiring + new wrappers)
-  - issue: #423 created (expanded scope from closed #299)
-  - worktree: feature/scholar-config created with ORCHESTRATE plan
-- brainstorm: max-depth em --prompt + bug fixes — 2 agents, 8 expert questions
-  - spec: SPEC-em-prompt-fix-2026-02-27.md (8 increments)
-  - investigated: himalaya.nvim AI integration (backend selection, prompt injection patterns)
-  - diagnosed: RETURN trap bug (ZSH doesn't support RETURN signal) + TTY detection bug
-  - worktree: feature/em-prompt created with ORCHESTRATE plan
-- debug: em reply crash (trap RETURN + dialoguer TTY) — root cause identified, fix in spec
+- docs: PR #427 (docs gap fix) — 7-phase documentation overhaul
+  - 4 new refcards: g, wt, dots, sec dispatchers
+  - help files updated to v7.6.0 (TROUBLESHOOTING, WORKFLOWS)
+  - stale version sweep: v5.x/v6.x → v7.6.0 across 7 guides
+  - teach dispatcher refcard: +4 Scholar commands, config subcommands
+  - tutorial renaming: 27→45 (lint-quickstart), 37→46 (em-v2-features)
+  - broken anchor fixes: 5 anchors across 5 files
+  - test suite: 53/53 passing (205 files, 1 expected timeout)
+- docs: Scholar wrappers refcard, integration guide expansion
+- docs: site update — index.md What's New, stale test counts, README Teaching section
+- merged: PR #425 (Scholar Config Sync), PR #424 (em --prompt), PR #427 (docs gap fix)
+- cleanup: worktree removed, stale branches deleted
+- status: ready for v7.6.0 release
 
-## Previous Session (2026-02-26)
+## Previous Session (2026-02-27, earlier)
 
 **Session activity:**
-- feat: Scholar Config Sync (#423) — 7-increment implementation on feature/scholar-config
-  - Config injection: --config flag auto-appended to all Scholar commands
-  - Config subcommands: teach config check/diff/show/scaffold
-  - New wrappers: teach solution, teach sync, teach validate-r
-  - Doctor integration: config sync section in quick mode (5 categories)
-  - Stale config detection + legacy deprecation warnings
-  - Tests: 13 unit + 28 e2e + 41 dogfood + 3 pre-existing fixes
-  - Docs: SCHOLAR-INTEGRATION-GUIDE, QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, TEACHING-SYSTEM-ARCHITECTURE, CLAUDE.md
-  - test suite: 50/50 passing, 0 failures, 2 expected timeouts, 199 test files
-- released: v7.5.0 — em v2.0 safety gate, ICS calendar, IMAP watch, folder CRUD
-  - PR #420 (em v2.0 feature branch) merged to dev
-  - PR #421 (Release v7.5.0) merged to main (139 commits)
-  - 8 integration test failures fixed across 7 test suites
-  - version bump across 21 files, GitHub release created
-  - docs deployed (auto via CI), Homebrew tap updated (auto via workflow)
-- site-update: CHANGELOG.md entry for v7.5.0, test counts updated in TESTING.md
+- feat: Scholar Config Sync (#423) — config injection, teach config/solution/sync/validate-r
+- feat: em --prompt (#424) — AI-guided composition, --backend, em forward, help guards
+- docs: SCHOLAR-INTEGRATION-GUIDE, REFCARD-SCHOLAR-WRAPPERS, test count sync
 
 ## Previous Session (2026-02-22)
 
