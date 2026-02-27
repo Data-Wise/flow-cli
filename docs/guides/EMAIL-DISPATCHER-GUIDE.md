@@ -1,6 +1,6 @@
 # Email Dispatcher Guide
 
-**Available Since:** v7.0.0 | **v2.0 Since:** v7.4.2
+**Available Since:** v7.0.0 | **v2.0 Since:** v7.5.0
 **Status:** Production Ready
 **Last Updated:** 2026-02-26
 

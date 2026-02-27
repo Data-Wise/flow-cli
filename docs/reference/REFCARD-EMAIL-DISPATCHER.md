@@ -2,7 +2,7 @@
 
 > All `em` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v2.0 (flow-cli v7.4.2+) | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
+> **Version:** v2.0 (flow-cli v7.5.0+) | **Dispatcher:** `lib/dispatchers/email-dispatcher.zsh`
 >
 > **BREAKING CHANGE (v2.0):** `em send` and `em reply` now show a full preview before sending.
 > Use `--force` to bypass and send without the confirmation step.
@@ -906,7 +906,7 @@ em ai claude                   # Use a known backend
 
 ---
 
-**Version:** v2.0 (em dispatcher) — flow-cli v7.4.2+
+**Version:** v2.0 (em dispatcher) — flow-cli v7.5.0+
 **Last Updated:** 2026-02-26
 **Commands:** 37 total (4 core + 2 search + 5 AI + 7 organize + 9 manage + 3 info + 6 util + 2 infra + 1 help)
 **Breaking Change:** `em send` / `em reply` preview before send. Use `--force` to bypass.

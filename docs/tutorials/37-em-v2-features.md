@@ -9,7 +9,7 @@ tags:
 
 em v2.0 ships five new capabilities on top of the core email workflow: a safety gate that previews every outbound email before it leaves, calendar event parsing from ICS attachments, a background IMAP IDLE watcher for desktop notifications, granular attachment handling, and folder management. This tutorial walks through each feature with real commands you can run.
 
-**Time:** 15 minutes | **Level:** Intermediate | **Requires:** flow-cli v7.4.2+, himalaya
+**Time:** 15 minutes | **Level:** Intermediate | **Requires:** flow-cli v7.5.0+, himalaya
 
 ## What You'll Learn
 

@@ -228,7 +228,7 @@ flow doctor --verbose
   ✓ completions
 
 🌊 FLOW-CLI
-  ✓ Plugin loaded    v7.4.2
+  ✓ Plugin loaded    v7.5.0
   ✓ Plugin directory ~/projects/dev-tools/flow-cli
 
 ────────────────────────────────────────────────
@@ -532,5 +532,5 @@ The `doctor` command follows these principles:
 ---
 
 **Last Updated:** 2026-02-12
-**Command Version:** v7.4.2 (doctor v2.0 — email integration)
+**Command Version:** v7.5.0 (doctor v2.0 — email integration)
 **Status:** ✅ Production ready with interactive install + email diagnostics

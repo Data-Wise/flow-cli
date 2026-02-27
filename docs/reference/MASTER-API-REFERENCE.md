@@ -8,7 +8,7 @@ tags:
 **Purpose:** Complete API documentation for all flow-cli library functions
 **Audience:** Developers, contributors, advanced users
 **Format:** Function signatures, parameters, return values, examples
-**Version:** v7.4.2
+**Version:** v7.5.0
 **Last Updated:** 2026-02-21
 
 ---
@@ -6420,7 +6420,7 @@ _em_ai_validate_extra_args <args_string>
 
 ## Change Log
 
-### em v2.0 (Current — flow-cli v7.4.2+)
+### em v2.0 (Current — flow-cli v7.5.0+)
 
 **Added:**
 - `_em_safety_gate` - Two-phase preview + `[y/N/e]` gate for all outgoing email
@@ -7412,7 +7412,7 @@ URL line is omitted when `$url` is empty or `"null"`.
 
 ---
 
-**Version:** v7.4.2
+**Version:** v7.5.0
 **Last Updated:** 2026-02-21
 **Auto-Generation:** Run `./scripts/generate-api-docs.sh` to update function index
 **Total Functions:** 880 (428 documented, 452 pending)
