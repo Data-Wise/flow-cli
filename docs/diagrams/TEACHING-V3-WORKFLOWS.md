@@ -470,7 +470,7 @@ flowchart TD
 ---
 
 **Generated:** 2026-02-09
-**Version:** Teaching Workflow v3.0 + v6.6.0 Safety Enhancements
+**Version:** v7.6.0 (Teaching Workflow v3.0)
 **Total Diagrams:** 8
 
 These diagrams provide comprehensive visual documentation for all major Teaching Workflow features.

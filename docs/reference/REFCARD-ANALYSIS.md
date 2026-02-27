@@ -189,5 +189,5 @@ teach analyze --slide-breaks lectures/week-02-probability.qmd
 
 ---
 
-**Version:** v6.1.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-02

@@ -1,6 +1,6 @@
 # Course Planning Best Practices: A Research-Based Guide
 
-**Version:** v5.14.0
+**Version:** v7.6.0
 **Last Updated:** 2026-01-19
 **Target Audience:** Instructors using flow-cli for systematic course design
 **Status:** Phase 1 Complete (Sections 1-2)
@@ -2498,7 +2498,7 @@ teach analytics --outcomes         # Outcome achievement analysis
 
 # Document Metadata
 
-**Version:** v5.14.0 (Phase 1 Complete)
+**Version:** v7.6.0
 **Created:** 2026-01-19
 **Last Updated:** 2026-01-19
 **Authors:** flow-cli development team

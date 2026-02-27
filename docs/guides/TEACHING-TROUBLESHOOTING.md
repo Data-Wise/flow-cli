@@ -2,8 +2,8 @@
 
 > Quick fixes for common issues with the teach dispatcher.
 >
-> **Version:** v6.5.0+
-> **Last Updated:** 2026-02-08
+> **Version:** v7.6.0
+> **Last Updated:** 2026-02-27
 
 ---
 
@@ -1104,5 +1104,5 @@ If problems persist after trying these solutions:
 
 ---
 
-**Last Updated:** 2026-02-02
-**Flow CLI Version:** v6.1.0+
+**Last Updated:** 2026-02-27
+**Flow CLI Version:** v7.6.0

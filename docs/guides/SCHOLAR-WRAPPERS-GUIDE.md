@@ -2,7 +2,7 @@
 
 > Complete documentation for the 9 AI content generation commands in the teach system.
 >
-> **Version:** v6.1.0+ | **Prerequisites:** Scholar plugin, teach-config.yml
+> **Version:** v7.6.0 | **Prerequisites:** Scholar plugin, teach-config.yml
 
 ## Table of Contents
 
@@ -1311,6 +1311,6 @@ teach lecture "Topic" --week 5 --math
 
 ---
 
-**Version:** v6.1.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-02
 **Commands Documented:** 9 Scholar wrappers

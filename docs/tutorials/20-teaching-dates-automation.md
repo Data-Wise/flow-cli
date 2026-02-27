@@ -656,5 +656,5 @@ yq eval .flow/teach-config.yml
 
 **Questions or issues?** Open an issue on [GitHub](https://github.com/Data-Wise/flow-cli/issues)
 
-**Last Updated:** 2026-01-17
-**Version:** v5.12.0
+**Last Updated:** 2026-02-27
+**Version:** v7.6.0

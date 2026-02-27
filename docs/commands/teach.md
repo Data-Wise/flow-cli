@@ -27,7 +27,7 @@ teach deploy
 
 ---
 
-## Git Workflow Overview (v5.12.0)
+## Git Workflow Overview
 
 The teaching workflow integrates with Git across 5 phases:
 
@@ -121,11 +121,11 @@ teach <command> [args]
 | `status` | `s` | Show project status + git changes |
 | `week` | `w` | Show current week number |
 | `doctor` | `doc` | Health checks with auto-fix |
-| `analyze` | `concept` | Content analysis with AI insights (v5.16.0) |
-| `migrate-config` | `mig` | Extract lesson plans from config (v5.20.0) |
-| `templates` | `tmpl` | Manage content templates (v5.20.0) |
-| `macros` | `m` | LaTeX macro management (v5.21.0) |
-| `plan` | `pl` | Lesson plan CRUD management (v5.22.0) |
+| `analyze` | `concept` | Content analysis with AI insights |
+| `migrate` | `mig` | Extract lesson plans from config |
+| `templates` | `tmpl` | Manage content templates |
+| `macros` | `m` | LaTeX macro management |
+| `plan` | `pl` | Lesson plan CRUD management |
 | `hooks` | `hk` | Git hook management |
 | `dates` | `d8` | Date management |
 | `validate` | `val` | Validate .qmd files |
@@ -133,7 +133,15 @@ teach <command> [args]
 | `cache` | `c` | Cache operations |
 | `clean` | `cl` | Delete build artifacts |
 | `backup` | `bk` | Backup management |
-| `map` | - | Show teaching ecosystem map (v6.6.0) |
+| `map` | - | Show teaching ecosystem map |
+| `style` | `st` | Teaching style management |
+| `solution [topic]` | `sol` | Generate solution key |
+| `sync` | - | Sync config to Scholar format |
+| `validate-r` | `vr` | Validate R code in .qmd files |
+| `config check` | - | Validate config (pre-flight) |
+| `config diff` | - | Compare prompts vs defaults |
+| `config show` | - | Show resolved 4-layer config |
+| `config scaffold` | - | Copy default prompts for customization |
 | `--help` | `-h` | Show help |
 
 ---
@@ -689,6 +697,83 @@ teach config --view
 
 # Print to stdout
 teach config --cat
+```
+
+#### `teach config check`
+
+Validate your teaching configuration before Scholar operations.
+
+```bash
+teach config check
+# Pre-flight validation: required fields, Scholar compatibility
+```
+
+#### `teach config diff`
+
+Compare your prompt customizations against Scholar defaults.
+
+```bash
+teach config diff
+# Shows which prompts you've customized vs defaults
+```
+
+#### `teach config show`
+
+Display the fully resolved 4-layer configuration (defaults → global → project → local).
+
+```bash
+teach config show
+# Shows merged config from all 4 layers
+```
+
+#### `teach config scaffold`
+
+Copy default Scholar prompts into your project for customization.
+
+```bash
+teach config scaffold
+# Creates .flow/prompts/ with editable copies of all defaults
+```
+
+**See:** [Scholar Integration Guide](../guides/SCHOLAR-INTEGRATION-GUIDE.md) for the full config sync workflow.
+
+### `teach solution`
+
+Generate solution keys for exams and assignments.
+
+```bash
+teach solution "Midterm 1"
+teach solution "Homework 3" --format detailed
+```
+
+### `teach sync`
+
+Sync your teaching configuration to Scholar-compatible format.
+
+```bash
+teach sync
+# Ensures teach-config.yml and Scholar config are in sync
+```
+
+### `teach validate-r`
+
+Validate R code chunks in .qmd files for syntax errors.
+
+```bash
+teach validate-r
+# Checks all .qmd files for R code issues
+teach validate-r lectures/week-03.qmd
+# Check specific file
+```
+
+### `teach style`
+
+Manage teaching style presets for content generation.
+
+```bash
+teach style          # Show current style
+teach style list     # Available presets
+teach style set formal
 ```
 
 ### Scholar Content Commands

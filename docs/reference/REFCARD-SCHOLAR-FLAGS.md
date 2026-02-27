@@ -2,7 +2,7 @@
 
 > All flags available for `teach` Scholar wrapper commands (lecture, slides, exam, quiz, assignment, syllabus, rubric, feedback, demo).
 >
-> **Version:** v6.1.0+ | **Source:** `lib/dispatchers/teach-dispatcher.zsh`
+> **Version:** v7.6.0 | **Source:** `lib/dispatchers/teach-dispatcher.zsh`
 
 ## Selection Flags (Universal)
 
@@ -746,6 +746,6 @@ teach lecture "ANOVA" --week 8 --dry-run
 
 ---
 
-**Version:** v6.1.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-02
 **Status:** Complete Scholar flag documentation

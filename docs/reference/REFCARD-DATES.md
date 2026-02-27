@@ -271,5 +271,5 @@ teach dates status
 
 ---
 
-**Version:** v5.11.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-02

@@ -1,6 +1,6 @@
 # Scholar Enhancement Tutorials
 
-**Version:** v5.13.0
+**Version:** v7.6.0
 **Total Duration:** ~65 minutes
 **Skill Levels:** 3 (Beginner → Advanced)
 

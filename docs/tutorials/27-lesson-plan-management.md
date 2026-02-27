@@ -3,7 +3,7 @@
 > **What you'll learn:** Create, manage, and use lesson plans with `teach plan` to drive AI content generation
 >
 > **Time:** ~15 minutes | **Level:** Beginner
-> **Version:** v5.22.0
+> **Version:** v7.6.0
 
 ---
 
@@ -339,5 +339,5 @@ teach slides --week 5  # Generate slides
 
 ---
 
-**Version:** v5.22.0
+**Version:** v7.6.0
 **Last Updated:** 2026-01-29
