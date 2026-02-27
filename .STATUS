@@ -4,7 +4,7 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: em v2.0 planned, worktree ready
+## Focus: --help
 ## Phase: Active Development
 ## Priority: 2
 ## Progress: 100
@@ -12,20 +12,14 @@
 ## Current Session (2026-02-26)
 
 **Session activity:**
-- brainstorm: max-depth em v2.0 update plan (4 research agents, 8 expert questions)
-  - agents: himalaya-mcp researcher, flow-cli email explorer, backend architect, security auditor
-  - compared em dispatcher (31 cmds, ZSH) vs himalaya-mcp (19 tools, TypeScript)
-  - decision: independent layers (no MCP coupling), feature parity + new
-- security: audit found 12 findings (2 critical, 6 high) in existing em code
-  - critical: AppleScript injection, folder name injection
-  - high: jq injection (6 locations), config source execution, terminal-notifier injection
-- spec: SPEC-em-v2-2026-02-26.md (comprehensive, all sections)
-  - features: safety gate, folder CRUD, attachments, ICS parsing, IMAP watch, version detect
-  - ~770 lines estimated (570 features + 200 security fixes)
-- worktree: feature/em-v2 created (02932968) with ORCHESTRATE plan
-  - swarm config: 5 agents (security, new-modules, tests, dispatcher, docs)
-  - 2 waves: wave 1 parallel (no file overlap), wave 2 sequential
-- memory: saved 3 insight categories (architecture, ZSH security patterns, swarm orchestration)
+- released: v7.5.0 — em v2.0 safety gate, ICS calendar, IMAP watch, folder CRUD
+  - PR #420 (em v2.0 feature branch) merged to dev
+  - PR #421 (Release v7.5.0) merged to main (139 commits)
+  - 8 integration test failures fixed across 7 test suites
+  - version bump across 21 files, GitHub release created
+  - docs deployed (auto via CI), Homebrew tap updated (auto via workflow)
+  - test suite: 47/47 passing, 0 failures, 2 expected timeouts
+- site-update: CHANGELOG.md entry for v7.5.0, test counts updated in TESTING.md
 
 ## Previous Session (2026-02-22)
 
@@ -219,6 +213,6 @@
 
 **Last Updated:** 2026-02-26
 **Status:** v7.4.2 | 46/46 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 196 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
-## wins: em v2.0 brainstorm + spec + swarm plan (2026-02-26), v7.4.2 released + full pipeline (2026-02-22), PR #415 review + 7 fixes (2026-02-22), Atlas integration update (2026-02-22), Brew sourcing switch (2026-02-22), 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21)
-## streak: 7
-## last_active: 2026-02-26
+## wins: Fixed the regression bug (2026-02-26), --category fix squashed the bug (2026-02-26), fixed the bug (2026-02-26), Fixed the regression bug (2026-02-26), --category fix squashed the bug (2026-02-26)
+## streak: 1
+## last_active: 2026-02-26 18:29

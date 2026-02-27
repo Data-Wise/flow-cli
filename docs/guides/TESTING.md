@@ -24,7 +24,7 @@ flow-cli uses a **shared test framework** (`tests/test-framework.zsh`) with comp
 | Metric | Count |
 |--------|-------|
 | Test files | 196 |
-| Test suites (run-all.sh) | 46/46 passing |
+| Test suites (run-all.sh) | 47/47 passing |
 | Test functions | 8,000+ |
 | Expected timeouts | 1 (IMAP connectivity) |
 
@@ -263,7 +263,7 @@ zsh tests/test-work.zsh
 ./tests/run-all.sh
 ```
 
-46 suites, ~12000 assertions. Expected: 46/46 pass, 1 timeout (IMAP connectivity test).
+47 suites, ~12000 assertions. Expected: 47/47 pass, 2 timeouts (IMAP connectivity test).
 
 ### Dogfood Quality Check
 
@@ -359,4 +359,4 @@ When adding new functionality:
 
 **Established:** v5.0.0 (2026-01-11)
 **Overhauled:** v7.4.0 (2026-02-16) — shared framework, mock registry, dogfood scanner
-**Test Count:** 196 test files, 12000+ assertions, 46/46 suites passing
+**Test Count:** 196 test files, 12000+ assertions, 47/47 suites passing
