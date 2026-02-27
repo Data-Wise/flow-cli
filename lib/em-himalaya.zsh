@@ -548,11 +548,23 @@ _em_mml_inject_body() {
     # Args: mml_template, body_text
     local mml="$1" body="$2"
 
-    # Find the blank line separating headers from body, inject after it
-    echo "$mml" | awk -v body="$body" '
-        /^$/ && !found { found=1; print; print body; next }
-        { print }
-    '
+    # Split on first blank line: headers before, existing body after
+    # Uses ZSH parameter expansion instead of awk (which breaks on multiline -v)
+    local headers="" existing_body="" found_break=false
+    while IFS= read -r line; do
+        if [[ "$found_break" == false ]]; then
+            if [[ -z "$line" ]]; then
+                found_break=true
+            else
+                headers+="$line"$'\n'
+            fi
+        else
+            existing_body+="$line"$'\n'
+        fi
+    done <<< "$mml"
+
+    # Reconstruct: headers + blank line + injected body + existing body
+    printf '%s\n%s\n%s' "$headers" "$body" "$existing_body"
 }
 
 # ═══════════════════════════════════════════════════════════════════

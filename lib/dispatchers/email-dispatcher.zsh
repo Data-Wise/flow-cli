@@ -621,22 +621,90 @@ _em_send() {
     # Show v2 migration notice (once)
     _em_v2_migration_notice
 
-    # [1] Prompt for missing fields
-    if [[ -z "$to" ]]; then
-        printf "${_C_BLUE}To:${_C_NC} "
-        read -r to
+    # Smart path selection (same pattern as _em_reply)
+    local use_interactive=false
+    if [[ -z "$prompt_text" && -t 0 && -t 1 ]]; then
+        use_interactive=true
+    fi
+
+    # --- Path 1: Interactive send (prompts + $EDITOR) ---
+    if [[ "$use_interactive" == "true" ]]; then
+        # Prompt for missing fields interactively
         if [[ -z "$to" ]]; then
-            _flow_log_error "Recipient required"
+            printf "${_C_BLUE}To:${_C_NC} "
+            read -r to
+            if [[ -z "$to" ]]; then
+                _flow_log_error "Recipient required"
+                return 1
+            fi
+        fi
+
+        if [[ -z "$subject" ]]; then
+            printf "${_C_BLUE}Subject:${_C_NC} "
+            read -r subject
+        fi
+
+        # Optional AI draft from subject
+        local ai_body=""
+        if [[ "$use_ai" == true && -n "$subject" && "$FLOW_EMAIL_AI" != "none" ]]; then
+            _flow_log_info "Generating AI draft from subject..."
+            ai_body=$(_em_ai_query "draft" \
+                "$(_em_ai_draft_prompt)" \
+                "Compose a professional email about: $subject" "$backend_override" 2>/dev/null)
+            if [[ -n "$ai_body" ]]; then
+                _flow_log_success "AI draft ready — edit in \$EDITOR"
+            fi
+        fi
+
+        # Create temp file + open in $EDITOR
+        local draft_file
+        draft_file=$(_em_compose_draft "$to" "$subject" "$ai_body")
+
+        trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
+        _em_open_in_editor "$draft_file"
+
+        # Two-phase safety gate
+        local gate_result
+        _em_safety_gate "$draft_file" "Send" "$force_flag"
+        gate_result=$?
+
+        if [[ $gate_result -eq 0 ]]; then
+            local send_content
+            send_content=$(<"$draft_file")
+            echo "$send_content" | himalaya message send
+            if [[ $? -eq 0 ]]; then
+                _flow_log_success "Email sent"
+                _em_draft_cleanup "$draft_file"
+            else
+                _flow_log_error "Failed to send — draft preserved: $draft_file"
+                trap - INT TERM
+                return 1
+            fi
+        elif [[ $gate_result -eq 2 ]]; then
+            _em_draft_cleanup "$draft_file"
+            trap - INT TERM
+            return 0
+        else
+            _em_draft_cleanup "$draft_file"
+            trap - INT TERM
             return 1
         fi
+
+        trap - INT TERM
+        return 0
     fi
 
-    if [[ -z "$subject" ]]; then
-        printf "${_C_BLUE}Subject:${_C_NC} "
-        read -r subject
+    # --- Path 2: Batch/non-interactive (--prompt or no TTY) ---
+    if [[ ! -t 0 || ! -t 1 ]]; then
+        _flow_log_info "Non-interactive mode (no TTY detected)"
     fi
 
-    # [2] Optional AI draft from subject or prompt
+    if [[ -z "$to" ]]; then
+        _flow_log_error "Recipient required (non-interactive mode — pass as argument)"
+        return 1
+    fi
+
+    # Generate AI draft
     local ai_body=""
     if [[ "$use_ai" == true && "$FLOW_EMAIL_AI" != "none" ]]; then
         _flow_log_info "Generating AI draft..."
@@ -650,29 +718,44 @@ _em_send() {
             "$(_em_ai_draft_prompt)" \
             "$compose_input" "$backend_override" 2>/dev/null)
         if [[ -n "$ai_body" ]]; then
-            _flow_log_success "AI draft ready — edit in \$EDITOR"
+            _flow_log_success "AI draft ready"
+        else
+            _flow_log_error "Could not generate AI draft"
+            return 1
         fi
     fi
 
-    # [3] Create temp file + open in $EDITOR
-    local draft_file
-    draft_file=$(_em_compose_draft "$to" "$subject" "$ai_body")
+    # Build MML from himalaya template (includes From: header)
+    local mml
+    mml=$(_em_hml_template_write)
 
-    # Trap: clean up temp file on interrupt
+    # Set To: and Subject: headers
+    mml=$(echo "$mml" | sed "s/^To:.*/To: $to/")
+    if [[ -n "$subject" ]]; then
+        mml=$(echo "$mml" | sed "s/^Subject:.*/Subject: $subject/")
+    fi
+
+    # Inject body
+    if [[ -n "$ai_body" ]]; then
+        mml=$(_em_mml_inject_body "$mml" "$ai_body")
+    fi
+
+    # Write to temp file for safety gate
+    local draft_file
+    draft_file=$(mktemp "${TMPDIR:-/tmp}/em-send-draft-XXXXXX.eml")
+    chmod 0600 "$draft_file"
+    echo "$mml" > "$draft_file"
+
     trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
 
-    _em_open_in_editor "$draft_file"
-
-    # [4] TWO-PHASE SAFETY GATE — preview + confirm
     local gate_result
     _em_safety_gate "$draft_file" "Send" "$force_flag"
     gate_result=$?
 
     if [[ $gate_result -eq 0 ]]; then
-        # [5] TOCTOU fix: read draft into variable, send from variable (not file)
         local send_content
         send_content=$(<"$draft_file")
-        echo "$send_content" | himalaya message send
+        echo "$send_content" | _em_hml_template_send
         if [[ $? -eq 0 ]]; then
             _flow_log_success "Email sent"
             _em_draft_cleanup "$draft_file"
@@ -684,11 +767,11 @@ _em_send() {
     elif [[ $gate_result -eq 2 ]]; then
         _em_draft_cleanup "$draft_file"
         trap - INT TERM
-        return 0  # user chose to cancel — not an error
+        return 0
     else
         _em_draft_cleanup "$draft_file"
         trap - INT TERM
-        return 1  # actual error
+        return 1
     fi
 
     trap - INT TERM
