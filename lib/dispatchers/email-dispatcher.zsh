@@ -605,8 +605,12 @@ _em_send() {
         case "$1" in
             --ai) use_ai=true; shift ;;
             --force|--yes) force_flag="$1"; shift ;;
-            --prompt) prompt_text="$2"; use_ai=true; shift 2 ;;
-            --backend) backend_override="$2"; shift 2 ;;
+            --prompt)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--prompt requires an argument"; return 1; }
+                prompt_text="$2"; use_ai=true; shift 2 ;;
+            --backend)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--backend requires an argument"; return 1; }
+                backend_override="$2"; shift 2 ;;
             *)
                 if [[ -z "$to" ]]; then
                     to="$1"
@@ -728,11 +732,15 @@ _em_send() {
     # Build MML from himalaya template (includes From: header)
     local mml
     mml=$(_em_hml_template_write)
+    if [[ -z "$mml" ]]; then
+        _flow_log_error "Could not get mail template from himalaya"
+        return 1
+    fi
 
     # Set To: and Subject: headers
-    mml=$(echo "$mml" | sed "s/^To:.*/To: $to/")
+    mml=$(echo "$mml" | sed "s|^To:.*|To: $to|")
     if [[ -n "$subject" ]]; then
-        mml=$(echo "$mml" | sed "s/^Subject:.*/Subject: $subject/")
+        mml=$(echo "$mml" | sed "s|^Subject:.*|Subject: $subject|")
     fi
 
     # Inject body
@@ -788,8 +796,12 @@ _em_forward() {
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --force|--yes) force_flag="$1"; shift ;;
-            --prompt) prompt_text="$2"; shift 2 ;;
-            --backend) backend_override="$2"; shift 2 ;;
+            --prompt)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--prompt requires an argument"; return 1; }
+                prompt_text="$2"; shift 2 ;;
+            --backend)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--backend requires an argument"; return 1; }
+                backend_override="$2"; shift 2 ;;
             *)
                 if [[ -z "$msg_id" ]]; then
                     msg_id="$1"
@@ -856,7 +868,7 @@ _em_forward() {
 
     # Inject recipient if provided
     if [[ -n "$to" ]]; then
-        mml=$(echo "$mml" | sed "s/^To:.*/To: $to/")
+        mml=$(echo "$mml" | sed "s|^To:.*|To: $to|")
     fi
 
     # Write to temp file for safety gate
@@ -875,8 +887,14 @@ _em_forward() {
         local send_content
         send_content=$(<"$draft_file")
         echo "$send_content" | _em_hml_template_send
-        _flow_log_success "Email forwarded"
-        _em_draft_cleanup "$draft_file"
+        if [[ $? -eq 0 ]]; then
+            _flow_log_success "Email forwarded"
+            _em_draft_cleanup "$draft_file"
+        else
+            _flow_log_error "Failed to forward — draft preserved: $draft_file"
+            trap - INT TERM
+            return 1
+        fi
     elif [[ $gate_result -eq 2 ]]; then
         _em_draft_cleanup "$draft_file"
         trap - INT TERM
@@ -908,8 +926,12 @@ _em_reply() {
             --all|-a)        reply_all=true; shift ;;
             --batch|-b)      batch_mode=true; shift ;;
             --force|--yes)   force_flag="$1"; shift ;;
-            --prompt)        prompt_text="$2"; shift 2 ;;
-            --backend)       backend_override="$2"; shift 2 ;;
+            --prompt)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--prompt requires an argument"; return 1; }
+                prompt_text="$2"; shift 2 ;;
+            --backend)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--backend requires an argument"; return 1; }
+                backend_override="$2"; shift 2 ;;
             *)               msg_id="$1"; shift ;;
         esac
     done

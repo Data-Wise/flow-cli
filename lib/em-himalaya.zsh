@@ -564,7 +564,7 @@ _em_mml_inject_body() {
     done <<< "$mml"
 
     # Reconstruct: headers + blank line + injected body + existing body
-    printf '%s\n%s\n%s' "$headers" "$body" "$existing_body"
+    printf '%s\n%s\n%s\n' "$headers" "$body" "$existing_body"
 }
 
 # ═══════════════════════════════════════════════════════════════════
