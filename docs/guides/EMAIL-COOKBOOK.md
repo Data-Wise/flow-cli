@@ -20,12 +20,13 @@ For full reference, see the [refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) 
 6. [Manage Folder Structure](#6-manage-folder-structure)
 7. [Attachment Workflows](#7-attachment-workflows)
 8. [Batch Reply to Students](#8-batch-reply-to-students)
-9. [AI Backend Switching](#9-ai-backend-switching)
-10. [Weekly Email Digest](#10-weekly-email-digest)
-11. [Safe Sending with Preview](#11-safe-sending-with-preview)
-12. [Email-to-Task Pipeline](#12-email-to-task-pipeline)
-13. [Cache Management](#13-cache-management)
-14. [Exchange / Outlook Setup](#14-exchange--outlook-setup)
+9. [AI-Guided Reply with Custom Instructions](#9-ai-guided-reply-with-custom-instructions)
+10. [AI Backend Switching](#10-ai-backend-switching)
+11. [Weekly Email Digest](#11-weekly-email-digest)
+12. [Safe Sending with Preview](#12-safe-sending-with-preview)
+13. [Email-to-Task Pipeline](#13-email-to-task-pipeline)
+14. [Cache Management](#14-cache-management)
+15. [Exchange / Outlook Setup](#15-exchange--outlook-setup)
 
 ---
 
@@ -284,7 +285,42 @@ em reply 134 --batch
 
 ---
 
-## 9. AI Backend Switching
+## 9. AI-Guided Reply with Custom Instructions
+
+**Problem:** You need to reply to an email with a specific tone or approach, but typing the whole reply manually feels draining. You want AI to draft it based on your brief instructions.
+
+**Solution:**
+
+```zsh
+# Reply with custom AI instructions
+em reply 42 --prompt "decline politely, suggest office hours next week"
+
+# Compose a new email from instructions (implies --ai)
+em send --prompt "thank Alice for the report, ask when the budget section will be ready"
+
+# Forward with AI-generated note
+em forward 42 colleague@unm.edu --prompt "FYI, see the budget section on page 3"
+
+# Use a different AI backend for this one reply
+em reply 42 --prompt "be brief and direct" --backend gemini
+```
+
+**Explanation:**
+
+`--prompt` tells the AI what you want the draft to say. The AI uses your instructions as the primary guide while factoring in the original email context and category-specific tone. In all three commands (reply, send, forward), `--prompt` bypasses the `$EDITOR` step and goes straight to the preview gate (`[y/N/e]`), so the flow is: AI drafts → you review → send or edit.
+
+When `--prompt` is used, TTY detection is bypassed (treated as batch mode), making it safe for scripts and piped workflows:
+
+```zsh
+# Works in a pipe or cron job
+em reply 42 --prompt "acknowledge receipt" --force
+```
+
+**Pro tip:** Combine `--prompt` with `--backend` to use Gemini for quick tasks (faster, lower quota usage) and Claude for nuanced replies. The `--backend` flag overrides `FLOW_EMAIL_AI` for that single command only — your global setting stays unchanged.
+
+---
+
+## 10. AI Backend Switching
 
 **Problem:** Your primary AI backend is unavailable (quota exceeded, network issue) and you want to switch to the fallback without restarting your shell.
 
@@ -314,7 +350,7 @@ em ai auto
 
 ---
 
-## 10. Weekly Email Digest
+## 11. Weekly Email Digest
 
 **Problem:** It is Friday afternoon and you want a grouped summary of everything that came in this week before you close down.
 
@@ -339,7 +375,7 @@ em digest --week -n 100
 
 ---
 
-## 11. Safe Sending with Preview
+## 12. Safe Sending with Preview
 
 **Problem:** You want to compose and send an email — but you want to see exactly what will go out before it leaves your outbox.
 
@@ -382,7 +418,7 @@ The two-phase safety gate is a v2.0 breaking change. Every `em send` and `em rep
 
 ---
 
-## 12. Email-to-Task Pipeline
+## 13. Email-to-Task Pipeline
 
 **Problem:** An email contains action items, a meeting request, and a follow-up you need to track. You want all three captured without leaving the terminal.
 
@@ -414,7 +450,7 @@ These three commands form a capture pipeline for information-dense emails. `em c
 
 ---
 
-## 13. Cache Management
+## 14. Cache Management
 
 **Problem:** Your AI cache is large, you have stale drafts from yesterday, or you want to pre-warm the cache before a meeting where you will be processing email quickly.
 
@@ -446,7 +482,7 @@ The cache lives in `.flow/email-cache/` and is organized by operation type: summ
 
 ---
 
-## 14. Exchange / Outlook Setup
+## 15. Exchange / Outlook Setup
 
 **Problem:** You are on an Exchange or Outlook account and `em delete` is not working because the Trash folder is named `Deleted Items`, not `Trash`.
 
@@ -488,7 +524,10 @@ Config load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_D
 | Browse interactively | `em pick` |
 | Find a specific old email | `em find "query"` |
 | Reply to one email with AI help | `em reply <ID>` |
+| Reply with specific tone/instructions | `em reply <ID> --prompt "..."` |
+| Forward with AI note | `em forward <ID> --prompt "..."` |
 | Send email safely with preview | `em send` (default: preview gate) |
+| Compose from instructions | `em send --prompt "..."` |
 | Capture email as task/reminder/event | `em catch`, `em todo`, `em event` |
 | Process a specific folder in bulk | `em respond --folder "Name" -n 50` |
 | Get a weekly overview | `em digest --week` |
@@ -500,6 +539,7 @@ Config load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_D
 em i     # em inbox
 em r     # em read
 em re    # em reply
+em fwd   # em forward
 em s     # em send
 em p     # em pick
 em f     # em find
@@ -520,7 +560,7 @@ em h     # em help
 ## See Also
 
 - [EMAIL-DISPATCHER-GUIDE.md](EMAIL-DISPATCHER-GUIDE.md) — Complete workflow guide with setup, daily routine, and all command details
-- [REFCARD-EMAIL-DISPATCHER.md](../reference/REFCARD-EMAIL-DISPATCHER.md) — All 37 commands at a glance with flags, aliases, and configuration reference
+- [REFCARD-EMAIL-DISPATCHER.md](../reference/REFCARD-EMAIL-DISPATCHER.md) — All 38 commands at a glance with flags, aliases, and configuration reference
 - [HIMALAYA-SETUP.md](HIMALAYA-SETUP.md) — Email account configuration (IMAP/SMTP, Gmail OAuth2, Exchange)
 - [HIMALAYA-NVIM-SETUP.md](HIMALAYA-NVIM-SETUP.md) — Neovim integration with AI actions
 

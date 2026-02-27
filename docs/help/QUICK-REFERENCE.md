@@ -8,7 +8,7 @@ tags:
 
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
-**Version:** v7.5.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-21
 
 ---
@@ -891,6 +891,31 @@ em reply 42 --no-ai
 
 # Non-interactive batch reply
 em reply 42 --batch
+
+# Reply with custom AI instructions
+em reply 42 --prompt "decline politely, suggest office hours"
+
+# Compose with AI from instructions (implies --ai)
+em send --prompt "thank Alice for the report, ask about timeline"
+
+# Forward with AI-generated note
+em forward 42 colleague@unm.edu --prompt "FYI, see the budget section"
+
+# Override AI backend for any command
+em reply 42 --prompt "be brief" --backend gemini
+```
+
+### Forward
+
+```bash
+# Forward email (opens $EDITOR for optional note)
+em forward 42 colleague@unm.edu
+
+# Forward with AI-generated note
+em forward 42 --prompt "summarize key points for the team"
+
+# Forward and skip preview gate
+em forward 42 colleague@unm.edu --force
 ```
 
 ### AI Features
@@ -1404,6 +1429,6 @@ mcp help
 
 ---
 
-**Version:** v7.5.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-21
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

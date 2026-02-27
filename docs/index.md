@@ -26,9 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.5"
-    **em v2.0:** Two-phase safety gate for send/reply, ICS calendar integration, IMAP watch, folder CRUD, enhanced attachments — plus 8 integration test fixes.
-    **v7.5.0:** Safety-first email with `em send --confirm`, `em calendar`, `em watch`, `em create-folder`.
+!!! success "🎉 What's New in v7.6"
+    **Email polish:** `em --prompt` for AI-guided composition, `--backend` provider override, `em forward` command, and `--help` guards on all 34 em subcommands.
+    **50 test suites** passing (198 files, 12000+ assertions).
     [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
     [→ Quick Reference](reference/REFCARD-EMAIL-DISPATCHER.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
@@ -236,7 +236,7 @@ Commands that adapt to your project type:
 | `tok` | `tok github` / `tok rotate` | Token management |
 | `prompt` | `prompt toggle` | Prompt engine switcher |
 | `v` | `v on` / `v status` | Vibe coding mode |
-| `em` | `em inbox` / `em pick` / `em star` | Email: 31 commands (read, reply, AI, organize, manage) |
+| `em` | `em inbox` / `em pick` / `em forward` | Email: 38 commands (read, reply, forward, AI, organize, manage) |
 
 **Get help:** `<dispatcher> help` (e.g., `r help`, `teach help`)
 
@@ -281,4 +281,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.5.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.6.0** · Pure ZSH · Zero Dependencies · MIT License

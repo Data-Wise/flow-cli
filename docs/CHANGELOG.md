@@ -6,6 +6,66 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **em --prompt flag** — Custom AI instructions for `em reply`, `em send`, and `em forward` (`--prompt "decline politely"`)
+- **em --backend flag** — Per-command AI backend override (`--backend gemini`)
+- **em forward command** — Forward email with optional AI-generated note, full dual-path (interactive/batch) support
+- **_em_ai_prompt_with_instructions()** — Layers user instructions on top of category-aware base prompt
+- **Smart TTY detection** — Auto-routes to batch path when stdin/stdout is not a terminal
+
+### Fixed
+
+- **RETURN trap bug** — Replaced Bash-only `trap RETURN` with ZSH `always` block in `_em_hml_reply`
+- **MML body injection** — Fixed multiline body handling in `_em_mml_inject_body` (awk → ZSH loop)
+- **em send batch path** — `em send --prompt` no longer opens `$EDITOR`; uses proper MML template with From: header
+
+---
+
+## [7.5.0] - 2026-02-26
+
+### Added
+
+- **em v2.0: Two-phase safety gate** — `em send` and `em reply` now require explicit `--confirm` flag, with preview before sending (`feat!: BREAKING`)
+- **em v2.0: ICS calendar integration** — `em calendar <ID>` parses ICS attachments, extracts events, adds to Apple Calendar
+- **em v2.0: IMAP watch** — `em watch start|stop|status|log` for real-time inbox monitoring via IMAP IDLE (experimental)
+- **em v2.0: Folder CRUD** — `em create-folder <name>`, `em delete-folder <name>` for mailbox management
+- **em v2.0: Enhanced attachments** — `em attach list <ID>`, get-by-filename support for targeted downloads
+- **em v2.0: Help text** — `em calendar --help` with usage examples and flag documentation
+
+### Fixed
+
+- **Macro parser** — Now supports both `{=tex}` and `{=latex}` Quarto raw block formats (was only matching `{=tex}`)
+- **Concept graph builder** — Handles simple YAML format `{introduces: [...], requires: [...]}` in addition to array-of-objects
+- **8 integration test suites** — Fixed variable shadowing (`$path`, `$status`), stale worktree paths, format mismatches, cache path assertions
+- **Dogfood violations** — Eliminated remaining raw `himalaya` calls in favor of `_em_himalaya_*` adapter layer
+
+### Security
+
+- **Safe config parser** — Replaced `source` of untrusted config files with key-value parser
+- **jq injection prevention** — Replaced string interpolation with `--argjson` in all jq calls
+- **Terminal-notifier sanitization** — Subject lines sanitized before passing to notification system
+- **Message ID validation** — Validates format before using in himalaya commands
+- **Folder name sanitization** — Null byte check and character validation on folder operations
+- **AI extra args validation** — Validates additional arguments passed to AI backends
+
+### Documentation
+
+- em v2.0 tutorials, cookbook, and cross-links
+- em v2.0 internal architecture documentation
+- ZSH completions and API reference for new em subcommands
+- Updated email dispatcher reference, guides, and help text
+
+### Testing
+
+- 47 test suites passing (0 failures, 2 expected timeouts)
+- New: safety gate tests, folder CRUD tests, ICS/watch tests, dogfood quality tests
+- New: version detection and security validation tests
+
+---
+
 ## [7.4.2] - 2026-02-22
 
 ### Added

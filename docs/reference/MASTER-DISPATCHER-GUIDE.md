@@ -10,7 +10,7 @@ tags:
 **Purpose:** Complete reference for all flow-cli dispatchers (15 + at bridge)
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v7.5.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-21
 
 ---
@@ -3097,6 +3097,7 @@ calendar ICS parsing, and IMAP IDLE background watching.
 | `em read <ID>` | `em r` | Read email with smart rendering |
 | `em send [--force]` | `em s` | Compose new email — preview + `[y/N/e]` gate |
 | `em reply <ID> [--force]` | `em re` | Reply with AI draft — preview + `[y/N/e]` gate |
+| `em forward <ID> [to]` | `em fwd` | Forward email with optional AI note |
 | `em find <query>` | `em f` | Search emails |
 | `em pick [FOLDER]` | `em p` | fzf email browser with multi-select |
 | `em delete <ID>` | `em del`, `em rm` | Delete email (move to Trash) |
@@ -3143,6 +3144,10 @@ em pick                    # Browse with fzf (Enter=read, Ctrl-S=summarize, Ctrl
                            #   Ctrl-D=delete, Ctrl-O=todo, Ctrl-E=event)
 em reply 42                # AI-draft reply, opens in $EDITOR, then preview gate
 em reply 42 --force        # Skip preview gate (v2.0)
+em reply 42 --prompt 'decline politely'  # AI draft with custom instructions
+em send user@example.com "Meeting" --prompt 'suggest Tuesday 2pm'
+em forward 42 user@example.com --prompt 'FYI re: our discussion'
+em reply 42 --backend gemini  # Override AI backend per-command
 em respond                 # Batch process actionable emails
 em star 42                 # Toggle star on email
 em move 42 Archive         # Move email to folder
@@ -3178,13 +3183,16 @@ enhancement based on the installed himalaya CLI version.
 
 ### Safety
 
-- **v2.0:** `em send` and `em reply` show full preview + `[y/N/e]` gate before sending. Use `--force` to bypass.
+- **v2.0:** `em send`, `em reply`, and `em forward` show full preview + `[y/N/e]` gate before sending. Use `--force` to bypass.
+- **Smart TTY detection:** Non-interactive contexts (no TTY) auto-route to batch path, preventing `$EDITOR` hangs.
+- **`--prompt` flag:** Available on `reply`, `send`, and `forward`. Forces batch mode. Implies `--ai` on `em send`.
+- **`--backend` flag:** Override AI backend per-command (e.g. `--backend gemini`).
 - Every delete requires `[y/N]` confirmation (default: No). `--purge` requires typing "yes".
 - Folder/query deletes show count + first 5 subjects before confirming.
 - `em delete-folder` requires typing the folder name in full.
 - Move, restore, and flag operations are immediate (reversible, no confirmation needed).
 - Listserv emails (`@LIST.*`) auto-skipped in `em respond`; warning shown if actionable.
-- Discarded drafts tracked separately from sent replies (via `script(1)` detection).
+- Discarded drafts tracked separately from sent replies (via `script(1)` + ZSH `always` block detection).
 - Message IDs validated before use; folder names sanitized (IMAP-safe characters only).
 - AI extra args validated against allowlist to prevent injection.
 - 9-category AI classification: student, colleague, admin-action, scheduling,
@@ -3339,6 +3347,6 @@ at stats
 
 ---
 
-**Version:** v7.5.0
+**Version:** v7.6.0
 **Last Updated:** 2026-02-22
 **Total:** 15 dispatchers + at bridge fully documented

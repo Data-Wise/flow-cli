@@ -15,12 +15,13 @@
 
 ```mermaid
 mindmap
-  root((em<br/>v2.0<br/>37 commands))
-    Core Email<br/>4 commands
+  root((em<br/>v2.0<br/>38 commands))
+    Core Email<br/>5 commands
       inbox
       read
       send
       reply
+      forward
     Search & Browse<br/>2 commands
       find
       pick
@@ -75,8 +76,9 @@ mindmap
 | **em -n N** | — | `em -n 5` | Shorthand: list N emails (= `em inbox N`) |
 | **em inbox** | `i` | `em inbox [N] [FOLDER]` | List N recent emails (default: 25) |
 | **em read** | `r` | `em read [--html\|--md\|--raw] <ID>` | Read email with smart rendering |
-| **em send** | `s` | `em send [--ai] [to] [subject]` | Compose new email |
-| **em reply** | `re` | `em reply <ID> [--no-ai] [--all] [--batch]` | Reply with optional AI draft |
+| **em send** | `s` | `em send [--ai] [--prompt P] [--backend B] [to] [subject]` | Compose new email |
+| **em reply** | `re` | `em reply <ID> [--no-ai] [--all] [--batch] [--prompt P] [--backend B]` | Reply with optional AI draft |
+| **em forward** | `fwd` | `em forward <ID> [--prompt P] [--backend B] [to]` | Forward email with optional AI note |
 | **em find** | `f` | `em find <query>` | Search emails (subject, from, body) |
 | **em pick** | `p` | `em pick [FOLDER]` | fzf browser with preview & actions |
 | **em respond** | `resp` | `em respond [--review] [--dry-run] [-n N] [--folder F] [--clear]` | Batch AI draft generation |
@@ -138,7 +140,7 @@ Load order: env vars → `.flow/email.conf` (project) → `$FLOW_CONFIG_DIR/emai
 
 ```mermaid
 graph TD
-    A["em dispatcher<br/>v2.0 — 37 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
+    A["em dispatcher<br/>v2.0 — 38 commands"] -->|adapter layer| B["himalaya CLI<br/>(email backend)"]
     A -->|cache layer| C["em-cache<br/>(TTL: 1h-24h)"]
     A -->|AI abstraction| D["em-ai<br/>Backend: claude/gemini"]
     A -->|render pipeline| E["em-render<br/>Smart content detection"]
@@ -264,8 +266,10 @@ em reply 42 --batch              # Non-interactive batch mode (preview + y/N onl
 
 - `em send` — preview draft before sending
 - `em reply <ID>` — preview reply before sending
+- `em forward <ID>` — preview forward before sending
 - `em reply <ID> --batch` — preview + `[y/N]` (no editor step)
 - `em respond --review` — per-draft confirmation
+- Any command with `--prompt` — AI drafts go through preview gate
 
 ### Version Detection
 
@@ -483,11 +487,19 @@ em re 42                        # Reply with AI draft
 em re 42 --no-ai                # Reply without AI
 em re 42 --all                  # Reply-all
 em re 42 --batch                # Non-interactive (preview+confirm)
+em re 42 --prompt "decline, suggest office hours"  # AI draft with instructions
+em re 42 --backend gemini       # Override AI backend for this reply
 
 # ─────────────────────────────────────────────────────────────
 # Composing
 em s                            # New email (opens $EDITOR)
 em s --ai "Subject here"        # AI draft from subject
+em s --prompt "thank Alice for the report"  # AI compose from instructions
+
+# ─────────────────────────────────────────────────────────────
+# Forwarding
+em fwd 42 colleague@unm.edu    # Forward with optional note
+em fwd 42 --prompt "FYI, see the budget section"  # AI forwarding note
 
 # ─────────────────────────────────────────────────────────────
 # Browsing & search
@@ -696,6 +708,18 @@ em re 42 --all                  # Reply to all
 
 # Non-interactive (batch, preview + confirm)
 em re 42 --batch                # Preview, then [y/N]
+
+# AI-guided with custom instructions
+em re 42 --prompt "decline politely"    # Custom AI draft
+em re 42 --prompt "be brief" --backend gemini  # With backend override
+```
+
+### Forwarding
+
+```bash
+em fwd 42                       # Forward (opens $EDITOR for note)
+em fwd 42 colleague@unm.edu    # Pre-fill recipient
+em fwd 42 --prompt "FYI"       # AI forwarding note (no $EDITOR)
 ```
 
 ### Search & Find
@@ -908,5 +932,5 @@ em ai claude                   # Use a known backend
 
 **Version:** v2.0 (em dispatcher) — flow-cli v7.5.0+
 **Last Updated:** 2026-02-26
-**Commands:** 37 total (4 core + 2 search + 5 AI + 7 organize + 9 manage + 3 info + 6 util + 2 infra + 1 help)
+**Commands:** 38 total (5 core + 2 search + 5 AI + 7 organize + 9 manage + 3 info + 6 util + 2 infra + 1 help)
 **Breaking Change:** `em send` / `em reply` preview before send. Use `--force` to bypass.

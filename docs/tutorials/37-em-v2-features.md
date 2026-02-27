@@ -7,9 +7,9 @@ tags:
 
 # Tutorial: em v2.0 — New Features
 
-em v2.0 ships five new capabilities on top of the core email workflow: a safety gate that previews every outbound email before it leaves, calendar event parsing from ICS attachments, a background IMAP IDLE watcher for desktop notifications, granular attachment handling, and folder management. This tutorial walks through each feature with real commands you can run.
+em v2.0 ships five new capabilities on top of the core email workflow: a safety gate that previews every outbound email before it leaves, calendar event parsing from ICS attachments, a background IMAP IDLE watcher for desktop notifications, granular attachment handling, and folder management. It also adds email forwarding with AI-generated notes and a `--prompt` flag for AI-guided composition across reply, send, and forward. This tutorial walks through each feature with real commands you can run.
 
-**Time:** 15 minutes | **Level:** Intermediate | **Requires:** flow-cli v7.5.0+, himalaya
+**Time:** 20 minutes | **Level:** Intermediate | **Requires:** flow-cli v7.5.0+, himalaya
 
 ## What You'll Learn
 
@@ -19,6 +19,7 @@ em v2.0 ships five new capabilities on top of the core email workflow: a safety 
 4. Listing and downloading individual attachments by filename
 5. Creating and deleting mail folders with type-to-confirm protection
 6. Understanding version detection and progressive enhancement
+7. Forwarding email and using `--prompt` for AI-guided composition
 
 ---
 
@@ -391,6 +392,89 @@ The doctor output includes a version comparison against the minimum required ver
 
 ---
 
+## Step 7: Forward and AI-Guided Composition
+
+em v2.0 adds email forwarding and a `--prompt` flag that lets you describe what you want the AI to draft. Both work across `reply`, `send`, and `forward`.
+
+### Forward an email
+
+Forward opens `$EDITOR` so you can add a note above the forwarded content:
+
+```zsh
+em forward 42 colleague@unm.edu
+```
+
+The alias `fwd` also works:
+
+```zsh
+em fwd 42 colleague@unm.edu
+```
+
+### Forward with an AI-generated note
+
+If you add `--prompt`, the AI writes the forwarding note for you. The editor is skipped — you go straight to the preview gate:
+
+```zsh
+em forward 42 colleague@unm.edu --prompt "FYI, see the budget section on page 3"
+```
+
+```text
+Generating AI forwarding note...
+✅ AI note ready
+
+───────────────────────────
+To: colleague@unm.edu
+Subject: Fwd: Q3 Budget Report
+───────────────────────────
+FYI — the budget section on page 3 has the numbers
+you were asking about.
+
+---------- Forwarded message ----------
+[original email content]
+───────────────────────────
+
+  Send this email? [y/N/e] _
+```
+
+### Reply with custom instructions
+
+The same `--prompt` flag works on `em reply`. Instead of the AI guessing tone from the email category, you tell it exactly what you want:
+
+```zsh
+em reply 42 --prompt "decline politely, suggest office hours next week"
+```
+
+The AI uses your instructions as the primary guide while keeping its category-aware tone as a secondary influence.
+
+### Compose from instructions
+
+On `em send`, `--prompt` implies `--ai` — no need to pass both:
+
+```zsh
+em send alice@unm.edu "Meeting" --prompt "suggest Tuesday 2pm, keep it brief"
+```
+
+### Override the AI backend
+
+Use `--backend` to switch AI providers for a single command without changing your global setting:
+
+```zsh
+em reply 42 --prompt "acknowledge receipt" --backend gemini
+```
+
+This overrides `FLOW_EMAIL_AI` for that one command only.
+
+### TTY detection
+
+When `--prompt` is used (or when stdin/stdout is not a terminal), em automatically routes to the batch path. This means `--prompt` works reliably from scripts, cron jobs, and Claude Code without needing `--batch`:
+
+```zsh
+# Works in a non-interactive context
+em reply 42 --prompt "acknowledge receipt" --force
+```
+
+---
+
 ## Checkpoint
 
 After this tutorial, you should be able to:
@@ -402,6 +486,9 @@ After this tutorial, you should be able to:
 - [x] Download a specific file with `em attach get <ID> <filename>`
 - [x] Create folders with `em create-folder` and delete with type-to-confirm protection
 - [x] Understand that version detection is automatic and gates features to the installed himalaya
+- [x] Forward emails with `em forward` and add AI-generated notes with `--prompt`
+- [x] Use `--prompt` on reply, send, and forward for AI-guided composition
+- [x] Override the AI backend per-command with `--backend`
 
 ---
 
@@ -409,4 +496,4 @@ After this tutorial, you should be able to:
 
 - **[Tutorial 35: Email from the Terminal](35-em-cli-email.md)** — Core email workflow: inbox, read, send, reply, search
 - **[Tutorial 36: Email Management](36-em-delete-actions.md)** — Delete, move, restore, flag, and extract actions
-- **[Email Dispatcher Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md)** — All 37 commands at a glance with flags and aliases
+- **[Email Dispatcher Refcard](../reference/REFCARD-EMAIL-DISPATCHER.md)** — All 38 commands at a glance with flags and aliases

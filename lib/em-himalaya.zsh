@@ -292,33 +292,75 @@ _em_hml_reply() {
     local -a flags=()
     [[ "$reply_all" == "true" ]] && flags+=(--all)
 
-    # Finding 14: use mktemp for log file, restrict permissions, register cleanup
+    # Finding 14: use mktemp for log file, restrict permissions
+    # Uses ZSH always block for cleanup (trap RETURN is not supported in ZSH)
     local tmplog
     tmplog=$(mktemp "${TMPDIR:-/tmp}/em-reply-XXXXXX.log")
     chmod 0600 "$tmplog"
-    # Trap ensures cleanup even if function exits early
-    trap "rm -f '$tmplog'" RETURN
 
-    if [[ -n "$body" ]]; then
-        # Finding 5: pass body via temp file instead of positional arg
-        # Prevents body content from being interpreted as himalaya flags
-        local tmpbody
-        tmpbody=$(mktemp "${TMPDIR:-/tmp}/em-body-XXXXXX")
-        chmod 0600 "$tmpbody"
-        printf '%s' "$body" > "$tmpbody"
-        # himalaya reads body from stdin when no positional body arg is given
-        script -q "$tmplog" sh -c "himalaya message reply ${(j: :)${(@q)flags}} '$msg_id' < '$tmpbody'"
-        rm -f "$tmpbody"
-    else
-        script -q "$tmplog" himalaya message reply "${flags[@]}" "$msg_id"
+    {
+        if [[ -n "$body" ]]; then
+            # Finding 5: pass body via temp file instead of positional arg
+            # Prevents body content from being interpreted as himalaya flags
+            local tmpbody
+            tmpbody=$(mktemp "${TMPDIR:-/tmp}/em-body-XXXXXX")
+            chmod 0600 "$tmpbody"
+            printf '%s' "$body" > "$tmpbody"
+            # himalaya reads body from stdin when no positional body arg is given
+            script -q "$tmplog" sh -c "himalaya message reply ${(j: :)${(@q)flags}} '$msg_id' < '$tmpbody'"
+            rm -f "$tmpbody"
+        else
+            script -q "$tmplog" himalaya message reply "${flags[@]}" "$msg_id"
+        fi
+    } always {
+        local _reply_discard=false
+        if grep -aq "Discard" "$tmplog" 2>/dev/null; then
+            _reply_discard=true
+        fi
+        rm -f "$tmplog"
+        if [[ "$_reply_discard" == true ]]; then
+            return 2
+        fi
+    }
+}
+
+_em_hml_forward() {
+    # Forward message interactively (opens $EDITOR)
+    # Args: message_id, body (optional forwarding note)
+    # Returns: 0 = sent, 1 = error, 2 = user discarded
+    #
+    # Uses same script(1) + always-block pattern as _em_hml_reply
+    local msg_id="$1" body="$2"
+
+    if ! _em_validate_msg_id "$msg_id"; then
+        return 1
     fi
 
-    # Detect discard from himalaya's interactive prompt output
-    if grep -aq "Discard" "$tmplog" 2>/dev/null; then
-        return 2
-    fi
+    local tmplog
+    tmplog=$(mktemp "${TMPDIR:-/tmp}/em-forward-XXXXXX.log")
+    chmod 0600 "$tmplog"
 
-    return 0
+    {
+        if [[ -n "$body" ]]; then
+            local tmpbody
+            tmpbody=$(mktemp "${TMPDIR:-/tmp}/em-fwd-body-XXXXXX")
+            chmod 0600 "$tmpbody"
+            printf '%s' "$body" > "$tmpbody"
+            script -q "$tmplog" sh -c "himalaya message forward '$msg_id' < '$tmpbody'"
+            rm -f "$tmpbody"
+        else
+            script -q "$tmplog" himalaya message forward "$msg_id"
+        fi
+    } always {
+        local _fwd_discard=false
+        if grep -aq "Discard" "$tmplog" 2>/dev/null; then
+            _fwd_discard=true
+        fi
+        rm -f "$tmplog"
+        if [[ "$_fwd_discard" == true ]]; then
+            return 2
+        fi
+    }
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -341,6 +383,14 @@ _em_hml_template_write() {
     # Get compose template as MML (no $EDITOR, for scripting)
     # Returns: MML template on stdout
     himalaya template write 2>/dev/null
+}
+
+_em_hml_template_forward() {
+    # Get forward template as MML (no $EDITOR, for scripting/batch)
+    # Args: message_id
+    # Returns: MML template on stdout (headers + forwarded content)
+    local msg_id="$1"
+    himalaya template forward "$msg_id" 2>/dev/null
 }
 
 _em_hml_template_send() {
@@ -498,11 +548,23 @@ _em_mml_inject_body() {
     # Args: mml_template, body_text
     local mml="$1" body="$2"
 
-    # Find the blank line separating headers from body, inject after it
-    echo "$mml" | awk -v body="$body" '
-        /^$/ && !found { found=1; print; print body; next }
-        { print }
-    '
+    # Split on first blank line: headers before, existing body after
+    # Uses ZSH parameter expansion instead of awk (which breaks on multiline -v)
+    local headers="" existing_body="" found_break=false
+    while IFS= read -r line; do
+        if [[ "$found_break" == false ]]; then
+            if [[ -z "$line" ]]; then
+                found_break=true
+            else
+                headers+="$line"$'\n'
+            fi
+        else
+            existing_body+="$line"$'\n'
+        fi
+    done <<< "$mml"
+
+    # Reconstruct: headers + blank line + injected body + existing body
+    printf '%s\n%s\n%s\n' "$headers" "$body" "$existing_body"
 }
 
 # ═══════════════════════════════════════════════════════════════════

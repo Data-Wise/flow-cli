@@ -85,4 +85,4 @@ tags:
 
 ---
 
-**v7.5.0** | [Home](../index.md)
+**v7.6.0** | [Home](../index.md)

@@ -4,28 +4,36 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: em v2.0 planned, worktree ready
+## Focus: --help
 ## Phase: Active Development
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-02-26)
+## Current Session (2026-02-27)
 
 **Session activity:**
-- brainstorm: max-depth em v2.0 update plan (4 research agents, 8 expert questions)
-  - agents: himalaya-mcp researcher, flow-cli email explorer, backend architect, security auditor
-  - compared em dispatcher (31 cmds, ZSH) vs himalaya-mcp (19 tools, TypeScript)
-  - decision: independent layers (no MCP coupling), feature parity + new
-- security: audit found 12 findings (2 critical, 6 high) in existing em code
-  - critical: AppleScript injection, folder name injection
-  - high: jq injection (6 locations), config source execution, terminal-notifier injection
-- spec: SPEC-em-v2-2026-02-26.md (comprehensive, all sections)
-  - features: safety gate, folder CRUD, attachments, ICS parsing, IMAP watch, version detect
-  - ~770 lines estimated (570 features + 200 security fixes)
-- worktree: feature/em-v2 created (02932968) with ORCHESTRATE plan
-  - swarm config: 5 agents (security, new-modules, tests, dispatcher, docs)
-  - 2 waves: wave 1 parallel (no file overlap), wave 2 sequential
-- memory: saved 3 insight categories (architecture, ZSH security patterns, swarm orchestration)
+- brainstorm: max-depth Scholar Config Sync (#423) — 2 agents, 8 expert questions
+  - spec: SPEC-scholar-config-sync-2026-02-26.md (7 increments, config wiring + new wrappers)
+  - issue: #423 created (expanded scope from closed #299)
+  - worktree: feature/scholar-config created with ORCHESTRATE plan
+- brainstorm: max-depth em --prompt + bug fixes — 2 agents, 8 expert questions
+  - spec: SPEC-em-prompt-fix-2026-02-27.md (8 increments)
+  - investigated: himalaya.nvim AI integration (backend selection, prompt injection patterns)
+  - diagnosed: RETURN trap bug (ZSH doesn't support RETURN signal) + TTY detection bug
+  - worktree: feature/em-prompt created with ORCHESTRATE plan
+- debug: em reply crash (trap RETURN + dialoguer TTY) — root cause identified, fix in spec
+
+## Previous Session (2026-02-26)
+
+**Session activity:**
+- released: v7.5.0 — em v2.0 safety gate, ICS calendar, IMAP watch, folder CRUD
+  - PR #420 (em v2.0 feature branch) merged to dev
+  - PR #421 (Release v7.5.0) merged to main (139 commits)
+  - 8 integration test failures fixed across 7 test suites
+  - version bump across 21 files, GitHub release created
+  - docs deployed (auto via CI), Homebrew tap updated (auto via workflow)
+  - test suite: 47/47 passing, 0 failures, 2 expected timeouts
+- site-update: CHANGELOG.md entry for v7.5.0, test counts updated in TESTING.md
 
 ## Previous Session (2026-02-22)
 
@@ -141,6 +149,14 @@
 
 ## Recent Releases
 
+### v7.5.0 (2026-02-26) — em v2.0 Safety Gate
+- em v2.0: two-phase safety gate for send/reply, ICS calendar, IMAP watch, folder CRUD
+- Enhanced attachments, `em send --confirm`, `em calendar`, `em watch`, `em create-folder`
+- 8 integration test failures fixed across 7 test suites
+- PR #420 (em v2.0 feature branch), PR #421 (release), PR #422 (version bump)
+- 47/47 tests passing, 2 expected timeouts, 196 test files
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.5.0
+
 ### v7.4.2 (2026-02-22) — Atlas Integration Update
 - Enhanced `at` bridge: styled help, warm-path commands, ZSH-native fallbacks
 - API contract: `docs/ATLAS-CONTRACT.md` (version compat, output formats, exit codes)
@@ -184,17 +200,24 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.4.2 released, synced with main |
-| feature-em-v2 | `feature/em-v2` | ORCHESTRATE committed, ready for swarm |
+| Main repo | `dev` | v7.5.0 released, synced with main |
+| `feature-scholar-config` | `feature/scholar-config` | ORCHESTRATE ready (7 increments) |
+| `feature-em-prompt` | `feature/em-prompt` | ORCHESTRATE ready (8 increments) |
 
 ---
 
 ## Pending
 
-### Feature Request #299: Scholar Config Sync
-- **Status:** Ready to implement (#298 complete)
-- **Issue:** https://github.com/Data-Wise/flow-cli/issues/299
-- **Effort:** 2-3 hours
+### Feature #423: Scholar Config Sync + New Wrappers
+- **Status:** Worktree ready, ORCHESTRATE committed
+- **Issue:** https://github.com/Data-Wise/flow-cli/issues/423
+- **Spec:** docs/specs/SPEC-scholar-config-sync-2026-02-26.md
+- **Effort:** 3-4 hours (7 increments)
+
+### Email AI Prompt + Bug Fixes
+- **Status:** Worktree ready, ORCHESTRATE committed
+- **Spec:** docs/specs/SPEC-em-prompt-fix-2026-02-27.md
+- **Effort:** 3-4 hours (8 increments)
 
 ### API Documentation Improvement
 - Current coverage: ~50% (348 functions documented)
@@ -210,15 +233,15 @@
 
 ## Next Action
 
-1. **em v2.0 implementation** — `cd ~/.git-worktrees/flow-cli/feature-em-v2` → new claude session → `/craft:orchestrate --swarm`
-2. Scholar Config Sync (#299) — next feature candidate
+1. **Implement em --prompt + bug fixes** — `cd ~/.git-worktrees/flow-cli/feature-em-prompt` → new claude session (quick wins: RETURN trap fix + TTY detection)
+2. **Implement Scholar Config Sync (#423)** — `cd ~/.git-worktrees/flow-cli/feature-scholar-config` → new claude session
 3. API documentation push (50% → 80%)
 4. Code workspace manager — spec ready on dev
 
 ---
 
-**Last Updated:** 2026-02-26
-**Status:** v7.4.2 | 46/46 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 196 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
-## wins: em v2.0 brainstorm + spec + swarm plan (2026-02-26), v7.4.2 released + full pipeline (2026-02-22), PR #415 review + 7 fixes (2026-02-22), Atlas integration update (2026-02-22), Brew sourcing switch (2026-02-22), 139 broken anchors → 0 (2026-02-22), Homebrew 75MB→3.5MB (2026-02-21)
-## streak: 7
-## last_active: 2026-02-26
+**Last Updated:** 2026-02-27
+**Status:** v7.6.0 | 50/50 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 198 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+## wins: two max-depth brainstorms with spec capture (2026-02-27), diagnosed em reply RETURN trap + TTY bugs (2026-02-27)
+## streak: 2
+## last_active: 2026-02-27 05:20
