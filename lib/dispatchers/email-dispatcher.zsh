@@ -371,7 +371,7 @@ _em_read() {
         # ID might be beyond the last 100, or genuinely invalid
         # Try to read anyway — if himalaya returns content, it's valid
         local test_body
-        test_body=$(himalaya message read -f "$folder" "$msg_id" 2>/dev/null)
+        test_body=$(_em_hml_read "$msg_id" text "$folder" 2>/dev/null)
         if [[ -z "$test_body" ]]; then
             _flow_log_error "Email #${msg_id} not found in ${folder}"
             echo -e "  ${_C_DIM}Use ${_C_CYAN}em inbox${_C_DIM} to see valid email IDs${_C_NC}"
@@ -420,7 +420,7 @@ _em_read() {
         if [[ -z "$body" ]]; then
             # No HTML part — fall back to plain text
             _flow_log_warning "No HTML part — showing plain text"
-            body=$(himalaya message read -f "$folder" "$msg_id" 2>/dev/null)
+            body=$(_em_hml_read "$msg_id" text "$folder" 2>/dev/null)
             if [[ -n "$body" ]]; then
                 echo "$body" | _em_render_email_body
             fi
@@ -430,7 +430,7 @@ _em_read() {
             _em_render "$body" "html"
         fi
     else
-        body=$(himalaya message read -f "$folder" "$msg_id" 2>/dev/null)
+        body=$(_em_hml_read "$msg_id" text "$folder" 2>/dev/null)
         if [[ -n "$body" ]]; then
             echo "$body" | _em_render_email_body
         fi
@@ -846,7 +846,7 @@ _em_preview_message() {
     # Fetch envelope metadata (JSON)
     local envelope
     _em_validate_msg_id "$msg_id" || return 1
-    envelope=$(himalaya envelope list --page-size 100 --output json 2>/dev/null \
+    envelope=$(_em_hml_list "$folder" 100 2>/dev/null \
         | jq -r --argjson id "$msg_id" '.[] | select(.id == $id)' 2>/dev/null)
 
     # Extract fields from envelope
@@ -884,7 +884,7 @@ _em_preview_message() {
 
     # Fetch and render body (truncated for preview)
     local body
-    body=$(himalaya message read "$msg_id" 2>/dev/null | head -60)
+    body=$(_em_hml_read "$msg_id" text 2>/dev/null | head -60)
     if [[ -n "$body" ]]; then
         echo "$body"
     else
@@ -1751,10 +1751,10 @@ _em_create_reminder() {
 _em_create_calendar_event() {
     # Create an event in macOS Calendar.app (default calendar)
     # Args: title, date (YYYY-MM-DD), time (HH:MM), duration_minutes, location
-    local title="${1//\"/\'}" edate="$2" etime="${3:-09:00}" duration="${4:-60}" location="${5//\"/\'}"
+    local title="$1" edate="$2" etime="${3:-09:00}" duration="${4:-60}" location="${5:-}"
     [[ "$(uname)" != "Darwin" ]] && return 1
 
-    # Convert YYYY-MM-DD + HH:MM to AppleScript date string
+    # Convert YYYY-MM-DD + HH:MM to component strings
     local month day year hour minute
     year="${edate%%-*}"
     local rest="${edate#*-}"
@@ -1767,26 +1767,43 @@ _em_create_calendar_event() {
     local end_hour=$(( end_minute / 60 ))
     end_minute=$(( end_minute % 60 ))
 
-    osascript <<APPLESCRIPT 2>/dev/null
-tell application "Calendar"
-    set startDate to current date
-    set year of startDate to $year
-    set month of startDate to $month
-    set day of startDate to $day
-    set hours of startDate to $hour
-    set minutes of startDate to $minute
-    set seconds of startDate to 0
-    set endDate to current date
-    set year of endDate to $year
-    set month of endDate to $month
-    set day of endDate to $day
-    set hours of endDate to $end_hour
-    set minutes of endDate to $end_minute
-    set seconds of endDate to 0
-    tell (first calendar whose name is not missing value)
-        make new event with properties {summary:"$title", start date:startDate, end date:endDate, location:"$location"}
+    # Security: pass all values as argv arguments (injection-safe)
+    osascript - "$title" "$year" "$month" "$day" "$hour" "$minute" \
+        "$end_hour" "$end_minute" "$location" <<'APPLESCRIPT' 2>/dev/null
+on run argv
+    set eventTitle to item 1 of argv
+    set yr to item 2 of argv as integer
+    set mo to item 3 of argv as integer
+    set dy to item 4 of argv as integer
+    set hr to item 5 of argv as integer
+    set mn to item 6 of argv as integer
+    set endHr to item 7 of argv as integer
+    set endMn to item 8 of argv as integer
+    set loc to item 9 of argv
+
+    tell application "Calendar"
+        set startDate to current date
+        set year of startDate to yr
+        set month of startDate to mo
+        set day of startDate to dy
+        set hours of startDate to hr
+        set minutes of startDate to mn
+        set seconds of startDate to 0
+        set endDate to current date
+        set year of endDate to yr
+        set month of endDate to mo
+        set day of endDate to dy
+        set hours of endDate to endHr
+        set minutes of endDate to endMn
+        set seconds of endDate to 0
+        tell (first calendar whose name is not missing value)
+            set newEvent to make new event with properties {summary:eventTitle, start date:startDate, end date:endDate}
+            if loc is not "" then
+                set location of newEvent to loc
+            end if
+        end tell
     end tell
-end tell
+end run
 APPLESCRIPT
 }
 

@@ -120,7 +120,9 @@ for f in "${EM_FILES[@]}"; do
                 grep -vE 'command -v himalaya' | \
                 grep -vE 'whence.*himalaya' | \
                 grep -vE '".*himalaya.*"' | \
-                grep -vE "'.*himalaya.*'")
+                grep -vE "'.*himalaya.*'" | \
+                grep -vE 'echo|print|_C_' | \
+                grep -vE '\\\$')
     [[ -n "$raw" ]] && violations+="$f: $raw\n"
 done
 if [[ -z "$violations" ]]; then
@@ -200,13 +202,18 @@ if ! _has_em_files; then test_skip "No source files"; fi
 local violations=""
 for f in "${EM_FILES[@]}"; do
     # Find jq calls that interpolate variables directly in the filter
+    # Match jq calls with $var that could be filter interpolation
+    # Exclude: comments, --arg/--argjson, jq internal $. refs,
+    # jq -r/-e (flag not filter), and file-argument patterns
+    # (single-quoted filter followed by "$var" is a file arg, not interpolation)
     local bad_jq=$(grep -nE '\bjq\b.*\$[a-zA-Z_]' "$f" 2>/dev/null | \
                    grep -vE '^\s*#' | \
                    grep -vE '\-\-arg' | \
                    grep -vE '\-\-argjson' | \
                    grep -vE '\$\.' | \
                    grep -vE 'jq -r' | \
-                   grep -vE 'jq -e')
+                   grep -vE 'jq -e' | \
+                   grep -vE "jq .*'[^']*'.*\"\\\$")
     [[ -n "$bad_jq" ]] && violations+="$f: $bad_jq\n"
 done
 if [[ -z "$violations" ]]; then

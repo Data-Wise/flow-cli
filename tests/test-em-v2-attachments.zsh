@@ -73,8 +73,7 @@ if (( ${+functions[_em_hml_attachment_list]} )); then test_pass; else test_fail 
 # ---------------------------------------------------------------------------
 
 test_case "Attach list requires valid message ID"
-local output
-output=$(_em_attach_list "" 2>&1)
+_em_attach_list "" >/dev/null 2>&1
 local rc=$?
 assert_exit_code $rc 1 "Empty message ID should fail"
 test_pass
@@ -82,7 +81,7 @@ test_pass
 test_case "Attach list with valid ID calls himalaya adapter"
 _em_hml_attachment_list() { echo '[{"filename":"report.pdf","mime_type":"application/pdf","size":1200}]'; }
 _em_validate_msg_id() { return 0; }
-local output=$(_em_attach_list "42" 2>&1)
+_em_attach_list "42" >/dev/null 2>&1
 assert_exit_code $? 0
 test_pass
 
@@ -91,8 +90,7 @@ test_pass
 # ---------------------------------------------------------------------------
 
 test_case "Attach get requires message ID and filename"
-local output
-output=$(_em_attach_get "" "" 2>&1)
+_em_attach_get "" "" >/dev/null 2>&1
 local rc=$?
 assert_exit_code $rc 1 "Missing args should fail"
 test_pass
@@ -105,7 +103,7 @@ _em_hml_attachment_download() {
     touch "${target_dir}/${2}"
     return 0
 }
-local output=$(_em_attach_get "42" "report.pdf" "$_test_tmpdir" 2>&1)
+_em_attach_get "42" "report.pdf" "$_test_tmpdir" >/dev/null 2>&1
 local rc=$?
 assert_exit_code $rc 0
 rm -f "$_test_tmpdir/report.pdf"
@@ -122,7 +120,7 @@ _em_hml_attachment_download() {
     _download_got_filename="$2"
     return 0
 }
-local output=$(_em_attach_get "42" "../../../etc/passwd" "$_test_tmpdir" 2>&1)
+_em_attach_get "42" "../../../etc/passwd" "$_test_tmpdir" >/dev/null 2>&1
 local rc=$?
 # Must fail (file won't exist after download) or sanitize the filename
 # Critical: must NOT contain path traversal in the resolved filename
@@ -144,7 +142,7 @@ _em_hml_attachment_download() {
     touch "${target_dir}/file.txt"
     return 0
 }
-local output=$(_em_attach_get "42" "subdir/file.txt" "$_test_tmpdir" 2>&1)
+_em_attach_get "42" "subdir/file.txt" "$_test_tmpdir" >/dev/null 2>&1
 local rc=$?
 # Verify directory component was stripped before passing to download
 if [[ "$_strip_got_filename" == *"/"* ]]; then
@@ -156,8 +154,7 @@ fi
 rm -f "$_test_tmpdir/file.txt" 2>/dev/null
 
 test_case "Empty filename rejected by attach get"
-local output
-output=$(_em_attach_get "42" "" 2>&1)
+_em_attach_get "42" "" >/dev/null 2>&1
 local rc=$?
 assert_exit_code $rc 1 "Empty filename should fail"
 test_pass
