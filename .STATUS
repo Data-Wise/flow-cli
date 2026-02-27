@@ -135,6 +135,14 @@
 
 ## Recent Releases
 
+### v7.5.0 (2026-02-26) — em v2.0 Safety Gate
+- em v2.0: two-phase safety gate for send/reply, ICS calendar, IMAP watch, folder CRUD
+- Enhanced attachments, `em send --confirm`, `em calendar`, `em watch`, `em create-folder`
+- 8 integration test failures fixed across 7 test suites
+- PR #420 (em v2.0 feature branch), PR #421 (release), PR #422 (version bump)
+- 47/47 tests passing, 2 expected timeouts, 196 test files
+- Release: https://github.com/Data-Wise/flow-cli/releases/tag/v7.5.0
+
 ### v7.4.2 (2026-02-22) — Atlas Integration Update
 - Enhanced `at` bridge: styled help, warm-path commands, ZSH-native fallbacks
 - API contract: `docs/ATLAS-CONTRACT.md` (version compat, output formats, exit codes)
@@ -178,8 +186,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.4.2 released, synced with main |
-| feature-em-v2 | `feature/em-v2` | ORCHESTRATE committed, ready for swarm |
+| Main repo | `dev` | v7.5.0 released, synced with main |
 
 ---
 
@@ -204,7 +211,7 @@
 
 ## Next Action
 
-1. **em v2.0 implementation** — `cd ~/.git-worktrees/flow-cli/feature-em-v2` → new claude session → `/craft:orchestrate --swarm`
+1. **Himalaya-MCP plugin update** — brainstorm himalaya-mcp email features → plan flow-cli integration
 2. Scholar Config Sync (#299) — next feature candidate
 3. API documentation push (50% → 80%)
 4. Code workspace manager — spec ready on dev
@@ -212,7 +219,7 @@
 ---
 
 **Last Updated:** 2026-02-26
-**Status:** v7.4.2 | 46/46 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 196 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+**Status:** v7.5.0 | 47/47 tests passing (2 expected timeouts) | 15 dispatchers + at bridge | 196 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
 ## wins: Fixed the regression bug (2026-02-26), --category fix squashed the bug (2026-02-26), fixed the bug (2026-02-26), Fixed the regression bug (2026-02-26), --category fix squashed the bug (2026-02-26)
 ## streak: 1
 ## last_active: 2026-02-26 18:29
