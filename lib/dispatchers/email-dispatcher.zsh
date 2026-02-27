@@ -331,6 +331,7 @@ _em_require_himalaya() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_inbox() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local page_size="${1:-$FLOW_EMAIL_PAGE_SIZE}"
     local folder="${2:-$FLOW_EMAIL_FOLDER}"
@@ -339,7 +340,7 @@ _em_inbox() {
 }
 
 _em_read() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="" fmt="plain" raw=false
 
@@ -596,7 +597,7 @@ _em_v2_migration_notice() {
 }
 
 _em_send() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local to="" subject="" use_ai=false force_flag=""
     local prompt_text="" backend_override=""
@@ -788,7 +789,7 @@ _em_send() {
 }
 
 _em_forward() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="" to=""
     local force_flag=""
@@ -911,7 +912,7 @@ _em_forward() {
 }
 
 _em_reply() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id=""
     local skip_ai=false
@@ -1055,6 +1056,7 @@ _em_reply() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_find() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local query="$*"
     if [[ -z "$query" ]]; then
@@ -1154,6 +1156,7 @@ _em_preview_message() {
 }
 
 _em_pick() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     if ! command -v fzf &>/dev/null; then
         _flow_log_error "fzf required for email picker"
@@ -1389,7 +1392,7 @@ PREVIEW_EOF
 # ═══════════════════════════════════════════════════════════════════
 
 _em_classify() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
@@ -1417,7 +1420,7 @@ _em_classify() {
 }
 
 _em_summarize() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
@@ -1444,6 +1447,7 @@ _em_summarize() {
 
 
 _em_catch() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
 
@@ -1498,7 +1502,7 @@ _em_catch() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_delete() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_delete_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_delete_help; return 0; }
     _em_require_himalaya || return 1
 
     local purge=false pick=false folder="" query=""
@@ -1687,7 +1691,7 @@ ${_C_DIM}Safety: All deletes confirm [y/N]. --purge requires typing 'yes'.${_C_N
 }
 
 _em_move() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_move_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_move_help; return 0; }
     _em_require_himalaya || return 1
 
     local src_folder="${FLOW_EMAIL_FOLDER:-INBOX}" pick=false target=""
@@ -1767,7 +1771,7 @@ ${_C_DIM}Default source: \$FLOW_EMAIL_FOLDER (${FLOW_EMAIL_FOLDER:-INBOX})${_C_N
 }
 
 _em_restore() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_restore_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_restore_help; return 0; }
     _em_require_himalaya || return 1
 
     local target="INBOX"
@@ -1812,6 +1816,7 @@ ${_C_DIM}Source: \$FLOW_EMAIL_TRASH_FOLDER (${FLOW_EMAIL_TRASH_FOLDER:-Trash})${
 # ═══════════════════════════════════════════════════════════════════
 
 _em_flag() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     if [[ $# -eq 0 ]]; then
         _flow_log_error "Email ID required"
@@ -1827,6 +1832,7 @@ _em_flag() {
 }
 
 _em_unflag() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     if [[ $# -eq 0 ]]; then
         _flow_log_error "Email ID required"
@@ -1846,6 +1852,7 @@ _em_unflag() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_todo() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     if [[ $# -eq 0 ]]; then
         _flow_log_error "Email ID required"
@@ -1918,6 +1925,7 @@ _em_todo() {
 }
 
 _em_event() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     if [[ $# -eq 0 ]]; then
         _flow_log_error "Email ID required"
@@ -2073,7 +2081,7 @@ _em_respond() {
     # Same flow as `em reply` but loops through actionable emails
 
     # Help check before dependency gate (help should always work)
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_respond_help; return; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_respond_help; return 0; }
 
     _em_require_himalaya || return 1
     local count=10
@@ -2326,6 +2334,7 @@ ${_C_DIM}Safety: every send requires explicit [y/N] confirmation${_C_NC}
 # ═══════════════════════════════════════════════════════════════════
 
 _em_star() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
@@ -2351,6 +2360,7 @@ _em_star() {
 }
 
 _em_starred() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local folder="${1:-INBOX}"
 
@@ -2374,6 +2384,7 @@ _em_starred() {
 }
 
 _em_move() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_move_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1" target_folder="$2"
 
@@ -2420,6 +2431,7 @@ _em_move() {
 }
 
 _em_thread() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
@@ -2525,6 +2537,7 @@ _em_thread() {
 }
 
 _em_snooze() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1" time_spec="$2"
 
@@ -2608,6 +2621,7 @@ _em_snooze() {
 }
 
 _em_snoozed() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     local snooze_dir="${HOME}/.flow/email-snooze"
     local pending_file="${snooze_dir}/pending.json"
 
@@ -2645,6 +2659,7 @@ _em_snoozed() {
 }
 
 _em_digest() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local period="today" count=50
     local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
@@ -2802,6 +2817,7 @@ _em_snooze_parse_time() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_unread() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local folder="${1:-INBOX}"
     local unread_count
@@ -2815,6 +2831,7 @@ _em_unread() {
 }
 
 _em_dash() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
 
     echo -e "${_C_BOLD}em${_C_NC} ${_C_DIM}— quick pulse${_C_NC}"
@@ -2845,6 +2862,7 @@ _em_dash() {
 }
 
 _em_folders() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     _em_hml_folders
 }
@@ -2854,7 +2872,7 @@ _em_folders() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_html() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
@@ -2875,7 +2893,7 @@ _em_html() {
 }
 
 _em_attach() {
-    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
 
     # Subcommand dispatch
@@ -2997,6 +3015,7 @@ _em_attach_get() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_create_folder() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local name="$1"
     if [[ -z "$name" ]]; then
@@ -3017,6 +3036,7 @@ _em_create_folder() {
 }
 
 _em_delete_folder() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local name="$1"
     if [[ -z "$name" ]]; then
@@ -3048,6 +3068,7 @@ _em_delete_folder() {
 }
 
 _em_cache_cmd() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     # Cache management subcommand
     case "$1" in
         stats|status)  _em_cache_stats ;;
@@ -3078,6 +3099,7 @@ _em_cache_cmd() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_doctor() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     echo -e "${_C_BOLD}em doctor${_C_NC} — Email Dependency Check"
     echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
 

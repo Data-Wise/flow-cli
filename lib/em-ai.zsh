@@ -398,6 +398,7 @@ _em_category_icon() {
 # ═══════════════════════════════════════════════════════════════════
 
 _em_ai_cmd() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     case "${1:-}" in
         "")       _em_ai_status ;;
         toggle)   _em_ai_toggle ;;
