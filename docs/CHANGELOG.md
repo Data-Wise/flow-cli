@@ -6,6 +6,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **em --prompt flag** — Custom AI instructions for `em reply`, `em send`, and `em forward` (`--prompt "decline politely"`)
+- **em --backend flag** — Per-command AI backend override (`--backend gemini`)
+- **em forward command** — Forward email with optional AI-generated note, full dual-path (interactive/batch) support
+- **_em_ai_prompt_with_instructions()** — Layers user instructions on top of category-aware base prompt
+- **Smart TTY detection** — Auto-routes to batch path when stdin/stdout is not a terminal
+
+### Fixed
+
+- **RETURN trap bug** — Replaced Bash-only `trap RETURN` with ZSH `always` block in `_em_hml_reply`
+- **MML body injection** — Fixed multiline body handling in `_em_mml_inject_body` (awk → ZSH loop)
+- **em send batch path** — `em send --prompt` no longer opens `$EDITOR`; uses proper MML template with From: header
+
+---
+
 ## [7.5.0] - 2026-02-26
 
 ### Added

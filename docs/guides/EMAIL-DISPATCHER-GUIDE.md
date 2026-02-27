@@ -526,6 +526,8 @@ em reply <ID>              # Basic reply
 em reply <ID> --all        # Reply-all
 em reply <ID> --no-ai      # Skip AI draft
 em reply <ID> --batch      # Non-interactive (preview + confirm)
+em reply <ID> --prompt "instructions"  # AI draft with custom instructions
+em reply <ID> --backend gemini         # Override AI backend
 ```
 
 **Interactive Flow (v2.0 Default — Two-Phase Safety Gate):**
@@ -609,6 +611,8 @@ em send                    # Interactive prompts
 em send alice@example.com  # Pre-fill recipient
 em send alice@example.com "Grant Proposal"  # Pre-fill recipient + subject
 em send --ai alice@example.com "Weekly Report"  # AI draft from subject
+em send --prompt "thank Alice for the report"  # AI compose from instructions (implies --ai)
+em send --backend gemini alice@example.com "Report"  # Override AI backend
 ```
 
 **Interactive Flow:**
@@ -659,6 +663,46 @@ Generating AI draft from subject...
 
   Send this email? [y/N/e] y
 ✅ Email sent
+```
+
+### Forward Email
+
+```bash
+em forward <ID>                         # Forward (opens $EDITOR for note)
+em forward <ID> colleague@unm.edu       # Pre-fill recipient
+em forward <ID> --prompt "see budget"   # AI-generated forwarding note
+em forward <ID> --backend gemini        # Override AI backend
+em fwd <ID>                             # Alias
+```
+
+**Interactive Flow:**
+
+1. Fetches the original email
+2. If `--prompt`: generates AI forwarding note; otherwise opens `$EDITOR`
+3. Preview shown with forwarding note + original message
+4. Confirmation prompt `[y/N/e]` — default is **No**
+
+**Example — AI forward:**
+
+```bash
+$ em forward 42 colleague@unm.edu --prompt "FYI, see the budget section"
+
+Generating AI forwarding note...
+✅ AI note ready
+
+───────────────────────────
+To: colleague@unm.edu
+Subject: Fwd: Q3 Budget Report
+───────────────────────────
+FYI — the budget section on page 3 has the numbers
+you were asking about.
+
+---------- Forwarded message ----------
+[original email content]
+───────────────────────────
+
+  Send this email? [y/N/e] y
+✅ Email forwarded
 ```
 
 ### Download Attachments
