@@ -180,7 +180,7 @@ nav:
           - Content Analysis: tutorials/21-teach-analyze.md
           - AI-Powered Prompts: tutorials/28-teach-prompt.md
           - Health Check (Doctor v2): tutorials/32-teach-doctor.md
-          - Lint Validation: tutorials/27-lint-quickstart.md
+          - Lint Validation: tutorials/45-lint-quickstart.md
           - Template Management: tutorials/24-template-management.md
           - LaTeX Macros: tutorials/26-latex-macros.md
           - Lesson Plans: tutorials/27-lesson-plan-management.md
@@ -245,6 +245,7 @@ nav:
       - Start Here: guides/00-START-HERE.md
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
       - Git & Branching:
+          - Git Dispatcher (g): reference/REFCARD-GIT-DISPATCHER.md
           - Git Feature Flow: tutorials/08-git-feature-workflow.md
           - Worktree Workflow: guides/WORKTREE-WORKFLOW.md
       - Dotfiles & Config:
@@ -307,6 +308,9 @@ nav:
           - at (Atlas bridge): commands/at.md
           - dashboard: commands/dashboard.md
       - Quick Reference Cards:
+          - 🌳 Worktree (wt): reference/REFCARD-WORKTREE-DISPATCHER.md
+          - 📁 Dotfiles (dots): reference/REFCARD-DOTFILE-DISPATCHER.md
+          - 🔑 Secrets (sec): reference/REFCARD-SECRET-DISPATCHER.md
           - 🔐 Token & Secrets: reference/REFCARD-TOKEN-SECRETS.md
           - 🛡️ Chezmoi Safety: reference/REFCARD-DOT-SAFETY.md
           - 🛡️ Chezmoi Safety API: reference/API-DOT-SAFETY.md

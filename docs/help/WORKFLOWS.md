@@ -3,8 +3,8 @@
 **Purpose:** Real-world workflow patterns for flow-cli
 **Audience:** All users (beginners → advanced)
 **Format:** Step-by-step instructions with examples
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v7.6.0
+**Last Updated:** 2026-02-27
 
 ---
 
@@ -14,6 +14,7 @@
 - [Git Workflows](#git-workflows)
 - [Project Workflows](#project-workflows)
 - [Teaching Workflows](#teaching-workflows)
+- [Email Workflows](#email-workflows)
 - [Research Workflows](#research-workflows)
 - [Plugin Workflows](#plugin-workflows)
 
@@ -489,10 +490,11 @@ hop flow-cli
    teach init --github
    ```
 
-3. **Verify Scholar**
+3. **Verify Scholar and config**
 
    ```bash
-   teach scholar status
+   teach doctor
+   teach config check
    ```
 
 4. **Create initial content**
@@ -506,6 +508,10 @@ hop flow-cli
 5. **First deploy**
 
    ```bash
+   # Quick direct deploy (8-15s, merges draft → production)
+   teach deploy --direct
+
+   # OR PR workflow (for review)
    teach deploy
    ```
 
@@ -542,11 +548,17 @@ teach analyze lectures/week-04/
 # Based on analysis, generate next week
 teach exam "Week 5: Linear Regression"
 
+# Generate solution key
+teach solution exams/week-05-quiz.qmd
+
+# Validate R code chunks
+teach validate-r lectures/week-05/regression.qmd
+
 # Review generated content
 qu preview lectures/week-05/regression.qmd
 
-# Deploy
-teach deploy
+# Deploy (direct merge, fast)
+teach deploy --direct
 ```
 
 ---
@@ -596,6 +608,44 @@ teach exam "Midterm 1: Chapters 1-4"
 # Adjust difficulty if needed
 qu render exams/midterm-1.qmd
 # Print or upload to LMS
+```
+
+---
+
+## Email Workflows
+
+### Quick Email Triage
+
+**Use When:** Checking and processing email from the terminal
+**Time:** 5-10 minutes
+
+**Steps:**
+
+```bash
+# View inbox
+em inbox
+
+# Read specific email
+em read <id>
+
+# Quick reply
+em reply <id>
+
+# Search emails
+em search "project update"
+
+# Send new email
+em send
+```
+
+**Real Example:**
+
+```bash
+# Morning triage
+em inbox
+em read 42
+em reply 42
+em inbox --unread    # Check remaining unread
 ```
 
 ---
@@ -752,7 +802,7 @@ ggl                          # Pull latest
 gbd feature/old              # Delete merged branch
 ```
 
-**See:** [Tutorial 24: Git Workflow](../tutorials/17-lazyvim-basics.md) for complete reference
+**See:** [Quick Reference](QUICK-REFERENCE.md) for all dispatcher commands
 
 ---
 
@@ -900,7 +950,7 @@ z research    # → ~/projects/research/mediation
    - Update GitHub secrets
    - Update environment variables
 
-**Automation (v5.17.0):**
+**Automation:**
 
 ```bash
 # Set reminder
@@ -1018,6 +1068,6 @@ pick              # Interactive project picker
 
 ---
 
-**Version:** v5.17.0-dev
-**Last Updated:** 2026-01-24
+**Version:** v7.6.0
+**Last Updated:** 2026-02-27
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

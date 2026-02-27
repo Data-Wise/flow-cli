@@ -1,7 +1,7 @@
 # flow-cli Developer Guide
 
-**Version:** 5.10.0
-**Last Updated:** 2026-01-15
+**Version:** v7.6.0
+**Last Updated:** 2026-02-27
 **Audience:** Contributors, Plugin Developers, Advanced Users
 
 ---
@@ -960,5 +960,5 @@ test: add regression test for worktree detection
 
 ---
 
-**Last Updated:** 2026-01-15
-**Version:** 5.10.0
+**Last Updated:** 2026-02-27
+**Version:** v7.6.0

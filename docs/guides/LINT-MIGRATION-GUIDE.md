@@ -1124,7 +1124,7 @@ Help improve lint validation for the teaching community:
 
 **Documentation:**
 
-- [Lint Quick Start Tutorial](../tutorials/27-lint-quickstart.md) - 10-minute hands-on tutorial
+- [Lint Quick Start Tutorial](../tutorials/45-lint-quickstart.md) - 10-minute hands-on tutorial
 - [Complete Lint Guide](LINT-GUIDE.md) - Deep dive into all rules and validators
 - [Lint Quick Reference](../reference/REFCARD-LINT.md) - One-page command cheat sheet
 - [Lint Workflow Patterns](../workflows/WORKFLOW-LINT.md) - Integration strategies

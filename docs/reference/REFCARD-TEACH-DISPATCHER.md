@@ -1,17 +1,17 @@
 # Teach Dispatcher Quick Reference
 
-> All 30 `teach` subcommands at a glance. For detailed guides, see linked documentation.
+> All 34 `teach` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v6.6.0+ | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh`
+> **Version:** v7.6.0 | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh`
 
 ## Command Taxonomy
 
 ```mermaid
 mindmap
-  root((teach<br/>30 commands))
+  root((teach<br/>34 commands))
     Discovery<br/>1 command
       map
-    Scholar Wrappers<br/>9 commands
+    Scholar Wrappers<br/>12 commands
       lecture
       slides
       exam
@@ -21,6 +21,9 @@ mindmap
       rubric
       feedback
       demo
+      solution
+      sync
+      validate-r
     Course Management<br/>5 commands
       init
       deploy
@@ -73,6 +76,9 @@ AI-powered content creation via Scholar plugin. All commands require Scholar to 
 | `teach rubric` | `rb` | `teach rubric <assignment> [flags]` | Generate grading rubric | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
 | `teach feedback` | `fb` | `teach feedback <work> [flags]` | Create student feedback | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
 | `teach demo` | — | `teach demo <topic> [flags]` | Create demo course content | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
+| `teach solution` | `sol` | `teach solution <file> [flags]` | Generate standalone solution key | [SCHOLAR-WRAPPERS-GUIDE.md](../guides/SCHOLAR-WRAPPERS-GUIDE.md) |
+| `teach sync` | — | `teach sync [flags]` | Sync YAML config files to generated content | [SCHOLAR-WRAPPERS-GUIDE.md](../guides/SCHOLAR-WRAPPERS-GUIDE.md) |
+| `teach validate-r` | `vr` | `teach validate-r <file> [flags]` | Validate R code chunks in .qmd files | [SCHOLAR-WRAPPERS-GUIDE.md](../guides/SCHOLAR-WRAPPERS-GUIDE.md) |
 
 ## Course Management
 
@@ -82,7 +88,7 @@ Project lifecycle and workflow commands.
 |---------|---------|----------|-------------|------|
 | `teach init` | `i` | `teach init [name] [--config <file>] [--github]` | Initialize teaching project | [teach init](../commands/teach-init.md) |
 | `teach deploy` | `d` | `teach deploy [files] [-d] [--dry-run] [--rollback N] [--history N] [--sync]` | Deploy course site (direct merge, PR, rollback, sync) | [Deploy Guide](../guides/TEACH-DEPLOY-GUIDE.md) |
-| `teach config` | `c` | `teach config [--view\|--cat]` | Edit or view configuration | [TEACH-CONFIG-SCHEMA.md](TEACH-CONFIG-SCHEMA.md) |
+| `teach config` | `c` | `teach config [check\|diff\|show\|scaffold\|--view\|--cat]` | Config management (check, diff, show, scaffold, edit, view) | [TEACH-CONFIG-SCHEMA.md](TEACH-CONFIG-SCHEMA.md) |
 | `teach status` | `s` | `teach status [--full\|--performance]` | Project dashboard | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
 | `teach week` | `w` | `teach week` | Current week info | [Tutorial 20](../tutorials/20-teaching-dates-automation.md) |
 
@@ -105,8 +111,8 @@ Health checks, validation, caching, backups, and Git hooks.
 
 | Command | Aliases | Synopsis | Description | Docs |
 |---------|---------|----------|-------------|------|
-| `teach doctor` | `doc` | `teach doctor [--fix] [--json]` | Health checks (6 categories) with auto-fix | [doctor](../commands/doctor.md) |
-| `teach validate` | `val`, `v` | `teach validate [files] [--yaml\|--syntax\|--render] [--watch]` | Validate .qmd files | [Tutorial 27](../tutorials/27-lint-quickstart.md) |
+| `teach doctor` | `doc` | `teach doctor [--full] [--fix] [--json] [--ci] [--brief] [--verbose]` | Health checks — quick (5 categories, < 3s) or full (11 categories) | [Tutorial 32](../tutorials/32-teach-doctor.md) |
+| `teach validate` | `val`, `v` | `teach validate [files] [--yaml\|--syntax\|--render] [--watch]` | Validate .qmd files | [Tutorial 45](../tutorials/45-lint-quickstart.md) |
 | `teach dates` | — | `teach dates <action> [args]` | Date management (add, list, show, edit, delete, sync) | [Tutorial 20](../tutorials/20-teaching-dates-automation.md) |
 | `teach cache` | — | `teach cache <action>` | Cache operations (status, clear, rebuild) | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
 | `teach clean` | `cl` | `teach clean [--dry-run]` | Delete `_freeze/` and `_site/` | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
@@ -215,6 +221,15 @@ teach rubric "Final Project" --criteria 5
 # Create student feedback
 teach feedback "Assignment 3 - John Doe"
 
+# Generate solution key for exam
+teach solution exams/midterm-1.qmd
+
+# Sync YAML config to generated content
+teach sync
+
+# Validate R code chunks
+teach validate-r lectures/week-05-regression.qmd
+
 # ─────────────────────────────────────────────────────────────
 # Course Management
 # ─────────────────────────────────────────────────────────────
@@ -225,7 +240,19 @@ teach init "STAT-101" --github
 # Deploy with preview
 teach deploy --preview
 
-# View config in pager
+# Check config for drift
+teach config check
+
+# Show config diff against generated content
+teach config diff
+
+# View current config
+teach config show
+
+# Scaffold new config
+teach config scaffold
+
+# View config in pager (legacy)
 teach config --view
 
 # Show dashboard with performance metrics
@@ -278,8 +305,17 @@ teach migrate-config --dry-run
 # Infrastructure
 # ─────────────────────────────────────────────────────────────
 
-# Run health checks and auto-fix issues
+# Quick health check (5 categories, < 3s)
+teach doctor
+
+# Full health check (11 categories)
+teach doctor --full
+
+# Auto-fix issues
 teach doctor --fix
+
+# CI mode (non-zero exit on failure)
+teach doctor --ci
 
 # Validate all .qmd files with rendering
 teach validate --render
@@ -429,7 +465,7 @@ teach status --performance        # Review metrics
 - [Tutorial 24: Template Management](../tutorials/24-template-management.md)
 - [Tutorial 25: Lesson Plan Migration](../tutorials/25-lesson-plan-migration.md)
 - [Tutorial 26: LaTeX Macros](../tutorials/26-latex-macros.md)
-- [Tutorial 27: Lint Quickstart](../tutorials/27-lint-quickstart.md)
+- [Tutorial 45: Lint Quickstart](../tutorials/45-lint-quickstart.md)
 - [Tutorial 28: AI Prompt Management](../tutorials/28-teach-prompt.md)
 
 **Guides**
@@ -449,6 +485,6 @@ teach status --performance        # Review metrics
 
 ---
 
-**Version:** v6.7.1
-**Last Updated:** 2026-02-10
-**Commands:** 30 total (9 Scholar wrappers + 5 course mgmt + 6 content mgmt + 9 infrastructure + 1 discovery)
+**Version:** v7.6.0
+**Last Updated:** 2026-02-27
+**Commands:** 34 total (12 Scholar wrappers + 5 course mgmt + 6 content mgmt + 9 infrastructure + 1 discovery + config subcommands)

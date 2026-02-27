@@ -108,7 +108,7 @@ teach validate --quick-checks              # Fast Phase 1 rules
 
 !!! tip "10-Minute Quickstart"
     New to lint validation? Start here:
-    1. 📖 [Tutorial 27: Lint Quickstart](tutorials/27-lint-quickstart.md) (10 minutes)
+    1. 📖 [Tutorial 45: Lint Quickstart](tutorials/45-lint-quickstart.md) (10 minutes)
     2. 📋 [Quick Reference Card](reference/REFCARD-LINT.md)
     3. 📚 [Complete User Guide](guides/LINT-GUIDE.md)
     4. 🔄 [Workflow Integration](workflows/WORKFLOW-LINT.md)
