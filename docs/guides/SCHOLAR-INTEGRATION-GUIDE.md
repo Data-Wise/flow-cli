@@ -250,4 +250,4 @@ teach deploy --direct
 
 ---
 
-**See also:** [Scholar Wrappers Refcard](../reference/REFCARD-SCHOLAR-WRAPPERS.md) | [Teach Dispatcher](../reference/MASTER-DISPATCHER-GUIDE.md#teaching-teach) | [Config Schema](../reference/TEACH-CONFIG-SCHEMA.md)
+**See also:** [Scholar Wrappers Refcard](../reference/REFCARD-SCHOLAR-WRAPPERS.md) | [Teach Dispatcher](../reference/MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) | [Config Schema](../reference/TEACH-CONFIG-SCHEMA.md)

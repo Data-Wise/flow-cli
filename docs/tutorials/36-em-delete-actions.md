@@ -287,7 +287,7 @@ The `--pick` flag on `em delete` and `em move` requires fzf. Without it, those f
 ## Next Steps
 
 - **[Tutorial 35: em CLI Email](35-em-cli-email.md)** — Core email workflow (inbox, read, send, reply, search)
-- **[Tutorial 37: em v2.0 Features](37-em-v2-features.md)** — Calendar integration, IMAP watch, folder management, safety gate
+- **[Tutorial 46: em v2.0 Features](46-em-v2-features.md)** — Calendar integration, IMAP watch, folder management, safety gate
 - **[Tutorial 33: Email in Neovim](33-himalaya-email.md)** — Read, compose, and process email without leaving Neovim
 - **[Email Cookbook](../guides/EMAIL-COOKBOOK.md)** — Practical recipes for common workflows
 - **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete `em` command reference

@@ -26,7 +26,7 @@ For full reference, see the [refcard](../reference/REFCARD-EMAIL-DISPATCHER.md) 
 12. [Safe Sending with Preview](#12-safe-sending-with-preview)
 13. [Email-to-Task Pipeline](#13-email-to-task-pipeline)
 14. [Cache Management](#14-cache-management)
-15. [Exchange / Outlook Setup](#15-exchange--outlook-setup)
+15. [Exchange / Outlook Setup](#15-exchange-outlook-setup)
 
 ---
 

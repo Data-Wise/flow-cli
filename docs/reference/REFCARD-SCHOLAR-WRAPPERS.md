@@ -164,4 +164,4 @@ teach deploy --direct        # Deploy to gh-pages
 
 ---
 
-**See also:** [Scholar Integration Guide](../guides/SCHOLAR-INTEGRATION-GUIDE.md) | [Teach Dispatcher Guide](MASTER-DISPATCHER-GUIDE.md#teaching-teach) | [Config Schema](TEACH-CONFIG-SCHEMA.md)
+**See also:** [Scholar Integration Guide](../guides/SCHOLAR-INTEGRATION-GUIDE.md) | [Teach Dispatcher Guide](MASTER-DISPATCHER-GUIDE.md#teach-dispatcher) | [Config Schema](TEACH-CONFIG-SCHEMA.md)
