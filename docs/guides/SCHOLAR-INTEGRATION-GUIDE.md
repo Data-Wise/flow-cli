@@ -120,7 +120,7 @@ Check these in order:
 
 Scholar resolves configuration in 4 layers (later layers override earlier):
 
-```
+```text
 Layer 1: Scholar built-in defaults
     ↓ overridden by
 Layer 2: Project config (.flow/teach-config.yml)

@@ -100,6 +100,7 @@ cat > _macros.qmd << 'EOF'
 ---
 
 ```
+
 % Operators
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\operatorname{Var}}
@@ -118,6 +119,7 @@ cat > _macros.qmd << 'EOF'
 \newcommand{\bX}{\mathbf{X}}
 \newcommand{\bY}{\mathbf{Y}}
 \newcommand{\bbeta}{\boldsymbol{\beta}}
+
 ```text
 
 EOF

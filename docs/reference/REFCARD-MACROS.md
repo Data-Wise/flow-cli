@@ -64,9 +64,11 @@ scholar:
 
 ```markdown
 ```
+
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\Var}{\operatorname{Var}}
 \DeclareMathOperator{\Cov}{Cov}
+
 ```text
 
 ```

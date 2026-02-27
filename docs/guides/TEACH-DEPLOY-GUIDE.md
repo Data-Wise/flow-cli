@@ -87,13 +87,13 @@ brew install gh yq
    git remote add origin https://github.com/username/course-repo.git
    ```
 
-1. **Branches configured**
+2. **Branches configured**
 
    Default branch structure (configurable in `.flow/teach-config.yml`):
    - `draft` - Working branch for content development
    - `main` - Production branch (GitHub Pages source)
 
-2. **Configuration file exists**
+3. **Configuration file exists**
 
    `.flow/teach-config.yml` must be present:
 
@@ -1004,7 +1004,7 @@ brew upgrade quarto
    teach deploy lectures/week-05.qmd  # Re-deploy with index update
    ```
 
-1. **YAML frontmatter issue:**
+2. **YAML frontmatter issue:**
 
    ```yaml
    # Ensure file has proper frontmatter
@@ -1013,7 +1013,7 @@ brew upgrade quarto
    ---
    ```
 
-2. **File not in _quarto.yml:**
+3. **File not in _quarto.yml:**
 
    ```yaml
    # Check project config

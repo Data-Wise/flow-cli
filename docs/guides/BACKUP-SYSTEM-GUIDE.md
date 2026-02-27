@@ -762,13 +762,13 @@ du -sh */.backups/* | sort -hr | head -10
    teach archive "Fall 2024"
    ```
 
-1. **Delete very old backups:**
+2. **Delete very old backups:**
 
    ```bash
    find . -type d -name "*.2024-*" -path "*/.backups/*" -exec rm -rf {} \;
    ```
 
-2. **Change retention policy:**
+3. **Change retention policy:**
 
    ```yaml
    backups:
