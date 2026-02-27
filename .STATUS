@@ -26,13 +26,21 @@
 ## Previous Session (2026-02-26)
 
 **Session activity:**
+- feat: Scholar Config Sync (#423) — 7-increment implementation on feature/scholar-config
+  - Config injection: --config flag auto-appended to all Scholar commands
+  - Config subcommands: teach config check/diff/show/scaffold
+  - New wrappers: teach solution, teach sync, teach validate-r
+  - Doctor integration: config sync section in quick mode (5 categories)
+  - Stale config detection + legacy deprecation warnings
+  - Tests: 13 unit + 28 e2e + 41 dogfood + 3 pre-existing fixes
+  - Docs: SCHOLAR-INTEGRATION-GUIDE, QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, TEACHING-SYSTEM-ARCHITECTURE, CLAUDE.md
+  - test suite: 50/50 passing, 0 failures, 2 expected timeouts, 199 test files
 - released: v7.5.0 — em v2.0 safety gate, ICS calendar, IMAP watch, folder CRUD
   - PR #420 (em v2.0 feature branch) merged to dev
   - PR #421 (Release v7.5.0) merged to main (139 commits)
   - 8 integration test failures fixed across 7 test suites
   - version bump across 21 files, GitHub release created
   - docs deployed (auto via CI), Homebrew tap updated (auto via workflow)
-  - test suite: 47/47 passing, 0 failures, 2 expected timeouts
 - site-update: CHANGELOG.md entry for v7.5.0, test counts updated in TESTING.md
 
 ## Previous Session (2026-02-22)
@@ -241,7 +249,7 @@
 ---
 
 **Last Updated:** 2026-02-27
-**Status:** v7.6.0 | 50/50 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 198 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
+**Status:** v7.6.0 | 50/50 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 201 test files | 12000+ test functions | 0 lint errors | 0 broken anchors
 ## wins: Fixed the regression bug (2026-02-27), --category fix squashed the bug (2026-02-27), released v7.6.0 (2026-02-27)
 ## streak: 1
 ## last_active: 2026-02-27 10:52

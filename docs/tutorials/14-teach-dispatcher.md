@@ -316,6 +316,14 @@ teach assignment "Homework 3" --due-date "2026-01-31"
 | `teach assignment "Topic"` | Design assignment |
 | `teach syllabus` | Generate full syllabus |
 | `teach rubric "Assignment"` | Create grading rubric |
+| `teach solution "Topic"` | Generate solution key |
+| `teach feedback "Work"` | Generate student feedback |
+| `teach sync` | Sync config to Scholar format |
+| `teach validate-r` | Validate R code in .qmd files |
+| `teach config check` | Validate config (pre-flight) |
+| `teach config diff` | Compare prompts vs defaults |
+| `teach config show` | Show resolved 4-layer config |
+| `teach config scaffold` | Copy default prompts for customization |
 
 ---
 

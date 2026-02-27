@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased] — Scholar Config Sync (#423)
+
+### Added
+
+- **Config injection** — `--config` flag auto-appended to all Scholar commands when `.flow/teach-config.yml` exists
+- **Config subcommands** — `teach config check`, `teach config diff`, `teach config show`, `teach config scaffold`
+- **New wrappers** — `teach solution`, `teach sync`, `teach validate-r` (with shortcuts `sol`, `vr`)
+- **Doctor config sync** — New section in `teach doctor` quick mode (5 categories now)
+- **Stale config detection** — Warns when config changes since last Scholar run
+- **Legacy deprecation** — Warns when `.claude/teaching-style.local.md` coexists with new config
+
+### Tests
+
+- `test-scholar-config-sync.zsh` — 13 unit tests for config injection and detection
+- `e2e-scholar-config-sync.zsh` — 28 end-to-end tests with real project scenarios
+- `dogfood-scholar-config-sync.zsh` — 41 structural checks for wiring integrity
+- Test suite: 50/50 passing (199 test files, 2 expected timeouts)
+
+### Documentation
+
+- New: `docs/guides/SCHOLAR-INTEGRATION-GUIDE.md`
+- Updated: QUICK-REFERENCE, MASTER-DISPATCHER-GUIDE, TEACHING-SYSTEM-ARCHITECTURE, CLAUDE.md
+
+---
+
 ## [v7.4.2] — 2026-02-22 — Atlas Integration + Homebrew Cleanup
 
 ### Added

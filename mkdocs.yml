@@ -170,6 +170,7 @@ nav:
       - Core Workflows:
           - Content Creation: guides/INTELLIGENT-CONTENT-ANALYSIS.md
           - Scholar Wrappers: guides/SCHOLAR-WRAPPERS-GUIDE.md
+          - Scholar Config Sync: guides/SCHOLAR-INTEGRATION-GUIDE.md
           - Deployment: guides/TEACH-DEPLOY-GUIDE.md
           - Deploy v2 (Direct, History, Rollback): tutorials/31-teach-deploy-v2.md
           - Git Integration: tutorials/19-teaching-git-integration.md
