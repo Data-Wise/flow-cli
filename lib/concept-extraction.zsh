@@ -346,18 +346,19 @@ for file in "${qmd_files[@]}"; do
 
     rel_path="${file#$course_dir/}"
 
-    # Process each concept individually to avoid merging prerequisites
-    # Array format: [{id: "...", prerequisites: [...], ...}]
+    # Process concepts - supports two formats:
+    # 1. Array of objects: [{id: "...", prerequisites: [...], ...}]
+    # 2. Simple format: {introduces: [...], requires: [...]}
     if command -v yq >/dev/null 2>&1; then
-        # Count concepts in array
+        added_in_array_format=0
+
+        # Try array-of-objects format first
         concept_count=$(echo "$concepts_json" | yq eval -o json '. | length' - 2>/dev/null)
 
         for ((idx=0; idx<concept_count; idx++)); do
-            # Extract concept ID
             concept_id=$(echo "$concepts_json" | yq eval -o json ".[$idx].id" - 2>/dev/null | sed 's/"//g')
             [[ -z "$concept_id" || "$concept_id" == "null" ]] && continue
 
-            # Check if concept already exists
             existing=$(echo "$graph" | jq -r --arg cid "$concept_id" '.concepts[$cid] // "null"' 2>/dev/null)
 
             if [[ -z "$existing" || "$existing" == "null" ]]; then
@@ -373,9 +374,8 @@ for file in "${qmd_files[@]}"; do
                     '.concepts[$cid] = {id: $cid, name: $name, prerequisites: [], introduced_in: {week: $w, lecture: $lec, line_number: $ln}}' 2>/dev/null)
 
                 ((total_concepts++))
+                ((added_in_array_format++))
 
-                # Only add prerequisites for newly created concepts (first occurrence wins)
-                # This prevents concepts from accumulating prerequisites across multiple files
                 while IFS= read -r prereq; do
                     [[ -z "$prereq" || "$prereq" == "null" ]] && continue
 
@@ -384,6 +384,36 @@ for file in "${qmd_files[@]}"; do
                 done < <(echo "$concepts_json" | yq eval -o json ".[$idx].prerequisites // [] | .[]" - 2>/dev/null | sed 's/"//g')
             fi
         done
+
+        # Fallback: simple format {introduces: [...], requires: [...]}
+        if [[ $added_in_array_format -eq 0 && -n "$introduced" ]]; then
+            required=$(_parse_required_concepts "$concepts_json")
+            for concept_id in ${(z)introduced}; do
+                [[ -z "$concept_id" ]] && continue
+
+                existing=$(echo "$graph" | jq -r --arg cid "$concept_id" '.concepts[$cid] // "null"' 2>/dev/null)
+                if [[ -z "$existing" || "$existing" == "null" ]]; then
+                    line_num=$(_get_concept_line_number "$file" "$concept_id")
+                    concept_name="${(C)concept_id}"
+
+                    graph=$(echo "$graph" | jq \
+                        --arg cid "$concept_id" \
+                        --arg name "$concept_name" \
+                        --argjson w "$week" \
+                        --arg lec "$rel_path" \
+                        --argjson ln "$line_num" \
+                        '.concepts[$cid] = {id: $cid, name: $name, prerequisites: [], introduced_in: {week: $w, lecture: $lec, line_number: $ln}}' 2>/dev/null)
+
+                    ((total_concepts++))
+
+                    for prereq in ${(z)required}; do
+                        [[ -z "$prereq" ]] && continue
+                        graph=$(echo "$graph" | jq --arg cid "$concept_id" --arg prereq "$prereq" \
+                            '.concepts[$cid].prerequisites += [$prereq]' 2>/dev/null)
+                    done
+                fi
+            done
+        fi
     fi
 done
 

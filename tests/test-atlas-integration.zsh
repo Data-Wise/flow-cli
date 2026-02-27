@@ -105,11 +105,11 @@ if [[ -n "$info" ]]; then
     test_fail "expected flow-cli, got $name"
   fi
 
-  test_case "  path exists ($path)"
-  if [[ -d "$path" ]]; then
+  test_case "  path exists ($project_path)"
+  if [[ -d "$project_path" ]]; then
     test_pass
   else
-    test_fail "$path"
+    test_fail "$project_path"
   fi
 else
   test_fail "returned empty for flow-cli"

@@ -43,7 +43,7 @@ log_test() {
 }
 
 # Setup test environment
-FLOW_ROOT="/Users/dt/.git-worktrees/flow-cli/teaching-git-integration"
+FLOW_ROOT="${0:A:h:h}"
 TEST_ROOT=$(mktemp -d)
 
 log_info "Test environment: $TEST_ROOT"

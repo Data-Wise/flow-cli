@@ -284,8 +284,8 @@ _assert_contains "Shows break suggestions" "$output" "Suggested breaks"
 _assert_contains "Shows phase 4 label" "$output" "Phase: 4"
 _assert_contains "Shows analyzing message" "$output" "Analyzing slide structure"
 
-# Verify cache file created (course_dir resolves to lectures/ for relative paths)
-local cache_file="$TEST_DIR/course/lectures/.teach/slide-optimization-week-05-regression.json"
+# Verify cache file created (mirrors source directory structure in analysis-cache/)
+local cache_file="$TEST_DIR/course/.teach/analysis-cache/lectures/week-05-regression-slides.json"
 _assert "Creates slide optimization cache" '[[ -f "$cache_file" ]]'
 
 if [[ -f "$cache_file" ]]; then
@@ -408,7 +408,7 @@ cd "$TEST_DIR/course"
 _teach_analyze "lectures/week-05-regression.qmd" "--quiet" 2>&1 >/dev/null
 
 # Verify concept graph exists (course_dir = lectures for relative path)
-_assert "Concept graph created" '[[ -f "$TEST_DIR/course/lectures/.teach/concepts.json" ]]'
+_assert "Concept graph created" '[[ -f "$TEST_DIR/course/.teach/concepts.json" ]]'
 
 # Now run with --slide-breaks (uses existing concept graph)
 e2e_output=$(_teach_analyze "lectures/week-05-regression.qmd" "--slide-breaks" "--quiet" 2>&1)
@@ -416,9 +416,9 @@ e2e_output=$(_teach_analyze "lectures/week-05-regression.qmd" "--slide-breaks" "
 _assert_contains "End-to-end shows slide section" "$e2e_output" "SLIDE OPTIMIZATION"
 
 # Check that slide optimizer used concept graph
-if [[ -f "$TEST_DIR/course/.teach/slide-optimization-week-05-regression.json" ]]; then
+if [[ -f "$TEST_DIR/course/.teach/analysis-cache/lectures/week-05-regression-slides.json" ]]; then
     local slide_json
-    slide_json=$(cat "$TEST_DIR/course/.teach/slide-optimization-week-05-regression.json")
+    slide_json=$(cat "$TEST_DIR/course/.teach/analysis-cache/lectures/week-05-regression-slides.json")
 
     if command -v jq &>/dev/null; then
         local kc_count

@@ -322,7 +322,7 @@ _flow_parse_macros() {
                 # Try to detect from content
                 if command grep -q 'MathJax' "$source_file" 2>/dev/null; then
                     format="$MACRO_FORMAT_MATHJAX"
-                elif command grep -q '```{=tex}' "$source_file" 2>/dev/null; then
+                elif command grep -qE '```\{=(tex|latex)\}' "$source_file" 2>/dev/null; then
                     format="$MACRO_FORMAT_QMD"
                 else
                     format="$MACRO_FORMAT_LATEX"  # Default fallback
@@ -390,8 +390,8 @@ _flow_parse_qmd_macros() {
     while IFS= read -r line || [[ -n "$line" ]]; do
         ((line_num++))
 
-        # Check for tex block start
-        if [[ "$line" =~ '```\{=tex\}' ]]; then
+        # Check for tex block start (both {=tex} and {=latex} are valid Quarto raw blocks)
+        if [[ "$line" =~ '```\{=(tex|latex)\}' ]]; then
             in_tex_block=1
             continue
         fi

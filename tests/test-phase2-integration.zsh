@@ -241,8 +241,8 @@ test_case "Profile workflow: Create, detect packages, auto-install" && {
 
   # Step 5: Check installation status
   local missing=$(_check_r_package_installation "fake-missing-package" 2>/dev/null)
-  local status=$?
-  assert_not_equals "$status" "0" "Should detect missing package"
+  local pkg_rc=$?
+  assert_not_equals "$pkg_rc" "0" "Should detect missing package"
 
   cd -
   rm -rf "$temp_dir"
@@ -290,9 +290,9 @@ test_case "teach doctor --fix installs missing R packages" && {
 
   # Run doctor check
   local output=$(_teach_doctor_check_r_packages 2>&1)
-  local status=$?
+  local cmd_rc=$?
 
-  assert_not_equals "$status" "0" "Should detect missing packages"
+  assert_not_equals "$cmd_rc" "0" "Should detect missing packages"
   assert_contains "$output" "tidyverse" "Should list missing tidyverse"
   assert_contains "$output" "ggplot2" "Should list missing ggplot2"
 
@@ -953,10 +953,10 @@ test_case "Error handling: Missing _quarto.yml" && {
 
   # Try to list profiles
   local result=$(_teach_profiles_list 2>&1)
-  local status=$?
+  local cmd_rc=$?
 
   # Should handle missing file gracefully
-  assert_not_equals "$status" "0" "Should return error for missing _quarto.yml"
+  assert_not_equals "$cmd_rc" "0" "Should return error for missing _quarto.yml"
 
   cd -
   rm -rf "$temp_dir"
@@ -990,9 +990,9 @@ test_case "Error handling: Corrupted performance log" && {
 
   # Try to parse
   local result=$(jq -r '.entries' .teach/performance-log.json 2>&1)
-  local status=$?
+  local cmd_rc=$?
 
-  assert_not_equals "$status" "0" "Should detect corrupted JSON"
+  assert_not_equals "$cmd_rc" "0" "Should detect corrupted JSON"
 
   cd -
   rm -rf "$temp_dir"
