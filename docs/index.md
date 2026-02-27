@@ -26,9 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.4"
-    **31 Email Commands:** `em star`, `em thread`, `em snooze`, `em digest`, `em delete`, `em move`, `em flag`, `em todo` — full inbox management with `--pick` multi-select and AI backends.
-    **v7.4.2:** Homebrew install reduced from 75MB to 3.5MB. CI version guard prevents release mismatches.
+!!! success "🎉 What's New in v7.5"
+    **em v2.0:** Two-phase safety gate for send/reply, ICS calendar integration, IMAP watch, folder CRUD, enhanced attachments — plus 8 integration test fixes.
+    **v7.5.0:** Safety-first email with `em send --confirm`, `em calendar`, `em watch`, `em create-folder`.
     [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
     [→ Quick Reference](reference/REFCARD-EMAIL-DISPATCHER.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
@@ -281,4 +281,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.4.2** · Pure ZSH · Zero Dependencies · MIT License
+**v7.5.0** · Pure ZSH · Zero Dependencies · MIT License

@@ -2035,5 +2035,5 @@ After this tutorial, you should be able to:
 ---
 
 *Last updated: 2026-02-26*
-*flow-cli version: 7.4.2 (em dispatcher v2.0)*
+*flow-cli version: 7.5.0 (em dispatcher v2.0)*
 *Tutorial version: 2.0*

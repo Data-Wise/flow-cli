@@ -2,7 +2,7 @@
 
 > Copy-paste workflows for common email tasks.
 >
-> **Dispatcher:** `em` | **Version:** v2.0 (flow-cli v7.4.2+)
+> **Dispatcher:** `em` | **Version:** v2.0 (flow-cli v7.5.0+)
 > **Last Updated:** 2026-02-26
 
 Each recipe follows the same structure: **Problem** — **Solution** — **Explanation** — **Pro tip**.
@@ -526,5 +526,5 @@ em h     # em help
 
 ---
 
-**Version:** v2.0 (em dispatcher) — flow-cli v7.4.2+
+**Version:** v2.0 (em dispatcher) — flow-cli v7.5.0+
 **Last Updated:** 2026-02-26

@@ -10,7 +10,7 @@ tags:
 **Purpose:** Complete reference for all flow-cli dispatchers (15 + at bridge)
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v7.4.2
+**Version:** v7.5.0
 **Last Updated:** 2026-02-21
 
 ---
@@ -3072,7 +3072,7 @@ als           # List all aliases by category
 
 **Domain:** Email management via himalaya CLI
 **File:** `lib/dispatchers/email-dispatcher.zsh` + `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`, `lib/email-helpers.zsh`
-**Version:** v2.0 (flow-cli v7.4.2+)
+**Version:** v2.0 (flow-cli v7.5.0+)
 
 > **BREAKING CHANGE (v2.0):** `em send` and `em reply` now show a full preview before sending.
 > The confirmation prompt is `[y/N/e]` where `e` re-opens the editor. Use `--force` to bypass.
@@ -3339,6 +3339,6 @@ at stats
 
 ---
 
-**Version:** v7.4.2
+**Version:** v7.5.0
 **Last Updated:** 2026-02-22
 **Total:** 15 dispatchers + at bridge fully documented
