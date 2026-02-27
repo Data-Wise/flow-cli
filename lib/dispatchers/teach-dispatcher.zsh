@@ -1420,6 +1420,7 @@ _teach_build_command() {
         rubric)     scholar_cmd="/teaching:rubric" ;;
         feedback)   scholar_cmd="/teaching:feedback" ;;
         demo)       scholar_cmd="/teaching:demo" ;;
+        config)     scholar_cmd="/teaching:config $*" ;;
         *)
             _teach_error "Unknown Scholar command: $subcommand"
             return 1
@@ -4529,6 +4530,10 @@ teach() {
         config|c)
             case "$1" in
                 --help|-h|help) _teach_config_help; return 0 ;;
+                check)     _teach_scholar_wrapper "config" "validate" "--strict" ;;
+                diff)      _teach_scholar_wrapper "config" "diff" "${@:2}" ;;
+                show)      _teach_scholar_wrapper "config" "show" "${@:2}" ;;
+                scaffold)  _teach_scholar_wrapper "config" "scaffold" "${@:2}" ;;
                 --view) _teach_config_view "$@" ;;
                 --cat) _teach_config_cat "$@" ;;
                 *) _teach_config_edit "$@" ;;
