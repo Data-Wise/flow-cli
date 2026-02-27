@@ -212,9 +212,9 @@ Context-aware commands that adapt to your project:
 
 Each dispatcher has built-in help: `cc help`, `dots help`, `r help`, `em help`, `at help`, etc.
 
-**✨ New in v7.5.0:** em v2.0 safety gate, ICS calendar, IMAP watch, folder CRUD + 8 integration test fixes
+**✨ New in v7.5.0:** em v2.0 safety gate, ICS calendar, IMAP watch, folder CRUD, `em forward`, `--prompt`/`--backend` flags + 8 integration test fixes
 **✨ v7.4.2:** Atlas bridge (`at`) — project intelligence, context parking, quick capture
-**✨ v7.4.0:** 31 email commands — organize, manage, AI, plus 10 tutorials
+**✨ v7.4.0:** 38 email commands — read, reply, forward, AI compose, organize, manage
 **✨ v7.1.0:** Dispatcher split — `dot` → `dots` (dotfiles) + `sec` (secrets) + `tok` (tokens)
 **✨ 15 dispatchers + Atlas bridge** with unified grammar, built-in help, and fzf integration
 
