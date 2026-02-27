@@ -26,6 +26,13 @@
 #   FLOW_EMAIL_AI_TIMEOUT=30     # AI draft timeout in seconds
 
 _em_load_config() {
+    # Safe config loader: parses key=value files WITHOUT sourcing them.
+    # Replaces the previous `source "$config_file"` approach which allowed
+    # arbitrary shell code execution from user-controlled config files (Finding 3).
+    #
+    # Allowlisted keys only. Unknown keys are silently ignored.
+    # Values may be single- or double-quoted (quotes are stripped).
+    # Comments (#) and blank lines are skipped.
     local config_file="${FLOW_CONFIG_DIR}/email.conf"
     local project_config=""
 
@@ -38,13 +45,70 @@ _em_load_config() {
         fi
     fi
 
-    # Source global config first, then project override
-    if [[ -f "$config_file" ]]; then
-        source "$config_file"
-    fi
-    if [[ -n "$project_config" ]]; then
-        source "$project_config"
-    fi
+    # Parse global config first, then project override (project wins)
+    [[ -f "$config_file" ]] && _em_parse_config_file "$config_file"
+    [[ -n "$project_config" ]] && _em_parse_config_file "$project_config"
+}
+
+_em_parse_config_file() {
+    # Parse a key=value config file using an allowlist (Finding 3)
+    # Never sources the file — reads line-by-line with pure ZSH builtins.
+    #
+    # Allowed keys and their target variables:
+    #   FLOW_EMAIL_AI              -> FLOW_EMAIL_AI
+    #   FLOW_EMAIL_PAGE_SIZE       -> FLOW_EMAIL_PAGE_SIZE
+    #   FLOW_EMAIL_FOLDER          -> FLOW_EMAIL_FOLDER
+    #   FLOW_EMAIL_TRASH_FOLDER    -> FLOW_EMAIL_TRASH_FOLDER
+    #   FLOW_EMAIL_AI_TIMEOUT      -> FLOW_EMAIL_AI_TIMEOUT
+    #   FLOW_EMAIL_CACHE_MAX_MB    -> FLOW_EMAIL_CACHE_MAX_MB
+    #   FLOW_EMAIL_CACHE_WARM      -> FLOW_EMAIL_CACHE_WARM
+    local config_path="$1"
+
+    # Allowlist: only these keys will be set
+    local -A _ALLOWED_KEYS=(
+        [FLOW_EMAIL_AI]=1
+        [FLOW_EMAIL_PAGE_SIZE]=1
+        [FLOW_EMAIL_FOLDER]=1
+        [FLOW_EMAIL_TRASH_FOLDER]=1
+        [FLOW_EMAIL_AI_TIMEOUT]=1
+        [FLOW_EMAIL_CACHE_MAX_MB]=1
+        [FLOW_EMAIL_CACHE_WARM]=1
+    )
+
+    local line key value
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        # Skip blank lines and comments
+        [[ -z "$line" || "$line" == \#* ]] && continue
+
+        # Must match KEY=VALUE (no spaces around =)
+        # KEY: alphanumeric + underscore only
+        if [[ ! "$line" =~ ^([A-Za-z_][A-Za-z0-9_]*)=(.*)$ ]]; then
+            continue
+        fi
+
+        key="${match[1]}"
+        value="${match[2]}"
+
+        # Reject any key not in the allowlist
+        [[ -z "${_ALLOWED_KEYS[$key]}" ]] && continue
+
+        # Strip surrounding single or double quotes from value
+        if [[ "$value" == \"*\" ]]; then
+            value="${value#\"}"
+            value="${value%\"}"
+        elif [[ "$value" == \'*\' ]]; then
+            value="${value#\'}"
+            value="${value%\'}"
+        fi
+
+        # Strip inline comments (# not inside quotes — already unquoted above)
+        value="${value%%  #*}"   # double-space before # is comment
+        value="${value%% }"      # trim trailing space
+        value="${value%%	}"     # trim trailing tab
+
+        # Export the allowlisted key
+        export "$key"="$value"
+    done < "$config_path"
 }
 
 # ═══════════════════════════════════════════════════════════════════

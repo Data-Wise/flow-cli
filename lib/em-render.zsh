@@ -39,7 +39,9 @@ _em_render() {
     fi
 
     # Detect content type
-    if echo "$content" | grep -qi '<html\|<body\|<div\|<table\|<p>'; then
+    if echo "$content" | grep -qi 'BEGIN:VCALENDAR\|BEGIN:VEVENT\|text/calendar'; then
+        _em_render_with "ics" "$content"
+    elif echo "$content" | grep -qi '<html\|<body\|<div\|<table\|<p>'; then
         _em_render_with "html" "$content"
     elif echo "$content" | grep -q '^\#\|^\*\*\|^```\|^\- \['; then
         _em_render_with "markdown" "$content"
@@ -55,6 +57,18 @@ _em_render_with() {
     local content="$2"
 
     case "$renderer" in
+        ics)
+            # ICS/iCalendar content — route to em_calendar if available
+            if typeset -f em_calendar &>/dev/null; then
+                echo -e "${_C_BLUE}Calendar event detected${_C_NC} — use ${_C_CYAN}em calendar <ID>${_C_NC} to add to Calendar"
+            fi
+            # Still display the raw content as plain text
+            if command -v bat &>/dev/null; then
+                echo "$content" | bat --style=plain --color=always --paging=never --language=txt
+            else
+                echo "$content"
+            fi
+            ;;
         html)
             if command -v w3m &>/dev/null; then
                 echo "$content" | w3m -dump -T text/html | _em_pager

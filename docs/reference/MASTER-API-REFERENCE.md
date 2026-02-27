@@ -124,7 +124,7 @@ When adding new functions:
 - [Doctor Cache](#doctor-cache) - Token validation caching (v5.17.0+)
 - [Commands Internal API](#commands-internal-api) - Command helper functions
 - [Teaching Libraries](#teaching-libraries) - AI-powered teaching workflow (v5.16.0+)
-- [Teaching Libraries](#teaching-libraries) - AI-powered teaching
+- [Email Libraries](#email-libraries) - em dispatcher internals (v2.0)
 - [Dispatcher Guide](MASTER-DISPATCHER-GUIDE.md) - Dispatcher functions (separate document)
 - [Function Index](#function-index) - Alphabetical index
 
@@ -5873,6 +5873,503 @@ fi
 
 ---
 
+## Email Libraries
+
+**Purpose:** Internal helper functions for the `em` email dispatcher (v2.0)
+**Audience:** Developers and contributors extending the email dispatcher
+**Files:** `lib/email-helpers.zsh`, `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`, `lib/em-ics.zsh`, `lib/em-watch.zsh`
+
+### Safety Gate
+
+#### `_em_safety_gate`
+
+Two-phase send gate: shows a full email preview, then prompts `[y/N/e]`.
+
+**Signature:**
+
+```zsh
+_em_safety_gate <draft_file> [--force|--yes]
+```
+
+**Parameters:**
+- `$1` - Path to the draft file (headers + body)
+- `--force` / `--yes` - Skip the gate and send immediately
+
+**Returns:**
+- `0` - User confirmed send (`y`)
+- `1` - Error (missing draft file, invalid input)
+- `2` - User cancelled (Enter or `N`)
+
+**Behavior:**
+- Displays headers (To, Subject) + truncated body preview
+- Prompts `[y/N/e]` in a loop
+- `e` re-opens the editor internally and re-displays preview (does not return to caller)
+- Used by both `em send` and `em reply` (breaking change in v2.0)
+
+**Example:**
+
+```zsh
+_em_safety_gate /tmp/draft.eml
+# Displays preview, waits for [y/N/e]
+```
+
+---
+
+#### `_em_compose_draft`
+
+Create a temp draft file from headers and body content.
+
+**Signature:**
+
+```zsh
+_em_compose_draft <to> <subject> <body_file>
+```
+
+**Returns:**
+- stdout - Path to the created draft temp file
+
+**Behavior:**
+- Uses `mktemp` for unpredictable temp file paths (security fix)
+- Caller is responsible for cleanup via `_em_draft_cleanup`
+
+---
+
+#### `_em_draft_cleanup`
+
+Remove a temp draft file securely.
+
+**Signature:**
+
+```zsh
+_em_draft_cleanup <draft_file>
+```
+
+**Behavior:**
+- Removes draft temp file if it exists
+- Called in `EXIT` trap to prevent temp file leaks
+
+---
+
+### Folder Management
+
+#### `_em_create_folder`
+
+Create a new IMAP mail folder via himalaya.
+
+**Signature:**
+
+```zsh
+_em_create_folder <folder_name>
+```
+
+**Parameters:**
+- `$1` - Folder name (validated via `_em_validate_folder_name` before use)
+
+**Returns:**
+- `0` - Folder created successfully
+- `1` - Invalid folder name or himalaya error
+
+---
+
+#### `_em_delete_folder`
+
+Delete an IMAP mail folder with type-to-confirm safety gate.
+
+**Signature:**
+
+```zsh
+_em_delete_folder <folder_name>
+```
+
+**Parameters:**
+- `$1` - Folder name (user must type it again to confirm)
+
+**Behavior:**
+- Shows warning about permanent deletion
+- Prompts user to type the folder name in full
+- Only proceeds if input matches exactly
+- Validated via `_em_validate_folder_name`
+
+---
+
+### Attachment Helpers
+
+#### `_em_attach_list`
+
+List attachments for an email as a formatted table.
+
+**Signature:**
+
+```zsh
+_em_attach_list <msg_id>
+```
+
+**Parameters:**
+- `$1` - Email message ID (validated via `_em_validate_msg_id`)
+
+**Output:**
+
+```text
+#  Name              Type              Size
+─  ────────────────  ────────────────  ──────
+1  agenda.pdf        application/pdf   142 KB
+2  invite.ics        text/calendar     2 KB
+```
+
+---
+
+#### `_em_attach_get`
+
+Download a specific named attachment from an email.
+
+**Signature:**
+
+```zsh
+_em_attach_get <msg_id> <filename> [output_dir]
+```
+
+**Parameters:**
+- `$1` - Email message ID
+- `$2` - Attachment filename (exact match)
+- `$3` - Output directory (default: `~/Downloads`)
+
+**Returns:**
+- `0` - File downloaded successfully (prints save path)
+- `1` - Attachment not found or download error
+
+---
+
+### Calendar Integration
+
+#### `em_calendar`
+
+Parse ICS calendar attachments from an email and optionally add to Apple Calendar.
+
+**Signature:**
+
+```zsh
+em_calendar <msg_id>
+```
+
+**Parameters:**
+- `$1` - Email message ID
+
+**Behavior:**
+- Finds `text/calendar` or `.ics` attachment in the email
+- Calls `_em_ics_parse` to extract event fields
+- Displays formatted event card via `_em_ics_display_event`
+- Prompts to add to Apple Calendar.app (macOS only)
+
+---
+
+#### `_em_ics_parse`
+
+Parse VEVENT blocks from an ICS file (pure ZSH, RFC 5545).
+
+**Signature:**
+
+```zsh
+_em_ics_parse <ics_file_path>
+```
+
+**Parameters:**
+- `$1` - Path to `.ics` file on disk
+
+**Output (env vars set):**
+- `_ICS_SUMMARY` - Event title
+- `_ICS_DTSTART` - Start datetime (raw ICAL format)
+- `_ICS_DTEND` - End datetime (raw ICAL format)
+- `_ICS_LOCATION` - Location string
+- `_ICS_ORGANIZER` - Organizer email/name
+
+---
+
+#### `_em_ics_format_dt`
+
+Convert ICAL datetime string to human-readable format.
+
+**Signature:**
+
+```zsh
+_em_ics_format_dt <ical_dt>
+```
+
+**Parameters:**
+- `$1` - Raw ICAL datetime (e.g., `20260305T140000Z`)
+
+**Returns:**
+- stdout - Formatted string (e.g., `Thursday, March 5, 2026 at 2:00 PM UTC`)
+
+---
+
+#### `_em_ics_display_event`
+
+Print formatted event card to terminal.
+
+**Signature:**
+
+```zsh
+_em_ics_display_event
+```
+
+**Behavior:**
+- Reads `_ICS_*` env vars set by `_em_ics_parse`
+- Prints a human-readable event summary with color formatting
+
+---
+
+#### `_em_ics_create_event`
+
+Add an event to Apple Calendar.app via osascript (macOS only).
+
+**Signature:**
+
+```zsh
+_em_ics_create_event <summary> <start_dt> <end_dt> [location]
+```
+
+**Parameters:**
+- `$1` - Event summary/title
+- `$2` - Start datetime string
+- `$3` - End datetime string
+- `$4` - Location (optional)
+
+**Behavior:**
+- Takes positional arguments (not env vars)
+- All string values passed as `on run argv` arguments to osascript (injection-safe)
+- Creates event in default calendar via `osascript`
+
+---
+
+### IMAP Watch
+
+#### `em_watch`
+
+IMAP IDLE background watcher dispatcher.
+
+**Signature:**
+
+```zsh
+em_watch <subcommand>
+```
+
+**Subcommands:** `start`, `stop`, `status`, `log`
+
+---
+
+#### `_em_watch_start`
+
+Daemonize the IMAP IDLE watcher process.
+
+**Signature:**
+
+```zsh
+_em_watch_start
+```
+
+**Behavior:**
+- Requires `terminal-notifier` for desktop notifications (optional but recommended)
+- Writes PID to `~/.local/share/flow/em-watch.pid`
+- Writes activity log to `~/.local/share/flow/em-watch.log`
+- Connects to `$FLOW_EMAIL_FOLDER` (default: INBOX) via himalaya IMAP IDLE
+- On new message: fires `terminal-notifier` with static title "New Email" and truncated subject
+
+---
+
+#### `_em_watch_stop`
+
+Stop the background IMAP IDLE watcher.
+
+**Signature:**
+
+```zsh
+_em_watch_stop
+```
+
+**Behavior:**
+- Reads PID from `~/.local/share/flow/em-watch.pid`
+- Sends `SIGTERM` to the watcher process
+- Removes PID file on success
+
+---
+
+#### `_em_watch_status`
+
+Display watcher status (PID, uptime, last activity).
+
+**Signature:**
+
+```zsh
+_em_watch_status
+```
+
+**Output:**
+
+```text
+em watch: running (PID 12345, uptime 2h 14m)
+  Folder: INBOX
+  Last activity: 14 minutes ago (3 new messages)
+  Notifications: terminal-notifier ✓
+```
+
+---
+
+### Version Detection
+
+#### `_em_hml_version`
+
+Return the installed himalaya CLI version as a string.
+
+**Signature:**
+
+```zsh
+_em_hml_version
+```
+
+**Returns:**
+- stdout - Version string (e.g., `1.0.0`) or empty string if not installed
+
+**Behavior:**
+- Parses `himalaya --version` output
+- Result is cached for the session to avoid repeated subprocess calls
+
+---
+
+#### `_em_hml_version_gte`
+
+Check if installed himalaya version is >= a required version.
+
+**Signature:**
+
+```zsh
+_em_hml_version_gte <min_version>
+```
+
+**Parameters:**
+- `$1` - Minimum version string (e.g., `1.0`)
+
+**Returns:**
+- `0` - Installed version >= min_version
+- `1` - Installed version < min_version (or not installed)
+
+**Example:**
+
+```zsh
+if _em_hml_version_gte 1.0; then
+  # Use himalaya 1.x feature
+fi
+```
+
+---
+
+#### `_em_require_version`
+
+Exit with an error if himalaya does not meet the minimum version.
+
+**Signature:**
+
+```zsh
+_em_require_version <min_version> <feature_name>
+```
+
+**Parameters:**
+- `$1` - Minimum version string
+- `$2` - Human-readable feature name (for error message)
+
+---
+
+### Validation
+
+#### `_em_validate_msg_id`
+
+Validate an email message ID before passing to himalaya.
+
+**Signature:**
+
+```zsh
+_em_validate_msg_id <id>
+```
+
+**Parameters:**
+- `$1` - Message ID string
+
+**Returns:**
+- `0` - Valid (numeric or UID format)
+- `1` - Invalid — prints error and aborts caller
+
+**Behavior:**
+- Accepts only digits (and optional folder-prefixed UIDs)
+- Rejects IDs containing shell metacharacters, path traversal, or whitespace
+
+---
+
+#### `_em_validate_folder_name`
+
+Validate and sanitize an IMAP folder name.
+
+**Signature:**
+
+```zsh
+_em_validate_folder_name <name>
+```
+
+**Parameters:**
+- `$1` - Folder name string
+
+**Returns:**
+- `0` - Valid
+- `1` - Invalid — prints error describing the rejected character
+
+**Behavior:**
+- Rejects names containing: `\`, `"`, `%`, `*` (IMAP-unsafe characters)
+- Rejects empty strings and names longer than 255 characters
+- Does not mutate the input; caller uses original string after validation passes
+
+---
+
+### Config Loading
+
+#### `_em_load_config`
+
+Load email configuration from `.flow/email.conf` or `$FLOW_CONFIG_DIR/email.conf`.
+
+**Signature:**
+
+```zsh
+_em_load_config
+```
+
+**Behavior (v2.0 security fix):**
+- Parses key=value pairs with a safe line-by-line reader
+- Does **not** `source` the config file (prevents arbitrary code execution)
+- Skips comment lines (`#`) and blank lines
+- Only sets known `FLOW_EMAIL_*` variables; unknown keys are silently ignored
+
+---
+
+#### `_em_ai_validate_extra_args`
+
+Validate AI backend extra arguments against a known-safe allowlist.
+
+**Signature:**
+
+```zsh
+_em_ai_validate_extra_args <args_string>
+```
+
+**Parameters:**
+- `$1` - Space-separated argument string from `FLOW_EMAIL_GEMINI_EXTRA_ARGS`
+
+**Returns:**
+- `0` - All args valid
+- `1` - Rejected arg found (prints error)
+
+**Behavior:**
+- Compares each token against an allowlist of known safe flags (e.g., `-e none`, `--model`)
+- Prevents injection of arbitrary shell commands through config file
+
+---
+
 ## Function Index
 
 **Auto-generated alphabetical index will appear here after running:**
@@ -5923,7 +6420,43 @@ fi
 
 ## Change Log
 
-### v5.17.0-dev (Current)
+### em v2.0 (Current — flow-cli v7.4.2+)
+
+**Added:**
+- `_em_safety_gate` - Two-phase preview + `[y/N/e]` gate for all outgoing email
+- `_em_compose_draft` - Create draft temp file with `mktemp` (secure)
+- `_em_draft_cleanup` - Remove draft temp file on EXIT
+- `_em_create_folder` - Create IMAP folder via himalaya
+- `_em_delete_folder` - Delete IMAP folder with type-to-confirm
+- `_em_attach_list` - Show attachment table (name, MIME, size)
+- `_em_attach_get` - Download specific named attachment
+- `em_calendar` - Parse ICS attachment from email
+- `_em_ics_parse` - Extract VEVENT fields from ICS content
+- `_em_ics_format_dt` - Convert ICAL datetime to human-readable format
+- `_em_ics_display_event` - Print formatted event card
+- `_em_ics_create_event` - Add event to Apple Calendar via osascript (injection-safe)
+- `em_watch` - IMAP IDLE dispatcher (start/stop/status/log)
+- `_em_watch_start` - Daemonize IMAP IDLE watcher with desktop notifications
+- `_em_watch_stop` - Stop background watcher (SIGTERM + PID file cleanup)
+- `_em_watch_status` - Show watcher PID, uptime, last activity
+- `_em_hml_version` - Return installed himalaya version string
+- `_em_hml_version_gte` - Check version constraint (>= min_version)
+- `_em_require_version` - Abort with error if version constraint not met
+- `_em_validate_msg_id` - Validate message ID (reject metacharacters)
+- `_em_validate_folder_name` - Validate/sanitize IMAP folder name
+
+**Changed:**
+- `_em_load_config` - Now uses safe key-value parser instead of `source` (security fix)
+- `_em_ai_validate_extra_args` - New allowlist validation for AI extra args (injection fix)
+- `em send` / `em reply` - Now route through `_em_safety_gate` (breaking: preview always shown)
+- Temp files throughout - replaced predictable paths with `mktemp`
+- `terminal-notifier` calls - subject truncated, title is static (injection-safe)
+- jq string interpolation - replaced with `--argjson` / `--arg` throughout
+
+**Breaking:**
+- `em send` and `em reply` show full preview before `[y/N/e]` prompt. Use `--force` to skip.
+
+### v5.17.0-dev
 
 **Added:**
 - Token cache management (5-min TTL)

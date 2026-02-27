@@ -3071,13 +3071,17 @@ als           # List all aliases by category
 ## em Dispatcher
 
 **Domain:** Email management via himalaya CLI
-**File:** `lib/dispatchers/email-dispatcher.zsh` + `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`
-**Version:** v7.4.2
+**File:** `lib/dispatchers/email-dispatcher.zsh` + `lib/em-himalaya.zsh`, `lib/em-ai.zsh`, `lib/em-cache.zsh`, `lib/em-render.zsh`, `lib/email-helpers.zsh`
+**Version:** v2.0 (flow-cli v7.4.2+)
+
+> **BREAKING CHANGE (v2.0):** `em send` and `em reply` now show a full preview before sending.
+> The confirmation prompt is `[y/N/e]` where `e` re-opens the editor. Use `--force` to bypass.
 
 ### Overview
 
 The `em` dispatcher wraps the himalaya CLI with ADHD-friendly email management:
-AI-powered drafting, smart content rendering, fzf browsing, and explicit send confirmation.
+AI-powered drafting, smart content rendering, fzf browsing, two-phase safety gate, folder CRUD,
+calendar ICS parsing, and IMAP IDLE background watching.
 
 > **Two interfaces, one backend:** `em` (keyboard-driven, fzf, sub-second) and
 > [himalaya-mcp](https://github.com/Data-Wise/himalaya-mcp) (conversation-driven,
@@ -3091,13 +3095,15 @@ AI-powered drafting, smart content rendering, fzf browsing, and explicit send co
 | `em` | | Quick pulse (unread + 10 latest) |
 | `em inbox [N]` | | List N recent emails (default: 25) |
 | `em read <ID>` | `em r` | Read email with smart rendering |
-| `em send` | `em s` | Compose new email in $EDITOR |
-| `em reply <ID>` | `em re` | Reply with AI draft (--no-ai, --all, --batch) |
+| `em send [--force]` | `em s` | Compose new email — preview + `[y/N/e]` gate |
+| `em reply <ID> [--force]` | `em re` | Reply with AI draft — preview + `[y/N/e]` gate |
 | `em find <query>` | `em f` | Search emails |
 | `em pick [FOLDER]` | `em p` | fzf email browser with multi-select |
 | `em delete <ID>` | `em del`, `em rm` | Delete email (move to Trash) |
 | `em delete --folder <F>` | | Delete all in folder (with confirmation) |
 | `em delete --purge <ID>` | | Permanent delete (requires typing "yes") |
+| `em create-folder <name>` | `em cf` | Create a new mail folder |
+| `em delete-folder <name>` | `em df` | Delete folder (type-to-confirm) |
 | `em move <FOLDER> <ID>` | `em mv` | Move email to folder |
 | `em restore <ID>` | | Restore from Trash to INBOX |
 | `em flag <ID>` | `em fl` | Star email for follow-up |
@@ -3112,10 +3118,13 @@ AI-powered drafting, smart content rendering, fzf browsing, and explicit send co
 | `em dash` | | Quick dashboard |
 | `em folders` | | List mail folders |
 | `em html <ID>` | | Render HTML email in terminal |
-| `em attach <ID>` | | Download attachments |
+| `em attach <ID> [dir]` | `em a` | Download all attachments |
+| `em attach list <ID>` | | Show attachment table (name, MIME, size) |
+| `em attach get <ID> <file> [dir]` | | Download a specific named attachment |
+| `em calendar <ID>` | `em cal` | Parse ICS attachment; add to Apple Calendar |
+| `em watch start\|stop\|status\|log` | `em w` | IMAP IDLE background watcher [experimental] |
 | `em cache stats\|prune\|clear\|warm` | | Manage AI cache |
 | `em ai [backend]` | | Show/switch AI backend (claude, gemini, none, toggle, auto) |
-| `em catch <ID>` | `em c` | Capture email as task (AI summary → catch) |
 | `em star <ID>` | `em flag` | Toggle star (Flagged) on email |
 | `em starred` | | List all starred/flagged emails |
 | `em move <ID> [FOLDER]` | `em mv` | Move email to folder (fzf picker if no folder) |
@@ -3129,26 +3138,33 @@ AI-powered drafting, smart content rendering, fzf browsing, and explicit send co
 ### Quick Start
 
 ```bash
-em                      # Quick pulse check
-em pick                 # Browse with fzf (Enter=read, Ctrl-S=summarize, Ctrl-F=star, Ctrl-M=move,
-                        #   Ctrl-D=delete, Ctrl-O=todo, Ctrl-E=event)
-em reply 42             # AI-draft reply, opens in $EDITOR
-em respond              # Batch process actionable emails
-em star 42              # Toggle star on email
-em move 42 Archive      # Move email to folder
-em thread 42            # Show conversation thread
-em snooze 42 2h         # Snooze for 2 hours
-em digest               # AI-grouped daily summary
-em delete --folder Spam # Delete all spam (with confirmation)
-em move Archive 42      # Move email to Archive
-em restore 42           # Restore from Trash to INBOX
-em todo 42              # Extract action items from email
-em doctor               # Check all dependencies
+em                         # Quick pulse check
+em pick                    # Browse with fzf (Enter=read, Ctrl-S=summarize, Ctrl-F=star, Ctrl-M=move,
+                           #   Ctrl-D=delete, Ctrl-O=todo, Ctrl-E=event)
+em reply 42                # AI-draft reply, opens in $EDITOR, then preview gate
+em reply 42 --force        # Skip preview gate (v2.0)
+em respond                 # Batch process actionable emails
+em star 42                 # Toggle star on email
+em move 42 Archive         # Move email to folder
+em thread 42               # Show conversation thread
+em snooze 42 2h            # Snooze for 2 hours
+em digest                  # AI-grouped daily summary
+em delete --folder Spam    # Delete all spam (with confirmation)
+em restore 42              # Restore from Trash to INBOX
+em todo 42                 # Extract action items from email
+em attach list 42          # Show attachment table (v2.0)
+em attach get 42 file.ics  # Download specific attachment (v2.0)
+em calendar 42             # Parse ICS and add to Calendar.app (v2.0)
+em create-folder "Work"    # Create mail folder (v2.0)
+em watch start             # Start IMAP IDLE watcher (v2.0, experimental)
+em doctor                  # Check all dependencies
 ```
 
 ### Architecture
 
-Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with AI abstraction, cache, and render pipeline layers.
+Seven-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with safety gate,
+AI abstraction, cache, and render pipeline layers. Version detection enables progressive
+enhancement based on the installed himalaya CLI version.
 
 ### Configuration
 
@@ -3162,12 +3178,15 @@ Six-layer stack: `em()` dispatcher → himalaya adapter → himalaya CLI, with A
 
 ### Safety
 
-- Every send requires explicit `[y/N]` confirmation (default: No). No auto-send.
+- **v2.0:** `em send` and `em reply` show full preview + `[y/N/e]` gate before sending. Use `--force` to bypass.
 - Every delete requires `[y/N]` confirmation (default: No). `--purge` requires typing "yes".
 - Folder/query deletes show count + first 5 subjects before confirming.
+- `em delete-folder` requires typing the folder name in full.
 - Move, restore, and flag operations are immediate (reversible, no confirmation needed).
 - Listserv emails (`@LIST.*`) auto-skipped in `em respond`; warning shown if actionable.
 - Discarded drafts tracked separately from sent replies (via `script(1)` detection).
+- Message IDs validated before use; folder names sanitized (IMAP-safe characters only).
+- AI extra args validated against allowlist to prevent injection.
 - 9-category AI classification: student, colleague, admin-action, scheduling,
   urgent (actionable) + admin-info, newsletter, vendor, automated (auto-skip).
 

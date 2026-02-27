@@ -870,12 +870,18 @@ em html 42
 ### Compose & Reply
 
 ```bash
-# Compose new email (opens $EDITOR)
+# Compose new email (opens $EDITOR → preview → [y/N/e])
 em send
 
-# Reply with AI draft
+# Compose and skip preview gate
+em send --force
+
+# Reply with AI draft (v2.0: preview + [y/N/e] before send)
 em reply 42
-# Output: [AI generates draft → opens in $EDITOR → confirm send]
+# Output: [AI generates draft → $EDITOR → preview shown → y/N/e]
+
+# Reply and skip preview gate
+em reply 42 --force
 
 # Reply-all
 em reply 42 --all
@@ -982,6 +988,45 @@ em digest --week        # This week's emails
 em digest -n 5          # Limit to 5 emails
 ```
 
+### Folder Management (v2.0)
+
+```bash
+# Create a new mail folder
+em create-folder "Team Updates"
+em cf "Team Updates"             # alias
+
+# Delete a folder (type-to-confirm)
+em delete-folder "Old Archive"
+em df "Old Archive"              # alias
+```
+
+### Calendar & Attachments (v2.0)
+
+```bash
+# List all attachments with name, MIME type, size
+em attach list 42
+
+# Download a specific attachment
+em attach get 42 report.pdf
+em attach get 42 report.pdf ~/Documents  # Custom directory
+
+# Parse ICS calendar attachment, add to Apple Calendar
+em calendar 42
+em cal 42                        # alias
+```
+
+### IMAP Watch (v2.0, experimental)
+
+```bash
+# Start background IMAP IDLE watcher (desktop notifications)
+em watch start
+em w start                       # alias
+
+em watch stop                    # Stop watcher
+em watch status                  # Show PID + uptime
+em watch log                     # Tail activity log
+```
+
 ### Manage
 
 ```bash
@@ -1011,6 +1056,7 @@ em event 42                      # Extract calendar events → Calendar.app
 ```
 
 > **Safety:** Delete requires `[y/N]` (default: No). Purge requires full word `yes`.
+> **v2.0:** Send/reply now shows preview + `[y/N/e]` gate. Use `--force` to bypass.
 
 ### Management
 

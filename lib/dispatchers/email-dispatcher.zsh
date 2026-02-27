@@ -59,6 +59,10 @@ fi
 _em_load_config 2>/dev/null
 
 # ═══════════════════════════════════════════════════════════════════
+# V2.0 MODULES — sourced by flow.plugin.zsh (em-ics.zsh, em-watch.zsh)
+# ═══════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════
 # MAIN EM() DISPATCHER
 # ═══════════════════════════════════════════════════════════════════
 
@@ -107,6 +111,12 @@ em() {
         unflag)        shift; _em_unflag "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
+        # FOLDERS
+        # ─────────────────────────────────────────────────────────────
+        create-folder|cf)  shift; _em_create_folder "$@" ;;
+        delete-folder|df)  shift; _em_delete_folder "$@" ;;
+
+        # ─────────────────────────────────────────────────────────────
         # AI FEATURES
         # ─────────────────────────────────────────────────────────────
         respond|resp|repond) shift; _em_respond "$@" ;;
@@ -134,6 +144,12 @@ em() {
         unread|u)     shift; _em_unread "$@" ;;
         dash|d)       shift; _em_dash "$@" ;;
         folders)      shift; _em_folders "$@" ;;
+
+        # ─────────────────────────────────────────────────────────────
+        # CALENDAR & WATCH (v2.0)
+        # ─────────────────────────────────────────────────────────────
+        calendar|cal)  shift; em_calendar "$@" ;;
+        watch|w)       shift; em_watch "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
         # UTILITIES
@@ -198,9 +214,27 @@ ${_C_BLUE}📋 INBOX & READING${_C_NC}:
   ${_C_CYAN}em html <ID>${_C_NC}      Render HTML email ${_C_DIM}(alias for read --html)${_C_NC}
 
 ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
-  ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR)
-  ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch)
-  ${_C_CYAN}em attach <ID>${_C_NC}    Download attachments
+  ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR, preview before send)
+  ${_C_CYAN}em send --force${_C_NC}   Compose + send without preview
+  ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch, --force)
+
+${_C_BLUE}FOLDERS${_C_NC}:
+  ${_C_CYAN}em create-folder <name>${_C_NC}   Create new mail folder
+  ${_C_CYAN}em delete-folder <name>${_C_NC}   Delete folder (type-to-confirm)
+
+${_C_BLUE}ATTACHMENTS${_C_NC}:
+  ${_C_CYAN}em attach <ID>${_C_NC}            Download all attachments
+  ${_C_CYAN}em attach list <ID>${_C_NC}       Show attachment list (name, MIME, size)
+  ${_C_CYAN}em attach get <ID> <file>${_C_NC} Download specific attachment
+
+${_C_BLUE}CALENDAR${_C_NC}:
+  ${_C_CYAN}em calendar <ID>${_C_NC}    Parse ICS attachment + add to Apple Calendar
+
+${_C_BLUE}WATCH${_C_NC} ${_C_DIM}[experimental]${_C_NC}:
+  ${_C_CYAN}em watch start${_C_NC}     Start IMAP IDLE notification watcher
+  ${_C_CYAN}em watch stop${_C_NC}      Stop watcher
+  ${_C_CYAN}em watch status${_C_NC}    Show watcher status
+  ${_C_CYAN}em watch log${_C_NC}       Show recent notifications
 
 ${_C_BLUE}ORGANIZE${_C_NC}:
   ${_C_CYAN}em star <ID>${_C_NC}     Toggle starred (flagged) status
@@ -239,7 +273,7 @@ ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
   ${_C_CYAN}em cache clear${_C_NC}    Clear AI cache
   ${_C_CYAN}em doctor${_C_NC}         Check dependencies
 
-${_C_MAGENTA}SAFETY${_C_NC}: Every send requires explicit ${_C_YELLOW}[y/N]${_C_NC} confirmation (default: No)
+${_C_MAGENTA}SAFETY${_C_NC}: Two-phase gate — preview then ${_C_YELLOW}[y/N/e]${_C_NC} confirm (default: No, e=edit)
 
 ${_C_BLUE}AI BACKEND${_C_NC}:
   ${_C_CYAN}em ai${_C_NC}              Show current AI backend
@@ -328,8 +362,9 @@ _em_read() {
     # [1] Validate ID exists — himalaya silently returns empty for non-existent UIDs
     local envelope=""
     if command -v jq &>/dev/null; then
+        _em_validate_msg_id "$msg_id" || return 1
         envelope=$(_em_hml_list "$folder" 100 2>/dev/null \
-            | jq -r ".[] | select(.id == \"$msg_id\")" 2>/dev/null)
+            | jq -r --argjson id "$msg_id" '.[] | select(.id == $id)' 2>/dev/null)
     fi
 
     if [[ -z "$envelope" ]]; then
@@ -407,14 +442,160 @@ _em_read() {
     fi
 }
 
+# ═══════════════════════════════════════════════════════════════════
+# TWO-PHASE SAFETY GATE (v2.0) — preview + confirm before send
+# ═══════════════════════════════════════════════════════════════════
+
+_em_compose_draft() {
+    # Create temp draft file from to/subject/body
+    # Args: $1=to, $2=subject, $3=body
+    # Returns: path to temp file on stdout
+    local to="$1" subject="$2" body="$3"
+    local tmpfile
+    tmpfile=$(mktemp "${TMPDIR:-/tmp}/em-draft-XXXXXX.eml")
+    chmod 0600 "$tmpfile"
+
+    {
+        echo "To: $to"
+        echo "Subject: $subject"
+        echo ""
+        [[ -n "$body" ]] && echo "$body"
+    } > "$tmpfile"
+
+    echo "$tmpfile"
+}
+
+_em_safety_gate() {
+    # Two-phase preview + confirm before send
+    # Args: $1=draft_file, $2=action_label (e.g., "Send" or "Reply")
+    # Optional: $3=--force or --yes bypasses gate
+    # Returns: 0=proceed, 1=error, 2=user-abort
+    #
+    # TOCTOU fix: read draft into variable BEFORE confirm, send from variable
+    local draft_file="$1"
+    local action_label="${2:-Send}"
+    local force_flag="$3"
+
+    if [[ ! -f "$draft_file" ]]; then
+        _flow_log_error "Draft file not found: $draft_file"
+        return 1
+    fi
+
+    # Read draft into variable BEFORE user interaction (TOCTOU fix)
+    local draft_content
+    draft_content=$(<"$draft_file")
+
+    if [[ -z "$draft_content" ]]; then
+        _flow_log_error "Draft file is empty"
+        return 1
+    fi
+
+    # Force mode: skip preview/confirm
+    if [[ "$force_flag" == "--force" || "$force_flag" == "--yes" ]]; then
+        return 0
+    fi
+
+    # Parse header fields for preview
+    local to_line subject_line body_text
+    to_line=$(echo "$draft_content" | sed -n 's/^To: //p' | head -1)
+    subject_line=$(echo "$draft_content" | sed -n 's/^Subject: //p' | head -1)
+    body_text=$(echo "$draft_content" | awk '/^$/{found=1;next} found{print}')
+
+    # Check for empty body
+    if [[ -z "$body_text" || "$(echo "$body_text" | tr -d '[:space:]')" == "" ]]; then
+        _flow_log_warning "Empty email body"
+    fi
+
+    # Phase 1: Preview
+    echo ""
+    echo -e "${_C_BOLD}${action_label} Preview${_C_NC}"
+    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+    [[ -n "$to_line" ]] && echo -e "  ${_C_BLUE}To:${_C_NC}      $to_line"
+    [[ -n "$subject_line" ]] && echo -e "  ${_C_BLUE}Subject:${_C_NC} $subject_line"
+    echo ""
+    if [[ -n "$body_text" ]]; then
+        echo "$body_text" | head -15
+        local total_lines
+        total_lines=$(echo "$body_text" | wc -l | tr -d ' ')
+        (( total_lines > 15 )) && echo -e "  ${_C_DIM}... ($((total_lines - 15)) more lines)${_C_NC}"
+    fi
+    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+    echo ""
+
+    # Phase 2: Confirm [y/N/e]
+    while true; do
+        printf "  ${action_label}? [y/N/e] "
+        local response
+        read -r response
+        case "$response" in
+            [Yy]|[Yy]es)
+                return 0
+                ;;
+            [Ee]|edit)
+                # Re-open editor, then re-preview
+                _em_open_in_editor "$draft_file"
+                # Re-read after edit (content may have changed)
+                draft_content=$(<"$draft_file")
+                to_line=$(echo "$draft_content" | sed -n 's/^To: //p' | head -1)
+                subject_line=$(echo "$draft_content" | sed -n 's/^Subject: //p' | head -1)
+                body_text=$(echo "$draft_content" | awk '/^$/{found=1;next} found{print}')
+                echo ""
+                echo -e "${_C_BOLD}${action_label} Preview (updated)${_C_NC}"
+                echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+                [[ -n "$to_line" ]] && echo -e "  ${_C_BLUE}To:${_C_NC}      $to_line"
+                [[ -n "$subject_line" ]] && echo -e "  ${_C_BLUE}Subject:${_C_NC} $subject_line"
+                echo ""
+                if [[ -n "$body_text" ]]; then
+                    echo "$body_text" | head -15
+                fi
+                echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+                echo ""
+                ;;
+            *)
+                # Default is No — save draft and abort
+                local draft_dir="${FLOW_DATA_DIR}/email-drafts"
+                [[ -d "$draft_dir" ]] || mkdir -p "$draft_dir"
+                local saved="${draft_dir}/draft-$(date +%Y%m%d-%H%M%S).eml"
+                cp "$draft_file" "$saved"
+                _flow_log_info "Draft saved: $saved"
+                return 2
+                ;;
+        esac
+    done
+}
+
+_em_draft_cleanup() {
+    # Remove temp draft file
+    # Args: $1=draft_file_path
+    local draft_file="$1"
+    [[ -n "$draft_file" && -f "$draft_file" ]] && rm -f "$draft_file"
+}
+
+_em_v2_migration_notice() {
+    # One-time notice: "em v2.0 now previews emails before sending"
+    # Tracked via ~/.config/flow/em-v2-notice-shown
+    local notice_file="${HOME}/.config/flow/em-v2-notice-shown"
+    [[ -f "$notice_file" ]] && return 0
+
+    echo ""
+    echo -e "  ${_C_MAGENTA}em v2.0${_C_NC}: Emails are now previewed before sending."
+    echo -e "  ${_C_DIM}Use [y] to send, [e] to edit, [N] to cancel (default).${_C_NC}"
+    echo -e "  ${_C_DIM}Pass --force or --yes to skip preview.${_C_NC}"
+    echo ""
+
+    mkdir -p "${notice_file:h}" 2>/dev/null
+    touch "$notice_file"
+}
+
 _em_send() {
     _em_require_himalaya || return 1
-    local to="" subject="" use_ai=false
+    local to="" subject="" use_ai=false force_flag=""
 
-    # Parse args: em send [--ai] [to] [subject]
+    # Parse args: em send [--ai] [--force|--yes] [to] [subject]
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --ai) use_ai=true; shift ;;
+            --force|--yes) force_flag="$1"; shift ;;
             *)
                 if [[ -z "$to" ]]; then
                     to="$1"
@@ -425,6 +606,9 @@ _em_send() {
                 ;;
         esac
     done
+
+    # Show v2 migration notice (once)
+    _em_v2_migration_notice
 
     # [1] Prompt for missing fields
     if [[ -z "$to" ]]; then
@@ -455,21 +639,43 @@ _em_send() {
 
     # [3] Create temp file + open in $EDITOR
     local draft_file
-    draft_file=$(_em_create_draft_file "$to" "$subject" "$ai_body")
+    draft_file=$(_em_compose_draft "$to" "$subject" "$ai_body")
+
+    # Trap: clean up temp file on interrupt
+    trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
+
     _em_open_in_editor "$draft_file"
 
-    # [4] SAFETY GATE — preview + confirm
-    if _em_confirm_send "$draft_file"; then
-        # [5] Send via himalaya
-        himalaya message send < "$draft_file"
+    # [4] TWO-PHASE SAFETY GATE — preview + confirm
+    local gate_result
+    _em_safety_gate "$draft_file" "Send" "$force_flag"
+    gate_result=$?
+
+    if [[ $gate_result -eq 0 ]]; then
+        # [5] TOCTOU fix: read draft into variable, send from variable (not file)
+        local send_content
+        send_content=$(<"$draft_file")
+        echo "$send_content" | himalaya message send
         if [[ $? -eq 0 ]]; then
             _flow_log_success "Email sent"
-            rm -f "$draft_file"
+            _em_draft_cleanup "$draft_file"
         else
             _flow_log_error "Failed to send — draft preserved: $draft_file"
+            trap - INT TERM
             return 1
         fi
+    elif [[ $gate_result -eq 2 ]]; then
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 0  # user chose to cancel — not an error
+    else
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 1  # actual error
     fi
+
+    trap - INT TERM
+    return 0
 }
 
 _em_reply() {
@@ -479,20 +685,22 @@ _em_reply() {
     local skip_ai=false
     local reply_all=false
     local batch_mode=false
+    local force_flag=""
 
     # Parse flags
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --no-ai)     skip_ai=true; shift ;;
-            --all|-a)    reply_all=true; shift ;;
-            --batch|-b)  batch_mode=true; shift ;;
-            *)           msg_id="$1"; shift ;;
+            --no-ai)         skip_ai=true; shift ;;
+            --all|-a)        reply_all=true; shift ;;
+            --batch|-b)      batch_mode=true; shift ;;
+            --force|--yes)   force_flag="$1"; shift ;;
+            *)               msg_id="$1"; shift ;;
         esac
     done
 
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em reply <ID>${_C_NC}  ${_C_DIM}(--no-ai --all --batch)${_C_NC}"
+        echo "Usage: ${_C_CYAN}em reply <ID>${_C_NC}  ${_C_DIM}(--no-ai --all --batch --force)${_C_NC}"
         return 1
     fi
 
@@ -546,28 +754,39 @@ _em_reply() {
     local mml_with_body
     mml_with_body=$(_em_mml_inject_body "$mml" "$draft")
 
-    # Preview
-    echo ""
-    echo -e "${_C_BOLD}Draft Reply${_C_NC}"
-    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
-    echo "$mml_with_body" | head -5
-    echo -e "${_C_DIM}---${_C_NC}"
-    echo "$draft"
-    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
-    echo ""
+    # Write to temp file for safety gate
+    local draft_file
+    draft_file=$(mktemp "${TMPDIR:-/tmp}/em-reply-draft-XXXXXX.eml")
+    chmod 0600 "$draft_file"
+    echo "$mml_with_body" > "$draft_file"
 
-    # Safety gate: explicit confirmation, default NO
-    printf "  Send this reply? [y/N] "
-    local response
-    read -r response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-        echo "$mml_with_body" | _em_hml_template_send
+    # Trap: clean up temp file on interrupt
+    trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
+
+    # Two-phase safety gate
+    local gate_result
+    _em_safety_gate "$draft_file" "Reply" "$force_flag"
+    gate_result=$?
+
+    if [[ $gate_result -eq 0 ]]; then
+        # TOCTOU fix: read draft content before sending
+        local send_content
+        send_content=$(<"$draft_file")
+        echo "$send_content" | _em_hml_template_send
         _em_cache_invalidate "$msg_id"
         _flow_log_success "Reply sent"
-    else
+        _em_draft_cleanup "$draft_file"
+    elif [[ $gate_result -eq 2 ]]; then
         _em_cache_set "drafts" "$msg_id" "$draft"
         _flow_log_info "Draft saved. Review with: ${_C_CYAN}em respond --review${_C_NC}"
+        _em_draft_cleanup "$draft_file"
+    else
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 1
     fi
+
+    trap - INT TERM
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -626,8 +845,9 @@ _em_preview_message() {
 
     # Fetch envelope metadata (JSON)
     local envelope
+    _em_validate_msg_id "$msg_id" || return 1
     envelope=$(himalaya envelope list --page-size 100 --output json 2>/dev/null \
-        | jq -r ".[] | select(.id == ($msg_id | tonumber))" 2>/dev/null)
+        | jq -r --argjson id "$msg_id" '.[] | select(.id == $id)' 2>/dev/null)
 
     # Extract fields from envelope
     local from_name from_addr subject edate flags
@@ -990,8 +1210,9 @@ _em_catch() {
     # Fallback to subject line if AI unavailable or failed
     if [[ -z "$summary" ]]; then
         if command -v jq &>/dev/null; then
+            _em_validate_msg_id "$msg_id" || return 1
             summary=$(_em_hml_list "${FLOW_EMAIL_FOLDER:-INBOX}" 100 2>/dev/null \
-                | jq -r ".[] | select(.id == \"$msg_id\") | .subject" 2>/dev/null)
+                | jq -r --argjson id "$msg_id" '.[] | select(.id == $id) | .subject' 2>/dev/null)
         fi
     fi
 
@@ -1391,8 +1612,9 @@ _em_todo() {
         if [[ -z "$items" || "$items" == "NONE" ]]; then
             local subj=""
             if command -v jq &>/dev/null; then
+                _em_validate_msg_id "$msg_id" || continue
                 subj=$(_em_hml_list "${FLOW_EMAIL_FOLDER:-INBOX}" 100 2>/dev/null \
-                    | jq -r ".[] | select(.id == \"$msg_id\") | .subject" 2>/dev/null)
+                    | jq -r --argjson id "$msg_id" '.[] | select(.id == $id) | .subject' 2>/dev/null)
             fi
             if [[ -n "$subj" ]]; then
                 items="Follow up on: $subj"
@@ -2056,8 +2278,9 @@ _em_snooze() {
 
     # Get subject for display
     local subject
+    _em_validate_msg_id "$msg_id" || return 1
     subject=$(_em_hml_list "$folder" 100 2>/dev/null \
-        | jq -r ".[] | select(.id == ($msg_id | tonumber)) | .subject // \"(no subject)\"" 2>/dev/null)
+        | jq -r --argjson id "$msg_id" '.[] | select(.id == $id) | .subject // "(no subject)"' 2>/dev/null)
 
     # Ensure snooze directory exists
     local snooze_dir="${HOME}/.flow/email-snooze"
@@ -2071,7 +2294,9 @@ _em_snooze() {
     # Add snooze entry
     local now_epoch
     now_epoch=$(date +%s)
-    local tmp_file="${pending_file}.tmp"
+    local tmp_file
+    tmp_file=$(mktemp "${snooze_dir}/pending-XXXXXX.json")
+    trap "rm -f '$tmp_file'" INT TERM
     jq --arg id "$msg_id" \
        --arg subject "$subject" \
        --arg folder "$folder" \
@@ -2080,6 +2305,7 @@ _em_snooze() {
        --arg time_spec "$time_spec" \
        '. + [{id: $id, subject: $subject, folder: $folder, wake: $wake, created: $created, time_spec: $time_spec}]' \
        "$pending_file" > "$tmp_file" && mv "$tmp_file" "$pending_file"
+    trap - INT TERM
 
     # Move to Snoozed folder (best effort — folder may not exist)
     _em_hml_move "$msg_id" "Snoozed" "$folder" 2>/dev/null
@@ -2091,9 +2317,12 @@ _em_snooze() {
     if command -v terminal-notifier &>/dev/null; then
         local delay=$(( wake_epoch - now_epoch ))
         if (( delay > 0 )); then
+            # Sanitize subject: strip non-printable chars, truncate to 100 chars
+            local safe_subject="${subject//[^[:print:]]/}"
+            safe_subject="${safe_subject:0:100}"
             (sleep "$delay" && terminal-notifier \
-                -title "Email Reminder" \
-                -message "Snoozed: ${subject:-#${msg_id}}" \
+                -title "Snoozed Email" \
+                -message "${safe_subject:-Email #${msg_id}}" \
                 -sound default) &>/dev/null &
             disown
         fi
@@ -2370,22 +2599,173 @@ _em_html() {
 _em_attach() {
     [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
+
+    # Subcommand dispatch
+    case "$1" in
+        list|ls)   shift; _em_attach_list "$@" ;;
+        get|dl)    shift; _em_attach_get "$@" ;;
+        *)
+            # Default: download all attachments (legacy behavior)
+            local msg_id="$1"
+            if [[ -z "$msg_id" ]]; then
+                _flow_log_error "Email ID required"
+                echo "Usage: ${_C_CYAN}em attach <ID>${_C_NC}           Download all"
+                echo "       ${_C_CYAN}em attach list <ID>${_C_NC}      List attachments"
+                echo "       ${_C_CYAN}em attach get <ID> <file>${_C_NC} Download specific file"
+                return 1
+            fi
+
+            _em_validate_msg_id "$msg_id" || return 1
+
+            local download_dir="${2:-${HOME}/Downloads}"
+            [[ -d "$download_dir" ]] || mkdir -p "$download_dir"
+
+            _flow_log_info "Downloading attachments from email #${msg_id}..."
+            _em_hml_attachments "$msg_id" "$download_dir"
+            if [[ $? -eq 0 ]]; then
+                _flow_log_success "Attachments saved to: $download_dir"
+            else
+                _flow_log_error "No attachments or download failed"
+            fi
+            ;;
+    esac
+}
+
+_em_attach_list() {
+    # em attach list <ID> — show table: filename, MIME type, size
     local msg_id="$1"
     if [[ -z "$msg_id" ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em attach <ID>${_C_NC}"
+        echo "Usage: ${_C_CYAN}em attach list <ID>${_C_NC}"
         return 1
     fi
 
-    local download_dir="${2:-${HOME}/Downloads}"
-    [[ -d "$download_dir" ]] || mkdir -p "$download_dir"
+    _em_validate_msg_id "$msg_id" || return 1
 
-    _flow_log_info "Downloading attachments from email #${msg_id}..."
-    _em_hml_attachments "$msg_id" "$download_dir"
-    if [[ $? -eq 0 ]]; then
-        _flow_log_success "Attachments saved to: $download_dir"
+    local json
+    json=$(_em_hml_attachment_list "$msg_id")
+
+    if [[ -z "$json" || "$json" == "[]" || "$json" == "null" ]]; then
+        echo -e "  ${_C_DIM}No attachments on email #${msg_id}${_C_NC}"
+        return 0
+    fi
+
+    echo -e "${_C_BOLD}Attachments for email #${msg_id}${_C_NC}"
+    echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"
+
+    if command -v jq &>/dev/null; then
+        # Structured JSON output (himalaya 1.2+)
+        echo "$json" | jq -r '.[] | [.filename // "(unnamed)", .mime_type // "unknown", (.size // 0 | tostring)] | @tsv' 2>/dev/null \
+        | while IFS=$'\t' read -r fname mime size; do
+            # Human-readable size
+            local hr_size="$size B"
+            (( size > 1024 )) && hr_size="$(( size / 1024 )) KB"
+            (( size > 1048576 )) && hr_size="$(( size / 1048576 )) MB"
+            printf "  ${_C_CYAN}%-30s${_C_NC} %-25s %s\n" "$fname" "$mime" "$hr_size"
+        done
     else
-        _flow_log_error "No attachments or download failed"
+        # Plain text fallback
+        echo "$json"
+    fi
+}
+
+_em_attach_get() {
+    # em attach get <ID> <filename> [dir]
+    # Download specific attachment by filename
+    local msg_id="$1"
+    local filename="$2"
+    local out_dir="${3:-${HOME}/Downloads}"
+
+    if [[ -z "$msg_id" || -z "$filename" ]]; then
+        _flow_log_error "Email ID and filename required"
+        echo "Usage: ${_C_CYAN}em attach get <ID> <filename> [dir]${_C_NC}"
+        return 1
+    fi
+
+    _em_validate_msg_id "$msg_id" || return 1
+
+    # Path traversal protection: strip directory components and control chars
+    local safe_filename="${filename##*/}"           # strip directory components
+    safe_filename="${safe_filename//[^[:print:]]/}"  # strip control chars
+    safe_filename="${safe_filename//\.\./}"           # strip ..
+
+    if [[ -z "$safe_filename" ]]; then
+        _flow_log_error "Invalid filename after sanitization"
+        return 1
+    fi
+
+    [[ -d "$out_dir" ]] || mkdir -p "$out_dir"
+
+    # Verify output dir containment (realpath check)
+    local resolved_dir
+    resolved_dir=$(cd "$out_dir" 2>/dev/null && pwd -P)
+    local target_path="${resolved_dir}/${safe_filename}"
+
+    # Download all, then check if the file appeared
+    _flow_log_info "Downloading '$safe_filename' from email #${msg_id}..."
+    _em_hml_attachment_download "$msg_id" "$safe_filename" "$resolved_dir"
+
+    if [[ -f "$target_path" ]]; then
+        _flow_log_success "Saved: $target_path"
+    else
+        _flow_log_error "File '$safe_filename' not found in attachments"
+        echo "Use ${_C_CYAN}em attach list ${msg_id}${_C_NC} to see available files"
+        return 1
+    fi
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# FOLDER CRUD (v2.0)
+# ═══════════════════════════════════════════════════════════════════
+
+_em_create_folder() {
+    _em_require_himalaya || return 1
+    local name="$1"
+    if [[ -z "$name" ]]; then
+        _flow_log_error "Folder name required"
+        echo "Usage: ${_C_CYAN}em create-folder <name>${_C_NC}"
+        return 1
+    fi
+
+    # Validate folder name (Wave 1 adapter security check)
+    _em_validate_folder_name "$name" || return 1
+
+    if _em_hml_folder_create "$name"; then
+        _flow_log_success "Folder created: $name"
+    else
+        _flow_log_error "Failed to create folder: $name"
+        return 1
+    fi
+}
+
+_em_delete_folder() {
+    _em_require_himalaya || return 1
+    local name="$1"
+    if [[ -z "$name" ]]; then
+        _flow_log_error "Folder name required"
+        echo "Usage: ${_C_CYAN}em delete-folder <name>${_C_NC}"
+        return 1
+    fi
+
+    # Validate folder name
+    _em_validate_folder_name "$name" || return 1
+
+    # Type-to-confirm: user must type exact folder name
+    echo -e "  ${_C_RED}Warning:${_C_NC} This will permanently delete folder ${_C_BOLD}${name}${_C_NC} and all its contents."
+    printf "  Type folder name to confirm deletion: "
+    local confirmation
+    read -r confirmation
+
+    if [[ "$confirmation" != "$name" ]]; then
+        _flow_log_info "Deletion cancelled (name did not match)"
+        return 2
+    fi
+
+    if _em_hml_folder_delete "$name"; then
+        _flow_log_success "Folder deleted: $name"
+    else
+        _flow_log_error "Failed to delete folder: $name"
+        return 1
     fi
 }
 
@@ -2447,7 +2827,7 @@ _em_doctor() {
 
     # Infrastructure
     _em_doctor_check "email-oauth2-proxy" "recommended" "OAuth2 IMAP/SMTP proxy" "pip install email-oauth2-proxy"
-    _em_doctor_check "terminal-notifier"  "optional"    "Desktop notifications"   "brew install terminal-notifier"
+    _em_doctor_check "terminal-notifier"  "recommended" "Desktop notifications (required for em watch)"  "brew install terminal-notifier"
 
     # Optional (AI)
     if [[ "$FLOW_EMAIL_AI" == "claude" ]]; then
