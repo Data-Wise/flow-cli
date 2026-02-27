@@ -15,6 +15,8 @@ _em() {
     's:Compose new email (alias)'
     'reply:Reply with AI draft (preview + [y/N/e] gate)'
     're:Reply (alias)'
+    'forward:Forward email with optional AI note'
+    'fwd:Forward (alias)'
     'find:Search emails'
     'f:Search emails (alias)'
     'pick:fzf email browser'
@@ -97,6 +99,8 @@ _em() {
             '--no-ai[Reply without AI draft]' \
             '--all[Reply-all (include all recipients)]' \
             '--batch[Non-interactive: preview + y/N only]' \
+            '--prompt[AI draft with custom instructions]:instructions:_message "prompt text"' \
+            '--backend[Override AI backend]:backend:(claude gemini)' \
             ':email ID:_message "email ID"'
           ;;
         send|s)
@@ -105,7 +109,19 @@ _em() {
             '--force[Skip preview gate, send immediately]' \
             '--yes[Skip preview gate (alias for --force)]' \
             '--ai[Generate AI draft from subject]' \
+            '--prompt[AI compose from instructions (implies --ai)]:instructions:_message "prompt text"' \
+            '--backend[Override AI backend]:backend:(claude gemini)' \
             ':recipient:_message "recipient email"'
+          ;;
+        forward|fwd)
+          # Forward takes an ID, optional recipient, and flags
+          _arguments \
+            '--force[Skip preview gate, send immediately]' \
+            '--yes[Skip preview gate (alias for --force)]' \
+            '--prompt[AI forwarding note]:instructions:_message "prompt text"' \
+            '--backend[Override AI backend]:backend:(claude gemini)' \
+            ':email ID:_message "email ID"' \
+            ':recipient:_message "recipient email (optional)"'
           ;;
         attach|a)
           # Attach takes an ID, optional dir, or subcommand

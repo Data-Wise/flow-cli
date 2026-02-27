@@ -200,7 +200,7 @@ flowchart TD
 | 5 | `_em_hml_reply` | Body passed via temp file (`stdin`), not positional arg |
 | 7 | `_em_hml_folder_create`, `_em_hml_folder_delete` | `_em_validate_folder_name` + `--` terminator |
 | 13 | `_em_ai_execute` | `_em_ai_validate_extra_args`: allowlist regex `^[-a-zA-Z0-9_ ]*$` |
-| 14 | `_em_hml_reply` | `mktemp` + `chmod 0600` + `trap "rm -f" RETURN` |
+| 14 | `_em_hml_reply`, `_em_hml_forward` | `mktemp` + `chmod 0600` + ZSH `always` block (replaced `trap RETURN`) |
 
 ---
 
@@ -291,7 +291,72 @@ sequenceDiagram
     HML-->>Dispatcher: 0=sent, 1=error, 2=discarded
 ```
 
-### 4.3 Calendar Flow
+### 4.3 Forward Flow
+
+The `em forward <ID>` command supports both interactive (editor) and batch
+(`--prompt`) paths with optional AI-generated forwarding notes.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Dispatcher as email-dispatcher.zsh<br/>_em_forward()
+    participant AI as em-ai.zsh<br/>_em_ai_query()
+    participant HML as em-himalaya.zsh
+    participant Backend as himalaya CLI
+    participant Editor as $EDITOR
+
+    User->>Dispatcher: em forward <ID> [to] [--prompt P] [--backend B]
+    Dispatcher->>Dispatcher: Parse flags: prompt_text, backend_override, force
+    Dispatcher->>Dispatcher: TTY detection (-t 0 && -t 1)
+
+    alt --prompt provided (batch path)
+        Dispatcher->>AI: _em_ai_query("draft", prompt_with_instructions, original, backend)
+        AI-->>Dispatcher: AI forwarding note
+        Dispatcher->>HML: _em_hml_template_forward(ID)
+        HML->>Backend: himalaya template forward ID
+        Backend-->>Dispatcher: MML template
+        Dispatcher->>HML: _em_mml_inject_body(template, note)
+        Dispatcher->>Dispatcher: _em_confirm_send() → [y/N/e]
+        alt User confirms
+            Dispatcher->>HML: _em_hml_template_send(mml)
+            HML->>Backend: himalaya message send
+        end
+    else Interactive path (TTY)
+        Dispatcher->>HML: _em_hml_forward(ID)
+        HML->>Backend: script -q himalaya message forward ID
+        Backend->>Editor: opens editor with forwarded message
+        Editor-->>HML: user adds note, sends/discards
+    end
+```
+
+### 4.4 Prompt Layering
+
+When `--prompt` is used, the AI receives a layered prompt:
+
+```text
+┌─────────────────────────────────────────┐
+│ Base prompt (_em_ai_draft_prompt)        │
+│ - Category-aware tone guidance           │
+│ - Email conventions                      │
+├─────────────────────────────────────────┤
+│ User instructions (_em_ai_prompt_with_  │
+│ _instructions)                           │
+│ - "decline politely, suggest office hrs" │
+│ - Marked as PRIMARY guide                │
+├─────────────────────────────────────────┤
+│ Original email content                   │
+│ - Full message for context               │
+└─────────────────────────────────────────┘
+```
+
+The function `_em_ai_prompt_with_instructions()` in `em-ai.zsh` appends:
+
+> User instructions: {text}
+>
+> IMPORTANT: Follow the user's instructions above as the primary guide for tone,
+> content, and intent. The category-specific guidance is secondary.
+
+### 4.5 Calendar Flow
 
 The `em calendar <ID>` command extracts an `.ics` attachment, parses VEVENT
 blocks, displays them, then optionally creates an Apple Calendar event.

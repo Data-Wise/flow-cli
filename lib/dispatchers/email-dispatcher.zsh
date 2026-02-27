@@ -94,6 +94,7 @@ em() {
         read|r)       shift; _em_read "$@" ;;
         send|s)       shift; _em_send "$@" ;;
         reply|re)     shift; _em_reply "$@" ;;
+        forward|fwd)  shift; _em_forward "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
         # SEARCH & BROWSE
@@ -217,6 +218,7 @@ ${_C_BLUE}COMPOSE & REPLY${_C_NC}:
   ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR, preview before send)
   ${_C_CYAN}em send --force${_C_NC}   Compose + send without preview
   ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch, --force)
+  ${_C_CYAN}em forward <ID> [to]${_C_NC} Forward email (--prompt, --backend, --force)
 
 ${_C_BLUE}FOLDERS${_C_NC}:
   ${_C_CYAN}em create-folder <name>${_C_NC}   Create new mail folder
@@ -274,6 +276,12 @@ ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
   ${_C_CYAN}em doctor${_C_NC}         Check dependencies
 
 ${_C_MAGENTA}SAFETY${_C_NC}: Two-phase gate — preview then ${_C_YELLOW}[y/N/e]${_C_NC} confirm (default: No, e=edit)
+
+${_C_BLUE}AI-POWERED COMPOSITION${_C_NC}:
+  ${_C_CYAN}em reply <ID> --prompt 'instructions'${_C_NC}       AI draft with custom instructions
+  ${_C_CYAN}em send <to> <subj> --prompt 'instructions'${_C_NC} AI compose from instructions
+  ${_C_CYAN}em forward <ID> <to> --prompt 'text'${_C_NC}        AI forward with custom note
+  ${_C_DIM}--backend claude|gemini${_C_NC}                     Override AI backend per-command
 
 ${_C_BLUE}AI BACKEND${_C_NC}:
   ${_C_CYAN}em ai${_C_NC}              Show current AI backend
@@ -590,12 +598,19 @@ _em_v2_migration_notice() {
 _em_send() {
     _em_require_himalaya || return 1
     local to="" subject="" use_ai=false force_flag=""
+    local prompt_text="" backend_override=""
 
-    # Parse args: em send [--ai] [--force|--yes] [to] [subject]
+    # Parse args: em send [--ai] [--force|--yes] [--prompt text] [--backend name] [to] [subject]
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --ai) use_ai=true; shift ;;
             --force|--yes) force_flag="$1"; shift ;;
+            --prompt)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--prompt requires an argument"; return 1; }
+                prompt_text="$2"; use_ai=true; shift 2 ;;
+            --backend)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--backend requires an argument"; return 1; }
+                backend_override="$2"; shift 2 ;;
             *)
                 if [[ -z "$to" ]]; then
                     to="$1"
@@ -610,52 +625,145 @@ _em_send() {
     # Show v2 migration notice (once)
     _em_v2_migration_notice
 
-    # [1] Prompt for missing fields
-    if [[ -z "$to" ]]; then
-        printf "${_C_BLUE}To:${_C_NC} "
-        read -r to
+    # Smart path selection (same pattern as _em_reply)
+    local use_interactive=false
+    if [[ -z "$prompt_text" && -t 0 && -t 1 ]]; then
+        use_interactive=true
+    fi
+
+    # --- Path 1: Interactive send (prompts + $EDITOR) ---
+    if [[ "$use_interactive" == "true" ]]; then
+        # Prompt for missing fields interactively
         if [[ -z "$to" ]]; then
-            _flow_log_error "Recipient required"
+            printf "${_C_BLUE}To:${_C_NC} "
+            read -r to
+            if [[ -z "$to" ]]; then
+                _flow_log_error "Recipient required"
+                return 1
+            fi
+        fi
+
+        if [[ -z "$subject" ]]; then
+            printf "${_C_BLUE}Subject:${_C_NC} "
+            read -r subject
+        fi
+
+        # Optional AI draft from subject
+        local ai_body=""
+        if [[ "$use_ai" == true && -n "$subject" && "$FLOW_EMAIL_AI" != "none" ]]; then
+            _flow_log_info "Generating AI draft from subject..."
+            ai_body=$(_em_ai_query "draft" \
+                "$(_em_ai_draft_prompt)" \
+                "Compose a professional email about: $subject" "$backend_override" 2>/dev/null)
+            if [[ -n "$ai_body" ]]; then
+                _flow_log_success "AI draft ready — edit in \$EDITOR"
+            fi
+        fi
+
+        # Create temp file + open in $EDITOR
+        local draft_file
+        draft_file=$(_em_compose_draft "$to" "$subject" "$ai_body")
+
+        trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
+        _em_open_in_editor "$draft_file"
+
+        # Two-phase safety gate
+        local gate_result
+        _em_safety_gate "$draft_file" "Send" "$force_flag"
+        gate_result=$?
+
+        if [[ $gate_result -eq 0 ]]; then
+            local send_content
+            send_content=$(<"$draft_file")
+            echo "$send_content" | himalaya message send
+            if [[ $? -eq 0 ]]; then
+                _flow_log_success "Email sent"
+                _em_draft_cleanup "$draft_file"
+            else
+                _flow_log_error "Failed to send — draft preserved: $draft_file"
+                trap - INT TERM
+                return 1
+            fi
+        elif [[ $gate_result -eq 2 ]]; then
+            _em_draft_cleanup "$draft_file"
+            trap - INT TERM
+            return 0
+        else
+            _em_draft_cleanup "$draft_file"
+            trap - INT TERM
+            return 1
+        fi
+
+        trap - INT TERM
+        return 0
+    fi
+
+    # --- Path 2: Batch/non-interactive (--prompt or no TTY) ---
+    if [[ ! -t 0 || ! -t 1 ]]; then
+        _flow_log_info "Non-interactive mode (no TTY detected)"
+    fi
+
+    if [[ -z "$to" ]]; then
+        _flow_log_error "Recipient required (non-interactive mode — pass as argument)"
+        return 1
+    fi
+
+    # Generate AI draft
+    local ai_body=""
+    if [[ "$use_ai" == true && "$FLOW_EMAIL_AI" != "none" ]]; then
+        _flow_log_info "Generating AI draft..."
+        local compose_input
+        if [[ -n "$prompt_text" ]]; then
+            compose_input="Write a professional email. User instructions: ${prompt_text}"
+        else
+            compose_input="Compose a professional email about: $subject"
+        fi
+        ai_body=$(_em_ai_query "draft" \
+            "$(_em_ai_draft_prompt)" \
+            "$compose_input" "$backend_override" 2>/dev/null)
+        if [[ -n "$ai_body" ]]; then
+            _flow_log_success "AI draft ready"
+        else
+            _flow_log_error "Could not generate AI draft"
             return 1
         fi
     fi
 
-    if [[ -z "$subject" ]]; then
-        printf "${_C_BLUE}Subject:${_C_NC} "
-        read -r subject
+    # Build MML from himalaya template (includes From: header)
+    local mml
+    mml=$(_em_hml_template_write)
+    if [[ -z "$mml" ]]; then
+        _flow_log_error "Could not get mail template from himalaya"
+        return 1
     fi
 
-    # [2] Optional AI draft from subject
-    local ai_body=""
-    if [[ "$use_ai" == true && -n "$subject" && "$FLOW_EMAIL_AI" != "none" ]]; then
-        _flow_log_info "Generating AI draft from subject..."
-        ai_body=$(_em_ai_query "draft" \
-            "$(_em_ai_draft_prompt)" \
-            "Compose a professional email about: $subject" 2>/dev/null)
-        if [[ -n "$ai_body" ]]; then
-            _flow_log_success "AI draft ready — edit in \$EDITOR"
-        fi
+    # Set To: and Subject: headers
+    mml=$(echo "$mml" | sed "s|^To:.*|To: $to|")
+    if [[ -n "$subject" ]]; then
+        mml=$(echo "$mml" | sed "s|^Subject:.*|Subject: $subject|")
     fi
 
-    # [3] Create temp file + open in $EDITOR
+    # Inject body
+    if [[ -n "$ai_body" ]]; then
+        mml=$(_em_mml_inject_body "$mml" "$ai_body")
+    fi
+
+    # Write to temp file for safety gate
     local draft_file
-    draft_file=$(_em_compose_draft "$to" "$subject" "$ai_body")
+    draft_file=$(mktemp "${TMPDIR:-/tmp}/em-send-draft-XXXXXX.eml")
+    chmod 0600 "$draft_file"
+    echo "$mml" > "$draft_file"
 
-    # Trap: clean up temp file on interrupt
     trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
 
-    _em_open_in_editor "$draft_file"
-
-    # [4] TWO-PHASE SAFETY GATE — preview + confirm
     local gate_result
     _em_safety_gate "$draft_file" "Send" "$force_flag"
     gate_result=$?
 
     if [[ $gate_result -eq 0 ]]; then
-        # [5] TOCTOU fix: read draft into variable, send from variable (not file)
         local send_content
         send_content=$(<"$draft_file")
-        echo "$send_content" | himalaya message send
+        echo "$send_content" | _em_hml_template_send
         if [[ $? -eq 0 ]]; then
             _flow_log_success "Email sent"
             _em_draft_cleanup "$draft_file"
@@ -667,15 +775,137 @@ _em_send() {
     elif [[ $gate_result -eq 2 ]]; then
         _em_draft_cleanup "$draft_file"
         trap - INT TERM
-        return 0  # user chose to cancel — not an error
+        return 0
     else
         _em_draft_cleanup "$draft_file"
         trap - INT TERM
-        return 1  # actual error
+        return 1
     fi
 
     trap - INT TERM
     return 0
+}
+
+_em_forward() {
+    _em_require_himalaya || return 1
+    local msg_id="" to=""
+    local force_flag=""
+    local prompt_text="" backend_override=""
+
+    # Parse args: em forward <ID> <to> [--prompt text] [--backend name] [--force]
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --force|--yes) force_flag="$1"; shift ;;
+            --prompt)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--prompt requires an argument"; return 1; }
+                prompt_text="$2"; shift 2 ;;
+            --backend)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--backend requires an argument"; return 1; }
+                backend_override="$2"; shift 2 ;;
+            *)
+                if [[ -z "$msg_id" ]]; then
+                    msg_id="$1"
+                elif [[ -z "$to" ]]; then
+                    to="$1"
+                fi
+                shift
+                ;;
+        esac
+    done
+
+    if [[ -z "$msg_id" ]]; then
+        _flow_log_error "Email ID required"
+        echo "Usage: ${_C_CYAN}em forward <ID> [to] [--prompt text] [--backend name]${_C_NC}"
+        return 1
+    fi
+
+    # Smart path selection (same pattern as _em_reply)
+    local use_interactive=false
+    if [[ -z "$prompt_text" && -t 0 && -t 1 ]]; then
+        use_interactive=true
+    fi
+
+    # --- Path 1: Interactive forward (opens $EDITOR via himalaya) ---
+    if [[ "$use_interactive" == "true" ]]; then
+        _em_hml_forward "$msg_id" ""
+        return $?
+    fi
+
+    # --- Path 2: Batch/non-interactive ---
+    if [[ ! -t 0 || ! -t 1 ]]; then
+        _flow_log_info "Non-interactive mode (no TTY detected)"
+    fi
+
+    # Read original for AI context
+    _flow_log_info "Fetching email #${msg_id}..."
+    local content
+    content=$(_em_hml_read "$msg_id" plain)
+    if [[ -z "$content" ]]; then
+        _flow_log_error "Could not read email #${msg_id}"
+        return 1
+    fi
+
+    # Generate forwarding note via AI
+    local fwd_note=""
+    if [[ "$FLOW_EMAIL_AI" != "none" && "$FLOW_EMAIL_AI" != "off" ]]; then
+        local draft_prompt
+        if [[ -n "$prompt_text" ]]; then
+            draft_prompt=$(_em_ai_prompt_with_instructions "$prompt_text")
+        else
+            draft_prompt=$(_em_ai_draft_prompt)
+        fi
+        fwd_note=$(_em_ai_query "draft" "$draft_prompt" "$content" "$backend_override" "$msg_id")
+    fi
+
+    # Get MML forward template (includes forwarded content)
+    local mml
+    mml=$(_em_hml_template_forward "$msg_id")
+
+    # Inject forwarding note if we have one
+    if [[ -n "$fwd_note" ]]; then
+        mml=$(_em_mml_inject_body "$mml" "$fwd_note")
+    fi
+
+    # Inject recipient if provided
+    if [[ -n "$to" ]]; then
+        mml=$(echo "$mml" | sed "s|^To:.*|To: $to|")
+    fi
+
+    # Write to temp file for safety gate
+    local draft_file
+    draft_file=$(mktemp "${TMPDIR:-/tmp}/em-forward-draft-XXXXXX.eml")
+    chmod 0600 "$draft_file"
+    echo "$mml" > "$draft_file"
+
+    trap "_em_draft_cleanup ${(q)draft_file}" INT TERM
+
+    local gate_result
+    _em_safety_gate "$draft_file" "Forward" "$force_flag"
+    gate_result=$?
+
+    if [[ $gate_result -eq 0 ]]; then
+        local send_content
+        send_content=$(<"$draft_file")
+        echo "$send_content" | _em_hml_template_send
+        if [[ $? -eq 0 ]]; then
+            _flow_log_success "Email forwarded"
+            _em_draft_cleanup "$draft_file"
+        else
+            _flow_log_error "Failed to forward — draft preserved: $draft_file"
+            trap - INT TERM
+            return 1
+        fi
+    elif [[ $gate_result -eq 2 ]]; then
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 0
+    else
+        _em_draft_cleanup "$draft_file"
+        trap - INT TERM
+        return 1
+    fi
+
+    trap - INT TERM
 }
 
 _em_reply() {
@@ -686,6 +916,8 @@ _em_reply() {
     local reply_all=false
     local batch_mode=false
     local force_flag=""
+    local prompt_text=""
+    local backend_override=""
 
     # Parse flags
     while [[ $# -gt 0 ]]; do
@@ -694,6 +926,12 @@ _em_reply() {
             --all|-a)        reply_all=true; shift ;;
             --batch|-b)      batch_mode=true; shift ;;
             --force|--yes)   force_flag="$1"; shift ;;
+            --prompt)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--prompt requires an argument"; return 1; }
+                prompt_text="$2"; shift 2 ;;
+            --backend)
+                [[ -z "$2" || "$2" == --* ]] && { _flow_log_error "--backend requires an argument"; return 1; }
+                backend_override="$2"; shift 2 ;;
             *)               msg_id="$1"; shift ;;
         esac
     done
@@ -704,8 +942,18 @@ _em_reply() {
         return 1
     fi
 
+    # --- Path selection: smart TTY detection ---
+    # --prompt flag → always batch (prompt-driven = non-interactive)
+    # --batch flag → always batch (explicit)
+    # No TTY → batch (non-interactive context, e.g. Claude Code)
+    # TTY available → interactive (existing behavior)
+    local use_interactive=false
+    if [[ "$batch_mode" != "true" && -z "$prompt_text" && -t 0 && -t 1 ]]; then
+        use_interactive=true
+    fi
+
     # --- Path 1: Interactive reply (opens $EDITOR via himalaya) ---
-    if [[ "$batch_mode" != "true" ]]; then
+    if [[ "$use_interactive" == "true" ]]; then
         local body=""
 
         # Generate AI draft if available and enabled
@@ -716,7 +964,7 @@ _em_reply() {
             if [[ -n "$original" ]]; then
                 body=$(_em_ai_query "draft" \
                     "$(_em_ai_draft_prompt)" \
-                    "$original" "" "$msg_id" 2>/dev/null)
+                    "$original" "$backend_override" "$msg_id" 2>/dev/null)
                 if [[ -n "$body" ]]; then
                     _flow_log_success "AI draft ready — edit in \$EDITOR"
                 else
@@ -731,6 +979,9 @@ _em_reply() {
     fi
 
     # --- Path 2: Batch/non-interactive (preview + confirm + send) ---
+    if [[ ! -t 0 || ! -t 1 ]]; then
+        _flow_log_info "Non-interactive mode (no TTY detected)"
+    fi
     _flow_log_info "Fetching email #${msg_id}..."
     local content
     content=$(_em_hml_read "$msg_id" plain)
@@ -739,8 +990,16 @@ _em_reply() {
         return 1
     fi
 
+    # Build prompt — use user instructions if provided
+    local draft_prompt
+    if [[ -n "$prompt_text" ]]; then
+        draft_prompt=$(_em_ai_prompt_with_instructions "$prompt_text")
+    else
+        draft_prompt=$(_em_ai_draft_prompt)
+    fi
+
     local draft
-    draft=$(_em_ai_query "draft" "$(_em_ai_draft_prompt)" "$content" "" "$msg_id")
+    draft=$(_em_ai_query "draft" "$draft_prompt" "$content" "$backend_override" "$msg_id")
     if [[ -z "$draft" ]]; then
         _flow_log_error "Could not generate draft"
         return 1

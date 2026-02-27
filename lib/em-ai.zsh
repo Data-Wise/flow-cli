@@ -316,6 +316,22 @@ Rules:
     echo "$base_prompt"
 }
 
+_em_ai_prompt_with_instructions() {
+    # Build draft prompt enhanced with user instructions
+    # Mirrors himalaya.nvim pattern: appends "User instructions: ..." to base prompt
+    # Args: $1 = user instruction text
+    local instructions="$1"
+    local base_prompt
+    base_prompt=$(_em_ai_draft_prompt)
+
+    echo "${base_prompt}
+
+User instructions: ${instructions}
+
+IMPORTANT: Follow the user's instructions above as the primary guide for tone,
+content, and intent. The category-specific guidance is secondary."
+}
+
 _em_ai_schedule_prompt() {
     cat <<'PROMPT'
 Extract any dates, times, deadlines, or meeting information from this email.

@@ -5904,7 +5904,7 @@ _em_safety_gate <draft_file> [--force|--yes]
 - Displays headers (To, Subject) + truncated body preview
 - Prompts `[y/N/e]` in a loop
 - `e` re-opens the editor internally and re-displays preview (does not return to caller)
-- Used by both `em send` and `em reply` (breaking change in v2.0)
+- Used by `em send`, `em reply`, and `em forward` (breaking change in v2.0)
 
 **Example:**
 
@@ -5947,6 +5947,86 @@ _em_draft_cleanup <draft_file>
 **Behavior:**
 - Removes draft temp file if it exists
 - Called in `EXIT` trap to prevent temp file leaks
+
+---
+
+### AI Prompt Composition
+
+#### `_em_ai_prompt_with_instructions`
+
+Build a draft prompt enhanced with user-provided instructions. Layers instructions on top of the category-aware base prompt (from `_em_ai_draft_prompt`).
+
+**Signature:**
+
+```zsh
+_em_ai_prompt_with_instructions <instructions>
+```
+
+**Parameters:**
+- `$1` - User instruction text (e.g., "decline politely", "suggest Tuesday 2pm")
+
+**Returns:**
+- stdout - Complete prompt with base guidance + user instructions appended
+
+**Behavior:**
+- Calls `_em_ai_draft_prompt()` for the base prompt
+- Appends `User instructions: <text>` with priority directive
+- Used by `em reply --prompt`, `em send --prompt`, `em forward --prompt`
+
+---
+
+### Forward Command
+
+#### `_em_forward`
+
+Forward an email with optional AI-generated forwarding note. Supports interactive (TTY) and batch (non-TTY/`--prompt`) paths.
+
+**Signature:**
+
+```zsh
+_em_forward <msg_id> [to] [--prompt text] [--backend name] [--force]
+```
+
+**Parameters:**
+- `$1` - Email message ID
+- `$2` - Recipient email address (optional)
+- `--prompt` - AI forwarding note with custom instructions
+- `--backend` - Override AI backend (claude/gemini)
+- `--force` / `--yes` - Skip safety gate
+
+**Returns:**
+- `0` - Email forwarded successfully
+- `1` - Error
+
+---
+
+#### `_em_hml_forward`
+
+Low-level himalaya adapter for interactive forwarding. Opens `$EDITOR` via himalaya, detects Send/Discard via `script(1)` + ZSH `always` block.
+
+**Signature:**
+
+```zsh
+_em_hml_forward <msg_id> [body]
+```
+
+**Returns:**
+- `0` - Sent, `1` - Error, `2` - User discarded
+
+---
+
+#### `_em_hml_template_forward`
+
+Get forward template as MML (no `$EDITOR`, for batch/scripting).
+
+**Signature:**
+
+```zsh
+_em_hml_template_forward <msg_id>
+```
+
+**Returns:**
+- stdout - MML template with headers + forwarded content
 
 ---
 
