@@ -596,6 +596,7 @@ _em_v2_migration_notice() {
 }
 
 _em_send() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local to="" subject="" use_ai=false force_flag=""
     local prompt_text="" backend_override=""
@@ -787,6 +788,7 @@ _em_send() {
 }
 
 _em_forward() {
+    [[ "$1" == "--help" || "$1" == "-h" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
     local msg_id="" to=""
     local force_flag=""
