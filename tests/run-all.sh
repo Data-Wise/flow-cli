@@ -61,6 +61,7 @@ run_test ./tests/test-mcp-dispatcher.zsh
 run_test ./tests/test-obs-dispatcher.zsh
 run_test ./tests/test-dot-chezmoi-safety.zsh
 run_test ./tests/test-em-dispatcher.zsh
+run_test ./tests/test-em-prompt-flag.zsh
 
 echo ""
 echo "Core command tests:"
