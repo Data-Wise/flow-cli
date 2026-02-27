@@ -1421,6 +1421,9 @@ _teach_build_command() {
         feedback)   scholar_cmd="/teaching:feedback" ;;
         demo)       scholar_cmd="/teaching:demo" ;;
         config)     scholar_cmd="/teaching:config $*" ;;
+        solution)   scholar_cmd="/teaching:solution" ;;
+        sync)       scholar_cmd="/teaching:sync" ;;
+        validate-r) scholar_cmd="/teaching:validate-r" ;;
         *)
             _teach_error "Unknown Scholar command: $subcommand"
             return 1
@@ -4238,6 +4241,10 @@ ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
 ${_C_BLUE}📋 SETUP & CONFIGURATION${_C_NC}:
   ${_C_CYAN}teach init${_C_NC} [name]         Initialize teaching project
   ${_C_CYAN}teach config${_C_NC}              Edit configuration
+  ${_C_CYAN}teach config check${_C_NC}        Validate config (pre-flight)
+  ${_C_CYAN}teach config diff${_C_NC}         Compare prompts vs defaults
+  ${_C_CYAN}teach config show${_C_NC}         Show resolved 4-layer config
+  ${_C_CYAN}teach config scaffold${_C_NC}     Copy default prompts for customization
   ${_C_CYAN}teach doctor${_C_NC}              Health checks (--fix to auto-fix)
   ${_C_CYAN}teach hooks${_C_NC}               Git hook management
   ${_C_CYAN}teach dates${_C_NC}               Date management
@@ -4247,6 +4254,7 @@ ${_C_BLUE}📋 SETUP & CONFIGURATION${_C_NC}:
   ${_C_CYAN}teach prompt${_C_NC}              AI prompt management
   ${_C_CYAN}teach style${_C_NC}               Teaching style management
   ${_C_CYAN}teach migrate-config${_C_NC}      Extract lesson plans
+  ${_C_CYAN}teach sync${_C_NC}                Sync config to Scholar format
 
 ${_C_BLUE}📋 CONTENT CREATION${_C_NC} ${_C_DIM}(Scholar AI)${_C_NC}:
   ${_C_CYAN}teach lecture${_C_NC} <topic>     Generate lecture notes
@@ -4257,10 +4265,12 @@ ${_C_BLUE}📋 CONTENT CREATION${_C_NC} ${_C_DIM}(Scholar AI)${_C_NC}:
   ${_C_CYAN}teach syllabus${_C_NC} <course>   Course syllabus
   ${_C_CYAN}teach rubric${_C_NC} <assign>     Grading rubric
   ${_C_CYAN}teach feedback${_C_NC} <work>     Student feedback
+  ${_C_CYAN}teach solution${_C_NC} <topic>    Generate solution key
 
 ${_C_BLUE}📋 VALIDATION & QUALITY${_C_NC}:
   ${_C_CYAN}teach analyze${_C_NC} <file>      Validate prerequisites
   ${_C_CYAN}teach validate${_C_NC} [files]    Validate .qmd files
+  ${_C_CYAN}teach validate-r${_C_NC}          Validate R code in .qmd files
   ${_C_CYAN}teach profiles${_C_NC}            Profile management
   ${_C_CYAN}teach cache${_C_NC}               Cache operations
   ${_C_CYAN}teach clean${_C_NC}               Delete _freeze/ + _site/
@@ -4277,9 +4287,9 @@ ${_C_MAGENTA}💡 TIP${_C_NC}: Content generation requires Scholar plugin
 
   ${_C_BOLD}Shortcuts${_C_NC} ${_C_DIM}(type shorter aliases for any command)${_C_NC}:
   ${_C_DIM}  Setup:    i=init  c=config  doc=doctor  hook=hooks${_C_NC}
-  ${_C_DIM}  Content:  lec=lecture  sl=slides  e=exam  q=quiz${_C_NC}
+  ${_C_DIM}  Content:  lec=lecture  sl=slides  e=exam  q=quiz  sol=solution${_C_NC}
   ${_C_DIM}            hw=assignment  syl=syllabus  rb=rubric  fb=feedback${_C_NC}
-  ${_C_DIM}  Quality:  val=validate  concept=analyze  prof=profiles  cl=clean${_C_NC}
+  ${_C_DIM}  Quality:  val=validate  vr=validate-r  concept=analyze  prof=profiles  cl=clean${_C_NC}
   ${_C_DIM}  Manage:   d=deploy  s=status  w=week  bk=backup  a=archive${_C_NC}
   ${_C_DIM}  Tools:    pl=plan  tmpl=templates  m=macros  pr=prompt  st=style  migrate=migrate-config${_C_NC}
 
@@ -4501,6 +4511,18 @@ teach() {
 
         demo)
             _teach_scholar_wrapper "demo" "$@"
+            ;;
+
+        solution|sol)
+            _teach_scholar_wrapper "solution" "$@"
+            ;;
+
+        sync)
+            _teach_scholar_wrapper "sync" "$@"
+            ;;
+
+        validate-r|vr)
+            _teach_scholar_wrapper "validate-r" "$@"
             ;;
 
         # ============================================
