@@ -3,7 +3,7 @@
 > **What you'll learn:** Go from an empty directory to a deployed course website with AI-powered content
 >
 > **Time:** ~30 minutes | **Level:** Beginner
-> **Version:** v6.1.0+
+> **Version:** v7.6.0
 
 ---
 

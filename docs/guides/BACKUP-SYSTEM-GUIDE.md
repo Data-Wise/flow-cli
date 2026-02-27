@@ -1,6 +1,6 @@
 # Backup System Guide
 
-**Version:** v5.14.0 (Teaching Workflow v3.0)
+**Version:** v7.6.0
 **Last Updated:** 2026-01-21
 
 ---
@@ -762,13 +762,13 @@ du -sh */.backups/* | sort -hr | head -10
    teach archive "Fall 2024"
    ```
 
-1. **Delete very old backups:**
+2. **Delete very old backups:**
 
    ```bash
    find . -type d -name "*.2024-*" -path "*/.backups/*" -exec rm -rf {} \;
    ```
 
-2. **Change retention policy:**
+3. **Change retention policy:**
 
    ```yaml
    backups:
@@ -959,5 +959,5 @@ See `lib/backup-helpers.zsh` for implementation details.
 
 ---
 
-**Version:** v5.14.0 (Teaching Workflow v3.0)
+**Version:** v7.6.0
 **Last Updated:** 2026-01-21

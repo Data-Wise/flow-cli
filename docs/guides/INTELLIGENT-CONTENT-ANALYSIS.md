@@ -1,6 +1,6 @@
 # Intelligent Content Analysis Guide
 
-**Version:** v5.16.0 (Teach Analyze Phase 5)
+**Version:** v7.6.0
 **Last Updated:** 2026-01-22
 
 ---

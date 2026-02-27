@@ -9,7 +9,7 @@ tags:
 > **What you'll learn:** Validate lecture prerequisites, detect concept gaps, and generate optimized slides using `teach analyze`
 >
 > **Time:** ~15 minutes | **Level:** Beginner → Intermediate
-> **Version:** v5.16.0
+> **Version:** v7.6.0
 
 ---
 

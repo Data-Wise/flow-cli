@@ -10,7 +10,7 @@ tags:
 > **What you'll learn:** Manage course websites with fast deployment, config validation, and AI-assisted content creation
 >
 > **Time:** ~20 minutes | **Level:** Beginner
-> **Version:** v5.14.0
+> **Version:** v7.6.0
 
 ---
 
@@ -56,14 +56,14 @@ Deploying course website updates typically takes 5-15 minutes:
 - Edit locally → commit → push → wait for build → verify
 
 **The Solution:**
-- Branch-based workflow with draft (development) and production (live)
+- Branch-based workflow with `draft` (development) and `main` (production/live)
 - One-command deployment: `teach deploy`
 - < 2 minute turnaround from typo fix to live
 
 ### The Workflow
 
 ```bash
-draft branch              production branch
+draft branch              main branch (production)
      │                           │
      │  ┌─ teach deploy ─┐       │
      │  │                │       │
@@ -96,7 +96,7 @@ teach init "STAT 545"
 ```
 
 **What happens:**
-1. Creates `draft` and `production` branches
+1. Creates `draft` and `main` branches
 2. Generates `.flow/teach-config.yml` configuration
 3. Installs automation scripts in `scripts/`
 4. Sets up GitHub Actions workflow
@@ -134,7 +134,7 @@ Quick Commands:
 
 ---
 
-## Part 3: Config Validation (v5.9.0+)
+## Part 3: Config Validation
 
 Flow-cli automatically validates your `teach-config.yml` to catch errors early.
 
@@ -248,7 +248,7 @@ teach deploy
 
 **What happens:**
 1. Commits any uncommitted changes
-2. Merges `draft` → `production`
+2. Merges `draft` → `main`
 3. Pushes to GitHub
 4. GitHub Actions builds the site
 5. Students see updates in seconds (direct) or < 2 minutes (PR)
@@ -327,7 +327,7 @@ teach assignment "Homework 3" --due-date "2026-01-31"
 
 ---
 
-## Part 7: Date Management (v5.11.0+)
+## Part 7: Date Management
 
 Flow-cli can centralize all semester dates in `teach-config.yml` and automatically sync them across your entire course repository.
 
@@ -563,7 +563,7 @@ teach status --verbose
 teach init "Course Name"
 ```
 
-### "On production branch"
+### "On main (production) branch"
 
 ```bash
 # Switch to draft for editing

@@ -1,8 +1,8 @@
 # Teaching Dates Architecture
 
-**Version:** v5.11.0
+**Version:** v7.6.0
 **Status:** Complete
-**Last Updated:** 2026-01-16
+**Last Updated:** 2026-02-27
 
 ---
 
@@ -965,6 +965,6 @@ teach dates import-calendar university-calendar.ics
 
 ---
 
-**Last Updated:** 2026-01-16
-**Version:** v5.11.0
+**Last Updated:** 2026-02-27
+**Version:** v7.6.0
 **Status:** Complete

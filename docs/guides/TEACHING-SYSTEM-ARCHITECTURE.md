@@ -109,23 +109,28 @@ teach exam "Midterm"      # Create exam (placeholder for Scholar integration)
 - Part of broader "Scholar" academic plugin (also supports research)
 - OPTIONAL enhancement to flow-cli teaching workflow
 
-**Commands (Planned - Not Yet Implemented):**
+**Commands (v2.0.1 - COMPLETE ✅):**
 
 ```bash
-/teaching:exam "Topic"      # Generate exam questions
-/teaching:quiz "Topic"      # Generate quiz
-/teaching:lecture "Topic"   # Generate lecture outline
-/teaching:assignment "Topic" # Generate assignment
-/teaching:syllabus "Data"   # Generate course syllabus
+/teaching:exam "Topic"        # Generate comprehensive exams
+/teaching:quiz "Topic"        # Create quick quizzes
+/teaching:syllabus            # Build course syllabus
+/teaching:assignment "Topic"  # Create homework assignments
+/teaching:rubric "Name"       # Generate grading rubrics
+/teaching:slides "Topic"      # Create lecture slides
+/teaching:feedback "Work"     # Generate student feedback
+/teaching:demo                # Create demo course environment
 ```
 
-**Key Features (Planned):**
+**Key Features (v2.0.1 - COMPLETE ✅):**
 
-- 🎯 AI-powered content generation
-- 🎯 Template-based structure (ensures quality)
-- 🎯 Multiple output formats (Markdown, Quarto, LaTeX, JSON)
-- 🎯 Validation before save
-- 🎯 Context-aware (reads `.flow/teach-config.yml`)
+- ✅ AI-powered content generation
+- ✅ Template-based structure (ensures quality)
+- ✅ Multiple output formats (Markdown, Quarto, LaTeX, JSON, Canvas QTI)
+- ✅ Validation before save
+- ✅ Context-aware (reads `.flow/teach-config.yml`)
+- ✅ 547 tests (100% pass rate)
+- ✅ --dry-run flag for all commands
 
 **System Architecture:**
 
@@ -179,16 +184,17 @@ teach deploy
 
 ---
 
-### Scenario 2: Using flow-cli WITH Scholar 🎯 PLANNED (Not Yet Implemented)
+### Scenario 2: Using flow-cli WITH Scholar ✅ AVAILABLE NOW
 
 ```bash
 # 1. Initialize teaching repo
 teach init "STAT 545"
 
-# 2. Generate exam questions via Scholar
-teach exam "Hypothesis Testing"    # Wraps /teaching:exam
+# 2. Generate exam questions via Scholar (in Claude Code)
+claude
+> /teaching:exam "Hypothesis Testing" --format quarto
 
-# 3. Create other materials manually or via Scholar
+# 3. Review and edit generated materials
 work stat-545
 # → Edit generated materials, add custom content...
 
@@ -197,6 +203,8 @@ teach deploy
 ```
 
 **Result:** flow-cli handles workflow, Scholar handles content generation
+
+**Future (v5.8.0+):** flow-cli wrappers will allow `teach exam "Topic"` directly
 
 ---
 
@@ -262,21 +270,23 @@ teach deploy
 
 ---
 
-### Scholar Teaching (Draft/Planned)
+### Scholar Teaching (v2.0.1 - COMPLETE ✅)
 
-**Status:** Spec written, not yet implemented
+**Status:** Released and production ready (v2.0.1 - 2026-01-13)
 
-- 🎯 `/teaching:exam` - Generate exam questions
-- 🎯 `/teaching:quiz` - Generate quiz
-- 🎯 `/teaching:lecture` - Generate lecture outline
-- 🎯 `/teaching:assignment` - Generate assignment
-- 🎯 `/teaching:syllabus` - Generate course syllabus
+- ✅ `/teaching:exam` - Generate comprehensive exams
+- ✅ `/teaching:quiz` - Create quick quizzes
+- ✅ `/teaching:syllabus` - Build course syllabus
+- ✅ `/teaching:assignment` - Create homework assignments
+- ✅ `/teaching:rubric` - Generate grading rubrics
+- ✅ `/teaching:slides` - Create lecture slides
+- ✅ `/teaching:feedback` - Generate student feedback
+- ✅ `/teaching:demo` - Create demo course environment
 
 **Documentation Reference:**
 
-- `SPEC-scholar-teaching-2026-01-11.md` - Feature specification
-- `BRAINSTORM-scholar-teaching-2026-01-11.md` - Design decisions
-- `PLAN-teaching-workflow-increment-3.md` - Implementation roadmap
+- [Scholar Integration Guide](SCHOLAR-WRAPPERS-GUIDE.md) - How to use Scholar with flow-cli
+- [Scholar Repository](https://github.com/Data-Wise/scholar) - Full documentation
 
 **Scope:** Content generation and quality validation
 
@@ -303,17 +313,17 @@ The **three guides I just created** cover the **flow-cli teaching workflow ONLY*
    - Use: Creating demonstrations
    - Scope: flow-cli only
 
-**These documents do NOT cover Scholar** because Scholar is not yet implemented.
+**For Scholar teaching commands**, see the [Scholar Integration Guide](SCHOLAR-WRAPPERS-GUIDE.md).
 
 ---
 
 ### For Users Interested in Scholar Teaching
 
-See these planning documents:
+Scholar teaching is **fully implemented (v2.0.1)**. See:
 
-- `docs/specs/SPEC-scholar-teaching-2026-01-11.md` - Feature spec
-- `docs/specs/BRAINSTORM-scholar-teaching-2026-01-11.md` - Design
-- `docs/specs/PLAN-teaching-workflow-increment-3.md` - Implementation roadmap
+- [Scholar Integration Guide](SCHOLAR-WRAPPERS-GUIDE.md) - How to use Scholar with flow-cli
+- [Scholar Repository](https://github.com/Data-Wise/scholar) - Full documentation
+- [Scholar API Reference](https://github.com/Data-Wise/scholar/docs/API-REFERENCE.md) - Command details
 
 ---
 
@@ -336,18 +346,21 @@ See these planning documents:
 
 ---
 
-### 🎯 Phase 2: Scholar Teaching Features (PLANNED - TBD)
+### ✅ Phase 2: Scholar Teaching Features (COMPLETE - 2026-01-13)
 
-- [ ] `/teaching:exam` command
-- [ ] `/teaching:quiz` command
-- [ ] `/teaching:lecture` command
-- [ ] `/teaching:assignment` command
-- [ ] `/teaching:syllabus` command
-- [ ] Template system
-- [ ] Validation system
-- [ ] Integration tests with flow-cli
+- [x] `/teaching:exam` command
+- [x] `/teaching:quiz` command
+- [x] `/teaching:syllabus` command
+- [x] `/teaching:assignment` command
+- [x] `/teaching:rubric` command
+- [x] `/teaching:slides` command
+- [x] `/teaching:feedback` command
+- [x] `/teaching:demo` command
+- [x] Template system
+- [x] Validation system
+- [x] 547 tests (100% pass rate)
 
-**Status:** Spec written, waiting for implementation
+**Status:** Released v2.0.1 (2026-01-13)
 
 ---
 
@@ -360,24 +373,14 @@ See these planning documents:
 - Fully documented in 3 comprehensive guides (1,995 lines)
 - Tested and deployed in v5.4.1 and v5.5.0
 
-**Scholar teaching** ✅ **Integrated:**
+**Scholar teaching** ✅ **Production Ready (v2.0.1):**
 
 - Optional Node.js content generation plugin
-- Commands: `/teaching:exam`, `/teaching:quiz`, `/teaching:lecture`, `/teaching:assignment`, `/teaching:syllabus`, `/teaching:solution`, `/teaching:sync`, `/teaching:validate-r`
-- Config Sync (v7.6.0, #423): `--config` auto-injected when `.flow/teach-config.yml` exists
-- Config management: `teach config check/diff/show/scaffold`
+- 8 commands: `/teaching:exam`, `/teaching:quiz`, `/teaching:syllabus`, `/teaching:assignment`, `/teaching:rubric`, `/teaching:slides`, `/teaching:feedback`, `/teaching:demo`
+- 547 tests, 5 output formats
+- Released 2026-01-13
 
 **They work together but function independently:**
 
 - **flow-cli** = deployment engine (pure ZSH, <10ms, always available)
 - **Scholar** = content generator (AI-powered, optional enhancement)
-
-### Config Sync Architecture (v7.6.0)
-
-Config discovery and injection flow:
-
-1. **Discovery**: `_teach_find_config()` searches for `.flow/teach-config.yml`
-2. **Change detection**: `_flow_config_changed()` compares stored hash vs current file
-3. **Auto-injection**: `_teach_scholar_wrapper()` appends `--config` to all Scholar commands
-4. **Legacy migration**: Warns when both `.claude/teaching-style.local.md` and new config coexist
-5. **4-layer style resolution**: Scholar resolves defaults → project → user → command overrides

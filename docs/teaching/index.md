@@ -34,10 +34,15 @@ Learn the essential teaching workflows:
 
 Explore powerful teaching features:
 
-| Feature | Description | Tutorial |
-|---------|-------------|----------|
+| Feature | Description | Link |
+|---------|-------------|------|
 | **Content Analysis** | AI-powered concept extraction & validation | [Tutorial](../tutorials/21-teach-analyze.md) |
 | **AI Prompts** | Generate teaching content with Scholar | [Tutorial](../tutorials/28-teach-prompt.md) |
+| **Solution Keys** | Generate solution keys for exams/assignments | [Guide](../guides/SCHOLAR-INTEGRATION-GUIDE.md) |
+| **R Code Validation** | Validate R code chunks in .qmd files | [Guide](../guides/SCHOLAR-INTEGRATION-GUIDE.md) |
+| **Config Sync** | Scholar config check, diff, show, scaffold | [Guide](../guides/SCHOLAR-INTEGRATION-GUIDE.md) |
+| **Health Check** | Two-mode doctor with auto-fix | [Tutorial](../tutorials/32-teach-doctor.md) |
+| **Style Presets** | Teaching style management for content generation | [Refcard](../reference/REFCARD-TEACH-DISPATCHER.md) |
 | **Templates** | Reusable content templates | [Tutorial](../tutorials/24-template-management.md) |
 | **LaTeX Macros** | Consistent mathematical notation | [Tutorial](../tutorials/26-latex-macros.md) |
 | **Lesson Plans** | CRUD management of weekly plans | [Tutorial](../tutorials/27-lesson-plan-management.md) |
@@ -227,5 +232,5 @@ teach plan help
 
 ---
 
-**Last Updated:** 2026-02-08
-**Version:** v6.5.0
+**Last Updated:** 2026-02-27
+**Version:** v7.6.0

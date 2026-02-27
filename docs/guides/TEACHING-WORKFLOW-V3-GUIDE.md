@@ -6,8 +6,8 @@ tags:
 
 # Teaching Workflow v3.0 Guide
 
-**Version:** v5.14.0
-**Last Updated:** 2026-01-21
+**Version:** v7.6.0
+**Last Updated:** 2026-02-27
 **Target Audience:** Instructors using flow-cli for course management
 
 ---
@@ -2128,5 +2128,5 @@ teach init --config template.yml
 
 ---
 
-**Version:** v5.14.0 (Teaching Workflow v3.0)
-**Last Updated:** 2026-01-18
+**Version:** v7.6.0 (Teaching Workflow v3.0)
+**Last Updated:** 2026-02-27

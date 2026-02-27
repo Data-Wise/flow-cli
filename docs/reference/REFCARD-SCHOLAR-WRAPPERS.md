@@ -92,7 +92,7 @@ teach vr              # shortcut
 
 All wrapper commands automatically append `--config <path>` when `.flow/teach-config.yml` exists:
 
-```
+```text
 teach exam "Midterm"
   ↓ internally becomes:
 claude /teaching:exam "Midterm" --config "/path/to/.flow/teach-config.yml"
@@ -120,7 +120,7 @@ claude /teaching:exam "Midterm" --config "/path/to/.flow/teach-config.yml"
 
 `teach doctor` (quick mode) checks Scholar config as the 5th category:
 
-```
+```text
 ✅ Scholar Config  Auto-injection enabled, config current
 ```
 

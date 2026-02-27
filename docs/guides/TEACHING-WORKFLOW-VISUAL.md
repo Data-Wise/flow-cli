@@ -1,7 +1,7 @@
 # Teaching Workflow - Visual Step-by-Step Guide
 
 **Purpose:** Visual, step-by-step walkthroughs of common teaching tasks
-**Last Updated:** 2026-01-13
+**Last Updated:** 2026-02-27
 
 ---
 

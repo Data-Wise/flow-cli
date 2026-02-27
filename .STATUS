@@ -4,10 +4,10 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: v7.6.0 release
-## Phase: Releasing
-## Priority: 1
-## Progress: 98
+## Focus: post-release
+## Phase: Released
+## Priority: 2
+## Progress: 100
 
 ## Current Session (2026-02-27)
 
@@ -24,7 +24,9 @@
 - docs: site update — index.md What's New, stale test counts, README Teaching section
 - merged: PR #425 (Scholar Config Sync), PR #424 (em --prompt), PR #427 (docs gap fix)
 - cleanup: worktree removed, stale branches deleted
-- status: ready for v7.6.0 release
+- release: v7.6.0 — full pipeline (PR #428, CI green, merge, retag, GitHub release)
+  - Homebrew tap updated, docs deployed, all downstream verified
+  - Stale remote branches deleted (atlas-integration, em-v2, homebrew-release-fix, swarm-em-v2-dispatcher)
 
 ## Previous Session (2026-02-27, earlier)
 
@@ -198,7 +200,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.6.0 released, both features merged |
+| Main repo | `dev` | v7.6.0 released, all clean |
 
 ---
 

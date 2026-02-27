@@ -104,7 +104,9 @@ x <- 1 + 1
 
 ```markdown
 ```
+
 x <- 1 + 1
+
 ```text
 
 ```
@@ -114,6 +116,7 @@ x <- 1 + 1
 ### Fix 2: Change Callout Type
 
 **Before:**
+
 ```markdown
 ::: {.callout-info}
 This is an invalid callout type.
@@ -259,10 +262,13 @@ teach validate --quick-checks slides/*.qmd
 
 ```markdown
 ```
+
 ```python       # Python code
 ```
+
 ```text         # Plain text / output
 ```
+
 ```text
 
 ```

@@ -615,7 +615,7 @@ After migration, you'll have:
 ---
 
 **Version:** v3.0
-**Last Updated:** 2026-01-18
+**Last Updated:** 2026-02-27
 **Estimated Migration Time:** 1-2 hours per course
 
 For questions or issues, see the [Troubleshooting](#troubleshooting) section or open an issue on GitHub.
