@@ -38,7 +38,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 - `test-scholar-config-sync.zsh` — 13 unit tests for config injection
 - `e2e-scholar-config-sync.zsh` — 28 end-to-end tests
 - `dogfood-scholar-config-sync.zsh` — 41 structural checks
-- Test suite: 52/52 passing (205 test files, 2 expected timeouts)
+- Test suite: 53/53 passing (205 test files, 1 expected timeout)
 
 ### Documentation
 

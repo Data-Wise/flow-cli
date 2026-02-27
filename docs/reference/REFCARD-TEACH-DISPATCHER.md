@@ -112,7 +112,7 @@ Health checks, validation, caching, backups, and Git hooks.
 | Command | Aliases | Synopsis | Description | Docs |
 |---------|---------|----------|-------------|------|
 | `teach doctor` | `doc` | `teach doctor [--full] [--fix] [--json] [--ci] [--brief] [--verbose]` | Health checks — quick (5 categories, < 3s) or full (11 categories) | [Tutorial 32](../tutorials/32-teach-doctor.md) |
-| `teach validate` | `val`, `v` | `teach validate [files] [--yaml\|--syntax\|--render] [--watch]` | Validate .qmd files | [Tutorial 27](../tutorials/45-lint-quickstart.md) |
+| `teach validate` | `val`, `v` | `teach validate [files] [--yaml\|--syntax\|--render] [--watch]` | Validate .qmd files | [Tutorial 45](../tutorials/45-lint-quickstart.md) |
 | `teach dates` | — | `teach dates <action> [args]` | Date management (add, list, show, edit, delete, sync) | [Tutorial 20](../tutorials/20-teaching-dates-automation.md) |
 | `teach cache` | — | `teach cache <action>` | Cache operations (status, clear, rebuild) | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
 | `teach clean` | `cl` | `teach clean [--dry-run]` | Delete `_freeze/` and `_site/` | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
