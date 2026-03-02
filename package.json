@@ -27,7 +27,7 @@
     "url": "https://github.com/Data-Wise/flow-cli"
   },
   "devDependencies": {
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
