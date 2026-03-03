@@ -616,7 +616,7 @@ doctor --dot=github,npm,pypi  # Specific tokens
 ### Learn More
 
 - [API Reference](../reference/MASTER-API-REFERENCE.md#doctor-cache) - Complete API documentation
-- [Test Suites](../../tests/) - Usage examples in tests
+- [Test Suites](https://github.com/Data-Wise/flow-cli/tree/main/tests) - Usage examples in tests
 
 ### Related Commands
 
