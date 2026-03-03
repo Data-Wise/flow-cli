@@ -669,9 +669,7 @@ echo $FZF_DEFAULT_OPTS
 ## See Also
 
 - **Tutorial:** [Tutorial 2: Multiple Projects](../../tutorials/02-multiple-projects.md)
-- **Workflow:** [Project Navigation Workflow](../../workflows/project-navigation.md)
 - **Reference:** [Pick Command Reference](../../reference/MASTER-DISPATCHER-GUIDE.md)
-- **Guide:** [Project Detection Guide](../../guides/PROJECT-DETECTION-GUIDE.md)
 
 ---
 

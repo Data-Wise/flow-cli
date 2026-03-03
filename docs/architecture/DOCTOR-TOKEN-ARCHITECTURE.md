@@ -676,7 +676,7 @@ Cache Performance:
 
 - [API Reference](../reference/MASTER-API-REFERENCE.md#doctor-cache)
 - [User Guide](../guides/DOCTOR-TOKEN-USER-GUIDE.md)
-- [Test Suites](../../tests/)
+- [Test Suites](https://github.com/Data-Wise/flow-cli/tree/main/tests)
 
 ---
 

@@ -75,7 +75,7 @@ docs/
 ├── reference/             # Technical reference
 │   ├── COMMAND-EXPLORER.md
 │   ├── ALIAS-REFERENCE-CARD.md
-│   └── WORKFLOW-QUICK-REFERENCE.md
+│   └── QUICK-REFERENCE.md
 │
 ├── testing/               # Testing guides
 │   └── TESTING.md
