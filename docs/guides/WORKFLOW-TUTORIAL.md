@@ -586,5 +586,4 @@ dash
 
 ---
 
-*For detailed docs, see: WORKFLOW-IMPLEMENTATION-SUMMARY.md*
-*For quick reference: WORKFLOW-QUICK-REFERENCE.md*
+*For detailed docs, see the [Quick Reference](../help/QUICK-REFERENCE.md)*

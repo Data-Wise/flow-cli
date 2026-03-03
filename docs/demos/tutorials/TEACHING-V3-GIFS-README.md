@@ -36,7 +36,7 @@ This directory contains VHS tapes and generated GIF demos for Teaching Workflow 
 - ✅ **Validation:** All tapes pass `scripts/validate-vhs-tapes.sh`
 - ✅ **Optimization:** All GIFs optimized with `gifsicle -O3`
 
-**Style Guide:** See [`docs/contributing/VHS-TAPE-STYLE-GUIDE.md`](../../contributing/VHS-TAPE-STYLE-GUIDE.md)
+**Style Guide:** See [`docs/internal/VHS-TAPE-STYLE-GUIDE.md`](../../internal/VHS-TAPE-STYLE-GUIDE.md)
 
 ---
 
