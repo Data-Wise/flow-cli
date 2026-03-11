@@ -64,3 +64,5 @@ jobs:
       auto_merge: ${{ github.event.inputs.auto_merge == 'true' || github.event_name == 'release' }}
     secrets:
       tap_token: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+      app_id: ${{ secrets.APP_ID }}
+      app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
