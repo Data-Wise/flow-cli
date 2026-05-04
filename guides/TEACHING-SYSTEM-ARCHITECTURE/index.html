@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -4150,6 +4150,78 @@
     <span class="md-ellipsis">
       
         Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config-sync-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Sync Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config Sync Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-discovery-chain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Discovery Chain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#change-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Change Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-layer-style-resolution-scholar-side" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-Layer Style Resolution (Scholar-side)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#doctor-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Doctor Integration
       
     </span>
   </a>
@@ -8641,6 +8713,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#config-sync-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Sync Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Config Sync Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-discovery-chain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Config Discovery Chain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#change-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Change Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-layer-style-resolution-scholar-side" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4-Layer Style Resolution (Scholar-side)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy Migration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#doctor-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Doctor Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#key-distinctions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9045,6 +9189,58 @@
 <a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>                    │   (Student-facing)            │
 <a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>                    └───────────────────────────────┘
 </code></pre></div>
+<hr />
+<h2 id="config-sync-architecture">Config Sync Architecture<a class="headerlink" href="#config-sync-architecture" title="Permanent link">&para;</a></h2>
+<p>As of v7.6.0, flow-cli and Scholar share configuration via <code>.flow/teach-config.yml</code>. flow-cli owns the file; Scholar reads it. The flow is one-way (flow-cli → Scholar) and transparent — Scholar-wrapped commands work unchanged but receive richer course context.</p>
+<p><strong>Ownership model:</strong></p>
+<ol>
+<li>flow-cli <strong>owns</strong> the config (create, edit, validate, migrate via <code>teach config *</code>)</li>
+<li>flow-cli <strong>auto-injects</strong> <code>--config &lt;path&gt;</code> on every Scholar command</li>
+<li>Scholar <strong>reads</strong> the config (course, semester, style, macros, command overrides)</li>
+<li>Direction: one-way, no write-back</li>
+</ol>
+<h3 id="config-discovery-chain">Config Discovery Chain<a class="headerlink" href="#config-discovery-chain" title="Permanent link">&para;</a></h3>
+<p><code>_teach_find_config()</code> walks up from <code>$PWD</code> to find <code>.flow/teach-config.yml</code>. If found, the absolute path is appended as <code>--config "$path"</code> to the Scholar invocation. If not found, Scholar runs without <code>--config</code> (graceful fallback — no error).</p>
+<h3 id="change-detection">Change Detection<a class="headerlink" href="#change-detection" title="Permanent link">&para;</a></h3>
+<p><code>_flow_config_hash()</code> computes SHA-256 of the resolved config. <code>_flow_config_changed()</code> compares the current hash against the cached hash in <code>.flow/.config-hash</code>. When they differ, <code>_teach_preflight()</code> surfaces a warning so users know Scholar's view of the world has shifted since the last run.</p>
+<h3 id="4-layer-style-resolution-scholar-side">4-Layer Style Resolution (Scholar-side)<a class="headerlink" href="#4-layer-style-resolution-scholar-side" title="Permanent link">&para;</a></h3>
+<p>When Scholar resolves teaching style, it merges four layers in this precedence order:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Source</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Global</td>
+<td><code>~/.claude/CLAUDE.md</code> (<code>teaching_style</code> key)</td>
+<td>All courses</td>
+</tr>
+<tr>
+<td>2. Course</td>
+<td><code>.flow/teach-config.yml</code> (<code>teaching_style</code> section)</td>
+<td>This course</td>
+</tr>
+<tr>
+<td>3. Command</td>
+<td><code>command_overrides.&lt;cmd&gt;</code> in config</td>
+<td>One command</td>
+</tr>
+<tr>
+<td>4. Lesson</td>
+<td><code>teaching_style_overrides</code> from lesson plan</td>
+<td>One lesson</td>
+</tr>
+</tbody>
+</table>
+<p>Precedence: <strong>Command &gt; Lesson &gt; Course &gt; Global &gt; Default</strong></p>
+<h3 id="legacy-migration">Legacy Migration<a class="headerlink" href="#legacy-migration" title="Permanent link">&para;</a></h3>
+<p><code>.claude/teaching-style.local.md</code> (Scholar v1 format) is deprecated. Scholar's <code>style-loader.js</code> checks <code>.flow/teach-config.yml</code> first, then falls back to the legacy markdown file. A deprecation warning fires when both files exist — remove the markdown file once the YAML config is in place.</p>
+<h3 id="doctor-integration">Doctor Integration<a class="headerlink" href="#doctor-integration" title="Permanent link">&para;</a></h3>
+<p><code>teach doctor</code> (quick mode) reports config sync status as one of its five categories: connected (config found + hash matches cache), drifted (config found + hash differs), or not-found (no config in directory tree). See <code>docs/guides/SCHOLAR-INTEGRATION-GUIDE.md</code> for the full setup and command reference.</p>
 <hr />
 <h2 id="key-distinctions">Key Distinctions<a class="headerlink" href="#key-distinctions" title="Permanent link">&para;</a></h2>
 <h3 id="flow-cli-teaching-what-i-documented">flow-cli Teaching (What I Documented)<a class="headerlink" href="#flow-cli-teaching-what-i-documented" title="Permanent link">&para;</a></h3>
