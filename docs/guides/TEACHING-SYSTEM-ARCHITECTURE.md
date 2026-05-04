@@ -247,6 +247,48 @@ teach deploy
 
 ---
 
+## Config Sync Architecture
+
+As of v7.6.0, flow-cli and Scholar share configuration via `.flow/teach-config.yml`. flow-cli owns the file; Scholar reads it. The flow is one-way (flow-cli → Scholar) and transparent — Scholar-wrapped commands work unchanged but receive richer course context.
+
+**Ownership model:**
+
+1. flow-cli **owns** the config (create, edit, validate, migrate via `teach config *`)
+2. flow-cli **auto-injects** `--config <path>` on every Scholar command
+3. Scholar **reads** the config (course, semester, style, macros, command overrides)
+4. Direction: one-way, no write-back
+
+### Config Discovery Chain
+
+`_teach_find_config()` walks up from `$PWD` to find `.flow/teach-config.yml`. If found, the absolute path is appended as `--config "$path"` to the Scholar invocation. If not found, Scholar runs without `--config` (graceful fallback — no error).
+
+### Change Detection
+
+`_flow_config_hash()` computes SHA-256 of the resolved config. `_flow_config_changed()` compares the current hash against the cached hash in `.flow/.config-hash`. When they differ, `_teach_preflight()` surfaces a warning so users know Scholar's view of the world has shifted since the last run.
+
+### 4-Layer Style Resolution (Scholar-side)
+
+When Scholar resolves teaching style, it merges four layers in this precedence order:
+
+| Layer | Source | Scope |
+|---|---|---|
+| 1. Global | `~/.claude/CLAUDE.md` (`teaching_style` key) | All courses |
+| 2. Course | `.flow/teach-config.yml` (`teaching_style` section) | This course |
+| 3. Command | `command_overrides.<cmd>` in config | One command |
+| 4. Lesson | `teaching_style_overrides` from lesson plan | One lesson |
+
+Precedence: **Command > Lesson > Course > Global > Default**
+
+### Legacy Migration
+
+`.claude/teaching-style.local.md` (Scholar v1 format) is deprecated. Scholar's `style-loader.js` checks `.flow/teach-config.yml` first, then falls back to the legacy markdown file. A deprecation warning fires when both files exist — remove the markdown file once the YAML config is in place.
+
+### Doctor Integration
+
+`teach doctor` (quick mode) reports config sync status as one of its five categories: connected (config found + hash matches cache), drifted (config found + hash differs), or not-found (no config in directory tree). See `docs/guides/SCHOLAR-INTEGRATION-GUIDE.md` for the full setup and command reference.
+
+---
+
 ## Key Distinctions
 
 ### flow-cli Teaching (What I Documented)
