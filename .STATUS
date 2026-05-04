@@ -242,14 +242,14 @@
 
 ## Next Action
 
-1. Fix 6 pre-existing e2e/dogfood test failures (test debt cleanup)
+1. Profile `test-doctor` >30s timeout (passes 23/23 standalone, but `run_test`'s 30s ceiling fails it under run-all.sh)
 2. API documentation push (50% → 80%)
 3. Code workspace manager — spec ready on dev
 
 ---
 
 **Last Updated:** 2026-03-11
-**Status:** v7.6.0 | 53/53 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
+**Status:** v7.6.0 | 52/52 tests passing (2 expected interactive/tmux timeouts) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04), fixed the bug (2026-05-04), Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04)
 ## streak: 1
 ## last_active: 2026-05-04 12:36
