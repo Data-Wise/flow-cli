@@ -142,6 +142,9 @@ fi
 
 # Better cat (you already use bat)
 alias cat='bat'
+
+# Obsidian CLI - suppress harmless Electron stderr warnings
+alias obsidian='obsidian 2>/dev/null'
 # Note: peek is now a function in smart-dispatchers.zsh for smart file viewing
 
 # Better find/grep - REMOVED 2025-12-19: Use fd and rg directly

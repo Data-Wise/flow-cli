@@ -9,7 +9,18 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-03-04)
+## Current Session (2026-03-11)
+
+**Session activity:**
+- fix: diagnosed examark Homebrew release failure — two root causes:
+  1. Secret name mismatch (workflow referenced HOMEBREW_TAP_GITHUB_TOKEN, secret was HOMEBREW_TAP_TOKEN)
+  2. PAT expired (last updated 2025-12-09)
+- ci: wired GitHub App secrets (APP_ID + APP_PRIVATE_KEY) to homebrew-release.yml across all 3 repos (examark, flow-cli, aiterm) — eliminates PAT rotation entirely
+- verify: examark Homebrew release runs green via App token (run #22972076742)
+- cleanup: deleted stale PAT secrets from all 3 repos (HOMEBREW_TAP_TOKEN, HOMEBREW_TAP_GITHUB_TOKEN)
+- sync: merged main into dev (flow-cli), pushed
+
+## Previous Session (2026-03-04)
 
 **Session activity:**
 - fix: 8 broken relative links across docs (LICENSE, tests/, adhd/, VHS style guide, templates)
@@ -237,8 +248,8 @@
 
 ---
 
-**Last Updated:** 2026-03-04
+**Last Updated:** 2026-03-11
 **Status:** v7.6.0 | 53/53 tests passing (1 expected timeout) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-03-03), Fixed the regression bug (2026-03-03), Fixed the regression bug (2026-02-27), --category fix squashed the bug (2026-02-27), fixed the bug (2026-02-27)
+## wins: Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04), fixed the bug (2026-05-04), Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04)
 ## streak: 1
-## last_active: 2026-03-03 14:23
+## last_active: 2026-05-04 12:36
