@@ -55,14 +55,87 @@ jobs:
   update-homebrew:
     name: Update Homebrew Formula
     needs: prepare
-    uses: Data-Wise/homebrew-tap/.github/workflows/update-formula.yml@main
-    with:
-      formula_name: flow-cli
-      version: ${{ needs.prepare.outputs.version }}
-      sha256: ${{ needs.prepare.outputs.sha256 }}
-      source_type: github
-      auto_merge: ${{ github.event.inputs.auto_merge == 'true' || github.event_name == 'release' }}
-    secrets:
-      tap_token: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
-      app_id: ${{ secrets.APP_ID }}
-      app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+    runs-on: ubuntu-latest
+    # Inlines the formula update against the homebrew-tap pattern.
+    # Replaces a previous workflow_call which depended on HOMEBREW_TAP_GITHUB_TOKEN
+    # — an expiring PAT. Now uses GitHub App auth (APP_ID + APP_PRIVATE_KEY)
+    # which mints short-lived tokens per run.
+    # See Data-Wise/craft#129 for context.
+    #
+    # Note: flow-cli is a hand-crafted formula (manifest "generated": false),
+    # so we update Formula/flow-cli.rb directly via sed and skip generator/.
+    steps:
+      - name: Mint GitHub App token (for cross-repo push to homebrew-tap)
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: Data-Wise
+          repositories: homebrew-tap
+
+      - name: Checkout homebrew-tap
+        uses: actions/checkout@v4
+        with:
+          repository: Data-Wise/homebrew-tap
+          token: ${{ steps.app-token.outputs.token }}
+          path: homebrew-tap
+          persist-credentials: false
+
+      - name: Update flow-cli formula (URL version + SHA256)
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          SHA256: ${{ needs.prepare.outputs.sha256 }}
+        working-directory: homebrew-tap
+        run: |
+          FORMULA="Formula/flow-cli.rb"
+
+          if [ ! -f "$FORMULA" ]; then
+            echo "::error::Formula not found: $FORMULA"
+            exit 1
+          fi
+
+          echo "Updating $FORMULA to v${VERSION}"
+
+          # GitHub tarball URL: bump v<old>.tar.gz -> v<new>.tar.gz
+          sed -i "s|/v[0-9][^/]*\.tar\.gz|/v${VERSION}.tar.gz|g" "$FORMULA"
+
+          # Update the first sha256 line (main package source)
+          sed -i "0,/sha256 \"[^\"]*\"/s|sha256 \"[^\"]*\"|sha256 \"${SHA256}\"|" "$FORMULA"
+
+          echo ""
+          echo "Updated formula head:"
+          head -15 "$FORMULA"
+
+      - name: Commit and push to tap
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          TAP_TOKEN: ${{ steps.app-token.outputs.token }}
+        working-directory: homebrew-tap
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula/flow-cli.rb
+          if git diff --staged --quiet; then
+            echo "No changes to commit (formula already at v${VERSION})"
+            exit 0
+          fi
+          git commit -m "flow-cli: update to v${VERSION}"
+
+          # Auth via URL-embedded App token; clear GITHUB_TOKEN so the
+          # runner credential helper doesn't intercept with the caller's token.
+          PUSH_URL="https://x-access-token:${TAP_TOKEN}@github.com/Data-Wise/homebrew-tap.git"
+          git remote set-url origin "$PUSH_URL"
+          unset GITHUB_TOKEN
+
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Pushed to main (attempt $attempt)"
+              exit 0
+            fi
+            echo "Push failed (attempt $attempt/3), rebasing..."
+            git pull --rebase origin main
+          done
+
+          echo "::error::Failed to push after 3 attempts"
+          exit 1
