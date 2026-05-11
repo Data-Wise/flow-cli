@@ -51,11 +51,9 @@ claude-sync() {
             ;;
     esac
 
-    # Default: re-add all tracked ~/.claude paths, commit (auto), push (unless --no-push)
-    local targets=(
-        ~/.claude/CLAUDE.md
-        ~/.claude/projects/*/memory(N)
-    )
+    # Default: sync tracked ~/.claude paths, commit (auto), push (unless --no-push)
+    local file_targets=( ~/.claude/CLAUDE.md(N) )
+    local dir_targets=( ~/.claude/projects/*/memory(N/) )
 
     # Skip if nothing tracked yet
     local tracked
@@ -66,16 +64,35 @@ claude-sync() {
         return 1
     fi
 
-    # Re-add (chezmoi handles unchanged files gracefully)
-    chezmoi re-add "${targets[@]}" 2>/dev/null
+    # Files: re-add (only updates known files, won't pick up unrelated new files)
+    (( ${#file_targets[@]} > 0 )) && chezmoi re-add "${file_targets[@]}" 2>/dev/null
+
+    # Directories: use `add` (recurses, picks up new files written this session)
+    (( ${#dir_targets[@]} > 0 )) && chezmoi add "${dir_targets[@]}" 2>/dev/null
 
     # Push if commits were made
     if [[ "$action" != "no-push" ]]; then
         (chezmoi cd && {
-            if [[ -n "$(git log origin/main..HEAD --oneline 2>/dev/null)" ]]; then
-                git push origin main && echo "claude-sync: pushed"
-            else
+            # Local-ahead check: chezmoi auto-commits even when content didn't
+            # change, so this can be true with no actual remote-bound work.
+            if [[ -z "$(git log origin/main..HEAD --oneline 2>/dev/null)" ]]; then
                 echo "claude-sync: nothing to push (already synced)"
+                return 0
+            fi
+
+            # Capture push output to distinguish "Everything up-to-date" (no
+            # remote change) from an actual transfer.
+            local push_output
+            if ! push_output=$(git push origin main 2>&1); then
+                echo "claude-sync: push failed:" >&2
+                printf '%s\n' "$push_output" >&2
+                return 1
+            fi
+
+            if echo "$push_output" | grep -q "Everything up-to-date"; then
+                echo "claude-sync: synced (no remote change — chezmoi auto-commit was empty)"
+            else
+                echo "claude-sync: pushed"
             fi
         })
     fi
