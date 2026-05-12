@@ -46,7 +46,8 @@ claude-sync() {
                 echo "claude-sync: --add needs an existing path" >&2
                 return 2
             fi
-            chezmoi add "$extra_path" && (chezmoi cd && git push origin main)
+            chezmoi add "$extra_path" && \
+                git -C "$(chezmoi source-path)" push origin main
             return $?
             ;;
     esac
@@ -72,28 +73,37 @@ claude-sync() {
 
     # Push if commits were made
     if [[ "$action" != "no-push" ]]; then
-        (chezmoi cd && {
-            # Local-ahead check: chezmoi auto-commits even when content didn't
-            # change, so this can be true with no actual remote-bound work.
-            if [[ -z "$(git log origin/main..HEAD --oneline 2>/dev/null)" ]]; then
-                echo "claude-sync: nothing to push (already synced)"
-                return 0
-            fi
+        # Use `git -C "$(chezmoi source-path)"` instead of `chezmoi cd &&` —
+        # `chezmoi cd` is interactive-only and silently no-ops in a sourced
+        # function, which previously caused git commands to run in the wrong
+        # repo's CWD.
+        local src
+        src=$(chezmoi source-path 2>/dev/null)
+        if [[ -z "$src" || ! -d "$src/.git" ]]; then
+            echo "claude-sync: can't locate chezmoi source git repo" >&2
+            return 1
+        fi
 
-            # Capture push output to distinguish "Everything up-to-date" (no
-            # remote change) from an actual transfer.
-            local push_output
-            if ! push_output=$(git push origin main 2>&1); then
-                echo "claude-sync: push failed:" >&2
-                printf '%s\n' "$push_output" >&2
-                return 1
-            fi
+        # Local-ahead check: chezmoi auto-commits even when content didn't
+        # change, so this can be true with no actual remote-bound work.
+        if [[ -z "$(git -C "$src" log origin/main..HEAD --oneline 2>/dev/null)" ]]; then
+            echo "claude-sync: nothing to push (already synced)"
+            return 0
+        fi
 
-            if echo "$push_output" | grep -q "Everything up-to-date"; then
-                echo "claude-sync: synced (no remote change — chezmoi auto-commit was empty)"
-            else
-                echo "claude-sync: pushed"
-            fi
-        })
+        # Capture push output to distinguish "Everything up-to-date" (no
+        # remote change) from an actual transfer.
+        local push_output
+        if ! push_output=$(git -C "$src" push origin main 2>&1); then
+            echo "claude-sync: push failed:" >&2
+            printf '%s\n' "$push_output" >&2
+            return 1
+        fi
+
+        if echo "$push_output" | grep -q "Everything up-to-date"; then
+            echo "claude-sync: synced (no remote change — chezmoi auto-commit was empty)"
+        else
+            echo "claude-sync: pushed"
+        fi
     fi
 }
