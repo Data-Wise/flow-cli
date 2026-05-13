@@ -265,6 +265,14 @@
 - Impact: silent cache write failures during rapid sequential doctor calls (e.g., test setup, scripted automation)
 - Workaround in test-doctor.zsh: use unique cache keys per test
 
+### CI runs smoke tests only — full suite not gated (filed 2026-05-13)
+- `.github/workflows/test.yml:39-44` runs only `test-flow.zsh` + `test-install.sh`
+- Comment is explicit: "Smoke tests only - run full suite locally with: `./tests/run-all.sh`"
+- The required status check "ZSH Plugin Tests" on `main` therefore does NOT verify the 205-file suite
+- Surfaced during PR #446: the test-doctor regression from commit `0880f924` would have passed CI green despite test-doctor exiting 124 under the harness
+- Impact: relies on developer discipline to run `./tests/run-all.sh` locally before opening PRs
+- Options to consider: (B) add `test-doctor.zsh` specifically (~30s job time), or (C) add full `./tests/run-all.sh` as a separate slower job (~4min). Either is a separate workflow PR, not bundled with feature work
+
 ### Future Enhancements
 - Token automation Phases 2-4 (multi-token, gamification)
 - Config → concept graph integration
