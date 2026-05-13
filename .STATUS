@@ -232,6 +232,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.6.0 released, all clean |
+| `~/.git-worktrees/flow-cli/wire-doctor-cache` | `feature/wire-doctor-cache` | Planning — ORCHESTRATE plan for wiring `lib/doctor-cache.zsh` into `commands/doctor.zsh:405` GitHub token validation |
 
 ---
 
