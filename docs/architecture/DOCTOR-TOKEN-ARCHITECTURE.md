@@ -78,6 +78,7 @@ doctor                    # Main entry (existing)
 doctor --dot              # New: Token check only
 doctor --dot=github       # New: Specific token
 doctor --fix-token        # New: Token fixes only
+doctor --no-cache         # Force fresh GitHub validation (bypass cache)
 ```
 
 **Flow:**
