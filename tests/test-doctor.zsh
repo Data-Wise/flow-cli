@@ -348,6 +348,84 @@ test_doctor_cache_miss_triggers_curl() {
     _test_restore_sec
 }
 
+test_doctor_check_github_token_missing() {
+    test_case "_doctor_check_github_token tags 'missing' when sec returns empty"
+    # No mock-curl install needed — code never reaches curl on the empty branch
+    _SAVED_SEC_BODY="${functions[sec]}"
+    functions[sec]="print -- ''"
+    _doctor_token_issues[github]=""  # reset prior state
+
+    _doctor_check_github_token "false" >/dev/null 2>&1
+
+    assert_contains "${_doctor_token_issues[github]}" "missing" \
+        "_doctor_token_issues[github] should contain 'missing' when token is empty"
+    test_pass
+
+    _test_restore_sec
+    unset "_doctor_token_issues[github]"
+}
+
+test_doctor_check_github_token_invalid_not_cached() {
+    test_case "invalid token (http 401) tags 'invalid' AND is not cached"
+    local test_token="ghp_test_invalid_def"
+    local cache_file=$(_test_token_cache_path "$test_token")
+    rm -f "$cache_file"
+    _doctor_token_issues[github]=""
+
+    _test_install_sec_returning "$test_token"
+    # curl mock that returns a 401 (invalid token response)
+    _SAVED_CURL_BODY="${functions[curl]}"
+    functions[curl]="print >> '$_TEST_CURL_LOG'; printf '%s\n%s\n' '{\"message\":\"Bad credentials\"}' '401'"
+
+    _doctor_check_github_token "false" >/dev/null 2>&1
+
+    assert_contains "${_doctor_token_issues[github]}" "invalid" \
+        "_doctor_token_issues[github] should contain 'invalid' on http != 200"
+    assert_file_not_exists "$cache_file" \
+        "Cache file must NOT be written when validation fails (don't cache transient failures)"
+    test_pass
+
+    _test_restore_curl
+    _test_restore_sec
+    unset "_doctor_token_issues[github]"
+}
+
+test_doctor_no_cache_flag_e2e() {
+    test_case "doctor --no-cache CLI flag wires through to helper (E2E)"
+    # E2E: pre-populate a valid cache, then call full `doctor --no-cache`.
+    # Without the flag this would be a cache hit (no curl). With the flag,
+    # the helper must be invoked with no_cache=true, forcing curl.
+    local test_token="ghp_test_e2e_flag_uvw"
+    local cache_file=$(_test_token_cache_path "$test_token")
+    _test_write_valid_cache "$cache_file" "e2euser"
+
+    _test_install_sec_returning "$test_token"
+    _test_install_curl_mock "_test_curl_response_fresh"
+
+    doctor --no-cache >/dev/null 2>&1
+
+    assert_equals "1" "$(_test_curl_call_count)" \
+        "doctor --no-cache must force curl despite valid cache entry"
+    test_pass
+
+    _test_restore_curl
+    _test_restore_sec
+    rm -f "$cache_file"
+}
+
+test_doctor_token_fingerprint_determinism() {
+    test_case "token fingerprint is deterministic and discriminating"
+    # Mirrors the production hash: sha256 prefix, 12 hex chars
+    local fp_a1=$(printf '%s' "ghp_token_alpha" | shasum -a 256 | cut -c1-12)
+    local fp_a2=$(printf '%s' "ghp_token_alpha" | shasum -a 256 | cut -c1-12)
+    local fp_b=$(printf '%s'  "ghp_token_beta"  | shasum -a 256 | cut -c1-12)
+
+    assert_equals "$fp_a1" "$fp_a2" "Same token must produce same fingerprint"
+    assert_not_equals "$fp_a1" "$fp_b" "Different tokens must produce different fingerprints"
+    assert_equals "12" "${#fp_a1}" "Fingerprint must be exactly 12 hex chars"
+    test_pass
+}
+
 # Verify the JSON envelope format end-to-end by exercising _doctor_cache_set
 # directly with the same args the production code uses. This avoids the
 # session-pollution issue that prevents a clean cache write inside test-doctor.zsh.
@@ -482,6 +560,10 @@ main() {
     test_doctor_cache_hit_skips_curl
     test_doctor_cache_miss_triggers_curl
     test_doctor_no_cache_flag_bypasses_cache
+    test_doctor_check_github_token_missing
+    test_doctor_check_github_token_invalid_not_cached
+    test_doctor_no_cache_flag_e2e
+    test_doctor_token_fingerprint_determinism
     test_doctor_cache_envelope_format
 
     echo ""

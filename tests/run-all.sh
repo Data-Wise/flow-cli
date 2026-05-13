@@ -17,7 +17,10 @@ run_test() {
     local test_file="$1"
     local name=$(basename "$test_file" .zsh)
     name=${name%.sh}
-    local timeout_seconds=30
+    # Default 30s; callers can override via $2 for tests that legitimately
+    # need more (e.g., test-doctor runs full `doctor` 3× through brew/atlas/
+    # plugin checks).
+    local timeout_seconds="${2:-30}"
 
     echo -n "Running $name... "
 
@@ -70,7 +73,7 @@ echo "Core command tests:"
 # (FLOW_PLUGIN_DIR, FLOW_QUIET, FLOW_ATLAS_ENABLED=no, exec < /dev/null)
 run_test ./tests/test-dash.zsh
 run_test ./tests/test-work.zsh
-run_test ./tests/test-doctor.zsh
+run_test ./tests/test-doctor.zsh 45
 run_test ./tests/test-capture.zsh
 run_test ./tests/test-pick-wt.zsh
 run_test ./tests/test-adhd.zsh
