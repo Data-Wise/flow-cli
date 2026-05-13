@@ -312,7 +312,7 @@ _test_restore_sec() {
 }
 
 test_doctor_cache_hit_skips_curl() {
-    test_case "doctor cache hit skips GitHub API curl"
+    test_case "cache hit skips GitHub API curl"
     local test_token="ghp_test_cache_hit_xyz"
     local cache_file=$(_test_token_cache_path "$test_token")
     _test_write_valid_cache "$cache_file" "hituser"
@@ -320,9 +320,10 @@ test_doctor_cache_hit_skips_curl() {
     _test_install_sec_returning "$test_token"
     _test_install_curl_mock "_test_curl_response_unexpected"
 
-    doctor >/dev/null 2>&1
+    # Call the helper directly to skip ~10s of unrelated doctor system checks
+    _doctor_check_github_token "false" >/dev/null 2>&1
 
-    assert_equals "0" "$(_test_curl_call_count)" "Cache hit should prevent any curl call from doctor"
+    assert_equals "0" "$(_test_curl_call_count)" "Cache hit should prevent any curl call"
     test_pass
 
     _test_restore_curl
@@ -331,16 +332,14 @@ test_doctor_cache_hit_skips_curl() {
 }
 
 test_doctor_cache_miss_triggers_curl() {
-    test_case "doctor cache miss triggers exactly one curl call"
-    # Use a fresh, never-cached test token so the fingerprint key is guaranteed
-    # to miss the cache regardless of prior doctor invocations in this session.
+    test_case "cache miss triggers exactly one curl call"
     local test_token="ghp_test_cache_miss_abc"
     rm -f "$(_test_token_cache_path "$test_token")"
 
     _test_install_sec_returning "$test_token"
     _test_install_curl_mock "_test_curl_response_fresh"
 
-    doctor >/dev/null 2>&1
+    _doctor_check_github_token "false" >/dev/null 2>&1
 
     assert_equals "1" "$(_test_curl_call_count)" "Cache miss should trigger exactly one curl call"
     test_pass
@@ -380,7 +379,7 @@ test_doctor_cache_envelope_format() {
 }
 
 test_doctor_no_cache_flag_bypasses_cache() {
-    test_case "doctor --no-cache bypasses a valid cache entry"
+    test_case "no_cache=true bypasses a valid cache entry"
     local test_token="ghp_test_nocache_qwe"
     local cache_file=$(_test_token_cache_path "$test_token")
     _test_write_valid_cache "$cache_file" "cacheduser"
@@ -388,9 +387,9 @@ test_doctor_no_cache_flag_bypasses_cache() {
     _test_install_sec_returning "$test_token"
     _test_install_curl_mock "_test_curl_response_fresh"
 
-    doctor --no-cache >/dev/null 2>&1
+    _doctor_check_github_token "true" >/dev/null 2>&1
 
-    assert_equals "1" "$(_test_curl_call_count)" "--no-cache should force curl call despite valid cache"
+    assert_equals "1" "$(_test_curl_call_count)" "no_cache should force curl call despite valid cache"
     test_pass
 
     _test_restore_curl

@@ -12,13 +12,16 @@
 ## Current Session (2026-05-13)
 
 **Session activity:**
-- feat(doctor): wired lib/doctor-cache.zsh into commands/doctor.zsh:404-455 GitHub token validation — fingerprint-based cache key (sha256 prefix of token), 1h TTL, JSON envelope `{http_code, username}`
-- added: `--no-cache` flag for forced fresh validation; updated `_doctor_help` to document it
-- isolated: `DOCTOR_CACHE_DIR` exported in test setup before plugin load (cache lib marks it readonly post-source) — tests no longer pollute developer's `~/.flow/cache/doctor/`
-- tests: +4 functions in test-doctor.zsh (cache_hit_skips_curl, cache_miss_triggers_curl, no_cache_flag_bypasses, envelope_format) — 27/27 doctor tests passing
-- discovered (filed): test-framework `create_mock` save/restore is broken for binaries — `tail -n +2` strips opening `{` but keeps closing `}`, causing eval parse error on second mock
-- discovered (filed): `_doctor_cache_acquire_lock` mkdir-fallback leaves stale lock state across in-process doctor invocations; manifests as cache_set rc=1 on second call. Workaround in tests: use unique cache keys
-- full suite: 52/52 passing, 2 expected interactive timeouts; suite time 4 min
+- feat(doctor): wired lib/doctor-cache.zsh into legacy GitHub token validation — fingerprint cache key (sha256 prefix of token, 1h TTL), `--no-cache` flag, JSON envelope `{http_code, username}`
+- refactor(doctor): extracted `_doctor_check_github_token(no_cache)` helper; doctor() now dispatches via one line; helper is independently testable
+- test isolation: `DOCTOR_CACHE_DIR` exported pre-source (cache lib marks it readonly post-source)
+- tests: +4 functions calling helper directly (not full doctor) — cuts test runtime by ~14s
+- empirical timing: cold flow doctor 11.3s → warm 10.8s (~5%, smaller than orchestrate estimate because `_dots_doctor_integration` was already provider-cached)
+- result: 53 test files pass, 1 expected interactive timeout; test-doctor 25s standalone, exit 0 under `timeout 30`
+- discovered (filed): test-framework `create_mock` save/restore is broken for binaries — `tail -n +2` strips opening `{` but keeps closing `}`, eval parse error on second mock
+- discovered (filed): `_doctor_cache_acquire_lock` mkdir-fallback leaks state across in-process invocations; cache_set rc=1 on second call with same key
+
+**Correction (2026-05-13):** Commit `0880f924` (first push of this branch) introduced a test-doctor timeout regression that the commit message and .STATUS both misreported as "52/52 passing". Run-all.sh actually reported "2 timeout" — only one (e2e-em-dispatcher) is documented as expected; the other was test-doctor running ~40s standalone under the 30s `timeout` wrapper in `tests/run-all.sh`. Caught during the optional Step 4 follow-up review when re-checking `time timeout 30 zsh tests/test-doctor.zsh`. Fixed in the follow-up refactor commit by extracting `_doctor_check_github_token` so cache tests skip the slow system-check section.
 
 **Previous Session (2026-05-13 earlier):**
 - fix(tests): test-doctor timeout under run-all.sh — cached `doctor --verbose` output in setup() and reused for both `--verbose` and `-v` tests (which test identical output since `-v` aliases `--verbose` per commands/doctor.zsh:39)
@@ -281,6 +284,6 @@
 
 **Last Updated:** 2026-05-13
 **Status:** v7.6.0 | 52/52 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-05-13), --category fix squashed the bug (2026-05-13), fixed the bug (2026-05-13), Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04)
+## wins: Fixed the regression bug (2026-05-13), --category fix squashed the bug (2026-05-13), fixed the bug (2026-05-13), Fixed the regression bug (2026-05-13), --category fix squashed the bug (2026-05-13)
 ## streak: 1
-## last_active: 2026-05-13 11:38
+## last_active: 2026-05-13 12:02
