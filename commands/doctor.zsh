@@ -29,6 +29,9 @@ doctor() {
   # Task 4: Verbosity levels
   local verbosity_level="normal" # quiet, normal, verbose
 
+  # Cache bypass: --no-cache forces fresh GitHub token validation
+  local no_cache=false
+
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -38,6 +41,7 @@ doctor() {
       --yes|-y)         auto_yes=true; shift ;;
       --verbose|-v)     verbose=true; verbosity_level="verbose"; shift ;;
       --quiet|-q)       verbosity_level="quiet"; shift ;;
+      --no-cache)       no_cache=true; shift ;;
 
       # Task 1: Token flags
       --dot)
@@ -401,13 +405,41 @@ doctor() {
       _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Not configured"
       token_issues+=("missing")
     else
-      # Validate token via API
-      local api_response=$(curl -s -w "\n%{http_code}" \
-        -H "Authorization: token $token" \
-        "https://api.github.com/user" 2>/dev/null)
+      # Validate token via API, with file-based cache (1h TTL).
+      # Key derives from token sha256 prefix so rotation auto-invalidates.
+      local http_code username
+      local cache_key="" cached=""
 
-      local http_code=$(echo "$api_response" | tail -1)
-      local username=$(echo "$api_response" | sed '$d' | jq -r '.login // "unknown"')
+      if [[ "$no_cache" == false ]] && (( $+functions[_doctor_cache_get] )) \
+          && command -v shasum >/dev/null 2>&1; then
+        local token_fp=$(printf '%s' "$token" | shasum -a 256 | cut -c1-12)
+        cache_key="token-github-${token_fp}"
+        cached=$(_doctor_cache_get "$cache_key" 2>/dev/null)
+      fi
+
+      if [[ -n "$cached" ]] && command -v jq >/dev/null 2>&1; then
+        http_code=$(echo "$cached" | jq -r '.http_code // ""')
+        username=$(echo "$cached" | jq -r '.username // "unknown"')
+        _doctor_log_verbose "  ${FLOW_COLORS[muted]}[Cache hit]${FLOW_COLORS[reset]}"
+      else
+        [[ -n "$cache_key" ]] && _doctor_log_verbose "  ${FLOW_COLORS[muted]}[Cache miss - validating...]${FLOW_COLORS[reset]}"
+        local api_response=$(curl -s -w "\n%{http_code}" \
+          -H "Authorization: token $token" \
+          "https://api.github.com/user" 2>/dev/null)
+
+        http_code=$(echo "$api_response" | tail -1)
+        username=$(echo "$api_response" | sed '$d' | jq -r '.login // "unknown"')
+
+        # Cache only successful validations (don't cache transient curl failures)
+        if [[ -n "$cache_key" ]] && [[ "$http_code" == "200" ]] \
+            && (( $+functions[_doctor_cache_set] )); then
+          local cache_value=$(jq -nc \
+            --arg http_code "$http_code" \
+            --arg username "$username" \
+            '{http_code: $http_code, username: $username}')
+          _doctor_cache_set "$cache_key" "$cache_value" 3600 2>/dev/null || true
+        fi
+      fi
 
       if [[ "$http_code" != "200" ]]; then
         _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Invalid/Expired"
@@ -1794,6 +1826,7 @@ _doctor_help() {
   echo ""
   echo "${FLOW_COLORS[bold]}OTHER OPTIONS${FLOW_COLORS[reset]}"
   echo "  -y, --yes      Skip confirmations (use with --fix)"
+  echo "  --no-cache     Bypass GitHub token validation cache (force fresh API call)"
   echo "  -h, --help     Show this help"
   echo ""
   echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
@@ -1805,6 +1838,7 @@ _doctor_help() {
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --fix-token    # Fix token issues only"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --quiet        # Show only errors"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --verbose      # Show detailed info + cache status"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --no-cache     # Force fresh GitHub token validation"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --ai           # Get AI help deciding what to install"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --update-docs  # Regenerate documentation"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow doctor           # Also works via flow command"

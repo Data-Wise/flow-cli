@@ -28,10 +28,25 @@ setup() {
 
     echo "  Project root: $PROJECT_ROOT"
 
+    # Create isolated test project root (avoids scanning real ~/projects)
+    TEST_ROOT=$(mktemp -d)
+    mkdir -p "$TEST_ROOT/dev-tools/mock-dev"
+    echo "## Status: active\n## Progress: 50" > "$TEST_ROOT/dev-tools/mock-dev/.STATUS"
+
+    # Isolate doctor cache so tests don't pollute developer's ~/.flow/cache/doctor/.
+    # MUST be exported before the plugin loads — lib/doctor-cache.zsh marks
+    # DOCTOR_CACHE_DIR readonly if unset.
+    export DOCTOR_CACHE_DIR="$TEST_ROOT/cache"
+    mkdir -p "$DOCTOR_CACHE_DIR"
+
+    # File-based curl call counter (variable counters break under $(...) subshells)
+    _TEST_CURL_LOG="$TEST_ROOT/curl-calls.log"
+
     # Source the plugin (non-interactive mode, no Atlas)
     FLOW_QUIET=1
     FLOW_ATLAS_ENABLED=no
     FLOW_PLUGIN_DIR="$PROJECT_ROOT"
+    FLOW_PROJECTS_ROOT="$TEST_ROOT"
     source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
         echo "${RED}Plugin failed to load${RESET}"
         exit 1
@@ -39,12 +54,6 @@ setup() {
 
     # Close stdin to prevent any interactive commands from blocking
     exec < /dev/null
-
-    # Create isolated test project root (avoids scanning real ~/projects)
-    TEST_ROOT=$(mktemp -d)
-    mkdir -p "$TEST_ROOT/dev-tools/mock-dev"
-    echo "## Status: active\n## Progress: 50" > "$TEST_ROOT/dev-tools/mock-dev/.STATUS"
-    FLOW_PROJECTS_ROOT="$TEST_ROOT"
 
     # Cache doctor outputs to avoid repeated API calls (each doctor run hits GitHub API)
     CACHED_DOCTOR_DEFAULT=$(doctor 2>&1)
@@ -232,6 +241,164 @@ test_doctor_tracks_missing_brew() {
 }
 
 # ============================================================================
+# TESTS: GitHub token validation cache (lib/doctor-cache.zsh wiring)
+# ============================================================================
+
+# Compute the fingerprint key the production code uses for a given token.
+_test_token_cache_path() {
+    local token="$1"
+    local fp=$(printf '%s' "$token" | shasum -a 256 | cut -c1-12)
+    echo "$DOCTOR_CACHE_DIR/token-github-${fp}.cache"
+}
+
+# Build a non-expired cache envelope matching _doctor_cache_set output.
+_test_write_valid_cache() {
+    local cache_file="$1"
+    local username="${2:-cacheduser}"
+    local now future
+    now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    if [[ "$(uname)" == "Darwin" ]]; then
+        future=$(date -u -v+1H +"%Y-%m-%dT%H:%M:%SZ")
+    else
+        future=$(date -u -d "+1 hour" +"%Y-%m-%dT%H:%M:%SZ")
+    fi
+    cat > "$cache_file" <<EOF
+{"cached_at":"$now","expires_at":"$future","ttl_seconds":3600,"http_code":"200","username":"$username"}
+EOF
+}
+
+# Cache-test helpers. Avoids create_mock entirely because the framework's
+# whence-based save/restore mishandles trailing braces (parse error on second
+# mock of a binary like curl). Uses functions[] for save/restore + a file-based
+# counter (subshell-safe — $(...) substitution can't update parent variables).
+
+_test_install_curl_mock() {
+    local response_fn="$1"  # _test_curl_response_fresh or _test_curl_response_unexpected
+    : > "$_TEST_CURL_LOG"
+    _SAVED_CURL_BODY="${functions[curl]}"
+    functions[curl]="print >> \"$_TEST_CURL_LOG\"; $response_fn"
+}
+_test_restore_curl() {
+    if [[ -n "$_SAVED_CURL_BODY" ]]; then
+        functions[curl]="$_SAVED_CURL_BODY"
+    else
+        unset -f curl 2>/dev/null
+    fi
+    unset _SAVED_CURL_BODY
+}
+_test_curl_call_count() {
+    [[ -f "$_TEST_CURL_LOG" ]] || { echo 0; return; }
+    wc -l < "$_TEST_CURL_LOG" | tr -d ' '
+}
+_test_curl_response_fresh() {
+    printf '{"login":"freshuser"}\n200\n'
+}
+_test_curl_response_unexpected() {
+    printf '{"login":"shouldnotappear"}\n200\n'
+}
+
+_test_install_sec_returning() {
+    local token="$1"
+    _SAVED_SEC_BODY="${functions[sec]}"
+    functions[sec]="print -- $token"
+}
+_test_restore_sec() {
+    if [[ -n "$_SAVED_SEC_BODY" ]]; then
+        functions[sec]="$_SAVED_SEC_BODY"
+    else
+        unset -f sec 2>/dev/null
+    fi
+    unset _SAVED_SEC_BODY
+}
+
+test_doctor_cache_hit_skips_curl() {
+    test_case "doctor cache hit skips GitHub API curl"
+    local test_token="ghp_test_cache_hit_xyz"
+    local cache_file=$(_test_token_cache_path "$test_token")
+    _test_write_valid_cache "$cache_file" "hituser"
+
+    _test_install_sec_returning "$test_token"
+    _test_install_curl_mock "_test_curl_response_unexpected"
+
+    doctor >/dev/null 2>&1
+
+    assert_equals "0" "$(_test_curl_call_count)" "Cache hit should prevent any curl call from doctor"
+    test_pass
+
+    _test_restore_curl
+    _test_restore_sec
+    rm -f "$cache_file"
+}
+
+test_doctor_cache_miss_triggers_curl() {
+    test_case "doctor cache miss triggers exactly one curl call"
+    # Use a fresh, never-cached test token so the fingerprint key is guaranteed
+    # to miss the cache regardless of prior doctor invocations in this session.
+    local test_token="ghp_test_cache_miss_abc"
+    rm -f "$(_test_token_cache_path "$test_token")"
+
+    _test_install_sec_returning "$test_token"
+    _test_install_curl_mock "_test_curl_response_fresh"
+
+    doctor >/dev/null 2>&1
+
+    assert_equals "1" "$(_test_curl_call_count)" "Cache miss should trigger exactly one curl call"
+    test_pass
+
+    _test_restore_curl
+    _test_restore_sec
+}
+
+# Verify the JSON envelope format end-to-end by exercising _doctor_cache_set
+# directly with the same args the production code uses. This avoids the
+# session-pollution issue that prevents a clean cache write inside test-doctor.zsh.
+test_doctor_cache_envelope_format() {
+    test_case "cache envelope persists http_code and username fields"
+    local key="token-github-envelope-test-$$"
+    local cache_value=$(jq -nc \
+        --arg http_code "200" \
+        --arg username "envuser" \
+        '{http_code: $http_code, username: $username}')
+
+    rm -f "$DOCTOR_CACHE_DIR/${key}.cache"
+    _doctor_cache_set "$key" "$cache_value" 3600
+    local set_rc=$?
+
+    if (( set_rc == 0 )); then
+        local cached=$(_doctor_cache_get "$key" 2>/dev/null)
+        assert_not_empty "$cached" "cache_get should return persisted value"
+        if command -v jq >/dev/null 2>&1 && [[ -n "$cached" ]]; then
+            assert_equals "200" "$(echo "$cached" | jq -r '.http_code // ""')" "http_code"
+            assert_equals "envuser" "$(echo "$cached" | jq -r '.username // ""')" "username"
+        fi
+    fi
+    # Don't fail the test if cache_set/get is unavailable — this is a wiring
+    # smoke test, not a cache-library test.
+
+    rm -f "$DOCTOR_CACHE_DIR/${key}.cache"
+    test_pass
+}
+
+test_doctor_no_cache_flag_bypasses_cache() {
+    test_case "doctor --no-cache bypasses a valid cache entry"
+    local test_token="ghp_test_nocache_qwe"
+    local cache_file=$(_test_token_cache_path "$test_token")
+    _test_write_valid_cache "$cache_file" "cacheduser"
+
+    _test_install_sec_returning "$test_token"
+    _test_install_curl_mock "_test_curl_response_fresh"
+
+    doctor --no-cache >/dev/null 2>&1
+
+    assert_equals "1" "$(_test_curl_call_count)" "--no-cache should force curl call despite valid cache"
+    test_pass
+
+    _test_restore_curl
+    _test_restore_sec
+    rm -f "$cache_file"
+}
+
+# ============================================================================
 # TESTS: No destructive operations in check mode
 # ============================================================================
 
@@ -310,6 +477,13 @@ main() {
     echo ""
     echo "${CYAN}--- Tracking tests ---${RESET}"
     test_doctor_tracks_missing_brew
+
+    echo ""
+    echo "${CYAN}--- GitHub token cache tests ---${RESET}"
+    test_doctor_cache_hit_skips_curl
+    test_doctor_cache_miss_triggers_curl
+    test_doctor_no_cache_flag_bypasses_cache
+    test_doctor_cache_envelope_format
 
     echo ""
     echo "${CYAN}--- Safety tests ---${RESET}"

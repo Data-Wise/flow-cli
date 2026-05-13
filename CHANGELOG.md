@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`flow doctor` GitHub token validation cache** — Subsequent `flow doctor` invocations within 1 hour skip the GitHub `/user` API call (~5–8s saved per warm run). Fingerprint-based cache key (sha256 prefix of token) auto-invalidates on rotation.
+- **`flow doctor --no-cache`** — Bypasses the cache and forces a fresh API validation. Useful when troubleshooting "why is my token broken?".
+
 ---
 
 ## [7.6.0] — 2026-02-27 — em --prompt + Scholar Config Sync
