@@ -3590,6 +3590,73 @@ _doctor_cache_clear "token-${provider}"
 
 ---
 
+### Cache Consumers (commands/doctor.zsh)
+
+#### `_doctor_check_github_token`
+
+Validate the GitHub PAT via the `api.github.com/user` endpoint, with a
+file-based cache. The cache key derives from the token's sha256 prefix so
+token rotation auto-invalidates without an explicit clear call. TTL is 1
+hour. Successful validations are stored; transient curl failures are not.
+
+**Signature:**
+
+```zsh
+_doctor_check_github_token [no_cache]
+```
+
+**Parameters:**
+
+- `$1` - "true" to bypass the cache and force a fresh API call;
+  anything else (default: "false") consults the cache first.
+
+**Returns:**
+
+- 0 - Always returns 0 after running the check (token validity is
+  reported via stdout and via the `_doctor_token_issues` global).
+
+**Side Effects:**
+
+- Prints status lines via `_doctor_log_quiet` / `_doctor_log_verbose`.
+- Mutates the global associative array `_doctor_token_issues[github]`
+  when problems are detected (`missing`, `invalid`, `expiring`,
+  `gh-cli`, `env-var`, `mcp-config`).
+- Reads/writes `$DOCTOR_CACHE_DIR/token-github-<sha256-prefix>.cache`.
+
+**Example:**
+
+```zsh
+# Normal call (use cache when available)
+_doctor_check_github_token
+
+# Force fresh validation (used by doctor --no-cache)
+_doctor_check_github_token "true"
+
+# Inspect outcome
+if [[ -n "$_doctor_token_issues[github]" ]]; then
+    echo "Issues: $_doctor_token_issues[github]"
+fi
+```
+
+**Cache key:**
+
+```text
+token-github-$(printf '%s' "$TOKEN" | shasum -a 256 | cut -c1-12)
+```
+
+The 12-char sha256 prefix is collision-safe for any realistic token set
+(birthday-paradox collision probability ~1 in 16M).
+
+**Why a fingerprint key?**
+
+Token rotation produces a new fingerprint → new cache key → automatic
+cache miss. This eliminates the need for a manual clear path on the
+rotation code path. (The older `--dot` cache uses a static `token-github`
+provider key and relies on `_doctor_cache_token_clear` after rotation —
+see [Convenience Functions](#convenience-functions) above.)
+
+---
+
 ### Constants
 
 **Cache Configuration:**
