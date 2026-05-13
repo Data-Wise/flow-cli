@@ -49,6 +49,8 @@ setup() {
     # Cache doctor outputs to avoid repeated API calls (each doctor run hits GitHub API)
     CACHED_DOCTOR_DEFAULT=$(doctor 2>&1)
     CACHED_DOCTOR_HELP=$(doctor --help 2>&1)
+    CACHED_DOCTOR_VERBOSE=$(doctor --verbose 2>&1)
+    CACHED_DOCTOR_VERBOSE_EXIT=$?
 
     echo ""
 }
@@ -176,19 +178,16 @@ test_doctor_shows_sections() {
 
 test_doctor_verbose_runs() {
     test_case "doctor --verbose runs without error"
-    local output=$(doctor --verbose 2>&1)
-    local exit_code=$?
-    assert_exit_code $exit_code 0 "Exit code: $exit_code"
-    assert_not_empty "$output" "Verbose output should not be empty"
+    assert_exit_code $CACHED_DOCTOR_VERBOSE_EXIT 0 "Exit code: $CACHED_DOCTOR_VERBOSE_EXIT"
+    assert_not_empty "$CACHED_DOCTOR_VERBOSE" "Verbose output should not be empty"
     test_pass
 }
 
 test_doctor_v_flag() {
     test_case "doctor -v runs without error"
-    local output=$(doctor -v 2>&1)
-    local exit_code=$?
-    assert_exit_code $exit_code 0 "Exit code: $exit_code"
-    assert_not_empty "$output" "-v output should not be empty"
+    # -v is an alias for --verbose (commands/doctor.zsh:39) — reuse cache
+    assert_exit_code $CACHED_DOCTOR_VERBOSE_EXIT 0 "Exit code: $CACHED_DOCTOR_VERBOSE_EXIT"
+    assert_not_empty "$CACHED_DOCTOR_VERBOSE" "-v output should not be empty"
     test_pass
 }
 

@@ -9,7 +9,16 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-03-11)
+## Current Session (2026-05-13)
+
+**Session activity:**
+- fix(tests): test-doctor timeout under run-all.sh — cached `doctor --verbose` output in setup() and reused for both `--verbose` and `-v` tests (which test identical output since `-v` aliases `--verbose` per commands/doctor.zsh:39)
+- root cause: 3 redundant `$(doctor ...)` calls in test, each hitting `curl https://api.github.com/user` (commands/doctor.zsh:405) for ~5-8s of network wait
+- timing: 38.86s standalone → 23.51s wrapped (40% reduction), 6.5s headroom under 30s ceiling
+- result: 23/23 passing, exit 0 under `timeout 30 zsh ...`
+- filed pending: commands/doctor.zsh:405 bypasses lib/doctor-cache.zsh
+
+## Previous Session (2026-03-11)
 
 **Session activity:**
 - fix: diagnosed examark Homebrew release failure — two root causes:
@@ -232,6 +241,13 @@
 - Current coverage: ~50% (348 functions documented)
 - Target: 80%
 
+### Doctor command bypasses its own cache (filed 2026-05-13)
+- `lib/doctor-cache.zsh` (25KB) provides a file-based cache at `~/.flow/cache/doctor/`
+- `commands/doctor.zsh:405` calls `curl https://api.github.com/user` directly, no cache check
+- Impact: every `flow doctor` invocation hits the network (~5-8s) for a result that's stable for hours
+- Discovered while debugging test-doctor timeout; fix shape: wrap the curl with `_doctor_cache_get`/`_doctor_cache_set` (key e.g. `token-github-validation`, TTL ~1 hour)
+- Would also let test-doctor.zsh be simpler (fewer manual caching workarounds)
+
 ### Future Enhancements
 - Token automation Phases 2-4 (multi-token, gamification)
 - Config → concept graph integration
@@ -242,14 +258,14 @@
 
 ## Next Action
 
-1. Profile `test-doctor` >30s timeout (passes 23/23 standalone, but `run_test`'s 30s ceiling fails it under run-all.sh)
-2. API documentation push (50% → 80%)
+1. API documentation push (50% → 80%)
+2. Wire `lib/doctor-cache.zsh` into `commands/doctor.zsh:405` (see Pending above)
 3. Code workspace manager — spec ready on dev
 
 ---
 
-**Last Updated:** 2026-03-11
-**Status:** v7.6.0 | 52/52 tests passing (2 expected interactive/tmux timeouts) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
+**Last Updated:** 2026-05-13
+**Status:** v7.6.0 | 52/52 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04), fixed the bug (2026-05-04), Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04)
 ## streak: 1
 ## last_active: 2026-05-04 12:36
