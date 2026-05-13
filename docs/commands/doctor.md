@@ -105,6 +105,7 @@ flow doctor --verbose
 | `--dot`         | -     | Check only DOT tokens (isolated, < 3s)         |
 | `--dot=TOKEN`   | -     | Check specific token (e.g., `--dot=github`)    |
 | `--fix-token`   | -     | Fix only token issues (< 60s)                  |
+| `--no-cache`    | -     | Bypass GitHub token validation cache (force fresh API call) |
 | `--update-docs` | `-u`  | Regenerate help files and docs                 |
 | `--help`        | `-h`  | Show help                                      |
 

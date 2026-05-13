@@ -14,6 +14,7 @@
 | `flow doctor --fix -y` | Auto-install all missing tools without prompts |
 | `flow doctor --verbose` | Detailed output + email connectivity tests |
 | `flow doctor --dot` | Check only DOT tokens (isolated, fast) |
+| `flow doctor --no-cache` | Force fresh GitHub token validation (bypass 1h cache) |
 
 ## teach doctor Quick Examples
 

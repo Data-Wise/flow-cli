@@ -4,7 +4,7 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: post-release
+## Focus: --help
 ## Phase: Released
 ## Priority: 2
 ## Progress: 100
@@ -12,11 +12,22 @@
 ## Current Session (2026-05-13)
 
 **Session activity:**
+- feat(doctor): wired lib/doctor-cache.zsh into legacy GitHub token validation — fingerprint cache key (sha256 prefix of token, 1h TTL), `--no-cache` flag, JSON envelope `{http_code, username}`
+- refactor(doctor): extracted `_doctor_check_github_token(no_cache)` helper; doctor() now dispatches via one line; helper is independently testable
+- test isolation: `DOCTOR_CACHE_DIR` exported pre-source (cache lib marks it readonly post-source)
+- tests: +4 functions calling helper directly (not full doctor) — cuts test runtime by ~14s
+- empirical timing: cold flow doctor 11.3s → warm 10.8s (~5%, smaller than orchestrate estimate because `_dots_doctor_integration` was already provider-cached)
+- result: 53 test files pass, 1 expected interactive timeout; test-doctor 25s standalone, exit 0 under `timeout 30`
+- discovered (filed): test-framework `create_mock` save/restore is broken for binaries — `tail -n +2` strips opening `{` but keeps closing `}`, eval parse error on second mock
+- discovered (filed): `_doctor_cache_acquire_lock` mkdir-fallback leaks state across in-process invocations; cache_set rc=1 on second call with same key
+
+**Correction (2026-05-13):** Commit `0880f924` (first push of this branch) introduced a test-doctor timeout regression that the commit message and .STATUS both misreported as "52/52 passing". Run-all.sh actually reported "2 timeout" — only one (e2e-em-dispatcher) is documented as expected; the other was test-doctor running ~40s standalone under the 30s `timeout` wrapper in `tests/run-all.sh`. Caught during the optional Step 4 follow-up review when re-checking `time timeout 30 zsh tests/test-doctor.zsh`. Fixed in the follow-up refactor commit by extracting `_doctor_check_github_token` so cache tests skip the slow system-check section.
+
+**Previous Session (2026-05-13 earlier):**
 - fix(tests): test-doctor timeout under run-all.sh — cached `doctor --verbose` output in setup() and reused for both `--verbose` and `-v` tests (which test identical output since `-v` aliases `--verbose` per commands/doctor.zsh:39)
-- root cause: 3 redundant `$(doctor ...)` calls in test, each hitting `curl https://api.github.com/user` (commands/doctor.zsh:405) for ~5-8s of network wait
-- timing: 38.86s standalone → 23.51s wrapped (40% reduction), 6.5s headroom under 30s ceiling
+- root cause: 3 redundant `$(doctor ...)` calls in test, each hitting `curl https://api.github.com/user` for ~5-8s of network wait
+- timing: 38.86s standalone → 23.51s wrapped (40% reduction)
 - result: 23/23 passing, exit 0 under `timeout 30 zsh ...`
-- filed pending: commands/doctor.zsh:405 bypasses lib/doctor-cache.zsh
 
 ## Previous Session (2026-03-11)
 
@@ -242,12 +253,26 @@
 - Current coverage: ~50% (348 functions documented)
 - Target: 80%
 
-### Doctor command bypasses its own cache (filed 2026-05-13)
-- `lib/doctor-cache.zsh` (25KB) provides a file-based cache at `~/.flow/cache/doctor/`
-- `commands/doctor.zsh:405` calls `curl https://api.github.com/user` directly, no cache check
-- Impact: every `flow doctor` invocation hits the network (~5-8s) for a result that's stable for hours
-- Discovered while debugging test-doctor timeout; fix shape: wrap the curl with `_doctor_cache_get`/`_doctor_cache_set` (key e.g. `token-github-validation`, TTL ~1 hour)
-- Would also let test-doctor.zsh be simpler (fewer manual caching workarounds)
+### Test framework `create_mock` parse error for binaries (filed 2026-05-13)
+- `tests/test-framework.zsh:351-368` — `whence -f $fn | tail -n +2` strips opening `{` but keeps trailing `}`, producing unbalanced eval on second mock cycle
+- Affects any test that mocks a binary (curl, etc.) via create_mock
+- Workaround: use `${functions[name]}` for save/restore (see test-doctor.zsh:_test_install_curl_mock)
+- Fix: replace eval-based save with `_ORIGINAL_FUNCTIONS[fn]="${functions[fn]}"` pattern
+
+### Doctor cache lock leaks across in-process invocations (filed 2026-05-13)
+- `lib/doctor-cache.zsh:139-192` mkdir-fallback `_doctor_cache_acquire_lock` leaves stale state when called multiple times in the same shell
+- Manifests as `_doctor_cache_set` returning rc=1 on second-and-later calls with the same key
+- Hypothesis: lock dir cleanup `rm -rf "$lock_dir"` either fails silently or races with subsequent acquire
+- Impact: silent cache write failures during rapid sequential doctor calls (e.g., test setup, scripted automation)
+- Workaround in test-doctor.zsh: use unique cache keys per test
+
+### CI runs smoke tests only — full suite not gated (filed 2026-05-13)
+- `.github/workflows/test.yml:39-44` runs only `test-flow.zsh` + `test-install.sh`
+- Comment is explicit: "Smoke tests only - run full suite locally with: `./tests/run-all.sh`"
+- The required status check "ZSH Plugin Tests" on `main` therefore does NOT verify the 205-file suite
+- Surfaced during PR #446: the test-doctor regression from commit `0880f924` would have passed CI green despite test-doctor exiting 124 under the harness
+- Impact: relies on developer discipline to run `./tests/run-all.sh` locally before opening PRs
+- Options to consider: (B) add `test-doctor.zsh` specifically (~30s job time), or (C) add full `./tests/run-all.sh` as a separate slower job (~4min). Either is a separate workflow PR, not bundled with feature work
 
 ### Future Enhancements
 - Token automation Phases 2-4 (multi-token, gamification)
@@ -259,14 +284,15 @@
 
 ## Next Action
 
-1. API documentation push (50% → 80%)
-2. Wire `lib/doctor-cache.zsh` into `commands/doctor.zsh:405` (see Pending above)
-3. Code workspace manager — spec ready on dev
+1. Open PR for `feature/wire-doctor-cache` → dev (this branch)
+2. After merge: optional follow-up — drop `CACHED_DOCTOR_VERBOSE` workaround from test-doctor.zsh setup() now that the production cache also benefits second invocations
+3. API documentation push (50% → 80%)
+4. Code workspace manager — spec ready on dev
 
 ---
 
 **Last Updated:** 2026-05-13
-**Status:** v7.6.0 | 52/52 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04), fixed the bug (2026-05-04), Fixed the regression bug (2026-05-04), --category fix squashed the bug (2026-05-04)
+**Status:** v7.6.0 | 53/53 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
+## wins: Fixed the regression bug (2026-05-13), --category fix squashed the bug (2026-05-13), fixed the bug (2026-05-13), Fixed the regression bug (2026-05-13), --category fix squashed the bug (2026-05-13)
 ## streak: 1
-## last_active: 2026-05-04 12:36
+## last_active: 2026-05-13 12:27

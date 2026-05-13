@@ -78,6 +78,7 @@ doctor                    # Main entry (existing)
 doctor --dot              # New: Token check only
 doctor --dot=github       # New: Specific token
 doctor --fix-token        # New: Token fixes only
+doctor --no-cache         # Force fresh GitHub validation (bypass cache)
 ```
 
 **Flow:**
@@ -194,6 +195,47 @@ sequenceDiagram
 - Atomic writes (temp file + mv)
 - 2-second lock timeout
 - Graceful degradation if locks fail
+
+#### Two Cache Key Schemes
+
+Doctor uses the same cache *library* (`lib/doctor-cache.zsh`) with two
+different cache-key strategies, depending on the calling path. They write
+to the same `~/.flow/cache/doctor/` directory but produce different file
+names and have different invalidation semantics.
+
+| | Provider-key (`--dot` path) | Fingerprint-key (legacy path) |
+|---|---|---|
+| Key | `token-<provider>` (static) | `token-<provider>-<sha256[:12]>` |
+| Example file | `token-github.cache` | `token-github-f88afc3391de.cache` |
+| TTL | 300s (5 minutes) | 3600s (1 hour) |
+| Caller | `_dots_doctor_integration` → `_tok_expiring` | `_doctor_check_github_token` |
+| Invalidation | Explicit `_doctor_cache_token_clear "github"` in `--fix` path after rotation | Automatic: new token → new fingerprint → cache miss |
+| Cached value | `_tok_expiring` text wrapped as JSON | `{http_code, username}` JSON object |
+
+**When each scheme is preferable:**
+
+- **Provider-key** wins when you need a stable cache identity across
+  rotations (e.g., reading metadata that survives token churn) or want
+  short-lived caching for rapid retry.
+- **Fingerprint-key** wins when the cached value is tied to a *specific*
+  token's validity. Rotation should never serve stale "valid" answers
+  about a token that no longer exists.
+
+The two schemes don't conflict (different file names) but they are not
+deduplicated either — a cold doctor run that hits both paths writes two
+cache files. A future cleanup could route both through a single
+`_doctor_check_github_token` and pick one scheme; the fingerprint-key
+approach is the better invariant (no "forgot to clear" failure mode).
+
+**Cache file layout with both schemes active:**
+
+```text
+~/.flow/cache/doctor/
+├── token-github.cache              # --dot path (provider-key)
+├── token-github-f88afc3391de.cache # legacy path (fingerprint-key)
+├── token-npm.cache                 # --dot path
+└── token-pypi.cache                # --dot path
+```
 
 ---
 
