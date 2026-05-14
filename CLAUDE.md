@@ -261,7 +261,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**205 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (53/53 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
+**206 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (54/54 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -289,7 +289,7 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.6.0 | **Tests:** 12000+ (53/53 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.6.0 | **Tests:** 12000+ (54/54 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 

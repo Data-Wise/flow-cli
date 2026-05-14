@@ -107,6 +107,7 @@ run_test ./tests/test-help-compliance-dogfood.zsh
 echo ""
 echo "Regression tests:"
 run_test ./tests/test-local-path-regression.zsh
+run_test ./tests/test-readonly-scope-regression.zsh
 
 echo ""
 echo "Dogfooding tests:"
