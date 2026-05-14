@@ -55,13 +55,18 @@ typeset -gA _FLOW_MACRO_META
 # CONSTANTS
 # =============================================================================
 
+# Constants use `typeset -gr` rather than bare `readonly`. See
+# lib/doctor-cache.zsh for the full rationale: in zsh, `readonly` inside a
+# function context creates a function-local readonly that vanishes on return.
+# Always use `-g` for module-level constants in sourced libraries.
+
 # Supported macro source formats
-readonly MACRO_FORMAT_QMD="qmd"
-readonly MACRO_FORMAT_MATHJAX="mathjax"
-readonly MACRO_FORMAT_LATEX="latex"
+typeset -gr MACRO_FORMAT_QMD="qmd"
+typeset -gr MACRO_FORMAT_MATHJAX="mathjax"
+typeset -gr MACRO_FORMAT_LATEX="latex"
 
 # Common macro file locations (for auto-discovery)
-readonly -a MACRO_AUTO_DISCOVER_PATHS=(
+typeset -gar MACRO_AUTO_DISCOVER_PATHS=(
     "_macros.qmd"
     "macros.qmd"
     "includes/_macros.qmd"
