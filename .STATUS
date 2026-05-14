@@ -258,13 +258,6 @@
 - Workaround: use `${functions[name]}` for save/restore (see test-doctor.zsh:_test_install_curl_mock)
 - Fix: replace eval-based save with `_ORIGINAL_FUNCTIONS[fn]="${functions[fn]}"` pattern
 
-### Doctor cache lock leaks across in-process invocations (filed 2026-05-13)
-- `lib/doctor-cache.zsh:139-192` mkdir-fallback `_doctor_cache_acquire_lock` leaves stale state when called multiple times in the same shell
-- Manifests as `_doctor_cache_set` returning rc=1 on second-and-later calls with the same key
-- Hypothesis: lock dir cleanup `rm -rf "$lock_dir"` either fails silently or races with subsequent acquire
-- Impact: silent cache write failures during rapid sequential doctor calls (e.g., test setup, scripted automation)
-- Workaround in test-doctor.zsh: use unique cache keys per test
-
 ### CI runs smoke tests only — full suite not gated (filed 2026-05-13)
 - `.github/workflows/test.yml:39-44` runs only `test-flow.zsh` + `test-install.sh`
 - Comment is explicit: "Smoke tests only - run full suite locally with: `./tests/run-all.sh`"
@@ -291,6 +284,6 @@
 
 **Last Updated:** 2026-05-13
 **Status:** v7.6.0 | 53/53 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 205 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-05-13), --category fix squashed the bug (2026-05-13), fixed the bug (2026-05-13), Fixed the regression bug (2026-05-13), --category fix squashed the bug (2026-05-13)
+## wins: Fixed the regression bug (2026-05-14), --category fix squashed the bug (2026-05-14), fixed the bug (2026-05-14), Fixed the regression bug (2026-05-13), --category fix squashed the bug (2026-05-13)
 ## streak: 1
-## last_active: 2026-05-13 12:27
+## last_active: 2026-05-14 15:32
