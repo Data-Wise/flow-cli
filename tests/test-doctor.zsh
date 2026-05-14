@@ -55,11 +55,12 @@ setup() {
     # Close stdin to prevent any interactive commands from blocking
     exec < /dev/null
 
-    # Cache doctor outputs to avoid repeated API calls (each doctor run hits GitHub API)
+    # Cache doctor outputs to avoid repeated API calls (each doctor run hits GitHub API).
+    # --verbose is no longer pre-cached: PR #446 wired GitHub token validation into
+    # lib/doctor-cache.zsh, so the production fingerprint cache already deduplicates
+    # repeated invocations across the disk-shared DOCTOR_CACHE_DIR.
     CACHED_DOCTOR_DEFAULT=$(doctor 2>&1)
     CACHED_DOCTOR_HELP=$(doctor --help 2>&1)
-    CACHED_DOCTOR_VERBOSE=$(doctor --verbose 2>&1)
-    CACHED_DOCTOR_VERBOSE_EXIT=$?
 
     echo ""
 }
@@ -187,16 +188,24 @@ test_doctor_shows_sections() {
 
 test_doctor_verbose_runs() {
     test_case "doctor --verbose runs without error"
-    assert_exit_code $CACHED_DOCTOR_VERBOSE_EXIT 0 "Exit code: $CACHED_DOCTOR_VERBOSE_EXIT"
-    assert_not_empty "$CACHED_DOCTOR_VERBOSE" "Verbose output should not be empty"
+    local output rc
+    output=$(doctor --verbose 2>&1)
+    rc=$?
+    assert_exit_code $rc 0 "Exit code: $rc"
+    assert_not_empty "$output" "Verbose output should not be empty"
     test_pass
 }
 
 test_doctor_v_flag() {
     test_case "doctor -v runs without error"
-    # -v is an alias for --verbose (commands/doctor.zsh:39) — reuse cache
-    assert_exit_code $CACHED_DOCTOR_VERBOSE_EXIT 0 "Exit code: $CACHED_DOCTOR_VERBOSE_EXIT"
-    assert_not_empty "$CACHED_DOCTOR_VERBOSE" "-v output should not be empty"
+    # -v is an alias for --verbose (commands/doctor.zsh:39).
+    # Production fingerprint cache deduplicates the GitHub token check, so the
+    # second invocation hits disk cache rather than the network.
+    local output rc
+    output=$(doctor -v 2>&1)
+    rc=$?
+    assert_exit_code $rc 0 "Exit code: $rc"
+    assert_not_empty "$output" "-v output should not be empty"
     test_pass
 }
 

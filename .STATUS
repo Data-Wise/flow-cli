@@ -242,8 +242,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.6.0 released, all clean |
-| `~/.git-worktrees/flow-cli/wire-doctor-cache` | `feature/wire-doctor-cache` | Planning — ORCHESTRATE plan for wiring `lib/doctor-cache.zsh` into `commands/doctor.zsh:405` GitHub token validation |
+| Main repo | `dev` | v7.6.0 released, all clean (PR #446 wire-doctor-cache merged 2026-05-14) |
 
 ---
 
@@ -284,10 +283,9 @@
 
 ## Next Action
 
-1. Open PR for `feature/wire-doctor-cache` → dev (this branch)
-2. After merge: optional follow-up — drop `CACHED_DOCTOR_VERBOSE` workaround from test-doctor.zsh setup() now that the production cache also benefits second invocations
-3. API documentation push (50% → 80%)
-4. Code workspace manager — spec ready on dev
+1. Optional follow-up — drop `CACHED_DOCTOR_VERBOSE` workaround from test-doctor.zsh setup() now that the production cache also benefits second invocations
+2. API documentation push (50% → 80%)
+3. Code workspace manager — spec ready on dev
 
 ---
 
