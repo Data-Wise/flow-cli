@@ -245,6 +245,11 @@ _flow() {
             '-y:Skip confirmations (short)'
             '--verbose:Verbose output'
             '-v:Verbose (short)'
+            '--quiet:Minimal output (errors only)'
+            '-q:Quiet (short)'
+            '--dot:Check only DOT tokens (isolated, < 3s)'
+            '--fix-token:Fix only token issues (< 60s)'
+            '--no-cache:Bypass GitHub token validation cache'
             '--help:Show help'
           )
           _describe -t options 'option' doctor_opts

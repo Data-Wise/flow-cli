@@ -48,14 +48,20 @@ fi
 # CONSTANTS
 # =============================================================================
 
+# Constants use `typeset -gr` rather than bare `readonly`. See
+# lib/doctor-cache.zsh for the full rationale: in zsh, `readonly` inside a
+# function context creates a function-local readonly that vanishes on return,
+# while the load-guard (`typeset -g`) persists — leaving constants permanently
+# undefined on subsequent calls. Always use `-g` for module-level constants.
+
 # Cache schema version (bump when cache format changes)
-readonly ANALYSIS_CACHE_SCHEMA_VERSION="1.0"
+typeset -gr ANALYSIS_CACHE_SCHEMA_VERSION="1.0"
 
 # Default TTL in hours (7 days)
-readonly ANALYSIS_CACHE_DEFAULT_TTL_HOURS=168
+typeset -gr ANALYSIS_CACHE_DEFAULT_TTL_HOURS=168
 
 # Lock timeout in seconds
-readonly ANALYSIS_CACHE_LOCK_TIMEOUT=5
+typeset -gr ANALYSIS_CACHE_LOCK_TIMEOUT=5
 
 # =============================================================================
 # INTERNAL HELPERS

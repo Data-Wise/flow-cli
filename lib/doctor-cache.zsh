@@ -63,18 +63,26 @@ fi
 # CONSTANTS
 # =============================================================================
 
+# Constants are declared with `typeset -gr` rather than bare `readonly`. In zsh,
+# `readonly` inside a function context (e.g., when this lib is sourced from a
+# function like a test harness `setup()`) creates a function-local readonly that
+# vanishes when the caller returns. The load-guard above uses `typeset -g` and
+# would suppress re-initialization on the next source — leaving these as
+# undefined globals and causing arithmetic like `LOCK_TIMEOUT * 10` to evaluate
+# to zero. Always use `-g` for module-level constants in sourced libraries.
+
 # Default TTL in seconds (5 minutes)
-readonly DOCTOR_CACHE_DEFAULT_TTL=300
+typeset -gr DOCTOR_CACHE_DEFAULT_TTL=300
 
 # Lock timeout in seconds
-readonly DOCTOR_CACHE_LOCK_TIMEOUT=2
+typeset -gr DOCTOR_CACHE_LOCK_TIMEOUT=2
 
 # Maximum age for cache cleanup (1 day)
-readonly DOCTOR_CACHE_MAX_AGE_SECONDS=86400
+typeset -gr DOCTOR_CACHE_MAX_AGE_SECONDS=86400
 
 # Cache directory (respect if already set, e.g., by tests)
 if [[ -z "$DOCTOR_CACHE_DIR" ]]; then
-    readonly DOCTOR_CACHE_DIR="${HOME}/.flow/cache/doctor"
+    typeset -gr DOCTOR_CACHE_DIR="${HOME}/.flow/cache/doctor"
 fi
 
 # =============================================================================

@@ -29,6 +29,9 @@ doctor() {
   # Task 4: Verbosity levels
   local verbosity_level="normal" # quiet, normal, verbose
 
+  # Cache bypass: --no-cache forces fresh GitHub token validation
+  local no_cache=false
+
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -38,6 +41,7 @@ doctor() {
       --yes|-y)         auto_yes=true; shift ;;
       --verbose|-v)     verbose=true; verbosity_level="verbose"; shift ;;
       --quiet|-q)       verbosity_level="quiet"; shift ;;
+      --no-cache)       no_cache=true; shift ;;
 
       # Task 1: Token flags
       --dot)
@@ -390,79 +394,9 @@ doctor() {
   # ──────────────────────────────────────────────────────────────
   # GITHUB TOKEN HEALTH
   # ──────────────────────────────────────────────────────────────
-  # Note: This is the legacy token check. Future phases will delegate to tok expiring
+  # Note: legacy token check. Future phases will delegate to tok expiring.
   if [[ "$dot_check" == false ]]; then
-    _doctor_log_quiet "${FLOW_COLORS[bold]}🔑 GITHUB TOKEN${FLOW_COLORS[reset]}"
-
-    local token=$(sec github-token 2>/dev/null)
-    local -a token_issues=()
-
-    if [[ -z "$token" ]]; then
-      _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Not configured"
-      token_issues+=("missing")
-    else
-      # Validate token via API
-      local api_response=$(curl -s -w "\n%{http_code}" \
-        -H "Authorization: token $token" \
-        "https://api.github.com/user" 2>/dev/null)
-
-      local http_code=$(echo "$api_response" | tail -1)
-      local username=$(echo "$api_response" | sed '$d' | jq -r '.login // "unknown"')
-
-      if [[ "$http_code" != "200" ]]; then
-        _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Invalid/Expired"
-        token_issues+=("invalid")
-      else
-        _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Valid (@$username)"
-
-        # Check expiration
-        local age_days=$(_tok_age_days "github-token")
-        local days_remaining=$((90 - age_days))
-
-        if [[ $days_remaining -le 7 ]]; then
-          _doctor_log_quiet "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Expiring in $days_remaining days"
-          token_issues+=("expiring")
-        fi
-
-        # Test token-dependent services (verbose only)
-        _doctor_log_verbose ""
-        _doctor_log_verbose "  ${FLOW_COLORS[muted]}Token-Dependent Services:${FLOW_COLORS[reset]}"
-
-        # Test gh CLI
-        if command -v gh &>/dev/null; then
-          if gh auth status &>/dev/null 2>&1; then
-            _doctor_log_verbose "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} gh CLI authenticated"
-          else
-            _doctor_log_verbose "    ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} gh CLI not authenticated"
-            token_issues+=("gh-cli")
-          fi
-        else
-          _doctor_log_verbose "    ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} gh CLI not installed"
-        fi
-
-        # Test Claude Code MCP
-        if [[ -f "$HOME/.claude/settings.json" ]]; then
-          if grep -q "GITHUB_PERSONAL_ACCESS_TOKEN.*\${GITHUB_TOKEN}" "$HOME/.claude/settings.json"; then
-            if [[ -n "$GITHUB_TOKEN" ]]; then
-              _doctor_log_verbose "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Claude Code MCP configured"
-            else
-              _doctor_log_verbose "    ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} \$GITHUB_TOKEN not exported"
-              token_issues+=("env-var")
-            fi
-          else
-            _doctor_log_verbose "    ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Claude MCP not using env var"
-            token_issues+=("mcp-config")
-          fi
-        fi
-      fi
-    fi
-
-    # Store token issues for category selection
-    if [[ ${#token_issues[@]} -gt 0 ]]; then
-      _doctor_token_issues[github]="${token_issues[*]}"
-    fi
-
-    _doctor_log_quiet ""
+    _doctor_check_github_token "$no_cache"
   fi
 
   # ──────────────────────────────────────────────────────────────
@@ -1763,6 +1697,112 @@ _doctor_confirm() {
   esac
 }
 
+# Validate the github-token via GitHub /user API, with file-based cache.
+# Side effects: prints status lines via _doctor_log_*; mutates global
+# _doctor_token_issues[github] when problems are found; reads/writes to
+# $DOCTOR_CACHE_DIR via lib/doctor-cache.zsh.
+#
+# Args:
+#   $1 - "true" to bypass cache, anything else uses cache (default: false)
+_doctor_check_github_token() {
+  local no_cache="${1:-false}"
+
+  _doctor_log_quiet "${FLOW_COLORS[bold]}🔑 GITHUB TOKEN${FLOW_COLORS[reset]}"
+
+  local token=$(sec github-token 2>/dev/null)
+  local -a token_issues=()
+
+  if [[ -z "$token" ]]; then
+    _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Not configured"
+    token_issues+=("missing")
+  else
+    # Cache key derives from token sha256 prefix so rotation auto-invalidates.
+    local http_code username
+    local cache_key="" cached=""
+
+    if [[ "$no_cache" == false ]] && (( $+functions[_doctor_cache_get] )) \
+        && command -v shasum >/dev/null 2>&1; then
+      local token_fp=$(printf '%s' "$token" | shasum -a 256 | cut -c1-12)
+      cache_key="token-github-${token_fp}"
+      cached=$(_doctor_cache_get "$cache_key" 2>/dev/null)
+    fi
+
+    if [[ -n "$cached" ]] && command -v jq >/dev/null 2>&1; then
+      http_code=$(echo "$cached" | jq -r '.http_code // ""')
+      username=$(echo "$cached" | jq -r '.username // "unknown"')
+      _doctor_log_verbose "  ${FLOW_COLORS[muted]}[Cache hit]${FLOW_COLORS[reset]}"
+    else
+      [[ -n "$cache_key" ]] && _doctor_log_verbose "  ${FLOW_COLORS[muted]}[Cache miss - validating...]${FLOW_COLORS[reset]}"
+      local api_response=$(curl -s -w "\n%{http_code}" \
+        -H "Authorization: token $token" \
+        "https://api.github.com/user" 2>/dev/null)
+
+      http_code=$(echo "$api_response" | tail -1)
+      username=$(echo "$api_response" | sed '$d' | jq -r '.login // "unknown"')
+
+      # Cache only successful validations (don't cache transient curl failures)
+      if [[ -n "$cache_key" ]] && [[ "$http_code" == "200" ]] \
+          && (( $+functions[_doctor_cache_set] )); then
+        local cache_value=$(jq -nc \
+          --arg http_code "$http_code" \
+          --arg username "$username" \
+          '{http_code: $http_code, username: $username}')
+        _doctor_cache_set "$cache_key" "$cache_value" 3600 2>/dev/null || true
+      fi
+    fi
+
+    if [[ "$http_code" != "200" ]]; then
+      _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} Invalid/Expired"
+      token_issues+=("invalid")
+    else
+      _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Valid (@$username)"
+
+      local age_days=$(_tok_age_days "github-token")
+      local days_remaining=$((90 - age_days))
+
+      if [[ $days_remaining -le 7 ]]; then
+        _doctor_log_quiet "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Expiring in $days_remaining days"
+        token_issues+=("expiring")
+      fi
+
+      # Test token-dependent services (verbose only)
+      _doctor_log_verbose ""
+      _doctor_log_verbose "  ${FLOW_COLORS[muted]}Token-Dependent Services:${FLOW_COLORS[reset]}"
+
+      if command -v gh &>/dev/null; then
+        if gh auth status &>/dev/null 2>&1; then
+          _doctor_log_verbose "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} gh CLI authenticated"
+        else
+          _doctor_log_verbose "    ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} gh CLI not authenticated"
+          token_issues+=("gh-cli")
+        fi
+      else
+        _doctor_log_verbose "    ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} gh CLI not installed"
+      fi
+
+      if [[ -f "$HOME/.claude/settings.json" ]]; then
+        if grep -q "GITHUB_PERSONAL_ACCESS_TOKEN.*\${GITHUB_TOKEN}" "$HOME/.claude/settings.json"; then
+          if [[ -n "$GITHUB_TOKEN" ]]; then
+            _doctor_log_verbose "    ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Claude Code MCP configured"
+          else
+            _doctor_log_verbose "    ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} \$GITHUB_TOKEN not exported"
+            token_issues+=("env-var")
+          fi
+        else
+          _doctor_log_verbose "    ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  Claude MCP not using env var"
+          token_issues+=("mcp-config")
+        fi
+      fi
+    fi
+  fi
+
+  if [[ ${#token_issues[@]} -gt 0 ]]; then
+    _doctor_token_issues[github]="${token_issues[*]}"
+  fi
+
+  _doctor_log_quiet ""
+}
+
 _doctor_help() {
   echo ""
   echo "${FLOW_COLORS[header]}╭─────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
@@ -1794,6 +1834,7 @@ _doctor_help() {
   echo ""
   echo "${FLOW_COLORS[bold]}OTHER OPTIONS${FLOW_COLORS[reset]}"
   echo "  -y, --yes      Skip confirmations (use with --fix)"
+  echo "  --no-cache     Bypass GitHub token validation cache (force fresh API call)"
   echo "  -h, --help     Show this help"
   echo ""
   echo "${FLOW_COLORS[bold]}EXAMPLES${FLOW_COLORS[reset]}"
@@ -1805,6 +1846,7 @@ _doctor_help() {
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --fix-token    # Fix token issues only"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --quiet        # Show only errors"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --verbose      # Show detailed info + cache status"
+  echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --no-cache     # Force fresh GitHub token validation"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --ai           # Get AI help deciding what to install"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} doctor --update-docs  # Regenerate documentation"
   echo "  ${FLOW_COLORS[muted]}\$${FLOW_COLORS[reset]} flow doctor           # Also works via flow command"

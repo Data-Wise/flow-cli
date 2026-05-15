@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.6.0
+- **Current Version:** v7.7.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
@@ -194,7 +194,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 205 test files, 12000+ test functions
+├── tests/                    # 206 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```zsh
@@ -261,7 +261,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**205 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (52/52 passing, 2 expected interactive/tmux timeouts) or individual suites in `tests/`.
+**206 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (54/54 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -289,8 +289,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.6.0 | **Tests:** 12000+ (52/52 suite, 2 interactive timeouts) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.7.0 | **Tests:** 12000+ (54/54 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-02-27 (v7.6.0)
+**Last Updated:** 2026-05-15 (v7.7.0)

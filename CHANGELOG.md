@@ -11,6 +11,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [7.7.0] — 2026-05-15 — doctor cache + zsh-scope hardening
+
+### Added
+
+- **`flow doctor` GitHub token validation cache** — Subsequent `flow doctor` invocations within 1 hour skip the GitHub `/user` API call (~5–8s saved per warm run). Fingerprint-based cache key (sha256 prefix of token) auto-invalidates on rotation.
+- **`flow doctor --no-cache`** — Bypasses the cache and forces a fresh API validation. Useful when troubleshooting "why is my token broken?".
+- **Regression test: `tests/test-readonly-scope-regression.zsh`** — Five-test guard preventing reintroduction of the bare-`readonly` zsh scope trap, including a functional proof that the bug still exists in current zsh.
+
+### Fixed
+
+- **doctor-cache silent write failures** — Module constants in `lib/doctor-cache.zsh` were declared with `readonly` instead of `typeset -gr`. When the lib was sourced from inside a function (e.g., a test harness `setup()`), zsh treated the `readonly` declarations as function-local; they vanished when the caller returned. The persistent load-guard then suppressed re-initialization. Symptom: `max_attempts=$((DOCTOR_CACHE_LOCK_TIMEOUT * 10))` evaluated to `0`, the lock-acquire loop ran zero iterations, and `_doctor_cache_set` failed with "Failed to acquire cache lock for writing." Production was unaffected (top-level sourcing keeps globals); only test harnesses surfaced the bug.
+- **Preventive: same fix in `lib/analysis-cache.zsh` and `lib/macro-parser.zsh`** — Same pattern, not yet bitten in practice. Switched to `typeset -gr` (and `typeset -gar` for arrays).
+- **`create_mock` save/restore destroyed originals** — `tests/test-framework.zsh` used `whence -f $fn | tail -n +2` to capture function bodies, but `tail -n +2` left the trailing `}` in the body. Wrapping it in a new `funcname() { ... }` template produced unbalanced braces and a silent eval parse error. The save failure cascaded: `reset_mocks` couldn't find the saved original, fell into the `unset -f $fn_name` branch, and **destroyed the real function**. Replaced eval-string round-tripping with zsh's `${functions[name]}` associative array — saves the body without surrounding braces and restores losslessly.
+
+### Changed
+
+- **Removed `CACHED_DOCTOR_VERBOSE` workaround** in `tests/test-doctor.zsh` — The doctor cache wired in the previous PR already deduplicates `doctor --verbose` calls via the disk-shared fingerprint cache. The setup-side cache became redundant. Side benefit: `test_doctor_v_flag` now actually exercises the `-v` alias instead of re-checking the cached `--verbose` output.
+
+---
+
 ## [7.6.0] — 2026-02-27 — em --prompt + Scholar Config Sync
 
 ### Added
