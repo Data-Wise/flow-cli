@@ -347,14 +347,25 @@ assert_output_excludes() { assert_not_contains "$@"; }
 
 typeset -gA MOCK_CALLS=()
 typeset -gA MOCK_ARGS=()
+# Originals saved as raw function bodies via zsh's `functions[]` assoc array.
+# The previous eval-based save (`whence -f $fn | tail -n +2`) was broken: it
+# skipped only the opening `name () {` line, leaving the trailing `}` in the
+# body, so wrapping it in a new `funcname() { ... }` template produced
+# unbalanced braces and a silent eval parse error. Restoration then fell into
+# the `unset -f $fn_name` branch, destroying the original instead of restoring.
+# `functions[name]` returns the body *without* surrounding braces, so it
+# round-trips losslessly through `functions[name]=$saved`.
+typeset -gA _ORIGINAL_FUNCTIONS=()
 
 create_mock() {
   local fn_name="$1"
   local mock_body="${2:-true}"
 
-  # Save original if it exists
-  if (whence -f "$fn_name" >/dev/null 2>&1); then
-    eval "_original_mock_${fn_name}() { $(whence -f $fn_name | tail -n +2) }"
+  # Save original if it exists. (( ${+functions[name]} )) is the zsh idiom for
+  # "is `name` defined as a function?" — true iff the key exists in the
+  # `functions` assoc array.
+  if (( ${+functions[$fn_name]} )); then
+    _ORIGINAL_FUNCTIONS[$fn_name]="${functions[$fn_name]}"
   fi
 
   MOCK_CALLS[$fn_name]=0
@@ -396,11 +407,11 @@ assert_mock_args() {
 }
 
 reset_mocks() {
-  # Restore originals where saved
+  # Restore originals where saved, otherwise drop the mock function entirely.
   for fn_name in ${(k)MOCK_CALLS}; do
-    if (whence -f "_original_mock_${fn_name}" >/dev/null 2>&1); then
-      eval "${fn_name}() { $(whence -f _original_mock_${fn_name} | tail -n +2) }"
-      unset -f "_original_mock_${fn_name}"
+    if (( ${+_ORIGINAL_FUNCTIONS[$fn_name]} )); then
+      functions[$fn_name]="${_ORIGINAL_FUNCTIONS[$fn_name]}"
+      unset "_ORIGINAL_FUNCTIONS[$fn_name]"
     else
       unset -f "$fn_name" 2>/dev/null
     fi

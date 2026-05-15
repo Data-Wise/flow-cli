@@ -252,12 +252,6 @@
 - Current coverage: ~50% (348 functions documented)
 - Target: 80%
 
-### Test framework `create_mock` parse error for binaries (filed 2026-05-13)
-- `tests/test-framework.zsh:351-368` — `whence -f $fn | tail -n +2` strips opening `{` but keeps trailing `}`, producing unbalanced eval on second mock cycle
-- Affects any test that mocks a binary (curl, etc.) via create_mock
-- Workaround: use `${functions[name]}` for save/restore (see test-doctor.zsh:_test_install_curl_mock)
-- Fix: replace eval-based save with `_ORIGINAL_FUNCTIONS[fn]="${functions[fn]}"` pattern
-
 ### CI runs smoke tests only — full suite not gated (filed 2026-05-13)
 - `.github/workflows/test.yml:39-44` runs only `test-flow.zsh` + `test-install.sh`
 - Comment is explicit: "Smoke tests only - run full suite locally with: `./tests/run-all.sh`"
@@ -286,4 +280,4 @@
 **Status:** v7.6.0 | 54/54 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 206 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-05-14), --category fix squashed the bug (2026-05-14), fixed the bug (2026-05-14), Fixed the regression bug (2026-05-14), --category fix squashed the bug (2026-05-14)
 ## streak: 1
-## last_active: 2026-05-14 15:47
+## last_active: 2026-05-14 18:56
