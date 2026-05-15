@@ -9,7 +9,7 @@ tags:
 > **What you'll learn:** Create and manage teaching content templates with `teach templates`
 >
 > **Time:** ~15 minutes | **Level:** Beginner → Intermediate
-> **Version:** v7.6.0
+> **Version:** v7.7.0
 
 ---
 
@@ -433,5 +433,5 @@ teach templates sync --force
 
 ---
 
-**Version:** v7.6.0
+**Version:** v7.7.0
 **Last Updated:** 2026-01-28

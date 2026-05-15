@@ -8,6 +8,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+---
+
+## [7.7.0] — 2026-05-15 — doctor cache + zsh-scope hardening
+
 ### Added
 
 - **`flow doctor` GitHub token validation cache** — Subsequent `flow doctor` invocations within 1 hour skip the GitHub `/user` API call (~5–8s saved per warm run). Fingerprint-based cache key (sha256 prefix of token) auto-invalidates on rotation.
