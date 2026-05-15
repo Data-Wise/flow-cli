@@ -9,7 +9,24 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-05-13)
+## Current Session (2026-05-15) — v7.7.0 released
+
+**Session activity:**
+- post-merge cleanup: pulled 9 commits (PR #446), removed `wire-doctor-cache` worktree + branch
+- diagnosed misdiagnosed "doctor cache lock leak" — actual root cause is **zsh `readonly` becomes function-local when sourced from inside a function** (e.g., test harness `setup()`). Constants vanished after caller returned, leaving `max_attempts=$((CONST*10))=0` and `_doctor_cache_set` rc=1
+- fix(doctor-cache): `readonly` → `typeset -gr` on 4 module constants (commit f1939070)
+- fix(libs): same preventive fix in `lib/analysis-cache.zsh` + `lib/macro-parser.zsh` — same pattern, not yet bitten (commit 9db49db9)
+- test(regression): `tests/test-readonly-scope-regression.zsh` — 5 checks including functional proof; wired into run-all.sh (commit b0efa698)
+- fix(test-framework): `create_mock` save/restore was destroying originals — `whence -f $fn | tail -n +2` left trailing `}`, eval parse error on save → reset_mocks `unset -f` cascade. Replaced with `${functions[name]}` round-trip (commit 109cd0d0)
+- refactor(tests): dropped `CACHED_DOCTOR_VERBOSE` workaround — production cache now deduplicates (commit 7d5ed694)
+- docs: `[Unreleased]` entries in both CHANGELOGs (commit 4272141e)
+- back-merged origin/main (homebrew CI App-auth migration #443) before release (commit 6e86daec)
+- release v7.7.0: bumped 5 files via release.sh + 47-file doc sweep + CHANGELOG rename (commit 06a9ae4b); PR #447 → merged 92315f47 → tag → tap → docs
+- **shipped:** v7.7.0 — doctor cache + zsh-scope hardening. Live at github.com/Data-Wise/flow-cli/releases/tag/v7.7.0
+- memory updated: 2 new ZSH gotcha entries (`readonly` scope + `functions[]` save/restore)
+- result: 54/54 tests passing (1 expected IMAP timeout), 206 test files, all downstream verified (CI green on main, docs deployed, brew formula updated, badge passing)
+
+## Previous Session (2026-05-13)
 
 **Session activity:**
 - feat(doctor): wired lib/doctor-cache.zsh into legacy GitHub token validation — fingerprint cache key (sha256 prefix of token, 1h TTL), `--no-cache` flag, JSON envelope `{http_code, username}`
@@ -270,9 +287,9 @@
 
 ## Next Action
 
-1. Optional follow-up — drop `CACHED_DOCTOR_VERBOSE` workaround from test-doctor.zsh setup() now that the production cache also benefits second invocations
-2. API documentation push (50% → 80%)
-3. Code workspace manager — spec ready on dev
+1. API documentation push (50% → 80% coverage of 348 functions)
+2. Code workspace manager — `code ws` dispatcher spec ready on dev
+3. CI smoke-only gap — workflow PR to gate full `./tests/run-all.sh` on main (filed 2026-05-13)
 
 ---
 
