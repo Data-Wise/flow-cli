@@ -194,7 +194,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 205 test files, 12000+ test functions
+├── tests/                    # 206 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```zsh
