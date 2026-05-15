@@ -7361,6 +7361,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="3. Cache Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-cache-key-schemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two Cache Key Schemes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -8741,6 +8758,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="3. Cache Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#two-cache-key-schemes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two Cache Key Schemes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -9226,6 +9260,7 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>doctor<span class="w"> </span>--dot<span class="w">              </span><span class="c1"># New: Token check only</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>doctor<span class="w"> </span>--dot<span class="o">=</span>github<span class="w">       </span><span class="c1"># New: Specific token</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>doctor<span class="w"> </span>--fix-token<span class="w">        </span><span class="c1"># New: Token fixes only</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>doctor<span class="w"> </span>--no-cache<span class="w">         </span><span class="c1"># Force fresh GitHub validation (bypass cache)</span>
 </code></pre></div>
 <p><strong>Flow:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>User Input → Flag Parser → Mode Selection → Handler
@@ -9319,6 +9354,73 @@
 - Atomic writes (temp file + mv)
 - 2-second lock timeout
 - Graceful degradation if locks fail</p>
+<h4 id="two-cache-key-schemes">Two Cache Key Schemes<a class="headerlink" href="#two-cache-key-schemes" title="Permanent link">&para;</a></h4>
+<p>Doctor uses the same cache <em>library</em> (<code>lib/doctor-cache.zsh</code>) with two
+different cache-key strategies, depending on the calling path. They write
+to the same <code>~/.flow/cache/doctor/</code> directory but produce different file
+names and have different invalidation semantics.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Provider-key (<code>--dot</code> path)</th>
+<th>Fingerprint-key (legacy path)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td><code>token-&lt;provider&gt;</code> (static)</td>
+<td><code>token-&lt;provider&gt;-&lt;sha256[:12]&gt;</code></td>
+</tr>
+<tr>
+<td>Example file</td>
+<td><code>token-github.cache</code></td>
+<td><code>token-github-f88afc3391de.cache</code></td>
+</tr>
+<tr>
+<td>TTL</td>
+<td>300s (5 minutes)</td>
+<td>3600s (1 hour)</td>
+</tr>
+<tr>
+<td>Caller</td>
+<td><code>_dots_doctor_integration</code> → <code>_tok_expiring</code></td>
+<td><code>_doctor_check_github_token</code></td>
+</tr>
+<tr>
+<td>Invalidation</td>
+<td>Explicit <code>_doctor_cache_token_clear "github"</code> in <code>--fix</code> path after rotation</td>
+<td>Automatic: new token → new fingerprint → cache miss</td>
+</tr>
+<tr>
+<td>Cached value</td>
+<td><code>_tok_expiring</code> text wrapped as JSON</td>
+<td><code>{http_code, username}</code> JSON object</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When each scheme is preferable:</strong></p>
+<ul>
+<li><strong>Provider-key</strong> wins when you need a stable cache identity across
+  rotations (e.g., reading metadata that survives token churn) or want
+  short-lived caching for rapid retry.</li>
+<li><strong>Fingerprint-key</strong> wins when the cached value is tied to a <em>specific</em>
+  token's validity. Rotation should never serve stale "valid" answers
+  about a token that no longer exists.</li>
+</ul>
+<p>The two schemes don't conflict (different file names) but they are not
+deduplicated either — a cold doctor run that hits both paths writes two
+cache files. A future cleanup could route both through a single
+<code>_doctor_check_github_token</code> and pick one scheme; the fingerprint-key
+approach is the better invariant (no "forgot to clear" failure mode).</p>
+<p><strong>Cache file layout with both schemes active:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>~/.flow/cache/doctor/
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── token-github.cache              # --dot path (provider-key)
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>├── token-github-f88afc3391de.cache # legacy path (fingerprint-key)
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>├── token-npm.cache                 # --dot path
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>└── token-pypi.cache                # --dot path
+</code></pre></div>
 <hr />
 <h3 id="4-category-menu-system">4. Category Menu System<a class="headerlink" href="#4-category-menu-system" title="Permanent link">&para;</a></h3>
 <p><strong>Location:</strong> <code>commands/doctor.zsh</code> (lines ~698-850)</p>
@@ -9360,19 +9462,19 @@
 <p><strong>Visual Layout:</strong></p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>╭─ Select Category to Fix ────────────────────────╮
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│                                                  │
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│  1. 🔑 GitHub Token (2 issues, ~30s)            │
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│     ⚠ Token expiring in 5 days                  │
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│                                                  │
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│  2. 📦 Missing Tools (5 tools, ~2m 30s)         │
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│     ✗ fzf, bat, eza, zoxide, rg                 │
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│                                                  │
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>│  3. ✨ Fix All Categories (~3m 10s)             │
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│                                                  │
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>│  0. Exit without fixing                         │
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>│                                                  │
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>╰──────────────────────────────────────────────────╯
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>╭─ Select Category to Fix ────────────────────────╮
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>│                                                  │
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>│  1. 🔑 GitHub Token (2 issues, ~30s)            │
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│     ⚠ Token expiring in 5 days                  │
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>│                                                  │
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>│  2. 📦 Missing Tools (5 tools, ~2m 30s)         │
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>│     ✗ fzf, bat, eza, zoxide, rg                 │
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>│                                                  │
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>│  3. ✨ Fix All Categories (~3m 10s)             │
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>│                                                  │
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>│  0. Exit without fixing                         │
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>│                                                  │
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>╰──────────────────────────────────────────────────╯
 </code></pre></div>
 <hr />
 <h3 id="5-integration-layer">5. Integration Layer<a class="headerlink" href="#5-integration-layer" title="Permanent link">&para;</a></h3>
@@ -9415,10 +9517,10 @@
 <hr />
 <h3 id="6-verbosity-system">6. Verbosity System<a class="headerlink" href="#6-verbosity-system" title="Permanent link">&para;</a></h3>
 <p><strong>Three-Level Design:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Helper functions</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>_doctor_log_quiet<span class="o">()</span><span class="w">     </span><span class="c1"># Normal + Verbose</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>_doctor_log_verbose<span class="o">()</span><span class="w">   </span><span class="c1"># Verbose only</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>_doctor_log_always<span class="o">()</span><span class="w">    </span><span class="c1"># All modes</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Helper functions</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>_doctor_log_quiet<span class="o">()</span><span class="w">     </span><span class="c1"># Normal + Verbose</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>_doctor_log_verbose<span class="o">()</span><span class="w">   </span><span class="c1"># Verbose only</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>_doctor_log_always<span class="o">()</span><span class="w">    </span><span class="c1"># All modes</span>
 </code></pre></div>
 <p><strong>Output Control:</strong></p>
 <table>
@@ -9452,30 +9554,13 @@
 </tbody>
 </table>
 <p><strong>Usage:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>_doctor_log_quiet<span class="w"> </span><span class="s2">&quot;Processing...&quot;</span><span class="w">        </span><span class="c1"># Normal flow</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>_doctor_log_verbose<span class="w"> </span><span class="s2">&quot;Cache hit: 45s&quot;</span><span class="w">     </span><span class="c1"># Debug info</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>_doctor_log_always<span class="w"> </span><span class="s2">&quot;Error: Failed&quot;</span><span class="w">       </span><span class="c1"># Critical</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>_doctor_log_quiet<span class="w"> </span><span class="s2">&quot;Processing...&quot;</span><span class="w">        </span><span class="c1"># Normal flow</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>_doctor_log_verbose<span class="w"> </span><span class="s2">&quot;Cache hit: 45s&quot;</span><span class="w">     </span><span class="c1"># Debug info</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>_doctor_log_always<span class="w"> </span><span class="s2">&quot;Error: Failed&quot;</span><span class="w">       </span><span class="c1"># Critical</span>
 </code></pre></div>
 <hr />
 <h2 id="data-flow">Data Flow<a class="headerlink" href="#data-flow" title="Permanent link">&para;</a></h2>
 <h3 id="token-check-flow-cached">Token Check Flow (Cached)<a class="headerlink" href="#token-check-flow-cached" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>User: doctor --dot
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  ↓
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Flag Parser: dot_check=true
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  ↓
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>Cache Init: _doctor_cache_init
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>  ↓
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>Cache Get: _doctor_cache_get(&quot;token-github&quot;)
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>  ↓
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>Cache Hit: &lt; 5 min old
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>  ↓
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>Parse JSON: Extract status
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>  ↓
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>Display: &quot;✓ Token valid (45 days)&quot;
-</code></pre></div>
-<p><strong>Time:</strong> &lt; 100ms</p>
-<hr />
-<h3 id="token-check-flow-fresh">Token Check Flow (Fresh)<a class="headerlink" href="#token-check-flow-fresh" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>User: doctor --dot
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  ↓
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Flag Parser: dot_check=true
@@ -9484,36 +9569,53 @@
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  ↓
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>Cache Get: _doctor_cache_get(&quot;token-github&quot;)
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>  ↓
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>Cache Miss: Expired or missing
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>Cache Hit: &lt; 5 min old
 <a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>  ↓
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Delegate: _tok_expiring
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Parse JSON: Extract status
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>  ↓
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>GitHub API: Validate token
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>  ↓
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>Cache Set: Store result (5 min TTL)
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>  ↓
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>Display: &quot;✓ Token valid (45 days)&quot;
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>Display: &quot;✓ Token valid (45 days)&quot;
+</code></pre></div>
+<p><strong>Time:</strong> &lt; 100ms</p>
+<hr />
+<h3 id="token-check-flow-fresh">Token Check Flow (Fresh)<a class="headerlink" href="#token-check-flow-fresh" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>User: doctor --dot
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  ↓
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>Flag Parser: dot_check=true
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  ↓
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>Cache Init: _doctor_cache_init
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>  ↓
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>Cache Get: _doctor_cache_get(&quot;token-github&quot;)
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>  ↓
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>Cache Miss: Expired or missing
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>  ↓
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>Delegate: _tok_expiring
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>  ↓
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>GitHub API: Validate token
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>  ↓
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>Cache Set: Store result (5 min TTL)
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>  ↓
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>Display: &quot;✓ Token valid (45 days)&quot;
 </code></pre></div>
 <p><strong>Time:</strong> ~2-3 seconds</p>
 <hr />
 <h3 id="token-fix-flow">Token Fix Flow<a class="headerlink" href="#token-fix-flow" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>User: doctor --fix-token
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  ↓
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>Flag Parser: mode=fix, dot_check=true
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  ↓
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>Issue Detection: Check token status
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>  ↓
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>Menu Display: Category selection
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>  ↓
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>User Selects: &quot;1. GitHub Token&quot;
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>  ↓
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>Token Rotation: _tok_rotate
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>  ↓
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>Cache Clear: _doctor_cache_token_clear(&quot;github&quot;)
-<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>  ↓
-<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>Win Log: &quot;Security maintenance&quot;
-<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>  ↓
-<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>Display: &quot;✅ Token rotated (28s)&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>User: doctor --fix-token
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>  ↓
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Flag Parser: mode=fix, dot_check=true
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>  ↓
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>Issue Detection: Check token status
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  ↓
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>Menu Display: Category selection
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  ↓
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>User Selects: &quot;1. GitHub Token&quot;
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>  ↓
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>Token Rotation: _tok_rotate
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>  ↓
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>Cache Clear: _doctor_cache_token_clear(&quot;github&quot;)
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>  ↓
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>Win Log: &quot;Security maintenance&quot;
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>  ↓
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>Display: &quot;✅ Token rotated (28s)&quot;
 </code></pre></div>
 <p><strong>Time:</strong> ~30 seconds</p>
 <hr />
@@ -9561,16 +9663,16 @@
 </tbody>
 </table>
 <h3 id="cache-effectiveness">Cache Effectiveness<a class="headerlink" href="#cache-effectiveness" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Cache Hit Rate (5-minute TTL):
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├─ First check:     0%  (cache miss)
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>├─ Second check:   100% (&lt; 5 min)
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>├─ Third check:    100% (&lt; 5 min)
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>├─ After 5 min:     0%  (expired)
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>└─ Average:        ~85% (with regular use)
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>API Call Reduction: ~85%
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>Storage per entry: ~1.5 KB
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>Cleanup frequency: Daily (&gt; 1 day old)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Cache Hit Rate (5-minute TTL):
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├─ First check:     0%  (cache miss)
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├─ Second check:   100% (&lt; 5 min)
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>├─ Third check:    100% (&lt; 5 min)
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>├─ After 5 min:     0%  (expired)
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>└─ Average:        ~85% (with regular use)
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>API Call Reduction: ~85%
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>Storage per entry: ~1.5 KB
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>Cleanup frequency: Daily (&gt; 1 day old)
 </code></pre></div>
 <hr />
 <h2 id="security-considerations">Security Considerations<a class="headerlink" href="#security-considerations" title="Permanent link">&para;</a></h2>
@@ -9585,22 +9687,22 @@
 - Readable by user only (permissions)</p>
 <h3 id="2-cache-security">2. Cache Security<a class="headerlink" href="#2-cache-security" title="Permanent link">&para;</a></h3>
 <p><strong>File Permissions:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>~/.flow/cache/doctor/<span class="w">     </span><span class="c1"># drwx------  (700)</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├──<span class="w"> </span>token-github.cache<span class="w">    </span><span class="c1"># -rw-------  (600)</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>└──<span class="w"> </span>token-npm.cache<span class="w">       </span><span class="c1"># -rw-------  (600)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>~/.flow/cache/doctor/<span class="w">     </span><span class="c1"># drwx------  (700)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>├──<span class="w"> </span>token-github.cache<span class="w">    </span><span class="c1"># -rw-------  (600)</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>└──<span class="w"> </span>token-npm.cache<span class="w">       </span><span class="c1"># -rw-------  (600)</span>
 </code></pre></div>
 <p><strong>Data Sensitivity:</strong>
 - ✅ Stores: Status, expiration, username
 - ❌ Never stores: Actual token value, secrets</p>
 <h3 id="3-concurrent-access">3. Concurrent Access<a class="headerlink" href="#3-concurrent-access" title="Permanent link">&para;</a></h3>
 <p><strong>Lock Mechanism:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Acquire lock with timeout</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>flock<span class="w"> </span>-w<span class="w"> </span><span class="nv">$DOCTOR_CACHE_LOCK_TIMEOUT</span><span class="w"> </span><span class="m">200</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Atomic write</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$temp_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cache_file</span><span class="s2">&quot;</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Release lock (automatic)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Acquire lock with timeout</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>flock<span class="w"> </span>-w<span class="w"> </span><span class="nv">$DOCTOR_CACHE_LOCK_TIMEOUT</span><span class="w"> </span><span class="m">200</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Atomic write</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$temp_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cache_file</span><span class="s2">&quot;</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Release lock (automatic)</span>
 </code></pre></div>
 <p><strong>Guarantees:</strong>
 - No race conditions
@@ -9610,34 +9712,34 @@
 <h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
 <h3 id="cache-failures">Cache Failures<a class="headerlink" href="#cache-failures" title="Permanent link">&para;</a></h3>
 <p><strong>Strategy:</strong> Graceful degradation</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Cache init fails → Continue without cache</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>_doctor_cache_init<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Cache get fails → Fetch fresh data</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nv">cached</span><span class="o">=</span><span class="k">$(</span>_doctor_cache_get<span class="w"> </span><span class="s2">&quot;token-github&quot;</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="c1"># Fallback to direct check</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_tok_expiring<span class="k">)</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="k">fi</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1"># Cache set fails → Log but don&#39;t block</span>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>_doctor_cache_set<span class="w"> </span><span class="s2">&quot;token-github&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">    </span>_doctor_log_verbose<span class="w"> </span><span class="s2">&quot;Cache write failed&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Cache init fails → Continue without cache</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>_doctor_cache_init<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Cache get fails → Fetch fresh data</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nv">cached</span><span class="o">=</span><span class="k">$(</span>_doctor_cache_get<span class="w"> </span><span class="s2">&quot;token-github&quot;</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="c1"># Fallback to direct check</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_tok_expiring<span class="k">)</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="k">fi</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># Cache set fails → Log but don&#39;t block</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>_doctor_cache_set<span class="w"> </span><span class="s2">&quot;token-github&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span>_doctor_log_verbose<span class="w"> </span><span class="s2">&quot;Cache write failed&quot;</span>
 </code></pre></div>
 <p><strong>Impact:</strong> Slower checks (no cache benefit), but functionality preserved</p>
 <hr />
 <h3 id="delegation-failures">Delegation Failures<a class="headerlink" href="#delegation-failures" title="Permanent link">&para;</a></h3>
 <p><strong>Strategy:</strong> Error reporting + exit code</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># TOK functions missing → Show error</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">type</span><span class="w"> </span>_tok_expiring<span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span>_doctor_log_error<span class="w"> </span><span class="s2">&quot;Token validation unavailable&quot;</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">2</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">fi</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># GitHub API failure → Report and exit</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_tok_expiring<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span>_doctor_log_error<span class="w"> </span><span class="s2">&quot;Token check failed: </span><span class="nv">$result</span><span class="s2">&quot;</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="k">fi</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># TOK functions missing → Show error</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nb">type</span><span class="w"> </span>_tok_expiring<span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span>_doctor_log_error<span class="w"> </span><span class="s2">&quot;Token validation unavailable&quot;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">2</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">fi</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># GitHub API failure → Report and exit</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>_tok_expiring<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span>_doctor_log_error<span class="w"> </span><span class="s2">&quot;Token check failed: </span><span class="nv">$result</span><span class="s2">&quot;</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h2 id="design-decisions">Design Decisions<a class="headerlink" href="#design-decisions" title="Permanent link">&para;</a></h2>
@@ -9732,15 +9834,15 @@
 <hr />
 <h2 id="metrics-monitoring">Metrics &amp; Monitoring<a class="headerlink" href="#metrics-monitoring" title="Permanent link">&para;</a></h2>
 <h3 id="key-performance-indicators">Key Performance Indicators<a class="headerlink" href="#key-performance-indicators" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>doctor --dot Performance:
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>├─ P50: 80ms (cached), 2.2s (fresh)
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>├─ P95: 150ms (cached), 3.5s (fresh)
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>└─ P99: 200ms (cached), 5s (fresh)
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>Cache Performance:
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>├─ Hit Rate: 85%
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>├─ Miss Penalty: ~2s
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>└─ Storage: 1.5 KB/entry
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>doctor --dot Performance:
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>├─ P50: 80ms (cached), 2.2s (fresh)
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>├─ P95: 150ms (cached), 3.5s (fresh)
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>└─ P99: 200ms (cached), 5s (fresh)
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>Cache Performance:
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>├─ Hit Rate: 85%
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>├─ Miss Penalty: ~2s
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>└─ Storage: 1.5 KB/entry
 </code></pre></div>
 <hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
