@@ -281,7 +281,8 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.6.0 released, all clean (PR #446 wire-doctor-cache merged 2026-05-14) |
+| Main repo | `dev` | v7.7.1 release prep committed (50558df4), unpushed |
+| `~/.git-worktrees/flow-cli/terminal-hygiene-tests` | `feature/terminal-hygiene-tests` | ORCHESTRATE committed (bdf5c4da) — awaiting impl in fresh session |
 
 ---
 
