@@ -8,7 +8,7 @@ tags:
 # Quick Reference: Scholar Wrapper Commands
 
 **Purpose:** Reference card for Scholar-powered `teach` subcommands
-**Version:** v7.7.0+
+**Version:** v7.7.1+
 **Last Updated:** 2026-02-27
 
 ---

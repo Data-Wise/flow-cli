@@ -1,6 +1,6 @@
 # Intelligent Content Analysis Guide
 
-**Version:** v7.7.0
+**Version:** v7.7.1
 **Last Updated:** 2026-01-22
 
 ---

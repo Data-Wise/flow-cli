@@ -9,7 +9,18 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-05-31) — pick terminal-handoff fix
+## Current Session (2026-06-01) — v7.7.1 release prep
+
+**Session activity:**
+- pre-release check (`/craft:check --for release`) adapted to pure-ZSH toolchain: git clean + 4 commits ahead of main, plugin sources clean (exit 0), test suite **0 failed** (48 passed; 7 timeouts are sandbox artifacts — no TTY/network — confirm true 1-timeout tally in a real terminal)
+- found 2 gaps before release: (1) version still at 7.7.0 (already shipped), (2) CHANGELOG `[Unreleased]` documented only the `pick` fix — missing the iTerm2 gating fix (commit 92406b49, touches shipped `zsh/.zshrc`)
+- CHANGELOG: added iTerm2 entry + stamped heading `[7.7.1] — 2026-06-01 — terminal-handoff hygiene`; discovered `docs/CHANGELOG.md` had drifted (empty `[Unreleased]`) — mirrored the full 7.7.1 section into it
+- version bump 7.7.0 → 7.7.1 via `scripts/release.sh 7.7.1`: flow.plugin.zsh (`FLOW_VERSION`), package.json, CLAUDE.md (3 refs + Last Updated date), README badge + tag link
+- doc version sweep: 50 docs files `7.7.0` → `7.7.1` (excluded both CHANGELOGs + `.archive/`); zsh word-split gotcha — `for f in $files` doesn't split in zsh, switched to `grep -rl | while IFS= read -r f`
+- reverted test pollution from the suite run (`.STATUS` auto-footer, `concepts.json` fixture) — kept the release commit atomic
+- result: 55 files changed, repo-wide version consistency verified; **not committed** (release via PR per workflow)
+
+## Previous Session (2026-05-31) — pick terminal-handoff fix
 
 **Session activity:**
 - diagnosed Claude Code TUI corruption (random chars `^[[I`/`^[P>|…`/`;22;52c`, can't type, commands not recognized) on **every** launch via `cc`/`ccy`/`work`, in both Ghostty and Apple Terminal
@@ -304,8 +315,8 @@
 
 ---
 
-**Last Updated:** 2026-05-15
-**Status:** v7.7.0 | 54/54 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 206 test files | 12000+ test functions | 0 lint errors | 0 broken links
+**Last Updated:** 2026-06-01
+**Status:** v7.7.1 | 54/54 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 206 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-05-15), --category fix squashed the bug (2026-05-15), fixed the bug (2026-05-15), Fixed the regression bug (2026-05-14), --category fix squashed the bug (2026-05-14)
 ## streak: 1
 ## last_active: 2026-05-15 11:22

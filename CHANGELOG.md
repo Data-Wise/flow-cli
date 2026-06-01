@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [7.7.1] — 2026-06-01 — terminal-handoff hygiene
 
 ### Fixed
 
 - **`pick` corrupted the terminal on handoff to Claude Code (and any post-picker TUI)** — `pick` runs `fzf` (`--height` mode) as the project picker, then `cc`/`ccy`/`work` launch `claude` immediately after. fzf enables focus-reporting/mouse modes and probes the terminal; `pick` had no cleanup, so the next program inherited those modes plus fzf's stray terminal-query responses still sitting in the input buffer. Symptom: launching Claude Code via the flow-cli launchers showed random characters (`^[[I`, `^[P>|…`, `;22;52c`), couldn't type, and didn't recognize commands — every session, in any terminal (reproduced in both Ghostty and Apple Terminal; not tmux-related). Bare `command claude` was always clean, which isolated it to the launcher. Fix: after the `fzf` call in `commands/pick.zsh`, reset focus/mouse modes and drain pending input (guarded by `[[ -t 1 ]]`) before `pick` returns, so every launcher gets a clean terminal handoff.
+- **iTerm2 shell integration leaked OSC 1337 sequences under non-iTerm2 terminals** — `zsh/.zshrc` sourced the iTerm2 shell integration (`~/.iterm2_shell_integration.zsh`) and the iterm2-context-switcher unconditionally. Under terminals like Ghostty these emit iTerm2-specific OSC 1337 escape sequences and prompt hooks that go unconsumed, adding to terminal noise. Both are now gated behind `[[ "$TERM_PROGRAM" == "iTerm.app" ]]` so they load only under real iTerm2.
 
 ---
 
