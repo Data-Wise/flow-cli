@@ -9,7 +9,18 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-05-15) — v7.7.0 released
+## Current Session (2026-05-31) — pick terminal-handoff fix
+
+**Session activity:**
+- diagnosed Claude Code TUI corruption (random chars `^[[I`/`^[P>|…`/`;22;52c`, can't type, commands not recognized) on **every** launch via `cc`/`ccy`/`work`, in both Ghostty and Apple Terminal
+- systematic elimination ruled out: claude-hud statusline, iTerm2 shell integration (under Ghostty), p10k instant prompt (off), shell init (PTY-clean), Ghostty itself, tmux (`$TMUX` empty)
+- decisive isolation: bare `command claude` always clean → cause is the **launcher**, not claude
+- root cause: `pick` runs `fzf` (`--height`) then hands off to `claude` with **no terminal cleanup** → next TUI inherits focus/mouse modes + stray fzf query responses in the input buffer
+- fix(pick): after the fzf call in `commands/pick.zsh`, reset focus/mouse modes + drain pending input (guarded `[[ -t 1 ]]`) before returning — one chokepoint fixes `cc`/`ccy`/`work`. Patched live Cellar copy + source; syntax-checked; user-confirmed clean
+- new CLAUDE.md Architecture Principle #5 (terminal hygiene on TUI handoff); CHANGELOG [Unreleased] entry
+- separately: `zsh/.zshrc` iTerm2 integration gated to `TERM_PROGRAM==iTerm.app` (was leaking OSC 1337 under Ghostty) — valid cleanup, not the root cause; left for a separate commit
+
+## Previous Session (2026-05-15) — v7.7.0 released
 
 **Session activity:**
 - post-merge cleanup: pulled 9 commits (PR #446), removed `wire-doctor-cache` worktree + branch

@@ -1155,6 +1155,17 @@ ${_C_BLUE}ALIASES${_C_NC}:
     fi
 
     local fzf_exit=$?
+
+    # Clean terminal handoff after fzf. fzf (esp. --height mode) can leave
+    # focus-reporting/mouse modes enabled and stray terminal-query responses
+    # in the input buffer; the next TUI (e.g. Claude Code) then inherits them
+    # as garbled characters and broken input. Reset those modes and drain any
+    # pending input before pick returns.
+    if [[ -t 1 ]]; then
+        printf '\e[?1004l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?2004l' > /dev/tty
+        while read -t 0.05 -k 1 _flow_discard 2>/dev/null; do : ; done < /dev/tty
+    fi
+
     rm -f "$tmpfile"
 
     # Parse fzf output (with multi-select, could be more than 3 lines)

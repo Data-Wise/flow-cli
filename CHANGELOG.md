@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **`pick` corrupted the terminal on handoff to Claude Code (and any post-picker TUI)** — `pick` runs `fzf` (`--height` mode) as the project picker, then `cc`/`ccy`/`work` launch `claude` immediately after. fzf enables focus-reporting/mouse modes and probes the terminal; `pick` had no cleanup, so the next program inherited those modes plus fzf's stray terminal-query responses still sitting in the input buffer. Symptom: launching Claude Code via the flow-cli launchers showed random characters (`^[[I`, `^[P>|…`, `;22;52c`), couldn't type, and didn't recognize commands — every session, in any terminal (reproduced in both Ghostty and Apple Terminal; not tmux-related). Bare `command claude` was always clean, which isolated it to the launcher. Fix: after the `fzf` call in `commands/pick.zsh`, reset focus/mouse modes and drain pending input (guarded by `[[ -t 1 ]]`) before `pick` returns, so every launcher gets a clean terminal handoff.
+
 ---
 
 ## [7.7.0] — 2026-05-15 — doctor cache + zsh-scope hardening

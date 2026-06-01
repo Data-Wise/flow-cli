@@ -256,6 +256,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 2. **ADHD-Friendly** - Discoverable (built-in help), consistent patterns, smart defaults, fast (cached scanning)
 3. **Dispatcher Pattern** - `command + keyword + options` (e.g., `r test`, `g push`, `teach exam "Topic"`)
 4. **Optional Enhancement** - Atlas integration is optional; graceful degradation (see [`docs/ATLAS-CONTRACT.md`](docs/ATLAS-CONTRACT.md) for API contract)
+5. **Terminal hygiene on handoff** - Any command that runs an interactive TUI (fzf, etc.) and then execs/launches another program (e.g. `pick` → `claude`) MUST restore terminal state first: reset focus-reporting/mouse modes (`\e[?1004l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?2004l`) and drain pending input before handing off. Otherwise the next TUI inherits enabled modes + stray query responses → garbled characters and broken input. See `pick`'s post-fzf cleanup (`commands/pick.zsh`).
 
 ---
 
