@@ -12,6 +12,13 @@
 #  2. zsh/.zshrc: iTerm2 shell integration + context-switcher are gated behind
 #     TERM_PROGRAM == "iTerm.app" so they don't leak OSC 1337 under Ghostty et al.
 #
+# Standalone harness (no test-framework.zsh) is deliberate and consistent with the
+# sibling source-scan guards (test-readonly-scope-regression, test-local-path-
+# regression): these assert source invariants with grep/awk, not runtime behavior,
+# so the shared assert_* helpers add no value. The harness avoids the function
+# names (pass/fail/log_test) flagged by dogfood-test-quality.zsh's inline-framework
+# check by design — run_test is intentionally distinct.
+#
 # See: d4ced8b5 (pick fix), 92406b49 (iTerm2 gating), CHANGELOG [7.7.1].
 # Usage: zsh tests/test-terminal-hygiene-regression.zsh
 
@@ -39,9 +46,11 @@ run_test() {
 PICK="$PROJECT_ROOT/commands/pick.zsh"
 ZSHRC="$PROJECT_ROOT/zsh/.zshrc"
 
-# Isolate just the post-fzf cleanup region (lines after the last fzf call).
+# Isolate just the post-fzf cleanup region. Anchor on CODE landmarks, not prose:
+# the block runs from `fzf_exit=` (captured right after the fzf call) to the
+# `rm -f "$tmpfile"` teardown. A comment reword can't blank the extraction.
 _cleanup_block() {
-    awk '/Clean terminal handoff after fzf/{f=1} f{print} /rm -f "\$tmpfile"/{if(f)exit}' "$PICK"
+    awk '/fzf_exit=/{f=1} f{print} /rm -f "\$tmpfile"/{if(f)exit}' "$PICK"
 }
 
 # ── 1. pick cleanup present & correct ───────────────────────────────────────
@@ -74,11 +83,13 @@ run_test "input-drain loop reads from /dev/tty" '
         || { echo "drain loop does not read from /dev/tty"; exit 1; }
 '
 
+# Both landmarks are CODE, not comments: the fzf exit capture (`fzf_exit=`) and the
+# reset escape sequence (`2004l`, bracketed-paste off — unique to the reset printf).
 run_test "cleanup appears AFTER the fzf call (ordering invariant)" '
-    fzf_line=$(grep -n "fzf_exit=\$?" "$PICK" | head -1 | cut -d: -f1)
-    clean_line=$(grep -n "Clean terminal handoff after fzf" "$PICK" | head -1 | cut -d: -f1)
+    fzf_line=$(grep -n "fzf_exit=" "$PICK" | head -1 | cut -d: -f1)
+    clean_line=$(grep -n "2004l" "$PICK" | head -1 | cut -d: -f1)
     [[ -n "$fzf_line" && -n "$clean_line" && "$clean_line" -gt "$fzf_line" ]] \
-        || { echo "cleanup ($clean_line) not after fzf ($fzf_line)"; exit 1; }
+        || { echo "reset ($clean_line) not after fzf ($fzf_line)"; exit 1; }
 '
 
 # ── 2. iTerm2 gating in zsh/.zshrc ──────────────────────────────────────────
