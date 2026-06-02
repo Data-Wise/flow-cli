@@ -6,6 +6,9 @@ tags:
 
 # Quick Reference: flow-cli Commands
 
+!!! tldr "⚡ 30-Second Lookup"
+    Every flow-cli command on one page, copy-paste ready. Use the table of contents below to jump, or press `Cmd/Ctrl+F` to find a command fast.
+
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
 **Version:** v7.7.1

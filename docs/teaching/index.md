@@ -6,9 +6,8 @@ tags:
 
 # Teaching Workflow Documentation
 
-> **Complete teaching workflow management for Quarto course websites**
->
-> From content creation to deployment, with AI-powered assistance, automated backups, and Git integration
+!!! tldr "🎓 Teaching, end to end"
+    Complete teaching-workflow management for Quarto course websites — content creation through deployment, with AI-powered assistance, automated backups, and Git integration. New to `teach`? Start with the [Quick Start](../tutorials/14-teach-dispatcher.md).
 
 ---
 

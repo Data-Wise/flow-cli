@@ -1,5 +1,8 @@
 # Common Workflows
 
+!!! tldr "⚡ What's Here"
+    Copy-paste recipes for real tasks — daily sessions, git flows, project switching. Skim the table of contents, grab the pattern you need, go. Prefer pictures? See [Visual Workflows](../workflows/index.md).
+
 **Purpose:** Real-world workflow patterns for flow-cli
 **Audience:** All users (beginners → advanced)
 **Format:** Step-by-step instructions with examples
