@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **Regression guard `tests/test-terminal-hygiene-regression.zsh`** — source-scan
+  test locking in the v7.7.1 terminal-handoff fixes (pick post-fzf cleanup + iTerm2
+  TERM_PROGRAM gating) so they can't silently regress.
+
+---
+
 ## [7.7.1] — 2026-06-01 — terminal-handoff hygiene
 
 ### Fixed
