@@ -290,3 +290,17 @@ html {
     background: #2d2d2d;
     border-color: #444;
 }
+
+/* Mermaid diagrams: scroll horizontally within their own box instead of
+   pushing the page wide. On phones, keep a minimum width so wide flowcharts
+   (e.g. the Visual Workflows hub) stay legible rather than shrinking to
+   unreadable — legibility over fit, the ADHD-friendly default. */
+.md-typeset .mermaid {
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .md-typeset .mermaid > svg {
+        min-width: 520px;
+    }
+}

@@ -7,6 +7,9 @@
 # Backup files (already have version control)
 *.backup
 backups/
+*.bak
+*.bak-*
+*-bak
 node_modules
 site/
 .claude/settings.local.json

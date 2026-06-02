@@ -6,9 +6,12 @@ tags:
 
 # Quick Reference: flow-cli Commands
 
+!!! tldr "⚡ 30-Second Lookup"
+    Every flow-cli command on one page, copy-paste ready. Use the table of contents below to jump, or press `Cmd/Ctrl+F` to find a command fast.
+
 **Purpose:** Single-page command lookup for all flow-cli features
 **Format:** Copy-paste ready with expected outputs
-**Version:** v7.7.0
+**Version:** v7.7.1
 **Last Updated:** 2026-02-21
 
 ---
@@ -1552,6 +1555,6 @@ mcp help
 
 ---
 
-**Version:** v7.7.0
+**Version:** v7.7.1
 **Last Updated:** 2026-02-21
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

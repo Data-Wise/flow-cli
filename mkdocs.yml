@@ -111,6 +111,7 @@ nav:
       - 🔄 Troubleshooting: getting-started/troubleshooting.md
       - ⚡ Quick Reference: help/QUICK-REFERENCE.md
       - 🔧 Common Workflows: help/WORKFLOWS.md
+      - 📊 Visual Workflows: workflows/index.md
       - 🩺 General Troubleshooting: help/TROUBLESHOOTING.md
       - 🤖 Claude Code Environment: troubleshooting/CLAUDE-CODE-ENVIRONMENT.md
       - 🎉 Release Notes: RELEASES.md

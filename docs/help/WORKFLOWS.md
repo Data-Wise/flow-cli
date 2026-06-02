@@ -1,9 +1,12 @@
 # Common Workflows
 
+!!! tldr "⚡ What's Here"
+    Copy-paste recipes for real tasks — daily sessions, git flows, project switching. Skim the table of contents, grab the pattern you need, go. Prefer pictures? See [Visual Workflows](../workflows/index.md).
+
 **Purpose:** Real-world workflow patterns for flow-cli
 **Audience:** All users (beginners → advanced)
 **Format:** Step-by-step instructions with examples
-**Version:** v7.7.0
+**Version:** v7.7.1
 **Last Updated:** 2026-02-27
 
 ---
@@ -1068,6 +1071,6 @@ pick              # Interactive project picker
 
 ---
 
-**Version:** v7.7.0
+**Version:** v7.7.1
 **Last Updated:** 2026-02-27
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

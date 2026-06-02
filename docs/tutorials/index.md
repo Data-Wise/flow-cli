@@ -6,9 +6,8 @@ tags:
 
 # Tutorials
 
-> **Learn flow-cli step by step** - From your first session to advanced workflows.
->
-> **Total time:** ~9 hours | **31 tutorials** | **Beginner → Intermediate**
+!!! tldr "📖 Learn flow-cli step by step"
+    From your first session to advanced workflows. **~9 hours total · 31 tutorials · Beginner → Intermediate.** New here? Start with [Your First Session](01-first-session.md).
 
 ---
 

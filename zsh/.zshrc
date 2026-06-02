@@ -1017,7 +1017,9 @@ dashupdate() {
 # Use 'dashopen' or 'dash' directly instead
 
 # ─── iTerm2 Smart Context Switching ───────────────────────────────────────────
-[[ -f ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh ]] && \
+# Gated to real iTerm2 only — under Ghostty/other terminals this leaks OSC/escape
+# sequences that garble Claude Code's TUI (focus/DA query responses as literal text).
+[[ "$TERM_PROGRAM" == "iTerm.app" && -f ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh ]] && \
   source ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh
 export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 
@@ -1054,7 +1056,9 @@ export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 fpath=(~/.zsh/completions $fpath)
 
 ## Shell Command Integration
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# Gated to real iTerm2 only (was loading under Ghostty and leaking OSC 1337 +
+# focus/DA query responses as literal text — garbled Claude Code's TUI).
+[[ "$TERM_PROGRAM" == "iTerm.app" ]] && test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Nexus Desktop - Quick Launcher
 # REMOVED 2026-01-17: alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
@@ -1076,3 +1080,54 @@ alias gconf='$EDITOR $GHOSTTY_CONFIG'
 
 # Quick open
 alias gconfv='subl ~/.config/ghostty/config'
+
+# ============================================
+# R / RADIAN ENVIRONMENT - Added 2026-05-25
+# Permanently fixes the recurring rchitect TRUELENGTH dlsym error
+# after Homebrew R/Python upgrades. See ~/.config/zsh/.zshrc.bak-radian-fix-*
+# ============================================
+
+# Layer 3: Pin R_HOME so rchitect always dlopens the current libR.dylib
+if command -v R >/dev/null 2>&1; then
+    unset R_HOME; export R_HOME="$(Rscript -e "cat(R.home())" 2>/dev/null)"
+    export DYLD_LIBRARY_PATH="${R_HOME}/lib:${DYLD_LIBRARY_PATH}"
+fi
+
+# Layer 2a: Detect R version drift between shell sessions
+# If R was upgraded since last shell start, warn user to rebuild radian
+_radian_version_check() {
+    command -v R >/dev/null 2>&1 || return 0
+    local r_ver cached cache_dir
+    r_ver=$(R --version 2>/dev/null | head -1 | awk '{print $3}')
+    cache_dir="${HOME}/.cache"
+    cached="${cache_dir}/radian_r_version"
+    mkdir -p "$cache_dir"
+    if [[ -f "$cached" ]]; then
+        local old=$(cat "$cached")
+        if [[ "$old" != "$r_ver" ]]; then
+            print -P "%F{yellow}⚠️  R changed: ${old} → ${r_ver}. If radian breaks, run: pipx reinstall radian%f"
+        fi
+    fi
+    echo "$r_ver" > "$cached"
+}
+_radian_version_check
+
+# Layer 2b: Wrap brew so post-upgrade we auto-rebuild radian on R changes
+# (Python is now isolated via pipx --fetch-python; no Python-related rebuild needed)
+brew() {
+    local was_upgrade=0
+    [[ "$1" == "upgrade" || "$1" == "reinstall" ]] && was_upgrade=1
+    command brew "$@"
+    local rc=$?
+    if (( was_upgrade )) && command -v pipx >/dev/null 2>&1; then
+        # Only rebuild if R itself was touched (Python is decoupled now)
+        if [[ "$*" =~ (^| )r( |$) ]] || [[ "$*" == "upgrade" && "$#" == 1 ]]; then
+            print -P "%F{cyan}🔄 R may have changed — rebuilding radian via pipx...%f"
+            pipx reinstall radian --python 3.13 --fetch-python=missing >/dev/null 2>&1 && \
+                print -P "%F{green}✅ radian rebuilt successfully%f" || \
+                print -P "%F{red}❌ radian rebuild failed — run: pipx reinstall radian --python 3.13 --fetch-python=missing%f"
+        fi
+    fi
+    return $rc
+}
+export HOMEBREW_NO_ENV_HINTS=1
