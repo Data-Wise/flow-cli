@@ -9,7 +9,7 @@ tags:
 
 > **Smart token management with caching and isolated checks**
 >
-> **Time:** ~15 minutes | **Level:** Intermediate | **v5.17.0**
+> **Time:** ~15 minutes | **Level:** Intermediate | **v7.7.1**
 
 ---
 
@@ -22,6 +22,7 @@ By the end of this tutorial, you'll be able to:
 - ✅ Fix token issues with the interactive menu
 - ✅ Control output verbosity for different use cases
 - ✅ Integrate token validation into workflows
+- ✅ Push tokens to GitHub Actions secrets automatically after create/rotate (auto-sync)
 
 ---
 
@@ -459,7 +460,66 @@ echo "✓ Token valid. Deploying..."
 
 ---
 
-## Step 9: Next Steps
+## Step 9: Auto-Sync Tokens to GitHub Actions Secrets
+
+Rotating a token locally is only half the story — your GitHub Actions
+workflows need the new value too. **Token auto-sync** closes that gap by
+pushing freshly created or rotated tokens straight into repo Actions secrets.
+
+### Configure the Mapping
+
+Auto-sync reads a flat, whitespace-delimited config at
+`~/.config/flow/tok-sync.conf`. It is **never sourced** (no shell execution) —
+just parsed line by line:
+
+```text
+# <token-name>  <secret-name>      <owner/repo>            [oidc]
+github-pat       GH_PAT             Data-Wise/flow-cli
+npm-publish       NPM_TOKEN          Data-Wise/flow-cli
+pypi-publish      PYPI_API_TOKEN     Data-Wise/examark      oidc
+```
+
+### Inspect Before You Push
+
+```bash
+# Dry, read-only audit — shows what WOULD sync, writes nothing
+tok sync repos github-pat
+```
+
+### Push on Demand
+
+```bash
+# Confirms once ([y/N], default N), then writes via gh secret set over stdin
+tok sync push github-pat
+```
+
+The token value is piped to `gh secret set` over **stdin only** — it never
+appears in argv or logs.
+
+### Automatic Sync
+
+After a successful `tok github`, `tok npm`, `tok pypi`, `tok rotate`, or any
+`--refresh`, auto-sync fires for matching config rows. To skip it:
+
+```bash
+tok rotate github-pat --no-sync     # one-off bypass
+FLOW_TOK_AUTOSYNC=0 tok rotate ...  # disable for the session
+```
+
+!!! note "OIDC rows are never pushed"
+    Rows tagged `oidc` are intentionally skipped — they nudge you toward
+    GitHub **Trusted Publishing** instead of a stored secret. Add
+    `permissions: id-token: write` to the job and use
+    `pypa/gh-action-pypi-publish`. (`tok sync gh` behavior is unchanged.)
+
+This is just a teaser. For the full walkthrough — config precedence, multi-repo
+fan-out, troubleshooting, and the OIDC migration — see
+**[Tutorial 47: Token Auto-Sync](47-tok-auto-sync.md)**. For copy-paste
+recipes, see the **[Token Cookbook](../guides/TOKEN-COOKBOOK.md)**.
+
+---
+
+## Step 10: Next Steps
 
 Congratulations! You've mastered token automation. 🎉
 
@@ -471,10 +531,13 @@ Congratulations! You've mastered token automation. 🎉
 - ✅ Verbosity control (quiet/normal/verbose)
 - ✅ Integration across 9 dispatchers
 - ✅ CI/CD automation patterns
+- ✅ Auto-syncing tokens to GitHub Actions secrets
 
 ### Continue Learning
 
 **Explore related features:**
+- [Tutorial 47: Token Auto-Sync](47-tok-auto-sync.md) - Deep dive on syncing tokens to Actions secrets
+- [Token Cookbook](../guides/TOKEN-COOKBOOK.md) - Copy-paste token recipes
 - [Token Quick Reference](../reference/MASTER-API-REFERENCE.md#doctor-cache) - Command cheat sheet
 - [Token User Guide](../guides/DOCTOR-TOKEN-USER-GUIDE.md) - Complete workflows
 - [Token API Reference](../reference/MASTER-API-REFERENCE.md#doctor-cache) - Developer docs
@@ -540,4 +603,4 @@ doctor --dot --quiet && npm run deploy
 
 **Tutorial 23 Complete!** Ready for [Tutorial 24: Next Feature →](#)
 
-<small>flow-cli v5.17.0 | [Home](../index.md) | [Tutorials](index.md)</small>
+<small>flow-cli v7.7.1 | [Home](../index.md) | [Tutorials](index.md)</small>

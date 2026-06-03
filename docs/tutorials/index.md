@@ -172,7 +172,7 @@ flowchart TD
 | 14 | [Teach Dispatcher](14-teach-dispatcher.md) | 20 min | 🟡 Intermediate | Teaching workflow (v5.9.0+) |
 | 21 | [Teach Analyze](21-teach-analyze.md) | 25 min | 🟡 Intermediate | AI content analysis (v5.16.0) |
 | 22 | [Plugin Optimization](22-plugin-optimization.md) | 20 min | 🟡 Intermediate | Load guards & performance |
-| 23 | [Token Automation](23-token-automation.md) | 15 min | 🟡 Intermediate | Smart token management (v5.17.0) |
+| 23 | [Token Automation](23-token-automation.md) | 15 min | 🟡 Intermediate | Smart token management + auto-sync teaser |
 | 26 | [LaTeX Macros](26-latex-macros.md) | 20 min | 🟡 Intermediate | Macro management for courses |
 | 29 | [First Exam Walkthrough](29-first-exam-walkthrough.md) | 25 min | 🟡 Intermediate | End-to-end exam creation |
 | 30 | [New Instructor Workflow](30-new-instructor-complete-workflow.md) | 30 min | 🟢 Beginner | Complete setup for new instructors |
@@ -188,6 +188,7 @@ flowchart TD
 | 42 | [Git Shortcuts (g)](42-g-dispatcher.md) | 20 min | 🟢 Beginner | Git shortcuts with token validation |
 | 43 | [ADHD Daily Routine](43-adhd-daily-routine.md) | 20 min | 🟢 Beginner | Morning briefing, just start, timers |
 | 44 | [Quick Capture](44-quick-capture.md) | 10 min | 🟢 Beginner | catch, inbox, crumb, trail |
+| 47 | [Token Auto-Sync](47-tok-auto-sync.md) | 15 min | 🟡 Intermediate | Fan tokens out to GitHub Actions secrets |
 
 **Total estimated time:** ~9 hours (all tutorials)
 
