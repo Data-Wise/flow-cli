@@ -47,6 +47,9 @@ sec status
 | `sec sync --status` | Show sync differences | Compare backends |
 | `tok expiring` | Check expiration | Shows 7-day warnings |
 | `tok rotate` | Rotate token | With backup |
+| `tok sync push <name>` | Fan out to Actions secrets | Confirm once, writes via `gh` |
+| `tok sync repos <name>` | Dry inspect targets | No writes; shows OIDC notes |
+| `tok sync gh` | GitHub CLI auth | Unchanged |
 | `sec help` | Show help | Display all commands |
 
 ---
@@ -126,6 +129,40 @@ sec list
 # Delete backup
 sec delete old-github-token-backup-20260117
 ```
+
+### Sync Token to GitHub Actions Secrets
+
+```bash
+# Dry inspect first: what would be pushed?
+tok sync repos github-app
+# Shows each repo : secret target + any OIDC notes (no writes)
+
+# Fan out manually (confirm once, default N)
+tok sync push github-app
+# printf '%s' "$value" | gh secret set <secret> --repo <repo>
+# (value passed via stdin only — never argv, never a temp file)
+```
+
+Auto-sync also runs after `tok github|npm|pypi`, `tok rotate`, and
+`tok <name> --refresh` when the token has targets in
+`~/.config/flow/tok-sync.conf`. Disable per-call with `--no-sync`, or
+session-wide with `export FLOW_TOK_AUTOSYNC=0`.
+
+**Config format** (`~/.config/flow/tok-sync.conf`, chezmoi-managed,
+override via `FLOW_TOK_SYNC_CONF`; flat, never sourced):
+
+```text
+# <token-name>  <secret-name>  <owner/repo>  [oidc]
+github-app  APP_ID           data-wise/flow-cli
+github-app  APP_PRIVATE_KEY  data-wise/flow-cli
+pypi        PYPI_TOKEN       data-wise/nexus-cli   oidc
+```
+
+Rows with the optional `oidc` flag are never pushed — `tok` prints a note
+to use Trusted Publishing (`permissions: id-token: write` +
+`pypa/gh-action-pypi-publish`) instead. See
+[`examples/tok-sync.conf.example`](examples/tok-sync.conf.example) for the
+full canonical seed.
 
 ---
 

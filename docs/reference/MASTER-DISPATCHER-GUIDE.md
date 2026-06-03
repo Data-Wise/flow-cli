@@ -1789,6 +1789,124 @@ Forces fresh token check on next `flow doctor --dot`.
 - Default: 5 minutes
 - Configurable: `export FLOW_TOKEN_CACHE_TTL=300`
 
+#### Auto-Sync to GitHub Actions Secrets (v7.8.0)
+
+`tok` can fan a single token value out to GitHub Actions secrets across
+multiple repos, driven by a flat config file. This eliminates manually
+running `gh secret set NAME --repo …` per repo after every rotation.
+
+**Manual fan-out:**
+
+```bash
+tok sync push github-app
+
+```
+
+Lists every `repo : secret` target mapped to the token name, asks for a
+single confirmation (`[y/N]`, default **N**), then writes each target via
+`gh`. Secret values are passed to `gh secret set` over **stdin only** —
+never on the command line and never through a temp file.
+
+**Dry inspect (no writes):**
+
+```bash
+tok sync repos github-app
+
+```
+
+Shows the planned `repo : secret` targets and any OIDC notes without
+writing anything. Use this to audit the mapping before trusting auto-push.
+
+**gh CLI auth (unchanged):**
+
+```bash
+tok sync gh
+
+```
+
+`tok sync gh` retains its existing behavior (GitHub CLI authentication)
+and is unaffected by auto-sync.
+
+**Auto-sync hook:**
+
+After a successful `tok github`, `tok npm`, `tok pypi`, `tok rotate`, or
+`tok <name> --refresh`, if the token name has targets in the config, `tok`
+lists the targets and asks for one confirmation before pushing:
+
+```text
+
+🔁 Auto-sync targets for 'github-app':
+  data-wise/flow-cli   : APP_ID, APP_PRIVATE_KEY
+  data-wise/aiterm     : APP_ID, APP_PRIVATE_KEY
+  data-wise/examark    : APP_ID, APP_PRIVATE_KEY
+  data-wise/nexus-cli  : APP_ID, APP_PRIVATE_KEY
+
+Push these secrets now? [y/N]: y
+  ✓ data-wise/flow-cli   APP_ID
+  ...
+Done: 8 secrets across 4 repos.
+
+```
+
+**Disable the automatic hook:**
+
+```bash
+# Per-invocation flag
+tok rotate github --no-sync
+
+# Session/environment-wide
+export FLOW_TOK_AUTOSYNC=0
+
+```
+
+Either disables the post-create/rotate hook. The manual `tok sync push`
+and `tok sync repos` commands still work regardless.
+
+#### Sync Config Format (`tok-sync.conf`)
+
+The mapping lives in `~/.config/flow/tok-sync.conf` (chezmoi-managed so it
+syncs across machines). Override the path with `FLOW_TOK_SYNC_CONF`. The
+file is **flat, whitespace-delimited, and never sourced** — it is parsed
+line by line. Blank lines and lines starting with `#` are ignored.
+
+Each row maps one token to one secret in one repo:
+
+```text
+
+<token-name>  <secret-name>  <owner/repo>  [oidc]
+
+```
+
+The optional `oidc` flag marks a row as OIDC-capable. Such rows are
+**never pushed**; instead `tok` prints a note recommending Trusted
+Publishing (add `permissions: id-token: write` and use
+`pypa/gh-action-pypi-publish`) so the token secret can be dropped entirely.
+
+**Worked example** (the canonical seed — four `github-app` tap callers
+plus a PyPI/OIDC example):
+
+```text
+
+# <token-name>  <secret-name>     <owner/repo>     [oidc]
+github-app       APP_ID            data-wise/flow-cli
+github-app       APP_PRIVATE_KEY   data-wise/flow-cli
+github-app       APP_ID            data-wise/aiterm
+github-app       APP_PRIVATE_KEY   data-wise/aiterm
+github-app       APP_ID            data-wise/examark
+github-app       APP_PRIVATE_KEY   data-wise/examark
+github-app       APP_ID            data-wise/nexus-cli
+github-app       APP_PRIVATE_KEY   data-wise/nexus-cli
+pypi             PYPI_TOKEN        data-wise/nexus-cli   oidc
+
+```
+
+With this config, `tok rotate github-app` (or `tok github-app --refresh`)
+offers to push `APP_ID` and `APP_PRIVATE_KEY` to all four repos in one
+confirmation, while the `pypi` row is reported as OIDC and skipped.
+
+A copyable seed lives at
+[`examples/tok-sync.conf.example`](examples/tok-sync.conf.example).
+
 ---
 
 ### Reference
@@ -1804,7 +1922,15 @@ Forces fresh token check on next `flow doctor --dot`.
 - `tok expiring --force` - Force fresh check
 - `tok rotate <provider>` - Rotate token
 - `tok refresh <provider>` - Refresh token
+- `tok sync push <name>` - Fan out token to mapped GitHub Actions secrets (confirm once)
+- `tok sync repos <name>` - Dry inspect: show planned `repo : secret` targets + OIDC notes (no writes)
+- `tok sync gh` - GitHub CLI auth (unchanged)
+- `tok <cmd> --no-sync` - Disable auto-sync for this invocation
 - `tok help` - Show help
+
+Auto-sync hook fires after `tok github|npm|pypi`, `tok rotate`, and
+`tok <name> --refresh`. Disable globally with `FLOW_TOK_AUTOSYNC=0`.
+Config: `~/.config/flow/tok-sync.conf` (override via `FLOW_TOK_SYNC_CONF`).
 
 </details>
 
