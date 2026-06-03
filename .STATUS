@@ -9,7 +9,17 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-02) — v7.7.1 shipped
+## Current Session (2026-06-03) — tok auto-sync spec + craft drive spec
+
+**Session activity:**
+- Brainstormed `tok` auto-sync to GitHub Actions secrets (create/rotate → fan out APP_ID/APP_PRIVATE_KEY to tap-caller repos; chezmoi-managed flat config; OIDC nudge)
+- Spec written: `docs/specs/SPEC-tok-autosync-2026-06-03.md` (commit 7fff6d86, pushed to dev)
+- Worktree created: `feature/tok-autosync` + `ORCHESTRATE-tok-autosync.md` (a82f7caa) — awaiting impl in new session
+- Discovered nexus-cli is a 4th broken tap caller (APP secrets unconfigured) — included in mapping seed
+- Verified `/goal` is a real Claude Code built-in (v2.1.139+) — turn-loop until condition met
+- Cross-repo: authored `craft/docs/specs/SPEC-orchestrate-drive-2026-06-03.md` (`/craft:orchestrate:drive` autonomous loop command, craft dev a547d6c3)
+
+## Previous Session (2026-06-02) — v7.7.1 shipped
 
 **Session activity:**
 - PR #450 (terminal-hygiene regression guard) reviewed, rebased, CI green → user merged to dev
