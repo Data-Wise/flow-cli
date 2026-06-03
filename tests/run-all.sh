@@ -133,6 +133,7 @@ run_test ./tests/e2e-teach-doctor-v2.zsh
 run_test ./tests/e2e-em-dispatcher.zsh
 run_test ./tests/e2e-atlas-bridge.zsh
 run_test ./tests/e2e-scholar-config-sync.zsh
+run_test ./tests/e2e-tok-sync.zsh
 
 echo ""
 echo "Atlas contract tests:"
