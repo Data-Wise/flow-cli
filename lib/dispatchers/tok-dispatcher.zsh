@@ -965,8 +965,8 @@ _tok_autosync_hook() {
 # ───────────────────────────────────────────────────────────────────
 # Lists the configured targets for a token name WITHOUT writing anything.
 # Push rows are shown as "repo : secret"; oidc rows surface the Trusted
-# Publishing recommendation (same wording as _tok_sync_push, duplicated here
-# since lib/tok-sync.zsh must not be modified).
+# Publishing recommendation via the shared _tok_sync_oidc_note helper (single
+# source of truth in lib/tok-sync.zsh).
 _tok_sync_repos() {
   local name="$1"
 
@@ -994,8 +994,7 @@ _tok_sync_repos() {
     # keeps `flag` empty (not the repo) for non-oidc rows.
     IFS=$'\t' read -r secret repo flag <<< "$row"
     if [[ "$flag" == "oidc" ]]; then
-      _flow_log_info "OIDC: '$secret' for $repo — use Trusted Publishing instead of a stored secret."
-      _flow_log_muted "    Add 'permissions: id-token: write' + 'pypa/gh-action-pypi-publish' to the workflow."
+      _tok_sync_oidc_note "$secret" "$repo"
     else
       push_rows+=("$secret	$repo")
       echo "    $repo : $secret"

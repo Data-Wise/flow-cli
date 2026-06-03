@@ -101,6 +101,18 @@ _tok_sync_resolve_value() {
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
+# _tok_sync_oidc_note <secret> <repo>
+#   Single source of truth for the Trusted-Publishing recommendation shown for
+#   oidc-flagged rows. Consumed by _tok_sync_push (live) and the dispatcher's
+#   _tok_sync_repos (dry-run) so the wording can't drift between the two.
+# ──────────────────────────────────────────────────────────────────────────────
+_tok_sync_oidc_note() {
+    local secret="$1" repo="$2"
+    _flow_log_info "OIDC: '$secret' for $repo — use Trusted Publishing instead of a stored secret."
+    _flow_log_muted "    Add 'permissions: id-token: write' + 'pypa/gh-action-pypi-publish' to the workflow."
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
 # _tok_sync_push <name> [value]
 #   Fan out the secret value to the configured GitHub Actions secrets.
 #   Returns 0 on overall success (including non-fatal no-ops); non-zero only
@@ -170,8 +182,7 @@ _tok_sync_push() {
     for row in "${oidc_rows[@]}"; do
         secret="${row%%	*}"
         repo="${row##*	}"
-        _flow_log_info "OIDC: '$secret' for $repo — use Trusted Publishing instead of a stored secret."
-        _flow_log_muted "    Add 'permissions: id-token: write' + 'pypa/gh-action-pypi-publish' to the workflow."
+        _tok_sync_oidc_note "$secret" "$repo"
     done
 
     if (( ${#push_rows} == 0 )); then
