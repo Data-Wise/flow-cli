@@ -13,7 +13,8 @@
 #   - Lines starting with '#' and blank lines are ignored.
 #   - `oidc` rows are surfaced as Trusted-Publishing recommendations, never pushed.
 #
-# Foundation only: not yet wired into the tok dispatcher or plugin loader.
+# Sourced by flow.plugin.zsh; consumed by the tok dispatcher (tok sync push/repos
+# and the post-store auto-sync hooks).
 # ══════════════════════════════════════════════════════════════════════════════
 
 # Load guard

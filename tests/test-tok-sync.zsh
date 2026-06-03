@@ -24,7 +24,7 @@ export FLOW_PLUGIN_DIR="$PROJECT_ROOT"
 CONF_FILE=""
 
 setup() {
-    # lib/tok-sync.zsh is NOT yet wired into flow.plugin.zsh, so source directly.
+    # Source the lib directly (not the whole plugin) for test isolation.
     source "$PROJECT_ROOT/lib/core.zsh" 2>/dev/null
     source "$PROJECT_ROOT/lib/tok-sync.zsh" 2>/dev/null
 }
