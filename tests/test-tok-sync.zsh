@@ -364,6 +364,125 @@ test_push_oidc_row_not_pushed() {
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
+# PUSH: fan-out failure handling
+# ──────────────────────────────────────────────────────────────────────────────
+
+test_push_continues_past_failure() {
+    test_case "push continues past a mid-fanout failure and summarizes"
+    make_conf 'github-app   APP_ID           data-wise/flow-cli
+github-app   APP_PRIVATE_KEY  data-wise/flow-cli'
+    # gh: auth ok; secret set succeeds for APP_ID, fails for APP_PRIVATE_KEY.
+    # Log every attempted set so we can confirm the loop did not abort early.
+    GH_SET_LOG="$(mktemp -t tok-sync-set.XXXXXX)"
+    create_mock gh "
+        if [[ \"\$1\" == auth ]]; then return 0; fi
+        if [[ \"\$1\" == secret && \"\$2\" == set ]]; then
+            cat >/dev/null 2>&1
+            echo \"\${@: -1}\" >> '$GH_SET_LOG'
+            if [[ \"\${@: -1}\" == APP_PRIVATE_KEY ]]; then return 1; fi
+            return 0
+        fi
+        return 0
+    "
+
+    local out; out="$(_tok_sync_push github-app "secretvalue" 2>&1 <<< "y")"; local rc=$?
+    local attempted; attempted="$(grep -c . "$GH_SET_LOG" 2>/dev/null)"
+    local first_ok="" second_ok=""
+    grep -q APP_ID "$GH_SET_LOG" && first_ok=1
+    grep -q APP_PRIVATE_KEY "$GH_SET_LOG" && second_ok=1
+    reset_mocks
+    teardown_gh
+    teardown_conf
+
+    assert_exit_code "$rc" 1 || return
+    assert_equals "$attempted" "2" || return
+    assert_equals "$first_ok" "1" || return
+    assert_equals "$second_ok" "1" || return
+    assert_contains "$out" "1 of 2" || return
+    assert_contains "$out" "push(es) failed" && test_pass
+}
+
+test_push_noop_gh_unauthenticated() {
+    test_case "push is a non-fatal no-op when gh is unauthenticated; never writes"
+    make_conf 'github-app   APP_ID   data-wise/flow-cli'
+    # gh present but auth status fails. secret set would write a sentinel if reached.
+    local sentinel; sentinel="$(mktemp -t tok-sync-sentinel.XXXXXX)"
+    rm -f "$sentinel"
+    create_mock gh "
+        if [[ \"\$1\" == auth ]]; then return 1; fi
+        if [[ \"\$1\" == secret && \"\$2\" == set ]]; then
+            cat >/dev/null 2>&1
+            echo set > '$sentinel'
+            return 0
+        fi
+        return 0
+    "
+
+    local out; out="$(_tok_sync_push github-app "secretvalue" 2>&1 <<< "y")"; local rc=$?
+    local reached=""
+    [[ -f "$sentinel" ]] && reached=1
+    reset_mocks
+    rm -f "$sentinel"
+    teardown_conf
+
+    assert_exit_code "$rc" 0 || return
+    assert_empty "$reached" || return
+    assert_contains "$out" "not authenticated" && test_pass
+}
+
+test_push_multiline_value_via_stdin() {
+    test_case "a multi-line PEM value is piped to gh intact on stdin (never argv)"
+    local capture; capture="$(mktemp -t tok-sync-stdin.XXXXXX)"
+    local pem=$'-----BEGIN PRIVATE KEY-----\nLINE1\nLINE2\n-----END PRIVATE KEY-----'
+    make_conf 'github-app   APP_PRIVATE_KEY   data-wise/flow-cli'
+    create_mock gh "
+        if [[ \"\$1\" == auth ]]; then return 0; fi
+        if [[ \"\$1\" == secret && \"\$2\" == set ]]; then cat > '$capture'; return 0; fi
+        return 0
+    "
+
+    _tok_sync_push github-app "$pem" >/dev/null 2>&1 <<< "y"
+    local stdin_got; stdin_got="$(cat "$capture")"
+    local argv="${MOCK_ARGS[gh]}"
+    reset_mocks
+    rm -f "$capture"
+    teardown_conf
+
+    assert_equals "$stdin_got" "$pem" || return
+    assert_not_contains "$argv" "LINE1" || return
+    assert_not_contains "$argv" "BEGIN PRIVATE KEY" && test_pass
+}
+
+test_push_mixed_oidc_and_push() {
+    test_case "for one name, push rows are pushed while oidc rows are skipped"
+    make_conf 'multi   GH_SECRET    data-wise/flow-cli
+multi   PYPI_TOKEN   data-wise/nexus-cli   oidc'
+    GH_SET_LOG="$(mktemp -t tok-sync-set.XXXXXX)"
+    create_mock gh "
+        if [[ \"\$1\" == auth ]]; then return 0; fi
+        if [[ \"\$1\" == secret && \"\$2\" == set ]]; then
+            cat >/dev/null 2>&1
+            echo \"\${@: -1}\" >> '$GH_SET_LOG'
+            return 0
+        fi
+        return 0
+    "
+
+    local out; out="$(_tok_sync_push multi "secretvalue" 2>&1 <<< "y")"; local rc=$?
+    local pushed_normal="" pushed_oidc=""
+    grep -q GH_SECRET "$GH_SET_LOG" && pushed_normal=1
+    grep -q PYPI_TOKEN "$GH_SET_LOG" && pushed_oidc=1
+    reset_mocks
+    teardown_gh
+    teardown_conf
+
+    assert_exit_code "$rc" 0 || return
+    assert_equals "$pushed_normal" "1" || return
+    assert_empty "$pushed_oidc" || return
+    assert_contains "$out" "OIDC" && test_pass
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
 # RESOLVE VALUE
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -404,6 +523,10 @@ main() {
     test_push_confirm_yes_pushes_each_row
     test_push_value_via_stdin
     test_push_oidc_row_not_pushed
+    test_push_continues_past_failure
+    test_push_noop_gh_unauthenticated
+    test_push_multiline_value_via_stdin
+    test_push_mixed_oidc_and_push
     test_resolve_value_reads_from_sec
 
     test_suite_end

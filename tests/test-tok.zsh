@@ -191,6 +191,30 @@ test_hook_fires_by_default() {
     test_pass
 }
 
+test_sync_push_routes_to_push() {
+    test_case "tok sync push <name> routes to _tok_sync_push with that name"
+    create_mock _tok_sync_push 'return 0'
+    tok sync push mytoken >/dev/null 2>&1
+    local rc=$?
+    assert_mock_called "_tok_sync_push" 1 || { reset_mocks; return; }
+    assert_mock_args "_tok_sync_push" "mytoken" || { reset_mocks; return; }
+    reset_mocks
+    test_pass
+}
+
+test_sync_gh_still_routes() {
+    test_case "tok sync gh still routes to _tok_sync_gh and not push/repos"
+    create_mock _tok_sync_gh 'return 0'
+    create_mock _tok_sync_push 'return 0'
+    create_mock _tok_sync_repos 'return 0'
+    tok sync gh >/dev/null 2>&1
+    assert_mock_called "_tok_sync_gh" 1 || { reset_mocks; return; }
+    assert_mock_not_called "_tok_sync_push" || { reset_mocks; return; }
+    assert_mock_not_called "_tok_sync_repos" || { reset_mocks; return; }
+    reset_mocks
+    test_pass
+}
+
 # ──────────────────────────────────────────────────────────────────────────────
 # MAIN
 # ──────────────────────────────────────────────────────────────────────────────
@@ -212,6 +236,8 @@ main() {
     test_hook_skips_when_no_sync
     test_hook_skips_when_env_disabled
     test_hook_fires_by_default
+    test_sync_push_routes_to_push
+    test_sync_gh_still_routes
 
     test_suite_end
     exit $?
