@@ -17,7 +17,14 @@ tok() {
   local subcommand="$1"
   shift 2>/dev/null
 
-  # Check for --refresh flag anywhere in arguments
+  # Script-scoped no-sync flag. The post-store auto-sync hooks live in separate
+  # functions (_tok_github, _tok_npm, ...), so the flag parsed here is exposed
+  # via a `typeset -g` global rather than a local. Reset to 0 (sync on) at the
+  # start of every invocation so a stale value from a prior call can't leak.
+  typeset -g _TOK_NO_SYNC=0
+
+  # Check for --refresh flag anywhere in arguments. Also detect and STRIP
+  # --no-sync so it never reaches subcommand/arg handling.
   local refresh_mode=false
   local token_name=""
   local remaining_args=()
@@ -27,11 +34,20 @@ tok() {
       --refresh|-r|refresh)
         refresh_mode=true
         ;;
+      --no-sync)
+        _TOK_NO_SYNC=1
+        ;;
       *)
         remaining_args+=("$arg")
         ;;
     esac
   done
+
+  # Rebuild the positional args from the filtered list so stripped flags
+  # (--no-sync) don't break downstream `$1`/`$@` handling. The first element is
+  # the subcommand; the rest become the new positional arguments.
+  subcommand="${remaining_args[1]}"
+  set -- "${remaining_args[@]:1}"
 
   if [[ "$refresh_mode" == true ]]; then
     if [[ ${#remaining_args[@]} -gt 0 ]]; then
@@ -54,7 +70,9 @@ tok() {
     sync)
       case "$1" in
         gh|github)  _tok_sync_gh ;;
-        *)          _flow_log_error "Usage: tok sync gh"; return 1 ;;
+        push)       shift; _tok_sync_push "$1" ;;
+        repos)      shift; _tok_sync_repos "$1" ;;
+        *)          _flow_log_error "Usage: tok sync <gh|push|repos> [name]"; return 1 ;;
       esac
       ;;
     doctor|dr)    _tok_doctor "$@" ;;
@@ -124,10 +142,14 @@ ${_C_BLUE}📋 TOKEN WIZARDS${_C_NC}:
 ${_C_BLUE}📋 TOKEN AUTOMATION${_C_NC}:
   ${_C_CYAN}tok expiring${_C_NC}        Check expiration status
   ${_C_CYAN}tok rotate${_C_NC}          Rotate existing token
-  ${_C_CYAN}tok sync gh${_C_NC}         Sync with gh CLI
+  ${_C_CYAN}tok sync gh${_C_NC}         Authenticate gh CLI with stored token
+  ${_C_CYAN}tok sync push <name>${_C_NC} Fan out token to GitHub Actions secrets
+  ${_C_CYAN}tok sync repos <name>${_C_NC} Dry run: list planned targets (no writes)
   ${_C_CYAN}tok <name> --refresh${_C_NC} Rotate specific token
+  ${_C_CYAN}--no-sync${_C_NC}           Suppress auto-sync on store/rotate
 
 ${_C_MAGENTA}💡 TIP${_C_NC}: Wizards open browser, validate, store in Bitwarden, track expiry
+${_C_DIM}Auto-sync after store/rotate can also be disabled with FLOW_TOK_AUTOSYNC=0${_C_NC}
 
 ${_C_DIM}📚 See also:${_C_NC}
   ${_C_CYAN}sec${_C_NC} - Secret management (Bitwarden)
@@ -344,6 +366,9 @@ _tok_refresh() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""
+
+  # Post-update auto-sync: fan out to configured GitHub Actions secrets.
+  _tok_autosync_hook "$token_name" "$new_token"
 }
 
 # ───────────────────────────────────────────────────────────────────
@@ -578,6 +603,9 @@ EOF
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""
+
+  # Post-store auto-sync: fan out to configured GitHub Actions secrets.
+  _tok_autosync_hook "$token_name" "$token_value"
 }
 
 # ───────────────────────────────────────────────────────────────────
@@ -830,6 +858,10 @@ _tok_rotate() {
   _flow_log_info "Step 4/5: Syncing with gh CLI..."
   _tok_sync_gh
 
+  # Step 8b: Fan out to configured GitHub Actions secrets (guarded by --no-sync /
+  # FLOW_TOK_AUTOSYNC). Pass the freshly rotated value to avoid a second vault read.
+  _tok_autosync_hook "$token_name" "$new_token"
+
   # Step 9: Update environment variable
   _flow_log_info "Step 5/5: Updating shell environment..."
   echo ""
@@ -893,6 +925,79 @@ _tok_sync_gh() {
     _flow_log_error "gh authentication failed"
     return 1
   fi
+}
+
+# ───────────────────────────────────────────────────────────────────
+# AUTO-SYNC HOOK - Fire post-store fan-out unless suppressed
+# ───────────────────────────────────────────────────────────────────
+# Called from each token-store function after a successful store. Fires the
+# config-driven fan-out (_tok_sync_push) only when BOTH of these hold:
+#   - --no-sync was NOT passed (reads $_TOK_NO_SYNC, set by tok())
+#   - FLOW_TOK_AUTOSYNC != "0" (default on / unset = on)
+# Accepts an optional pre-resolved value to avoid a second vault read.
+_tok_autosync_hook() {
+  local name="$1"
+  local value="$2"
+
+  [[ "${_TOK_NO_SYNC:-0}" == "1" ]] && return 0
+  [[ "${FLOW_TOK_AUTOSYNC:-1}" == "0" ]] && return 0
+
+  if [[ $# -ge 2 ]]; then
+    _tok_sync_push "$name" "$value"
+  else
+    _tok_sync_push "$name"
+  fi
+}
+
+# ───────────────────────────────────────────────────────────────────
+# SYNC REPOS - Dry-run inspect of planned Actions-secret fan-out
+# ───────────────────────────────────────────────────────────────────
+# Lists the configured targets for a token name WITHOUT writing anything.
+# Push rows are shown as "repo : secret"; oidc rows surface the Trusted
+# Publishing recommendation (same wording as _tok_sync_push, duplicated here
+# since lib/tok-sync.zsh must not be modified).
+_tok_sync_repos() {
+  local name="$1"
+
+  if [[ -z "$name" ]]; then
+    _flow_log_error "Usage: tok sync repos <name>"
+    return 1
+  fi
+
+  local -a rows
+  rows=("${(@f)$(_tok_sync_load_targets "$name")}")
+  rows=(${rows:#})
+
+  if (( ${#rows} == 0 )); then
+    _flow_log_info "tok-sync: no sync targets for '$name'"
+    return 0
+  fi
+
+  local -a push_rows
+  local row secret repo flag
+  echo "🔁 Planned sync targets for '$name' (dry run, no writes):"
+  for row in "${rows[@]}"; do
+    secret="${row%%	*}"
+    repo="${${row#*	}%%	*}"
+    flag="${row##*	}"
+    if [[ "$flag" == "oidc" ]]; then
+      _flow_log_info "OIDC: '$secret' for $repo — use Trusted Publishing instead of a stored secret."
+      _flow_log_muted "    Add 'permissions: id-token: write' + 'pypa/gh-action-pypi-publish' to the workflow."
+    else
+      push_rows+=("$secret	$repo")
+      echo "    $repo : $secret"
+    fi
+  done
+
+  # Count distinct repos among push targets.
+  local -A seen_repos
+  for row in "${push_rows[@]}"; do
+    repo="${row##*	}"
+    seen_repos[$repo]=1
+  done
+
+  _flow_log_info "would push ${#push_rows} secret(s) across ${#seen_repos} repo(s) (dry run, no writes)"
+  return 0
 }
 
 # ───────────────────────────────────────────────────────────────────
@@ -1090,6 +1195,9 @@ EOF
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""
+
+  # Post-store auto-sync: fan out to configured GitHub Actions secrets.
+  _tok_autosync_hook "$token_name" "$token_value"
 }
 
 # ───────────────────────────────────────────────────────────────────
@@ -1272,6 +1380,9 @@ EOF
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   echo "${FLOW_COLORS[header]}╰───────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
   echo ""
+
+  # Post-store auto-sync: fan out to configured GitHub Actions secrets.
+  _tok_autosync_hook "$token_name" "$token_value"
 }
 
 # ───────────────────────────────────────────────────────────────────
