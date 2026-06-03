@@ -1224,6 +1224,10 @@ _tok_pypi() {
   if _dotf_secret_needs_bitwarden; then
     if ! _dotf_require_tool "bw" "brew install bitwarden-cli"; then
       return 1
+    fi
+
+    # Check if session is active
+    if ! _dotf_bw_session_valid; then
       _flow_log_info "Bitwarden vault is locked. Unlocking..."
       _sec_unlock || return 1
     fi
