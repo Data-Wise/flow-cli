@@ -106,12 +106,42 @@ test_no_sync_flag_stripped_and_routes() {
     test_pass
 }
 
-test_no_sync_sets_global() {
-    test_case "--no-sync sets _TOK_NO_SYNC global"
+test_no_sync_alone_shows_help() {
+    test_case "tok --no-sync (empty subcommand) shows help, not unknown-provider error"
+    local out
+    out="$(tok --no-sync 2>&1)"
+    assert_contains "$out" "tok - Token Management" || return
+    assert_not_contains "$out" "Unknown token provider" || return
+    test_pass
+}
+
+test_no_sync_suppresses_push() {
+    test_case "--no-sync (via tok parsing) suppresses auto-sync push; default fires it"
     make_conf 'mytoken SECRET_A owner/repo1'
-    tok sync --no-sync repos mytoken >/dev/null 2>&1
+
+    # Mock the fan-out so we can count invocations rather than touch the network.
+    local push_calls=0
+    _tok_sync_push() { push_calls=$((push_calls + 1)) }
+
+    # SUPPRESSED: tok parses --no-sync and sets _TOK_NO_SYNC=1; the hook must
+    # then call _tok_sync_push 0 times.
+    unset FLOW_TOK_AUTOSYNC
+    tok sync --no-sync repos mytoken >/dev/null 2>&1   # parses + sets _TOK_NO_SYNC=1
+    _tok_autosync_hook "mytoken" "val"
+    local suppressed=$push_calls
+
+    # ENABLED: a normal invocation resets _TOK_NO_SYNC=0; the hook must fire.
+    push_calls=0
+    tok sync repos mytoken >/dev/null 2>&1             # resets _TOK_NO_SYNC=0
+    _tok_autosync_hook "mytoken" "val"
+    local enabled=$push_calls
+
+    unset -f _tok_sync_push
+    typeset -g _TOK_NO_SYNC=0
     teardown_conf
-    assert_equals "${_TOK_NO_SYNC:-unset}" "1" || return
+
+    assert_equals "$suppressed" "0" || return
+    assert_equals "$enabled" "1" || return
     test_pass
 }
 
@@ -176,7 +206,8 @@ main() {
     test_sync_no_targets
     test_sync_unknown_subcommand
     test_no_sync_flag_stripped_and_routes
-    test_no_sync_sets_global
+    test_no_sync_alone_shows_help
+    test_no_sync_suppresses_push
     test_no_sync_resets_between_calls
     test_hook_skips_when_no_sync
     test_hook_skips_when_env_disabled

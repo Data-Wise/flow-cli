@@ -49,6 +49,14 @@ tok() {
   subcommand="${remaining_args[1]}"
   set -- "${remaining_args[@]:1}"
 
+  # If stripping flags (e.g. `tok --no-sync`) left no subcommand, show help and
+  # return — mirroring the `[[ $# -eq 0 ]]` guard at the top, so an empty
+  # subcommand never falls through to the `*)` unknown-provider error.
+  if [[ -z "$subcommand" ]]; then
+    _tok_help
+    return
+  fi
+
   if [[ "$refresh_mode" == true ]]; then
     if [[ ${#remaining_args[@]} -gt 0 ]]; then
       token_name="${remaining_args[1]}"
@@ -942,7 +950,10 @@ _tok_autosync_hook() {
   [[ "${_TOK_NO_SYNC:-0}" == "1" ]] && return 0
   [[ "${FLOW_TOK_AUTOSYNC:-1}" == "0" ]] && return 0
 
-  if [[ $# -ge 2 ]]; then
+  # Only pass a pre-resolved value when it's actually non-empty; an empty value
+  # would otherwise suppress the vault fallback in _tok_sync_push. With an empty
+  # (or absent) value, call without it so _tok_sync_push resolves from the vault.
+  if [[ -n "$value" ]]; then
     _tok_sync_push "$name" "$value"
   else
     _tok_sync_push "$name"
@@ -977,9 +988,11 @@ _tok_sync_repos() {
   local row secret repo flag
   echo "🔁 Planned sync targets for '$name' (dry run, no writes):"
   for row in "${rows[@]}"; do
-    secret="${row%%	*}"
-    repo="${${row#*	}%%	*}"
-    flag="${row##*	}"
+    # _tok_sync_load_targets emits exactly three tab-separated fields:
+    #   secret<TAB>repo<TAB>flag  (flag is empty for non-oidc rows)
+    # Reading with IFS=$'\t' is correct regardless of the trailing tab and
+    # keeps `flag` empty (not the repo) for non-oidc rows.
+    IFS=$'\t' read -r secret repo flag <<< "$row"
     if [[ "$flag" == "oidc" ]]; then
       _flow_log_info "OIDC: '$secret' for $repo — use Trusted Publishing instead of a stored secret."
       _flow_log_muted "    Add 'permissions: id-token: write' + 'pypa/gh-action-pypi-publish' to the workflow."
