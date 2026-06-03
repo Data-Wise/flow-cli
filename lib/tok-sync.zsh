@@ -48,9 +48,10 @@ _tok_sync_load_targets() {
 
     local line n secret repo flag extra
     while IFS= read -r line; do
-        # Skip blank lines and comments.
-        [[ -z "${line// /}" ]] && continue
-        [[ "${line## }" == \#* ]] && continue
+        # Skip blank lines (any whitespace incl. tabs/CR) and comments.
+        [[ -z "${line//[[:space:]]/}" ]] && continue
+        local trimmed="${line#"${line%%[![:space:]]*}"}"
+        [[ "$trimmed" == \#* ]] && continue
 
         # Split on whitespace into exactly the expected fields. `extra` catches
         # rows with too many columns (e.g. an unquoted repo containing spaces).
@@ -110,6 +111,13 @@ _tok_sync_push() {
 
     if [[ $# -lt 2 ]]; then
         value="$(_tok_sync_resolve_value "$name")"
+    fi
+
+    # Boundary guard: enforce the allowlist invariant on the token name. Keeps
+    # arbitrary data out of downstream config-matching and argv passed to `gh`.
+    if [[ ! "$name" =~ $_TOK_SYNC_FIELD_RE ]]; then
+        _flow_log_error "tok-sync: invalid token name: '$name'"
+        return 1
     fi
 
     # Guard: gh installed?

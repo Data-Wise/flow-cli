@@ -36,6 +36,14 @@ make_conf() {
     export FLOW_TOK_SYNC_CONF="$CONF_FILE"
 }
 
+make_conf_escaped() {
+    # Like make_conf but interprets \t and \r escapes in the content.
+    CONF_FILE="$(mktemp -t tok-sync-conf.XXXXXX)"
+    chmod 0600 "$CONF_FILE"
+    print -- "$1" > "$CONF_FILE"
+    export FLOW_TOK_SYNC_CONF="$CONF_FILE"
+}
+
 teardown_conf() {
     [[ -n "$CONF_FILE" && -f "$CONF_FILE" ]] && rm -f "$CONF_FILE"
     CONF_FILE=""
@@ -141,6 +149,62 @@ test_load_targets_bad_row_warns() {
     local warn; warn="$(_tok_sync_load_targets github-app 2>&1 >/dev/null)"
     teardown_conf
     assert_not_empty "$warn" && test_pass
+}
+
+test_load_targets_skips_tab_only_line() {
+    test_case "load_targets skips a tab-only blank line"
+    make_conf_escaped "github-app   APP_ID   data-wise/flow-cli
+\t
+github-app   APP_KEY   data-wise/other"
+    local out="$(_tok_sync_load_targets github-app 2>/dev/null)"
+    teardown_conf
+    assert_contains "$out" "APP_ID	data-wise/flow-cli" || return
+    assert_contains "$out" "APP_KEY	data-wise/other" || return
+    local n=$(print -r -- "$out" | grep -c .)
+    assert_equals "$n" "2" && test_pass
+}
+
+test_load_targets_skips_indented_comment() {
+    test_case "load_targets skips space- and tab-indented comments"
+    make_conf "github-app   APP_ID   data-wise/flow-cli
+   # space-indented comment
+\t# tab-indented comment
+github-app   APP_KEY   data-wise/other"
+    local out="$(_tok_sync_load_targets github-app 2>/dev/null)"
+    teardown_conf
+    assert_not_contains "$out" "comment" || return
+    assert_contains "$out" "APP_ID	data-wise/flow-cli" || return
+    assert_contains "$out" "APP_KEY	data-wise/other" || return
+    local n=$(print -r -- "$out" | grep -c .)
+    assert_equals "$n" "2" && test_pass
+}
+
+test_load_targets_skips_cr_blank_line() {
+    test_case "load_targets skips a carriage-return-only blank line"
+    make_conf_escaped "github-app   APP_ID   data-wise/flow-cli
+\r
+github-app   APP_KEY   data-wise/other"
+    local out="$(_tok_sync_load_targets github-app 2>/dev/null)"
+    teardown_conf
+    assert_contains "$out" "APP_ID	data-wise/flow-cli" || return
+    assert_contains "$out" "APP_KEY	data-wise/other" || return
+    local n=$(print -r -- "$out" | grep -c .)
+    assert_equals "$n" "2" && test_pass
+}
+
+test_push_rejects_invalid_name() {
+    test_case "push rejects an invalid token name at the boundary"
+    make_conf 'github-app   APP_ID   data-wise/flow-cli'
+    mock_gh_counting
+
+    _tok_sync_push 'bad;name' "secretvalue" >/dev/null 2>&1 <<< "y"; local rc=$?
+    local called="$(set_count)"
+    reset_mocks
+    teardown_gh
+    teardown_conf
+
+    assert_exit_code "$rc" 1 || return
+    assert_equals "$called" "0" && test_pass
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -329,6 +393,10 @@ main() {
     test_load_targets_rejects_bad_repo
     test_load_targets_rejects_bad_secret
     test_load_targets_bad_row_warns
+    test_load_targets_skips_tab_only_line
+    test_load_targets_skips_indented_comment
+    test_load_targets_skips_cr_blank_line
+    test_push_rejects_invalid_name
     test_push_noop_missing_gh
     test_push_noop_zero_targets
     test_push_noop_empty_value
