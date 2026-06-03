@@ -283,6 +283,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | synced with main (0ecf2bb0) |
+| `~/.git-worktrees/flow-cli/tok-autosync` | `feature/tok-autosync` | ORCHESTRATE committed (a82f7caa) — awaiting impl in new session |
 
 ---
 
