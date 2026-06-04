@@ -1,0 +1,243 @@
+.\" Man page for tok dispatcher (Token Management)
+.\" Generated: June 2026
+.TH TOK 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+tok \- Token lifecycle management dispatcher
+.SH SYNOPSIS
+.B tok
+[\fIcommand\fR] [\fIarguments\fR] [\fB\-\-no\-sync\fR]
+.SH DESCRIPTION
+.B tok
+is a smart dispatcher for API token lifecycle management. It provides
+interactive creation wizards, expiration tracking, rotation workflows, and
+automatic fan-out to GitHub Actions secrets.
+.PP
+Tokens are stored in macOS Keychain (default) and optionally mirrored to
+Bitwarden for cloud backup. Each token is stored with JSON metadata
+(version, type, creation date, expiration) to enable fast expiration
+checks without decrypting the token value.
+.PP
+When called without arguments,
+.B tok
+shows the help screen.
+.PP
+The flag
+.B \-\-no\-sync
+may be passed anywhere on the command line to suppress the automatic
+post-store/post-rotate GitHub Actions secret fan-out for that invocation.
+The environment variable
+.B FLOW_TOK_AUTOSYNC
+provides a persistent override (set to
+.B 0
+to disable auto-sync globally).
+.PP
+The flag
+.B \-\-refresh
+(or
+.BR \-r )
+may be placed anywhere on the command line to trigger rotation of an
+existing named token.  For example:
+.B tok my-token \-\-refresh
+.SH ENVIRONMENT
+.TP
+.B FLOW_TOK_AUTOSYNC
+Controls automatic fan-out of newly stored or rotated tokens to
+configured GitHub Actions secrets.  Set to
+.B 0
+to disable globally.  Default: enabled (equivalent to
+.BR 1 ).
+Per-invocation override: pass
+.B \-\-no\-sync
+on the command line.
+.TP
+.B FLOW_SECRET_BACKEND
+Selects the secret storage backend.  Values:
+.B keychain
+(default \- macOS Keychain only),
+.B bitwarden
+(Bitwarden only, legacy),
+.B both
+(Keychain primary + Bitwarden mirror).
+.SH COMMANDS
+.SS Token Wizards
+Interactive guided flows that open the provider's website, validate the
+token, store it with expiry metadata, and auto-sync to GitHub Actions.
+.TP
+.B github\fR, \fBgh
+GitHub Personal Access Token wizard.  Prompts for PAT type (classic
+.I ghp_*
+or fine-grained
+.I github_pat_*
+), opens GitHub in the browser, validates the token against
+.I api.github.com
+, and stores it in Keychain/Bitwarden with expiry metadata.
+.TP
+.B npm
+NPM access token wizard.  Prompts for token type (automation,
+read-only, or granular access), opens npmjs.com, validates format
+.RI ( npm_*
+prefix), and stores the token.
+.TP
+.B pypi\fR, \fBpip
+PyPI API token wizard.  Prompts for scope (account-wide or
+project-scoped), opens pypi.org, validates format
+.RI ( pypi-
+prefix), and stores the token.  Note: for CI/CD, consider PyPI
+Trusted Publishing (GitHub OIDC) instead.
+.SS Expiration & Rotation
+.TP
+.B expiring
+Check expiration status of stored tokens.  Queries the GitHub API to
+detect expired or nearly-expired tokens (< 7 days remaining on a
+90-day window).  Offers to launch
+.B tok rotate
+interactively.
+.TP
+.B rotate \fR[\fIname\fR]
+Rotate an existing token.  Backs up the current token, launches the
+provider wizard to create a new one, validates it, optionally prompts
+for old-token revocation, then auto-syncs the new value to
+configured GitHub Actions secrets.  Defaults to
+.IR github-token .
+.TP
+.IB name " \-\-refresh"
+Rotate a specific named token without going through
+.BR tok rotate .
+Looks up the token in the vault, determines its provider type (github,
+npm, or pypi) from stored metadata, opens the provider's token page,
+and updates the vault entry with a new value.
+.SS Sync
+.TP
+.B sync gh\fR | \fBsync github
+Re-authenticate the
+.B gh
+CLI using the stored
+.I github-token
+from Keychain.  Reads the token via
+.B sec
+and pipes it to
+.BR "gh auth login \-\-with\-token" .
+.TP
+.B sync push \fIname\fR
+Fan out a named token to all configured GitHub Actions secret targets.
+Reads the token value from the vault and calls
+.B gh secret set
+for each configured repository/secret mapping.  This is the same
+fan-out triggered automatically after
+.B tok github
+(or any wizard) unless suppressed with
+.B \-\-no\-sync
+/
+.BR FLOW_TOK_AUTOSYNC=0 .
+.TP
+.B sync repos \fIname\fR
+Dry run: list the configured GitHub Actions secret targets for a named
+token without writing anything.  Shows
+.I repo\fB:\fIsecret
+pairs for push targets and a Trusted Publishing note for OIDC targets.
+.SS Diagnostics
+.TP
+.B doctor\fR, \fBdr
+Token health check.  Currently surfaces quick diagnostics; for a
+comprehensive check use
+.B tok expiring
+and
+.BR "tok sync gh" .
+See also
+.BR "flow doctor \-\-dot" .
+.SS Help
+.TP
+.B help\fR, \fB\-\-help\fR, \fB\-h
+Show the help screen.
+.SH EXAMPLES
+Create a new GitHub PAT:
+.RS
+.nf
+tok github
+.fi
+.RE
+.PP
+Create a new NPM token:
+.RS
+.nf
+tok npm
+.fi
+.RE
+.PP
+Create a new PyPI token:
+.RS
+.nf
+tok pypi
+.fi
+.RE
+.PP
+Check which tokens are expiring:
+.RS
+.nf
+tok expiring
+.fi
+.RE
+.PP
+Rotate the default github-token:
+.RS
+.nf
+tok rotate
+.fi
+.RE
+.PP
+Rotate a specific named token interactively:
+.RS
+.nf
+tok MY_TOKEN_NAME \-\-refresh
+.fi
+.RE
+.PP
+Authenticate gh CLI with the stored GitHub token:
+.RS
+.nf
+tok sync gh
+.fi
+.RE
+.PP
+Fan out a token to all configured GitHub Actions secrets:
+.RS
+.nf
+tok sync push MY_TOKEN_NAME
+.fi
+.RE
+.PP
+Preview what
+.B sync push
+would write (dry run):
+.RS
+.nf
+tok sync repos MY_TOKEN_NAME
+.fi
+.RE
+.PP
+Store a new GitHub token without triggering auto-sync:
+.RS
+.nf
+tok github \-\-no\-sync
+.fi
+.RE
+.PP
+Disable auto-sync persistently, then rotate:
+.RS
+.nf
+FLOW_TOK_AUTOSYNC=0 tok rotate
+.fi
+.RE
+.PP
+Run the token health check:
+.RS
+.nf
+tok doctor
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR sec (1),
+.BR dots (1)
+.SH AUTHOR
+DT

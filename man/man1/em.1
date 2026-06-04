@@ -1,0 +1,381 @@
+.\" Man page for em dispatcher (Email / himalaya)
+.\" Generated: June 2026
+.TH EM 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+em \- Email dispatcher (himalaya wrapper)
+.SH SYNOPSIS
+.B em
+[\fIcommand\fR] [\fIarguments\fR]
+.br
+.B em
+.I ID
+.br
+.B em
+.B -n
+.I N
+.SH DESCRIPTION
+.B em
+is a smart email dispatcher that wraps the
+.B himalaya
+CLI, providing ADHD-friendly email management with AI-powered composition,
+fzf-based browsing, and a two-phase safety gate for destructive operations.
+.PP
+When called without arguments it shows a quick dashboard (unread count + 10
+most recent emails).
+.PP
+A bare number argument reads that email directly (e.g.
+.B em 42
+is equivalent to
+.BR "em read 42" ).
+.PP
+.B em -n \fIN
+limits the inbox listing to N messages.
+.PP
+AI features use Claude by default; switch backend with
+.B em ai
+or set
+.BR FLOW_EMAIL_AI .
+All send/reply/forward operations show a preview and prompt
+.B [y/N/e]
+(yes / no / edit) before sending.
+.SH COMMANDS
+.SS Inbox & Reading
+.TP
+.B inbox\fR, \fBi \fR[\fIN\fR]
+List N recent emails (default: 25, set by FLOW_EMAIL_PAGE_SIZE).
+.TP
+.B read\fR, \fBr \fIID\fR [\fIoptions\fR]
+Read an email by ID. Options:
+.RS
+.TP
+.B --html
+Render HTML version in terminal (w3m/lynx).
+.TP
+.B --md
+Convert to clean Markdown via pandoc.
+.TP
+.B --raw
+Dump raw MIME source.
+.RE
+.TP
+.B unread\fR, \fBu
+Show unread email count.
+.TP
+.B html \fIID\fR
+Render HTML email in terminal (alias for
+.BR "read --html" ).
+.TP
+.B dash\fR, \fBd
+Quick dashboard: unread count + recent emails.
+.SS Compose & Reply
+.TP
+.B send\fR, \fBs \fR[\fIoptions\fR]
+Compose a new email. Opens \fB$EDITOR\fR with a preview before sending.
+.RS
+.TP
+.B --force
+Send without preview confirmation.
+.TP
+.B --prompt \fIinstructions\fR
+AI-compose from prompt instructions.
+.TP
+.B --backend \fIclaude\fR|\fIgemini\fR
+Override AI backend for this operation.
+.RE
+.TP
+.B reply\fR, \fBre \fIID\fR [\fIoptions\fR]
+Reply to an email with an AI-drafted reply opened in \fB$EDITOR\fR.
+.RS
+.TP
+.B --no-ai
+Skip AI draft; open empty template.
+.TP
+.B --all
+Reply-all.
+.TP
+.B --batch
+Non-interactive: preview + confirm without opening editor.
+.TP
+.B --force
+Send immediately without preview.
+.TP
+.B --prompt \fIinstructions\fR
+Custom instructions for AI draft.
+.TP
+.B --backend \fIclaude\fR|\fIgemini\fR
+Override AI backend for this operation.
+.RE
+.TP
+.B forward\fR, \fBfwd \fIID\fR [\fIto\fR] [\fIoptions\fR]
+Forward an email.
+.RS
+.TP
+.B --prompt \fItext\fR
+AI-compose a custom forwarding note.
+.TP
+.B --backend \fIclaude\fR|\fIgemini\fR
+Override AI backend.
+.TP
+.B --force
+Send without preview.
+.RE
+.SS Search & Browse
+.TP
+.B find\fR, \fBf \fIquery\fR
+Search emails by query string.
+.TP
+.B pick\fR, \fBp \fR[\fIFOLDER\fR]
+Open fzf-powered email browser with preview pane.
+Optional FOLDER argument restricts scope.
+.SS Manage
+.TP
+.B delete\fR, \fBdel\fR, \fBrm \fIID\fR [\fIoptions\fR]
+Move email to Trash.
+.RS
+.TP
+.B --pick
+Interactive multi-select delete via fzf.
+.TP
+.B --purge
+Permanent delete (requires typing "yes" to confirm).
+.RE
+.TP
+.B move\fR, \fBmv \fIID\fR [\fIFOLDER\fR]
+Move email to folder. Opens fzf folder picker if FOLDER is omitted.
+.TP
+.B restore \fIID\fR
+Restore email from Trash to INBOX.
+.TP
+.B flag\fR, \fBfl \fIID\fR
+Star email for follow-up.
+.TP
+.B unflag \fIID\fR
+Remove star from email.
+.SS Organize
+.TP
+.B star \fIID\fR
+Toggle starred (flagged) status.
+.TP
+.B starred
+List all starred emails.
+.TP
+.B thread\fR, \fBth \fIID\fR
+Show full conversation thread.
+.TP
+.B snooze\fR, \fBsnz \fIID\fR \fItime\fR
+Snooze email. Time formats: 2h, 1d, tomorrow, monday.
+.TP
+.B snoozed
+List all snoozed emails.
+.TP
+.B digest\fR, \fBdg \fR[\fIoptions\fR]
+Generate AI-grouped daily email summary.
+.RS
+.TP
+.B --week
+Show weekly digest instead of daily.
+.RE
+.SS Folders
+.TP
+.B create-folder\fR, \fBcf \fIname\fR
+Create a new mail folder.
+.TP
+.B delete-folder\fR, \fBdf \fIname\fR
+Delete a folder (type-to-confirm safety prompt).
+.TP
+.B folders
+List all mail folders.
+.SS Attachments
+.TP
+.B attach\fR, \fBa \fIID\fR
+Download all attachments from an email.
+.TP
+.B attach list \fIID\fR
+Show attachment list (name, MIME type, size).
+.TP
+.B attach get \fIID\fR \fIfile\fR
+Download a specific named attachment.
+.SS Calendar (v2.0)
+.TP
+.B calendar\fR, \fBcal \fIID\fR
+Parse ICS attachment from email and add the event to Apple Calendar.
+.SS Watch / IMAP IDLE (v2.0, experimental)
+.TP
+.B watch start
+Start IMAP IDLE notification watcher in background.
+.TP
+.B watch stop
+Stop the background watcher.
+.TP
+.B watch status
+Show current watcher status.
+.TP
+.B watch log
+Show recent notification log.
+.SS AI Features
+.TP
+.B respond\fR, \fBresp \fR[\fIoptions\fR]
+Batch AI draft generation for actionable emails.
+.RS
+.TP
+.B --review
+Review and send previously generated drafts.
+.RE
+.TP
+.B classify\fR, \fBcl \fIID\fR
+Classify an email using AI (priority, category).
+.TP
+.B summarize\fR, \fBsum \fIID\fR
+Generate a one-line AI summary of an email.
+.TP
+.B catch\fR, \fBc \fIID\fR
+Capture an email as a task in flow's quick-capture inbox.
+.TP
+.B todo\fR, \fBtd \fIID\fR
+Extract action items from an email and add them to flow + Reminders.app.
+.TP
+.B event\fR, \fBev \fIID\fR
+Extract calendar events from an email and add them to flow + Calendar.app.
+.SS AI Backend
+.TP
+.B ai
+Show current AI backend setting.
+.TP
+.B ai claude
+Switch to Claude as the AI backend.
+.TP
+.B ai gemini
+Switch to Gemini as the AI backend.
+.TP
+.B ai none
+Disable AI features.
+.TP
+.B ai toggle
+Cycle through available AI backends.
+.TP
+.B ai auto
+Enable smart per-operation AI routing.
+.SS Utilities
+.TP
+.B html \fIID\fR
+Render HTML email in terminal browser (w3m/lynx).
+.TP
+.B cache stats
+Show AI draft cache statistics.
+.TP
+.B cache clear
+Clear the AI draft cache.
+.TP
+.B doctor\fR, \fBdr
+Check all email-related dependencies (himalaya, w3m/lynx, pandoc, AI CLIs).
+.TP
+.B help\fR, \fBh\fR, \fB--help\fR, \fB-h
+Show help page.
+.SH ENVIRONMENT
+.TP
+.B FLOW_EMAIL_AI
+AI backend: \fBclaude\fR (default) | \fBgemini\fR | \fBnone\fR.
+.TP
+.B FLOW_EMAIL_PAGE_SIZE
+Default inbox page size (default: 25).
+.TP
+.B FLOW_EMAIL_FOLDER
+Default folder (default: INBOX).
+.TP
+.B FLOW_EMAIL_TRASH_FOLDER
+Trash folder name (default: Trash; Exchange: "Deleted Items").
+.TP
+.B FLOW_EMAIL_AI_TIMEOUT
+AI draft timeout in seconds (default: 30).
+.TP
+.B EDITOR
+Editor used for composing and editing email drafts (nvim recommended).
+.SH FILES
+.TP
+.I .flow/email.conf
+Project-level email configuration (overrides global).
+.TP
+.I $FLOW_CONFIG_DIR/email.conf
+Global email configuration.
+.SH EXAMPLES
+Show email dashboard:
+.RS
+.nf
+em
+.fi
+.RE
+.PP
+Read an email:
+.RS
+.nf
+em read 42
+em 42
+em read --html 42
+em read --md 42
+.fi
+.RE
+.PP
+Reply with AI draft:
+.RS
+.nf
+em reply 42
+em re 42 --all
+em re 42 --prompt "be brief and professional"
+.fi
+.RE
+.PP
+Compose new email:
+.RS
+.nf
+em send
+em send --prompt "write a meeting request to the team"
+.fi
+.RE
+.PP
+Browse emails with fzf:
+.RS
+.nf
+em pick
+em pick INBOX
+.fi
+.RE
+.PP
+Search emails:
+.RS
+.nf
+em find "quarterly report"
+.fi
+.RE
+.PP
+Batch AI replies:
+.RS
+.nf
+em respond
+em respond --review
+.fi
+.RE
+.PP
+Manage folders:
+.RS
+.nf
+em folders
+em create-folder Archive
+em move 42 Archive
+.fi
+.RE
+.PP
+Switch AI backend:
+.RS
+.nf
+em ai gemini
+em ai claude
+em ai none
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR teach (1),
+.BR at (1),
+.BR tok (1)
+.SH AUTHOR
+DT

@@ -1,0 +1,148 @@
+.\" Man page for prompt dispatcher (Prompt Engine Switcher)
+.\" Generated: June 2026
+.TH PROMPT 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+prompt \- Prompt engine switcher
+.SH SYNOPSIS
+.B prompt
+[\fB--dry-run\fR] \fIcommand\fR [\fIarguments\fR]
+.SH DESCRIPTION
+.B prompt
+is a dispatcher for managing the active ZSH prompt engine.
+It supports Powerlevel10k, Starship, and Oh My Posh.
+The active engine is tracked via the
+.B FLOW_PROMPT_ENGINE
+environment variable.
+.PP
+When called without arguments (or with an unknown command),
+.B prompt
+displays the built-in help.
+.PP
+The global flag
+.B --dry-run
+may be placed before any subcommand to preview what changes
+would be made without applying them.
+.SH COMMANDS
+.SS Status and Listing
+.TP
+.B status
+Show the currently active engine and list all available engines with
+description and config file path.
+Current engine is marked with a filled circle; others with an open circle.
+.TP
+.B list
+Tabular view of all engines: name, active marker, and config file path.
+.SS Switching
+.TP
+.B toggle
+Interactive engine selection menu (uses
+.I select
+). Presents all non-current engines; validates the chosen engine before switching.
+.TP
+.B starship
+Force-switch to Starship. Validates that
+.I starship
+is in
+.B PATH
+and that
+.I ~/.config/starship.toml
+exists.
+.TP
+.B p10k
+Force-switch to Powerlevel10k. Validates that the plugin is listed in
+.I ~/.config/zsh/.zsh_plugins.txt
+and that
+.I ~/.config/zsh/.p10k.zsh
+exists.
+.TP
+.B ohmyposh
+Force-switch to Oh My Posh. Validates that
+.I oh-my-posh
+is in
+.B PATH
+and that
+.I ~/.config/ohmyposh/config.json
+exists.
+.SS Setup
+.TP
+.B setup-ohmyposh
+Interactive wizard that creates a default Oh My Posh configuration at
+.IR ~/.config/ohmyposh/config.json .
+Asks for confirmation if the file already exists.
+.SS Help
+.TP
+.B help\fR, \fB--help\fR, \fB-h
+Show built-in help.
+.SH OPTIONS
+.TP
+.B --dry-run
+Preview the actions that any switch subcommand would perform, without
+applying them. Place before the subcommand:
+.RS
+.nf
+prompt --dry-run starship
+prompt --dry-run toggle
+.fi
+.RE
+.SH SUPPORTED ENGINES
+.TP
+.B powerlevel10k
+Feature-rich, highly customizable ZSH prompt.
+Config: \fI~/.config/zsh/.p10k.zsh\fR.
+.TP
+.B starship
+Minimal, fast Rust-based prompt.
+Config: \fI~/.config/starship.toml\fR.
+.TP
+.B ohmyposh
+Modular prompt with extensive themes.
+Config: \fI~/.config/ohmyposh/config.json\fR.
+.SH ENVIRONMENT
+.TP
+.B FLOW_PROMPT_ENGINE
+Name of the currently active prompt engine
+(\fIpowerlevel10k\fR, \fIstarship\fR, or \fIohmyposh\fR).
+Defaults to \fIpowerlevel10k\fR when unset or invalid.
+Switching engines exports this variable and reloads the shell
+(via \fIexec zsh -i\fR) in interactive sessions.
+.SH EXAMPLES
+Show the currently active engine:
+.RS
+.nf
+prompt status
+.fi
+.RE
+.PP
+Switch interactively:
+.RS
+.nf
+prompt toggle
+.fi
+.RE
+.PP
+Force-switch to Starship:
+.RS
+.nf
+prompt starship
+.fi
+.RE
+.PP
+Preview a switch without making changes:
+.RS
+.nf
+prompt --dry-run starship
+.fi
+.RE
+.PP
+Run the Oh My Posh setup wizard:
+.RS
+.nf
+prompt setup-ohmyposh
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR tm (1),
+.BR v (1)
+.SH AUTHOR
+DT

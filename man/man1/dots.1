@@ -1,0 +1,273 @@
+.\" Man page for dots dispatcher (Dotfile Management)
+.\" Generated: June 2026
+.TH DOTS 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+dots \- Dotfile management dispatcher (chezmoi wrapper)
+.SH SYNOPSIS
+.B dots
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B dots
+is a smart dispatcher for managing dotfiles via
+.BR chezmoi (1).
+It provides a consistent, ADHD-friendly interface for the most common
+dotfile operations: tracking files, editing them, syncing with a remote
+repository, and inspecting repository health.
+.PP
+When called without arguments,
+.B dots
+shows the current sync status: chezmoi state, last sync time, tracked
+file count, modified file count, and Bitwarden vault state (if
+.BR bw (1)
+is installed).
+.PP
+Unknown commands are passed through to
+.B chezmoi
+directly, so
+.B dots managed
+is equivalent to
+.BR "chezmoi managed" .
+This passthrough only fires when
+.B chezmoi
+is installed; otherwise an error is printed.
+.PP
+.B chezmoi
+must be installed for most operations.  Install via
+.BR "brew install chezmoi" ,
+then initialise with
+.BR "chezmoi init" .
+.SH COMMANDS
+.SS Status & Info
+.TP
+.B (none)
+Show dotfiles status: sync state, last sync, tracked/modified counts,
+and vault state.
+.TP
+.B status\fR, \fBs
+Alias for the default status view.
+.TP
+.B size
+Analyse chezmoi repository size.  Lists total size, top 10 largest
+files, and warns about nested
+.I .git
+directories and files larger than 100 KB.
+.TP
+.B version\fR, \fB\-\-version\fR, \fB\-v
+Show the
+.B dots
+dispatcher version and the installed versions of
+.BR chezmoi ,
+.BR bw ,
+and
+.BR mise .
+.SS File Management
+.TP
+.B add \fIfile\fR
+Add a file to chezmoi tracking.  Expands
+.I ~
+prefixes and checks whether the file is already managed.  Prints the
+resulting source path and a tip to edit the file immediately.
+.TP
+.B edit \fIfile\fR\fR, \fBe \fIfile\fR
+Edit a dotfile in
+.B $EDITOR
+(defaults to
+.BR vim ).
+Supports fuzzy file name matching against managed files.  If the file
+is not tracked, offers to add it to chezmoi.  If the file does not
+exist, offers to create it.  After editing, shows a diff and prompts
+whether to apply immediately.
+.PP
+.RS
+If the source file is a chezmoi template
+.RI ( .tmpl )
+that references Bitwarden secrets
+.RB ( "{{ bitwarden ... }}" ),
+.B dots edit
+offers to unlock the vault before showing the diff so that secret
+values are expanded in the preview.
+.RE
+.TP
+.B diff \fR[\fIfile\fR]\fR, \fBd \fR[\fIfile\fR]
+Show pending changes.  Without a file argument, shows all diffs via
+.BR "chezmoi diff" .
+With a file argument, resolves the path and shows just that file's diff.
+.TP
+.B apply \fR[\fIfile\fR] [\fB\-n\fR | \fB\-\-dry\-run\fR]\fR, \fBa \fR[\fIfile\fR]
+Apply pending chezmoi changes to the home directory.  Without a file
+argument, applies all pending changes (with a confirmation prompt).
+With
+.B \-n
+/
+.BR \-\-dry\-run ,
+shows what would change without writing anything.
+.TP
+.B undo
+Rollback the last apply.  (Implementation pending \(em for now use
+.B "chezmoi diff && chezmoi apply \-\-dry\-run"
+to review before applying.)
+.SS Ignore Patterns
+.TP
+.B ignore add \fIpattern\fR
+Add a glob pattern to
+.IR .chezmoiignore .
+Creates the file if it does not exist.  Skips duplicates silently.
+.TP
+.B ignore list\fR, \fBignore ls
+List all patterns in
+.IR .chezmoiignore ,
+numbered for readability.  This is the default when no
+.B ignore
+subcommand is given.
+.TP
+.B ignore remove \fIpattern\fR\fR, \fBignore rm \fIpattern\fR
+Remove a specific pattern from
+.IR .chezmoiignore .
+.TP
+.B ignore edit
+Open
+.I .chezmoiignore
+directly in
+.BR $EDITOR .
+.SS Remote Sync
+.TP
+.B sync\fR, \fBpull
+Pull updates from the remote chezmoi git repository.  Fetches, checks
+if the local copy is behind, shows pending commits, and runs
+.B chezmoi update
+to apply remote changes.  Prompts before pulling if local modifications
+exist.
+.TP
+.B push\fR, \fBp
+Push local changes to the remote chezmoi git repository.  If there are
+uncommitted changes in the chezmoi directory, prompts for a commit
+message, commits all changes, and pushes.  If the branch is already
+ahead of remote with no uncommitted changes, pushes directly.
+.SS Environment Integration
+.TP
+.B env init
+Generate a
+.I .envrc
+file for
+.BR direnv (1)
+that loads selected Bitwarden-managed secrets as environment variables
+when entering the directory.  Requires
+.B direnv
+and an unlocked Bitwarden vault.  Adds
+.I .envrc
+to
+.I .gitignore
+automatically.
+.SS Diagnostics
+.TP
+.B doctor\fR, \fBdr
+Run dotfile management diagnostics.  (Full implementation pending;
+available checks include chezmoi install, repository state, remote
+configuration,
+.I .chezmoiignore
+presence, managed file count, repository size, large files, nested git
+directories, and sync status.)  See also
+.BR "flow doctor \-\-dot" .
+.TP
+.B init
+Initialize chezmoi.  (Implementation pending \(em use
+.B chezmoi init
+directly.)
+.SS Help
+.TP
+.B help\fR, \fB\-\-help\fR, \fB\-h
+Show the help screen.
+.SH PASSTHROUGH
+Unknown commands are passed through to
+.BR chezmoi (1)
+when it is installed:
+.RS
+.nf
+dots managed        -> chezmoi managed
+dots source-path ~  -> chezmoi source-path ~
+.fi
+.RE
+.SH EXAMPLES
+Show dotfiles status:
+.RS
+.nf
+dots
+.fi
+.RE
+.PP
+Add a file to chezmoi tracking:
+.RS
+.nf
+dots add ~/.zshrc
+.fi
+.RE
+.PP
+Edit a dotfile (fuzzy match accepted):
+.RS
+.nf
+dots edit .zshrc
+.fi
+.RE
+.PP
+Preview pending changes without applying:
+.RS
+.nf
+dots apply -n
+.fi
+.RE
+.PP
+Apply all pending changes:
+.RS
+.nf
+dots apply
+.fi
+.RE
+.PP
+Pull latest dotfiles from remote:
+.RS
+.nf
+dots sync
+.fi
+.RE
+.PP
+Push local changes to remote:
+.RS
+.nf
+dots push
+.fi
+.RE
+.PP
+Add an ignore pattern for nested git repos:
+.RS
+.nf
+dots ignore add '**/.git'
+.fi
+.RE
+.PP
+List all ignore patterns:
+.RS
+.nf
+dots ignore list
+.fi
+.RE
+.PP
+Analyse repository size:
+.RS
+.nf
+dots size
+.fi
+.RE
+.PP
+Generate a direnv .envrc from Bitwarden secrets:
+.RS
+.nf
+dots env init
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR sec (1),
+.BR tok (1),
+.BR chezmoi (1)
+.SH AUTHOR
+DT

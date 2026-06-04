@@ -1,0 +1,183 @@
+.\" Man page for cc dispatcher (Claude Code launcher)
+.\" Generated: June 2026
+.TH CC 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+cc \- Claude Code launcher and dispatcher
+.SH SYNOPSIS
+.B cc
+[\fImode\fR] [\fItarget\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B cc
+is a smart dispatcher for launching Claude Code.
+It provides flexible project navigation, mode selection, and worktree integration
+with an ADHD-friendly design.
+.PP
+When called without arguments,
+.B cc
+launches Claude Code in the current directory with
+.I acceptEdits
+permission mode.
+.PP
+Both mode-first and target-first argument ordering are accepted:
+.I cc yolo pick
+and
+.I cc pick yolo
+are equivalent.
+.SH COMMANDS
+.SS Launch Targets
+.TP
+.B (none)
+Launch Claude Code in the current directory (acceptEdits mode).
+.TP
+.B .\fR, \fBhere
+Explicitly launch in the current directory (acceptEdits mode).
+.TP
+.B pick
+Open the project picker (fzf), then launch Claude Code in the selected project.
+.TP
+.B \fIproject\fR
+Jump directly to a named project and launch Claude Code there.
+.TP
+.B resume\fR, \fBr
+Resume a previous session (claude -r); opens session picker.
+.TP
+.B continue\fR, \fBc
+Continue the most recent session (claude -c).
+.SS Permission Modes
+Modes can be specified before or after the target.
+.TP
+.B yolo\fR, \fBy
+Launch with
+.I --dangerously-skip-permissions
+(skip all permission checks).
+.TP
+.B plan\fR, \fBp
+Launch in plan mode (--permission-mode plan).
+.TP
+.B opus\fR, \fBo
+Launch with the Opus model (--model opus --permission-mode acceptEdits).
+.TP
+.B haiku\fR, \fBh
+Launch with the Haiku model (--model haiku --permission-mode acceptEdits).
+.SS Quick Actions
+.TP
+.B ask \fIquestion\fR, \fBa \fIquestion\fR
+Ask Claude a quick question in non-interactive print mode (claude -p).
+.TP
+.B file \fIfile\fR [\fIprompt\fR], \fBf \fIfile\fR [\fIprompt\fR]
+Analyze a file. Pipes the file into Claude with an optional prompt
+(default: "Explain this code in detail").
+.TP
+.B diff\fR [\fIprompt\fR], \fBd\fR [\fIprompt\fR]
+Review uncommitted git changes. Pipes
+.I git diff
+into Claude with an optional prompt.
+.TP
+.B print \fIprompt\fR, \fBpr \fIprompt\fR
+Non-interactive print mode (claude -p) with an arbitrary prompt.
+.TP
+.B rpkg \fIprompt\fR
+R package context helper. Reads
+.I DESCRIPTION
+and prepends package context to the prompt.
+Requires running inside an R package directory.
+.SS Worktree Integration
+.TP
+.B wt \fIbranch\fR, \fBworktree \fIbranch\fR, \fBw \fIbranch\fR
+Launch Claude Code in the worktree for
+.IR branch .
+Creates the worktree if it does not yet exist.
+.TP
+.B wt
+(no branch) List all current worktrees.
+.TP
+.B wt pick
+Open an fzf picker for existing worktrees, then launch Claude Code.
+.TP
+.B wt status\fR, \fBwt st
+Show all worktrees with Claude session indicators (green = recent < 24h,
+yellow = old session, white circle = no session).
+.SS Help
+.TP
+.B help\fR, \fB--help\fR, \fB-h
+Show built-in help.
+.SH MODE AND TARGET COMBINATIONS
+Modes and targets compose freely in either order:
+.RS
+.nf
+cc yolo pick       Pick project, then launch YOLO mode
+cc opus wt pick    Pick worktree, then launch with Opus
+cc plan wt feature/auth  Plan mode in a specific worktree
+.fi
+.RE
+.PP
+Deprecated (still works but shows a warning): \fBcc wt yolo \fIbranch\fR.
+Preferred form: \fBcc yolo wt \fIbranch\fR.
+.SH ALIASES
+.TP
+.B ccw
+Alias for
+.IR "cc wt" .
+.TP
+.B ccwp
+Alias for
+.IR "cc wt pick" .
+.TP
+.B ccy
+Alias for
+.IR "cc yolo" .
+.SH ENVIRONMENT
+.TP
+.B FLOW_PROJECTS_ROOT
+Root directory scanned for projects (used by the
+.I pick
+target).
+.SH EXAMPLES
+Launch Claude in current directory:
+.RS
+.nf
+cc
+.fi
+.RE
+.PP
+Pick a project and launch with Opus model:
+.RS
+.nf
+cc opus pick
+.fi
+.RE
+.PP
+Launch in a worktree (creates if needed):
+.RS
+.nf
+cc wt feature/auth
+.fi
+.RE
+.PP
+Ask a quick question without opening an interactive session:
+.RS
+.nf
+cc ask "how do I handle missing data in R?"
+.fi
+.RE
+.PP
+Review uncommitted changes:
+.RS
+.nf
+cc diff
+.fi
+.RE
+.PP
+Analyze a file:
+.RS
+.nf
+cc file src/main.zsh "what does this function do?"
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR wt (1),
+.BR tm (1),
+.BR g (1)
+.SH AUTHOR
+DT

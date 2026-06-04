@@ -423,6 +423,44 @@ EOF
 
 ---
 
+## Man Pages (Dispatchers)
+
+> **TL;DR:** Every dispatcher ships a `man/man1/<cmd>.1`. CI fails if it's
+> missing or its version drifts.
+
+In-shell `<cmd> help` is the primary surface, but each dispatcher also has a
+hand-written troff man page so `man <cmd>` works offline. **When you add a
+dispatcher, add its man page** — model it on `man/man1/g.1` (sections: `.TH`,
+NAME, SYNOPSIS, DESCRIPTION, COMMANDS, EXAMPLES, SEE ALSO, AUTHOR). Source the
+COMMANDS content from the dispatcher's `case` block, de-ANSI/de-emoji'd (the
+colored/box-drawn `help` output is not copy-pasteable into troff).
+
+The `.TH` line's version field must match `FLOW_VERSION`:
+
+```troff
+.TH TOK 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+```
+
+A single guard — `tests/test-manpage-version-sync.zsh`, wired into
+`run-all.sh` and CI — enforces three invariants:
+
+- **Version sync:** every `flow-cli` page's `.TH` version == `FLOW_VERSION`
+  (vendored pages like `scribe.1` are skipped by product token).
+- **Coverage:** every dispatcher (derived from the public command functions in
+  `lib/dispatchers/*.zsh` + `lib/atlas-bridge.zsh`, aliases excluded) has a
+  `man/man1/<cmd>.1`.
+- **No orphans:** no `flow-cli` page exists without a matching dispatcher.
+
+You don't hand-bump versions at release time — `scripts/release.sh` seds the
+`.TH` lines to the new version; the guard is the backstop. Verify locally:
+
+```bash
+zsh tests/test-manpage-version-sync.zsh   # the guard (12 checks)
+man -l man/man1/<cmd>.1                    # render check
+```
+
+---
+
 ## Checklist for New Commands
 
 - [ ] `--help` and `-h` both work
@@ -432,3 +470,4 @@ EOF
 - [ ] Exit codes: 0 for success/help, 1 for errors
 - [ ] Help fits in 80 columns
 - [ ] Descriptions use consistent verb tense
+- [ ] New dispatcher: add `man/man1/<cmd>.1` (the man-page guard enforces this)

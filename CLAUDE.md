@@ -136,7 +136,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 210 test files, 12000+ test functions
+├── tests/                    # 211 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -165,6 +165,8 @@ flow-cli/
 
 → Dispatcher template + patterns: [`docs/reference/MASTER-DISPATCHER-GUIDE.md`](docs/reference/MASTER-DISPATCHER-GUIDE.md)
 
+**New dispatcher = new man page:** add `man/man1/<cmd>.1` (model `g.1`); the guard `tests/test-manpage-version-sync.zsh` fails CI on a missing page or `.TH` version drift. Details: [`ZSH-COMMANDS-HELP.md`](docs/internal/conventions/code/ZSH-COMMANDS-HELP.md) (Man Pages).
+
 ---
 
 ## Architecture Principles
@@ -179,7 +181,7 @@ flow-cli/
 
 ## Testing
 
-**210 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (58/58 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
+**211 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (59/59 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -207,7 +209,7 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.8.0 | **Tests:** 12000+ (58/58 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.8.0 | **Tests:** 12000+ (59/59 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 

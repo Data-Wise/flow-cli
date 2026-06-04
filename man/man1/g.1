@@ -1,6 +1,6 @@
 .\" Man page for g dispatcher (Git workflows)
-.\" Generated: 2025-12-26
-.TH G 1 "December 2025" "flow-cli 3.0.0" "User Commands"
+.\" Updated: June 2026
+.TH G 1 "June 2026" "flow-cli 7.8.0" "User Commands"
 .SH NAME
 g \- Git commands dispatcher
 .SH SYNOPSIS
@@ -128,6 +128,31 @@ Abort rebase.
 .TP
 .B merge\fR, \fBmg
 Merge.
+.SS Feature Workflow
+.TP
+.B feature start \fIname\fR
+Create feature branch from dev.
+.TP
+.B feature sync
+Rebase feature branch onto dev.
+.TP
+.B feature list
+List feature, hotfix, and bugfix branches.
+.TP
+.B feature finish
+Push branch and create PR to dev.
+.TP
+.B feature status
+Show merged vs active feature branches.
+.TP
+.B feature prune \fR[\fB--all\fR] [\fB--dry-run\fR] [\fB--force\fR] [\fB--older-than \fIdur\fR]
+Delete merged feature/bugfix/hotfix branches.
+.TP
+.B promote
+Create PR from current feature/bugfix/hotfix branch to dev.
+.TP
+.B release
+Create PR from dev to main.
 .TP
 .B help\fR, \fBh
 Show help.
@@ -174,6 +199,7 @@ g cob feature/new-thing
 .BR qu (1),
 .BR mcp (1),
 .BR obs (1),
+.BR wt (1),
 .BR git (1)
 .SH AUTHOR
 DT
