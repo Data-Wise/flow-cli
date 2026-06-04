@@ -21,7 +21,8 @@
 - tok auto-sync implemented in worktree (14 commits): lib/tok-sync.zsh + dispatcher hooks + 210/58 tests + docs
 - Reviewed PR #452 → fixed 2 issues (deduped OIDC note via `_tok_sync_oidc_note`, removed ORCHESTRATE artifact, commit 633adf69)
 - CI green → **squash-merged PR #452 to dev** (93ee5edd, one-time merge override of standing rule) → worktree + remote branch removed, dev synced
-- Diagnosed (separate) systemic fzf→exec hygiene gap: `cc wt pick`/`ccy`/`work+ccy` bypass v7.7.1 cleanup → SPEC-fzf-handoff-hygiene + test plan on dev, awaiting impl
+- Diagnosed (separate) systemic fzf→exec hygiene gap: `cc wt pick`/`ccy`/`work+ccy` bypass v7.7.1 cleanup → SPEC-fzf-handoff-hygiene + test plan on dev
+- **Fixed hygiene gap on dev** (af1bf685, TDD): shared `_flow_tty_handoff_cleanup` in lib/core.zsh (/dev/tty-guarded), wired into all 3 pickers (pick/_proj_pick_worktree_path/_flow_pick_project); refactored pick() to use it; tok completion gh/push/repos; regression guard rewritten 9/9
 
 ## Previous Session (2026-06-02) — v7.7.1 shipped
 

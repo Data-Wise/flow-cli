@@ -1,9 +1,16 @@
 # SPEC: Systemic fzf→exec Terminal-Hygiene Fix
 
-**Status:** draft
+**Status:** implemented (2026-06-04, commit af1bf685)
 **Created:** 2026-06-03
 **Type:** bugfix (follow-up to v7.7.1 terminal-hygiene work)
 **Reported:** prompt corruption with `cc wt pick` and `ccy` (= `cc yolo`)
+
+> **Implemented directly on `dev`** (existing-file edits only — branch guard
+> permits; small fix, user-authorized) rather than the planned
+> `feature/cc-wt-pick-hygiene` worktree. Helper landed in `lib/core.zsh` (not
+> `tui.zsh` — Open Q1 resolved toward core, loaded earliest). Scope: the 3
+> claude-launch pickers (Open Q2 = exec paths only). Bundled tok completion fix
+> done. Regression guard `test-terminal-hygiene-regression.zsh` rewritten: 9/9.
 
 ---
 
