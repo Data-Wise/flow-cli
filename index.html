@@ -8572,13 +8572,12 @@
 <strong>That's it!</strong> No configuration required.</p>
 </div>
 <div class="admonition success">
-<p class="admonition-title">🎉 What's New in v7.6</p>
-<p><strong>Email polish:</strong> <code>em --prompt</code> AI-guided composition, <code>--backend</code> provider override, <code>em forward</code>, help guards on all 34 em subcommands.
-<strong>Scholar Config Sync:</strong> <code>teach config check/diff/show/scaffold</code>, <code>teach solution</code>, <code>teach sync</code>, <code>teach validate-r</code> — 4-layer config auto-injection.
-<strong>Docs overhaul:</strong> 4 new dispatcher refcards (g, wt, dots, sec), stale version sweep, broken anchor fixes.
-<strong>53 test suites</strong> passing (205 files, 12000+ assertions).
-<a class="md-button" href="guides/EMAIL-DISPATCHER-GUIDE/">→ Email Guide</a>
-<a class="md-button" href="guides/SCHOLAR-INTEGRATION-GUIDE/">→ Scholar Guide</a>
+<p class="admonition-title">🎉 What's New in v7.8</p>
+<p><strong>Token auto-sync:</strong> <code>tok sync push</code> / <code>tok sync repos</code> fan a token out to GitHub Actions secrets across repos (<code>gh secret set</code>) — confirm-once gate, OIDC "use Trusted Publishing" nudge, chezmoi-managed config. Auto-runs after <code>tok</code> create/rotate (<code>--no-sync</code> to opt out).
+<strong>Terminal hygiene fix:</strong> a shared cleanup helper ends the garbled-prompt corruption when launching Claude via <code>cc wt pick</code> / <code>ccy</code> / <code>work</code>.
+<strong>59 test suites</strong> passing (211 files, 12000+ assertions).
+<a class="md-button" href="guides/TOKEN-COOKBOOK/">→ Token Cookbook</a>
+<a class="md-button" href="tutorials/47-tok-auto-sync/">→ Tutorial: tok auto-sync</a>
 <a class="md-button" href="CHANGELOG/">→ Changelog</a></p>
 </div>
 <hr />
@@ -8720,6 +8719,14 @@
 <p>CLI + Neovim email with himalaya</p>
 <p><a href="guides/EMAIL-DISPATCHER-GUIDE/">→ CLI Guide</a> ·
 <a href="guides/HIMALAYA-NVIM-SETUP/">→ Neovim Setup</a></p>
+</li>
+<li>
+<p><img alt="🔑" class="twemoji lg middle" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f511.svg" title=":key:" />
+    <strong>Tokens &amp; Secrets</strong></p>
+<hr />
+<p>Auto-sync tokens to GitHub Actions secrets</p>
+<p><a href="guides/TOKEN-COOKBOOK/">→ Token Cookbook</a> ·
+<a href="tutorials/47-tok-auto-sync/">→ Auto-sync Tutorial</a></p>
 </li>
 <li>
 <p><img alt="🧭" class="twemoji lg middle" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f9ed.svg" title=":compass:" />
@@ -8890,7 +8897,7 @@
 <li><strong><a href="PHILOSOPHY/">Philosophy</a></strong> - Design principles deep dive</li>
 </ul>
 <hr />
-<p><strong>v7.8.0</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
+<p><strong>v7.8.1</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
 
 
 
