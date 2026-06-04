@@ -8,7 +8,7 @@
 ## Phase: v7.8.0 shipped → man-page refresh in progress
 ## Priority: 2
 ## Progress: 100
-## WIP: feature/manpage-refresh — spec + ORCHESTRATE committed (f0d4f378), awaiting implementation in a worktree session
+## WIP: feature/manpage-refresh — Waves 0-3 done (anti-drift guard + full v7.8.0 man-page set for all 15 dispatchers + at + release.sh .TH bump); Wave 4 (verify/docs/counts) in progress. ⚠ CLAUDE.md edited in both this dev session + worktree → expect a rebase conflict to resolve.
 
 ## Current Session (2026-06-03) — tok auto-sync spec + craft drive spec
 
@@ -303,7 +303,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.8.0 released; index/QUICK-REF refreshed |
-| `~/.git-worktrees/flow-cli/manpage-refresh` | `feature/manpage-refresh` | ORCHESTRATE committed (f0d4f378) — man-page full refresh, awaiting impl in new session |
+| `~/.git-worktrees/flow-cli/manpage-refresh` | `feature/manpage-refresh` | Waves 0-3 done (f24760aa) — guard + full man-page set + release.sh bump; Wave 4 in progress |
 
 ---
 
