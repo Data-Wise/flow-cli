@@ -14,6 +14,12 @@
 # Scope: ONLY pages whose product token == "flow-cli". A vendored page like
 # scribe.1 ("scribe 1.1.0") tracks its own version and must NOT be flagged.
 #
+# This file also guards man-page COVERAGE: every dispatcher (a public top-level
+# command function in lib/dispatchers/*.zsh or lib/atlas-bridge.zsh, aliases
+# excluded) must have a man/man1/<cmd>.1, and no flow-cli page may be an orphan
+# (a page with no matching dispatcher). So adding a dispatcher without its page —
+# or deleting a dispatcher but leaving its page — fails CI.
+#
 # Standalone harness (no test-framework.zsh), consistent with the sibling
 # source-scan guards (test-terminal-hygiene-regression.zsh etc.): these assert
 # static invariants with awk over .TH lines, not runtime behavior. run_check is
@@ -45,6 +51,8 @@ run_check() {
 
 PLUGIN="$PROJECT_ROOT/flow.plugin.zsh"
 MAN_DIR="$PROJECT_ROOT/man/man1"
+DISP_DIR="$PROJECT_ROOT/lib/dispatchers"
+ATLAS="$PROJECT_ROOT/lib/atlas-bridge.zsh"
 
 # ── .TH parsing primitives (the core logic) ─────────────────────────────────
 
@@ -58,6 +66,43 @@ _th_version() { local f; f=$(_th_source_field "$1"); print -r -- "${f##* }"; }
 _flow_version() {
     grep -oE 'FLOW_VERSION="?[0-9]+\.[0-9]+\.[0-9]+' "$PLUGIN" \
         | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1
+}
+
+# ── dispatcher-command extraction (for the coverage / missing-page guard) ────
+# A "dispatcher" is a public top-level command function (e.g. `tok() { ... }`)
+# defined in a dispatcher source file. We derive the set from the functions the
+# shell actually exposes — NOT from filenames (irregular: obs.zsh,
+# email-dispatcher.zsh -> em, at lives in atlas-bridge.zsh) and NOT from a
+# `_<cmd>_help` convention (teach has none). Pure aliases whose entire body is a
+# lone `<cmd> "$@"` delegation (e.g. vibe -> v) are excluded.
+#
+# Body of a top-level `name() {` ... up to the first `}` at column 0.
+_msync_func_body() {
+    local file="$1" fn="$2"
+    awk -v fn="$fn" '
+        $0 ~ "^" fn "\\(\\) *\\{" {f=1; next}
+        f && /^\}/ {exit}
+        f {print}
+    ' "$file"
+}
+
+# Print dispatcher command names found across the given source files, one per
+# line, sorted/unique, aliases removed.
+_msync_dispatcher_cmds() {
+    local file name body sig
+    for file in "$@"; do
+        [[ -f "$file" ]] || continue
+        for name in ${(f)"$(grep -oE '^[a-z][a-z0-9]*\(\) \{' "$file" | sed 's/() {//')"}; do
+            body=$(_msync_func_body "$file" "$name")
+            sig=$(echo "$body" | grep -vE '^[[:space:]]*(#|$)')   # drop comments + blanks
+            # pure-alias delegation: exactly one statement, `<word> "$@"`
+            if [[ $(echo "$sig" | grep -c .) -eq 1 ]] \
+               && echo "$sig" | grep -qE '^[[:space:]]*[a-z][a-z0-9]*[[:space:]]+"\$@"[[:space:]]*$'; then
+                continue
+            fi
+            echo "$name"
+        done
+    done | sort -u
 }
 
 # ── logic self-tests (prove the parser, independent of real page state) ──────
@@ -117,12 +162,80 @@ run_check "every flow-cli man page .TH version == FLOW_VERSION" '
     fi
 '
 
+# ── coverage / missing-page logic self-tests (fixtures) ─────────────────────
+# Prove the detector flags a dispatcher with no page, and ignores aliases and
+# non-dispatcher helper files — independent of the real tree.
+
+run_check "coverage detector finds a real dispatcher function" '
+    tmp=$(mktemp -d); trap "rm -rf $tmp" EXIT
+    printf "foo() {\n  case \"\$1\" in\n    *) _foo_help ;;\n  esac\n}\n" > "$tmp/foo-dispatcher.zsh"
+    cmds=$(_msync_dispatcher_cmds "$tmp/foo-dispatcher.zsh")
+    [[ "$cmds" == "foo" ]] || { echo "got: [$cmds]"; exit 1; }
+'
+
+run_check "coverage detector flags a dispatcher missing its man page" '
+    tmp=$(mktemp -d); trap "rm -rf $tmp" EXIT
+    mkdir -p "$tmp/man"
+    printf "foo() {\n  case \"\$1\" in\n    *) _foo_help ;;\n  esac\n}\n" > "$tmp/foo-dispatcher.zsh"
+    missing=""
+    for c in ${(f)"$(_msync_dispatcher_cmds "$tmp/foo-dispatcher.zsh")"}; do
+        [[ -f "$tmp/man/$c.1" ]] || missing+="$c "
+    done
+    [[ "$missing" == "foo " ]] || { echo "expected foo flagged missing, got: [$missing]"; exit 1; }
+'
+
+run_check "coverage detector ignores pure-alias public functions (vibe-style)" '
+    tmp=$(mktemp -d); trap "rm -rf $tmp" EXIT
+    printf "baz() {\n    qux \"\$@\"\n}\n" > "$tmp/baz-dispatcher.zsh"
+    cmds=$(_msync_dispatcher_cmds "$tmp/baz-dispatcher.zsh")
+    [[ -z "$cmds" ]] || { echo "alias baz should be skipped, got: [$cmds]"; exit 1; }
+'
+
+run_check "coverage detector ignores helper files with no public function" '
+    tmp=$(mktemp -d); trap "rm -rf $tmp" EXIT
+    printf "_helper_only() { echo x; }\n" > "$tmp/teach-dates.zsh"
+    cmds=$(_msync_dispatcher_cmds "$tmp/teach-dates.zsh")
+    [[ -z "$cmds" ]] || { echo "helper should yield no cmds, got: [$cmds]"; exit 1; }
+'
+
+# ── the real assertions: dispatcher <-> man-page coverage ───────────────────
+
+run_check "every dispatcher command has a man page" '
+    cmds=$(_msync_dispatcher_cmds "$DISP_DIR"/*.zsh(N) "$ATLAS")
+    [[ -n "$cmds" ]] || { echo "no dispatcher commands detected"; exit 1; }
+    missing=""
+    for c in ${(f)cmds}; do
+        [[ -f "$MAN_DIR/$c.1" ]] || missing+="$c "
+    done
+    if [[ -n "$missing" ]]; then
+        echo "dispatchers with no man/man1/<cmd>.1: $missing"
+        echo "    fix: add a page for each (model: man/man1/g.1)"
+        exit 1
+    fi
+'
+
+run_check "no orphan flow-cli dispatcher page (page without a dispatcher)" '
+    cmds=$(_msync_dispatcher_cmds "$DISP_DIR"/*.zsh(N) "$ATLAS")
+    orphan=""
+    for p in "$MAN_DIR"/*.1(N); do
+        [[ "$(_th_product "$p")" == "flow-cli" ]] || continue   # skip vendored
+        base="${p:t:r}"
+        [[ "$base" == "flow" ]] && continue                     # flow is the index, not a dispatcher
+        print -r -- "$cmds" | grep -qx "$base" || orphan+="$base "
+    done
+    if [[ -n "$orphan" ]]; then
+        echo "man pages with no matching dispatcher: $orphan"
+        echo "    fix: remove the stale page, or it names a real command not detected"
+        exit 1
+    fi
+'
+
 echo ""
 echo "${CYAN}──────────────────────────────────────────────────────────────${RESET}"
 if [[ $CHECKS_FAILED -eq 0 ]]; then
-    echo "${GREEN}All $CHECKS_PASSED/$CHECKS_RUN man-page version-sync checks passed${RESET}"; exit 0
+    echo "${GREEN}All $CHECKS_PASSED/$CHECKS_RUN man-page guard checks passed${RESET}"; exit 0
 else
     echo "${RED}$CHECKS_FAILED/$CHECKS_RUN checks failed${RESET}"
-    echo "${YELLOW}Man pages drifted from FLOW_VERSION — see SPEC-manpage-refresh-2026-06-04.${RESET}"
+    echo "${YELLOW}Man-page version drift or coverage gap — see SPEC-manpage-refresh-2026-06-04.${RESET}"
     exit 1
 fi

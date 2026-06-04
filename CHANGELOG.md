@@ -22,7 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   flow-cli man page's `.TH` version diverges from `FLOW_VERSION`, preventing the
   silent re-freeze that left the pages five releases stale. Scopes to `flow-cli`
   pages so vendored pages (`scribe.1`) are ignored. `release.sh` now auto-bumps
-  the `.TH` lines, making the guard a backstop rather than the primary path.
+  the `.TH` lines, making the guard a backstop rather than the primary path. The
+  same guard also enforces man-page **coverage**: every dispatcher (derived from
+  the public command functions, aliases excluded) must have a `man/man1/<cmd>.1`,
+  and no flow-cli page may be an orphan — so adding a dispatcher without its page
+  (or removing one but leaving the page) fails CI.
 
 ## [7.8.0] — 2026-06-04 — token auto-sync + fzf terminal-hygiene
 
