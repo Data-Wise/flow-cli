@@ -50,18 +50,33 @@ copy-pasteable into troff. Match the existing structure in `man/man1/g.1`.
 ### Wave 0 — Recon (Explore, read-only)
 - [ ] For each of the 11 new dispatchers, read `lib/dispatchers/<x>-dispatcher.zsh`
       `_<x>_help` + the `case` block → authoritative subcommand list.
-- [ ] Confirm man-page install path (README / `setup/` / Brewfile) so new
-      pages get installed.
-- [ ] Note the exact `.TH` line format from `g.1` to replicate.
+      *(Deferred to Wave 2 start — recon output feeds page-writing; subagent
+      results don't persist across sessions. Note: filenames break convention —
+      `obs.zsh`, `email-dispatcher.zsh` (em); `at` is the Atlas bridge.)*
+- [x] Confirm man-page install path: `setup/README.md` adds `$FLOW_PLUGIN_DIR/man`
+      to `MANPATH`. New `*.1` files are picked up automatically (dir-level, not
+      per-file) — **no install change needed** for the new pages. (Wave 3 should
+      still confirm Brewfile/selective-install ships `man/`.)
+- [x] `.TH` format from `g.1`: `.TH G 1 "December 2025" "flow-cli 3.0.0" "User Commands"`
+      — 2nd quoted field is `<product> <version>`. Replicate as
+      `"flow-cli 7.8.0"`. ⚠ `scribe.1` is a *vendored* page (`scribe 1.1.0`) —
+      leave it alone; the guard scopes to `flow-cli` pages only.
 
-### Wave 1 — Anti-drift guard (TDD, do first so pages are validated as written)
-- [ ] `tests/test-manpage-version-sync.zsh` (source-scan, standalone harness
-      like `test-terminal-hygiene-regression.zsh`; distinct fn names for the
-      dogfood scanner). Assert every `man/man1/*.1` `.TH` 4th field ==
-      `FLOW_VERSION` from `flow.plugin.zsh`.
-- [ ] RED: it should FAIL now (existing pages say 3.0.0). GREEN comes as
-      pages are bumped in Wave 2.
-- [ ] Wire into `tests/run-all.sh` (Regression section) + the CI workflow.
+**Recon also found:** CI `test.yml` runs **smoke tests only** (not `run-all.sh`),
+so the guard needed its own explicit CI step. `version-guard.yml` runs on
+release only. 6 existing pages frozen at 3.0.0; `scribe.1` is not ours.
+
+### Wave 1 — Anti-drift guard (TDD, do first so pages are validated as written) ✅
+- [x] `tests/test-manpage-version-sync.zsh` (source-scan, standalone harness
+      like `test-terminal-hygiene-regression.zsh`; `run_check`/`_th_*` fn names
+      for the dogfood scanner — 4/4 clean). Scopes to `flow-cli` product pages;
+      4 parser self-tests (match/mismatch/vendored) + presence + the real
+      version-match assertion.
+- [x] RED confirmed: 5/6 pass, the version-match check FAILS on the 6 pages at
+      3.0.0 (expected 7.8.0). GREEN comes as pages are bumped in Wave 2.
+- [x] Wired into `tests/run-all.sh` (Regression section) + a dedicated CI step
+      in `.github/workflows/test.yml`.
+- Committed: `3acd5e89 test(manpage): add version-sync anti-drift guard`.
 
 ### Wave 2 — Man pages (subagent-driven, file-scoped clusters)
 Dispatch in parallel clusters (no shared files):
