@@ -37,56 +37,12 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ### Mandatory Workflow Steps
 
-#### 1. Plan on `dev` Branch
-
-**Before writing any code:**
-
-````bash
-git checkout dev && git pull origin dev
-```diff
-
-- Analyze requirements on `dev` branch
-- Create comprehensive implementation plan
-- Document in `docs/specs/SPEC-*.md`
-- **Wait for user approval**
-- Commit approved plan to `dev`
-
-**Constraint:** Never write feature code on `dev` branch
-
-#### 2. Create Worktree + Orchestration Plan
-
-```bash
-git worktree add ~/.git-worktrees/flow-cli/<feature> -b feature/<feature> dev
-git worktree list
-```zsh
-
-After creating the worktree, write an `ORCHESTRATE-<feature>.md` file **to the worktree** with the full implementation plan (task list, file changes, verification steps). Commit it to the feature branch.
-
-#### 3. STOP - NEW Session Required
-
-**CRITICAL:** Do NOT start implementing in the worktree from the dev/planning session. The dev session's job ends after creating the worktree and committing the orchestration plan. Tell user to `cd` into worktree and start a new `claude` session.
-
-#### 4. Atomic Development (In Worktree)
-
-**Conventional Commits:** `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`
-
-**Before each commit:** Run `./tests/run-all.sh`, verify `source flow.plugin.zsh`
-
-#### 5. Integration (feature -> dev)
-
-```bash
-git fetch origin dev && git rebase origin/dev
-./tests/run-all.sh
-gh pr create --base dev
-# After merge: git worktree remove ~/.git-worktrees/flow-cli/<feature>
-```bash
-
-#### 6. Release (dev -> main)
-
-```bash
-gh pr create --base main --head dev --title "Release vX.Y.Z"
-git tag -a vX.Y.Z -m "vX.Y.Z" && git push --tags
-```diff
+1. **Plan on `dev`** — `git checkout dev && git pull origin dev`. Analyze, write a `docs/specs/SPEC-*.md`, wait for approval, commit the spec to `dev`. **Never write feature code on `dev`.**
+2. **Worktree + plan** — `git worktree add ~/.git-worktrees/flow-cli/<feature> -b feature/<feature> dev`, then write `ORCHESTRATE-<feature>.md` **to the worktree** (task list, file changes, verification) and commit it to the feature branch.
+3. **STOP — new session required.** The dev/planning session's job ends after the worktree + ORCHESTRATE commit. Do NOT implement from it; tell the user to `cd` into the worktree and start a new `claude` session.
+4. **Atomic development (in worktree)** — conventional commits (`feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`). Before each commit: `./tests/run-all.sh` + verify `source flow.plugin.zsh`.
+5. **Integrate** — `git fetch origin dev && git rebase origin/dev` → `./tests/run-all.sh` → `gh pr create --base dev`. After merge: `git worktree remove ...`.
+6. **Release (dev → main)** — `gh pr create --base main --head dev --title "Release vX.Y.Z"`, then tag `vX.Y.Z` and push tags.
 
 ### ABORT Conditions
 
@@ -120,7 +76,7 @@ catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check
 flow doctor --fix # Interactive install missing tools
-```text
+```
 
 ### Dopamine Features
 
@@ -129,7 +85,7 @@ win <text>        # Log accomplishment (auto-categorized)
 yay               # Show recent wins
 yay --week        # Weekly summary + graph
 flow goal set 3   # Set daily win target
-```text
+```
 
 ### Active Dispatchers (15)
 
@@ -144,7 +100,7 @@ tm <cmd>      # Terminal manager
 wt <cmd>      # Worktree management
 dots <cmd>    # Dotfile management (chezmoi)
 sec <cmd>     # Secret management (Keychain/Bitwarden)
-tok <cmd>     # Token management (create/rotate/expire)
+tok <cmd>     # Token management (create/rotate/expire/sync→GH secrets)
 teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
@@ -197,7 +153,7 @@ flow-cli/
 ├── tests/                    # 210 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
-```zsh
+```
 
 ### Key Files
 
@@ -234,7 +190,7 @@ x() {
         *) _x_help ;;
     esac
 }
-```diff
+```
 
 Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
@@ -271,7 +227,7 @@ See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 ## Documentation
 
 **Site:** https://Data-Wise.github.io/flow-cli/
-**Build:** `mkdocs serve` (local) | `mkdocs gh-deploy --force` (deploy)
+**Build:** `mkdocs serve` (local). **Deploy is automatic** — `docs.yml` CI deploys to gh-pages on push to `main` (don't run `mkdocs gh-deploy`; the branch guard blocks the gh-pages push).
 **Key docs:** `docs/guides/`, `docs/reference/`, `docs/help/QUICK-REFERENCE.md`, `docs/CONVENTIONS.md`
 **Internal:** `docs/internal/` (conventions, contributor templates — excluded from site nav)
 
@@ -284,7 +240,7 @@ export FLOW_PROJECTS_ROOT="$HOME/projects"  # Project root
 export FLOW_ATLAS_ENABLED="auto"             # Atlas (auto|yes|no)
 export FLOW_QUIET=1                          # Suppress welcome
 export FLOW_DEBUG=1                          # Debug mode
-````
+```
 
 ---
 
