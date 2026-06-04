@@ -112,23 +112,9 @@ at <cmd>      # Atlas bridge (project intelligence, optional)
 
 ### Teaching Subcommands
 
-`teach analyze`, `teach init`, `teach deploy`, `teach doctor`, `teach exam`, `teach macros`, `teach map`, `teach plan`, `teach style`, `teach templates`, `teach prompt`, `teach cache`, `teach profiles`, `teach migrate`, `teach validate`, `teach solution`, `teach sync`, `teach validate-r`, `teach config check`, `teach config diff`, `teach config show`, `teach config scaffold`
+`teach` has 20+ subcommands (analyze, init, deploy, doctor, exam, macros, map, plan, style, templates, prompt, cache, profiles, migrate, validate, solution, sync, validate-r, config check/diff/show/scaffold). Doctor is two-mode (quick < 3s / `--full` 11 categories); deploy supports `--direct`/`--dry-run`/`--sync`/`--rollback` with `$$` math preflight.
 
-- **Doctor (v2):** Two-mode architecture — quick (default, < 3s) and full (`--full`, 11 categories)
-  - Quick mode: CLI deps, R + renv, config, git, Scholar config (5 categories)
-  - Full mode: + per-package R checks, quarto ext, scholar, hooks, cache, macros, style
-  - Flags: `--full`, `--brief`, `--fix`, `--json`, `--ci`, `--verbose`
-  - `--fix` offers renv vs system install choice for R packages
-  - `--ci` exits non-zero on failure, no color, machine-readable output
-  - Health dot shown on `teach` startup (refreshed on next `teach doctor` run)
-- **Deploy:** `teach deploy --direct` (8-15s direct merge) or `teach deploy` (PR workflow)
-- **Deploy preflight:** Display math `$$` validation (blank lines, unclosed blocks) — also runs at pre-commit via lint-staged
-- **Deploy extras:** `--dry-run`, `--ci`, `--history [N]`, `--rollback [N]`, `--sync`
-- **Deploy sync:** `teach deploy --sync` merges production into draft (ff-only first, then regular merge). Auto back-merge runs after `--direct` deploys to prevent false conflict detection.
-- **Templates:** `.flow/templates/` (content, prompts, metadata, checklists)
-- **Macros:** `teach macros list|sync|export` (LaTeX notation consistency)
-- **Plans:** `teach plan create|list|show|edit|delete` (lesson plan CRUD)
-- **Prompts:** `teach prompt list|show|edit|validate|export` (3-tier resolution)
+→ Full reference: [`docs/guides/TEACH-DEPLOY-GUIDE.md`](docs/guides/TEACH-DEPLOY-GUIDE.md), [`docs/reference/REFCARD-DOCTOR.md`](docs/reference/REFCARD-DOCTOR.md)
 
 ---
 
@@ -173,36 +159,11 @@ flow-cli/
 
 ## Development
 
-### Adding New Commands
+**Add a command:** core → `commands/<name>.zsh`; dispatcher subcommand → `lib/dispatchers/<name>-dispatcher.zsh`. Use helpers (`_flow_log_*`, `_flow_find_project_root`, `_flow_detect_project_type`); add `completions/_<name>`; every dispatcher MUST have a `_<cmd>_help()` using `lib/core.zsh` colors. New dispatcher = a `command + keyword + options` case block.
 
-1. Core command -> `commands/<name>.zsh`; Dispatcher subcommand -> `lib/dispatchers/<name>-dispatcher.zsh`
-2. Use helpers: `_flow_log_success`, `_flow_log_error`, `_flow_find_project_root`, `_flow_detect_project_type`
-3. Add completion in `completions/_<commandname>`
-4. Every dispatcher MUST have `_<cmd>_help()` function using color scheme from `lib/core.zsh`
+**After changes:** update `MASTER-DISPATCHER-GUIDE.md` + `QUICK-REFERENCE.md` + `mkdocs.yml`. **Release:** `./scripts/release.sh X.Y.Z` → commit → tag → push (bumps `flow.plugin.zsh` FLOW_VERSION, `package.json`, `README.md`, `CLAUDE.md`). Docs deploy automatically (don't run `mkdocs gh-deploy`).
 
-### Adding New Dispatcher
-
-```bash
-x() {
-    case "$1" in
-        action1) shift; _x_action1 "$@" ;;
-        help|--help|-h) _x_help ;;
-        *) _x_help ;;
-    esac
-}
-```
-
-Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
-
-### Common Tasks
-
-| Task              | Steps                                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------------- |
-| Update dispatcher | Edit `lib/dispatchers/<name>-dispatcher.zsh` -> update `_<name>_help()` -> test -> update docs |
-| Deploy docs       | `mkdocs gh-deploy --force`                                                                     |
-| Create release    | `./scripts/release.sh X.Y.Z` -> commit -> tag -> push                                          |
-
-**Release script updates:** `flow.plugin.zsh` (FLOW_VERSION), `package.json`, `README.md`, `CLAUDE.md`, `CC-DISPATCHER-REFERENCE.md`
+→ Dispatcher template + patterns: [`docs/reference/MASTER-DISPATCHER-GUIDE.md`](docs/reference/MASTER-DISPATCHER-GUIDE.md)
 
 ---
 
