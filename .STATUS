@@ -19,6 +19,7 @@
 - Root-caused Node 20 CI deprecation: `awalsh128/cache-apt-pkgs-action` pulled in deprecated `actions/cache/restore@v4` (Node.js 20, removed Sept 2026) to cache `zsh` — already preinstalled on `ubuntu-latest`
 - **Fixed at root** (148e257a): replaced caching step in `test.yml` with preinstall-aware `command -v zsh ||` install guard — drops a third-party action, no Node-24 opt-in flag needed; verified green on dev (`Ensure zsh is installed` ✅, no warning)
 - **PR #457** (dev→main CI fix) → CI CLEAN → merged main → main CI green (sha 37779584), `Ensure zsh is installed` success → dev re-synced (0 ahead)
+- Cross-repo cache-action audit (grep all dev-tools siblings): craft `actions/cache@v4` already current (no change); **scribe `actions/cache@v3` → @v4** bumped + pushed to scribe dev (a8aff56) — v3 backend sunsetting. Left `peaceiris/actions-gh-pages@v3` (v3 is its current major). No deprecated cache actions remain workspace-wide.
 
 ## Previous Session (2026-06-03) — tok auto-sync spec + craft drive spec
 
