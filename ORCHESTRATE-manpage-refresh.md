@@ -116,6 +116,7 @@ no ANSI/box-drawing leakage. Commit `fc97da84`.
 
 ## Open Questions (from spec — resolve while implementing)
 1. Include `at.1`? → **yes** (planned above).
-2. Missing-page guard now or follow-up? → **version-sync now; missing-page
-   guard noted as follow-up**.
+2. Missing-page guard now or follow-up? → **version-sync first; missing-page +
+   orphan coverage guard since ADDED to the same suite (commit `f1b5f18e`),
+   12/12 checks.**
 3. `release.sh` auto-bump `.TH`? → **yes** (Wave 3).
