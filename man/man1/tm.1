@@ -1,0 +1,176 @@
+.\" Man page for tm dispatcher (Terminal Manager)
+.\" Generated: June 2026
+.TH TM 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+tm \- Terminal manager dispatcher
+.SH SYNOPSIS
+.B tm
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B tm
+is a dispatcher for terminal management.
+It provides instant shell-native commands (no Python required) for common
+terminal operations and delegates richer features to the
+.B aiterm
+Python CLI (invoked as
+.BR ait ).
+.PP
+When called without arguments,
+.B tm
+shows the built-in help.
+.PP
+If
+.B aiterm
+is not installed, all subcommands except shell-native ones print an
+installation hint. Unknown subcommands are passed through to
+.B ait
+directly.
+.SH COMMANDS
+.SS Shell-Native Commands (instant, no Python)
+.TP
+.B title \fItext\fR, \fBt \fItext\fR
+Set the terminal tab/window title using the universal OSC 2 escape sequence.
+Works in any terminal that supports OSC 2.
+.TP
+.B profile \fIname\fR, \fBp \fIname\fR
+Switch the iTerm2 profile to
+.IR name .
+Has no effect (and prints an error) when run outside iTerm2.
+.TP
+.B var \fIkey\fR \fIvalue\fR, \fBv \fIkey\fR \fIvalue\fR
+Set an iTerm2 user variable for use in the iTerm2 status bar.
+Requires iTerm2; not supported in other terminals.
+.TP
+.B which\fR, \fBw
+Detect and print the name of the current terminal emulator
+(iterm2, ghostty, wezterm, kitty, alacritty, vscode, terminal, or unknown).
+.SS Aiterm Delegation Commands
+These subcommands require
+.B aiterm
+(install: \fIbrew install data-wise/tap/aiterm\fR).
+.TP
+.B ghost\fR [\fIsubcmd\fR], \fBg\fR [\fIsubcmd\fR], \fBghostty\fR [\fIsubcmd\fR]
+Ghostty-specific controls. Notable sub-subcommands:
+.RS
+.TP
+.B theme \fIname\fR
+Set the Ghostty theme.
+.TP
+.B font\fR [\fIname\fR]
+Get or set the Ghostty font.
+.RE
+Requires aiterm >= 0.3.9.
+.TP
+.B switch\fR, \fBs
+Apply terminal context for the current project (delegates to
+.IR "ait switch" ).
+.TP
+.B detect\fR, \fBd
+Detect the current project context (delegates to
+.IR "ait detect" ).
+.TP
+.B doctor
+Check terminal health. Uses
+.I ait terminals doctor
+(aiterm >= 0.3.9) or falls back to
+.IR "ait doctor" .
+.TP
+.B status
+Display detected terminal information (delegates to
+.IR "ait terminals detect" ).
+.TP
+.B compare
+Compare terminal feature sets (requires aiterm >= 0.3.9).
+.TP
+.B features \fR[\fIargs\fR]
+Show terminal feature details (delegates to
+.IR "ait terminals features" ).
+.SS Help
+.TP
+.B help\fR, \fB--help\fR, \fB-h
+Show built-in help.
+.SH ALIASES
+.TP
+.B tmt
+Alias for
+.IR "tm title" .
+.TP
+.B tmp
+Alias for
+.IR "tm profile" .
+.TP
+.B tmv
+Alias for
+.IR "tm var" .
+.TP
+.B tmw
+Alias for
+.IR "tm which" .
+.TP
+.B tmg
+Alias for
+.IR "tm ghost" .
+.TP
+.B tms
+Alias for
+.IR "tm switch" .
+.TP
+.B tmd
+Alias for
+.IR "tm detect" .
+.SH ENVIRONMENT
+.TP
+.B TERM_PROGRAM
+Used to detect the running terminal emulator.
+.TP
+.B KITTY_WINDOW_ID
+Set by Kitty; used in terminal detection.
+.TP
+.B ALACRITTY_WINDOW_ID
+Set by Alacritty; used in terminal detection.
+.TP
+.B TM_AUTO_SWITCH
+When set, enables automatic
+.I tm switch
+on directory change (chpwd hook).
+.SH EXAMPLES
+Set the window title:
+.RS
+.nf
+tm title "Feature XYZ"
+.fi
+.RE
+.PP
+Switch to a named iTerm2 profile:
+.RS
+.nf
+tm profile dev
+.fi
+.RE
+.PP
+Identify the active terminal:
+.RS
+.nf
+tm which
+.fi
+.RE
+.PP
+Set a Ghostty theme:
+.RS
+.nf
+tm ghost theme catppuccin
+.fi
+.RE
+.PP
+Check terminal health:
+.RS
+.nf
+tm doctor
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR cc (1),
+.BR wt (1)
+.SH AUTHOR
+DT

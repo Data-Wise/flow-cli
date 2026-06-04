@@ -1,0 +1,245 @@
+.\" Man page for sec dispatcher (Secret Management)
+.\" Generated: June 2026
+.TH SEC 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+sec \- Secret management dispatcher (Keychain and Bitwarden)
+.SH SYNOPSIS
+.B sec
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B sec
+is a smart dispatcher for managing secrets stored in macOS Keychain and
+optionally Bitwarden.  It provides instant local access via Keychain
+(protected by Touch ID / system password) and cloud sync to Bitwarden
+for multi-machine setups.
+.PP
+The default backend is
+.B keychain
+(macOS Keychain only).  Set
+.B FLOW_SECRET_BACKEND=both
+to enable mirroring to Bitwarden, or
+.B FLOW_SECRET_BACKEND=bitwarden
+for the legacy Bitwarden-only mode.
+.PP
+When called without arguments,
+.B sec
+shows the help screen.
+.PP
+When called with an unrecognised first argument that does not match any
+subcommand,
+.B sec
+treats it as a secret name and retrieves the value from Keychain \(em
+equivalent to
+.BR "sec get \fIname\fR" .
+.SH ENVIRONMENT
+.TP
+.B FLOW_SECRET_BACKEND
+Selects the secret storage backend.  Values:
+.B keychain
+(default),
+.B bitwarden
+(legacy),
+.B both
+(Keychain primary + Bitwarden mirror for cloud sync).
+.TP
+.B BW_SESSION
+Bitwarden session token exported after a successful
+.BR "sec unlock" .
+Required for all Bitwarden operations.
+.SH COMMANDS
+.SS Keychain \(em Retrieve
+.TP
+.B \fIname\fR
+Retrieve a secret by name from Keychain (default action when no
+subcommand is recognised).  Equivalent to
+.BR "sec get \fIname\fR" .
+.TP
+.B get \fIname\fR
+Explicitly retrieve a named secret from Keychain.
+.TP
+.B list\fR, \fBls
+List all secrets stored in Keychain under the flow-cli service.
+.SS Keychain \(em Manage
+.TP
+.B add \fIname\fR
+Store a new secret in Keychain.  Prompts for the secret value
+(hidden input).  Alias:
+.BR new .
+.TP
+.B delete \fIname\fR
+Remove a named secret from Keychain.  Aliases:
+.BR rm ,
+.BR remove .
+.SS Bitwarden \(em Vault Access
+.TP
+.B unlock\fR, \fBu
+Unlock the Bitwarden vault.  Prompts for the master password,
+exports
+.B BW_SESSION
+to the current shell, and caches the session (15-minute idle
+timeout).  Required before any Bitwarden operations.
+.TP
+.B lock\fR, \fBl
+Lock the Bitwarden vault and clear the session cache.
+.TP
+.B bw \fIname\fR
+Retrieve a named secret directly from Bitwarden (bypasses Keychain).
+.TP
+.B bw list\fR | \fBbw ls
+List all items in the Bitwarden vault (requires unlock).
+.TP
+.B bw add \fIname\fR [\fB\-\-expires\fR \fIdays\fR] [\fB\-\-notes\fR \fItext\fR]
+Add a secret to Bitwarden with optional expiration tracking and notes.
+.TP
+.B bw check\fR | \fBbw expiring
+Check expiration status of Bitwarden secrets that have dot metadata.
+Warns about secrets expiring within 30 days and marks expired ones.
+.TP
+.B check
+Alias for
+.BR "sec bw check" .
+.SS Sync (Keychain \(lz\(ra Bitwarden)
+.TP
+.B sync
+Interactive sync wizard.  Shows the current state of both backends and
+prompts for direction (Keychain \(-> Bitwarden or Bitwarden \(-> Keychain).
+.TP
+.B sync \-\-status\fR | \fBsync status
+Show differences between Keychain and Bitwarden without writing anything.
+.TP
+.B sync \-\-to\-bw\fR | \fBsync push
+Push all Keychain secrets to Bitwarden.
+.TP
+.B sync \-\-from\-bw\fR | \fBsync pull
+Pull all Bitwarden secrets into Keychain.
+.SS Dashboard & Overview
+.TP
+.B status
+Show the current backend configuration (active backend, Keychain
+location, secret count, Bitwarden vault state, and the
+.B FLOW_SECRET_BACKEND
+value).
+.TP
+.B dashboard
+Full secrets overview with expiry status table for all
+dot-managed secrets in Bitwarden.
+.TP
+.B dashboard sync github
+Sync selected dot-managed secrets as GitHub Actions secrets for the
+current git repository.  Converts names to SCREAMING_SNAKE_CASE.
+Requires
+.B gh
+CLI and Bitwarden unlocked.
+.SS Diagnostics & Utilities
+.TP
+.B doctor\fR, \fBdr
+Secret-specific diagnostics.  Full implementation pending; see
+.B "flow doctor \-\-dot"
+for the current dotfile health check.
+.TP
+.B import
+Import secrets from a file into Keychain.
+.TP
+.B tutorial
+Run the interactive secret management tutorial.
+.SS Help
+.TP
+.B help\fR, \fB\-\-help\fR, \fB\-h
+Show the help screen.
+.SH EXAMPLES
+Get a secret value:
+.RS
+.nf
+sec MY_SECRET
+.fi
+.RE
+.PP
+Copy a secret to the clipboard:
+.RS
+.nf
+sec MY_SECRET | pbcopy
+.fi
+.RE
+.PP
+Use a secret in a command without exposing it in shell history:
+.RS
+.nf
+GITHUB_TOKEN=$(sec MY_TOKEN_NAME) gh pr list
+.fi
+.RE
+.PP
+Add a new secret:
+.RS
+.nf
+sec add DEPLOY_KEY
+.fi
+.RE
+.PP
+List all secrets:
+.RS
+.nf
+sec list
+.fi
+.RE
+.PP
+Delete a secret:
+.RS
+.nf
+sec delete OLD_SECRET
+.fi
+.RE
+.PP
+Unlock the Bitwarden vault:
+.RS
+.nf
+sec unlock
+.fi
+.RE
+.PP
+Lock the vault:
+.RS
+.nf
+sec lock
+.fi
+.RE
+.PP
+Retrieve a secret directly from Bitwarden:
+.RS
+.nf
+sec bw MY_SECRET
+.fi
+.RE
+.PP
+Check for expiring secrets in Bitwarden:
+.RS
+.nf
+sec check
+.fi
+.RE
+.PP
+Sync Keychain secrets to Bitwarden:
+.RS
+.nf
+sec sync --to-bw
+.fi
+.RE
+.PP
+Show backend configuration:
+.RS
+.nf
+sec status
+.fi
+.RE
+.PP
+View the secrets dashboard:
+.RS
+.nf
+sec dashboard
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR tok (1),
+.BR dots (1)
+.SH AUTHOR
+DT

@@ -1,0 +1,167 @@
+.\" Man page for v dispatcher (Vibe / Workflow Automation)
+.\" Generated: June 2026
+.TH V 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+v \- Workflow automation dispatcher (vibe coding mode)
+.SH SYNOPSIS
+.B v
+[\fIcommand\fR] [\fIarguments\fR]
+.br
+.B vibe
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B v
+(also invokable as
+.BR vibe )
+is a workflow automation dispatcher covering testing, ecosystem coordination,
+sprint planning, activity logging, and session management.
+.PP
+When called without arguments,
+.B v
+prints a short usage hint.
+Unknown commands produce an error and suggest
+.IR "v help" .
+.SH COMMANDS
+.SS Testing
+.TP
+.B test\fR, \fBt
+Run tests in auto-detect mode (delegates to
+.IR pt ).
+.TP
+.B test watch\fR, \fBt w
+Run tests in watch mode.
+.TP
+.B test cov\fR, \fBtest coverage\fR, \fBt c
+Run tests with coverage report.
+.TP
+.B test scaffold\fR, \fBt s
+Generate a test template for the current project.
+.TP
+.B test file \fIpath\fR, \fBt f \fIpath\fR
+Run tests for a specific file.
+.TP
+.B test docs\fR, \fBt d
+Generate test documentation.
+.SS Coordination
+.TP
+.B coord\fR, \fBc
+Show ecosystem coordination overview.
+.TP
+.B coord sync
+Sync the ecosystem.
+.TP
+.B coord status
+Ecosystem dashboard.
+.TP
+.B coord deps
+Dependency graph.
+.TP
+.B coord release
+Coordinate a release across the ecosystem.
+.SS Planning
+.TP
+.B plan\fR, \fBp
+Show the current sprint.
+.TP
+.B plan sprint
+Sprint management.
+.TP
+.B plan roadmap
+View the roadmap.
+.TP
+.B plan add
+Add a task.
+.TP
+.B plan backlog
+View the backlog.
+.SS Activity Logging
+These subcommands delegate to the
+.B workflow
+command.
+.TP
+.B log\fR, \fBl
+Show recent activity log.
+.TP
+.B log today
+Show today's log.
+.TP
+.B log started
+Log session start.
+.SS Direct Command Aliases
+.TP
+.B dash\fR, \fBd
+Open the project dashboard (delegates to
+.IR dash ).
+.TP
+.B status\fR, \fBs
+Show project status (delegates to
+.IR status ).
+.TP
+.B health
+Run a combined system health check.
+.SS Session Management
+.TP
+.B start\fR, \fBbegin
+Start a new work session (delegates to
+.IR startsession ).
+.TP
+.B end\fR, \fBstop
+End the current work session (delegates to
+.IR endsession ).
+.TP
+.B morning\fR, \fBgm
+Run the morning routine (delegates to
+.IR pmorning ).
+.TP
+.B night\fR, \fBgn
+Run the night routine (delegates to
+.IR pnight ).
+.TP
+.B progress\fR, \fBprog
+Check progress (delegates to
+.IR progress_check ).
+.SS Help
+.TP
+.B help\fR, \fBh\fR, \fB--help\fR, \fB-h
+Show built-in help.
+.SH EXAMPLES
+Run tests (auto-detect framework):
+.RS
+.nf
+v test
+.fi
+.RE
+.PP
+Run tests in watch mode:
+.RS
+.nf
+v test watch
+.fi
+.RE
+.PP
+Show the project dashboard:
+.RS
+.nf
+v dash
+.fi
+.RE
+.PP
+View the current sprint:
+.RS
+.nf
+v plan
+.fi
+.RE
+.PP
+Sync the ecosystem using the full command name:
+.RS
+.nf
+vibe coord sync
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR cc (1),
+.BR prompt (1)
+.SH AUTHOR
+DT

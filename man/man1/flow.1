@@ -1,6 +1,6 @@
 .\" Man page for flow command
-.\" Generated: 2025-12-26
-.TH FLOW 1 "December 2025" "flow-cli 3.0.0" "User Commands"
+.\" Updated: June 2026
+.TH FLOW 1 "June 2026" "flow-cli 7.8.0" "User Commands"
 .SH NAME
 flow \- ADHD-friendly workflow CLI for developers
 .SH SYNOPSIS
@@ -164,7 +164,7 @@ Suppress welcome message. Set to 1 to enable.
 Enable debug output. Set to 1 to enable.
 .TP
 .B FLOW_VERSION
-Current version (read-only). Default: 3.0.0
+Current version (read-only). Current: 7.8.0
 .SH FILES
 .TP
 .I ~/.config/zsh/.worklog
@@ -236,30 +236,77 @@ dash         = flow dash
 .fi
 .RE
 .SH SMART DISPATCHERS
-In addition to flow commands, these dispatchers are available:
+In addition to flow commands, these 15 dispatchers plus the at bridge are available:
 .TP
 .B g \fIcmd\fR
-Git workflows (g status, g push, g commit)
-.TP
-.B r \fIcmd\fR
-R package development (r test, r doc, r check)
-.TP
-.B qu \fIcmd\fR
-Quarto publishing (qu preview, qu render)
+Git workflows: status, push, commit, branch, feature workflow, promote, release.
 .TP
 .B mcp \fIcmd\fR
-MCP server management (mcp status, mcp logs)
+MCP server management: list, cd, test, edit, pick, status, readme.
 .TP
 .B obs \fIcmd\fR
-Obsidian notes (obs daily, obs search)
+Obsidian vault management: stats, discover, vaults, analyze, ai subcommands.
+.TP
+.B qu \fIcmd\fR
+Quarto publishing: render, preview, check, clean, publish, format-specific renders, project creation.
+.TP
+.B r \fIcmd\fR
+R package development: load, test, doc, check, build, install, cycle, coverage, pkgdown.
+.TP
+.B cc \fIcmd\fR
+Claude Code launcher: open Claude with project context, worktree support.
+.TP
+.B tm \fIcmd\fR
+Terminal manager: tmux session and window management.
+.TP
+.B wt \fIcmd\fR
+Worktree management: create, list, pick, switch, and prune git worktrees.
+.TP
+.B dots \fIcmd\fR
+Dotfile management via chezmoi: sync, apply, edit, diff, and manage dotfiles.
+.TP
+.B sec \fIcmd\fR
+Secret management: store and retrieve secrets from macOS Keychain and Bitwarden.
+.TP
+.B tok \fIcmd\fR
+Token management: create, rotate, expire, and sync tokens to GitHub Actions secrets.
+.TP
+.B teach \fIcmd\fR
+Teaching workflow: Scholar integration, deploy, exam, macros, plans, prompts, doctor.
+.TP
+.B prompt \fIcmd\fR
+Prompt engine switcher: manage and switch between prompt profiles.
+.TP
+.B v \fIcmd\fR
+Vibe coding mode: AI-assisted pair programming workflows.
+.TP
+.B em \fIcmd\fR
+Email management via himalaya: read, compose, reply, search, attachments, IMAP watch.
+.TP
+.B at \fIcmd\fR
+Atlas bridge (optional): project intelligence and enhanced state management.
 .PP
-Use \fIdispatcher\fR help for details (e.g., r help, qu help).
+Use \fIdispatcher\fR\fB help\fR for details (e.g.,
+.BR "r help" ,
+.BR "qu help" ,
+.BR "teach help" ).
 .SH SEE ALSO
 .BR g (1),
 .BR r (1),
 .BR qu (1),
 .BR mcp (1),
-.BR obs (1)
+.BR obs (1),
+.BR cc (1),
+.BR tm (1),
+.BR wt (1),
+.BR dots (1),
+.BR sec (1),
+.BR tok (1),
+.BR teach (1),
+.BR prompt (1),
+.BR v (1),
+.BR em (1),
+.BR at (1)
 .PP
 Related documentation:
 .RS

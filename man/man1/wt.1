@@ -1,0 +1,157 @@
+.\" Man page for wt dispatcher (Git Worktree Management)
+.\" Generated: June 2026
+.TH WT 1 "June 2026" "flow-cli 7.8.0" "User Commands"
+.SH NAME
+wt \- Git worktree management dispatcher
+.SH SYNOPSIS
+.B wt
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B wt
+is a smart dispatcher for managing Git worktrees.
+It provides creation, listing, cleanup, and status inspection of worktrees
+stored under a configurable base directory (default:
+.IR ~/.git-worktrees/ ).
+.PP
+When called without arguments,
+.B wt
+shows a formatted overview of all worktrees with branch name, status,
+Claude session indicator, and path.
+When called with an unknown argument that is not a recognized subcommand,
+.B wt
+treats it as a project-name filter and displays only matching worktrees.
+Unrecognized subcommands also pass through to
+.B git worktree
+directly.
+.SH COMMANDS
+.SS Overview and Listing
+.TP
+.B (none)
+Display a formatted table of all worktrees showing branch, status
+(active, merged, stale, main), Claude session indicator, and path.
+.TP
+.B \fIfilter\fR
+Display only worktrees whose project name matches
+.IR filter .
+.TP
+.B list\fR, \fBls\fR, \fBl
+Raw
+.I git worktree list
+output.
+.TP
+.B status\fR, \fBst
+Detailed view showing disk size, merge status, and per-worktree health.
+.SS Create and Move
+.TP
+.B create \fIbranch\fR, \fBadd \fIbranch\fR, \fBc \fIbranch\fR
+Create a new worktree at
+.I $FLOW_WORKTREE_DIR/<project>/<branch>
+for
+.IR branch .
+If the branch does not yet exist locally,
+.B git worktree add -b
+is used to create it.
+.TP
+.B move\fR, \fBmv
+Move the current branch into a worktree.
+Equivalent to running
+.I wt create
+for the current branch.
+Protected branches (main, master, dev) cannot be moved.
+.SS Cleanup
+.TP
+.B clean
+Run
+.I git worktree prune
+to remove stale worktree references.
+.TP
+.B prune\fR [\fIoptions\fR]
+Comprehensive cleanup: prunes stale references, then finds and optionally
+removes worktrees for merged feature/bugfix/hotfix branches.
+Options:
+.RS
+.TP
+.B --dry-run\fR, \fB-n
+Show what would be removed without making changes.
+.TP
+.B --force\fR, \fB-f
+Skip confirmation prompts.
+.TP
+.B --branches\fR, \fB-b
+Also delete the merged branches after removing their worktrees.
+.RE
+.SS Remove
+.TP
+.B remove \fIpath\fR, \fBrm \fIpath\fR
+Remove the worktree at
+.IR path .
+.SS Help
+.TP
+.B help\fR, \fBh\fR, \fB--help\fR, \fB-h
+Show built-in help.
+.SH PASSTHROUGH
+Any subcommand not listed above is passed directly to
+.BR "git worktree" :
+.RS
+.nf
+wt lock <path>    -> git worktree lock <path>
+wt unlock <path>  -> git worktree unlock <path>
+wt repair         -> git worktree repair
+.fi
+.RE
+.SH ENVIRONMENT
+.TP
+.B FLOW_WORKTREE_DIR
+Base directory for worktrees. Default:
+.IR ~/.git-worktrees .
+New worktrees are created at
+.IR $FLOW_WORKTREE_DIR/<project>/<branch> .
+.SH EXAMPLES
+Show all worktrees:
+.RS
+.nf
+wt
+.fi
+.RE
+.PP
+Filter to show only flow-cli worktrees:
+.RS
+.nf
+wt flow
+.fi
+.RE
+.PP
+Create a worktree for a feature branch:
+.RS
+.nf
+wt create feature/auth
+.fi
+.RE
+.PP
+Prune merged worktrees (dry run first):
+.RS
+.nf
+wt prune --dry-run
+wt prune --branches
+.fi
+.RE
+.PP
+Remove a specific worktree:
+.RS
+.nf
+wt remove ~/.git-worktrees/myproject/feature-auth
+.fi
+.RE
+.PP
+Move current branch to a worktree:
+.RS
+.nf
+wt move
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR cc (1),
+.BR g (1)
+.SH AUTHOR
+DT
