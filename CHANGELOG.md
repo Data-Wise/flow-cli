@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.8.0] — 2026-06-04 — token auto-sync + fzf terminal-hygiene
+
 ### Added
 
 - **`tok sync` — auto-sync tokens to GitHub Actions secrets** (#452) — after

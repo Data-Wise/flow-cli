@@ -8,6 +8,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.8.0] — 2026-06-04 — token auto-sync + fzf terminal-hygiene
+
 ### Added
 
 - **`tok sync` — auto-sync tokens to GitHub Actions secrets** (#452) — after
