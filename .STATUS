@@ -18,6 +18,10 @@
 - Discovered nexus-cli is a 4th broken tap caller (APP secrets unconfigured) — included in mapping seed
 - Verified `/goal` is a real Claude Code built-in (v2.1.139+) — turn-loop until condition met
 - Cross-repo: authored `craft/docs/specs/SPEC-orchestrate-drive-2026-06-03.md` (`/craft:orchestrate:drive` autonomous loop command, craft dev a547d6c3)
+- tok auto-sync implemented in worktree (14 commits): lib/tok-sync.zsh + dispatcher hooks + 210/58 tests + docs
+- Reviewed PR #452 → fixed 2 issues (deduped OIDC note via `_tok_sync_oidc_note`, removed ORCHESTRATE artifact, commit 633adf69)
+- CI green → **squash-merged PR #452 to dev** (93ee5edd, one-time merge override of standing rule) → worktree + remote branch removed, dev synced
+- Diagnosed (separate) systemic fzf→exec hygiene gap: `cc wt pick`/`ccy`/`work+ccy` bypass v7.7.1 cleanup → SPEC-fzf-handoff-hygiene + test plan on dev, awaiting impl
 
 ## Previous Session (2026-06-02) — v7.7.1 shipped
 
@@ -292,8 +296,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | synced with main (0ecf2bb0) |
-| `~/.git-worktrees/flow-cli/tok-autosync` | `feature/tok-autosync` | ORCHESTRATE committed (a82f7caa) — awaiting impl in new session |
+| Main repo | `dev` | synced — tok auto-sync merged (93ee5edd) |
 
 ---
 
