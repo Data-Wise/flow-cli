@@ -76,6 +76,26 @@ _flow_tty_handoff_cleanup() {
       or assert the helper is invoked).
 - [ ] No behavior change to non-exec fzf sites (status displays).
 
+## Bundled fix — tok completion drift (folded into this worktree)
+
+Found during a post-merge `tok` help audit (2026-06-04): the in-shell
+`tok help` text documents `tok sync push`/`repos` + `--no-sync`, but the
+shell completion `completions/_tok` (the `sync)` branch, ~lines 45-53)
+still offers only `github`. `tok sync <TAB>` therefore misses the two new
+subcommands. Small UX-parity fix, bundled here since both are
+completion/UX touch-ups.
+
+- [ ] `completions/_tok` `sync_targets` lists `gh`, `push`, `repos`:
+  ```zsh
+  sync_targets=(
+    'gh:Authenticate gh CLI with stored token'
+    'push:Fan out token to GitHub Actions secrets'
+    'repos:Dry run — list planned sync targets'
+  )
+  ```
+- [ ] (Optional follow-up) complete the `<name>` arg for `push`/`repos`
+      from `tok-sync.conf` token names — deeper, can defer.
+
 ## Open Questions
 
 1. Helper home: `lib/core.zsh` (loaded early, broadly available) vs
