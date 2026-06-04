@@ -39,6 +39,14 @@ sed -i '' "s/v[0-9]*\.[0-9]*\.[0-9]*/v$VERSION/g" CLAUDE.md
 echo "🔌 Updating flow.plugin.zsh..."
 sed -i '' "s/FLOW_VERSION=\"[^\"]*\"/FLOW_VERSION=\"$VERSION\"/" flow.plugin.zsh
 
+# 4b. Update man-page .TH version lines (anti-drift backstop for the CI guard)
+echo "📚 Updating man pages (man/man1/*.1)..."
+for _man in man/man1/*.1; do
+    [[ -f "$_man" ]] || continue
+    # Only rewrite flow-cli pages; leave vendored pages (e.g. scribe.1) alone.
+    sed -i '' "s/\"flow-cli [0-9]*\.[0-9]*\.[0-9]*\"/\"flow-cli $VERSION\"/" "$_man"
+done
+
 # 5. Update CC-DISPATCHER-REFERENCE.md (archived)
 echo "📖 Updating CC-DISPATCHER-REFERENCE.md..."
 if [[ -f "docs/reference/.archive/CC-DISPATCHER-REFERENCE.md" ]]; then

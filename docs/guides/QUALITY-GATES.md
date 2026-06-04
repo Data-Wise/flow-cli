@@ -9,7 +9,7 @@ tags:
 
 > Every validation layer in flow-cli, from keystroke to production.
 >
-> **Version:** v7.7.1
+> **Version:** v7.8.1
 
 ---
 
@@ -132,7 +132,7 @@ npm run lint:fix
 | Runner | Ubuntu latest |
 | Tests | `test-flow.zsh` (smoke), `test-install.sh` |
 
-Runs core smoke tests in a clean Ubuntu environment with mock project structure. Full test suite (205 files, 12000+ functions) runs locally via `./tests/run-all.sh`.
+Runs core smoke tests in a clean Ubuntu environment with mock project structure. Full test suite (210 files, 12000+ functions) runs locally via `./tests/run-all.sh`.
 
 ### Install Script Tests (`release.yml`)
 
@@ -239,4 +239,4 @@ Areas where validation could be added in the future:
 ---
 
 **Last Updated:** 2026-02-27
-**Version:** v7.7.1
+**Version:** v7.8.1

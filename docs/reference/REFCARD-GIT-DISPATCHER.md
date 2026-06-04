@@ -2,7 +2,7 @@
 
 > All `g` subcommands at a glance — the most-used flow-cli dispatcher.
 >
-> **Version:** v7.7.1 | **Dispatcher:** `lib/dispatchers/g-dispatcher.zsh`
+> **Version:** v7.8.1 | **Dispatcher:** `lib/dispatchers/g-dispatcher.zsh`
 >
 > Unknown commands pass through to `git` (e.g., `g remote -v` → `git remote -v`).
 
@@ -129,5 +129,5 @@ g pop                   # Restore stashed changes
 
 ---
 
-**Version:** v7.7.1
+**Version:** v7.8.1
 **Last Updated:** 2026-02-27

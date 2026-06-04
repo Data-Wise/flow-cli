@@ -1,0 +1,178 @@
+.\" Man page for at dispatcher (Atlas bridge)
+.\" Generated: June 2026
+.TH AT 1 "June 2026" "flow-cli 7.8.1" "User Commands"
+.SH NAME
+at \- Atlas project intelligence bridge (optional integration)
+.SH SYNOPSIS
+.B at
+[\fIcommand\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B at
+is an optional bridge to the
+.B Atlas
+project intelligence CLI.
+When Atlas is installed, all commands are forwarded to
+.BR atlas (1)
+directly, with the exception of
+.B at help
+(which always shows the flow-cli styled help page).
+.PP
+When Atlas is not installed, four commands work using ZSH-native fallbacks:
+.BR catch ,
+.BR inbox ,
+.BR where ,
+and
+.BR crumb .
+All other commands print an install message.
+.PP
+Atlas availability is controlled by the
+.B FLOW_ATLAS_ENABLED
+environment variable. Availability is cached at session start for performance.
+.PP
+Install Atlas:
+.RS
+.nf
+npm i -g @data-wise/atlas
+brew install data-wise/tap/atlas
+.fi
+.RE
+.SH COMMANDS
+.SS Always Available
+.TP
+.B help\fR, \fB--help\fR, \fB-h
+Show flow-cli styled help page (never shows Atlas native help).
+.SS Available Without Atlas (ZSH Fallbacks)
+.TP
+.B catch\fR, \fBc \fItext\fR
+Quick capture a thought, idea, or task into flow's quick-capture inbox.
+Works with or without Atlas installed.
+.TP
+.B inbox\fR, \fBi
+Show captured items from the quick-capture inbox.
+Works with or without Atlas installed.
+.TP
+.B where\fR, \fBw \fR[\fIproject\fR]
+Show context from the last work session: where you were, what you were
+doing, recent breadcrumbs. Works with or without Atlas installed.
+.TP
+.B crumb\fR, \fBb \fItext\fR
+Leave a breadcrumb note at the current point in your workflow to aid
+context recovery later. Works with or without Atlas installed.
+.SS Require Atlas
+The following commands require Atlas to be installed and will print install
+instructions if it is absent.
+.SS Session
+.TP
+.B session start \fIproject\fR
+Start a tracked work session for the given project.
+.TP
+.B session end \fR[\fInote\fR]
+End the current work session with an optional summary note.
+.SS Capture & Triage
+.TP
+.B triage
+Process inbox items interactively (prioritize, assign, or discard).
+.SS Context
+.TP
+.B trail
+Show the full breadcrumb trail for the current or specified project.
+.TP
+.B focus \fR[\fIproject\fR]
+Set or show the current focus project.
+.SS Project Management
+.TP
+.B stats
+Show project statistics overview (velocity, completion, trends).
+.TP
+.B plan
+Show planning view: priorities, deadlines, upcoming milestones.
+.TP
+.B park \fR[\fIproject\fR]
+Park (pause) a project, saving its context for later resumption.
+.TP
+.B unpark \fR[\fIproject\fR]
+Resume a previously parked project.
+.TP
+.B parked
+List all currently parked projects.
+.TP
+.B dash\fR, \fBdashboard
+Show a dashboard of all projects at a glance.
+.SH ENVIRONMENT
+.TP
+.B FLOW_ATLAS_ENABLED
+Controls Atlas integration:
+.RS
+.TP
+.B auto
+(default) Use Atlas if installed; gracefully degrade if not.
+.TP
+.B yes
+Require Atlas; do not use fallbacks.
+.TP
+.B no
+Disable Atlas entirely even if installed; always use fallbacks.
+.RE
+.SH EXAMPLES
+Quick capture (works without Atlas):
+.RS
+.nf
+at catch "Fix login bug before release"
+at catch "Research alternative caching strategy"
+.fi
+.RE
+.PP
+Show context from last session (works without Atlas):
+.RS
+.nf
+at where
+at where my-project
+.fi
+.RE
+.PP
+Leave a breadcrumb (works without Atlas):
+.RS
+.nf
+at crumb "Debugging auth flow in middleware"
+.fi
+.RE
+.PP
+Project overview (requires Atlas):
+.RS
+.nf
+at stats
+at plan
+at dash
+.fi
+.RE
+.PP
+Session management (requires Atlas):
+.RS
+.nf
+at session start flow-cli
+at session end "Finished man page refresh"
+.fi
+.RE
+.PP
+Park and switch projects (requires Atlas):
+.RS
+.nf
+at park
+at unpark flow-cli
+at parked
+.fi
+.RE
+.PP
+Disable Atlas for a session:
+.RS
+.nf
+FLOW_ATLAS_ENABLED=no at catch "note stored locally"
+.fi
+.RE
+.SH SEE ALSO
+.BR flow (1),
+.BR teach (1),
+.BR em (1),
+.BR g (1)
+.SH AUTHOR
+DT

@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.8.0
+- **Current Version:** v7.8.1
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
@@ -37,56 +37,12 @@ This file provides guidance to Claude Code when working with code in this reposi
 
 ### Mandatory Workflow Steps
 
-#### 1. Plan on `dev` Branch
-
-**Before writing any code:**
-
-````bash
-git checkout dev && git pull origin dev
-```diff
-
-- Analyze requirements on `dev` branch
-- Create comprehensive implementation plan
-- Document in `docs/specs/SPEC-*.md`
-- **Wait for user approval**
-- Commit approved plan to `dev`
-
-**Constraint:** Never write feature code on `dev` branch
-
-#### 2. Create Worktree + Orchestration Plan
-
-```bash
-git worktree add ~/.git-worktrees/flow-cli/<feature> -b feature/<feature> dev
-git worktree list
-```zsh
-
-After creating the worktree, write an `ORCHESTRATE-<feature>.md` file **to the worktree** with the full implementation plan (task list, file changes, verification steps). Commit it to the feature branch.
-
-#### 3. STOP - NEW Session Required
-
-**CRITICAL:** Do NOT start implementing in the worktree from the dev/planning session. The dev session's job ends after creating the worktree and committing the orchestration plan. Tell user to `cd` into worktree and start a new `claude` session.
-
-#### 4. Atomic Development (In Worktree)
-
-**Conventional Commits:** `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`
-
-**Before each commit:** Run `./tests/run-all.sh`, verify `source flow.plugin.zsh`
-
-#### 5. Integration (feature -> dev)
-
-```bash
-git fetch origin dev && git rebase origin/dev
-./tests/run-all.sh
-gh pr create --base dev
-# After merge: git worktree remove ~/.git-worktrees/flow-cli/<feature>
-```bash
-
-#### 6. Release (dev -> main)
-
-```bash
-gh pr create --base main --head dev --title "Release vX.Y.Z"
-git tag -a vX.Y.Z -m "vX.Y.Z" && git push --tags
-```diff
+1. **Plan on `dev`** — `git checkout dev && git pull origin dev`. Analyze, write a `docs/specs/SPEC-*.md`, wait for approval, commit the spec to `dev`. **Never write feature code on `dev`.**
+2. **Worktree + plan** — `git worktree add ~/.git-worktrees/flow-cli/<feature> -b feature/<feature> dev`, then write `ORCHESTRATE-<feature>.md` **to the worktree** (task list, file changes, verification) and commit it to the feature branch.
+3. **STOP — new session required.** The dev/planning session's job ends after the worktree + ORCHESTRATE commit. Do NOT implement from it; tell the user to `cd` into the worktree and start a new `claude` session.
+4. **Atomic development (in worktree)** — conventional commits (`feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`). Before each commit: `./tests/run-all.sh` + verify `source flow.plugin.zsh`.
+5. **Integrate** — `git fetch origin dev && git rebase origin/dev` → `./tests/run-all.sh` → `gh pr create --base dev`. After merge: `git worktree remove ...`.
+6. **Release (dev → main)** — `gh pr create --base main --head dev --title "Release vX.Y.Z"`, then tag `vX.Y.Z` and push tags.
 
 ### ABORT Conditions
 
@@ -120,7 +76,7 @@ catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check
 flow doctor --fix # Interactive install missing tools
-```text
+```
 
 ### Dopamine Features
 
@@ -129,7 +85,7 @@ win <text>        # Log accomplishment (auto-categorized)
 yay               # Show recent wins
 yay --week        # Weekly summary + graph
 flow goal set 3   # Set daily win target
-```text
+```
 
 ### Active Dispatchers (15)
 
@@ -144,7 +100,7 @@ tm <cmd>      # Terminal manager
 wt <cmd>      # Worktree management
 dots <cmd>    # Dotfile management (chezmoi)
 sec <cmd>     # Secret management (Keychain/Bitwarden)
-tok <cmd>     # Token management (create/rotate/expire)
+tok <cmd>     # Token management (create/rotate/expire/sync→GH secrets)
 teach <cmd>   # Teaching workflow
 prompt <cmd>  # Prompt engine switcher
 v <cmd>       # Vibe coding mode
@@ -156,23 +112,9 @@ at <cmd>      # Atlas bridge (project intelligence, optional)
 
 ### Teaching Subcommands
 
-`teach analyze`, `teach init`, `teach deploy`, `teach doctor`, `teach exam`, `teach macros`, `teach map`, `teach plan`, `teach style`, `teach templates`, `teach prompt`, `teach cache`, `teach profiles`, `teach migrate`, `teach validate`, `teach solution`, `teach sync`, `teach validate-r`, `teach config check`, `teach config diff`, `teach config show`, `teach config scaffold`
+`teach` has 20+ subcommands (analyze, init, deploy, doctor, exam, macros, map, plan, style, templates, prompt, cache, profiles, migrate, validate, solution, sync, validate-r, config check/diff/show/scaffold). Doctor is two-mode (quick < 3s / `--full` 11 categories); deploy supports `--direct`/`--dry-run`/`--sync`/`--rollback` with `$$` math preflight.
 
-- **Doctor (v2):** Two-mode architecture — quick (default, < 3s) and full (`--full`, 11 categories)
-  - Quick mode: CLI deps, R + renv, config, git, Scholar config (5 categories)
-  - Full mode: + per-package R checks, quarto ext, scholar, hooks, cache, macros, style
-  - Flags: `--full`, `--brief`, `--fix`, `--json`, `--ci`, `--verbose`
-  - `--fix` offers renv vs system install choice for R packages
-  - `--ci` exits non-zero on failure, no color, machine-readable output
-  - Health dot shown on `teach` startup (refreshed on next `teach doctor` run)
-- **Deploy:** `teach deploy --direct` (8-15s direct merge) or `teach deploy` (PR workflow)
-- **Deploy preflight:** Display math `$$` validation (blank lines, unclosed blocks) — also runs at pre-commit via lint-staged
-- **Deploy extras:** `--dry-run`, `--ci`, `--history [N]`, `--rollback [N]`, `--sync`
-- **Deploy sync:** `teach deploy --sync` merges production into draft (ff-only first, then regular merge). Auto back-merge runs after `--direct` deploys to prevent false conflict detection.
-- **Templates:** `.flow/templates/` (content, prompts, metadata, checklists)
-- **Macros:** `teach macros list|sync|export` (LaTeX notation consistency)
-- **Plans:** `teach plan create|list|show|edit|delete` (lesson plan CRUD)
-- **Prompts:** `teach prompt list|show|edit|validate|export` (3-tier resolution)
+→ Full reference: [`docs/guides/TEACH-DEPLOY-GUIDE.md`](docs/guides/TEACH-DEPLOY-GUIDE.md), [`docs/reference/REFCARD-DOCTOR.md`](docs/reference/REFCARD-DOCTOR.md)
 
 ---
 
@@ -194,10 +136,10 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 210 test files, 12000+ test functions
+├── tests/                    # 211 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
-```zsh
+```
 
 ### Key Files
 
@@ -217,36 +159,13 @@ flow-cli/
 
 ## Development
 
-### Adding New Commands
+**Add a command:** core → `commands/<name>.zsh`; dispatcher subcommand → `lib/dispatchers/<name>-dispatcher.zsh`. Use helpers (`_flow_log_*`, `_flow_find_project_root`, `_flow_detect_project_type`); add `completions/_<name>`; every dispatcher MUST have a `_<cmd>_help()` using `lib/core.zsh` colors. New dispatcher = a `command + keyword + options` case block.
 
-1. Core command -> `commands/<name>.zsh`; Dispatcher subcommand -> `lib/dispatchers/<name>-dispatcher.zsh`
-2. Use helpers: `_flow_log_success`, `_flow_log_error`, `_flow_find_project_root`, `_flow_detect_project_type`
-3. Add completion in `completions/_<commandname>`
-4. Every dispatcher MUST have `_<cmd>_help()` function using color scheme from `lib/core.zsh`
+**After changes:** update `MASTER-DISPATCHER-GUIDE.md` + `QUICK-REFERENCE.md` + `mkdocs.yml`. **Release:** `./scripts/release.sh X.Y.Z` → commit → tag → push (bumps `flow.plugin.zsh` FLOW_VERSION, `package.json`, `README.md`, `CLAUDE.md`). Docs deploy automatically (don't run `mkdocs gh-deploy`).
 
-### Adding New Dispatcher
+→ Dispatcher template + patterns: [`docs/reference/MASTER-DISPATCHER-GUIDE.md`](docs/reference/MASTER-DISPATCHER-GUIDE.md)
 
-```bash
-x() {
-    case "$1" in
-        action1) shift; _x_action1 "$@" ;;
-        help|--help|-h) _x_help ;;
-        *) _x_help ;;
-    esac
-}
-```diff
-
-Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
-
-### Common Tasks
-
-| Task              | Steps                                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------------- |
-| Update dispatcher | Edit `lib/dispatchers/<name>-dispatcher.zsh` -> update `_<name>_help()` -> test -> update docs |
-| Deploy docs       | `mkdocs gh-deploy --force`                                                                     |
-| Create release    | `./scripts/release.sh X.Y.Z` -> commit -> tag -> push                                          |
-
-**Release script updates:** `flow.plugin.zsh` (FLOW_VERSION), `package.json`, `README.md`, `CLAUDE.md`, `CC-DISPATCHER-REFERENCE.md`
+**New dispatcher = new man page:** add `man/man1/<cmd>.1` (model `g.1`); the guard `tests/test-manpage-version-sync.zsh` fails CI on a missing page or `.TH` version drift. Details: [`ZSH-COMMANDS-HELP.md`](docs/internal/conventions/code/ZSH-COMMANDS-HELP.md) (Man Pages).
 
 ---
 
@@ -262,7 +181,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**210 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (58/58 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
+**211 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (59/59 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -271,7 +190,7 @@ See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 ## Documentation
 
 **Site:** https://Data-Wise.github.io/flow-cli/
-**Build:** `mkdocs serve` (local) | `mkdocs gh-deploy --force` (deploy)
+**Build:** `mkdocs serve` (local). **Deploy is automatic** — `docs.yml` CI deploys to gh-pages on push to `main` (don't run `mkdocs gh-deploy`; the branch guard blocks the gh-pages push).
 **Key docs:** `docs/guides/`, `docs/reference/`, `docs/help/QUICK-REFERENCE.md`, `docs/CONVENTIONS.md`
 **Internal:** `docs/internal/` (conventions, contributor templates — excluded from site nav)
 
@@ -284,14 +203,14 @@ export FLOW_PROJECTS_ROOT="$HOME/projects"  # Project root
 export FLOW_ATLAS_ENABLED="auto"             # Atlas (auto|yes|no)
 export FLOW_QUIET=1                          # Suppress welcome
 export FLOW_DEBUG=1                          # Debug mode
-````
+```
 
 ---
 
 ## Current Status
 
-**Version:** v7.8.0 | **Tests:** 12000+ (58/58 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.8.1 | **Tests:** 12000+ (59/59 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-06-04 (v7.8.0)
+**Last Updated:** 2026-06-04 (v7.8.1)

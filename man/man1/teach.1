@@ -1,0 +1,432 @@
+.\" Man page for teach dispatcher (Teaching Workflow)
+.\" Generated: June 2026
+.TH TEACH 1 "June 2026" "flow-cli 7.8.1" "User Commands"
+.SH NAME
+teach \- Teaching workflow dispatcher (Scholar integration)
+.SH SYNOPSIS
+.B teach
+[\fIcommand\fR] [\fIoptions\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.B teach
+is a comprehensive teaching workflow dispatcher that wraps the Scholar
+Claude Code plugin for AI-powered course content generation.
+It provides commands for creating lectures, slides, exams, quizzes,
+assignments, syllabi, rubrics, and more.
+.PP
+When called without arguments (or with
+.B help
+), it shows the help page along with a health indicator dot reflecting
+the last
+.B teach doctor
+run result.
+.PP
+Commands are grouped into two categories: Scholar wrappers (which
+invoke Claude + Scholar for AI-generated content) and local commands
+(which run entirely without Claude).
+.PP
+All content generation commands accept universal content flags
+(\fB--explanation\fR, \fB--math\fR, \fB--examples\fR, \fB--code\fR, \fB--diagrams\fR,
+\fB--practice-problems\fR, \fB--references\fR, \fB--proof\fR, \fB--definitions\fR)
+and selection flags (\fB--topic\fR/\fB-t\fR, \fB--week\fR/\fB-w\fR, \fB--style\fR, \fB--interactive\fR/\fB-i\fR).
+.SH COMMANDS
+.SS Content Generation (Scholar Wrappers)
+.TP
+.B lecture\fR, \fBlec \fR[\fIflags\fR]
+Generate a lecture document. Accepts content flags and style presets
+(conceptual, computational, rigorous, applied).
+.TP
+.B slides\fR, \fBsl \fR[\fIflags\fR]
+Generate presentation slides. Flags: \fB--theme\fR (default|academic|minimal),
+\fB--from-lecture\fR, \fB--format\fR (quarto|markdown).
+.TP
+.B exam\fR, \fBe \fR[\fIflags\fR]
+Generate an exam. Flags: \fB--questions\fR, \fB--duration\fR, \fB--types\fR,
+\fB--format\fR (quarto|qti|markdown).
+.TP
+.B quiz\fR, \fBq \fR[\fIflags\fR]
+Generate a quiz. Flags: \fB--questions\fR, \fB--time-limit\fR,
+\fB--format\fR (quarto|qti|markdown).
+.TP
+.B assignment\fR, \fBhw \fR[\fIflags\fR]
+Generate a homework assignment. Flags: \fB--due-date\fR, \fB--points\fR,
+\fB--format\fR (quarto|markdown).
+.TP
+.B syllabus\fR, \fBsyl \fR[\fIflags\fR]
+Generate a course syllabus. Flags: \fB--format\fR (quarto|markdown|pdf).
+.TP
+.B rubric\fR, \fBrb \fR[\fIflags\fR]
+Generate a grading rubric. Flags: \fB--criteria\fR, \fB--format\fR (quarto|markdown).
+.TP
+.B feedback\fR, \fBfb \fR[\fIflags\fR]
+Generate student feedback.
+.TP
+.B demo \fR[\fIflags\fR]
+Generate a live demo script or notebook.
+.TP
+.B solution\fR, \fBsol \fR[\fIflags\fR]
+Generate a solution document for an assignment or exam.
+.TP
+.B sync \fR[\fIflags\fR]
+Sync content with Scholar (merges production into draft branch).
+.TP
+.B validate-r\fR, \fBvr \fR[\fIflags\fR]
+Validate R code blocks in course documents via Scholar.
+.SS Setup & Initialization
+.TP
+.B init\fR, \fBi
+Initialize a new course project. Creates \fB.flow/teach-config.yml\fR
+and directory structure.
+.TP
+.B migrate-config\fR, \fBmigrate
+Migrate embedded weeks from \fBteach-config.yml\fR into a standalone
+\fB.flow/lesson-plans.yml\fR file.
+.SS Deployment
+.TP
+.B deploy\fR, \fBd \fR[\fIoptions\fR]
+Deploy the course website. Options:
+.RS
+.TP
+.B --direct
+Fast direct merge deploy (8\(en15s, bypasses PR).
+.TP
+.B --dry-run
+Simulate deployment without publishing.
+.TP
+.B --history \fR[\fIN\fR]
+Show last N deployments (default: 10).
+.TP
+.B --rollback \fR[\fIN\fR]
+Roll back to Nth previous deployment.
+.TP
+.B --sync
+Merge production into draft (ff-only first, then regular merge).
+.TP
+.B --ci
+CI-mode output (no color, exits non-zero on failure).
+.RE
+.TP
+.B archive\fR, \fBa
+Archive current course materials using the backup system.
+.TP
+.B backup\fR, \fBbk
+Manage course backups.
+.SS Health Check
+.TP
+.B doctor\fR, \fBdoc \fR[\fIoptions\fR]
+Run health check. Two modes:
+.RS
+.TP
+.B (default)
+Quick mode: checks CLI deps, R + renv, config, git, Scholar config (< 3s).
+.TP
+.B --full
+Full mode: adds per-package R checks, Quarto ext, Scholar, hooks, cache,
+macros, and style (11 categories total).
+.TP
+.B --brief
+One-line summary output.
+.TP
+.B --fix
+Interactive repair: offers renv vs system install for missing R packages.
+.TP
+.B --json
+Machine-readable JSON output.
+.TP
+.B --ci
+CI mode: exits non-zero on failure, no color.
+.TP
+.B --verbose
+Verbose output.
+.RE
+.SS Validation
+.TP
+.B validate\fR, \fBval
+Validate course content (links, math blocks, YAML front matter, R code).
+Requires Quarto and project configuration.
+.TP
+.B analyze\fR, \fBconcept\fR, \fBconcepts
+Analyze course documents for concept coverage, concept graphs, and
+prerequisite chains.
+.SS Lesson Plans
+.TP
+.B plan\fR, \fBpl \fR[\fIsubcmd\fR]
+Manage lesson plans. Subcommands:
+.RS
+.TP
+.B create \fIweek\fR
+Create a lesson plan for the given week.
+.TP
+.B list
+List all lesson plans.
+.TP
+.B show \fIweek\fR
+Show the lesson plan for a specific week.
+.TP
+.B edit \fIweek\fR
+Edit the lesson plan for a specific week.
+.TP
+.B delete \fIweek\fR
+Delete the lesson plan for a specific week.
+.RE
+.SS Content Organization
+.TP
+.B templates\fR, \fBtmpl\fR, \fBtpl \fR[\fIsubcmd\fR]
+Manage content templates stored in \fB.flow/templates/\fR.
+Subcommands: list, create, edit, delete.
+.TP
+.B macros\fR, \fBmacro\fR, \fBm \fR[\fIsubcmd\fR]
+Manage LaTeX macros for consistent mathematical notation.
+Subcommands:
+.RS
+.TP
+.B list
+List all macros.
+.TP
+.B sync
+Synchronize macros across documents.
+.TP
+.B export
+Export macros to a file.
+.RE
+.TP
+.B prompt\fR, \fBpr \fR[\fIsubcmd\fR]
+Manage AI prompt templates (3-tier resolution: local, course, global).
+Subcommands: list, show, edit, validate, export.
+.SS Style & Profiles
+.TP
+.B style\fR, \fBst \fR[\fIsubcmd\fR]
+Manage teaching styles. Available presets:
+.RS
+.TP
+.B conceptual
+Explanation + definitions + examples (intuition-focused).
+.TP
+.B computational
+Explanation + examples + code + practice (hands-on, lab-style).
+.TP
+.B rigorous
+Definitions + explanation + math + proof (graduate-level).
+.TP
+.B applied
+Explanation + examples + code + practice (real-world applications).
+.RE
+.TP
+.B profiles\fR, \fBprofile\fR, \fBprof \fR[\fIsubcmd\fR]
+Manage course profiles (saved configuration sets). Subcommands:
+list, create, switch, delete.
+.SS Status & Info
+.TP
+.B status\fR, \fBs
+Show current course project status dashboard.
+.TP
+.B week\fR, \fBw \fIweek\fR
+Show status and materials for a specific week.
+.TP
+.B map
+Show the ecosystem map of course tools and integrations (v6.6.0+).
+.TP
+.B dates
+Manage course date schedules (semester start, holidays, deadlines).
+.SS Configuration
+.TP
+.B config\fR, \fBc \fR[\fIsubcmd\fR]
+Manage course configuration (\fB.flow/teach-config.yml\fR). Subcommands:
+.RS
+.TP
+.B check
+Validate configuration against JSON schema (strict mode).
+.TP
+.B diff
+Show diff between current and reference configuration.
+.TP
+.B show
+Display current configuration.
+.TP
+.B scaffold
+Generate a scaffold configuration file.
+.TP
+.B --view
+View configuration in pager.
+.TP
+.B --cat
+Print raw configuration to stdout.
+.RE
+.SS Git Hooks
+.TP
+.B hooks\fR, \fBhook \fR[\fIsubcmd\fR]
+Manage git hooks for teaching workflow (pre-commit math validation, etc.).
+Subcommands:
+.RS
+.TP
+.B install\fR, \fBi
+Install git hooks.
+.TP
+.B upgrade\fR, \fBup
+Upgrade hooks to latest version.
+.TP
+.B uninstall\fR, \fBremove\fR, \fBrm
+Remove git hooks.
+.TP
+.B status\fR, \fBcheck\fR, \fBs
+Check current hook status.
+.RE
+.SS Cache & Cleanup
+.TP
+.B cache\fR [\fIsubcmd\fR]
+Manage AI result caches and build caches.
+Subcommands: stats, clear, warm.
+.TP
+.B clean\fR, \fBcl
+Delete \fB_freeze/\fR and \fB_site/\fR build artifacts.
+.SH CONTENT FLAGS
+Universal content flags accepted by all Scholar-wrapper commands:
+.TP
+.B --explanation\fR, \fB-e
+Include conceptual explanations.
+.TP
+.B --math\fR, \fB-m
+Use formal mathematical notation.
+.TP
+.B --examples\fR, \fB-x
+Include worked numerical examples.
+.TP
+.B --code\fR, \fB-c
+Include code demonstrations (R/Python).
+.TP
+.B --diagrams\fR, \fB-d
+Include visual diagrams and plots.
+.TP
+.B --practice-problems\fR, \fB-p
+Include practice exercises.
+.TP
+.B --references\fR, \fB-r
+Include citations and references.
+.TP
+.B --proof
+Include mathematical proofs.
+.TP
+.B --definitions
+Include formal definitions.
+.PP
+Prefix any flag with
+.B --no-
+to explicitly exclude that element (e.g., \fB--no-examples\fR).
+.SH SELECTION FLAGS
+.TP
+.B --topic \fItopic\fR\fR, \fB-t \fItopic\fR
+Specify a topic string directly.
+.TP
+.B --week \fIN\fR\fR, \fB-w \fIN\fR
+Use week N from the lesson plan schedule.
+.TP
+.B --style \fIpreset\fR
+Apply a content style preset (conceptual, computational, rigorous, applied).
+.TP
+.B --interactive\fR, \fB-i
+Launch interactive wizard for topic and style selection.
+.SH EXAMPLES
+Initialize a new course:
+.RS
+.nf
+teach init
+.fi
+.RE
+.PP
+Generate lecture for week 3:
+.RS
+.nf
+teach lecture --week 3
+teach lecture -w 3 --style computational
+.fi
+.RE
+.PP
+Generate an exam with 10 questions:
+.RS
+.nf
+teach exam --topic "Regression" --questions 10
+teach exam -t "Regression" --format qti
+.fi
+.RE
+.PP
+Generate slides with custom content flags:
+.RS
+.nf
+teach slides -w 5 --math --examples --no-code
+.fi
+.RE
+.PP
+Interactive content generation:
+.RS
+.nf
+teach lecture --interactive
+.fi
+.RE
+.PP
+Deploy with PR workflow:
+.RS
+.nf
+teach deploy
+teach deploy --direct   # fast merge, skip PR
+.fi
+.RE
+.PP
+Run health check:
+.RS
+.nf
+teach doctor
+teach doctor --full
+teach doctor --fix
+.fi
+.RE
+.PP
+Manage lesson plans:
+.RS
+.nf
+teach plan create 8
+teach plan list
+teach plan show 8
+.fi
+.RE
+.PP
+Manage macros:
+.RS
+.nf
+teach macros list
+teach macros sync
+.fi
+.RE
+.PP
+Validate configuration:
+.RS
+.nf
+teach config check
+teach config show
+teach config scaffold
+.fi
+.RE
+.SH FILES
+.TP
+.I .flow/teach-config.yml
+Course configuration file (JSON Schema validated).
+.TP
+.I .flow/lesson-plans.yml
+Lesson plan schedule (week topics, styles, objectives).
+.TP
+.I .flow/templates/
+Content templates (prompts, metadata, checklists).
+.TP
+.I .flow/doctor-status.json
+Cached health status used by the health indicator dot.
+.SH ENVIRONMENT
+.TP
+.B FLOW_PROJECTS_ROOT
+Root directory for project scanning.
+.SH SEE ALSO
+.BR flow (1),
+.BR em (1),
+.BR at (1),
+.BR g (1),
+.BR qu (1),
+.BR r (1)
+.SH AUTHOR
+DT

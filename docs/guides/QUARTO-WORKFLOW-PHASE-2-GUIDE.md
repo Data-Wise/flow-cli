@@ -6,7 +6,7 @@ tags:
 
 # Quarto Workflow Phase 2 Guide
 
-**Version:** v7.7.1
+**Version:** v7.8.1
 **Last Updated:** 2026-02-27
 **Status:** Production Ready
 

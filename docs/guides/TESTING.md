@@ -263,7 +263,7 @@ zsh tests/test-work.zsh
 ./tests/run-all.sh
 ```
 
-59 suites, ~12000 assertions. Expected: 58/58 pass, 1 timeout (IMAP connectivity).
+60 suites, ~12000 assertions. Expected: 59/59 pass, 1 timeout (IMAP connectivity).
 
 ### Dogfood Quality Check
 
@@ -359,4 +359,4 @@ When adding new functionality:
 
 **Established:** v5.0.0 (2026-01-11)
 **Overhauled:** v7.4.0 (2026-02-16) — shared framework, mock registry, dogfood scanner
-**Test Count:** 210 test files, 12000+ assertions, 58/58 suites passing
+**Test Count:** 211 test files, 12000+ assertions, 59/59 suites passing

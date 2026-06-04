@@ -17,7 +17,7 @@ flow-cli and Atlas CLI are separate tools that work together:
 
 flow-cli handles the hot path (session start, capture, breadcrumbs) with ZSH-native code. Atlas handles the warm path (stats, planning, parking) with its richer data model.
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────┐
 │                        User Shell                            │
 ├──────────────────────────────────────────────────────────────┤
@@ -108,7 +108,7 @@ The `at()` function is an **enhanced bridge**, not a dispatcher. This distinctio
 
 ### Command Routing
 
-```
+```text
 at <command>
     │
     ├── help/--help/-h ──► _at_help()         [Always local]
@@ -177,7 +177,7 @@ The interactive help browser (`flow help --browse`) includes `at` in the command
 
 `_flow_list_projects()` tries Atlas first:
 
-```
+```text
 atlas project list --format=names
     │
     ├── Returns plain text ──► Use it
@@ -335,4 +335,4 @@ export FLOW_ATLAS_ENABLED=no
 ---
 
 **Last Updated:** 2026-02-22
-**Version:** v7.7.1
+**Version:** v7.8.1
