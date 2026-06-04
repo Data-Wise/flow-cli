@@ -157,5 +157,5 @@ teach slides --week N         # Step 5: Generate content
 
 ---
 
-**Version:** v7.8.0
+**Version:** v7.8.1
 **Last Updated:** 2026-01-29

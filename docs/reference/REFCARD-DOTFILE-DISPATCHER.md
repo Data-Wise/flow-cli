@@ -2,7 +2,7 @@
 
 > All `dots` subcommands at a glance.
 >
-> **Version:** v7.8.0 (v3.0.0 dispatcher) | **Dispatcher:** `lib/dispatchers/dots-dispatcher.zsh`
+> **Version:** v7.8.1 (v3.0.0 dispatcher) | **Dispatcher:** `lib/dispatchers/dots-dispatcher.zsh`
 >
 > **Backend:** [chezmoi](https://www.chezmoi.io/) for dotfile sync.
 
@@ -99,5 +99,5 @@ dots apply
 
 ---
 
-**Version:** v7.8.0
+**Version:** v7.8.1
 **Last Updated:** 2026-02-27

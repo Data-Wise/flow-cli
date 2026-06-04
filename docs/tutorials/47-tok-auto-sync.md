@@ -9,7 +9,7 @@ tags:
 
 > **Fan out one token to GitHub Actions secrets across every repo that needs it**
 >
-> **Time:** ~15 minutes | **Level:** Intermediate | **v7.8.0**
+> **Time:** ~15 minutes | **Level:** Intermediate | **v7.8.1**
 
 ---
 

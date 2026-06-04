@@ -8,6 +8,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.8.1] — 2026-06-04 — full man-page set + version-sync guard
+
+### Added
+
+- **Full man-page set for all 15 dispatchers + the `at` bridge** — `man/man1/`
+  brought from a partial set frozen at flow-cli 3.0.0 up to v7.8.1. New pages:
+  `cc`, `wt`, `tm`, `v`, `prompt`, `tok`, `sec`, `dots`, `teach`, `em`, `at` (1).
+  `flow.1` SMART DISPATCHERS rebuilt to list all 15 dispatchers + `at`;
+  `g`/`r`/`qu`/`mcp`/`obs` refreshed and de-drifted. `tok.1` documents
+  `tok sync push/repos/gh`, `--no-sync`, and `FLOW_TOK_AUTOSYNC`.
+- **Man-page version-sync CI guard** (`tests/test-manpage-version-sync.zsh`) —
+  source-scan test (wired into `run-all.sh` + the CI workflow) that fails if any
+  flow-cli man page's `.TH` version diverges from `FLOW_VERSION`, preventing the
+  silent re-freeze that left the pages five releases stale. Scopes to `flow-cli`
+  pages so vendored pages (`scribe.1`) are ignored. `release.sh` now auto-bumps
+  the `.TH` lines, making the guard a backstop rather than the primary path. The
+  same guard also enforces man-page **coverage**: every dispatcher must have a
+  `man/man1/<cmd>.1`, and no flow-cli page may be an orphan.
+
 ## [7.8.0] — 2026-06-04 — token auto-sync + fzf terminal-hygiene
 
 ### Added

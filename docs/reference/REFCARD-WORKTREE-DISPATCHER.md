@@ -2,7 +2,7 @@
 
 > All `wt` subcommands at a glance.
 >
-> **Version:** v7.8.0 | **Dispatcher:** `lib/dispatchers/wt-dispatcher.zsh`
+> **Version:** v7.8.1 | **Dispatcher:** `lib/dispatchers/wt-dispatcher.zsh`
 
 ## Commands
 
@@ -105,5 +105,5 @@ cd ~/projects/my-project        # Back to feature A (untouched)
 
 ---
 
-**Version:** v7.8.0
+**Version:** v7.8.1
 **Last Updated:** 2026-02-27

@@ -6,7 +6,7 @@
 **Purpose:** Real-world workflow patterns for flow-cli
 **Audience:** All users (beginners → advanced)
 **Format:** Step-by-step instructions with examples
-**Version:** v7.8.0
+**Version:** v7.8.1
 **Last Updated:** 2026-02-27
 
 ---
@@ -1071,6 +1071,6 @@ pick              # Interactive project picker
 
 ---
 
-**Version:** v7.8.0
+**Version:** v7.8.1
 **Last Updated:** 2026-02-27
 **Contributors:** See [CHANGELOG.md](../CHANGELOG.md)

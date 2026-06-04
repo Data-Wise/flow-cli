@@ -29,7 +29,7 @@ tags:
 !!! success "🎉 What's New in v7.8"
     **Token auto-sync:** `tok sync push` / `tok sync repos` fan a token out to GitHub Actions secrets across repos (`gh secret set`) — confirm-once gate, OIDC "use Trusted Publishing" nudge, chezmoi-managed config. Auto-runs after `tok` create/rotate (`--no-sync` to opt out).
     **Terminal hygiene fix:** a shared cleanup helper ends the garbled-prompt corruption when launching Claude via `cc wt pick` / `ccy` / `work`.
-    **58 test suites** passing (210 files, 12000+ assertions).
+    **59 test suites** passing (211 files, 12000+ assertions).
     [→ Token Cookbook](guides/TOKEN-COOKBOOK.md){ .md-button }
     [→ Tutorial: tok auto-sync](tutorials/47-tok-auto-sync.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
@@ -292,4 +292,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.8.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.8.1** · Pure ZSH · Zero Dependencies · MIT License

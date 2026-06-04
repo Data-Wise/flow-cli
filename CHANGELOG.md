@@ -9,10 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.8.1] — 2026-06-04 — full man-page set + version-sync guard
+
 ### Added
 
 - **Full man-page set for all 15 dispatchers + the `at` bridge** — `man/man1/`
-  brought from a partial set frozen at flow-cli 3.0.0 up to v7.8.0. New pages:
+  brought from a partial set frozen at flow-cli 3.0.0 up to v7.8.1. New pages:
   `cc`, `wt`, `tm`, `v`, `prompt`, `tok`, `sec`, `dots`, `teach`, `em`, `at` (1).
   `flow.1` SMART DISPATCHERS rebuilt to list all 15 dispatchers + `at`;
   `g`/`r`/`qu`/`mcp`/`obs` refreshed and de-drifted. `tok.1` documents
