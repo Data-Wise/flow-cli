@@ -3,7 +3,7 @@
 > **What you'll learn:** Extract lesson plans with `teach migrate-config` and manage them with `teach plan`
 >
 > **Time:** ~15 minutes | **Level:** Beginner
-> **Version:** v7.7.1
+> **Version:** v7.8.0
 
 ---
 
@@ -417,5 +417,5 @@ teach lecture --week 5
 
 ---
 
-**Version:** v7.7.1
+**Version:** v7.8.0
 **Last Updated:** 2026-01-28

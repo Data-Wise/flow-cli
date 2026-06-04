@@ -9,7 +9,7 @@ tags:
 
 > **Smart token management with caching and isolated checks**
 >
-> **Time:** ~15 minutes | **Level:** Intermediate | **v7.7.1**
+> **Time:** ~15 minutes | **Level:** Intermediate | **v7.8.0**
 
 ---
 

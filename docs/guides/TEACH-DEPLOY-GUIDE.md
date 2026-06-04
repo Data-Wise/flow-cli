@@ -8,7 +8,7 @@ tags:
 
 > Deploy your course website from local preview to production with confidence.
 >
-> **Version:** v7.7.1 | **Command:** `teach deploy`
+> **Version:** v7.8.0 | **Command:** `teach deploy`
 
 ![teach deploy v2 Demo](../demos/tutorials/tutorial-teach-deploy.gif)
 
@@ -1237,4 +1237,4 @@ The deployment summary box now includes a direct link to your GitHub Actions pag
 ---
 
 **Last Updated:** 2026-02-27
-**Version:** v7.7.1
+**Version:** v7.8.0
