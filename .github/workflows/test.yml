@@ -15,11 +15,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Cache apt packages
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: zsh
-          version: 1.0
+      - name: Ensure zsh is installed
+        run: |
+          # zsh is preinstalled on ubuntu-latest; install only as a fallback.
+          # Replaces awalsh128/cache-apt-pkgs-action (pulled in deprecated
+          # Node.js 20 actions/cache/restore@v4) for a tiny preinstalled package.
+          if ! command -v zsh >/dev/null 2>&1; then
+            sudo apt-get update && sudo apt-get install -y zsh
+          fi
 
       - name: Record start time
         id: start
