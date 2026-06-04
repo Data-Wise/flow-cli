@@ -318,6 +318,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.8.1 — man-page set merged (#454); releasing |
+| `~/.git-worktrees/flow-cli/csi-u-diagnostic` | `feature/csi-u-diagnostic` | PLAN committed (cb216d6b) — interactive CSI-u terminal diagnostic; awaiting impl in new session |
 
 ---
 
