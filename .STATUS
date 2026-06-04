@@ -23,6 +23,10 @@
 - CI green → **squash-merged PR #452 to dev** (93ee5edd, one-time merge override of standing rule) → worktree + remote branch removed, dev synced
 - Diagnosed (separate) systemic fzf→exec hygiene gap: `cc wt pick`/`ccy`/`work+ccy` bypass v7.7.1 cleanup → SPEC-fzf-handoff-hygiene + test plan on dev
 - **Fixed hygiene gap on dev** (af1bf685, TDD): shared `_flow_tty_handoff_cleanup` in lib/core.zsh (/dev/tty-guarded), wired into all 3 pickers (pick/_proj_pick_worktree_path/_flow_pick_project); refactored pick() to use it; tok completion gh/push/repos; regression guard rewritten 9/9
+- Fixed pre-existing `test-cc-wt` stale assertion (checked `cc help` not `cc wt help`) → 20/20 (c22e1721)
+- Full suite verified: 58/58 suites (1 expected IMAP timeout)
+- `/craft:docs:update`: CHANGELOG [Unreleased] (both files, mirrored) + CLAUDE.md Principle #5 → shared helper (17fb5a14)
+- **Released v7.8.0** (token auto-sync + fzf terminal-hygiene): bump (927ac591) → PR #453 → merged to main (2d21b136) → tag + GitHub release → docs deployed (site=v7.8.0) → Homebrew formula v7.8.0 → CI green on main → dev synced. All downstream verified.
 
 ## Previous Session (2026-06-02) — v7.7.1 shipped
 
