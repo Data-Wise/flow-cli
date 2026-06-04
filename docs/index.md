@@ -26,13 +26,12 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.6"
-    **Email polish:** `em --prompt` AI-guided composition, `--backend` provider override, `em forward`, help guards on all 34 em subcommands.
-    **Scholar Config Sync:** `teach config check/diff/show/scaffold`, `teach solution`, `teach sync`, `teach validate-r` — 4-layer config auto-injection.
-    **Docs overhaul:** 4 new dispatcher refcards (g, wt, dots, sec), stale version sweep, broken anchor fixes.
-    **53 test suites** passing (205 files, 12000+ assertions).
-    [→ Email Guide](guides/EMAIL-DISPATCHER-GUIDE.md){ .md-button }
-    [→ Scholar Guide](guides/SCHOLAR-INTEGRATION-GUIDE.md){ .md-button }
+!!! success "🎉 What's New in v7.8"
+    **Token auto-sync:** `tok sync push` / `tok sync repos` fan a token out to GitHub Actions secrets across repos (`gh secret set`) — confirm-once gate, OIDC "use Trusted Publishing" nudge, chezmoi-managed config. Auto-runs after `tok` create/rotate (`--no-sync` to opt out).
+    **Terminal hygiene fix:** a shared cleanup helper ends the garbled-prompt corruption when launching Claude via `cc wt pick` / `ccy` / `work`.
+    **58 test suites** passing (210 files, 12000+ assertions).
+    [→ Token Cookbook](guides/TOKEN-COOKBOOK.md){ .md-button }
+    [→ Tutorial: tok auto-sync](tutorials/47-tok-auto-sync.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
 
 ---
@@ -184,6 +183,16 @@ Choose your path based on what you need right now:
 
     [→ CLI Guide](guides/EMAIL-DISPATCHER-GUIDE.md) ·
     [→ Neovim Setup](guides/HIMALAYA-NVIM-SETUP.md)
+
+-   :key:{ .lg .middle }
+    **Tokens & Secrets**
+
+    ---
+
+    Auto-sync tokens to GitHub Actions secrets
+
+    [→ Token Cookbook](guides/TOKEN-COOKBOOK.md) ·
+    [→ Auto-sync Tutorial](tutorials/47-tok-auto-sync.md)
 
 -   :compass:{ .lg .middle }
     **Command Reference**
