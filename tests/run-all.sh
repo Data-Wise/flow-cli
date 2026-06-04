@@ -111,6 +111,7 @@ echo "Regression tests:"
 run_test ./tests/test-local-path-regression.zsh
 run_test ./tests/test-readonly-scope-regression.zsh
 run_test ./tests/test-terminal-hygiene-regression.zsh
+run_test ./tests/test-manpage-version-sync.zsh
 
 echo ""
 echo "Dogfooding tests:"

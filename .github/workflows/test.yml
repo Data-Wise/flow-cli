@@ -43,6 +43,12 @@ jobs:
           zsh ./tests/test-flow.zsh
           bash ./tests/test-install.sh
 
+      - name: Man-page version-sync guard
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          # Anti-drift: fail if any flow-cli man page .TH version != FLOW_VERSION
+          zsh ./tests/test-manpage-version-sync.zsh
+
       - name: Performance Summary
         if: always()
         run: |
