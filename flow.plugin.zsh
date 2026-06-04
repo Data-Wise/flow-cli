@@ -53,6 +53,7 @@ source "$FLOW_PLUGIN_DIR/lib/em-ai.zsh"
 source "$FLOW_PLUGIN_DIR/lib/em-render.zsh"
 source "$FLOW_PLUGIN_DIR/lib/em-ics.zsh"
 source "$FLOW_PLUGIN_DIR/lib/em-watch.zsh"
+source "$FLOW_PLUGIN_DIR/lib/tok-sync.zsh"
 
 # ============================================================================
 # COMMANDS

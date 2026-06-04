@@ -66,6 +66,8 @@ run_test ./tests/test-dot-chezmoi-safety.zsh
 run_test ./tests/test-em-dispatcher.zsh
 run_test ./tests/test-em-prompt-flag.zsh
 run_test ./tests/test-em-help-guards.zsh
+run_test ./tests/test-tok.zsh
+run_test ./tests/test-tok-sync.zsh
 
 echo ""
 echo "Core command tests:"
@@ -131,6 +133,7 @@ run_test ./tests/e2e-teach-doctor-v2.zsh
 run_test ./tests/e2e-em-dispatcher.zsh
 run_test ./tests/e2e-atlas-bridge.zsh
 run_test ./tests/e2e-scholar-config-sync.zsh
+run_test ./tests/e2e-tok-sync.zsh
 
 echo ""
 echo "Atlas contract tests:"

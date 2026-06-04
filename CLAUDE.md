@@ -194,7 +194,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 206 test files, 12000+ test functions
+├── tests/                    # 210 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```zsh
@@ -262,7 +262,7 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 
 ## Testing
 
-**206 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (54/54 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
+**210 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (58/58 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -290,7 +290,7 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.7.1 | **Tests:** 12000+ (54/54 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.7.1 | **Tests:** 12000+ (58/58 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
