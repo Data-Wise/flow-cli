@@ -78,32 +78,34 @@ release only. 6 existing pages frozen at 3.0.0; `scribe.1` is not ours.
       in `.github/workflows/test.yml`.
 - Committed: `3acd5e89 test(manpage): add version-sync anti-drift guard`.
 
-### Wave 2 — Man pages (subagent-driven, file-scoped clusters)
-Dispatch in parallel clusters (no shared files):
-- [ ] Cluster A: `flow.1` (index + dispatcher list + SEE ALSO) + update `g.1`,`r.1`,`qu.1`,`mcp.1`,`obs.1`
-- [ ] Cluster B: `tok.1` (full, incl. sync), `sec.1`, `dots.1`
-- [ ] Cluster C: `cc.1`, `wt.1`, `tm.1`, `v.1`, `prompt.1`
-- [ ] Cluster D: `teach.1`, `em.1`, `at.1`
-Each page: `.TH … "flow-cli 7.8.0" …`, NAME, SYNOPSIS, DESCRIPTION,
-COMMANDS, EXAMPLES, SEE ALSO, AUTHOR.
+### Wave 2 — Man pages (subagent-driven, file-scoped clusters) ✅
+Dispatched in parallel (4 subagents, no shared files — user-approved parallelism;
+agents wrote files only, controller committed centrally to avoid git index races):
+- [x] Cluster A: `flow.1` (SMART DISPATCHERS → all 15 + at; SEE ALSO) + `g.1`,`r.1`,`qu.1`,`mcp.1`,`obs.1`
+- [x] Cluster B: `tok.1` (sync push/repos/gh, --no-sync, FLOW_TOK_AUTOSYNC — all confirmed from source), `sec.1`, `dots.1`
+- [x] Cluster C: `cc.1`, `wt.1`, `tm.1`, `v.1`, `prompt.1`
+- [x] Cluster D: `teach.1` (13 .SS subsections), `em.1`, `at.1` (Atlas-optional + FLOW_ATLAS_ENABLED)
+All 17 flow-cli pages → `.TH … "flow-cli 7.8.0"`; render clean (mandoc exit 0);
+no ANSI/box-drawing leakage. Commit `fc97da84`.
 
-### Wave 3 — release.sh + install (Open Q3)
-- [ ] Add a `release.sh` step that seds `.TH` version on all `man/man1/*.1`
-      → `$VERSION` (so the guard is a backstop, not the primary path).
-- [ ] Ensure README/`setup/`/Brewfile install the new pages.
+### Wave 3 — release.sh + install (Open Q3) ✅
+- [x] `release.sh` seds `.TH` → `$VERSION` on flow-cli pages (scoped via
+      `"flow-cli X.Y.Z"` so scribe.1 is untouched). Commit `f24760aa`.
+- [x] Install verified — **no change needed**: Homebrew formula ships pages via
+      `man1.install Dir["man/man1/*"]` (glob); manual installs add `man/` to
+      MANPATH (setup/README.md). Both dir/glob-level → new pages auto-covered.
 
-### Wave 4 — Verify (verification-before-completion)
-- [ ] `tests/test-manpage-version-sync.zsh` → GREEN.
-- [ ] `./tests/run-all.sh` — report counts (new test file added → bump
-      counts in CLAUDE.md / TESTING.md / .STATUS).
-- [ ] `man -l man/man1/tok.1` (+ a few others) render clean.
-- [ ] `source flow.plugin.zsh` clean.
+### Wave 4 — Verify (verification-before-completion) ✅
+- [x] `tests/test-manpage-version-sync.zsh` → GREEN (6/6).
+- [x] `./tests/run-all.sh` → **59 passed, 0 failed, 1 expected timeout** (e2e-em).
+- [x] mandoc render-checked all 17 pages → exit 0.
+- [x] `source flow.plugin.zsh` clean.
 
-## Docs / counts
-- [ ] Update test-count refs (new guard test): CLAUDE.md tree+status,
-      TESTING.md, .STATUS.
-- [ ] CHANGELOG `[Unreleased]`: "Added — full man-page set (all 15
-      dispatchers) + man-page version-sync CI guard."
+## Docs / counts ✅
+- [x] Test-count refs bumped 210→211 files, 58/58→59/59 suites: CLAUDE.md
+      (tree, testing, status line), TESTING.md (suite line, footer), .STATUS.
+- [x] CHANGELOG `[Unreleased]` Added: full man-page set + version-sync CI guard.
+      Commit `ff4c6216`.
 
 ## Integration
 - [ ] `git fetch origin dev && git rebase origin/dev`
