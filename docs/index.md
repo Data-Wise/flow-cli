@@ -26,7 +26,7 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.8"
+!!! success "🎉 What's New in v7.8.1"
     **Token auto-sync:** `tok sync push` / `tok sync repos` fan a token out to GitHub Actions secrets across repos (`gh secret set`) — confirm-once gate, OIDC "use Trusted Publishing" nudge, chezmoi-managed config. Auto-runs after `tok` create/rotate (`--no-sync` to opt out).
     **Terminal hygiene fix:** a shared cleanup helper ends the garbled-prompt corruption when launching Claude via `cc wt pick` / `ccy` / `work`.
     **59 test suites** passing (211 files, 12000+ assertions).
