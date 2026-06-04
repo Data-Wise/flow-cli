@@ -165,6 +165,8 @@ flow-cli/
 
 → Dispatcher template + patterns: [`docs/reference/MASTER-DISPATCHER-GUIDE.md`](docs/reference/MASTER-DISPATCHER-GUIDE.md)
 
+**New dispatcher = new man page:** add `man/man1/<cmd>.1` (model `g.1`); the guard `tests/test-manpage-version-sync.zsh` fails CI on a missing page or `.TH` version drift. Details: [`ZSH-COMMANDS-HELP.md`](docs/internal/conventions/code/ZSH-COMMANDS-HELP.md) (Man Pages).
+
 ---
 
 ## Architecture Principles
