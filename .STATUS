@@ -27,6 +27,8 @@
 - Full suite verified: 58/58 suites (1 expected IMAP timeout)
 - `/craft:docs:update`: CHANGELOG [Unreleased] (both files, mirrored) + CLAUDE.md Principle #5 → shared helper (17fb5a14)
 - **Released v7.8.0** (token auto-sync + fzf terminal-hygiene): bump (927ac591) → PR #453 → merged to main (2d21b136) → tag + GitHub release → docs deployed (site=v7.8.0) → Homebrew formula v7.8.0 → CI green on main → dev synced. All downstream verified.
+- Drove man-page refresh to done (parallel worktree session): reviewed PR #454 (guard 12/12, tok.1 complete, CLAUDE.md opt preserved), fixed docs/CHANGELOG mirror drift, merged → dev (eb1ac050), cleaned worktree+branch
+- **Released v7.8.1** (full man-page set all 15+at + version-sync CI guard): release.sh auto-bumped .TH (guard stayed 12/12) → CHANGELOG [7.8.1] both mirrored → 47-file doc footer sweep → PR #455 → merged main (3a5dccf9) → GitHub release → docs deployed (site=v7.8.1 confirmed) → Homebrew formula v7.8.1 → CI green. All downstream verified.
 
 ## Previous Session (2026-06-02) — v7.7.1 shipped
 
