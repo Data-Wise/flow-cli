@@ -301,7 +301,8 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | synced — tok auto-sync merged (93ee5edd) |
+| Main repo | `dev` | v7.8.0 released; index/QUICK-REF refreshed |
+| `~/.git-worktrees/flow-cli/manpage-refresh` | `feature/manpage-refresh` | ORCHESTRATE committed (f0d4f378) — man-page full refresh, awaiting impl in new session |
 
 ---
 
