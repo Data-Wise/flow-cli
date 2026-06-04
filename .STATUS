@@ -9,7 +9,18 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-03) — tok auto-sync spec + craft drive spec
+## Current Session (2026-06-04) — post-release docs polish + Node 20 CI fix
+
+**Session activity:**
+- Audited `docs/index.md` admonition boxes against v7.8.1 — all accurate (links/assets resolve, counts match `.STATUS`); bumped "What's New" header v7.8 → v7.8.1 (944f1617)
+- **PR #456** (dev→main docs + housekeeping sync: index header, .STATUS, dropped unused eslint devDeps, lockfile regen) → CI green → merged main → CI Tests + Deploy Documentation both ✅ (site v7.8.1 live)
+- Fixed stale auto-memory `MEMORY.md` test counts: 58/58 → 59/59 suites, 210 → 211 files, v7.8.0 → v7.8.1 (verified vs live tree)
+- Confirmed `.STATUS` current-state counts already correct — only `58/58`-type figures are frozen historical log entries (left as-is per convention)
+- Root-caused Node 20 CI deprecation: `awalsh128/cache-apt-pkgs-action` pulled in deprecated `actions/cache/restore@v4` (Node.js 20, removed Sept 2026) to cache `zsh` — already preinstalled on `ubuntu-latest`
+- **Fixed at root** (148e257a): replaced caching step in `test.yml` with preinstall-aware `command -v zsh ||` install guard — drops a third-party action, no Node-24 opt-in flag needed; verified green on dev (`Ensure zsh is installed` ✅, no warning)
+- **PR #457** (dev→main CI fix) → CI CLEAN → merged main → main CI green (sha 37779584), `Ensure zsh is installed` success → dev re-synced (0 ahead)
+
+## Previous Session (2026-06-03) — tok auto-sync spec + craft drive spec
 
 **Session activity:**
 - Brainstormed `tok` auto-sync to GitHub Actions secrets (create/rotate → fan out APP_ID/APP_PRIVATE_KEY to tap-caller repos; chezmoi-managed flat config; OIDC nudge)
