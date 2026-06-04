@@ -8,11 +8,34 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.8.0] — 2026-06-04 — token auto-sync + fzf terminal-hygiene
+
 ### Added
 
+- **`tok sync` — auto-sync tokens to GitHub Actions secrets** (#452) — after
+  `tok github`/`npm`/`pypi`, `tok rotate`, or `tok <name> --refresh`, fan a token
+  out to mapped repo Actions secrets via `gh secret set` (stdin only — never
+  argv). New `tok sync push <name>` and `tok sync repos <name>` (dry-run inspect);
+  chezmoi-managed flat config `~/.config/flow/tok-sync.conf`; OIDC-flagged targets
+  get a Trusted-Publishing recommendation instead of a push; confirm-once gate;
+  `--no-sync` flag / `FLOW_TOK_AUTOSYNC=0` disable the auto-hook.
 - **Regression guard `tests/test-terminal-hygiene-regression.zsh`** — source-scan
-  test locking in the v7.7.1 terminal-handoff fixes (pick post-fzf cleanup + iTerm2
-  TERM_PROGRAM gating) so they can't silently regress.
+  test locking in the terminal-handoff fixes; rewritten to assert the shared
+  `_flow_tty_handoff_cleanup` helper plus that all three fzf pickers call it after
+  their picker, so a new uncleaned picker can't silently regress.
+
+### Fixed
+
+- **fzf→exec terminal corruption on `cc wt pick` / `ccy wt pick` / `work` + `ccy`**
+  — the v7.7.1 cleanup lived only in `pick()`; the worktree picker
+  (`_proj_pick_worktree_path`) and project picker (`_flow_pick_project`) still
+  handed off to Claude with an uncleaned terminal, reintroducing the garbled-prompt
+  corruption. Extracted `_flow_tty_handoff_cleanup` into `lib/core.zsh` (guards on
+  `/dev/tty`, **not** stdout — these pickers are command-substituted, so a
+  `[[ -t 1 ]]` guard would silently skip) and call it from all three pickers;
+  refactored `pick()`'s inline block to use the shared helper.
+- **`tok sync` shell completion** now offers `gh`/`push`/`repos` (was stale —
+  listed only `github`).
 
 ---
 

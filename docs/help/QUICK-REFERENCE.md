@@ -641,10 +641,33 @@ tok rotate github
 tok refresh github
 # Output: [Token refresh workflow]
 
+# Fan out token to mapped GitHub Actions secrets (confirm once)
+tok sync push github-app
+# Output: [Lists repo : secret targets, [y/N] default N, writes via gh]
+
+# Dry inspect: show planned targets + OIDC notes, no writes
+tok sync repos github-app
+# Output: [Planned repo : secret targets and OIDC notes]
+
+# GitHub CLI auth (unchanged)
+tok sync gh
+
+# Disable auto-sync for one invocation
+tok rotate github --no-sync
+# Or session-wide: export FLOW_TOK_AUTOSYNC=0
+
 # Show help
 tok help
 # Output: [Token dispatcher help]
 ```
+
+Auto-sync hook fires after `tok github|npm|pypi`, `tok rotate`, and
+`tok <name> --refresh` when the token has targets in
+`~/.config/flow/tok-sync.conf` (chezmoi-managed; override via
+`FLOW_TOK_SYNC_CONF`). It lists targets and confirms once before pushing.
+OIDC-flagged rows are never pushed. See the
+[tok Dispatcher guide](../reference/MASTER-DISPATCHER-GUIDE.md#tok-dispatcher)
+for the config format.
 
 ---
 

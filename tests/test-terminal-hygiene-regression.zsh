@@ -1,25 +1,31 @@
 #!/usr/bin/env zsh
-# test-terminal-hygiene-regression.zsh - Regression guard for v7.7.1 terminal-handoff fixes
+# test-terminal-hygiene-regression.zsh - Regression guard for terminal-handoff fixes
 #
-# Two fixes ship in v7.7.1, both about not corrupting the terminal on handoff:
+# Three fixes are guarded here, all about not corrupting the terminal on handoff:
 #
-#  1. pick (commands/pick.zsh): after fzf, reset focus/mouse/paste modes and drain
-#     stray query responses before returning, so the next TUI (Claude Code via
-#     cc/ccy/work) inherits a clean terminal. The cleanup is TTY-guarded and writes
-#     to /dev/tty — so it CANNOT be tested by capturing stdout. We assert the
-#     source-level invariant instead (the cleanup exists, complete, correctly placed).
+#  1. Shared helper _flow_tty_handoff_cleanup (lib/core.zsh): resets focus/mouse/
+#     paste modes and drains stray query responses before any fzf->exec handoff,
+#     so the next TUI (Claude Code via cc/ccy/work) inherits a clean terminal.
+#     It guards on /dev/tty (NOT stdout `[[ -t 1 ]]`) so it works even when the
+#     caller captures stdout in command substitution.
 #
-#  2. zsh/.zshrc: iTerm2 shell integration + context-switcher are gated behind
-#     TERM_PROGRAM == "iTerm.app" so they don't leak OSC 1337 under Ghostty et al.
+#  2. All THREE fzf pickers that hand off to an interactive program call the
+#     helper after their fzf call:
+#       - pick()                    (commands/pick.zsh)   — pick/pick wt
+#       - _proj_pick_worktree_path  (commands/pick.zsh)   — cc wt pick / ccy wt pick
+#       - _flow_pick_project        (lib/tui.zsh)         — work / work -e ccy
+#     (The original v7.7.1 fix patched only pick(); _proj_pick_worktree_path and
+#     _flow_pick_project were uncleaned — see SPEC-fzf-handoff-hygiene.)
+#
+#  3. zsh/.zshrc: iTerm2 shell integration gated behind TERM_PROGRAM == iTerm.app
+#     so it doesn't leak OSC 1337 under Ghostty et al.
 #
 # Standalone harness (no test-framework.zsh) is deliberate and consistent with the
-# sibling source-scan guards (test-readonly-scope-regression, test-local-path-
-# regression): these assert source invariants with grep/awk, not runtime behavior,
-# so the shared assert_* helpers add no value. The harness avoids the function
-# names (pass/fail/log_test) flagged by dogfood-test-quality.zsh's inline-framework
-# check by design — run_test is intentionally distinct.
+# sibling source-scan guards: these assert source invariants with grep/awk, not
+# runtime behavior (the cleanup writes to /dev/tty and cannot be captured via
+# stdout). run_test is intentionally distinct from pass/fail/log_test to avoid
+# dogfood-test-quality.zsh's inline-framework check.
 #
-# See: d4ced8b5 (pick fix), 92406b49 (iTerm2 gating), CHANGELOG [7.7.1].
 # Usage: zsh tests/test-terminal-hygiene-regression.zsh
 
 SCRIPT_DIR="${0:A:h}"
@@ -43,62 +49,81 @@ run_test() {
     fi
 }
 
+CORE="$PROJECT_ROOT/lib/core.zsh"
 PICK="$PROJECT_ROOT/commands/pick.zsh"
+TUI="$PROJECT_ROOT/lib/tui.zsh"
 ZSHRC="$PROJECT_ROOT/zsh/.zshrc"
 
-# Isolate just the post-fzf cleanup region. Anchor on CODE landmarks, not prose:
-# the block runs from `fzf_exit=` (captured right after the fzf call) to the
-# `rm -f "$tmpfile"` teardown. A comment reword can't blank the extraction.
-_cleanup_block() {
-    awk '/fzf_exit=/{f=1} f{print} /rm -f "\$tmpfile"/{if(f)exit}' "$PICK"
+# Extract a function body: from `name() {` to the first `}` at column 0.
+_func_body() {
+    local file="$1" fn="$2"
+    awk -v fn="$fn" '
+        $0 ~ "^" fn "\\(\\) *\\{" {f=1}
+        f {print}
+        f && /^\}/ {exit}
+    ' "$file"
 }
 
-# ── 1. pick cleanup present & correct ───────────────────────────────────────
+# ── 1. shared helper present & complete ─────────────────────────────────────
 
-run_test "all 6 terminal reset modes present" '
-    block=$(_cleanup_block)
+run_test "_flow_tty_handoff_cleanup defined in lib/core.zsh" '
+    _func_body "$CORE" "_flow_tty_handoff_cleanup" | grep -q . \
+        || { echo "helper not found in lib/core.zsh"; exit 1; }
+'
+
+run_test "helper resets all 6 terminal modes" '
+    body=$(_func_body "$CORE" "_flow_tty_handoff_cleanup")
     for code in 1004 1000 1002 1003 1006 2004; do
-        echo "$block" | grep -q "?${code}l" || { echo "missing reset mode $code"; exit 1; }
+        echo "$body" | grep -q "?${code}l" || { echo "missing reset mode $code"; exit 1; }
     done
 '
 
-run_test "cleanup is TTY-guarded (never fires into a pipe)" '
-    _cleanup_block | grep -qE "\[\[ -t 1 \]\]" || { echo "cleanup not guarded by [[ -t 1 ]]"; exit 1; }
+run_test "helper guards on /dev/tty, NOT stdout [[ -t 1 ]]" '
+    body=$(_func_body "$CORE" "_flow_tty_handoff_cleanup")
+    echo "$body" | grep -q "/dev/tty" || { echo "helper does not reference /dev/tty"; exit 1; }
+    echo "$body" | grep -qE "\[\[ -t 1 \]\]" && { echo "helper wrongly guards on stdout [[ -t 1 ]]"; exit 1; }
+    exit 0
 '
 
-run_test "reset is written to /dev/tty, not stdout" '
-    _cleanup_block | grep -q "printf .*> */dev/tty" || { echo "reset not directed to /dev/tty"; exit 1; }
-'
-
-# Task 2 — assert the input-drain loop is present and reads from /dev/tty.
-# Real line: while read -t 0.05 -k 1 _flow_discard 2>/dev/null; do : ; done < /dev/tty
-# Match the INVARIANT (timed read loop draining from /dev/tty), not the exact
-# timeout value — a hard-match on -t 0.05 would false-alarm on a harmless tune,
-# while a bare `grep read` would let a regression that drops `< /dev/tty` slip by.
-run_test "input-drain loop reads from /dev/tty" '
-    block=$(_cleanup_block)
-    echo "$block" | grep -qE "while[[:space:]]+read[[:space:]].*-t[[:space:]]" \
-        || { echo "no timed read loop found"; exit 1; }
-    echo "$block" | grep -qE "done[[:space:]]*<[[:space:]]*/dev/tty" \
+run_test "helper drains pending input from /dev/tty" '
+    body=$(_func_body "$CORE" "_flow_tty_handoff_cleanup")
+    echo "$body" | grep -qE "while[[:space:]]+read[[:space:]].*-t[[:space:]]" \
+        || { echo "no timed read drain loop"; exit 1; }
+    echo "$body" | grep -qE "done[[:space:]]*<[[:space:]]*/dev/tty" \
         || { echo "drain loop does not read from /dev/tty"; exit 1; }
 '
 
-# Both landmarks are CODE, not comments: the fzf exit capture (`fzf_exit=`) and the
-# reset escape sequence (`2004l`, bracketed-paste off — unique to the reset printf).
-run_test "cleanup appears AFTER the fzf call (ordering invariant)" '
-    fzf_line=$(grep -n "fzf_exit=" "$PICK" | head -1 | cut -d: -f1)
-    clean_line=$(grep -n "2004l" "$PICK" | head -1 | cut -d: -f1)
-    [[ -n "$fzf_line" && -n "$clean_line" && "$clean_line" -gt "$fzf_line" ]] \
-        || { echo "reset ($clean_line) not after fzf ($fzf_line)"; exit 1; }
+# ── 2. all three pickers call the helper after fzf ──────────────────────────
+
+# Assert, within a function body, that a call to the helper appears AFTER an fzf
+# invocation (the ordering invariant — cleanup must follow the picker).
+_calls_helper_after_fzf() {
+    local file="$1" fn="$2"
+    local body; body=$(_func_body "$file" "$fn")
+    local fzf_ln helper_ln
+    fzf_ln=$(echo "$body" | grep -nE '(\| *fzf|=.*\$\(.*fzf| fzf )' | head -1 | cut -d: -f1)
+    helper_ln=$(echo "$body" | grep -n '_flow_tty_handoff_cleanup' | head -1 | cut -d: -f1)
+    [[ -n "$fzf_ln" && -n "$helper_ln" && "$helper_ln" -gt "$fzf_ln" ]]
+}
+
+run_test "pick() calls helper after fzf" '
+    _calls_helper_after_fzf "$PICK" "pick" || { echo "pick() missing post-fzf helper call"; exit 1; }
 '
 
-# ── 2. iTerm2 gating in zsh/.zshrc ──────────────────────────────────────────
+run_test "_proj_pick_worktree_path calls helper after fzf (cc wt pick / ccy)" '
+    _calls_helper_after_fzf "$PICK" "_proj_pick_worktree_path" \
+        || { echo "_proj_pick_worktree_path missing post-fzf helper call"; exit 1; }
+'
+
+run_test "_flow_pick_project calls helper after fzf (work / work -e ccy)" '
+    _calls_helper_after_fzf "$TUI" "_flow_pick_project" \
+        || { echo "_flow_pick_project missing post-fzf helper call"; exit 1; }
+'
+
+# ── 3. iTerm2 gating in zsh/.zshrc ──────────────────────────────────────────
 
 run_test "every iTerm2 source line is gated by TERM_PROGRAM" '
     [[ -f "$ZSHRC" ]] || { echo "zsh/.zshrc not found"; exit 1; }
-    # A source/test-e of an iTerm2 integration file is gated if TERM_PROGRAM
-    # appears either on that line OR on the immediately preceding line (the
-    # codebase uses both an inline gate and a [[ ... ]] && \ continuation gate).
     awk '"'"'
         /(source|test -e).*iterm2.*[Ii]ntegration/ {
             total++
@@ -124,6 +149,6 @@ if [[ $TESTS_FAILED -eq 0 ]]; then
     echo "${GREEN}All $TESTS_PASSED/$TESTS_RUN regression tests passed${RESET}"; exit 0
 else
     echo "${RED}$TESTS_FAILED/$TESTS_RUN tests failed${RESET}"
-    echo "${YELLOW}These guard the v7.7.1 terminal-handoff fixes — see CHANGELOG [7.7.1].${RESET}"
+    echo "${YELLOW}These guard the fzf->exec terminal-handoff fixes — see SPEC-fzf-handoff-hygiene.${RESET}"
     exit 1
 fi

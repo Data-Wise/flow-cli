@@ -46,7 +46,9 @@ _tok() {
           if [[ ${#line[@]} -eq 1 ]]; then
             local -a sync_targets
             sync_targets=(
-              'github:Sync tokens to GitHub secrets'
+              'gh:Authenticate gh CLI with stored token'
+              'push:Fan out token to GitHub Actions secrets'
+              'repos:Dry run — list planned sync targets'
             )
             _describe -t targets 'sync target' sync_targets
           fi

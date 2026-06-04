@@ -379,6 +379,35 @@ test_tok_dispatcher() {
   else
     test_fail "_tok_doctor not found"
   fi
+
+  # --- Auto-sync surface (config-driven fan-out) ---
+  test_start "_tok_sync_push function exists"
+  if assert_function_exists "_tok_sync_push"; then
+    test_pass
+  else
+    test_fail "_tok_sync_push not found"
+  fi
+
+  test_start "_tok_sync_repos function exists"
+  if assert_function_exists "_tok_sync_repos"; then
+    test_pass
+  else
+    test_fail "_tok_sync_repos not found"
+  fi
+
+  test_start "_tok_autosync_hook function exists"
+  if assert_function_exists "_tok_autosync_hook"; then
+    test_pass
+  else
+    test_fail "_tok_autosync_hook not found"
+  fi
+
+  test_start "tok help mentions sync + --no-sync"
+  if assert_contains "$output" "sync" && assert_contains "$output" "--no-sync"; then
+    test_pass
+  else
+    test_fail "tok help missing sync / --no-sync"
+  fi
 }
 
 # ============================================================================

@@ -1,0 +1,31 @@
+# tok-sync.conf — token → GitHub Actions secrets mapping (EXAMPLE)
+#
+# Copy this file to ~/.config/flow/tok-sync.conf (chezmoi-managed so it
+# syncs across machines). Override the path with FLOW_TOK_SYNC_CONF.
+#
+# Format (flat, whitespace-delimited — this file is NEVER sourced):
+#   <token-name>  <secret-name>  <owner/repo>  [oidc]
+#
+# - Blank lines and lines starting with '#' are ignored.
+# - One row per (secret, repo) pair. List a token-name on multiple rows
+#   to fan it out to several secrets and/or repos.
+# - The optional trailing `oidc` flag marks a row as OIDC-capable: tok
+#   NEVER pushes those rows. Instead it prints a note recommending GitHub
+#   Trusted Publishing — add `permissions: id-token: write` and use
+#   `pypa/gh-action-pypi-publish` so the token secret can be dropped.
+#
+# Auto-sync runs after a successful `tok github|npm|pypi`, `tok rotate`,
+# or `tok <name> --refresh` (lists targets, confirms once [y/N], default N).
+# Disable per-call with `--no-sync`, or session-wide with FLOW_TOK_AUTOSYNC=0.
+# Manual fan-out: `tok sync push <name>`. Dry inspect: `tok sync repos <name>`.
+
+# <token-name>  <secret-name>     <owner/repo>     [oidc]
+github-app       APP_ID            data-wise/flow-cli
+github-app       APP_PRIVATE_KEY   data-wise/flow-cli
+github-app       APP_ID            data-wise/aiterm
+github-app       APP_PRIVATE_KEY   data-wise/aiterm
+github-app       APP_ID            data-wise/examark
+github-app       APP_PRIVATE_KEY   data-wise/examark
+github-app       APP_ID            data-wise/nexus-cli
+github-app       APP_PRIVATE_KEY   data-wise/nexus-cli
+pypi             PYPI_TOKEN        data-wise/nexus-cli   oidc

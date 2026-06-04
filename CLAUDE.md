@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.7.1
+- **Current Version:** v7.8.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
@@ -194,7 +194,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 206 test files, 12000+ test functions
+├── tests/                    # 210 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```zsh
@@ -256,13 +256,13 @@ Update: `MASTER-DISPATCHER-GUIDE.md`, `QUICK-REFERENCE.md`, `mkdocs.yml`
 2. **ADHD-Friendly** - Discoverable (built-in help), consistent patterns, smart defaults, fast (cached scanning)
 3. **Dispatcher Pattern** - `command + keyword + options` (e.g., `r test`, `g push`, `teach exam "Topic"`)
 4. **Optional Enhancement** - Atlas integration is optional; graceful degradation (see [`docs/ATLAS-CONTRACT.md`](docs/ATLAS-CONTRACT.md) for API contract)
-5. **Terminal hygiene on handoff** - Any command that runs an interactive TUI (fzf, etc.) and then execs/launches another program (e.g. `pick` → `claude`) MUST restore terminal state first: reset focus-reporting/mouse modes (`\e[?1004l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?2004l`) and drain pending input before handing off. Otherwise the next TUI inherits enabled modes + stray query responses → garbled characters and broken input. See `pick`'s post-fzf cleanup (`commands/pick.zsh`).
+5. **Terminal hygiene on handoff** - Any command that runs an interactive TUI (fzf, etc.) and then execs/launches another program (e.g. `pick` → `claude`) MUST restore terminal state first: reset focus-reporting/mouse modes (`\e[?1004l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?2004l`) and drain pending input before handing off. Otherwise the next TUI inherits enabled modes + stray query responses → garbled characters and broken input. Use the shared helper **`_flow_tty_handoff_cleanup`** (`lib/core.zsh`) after every fzf call — it guards on `/dev/tty` (not stdout `[[ -t 1 ]]`, which is false when the picker's output is command-substituted). All three pickers call it: `pick()`, `_proj_pick_worktree_path` (`cc wt pick`/`ccy`), and `_flow_pick_project` (`work`). The regression guard `tests/test-terminal-hygiene-regression.zsh` enforces that any new fzf→exec picker calls it.
 
 ---
 
 ## Testing
 
-**206 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (54/54 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
+**210 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (58/58 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -290,8 +290,8 @@ export FLOW_DEBUG=1                          # Debug mode
 
 ## Current Status
 
-**Version:** v7.7.1 | **Tests:** 12000+ (54/54 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.8.0 | **Tests:** 12000+ (58/58 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-06-01 (v7.7.1)
+**Last Updated:** 2026-06-04 (v7.8.0)

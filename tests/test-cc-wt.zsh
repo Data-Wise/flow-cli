@@ -299,13 +299,15 @@ test_cc_help_shows_wt_commands() {
 }
 
 test_cc_help_shows_worktree_aliases() {
-    test_case "cc help shows worktree aliases"
+    test_case "cc wt help shows worktree aliases"
     local output
-    output=$(cc help 2>&1)
+    # Aliases (ccw/ccwp/ccwy) are documented in the worktree help
+    # (_cc_worktree_help), not the top-level cc help.
+    output=$(cc wt help 2>&1)
     if [[ "$output" == *"ccw"* ]]; then
         test_pass
     else
-        test_fail "cc help should show worktree aliases"
+        test_fail "cc wt help should show worktree aliases"
     fi
 }
 

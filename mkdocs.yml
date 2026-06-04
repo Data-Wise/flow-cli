@@ -133,6 +133,7 @@ nav:
           - 9. Worktrees: tutorials/09-worktrees.md
           - 22. Plugin Optimization: tutorials/22-plugin-optimization.md
           - 23. Token Automation: tutorials/23-token-automation.md
+          - 47. Token Auto-Sync: tutorials/47-tok-auto-sync.md
       - Dispatchers:
           - 10. CC Dispatcher: tutorials/10-cc-dispatcher.md
           - 11. TM Dispatcher: tutorials/11-tm-dispatcher.md
@@ -251,6 +252,7 @@ nav:
           - 🔗 Atlas Integration: guides/ATLAS-INTEGRATION-GUIDE.md
           - 🔌 ZSH Plugin Ecosystem: guides/ZSH-PLUGIN-ECOSYSTEM-GUIDE.md
           - 🔐 Token Management: guides/TOKEN-MANAGEMENT-COMPLETE.md
+          - 📓 Token Cookbook: guides/TOKEN-COOKBOOK.md
           - 🩺 Doctor Token Guide: guides/DOCTOR-TOKEN-USER-GUIDE.md
           - 🚀 Quarto Workflow Phase 2: guides/QUARTO-WORKFLOW-PHASE-2-GUIDE.md
           - 🔍 Lint Validation:
