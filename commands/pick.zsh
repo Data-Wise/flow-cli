@@ -515,6 +515,11 @@ _proj_pick_worktree_path() {
         --header="🌳 Select worktree (Enter=select, Esc=cancel)" \
         --preview-window=hidden)
 
+    # Clean terminal handoff: this picker feeds cc wt pick / ccy wt pick, which
+    # exec into Claude. stdout is captured by command substitution, so the helper
+    # (guarded on /dev/tty, not stdout) is required here.
+    _flow_tty_handoff_cleanup
+
     /bin/rm -f "$tmpfile"
 
     if [[ -z "$selection" ]]; then
@@ -1156,15 +1161,9 @@ ${_C_BLUE}ALIASES${_C_NC}:
 
     local fzf_exit=$?
 
-    # Clean terminal handoff after fzf. fzf (esp. --height mode) can leave
-    # focus-reporting/mouse modes enabled and stray terminal-query responses
-    # in the input buffer; the next TUI (e.g. Claude Code) then inherits them
-    # as garbled characters and broken input. Reset those modes and drain any
-    # pending input before pick returns.
-    if [[ -t 1 ]]; then
-        printf '\e[?1004l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?2004l' > /dev/tty
-        while read -t 0.05 -k 1 _flow_discard 2>/dev/null; do : ; done < /dev/tty
-    fi
+    # Clean terminal handoff after fzf before the next TUI (Claude Code via
+    # cc/ccy/work) inherits focus/mouse modes + stray query responses.
+    _flow_tty_handoff_cleanup
 
     rm -f "$tmpfile"
 

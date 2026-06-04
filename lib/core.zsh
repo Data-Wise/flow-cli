@@ -818,3 +818,24 @@ _flow_timeout() {
   # NOTE: This is safe - better to complete slowly than fail
   "$@"
 }
+
+# ============================================================================
+# TERMINAL HYGIENE
+# ============================================================================
+# Restore terminal state after an fzf/TUI handoff. fzf (esp. --height mode) can
+# leave focus-reporting/mouse/bracketed-paste modes enabled and stray
+# terminal-query responses in the input buffer; the next TUI (e.g. Claude Code
+# via cc/ccy/work) then inherits them as garbled characters and broken input.
+#
+# Guards on /dev/tty — NOT stdout (`[[ -t 1 ]]`). Most callers run this inside
+# command substitution (e.g. `sel=$(_proj_pick_worktree_path)`), so their stdout
+# is a pipe and a stdout guard would silently skip the cleanup. The reset is
+# written to and the drain reads from /dev/tty regardless of where stdout points.
+#
+# Single source of truth: pick(), _proj_pick_worktree_path, and _flow_pick_project
+# all call this after their fzf invocation. See SPEC-fzf-handoff-hygiene.
+_flow_tty_handoff_cleanup() {
+    [[ -e /dev/tty ]] || return 0
+    printf '\e[?1004l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?2004l' > /dev/tty
+    while read -t 0.05 -k 1 _flow_discard 2>/dev/null; do : ; done < /dev/tty
+}

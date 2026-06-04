@@ -295,13 +295,20 @@ _flow_pick_project() {
 
   local projects=$(_flow_list_projects)
 
-  echo "$projects" | fzf \
+  local _flow_picked
+  _flow_picked=$(echo "$projects" | fzf \
     --header="🎯 Select Project" \
     --preview="_flow_show_project_preview {}" \
     --preview-window=right:50%:wrap \
     --height=40% \
     --layout=reverse \
-    --border
+    --border)
+
+  # Clean terminal handoff: this picker feeds `work`/`work -e ccy`, which exec
+  # into Claude. stdout is captured by the caller, so guard on /dev/tty.
+  _flow_tty_handoff_cleanup
+
+  print -r -- "$_flow_picked"
 }
 
 # =============================================================================
