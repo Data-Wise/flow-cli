@@ -71,8 +71,44 @@ if [[ "$FLOW_LOAD_DISPATCHERS" == "yes" ]]; then
   # Disable ZSH builtin 'r' (history repeat) to allow R dispatcher
   disable r
 
+  # Commands flow-cli deliberately provides even when a PATH binary of the
+  # same name exists (e.g. `cc` launches Claude Code, not the C compiler;
+  # `r` is the R-package dispatcher, not Homebrew's R launcher). Pre-set
+  # FLOW_INTENTIONAL_SHADOWS before sourcing the plugin to customize.
+  if (( ! ${+FLOW_INTENTIONAL_SHADOWS} )); then
+    typeset -ga FLOW_INTENTIONAL_SHADOWS=(r mcp cc)
+  fi
+
+  # Binary-precedence guard (B3): after sourcing a dispatcher, drop any
+  # newly-defined command function that would shadow an external PATH binary
+  # — unless it's an intentional shadow (above) or forced via
+  # FLOW_FORCE_DISPATCHER_<NAME>=1. Stops a broken dispatcher (historically
+  # `obs`, which needed a Python CLI flow-cli never shipped) from masking a
+  # working binary. Keys on the functions a file actually defines, so it
+  # needs no filename convention and skips `_`-prefixed helpers automatically.
+  _flow_load_dispatcher() {
+    local file="$1"
+    local -a _before _after _new
+    _before=( ${(k)functions} )
+    source "$file"
+    _after=( ${(k)functions} )
+    _new=( ${_after:|_before} )
+
+    local fn bin force
+    for fn in $_new; do
+      [[ "$fn" == _* ]] && continue                            # internal helper
+      (( ${FLOW_INTENTIONAL_SHADOWS[(Ie)$fn]} )) && continue   # deliberate shadow
+      force="FLOW_FORCE_DISPATCHER_${fn:u}"
+      [[ -n "${(P)force}" ]] && continue                       # explicit override
+      bin=$(whence -p "$fn" 2>/dev/null) || continue           # no PATH binary
+      [[ -n "$FLOW_DEBUG" ]] && \
+        print -ru2 -- "flow: dispatcher '$fn' shadows $bin — skipped (set $force=1 or add to FLOW_INTENTIONAL_SHADOWS to keep)"
+      unfunction "$fn"
+    done
+  }
+
   for disp_file in "$FLOW_PLUGIN_DIR/lib/dispatchers/"*.zsh(N); do
-    source "$disp_file"
+    _flow_load_dispatcher "$disp_file"
   done
 fi
 
