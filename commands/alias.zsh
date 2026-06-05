@@ -141,8 +141,8 @@ _flow_alias_show_all() {
   echo "  ${FLOW_COLORS[muted]}cat → bat (syntax highlighting)${FLOW_COLORS[reset]}"
   echo ""
 
-  echo "${FLOW_COLORS[success]}🎯 Dispatchers${FLOW_COLORS[reset]} (8 smart functions)"
-  echo "  ${FLOW_COLORS[muted]}g, cc, wt, mcp, r, qu, obs, tm${FLOW_COLORS[reset]}"
+  echo "${FLOW_COLORS[success]}🎯 Dispatchers${FLOW_COLORS[reset]} (7 smart functions)"
+  echo "  ${FLOW_COLORS[muted]}g, cc, wt, mcp, r, qu, tm${FLOW_COLORS[reset]}"
   echo "  ${FLOW_COLORS[cmd]}flow alias dispatchers${FLOW_COLORS[reset]} for full list"
   echo ""
 

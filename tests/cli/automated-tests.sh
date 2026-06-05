@@ -291,7 +291,7 @@ fi
 log_section "Dispatchers"
 
 # Test: Dispatcher files exist
-for dispatcher in g mcp obs qu r cc; do
+for dispatcher in g mcp qu r cc; do
     # All dispatchers in lib/dispatchers/
     if [[ -f "$FLOW_CLI_DIR/lib/dispatchers/${dispatcher}-dispatcher.zsh" ]] || \
        [[ -f "$FLOW_CLI_DIR/lib/dispatchers/${dispatcher}.zsh" ]]; then
@@ -302,7 +302,7 @@ for dispatcher in g mcp obs qu r cc; do
 done
 
 # Test: Dispatcher functions defined
-for dispatcher in g mcp obs qu r cc; do
+for dispatcher in g mcp qu r cc; do
     if zsh -c "source '$FLOW_CLI_DIR/flow.plugin.zsh' && typeset -f $dispatcher >/dev/null" 2>/dev/null; then
         log_pass "$dispatcher() function is defined"
     else

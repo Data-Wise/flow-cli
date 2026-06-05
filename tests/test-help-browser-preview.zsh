@@ -52,8 +52,8 @@ test_preview_dispatcher() {
 }
 
 test_preview_all_dispatchers() {
-  echo -n "Test: Preview works for all dispatchers (g,cc,wt,mcp,r,qu,obs,tm)... "
-  local dispatchers=(g cc wt mcp r qu obs tm)
+  echo -n "Test: Preview works for all dispatchers (g,cc,wt,mcp,r,qu,tm)... "
+  local dispatchers=(g cc wt mcp r qu tm)
   local failed_dispatchers=()
 
   for dispatcher in "${dispatchers[@]}"; do

@@ -21,7 +21,7 @@ FLOW_PLUGIN_DIR=${0:A:h}
 
 # Feature flags
 : ${FLOW_ATLAS_ENABLED:=auto}       # auto|yes|no
-: ${FLOW_LOAD_DISPATCHERS:=yes}     # Load v, g, mcp, obs dispatchers
+: ${FLOW_LOAD_DISPATCHERS:=yes}     # Load v, g, mcp dispatchers
 
 # ============================================================================
 # CORE LIBRARY
