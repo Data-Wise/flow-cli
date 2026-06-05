@@ -37,7 +37,8 @@ This is a **general hazard**: any dispatcher whose name collides with an install
 - [ ] flow-cli no longer defines a broken `obs` that errors `Python CLI not found`.
 - [ ] Other dispatchers (`v`, `g`, `mcp`, `r`, `qu`, …) are unaffected.
 - [ ] No `unfunction obs` workaround required in the user's `~/.config/zsh/.zshrc`.
-- [ ] Docs/man-page reflect that `obs` is provided by **obsidian-cli-ops**, not flow-cli (coordinate with `SPEC-manpage-refresh-2026-06-04.md`, which currently lists `obs` among flow dispatchers and ships `obs.1`).
+- [ ] flow-cli's `man/man1/obs.1` is **removed** and `obs` dropped from the flow dispatcher inventory (coordinate with `SPEC-manpage-refresh-2026-06-04.md`, which currently lists `obs` among flow dispatchers and ships `obs.1`).
+- [ ] A replacement `obs.1` is **authored in obsidian-cli-ops** (the owner of the binary), covering its v3.2.1 surface — see "Man-Page Ownership" below.
 
 ---
 
@@ -86,6 +87,32 @@ done
 
 ---
 
+## Man-Page Ownership (handoff to obsidian-cli-ops)
+
+flow-cli is *dropping* `obs.1` because it doesn't own the command. The man page should not vanish — it should move to **obsidian-cli-ops**, which owns `/opt/homebrew/bin/obs` and currently ships **zero** man pages. This is a cross-repo handoff: flow-cli removes, obsidian-cli-ops adds. Track the "add" half in obsidian-cli-ops (its own branch workflow); this spec only records the contract so the man page isn't lost.
+
+### Command surface to document (obsidian-cli-ops v3.2.1)
+
+Authored from the **dispatch table in `src/obs.zsh`**, not from `obs help` — see the undocumented-command note below.
+
+| Group | Commands |
+|---|---|
+| Primary | `obs` (list vaults / last-vault stats), `obs stats [vault]`, `obs discover <path>` |
+| Graph analysis | `obs analyze <vault>`, `obs health <vault>` |
+| AI | `obs ai status`, `obs ai setup`, `obs ai test`, `obs ai similar <note>`, `obs ai analyze <note>`, `obs ai duplicates <vault>`, `obs ai suggest-links <note>`, `obs ai gaps <vault>`, `obs ai summarize <vault>`, `obs ai refactor <vault>` |
+| AI — **undocumented in `obs help --all`** | `obs ai merge-suggest`, `obs ai tag-suggest`, `obs ai quality` |
+| Utilities | `obs help [--all]`, `obs version` |
+
+### ⚠️ Finding: three AI subcommands ship without help
+
+`obs ai merge-suggest`, `obs ai tag-suggest`, and `obs ai quality` are handled in the `obs.zsh` `case` block (≈ lines 464–513) but are **absent from `obs_help()`** (lines 163–174). A man page built from `obs help` would inherit this gap. The obsidian-cli-ops man-page task should: (a) cover all dispatch-table commands, and (b) backfill these three into `obs help --all` so help and man page agree. *(Out of scope for flow-cli — flagged here for the receiving repo.)*
+
+### Suggested shape (in obsidian-cli-ops)
+
+- `obs.1` — top-level, with `ai` as a documented subcommand surface, **or**
+- `obs.1` + `obs-ai.1` (SEE ALSO cross-links) if the AI surface warrants its own page (10–13 subcommands suggests it might).
+- Mirror flow-cli's troff conventions (model `flow-cli/man/man1/g.1`); add an anti-drift `.TH`-version guard like flow-cli's `test-manpage-version-sync.zsh` so the page tracks the package version.
+
 ## Out of Scope / Related
 
 - The **root cause** that `obs` itself broke (missing Python deps in its interpreter) is an obsidian-cli-ops packaging issue: `obsidian-cli-ops/docs/specs/SPEC-dependency-bootstrapping-2026-06-04.md`. It was patched manually on 2026-06-04 (deps installed into `python@3.12`).
@@ -104,3 +131,4 @@ done
 
 - **2026-06-04** — Created after flow-cli's `obs` dispatcher shadowed and broke the Homebrew `obs` binary; stopgap was `unfunction obs` in user zshrc (blocked/avoided). This spec proposes removing the redundant dispatcher + a general binary-precedence guard.
 - **2026-06-04** — Brainstorm pass (`BRAINSTORM-obs-dispatcher-shadowing-2026-06-04.md`) found the Option B sketch keyed the guard on the **filename**, which equals the command name only for `obs.zsh` (every other file is `X-dispatcher.zsh` defining `X`). Replaced with the **suffix-strip (B1)** variant so the guard is genuinely general post-Option-A; added the convention test, stub-binary regression test, and symlink-deletion notes.
+- **2026-06-04** — Added Man-Page Ownership handoff: flow-cli removes `obs.1`, obsidian-cli-ops authors a replacement. Audited obsidian-cli-ops **v3.2.1** command surface and found `obs ai merge-suggest`, `obs ai tag-suggest`, `obs ai quality` ship in the dispatch table but are missing from `obs help --all`.
