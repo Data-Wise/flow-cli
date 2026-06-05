@@ -159,5 +159,5 @@ Yes. The dispatcher auto-detects your project type and runs the appropriate test
 
 ## Next Steps
 
-- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
+- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers
 - **[Tutorial 43: ADHD Daily Routine](43-adhd-daily-routine.md)** — Morning briefing, just start, focus timers

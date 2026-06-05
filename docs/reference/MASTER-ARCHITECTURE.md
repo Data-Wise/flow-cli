@@ -31,7 +31,7 @@
 graph TD
     User[User] --> CLI[flow.plugin.zsh Entry Point]
     CLI --> Core[Core Library]
-    CLI --> Dispatchers[15 Dispatchers]
+    CLI --> Dispatchers[14 Dispatchers]
     CLI --> Commands[Core Commands]
 
     Core --> Utils[Utilities]
@@ -43,7 +43,6 @@ graph TD
     Dispatchers --> R[r - R]
     Dispatchers --> QU[qu - Quarto]
     Dispatchers --> MCP[mcp - MCP]
-    Dispatchers --> OBS[obs - Obsidian]
     Dispatchers --> WT[wt - Worktrees]
     Dispatchers --> DOTS[dots - Dotfiles]
     Dispatchers --> SEC[sec - Secrets]
@@ -89,7 +88,7 @@ flow-cli follows a layered architecture:
 ┌─────────────────────────────────────────────────────────────┐
 │  Layer 3: Commands & Dispatchers                            │
 │  - Core commands (work, dash, pick, doctor)                 │
-│  - 15 dispatchers + at bridge (g, cc, r, qu, mcp, obs, wt, tm,│
+│  - 14 dispatchers + at bridge (g, cc, r, qu, mcp, wt, tm,     │
 │    dots, sec, tok, teach, prompt, v, em)                       │
 └─────────────────────────────────────────────────────────────┘
                            ↓

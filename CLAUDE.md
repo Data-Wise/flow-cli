@@ -17,7 +17,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 15 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dots`, `sec`, `tok`, `teach`, `prompt`, `v`, `em`
+- 14 smart dispatchers: `g`, `mcp`, `qu`, `r`, `cc`, `tm`, `wt`, `dots`, `sec`, `tok`, `teach`, `prompt`, `v`, `em`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
 - Teaching workflow with Scholar integration
@@ -87,12 +87,11 @@ yay --week        # Weekly summary + graph
 flow goal set 3   # Set daily win target
 ```
 
-### Active Dispatchers (15)
+### Active Dispatchers (14)
 
 ```bash
 g <cmd>       # Git workflows
 mcp <cmd>     # MCP server management
-obs <cmd>     # Obsidian notes
 qu <cmd>      # Quarto publishing
 r <cmd>       # R package dev
 cc [cmd]      # Claude Code launcher
@@ -128,7 +127,7 @@ flow-cli/
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── tui.zsh               # Terminal UI components
-│   └── dispatchers/          # 15 smart command dispatchers
+│   └── dispatchers/          # 14 smart command dispatchers
 ├── commands/                 # 31 command files (work, dash, doctor, teach-*, etc.)
 ├── setup/                    # Installation & setup
 ├── completions/              # ZSH completions
@@ -147,7 +146,7 @@ flow-cli/
 | ------------------------------------------- | ----------------------------------------- |
 | `flow.plugin.zsh`                           | Plugin entry point (source to load)       |
 | `lib/core.zsh`                              | Core utilities (logging, colors, helpers) |
-| `lib/dispatchers/*.zsh`                     | 15 smart dispatchers                      |
+| `lib/dispatchers/*.zsh`                     | 14 smart dispatchers                      |
 | `commands/*.zsh`                            | Core commands (work, dash, finish, etc.)  |
 | `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs                  |
 | `docs/reference/MASTER-API-REFERENCE.md`    | API function reference                    |

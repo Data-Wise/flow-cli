@@ -21,7 +21,7 @@ r test              # R package: run tests
 g push              # Git: push to remote
 qu preview          # Quarto: preview document
 mcp status          # MCP: server status
-obs daily           # Obsidian: daily note
+wt create feat/x    # Worktree: create branch worktree
 ```
 
 **Rules:**
@@ -187,7 +187,6 @@ TIER 1: Daily Drivers (muscle memory)
 
 TIER 2: Frequent (weekly)
 ├── mcp     MCP server management
-├── obs     Obsidian notes
 ├── work    Start session
 ├── dash    Dashboard
 └── pick    FZF picker

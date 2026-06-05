@@ -217,7 +217,7 @@ Each dispatcher has built-in help: `cc help`, `dots help`, `r help`, `em help`, 
 **✨ v7.4.2:** Atlas bridge (`at`) — project intelligence, context parking, quick capture
 **✨ v7.4.0:** 38 email commands — read, reply, forward, AI compose, organize, manage
 **✨ v7.1.0:** Dispatcher split — `dot` → `dots` (dotfiles) + `sec` (secrets) + `tok` (tokens)
-**✨ 15 dispatchers + Atlas bridge** with unified grammar, built-in help, and fzf integration
+**✨ 14 dispatchers + Atlas bridge** with unified grammar, built-in help, and fzf integration
 
 ---
 

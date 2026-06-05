@@ -176,7 +176,7 @@
 → Use `pick` or `hop` - See [Tutorial 2](../tutorials/02-multiple-projects.md)
 
 **"What are the dispatchers?"**
-→ `cc`, `g`, `mcp`, `obs`, `qu`, `r`, `tm`, `wt` - See [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
+→ `cc`, `g`, `mcp`, `qu`, `r`, `tm`, `wt` - See [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 
 **"How do I check my setup?"**
 → Run `flow doctor` - See [Installation](installation.md)
