@@ -2,7 +2,7 @@
 
 > All 34 `teach` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v7.8.1 | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh`
+> **Version:** v7.9.0 | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh`
 
 ## Command Taxonomy
 
@@ -477,7 +477,7 @@ teach status --performance        # Review metrics
 ### API Documentation
 
 - [MASTER-API-REFERENCE.md](MASTER-API-REFERENCE.md) — Function signatures
-- [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) — All 15 dispatchers
+- [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) — All 14 dispatchers
 
 ### Architecture
 
@@ -485,6 +485,6 @@ teach status --performance        # Review metrics
 
 ---
 
-**Version:** v7.8.1
+**Version:** v7.9.0
 **Last Updated:** 2026-02-27
 **Commands:** 34 total (12 Scholar wrappers + 5 course mgmt + 6 content mgmt + 9 infrastructure + 1 discovery + config subcommands)

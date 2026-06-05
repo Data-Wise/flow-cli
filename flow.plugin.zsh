@@ -21,7 +21,7 @@ FLOW_PLUGIN_DIR=${0:A:h}
 
 # Feature flags
 : ${FLOW_ATLAS_ENABLED:=auto}       # auto|yes|no
-: ${FLOW_LOAD_DISPATCHERS:=yes}     # Load v, g, mcp, obs dispatchers
+: ${FLOW_LOAD_DISPATCHERS:=yes}     # Load v, g, mcp dispatchers
 
 # ============================================================================
 # CORE LIBRARY
@@ -71,9 +71,51 @@ if [[ "$FLOW_LOAD_DISPATCHERS" == "yes" ]]; then
   # Disable ZSH builtin 'r' (history repeat) to allow R dispatcher
   disable r
 
-  for disp_file in "$FLOW_PLUGIN_DIR/lib/dispatchers/"*.zsh(N); do
-    source "$disp_file"
-  done
+  # Commands flow-cli deliberately provides even when a PATH binary of the
+  # same name exists (e.g. `cc` launches Claude Code, not the C compiler;
+  # `r` is the R-package dispatcher, not Homebrew's R launcher). Pre-set
+  # FLOW_INTENTIONAL_SHADOWS before sourcing the plugin to customize.
+  if (( ! ${+FLOW_INTENTIONAL_SHADOWS} )); then
+    typeset -ga FLOW_INTENTIONAL_SHADOWS=(r mcp cc)
+  fi
+
+  # Binary-precedence guard (B3): after sourcing the dispatcher files, drop any
+  # newly-defined command function that would shadow an external PATH binary
+  # — unless it's an intentional shadow (above) or forced via
+  # FLOW_FORCE_DISPATCHER_<NAME>=1. Stops a broken dispatcher (historically
+  # `obs`, which needed a Python CLI flow-cli never shipped) from masking a
+  # working binary. Keys on the functions actually defined, so it needs no
+  # filename convention and skips `_`-prefixed helpers automatically.
+  #
+  # Perf: snapshots the function table once around the whole batch (not per
+  # file) and reads the fork-free ${commands} hash instead of $(whence -p),
+  # keeping the guard's startup cost down on flow-cli's <10ms budget.
+  _flow_load_dispatcher() {
+    local -a _before _after _new
+    _before=( ${(k)functions} )
+
+    local file
+    for file in "$@"; do
+      source "$file"
+    done
+
+    _after=( ${(k)functions} )
+    _new=( ${_after:|_before} )
+
+    local fn force
+    for fn in $_new; do
+      [[ "$fn" == _* ]] && continue                            # internal helper
+      (( ${FLOW_INTENTIONAL_SHADOWS[(Ie)$fn]} )) && continue   # deliberate shadow
+      force="FLOW_FORCE_DISPATCHER_${fn:u}"
+      [[ -n "${(P)force}" ]] && continue                       # explicit override
+      [[ -n "${commands[$fn]}" ]] || continue                  # no PATH binary
+      [[ -n "$FLOW_DEBUG" ]] && \
+        print -ru2 -- "flow: dispatcher '$fn' shadows ${commands[$fn]} — skipped (set $force=1 or add to FLOW_INTENTIONAL_SHADOWS to keep)"
+      unfunction "$fn"
+    done
+  }
+
+  _flow_load_dispatcher "$FLOW_PLUGIN_DIR/lib/dispatchers/"*.zsh(N)
 fi
 
 # ============================================================================
@@ -142,7 +184,7 @@ _flow_plugin_init
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="7.8.1"
+export FLOW_VERSION="7.9.0"
 
 # Register exit hook for plugin cleanup
 add-zsh-hook zshexit _flow_plugin_cleanup

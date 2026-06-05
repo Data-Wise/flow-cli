@@ -277,4 +277,4 @@ After installing, configure an account in `~/.config/himalaya/config.toml` and r
 - **[Tutorial 46: em v2.0 Features](46-em-v2-features.md)** — Calendar integration, IMAP watch, folder management, safety gate
 - **[Tutorial 33: Email in Neovim](33-himalaya-email.md)** — Read, reply, and process email without leaving your editor
 - **[Email Cookbook](../guides/EMAIL-COOKBOOK.md)** — Practical recipes for common workflows
-- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
+- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers

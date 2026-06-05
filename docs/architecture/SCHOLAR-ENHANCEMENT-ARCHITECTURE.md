@@ -1,7 +1,7 @@
 # Scholar Enhancement Architecture
 
 **Feature:** Teaching Content Generation System
-**Version:** v7.8.1
+**Version:** v7.9.0
 **Date:** 2026-01-17
 
 ---
@@ -747,4 +747,4 @@ teach slides -w 8 --style computational
 
 **Last Updated:** 2026-02-27
 **Status:** Production Ready
-**Version:** v7.8.1
+**Version:** v7.9.0

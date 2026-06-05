@@ -228,4 +228,4 @@ No. Token validation only triggers for GitHub remotes (URLs containing `github.c
 
 - **[Tutorial 8: Git Feature Workflow](08-git-feature-workflow.md)** — Branch conventions and PR workflow
 - **[Tutorial 9: Worktrees](09-worktrees.md)** — Parallel branch development
-- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
+- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers

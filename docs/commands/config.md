@@ -42,7 +42,7 @@ Configuration is stored in `~/.config/flow/config.zsh` and organized into 6 cate
 | ------------------ | ------------ | ------------------------------------- |
 | `projects_root`    | `~/projects` | Root directory for projects           |
 | `atlas_enabled`    | `auto`       | Atlas integration (`auto`/`yes`/`no`) |
-| `load_dispatchers` | `yes`        | Load g, r, qu, mcp, obs dispatchers   |
+| `load_dispatchers` | `yes`        | Load g, r, qu, mcp dispatchers        |
 | `quiet`            | `0`          | Suppress startup messages             |
 | `debug`            | `0`          | Enable debug output                   |
 

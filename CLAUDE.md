@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.8.1
+- **Current Version:** v7.9.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
@@ -17,7 +17,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 15 smart dispatchers: `g`, `mcp`, `obs`, `qu`, `r`, `cc`, `tm`, `wt`, `dots`, `sec`, `tok`, `teach`, `prompt`, `v`, `em`
+- 14 smart dispatchers: `g`, `mcp`, `qu`, `r`, `cc`, `tm`, `wt`, `dots`, `sec`, `tok`, `teach`, `prompt`, `v`, `em`
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
 - Teaching workflow with Scholar integration
@@ -87,12 +87,11 @@ yay --week        # Weekly summary + graph
 flow goal set 3   # Set daily win target
 ```
 
-### Active Dispatchers (15)
+### Active Dispatchers (14)
 
 ```bash
 g <cmd>       # Git workflows
 mcp <cmd>     # MCP server management
-obs <cmd>     # Obsidian notes
 qu <cmd>      # Quarto publishing
 r <cmd>       # R package dev
 cc [cmd]      # Claude Code launcher
@@ -128,7 +127,7 @@ flow-cli/
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── tui.zsh               # Terminal UI components
-│   └── dispatchers/          # 15 smart command dispatchers
+│   └── dispatchers/          # 14 smart command dispatchers
 ├── commands/                 # 31 command files (work, dash, doctor, teach-*, etc.)
 ├── setup/                    # Installation & setup
 ├── completions/              # ZSH completions
@@ -147,7 +146,7 @@ flow-cli/
 | ------------------------------------------- | ----------------------------------------- |
 | `flow.plugin.zsh`                           | Plugin entry point (source to load)       |
 | `lib/core.zsh`                              | Core utilities (logging, colors, helpers) |
-| `lib/dispatchers/*.zsh`                     | 15 smart dispatchers                      |
+| `lib/dispatchers/*.zsh`                     | 14 smart dispatchers                      |
 | `commands/*.zsh`                            | Core commands (work, dash, finish, etc.)  |
 | `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs                  |
 | `docs/reference/MASTER-API-REFERENCE.md`    | API function reference                    |
@@ -203,14 +202,20 @@ export FLOW_PROJECTS_ROOT="$HOME/projects"  # Project root
 export FLOW_ATLAS_ENABLED="auto"             # Atlas (auto|yes|no)
 export FLOW_QUIET=1                          # Suppress welcome
 export FLOW_DEBUG=1                          # Debug mode
+
+# Binary-precedence guard (drops a dispatcher that shadows a PATH binary)
+export FLOW_INTENTIONAL_SHADOWS=(r mcp cc)   # Commands kept even when a same-named binary exists
+export FLOW_FORCE_DISPATCHER_OBS=1           # Force-keep one dispatcher (FLOW_FORCE_DISPATCHER_<NAME>)
 ```
+
+> **Guard caveat:** `FLOW_INTENTIONAL_SHADOWS` defaults to `(r mcp cc)` only when unset. Setting it to an empty array (`=()`) is treated as an explicit override, so `cc` (vs `/usr/bin/cc`) etc. would then be dropped — append (`+=(...)`) rather than reassign if you only want to add entries.
 
 ---
 
 ## Current Status
 
-**Version:** v7.8.1 | **Tests:** 12000+ (59/59 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.9.0 | **Tests:** 12000+ (59/59 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-06-04 (v7.8.1)
+**Last Updated:** 2026-06-04 (v7.9.0)

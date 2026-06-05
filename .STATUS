@@ -9,7 +9,23 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-04) — post-release docs polish + Node 20 CI fix
+## Current Session (2026-06-05) — obs dispatcher shadowing: plan → review → merge [dev]
+
+**Session activity:**
+- **Phase 1 — removed dead `obs` dispatcher** (`222c43b2`): it shadowed the real `/opt/homebrew/bin/obs` (obsidian-cli-ops) but needed a `python/obs_cli.py` flow-cli never ships, so a function-beats-binary lookup made the broken dispatcher win in every shell. Deleted `lib/dispatchers/obs.zsh`, `zsh/functions/obs.zsh` (symlink), `man/man1/obs.1`, `tests/test-obs-dispatcher.zsh`; scrubbed obs from inventories (`flow.plugin.zsh`, help-compliance/browser, `commands/{flow,alias,doctor,tutorial}.zsh`) + dangling SEE ALSO obs(1) refs. **15 → 14 dispatchers.** Verified: `type obs` → binary, not function.
+- **Phase 2 — B3 binary-precedence guard** (`f28b7007`): `flow.plugin.zsh` wraps each `lib/dispatchers/*.zsh` source in `_flow_load_dispatcher` — diffs `${(k)functions}` and `unfunction`s any new command resolving to a PATH binary, unless in `FLOW_INTENTIONAL_SHADOWS=(r mcp cc)` or `FLOW_FORCE_DISPATCHER_<NAME>=1`. Keys on real defined names (skips `_*` helpers, no filename convention — chosen over spec B1 which broke on `em`/`email-dispatcher`). New guard test `test-dispatcher-binary-precedence.zsh` (16/16); net test files unchanged (211). Reviewed: scope is dispatcher files only, so `at` (shadows `/usr/bin/at`, defined in `atlas-bridge.zsh`) is correctly untouched.
+- **Docs** (`67b0071d`): 15 → 14 dispatcher sweep across ~30 active files + repaired mkdocs nav (tutorial 41 deleted); `mkdocs build --strict` ✅. Historical CHANGELOG/RELEASES/specs/.archive left frozen per convention.
+- **Note:** a second concurrent session shared this worktree and authored the Phase 1/Phase 2 commits in parallel (stopped mid-session by user); this session verified all three commits and added the docs commit.
+
+**Dev-session arc (this session):**
+- **Planned** the fix: `/brainstorm` → caught that spec's Option B keyed the guard on *filename* (only correct for `obs`; `em`↔`email-dispatcher` + helper files break it) → corrected spec to B3; man-page ownership handoff to obsidian-cli-ops; worktree + ORCHESTRATE plan.
+- **Reviewed PR #460** → applied review fixes on the feature branch: guard perf (batch `${(k)functions}` snapshot once + fork-free `${commands}` → ~10ms startup cost eliminated), doc scrub (3 stray obs refs), documented `FLOW_INTENTIONAL_SHADOWS`/`FLOW_FORCE_DISPATCHER_*` env vars, **added empty-array footgun regression test → 16→18 checks**.
+- **Merged** PR #460 (`fc00837f`) + PR #459 (`d611e370`, clears the pre-existing `dogfood-scholar-config-sync` fail) → worktrees removed, remote branches deleted, dev synced. Suite now fully green (1 expected `e2e-em-dispatcher` timeout only).
+- **`/craft:site:update`:** drift scan clean (obs sweep already landed), `mkdocs --strict` clean, bumped one `.TH` example 7.8.0→7.8.1 (`be5bbd06`).
+- **Memory:** updated merge-policy (Claude may merge feature+release PRs when asked; two-tier guardrail behavior), obs guard (merged state + perf + `${+arr}`/define-once gotchas), 2 ZSH gotchas, 2 workflow notes.
+- Companion: obsidian-cli-ops `obs.1` man page already merged (PR #25 + tap #110).
+
+## Previous Session (2026-06-04) — post-release docs polish + Node 20 CI fix
 
 **Session activity:**
 - Audited `docs/index.md` admonition boxes against v7.8.1 — all accurate (links/assets resolve, counts match `.STATUS`); bumped "What's New" header v7.8 → v7.8.1 (944f1617)
@@ -20,6 +36,7 @@
 - **Fixed at root** (148e257a): replaced caching step in `test.yml` with preinstall-aware `command -v zsh ||` install guard — drops a third-party action, no Node-24 opt-in flag needed; verified green on dev (`Ensure zsh is installed` ✅, no warning)
 - **PR #457** (dev→main CI fix) → CI CLEAN → merged main → main CI green (sha 37779584), `Ensure zsh is installed` success → dev re-synced (0 ahead)
 - Cross-repo cache-action audit (grep all dev-tools siblings): craft `actions/cache@v4` already current (no change); **scribe `actions/cache@v3` → @v4** bumped + pushed to scribe dev (a8aff56) — v3 backend sunsetting. Left `peaceiris/actions-gh-pages@v3` (v3 is its current major). No deprecated cache actions remain workspace-wide.
+- **Debugged `ccy` "garbled prompt at startup"** (systematic): bisected through fzf → zsh-state → Ghostty → **Bun's startup kitty-PROBE** (Claude 2.1.x is a Bun binary). **NOT a flow-cli/fzf/ccy bug** — plain `claude` garbles too; terminal read flags=0 before launch. Fix = `export BUN_DISABLE_KITTY_PROBE=1` (personal `.zshrc`, verified clean). Two zsh precmd-reset attempts failed (wrong layer) and were removed. Created→dropped `feature/csi-u-diagnostic` worktree (premise obsolete once fix = 1 env var). Memory `ccy-garble-kitty-protocol.md` records cause + bisect. **Future: don't re-blame fzf/ccy for Claude startup garble.**
 
 ## Previous Session (2026-06-03) — tok auto-sync spec + craft drive spec
 
@@ -317,7 +334,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.8.1 — man-page set merged (#454); releasing |
+| Main repo | `dev` | obs removed + B3 binary-precedence guard merged (#460, fc00837f); 14 dispatchers |
 
 ---
 
@@ -353,6 +370,6 @@
 
 **Last Updated:** 2026-06-02
 **Status:** v7.8.1 SHIPPED | 59/59 tests passing (1 expected interactive/tmux timeout) | 15 dispatchers + at bridge | 211 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-06-03), --category fix squashed the bug (2026-06-03), fixed the bug (2026-06-03), Fixed the regression bug (2026-05-15), --category fix squashed the bug (2026-05-15)
+## wins: Fixed the regression bug (2026-06-05), --category fix squashed the bug (2026-06-05), fixed the bug (2026-06-05), Fixed the regression bug (2026-06-03), --category fix squashed the bug (2026-06-03)
 ## streak: 1
-## last_active: 2026-06-03 23:12
+## last_active: 2026-06-05 00:32

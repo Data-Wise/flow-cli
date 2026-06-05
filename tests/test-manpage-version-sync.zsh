@@ -71,7 +71,7 @@ _flow_version() {
 # ── dispatcher-command extraction (for the coverage / missing-page guard) ────
 # A "dispatcher" is a public top-level command function (e.g. `tok() { ... }`)
 # defined in a dispatcher source file. We derive the set from the functions the
-# shell actually exposes — NOT from filenames (irregular: obs.zsh,
+# shell actually exposes — NOT from filenames (irregular:
 # email-dispatcher.zsh -> em, at lives in atlas-bridge.zsh) and NOT from a
 # `_<cmd>_help` convention (teach has none). Pure aliases whose entire body is a
 # lone `<cmd> "$@"` delegation (e.g. vibe -> v) are excluded.

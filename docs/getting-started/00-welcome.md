@@ -176,7 +176,7 @@
 → Use `pick` or `hop` - See [Tutorial 2](../tutorials/02-multiple-projects.md)
 
 **"What are the dispatchers?"**
-→ `cc`, `g`, `mcp`, `obs`, `qu`, `r`, `tm`, `wt` - See [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
+→ `cc`, `g`, `mcp`, `qu`, `r`, `tm`, `wt` - See [Dispatcher Reference](../reference/MASTER-DISPATCHER-GUIDE.md)
 
 **"How do I check my setup?"**
 → Run `flow doctor` - See [Installation](installation.md)
@@ -194,7 +194,7 @@
 
 ### Latest Features
 
-- ✅ **8 dispatchers** - `cc`, `g`, `mcp`, `obs`, `qu`, `r`, `tm`, `wt`
+- ✅ **14 dispatchers** - `cc`, `g`, `mcp`, `qu`, `r`, `tm`, `wt`, `dots`, `sec`, `tok`, `teach`, `prompt`, `v`, `em` (+ `at` Atlas bridge)
 - ✅ **150+ tests** - Full ZSH test suite with CI
 - ✅ **Worktree integration** - `cc wt <branch>` for Claude in worktrees
 - ✅ **Git feature workflow** - `g feature start/sync/finish`

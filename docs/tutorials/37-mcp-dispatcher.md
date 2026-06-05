@@ -190,5 +190,5 @@ A server can be configured for one environment but not the other.
 
 ## Next Steps
 
-- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
+- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers
 - **[Model Context Protocol](https://modelcontextprotocol.io/)** — Official MCP documentation

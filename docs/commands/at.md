@@ -247,7 +247,7 @@ The `at` bridge integrates with flow-cli's core commands:
 | `catch <text>` | Calls `_flow_catch` which uses `atlas catch` |
 | `crumb <text>` | Calls `_flow_crumb` which uses `atlas crumb` |
 | `flow doctor` | Shows Atlas version, backend, project count, MCP status |
-| Help browser | Lists `at` with all 15 dispatchers, shows preview via `at help` |
+| Help browser | Lists `at` with all 14 dispatchers, shows preview via `at help` |
 
 ---
 

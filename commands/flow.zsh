@@ -171,9 +171,6 @@ flow() {
     mcp)
       mcp "$@"
       ;;
-    obs|obsidian)
-      obs "$@"
-      ;;
     cc|claude)
       cc "$@"
       ;;
@@ -386,7 +383,7 @@ ${_C_DIM}SHORTCUTS: Most commands work directly too:${_C_NC}
   work foo    =  flow work foo
   js          =  flow start
 
-${_C_DIM}See also:${_C_NC} man flow, r help, g help, qu help, mcp help, obs help
+${_C_DIM}See also:${_C_NC} man flow, r help, g help, qu help, mcp help
 
 ${_C_BOLD}Version:${_C_NC} flow-cli v\${FLOW_VERSION:-3.2.0}
 "

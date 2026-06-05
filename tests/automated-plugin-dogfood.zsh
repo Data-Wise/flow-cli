@@ -2,7 +2,7 @@
 # automated-plugin-dogfood.zsh - Full plugin load dogfooding test
 #
 # Sources flow.plugin.zsh and verifies everything loaded correctly:
-# - All 15 dispatchers are defined
+# - All 14 dispatchers are defined
 # - Core commands exist
 # - Help functions work for each dispatcher
 # - No load errors
@@ -96,12 +96,12 @@ run_test "No stderr during plugin load" '
 echo ""
 
 # ============================================================================
-# SECTION 2: All 15 dispatchers defined
+# SECTION 2: All 14 dispatchers defined
 # ============================================================================
 
 echo "${CYAN}--- Section 2: Dispatcher Functions ---${RESET}"
 
-dispatchers=(g mcp obs qu r cc tm wt dots sec tok teach prompt v em)
+dispatchers=(g mcp qu r cc tm wt dots sec tok teach prompt v em)
 
 for disp in "${dispatchers[@]}"; do
     run_test "Dispatcher '$disp' is a function" "
@@ -142,7 +142,6 @@ typeset -A help_fns
 help_fns=(
     g     _g_help
     mcp   _mcp_help
-    obs   _obs_help
     qu    _qu_help
     r     _r_help
     cc    _cc_help

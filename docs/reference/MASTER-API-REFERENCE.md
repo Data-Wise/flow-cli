@@ -8,7 +8,7 @@ tags:
 **Purpose:** Complete API documentation for all flow-cli library functions
 **Audience:** Developers, contributors, advanced users
 **Format:** Function signatures, parameters, return values, examples
-**Version:** v7.8.1
+**Version:** v7.9.0
 **Last Updated:** 2026-02-21
 
 ---
@@ -53,13 +53,12 @@ lib/
 ├── em-cache.zsh                # Email: TTL-based caching (8 functions)
 ├── em-render.zsh               # Email: Smart rendering pipeline (7 functions)
 ├── email-helpers.zsh           # Email: Safety gates, AI draft helper (6 functions)
-└── dispatchers/                # 15 dispatchers + 4 support modules (630+ functions)
+└── dispatchers/                # 14 dispatchers + 4 support modules (630+ functions)
     ├── g-dispatcher.zsh
     ├── cc-dispatcher.zsh
     ├── r-dispatcher.zsh
     ├── qu-dispatcher.zsh
     ├── mcp-dispatcher.zsh
-    ├── obs.zsh
     ├── wt-dispatcher.zsh
     ├── dots-dispatcher.zsh       # Dotfile management
     ├── sec-dispatcher.zsh        # Secret management
@@ -7559,7 +7558,7 @@ URL line is omitted when `$url` is empty or `"null"`.
 
 ---
 
-**Version:** v7.8.1
+**Version:** v7.9.0
 **Last Updated:** 2026-02-21
 **Auto-Generation:** Run `./scripts/generate-api-docs.sh` to update function index
 **Total Functions:** 880 (428 documented, 452 pending)

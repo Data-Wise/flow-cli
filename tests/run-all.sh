@@ -61,7 +61,7 @@ run_test ./tests/test-wt-dispatcher.zsh
 run_test ./tests/test-r-dispatcher.zsh
 run_test ./tests/test-qu-dispatcher.zsh
 run_test ./tests/test-mcp-dispatcher.zsh
-run_test ./tests/test-obs-dispatcher.zsh
+run_test ./tests/test-dispatcher-binary-precedence.zsh
 run_test ./tests/test-dot-chezmoi-safety.zsh
 run_test ./tests/test-em-dispatcher.zsh
 run_test ./tests/test-em-prompt-flag.zsh

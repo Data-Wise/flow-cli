@@ -26,12 +26,11 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.8.1"
-    **Token auto-sync:** `tok sync push` / `tok sync repos` fan a token out to GitHub Actions secrets across repos (`gh secret set`) — confirm-once gate, OIDC "use Trusted Publishing" nudge, chezmoi-managed config. Auto-runs after `tok` create/rotate (`--no-sync` to opt out).
-    **Terminal hygiene fix:** a shared cleanup helper ends the garbled-prompt corruption when launching Claude via `cc wt pick` / `ccy` / `work`.
+!!! success "🎉 What's New in v7.9.0"
+    **`obs` dispatcher removed:** flow-cli's `obs` shadowed (and broke) the real Homebrew `obs` binary — typing `obs` now runs the real tool. **15 → 14 dispatchers.**
+    **Binary-precedence guard:** the dispatcher loader now drops any command that would shadow an installed `$PATH` binary, unless allowlisted (`FLOW_INTENTIONAL_SHADOWS`, default `r mcp cc`) or forced (`FLOW_FORCE_DISPATCHER_<NAME>=1`). No dispatcher can silently mask a working tool again.
     **59 test suites** passing (211 files, 12000+ assertions).
-    [→ Token Cookbook](guides/TOKEN-COOKBOOK.md){ .md-button }
-    [→ Tutorial: tok auto-sync](tutorials/47-tok-auto-sync.md){ .md-button }
+    [→ Dispatcher Guide](reference/MASTER-DISPATCHER-GUIDE.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
 
 ---
@@ -239,7 +238,6 @@ Commands that adapt to your project type:
 | `g` | `g push` / `g commit` | Git with smart safety |
 | `teach` | `teach init` / `teach deploy` | Teaching workflow |
 | `mcp` | `mcp status` / `mcp logs` | MCP server management |
-| `obs` | `obs vaults` / `obs stats` | Obsidian notes |
 | `wt` | `wt create` / `wt status` | Worktree management |
 | `tm` | `tm title` / `tm ghost` | Terminal manager |
 | `dots` | `dots edit` / `dots sync` | Dotfile management |
@@ -292,4 +290,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.8.1** · Pure ZSH · Zero Dependencies · MIT License
+**v7.9.0** · Pure ZSH · Zero Dependencies · MIT License

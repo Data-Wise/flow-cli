@@ -793,7 +793,6 @@ For Gmail/OAuth2: `email-oauth2-proxy` recommended (see `em doctor`)
 ### Other Dispatchers
 
 - **`g`** — Git (workflows)
-- **`obs`** — Obsidian (quick notes about emails)
 - **`tm`** — Terminal manager (email session windows)
 
 ### External Tools
@@ -919,7 +918,7 @@ em ai claude                   # Use a known backend
 
 ### References
 
-- [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) — All 15 dispatchers
+- [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) — All 14 dispatchers
 - [MASTER-API-REFERENCE.md](MASTER-API-REFERENCE.md) — Function signatures
 - [MASTER-ARCHITECTURE.md](MASTER-ARCHITECTURE.md) — System design
 

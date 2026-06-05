@@ -37,7 +37,6 @@ flowchart TD
         T38["<a href='38-r-dispatcher/'>Tutorial 38</a><br/>R Packages<br/>⏱ 15 min"]
         T39["<a href='39-qu-dispatcher/'>Tutorial 39</a><br/>Quarto<br/>⏱ 15 min"]
         T40["<a href='40-v-dispatcher/'>Tutorial 40</a><br/>Workflow (v)<br/>⏱ 15 min"]
-        T41["<a href='41-obs-dispatcher/'>Tutorial 41</a><br/>Obsidian<br/>⏱ 15 min"]
         T42["<a href='42-g-dispatcher/'>Tutorial 42</a><br/>Git Shortcuts<br/>⏱ 20 min"]
     end
 
@@ -100,7 +99,7 @@ flowchart TD
     classDef intermediate fill:#fff3cd,stroke:#ffc107,color:#856404
     classDef optional fill:#e2e3e5,stroke:#6c757d,color:#383d41
 
-    class T1,T2,T3,T6,T10,T11,T12,T13,T35,T37,T38,T39,T40,T41,T42,T43,T44 beginner
+    class T1,T2,T3,T6,T10,T11,T12,T13,T35,T37,T38,T39,T40,T42,T43,T44 beginner
     class T8,T9,T14,T21,T22,T23,T24,T25,T26,T36 intermediate
     class T4,T5,T7 optional
 ```
@@ -184,7 +183,6 @@ flowchart TD
 | 38 | [R Dispatcher](38-r-dispatcher.md) | 15 min | 🟡 Intermediate | R package development workflow |
 | 39 | [Quarto Dispatcher](39-qu-dispatcher.md) | 15 min | 🟢 Beginner | Quarto render, preview, publish |
 | 40 | [Workflow (v/vibe)](40-v-dispatcher.md) | 15 min | 🟢 Beginner | Testing, sessions, dashboards, health |
-| 41 | [Obsidian Vaults](41-obs-dispatcher.md) | 15 min | 🟢 Beginner | Vault discovery, stats, AI search |
 | 42 | [Git Shortcuts (g)](42-g-dispatcher.md) | 20 min | 🟢 Beginner | Git shortcuts with token validation |
 | 43 | [ADHD Daily Routine](43-adhd-daily-routine.md) | 20 min | 🟢 Beginner | Morning briefing, just start, timers |
 | 44 | [Quick Capture](44-quick-capture.md) | 10 min | 🟢 Beginner | catch, inbox, crumb, trail |

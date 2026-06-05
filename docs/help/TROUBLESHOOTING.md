@@ -3,7 +3,7 @@
 **Purpose:** Common issues and solutions for flow-cli
 **Audience:** All users experiencing problems
 **Format:** Problem → Diagnosis → Solution
-**Version:** v7.8.1
+**Version:** v7.9.0
 **Last Updated:** 2026-02-27
 
 ---
@@ -1048,6 +1048,6 @@ ls -la ~/.cache/flow/
 
 ---
 
-**Version:** v7.8.1
+**Version:** v7.9.0
 **Last Updated:** 2026-02-27
 **Need more help?** https://github.com/Data-Wise/flow-cli/issues

@@ -40,9 +40,8 @@ flow alias help         # Show all commands
 | `mcp`      | 1     | MCP server shortcuts             |
 | `quarto`   | 2     | Quarto publishing shortcuts      |
 | `r`        | 4     | R package development shortcuts  |
-| `obs`      | 1     | Obsidian shortcuts               |
 
-**Total:** 29 custom aliases
+**Total:** 28 custom aliases
 
 ---
 

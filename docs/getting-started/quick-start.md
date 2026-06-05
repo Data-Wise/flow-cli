@@ -219,7 +219,6 @@ Flow CLI includes 6 domain-specific dispatchers:
 | `r`        | R packages  | `r test`, `r check`        |
 | `qu`       | Quarto      | `qu preview`, `qu render`  |
 | `mcp`      | MCP servers | `mcp status`, `mcp logs`   |
-| `obs`      | Obsidian    | `obs daily`, `obs search`  |
 | `cc`       | Claude Code | `cc`, `cc pick`, `cc yolo` |
 
 Get help for any dispatcher:

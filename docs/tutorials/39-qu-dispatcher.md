@@ -190,4 +190,4 @@ pkill -f "quarto preview"  # Kill by name
 
 - **[Quarto Documentation](https://quarto.org/docs/guide/)** — Full Quarto reference
 - **[Tutorial 14: teach Dispatcher](14-teach-dispatcher.md)** — Uses Quarto for course sites with deploy/rollback
-- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
+- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers

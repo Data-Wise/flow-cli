@@ -186,4 +186,4 @@ Yes. `timer 50` for a 50-minute focus, `timer break 10` for a 10-minute break. U
 - **[Tutorial 6: Dopamine Features](06-dopamine-features.md)** — Log wins, build streaks with `win` and `yay`
 - **[Tutorial 44: Quick Capture](44-quick-capture.md)** — Capture fleeting ideas with `catch`
 - **[Tutorial 1: First Session](01-first-session.md)** — Start here if you haven't used flow-cli yet
-- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
+- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers

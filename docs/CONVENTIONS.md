@@ -11,7 +11,7 @@
 | Frequency         | Style         | Examples               |
 | ----------------- | ------------- | ---------------------- |
 | Daily (50+ times) | Single letter | `r`, `g`               |
-| Frequent (10-50)  | Two letters   | `qu`, `mcp`, `obs`     |
+| Frequent (10-50)  | Two letters   | `qu`, `mcp`, `tm`     |
 | Occasional (<10)  | Full word     | `work`, `dash`, `pick` |
 
 **Note (2025-12-25):** `v` dispatcher was deprecated. Use `flow` command directly.
