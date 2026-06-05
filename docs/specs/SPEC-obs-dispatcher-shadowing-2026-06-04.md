@@ -51,11 +51,27 @@ This is a **general hazard**: any dispatcher whose name collides with an install
 
 **Recommendation:** **B** (a general binary-precedence guard in the loader) and **A** (remove the now-redundant obs dispatcher). B protects the ecosystem long-term; A removes dead, harmful code.
 
-### Sketch (Option B)
+### ⚠️ Filename ≠ command name (corrects the naive sketch)
+
+A guard keyed on the **filename** is only correct for `obs`, by accident. The dispatcher files are named `X-dispatcher.zsh` but each defines command `X`:
+
+| File on disk | `${${disp_file:t}:r}` | Command actually defined | `command -v` of derived name |
+|---|---|---|---|
+| `obs.zsh` | `obs` | `obs()` | `/opt/homebrew/bin/obs` ✅ |
+| `g-dispatcher.zsh` | `g-dispatcher` | `g()` | (nothing) ❌ |
+| `mcp-dispatcher.zsh` | `mcp-dispatcher` | `mcp()` | (nothing) ❌ |
+| `r-dispatcher.zsh` | `r-dispatcher` | `r()` | (nothing) ❌ |
+
+`obs.zsh` is the **only** bare-named dispatcher file, so a filename-keyed guard tests `obs` and nothing else. Add `node-dispatcher.zsh` (defining `node()`) later and the guard checks `command -v node-dispatcher` → nothing → sources it → **re-shadows the real `node` binary.** That is the exact "general hazard" this spec exists to kill, left open. So the naive guard ≈ Option A with extra steps.
+
+**Fix:** derive the true command name by **stripping the `-dispatcher` suffix**. After Option A deletes the lone exception (`obs.zsh`), **every** remaining file follows `<cmd>-dispatcher.zsh`, so suffix-stripping recovers the real command name for all of them — making the guard genuinely general with a one-line change. Guard this invariant with a convention test (see Implementation Notes).
+
+### Sketch (Option B — corrected, suffix-strip)
 
 ```zsh
 for disp_file in "$FLOW_PLUGIN_DIR/lib/dispatchers/"*.zsh(N); do
-  local name="${${disp_file:t}:r}"            # e.g. obs
+  local name="${${disp_file:t}:r}"            # g-dispatcher
+  name="${name%-dispatcher}"                  # → g   (obs.zsh is deleted by Option A)
   local force="FLOW_FORCE_DISPATCHER_${name:u}"
   if [[ -z "${(P)force}" ]] && command -v "$name" >/dev/null 2>&1 \
        && [[ "$(command -v "$name")" != *"flow"* ]]; then
@@ -66,6 +82,8 @@ for disp_file in "$FLOW_PLUGIN_DIR/lib/dispatchers/"*.zsh(N); do
 done
 ```
 
+> The `disable r` at `flow.plugin.zsh:72` is unaffected — `r` is a zsh **builtin**, not an external binary, so `command -v r` (after `disable`) does not resolve to a `/path` file and the guard never skips it.
+
 ---
 
 ## Out of Scope / Related
@@ -75,10 +93,14 @@ done
 
 ## Implementation Notes
 
+- **Guard keys on the suffix-stripped command name**, not the raw filename — see "Filename ≠ command name" above. The naive filename-keyed sketch only protects `obs`.
+- **Convention test (required for B1 to stay valid):** assert every `lib/dispatchers/*.zsh` is named `<cmd>-dispatcher.zsh`. This is the invariant suffix-stripping depends on; make it a hard CI gate so a future bare-named dispatcher can't silently reopen the shadowing hazard.
 - Verify `r`'s existing `disable r` handling still works under the new guard (it's a builtin, not a binary — guard only checks external binaries).
-- Add a test asserting `type obs` is a file (not a function) when an `obs` binary is on PATH in the test environment.
-- If Option A only: also remove the `obs` row from any dispatcher inventory/help and the `obs.1` man page (see man-page spec).
+- **Shadow regression test:** stub an `obs` executable into a temp dir prepended to `$PATH`, source the plugin, then assert `type obs` is a **file** (not a function) and that `g`/`mcp`/`r` still load normally. Without the stub the assertion is vacuous — the guard has nothing to skip in a bare CI environment that lacks the Homebrew `obs`.
+- **Delete the `zsh/functions/obs.zsh` symlink too** (it points into the obsidian-cli-ops source and is *not* sourced by the loader, which globs only `lib/dispatchers/*.zsh`) — leaving it is pure confusion.
+- Man-page + inventory cleanup ships in the **same PR** as the deletion: remove `obs.1`, drop `obs` from the loader comment (`flow.plugin.zsh:24`) and any dispatcher inventory/help, or `test-manpage-version-sync.zsh` fails CI (coordinate with `SPEC-manpage-refresh-2026-06-04.md`).
 
 ## History
 
 - **2026-06-04** — Created after flow-cli's `obs` dispatcher shadowed and broke the Homebrew `obs` binary; stopgap was `unfunction obs` in user zshrc (blocked/avoided). This spec proposes removing the redundant dispatcher + a general binary-precedence guard.
+- **2026-06-04** — Brainstorm pass (`BRAINSTORM-obs-dispatcher-shadowing-2026-06-04.md`) found the Option B sketch keyed the guard on the **filename**, which equals the command name only for `obs.zsh` (every other file is `X-dispatcher.zsh` defining `X`). Replaced with the **suffix-strip (B1)** variant so the guard is genuinely general post-Option-A; added the convention test, stub-binary regression test, and symlink-deletion notes.
