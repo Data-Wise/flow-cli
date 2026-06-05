@@ -319,7 +319,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.8.1 — man-page set merged (#454); releasing |
-| `~/.git-worktrees/flow-cli/obs-dispatcher-shadowing` | `feature/obs-dispatcher-shadowing` | ORCHESTRATE committed (e0d78cfe) — awaiting impl in new session. P1: delete dead obs dispatcher+symlink+obs.1; P2: general binary-precedence guard (B3 recommended — B1 invariant already false via em/email + helpers) |
+| `~/.git-worktrees/flow-cli/obs-dispatcher-shadowing` | `feature/obs-dispatcher-shadowing` | 🚧 **WIP / running** — ORCHESTRATE committed (e0d78cfe). P1: delete dead obs dispatcher+symlink+obs.1; P2: general binary-precedence guard (B3 recommended — B1 invariant already false via em/email + helpers) |
 
 ---
 
