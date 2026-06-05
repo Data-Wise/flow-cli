@@ -24,6 +24,7 @@
 - **`/craft:site:update`:** drift scan clean (obs sweep already landed), `mkdocs --strict` clean, bumped one `.TH` example 7.8.0→7.8.1 (`be5bbd06`).
 - **Memory:** updated merge-policy (Claude may merge feature+release PRs when asked; two-tier guardrail behavior), obs guard (merged state + perf + `${+arr}`/define-once gotchas), 2 ZSH gotchas, 2 workflow notes.
 - Companion: obsidian-cli-ops `obs.1` man page already merged (PR #25 + tap #110).
+- **Released v7.9.0** (`/craft:release`): pre-flight 59 green → `release.sh` bump → CHANGELOG ×2 + index + 47 doc-footer sweep → PR #461 → CI green → merged main (`981fe1af`) → GitHub release → all downstream verified (site v7.9.0, brew v7.9.0, docs+homebrew workflows ✅). Cleanup: 6 noise stashes dropped; stale local branches pruned (3 remain — guard needs manual `-D`).
 
 ## Previous Session (2026-06-04) — post-release docs polish + Node 20 CI fix
 
