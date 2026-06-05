@@ -1822,34 +1822,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/41-obs-dispatcher/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    41. Obsidian Vaults
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../tutorials/42-g-dispatcher/" class="md-nav__link">
         
   
@@ -9294,7 +9266,7 @@
 <p><strong>Purpose:</strong> Complete system architecture documentation for flow-cli
 <strong>Audience:</strong> Contributors, maintainers, advanced users
 <strong>Format:</strong> Design decisions, diagrams, implementation details
-<strong>Version:</strong> v7.8.1
+<strong>Version:</strong> v7.9.0
 <strong>Last Updated:</strong> 2026-02-21</p>
 <hr />
 <h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
@@ -9316,7 +9288,7 @@
 <pre class="mermaid"><code>graph TD
     User[User] --&gt; CLI[flow.plugin.zsh Entry Point]
     CLI --&gt; Core[Core Library]
-    CLI --&gt; Dispatchers[15 Dispatchers]
+    CLI --&gt; Dispatchers[14 Dispatchers]
     CLI --&gt; Commands[Core Commands]
 
     Core --&gt; Utils[Utilities]
@@ -9328,7 +9300,6 @@
     Dispatchers --&gt; R[r - R]
     Dispatchers --&gt; QU[qu - Quarto]
     Dispatchers --&gt; MCP[mcp - MCP]
-    Dispatchers --&gt; OBS[obs - Obsidian]
     Dispatchers --&gt; WT[wt - Worktrees]
     Dispatchers --&gt; DOTS[dots - Dotfiles]
     Dispatchers --&gt; SEC[sec - Secrets]
@@ -9368,7 +9339,7 @@
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>┌─────────────────────────────────────────────────────────────┐
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│  Layer 3: Commands &amp; Dispatchers                            │
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│  - Core commands (work, dash, pick, doctor)                 │
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│  - 15 dispatchers + at bridge (g, cc, r, qu, mcp, obs, wt, tm,│
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│  - 14 dispatchers + at bridge (g, cc, r, qu, mcp, wt, tm,     │
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│    dots, sec, tok, teach, prompt, v, em)                       │
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>└─────────────────────────────────────────────────────────────┘
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>                           ↓
@@ -10160,7 +10131,7 @@
 <li><a href="../../guides/TESTING/">TESTING.md</a> - Testing guide</li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v7.8.1
+<p><strong>Version:</strong> v7.9.0
 <strong>Last Updated:</strong> 2026-02-21
 <strong>Diagrams:</strong> 8 Mermaid diagrams
 <strong>Total:</strong> 2,500+ lines</p>

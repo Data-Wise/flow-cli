@@ -1822,34 +1822,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/41-obs-dispatcher/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    41. Obsidian Vaults
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../tutorials/42-g-dispatcher/" class="md-nav__link">
         
   
@@ -8640,12 +8612,12 @@
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>g<span class="w"> </span>push<span class="w">              </span><span class="c1"># Git: push to remote</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>qu<span class="w"> </span>preview<span class="w">          </span><span class="c1"># Quarto: preview document</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>mcp<span class="w"> </span>status<span class="w">          </span><span class="c1"># MCP: server status</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>obs<span class="w"> </span>daily<span class="w">           </span><span class="c1"># Obsidian: daily note</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>wt<span class="w"> </span>create<span class="w"> </span>feat/x<span class="w">    </span><span class="c1"># Worktree: create branch worktree</span>
 </code></pre></div>
 <p><strong>Rules:</strong></p>
 <ul>
 <li>Single letter for high-frequency domains: <code>r</code>, <code>g</code></li>
-<li>Two letters for medium-frequency: <code>qu</code>, <code>mcp</code>, <code>obs</code></li>
+<li>Two letters for medium-frequency: <code>qu</code>, <code>mcp</code>, <code>tm</code></li>
 <li>Full words for low-frequency: <code>work</code>, <code>dash</code>, <code>pick</code></li>
 </ul>
 <p><strong>Note (2025-12-25):</strong> <code>v</code>/<code>vibe</code> dispatcher was deprecated. Use <code>flow</code> command directly for workflow operations.</p>
@@ -8794,26 +8766,25 @@
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>TIER 2: Frequent (weekly)
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>├── mcp     MCP server management
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>├── obs     Obsidian notes
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>├── work    Start session
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>├── dash    Dashboard
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>└── pick    FZF picker
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>TIER 3: Contextual (project-specific)
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>├── pb      Project build
-<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>├── pv      Project view
-<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>├── pt      Project test
-<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>└── finish  End session
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
-<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>TIER 4: Utilities (as needed)
-<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>├── ..      Navigate up
-<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>├── ll      List files
-<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>└── reload  Refresh shell
-<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>DEPRECATED (2025-12-25):
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>├── v       Use &#39;flow&#39; command directly
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>├── cc      Use &#39;ccy&#39; function in .zshrc
-<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>└── gm      Use &#39;gem*&#39; aliases in .zshrc
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>├── work    Start session
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>├── dash    Dashboard
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>└── pick    FZF picker
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>TIER 3: Contextual (project-specific)
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>├── pb      Project build
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>├── pv      Project view
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>├── pt      Project test
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>└── finish  End session
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>TIER 4: Utilities (as needed)
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>├── ..      Navigate up
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>├── ll      List files
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>└── reload  Refresh shell
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>DEPRECATED (2025-12-25):
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>├── v       Use &#39;flow&#39; command directly
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>├── cc      Use &#39;ccy&#39; function in .zshrc
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>└── gm      Use &#39;gem*&#39; aliases in .zshrc
 </code></pre></div>
 <hr />
 <h2 id="testing-philosophy">Testing Philosophy<a class="headerlink" href="#testing-philosophy" title="Permanent link">&para;</a></h2>
