@@ -9,13 +9,21 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-05) — obs dispatcher shadowing fix (Phases 1+2) [feature/obs-dispatcher-shadowing]
+## Current Session (2026-06-05) — obs dispatcher shadowing: plan → review → merge [dev]
 
 **Session activity:**
 - **Phase 1 — removed dead `obs` dispatcher** (`222c43b2`): it shadowed the real `/opt/homebrew/bin/obs` (obsidian-cli-ops) but needed a `python/obs_cli.py` flow-cli never ships, so a function-beats-binary lookup made the broken dispatcher win in every shell. Deleted `lib/dispatchers/obs.zsh`, `zsh/functions/obs.zsh` (symlink), `man/man1/obs.1`, `tests/test-obs-dispatcher.zsh`; scrubbed obs from inventories (`flow.plugin.zsh`, help-compliance/browser, `commands/{flow,alias,doctor,tutorial}.zsh`) + dangling SEE ALSO obs(1) refs. **15 → 14 dispatchers.** Verified: `type obs` → binary, not function.
 - **Phase 2 — B3 binary-precedence guard** (`f28b7007`): `flow.plugin.zsh` wraps each `lib/dispatchers/*.zsh` source in `_flow_load_dispatcher` — diffs `${(k)functions}` and `unfunction`s any new command resolving to a PATH binary, unless in `FLOW_INTENTIONAL_SHADOWS=(r mcp cc)` or `FLOW_FORCE_DISPATCHER_<NAME>=1`. Keys on real defined names (skips `_*` helpers, no filename convention — chosen over spec B1 which broke on `em`/`email-dispatcher`). New guard test `test-dispatcher-binary-precedence.zsh` (16/16); net test files unchanged (211). Reviewed: scope is dispatcher files only, so `at` (shadows `/usr/bin/at`, defined in `atlas-bridge.zsh`) is correctly untouched.
 - **Docs** (`67b0071d`): 15 → 14 dispatcher sweep across ~30 active files + repaired mkdocs nav (tutorial 41 deleted); `mkdocs build --strict` ✅. Historical CHANGELOG/RELEASES/specs/.archive left frozen per convention.
-- **Note:** a second concurrent session shared this worktree and authored the Phase 1/Phase 2 commits in parallel (stopped mid-session by user); this session verified all three commits and added the docs commit. Final suite: **58 passed, 1 failed (pre-existing `dogfood-scholar-config-sync`), 1 timeout (`e2e-em-dispatcher`, expected)**.
+- **Note:** a second concurrent session shared this worktree and authored the Phase 1/Phase 2 commits in parallel (stopped mid-session by user); this session verified all three commits and added the docs commit.
+
+**Dev-session arc (this session):**
+- **Planned** the fix: `/brainstorm` → caught that spec's Option B keyed the guard on *filename* (only correct for `obs`; `em`↔`email-dispatcher` + helper files break it) → corrected spec to B3; man-page ownership handoff to obsidian-cli-ops; worktree + ORCHESTRATE plan.
+- **Reviewed PR #460** → applied review fixes on the feature branch: guard perf (batch `${(k)functions}` snapshot once + fork-free `${commands}` → ~10ms startup cost eliminated), doc scrub (3 stray obs refs), documented `FLOW_INTENTIONAL_SHADOWS`/`FLOW_FORCE_DISPATCHER_*` env vars, **added empty-array footgun regression test → 16→18 checks**.
+- **Merged** PR #460 (`fc00837f`) + PR #459 (`d611e370`, clears the pre-existing `dogfood-scholar-config-sync` fail) → worktrees removed, remote branches deleted, dev synced. Suite now fully green (1 expected `e2e-em-dispatcher` timeout only).
+- **`/craft:site:update`:** drift scan clean (obs sweep already landed), `mkdocs --strict` clean, bumped one `.TH` example 7.8.0→7.8.1 (`be5bbd06`).
+- **Memory:** updated merge-policy (Claude may merge feature+release PRs when asked; two-tier guardrail behavior), obs guard (merged state + perf + `${+arr}`/define-once gotchas), 2 ZSH gotchas, 2 workflow notes.
+- Companion: obsidian-cli-ops `obs.1` man page already merged (PR #25 + tap #110).
 
 ## Previous Session (2026-06-04) — post-release docs polish + Node 20 CI fix
 
