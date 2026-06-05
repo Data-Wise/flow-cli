@@ -8,6 +8,41 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.9.0] — 2026-06-05 — obs dispatcher removed + binary-precedence guard
+
+### Removed
+
+- **`obs` dispatcher** — flow-cli's `obs` shadowed the real Homebrew `obs` binary
+  (obsidian-cli-ops) but required a `python/obs_cli.py` flow-cli never shipped, so a
+  function-beats-binary lookup made the broken dispatcher win in every interactive
+  shell. Deleted the dispatcher, its `man/man1/obs.1`, and its test, and scrubbed
+  `obs` from all inventories. **15 → 14 dispatchers** (+ the `at` bridge). The
+  canonical `obs` man page now lives in obsidian-cli-ops.
+
+### Added
+
+- **Binary-precedence guard** (`_flow_load_dispatcher` in `flow.plugin.zsh`) — after
+  sourcing the dispatcher files, drops (`unfunction`) any newly-defined command that
+  shadows an external `$PATH` binary, so a broken dispatcher can never again mask a
+  working tool. Keys on the real defined function name (skips `_`-prefixed helpers;
+  no filename convention). Escape hatches: `FLOW_INTENTIONAL_SHADOWS` (default
+  `r mcp cc` — commands that legitimately shadow R / mcp / the C compiler) and
+  `FLOW_FORCE_DISPATCHER_<NAME>=1`; set `FLOW_DEBUG` to see skip logs. New regression
+  test `tests/test-dispatcher-binary-precedence.zsh` (18 checks).
+
+### Fixed
+
+- **Dogfood scholar-config check** — match the condensed CLAUDE.md format in the
+  scholar-config assertion (#459).
+- **CI Node 20 deprecation** — dropped the deprecated `cache-apt-pkgs-action` (which
+  pulled in the Node 20 `actions/cache/restore`); replaced with a preinstall-aware
+  `zsh` install guard (#457).
+
+### Changed
+
+- Dependency bumps: prettier 3.8.3, `actions/checkout` v6, lint-staged 17,
+  `actions/create-github-app-token` v3; dropped unused eslint + eslint-config-prettier.
+
 ## [7.8.1] — 2026-06-04 — full man-page set + version-sync guard
 
 ### Added

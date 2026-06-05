@@ -10,7 +10,7 @@ tags:
 **Purpose:** Complete reference for all flow-cli dispatchers (15 + at bridge)
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v7.8.1
+**Version:** v7.9.0
 **Last Updated:** 2026-02-21
 
 ---
@@ -3393,6 +3393,6 @@ at stats
 
 ---
 
-**Version:** v7.8.1
+**Version:** v7.9.0
 **Last Updated:** 2026-02-22
 **Total:** 14 dispatchers + at bridge fully documented

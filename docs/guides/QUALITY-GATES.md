@@ -9,7 +9,7 @@ tags:
 
 > Every validation layer in flow-cli, from keystroke to production.
 >
-> **Version:** v7.8.1
+> **Version:** v7.9.0
 
 ---
 
@@ -239,4 +239,4 @@ Areas where validation could be added in the future:
 ---
 
 **Last Updated:** 2026-02-27
-**Version:** v7.8.1
+**Version:** v7.9.0
