@@ -126,6 +126,43 @@ else
     test_pass
 fi
 
+# Footgun caveat (documented in CLAUDE.md): FLOW_INTENTIONAL_SHADOWS=() is
+# "set but empty" (zsh ${+arr} is 1 for an empty array), so the (r mcp cc)
+# default is NOT applied and a normally protected shadow like `cc` (vs
+# /usr/bin/cc) gets dropped. This must run in a genuinely fresh shell: the
+# guard only acts on functions NEW to the current source pass, so re-sourcing
+# in this already-loaded test shell would be a no-op. Hence `zsh -f`.
+# Needs a real `cc` binary to observe; skipped otherwise.
+test_case "empty FLOW_INTENTIONAL_SHADOWS overrides the default (cc dropped)"
+if [[ -z "${commands[cc]}" ]]; then
+    test_skip "no cc binary on PATH"
+else
+    out=$(FLOW_TEST_ROOT="$PROJECT_ROOT" zsh -fc '
+        export FLOW_QUIET=1
+        typeset -ga FLOW_INTENTIONAL_SHADOWS=()
+        source "$FLOW_TEST_ROOT/flow.plugin.zsh" 2>/dev/null
+        whence -w cc
+    ')
+    assert_contains "$out" "cc: command" "cc should be dropped when the allowlist is explicitly emptied"
+    test_case_end
+fi
+
+# Counterpart: with the var UNSET, the default (r mcp cc) IS applied and cc
+# survives — proving the gate, not just the guard.
+test_case "unset FLOW_INTENTIONAL_SHADOWS applies the (r mcp cc) default (cc kept)"
+if [[ -z "${commands[cc]}" ]]; then
+    test_skip "no cc binary on PATH"
+else
+    out=$(FLOW_TEST_ROOT="$PROJECT_ROOT" zsh -fc '
+        export FLOW_QUIET=1
+        unset FLOW_INTENTIONAL_SHADOWS
+        source "$FLOW_TEST_ROOT/flow.plugin.zsh" 2>/dev/null
+        whence -w cc
+    ')
+    assert_contains "$out" "cc: function" "cc should be kept when the allowlist defaults apply"
+    test_case_end
+fi
+
 cleanup
 print_summary
 exit $?
