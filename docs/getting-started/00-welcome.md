@@ -194,7 +194,7 @@
 
 ### Latest Features
 
-- ✅ **8 dispatchers** - `cc`, `g`, `mcp`, `obs`, `qu`, `r`, `tm`, `wt`
+- ✅ **14 dispatchers** - `cc`, `g`, `mcp`, `qu`, `r`, `tm`, `wt`, `dots`, `sec`, `tok`, `teach`, `prompt`, `v`, `em` (+ `at` Atlas bridge)
 - ✅ **150+ tests** - Full ZSH test suite with CI
 - ✅ **Worktree integration** - `cc wt <branch>` for Claude in worktrees
 - ✅ **Git feature workflow** - `g feature start/sync/finish`

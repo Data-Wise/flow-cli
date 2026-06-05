@@ -27,7 +27,7 @@ wt create feat/x    # Worktree: create branch worktree
 **Rules:**
 
 - Single letter for high-frequency domains: `r`, `g`
-- Two letters for medium-frequency: `qu`, `mcp`, `obs`
+- Two letters for medium-frequency: `qu`, `mcp`, `tm`
 - Full words for low-frequency: `work`, `dash`, `pick`
 
 **Note (2025-12-25):** `v`/`vibe` dispatcher was deprecated. Use `flow` command directly for workflow operations.
