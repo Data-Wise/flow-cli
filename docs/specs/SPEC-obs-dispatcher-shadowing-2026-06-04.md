@@ -1,6 +1,6 @@
 # SPEC: Stop the `obs` Dispatcher from Shadowing the Real `obs` Binary
 
-**Status:** WIP — running (worktree `feature/obs-dispatcher-shadowing`)
+**Status:** ✅ Merged — PR #460 squash-merged to `dev` (fc00837f, 2026-06-05). Shipped Phase 1 (delete obs dispatcher) + Phase 2 (B3 binary-precedence guard).
 **Created:** 2026-06-04
 **Type:** dispatcher / shell-integration fix
 **Trigger:** On 2026-06-04, interactive `obs` failed with `[ERROR] Python CLI not found at: …/flow-cli/.../zsh/functions/python/obs_cli.py`. flow-cli loads an `obs` **dispatcher** that duplicates the obsidian-cli-ops wrapper but (a) looks for a `python/obs_cli.py` flow-cli never bundles and (b) uses `OBS_PYTHON=$(command -v python3)` → a dep-less `python@3.14`. It **shadows** the working Homebrew `obs` binary (`/opt/homebrew/bin/obs`).

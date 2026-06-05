@@ -326,8 +326,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.8.1 — man-page set merged (#454); releasing |
-| `obs-dispatcher-shadowing` | `feature/obs-dispatcher-shadowing` | obs removed + B3 guard + docs; PR #460 → dev (open) |
+| Main repo | `dev` | obs removed + B3 binary-precedence guard merged (#460, fc00837f); 14 dispatchers |
 
 ---
 
