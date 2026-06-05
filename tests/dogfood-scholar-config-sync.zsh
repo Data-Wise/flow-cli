@@ -198,10 +198,15 @@ echo "${CYAN}── Documentation ──${RESET}"
 # DOCUMENTATION CHECKS
 # ============================================================================
 
+# Accept either the per-command form (`teach solution`) or the condensed
+# subcommand-list form (`..., solution, sync, validate-r, ...`). CLAUDE.md was
+# optimized to the condensed list in a03916ba ("move teach/dispatcher detail to
+# pointers"); the subcommands are still documented, just not as two-word literals.
+# Boundaries ([(,] before, [,)] after) avoid matching the `--sync` deploy flag.
 run_test "CLAUDE.md lists new subcommands" '
-    grep -q "teach solution" "$PROJECT_ROOT/CLAUDE.md" &&
-    grep -q "teach sync" "$PROJECT_ROOT/CLAUDE.md" &&
-    grep -q "teach validate-r" "$PROJECT_ROOT/CLAUDE.md"
+    grep -Eq "teach solution|[(,] ?solution[,)]" "$PROJECT_ROOT/CLAUDE.md" &&
+    grep -Eq "teach sync|[(,] ?sync[,)]" "$PROJECT_ROOT/CLAUDE.md" &&
+    grep -Eq "teach validate-r|[(,] ?validate-r[,)]" "$PROJECT_ROOT/CLAUDE.md"
 '
 
 run_test "QUICK-REFERENCE includes config commands" '
