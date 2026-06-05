@@ -53,13 +53,12 @@ lib/
 ├── em-cache.zsh                # Email: TTL-based caching (8 functions)
 ├── em-render.zsh               # Email: Smart rendering pipeline (7 functions)
 ├── email-helpers.zsh           # Email: Safety gates, AI draft helper (6 functions)
-└── dispatchers/                # 15 dispatchers + 4 support modules (630+ functions)
+└── dispatchers/                # 14 dispatchers + 4 support modules (630+ functions)
     ├── g-dispatcher.zsh
     ├── cc-dispatcher.zsh
     ├── r-dispatcher.zsh
     ├── qu-dispatcher.zsh
     ├── mcp-dispatcher.zsh
-    ├── obs.zsh
     ├── wt-dispatcher.zsh
     ├── dots-dispatcher.zsh       # Dotfile management
     ├── sec-dispatcher.zsh        # Secret management

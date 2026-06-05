@@ -24,7 +24,6 @@ tags:
 - [R Dispatcher (r)](#r-dispatcher-r) - R package development
 - [Quarto (qu)](#quarto-qu) - Publishing workflow
 - [MCP (mcp)](#mcp-mcp) - MCP server management
-- [Obsidian (obs)](#obsidian-obs) - Note management
 - [Worktree (wt)](#worktree-wt) - Parallel development
 - [Dotfiles (dots)](#dotfiles-dots) - Dotfile management
 - [Secrets (sec)](#secrets-sec) - Secret management
@@ -444,40 +443,6 @@ mcp test <server_name>
 # Show help
 mcp help
 # Output: [MCP dispatcher help]
-```
-
----
-
-## Obsidian (obs)
-
-```bash
-# List vaults
-obs vaults
-# Output: main-vault (/Users/dt/Obsidian/main-vault)
-#         work-vault (/Users/dt/Obsidian/work-vault)
-
-# Show vault stats
-obs stats
-# Output: Total notes: 1,234
-#         Total links: 5,678
-#         Orphan notes: 12
-#         Broken links: 3
-
-# Search notes
-obs search "search term"
-# Output: [List of matching notes]
-
-# Open note
-obs open "note name"
-# Output: [Opens in Obsidian]
-
-# Create note
-obs new "note title"
-# Output: ✅ Created: note title.md
-
-# Show help
-obs help
-# Output: [Obsidian dispatcher help]
 ```
 
 ---

@@ -239,7 +239,6 @@ Commands that adapt to your project type:
 | `g` | `g push` / `g commit` | Git with smart safety |
 | `teach` | `teach init` / `teach deploy` | Teaching workflow |
 | `mcp` | `mcp status` / `mcp logs` | MCP server management |
-| `obs` | `obs vaults` / `obs stats` | Obsidian notes |
 | `wt` | `wt create` / `wt status` | Worktree management |
 | `tm` | `tm title` / `tm ghost` | Terminal manager |
 | `dots` | `dots edit` / `dots sync` | Dotfile management |

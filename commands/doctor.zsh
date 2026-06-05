@@ -1007,7 +1007,7 @@ _doctor_update_docs() {
     # Dispatchers
     echo "## Dispatchers"
     echo ""
-    local -a dispatchers=(g r qu mcp obs)
+    local -a dispatchers=(g r qu mcp)
     for cmd in "${dispatchers[@]}"; do
       echo "### \`$cmd\`"
       echo ""

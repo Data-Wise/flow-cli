@@ -34,7 +34,7 @@ teach init            # Initialize course
 
 ```
 
-### The 15 Dispatchers
+### The 14 Dispatchers
 
 | Dispatcher | Domain | Commands | Complexity |
 | ------------ | -------- | ---------- | ------------ |
@@ -43,7 +43,6 @@ teach init            # Initialize course
 | [r](#r-dispatcher) | R packages | 10+ | Intermediate |
 | [qu](#qu-dispatcher) | Quarto publishing | 8+ | Intermediate |
 | [mcp](#mcp-dispatcher) | MCP servers | 8 | Intermediate |
-| [obs](#obs-dispatcher) | Obsidian notes | 6 | Beginner |
 | [wt](#wt-dispatcher) | Worktrees | 6 | Advanced |
 | [dots](#dots-dispatcher) | Dotfile management | 12+ | Intermediate |
 | [sec](#sec-dispatcher) | Secret management | 10+ | Intermediate → Advanced |
@@ -70,7 +69,6 @@ Start with the **Basics** section of each dispatcher:
 1. [tm](#tm-dispatcher) - Terminal (easiest)
 2. [cc](#cc-dispatcher) - Claude Code
 3. [g](#g-dispatcher) basics - Git
-4. [obs](#obs-dispatcher) - Obsidian (if you use it)
 
 ### For Intermediate Users
 
@@ -969,93 +967,6 @@ Tests server connectivity and health.
 - `mcp logs <name>` - Show logs
 - `mcp test <name>` - Test connectivity
 - `mcp help` - Show help
-
-</details>
-
----
-
-## obs Dispatcher
-
-**Domain:** Obsidian note management
-**Complexity:** Beginner
-**Most Used:** Yes (if using Obsidian)
-
-### Basics (Beginner)
-
-**What it does:** Integrates with Obsidian vaults.
-
-#### Essential Commands
-
-**List vaults:**
-
-```bash
-obs vaults
-
-```
-
-Output:
-
-```text
-
-main-vault (/Users/dt/Obsidian/main-vault)
-work-vault (/Users/dt/Obsidian/work-vault)
-
-```
-
-**Show vault stats:**
-
-```bash
-obs stats
-
-```
-
-Output:
-
-```text
-
-Total notes: 1,234
-Total links: 5,678
-Orphan notes: 12
-Broken links: 3
-
-```
-
-**Search notes:**
-
-```bash
-obs search "machine learning"
-
-```
-
-**Open note:**
-
-```bash
-obs open "My Note"
-
-```
-
-Opens note in Obsidian.
-
-**Create note:**
-
-```bash
-obs new "New Note Title"
-
-```
-
----
-
-### Reference
-
-<details>
-<summary>Complete obs Dispatcher Command List</summary>
-
-- `obs vaults` - List vaults
-- `obs stats` - Show vault statistics
-- `obs search <query>` - Search notes
-- `obs open <note>` - Open note in Obsidian
-- `obs new <title>` - Create new note
-- `obs help` - Show help
 
 </details>
 
@@ -3148,7 +3059,6 @@ v off
 | r | Intermediate | ⭐⭐⭐⭐ | R package dev |
 | qu | Intermediate | ⭐⭐⭐⭐ | Quarto publishing |
 | mcp | Intermediate | ⭐⭐⭐ | MCP server management |
-| obs | Beginner | ⭐⭐⭐ | Obsidian notes |
 | wt | Advanced | ⭐⭐⭐⭐ | Parallel development |
 | dots | Intermediate | ⭐⭐⭐⭐ | Dotfile management |
 | sec | Intermediate → Advanced | ⭐⭐⭐⭐⭐ | Secret management |
@@ -3485,4 +3395,4 @@ at stats
 
 **Version:** v7.8.1
 **Last Updated:** 2026-02-22
-**Total:** 15 dispatchers + at bridge fully documented
+**Total:** 14 dispatchers + at bridge fully documented

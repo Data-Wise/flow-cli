@@ -23,7 +23,7 @@
 #   _flow_show_help_preview "work"   # Shows work command help
 #
 # Notes:
-#   - Dispatchers (g, cc, wt, mcp, r, qu, obs, tm, dots, sec, tok, teach, prompt, v, em, at) use: cmd help
+#   - Dispatchers (g, cc, wt, mcp, r, qu, tm, dots, sec, tok, teach, prompt, v, em, at) use: cmd help
 #   - Regular commands try: cmd --help, then cmd help
 #   - Returns helpful message if command not found/loaded
 #   - Designed for use in fzf --preview parameter
@@ -33,7 +33,7 @@ _flow_show_help_preview() {
 
   # Command is available in current shell (plugin loaded)
   if type "${cmd}" >/dev/null 2>&1; then
-    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|obs|tm|dots|sec|tok|teach|prompt|v|em|at)$ ]]; then
+    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|tm|dots|sec|tok|teach|prompt|v|em|at)$ ]]; then
       # Dispatcher - call with help
       $cmd help 2>/dev/null || echo "Help not available for $cmd"
     else
@@ -182,7 +182,7 @@ _flow_help_browser() {
     echo ""
 
     # Show full help
-    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|obs|tm|dots|sec|tok|teach|prompt|v|em|at)$ ]]; then
+    if [[ "$cmd" =~ ^(g|cc|wt|mcp|r|qu|tm|dots|sec|tok|teach|prompt|v|em|at)$ ]]; then
       $cmd help
     else
       $cmd --help 2>/dev/null || $cmd help 2>/dev/null || {

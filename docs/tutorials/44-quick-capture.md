@@ -146,4 +146,4 @@ One per context switch or every ~30 minutes of deep work. Don't over-document �
 
 - **[Tutorial 6: Dopamine Features](06-dopamine-features.md)** — Log accomplishments with `win` and `yay`
 - **[Tutorial 43: ADHD Daily Routine](43-adhd-daily-routine.md)** — Morning briefing, just start, focus timers
-- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
+- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers

@@ -194,6 +194,6 @@ install.packages(c("devtools", "usethis", "covr", "spelling", "pkgdown"))
 
 ## Next Steps
 
-- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 15 dispatchers
+- **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers
 - **[R Packages book](https://r-pkgs.org/)** — The definitive R package development reference
 - **[devtools documentation](https://devtools.r-lib.org/)** — Full API reference

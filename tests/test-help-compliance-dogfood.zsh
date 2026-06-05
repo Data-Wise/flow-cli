@@ -160,8 +160,8 @@ _test_individual_rules() {
     echo ""
 }
 
-# Test all 15 dispatchers individually
-for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt em; do
+# Test all 14 dispatchers individually
+for d in g r mcp qu wt v cc tm teach dots sec tok prompt em; do
     _test_individual_rules "$d"
 done
 
@@ -188,24 +188,10 @@ _test_help_invocation() {
 }
 
 # Test all three invocation forms for each dispatcher
-# Note: obs is excluded because obs() may be overridden by external
-# obsidian-cli-ops (symlinked via zsh/functions/obs.zsh). We test _obs_help
-# directly via the compliance library instead.
 for cmd in g r mcp qu wt v cc tm prompt; do
     for form in help --help -h; do
         _test_help_invocation "$cmd" "$form"
     done
-done
-
-# Test obs via _obs_help directly (external override-safe)
-for form in help --help -h; do
-    local _obs_out
-    _obs_out="$(_obs_help 2>&1)"
-    if [[ "$_obs_out" == *"╭─"* ]]; then
-        assert_pass "obs $form → produces help output (via _obs_help)"
-    else
-        assert_fail "obs $form → produces help output (via _obs_help)" "no box header found"
-    fi
 done
 
 # teach, dots, sec, tok use the same forms but test explicitly
@@ -260,7 +246,7 @@ _test_content_quality() {
     if [[ -n "$see_also_block" ]]; then
         # At least one cross-reference to another command
         local has_ref=false
-        for ref_cmd in g r mcp qu wt v cc tm teach dots sec tok obs prompt work dash pick flow; do
+        for ref_cmd in g r mcp qu wt v cc tm teach dots sec tok prompt work dash pick flow; do
             if echo "$see_also_block" | grep -q "$ref_cmd"; then
                 has_ref=true
                 break
@@ -285,7 +271,7 @@ _test_content_quality() {
     echo ""
 }
 
-for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
+for d in g r mcp qu wt v cc tm teach dots sec tok prompt; do
     _test_content_quality "$d"
 done
 
@@ -320,7 +306,7 @@ _test_color_fallback() {
 }
 
 # Only test the 7 dispatchers we fixed (they all define their own fallbacks)
-for d in obs prompt dots sec tok cc tm teach v; do
+for d in prompt dots sec tok cc tm teach v; do
     _test_color_fallback "$d"
 done
 echo ""
@@ -349,7 +335,6 @@ _test_box_format() {
     local src_file
     case "$dispatcher" in
         g)      src_file="$FLOW_DIR/lib/dispatchers/g-dispatcher.zsh" ;;
-        obs)    src_file="$FLOW_DIR/lib/dispatchers/obs.zsh" ;;
         teach)  src_file="$FLOW_DIR/lib/dispatchers/teach-dispatcher.zsh" ;;
         prompt) src_file="$FLOW_DIR/lib/dispatchers/prompt-dispatcher.zsh" ;;
         *)      src_file="$FLOW_DIR/lib/dispatchers/${dispatcher}-dispatcher.zsh" ;;
@@ -367,7 +352,7 @@ _test_box_format() {
     fi
 }
 
-for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
+for d in g r mcp qu wt v cc tm teach dots sec tok prompt; do
     _test_box_format "$d"
 done
 echo ""
@@ -382,7 +367,7 @@ echo ""
 
 _test_function_naming() {
     # Standard pattern: _<cmd>_help
-    for d in g r mcp qu wt v cc tm dots sec tok obs prompt; do
+    for d in g r mcp qu wt v cc tm dots sec tok prompt; do
         local expected="_${d}_help"
         if typeset -f "$expected" > /dev/null 2>&1; then
             assert_pass "$d: function $expected() exists"
@@ -396,13 +381,6 @@ _test_function_naming() {
         assert_pass "teach: function _teach_dispatcher_help() exists (special case)"
     else
         assert_fail "teach: function _teach_dispatcher_help() exists (special case)"
-    fi
-
-    # obs: verify old obs_help still works as alias for backward compat
-    if typeset -f "obs_help" > /dev/null 2>&1; then
-        assert_pass "obs: legacy obs_help() alias exists"
-    else
-        assert_fail "obs: legacy obs_help() alias exists"
     fi
 }
 
@@ -428,12 +406,12 @@ _test_doctor_integration() {
     assert_contains "$output" "Help Function Compliance Check" \
         "doctor --help-check shows compliance header"
 
-    # Output should report all 15 dispatchers
-    assert_contains "$output" "All 15 dispatchers compliant" \
-        "doctor --help-check reports all 15 compliant"
+    # Output should report all 14 dispatchers
+    assert_contains "$output" "All 14 dispatchers compliant" \
+        "doctor --help-check reports all 14 compliant"
 
     # Each dispatcher should appear in output
-    for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt em; do
+    for d in g r mcp qu wt v cc tm teach dots sec tok prompt em; do
         assert_grep "$output" "✅ $d:" "doctor output includes $d result"
     done
 }
@@ -450,12 +428,12 @@ echo -e "${BLUE}── Section 8: Compliance Library API ──${NC}"
 echo ""
 
 _test_compliance_api() {
-    # Dispatcher list has exactly 15 entries
+    # Dispatcher list has exactly 14 entries
     local count=${#_FLOW_HELP_DISPATCHERS[@]}
-    if [[ $count -eq 15 ]]; then
-        assert_pass "dispatcher list has exactly 15 entries"
+    if [[ $count -eq 14 ]]; then
+        assert_pass "dispatcher list has exactly 14 entries"
     else
-        assert_fail "dispatcher list has exactly 15 entries" "found $count"
+        assert_fail "dispatcher list has exactly 14 entries" "found $count"
     fi
 
     # Function map has entry for every dispatcher
@@ -532,7 +510,7 @@ echo ""
 _test_consistency() {
     # All dispatchers should have the same section order:
     # box → MOST COMMON → QUICK EXAMPLES → 📋 sections → TIP → See also
-    for d in g r mcp qu wt v cc tm teach dots sec tok obs prompt; do
+    for d in g r mcp qu wt v cc tm teach dots sec tok prompt; do
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"
@@ -597,7 +575,7 @@ _test_edge_cases() {
     assert_exit_code "$empty_rc" "1" "empty dispatcher name returns exit 1"
 
     # Help output contains no raw FLOW_COLORS references (all converted)
-    for d in obs prompt dots sec tok cc tm teach; do
+    for d in prompt dots sec tok cc tm teach; do
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"
@@ -605,7 +583,7 @@ _test_edge_cases() {
     done
 
     # Help output contains no literal \033[ (should be rendered as actual ESC)
-    for d in obs prompt dots sec tok cc tm teach; do
+    for d in prompt dots sec tok cc tm teach; do
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"

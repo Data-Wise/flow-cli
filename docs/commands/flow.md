@@ -56,7 +56,7 @@ flow alias             # Show all custom aliases (29 total)
 flow alias <category>  # Show category aliases (e.g., flow alias cc)
 ```
 
-**Categories:** `git`, `cc` (Claude Code), `pick`, `dash`, `work`, `capture`, `mcp`, `quarto`, `r`, `obs`
+**Categories:** `git`, `cc` (Claude Code), `pick`, `dash`, `work`, `capture`, `mcp`, `quarto`, `r`
 
 ---
 
@@ -226,7 +226,6 @@ Flow-cli includes domain-specific dispatchers that are separate from the `flow` 
 | `r`        | R package dev     | `r test`, `r check`  |
 | `qu`       | Quarto publishing | `qu preview`         |
 | `mcp`      | MCP servers       | `mcp status`         |
-| `obs`      | Obsidian notes    | `obs daily`          |
 | `cc`       | Claude Code       | `cc`, `cc pick`      |
 
 Get help for any dispatcher with `<dispatcher> help`.

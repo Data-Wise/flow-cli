@@ -184,7 +184,7 @@ flow alias git            # Git aliases
 flow alias <category>     # Any category
 ```
 
-**Categories:** `git`, `cc`, `pick`, `dash`, `work`, `capture`, `mcp`, `quarto`, `r`, `obs`
+**Categories:** `git`, `cc`, `pick`, `dash`, `work`, `capture`, `mcp`, `quarto`, `r`
 
 ---
 

@@ -171,12 +171,12 @@ run_test "help-browser commands list includes at entry" "
     grep -q '\"at:' \"\$PROJECT_ROOT/lib/help-browser.zsh\" || return 1
 "
 
-run_test "help-browser regex includes all 15 dispatchers + at" '
+run_test "help-browser regex includes all 14 dispatchers + at" '
     local regex_line
     regex_line=$(grep "^\^(" "$PROJECT_ROOT/lib/help-browser.zsh" 2>/dev/null | head -1)
     [[ -z "$regex_line" ]] && regex_line=$(grep "g|cc|wt" "$PROJECT_ROOT/lib/help-browser.zsh" 2>/dev/null | head -1)
 
-    for d in g cc wt mcp r qu obs tm dots sec tok teach prompt v em at; do
+    for d in g cc wt mcp r qu tm dots sec tok teach prompt v em at; do
         [[ "$regex_line" == *"$d"* ]] || { echo "Missing $d in regex"; return 1; }
     done
 '
@@ -247,9 +247,9 @@ run_test "Plugin loads without stderr when Atlas disabled" '
     [[ -z "$errs" ]] || { echo "Stderr: $errs"; return 1; }
 '
 
-run_test "at() coexists with all 15 dispatchers" '
+run_test "at() coexists with all 14 dispatchers" '
     local all_ok=true
-    for d in g mcp obs qu r cc tm wt dots sec tok teach prompt v em; do
+    for d in g mcp qu r cc tm wt dots sec tok teach prompt v em; do
         typeset -f "$d" >/dev/null 2>&1 || { echo "Missing: $d"; all_ok=false; }
     done
     typeset -f at >/dev/null 2>&1 || { echo "Missing: at"; all_ok=false; }
