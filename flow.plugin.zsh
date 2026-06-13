@@ -30,6 +30,8 @@ FLOW_PLUGIN_DIR=${0:A:h}
 source "$FLOW_PLUGIN_DIR/lib/core.zsh"
 source "$FLOW_PLUGIN_DIR/lib/config.zsh"
 source "$FLOW_PLUGIN_DIR/lib/atlas-bridge.zsh"
+source "$FLOW_PLUGIN_DIR/lib/date-parser.zsh"
+source "$FLOW_PLUGIN_DIR/lib/schedule.zsh"
 source "$FLOW_PLUGIN_DIR/lib/dotfile-helpers.zsh"
 source "$FLOW_PLUGIN_DIR/lib/project-detector.zsh"
 source "$FLOW_PLUGIN_DIR/lib/project-cache.zsh"
