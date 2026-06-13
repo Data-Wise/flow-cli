@@ -2,7 +2,7 @@
 
 > All `sec` subcommands at a glance.
 >
-> **Version:** v7.9.0 (v3.0.0 dispatcher) | **Dispatcher:** `lib/dispatchers/sec-dispatcher.zsh`
+> **Version:** v7.10.0 (v3.0.0 dispatcher) | **Dispatcher:** `lib/dispatchers/sec-dispatcher.zsh`
 >
 > **Backends:** macOS Keychain (primary), Bitwarden (optional secondary).
 
@@ -105,5 +105,5 @@ sec dashboard                # Overview of all secrets
 
 ---
 
-**Version:** v7.9.0
+**Version:** v7.10.0
 **Last Updated:** 2026-02-27

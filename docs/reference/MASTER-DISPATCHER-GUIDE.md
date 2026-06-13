@@ -10,7 +10,7 @@ tags:
 **Purpose:** Complete reference for all flow-cli dispatchers (15 + at bridge)
 **Audience:** All users (beginner → intermediate → advanced)
 **Format:** Progressive disclosure (basics → advanced features)
-**Version:** v7.9.0
+**Version:** v7.10.0
 **Last Updated:** 2026-02-21
 
 ---
@@ -53,6 +53,18 @@ teach init            # Initialize course
 | [v](#v-dispatcher) | Vibe coding mode | 4 | Beginner |
 | [em](#em-dispatcher) | Email (himalaya) | 31 | Beginner → Advanced |
 | [at](#at-atlas-project-intelligence) | Atlas project intelligence | 12+ | Beginner → Intermediate |
+
+### Top-Level Commands (not dispatchers)
+
+Alongside the dispatchers, flow-cli ships top-level commands like `work`,
+`finish`, `dash`, and **`agenda`** — the forward-looking schedule view
+(`agenda [today|-w|-m|--all|--overdue|<type-or-category>]`, aliases `agt`/`agw`/`agm`;
+the filter matches an item's type — research/teaching/general/recurring — or a
+project category — dev/r/teach/quarto/apps).
+The same schedule engine (`lib/schedule.zsh`) also enriches other surfaces:
+`dash` gains an **UPCOMING** section (after QUICK WINS), and `morning`/`today`/
+`week` show dated blocks. See the
+[Agenda & Schedule guide](../guides/AGENDA-SCHEDULE-GUIDE.md).
 
 ---
 
@@ -3393,6 +3405,6 @@ at stats
 
 ---
 
-**Version:** v7.9.0
+**Version:** v7.10.0
 **Last Updated:** 2026-02-22
 **Total:** 14 dispatchers + at bridge fully documented

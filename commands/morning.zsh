@@ -25,11 +25,14 @@ morning() {
   
   # 2. Show active projects summary
   _flow_morning_projects
-  
-  # 3. Show today's wins (if any from yesterday)
+
+  # 3. Show upcoming dated items (7-day window + overdue)
+  _flow_morning_agenda
+
+  # 4. Show today's wins (if any from yesterday)
   _flow_morning_wins
   
-  # 4. Suggest what to work on
+  # 5. Suggest what to work on
   _flow_morning_suggest
   
   echo ""
@@ -98,6 +101,29 @@ _flow_morning_projects() {
   fi
 }
 
+# Upcoming dated items for the morning routine (top 5, 7-day window + overdue).
+# Self-suppresses when nothing is due. Driven by the shared schedule engine.
+_flow_morning_agenda() {
+  typeset -f _schedule_window_records >/dev/null 2>&1 || return 0
+
+  local records
+  records=$(_schedule_window_records 7)
+  [[ -z "$records" ]] && return 0
+
+  echo ""
+  echo "  ${FLOW_COLORS[muted]}Upcoming (next 7 days):${FLOW_COLORS[reset]}"
+  print -r -- "$records" | _schedule_render_capped 5 "run 'agenda'"
+}
+
+# Count of in-window (7d + overdue) dated items, for the quick one-liner.
+_flow_agenda_count() {
+  local records
+  records=$(_schedule_window_records 7)
+  [[ -z "$records" ]] && { echo 0; return 0; }
+  local -a lines=("${(@f)records}")
+  echo ${#lines}
+}
+
 _flow_morning_wins() {
   local wins_file="${FLOW_DATA_DIR}/wins.md"
   
@@ -160,7 +186,12 @@ _flow_morning_quick() {
     active=$(_flow_list_projects "active" 2>/dev/null | wc -l | tr -d ' ')
   fi
   
-  echo "  📥 $inbox inbox  │  📂 $active active projects"
+  local due=$(_flow_agenda_count)
+  if (( due > 0 )); then
+    echo "  📥 $inbox inbox  │  📂 $active active projects  │  📅 $due due soon"
+  else
+    echo "  📥 $inbox inbox  │  📂 $active active projects"
+  fi
   echo ""
   echo "  ${FLOW_COLORS[accent]}→ js${FLOW_COLORS[reset]} to start working"
 }
@@ -198,13 +229,33 @@ today() {
     fi
   fi
   
+  # Show what's due today (+ overdue)
+  _flow_today_agenda
+
   # Show active work
   _flow_morning_projects
   echo ""
 }
 
+# Dated items due today plus anything overdue (window 0). Self-suppresses.
+_flow_today_agenda() {
+  typeset -f _schedule_window_records >/dev/null 2>&1 || return 0
+
+  local records
+  records=$(_schedule_window_records 0)
+  [[ -z "$records" ]] && return 0
+
+  echo "  ${FLOW_COLORS[warning]}📅 Due today${FLOW_COLORS[reset]}"
+  local rec
+  while IFS= read -r rec; do
+    [[ -z "$rec" ]] && continue
+    _schedule_render_line "$rec"
+  done <<< "$records"
+  echo ""
+}
+
 # ============================================================================
-# WEEK COMMAND - Weekly review helper  
+# WEEK COMMAND - Weekly review helper
 # ============================================================================
 
 week() {
@@ -213,13 +264,16 @@ week() {
   echo "${FLOW_COLORS[muted]}Week of $(date '+%B %d, %Y')${FLOW_COLORS[reset]}"
   echo ""
   
+  # This week's deadlines (7-day window, grouped by weekday)
+  _flow_week_agenda
+
   # Session stats
   if _flow_has_atlas; then
     echo "  ${FLOW_COLORS[accent]}Sessions this week:${FLOW_COLORS[reset]}"
     _flow_atlas trail --days=7 2>/dev/null | head -10
     echo ""
   fi
-  
+
   # Wins this week
   local wins_file="${FLOW_DATA_DIR}/wins.md"
   if [[ -f "$wins_file" ]]; then
@@ -232,6 +286,38 @@ week() {
   
   echo ""
   echo "  ${FLOW_COLORS[muted]}Take a moment to celebrate progress! 🎉${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+# This week's dated items (7-day window + overdue), grouped by weekday.
+# Self-suppresses when nothing is due.
+_flow_week_agenda() {
+  typeset -f _schedule_window_records >/dev/null 2>&1 || return 0
+
+  local records
+  records=$(_schedule_window_records 7)
+  [[ -z "$records" ]] && return 0
+
+  echo "  ${FLOW_COLORS[accent]}📅 This week's deadlines:${FLOW_COLORS[reset]}"
+
+  zmodload zsh/datetime 2>/dev/null
+  local rec date last_day day_label
+  while IFS= read -r rec; do
+    [[ -z "$rec" ]] && continue
+    date="${rec%%|*}"
+    # Weekday header (printed once per day); overdue items grouped under "Overdue"
+    if [[ "$date" < "$(strftime '%Y-%m-%d' $EPOCHSECONDS)" ]]; then
+      day_label="Overdue"
+    else
+      local e=$(strftime -r '%Y-%m-%d %H:%M:%S' "$date 12:00:00" 2>/dev/null)
+      day_label=$(strftime '%A' "$e" 2>/dev/null)
+    fi
+    if [[ "$day_label" != "$last_day" ]]; then
+      echo "     ${FLOW_COLORS[muted]}${day_label}:${FLOW_COLORS[reset]}"
+      last_day="$day_label"
+    fi
+    _schedule_render_line "$rec"
+  done <<< "$records"
   echo ""
 }
 

@@ -3,7 +3,7 @@
 > **What you'll learn:** Configure LaTeX macros for consistent AI-generated notation with `teach macros`
 >
 > **Time:** ~15 minutes | **Level:** Beginner → Intermediate
-> **Version:** v7.9.0
+> **Version:** v7.10.0
 
 ---
 

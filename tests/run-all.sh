@@ -74,6 +74,9 @@ echo "Core command tests:"
 # These tests source flow.plugin.zsh in non-interactive mode
 # (FLOW_PLUGIN_DIR, FLOW_QUIET, FLOW_ATLAS_ENABLED=no, exec < /dev/null)
 run_test ./tests/test-dash.zsh
+run_test ./tests/test-schedule.zsh
+run_test ./tests/test-agenda.zsh
+run_test ./tests/test-cadence-agenda.zsh
 run_test ./tests/test-work.zsh
 run_test ./tests/test-doctor.zsh 45
 run_test ./tests/test-capture.zsh
@@ -120,6 +123,7 @@ run_test ./tests/dogfood-teach-doctor-v2.zsh
 run_test ./tests/dogfood-em-dispatcher.zsh
 run_test ./tests/dogfood-atlas-bridge.zsh
 run_test ./tests/dogfood-scholar-config-sync.zsh
+run_test ./tests/dogfood-agenda.zsh
 
 echo ""
 echo "E2E tests:"
@@ -135,6 +139,7 @@ run_test ./tests/e2e-em-dispatcher.zsh
 run_test ./tests/e2e-atlas-bridge.zsh
 run_test ./tests/e2e-scholar-config-sync.zsh
 run_test ./tests/e2e-tok-sync.zsh
+run_test ./tests/e2e-agenda.zsh
 
 echo ""
 echo "Atlas contract tests:"

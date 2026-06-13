@@ -126,6 +126,7 @@ flow goal set 3         # Daily target
 
 ```bash
 dash           # What's happening?
+agenda         # What's due soon? (deadlines, exams, milestones)
 why            # Where was I?
 pick           # Choose a project
 ```

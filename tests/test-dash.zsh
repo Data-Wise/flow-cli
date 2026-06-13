@@ -34,6 +34,11 @@ setup() {
     # Close stdin to prevent any interactive commands from blocking
     exec < /dev/null
 
+    # Isolate FLOW_DATA_DIR so the dashboard never reads the real worklog
+    # (leaked session counts hit a latent _dash_right_now arithmetic path and
+    # truncate output before the UPCOMING section renders).
+    export FLOW_DATA_DIR=$(mktemp -d)
+
     # Create isolated test project root (avoids scanning real ~/projects)
     TEST_ROOT=$(mktemp -d)
     mkdir -p "$TEST_ROOT/dev-tools/mock-dev" "$TEST_ROOT/apps/test-app" \
@@ -44,7 +49,19 @@ setup() {
                "$TEST_ROOT"/research/mock-study "$TEST_ROOT"/quarto/mock-site; do
         echo "## Status: active\n## Progress: 50" > "$dir/.STATUS"
     done
+
+    # Give one project a ## Schedule: block so UPCOMING has something to show
+    zmodload zsh/datetime 2>/dev/null
+    local td=$(strftime '%Y-%m-%d' $EPOCHSECONDS)
+    {
+        echo "## Status: active"
+        echo "## Progress: 50"
+        echo "## Schedule:"
+        echo "- $(_date_add_days "$td" 2) | Dash upcoming probe | research"
+    } > "$TEST_ROOT/research/mock-study/.STATUS"
+
     FLOW_PROJECTS_ROOT="$TEST_ROOT"
+    FLOW_SCHEDULE_NO_CACHE=1
 }
 
 # ============================================================================
@@ -54,6 +71,7 @@ setup() {
 cleanup() {
     reset_mocks
     [[ -d "$TEST_ROOT" ]] && rm -rf "$TEST_ROOT"
+    [[ -n "$FLOW_DATA_DIR" && -d "$FLOW_DATA_DIR" ]] && rm -rf "$FLOW_DATA_DIR"
 }
 trap cleanup EXIT
 
@@ -257,6 +275,35 @@ test_dash_interactive_function() {
 }
 
 # ============================================================================
+# TESTS: UPCOMING section (schedule integration)
+# ============================================================================
+
+test_dash_upcoming_function() {
+    test_case "_dash_upcoming function exists"
+    assert_function_exists "_dash_upcoming" && test_pass
+}
+
+test_dash_upcoming_shows_items() {
+    test_case "dash shows UPCOMING section with dated item"
+    local output=$(dash 2>&1)
+    assert_contains "$output" "UPCOMING" "UPCOMING header present" && \
+    assert_contains "$output" "Dash upcoming probe" "scheduled item rendered" && test_pass
+}
+
+test_dash_upcoming_self_suppresses() {
+    test_case "UPCOMING self-suppresses when nothing scheduled"
+    local empty=$(mktemp -d)
+    mkdir -p "$empty/dev-tools/none"
+    echo "## Status: active" > "$empty/dev-tools/none/.STATUS"
+    local saved="$FLOW_PROJECTS_ROOT"
+    FLOW_PROJECTS_ROOT="$empty"
+    local output=$(dash 2>&1)
+    FLOW_PROJECTS_ROOT="$saved"
+    rm -rf "$empty"
+    assert_not_contains "$output" "UPCOMING" "no UPCOMING header when empty" && test_pass
+}
+
+# ============================================================================
 # RUN TESTS
 # ============================================================================
 
@@ -310,6 +357,12 @@ main() {
     test_dash_quick_access_function
     test_dash_categories_function
     test_dash_interactive_function
+
+    echo ""
+    echo "${CYAN}--- UPCOMING section tests ---${RESET}"
+    test_dash_upcoming_function
+    test_dash_upcoming_shows_items
+    test_dash_upcoming_self_suppresses
 
     # Cleanup and summary
     cleanup

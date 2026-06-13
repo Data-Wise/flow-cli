@@ -26,11 +26,12 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.9.0"
-    **`obs` dispatcher removed:** flow-cli's `obs` shadowed (and broke) the real Homebrew `obs` binary — typing `obs` now runs the real tool. **15 → 14 dispatchers.**
-    **Binary-precedence guard:** the dispatcher loader now drops any command that would shadow an installed `$PATH` binary, unless allowlisted (`FLOW_INTENTIONAL_SHADOWS`, default `r mcp cc`) or forced (`FLOW_FORCE_DISPATCHER_<NAME>=1`). No dispatcher can silently mask a working tool again.
-    **59 test suites** passing (211 files, 12000+ assertions).
-    [→ Dispatcher Guide](reference/MASTER-DISPATCHER-GUIDE.md){ .md-button }
+!!! success "🎉 What's New in v7.10.0"
+    **Forward-looking schedule layer:** the new **`agenda`** command surfaces dated activity across all projects — deadlines, lectures, exams, milestones, and recurring blocks — bucketed into OVERDUE / TODAY / THIS WEEK / LATER (`agt`/`agw`/`agm` aliases).
+    **`dash` UPCOMING** + dated enrichment of `morning` / `today` / `week`, all driven by one shared engine. Works fully without `yq` and without atlas.
+    **Data sources:** a no-`yq` `## Schedule:` section in each project's `.STATUS`, plus teaching dates from `.flow/teach-config.yml`.
+    **64 test suites** passing (213 files, 12000+ assertions).
+    [→ Agenda & Schedule Guide](guides/AGENDA-SCHEDULE-GUIDE.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
 
 ---
@@ -290,4 +291,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.9.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.10.0** · Pure ZSH · Zero Dependencies · MIT License
