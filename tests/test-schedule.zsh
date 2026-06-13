@@ -286,9 +286,11 @@ test_render_line() {
 }
 
 test_render_line_recurring_mark() {
-    test_case "render_line marks recurring items"
-    local out=$(_schedule_render_line "${TODAY}|Standup|recurring|myproj|weekly:mon|status")
-    assert_contains "$out" "🔁" "recurrence marker" && test_pass
+    test_case "render_line flags recurrence for a non-recurring type"
+    # A research weekly block keeps its 🔬 type icon + a trailing 🔁 marker.
+    local out=$(_schedule_render_line "${TODAY}|Advisor meeting|research|myproj|weekly:mon|status")
+    assert_contains "$out" "🔬" "type icon preserved" && \
+    assert_contains "$out" "🔁" "recurrence marker present" && test_pass
 }
 
 # ============================================================================

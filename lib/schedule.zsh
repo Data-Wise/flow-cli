@@ -449,8 +449,10 @@ _schedule_render_line() {
   esac
 
   local ticon=$(_schedule_type_icon "$typ")
+  # Trailing 🔁 flags recurrence for non-recurring TYPES (e.g. a research
+  # weekly block); skip it when the type icon is already 🔁 to avoid doubling.
   local rmark=""
-  [[ -n "$recurrence" && "$recurrence" != "none" ]] && rmark=" 🔁"
+  [[ -n "$recurrence" && "$recurrence" != "none" && "$typ" != "recurring" ]] && rmark=" 🔁"
 
   printf "  %s ${color}%-11s${FLOW_COLORS[reset]} %s%s ${FLOW_COLORS[muted]}(%s)${FLOW_COLORS[reset]}\n" \
     "$ticon" "$rel" "$label" "$rmark" "$project"
