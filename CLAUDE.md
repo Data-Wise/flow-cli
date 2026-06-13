@@ -71,7 +71,8 @@ work <project>    # Start session (cd + context, no editor)
 work <proj> -e    # Start session + open $EDITOR
 finish [note]     # End session (optional commit)
 hop <project>     # Quick switch (tmux)
-dash [category]   # Project dashboard
+dash [category]   # Project dashboard (shows UPCOMING schedule section)
+agenda [window]   # Forward-looking schedule (today|-w|-m|--all|--overdue|<cat>)
 catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check

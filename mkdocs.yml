@@ -236,6 +236,7 @@ nav:
       - guides/index.md
       - Start Here: guides/00-START-HERE.md
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
+      - 📅 Agenda & Schedule: guides/AGENDA-SCHEDULE-GUIDE.md
       - Git & Branching:
           - Git Dispatcher (g): reference/REFCARD-GIT-DISPATCHER.md
           - Git Feature Flow: tutorials/08-git-feature-workflow.md

@@ -54,6 +54,16 @@ teach init            # Initialize course
 | [em](#em-dispatcher) | Email (himalaya) | 31 | Beginner → Advanced |
 | [at](#at-atlas-project-intelligence) | Atlas project intelligence | 12+ | Beginner → Intermediate |
 
+### Top-Level Commands (not dispatchers)
+
+Alongside the dispatchers, flow-cli ships top-level commands like `work`,
+`finish`, `dash`, and **`agenda`** — the forward-looking schedule view
+(`agenda [today|-w|-m|--all|--overdue|<category>]`, aliases `agt`/`agw`/`agm`).
+The same schedule engine (`lib/schedule.zsh`) also enriches other surfaces:
+`dash` gains an **UPCOMING** section (after QUICK WINS), and `morning`/`today`/
+`week` show dated blocks. See the
+[Agenda & Schedule guide](../guides/AGENDA-SCHEDULE-GUIDE.md).
+
 ---
 
 ## How to Use This Guide
