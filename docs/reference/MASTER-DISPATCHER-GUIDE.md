@@ -58,7 +58,9 @@ teach init            # Initialize course
 
 Alongside the dispatchers, flow-cli ships top-level commands like `work`,
 `finish`, `dash`, and **`agenda`** — the forward-looking schedule view
-(`agenda [today|-w|-m|--all|--overdue|<category>]`, aliases `agt`/`agw`/`agm`).
+(`agenda [today|-w|-m|--all|--overdue|<type-or-category>]`, aliases `agt`/`agw`/`agm`;
+the filter matches an item's type — research/teaching/general/recurring — or a
+project category — dev/r/teach/quarto/apps).
 The same schedule engine (`lib/schedule.zsh`) also enriches other surfaces:
 `dash` gains an **UPCOMING** section (after QUICK WINS), and `morning`/`today`/
 `week` show dated blocks. See the

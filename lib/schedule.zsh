@@ -308,11 +308,46 @@ _schedule_expand_recurring() {
 # ============================================================================
 
 # =============================================================================
+# Function: _schedule_category_match
+# Purpose: Decide whether a record passes a category filter
+# Arguments:
+#   $1 - requested category (e.g. research, teach, dev, r, quarto, apps)
+#   $2 - the record's own type field (teaching|research|general|recurring|holiday)
+#   $3 - the project's detected category (_dash_detect_category)
+# Returns:
+#   0 if the record matches (or no filter requested), 1 otherwise
+# Notes:
+#   - Matches on the record TYPE *or* the project category, so a `| research`
+#     item surfaces under `agenda research` no matter what category its project
+#     is detected as. Project-only categories (dev/r/quarto/apps) keep working
+#     via the project-category arm.
+#   - `teach` and `teaching` are synonyms (command uses `teach`; record type and
+#     teach-config items use `teaching`).
+# =============================================================================
+_schedule_category_match() {
+  local want="${1:l}" rtype="${2:l}" pcat="${3:l}"
+  [[ -z "$want" ]] && return 0
+
+  local -a accept=("$want")
+  case "$want" in
+    teach|teaching) accept=(teach teaching) ;;
+  esac
+
+  local a
+  for a in "${accept[@]}"; do
+    [[ "$rtype" == "$a" || "$pcat" == "$a" ]] && return 0
+  done
+  return 1
+}
+
+# =============================================================================
 # Function: _schedule_collect
 # Purpose: Aggregate concrete-dated records across all projects
 # Arguments:
 #   $1 - window in days [default: SCHEDULE_DEFAULT_WINDOW]
-#   $2 - category filter (dev|r|research|teach|quarto|apps) [optional]
+#   $2 - category filter [optional] — matched against each record's TYPE
+#        (teaching|research|general|recurring) OR the project's detected
+#        category (dev|r|research|teach|quarto|apps). See _schedule_category_match.
 # Output:
 #   stdout - record stream (recurring tokens expanded to concrete dates)
 # Notes:
@@ -340,25 +375,30 @@ _schedule_collect() {
   local rend=$(_date_add_days "$today" "$rwin")
 
   local -a out=()
-  local project proj_path cat rec
+  local project proj_path proj_cat rec rtype
 
   while IFS= read -r project; do
     [[ -z "$project" ]] && continue
     proj_path=$(_dash_find_project_path "$project") || continue
     [[ -z "$proj_path" ]] && continue
 
-    if [[ -n "$category" ]]; then
-      cat=$(_dash_detect_category "$proj_path")
-      [[ "$cat" != "$category" ]] && continue
-    fi
+    # Resolve the project's detected category once (only needed when filtering).
+    # Filtering is applied per-record so a `| research` item surfaces under
+    # `agenda research` regardless of its project's detected category.
+    proj_cat=""
+    [[ -n "$category" ]] && proj_cat=$(_dash_detect_category "$proj_path")
 
     # 1. .STATUS schedule block
     if [[ -f "$proj_path/.STATUS" ]]; then
       while IFS= read -r rec; do
         [[ -z "$rec" ]] && continue
+        # type is field 3 in both concrete (date|...) and recurring (|...) forms
+        local -a rf=("${(@s:|:)rec}")
+        rtype="${rf[3]}"
+        [[ -n "$category" ]] && ! _schedule_category_match "$category" "$rtype" "$proj_cat" && continue
+
         if [[ "$rec" == "|"* ]]; then
           # recurring: empty date field -> expand
-          local -a rf=("${(@s:|:)rec}")
           local recurrence="${rf[5]}"
           local tail="${rec#|}"   # label|type|project|recurrence|source
           local d
@@ -375,6 +415,9 @@ _schedule_collect() {
     if [[ -f "$proj_path/.flow/teach-config.yml" ]]; then
       while IFS= read -r rec; do
         [[ -z "$rec" ]] && continue
+        local -a rf=("${(@s:|:)rec}")
+        rtype="${rf[3]}"
+        [[ -n "$category" ]] && ! _schedule_category_match "$category" "$rtype" "$proj_cat" && continue
         out+=("$rec")
       done < <(_schedule_teach_items "$proj_path/.flow/teach-config.yml" "$project")
     fi

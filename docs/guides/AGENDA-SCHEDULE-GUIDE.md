@@ -29,9 +29,23 @@ agenda -w / --week    # Next 7 days (same as default)
 agenda -m / --month   # Next 30 days (adds a LATER bucket)
 agenda --all          # Everything, including holidays
 agenda --overdue      # Overdue items only
-agenda <category>     # Filter: dev | r | research | teach | quarto | apps
+agenda <filter>       # Filter by item type or project category (see below)
 agenda -h             # Help
 ```
+
+### Filtering
+
+A filter argument matches a record's own **type** *or* the project's detected
+**category** — whichever hits first:
+
+| Filter | Matches |
+|--------|---------|
+| `research`, `teaching`, `general`, `recurring` | items with that **type** (`- … \| research`), in any project |
+| `dev`, `r`, `teach`, `quarto`, `apps` | items in a project of that **category** |
+
+So `agenda research` surfaces every item you tagged `| research` no matter which
+project it lives in — a manuscript deadline kept in a `dev`-category repo still
+shows up. `teach` and `teaching` are synonyms.
 
 Items are grouped into **OVERDUE → TODAY → THIS WEEK → LATER** buckets, with
 overdue surfaced loudly (🔥 colors first) and a calm empty state when nothing

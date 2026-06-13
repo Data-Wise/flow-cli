@@ -140,9 +140,10 @@ agenda -m           # Next 30 days (adds LATER bucket)
 agenda --all        # Everything, including holidays
 agenda --overdue    # Overdue items only
 
-# Filter by category
-agenda research
-agenda teach
+# Filter by item type (research|teaching|general|recurring)
+# OR project category (dev|r|teach|quarto|apps)
+agenda research     # every item tagged `| research`, any project
+agenda teach        # teaching items + teach-category projects
 
 # Aliases (avoid `ag` — collides with silver-searcher)
 agt                 # = agenda today

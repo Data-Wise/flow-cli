@@ -61,11 +61,22 @@ Overdue items only.
 .TP
 .B -h\fR, \fB--help
 Show help.
-.SH CATEGORIES
-Restrict to one project category:
+.SH FILTERS
+A filter argument matches a record's own
+.I type
+.RB ( research ", " teaching ", " general ", " recurring )
+OR the project's detected category
+.RB ( dev ", " r ", " teach ", " quarto ", " apps ).
+So
+.B agenda research
+surfaces every item tagged
+.I "| research"
+no matter which project it lives in.
+.RB ( teach " and " teaching " are synonyms.)"
 .RS
 .nf
-dev  r  research  teach  quarto  apps
+research  teaching  general  recurring   (item type)
+dev  r  teach  quarto  apps               (project category)
 .fi
 .RE
 .SH "SCHEDULE GRAMMAR"

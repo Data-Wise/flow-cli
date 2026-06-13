@@ -3,7 +3,7 @@
 # Completion for the agenda command - forward-looking schedule view
 
 _agenda() {
-  local -a windows categories
+  local -a windows types categories
 
   windows=(
     'today:Today only (+ overdue)'
@@ -14,12 +14,19 @@ _agenda() {
     '--help:Show help'
   )
 
+  # Filter by a record's own type...
+  types=(
+    'research:Research items'
+    'teaching:Teaching items'
+    'general:General items'
+    'recurring:Recurring items'
+  )
+
+  # ...or by a project's detected category
   categories=(
     'dev:Development tools'
     'r:R packages'
-    'research:Research projects'
     'teach:Teaching projects'
-    'teaching:Teaching projects (alias)'
     'quarto:Quarto projects'
     'apps:Applications'
   )
@@ -33,13 +40,14 @@ _agenda() {
     '(- *)--month[Next 30 days]' \
     '(- *)--all[Everything, including holidays]' \
     '(- *)--overdue[Overdue items only]' \
-    '1:window or category:->choices' \
+    '1:window or filter:->choices' \
   && return 0
 
   case "$state" in
     choices)
       _describe -t windows 'window' windows
-      _describe -t categories 'category' categories
+      _describe -t types 'item type' types
+      _describe -t categories 'project category' categories
       ;;
   esac
 }

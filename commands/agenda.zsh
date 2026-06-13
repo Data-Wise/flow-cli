@@ -42,12 +42,11 @@ agenda() {
       overdue_only=1
       window=0
       ;;
-    dev|r|research|teach|quarto|apps)
+    dev|r|research|teach|teaching|general|recurring|quarto|apps)
+      # Filter matches the record's TYPE (research/teaching/general/recurring)
+      # OR the project's detected category (dev/r/quarto/apps). teach/teaching
+      # are synonyms — see _schedule_category_match.
       category="$arg"
-      window=7
-      ;;
-    teaching)
-      category="teach"
       window=7
       ;;
     *)
@@ -196,7 +195,7 @@ ${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
 ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
   ${_C_DIM}\$${_C_NC} agenda                 ${_C_DIM}# This week's dated items${_C_NC}
   ${_C_DIM}\$${_C_NC} agenda -m              ${_C_DIM}# Next 30 days (adds LATER)${_C_NC}
-  ${_C_DIM}\$${_C_NC} agenda research        ${_C_DIM}# Filter by category${_C_NC}
+  ${_C_DIM}\$${_C_NC} agenda research        ${_C_DIM}# Filter by item type or project category${_C_NC}
   ${_C_DIM}\$${_C_NC} agenda --all           ${_C_DIM}# Everything, incl. holidays${_C_NC}
 
 ${_C_BLUE}📋 WINDOWS${_C_NC}:
@@ -207,8 +206,9 @@ ${_C_BLUE}📋 WINDOWS${_C_NC}:
   ${_C_CYAN}--overdue${_C_NC}         Overdue items only
   ${_C_CYAN}-h${_C_NC}, ${_C_CYAN}--help${_C_NC}         Show this help
 
-${_C_BLUE}📂 CATEGORIES${_C_NC}:
-  ${_C_CYAN}dev  r  research  teach  quarto  apps${_C_NC}
+${_C_BLUE}📂 FILTERS${_C_NC} ${_C_DIM}(match item type OR project category)${_C_NC}:
+  ${_C_CYAN}research  teaching  general  recurring${_C_NC}  ${_C_DIM}(item type)${_C_NC}
+  ${_C_CYAN}dev  r  teach  quarto  apps${_C_NC}            ${_C_DIM}(project category)${_C_NC}
 
 ${_C_BLUE}⚡ ALIASES${_C_NC}:
   ${_C_CYAN}agt${_C_NC} = agenda today   ${_C_CYAN}agw${_C_NC} = agenda -w   ${_C_CYAN}agm${_C_NC} = agenda -m

@@ -181,6 +181,27 @@ test_agenda_category_filter() {
     assert_not_contains "$output" "Ship v2" "dev item excluded" && test_pass
 }
 
+test_agenda_filter_matches_type() {
+    test_case "agenda research surfaces a research item from a dev-category project"
+    # 'webapp' at the root is detected as a dev project, but carries a
+    # research-TYPED item — type filtering must surface it.
+    mkdir -p "$TEST_ROOT/webapp"
+    {
+        echo "## Schedule:"
+        echo "- $(_date_add_days "$TODAY" 2) | JRSS-B revision | research"
+    } > "$TEST_ROOT/webapp/.STATUS"
+    local output=$(agenda research 2>&1)
+    rm -rf "$TEST_ROOT/webapp"
+    assert_contains "$output" "JRSS-B revision" "research-typed item from a non-research project matches" && test_pass
+}
+
+test_agenda_general_type_accepted() {
+    test_case "agenda general is a valid type filter (not 'unknown')"
+    local output=$(agenda general 2>&1)
+    assert_not_contains "$output" "Unknown" "general accepted as a filter" && \
+    assert_contains "$output" "Standup notes" "general-typed item surfaces" && test_pass
+}
+
 # ============================================================================
 # TESTS: empty state
 # ============================================================================
@@ -270,6 +291,8 @@ main() {
     echo ""
     echo "${CYAN}--- Category filter ---${RESET}"
     test_agenda_category_filter
+    test_agenda_filter_matches_type
+    test_agenda_general_type_accepted
 
     echo ""
     echo "${CYAN}--- Empty state ---${RESET}"

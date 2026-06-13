@@ -253,6 +253,40 @@ test_collect_category_filter() {
     assert_empty "$out" "no dev-category projects -> empty" && test_pass
 }
 
+test_collect_category_by_type() {
+    test_case "category filter matches record TYPE across project categories"
+    # 'webapp' lives at the root -> detected category 'dev', but it carries a
+    # research-TYPED schedule item. Filtering by 'research' must surface it.
+    mkdir -p "$TEST_ROOT/webapp"
+    cat > "$TEST_ROOT/webapp/.STATUS" <<EOF
+## Schedule:
+- $SOON | JRSS-B revision | research
+EOF
+    local out=$(_schedule_collect 30 research)
+    rm -rf "$TEST_ROOT/webapp"
+    assert_contains "$out" "JRSS-B revision" "research item in a dev-category project matches 'research'" && \
+    assert_contains "$out" "Submit revision" "research items in a research-category project still match" && test_pass
+}
+
+test_collect_category_type_precision() {
+    test_case "category filter excludes records of other types"
+    local out=$(_schedule_collect 30 general)
+    assert_contains "$out" "Beta milestone" "general-typed item matches 'general'" && \
+    assert_not_contains "$out" "Submit revision" "research-typed item excluded from 'general'" && test_pass
+}
+
+test_collect_category_teach_synonym() {
+    test_case "category 'teach' matches record type 'teaching' (synonym)"
+    mkdir -p "$TEST_ROOT/webapp2"
+    cat > "$TEST_ROOT/webapp2/.STATUS" <<EOF
+## Schedule:
+- $SOON | Lecture 5 prep | teaching
+EOF
+    local out=$(_schedule_collect 30 teach)
+    rm -rf "$TEST_ROOT/webapp2"
+    assert_contains "$out" "Lecture 5 prep" "teaching-typed item matches 'teach' synonym" && test_pass
+}
+
 test_filter_window_drops_later() {
     test_case "filter_window drops beyond-window, keeps overdue"
     local out=$(_schedule_collect 30 | _schedule_filter_window 7)
@@ -381,6 +415,9 @@ main() {
     test_collect_runs
     test_collect_expands_recurring
     test_collect_category_filter
+    test_collect_category_by_type
+    test_collect_category_type_precision
+    test_collect_category_teach_synonym
     test_filter_window_drops_later
     test_filter_window_wide_keeps
     test_sort_orders_by_date
