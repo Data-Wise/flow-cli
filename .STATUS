@@ -9,7 +9,16 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-05) — obs dispatcher shadowing: plan → review → merge [dev]
+## Current Session (2026-06-13) — agenda / forward-looking schedule layer: brainstorm → spec → worktree [dev]
+
+**Session activity:**
+- **Brainstormed** (`/workflow:brainstorm -d -s`) extending `dash` + cadence commands (`morning`/`today`/`week`) to surface forward-looking RESEARCH + TEACHING activity (deadlines, lectures, exams, manuscript/grant milestones, recurring blocks) — today everything is present/backward-looking.
+- **Checked atlas** (Explore agent): skeletal — `teaching`/`research` are type labels only, `Task.dueDate` never surfaced, no project-level deadlines / semester awareness / research milestones / cross-project upcoming view. → flow-cli owns the model; atlas = opportunistic, capability-detected sync target.
+- **Key reuse found:** `_date_load_config` (`lib/date-parser.zsh:561`) already aggregates teaching dates from `.flow/teach-config.yml`; `.STATUS` `deadline` field already half-parsed by `_dash_get_urgency`. Design adds shared `lib/schedule.zsh` engine + new no-yq `## Schedule:` `.STATUS` section.
+- **Spec written + committed to dev** (`0707e9f3`, pushed): `docs/specs/SPEC-agenda-schedule-2026-06-13.md` (target v7.10.0). Plan: `~/.claude/plans/eventual-bouncing-phoenix.md`.
+- **Worktree created:** `feature/agenda` + `ORCHESTRATE-agenda.md` (`98385b13`) — **awaiting impl in a new session** (`cd ~/.git-worktrees/flow-cli/agenda && claude`). Planning session STOPs here per workflow.
+
+## Previous Session (2026-06-05) — obs dispatcher shadowing: plan → review → merge [dev]
 
 **Session activity:**
 - **Phase 1 — removed dead `obs` dispatcher** (`222c43b2`): it shadowed the real `/opt/homebrew/bin/obs` (obsidian-cli-ops) but needed a `python/obs_cli.py` flow-cli never ships, so a function-beats-binary lookup made the broken dispatcher win in every shell. Deleted `lib/dispatchers/obs.zsh`, `zsh/functions/obs.zsh` (symlink), `man/man1/obs.1`, `tests/test-obs-dispatcher.zsh`; scrubbed obs from inventories (`flow.plugin.zsh`, help-compliance/browser, `commands/{flow,alias,doctor,tutorial}.zsh`) + dangling SEE ALSO obs(1) refs. **15 → 14 dispatchers.** Verified: `type obs` → binary, not function.
