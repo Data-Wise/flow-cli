@@ -78,6 +78,7 @@ dash() {
   _dash_current
   _dash_dotfiles
   _dash_quick_wins
+  _dash_upcoming
   _dash_quick_access
   _dash_recent_wins
 
@@ -407,6 +408,41 @@ _dash_quick_wins() {
 
     ((count++))
   done
+
+  echo ""
+}
+
+# ============================================================================
+# UPCOMING - Forward-looking dated items (v7.10.0)
+# ============================================================================
+
+# Shows the next few dated items (7-day window + overdue) from the shared
+# schedule engine. Sits after QUICK WINS, before QUICK ACCESS. Self-suppresses
+# when nothing is due. Reuses _schedule_collect's session cache, so it shares
+# work with `agenda` and the morning cadence within a session.
+_dash_upcoming() {
+  # Engine may be absent in minimal sources; degrade silently.
+  typeset -f _schedule_collect >/dev/null 2>&1 || return 0
+
+  local records
+  records=$(_schedule_collect "$SCHEDULE_DEFAULT_WINDOW" | _schedule_filter_window "$SCHEDULE_DEFAULT_WINDOW" | _schedule_sort)
+  [[ -n "$records" ]] && records=$(print -r -- "$records" | grep -v '|holiday|')
+  [[ -z "$records" ]] && return 0
+
+  echo "  📅 ${FLOW_COLORS[bold]}UPCOMING${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(next 7 days)${FLOW_COLORS[reset]}"
+
+  local count=0 max=4 rec
+  while IFS= read -r rec; do
+    [[ -z "$rec" ]] && continue
+    (( count >= max )) && break
+    _schedule_render_line "$rec"
+    ((count++))
+  done <<< "$records"
+
+  local total=$(print -r -- "$records" | grep -c .)
+  if (( total > max )); then
+    echo "  ${FLOW_COLORS[muted]}  +$((total - max)) more — run 'agenda' for the full view${FLOW_COLORS[reset]}"
+  fi
 
   echo ""
 }
