@@ -283,7 +283,7 @@ _dash_right_now() {
   elif (( streak == 0 && today_sessions > 0 )); then
     goal_msg="🎯 Goal: Complete session to start streak"
   elif (( today_sessions < daily_goal )); then
-    goal_msg="🎯 Goal: ${daily_goal} session$(( daily_goal > 1 ? 's' : '' )) today"
+    goal_msg="🎯 Goal: ${daily_goal} session$( (( daily_goal > 1 )) && echo s ) today"
   else
     goal_msg="✅ Daily goal achieved!"
   fi
@@ -291,7 +291,7 @@ _dash_right_now() {
   # Format today stats
   local sessions_text="0 sessions"
   if (( today_sessions > 0 )); then
-    sessions_text="$today_sessions session$(( today_sessions > 1 ? 's' : '' ))"
+    sessions_text="$today_sessions session$( (( today_sessions > 1 )) && echo s )"
   fi
   
   local time_text="0m"
@@ -303,7 +303,7 @@ _dash_right_now() {
   
   local streak_text="0 day"
   if (( streak > 0 )); then
-    streak_text="$streak day$(( streak > 1 ? 's' : '' ))"
+    streak_text="$streak day$( (( streak > 1 )) && echo s )"
   fi
   
   # Display RIGHT NOW section
