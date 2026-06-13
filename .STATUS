@@ -344,7 +344,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | obs removed + B3 binary-precedence guard merged (#460, fc00837f); 14 dispatchers |
+| Main repo | `dev` | agenda / schedule layer merged (#463, e0b18e5f) + v7.10.0 bump + doc sweep; agenda worktree removed. Release dev→main pending. |
 
 ---
 
@@ -378,8 +378,8 @@
 
 ---
 
-**Last Updated:** 2026-06-02
-**Status:** v7.9.0 SHIPPED | 59/59 tests passing (1 expected interactive/tmux timeout) | 14 dispatchers + at bridge | 211 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-06-05), --category fix squashed the bug (2026-06-05), fixed the bug (2026-06-05), Fixed the regression bug (2026-06-05), --category fix squashed the bug (2026-06-05)
+**Last Updated:** 2026-06-13
+**Status:** v7.10.0 on dev (release dev→main pending) | 64/64 tests passing (1 expected interactive/tmux timeout) | 14 dispatchers + at bridge | 213 test files | 12000+ test functions | 0 lint errors | 0 broken links
+## wins: Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-05), --category fix squashed the bug (2026-06-05)
 ## streak: 1
-## last_active: 2026-06-05 13:22
+## last_active: 2026-06-13 16:01
