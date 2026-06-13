@@ -221,6 +221,7 @@ run_check "no orphan flow-cli dispatcher page (page without a dispatcher)" '
         [[ "$(_th_product "$p")" == "flow-cli" ]] || continue   # skip vendored
         base="${p:t:r}"
         [[ "$base" == "flow" ]] && continue                     # flow is the index, not a dispatcher
+        [[ "$base" == "agenda" ]] && continue                   # agenda is a top-level command, not a dispatcher
         print -r -- "$cmds" | grep -qx "$base" || orphan+="$base "
     done
     if [[ -n "$orphan" ]]; then
