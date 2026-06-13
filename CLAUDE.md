@@ -72,7 +72,7 @@ work <proj> -e    # Start session + open $EDITOR
 finish [note]     # End session (optional commit)
 hop <project>     # Quick switch (tmux)
 dash [category]   # Project dashboard (shows UPCOMING schedule section)
-agenda [window]   # Forward-looking schedule (today|-w|-m|--all|--overdue|<cat>)
+agenda [window]   # Forward-looking schedule (today|-w|-m|--all|--overdue|<type|cat>)
 catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check
@@ -123,13 +123,13 @@ at <cmd>      # Atlas bridge (project intelligence, optional)
 ```zsh
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
-├── lib/                      # Core libraries (74 files)
+├── lib/                      # Core libraries (77 files)
 │   ├── core.zsh              # Colors, logging, utilities
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── tui.zsh               # Terminal UI components
 │   └── dispatchers/          # 14 smart command dispatchers
-├── commands/                 # 31 command files (work, dash, doctor, teach-*, etc.)
+├── commands/                 # 32 command files (work, dash, agenda, doctor, teach-*, etc.)
 ├── setup/                    # Installation & setup
 ├── completions/              # ZSH completions
 ├── hooks/                    # ZSH hooks

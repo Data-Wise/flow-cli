@@ -51,7 +51,7 @@ Items are grouped into **OVERDUE → TODAY → THIS WEEK → LATER** buckets, wi
 overdue surfaced loudly (🔥 colors first) and a calm empty state when nothing
 is due:
 
-```
+```text
   📅 AGENDA (next 7 days)
 
   OVERDUE (1)
@@ -97,7 +97,7 @@ Add a `## Schedule:` section to any project's `.STATUS` file:
 
 Grammar — one list item per line:
 
-```
+```text
 - <when> | <label> [| <type>]
 ```
 
