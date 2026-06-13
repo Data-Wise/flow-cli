@@ -1,6 +1,6 @@
 # Doctor Token Enhancement - User Guide
 
-**Version:** v7.9.0
+**Version:** v7.10.0
 **Last Updated:** 2026-02-27
 
 ---
@@ -633,5 +633,5 @@ Found a bug or have a feature request?
 ---
 
 **Last Updated:** 2026-02-27
-**Version:** v7.9.0
+**Version:** v7.10.0
 **Maintainer:** flow-cli team

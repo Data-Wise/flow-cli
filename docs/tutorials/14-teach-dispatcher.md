@@ -10,7 +10,7 @@ tags:
 > **What you'll learn:** Manage course websites with fast deployment, config validation, and AI-assisted content creation
 >
 > **Time:** ~20 minutes | **Level:** Beginner
-> **Version:** v7.9.0
+> **Version:** v7.10.0
 
 ---
 
