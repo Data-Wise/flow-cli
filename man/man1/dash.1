@@ -1,0 +1,88 @@
+.\" Man page for the dash command (project dashboard)
+.\" Updated: June 2026
+.TH DASH 1 "June 2026" "flow-cli 7.10.0" "User Commands"
+.SH NAME
+dash \- ADHD-friendly project dashboard
+.SH SYNOPSIS
+.B dash
+[\fIcategory\fR | \fB-a\fR | \fB-i\fR | \fB-w\fR [\fIseconds\fR]]
+.br
+.B dash
+[\fB-f\fR | \fB--inventory\fR [\fIformat\fR] | \fB-h\fR]
+.SH DESCRIPTION
+.B dash
+prints a fast, scannable overview of what is happening across your projects:
+the current session, a single high-signal "right now" suggestion, dotfile
+status, quick wins, quick access, recent wins, and an
+.B UPCOMING
+section of forward-looking dated items (deadlines, exams, milestones, and
+recurring blocks) drawn from the shared schedule engine.
+.PP
+The
+.B UPCOMING
+section appears after QUICK WINS and self-suppresses when nothing is due
+within the next seven days (overdue items are always shown). It shares the
+schedule engine with
+.BR agenda (1)
+and the cadence commands, and works fully without atlas and without
+.BR yq .
+.SH OPTIONS
+.TP
+.B (none)
+Default dashboard.
+.TP
+.B dev\fR, \fBr\fR, \fBresearch\fR, \fBteach\fR, \fBquarto\fR, \fBapps
+Expand a single project category.
+.TP
+.B -a\fR, \fB--all
+Show all projects (no category collapsing).
+.TP
+.B -i\fR, \fB--interactive
+Interactive picker (fzf).
+.TP
+.B -w\fR, \fB--watch \fR[\fIseconds\fR]
+Auto-refreshing watch mode (default interval 5 seconds).
+.TP
+.B --inventory \fR[\fIformat\fR]
+Generate a tool inventory from
+.B .STATUS
+files (default format
+.BR table ).
+.TP
+.B -f\fR, \fB--full
+Full TUI dashboard (requires atlas; falls back to the standard view).
+.TP
+.B -h\fR, \fB--help
+Show help.
+.SH "UPCOMING ITEMS"
+Add dated items to a project's
+.B .STATUS
+file under a
+.B "## Schedule:"
+section; see
+.BR agenda (1)
+for the grammar. Teaching dates are derived automatically from a project's
+.BR .flow/teach-config.yml .
+.SH EXAMPLES
+The standard dashboard:
+.RS
+.nf
+dash
+.fi
+.RE
+.PP
+Expand research projects, or watch the board refresh every 10 seconds:
+.RS
+.nf
+dash research
+dash -w 10
+.fi
+.RE
+.SH "SEE ALSO"
+.BR agenda (1),
+.BR morning (1),
+.BR today (1),
+.BR week (1),
+.BR flow (1)
+.SH AUTHOR
+DT

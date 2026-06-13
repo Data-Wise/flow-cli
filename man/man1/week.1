@@ -1,0 +1,38 @@
+.\" Man page for the week command (weekly review helper)
+.\" Updated: June 2026
+.TH WEEK 1 "June 2026" "flow-cli 7.10.0" "User Commands"
+.SH NAME
+week \- weekly review helper
+.SH SYNOPSIS
+.B week
+.SH DESCRIPTION
+.B week
+is a retrospective-plus-lookahead for the week: it opens with
+.B "This week's deadlines"
+\(em dated items in the next seven days (plus overdue), grouped by weekday \(em
+then shows this week's sessions (when atlas is present) and this week's wins.
+.PP
+The deadlines block is driven by the shared schedule engine, drawing from each
+project's
+.B "## Schedule:"
+section (see
+.BR agenda (1))
+and from teaching configs. Overdue items are grouped under an
+.B Overdue
+heading; the block self-suppresses when nothing is due, omits holiday-typed
+items, and works without atlas or
+.BR yq .
+.SH EXAMPLES
+.RS
+.nf
+week
+.fi
+.RE
+.SH "SEE ALSO"
+.BR today (1),
+.BR morning (1),
+.BR agenda (1),
+.BR dash (1),
+.BR flow (1)
+.SH AUTHOR
+DT

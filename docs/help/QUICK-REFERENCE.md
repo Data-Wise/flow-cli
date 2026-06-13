@@ -18,7 +18,7 @@ tags:
 
 ## Table of Contents
 
-- [Core Commands](#core-commands) - work, finish, dash, hop, catch
+- [Core Commands](#core-commands) - work, finish, dash, agenda, hop, catch
 - [Git Dispatcher (g)](#git-dispatcher-g) - Git workflows
 - [Claude Code (cc)](#claude-code-cc) - AI pair programming
 - [R Dispatcher (r)](#r-dispatcher-r) - R package development
@@ -120,6 +120,53 @@ dash -w 10       # Custom interval (seconds)
 # Interactive TUI (requires atlas)
 dash -f
 ```
+
+!!! tip "UPCOMING section"
+    `dash` now shows an **UPCOMING** block (next 7 days + overdue) after QUICK
+    WINS. It self-suppresses when nothing is scheduled. Full view: `agenda`.
+
+---
+
+### Agenda (forward-looking schedule)
+
+```bash
+# Next 7 days + overdue (default)
+agenda
+
+# Windows
+agenda today        # Due today + overdue
+agenda -w           # Next 7 days
+agenda -m           # Next 30 days (adds LATER bucket)
+agenda --all        # Everything, including holidays
+agenda --overdue    # Overdue items only
+
+# Filter by item type (research|teaching|general|recurring)
+# OR project category (dev|r|teach|quarto|apps)
+agenda research     # every item tagged `| research`, any project
+agenda teach        # teaching items + teach-category projects
+
+# Aliases (avoid `ag` — collides with silver-searcher)
+agt                 # = agenda today
+agw                 # = agenda -w
+agm                 # = agenda -m
+
+# Help
+agenda -h
+```
+
+Add dated items to any project's `.STATUS` (no `yq` needed). Teaching dates come
+from `.flow/teach-config.yml` automatically.
+
+```markdown
+## Schedule:
+- 2026-06-20 | Submit JRSS-B revision | research
+- 2026-07-01 | Project beta milestone | general
+- weekly:fri | Grading window | recurring
+- weekly:mon | Advisor meeting | research
+```
+
+`morning`, `today`, and `week` also show dated blocks. Full guide:
+[Agenda & Schedule](../guides/AGENDA-SCHEDULE-GUIDE.md).
 
 ---
 

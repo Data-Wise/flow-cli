@@ -1,0 +1,55 @@
+#compdef agenda agt agw agm
+
+# Completion for the agenda command - forward-looking schedule view
+
+_agenda() {
+  local -a windows types categories
+
+  windows=(
+    'today:Today only (+ overdue)'
+    '--week:Next 7 days (default)'
+    '--month:Next 30 days (adds LATER)'
+    '--all:Everything, including holidays'
+    '--overdue:Overdue items only'
+    '--help:Show help'
+  )
+
+  # Filter by a record's own type...
+  types=(
+    'research:Research items'
+    'teaching:Teaching items'
+    'general:General items'
+    'recurring:Recurring items'
+  )
+
+  # ...or by a project's detected category
+  categories=(
+    'dev:Development tools'
+    'r:R packages'
+    'teach:Teaching projects'
+    'quarto:Quarto projects'
+    'apps:Applications'
+  )
+
+  _arguments -s \
+    '(- *)-h[Show help]' \
+    '(- *)--help[Show help]' \
+    '(- *)-w[Next 7 days (default)]' \
+    '(- *)--week[Next 7 days (default)]' \
+    '(- *)-m[Next 30 days]' \
+    '(- *)--month[Next 30 days]' \
+    '(- *)--all[Everything, including holidays]' \
+    '(- *)--overdue[Overdue items only]' \
+    '1:window or filter:->choices' \
+  && return 0
+
+  case "$state" in
+    choices)
+      _describe -t windows 'window' windows
+      _describe -t types 'item type' types
+      _describe -t categories 'project category' categories
+      ;;
+  esac
+}
+
+_agenda "$@"

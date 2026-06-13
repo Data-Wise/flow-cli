@@ -49,6 +49,53 @@ These commands require Atlas CLI. flow-cli shows an install message if Atlas is 
 
 ---
 
+## Opportunistic Commands (Capability-Detected, Optional)
+
+These commands are **not required**. flow-cli detects them at runtime and uses
+them only if present; otherwise the call is a **silent no-op**. flow-cli owns
+the data model and degrades fully without atlas.
+
+| Command | Description | Direction |
+|---------|-------------|-----------|
+| `atlas schedule push --format=json --data=<json>` | Ingest forward-looking dated items | flow-cli → atlas |
+
+### `atlas schedule push` (proposed)
+
+The `agenda` layer (`lib/schedule.zsh`) aggregates dated activity from each
+project's `.STATUS` `## Schedule:` block and `.flow/teach-config.yml`, then
+pushes it opportunistically and **asynchronously** (fire-and-forget) so it never
+blocks the prompt.
+
+**Capability probe.** flow-cli runs `atlas schedule --help` once per session and
+caches the result (`_FLOW_ATLAS_HAS_SCHEDULE`). If atlas is absent, or present
+but lacks a `schedule` subcommand, `_flow_schedule_to_atlas` returns without
+calling atlas.
+
+**Payload.** A JSON array of normalized records:
+
+```json
+[
+  {"date":"2026-06-20","label":"Submit JRSS-B revision","type":"research","project":"manuscript-x","recurrence":"none","source":"status"},
+  {"date":"2026-06-26","label":"Grading window","type":"recurring","project":"stat-101","recurrence":"weekly:fri","source":"status"}
+]
+```
+
+| Field | Meaning |
+|-------|---------|
+| `date` | ISO `YYYY-MM-DD` (recurring tokens are expanded to concrete dates) |
+| `label` | Human text |
+| `type` | `teaching` · `research` · `general` · `recurring` · `holiday` |
+| `project` | Source project name |
+| `recurrence` | `none` or `weekly:<dow>` |
+| `source` | `status` or `teach-config` |
+
+**Suggested semantics.** Upsert keyed on `(project, date, label)`. Exit code per
+the standard contract; flow-cli ignores the result (async). This is a *proposed*
+contract — the atlas-side `schedule` command is a separate atlas PR; flow-cli
+ships with the silent no-op until it lands.
+
+---
+
 ## Output Format Specifications
 
 Atlas CLI supports 4 output formats via the `--format` flag:

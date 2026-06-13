@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.9.0
+- **Current Version:** v7.10.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
@@ -71,7 +71,8 @@ work <project>    # Start session (cd + context, no editor)
 work <proj> -e    # Start session + open $EDITOR
 finish [note]     # End session (optional commit)
 hop <project>     # Quick switch (tmux)
-dash [category]   # Project dashboard
+dash [category]   # Project dashboard (shows UPCOMING schedule section)
+agenda [window]   # Forward-looking schedule (today|-w|-m|--all|--overdue|<type|cat>)
 catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check
@@ -122,20 +123,20 @@ at <cmd>      # Atlas bridge (project intelligence, optional)
 ```zsh
 flow-cli/
 ├── flow.plugin.zsh           # Plugin entry point
-├── lib/                      # Core libraries (74 files)
+├── lib/                      # Core libraries (77 files)
 │   ├── core.zsh              # Colors, logging, utilities
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── tui.zsh               # Terminal UI components
 │   └── dispatchers/          # 14 smart command dispatchers
-├── commands/                 # 31 command files (work, dash, doctor, teach-*, etc.)
+├── commands/                 # 32 command files (work, dash, agenda, doctor, teach-*, etc.)
 ├── setup/                    # Installation & setup
 ├── completions/              # ZSH completions
 ├── hooks/                    # ZSH hooks
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 211 test files, 12000+ test functions
+├── tests/                    # 213 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -180,7 +181,7 @@ flow-cli/
 
 ## Testing
 
-**211 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (59/59 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
+**213 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (64/64 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -214,8 +215,8 @@ export FLOW_FORCE_DISPATCHER_OBS=1           # Force-keep one dispatcher (FLOW_F
 
 ## Current Status
 
-**Version:** v7.9.0 | **Tests:** 12000+ (59/59 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.10.0 | **Tests:** 12000+ (64/64 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-06-04 (v7.9.0)
+**Last Updated:** 2026-06-13 (v7.10.0)

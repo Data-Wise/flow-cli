@@ -1,0 +1,44 @@
+# Fixture: teaching config with weeks[].start_date (schedule engine tests)
+#
+# The demo-course fixture uses weeks[].date, which _date_load_config does NOT
+# read (it requires weeks[].start_date) — so it yields no week_N entries. This
+# fixture exercises the full teaching path: week starts, exams, deadlines, and
+# a holiday, all consumed by _date_load_config -> CONFIG_DATES.
+
+course:
+  name: 'STAT-202'
+  full_name: 'STAT 202 - Intermediate Statistics'
+  semester: 'fall'
+  year: 2026
+
+semester_info:
+  start_date: '2026-08-31'
+  end_date: '2026-12-11'
+
+  weeks:
+    - number: 1
+      topic: 'Review and Foundations'
+      start_date: '2026-08-31'
+    - number: 2
+      topic: 'Linear Models'
+      start_date: '2026-09-07'
+    - number: 3
+      topic: 'Generalized Linear Models'
+      start_date: '2026-09-14'
+
+  exams:
+    - name: 'Midterm'
+      date: '2026-10-12'
+    - name: 'Final'
+      date: '2026-12-14'
+
+  deadlines:
+    project_proposal:
+      due_date: '2026-09-25'
+    final_report:
+      week: 3
+      offset_days: 4
+
+  holidays:
+    - name: 'Fall Break'
+      date: '2026-11-26'

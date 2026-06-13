@@ -9,6 +9,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.10.0] — 2026-06-13 — forward-looking schedule layer (`agenda` + dash UPCOMING)
+
+### Added
+
+- **`agenda` command** (`commands/agenda.zsh`) — a forward-looking view of dated
+  activity across all projects: deadlines, exams, milestones, and recurring blocks.
+  Buckets results into **OVERDUE / TODAY / THIS WEEK / LATER** with a calm empty
+  state. Windows: default/`-w` (7d), `today` (0d), `-m` (30d), `--all` (uncapped +
+  holidays), `--overdue` (overdue only). Category/type filters
+  (`research`/`general`/`recurring`/`teach`/`dev`/`r`/`quarto`/`apps`) match the
+  record **type** OR the project category. Aliases: `agt`/`agw`/`agm`.
+- **Shared schedule engine** (`lib/schedule.zsh`) — pure-ZSH, no `yq`/atlas required.
+  Parses an optional `## Schedule:` section in each project's `.STATUS`
+  (`- <when> | <label> [| <type>]`, where `<when>` is an ISO date or `weekly:<dow>`),
+  derives teaching dates from `.flow/teach-config.yml` when `yq` is present, expands
+  `weekly:` recurrences into concrete dates (month/year-rollover safe), and emits
+  normalized `date|label|type|project|recurrence|source` records. Opportunistically
+  pushes to atlas (capability-probed, async, silent no-op when unsupported).
+- **`dash` UPCOMING section** — surfaces in-window + overdue items after QUICK WINS;
+  self-suppresses when nothing is scheduled.
+- **`morning`/`today`/`week` enrichment** — dated blocks (next-7d + overdue,
+  "Due today", "This week's deadlines" grouped by weekday) fed by the same engine.
+- **Man pages** for `agenda`, `dash`, `morning`, `today`, `week`; `_agenda`
+  completion; `docs/guides/AGENDA-SCHEDULE-GUIDE.md`.
+- **Tests** — `test-schedule`, `test-agenda`, `test-cadence-agenda`, plus a dedicated
+  `e2e-agenda` (19 behavioral tests) + `dogfood-agenda` (15 structural tests) pair.
+
+### Fixed
+
+- **`dash` aborted in non-TTY / captured-output contexts** — three
+  `$(( cond ? 's' : '' ))` arithmetic-string ternaries in `_dash_right_now` were
+  fatal in non-interactive shells, suppressing the dashboard before the UPCOMING
+  section rendered. Replaced with the safe `$( (( cond )) && echo s )` idiom.
+- **Schedule parser** — labels containing `|` are now preserved (sanitized to `/`)
+  instead of being mis-split into the type field; the type is only taken from the
+  last field when it is a known token.
+- **Holiday filtering** routes through `_schedule_drop_holidays` (type-field match)
+  instead of a substring `grep`, so labels mentioning "holiday" are no longer hidden.
+- **Schedule cache key** now includes `FLOW_PROJECTS_ROOT`, preventing stale results
+  when the project root changes within a session.
+
 ## [7.9.0] — 2026-06-05 — obs dispatcher removed + binary-precedence guard
 
 ### Removed

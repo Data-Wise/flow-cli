@@ -1,0 +1,159 @@
+.\" Man page for the agenda command (forward-looking schedule view)
+.\" Updated: June 2026
+.TH AGENDA 1 "June 2026" "flow-cli 7.10.0" "User Commands"
+.SH NAME
+agenda \- forward-looking schedule across all projects
+.SH SYNOPSIS
+.B agenda
+[\fIwindow\fR | \fIcategory\fR | \fB--overdue\fR | \fB--all\fR | \fB-h\fR]
+.SH DESCRIPTION
+.B agenda
+surfaces in-window and overdue dated activity across every project —
+assignment due dates, exam dates, manuscript and grant deadlines, milestones,
+and recurring blocks — grouped into
+.BR OVERDUE ,
+.BR TODAY ,
+.B "THIS WEEK"
+and
+.B LATER
+buckets, with a calm empty state when nothing is due.
+.PP
+Items come from two greenfield sources, with no migration required:
+.RS
+.IP \(bu 2
+A
+.B "## Schedule:"
+section in a project's
+.B .STATUS
+file (ZSH-parseable, no
+.BR yq ).
+.IP \(bu 2
+A teaching project's
+.B .flow/teach-config.yml
+(week topics, exams, deadlines, holidays) — derived automatically.
+.RE
+.PP
+.B agenda
+works fully without atlas and without
+.BR yq
+(the teaching path is the only one that needs
+.BR yq ).
+When atlas is present and exposes a
+.B schedule
+subcommand, the collected items are pushed opportunistically and
+asynchronously; otherwise the push is a silent no-op.
+.SH WINDOWS
+.TP
+.B (none)\fR, \fB-w\fR, \fB--week
+Next 7 days plus overdue (default).
+.TP
+.B today
+Today only, plus overdue.
+.TP
+.B -m\fR, \fB--month
+Next 30 days; adds the LATER bucket.
+.TP
+.B --all
+No window cap; includes holidays.
+.TP
+.B --overdue
+Overdue items only.
+.TP
+.B -h\fR, \fB--help
+Show help.
+.SH FILTERS
+A filter argument matches a record's own
+.I type
+.RB ( research ", " teaching ", " general ", " recurring )
+OR the project's detected category
+.RB ( dev ", " r ", " teach ", " quarto ", " apps ).
+So
+.B agenda research
+surfaces every item tagged
+.I "| research"
+no matter which project it lives in.
+.RB ( teach " and " teaching " are synonyms.)"
+.RS
+.nf
+research  teaching  general  recurring   (item type)
+dev  r  teach  quarto  apps               (project category)
+.fi
+.RE
+.SH "SCHEDULE GRAMMAR"
+Lines in a project's
+.B .STATUS
+.B "## Schedule:"
+section take the form
+.IR "- <when> | <label> [| <type>]" :
+.RS
+.nf
+## Schedule:
+- 2026-06-20 | Submit JRSS-B revision | research
+- 2026-07-01 | Project beta milestone | general
+- weekly:fri | Grading window | recurring
+- weekly:mon | Advisor meeting | research
+.fi
+.RE
+.PP
+.I when
+is an ISO date
+.RB ( YYYY-MM-DD )
+or a recurring token
+.RB ( weekly: <\fIdow\fR>).
+.I type
+is one of
+.BR teaching ,
+.BR research ,
+.BR general ,
+or
+.BR recurring
+(optional; defaults to
+.B general
+for dated items and
+.B recurring
+for
+.B weekly:
+tokens).
+.SH ICONS
+.RS
+.nf
+🎓 teaching   🔬 research   📌 general   🔁 recurring   🏖️ holiday
+.fi
+.RE
+.SH ALIASES
+.TP
+.B agt
+Equivalent to \fBagenda today\fR.
+.TP
+.B agw
+Equivalent to \fBagenda -w\fR.
+.TP
+.B agm
+Equivalent to \fBagenda -m\fR.
+.SH EXAMPLES
+This week's dated items:
+.RS
+.nf
+agenda
+.fi
+.RE
+.PP
+Only what is overdue:
+.RS
+.nf
+agenda --overdue
+.fi
+.RE
+.PP
+Next 30 days for research projects:
+.RS
+.nf
+agenda -m
+agenda research
+.fi
+.RE
+.SH "SEE ALSO"
+.BR dash (1),
+.BR flow (1)
+.SH AUTHOR
+DT
