@@ -1,0 +1,39 @@
+.\" Man page for the today command (quick daily status)
+.\" Updated: June 2026
+.TH TODAY 1 "June 2026" "flow-cli 7.9.0" "User Commands"
+.SH NAME
+today \- quick daily status
+.SH SYNOPSIS
+.B today
+.SH DESCRIPTION
+.B today
+prints a focused snapshot of the current day: the active session (when atlas is
+present), today's logged wins, a
+.B "Due today"
+block of dated items due today plus anything overdue, and a summary of active
+work.
+.PP
+The
+.B "Due today"
+block uses the shared schedule engine with a zero-day window (plus overdue),
+drawing items from each project's
+.B "## Schedule:"
+section (see
+.BR agenda (1))
+and from teaching configs. It self-suppresses when nothing is due, omits
+holiday-typed items, and works without atlas or
+.BR yq .
+.SH EXAMPLES
+.RS
+.nf
+today
+.fi
+.RE
+.SH "SEE ALSO"
+.BR week (1),
+.BR morning (1),
+.BR agenda (1),
+.BR dash (1),
+.BR flow (1)
+.SH AUTHOR
+DT

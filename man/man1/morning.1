@@ -1,0 +1,58 @@
+.\" Man page for the morning command (daily startup routine)
+.\" Updated: June 2026
+.TH MORNING 1 "June 2026" "flow-cli 7.9.0" "User Commands"
+.SH NAME
+morning \- ADHD-friendly daily startup routine
+.SH SYNOPSIS
+.B morning
+[\fB-q\fR | \fB--quick\fR]
+.br
+.B am
+.SH DESCRIPTION
+.B morning
+reduces start-of-day decision fatigue with a single scannable briefing:
+inbox count, a summary of active projects, an
+.B Upcoming
+block of dated items (the next seven days plus anything overdue), yesterday's
+wins, and a suggestion for what to work on next.
+.PP
+The Upcoming block is driven by the shared schedule engine (the same one behind
+.BR agenda (1)
+and the
+.B "## Schedule:"
+section of each project's
+.B .STATUS
+file). It self-suppresses when nothing is due and works fully without atlas and
+without
+.BR yq .
+Holiday-typed items are omitted from this view.
+.SH OPTIONS
+.TP
+.B -q\fR, \fB--quick
+Quick mode: a compact briefing with the essentials only.
+.SH ALIASES
+.TP
+.B am
+Equivalent to \fBmorning -q\fR (quick briefing).
+.SH EXAMPLES
+Full morning briefing:
+.RS
+.nf
+morning
+.fi
+.RE
+.PP
+A quick check on the way past:
+.RS
+.nf
+am
+.fi
+.RE
+.SH "SEE ALSO"
+.BR today (1),
+.BR week (1),
+.BR agenda (1),
+.BR dash (1),
+.BR flow (1)
+.SH AUTHOR
+DT
