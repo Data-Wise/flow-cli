@@ -426,7 +426,7 @@ _dash_upcoming() {
 
   local records
   records=$(_schedule_collect "$SCHEDULE_DEFAULT_WINDOW" | _schedule_filter_window "$SCHEDULE_DEFAULT_WINDOW" | _schedule_sort)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | grep -v '|holiday|')
+  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
   [[ -z "$records" ]] && return 0
 
   echo "  📅 ${FLOW_COLORS[bold]}UPCOMING${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(next 7 days)${FLOW_COLORS[reset]}"

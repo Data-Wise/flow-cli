@@ -63,7 +63,7 @@ agenda() {
 
   # Holidays are noise unless explicitly requested (--all)
   if (( ! show_all )) && [[ -n "$records" ]]; then
-    records=$(print -r -- "$records" | grep -v '|holiday|')
+    records=$(print -r -- "$records" | _schedule_drop_holidays)
   fi
 
   # Bucketize (THIS WEEK vs LATER split on the fixed 7-day horizon)

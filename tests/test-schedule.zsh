@@ -193,6 +193,18 @@ test_parse_status_no_section() {
     assert_empty "$out" "no schedule section should yield nothing" && test_pass
 }
 
+test_parse_status_pipe_in_label() {
+    test_case "parse_status keeps a well-formed record when the label contains '|'"
+    local tmp=$(mktemp -d)/.STATUS
+    printf '## Schedule:\n- 2030-02-02 | Submit A|B revision | research\n' > "$tmp"
+    local out=$(_schedule_parse_status "$tmp")
+    local nf=$(print -r -- "$out" | awk -F'|' '{print NF}')
+    local typ=$(print -r -- "$out" | awk -F'|' '{print $3}')
+    assert_equals "$nf" "6" "record must stay 6 fields despite pipe in label (got $nf)" && \
+    assert_equals "$typ" "research" "type must be research, not corrupted (got '$typ')" && \
+    assert_contains "$out" "Submit A/B revision" "inner pipe sanitized to '/'" && test_pass
+}
+
 # ============================================================================
 # TESTS: recurrence expansion (month + year boundaries)
 # ============================================================================
@@ -287,6 +299,40 @@ EOF
     assert_contains "$out" "Lecture 5 prep" "teaching-typed item matches 'teach' synonym" && test_pass
 }
 
+test_drop_holidays_by_type_field() {
+    test_case "drop_holidays filters the TYPE field, not a substring"
+    # A general item whose LABEL is literally 'holiday' must survive; only
+    # records TYPED holiday are dropped.
+    local input="2030-01-01|holiday|general|p|none|status
+2030-01-02|Fall break|holiday|p|none|status"
+    local out=$(print -r -- "$input" | _schedule_drop_holidays)
+    assert_contains "$out" "2030-01-01|holiday|general" "general item labeled 'holiday' kept" && \
+    assert_not_contains "$out" "Fall break" "holiday-TYPED record dropped" && test_pass
+}
+
+test_collect_cache_keyed_on_root() {
+    test_case "collect cache is keyed on FLOW_PROJECTS_ROOT (no cross-root leak)"
+    local saved_nc="${FLOW_SCHEDULE_NO_CACHE:-}" saved_root="$FLOW_PROJECTS_ROOT"
+    unset FLOW_SCHEDULE_NO_CACHE                       # enable caching
+    _SCHEDULE_CACHE_KEY=""; _SCHEDULE_CACHE_RECORDS=""; _SCHEDULE_CACHE_TIME=0
+    local r1=$(mktemp -d) r2=$(mktemp -d)
+    local f1=$(mktemp) f2=$(mktemp)
+    mkdir -p "$r1/a" "$r2/b"
+    printf '## Schedule:\n- 2030-03-03 | Root1 item | general\n' > "$r1/a/.STATUS"
+    printf '## Schedule:\n- 2030-03-03 | Root2 item | general\n' > "$r2/b/.STATUS"
+    # Call with redirection (NOT $(...)) so the session cache persists in this
+    # shell — that is what exposes a root-agnostic cache key.
+    FLOW_PROJECTS_ROOT="$r1"; _schedule_collect 3650 > "$f1"
+    FLOW_PROJECTS_ROOT="$r2"; _schedule_collect 3650 > "$f2"
+    local out2=$(<"$f2")
+    FLOW_PROJECTS_ROOT="$saved_root"
+    [[ -n "$saved_nc" ]] && FLOW_SCHEDULE_NO_CACHE="$saved_nc"
+    _SCHEDULE_CACHE_KEY=""; _SCHEDULE_CACHE_RECORDS=""; _SCHEDULE_CACHE_TIME=0
+    rm -rf "$r1" "$r2" "$f1" "$f2"
+    assert_contains "$out2" "Root2 item" "second root returns its own items" && \
+    assert_not_contains "$out2" "Root1 item" "no stale cross-root cache leak" && test_pass
+}
+
 test_filter_window_drops_later() {
     test_case "filter_window drops beyond-window, keeps overdue"
     local out=$(_schedule_collect 30 | _schedule_filter_window 7)
@@ -367,6 +413,20 @@ test_atlas_noop_when_absent() {
     reset_mocks
 }
 
+test_records_to_json_valid() {
+    test_case "records_to_json escapes quotes/backslashes into valid JSON"
+    local rec='2030-01-01|He said "hi" \ done|research|p|none|status'
+    local json=$(_schedule_records_to_json "$rec")
+    if command -v python3 >/dev/null 2>&1; then
+        local ok=$(print -r -- "$json" | python3 -c 'import sys,json; json.load(sys.stdin); print("VALID")' 2>/dev/null)
+        assert_equals "$ok" "VALID" "output must be parseable JSON (got: $json)" && \
+        assert_contains "$json" '\"hi\"' "quotes escaped" && test_pass
+    else
+        assert_contains "$json" '\"hi\"' "quotes escaped" && \
+        assert_contains "$json" '\\ done' "backslash escaped" && test_pass
+    fi
+}
+
 # ============================================================================
 # RUN TESTS
 # ============================================================================
@@ -402,6 +462,7 @@ main() {
     test_parse_status_default_type
     test_parse_status_empty_file
     test_parse_status_no_section
+    test_parse_status_pipe_in_label
 
     echo ""
     echo "${CYAN}--- Recurrence expansion ---${RESET}"
@@ -418,6 +479,8 @@ main() {
     test_collect_category_by_type
     test_collect_category_type_precision
     test_collect_category_teach_synonym
+    test_drop_holidays_by_type_field
+    test_collect_cache_keyed_on_root
     test_filter_window_drops_later
     test_filter_window_wide_keeps
     test_sort_orders_by_date
@@ -435,6 +498,7 @@ main() {
     echo ""
     echo "${CYAN}--- Atlas opportunistic push ---${RESET}"
     test_atlas_noop_when_absent
+    test_records_to_json_valid
 
     cleanup
     test_suite_end

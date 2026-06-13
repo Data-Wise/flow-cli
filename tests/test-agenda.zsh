@@ -91,8 +91,9 @@ test_agenda_aliases_exist() {
 
 test_agenda_help_runs() {
     test_case "agenda -h runs and shows usage"
-    local output=$(agenda -h 2>&1)
-    assert_exit_code $? 0 "agenda -h should exit 0"
+    local output rc
+    output=$(agenda -h 2>&1); rc=$?
+    assert_exit_code $rc 0 "agenda -h should exit 0"
     assert_contains "$output" "AGENDA" "help shows title" && \
     assert_contains "$output" "today" "help mentions today window" && \
     assert_contains "$output" "--overdue" "help mentions --overdue" && test_pass
@@ -110,8 +111,9 @@ test_agenda_help_flag() {
 
 test_agenda_default_runs() {
     test_case "agenda (default) runs without error"
-    local output=$(agenda 2>&1)
-    assert_exit_code $? 0 "agenda should exit 0"
+    local output rc
+    output=$(agenda 2>&1); rc=$?
+    assert_exit_code $rc 0 "agenda should exit 0"
     assert_not_contains "$output" "command not found" && test_pass
 }
 
@@ -222,6 +224,40 @@ test_agenda_empty_category() {
 }
 
 # ============================================================================
+# TESTS: holiday filtering (default hides, --all shows)
+# ============================================================================
+
+test_agenda_default_excludes_holiday() {
+    test_case "agenda (default) hides holiday-typed items"
+    mkdir -p "$TEST_ROOT/hol"
+    printf '## Schedule:\n- %s | Fall Break | holiday\n' "$(_date_add_days "$TODAY" 2)" > "$TEST_ROOT/hol/.STATUS"
+    local output=$(agenda 2>&1)
+    rm -rf "$TEST_ROOT/hol"
+    assert_not_contains "$output" "Fall Break" "holiday hidden by default" && test_pass
+}
+
+test_agenda_all_includes_holiday() {
+    test_case "agenda --all shows holiday-typed items"
+    mkdir -p "$TEST_ROOT/hol"
+    printf '## Schedule:\n- %s | Fall Break | holiday\n' "$(_date_add_days "$TODAY" 2)" > "$TEST_ROOT/hol/.STATUS"
+    local output=$(agenda --all 2>&1)
+    rm -rf "$TEST_ROOT/hol"
+    assert_contains "$output" "Fall Break" "holiday shown under --all" && test_pass
+}
+
+test_agenda_label_with_pipe_renders() {
+    test_case "agenda renders a label containing '|' without field corruption"
+    mkdir -p "$TEST_ROOT/pipe"
+    printf '## Schedule:\n- %s | Fix bug | crash | research\n' "$(_date_add_days "$TODAY" 1)" > "$TEST_ROOT/pipe/.STATUS"
+    local output=$(agenda research 2>&1)
+    rm -rf "$TEST_ROOT/pipe"
+    # type stayed 'research' (item appears under the research filter) and the
+    # label is sanitized, not truncated at the first pipe
+    assert_contains "$output" "Fix bug" "label present" && \
+    assert_not_contains "$output" "command not found" "no breakage" && test_pass
+}
+
+# ============================================================================
 # TESTS: unknown option
 # ============================================================================
 
@@ -298,6 +334,12 @@ main() {
     echo "${CYAN}--- Empty state ---${RESET}"
     test_agenda_empty_state
     test_agenda_empty_category
+
+    echo ""
+    echo "${CYAN}--- Holiday filtering + pipe-in-label ---${RESET}"
+    test_agenda_default_excludes_holiday
+    test_agenda_all_includes_holiday
+    test_agenda_label_with_pipe_renders
 
     echo ""
     echo "${CYAN}--- Unknown option ---${RESET}"

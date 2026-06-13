@@ -181,15 +181,35 @@ _schedule_parse_status() {
     body="${body#"${body%%[![:space:]]*}"}"   # trim leading whitespace
     [[ -z "$body" ]] && continue
 
-    # Split on `|`
+    # Split on `|`. Labels MAY contain `|` — keep the last field as the type
+    # only when it is a known type token, treat everything between as the
+    # label, then collapse any leftover `|` in the label (the internal record
+    # format is pipe-delimited) so downstream fields never shift.
     local -a parts
     parts=("${(@s:|:)body}")
-    local when="${parts[1]}" label="${parts[2]}" typ="${parts[3]}"
+    local n=${#parts}
 
-    when="${when//[[:space:]]/}"                                   # strip ws
+    local when="${parts[1]}"
+    when="${when//[[:space:]]/}"
+
+    local label="" typ=""
+    if (( n >= 3 )); then
+      local last="${parts[n]//[[:space:]]/}"; last="${last:l}"
+      case "$last" in
+        teach|teaching)
+          typ="teaching"; label="${(j:|:)parts[2,-2]}" ;;
+        research|general|recurring|holiday)
+          typ="$last";    label="${(j:|:)parts[2,-2]}" ;;
+        *)
+          label="${(j:|:)parts[2,-1]}" ;;   # last field is part of the label
+      esac
+    else
+      label="${(j:|:)parts[2,-1]}"          # n<=2: parts[2] (empty when n==1)
+    fi
+
+    local _slash='/'; label="${label//[|]/$_slash}"               # sanitize `|`
     label="${label#"${label%%[![:space:]]*}"}"                    # ltrim
     label="${label%"${label##*[![:space:]]}"}"                    # rtrim
-    typ="${typ//[[:space:]]/}"; typ="${typ:l}"
 
     [[ -z "$when" || -z "$label" ]] && continue
 
@@ -360,7 +380,7 @@ _schedule_collect() {
   local category="${2:-}"
 
   local today=$(_schedule_today)
-  local cache_key="${today}|${window}|${category}"
+  local cache_key="${FLOW_PROJECTS_ROOT}|${today}|${window}|${category}"
 
   if [[ -z "$FLOW_SCHEDULE_NO_CACHE" ]] \
      && [[ "$_SCHEDULE_CACHE_KEY" == "$cache_key" ]] \
@@ -468,6 +488,19 @@ _schedule_sort() {
 }
 
 # =============================================================================
+# Function: _schedule_drop_holidays
+# Purpose: Drop records whose TYPE is `holiday` (callers use this unless --all)
+# Input:  stdin  - record stream
+# Output: stdout - records with type != holiday
+# Notes:
+#   - Filters on the type FIELD (column 3), not a substring, so a legitimate
+#     item whose label happens to be "holiday" is not wrongly dropped.
+# =============================================================================
+_schedule_drop_holidays() {
+  awk -F'|' '$3 != "holiday"'
+}
+
+# =============================================================================
 # Function: _schedule_render_line
 # Purpose: Render a single record (type icon + urgency color + relative day)
 # Arguments:
@@ -506,6 +539,51 @@ _schedule_render_line() {
 # ============================================================================
 
 # =============================================================================
+# Function: _schedule_json_escape
+# Purpose: Escape a string for safe inclusion in a JSON double-quoted value
+# Arguments:
+#   $1 - raw string
+# Output:
+#   stdout - escaped string (\\, \", \t, \n, \r)
+# Notes:
+#   - Pure ZSH (no jq dependency). Backslash MUST be escaped first.
+# =============================================================================
+_schedule_json_escape() {
+  local s="$1"
+  s="${s//\\/\\\\}"      # backslash -> \\  (first!)
+  s="${s//\"/\\\"}"      # quote     -> \"
+  s="${s//$'\t'/\\t}"    # tab
+  s="${s//$'\n'/\\n}"    # newline
+  s="${s//$'\r'/\\r}"    # carriage return
+  print -r -- "$s"
+}
+
+# =============================================================================
+# Function: _schedule_records_to_json
+# Purpose: Serialize records into a JSON array (each field escaped)
+# Arguments:
+#   $@ - records (date|label|type|project|recurrence|source)
+# Output:
+#   stdout - JSON array string (valid even when labels contain " or \)
+# =============================================================================
+_schedule_records_to_json() {
+  local -a records=("$@")
+  local json="[" first=1 rec
+  for rec in "${records[@]}"; do
+    [[ -z "$rec" ]] && continue
+    local -a f=("${(@s:|:)rec}")
+    (( first )) || json+=","
+    first=0
+    json+=$(printf '{"date":"%s","label":"%s","type":"%s","project":"%s","recurrence":"%s","source":"%s"}' \
+      "$(_schedule_json_escape "${f[1]}")" "$(_schedule_json_escape "${f[2]}")" \
+      "$(_schedule_json_escape "${f[3]}")" "$(_schedule_json_escape "${f[4]}")" \
+      "$(_schedule_json_escape "${f[5]}")" "$(_schedule_json_escape "${f[6]}")")
+  done
+  json+="]"
+  print -r -- "$json"
+}
+
+# =============================================================================
 # Function: _flow_schedule_to_atlas
 # Purpose: Opportunistically push records to atlas (async, no-op if absent)
 # Arguments:
@@ -530,16 +608,7 @@ _flow_schedule_to_atlas() {
   local -a records=("$@")
   (( ${#records[@]} == 0 )) && return 0
 
-  local json="[" first=1 rec
-  for rec in "${records[@]}"; do
-    [[ -z "$rec" ]] && continue
-    local -a f=("${(@s:|:)rec}")
-    (( first )) || json+=","
-    first=0
-    json+=$(printf '{"date":"%s","label":"%s","type":"%s","project":"%s","recurrence":"%s","source":"%s"}' \
-      "${f[1]}" "${f[2]}" "${f[3]}" "${f[4]}" "${f[5]}" "${f[6]}")
-  done
-  json+="]"
+  local json=$(_schedule_records_to_json "${records[@]}")
 
   _flow_atlas_async schedule push --format=json --data="$json"
   return 0

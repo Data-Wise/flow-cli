@@ -108,7 +108,7 @@ _flow_morning_agenda() {
 
   local records
   records=$(_schedule_collect 7 | _schedule_filter_window 7 | _schedule_sort)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | grep -v '|holiday|')
+  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
   [[ -z "$records" ]] && return 0
 
   echo ""
@@ -133,7 +133,7 @@ _flow_agenda_count() {
   typeset -f _schedule_collect >/dev/null 2>&1 || { echo 0; return 0; }
   local records
   records=$(_schedule_collect 7 | _schedule_filter_window 7)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | grep -v '|holiday|')
+  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
   [[ -z "$records" ]] && { echo 0; return 0; }
   print -r -- "$records" | grep -c .
 }
@@ -257,7 +257,7 @@ _flow_today_agenda() {
 
   local records
   records=$(_schedule_collect 0 | _schedule_filter_window 0 | _schedule_sort)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | grep -v '|holiday|')
+  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
   [[ -z "$records" ]] && return 0
 
   echo "  ${FLOW_COLORS[warning]}📅 Due today${FLOW_COLORS[reset]}"
@@ -311,7 +311,7 @@ _flow_week_agenda() {
 
   local records
   records=$(_schedule_collect 7 | _schedule_filter_window 7 | _schedule_sort)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | grep -v '|holiday|')
+  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
   [[ -z "$records" ]] && return 0
 
   echo "  ${FLOW_COLORS[accent]}📅 This week's deadlines:${FLOW_COLORS[reset]}"
