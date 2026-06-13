@@ -534,6 +534,52 @@ _schedule_render_line() {
     "$ticon" "$rel" "$label" "$rmark" "$project"
 }
 
+# =============================================================================
+# Function: _schedule_window_records
+# Purpose: The shared surface pipeline — collect, window-filter, sort, and drop
+#          holidays — in one place (dash UPCOMING, morning/today/week, counts).
+# Arguments:
+#   $1 - window in days [default: SCHEDULE_DEFAULT_WINDOW]
+# Output:
+#   stdout - the resulting record stream (empty when nothing is due)
+# Notes:
+#   - Returns 0 with no output when the engine is unavailable or nothing matches,
+#     so callers can `records=$(_schedule_window_records …); [[ -z … ]] && return`.
+# =============================================================================
+_schedule_window_records() {
+  local window="${1:-$SCHEDULE_DEFAULT_WINDOW}"
+  typeset -f _schedule_collect >/dev/null 2>&1 || return 0
+  _schedule_collect "$window" \
+    | _schedule_filter_window "$window" \
+    | _schedule_sort \
+    | _schedule_drop_holidays
+}
+
+# =============================================================================
+# Function: _schedule_render_capped
+# Purpose: Render a record stream (from stdin), capped at <max> lines, with a
+#          "+N more — <hint>" footer when truncated.
+# Arguments:
+#   $1 - max lines to render
+#   $2 - hint shown in the "+N more" footer (e.g. "run 'agenda'")
+# Input:  stdin  - record stream (newline-delimited)
+# Notes:
+#   - Counts via an array split (no `grep -c`); no-op on empty input.
+# =============================================================================
+_schedule_render_capped() {
+  local max="$1" hint="$2"
+  local input; input="$(cat)"
+  [[ -z "$input" ]] && return 0
+
+  local -a lines=("${(@f)input}")
+  local total=${#lines} i
+  for (( i = 1; i <= total && i <= max; i++ )); do
+    _schedule_render_line "${lines[i]}"
+  done
+  (( total > max )) && \
+    print -r -- "  ${FLOW_COLORS[muted]}  +$((total - max)) more — ${hint}${FLOW_COLORS[reset]}"
+}
+
 # ============================================================================
 # ATLAS (opportunistic, capability-detected)
 # ============================================================================

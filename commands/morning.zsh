@@ -104,38 +104,24 @@ _flow_morning_projects() {
 # Upcoming dated items for the morning routine (top 5, 7-day window + overdue).
 # Self-suppresses when nothing is due. Driven by the shared schedule engine.
 _flow_morning_agenda() {
-  typeset -f _schedule_collect >/dev/null 2>&1 || return 0
+  typeset -f _schedule_window_records >/dev/null 2>&1 || return 0
 
   local records
-  records=$(_schedule_collect 7 | _schedule_filter_window 7 | _schedule_sort)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
+  records=$(_schedule_window_records 7)
   [[ -z "$records" ]] && return 0
 
   echo ""
   echo "  ${FLOW_COLORS[muted]}Upcoming (next 7 days):${FLOW_COLORS[reset]}"
-
-  local count=0 rec
-  while IFS= read -r rec; do
-    [[ -z "$rec" ]] && continue
-    (( count >= 5 )) && break
-    _schedule_render_line "$rec"
-    ((count++))
-  done <<< "$records"
-
-  local total=$(print -r -- "$records" | grep -c .)
-  if (( total > 5 )); then
-    echo "  ${FLOW_COLORS[muted]}  +$((total - 5)) more — run 'agenda'${FLOW_COLORS[reset]}"
-  fi
+  print -r -- "$records" | _schedule_render_capped 5 "run 'agenda'"
 }
 
 # Count of in-window (7d + overdue) dated items, for the quick one-liner.
 _flow_agenda_count() {
-  typeset -f _schedule_collect >/dev/null 2>&1 || { echo 0; return 0; }
   local records
-  records=$(_schedule_collect 7 | _schedule_filter_window 7)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
+  records=$(_schedule_window_records 7)
   [[ -z "$records" ]] && { echo 0; return 0; }
-  print -r -- "$records" | grep -c .
+  local -a lines=("${(@f)records}")
+  echo ${#lines}
 }
 
 _flow_morning_wins() {
@@ -253,11 +239,10 @@ today() {
 
 # Dated items due today plus anything overdue (window 0). Self-suppresses.
 _flow_today_agenda() {
-  typeset -f _schedule_collect >/dev/null 2>&1 || return 0
+  typeset -f _schedule_window_records >/dev/null 2>&1 || return 0
 
   local records
-  records=$(_schedule_collect 0 | _schedule_filter_window 0 | _schedule_sort)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
+  records=$(_schedule_window_records 0)
   [[ -z "$records" ]] && return 0
 
   echo "  ${FLOW_COLORS[warning]}📅 Due today${FLOW_COLORS[reset]}"
@@ -307,11 +292,10 @@ week() {
 # This week's dated items (7-day window + overdue), grouped by weekday.
 # Self-suppresses when nothing is due.
 _flow_week_agenda() {
-  typeset -f _schedule_collect >/dev/null 2>&1 || return 0
+  typeset -f _schedule_window_records >/dev/null 2>&1 || return 0
 
   local records
-  records=$(_schedule_collect 7 | _schedule_filter_window 7 | _schedule_sort)
-  [[ -n "$records" ]] && records=$(print -r -- "$records" | _schedule_drop_holidays)
+  records=$(_schedule_window_records 7)
   [[ -z "$records" ]] && return 0
 
   echo "  ${FLOW_COLORS[accent]}📅 This week's deadlines:${FLOW_COLORS[reset]}"
