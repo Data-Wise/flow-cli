@@ -385,13 +385,12 @@
 ## Next Action
 
 1. API documentation push (50% → 80% coverage of 348 functions)
-2. Code workspace manager — `code ws` dispatcher spec ready on dev
-3. CI smoke-only gap — workflow PR to gate full `./tests/run-all.sh` on main (filed 2026-05-13)
+2. Code workspace manager — `code ws` dispatcher (`SPEC-code-workspace-2026-02-13.md`, ~4mo old — review before impl)
 
 ---
 
-**Last Updated:** 2026-06-13
-**Status:** v7.10.0 SHIPPED (main + Homebrew tap) | full suite in CI (PR #465) — 64 passed / 0 failed / 1 skipped (tool-absent rc 77) | 14 dispatchers + at bridge | 213 test files | 12000+ test functions | 0 lint errors | 0 broken links
+**Last Updated:** 2026-06-14
+**Status:** v7.10.1 SHIPPED (main + Homebrew tap) | full suite REQUIRED on main (PRs #465/#466) — 64 passed / 0 failed / 1 skipped (tool-absent rc 77) | 14 dispatchers + at bridge | 216 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-06-13), --category fix squashed the bug (2026-06-13), fixed the bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13)
 ## streak: 1
 ## last_active: 2026-06-13 22:10
