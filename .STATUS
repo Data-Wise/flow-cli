@@ -9,7 +9,15 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-13) — agenda / forward-looking schedule layer: brainstorm → spec → worktree [dev]
+## Current Session (2026-06-13) — v7.10.0 SHIPPED + CI full-suite gate (Phase 1 done, **Phase 2 WIP**) [dev]
+
+**Session activity:**
+- **Agenda feature → v7.10.0 SHIPPED:** reviewed + hardened the schedule layer (adversarial A–F fixes, `e2e-agenda`/`dogfood-agenda` pair, shared-pipeline refactor `_schedule_window_records`/`_schedule_render_capped`); fixed a pre-existing `dash` non-TTY abort (`$(( cond ? 's' : '' ))` ×3). PR #463→dev → release PR #464→main (`477b5c59`) → GitHub release v7.10.0 → Homebrew tap auto-updated → docs deployed. Plus ~50-doc version sweep + CHANGELOG ×2 + index What's-New + `agenda` in index Core Commands (`955b1fe3`).
+- **Cleanup:** agenda worktree + branch removed (local+remote). **3 squash-merged branches** (`manpage-refresh`/`tok-autosync`/`scholar-fix`) await manual `git branch -D` — hook blocks force-delete (route to user).
+- **CI full-suite gate (Next Action #3):** spec (`docs/specs/SPEC-ci-full-suite-gate-2026-06-13.md`) → worktree `feature/ci-full-suite-gate` + ORCHESTRATE → **Phase 1 DONE** (non-blocking `full-suite` CI job, draft **PR #465**). Ground truth: **51 pass / 14 fail / 0 timeout** — spec prediction *inverted*: the Ubuntu runner LACKS tools (`atlas`/`ait`/`himalaya`/`R`/`quarto`), so 14 tool-dependent suites fail (ONE uniform class), while the 2 predicted atlas-skew suites PASS. First (wrong) `tm`-shadow fix reverted (`ed98365f`); fix belongs in the tests.
+  - **▶ WIP — Phase 2 (resume in worktree session):** clean-skip the 14 tool-absent suites (rc 77 / shared `skip_without <tool>` helper), make `run-all.sh` green on runner + locally (with/without tools), remove 2 `ci(tmp)` diagnostic jobs. Then Phase 3: promote `full-suite` to required (dev → main protection). `cd ~/.git-worktrees/flow-cli/ci-full-suite-gate && claude`.
+
+## Previous Session (2026-06-13) — agenda / forward-looking schedule layer: brainstorm → spec → worktree [dev]
 
 **Session activity:**
 - **Brainstormed** (`/workflow:brainstorm -d -s`) extending `dash` + cadence commands (`morning`/`today`/`week`) to surface forward-looking RESEARCH + TEACHING activity (deadlines, lectures, exams, manuscript/grant milestones, recurring blocks) — today everything is present/backward-looking.
@@ -345,7 +353,7 @@
 | Worktree | Branch | Status |
 |----------|--------|--------|
 | Main repo | `dev` | v7.10.0 SHIPPED (agenda/schedule layer, #463→#464→main 477b5c59); GitHub release + Homebrew tap updated; dev synced to main. feature/agenda deleted; 3 squash-merged branches (manpage-refresh/tok-autosync/scholar-fix) await manual `git branch -D` (hook blocks force-delete). |
-| `~/.git-worktrees/flow-cli/ci-full-suite-gate` | `feature/ci-full-suite-gate` | CI full-suite gate (.STATUS Next Action #3). Spec (`3b89ff09`) + ORCHESTRATE (`68597fb5`) committed & pushed; **awaiting impl in a fresh session** (`cd … && claude`). Phased: measure→determinism→promote. |
+| `~/.git-worktrees/flow-cli/ci-full-suite-gate` | `feature/ci-full-suite-gate` | CI full-suite gate (.STATUS Next Action #3). **Phase 1 DONE** (draft PR #465; non-blocking `full-suite` job → 51 pass/14 fail/0 timeout; 14 fails = one tool-absent class). **▶ WIP Phase 2:** clean-skip the 14 tool-dependent suites + remove 2 `ci(tmp)` jobs → green on runner. Resume in worktree session. |
 
 ---
 
