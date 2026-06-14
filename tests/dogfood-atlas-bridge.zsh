@@ -250,6 +250,9 @@ run_test "Plugin loads without stderr when Atlas disabled" '
 run_test "at() coexists with all 14 dispatchers" '
     local all_ok=true
     for d in g mcp qu r cc tm wt dots sec tok teach prompt v em; do
+        # tm degrades to an alias when aiterm (ait) is absent (CI runners) —
+        # only assert it is a function when ait is installed.
+        [[ "$d" == tm ]] && ! command -v ait >/dev/null 2>&1 && continue
         typeset -f "$d" >/dev/null 2>&1 || { echo "Missing: $d"; all_ok=false; }
     done
     typeset -f at >/dev/null 2>&1 || { echo "Missing: at"; all_ok=false; }

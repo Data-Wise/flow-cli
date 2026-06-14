@@ -56,6 +56,14 @@ _em_cache_key() {
     echo "$msg_id" | md5 -q 2>/dev/null || echo "$msg_id" | md5sum 2>/dev/null | cut -d' ' -f1
 }
 
+_em_cache_mtime() {
+    # Portable file mtime in epoch seconds: BSD `stat -f %m` (macOS) then GNU
+    # `stat -c %Y` (Linux). The bare `stat -f %m` is macOS-only and FAILS on
+    # Linux/CI runners, where it would silently yield 0 and make EVERY cache
+    # entry look expired — the email cache never worked on Linux.
+    stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null || echo 0
+}
+
 # ═══════════════════════════════════════════════════════════════════
 # CACHE READ/WRITE
 # ═══════════════════════════════════════════════════════════════════
@@ -74,7 +82,7 @@ _em_cache_get() {
     # Check TTL
     local ttl="${_EM_CACHE_TTL[$operation]:-3600}"
     local file_mod
-    file_mod=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+    file_mod=$(_em_cache_mtime "$cache_file")
     local now=$(date +%s)
     local file_age=$(( now - file_mod ))
 
@@ -153,7 +161,7 @@ _em_cache_prune() {
         ttl="${_EM_CACHE_TTL[$op_name]:-3600}"
 
         for cache_file in "$op_dir"/*.txt(N); do
-            file_mod=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+            file_mod=$(_em_cache_mtime "$cache_file")
             if (( (now - file_mod) > ttl )); then
                 rm -f "$cache_file"
                 (( pruned++ ))
@@ -185,7 +193,10 @@ _em_cache_enforce_cap() {
     # Evict oldest files first (LRU)
     local evicted=0
     local files_by_age
-    files_by_age=("${(@f)$(find "$cache_base" -name '*.txt' -print0 2>/dev/null | xargs -0 stat -f '%m %N' 2>/dev/null | sort -n | awk '{print $2}')}")
+    files_by_age=("${(@f)$(
+        find "$cache_base" -name '*.txt' 2>/dev/null | while IFS= read -r _f; do
+            print -r -- "$(_em_cache_mtime "$_f") $_f"
+        done | sort -n | awk '{print $2}')}")
 
     for old_file in "${files_by_age[@]}"; do
         [[ -z "$old_file" ]] && continue
@@ -229,7 +240,7 @@ _em_cache_stats() {
 
         for cache_file in "$op_dir"/*.txt(N); do
             (( count++ ))
-            file_mod=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+            file_mod=$(_em_cache_mtime "$cache_file")
             (( (now - file_mod) > ttl )) && (( expired++ ))
         done
 
