@@ -104,12 +104,29 @@ assert_contains "$out" "HELP=_flowfaketool_helper: function" "helper should surv
 test_case_end
 
 # Don't break the user: intentional shadows survive a real plugin load even
-# though r/mcp/cc all have PATH binaries on dev machines.
-for d in r mcp cc; do
+# though r/mcp/cc/tm all have PATH binaries on dev machines.
+for d in r mcp cc tm; do
     test_case "intentional shadow '$d' survives plugin load"
     assert_function_exists "$d"
     test_case_end
 done
+
+# Regression (ci-full-suite-gate): `tm` collides with a real `tm` binary present
+# on some Linux distros / GitHub ubuntu runners (absent on macOS dev boxes), so
+# the guard used to SILENTLY unfunction the documented `tm` dispatcher there —
+# only caught once the full suite ran in CI. tm must now survive the collision.
+mkdir -p "$TMPROOT/tmbin"
+print -r -- '#!/bin/sh' > "$TMPROOT/tmbin/tm"
+print -r -- 'echo "fake tm binary"' >> "$TMPROOT/tmbin/tm"
+chmod +x "$TMPROOT/tmbin/tm"
+test_case "tm dispatcher survives a real 'tm' binary on PATH (runner regression)"
+out=$(
+    PATH="$TMPROOT/tmbin:$PATH"; rehash
+    _flow_load_dispatcher "$PROJECT_ROOT/lib/dispatchers/tm-dispatcher.zsh"
+    whence -w tm
+)
+assert_contains "$out" "tm: function" "tm must stay a function despite a 'tm' binary on PATH"
+test_case_end
 
 # Non-colliding real dispatchers still load.
 for d in g qu em teach tok dots; do

@@ -75,10 +75,13 @@ if [[ "$FLOW_LOAD_DISPATCHERS" == "yes" ]]; then
 
   # Commands flow-cli deliberately provides even when a PATH binary of the
   # same name exists (e.g. `cc` launches Claude Code, not the C compiler;
-  # `r` is the R-package dispatcher, not Homebrew's R launcher). Pre-set
+  # `r` is the R-package dispatcher, not Homebrew's R launcher; `tm` is the
+  # terminal-manager dispatcher, which collides with a `tm` binary present on
+  # some Linux distros / CI runners). These are documented, man-paged core
+  # dispatchers — the guard must keep them, not silently drop them. Pre-set
   # FLOW_INTENTIONAL_SHADOWS before sourcing the plugin to customize.
   if (( ! ${+FLOW_INTENTIONAL_SHADOWS} )); then
-    typeset -ga FLOW_INTENTIONAL_SHADOWS=(r mcp cc)
+    typeset -ga FLOW_INTENTIONAL_SHADOWS=(r mcp cc tm)
   fi
 
   # Binary-precedence guard (B3): after sourcing the dispatcher files, drop any

@@ -8,6 +8,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+### Fixed
+
+- **`tm` dispatcher silently dropped when a `tm` binary is on `PATH`** — the
+  binary-precedence guard's default keep-list was `(r mcp cc)`, omitting `tm`.
+  On systems with a `tm` binary (some Linux distros, GitHub `ubuntu-latest`
+  runners) the documented `tm` terminal-manager dispatcher was unfunctioned at
+  load with no error — invisible on macOS dev boxes. Added `tm` to the default
+  `FLOW_INTENTIONAL_SHADOWS` (now `(r mcp cc tm)`). Caught by running the full
+  test suite in CI for the first time (see CI full-suite gate below).
+  Regression test added in `tests/test-dispatcher-binary-precedence.zsh`.
+
+### Changed
+
+- **CI now measures the full test suite.** Added a non-blocking `full-suite`
+  job to `.github/workflows/test.yml` running `./tests/run-all.sh` on every PR
+  (Phase 1 of the CI full-suite gate; promotion to a required check is staged).
+
 ## [7.10.0] — 2026-06-13 — forward-looking schedule layer (`agenda` + dash UPCOMING)
 
 ### Added

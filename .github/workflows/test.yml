@@ -63,55 +63,6 @@ jobs:
           echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
   # ---------------------------------------------------------------------------
-  # TEMPORARY (ci-full-suite-gate Phase 2 triage): capture the real runner
-  # output for the 3 pure-zsh suites that fail in CI but pass locally. DELETE
-  # this job once diagnosed.
-  # ---------------------------------------------------------------------------
-  diagnose-pure-zsh:
-    name: Diagnose pure-zsh failures (temporary)
-    runs-on: ubuntu-latest
-    continue-on-error: true
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Ensure zsh is installed
-        run: |
-          if ! command -v zsh >/dev/null 2>&1; then
-            sudo apt-get update && sudo apt-get install -y zsh
-          fi
-
-      - name: Environment fingerprint
-        run: |
-          echo "zsh: $(zsh --version)"
-          echo "LANG=$LANG LC_ALL=$LC_ALL LC_CTYPE=$LC_CTYPE"
-          locale 2>&1 || true
-
-      - name: Create mock project structure
-        run: |
-          mkdir -p ~/projects/dev-tools/flow-cli/.git
-          mkdir -p ~/projects/r-packages/active/mediationverse/.git
-          mkdir -p ~/projects/r-packages/stable/rmediation/.git
-          mkdir -p ~/projects/teaching/stat-440/.git
-          mkdir -p ~/projects/research/mediation-planning/.git
-          mkdir -p ~/projects/quarto/manuscripts/paper1/.git
-          mkdir -p ~/projects/apps/examify/.git
-          cp -r . ~/projects/dev-tools/flow-cli/
-
-      - name: test-help-compliance
-        if: always()
-        run: cd ~/projects/dev-tools/flow-cli && zsh ./tests/test-help-compliance.zsh
-
-      - name: test-help-compliance-dogfood
-        if: always()
-        run: cd ~/projects/dev-tools/flow-cli && zsh ./tests/test-help-compliance-dogfood.zsh
-
-      - name: automated-plugin-dogfood
-        if: always()
-        run: cd ~/projects/dev-tools/flow-cli && zsh ./tests/automated-plugin-dogfood.zsh
-
-  # ---------------------------------------------------------------------------
   # Phase 1 (ci-full-suite-gate): MEASURE the full 65-suite run-all.sh in CI.
   # Non-blocking on purpose (continue-on-error) — this job exists to capture the
   # ground-truth pass/skip/fail list on a hosted runner (no atlas, no IMAP)
