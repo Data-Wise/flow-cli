@@ -57,11 +57,15 @@ _em_cache_key() {
 }
 
 _em_cache_mtime() {
-    # Portable file mtime in epoch seconds: BSD `stat -f %m` (macOS) then GNU
-    # `stat -c %Y` (Linux). The bare `stat -f %m` is macOS-only and FAILS on
-    # Linux/CI runners, where it would silently yield 0 and make EVERY cache
-    # entry look expired — the email cache never worked on Linux.
-    stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null || echo 0
+    # Portable file mtime in epoch seconds. GNU `stat -c %Y` (Linux) is tried
+    # FIRST, BSD `stat -f %m` (macOS) second — order matters: on Linux
+    # `stat -f %m FILE` treats `-f` as --file-system and prints a filesystem
+    # block for FILE to stdout while erroring on `%m`, so a BSD-first chain
+    # captures BOTH outputs and corrupts the mtime (cache then looks expired —
+    # the email cache silently never worked on Linux). `stat -c %Y` fails
+    # cleanly on macOS (illegal option, empty stdout), so GNU-first is safe
+    # on both platforms.
+    stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null || echo 0
 }
 
 # ═══════════════════════════════════════════════════════════════════
