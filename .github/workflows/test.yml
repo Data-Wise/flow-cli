@@ -61,3 +61,77 @@ jobs:
           echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
+
+  # ---------------------------------------------------------------------------
+  # Phase 1 (ci-full-suite-gate): MEASURE the full 65-suite run-all.sh in CI.
+  # Non-blocking on purpose (continue-on-error) — this job exists to capture the
+  # ground-truth pass/skip/fail list on a hosted runner (no atlas, no IMAP)
+  # before we make it a required gate (Phase 3). Do NOT add to required checks
+  # while this comment is here.
+  # ---------------------------------------------------------------------------
+  full-suite:
+    name: Full Test Suite (non-blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Ensure zsh is installed
+        run: |
+          if ! command -v zsh >/dev/null 2>&1; then
+            sudo apt-get update && sudo apt-get install -y zsh
+          fi
+
+      - name: Record start time
+        id: start
+        run: echo "time=$(date +%s)" >> $GITHUB_OUTPUT
+
+      - name: Create mock project structure
+        run: |
+          mkdir -p ~/projects/dev-tools/flow-cli/.git
+          mkdir -p ~/projects/r-packages/active/mediationverse/.git
+          mkdir -p ~/projects/r-packages/stable/rmediation/.git
+          mkdir -p ~/projects/teaching/stat-440/.git
+          mkdir -p ~/projects/research/mediation-planning/.git
+          mkdir -p ~/projects/quarto/manuscripts/paper1/.git
+          mkdir -p ~/projects/apps/examify/.git
+          cp -r . ~/projects/dev-tools/flow-cli/
+
+      - name: Run full suite (non-blocking)
+        id: fullsuite
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          set +e
+          # Capture run-all.sh output; tee returns 0, so grab run-all's real
+          # exit via PIPESTATUS (1=FAIL, 2=TIMEOUT, 0=clean) and re-exit with it
+          # so the job color reflects reality. continue-on-error keeps it from
+          # blocking the PR.
+          ./tests/run-all.sh 2>&1 | tee /tmp/full-suite.log
+          rc=${PIPESTATUS[0]}
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          echo "Full suite exit code: $rc"
+          exit "$rc"
+
+      - name: Full Suite Summary
+        if: always()
+        run: |
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - ${{ steps.start.outputs.time }}))
+          {
+            echo "## 🧪 Full Suite (run-all.sh) — non-blocking measurement"
+            echo ""
+            echo "| Metric | Value |"
+            echo "|--------|-------|"
+            echo "| Duration | ${DURATION}s |"
+            echo "| Exit code | \`${{ steps.fullsuite.outputs.rc }}\` (0=clean, 1=FAIL, 2=TIMEOUT) |"
+            echo ""
+            echo "<details><summary>Full run-all.sh output</summary>"
+            echo ""
+            echo '```'
+            cat /tmp/full-suite.log 2>/dev/null || echo "(no log captured)"
+            echo '```'
+            echo ""
+            echo "</details>"
+          } >> "$GITHUB_STEP_SUMMARY"
