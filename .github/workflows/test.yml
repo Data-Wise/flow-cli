@@ -63,16 +63,15 @@ jobs:
           echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
   # ---------------------------------------------------------------------------
-  # ci-full-suite-gate (Phase 1+2): run the full 65-suite run-all.sh in CI.
-  # Phase 1 measured the ground truth; Phase 2 made it green (service/tool-absent
-  # suites clean-skip via rc 77). Still NON-BLOCKING (continue-on-error) for a
-  # dev soak — Phase 3 promotes it to a required check (dev → main protection).
-  # Do NOT add to required checks while this comment is here.
+  # ci-full-suite-gate (Phase 3): the full 65-suite run-all.sh is now a BLOCKING
+  # gate. Service/tool-absent suites clean-skip via rc 77, so a non-zero exit
+  # means a real failure. Promoted to a required status check on dev (then main
+  # after a soak). The check name below ("Full Test Suite") must match the
+  # required-check name configured in branch protection.
   # ---------------------------------------------------------------------------
   full-suite:
-    name: Full Test Suite (non-blocking)
+    name: Full Test Suite
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - name: Checkout code
@@ -108,15 +107,14 @@ jobs:
           mkdir -p ~/projects/apps/examify/.git
           cp -r . ~/projects/dev-tools/flow-cli/
 
-      - name: Run full suite (non-blocking)
+      - name: Run full suite
         id: fullsuite
         run: |
           cd ~/projects/dev-tools/flow-cli
           set +e
           # Capture run-all.sh output; tee returns 0, so grab run-all's real
           # exit via PIPESTATUS (1=FAIL, 2=TIMEOUT, 0=clean) and re-exit with it
-          # so the job color reflects reality. continue-on-error keeps it from
-          # blocking the PR.
+          # so the job (a required check) fails the PR on a real failure.
           ./tests/run-all.sh 2>&1 | tee /tmp/full-suite.log
           rc=${PIPESTATUS[0]}
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
@@ -129,7 +127,7 @@ jobs:
           END_TIME=$(date +%s)
           DURATION=$((END_TIME - ${{ steps.start.outputs.time }}))
           {
-            echo "## 🧪 Full Suite (run-all.sh) — non-blocking measurement"
+            echo "## 🧪 Full Suite (run-all.sh) — required gate"
             echo ""
             echo "| Metric | Value |"
             echo "|--------|-------|"
