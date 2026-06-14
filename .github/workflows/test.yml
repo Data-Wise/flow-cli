@@ -63,6 +63,39 @@ jobs:
           echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
   # ---------------------------------------------------------------------------
+  # TEMPORARY (ci-full-suite-gate Phase 2): capture real runner output for the
+  # 3 suites that fail on CI but pass locally even with tools hidden. DELETE.
+  # ---------------------------------------------------------------------------
+  diag-undiagnosed:
+    name: Diagnose undiagnosed suites (temporary)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Ensure zsh
+        run: command -v zsh >/dev/null 2>&1 || { sudo apt-get update && sudo apt-get install -y zsh; }
+      - name: Create mock project structure
+        run: |
+          mkdir -p ~/projects/dev-tools/flow-cli/.git
+          mkdir -p ~/projects/r-packages/active/mediationverse/.git
+          mkdir -p ~/projects/r-packages/stable/rmediation/.git
+          mkdir -p ~/projects/teaching/stat-440/.git
+          mkdir -p ~/projects/research/mediation-planning/.git
+          mkdir -p ~/projects/quarto/manuscripts/paper1/.git
+          mkdir -p ~/projects/apps/examify/.git
+          cp -r . ~/projects/dev-tools/flow-cli/
+      - name: test-em-dispatcher
+        if: always()
+        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/test-em-dispatcher.zsh
+      - name: dogfood-em-dispatcher
+        if: always()
+        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/dogfood-em-dispatcher.zsh
+      - name: dogfood-atlas-bridge
+        if: always()
+        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/dogfood-atlas-bridge.zsh
+
+  # ---------------------------------------------------------------------------
   # Phase 1 (ci-full-suite-gate): MEASURE the full 65-suite run-all.sh in CI.
   # Non-blocking on purpose (continue-on-error) — this job exists to capture the
   # ground-truth pass/skip/fail list on a hosted runner (no atlas, no IMAP)
