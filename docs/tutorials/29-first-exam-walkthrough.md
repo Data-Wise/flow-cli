@@ -3,7 +3,7 @@
 > **What you'll learn:** Generate exams and quizzes using Scholar AI wrappers with flow-cli
 >
 > **Time:** ~20 minutes | **Level:** Beginner → Intermediate
-> **Version:** v7.10.0
+> **Version:** v7.10.1
 
 ---
 
@@ -846,6 +846,6 @@ teach exam "Topic" --week 5
 
 ---
 
-**Version:** v7.10.0
+**Version:** v7.10.1
 **Last Updated:** 2026-02-27
 **Tutorial Series:** Part 29 of Teaching Workflow Tutorials

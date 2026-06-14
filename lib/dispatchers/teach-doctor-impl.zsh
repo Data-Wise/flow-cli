@@ -346,7 +346,7 @@ _teach_doctor_check_r_quick() {
         # renv.lock freshness
         if [[ "$verbose" == "true" && "$quiet" == "false" && "$json" == "false" ]]; then
             local lock_mtime
-            lock_mtime=$(stat -f %m renv.lock 2>/dev/null || stat -c %Y renv.lock 2>/dev/null)
+            lock_mtime=$(stat -c %Y renv.lock 2>/dev/null || stat -f %m renv.lock 2>/dev/null)
             if [[ -n "$lock_mtime" ]]; then
                 local age_days=$(( (EPOCHSECONDS - lock_mtime) / 86400 ))
                 if [[ $age_days -eq 0 ]]; then
@@ -751,7 +751,7 @@ _teach_doctor_check_r_packages() {
 
         # Lock file freshness
         local lock_mtime
-        lock_mtime=$(stat -f %m renv.lock 2>/dev/null || stat -c %Y renv.lock 2>/dev/null)
+        lock_mtime=$(stat -c %Y renv.lock 2>/dev/null || stat -f %m renv.lock 2>/dev/null)
         if [[ -n "$lock_mtime" ]]; then
             local age_days=$(( (EPOCHSECONDS - lock_mtime) / 86400 ))
             if [[ $age_days -eq 0 ]]; then
@@ -1076,13 +1076,13 @@ _teach_doctor_check_macros() {
     if [[ "$macros_configured" == "true" ]]; then
         if [[ -f "$cache_file" ]]; then
             local cache_mtime=0
-            cache_mtime=$(stat -f %m "$cache_file" 2>/dev/null || stat -c %Y "$cache_file" 2>/dev/null || echo 0)
+            cache_mtime=$(stat -c %Y "$cache_file" 2>/dev/null || stat -f %m "$cache_file" 2>/dev/null || echo 0)
 
             local stale=0
             for src in "${sources[@]}"; do
                 if [[ -f "$src" ]]; then
                     local src_mtime
-                    src_mtime=$(stat -f %m "$src" 2>/dev/null || stat -c %Y "$src" 2>/dev/null || echo 0)
+                    src_mtime=$(stat -c %Y "$src" 2>/dev/null || stat -f %m "$src" 2>/dev/null || echo 0)
                     if (( src_mtime > cache_mtime )); then
                         stale=1
                         break

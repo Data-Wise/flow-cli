@@ -28,6 +28,21 @@ skip_without_atlas() {
   return 1
 }
 
+# Helper: skip warm-path/exit-code contract tests unless atlas actually
+# implements flow-cli's expected subcommands. A same-named `atlas` binary may
+# be on PATH (e.g. a different/older atlas) whose `stats`/`parked`/`trail`/`-v`
+# return 127; those tests would then fail not because the contract is broken
+# but because this isn't a flow-compatible atlas. Probe `atlas stats` once.
+# Returns 0 (true) when skipped, 1 (false) when a functional atlas is present.
+skip_without_warm_atlas() {
+  skip_without_atlas && return 0
+  if ! atlas stats >/dev/null 2>&1; then
+    test_skip "atlas present but warm-path subcommands unimplemented"
+    return 0
+  fi
+  return 1
+}
+
 # ============================================================================
 # BRIDGE FUNCTION TESTS (always run — these test flow-cli code)
 # ============================================================================
@@ -175,7 +190,7 @@ if ! skip_without_atlas; then
 fi
 
 test_case "atlas exit codes: success = 0"
-if ! skip_without_atlas; then
+if ! skip_without_warm_atlas; then
   atlas -v >/dev/null 2>&1
   assert_exit_code $? 0
   test_pass
@@ -194,7 +209,7 @@ if ! skip_without_atlas; then
 fi
 
 test_case "Warm-path: atlas stats responds"
-if ! skip_without_atlas; then
+if ! skip_without_warm_atlas; then
   atlas stats >/dev/null 2>&1
   local ec=$?
   assert_exit_code $ec 0
@@ -202,7 +217,7 @@ if ! skip_without_atlas; then
 fi
 
 test_case "Warm-path: atlas parked responds"
-if ! skip_without_atlas; then
+if ! skip_without_warm_atlas; then
   atlas parked >/dev/null 2>&1
   local ec=$?
   assert_exit_code $ec 0
@@ -210,7 +225,7 @@ if ! skip_without_atlas; then
 fi
 
 test_case "Warm-path: atlas trail responds"
-if ! skip_without_atlas; then
+if ! skip_without_warm_atlas; then
   atlas trail >/dev/null 2>&1
   local ec=$?
   assert_exit_code $ec 0

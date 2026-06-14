@@ -91,18 +91,27 @@ test_himalaya_binary() {
 }
 run_test "himalaya binary exists" "test_himalaya_binary"
 
+# _em_hml_check reaches the configured IMAP account over the network.
+# On CI (or any host without a reachable account) this can block forever,
+# so bound it. A timeout (rc 124) or any failure => himalaya is not usable
+# for the live suite; skip everything below rather than hang.
+# (run_test runs the func in a command-substitution subshell, so we can't
+#  set a flag from inside it — track skips via TESTS_SKIPPED instead.)
+_skipped_before_cfg=$TESTS_SKIPPED
 test_himalaya_configured() {
-    if _em_hml_check >/dev/null 2>&1; then
+    if timeout 10 zsh -c "FLOW_QUIET=1 FLOW_ATLAS_ENABLED=no source '$PROJECT_ROOT/flow.plugin.zsh' 2>/dev/null; _em_hml_check >/dev/null 2>&1"; then
         return 0
     else
-        echo "himalaya not configured"
+        echo "himalaya not configured (or account unreachable)"
         exit 77
     fi
 }
 run_test "himalaya configured" "test_himalaya_configured"
 
-# If prerequisites failed, exit now
-if [[ $TESTS_FAILED -gt 0 || $TESTS_SKIPPED -eq $TESTS_RUN ]]; then
+# If prerequisites failed, or the configured-check skipped (timeout / no
+# reachable account), exit now. Every test below makes live IMAP calls, so
+# continuing without a usable account would hang the runner.
+if [[ $TESTS_FAILED -gt 0 || $TESTS_SKIPPED -gt $_skipped_before_cfg ]]; then
     echo ""
     echo "${YELLOW}Prerequisites not met, skipping remaining tests${RESET}"
     exit 77
@@ -204,7 +213,7 @@ echo "${CYAN}Section 4: Email Reading${RESET}"
 FIRST_EMAIL_ID=""
 TESTS_RUN=$((TESTS_RUN + 1))
 echo -n "  ${CYAN}[$TESTS_RUN] get first email ID...${RESET} "
-_e2e_email_data=$(_em_hml_list INBOX 1 2>/dev/null)
+_e2e_email_data=$(timeout 15 zsh -c "FLOW_QUIET=1 FLOW_ATLAS_ENABLED=no source '$PROJECT_ROOT/flow.plugin.zsh' 2>/dev/null; _em_hml_list INBOX 1 2>/dev/null")
 if [[ -n "$_e2e_email_data" ]]; then
     FIRST_EMAIL_ID=$(echo "$_e2e_email_data" | jq -r '.[0].id // empty' 2>/dev/null)
 fi

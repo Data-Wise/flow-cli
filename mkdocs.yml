@@ -147,6 +147,7 @@ nav:
       - ADHD & Productivity:
           - 43. ADHD Daily Routine: tutorials/43-adhd-daily-routine.md
           - 44. Quick Capture: tutorials/44-quick-capture.md
+          - 48. Agenda & Schedule: tutorials/48-agenda-schedule.md
       - Editor (Neovim):
           - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
           - 16. Vim Motions: tutorials/16-vim-motions.md

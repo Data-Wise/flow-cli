@@ -57,6 +57,13 @@ echo ""
 # Load plugin
 FLOW_QUIET=1
 FLOW_PLUGIN_DIR="$PROJECT_ROOT"
+# Pin standalone mode: this suite asserts flow-cli's built-in fallback
+# behavior for `status` and `catch`. With atlas installed those commands
+# delegate to the atlas binary instead, flipping the result based on whether
+# atlas happens to be on PATH (passes on CI where atlas is absent, fails on a
+# dev box where it isn't). Forcing atlas off makes the suite deterministic
+# everywhere — independent of whether atlas is installed.
+export FLOW_ATLAS_ENABLED=no
 source "$PROJECT_ROOT/flow.plugin.zsh" 2>/dev/null || {
     echo "${RED}Failed to load plugin${RESET}"
     exit 1

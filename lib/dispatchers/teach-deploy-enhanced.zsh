@@ -495,7 +495,8 @@ _deploy_update_status_file() {
         start_date=$(yq '.semester_info.start_date // ""' .flow/teach-config.yml 2>/dev/null)
         if [[ -n "$start_date" && "$start_date" != "null" ]]; then
             local start_epoch today_epoch week_num
-            start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s" 2>/dev/null)
+            # Portable: BSD `date -j -f` (macOS) then GNU `date -d` (Linux/CI).
+            start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s" 2>/dev/null || date -d "$start_date" "+%s" 2>/dev/null)
             today_epoch=$(date "+%s")
             if [[ -n "$start_epoch" ]]; then
                 week_num=$(( (today_epoch - start_epoch) / 604800 + 1 ))

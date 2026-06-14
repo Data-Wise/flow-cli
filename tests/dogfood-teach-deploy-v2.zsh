@@ -494,6 +494,7 @@ echo ""
 echo "${CYAN}--- Section 5: Deploy Rollback Helpers ---${RESET}"
 
 run_test "Rollback in CI mode without index returns error" '
+    [[ "$_YQ_AVAILABLE" == "true" ]] || return 77
     local tmpdir=$(mktemp -d)
     _DOGFOOD_TEMP_DIRS+=("$tmpdir")
     (

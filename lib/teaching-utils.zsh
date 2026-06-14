@@ -2,6 +2,18 @@
 # Teaching workflow utility functions
 # Part of Increment 2: Course Context
 
+# Portable date helpers. `date -j -f` is macOS (BSD) only and FAILS on Linux/CI
+# runners, where it would silently yield an empty epoch and make every
+# teaching-week / semester calculation return 0. Try BSD first, then GNU `date`.
+_teach_date_to_epoch() {
+  # YYYY-MM-DD -> epoch seconds
+  date -j -f "%Y-%m-%d" "$1" "+%s" 2>/dev/null || date -d "$1" "+%s" 2>/dev/null
+}
+_teach_epoch_to_date() {
+  # epoch seconds -> YYYY-MM-DD
+  date -j -f "%s" "$1" "+%Y-%m-%d" 2>/dev/null || date -d "@$1" "+%Y-%m-%d" 2>/dev/null
+}
+
 # =============================================================================
 # Function: _calculate_current_week
 # Purpose: Calculate current week number from semester start date
@@ -40,7 +52,7 @@ _calculate_current_week() {
   fi
 
   # Calculate weeks since start (macOS date compatible)
-  local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s" 2>/dev/null)
+  local start_epoch=$(_teach_date_to_epoch "$start_date")
   local now_epoch=$(date "+%s")
 
   if [[ -z "$start_epoch" ]]; then
@@ -174,8 +186,8 @@ _date_to_week() {
     return 0
   fi
 
-  local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s" 2>/dev/null)
-  local target_epoch=$(date -j -f "%Y-%m-%d" "$target_date" "+%s" 2>/dev/null)
+  local start_epoch=$(_teach_date_to_epoch "$start_date")
+  local target_epoch=$(_teach_date_to_epoch "$target_date")
 
   if [[ -z "$start_epoch" || -z "$target_epoch" ]]; then
     return 0
@@ -218,7 +230,7 @@ _validate_date_format() {
   fi
 
   # Verify it's a real date
-  if ! date -j -f "%Y-%m-%d" "$date_str" "+%s" &>/dev/null; then
+  if ! _teach_date_to_epoch "$date_str" >/dev/null 2>&1 || [[ -z "$(_teach_date_to_epoch "$date_str")" ]]; then
     return 1
   fi
 
@@ -250,7 +262,7 @@ _validate_date_format() {
 _calculate_semester_end() {
   local start_date="$1"
 
-  local start_epoch=$(date -j -f "%Y-%m-%d" "$start_date" "+%s" 2>/dev/null)
+  local start_epoch=$(_teach_date_to_epoch "$start_date")
 
   if [[ -z "$start_epoch" ]]; then
     return 1
@@ -258,7 +270,7 @@ _calculate_semester_end() {
 
   # Add 16 weeks (112 days)
   local end_epoch=$((start_epoch + (16 * 7 * 86400)))
-  local end_date=$(date -j -f "%s" "$end_epoch" "+%Y-%m-%d" 2>/dev/null)
+  local end_date=$(_teach_epoch_to_date "$end_epoch")
 
   echo "$end_date"
 }
