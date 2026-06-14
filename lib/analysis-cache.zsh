@@ -44,6 +44,12 @@ if ! typeset -f _flow_log_debug >/dev/null 2>&1; then
     source "${0:A:h}/core.zsh" 2>/dev/null || true
 fi
 
+# Mutable module state: the flock file descriptor allocated by `exec {var}>` in
+# the acquire path and closed in the release path (a different function). Declare
+# it `-g` explicitly so the cross-function reference is unambiguous rather than
+# relying on zsh's implicit-global-on-assignment behaviour.
+typeset -g _ANALYSIS_CACHE_LOCK_FD=""
+
 # =============================================================================
 # CONSTANTS
 # =============================================================================

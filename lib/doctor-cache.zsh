@@ -59,6 +59,11 @@ if ! typeset -f _flow_log_debug >/dev/null 2>&1; then
     source "${0:A:h}/core.zsh" 2>/dev/null || true
 fi
 
+# Mutable module state: flock fd allocated by `exec {var}>` in the acquire path
+# and closed in the release path (a different function). Declared `-g` so the
+# cross-function reference is explicit, not reliant on implicit globals.
+typeset -g _DOCTOR_CACHE_LOCK_FD=""
+
 # =============================================================================
 # CONSTANTS
 # =============================================================================

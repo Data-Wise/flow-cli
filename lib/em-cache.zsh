@@ -197,10 +197,13 @@ _em_cache_enforce_cap() {
     # Evict oldest files first (LRU)
     local evicted=0
     local files_by_age
+    # Null-delimited find/read + tab-separated mtime<TAB>path + `cut -f2-` so
+    # paths containing spaces survive the sort (the prior `awk '{print $2}'`
+    # truncated them). Cache files are hash-named .txt, so this is defensive.
     files_by_age=("${(@f)$(
-        find "$cache_base" -name '*.txt' 2>/dev/null | while IFS= read -r _f; do
-            print -r -- "$(_em_cache_mtime "$_f") $_f"
-        done | sort -n | awk '{print $2}')}")
+        find "$cache_base" -name '*.txt' -print0 2>/dev/null | while IFS= read -r -d '' _f; do
+            print -r -- "$(_em_cache_mtime "$_f")"$'\t'"$_f"
+        done | sort -n | cut -f2-)}")
 
     for old_file in "${files_by_age[@]}"; do
         [[ -z "$old_file" ]] && continue

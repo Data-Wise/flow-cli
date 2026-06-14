@@ -63,11 +63,11 @@ jobs:
           echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
   # ---------------------------------------------------------------------------
-  # Phase 1 (ci-full-suite-gate): MEASURE the full 65-suite run-all.sh in CI.
-  # Non-blocking on purpose (continue-on-error) — this job exists to capture the
-  # ground-truth pass/skip/fail list on a hosted runner (no atlas, no IMAP)
-  # before we make it a required gate (Phase 3). Do NOT add to required checks
-  # while this comment is here.
+  # ci-full-suite-gate (Phase 1+2): run the full 65-suite run-all.sh in CI.
+  # Phase 1 measured the ground truth; Phase 2 made it green (service/tool-absent
+  # suites clean-skip via rc 77). Still NON-BLOCKING (continue-on-error) for a
+  # dev soak — Phase 3 promotes it to a required check (dev → main protection).
+  # Do NOT add to required checks while this comment is here.
   # ---------------------------------------------------------------------------
   full-suite:
     name: Full Test Suite (non-blocking)
