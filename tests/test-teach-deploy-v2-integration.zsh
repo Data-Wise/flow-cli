@@ -45,6 +45,10 @@ source "$PROJECT_ROOT/lib/deploy-history-helpers.zsh" 2>/dev/null || true
 source "$PROJECT_ROOT/lib/deploy-rollback-helpers.zsh" 2>/dev/null || true
 source "$PROJECT_ROOT/lib/dispatchers/teach-deploy-enhanced.zsh" 2>/dev/null || true
 
+# Deploy history/rollback/preflight helpers require yq to read/write YAML.
+# On CI runners where yq is absent, skip the whole suite cleanly (exit 77).
+command -v yq >/dev/null 2>&1 || { echo "SKIP: yq not installed"; exit 77; }
+
 # Stub/override functions for test isolation
 # These MUST be set AFTER sourcing libs to override real implementations
 _teach_error() { echo "ERROR: $1" >&2; }

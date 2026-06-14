@@ -367,6 +367,10 @@ run_test "--verbose shows full check header" '
 '
 
 run_test "--verbose shows renv.lock age detail (if renv present)" '
+    # The renv.lock age detail is only emitted after the R-availability check
+    # passes (teach-doctor-impl.zsh returns early when R is absent), so skip
+    # cleanly on CI runners where R is not installed.
+    command -v R >/dev/null 2>&1 || return 77
     # Create minimal renv setup
     echo "{\"R\":{\"Version\":\"4.4.2\"},\"Packages\":{}}" > renv.lock
     mkdir -p renv

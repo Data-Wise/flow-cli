@@ -504,6 +504,13 @@ test_shortcut_h_expands_to_haiku() {
 test_explicit_here_dot() {
     test_case "cc . recognized as explicit HERE"
 
+    # Requires the claude binary: HERE target execs `claude` directly.
+    # When absent (CI runner), zsh prints "command not found" -> skip cleanly.
+    if ! command -v claude >/dev/null 2>&1; then
+        test_skip "claude not installed"
+        return
+    fi
+
     # The . should be recognized as HERE target
     local output=$(cc . --help 2>&1 || echo "error")
 
@@ -517,6 +524,13 @@ test_explicit_here_dot() {
 
 test_explicit_here_word() {
     test_case "cc here recognized as explicit HERE"
+
+    # Requires the claude binary: HERE target execs `claude` directly.
+    # When absent (CI runner), zsh prints "command not found" -> skip cleanly.
+    if ! command -v claude >/dev/null 2>&1; then
+        test_skip "claude not installed"
+        return
+    fi
 
     local output=$(cc here --help 2>&1 || echo "error")
 
