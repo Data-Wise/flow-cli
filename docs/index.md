@@ -258,7 +258,8 @@ Commands that adapt to your project type:
 work <project>    # Start session
 finish [note]     # End session
 hop <project>     # Quick switch (tmux)
-dash              # Dashboard
+dash              # Dashboard (what's happening now)
+agenda            # What's due soon (deadlines, exams, milestones)
 catch "idea"      # Quick capture
 ```
 
