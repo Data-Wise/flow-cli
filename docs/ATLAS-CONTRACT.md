@@ -1,7 +1,7 @@
 # Atlas CLI API Contract
 
-**Version:** 1.0.0
-**Parties:** flow-cli (v7.4.x) <-> Atlas CLI `@data-wise/atlas` (v0.9.x)
+**Version:** 1.1.0
+**Parties:** flow-cli (v7.10.x) <-> Atlas CLI `@data-wise/atlas` (v0.9.3)
 **Status:** Active
 
 ---
@@ -10,7 +10,8 @@
 
 | flow-cli | Atlas CLI | Notes |
 |----------|-----------|-------|
-| v7.4.x   | v0.9.x    | Current contract version |
+| v7.10.x  | v0.9.3    | Contract v1.1 — 5 new integration flags (`session status --format`, `project list --count`, `project list --suggest`, `inbox --count`, `trail --limit`) |
+| v7.4.x   | v0.9.x    | Contract v1.0 — original contract |
 | v7.3.x   | v0.8.x    | Legacy — no `crumb` command |
 | v7.5.x   | v1.0.x    | Planned — stable API |
 
@@ -26,6 +27,7 @@ These 6 commands are bridged with ZSH-native fallbacks when Atlas is not install
 | `atlas session end [note]` | `_flow_session_end` | worklog file | exit 0 |
 | `atlas catch <text> [--project=X]` | `_flow_catch` | inbox.md | exit 0 |
 | `atlas inbox` | `_flow_inbox` | cat inbox.md | text |
+| `atlas inbox --count` | `_flow_inbox_count` | echo "0" | bare integer (pending inbox count) |
 | `atlas where [project]` | `_flow_where` | filesystem detection | text |
 | `atlas crumb <text> [--project=X]` | `_flow_crumb` | trail.log | exit 0 |
 
@@ -37,6 +39,7 @@ These commands require Atlas CLI. flow-cli shows an install message if Atlas is 
 
 | Command | Description | Output Format |
 |---------|-------------|---------------|
+| `atlas session status` | Current session state | `table` (default); `--format=json` → `{project,durationMinutes,state,task,startedAt}` or `null` when idle |
 | `atlas stats` | Project statistics | table |
 | `atlas plan` | Planning view | table |
 | `atlas park [project]` | Park a project | text |
@@ -46,6 +49,7 @@ These commands require Atlas CLI. flow-cli shows an install message if Atlas is 
 | `atlas focus [project]` | Set focus project | text |
 | `atlas triage` | Triage inbox items | interactive |
 | `atlas trail` | Show breadcrumb trail | text |
+| `atlas trail --limit <n>` | Breadcrumb trail, capped at n entries (most recent first) | text |
 
 ---
 
@@ -98,7 +102,20 @@ ships with the silent no-op until it lands.
 
 ## Output Format Specifications
 
-Atlas CLI supports 4 output formats via the `--format` flag:
+Format support is **per-command**, not universal. The `--format` flag is only valid for the commands listed below.
+
+### Per-Command Format Support Matrix
+
+| Command | Supported `--format` values | Default | Notes |
+|---------|----------------------------|---------|-------|
+| `atlas project list` | `table`, `json`, `names` | `table` | `names` = one name per line, no headers |
+| `atlas project show` | `table`, `json`, `names`, `shell` | `table` | `shell` = key=value pairs |
+| `atlas session status` | `table`, `json` | `table` | `json` emits `{project,durationMinutes,state,task,startedAt}` or `null` when idle |
+| `atlas stats` | `table`, `json`, `text`, `md` | `table` | |
+| `atlas session export` | `ical`, `json` | `ical` | |
+| `atlas plan` | *(n/a)* | n/a | Use `--json` flag for machine-readable output |
+
+### Format Descriptions
 
 | Format | Description | Example |
 |--------|-------------|---------|
@@ -138,6 +155,59 @@ atlas project list --status=<filter> --format=names
 ```
 
 Valid `--status` values: `active`, `parked`, `archived`, `all`.
+
+**`--count` flag (v0.9.3+):**
+
+```
+atlas project list --count
+atlas project list --status=active --count
+```
+
+Prints a bare integer (count of matched projects). Combinable with `--status`. Exits 0.
+
+**`--suggest` flag (v0.9.3+):**
+
+```
+atlas project list --suggest
+```
+
+Prints ONE project name — the most-recently-touched active project. Prints nothing (empty output) if no active projects exist. Exits 0.
+
+## `atlas inbox --count` Contract (v0.9.3+)
+
+```
+atlas inbox --count
+```
+
+Prints a bare integer (count of pending inbox captures, i.e. `status=inbox`). Exits 0.
+
+## `atlas trail --limit` Contract (v0.9.3+)
+
+```
+atlas trail --limit <n>
+```
+
+Caps the breadcrumb entries shown to the `n` most recent. Exits 0. Output format is text (unchanged from `atlas trail`).
+
+## `atlas session status --format=json` Contract (v0.9.3+)
+
+```
+atlas session status --format=json
+```
+
+Emits a JSON object when a session is active:
+
+```json
+{
+  "project": "<project-name>",
+  "durationMinutes": 42,
+  "state": "active",
+  "task": "<task text or null>",
+  "startedAt": "2026-06-14T09:00:00.000Z"
+}
+```
+
+Emits `null` (the literal JSON value) when no session is active. Always exits 0.
 
 ---
 

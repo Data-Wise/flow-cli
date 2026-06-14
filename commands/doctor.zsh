@@ -363,7 +363,12 @@ doctor() {
       # Check connection / backend
       if _flow_has_atlas 2>/dev/null; then
         local atlas_backend
-        atlas_backend="$(atlas config get backend 2>/dev/null || echo "unknown")"
+        # atlas config show emits JSON; extract .storage field (the backend)
+        if command -v jq >/dev/null 2>&1; then
+          atlas_backend="$(atlas config show 2>/dev/null | jq -r '.storage // "filesystem"' 2>/dev/null)"
+        else
+          atlas_backend="$(atlas config show 2>/dev/null | grep '"storage"' | sed 's/.*: *"\([^"]*\)".*/\1/' 2>/dev/null)"
+        fi
         atlas_backend="${atlas_backend:-filesystem}"
         _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas connected (${atlas_backend} backend)"
 
@@ -379,11 +384,11 @@ doctor() {
         _doctor_log_quiet "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  atlas installed but not connected"
       fi
 
-      # Check MCP server (optional)
-      if atlas mcp status &>/dev/null 2>&1; then
-        _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas MCP server running"
+      # Check MCP server binary (atlas-mcp is a separate binary, not an atlas subcommand)
+      if command -v atlas-mcp &>/dev/null; then
+        _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas-mcp binary available"
       else
-        _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} atlas MCP server ${FLOW_COLORS[muted]}(optional, not running)${FLOW_COLORS[reset]}"
+        _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} atlas-mcp ${FLOW_COLORS[muted]}(optional MCP server, not installed)${FLOW_COLORS[reset]}"
       fi
     else
       _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} atlas ${FLOW_COLORS[muted]}(optional, not installed)${FLOW_COLORS[reset]}"
