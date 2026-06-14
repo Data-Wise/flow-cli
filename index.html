@@ -2122,6 +2122,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tutorials/48-agenda-schedule/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    48. Agenda & Schedule
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -8572,11 +8600,11 @@
 <strong>That's it!</strong> No configuration required.</p>
 </div>
 <div class="admonition success">
-<p class="admonition-title">🎉 What's New in v7.10.0</p>
+<p class="admonition-title">🎉 What's New in v7.10.1</p>
 <p><strong>Forward-looking schedule layer:</strong> the new <strong><code>agenda</code></strong> command surfaces dated activity across all projects — deadlines, lectures, exams, milestones, and recurring blocks — bucketed into OVERDUE / TODAY / THIS WEEK / LATER (<code>agt</code>/<code>agw</code>/<code>agm</code> aliases).
 <strong><code>dash</code> UPCOMING</strong> + dated enrichment of <code>morning</code> / <code>today</code> / <code>week</code>, all driven by one shared engine. Works fully without <code>yq</code> and without atlas.
 <strong>Data sources:</strong> a no-<code>yq</code> <code>## Schedule:</code> section in each project's <code>.STATUS</code>, plus teaching dates from <code>.flow/teach-config.yml</code>.
-<strong>64 test suites</strong> passing (213 files, 12000+ assertions).
+<strong>v7.10.1</strong> hardens reliability: Linux-portability fixes (caches, email cache, teaching-date math) and the full test suite is now a required CI gate. <strong>64 suites</strong> passing (216 files, 12000+ assertions).
 <a class="md-button" href="guides/AGENDA-SCHEDULE-GUIDE/">→ Agenda &amp; Schedule Guide</a>
 <a class="md-button" href="CHANGELOG/">→ Changelog</a></p>
 </div>
@@ -8842,8 +8870,9 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>work<span class="w"> </span>&lt;project&gt;<span class="w">    </span><span class="c1"># Start session</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>finish<span class="w"> </span><span class="o">[</span>note<span class="o">]</span><span class="w">     </span><span class="c1"># End session</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>hop<span class="w"> </span>&lt;project&gt;<span class="w">     </span><span class="c1"># Quick switch (tmux)</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>dash<span class="w">              </span><span class="c1"># Dashboard</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">      </span><span class="c1"># Quick capture</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>dash<span class="w">              </span><span class="c1"># Dashboard (what&#39;s happening now)</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>agenda<span class="w">            </span><span class="c1"># What&#39;s due soon (deadlines, exams, milestones)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">      </span><span class="c1"># Quick capture</span>
 </code></pre></div>
 <p><a class="md-button" href="help/QUICK-REFERENCE/">→ All commands</a></p>
 <hr />
@@ -8892,7 +8921,7 @@
 <li><strong><a href="PHILOSOPHY/">Philosophy</a></strong> - Design principles deep dive</li>
 </ul>
 <hr />
-<p><strong>v7.10.0</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
+<p><strong>v7.10.1</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
 
 
 
