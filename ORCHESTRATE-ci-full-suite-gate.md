@@ -59,15 +59,25 @@ himalaya, R, quarto). `e2e-em-dispatcher` **failed** (not timeout) → 0 timeout
 | test-teach-deploy-v2-integration | R/quarto/rsync absent |
 | dogfood-teach-deploy-v2 | R/quarto/rsync absent |
 | e2e-teach-deploy-v2 | R/quarto/rsync absent |
-| test-help-compliance | ⚠️ pure-zsh — UNEXPECTED, investigate |
-| test-help-compliance-dogfood | ⚠️ pure-zsh — UNEXPECTED, investigate |
-| automated-plugin-dogfood | ⚠️ pure-zsh — UNEXPECTED, investigate |
+| test-help-compliance | `ait`/aiterm absent → `tm` dispatcher degrades (CONFIRMED) |
+| test-help-compliance-dogfood | `ait`/aiterm absent → `tm` degrades (CONFIRMED) |
+| automated-plugin-dogfood | `ait`/aiterm absent → `tm` is alias not function (CONFIRMED) |
 
-Implication: Phase 2 scope is much larger than the spec's 3 named fixes. The "smaller
-fallback = gate just test-doctor" is ALSO non-viable as-is (test-doctor FAILS on runner).
-Two sub-problems: (a) ~11 service/tool-dependent suites must clean-SKIP when the tool is
-absent (rc 77), not FAIL; (b) the 3 pure-zsh ⚠️ suites are possible REAL bugs/path issues
-that smoke-only CI never caught — triage those first.
+CORRECTION (2026-06-14, runner-instrumented): the 3 "pure-zsh ⚠️" suites are NOT pure-zsh
+and NOT real bugs. Root cause confirmed by a CI diagnostic job: the runner has **no `tm`
+binary** (`commands[tm]` empty — the binary-precedence guard was never involved). `tm` is
+the **aiterm** dispatcher (`lib/dispatchers/tm-dispatcher.zsh:44-55`): when the `ait` CLI is
+absent it intentionally degrades to `alias tm='_tm_not_installed'` and early-returns, so
+`tm()`/`_tm_help()` are never defined. The 3 suites assert `tm` is a full dispatcher →
+they fail only because `ait` is absent. This is the **same tool-absent skew class** as the
+other 11 (atlas/himalaya/R/quarto). A first (wrong) attempt added `tm` to
+FLOW_INTENTIONAL_SHADOWS — reverted (commit ed98365f); the fix belongs in the TESTS.
+
+Implication: ALL 14 failures are one uniform class — service/tool-dependent suites that
+must clean-SKIP or accept graceful degradation when their tool is absent. There are NO
+real-bug outliers. The spec's "smaller fallback = gate just test-doctor" is non-viable
+(test-doctor itself FAILS on the runner). Tools whose absence drives the 14: `atlas`,
+`ait` (aiterm), `himalaya` (email/IMAP), `R`/`renv`, `quarto`/`rsync`.
 
 ---
 
@@ -123,6 +133,10 @@ Goal: `run-all.sh` exits 0 on the runner; identical result locally with/without 
 
 ## Notes / decisions log (append during impl)
 - 2026-06-14 — Phase 1 done. Non-blocking `full-suite` job added (commit 18ba82db),
-  draft PR #465 → dev. CI ground truth: 51/14/0. Spec prediction was inverted (see
-  Phase 1 finding above). Phase 2 scope expanded to ~11 clean-skips + 3 pure-zsh
-  triage. Paused for user scoping decision before touching tests.
+  draft PR #465 → dev. CI ground truth: 51/14/0. Spec prediction was inverted.
+- 2026-06-14 — Triage of the 3 "pure-zsh" failures (user-selected). Runner-instrumented
+  diagnostic disproved the binary-precedence guess (no `tm` binary on runner). Real cause:
+  `ait`/aiterm absent → `tm` dispatcher degrades to an alias (tm-dispatcher.zsh:44-55).
+  Wrong fix (tm→FLOW_INTENTIONAL_SHADOWS) committed then reverted (ed98365f). Conclusion:
+  all 14 are ONE class (tool-absent skew); no real bugs. Phase 2 = uniform skip/degrade
+  strategy across all 14. Paused for user scoping decision.
