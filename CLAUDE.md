@@ -205,11 +205,11 @@ export FLOW_QUIET=1                          # Suppress welcome
 export FLOW_DEBUG=1                          # Debug mode
 
 # Binary-precedence guard (drops a dispatcher that shadows a PATH binary)
-export FLOW_INTENTIONAL_SHADOWS=(r mcp cc tm) # Commands kept even when a same-named binary exists
+export FLOW_INTENTIONAL_SHADOWS=(r mcp cc)   # Commands kept even when a same-named binary exists
 export FLOW_FORCE_DISPATCHER_OBS=1           # Force-keep one dispatcher (FLOW_FORCE_DISPATCHER_<NAME>)
 ```
 
-> **Guard caveat:** `FLOW_INTENTIONAL_SHADOWS` defaults to `(r mcp cc tm)` only when unset (`tm` was added in the ci-full-suite-gate work — a `tm` binary exists on some Linux/CI runners and was silently dropping the dispatcher). Setting it to an empty array (`=()`) is treated as an explicit override, so `cc` (vs `/usr/bin/cc`) etc. would then be dropped — append (`+=(...)`) rather than reassign if you only want to add entries.
+> **Guard caveat:** `FLOW_INTENTIONAL_SHADOWS` defaults to `(r mcp cc)` only when unset. Setting it to an empty array (`=()`) is treated as an explicit override, so `cc` (vs `/usr/bin/cc`) etc. would then be dropped — append (`+=(...)`) rather than reassign if you only want to add entries.
 
 ---
 
