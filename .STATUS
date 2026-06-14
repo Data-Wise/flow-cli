@@ -9,13 +9,13 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-13) — v7.10.0 SHIPPED + CI full-suite gate (Phase 1 done, **Phase 2 WIP**) [dev]
+## Current Session (2026-06-13) — v7.10.0 SHIPPED + CI full-suite gate MERGED (Phase 1+2; Phase 3 pending) [dev]
 
 **Session activity:**
 - **Agenda feature → v7.10.0 SHIPPED:** reviewed + hardened the schedule layer (adversarial A–F fixes, `e2e-agenda`/`dogfood-agenda` pair, shared-pipeline refactor `_schedule_window_records`/`_schedule_render_capped`); fixed a pre-existing `dash` non-TTY abort (`$(( cond ? 's' : '' ))` ×3). PR #463→dev → release PR #464→main (`477b5c59`) → GitHub release v7.10.0 → Homebrew tap auto-updated → docs deployed. Plus ~50-doc version sweep + CHANGELOG ×2 + index What's-New + `agenda` in index Core Commands (`955b1fe3`).
 - **Cleanup:** agenda worktree + branch removed (local+remote). **3 squash-merged branches** (`manpage-refresh`/`tok-autosync`/`scholar-fix`) await manual `git branch -D` — hook blocks force-delete (route to user).
-- **CI full-suite gate (Next Action #3):** spec (`docs/specs/SPEC-ci-full-suite-gate-2026-06-13.md`) → worktree `feature/ci-full-suite-gate` + ORCHESTRATE → **Phase 1 DONE** (non-blocking `full-suite` CI job, draft **PR #465**). Ground truth: **51 pass / 14 fail / 0 timeout** — spec prediction *inverted*: the Ubuntu runner LACKS tools (`atlas`/`ait`/`himalaya`/`R`/`quarto`), so 14 tool-dependent suites fail (ONE uniform class), while the 2 predicted atlas-skew suites PASS. First (wrong) `tm`-shadow fix reverted (`ed98365f`); fix belongs in the tests.
-  - **▶ WIP — Phase 2 (resume in worktree session):** clean-skip the 14 tool-absent suites (rc 77 / shared `skip_without <tool>` helper), make `run-all.sh` green on runner + locally (with/without tools), remove 2 `ci(tmp)` diagnostic jobs. Then Phase 3: promote `full-suite` to required (dev → main protection). `cd ~/.git-worktrees/flow-cli/ci-full-suite-gate && claude`.
+- **CI full-suite gate (Next Action #3) — MERGED (PR #465 → dev `b57c0d87`):** spec → worktree → **Phase 1** measured ground truth (**51/14/0**; spec prediction *inverted* — the Ubuntu runner LACKS `atlas`/`ait`/`himalaya`/`R`/`quarto`, so 14 tool-dependent suites failed, ONE uniform class) → **Phase 2** made it green: clean-skip via **rc 77** (automake SKIP, taught to `run-all.sh`), `skip_without_warm_atlas`, pinned `FLOW_ATLAS_ENABLED=no` for atlas-skew — **plus 4 real cross-platform bugs the gate caught**: `exec {var}>` flock fd (zsh ≥10), GNU-first `stat -c %Y` (BSD-first *corrupts* on Linux), `date -d` fallback, em-cache mtime helper. Reviewed (approve) → nits applied (`typeset -g` fd, em-cache null-delim). `full-suite` job runs in CI **non-blocking**; suite now **64 pass / 0 fail / 1 skip** on the runner AND locally. Worktree + branch removed.
+  - **▶ Remaining — Phase 3 (small):** after a dev soak, promote `full-suite` to a required check (dev → then main branch protection). Outward-facing — confirm before applying.
 
 ## Previous Session (2026-06-13) — agenda / forward-looking schedule layer: brainstorm → spec → worktree [dev]
 
@@ -352,8 +352,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.10.0 SHIPPED (agenda/schedule layer, #463→#464→main 477b5c59); GitHub release + Homebrew tap updated; dev synced to main. feature/agenda deleted; 3 squash-merged branches (manpage-refresh/tok-autosync/scholar-fix) await manual `git branch -D` (hook blocks force-delete). |
-| `~/.git-worktrees/flow-cli/ci-full-suite-gate` | `feature/ci-full-suite-gate` | CI full-suite gate (.STATUS Next Action #3). **Phase 1 DONE** (draft PR #465; non-blocking `full-suite` job → 51 pass/14 fail/0 timeout; 14 fails = one tool-absent class). **▶ WIP Phase 2:** clean-skip the 14 tool-dependent suites + remove 2 `ci(tmp)` jobs → green on runner. Resume in worktree session. |
+| Main repo | `dev` | v7.10.0 SHIPPED + CI full-suite gate MERGED (PR #465 → dev `b57c0d87`); both worktrees removed; no active worktrees. **Pending:** 3 squash-merged branches (manpage-refresh/tok-autosync/scholar-fix) await manual `git branch -D`; CI-gate **Phase 3** (promote `full-suite` to required check after dev soak). |
 
 ---
 
@@ -388,7 +387,7 @@
 ---
 
 **Last Updated:** 2026-06-13
-**Status:** v7.10.0 SHIPPED (main + Homebrew tap) | 64/64 tests passing (1 expected interactive/tmux timeout) | 14 dispatchers + at bridge | 213 test files | 12000+ test functions | 0 lint errors | 0 broken links
+**Status:** v7.10.0 SHIPPED (main + Homebrew tap) | full suite in CI (PR #465) — 64 passed / 0 failed / 1 skipped (tool-absent rc 77) | 14 dispatchers + at bridge | 213 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-05)
 ## streak: 1
 ## last_active: 2026-06-13 18:23
