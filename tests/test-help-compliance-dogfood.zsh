@@ -108,6 +108,17 @@ source "$FLOW_DIR/lib/help-compliance.zsh" 2>/dev/null || {
 
 source "$FLOW_DIR/commands/doctor.zsh" 2>/dev/null
 
+# `tm` (aiterm terminal-manager) only defines its dispatcher/help when the
+# `ait` CLI is installed; otherwise it degrades to a "not installed" alias and
+# early-returns (lib/dispatchers/tm-dispatcher.zsh). On machines/CI runners
+# without aiterm, tm has no compliant help — skip tm-specific cases and adjust
+# the expected dispatcher count so this suite is deterministic everywhere.
+_HAS_AIT=0
+command -v ait >/dev/null 2>&1 && _HAS_AIT=1
+_EXPECTED_DISPATCHERS=14
+(( _HAS_AIT )) || _EXPECTED_DISPATCHERS=13
+(( _HAS_AIT )) || echo -e "${YELLOW}Note: aiterm 'ait' not installed — skipping tm help-compliance cases (expecting ${_EXPECTED_DISPATCHERS} dispatchers).${NC}"
+
 echo "══════════════════════════════════════════════════════════════"
 echo "  Help Compliance Dogfooding Tests"
 echo "══════════════════════════════════════════════════════════════"
@@ -160,8 +171,9 @@ _test_individual_rules() {
     echo ""
 }
 
-# Test all 14 dispatchers individually
+# Test all 14 dispatchers individually (tm only when aiterm is installed)
 for d in g r mcp qu wt v cc tm teach dots sec tok prompt em; do
+    [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
     _test_individual_rules "$d"
 done
 
@@ -189,6 +201,7 @@ _test_help_invocation() {
 
 # Test all three invocation forms for each dispatcher
 for cmd in g r mcp qu wt v cc tm prompt; do
+    [[ "$cmd" == tm ]] && (( ! _HAS_AIT )) && continue
     for form in help --help -h; do
         _test_help_invocation "$cmd" "$form"
     done
@@ -272,6 +285,7 @@ _test_content_quality() {
 }
 
 for d in g r mcp qu wt v cc tm teach dots sec tok prompt; do
+    [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
     _test_content_quality "$d"
 done
 
@@ -307,6 +321,7 @@ _test_color_fallback() {
 
 # Only test the 7 dispatchers we fixed (they all define their own fallbacks)
 for d in prompt dots sec tok cc tm teach v; do
+    [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
     _test_color_fallback "$d"
 done
 echo ""
@@ -353,6 +368,7 @@ _test_box_format() {
 }
 
 for d in g r mcp qu wt v cc tm teach dots sec tok prompt; do
+    [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
     _test_box_format "$d"
 done
 echo ""
@@ -368,6 +384,7 @@ echo ""
 _test_function_naming() {
     # Standard pattern: _<cmd>_help
     for d in g r mcp qu wt v cc tm dots sec tok prompt; do
+        [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
         local expected="_${d}_help"
         if typeset -f "$expected" > /dev/null 2>&1; then
             assert_pass "$d: function $expected() exists"
@@ -406,12 +423,13 @@ _test_doctor_integration() {
     assert_contains "$output" "Help Function Compliance Check" \
         "doctor --help-check shows compliance header"
 
-    # Output should report all 14 dispatchers
-    assert_contains "$output" "All 14 dispatchers compliant" \
-        "doctor --help-check reports all 14 compliant"
+    # Output should report all dispatchers compliant (13 without aiterm's tm)
+    assert_contains "$output" "All ${_EXPECTED_DISPATCHERS} dispatchers compliant" \
+        "doctor --help-check reports all ${_EXPECTED_DISPATCHERS} compliant"
 
     # Each dispatcher should appear in output
     for d in g r mcp qu wt v cc tm teach dots sec tok prompt em; do
+        [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
         assert_grep "$output" "✅ $d:" "doctor output includes $d result"
     done
 }
@@ -428,12 +446,12 @@ echo -e "${BLUE}── Section 8: Compliance Library API ──${NC}"
 echo ""
 
 _test_compliance_api() {
-    # Dispatcher list has exactly 14 entries
+    # Dispatcher list has the expected entries (14 with aiterm, 13 without tm)
     local count=${#_FLOW_HELP_DISPATCHERS[@]}
-    if [[ $count -eq 14 ]]; then
-        assert_pass "dispatcher list has exactly 14 entries"
+    if [[ $count -eq $_EXPECTED_DISPATCHERS ]]; then
+        assert_pass "dispatcher list has exactly $_EXPECTED_DISPATCHERS entries"
     else
-        assert_fail "dispatcher list has exactly 14 entries" "found $count"
+        assert_fail "dispatcher list has exactly $_EXPECTED_DISPATCHERS entries" "found $count"
     fi
 
     # Function map has entry for every dispatcher
@@ -511,6 +529,7 @@ _test_consistency() {
     # All dispatchers should have the same section order:
     # box → MOST COMMON → QUICK EXAMPLES → 📋 sections → TIP → See also
     for d in g r mcp qu wt v cc tm teach dots sec tok prompt; do
+        [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"
@@ -576,6 +595,7 @@ _test_edge_cases() {
 
     # Help output contains no raw FLOW_COLORS references (all converted)
     for d in prompt dots sec tok cc tm teach; do
+        [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"
@@ -584,6 +604,7 @@ _test_edge_cases() {
 
     # Help output contains no literal \033[ (should be rendered as actual ESC)
     for d in prompt dots sec tok cc tm teach; do
+        [[ "$d" == tm ]] && (( ! _HAS_AIT )) && continue
         local help_fn="${_FLOW_HELP_FUNCTIONS[$d]}"
         local output
         output="$($help_fn 2>&1)"
