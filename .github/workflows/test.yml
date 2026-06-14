@@ -63,11 +63,12 @@ jobs:
           echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
   # ---------------------------------------------------------------------------
-  # TEMPORARY (ci-full-suite-gate Phase 2): capture real runner output for the
-  # 3 suites that fail on CI but pass locally even with tools hidden. DELETE.
+  # TEMPORARY (ci-full-suite-gate Phase 2): teach-deploy suites still fail on CI
+  # with the yq guard, so yq must be PRESENT and the cause is elsewhere. Capture
+  # the real runner output + environment fingerprint. DELETE.
   # ---------------------------------------------------------------------------
   diag-undiagnosed:
-    name: Diagnose undiagnosed suites (temporary)
+    name: Diagnose teach-deploy (temporary)
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -75,25 +76,22 @@ jobs:
         uses: actions/checkout@v6
       - name: Ensure zsh
         run: command -v zsh >/dev/null 2>&1 || { sudo apt-get update && sudo apt-get install -y zsh; }
+      - name: Environment fingerprint
+        run: |
+          echo "yq: $(command -v yq || echo MISSING) | $(yq --version 2>&1 | head -1)"
+          echo "git user.name=[$(git config --global user.name)] user.email=[$(git config --global user.email)]"
+          echo "R: $(command -v R || echo MISSING) | quarto: $(command -v quarto || echo MISSING) | rsync: $(command -v rsync || echo MISSING)"
       - name: Create mock project structure
         run: |
           mkdir -p ~/projects/dev-tools/flow-cli/.git
-          mkdir -p ~/projects/r-packages/active/mediationverse/.git
-          mkdir -p ~/projects/r-packages/stable/rmediation/.git
           mkdir -p ~/projects/teaching/stat-440/.git
-          mkdir -p ~/projects/research/mediation-planning/.git
-          mkdir -p ~/projects/quarto/manuscripts/paper1/.git
-          mkdir -p ~/projects/apps/examify/.git
           cp -r . ~/projects/dev-tools/flow-cli/
-      - name: test-em-dispatcher
+      - name: test-teach-deploy-v2-unit
         if: always()
-        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/test-em-dispatcher.zsh
-      - name: dogfood-em-dispatcher
+        run: cd ~/projects/dev-tools/flow-cli && timeout 90 zsh ./tests/test-teach-deploy-v2-unit.zsh
+      - name: dogfood-teach-deploy-v2
         if: always()
-        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/dogfood-em-dispatcher.zsh
-      - name: dogfood-atlas-bridge
-        if: always()
-        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/dogfood-atlas-bridge.zsh
+        run: cd ~/projects/dev-tools/flow-cli && timeout 90 zsh ./tests/dogfood-teach-deploy-v2.zsh
 
   # ---------------------------------------------------------------------------
   # Phase 1 (ci-full-suite-gate): MEASURE the full 65-suite run-all.sh in CI.
