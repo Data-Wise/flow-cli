@@ -75,7 +75,7 @@ jobs:
           repositories: homebrew-tap
 
       - name: Checkout homebrew-tap
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: Data-Wise/homebrew-tap
           token: ${{ steps.app-token.outputs.token }}
