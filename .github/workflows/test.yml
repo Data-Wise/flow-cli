@@ -63,50 +63,6 @@ jobs:
           echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
   # ---------------------------------------------------------------------------
-  # TEMPORARY (ci-full-suite-gate Phase 2): teach-deploy suites still fail on CI
-  # with the yq guard, so yq must be PRESENT and the cause is elsewhere. Capture
-  # the real runner output + environment fingerprint. DELETE.
-  # ---------------------------------------------------------------------------
-  diag-undiagnosed:
-    name: Diagnose teach-deploy (temporary)
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-      - name: Ensure zsh
-        run: command -v zsh >/dev/null 2>&1 || { sudo apt-get update && sudo apt-get install -y zsh; }
-      - name: Configure git identity
-        run: |
-          git config --global user.email "ci@flow-cli.test"
-          git config --global user.name "flow-cli CI"
-          git config --global init.defaultBranch main
-      - name: Environment fingerprint
-        run: |
-          echo "yq: $(command -v yq || echo MISSING) | $(yq --version 2>&1 | head -1)"
-          echo "git user.name=[$(git config --global user.name)] user.email=[$(git config --global user.email)]"
-          echo "R: $(command -v R || echo MISSING) | quarto: $(command -v quarto || echo MISSING) | rsync: $(command -v rsync || echo MISSING)"
-      - name: Create mock project structure
-        run: |
-          mkdir -p ~/projects/dev-tools/flow-cli/.git
-          mkdir -p ~/projects/teaching/stat-440/.git
-          cp -r . ~/projects/dev-tools/flow-cli/
-      - name: stat probe (why em-cache fails on Linux)
-        if: always()
-        run: |
-          f=$(mktemp); echo hi > "$f"
-          echo "stat -f %m  => [$(stat -f %m "$f" 2>&1)] rc=$?"
-          echo "stat -c %Y  => [$(stat -c %Y "$f" 2>&1)] rc=$?"
-          echo "md5         => [$(echo x | md5 2>&1 | head -1)]"
-          echo "md5sum      => [$(echo x | md5sum 2>&1 | head -1)]"
-      - name: test-em-dispatcher
-        if: always()
-        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/test-em-dispatcher.zsh
-      - name: dogfood-em-dispatcher
-        if: always()
-        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/dogfood-em-dispatcher.zsh
-
-  # ---------------------------------------------------------------------------
   # Phase 1 (ci-full-suite-gate): MEASURE the full 65-suite run-all.sh in CI.
   # Non-blocking on purpose (continue-on-error) — this job exists to capture the
   # ground-truth pass/skip/fail list on a hosted runner (no atlas, no IMAP)
