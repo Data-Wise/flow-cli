@@ -12,6 +12,15 @@ echo ""
 PASS=0
 FAIL=0
 TIMEOUT=0
+SKIP=0
+
+# Exit code 77 = the suite (or its only meaningful cases) cleanly skipped
+# because a required external tool/service is absent (atlas, ait/aiterm,
+# himalaya, R, quarto, …). This is the standard automake "skip" code. A
+# skipped suite is NOT a failure — it must never redden the gate — but it is
+# surfaced distinctly so a skip is visible (and never silently masks a real
+# pass that should have happened on a fully-provisioned runner).
+readonly SKIP_RC=77
 
 run_test() {
     local test_file="$1"
@@ -32,6 +41,10 @@ run_test() {
         # 124 = timeout
         echo "⏱️ (timeout after ${timeout_seconds}s)"
         ((TIMEOUT++))
+    elif [[ $exit_code -eq $SKIP_RC ]]; then
+        # 77 = clean skip (required tool/service absent)
+        echo "⏭️  (skipped — required tool absent)"
+        ((SKIP++))
     elif [[ $exit_code -eq 0 ]]; then
         echo "✅"
         ((PASS++))
@@ -43,6 +56,9 @@ run_test() {
         if [[ $exit_code -eq 124 ]]; then
             echo "⏱️ (timeout after ${timeout_seconds}s)"
             ((TIMEOUT++))
+        elif [[ $exit_code -eq $SKIP_RC ]]; then
+            echo "⏭️  (skipped — required tool absent)"
+            ((SKIP++))
         elif [[ $exit_code -eq 0 ]]; then
             echo "✅"
             ((PASS++))
@@ -154,8 +170,15 @@ run_test ./tests/test-scholar-config-sync.zsh
 
 echo ""
 echo "========================================="
-echo "  Results: $PASS passed, $FAIL failed, $TIMEOUT timeout"
+echo "  Results: $PASS passed, $FAIL failed, $TIMEOUT timeout, $SKIP skipped"
 echo "========================================="
+
+if [[ $SKIP -gt 0 ]]; then
+    echo ""
+    echo "Note: $SKIP suite(s) skipped — a required external tool/service was"
+    echo "absent (atlas, ait/aiterm, himalaya, R, quarto). Expected on a hosted"
+    echo "CI runner; locally they run when the tool is installed."
+fi
 
 if [[ $FAIL -gt 0 ]]; then
     exit 1

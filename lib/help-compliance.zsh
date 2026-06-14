@@ -17,8 +17,17 @@
 #   8. Color codes (_C_ or \033[)
 #   9. Help function naming (_<cmd>_help)
 
-# All 14 dispatchers to check
-typeset -ga _FLOW_HELP_DISPATCHERS=(g r mcp qu wt v cc tm teach dots sec tok prompt em)
+# Dispatchers to check for help compliance. `tm` (aiterm terminal-manager)
+# only defines its help function (`_tm_help`) when the `ait` CLI is installed;
+# without it the dispatcher degrades to a "not installed" alias and early-
+# returns (lib/dispatchers/tm-dispatcher.zsh). Including tm unconditionally
+# would make `flow doctor --help-check` (and the help-compliance tests) report
+# a false "non-compliant" on any machine without aiterm — e.g. CI runners — so
+# tm is only checked when ait is present.
+typeset -ga _FLOW_HELP_DISPATCHERS=(g r mcp qu wt v cc teach dots sec tok prompt em)
+if command -v ait >/dev/null 2>&1; then
+    _FLOW_HELP_DISPATCHERS+=(tm)
+fi
 
 # Map dispatcher names to their help function names
 typeset -gA _FLOW_HELP_FUNCTIONS=(

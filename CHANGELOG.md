@@ -9,6 +9,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Cache locking errored on Linux** (`lib/doctor-cache.zsh`,
+  `lib/analysis-cache.zsh`): the `flock` path used bash-only high-fd
+  redirection (`exec 201>`/`exec 200>`), which zsh parses as a command and
+  fails with "command not found" on Linux (where `flock` exists). Switched to
+  zsh's dynamic `exec {var}>` allocation. macOS was unaffected (no `flock` →
+  mkdir fallback), so this only ever broke on Linux/CI.
+- **Email cache never worked on Linux** (`lib/em-cache.zsh`): used macOS-only
+  `stat -f %m`, so every entry's mtime read as 0 and looked expired. Added a
+  portable `_em_cache_mtime` (GNU `stat -c %Y` first — it fails cleanly on
+  macOS — then BSD `stat -f %m`).
+- **`teaching_week` computed 0 on Linux** (`lib/teaching-utils.zsh`,
+  `lib/dispatchers/teach-deploy-enhanced.zsh`): used macOS-only `date -j -f`.
+  Added portable date helpers (BSD then GNU `date -d`).
+- **`flow doctor --help-check` false-flagged `tm`** on machines without aiterm
+  (`lib/help-compliance.zsh`): the `tm` dispatcher only loads its help when the
+  `ait` CLI is present, so it's now checked only when `ait` is installed.
+
+### Changed
+
+- **CI now runs the full test suite on every PR.** Added a `full-suite` job to
+  `.github/workflows/test.yml` running `./tests/run-all.sh` (the full 65-suite
+  suite), parallel to the fast smoke job. It starts non-blocking
+  (`continue-on-error`) and is promoted to a required check after soaking green.
+- **`run-all.sh` skip semantics:** exit code **77** now counts a suite as
+  *skipped* (not failed) — used by suites that require an external tool/service
+  (`atlas`, `ait`, `himalaya`, R, quarto, `claude`) absent on a hosted runner.
+  Service-dependent suites skip/degrade cleanly; standalone-behavior suites pin
+  `FLOW_ATLAS_ENABLED=no` so results are identical with or without atlas.
+
 ## [7.10.0] — 2026-06-13 — forward-looking schedule layer (`agenda` + dash UPCOMING)
 
 ### Added

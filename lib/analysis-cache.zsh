@@ -44,6 +44,12 @@ if ! typeset -f _flow_log_debug >/dev/null 2>&1; then
     source "${0:A:h}/core.zsh" 2>/dev/null || true
 fi
 
+# Mutable module state: the flock file descriptor allocated by `exec {var}>` in
+# the acquire path and closed in the release path (a different function). Declare
+# it `-g` explicitly so the cross-function reference is unambiguous rather than
+# relying on zsh's implicit-global-on-assignment behaviour.
+typeset -g _ANALYSIS_CACHE_LOCK_FD=""
+
 # =============================================================================
 # CONSTANTS
 # =============================================================================
@@ -182,9 +188,12 @@ _cache_acquire_lock() {
         # Create lock file if it doesn't exist
         touch "$lock_path" 2>/dev/null
 
-        # Use flock with timeout
-        exec 200>"$lock_path"
-        if ! flock -w "$ANALYSIS_CACHE_LOCK_TIMEOUT" 200 2>/dev/null; then
+        # Use flock with timeout. zsh requires the dynamic `{var}` form for
+        # file descriptors >= 10; the literal `exec 200>` is bash-only and
+        # errors in zsh ("command not found: 200") on Linux — where this flock
+        # branch runs. macOS lacks flock and uses the mkdir fallback below.
+        exec {_ANALYSIS_CACHE_LOCK_FD}>"$lock_path"
+        if ! flock -w "$ANALYSIS_CACHE_LOCK_TIMEOUT" "$_ANALYSIS_CACHE_LOCK_FD" 2>/dev/null; then
             _flow_log_debug "Failed to acquire cache lock (timeout)" 2>/dev/null
             return 1
         fi
@@ -238,9 +247,10 @@ _cache_release_lock() {
     local lock_path
     lock_path=$(_cache_get_lock_path "$course_dir")
 
-    # Release flock (if using flock)
-    if command -v flock >/dev/null 2>&1; then
-        exec 200>&- 2>/dev/null || true
+    # Release flock (if using flock). Close the dynamically-allocated fd from
+    # the acquire path (zsh {var} form; see the note there).
+    if command -v flock >/dev/null 2>&1 && [[ -n "$_ANALYSIS_CACHE_LOCK_FD" ]]; then
+        exec {_ANALYSIS_CACHE_LOCK_FD}>&- 2>/dev/null || true
     fi
 
     # Remove mkdir-based lock

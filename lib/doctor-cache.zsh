@@ -59,6 +59,11 @@ if ! typeset -f _flow_log_debug >/dev/null 2>&1; then
     source "${0:A:h}/core.zsh" 2>/dev/null || true
 fi
 
+# Mutable module state: flock fd allocated by `exec {var}>` in the acquire path
+# and closed in the release path (a different function). Declared `-g` so the
+# cross-function reference is explicit, not reliant on implicit globals.
+typeset -g _DOCTOR_CACHE_LOCK_FD=""
+
 # =============================================================================
 # CONSTANTS
 # =============================================================================
@@ -157,10 +162,13 @@ _doctor_cache_acquire_lock() {
         # Create lock file if it doesn't exist
         touch "$lock_path" 2>/dev/null
 
-        # Use flock with timeout
-        # Use file descriptor 201 for doctor cache locks
-        exec 201>"$lock_path"
-        if ! flock -w "$DOCTOR_CACHE_LOCK_TIMEOUT" 201 2>/dev/null; then
+        # Use flock with timeout. zsh requires the dynamic `{var}` form for
+        # file descriptors >= 10; the literal `exec 201>` is bash-only and
+        # errors in zsh ("command not found: 201") on Linux — where this flock
+        # branch actually runs. macOS has no flock and uses the mkdir fallback
+        # below, which is why this only ever broke on hosted CI runners.
+        exec {_DOCTOR_CACHE_LOCK_FD}>"$lock_path"
+        if ! flock -w "$DOCTOR_CACHE_LOCK_TIMEOUT" "$_DOCTOR_CACHE_LOCK_FD" 2>/dev/null; then
             _flow_log_debug "Failed to acquire cache lock for $key (timeout)" 2>/dev/null
             return 1
         fi
@@ -214,9 +222,10 @@ _doctor_cache_release_lock() {
     local lock_path
     lock_path=$(_doctor_cache_get_lock_path "$key")
 
-    # Release flock (if using flock)
-    if command -v flock >/dev/null 2>&1; then
-        exec 201>&- 2>/dev/null || true
+    # Release flock (if using flock). Close the dynamically-allocated fd from
+    # _doctor_cache_acquire_lock (zsh {var} form; see the note there).
+    if command -v flock >/dev/null 2>&1 && [[ -n "$_DOCTOR_CACHE_LOCK_FD" ]]; then
+        exec {_DOCTOR_CACHE_LOCK_FD}>&- 2>/dev/null || true
     fi
 
     # Remove mkdir-based lock

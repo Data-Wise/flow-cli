@@ -4880,7 +4880,7 @@ _teach_show_status_full() {
                         # Find most recent backup
                         local recent=$(_teach_list_backups "$content_dir" | head -1)
                         if [[ -n "$recent" ]]; then
-                            local backup_time=$(stat -f %m "$recent" 2>/dev/null || stat -c %Y "$recent" 2>/dev/null)
+                            local backup_time=$(stat -c %Y "$recent" 2>/dev/null || stat -f %m "$recent" 2>/dev/null)
                             if [[ "$backup_time" -gt "$latest_backup_time" ]]; then
                                 latest_backup_time=$backup_time
                                 latest_backup=$(basename "$recent")

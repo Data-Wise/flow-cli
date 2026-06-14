@@ -56,6 +56,18 @@ _em_cache_key() {
     echo "$msg_id" | md5 -q 2>/dev/null || echo "$msg_id" | md5sum 2>/dev/null | cut -d' ' -f1
 }
 
+_em_cache_mtime() {
+    # Portable file mtime in epoch seconds. GNU `stat -c %Y` (Linux) is tried
+    # FIRST, BSD `stat -f %m` (macOS) second — order matters: on Linux
+    # `stat -f %m FILE` treats `-f` as --file-system and prints a filesystem
+    # block for FILE to stdout while erroring on `%m`, so a BSD-first chain
+    # captures BOTH outputs and corrupts the mtime (cache then looks expired —
+    # the email cache silently never worked on Linux). `stat -c %Y` fails
+    # cleanly on macOS (illegal option, empty stdout), so GNU-first is safe
+    # on both platforms.
+    stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null || echo 0
+}
+
 # ═══════════════════════════════════════════════════════════════════
 # CACHE READ/WRITE
 # ═══════════════════════════════════════════════════════════════════
@@ -74,7 +86,7 @@ _em_cache_get() {
     # Check TTL
     local ttl="${_EM_CACHE_TTL[$operation]:-3600}"
     local file_mod
-    file_mod=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+    file_mod=$(_em_cache_mtime "$cache_file")
     local now=$(date +%s)
     local file_age=$(( now - file_mod ))
 
@@ -153,7 +165,7 @@ _em_cache_prune() {
         ttl="${_EM_CACHE_TTL[$op_name]:-3600}"
 
         for cache_file in "$op_dir"/*.txt(N); do
-            file_mod=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+            file_mod=$(_em_cache_mtime "$cache_file")
             if (( (now - file_mod) > ttl )); then
                 rm -f "$cache_file"
                 (( pruned++ ))
@@ -185,7 +197,13 @@ _em_cache_enforce_cap() {
     # Evict oldest files first (LRU)
     local evicted=0
     local files_by_age
-    files_by_age=("${(@f)$(find "$cache_base" -name '*.txt' -print0 2>/dev/null | xargs -0 stat -f '%m %N' 2>/dev/null | sort -n | awk '{print $2}')}")
+    # Null-delimited find/read + tab-separated mtime<TAB>path + `cut -f2-` so
+    # paths containing spaces survive the sort (the prior `awk '{print $2}'`
+    # truncated them). Cache files are hash-named .txt, so this is defensive.
+    files_by_age=("${(@f)$(
+        find "$cache_base" -name '*.txt' -print0 2>/dev/null | while IFS= read -r -d '' _f; do
+            print -r -- "$(_em_cache_mtime "$_f")"$'\t'"$_f"
+        done | sort -n | cut -f2-)}")
 
     for old_file in "${files_by_age[@]}"; do
         [[ -z "$old_file" ]] && continue
@@ -229,7 +247,7 @@ _em_cache_stats() {
 
         for cache_file in "$op_dir"/*.txt(N); do
             (( count++ ))
-            file_mod=$(stat -f %m "$cache_file" 2>/dev/null || echo 0)
+            file_mod=$(_em_cache_mtime "$cache_file")
             (( (now - file_mod) > ttl )) && (( expired++ ))
         done
 

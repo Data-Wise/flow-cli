@@ -101,7 +101,17 @@ echo ""
 
 echo "${CYAN}--- Section 2: Dispatcher Functions ---${RESET}"
 
-dispatchers=(g mcp qu r cc tm wt dots sec tok teach prompt v em)
+# `tm` (aiterm terminal-manager) only defines its dispatcher function when the
+# `ait` CLI is installed; without it the dispatcher intentionally degrades to a
+# "not installed" alias and early-returns (lib/dispatchers/tm-dispatcher.zsh).
+# Include tm only when ait is present so this suite is deterministic on hosted
+# CI runners (where aiterm is absent) without losing coverage on dev machines.
+dispatchers=(g mcp qu r cc wt dots sec tok teach prompt v em)
+if command -v ait >/dev/null 2>&1; then
+    dispatchers+=(tm)
+else
+    echo "${YELLOW}  (skipping tm dispatcher check — aiterm 'ait' not installed)${RESET}"
+fi
 
 for disp in "${dispatchers[@]}"; do
     run_test "Dispatcher '$disp' is a function" "
@@ -145,7 +155,6 @@ help_fns=(
     qu    _qu_help
     r     _r_help
     cc    _cc_help
-    tm    _tm_help
     wt    _wt_help
     dots  _dots_help
     sec   _sec_help
@@ -155,6 +164,10 @@ help_fns=(
     v     _v_help
     em    _em_help
 )
+# tm's _tm_help only exists when aiterm ('ait') is installed (see note above).
+if command -v ait >/dev/null 2>&1; then
+    help_fns[tm]=_tm_help
+fi
 
 for disp fn in "${(@kv)help_fns}"; do
     run_test "'$disp help' produces non-empty output" "

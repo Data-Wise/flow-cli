@@ -23,10 +23,11 @@ flow-cli uses a **shared test framework** (`tests/test-framework.zsh`) with comp
 
 | Metric | Count |
 |--------|-------|
-| Test files | 210 |
-| Test suites (run-all.sh) | 58/58 passing |
+| Test files | 213 |
+| Test suites (run-all.sh) | 65 total — 64 passed, 1 skipped, 0 failed |
 | Test functions | 12,000+ |
-| Expected timeouts | 1 (IMAP connectivity) |
+| Expected skips | 1 (`e2e-em-dispatcher` — needs configured IMAP account) |
+| CI | runs the full suite on every PR (green on the Ubuntu runner) |
 
 ---
 
@@ -263,7 +264,36 @@ zsh tests/test-work.zsh
 ./tests/run-all.sh
 ```
 
-65 suites, ~12000 assertions. Expected: 64/64 pass, 1 timeout (IMAP connectivity).
+65 suites, ~12000 assertions. Expected: **64 passed, 0 failed, 0 timeout, 1 skipped**.
+The 1 skip is `e2e-em-dispatcher` (needs a configured IMAP account; skips cleanly
+otherwise). `run-all.sh` exits **0** when there are no failures or timeouts.
+
+#### Skip semantics (exit code 77)
+
+A suite that requires an external tool/service which is absent must **skip
+cleanly** rather than fail. Exit **77** (the automake "skip" convention) tells
+`run-all.sh` to count the suite as ⏭️ skipped, not ❌ failed:
+
+```zsh
+# Whole-suite guard — put after sourcing, before the tests:
+command -v yq >/dev/null 2>&1 || { echo "SKIP: yq not installed"; exit 77; }
+```
+
+For a **mixed** suite (most cases are tool-independent), gate only the
+tool-dependent cases instead of skipping the whole file — e.g. include the `tm`
+dispatcher in dispatcher-enumeration checks only `if command -v ait`, so the
+other assertions still run. This keeps full coverage on a dev machine that has
+the tool while staying green on a hosted runner that doesn't.
+
+Tools whose absence triggers a skip on CI: `atlas`, `ait` (aiterm),
+`himalaya` (IMAP), `R`/`renv`, `quarto`, `claude`. Skips are printed in the
+suite output and summarised in the `run-all.sh` results line, so a skip is
+always visible (never a silently-missing pass).
+
+> **Determinism:** suites that assert flow-cli's *standalone* behavior pin
+> `FLOW_ATLAS_ENABLED=no` in setup so the result can't flip based on whether
+> `atlas` happens to be installed. The suite is green locally **with or without**
+> atlas, and on the runner (which has neither atlas nor the other tools above).
 
 ### Dogfood Quality Check
 
@@ -302,21 +332,40 @@ test_something() {
 
 ## Continuous Integration
 
-### GitHub Actions (`test.yml`)
+### GitHub Actions (`.github/workflows/test.yml`)
 
-Tests run automatically on push and PR:
+Tests run automatically on push and PR to `main`/`dev`, in **two parallel jobs**:
+
+| Job | Runs | Purpose |
+|-----|------|---------|
+| **ZSH Plugin Tests** (`zsh-tests`) | smoke tests (`test-flow.zsh`, `test-install.sh`) + man-page version-sync guard | fast signal; the long-standing required check |
+| **Full Test Suite** (`full-suite`) | the whole `./tests/run-all.sh` (~4 min) | comprehensive gate — runs every PR |
+
+The runner has no `atlas`, `ait`, `himalaya`, `R`, or `quarto`, so service-
+dependent suites **skip** there (see "Skip semantics" above); everything else
+must pass. A git identity is provisioned in the job so deploy suites that
+`git commit` work. The `full-suite` job captures the real exit code via
+`PIPESTATUS` (so its colour reflects reality) and emits the full `run-all.sh`
+output to the job summary.
+
+> **Phasing:** `full-suite` starts as a **non-blocking** measurement job
+> (`continue-on-error: true`) so it can never create a perpetually-red gate
+> while the suite is being made deterministic. Once it has soaked green it is
+> promoted to a **required** status check on `dev`, then `main`.
 
 ```yaml
-name: ZSH Plugin Tests
-on: [push, pull_request]
-jobs:
-  test:
+  full-suite:
+    name: Full Test Suite (non-blocking)
     runs-on: ubuntu-latest
+    continue-on-error: true      # measurement phase; drop when promoting to required
     steps:
-      - uses: actions/checkout@v4
-      - name: Install ZSH
-        run: sudo apt-get install -y zsh
-      - name: Run Tests
+      - uses: actions/checkout@v6
+      - name: Configure git identity
+        run: |
+          git config --global user.email "ci@flow-cli.test"
+          git config --global user.name "flow-cli CI"
+      # ... mock project structure ...
+      - name: Run full suite (non-blocking)
         run: ./tests/run-all.sh
 ```
 
