@@ -63,6 +63,41 @@ jobs:
           echo "| Duration | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
   # ---------------------------------------------------------------------------
+  # TEMPORARY (ci-full-suite-gate): the (r mcp cc tm) fix keeps tm locally but
+  # tm is still dropped on the runner. Dump runner-side guard state. DELETE.
+  # ---------------------------------------------------------------------------
+  diag-tm:
+    name: Diagnose tm drop (temporary)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Ensure zsh
+        run: command -v zsh >/dev/null 2>&1 || { sudo apt-get update && sudo apt-get install -y zsh; }
+      - name: Probe tm + guard state
+        run: |
+          echo "== real tm binary on runner =="
+          command -v tm || echo "(no tm binary)"
+          type -a tm 2>/dev/null || true
+          echo ""
+          echo "== fix present in checkout? =="
+          grep -n "FLOW_INTENTIONAL_SHADOWS=(r mcp cc" flow.plugin.zsh || echo "FIX MISSING"
+          echo ""
+          echo "== source plugin (mirror test) and inspect =="
+          PLUGIN_DIR="$PWD" zsh -c '
+            export FLOW_QUIET=1 FLOW_ATLAS_ENABLED=no
+            export FLOW_PLUGIN_DIR="$PLUGIN_DIR"
+            echo "pre-source: +FLOW_INTENTIONAL_SHADOWS=${+FLOW_INTENTIONAL_SHADOWS}  +FLOW_LOAD_DISPATCHERS=${+FLOW_LOAD_DISPATCHERS}"
+            source ./flow.plugin.zsh 2>/dev/null
+            echo "post-source: FLOW_LOAD_DISPATCHERS=[$FLOW_LOAD_DISPATCHERS]"
+            echo "post-source: FLOW_INTENTIONAL_SHADOWS=[${FLOW_INTENTIONAL_SHADOWS[*]}]"
+            echo "post-source: commands[tm]=[${commands[tm]}]"
+            echo -n "post-source: tm => "; whence -w tm 2>&1 || echo "(undef)"
+            echo -n "post-source: _tm_help => "; whence -w _tm_help 2>&1 || echo "(undef)"
+            echo -n "membership test (Ie tm) => "; echo "${FLOW_INTENTIONAL_SHADOWS[(Ie)tm]}"
+          '
+
+  # ---------------------------------------------------------------------------
   # Phase 1 (ci-full-suite-gate): MEASURE the full 65-suite run-all.sh in CI.
   # Non-blocking on purpose (continue-on-error) — this job exists to capture the
   # ground-truth pass/skip/fail list on a hosted runner (no atlas, no IMAP)
