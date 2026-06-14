@@ -8,6 +8,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.10.1] — 2026-06-13 — Linux portability fixes + full-suite CI gate
+
 ### Fixed
 
 - **Cache locking errored on Linux** (`lib/doctor-cache.zsh`,
@@ -31,8 +33,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 - **CI now runs the full test suite on every PR.** Added a `full-suite` job to
   `.github/workflows/test.yml` running `./tests/run-all.sh` (the full 65-suite
-  suite), parallel to the fast smoke job. It starts non-blocking
-  (`continue-on-error`) and is promoted to a required check after soaking green.
+  suite), parallel to the fast smoke job. It started non-blocking
+  (`continue-on-error`); after soaking green on `dev` it is now a **required
+  check on `main`** — a red suite blocks release to production.
 - **`run-all.sh` skip semantics:** exit code **77** now counts a suite as
   *skipped* (not failed) — used by suites that require an external tool/service
   (`atlas`, `ait`, `himalaya`, R, quarto, `claude`) absent on a hosted runner.

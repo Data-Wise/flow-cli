@@ -438,7 +438,7 @@ colored/box-drawn `help` output is not copy-pasteable into troff).
 The `.TH` line's version field must match `FLOW_VERSION`:
 
 ```troff
-.TH TOK 1 "June 2026" "flow-cli 7.10.0" "User Commands"
+.TH TOK 1 "June 2026" "flow-cli 7.10.1" "User Commands"
 ```
 
 A single guard — `tests/test-manpage-version-sync.zsh`, wired into

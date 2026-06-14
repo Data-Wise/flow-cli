@@ -35,18 +35,17 @@ or any other framework. Choose any installation method that works for you.
 
 ## What's New
 
-### v7.4.0: 31 Email Commands
+### v7.10.0 → v7.10.1: Forward-Looking Schedule Layer + Reliability
 
-- **Organize:** `em star`, `em thread`, `em snooze`, `em digest` — manage your inbox without leaving the terminal
-- **Manage:** `em delete`, `em move`, `em restore`, `em flag`, `em todo`, `em event` — full email lifecycle with `--pick` multi-select
-- **AI:** Switch backends with `em ai gemini`, capture tasks with `em catch 42`
-- **10 Tutorials** — step-by-step guides for every em subcommand
+- **`agenda`** — what's due across all projects: deadlines, lectures, exams, milestones, and recurring weekly blocks, bucketed into OVERDUE / TODAY / THIS WEEK / LATER (`agt`/`agw`/`agm`)
+- **`dash` UPCOMING** + dated enrichment of `morning` / `today` / `week` — one shared engine, works fully **without `yq` and without atlas**
+- **Data sources:** a `## Schedule:` block in each project's `.STATUS`, plus teaching dates from `.flow/teach-config.yml`
+- **v7.10.1 reliability:** Linux-portability fixes (caches, email cache, teaching-date math) + the full test suite is now a required CI gate
 
 ```bash
-em star 42                   # Star a message
-em move 42 Archive           # Move to folder
-em todo 42                   # Create reminder from email
-em pick                      # Interactive multi-select
+agenda                # what's due soon
+agenda --overdue      # only overdue items
+agenda research       # filter by category
 ```
 
 [Full Changelog](docs/CHANGELOG.md) | [All Releases](https://github.com/Data-Wise/flow-cli/releases)

@@ -26,11 +26,11 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.10.0"
+!!! success "🎉 What's New in v7.10.1"
     **Forward-looking schedule layer:** the new **`agenda`** command surfaces dated activity across all projects — deadlines, lectures, exams, milestones, and recurring blocks — bucketed into OVERDUE / TODAY / THIS WEEK / LATER (`agt`/`agw`/`agm` aliases).
     **`dash` UPCOMING** + dated enrichment of `morning` / `today` / `week`, all driven by one shared engine. Works fully without `yq` and without atlas.
     **Data sources:** a no-`yq` `## Schedule:` section in each project's `.STATUS`, plus teaching dates from `.flow/teach-config.yml`.
-    **64 test suites** passing (213 files, 12000+ assertions).
+    **v7.10.1** hardens reliability: Linux-portability fixes (caches, email cache, teaching-date math) and the full test suite is now a required CI gate. **64 suites** passing (213 files, 12000+ assertions).
     [→ Agenda & Schedule Guide](guides/AGENDA-SCHEDULE-GUIDE.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
 
@@ -292,4 +292,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.10.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.10.1** · Pure ZSH · Zero Dependencies · MIT License
