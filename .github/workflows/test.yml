@@ -91,12 +91,20 @@ jobs:
           mkdir -p ~/projects/dev-tools/flow-cli/.git
           mkdir -p ~/projects/teaching/stat-440/.git
           cp -r . ~/projects/dev-tools/flow-cli/
-      - name: test-teach-deploy-v2-unit
+      - name: stat probe (why em-cache fails on Linux)
         if: always()
-        run: cd ~/projects/dev-tools/flow-cli && timeout 90 zsh ./tests/test-teach-deploy-v2-unit.zsh
-      - name: dogfood-teach-deploy-v2
+        run: |
+          f=$(mktemp); echo hi > "$f"
+          echo "stat -f %m  => [$(stat -f %m "$f" 2>&1)] rc=$?"
+          echo "stat -c %Y  => [$(stat -c %Y "$f" 2>&1)] rc=$?"
+          echo "md5         => [$(echo x | md5 2>&1 | head -1)]"
+          echo "md5sum      => [$(echo x | md5sum 2>&1 | head -1)]"
+      - name: test-em-dispatcher
         if: always()
-        run: cd ~/projects/dev-tools/flow-cli && timeout 90 zsh ./tests/dogfood-teach-deploy-v2.zsh
+        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/test-em-dispatcher.zsh
+      - name: dogfood-em-dispatcher
+        if: always()
+        run: cd ~/projects/dev-tools/flow-cli && timeout 60 zsh ./tests/dogfood-em-dispatcher.zsh
 
   # ---------------------------------------------------------------------------
   # Phase 1 (ci-full-suite-gate): MEASURE the full 65-suite run-all.sh in CI.
