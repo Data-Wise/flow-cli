@@ -360,25 +360,37 @@ doctor() {
       atlas_version="${atlas_version:-unknown}"
       _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas installed (v${atlas_version})"
 
-      # Check connection / backend
+      # Check connection / backend. Gate "connected" on atlas actually
+      # RESPONDING — `command -v atlas` (above) only proves the binary is on
+      # PATH, so a broken/half-installed atlas (e.g. a bad interpreter shebang)
+      # would otherwise be reported as "connected". `atlas config show` emits the
+      # full config as pretty JSON (atlas bin/atlas.js); `.storage` is the
+      # backend (`filesystem` | `sqlite`). Run it once and reuse the output.
       if _flow_has_atlas 2>/dev/null; then
-        local atlas_backend
-        # atlas config show emits JSON; extract .storage field (the backend)
-        if command -v jq >/dev/null 2>&1; then
-          atlas_backend="$(atlas config show 2>/dev/null | jq -r '.storage // "filesystem"' 2>/dev/null)"
-        else
-          atlas_backend="$(atlas config show 2>/dev/null | grep '"storage"' | sed 's/.*: *"\([^"]*\)".*/\1/' 2>/dev/null)"
-        fi
-        atlas_backend="${atlas_backend:-filesystem}"
-        _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas connected (${atlas_backend} backend)"
+        local atlas_cfg atlas_backend
+        atlas_cfg="$(atlas config show 2>/dev/null)"
+        if [[ -n "$atlas_cfg" ]]; then
+          if command -v jq >/dev/null 2>&1; then
+            atlas_backend="$(print -r -- "$atlas_cfg" | jq -r '.storage // "filesystem"' 2>/dev/null)"
+          else
+            # Anchor the match on the "storage" key so the value is taken from
+            # THAT field — a bare `.*: *"..."` greedily grabs the last quoted
+            # value on the line, which is wrong for single-line/compact JSON.
+            atlas_backend="$(print -r -- "$atlas_cfg" | grep '"storage"' | sed 's/.*"storage"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')"
+          fi
+          atlas_backend="${atlas_backend:-filesystem}"
+          _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} atlas connected (${atlas_backend} backend)"
 
-        # Show project count
-        local atlas_project_count
-        atlas_project_count="$(atlas project list --format=names 2>/dev/null | wc -l | tr -d ' ')"
-        if [[ -n "$atlas_project_count" && "$atlas_project_count" -gt 0 ]] 2>/dev/null; then
-          _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} project list works (${atlas_project_count} projects)"
+          # Show project count
+          local atlas_project_count
+          atlas_project_count="$(atlas project list --format=names 2>/dev/null | wc -l | tr -d ' ')"
+          if [[ -n "$atlas_project_count" && "$atlas_project_count" -gt 0 ]] 2>/dev/null; then
+            _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} project list works (${atlas_project_count} projects)"
+          else
+            _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} project list empty or unavailable"
+          fi
         else
-          _doctor_log_quiet "  ${FLOW_COLORS[muted]}○${FLOW_COLORS[reset]} project list empty or unavailable"
+          _doctor_log_quiet "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  atlas installed but not responding (config show failed)"
         fi
       else
         _doctor_log_quiet "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]}  atlas installed but not connected"

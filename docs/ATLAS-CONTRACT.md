@@ -41,6 +41,7 @@ These commands require Atlas CLI. flow-cli shows an install message if Atlas is 
 |---------|-------------|---------------|
 | `atlas session status` | Current session state | `table` (default); `--format=json` → `{project,durationMinutes,state,task,startedAt}` or `null` when idle |
 | `atlas stats` | Project statistics | table |
+| `atlas config show` | Full configuration as pretty JSON | JSON — top-level `storage` key is the backend (`filesystem` \| `sqlite`) |
 | `atlas plan` | Planning view | table |
 | `atlas park [project]` | Park a project | text |
 | `atlas unpark [project]` | Unpark a project | text |
@@ -208,6 +209,23 @@ Emits a JSON object when a session is active:
 ```
 
 Emits `null` (the literal JSON value) when no session is active. Always exits 0.
+
+## `atlas config show` Contract (consumed by `flow doctor`)
+
+```
+atlas config show
+```
+
+Prints the **entire** atlas configuration as pretty-printed JSON
+(`JSON.stringify(config, null, 2)` — always JSON, there is no `--format` flag on
+this command). The top-level **`storage`** key is the active backend
+(`filesystem` | `sqlite`); other keys include scan paths and `preferences`. Exits 0.
+
+`flow doctor` consumes this for two things: (a) a **liveness check** — a non-empty
+result is the connectivity signal, because a binary on `PATH` alone does not prove
+atlas actually runs (e.g. a broken interpreter shebang); and (b) reading the
+storage backend. Note there is **no `atlas config get <key>` subcommand** — read a
+single value by parsing `config show`.
 
 ---
 
