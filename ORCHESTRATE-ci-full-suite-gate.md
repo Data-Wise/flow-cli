@@ -137,6 +137,27 @@ Goal: `run-all.sh` exits 0 on the runner; identical result locally with/without 
 - 2026-06-14 — Triage of the 3 "pure-zsh" failures (user-selected). Runner-instrumented
   diagnostic disproved the binary-precedence guess (no `tm` binary on runner). Real cause:
   `ait`/aiterm absent → `tm` dispatcher degrades to an alias (tm-dispatcher.zsh:44-55).
-  Wrong fix (tm→FLOW_INTENTIONAL_SHADOWS) committed then reverted (ed98365f). Conclusion:
-  all 14 are ONE class (tool-absent skew); no real bugs. Phase 2 = uniform skip/degrade
-  strategy across all 14. Paused for user scoping decision.
+  Wrong fix (tm→FLOW_INTENTIONAL_SHADOWS) committed then reverted (ed98365f).
+- 2026-06-14 — PHASE 2 COMPLETE. Full suite GREEN on runner: **64 passed, 0 failed,
+  0 timeout, 1 skipped (e2e-em IMAP)** — run 27486365803, exit 0. Went 14→0.
+  REAL product bugs the gate caught (would have shipped, Linux-broken):
+  1. zsh fd: `exec 201>/200>` bash-only → errors on Linux (flock path). Fixed
+     doctor-cache.zsh + analysis-cache.zsh (`exec {var}>`).
+  2. `stat -f %m` macOS-only → em cache never worked on Linux. Fixed em-cache.zsh
+     with GNU-first `_em_cache_mtime` (+5 other latent stat sites). KEY subtlety:
+     `stat -f %m FILE` on Linux PARTIALLY outputs (FS block) before erroring, so
+     BSD-first `||` corrupts mtime — must try GNU `stat -c %Y` FIRST.
+  3. `date -j -f` macOS-only → teaching_week=0 on Linux. Fixed teaching-utils.zsh
+     (+helpers) and teach-deploy-enhanced.zsh.
+  4. help-compliance.zsh listed tm unconditionally → `doctor --help-check` false-flags
+     tm without aiterm. Now conditional on `ait`.
+  Test determinism (tool-absent skew, skip when tool absent / keep coverage when present):
+  tm/ait (automated-plugin-dogfood, test-help-compliance(-dogfood), dogfood-atlas-bridge),
+  claude (test-cc-dispatcher), himalaya IMAP hang (e2e-em-dispatcher, bounded+rc77),
+  yq (teach-deploy ×4), R (dogfood-teach-doctor-v2). Atlas-PRESENT skew (local-only):
+  e2e-core-commands (pin FLOW_ATLAS_ENABLED=no), test-atlas-contract (skip_without_warm_atlas).
+  CI infra: run-all.sh rc-77 SKIP semantics; git identity provisioned in CI.
+  METHOD LESSON: instrument the runner; "passes locally with tool hidden" ≠ fixed
+  (3 wrong-tool diagnoses corrected only via CI diagnostic jobs).
+  REMAINING: verify local green both ways (atlas on/off); docs/guides/TESTING.md;
+  Phase 3 (promote to required — outward-facing, needs user sign-off).
