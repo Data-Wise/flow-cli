@@ -344,7 +344,8 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.10.0 SHIPPED (agenda/schedule layer, #463→#464→main 477b5c59); GitHub release + Homebrew tap updated; dev synced to main. No worktrees. feature/agenda deleted; 3 squash-merged branches (manpage-refresh/tok-autosync/scholar-fix) await manual `git branch -D` (hook blocks force-delete). |
+| Main repo | `dev` | v7.10.0 SHIPPED (agenda/schedule layer, #463→#464→main 477b5c59); GitHub release + Homebrew tap updated; dev synced to main. feature/agenda deleted; 3 squash-merged branches (manpage-refresh/tok-autosync/scholar-fix) await manual `git branch -D` (hook blocks force-delete). |
+| `~/.git-worktrees/flow-cli/ci-full-suite-gate` | `feature/ci-full-suite-gate` | CI full-suite gate (.STATUS Next Action #3). Spec (`3b89ff09`) + ORCHESTRATE (`68597fb5`) committed & pushed; **awaiting impl in a fresh session** (`cd … && claude`). Phased: measure→determinism→promote. |
 
 ---
 
@@ -380,6 +381,6 @@
 
 **Last Updated:** 2026-06-13
 **Status:** v7.10.0 SHIPPED (main + Homebrew tap) | 64/64 tests passing (1 expected interactive/tmux timeout) | 14 dispatchers + at bridge | 213 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-05), --category fix squashed the bug (2026-06-05)
+## wins: Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-05)
 ## streak: 1
-## last_active: 2026-06-13 16:01
+## last_active: 2026-06-13 18:23
