@@ -344,7 +344,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.10.0 SHIPPED (agenda/schedule layer, #463→#464→main 477b5c59); GitHub release + Homebrew tap updated; dev synced to main. Pending: delete feature/agenda branch. |
+| Main repo | `dev` | v7.10.0 SHIPPED (agenda/schedule layer, #463→#464→main 477b5c59); GitHub release + Homebrew tap updated; dev synced to main. No worktrees. feature/agenda deleted; 3 squash-merged branches (manpage-refresh/tok-autosync/scholar-fix) await manual `git branch -D` (hook blocks force-delete). |
 
 ---
 
