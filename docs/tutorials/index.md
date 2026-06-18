@@ -7,7 +7,7 @@ tags:
 # Tutorials
 
 !!! tldr "📖 Learn flow-cli step by step"
-    From your first session to advanced workflows. **~9 hours total · 31 tutorials · Beginner → Intermediate.** New here? Start with [Your First Session](01-first-session.md).
+    From your first session to advanced workflows. **47 tutorials · ~9 hours for the guided path · Beginner → Intermediate.** New here? Start with [Your First Session](01-first-session.md).
 
 ---
 
@@ -40,9 +40,10 @@ flowchart TD
         T42["<a href='42-g-dispatcher/'>Tutorial 42</a><br/>Git Shortcuts<br/>⏱ 20 min"]
     end
 
-    subgraph ADHD["🧠 ADHD & Productivity"]
-        T43["<a href='43-adhd-daily-routine/'>Tutorial 43</a><br/>Daily Routine<br/>⏱ 20 min"]
+    subgraph ADHD["🧠 ADHD & Planning"]
         T44["<a href='44-quick-capture/'>Tutorial 44</a><br/>Quick Capture<br/>⏱ 10 min"]
+        T48["<a href='48-agenda-schedule/'>Tutorial 48</a><br/>Agenda & Schedule<br/>⏱ 15 min"]
+        T43["<a href='43-adhd-daily-routine/'>Tutorial 43</a><br/>Daily Routine<br/>⏱ 20 min"]
     end
 
     subgraph ADVANCED["🎓 Advanced Workflows"]
@@ -93,13 +94,16 @@ flowchart TD
     T39 --> T14
     T42 --> T8
     T6 --> T43
-    T43 --> T44
+    T6 --> T44
+    T44 --> T48
+    T48 --> T43
+    T2 --> T48
 
     classDef beginner fill:#d4edda,stroke:#28a745,color:#155724
     classDef intermediate fill:#fff3cd,stroke:#ffc107,color:#856404
     classDef optional fill:#e2e3e5,stroke:#6c757d,color:#383d41
 
-    class T1,T2,T3,T6,T10,T11,T12,T13,T35,T37,T38,T39,T40,T42,T43,T44 beginner
+    class T1,T2,T3,T6,T10,T11,T12,T13,T35,T37,T38,T39,T40,T42,T43,T44,T48 beginner
     class T8,T9,T14,T21,T22,T23,T24,T25,T26,T36 intermediate
     class T4,T5,T7 optional
 ```
@@ -186,9 +190,12 @@ flowchart TD
 | 42 | [Git Shortcuts (g)](42-g-dispatcher.md) | 20 min | 🟢 Beginner | Git shortcuts with token validation |
 | 43 | [ADHD Daily Routine](43-adhd-daily-routine.md) | 20 min | 🟢 Beginner | Morning briefing, just start, timers |
 | 44 | [Quick Capture](44-quick-capture.md) | 10 min | 🟢 Beginner | catch, inbox, crumb, trail |
+| 45 | [Lint Quickstart](45-lint-quickstart.md) | 10 min | 🟢 Beginner | Markdown/code lint validation basics |
+| 46 | [em v2.0 Features](46-em-v2-features.md) | 20 min | 🟡 Intermediate | Email dispatcher v2 — ICS, watch, folders |
 | 47 | [Token Auto-Sync](47-tok-auto-sync.md) | 15 min | 🟡 Intermediate | Fan tokens out to GitHub Actions secrets |
+| 48 | [Agenda & Schedule](48-agenda-schedule.md) | 15 min | 🟢 Beginner | Forward-looking schedule across projects |
 
-**Total estimated time:** ~9 hours (all tutorials)
+**Total estimated time:** ~9 hours (guided learning path)
 
 ---
 

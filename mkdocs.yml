@@ -144,15 +144,17 @@ nav:
           - 39. Quarto Publishing: tutorials/39-qu-dispatcher.md
           - 40. Workflow (v/vibe): tutorials/40-v-dispatcher.md
           - 42. Git Shortcuts (g): tutorials/42-g-dispatcher.md
-      - ADHD & Productivity:
-          - 43. ADHD Daily Routine: tutorials/43-adhd-daily-routine.md
-          - 44. Quick Capture: tutorials/44-quick-capture.md
-          - 48. Agenda & Schedule: tutorials/48-agenda-schedule.md
       - Editor (Neovim):
           - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
           - 16. Vim Motions: tutorials/16-vim-motions.md
           - 17. LazyVim Basics: tutorials/17-lazyvim-basics.md
           - 18. LazyVim Showcase: tutorials/18-lazyvim-showcase.md
+  # ── Planning & Scheduling (gathered: agenda arc + capture/routine) ─
+  - 📅 Planning & Scheduling:
+      - 48. Agenda & Schedule: tutorials/48-agenda-schedule.md
+      - 📅 Agenda & Schedule Guide: guides/AGENDA-SCHEDULE-GUIDE.md
+      - 44. Quick Capture: tutorials/44-quick-capture.md
+      - 43. ADHD Daily Routine: tutorials/43-adhd-daily-routine.md
   # ── Teaching (kept as-is, already well-organized) ─────────────────
   - 🎓 Teaching:
       - Overview: teaching/index.md
@@ -237,7 +239,6 @@ nav:
       - guides/index.md
       - Start Here: guides/00-START-HERE.md
       - Quick Wins: guides/WORKFLOWS-QUICK-WINS.md
-      - 📅 Agenda & Schedule: guides/AGENDA-SCHEDULE-GUIDE.md
       - Git & Branching:
           - Git Dispatcher (g): reference/REFCARD-GIT-DISPATCHER.md
           - Git Feature Flow: tutorials/08-git-feature-workflow.md

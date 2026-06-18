@@ -53,7 +53,9 @@ current session, wins. They answer *"where am I?"* — never *"what's coming?"*.
 The **agenda layer** adds the forward-looking dimension. One engine
 (`lib/schedule.zsh`) reads dated items from two sources, merges them, and renders
 them everywhere consistently. It works fully **without atlas** and **without
-`yq`**.
+`yq`** — and when Atlas *is* enabled, schedule items can additionally sync to the
+project database for cross-tool views (the `atlas push` step in the
+[Atlas Integration Guide](../guides/ATLAS-INTEGRATION-GUIDE.md)).
 
 ```text
   .STATUS  "## Schedule:"  ─┐

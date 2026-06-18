@@ -167,6 +167,8 @@ This removes decision fatigue, keeps you time-aware (a common ADHD challenge), a
 
 Yes. It uses file-based fallbacks if Atlas isn't available. You'll still see inbox count, projects, and wins.
 
+**With Atlas** the briefing also draws on richer session history and analytics (the warm-path `stats`/`plan`/`park` data). flow-cli works standalone; Atlas is optional and capability-detected — see the [Atlas Integration Guide](../guides/ATLAS-INTEGRATION-GUIDE.md).
+
 ### Does the timer run in the background?
 
 No. It's a foreground countdown with a progress bar. It runs in your current terminal session so it stays visible.
@@ -183,6 +185,7 @@ Yes. `timer 50` for a 50-minute focus, `timer break 10` for a 10-minute break. U
 
 ## Next Steps
 
+- **[Tutorial 48: Agenda & Schedule](48-agenda-schedule.md)** — see what's coming before you pick a task
 - **[Tutorial 6: Dopamine Features](06-dopamine-features.md)** — Log wins, build streaks with `win` and `yay`
 - **[Tutorial 44: Quick Capture](44-quick-capture.md)** — Capture fleeting ideas with `catch`
 - **[Tutorial 1: First Session](01-first-session.md)** — Start here if you haven't used flow-cli yet

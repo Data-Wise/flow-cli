@@ -128,6 +128,8 @@ inbox          # 3 items captured today — process tomorrow
 
 Atlas database (if enabled) or `$FLOW_DATA_DIR` as file fallback. Check with `flow doctor`.
 
+**With Atlas enabled**, captures land in the shared project database — searchable across projects via the `at` bridge — instead of a single local file. Capture itself is hot-path ZSH and works either way; Atlas just makes it smarter. See the [Atlas Integration Guide](../guides/ATLAS-INTEGRATION-GUIDE.md).
+
 ### Does catch work outside projects?
 
 Yes. Captures store without project context when you're not in a project directory.
@@ -144,6 +146,7 @@ One per context switch or every ~30 minutes of deep work. Don't over-document �
 
 ## Next Steps
 
+- **[Tutorial 48: Agenda & Schedule](48-agenda-schedule.md)** — turn a captured deadline into a tracked schedule item
 - **[Tutorial 6: Dopamine Features](06-dopamine-features.md)** — Log accomplishments with `win` and `yay`
 - **[Tutorial 43: ADHD Daily Routine](43-adhd-daily-routine.md)** — Morning briefing, just start, focus timers
 - **[MASTER-DISPATCHER-GUIDE](../reference/MASTER-DISPATCHER-GUIDE.md)** — Complete reference for all 14 dispatchers

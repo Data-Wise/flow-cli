@@ -648,9 +648,10 @@ status . blocked   # Mark blocked
 
 Continue your learning:
 
-1. **[Tutorial 3: Using Status Visualizations](03-status-visualizations.md)** — Understand progress bars and charts
-2. **[Tutorial 4: Web Dashboard Deep Dive](04-web-dashboard.md)** — Use the browser-based dashboard
-3. **[Workflow Quick Reference](../help/WORKFLOWS.md)** — Advanced workflows
+1. **[Tutorial 48: Agenda & Schedule](48-agenda-schedule.md)** — a forward-looking view of what's due across all your projects
+2. **[Tutorial 3: Using Status Visualizations](03-status-visualizations.md)** — Understand progress bars and charts
+3. **[Tutorial 4: Web Dashboard Deep Dive](04-web-dashboard.md)** — Use the browser-based dashboard
+4. **[Workflow Quick Reference](../help/WORKFLOWS.md)** — Advanced workflows
 
 ---
 
