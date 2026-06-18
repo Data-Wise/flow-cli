@@ -390,5 +390,5 @@ Only runs when `scholar.latex_macros.enabled: true` in teach-config.yml:
 
 ---
 
-**Version:** v7.10.1
+**Version:** v7.10.2
 **Last Updated:** 2026-02-08

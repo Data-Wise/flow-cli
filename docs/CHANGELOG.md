@@ -8,6 +8,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.10.2] — 2026-06-18 — Documentation polish + dependency maintenance
+
+### Documentation
+
+- Clarified the flow-cli ↔ Atlas relationship in the agenda, capture, and daily-routine tutorials (what Atlas adds + links to the Atlas Integration Guide).
+- Connected the planning tutorials into a continuous arc (capture → agenda → routine) and gathered them into a dedicated **Planning & Scheduling** documentation section.
+- Rewrote the Agenda & Schedule tutorial with real command output and copy-paste real-world recipes; added real `today`/`week` renders to the Agenda & Schedule guide.
+- Fixed the tutorials index count (now 47 tutorials) and completed the All Tutorials table.
+
+### Dependencies
+
+- Bump prettier 3.8.3 → 3.8.4 (dev).
+- Bump actions/checkout 4 → 6 (CI).
+
 ## [7.10.1] — 2026-06-13 — Linux portability fixes + full-suite CI gate
 
 ### Fixed

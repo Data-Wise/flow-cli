@@ -2,7 +2,7 @@
 
 > Quick fixes for common issues with the teach dispatcher.
 >
-> **Version:** v7.10.1
+> **Version:** v7.10.2
 > **Last Updated:** 2026-02-27
 
 ---

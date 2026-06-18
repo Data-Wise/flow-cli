@@ -2,7 +2,7 @@
 
 > Complete field reference for teaching project configuration.
 >
-> **Version:** v7.10.1 | **Location:** `.flow/teach-config.yml`
+> **Version:** v7.10.2 | **Location:** `.flow/teach-config.yml`
 
 ## Overview
 
@@ -669,4 +669,4 @@ _teach_config_summary ".flow/teach-config.yml"
 ---
 
 **Last Updated:** 2026-02-02
-**Version:** v7.10.1
+**Version:** v7.10.2

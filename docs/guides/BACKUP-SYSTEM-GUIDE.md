@@ -1,6 +1,6 @@
 # Backup System Guide
 
-**Version:** v7.10.1
+**Version:** v7.10.2
 **Last Updated:** 2026-01-21
 
 ---
@@ -959,5 +959,5 @@ See `lib/backup-helpers.zsh` for implementation details.
 
 ---
 
-**Version:** v7.10.1
+**Version:** v7.10.2
 **Last Updated:** 2026-01-21
