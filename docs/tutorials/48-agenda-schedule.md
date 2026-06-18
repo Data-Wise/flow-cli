@@ -13,6 +13,11 @@ tags:
 >
 > **Time:** ~15 minutes | **Level:** Beginner
 
+**Why this helps:** deadlines scatter across a dozen places — your head, email, a
+syllabus, a grant portal. `agenda` gives you *one* answer to *"what's coming?"* by
+reading plain-text lines you already keep in `.STATUS`. No calendar app, no new
+syntax to memorize, no data re-entry. Add a line, run `agenda`, done.
+
 ---
 
 ## Prerequisites
@@ -53,7 +58,9 @@ current session, wins. They answer *"where am I?"* — never *"what's coming?"*.
 The **agenda layer** adds the forward-looking dimension. One engine
 (`lib/schedule.zsh`) reads dated items from two sources, merges them, and renders
 them everywhere consistently. It works fully **without atlas** and **without
-`yq`**.
+`yq`** — and when Atlas *is* enabled, schedule items can additionally sync to the
+project database for cross-tool views (the `atlas push` step in the
+[Atlas Integration Guide](../guides/ATLAS-INTEGRATION-GUIDE.md)).
 
 ```text
   .STATUS  "## Schedule:"  ─┐
@@ -73,7 +80,15 @@ Before adding anything, see the calm empty state:
 agenda
 ```
 
-**What happened:** with nothing scheduled you get a quiet "nothing due" message,
+You'll see the calm empty state:
+
+```text
+  📅 AGENDA (next 7 days)
+
+  📅 Nothing scheduled — clear runway
+```
+
+**What happened:** with nothing scheduled you get a quiet "clear runway" message,
 not a wall of noise. That calm-when-empty behavior is deliberate.
 
 ### Step 1.2: Add a `## Schedule:` block
@@ -108,9 +123,23 @@ The line grammar is:
 agenda
 ```
 
-**What happened:** your two items now appear, grouped into buckets and tagged
-with type icons (🔬 research, 📌 general). The project name is inferred from the
-directory — you didn't have to type it.
+Now your two items appear under a **THIS WEEK** bucket:
+
+```text
+  📅 AGENDA (next 7 days)
+
+  THIS WEEK (2)
+  🔬 in 3d       Submit JRSS-B revision (myproject)
+  📌 in 4d       Project beta milestone (myproject)
+
+  2 items • 'agenda -h' for options
+```
+
+**What happened:** your two items are grouped into a bucket, tagged with type
+icons (🔬 research, 📌 general), and shown with a friendly relative-day label
+("in 3d") instead of a raw date. The project name (`myproject`) is inferred from
+the directory — you didn't have to type it. Items past due would sit in a red
+**OVERDUE** bucket above; anything beyond the window lands under **LATER**.
 
 ### Checkpoint
 
@@ -141,6 +170,21 @@ agenda -m           # next 30 days (adds a LATER bucket)
 agenda --overdue    # ONLY things past due — your "what's on fire?" view
 agenda --all        # everything, including holidays
 ```
+
+`agenda --overdue` is the one to reach for when you're behind — it strips
+everything except what's actually late:
+
+```text
+  📅 AGENDA (overdue only)
+
+  OVERDUE (1)
+  🔬 overdue 2d  Rebuttal to reviewers (myproject)
+
+  1 item • 'agenda -h' for options
+```
+
+And `agenda -m` adds a dim **LATER** bucket for items 8–30 days out, so recurring
+blocks (like a weekly meeting) show every upcoming occurrence.
 
 ### Step 2.2: Add a recurring block
 
@@ -263,6 +307,76 @@ morning -q      # one-line count
 
 **Result:** every dated commitment across your projects in one place, surfaced
 right where you already look.
+
+---
+
+## Real-World Recipes
+
+Copy a block into a project's `.STATUS`, change the dates to suit, and run
+`agenda`. Each recipe is a complete, working `## Schedule:` section.
+
+### 📚 The grad student's week
+
+```markdown
+## Schedule:
+- 2026-06-18 | Conference abstract deadline | research
+- 2026-06-20 | Submit grant budget | general
+- weekly:mon | Advisor meeting | research
+- weekly:wed | Lab meeting | research
+- weekly:fri | Writing block (2h) | recurring
+```
+
+```bash
+agenda          # this week at a glance
+agm research    # the whole month, research items only
+```
+
+### 🎓 The instructor's semester
+
+Teaching dates already live in `.flow/teach-config.yml`, so you rarely hand-enter
+them — add only the one-offs and recurring blocks:
+
+```markdown
+## Schedule:
+- 2026-06-19 | Midterm exam | teaching
+- 2026-06-25 | Submit final grades | teaching
+- weekly:fri | Grading window | recurring
+```
+
+```bash
+agenda teach    # everything in teaching-category projects
+week            # this week's deadlines, grouped by weekday
+```
+
+### 🧪 Juggling many projects
+
+Keep deadlines in each project's `.STATUS`; `agenda` merges them all and tags each
+line with its project name, so you triage across everything at once:
+
+```bash
+agenda             # every project · next 7 days + overdue
+agenda --overdue   # the cross-project "what's late?" list
+```
+
+A merged view spanning three projects looks like this:
+
+```text
+  📅 AGENDA (next 7 days)
+
+  OVERDUE (1)
+  🔬 overdue 2d  Rebuttal to reviewers (thesis)
+
+  THIS WEEK (3)
+  🔬 in 1d       Conference abstract deadline (thesis)
+  📌 in 3d       Renew domain (website)
+  🎓 in 6d       Lecture 9 prep (stat-101)
+
+  4 items • 'agenda -h' for options
+```
+
+> **Tip:** start tiny. One real deadline in one project beats a perfectly
+> structured schedule you never fill in. Add lines as they come up — `catch`
+> ([Tutorial 44](44-quick-capture.md)) is a fast way to jot one down.
 
 ---
 

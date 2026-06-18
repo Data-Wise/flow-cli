@@ -158,6 +158,38 @@ The same engine feeds every surface, so they all render consistently:
 Results are cached per session (date + window keyed, ~10 min TTL), so running
 `agenda` and then `dash` reuses the work.
 
+### What it looks like
+
+The same items, surfaced by `today` (today + overdue) …
+
+```text
+📅 TODAY Wednesday, June 17
+
+  📅 Due today
+  🔬 overdue 3d  Submit JRSS-B revision (manuscript-x)
+  📌 today       Project beta milestone (manuscript-x)
+```
+
+… and by `week` (7 days, grouped by weekday, overdue first):
+
+```text
+📊 WEEKLY REVIEW
+Week of June 17, 2026
+
+  📅 This week's deadlines:
+     Overdue:
+  🔬 overdue 3d  Submit JRSS-B revision (manuscript-x)
+     Wednesday:
+  📌 today       Project beta milestone (manuscript-x)
+     Friday:
+  🔬 in 2d       Advisor meeting (manuscript-x)
+     Sunday:
+  🔁 in 4d       Grading window (manuscript-x)
+```
+
+Same data, same icons and relative-day labels — just framed for the question
+each command answers.
+
 ---
 
 ## Atlas integration (optional)

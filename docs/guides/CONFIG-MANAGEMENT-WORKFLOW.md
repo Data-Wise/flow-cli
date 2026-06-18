@@ -730,5 +730,5 @@ flow config profile load adhd
 ---
 
 **Last Updated:** 2026-02-27
-**Version:** v7.10.1
+**Version:** v7.10.2
 **Related:** [flow.md](../commands/flow.md), [plugin guide](./PLUGIN-MANAGEMENT-WORKFLOW.md)
