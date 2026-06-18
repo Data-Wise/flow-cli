@@ -31,6 +31,7 @@ tags:
     **`dash` UPCOMING** + dated enrichment of `morning` / `today` / `week`, all driven by one shared engine. Works fully without `yq` and without atlas.
     **Data sources:** a no-`yq` `## Schedule:` section in each project's `.STATUS`, plus teaching dates from `.flow/teach-config.yml`.
     **v7.10.1** hardens reliability: Linux-portability fixes (caches, email cache, teaching-date math) and the full test suite is now a required CI gate. **64 suites** passing (216 files, 12000+ assertions).
+    [→ Agenda & Schedule Tutorial](tutorials/48-agenda-schedule.md){ .md-button .md-button--primary }
     [→ Agenda & Schedule Guide](guides/AGENDA-SCHEDULE-GUIDE.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
 
