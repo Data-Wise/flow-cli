@@ -214,6 +214,16 @@ command -v radian >/dev/null && alias R='radian'
 # Run 'cc help' to see all available commands:
 #   cc, cc yolo, cc plan, cc ask, cc file, cc diff, cc resume, etc.
 
+# Token optimization: compact at 55% context (default is ~83.5%)
+# Fallback for settings.json env block which may be silently ignored (issue #63186)
+export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=55
+
+# Model tiering: main loop = Opus/opusplan; subagents route per-task via their own
+# definitions (craft orchestrator-v2 already does haiku-for-reads / sonnet-for-writes).
+# NOT setting CLAUDE_CODE_SUBAGENT_MODEL: it has highest priority and would OVERRIDE
+# craft's finer per-task routing, forcing cheap haiku read/test agents up to sonnet (~5x).
+# For ad-hoc main-session agents, pass model: explicitly at spawn.
+
 # Backward compatibility alias for YOLO mode
 alias ccy='cc yolo'
 
@@ -1059,6 +1069,19 @@ fpath=(~/.zsh/completions $fpath)
 # Gated to real iTerm2 only (was loading under Ghostty and leaking OSC 1337 +
 # focus/DA query responses as literal text — garbled Claude Code's TUI).
 [[ "$TERM_PROGRAM" == "iTerm.app" ]] && test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# ============================================
+# DISABLE BUN KITTY PROBE - Added 2026-06-04
+# ============================================
+# Claude Code 2.1.x is a Bun-compiled binary; Bun's runtime fires a Kitty
+# keyboard-protocol PROBE at startup (an escape-sequence terminal query). On
+# Ghostty the probe + Ghostty's response renders as garbage in Claude's prompt
+# at startup — invariant across `ccy`/`cc`/plain `claude`. Disabling Bun's probe
+# fixes it at the source. CONFIRMED 2026-06-04 (BUN_DISABLE_KITTY_PROBE=1 claude
+# = clean). NOT a zsh-state issue: the earlier precmd CSI-u-reset hook was the
+# wrong layer (terminal read flags=0 before launch) and is removed.
+# Sibling of the iTerm2-integration gating above (same escape-leak-into-TUI class).
+export BUN_DISABLE_KITTY_PROBE=1
 
 # Nexus Desktop - Quick Launcher
 # REMOVED 2026-01-17: alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
