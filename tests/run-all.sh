@@ -160,6 +160,7 @@ run_test ./tests/e2e-agenda.zsh
 echo ""
 echo "Atlas contract tests:"
 run_test ./tests/test-atlas-contract.zsh
+run_test ./tests/test-doctor-atlas-calls.zsh
 
 echo ""
 echo "Additional unit tests:"
