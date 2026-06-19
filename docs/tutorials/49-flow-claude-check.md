@@ -8,17 +8,17 @@ tags:
 
 # Tutorial 49: Diagnosing Claude Code Environment with `flow claude check`
 
-> **What you'll learn:** how to catch the six most common Claude Code configuration
-> problems before they silently derail a session — and how to auto-fix the ones
-> that are safe to fix.
+> **What you'll learn:** how to catch eleven Claude Code configuration problems before
+> they silently derail a session — and how to auto-fix the ones that are safe to fix.
+> Includes the `flow claude watch` daemon for continuous background monitoring.
 >
-> **Time:** ~10 minutes | **Level:** Beginner | **v7.12.0**
+> **Time:** ~15 minutes | **Level:** Beginner | **v7.13.0**
 
 **Why this matters:** Claude Code configuration lives in two places (`settings.json`
-and your shell), and they drift. Hook files break. Memory indexes go stale. The
-default 8192-token output cap truncates long responses mid-run. None of these fail
-loudly — they just produce confusing behavior. `flow claude check` finds them all in
-one pass.
+and your shell), and they drift. Hook files break. Memory indexes go stale. Project
+CLAUDE.md files balloon. The default 8192-token output cap truncates long responses
+mid-run. None of these fail loudly — they just produce confusing behavior.
+`flow claude check` finds them all in one pass.
 
 ---
 
@@ -40,9 +40,10 @@ flow claude check --help
 ## What You'll Learn
 
 1. Run `flow claude check` and read the report
-2. Understand each of the six checks (C1–C6)
+2. Understand all eleven checks (C1–C11)
 3. Use `--fix` to auto-repair safe mismatches
 4. Know which failures require manual intervention
+5. Run `flow claude watch` for continuous background monitoring
 
 ---
 
@@ -52,15 +53,20 @@ flow claude check --help
 flow claude check
 ```
 
-You'll see a six-line report. Each line is one check:
+You'll see an eleven-line report. Each line is one check:
 
 ```
-✓ Settings parity         AUTOCOMPACT=65 matches in settings.json + zshrc
-✗ Hook health             post-compact-reinject.sh: shellcheck failed (line 12)
-⚠ Memory index drift      ~/.claude/projects/-Users-dt--config/memory/: 8 files, 6 MEMORY.md entries
-⚠ CLAUDE.md length        148 lines — exceeds 100-line rule (trim before adding)
-ℹ Shell env parity        CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported in current session
-⚠ Output token limit      CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses (run --fix to set 32000)
+✓ Settings parity          AUTOCOMPACT=65 matches in settings.json + zshrc
+✗ Hook health              post-compact-reinject.sh: shellcheck failed (line 12)
+⚠ Memory index drift       ~/.claude/projects/-Users-dt--config/memory/: 8 files, 6 MEMORY.md entries
+⚠ CLAUDE.md length         148 lines — approaching 180-line hard limit (trim before adding)
+ℹ Shell env parity         CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported in current session
+⚠ Output token limit       CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses
+⚠ Per-project CLAUDE.md   ~/projects/my-app/CLAUDE.md: 205 lines — exceeds 180-line limit
+⚠ Orphaned memory dirs     slug 'users-dt-projects-old-app': /Users/dt/projects/old-app not found
+⚠ Rules drift              ~/.claude/rules/my-rule.md not referenced in ~/.claude/CLAUDE.md
+✗ Missing hook files       settings.json references missing: /Users/dt/.claude/hooks/on-start.sh
+⚠ Plugin health            ~/.claude/plugins/myplugin: plugin.json missing or invalid JSON
 ```
 
 **Reading the symbols:**
@@ -74,7 +80,7 @@ You'll see a six-line report. Each line is one check:
 
 ---
 
-## Step 2: Understand the Six Checks
+## Step 2: Understand All Eleven Checks
 
 ### C1 — Settings Parity (WARN)
 
@@ -120,15 +126,19 @@ index rots.
 ⚠ Memory index drift   memory/: 8 .md files, 6 MEMORY.md entries (2 unindexed)
 ```
 
-### C4 — CLAUDE.md Length (WARN)
+### C4 — CLAUDE.md Length (WARN / ERROR)
 
-The global rule caps `~/.claude/CLAUDE.md` at 100 lines. Every line loads into
-context on every turn — so a bloated CLAUDE.md is a per-turn tax you pay forever.
+The global rule sets two thresholds for `~/.claude/CLAUDE.md`:
 
-**Example failure:**
+- **>100 lines → WARN** — "approaching 180-line hard limit". Start trimming.
+- **>180 lines → ERROR** — hard limit exceeded. Every line loads into context on every
+  turn, so a bloated CLAUDE.md is a per-turn tax you pay forever.
+
+**Example failures:**
 
 ```
-⚠ CLAUDE.md length   148 lines — exceeds 100-line rule (trim before adding)
+⚠ CLAUDE.md length   148 lines — approaching 180-line hard limit (trim before adding)
+✗ CLAUDE.md length   195 lines — exceeds 180-line hard limit
 ```
 
 ### C5 — Shell Env Parity (INFO)
@@ -160,6 +170,73 @@ and that its value is greater than 8192.
 ⚠ Output token limit   CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses
 ```
 
+### C7 — Per-project CLAUDE.md (WARN)
+
+Project-level `CLAUDE.md` files load into context for every session in that project —
+same per-turn cost as the global one. C7 scans `$FLOW_CLAUDE_PROJECTS_ROOT` (up to
+depth 4) and flags any project CLAUDE.md that exceeds 180 lines or contains stale
+version strings that no longer match the running flow-cli version.
+
+**Example failure:**
+
+```
+⚠ Per-project CLAUDE.md   ~/projects/my-app/CLAUDE.md: 205 lines — exceeds 180-line limit
+```
+
+### C8 — Orphaned Memory Dirs (WARN)
+
+The memory system stores per-project history under slug-encoded paths in
+`~/.claude/projects/`. If a project directory was deleted or moved, its slug is dead
+weight — context space spent loading history for a project that's gone.
+
+C8 decodes each slug back to a filesystem path (reversing the `-` → `/` encoding) and
+warns when the decoded path doesn't exist on disk.
+
+**Example failure:**
+
+```
+⚠ Orphaned memory dirs   slug 'users-dt-projects-old-app': /Users/dt/projects/old-app not found
+```
+
+### C9 — Rules Drift (WARN)
+
+`~/.claude/rules/*.md` files are only active when referenced from `~/.claude/CLAUDE.md`.
+A rule file that isn't listed there is silently ignored — meaning the rule never takes
+effect even though the file exists.
+
+C9 checks that every stem in `rules/` appears in `CLAUDE.md`.
+
+**Example failure:**
+
+```
+⚠ Rules drift   ~/.claude/rules/my-new-rule.md not referenced in ~/.claude/CLAUDE.md
+```
+
+### C10 — Missing Hook Files (ERROR)
+
+`settings.json` can declare hook scripts via absolute paths. If those scripts don't
+exist on disk, Claude Code silently skips them. C10 parses the hook declarations from
+`settings.json` and errors for any referenced script that is absent.
+
+**Example failure:**
+
+```
+✗ Missing hook files   settings.json references missing: /Users/dt/.claude/hooks/on-start.sh
+```
+
+### C11 — Plugin Health (WARN)
+
+Plugins require a valid `plugin.json` manifest to load. An invalid or missing manifest
+means the plugin is silently skipped. C11 checks each directory under
+`~/.claude/plugins/` (excluding the `cache/` subdirectory) for a readable, valid-JSON
+`plugin.json`.
+
+**Example failure:**
+
+```
+⚠ Plugin health   ~/.claude/plugins/myplugin: plugin.json missing or invalid JSON
+```
+
 ---
 
 ## Step 3: Auto-Fix What's Safe
@@ -183,12 +260,17 @@ only), hook scripts, MEMORY.md, or CLAUDE.md.
 **Example output after `--fix`:**
 
 ```
-✓ Settings parity      Fixed: CLAUDE_AUTOCOMPACT_PCT_OVERRIDE aligned in zshrc
-✗ Hook health          post-compact-reinject.sh: not executable (manual fix needed)
-⚠ Memory index drift   memory/: 8 .md files, 6 MEMORY.md entries (2 unindexed)
-⚠ CLAUDE.md length     148 lines — exceeds 100-line rule
-ℹ Shell env parity     CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported
-✓ Output token limit   Fixed: CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000 added to zshrc
+✓ Settings parity          Fixed: CLAUDE_AUTOCOMPACT_PCT_OVERRIDE aligned in zshrc
+✗ Hook health              post-compact-reinject.sh: not executable (manual fix needed)
+⚠ Memory index drift       memory/: 8 .md files, 6 MEMORY.md entries (2 unindexed)
+⚠ CLAUDE.md length         148 lines — approaching 180-line hard limit
+ℹ Shell env parity         CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported
+✓ Output token limit       Fixed: CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000 added to zshrc
+⚠ Per-project CLAUDE.md   ~/projects/my-app/CLAUDE.md: 205 lines (manual fix needed)
+⚠ Orphaned memory dirs     slug 'users-dt-projects-old-app' orphaned (manual cleanup)
+⚠ Rules drift              my-new-rule.md not referenced (add to CLAUDE.md manually)
+✗ Missing hook files       /Users/dt/.claude/hooks/on-start.sh missing (manual fix)
+⚠ Plugin health            myplugin: plugin.json invalid (manual fix needed)
 ```
 
 After `--fix`, reload your shell: `source ~/.config/zsh/.zshrc`
@@ -243,7 +325,42 @@ Recommended value: `32000`. Maximum for Sonnet 4.6: ~64000.
 
 ---
 
-## Step 5: Use the Exit Code in Scripts
+## Step 5: Monitor Continuously with the Watch Daemon
+
+Instead of running `flow claude check` manually, you can run it as a background daemon
+that watches your environment and sends a desktop notification when health state
+changes.
+
+```bash
+# Start the daemon (polls every 60 seconds by default)
+flow claude watch
+
+# Check if it's running + see last result
+flow claude watch --status
+
+# Adjust poll interval (e.g., every 2 minutes)
+flow claude watch --interval 120
+
+# Stop the daemon
+flow claude watch --stop
+```
+
+**How notifications work:** The daemon only notifies on _state transitions_ — when the
+environment goes from healthy to degraded, or degraded back to healthy. It won't
+spam you with a notification every 60 seconds when nothing changes.
+
+**Requires** `terminal-notifier` for desktop notifications:
+
+```bash
+brew install terminal-notifier
+```
+
+If `terminal-notifier` isn't installed, the daemon still runs and checks — it just
+skips the desktop notification step.
+
+---
+
+## Step 6: Use the Exit Code in Scripts
 
 `flow claude check` exits with a meaningful status code:
 
@@ -268,7 +385,7 @@ flow claude check; if [[ $? -eq 1 ]]; then echo "⚠ Fix hook before proceeding"
 ## Quick Reference
 
 ```bash
-# Run all checks
+# Run all 11 checks
 flow claude check
 
 # Run + auto-repair C1 and C6
@@ -280,6 +397,12 @@ flow claude doctor --fix
 
 # Reload shell after --fix
 source ~/.config/zsh/.zshrc
+
+# Watch daemon
+flow claude watch               # Start (60s interval)
+flow claude watch --interval 30 # Custom interval
+flow claude watch --status      # Check daemon state
+flow claude watch --stop        # Stop daemon
 ```
 
 ---
@@ -294,4 +417,4 @@ source ~/.config/zsh/.zshrc
 ---
 
 **Last Updated:** 2026-06-19
-**Version:** v7.12.0
+**Version:** v7.13.0
