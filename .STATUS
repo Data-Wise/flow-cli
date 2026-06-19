@@ -5,11 +5,19 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Released (v7.11.0)
+## Phase: Released (v7.12.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-19) — flow claude check docs + merge cleanup ✅ COMPLETE
+## Current Session (2026-06-19) — v7.12.0 SHIPPED [main + Homebrew] ✅
+
+**Session activity:**
+- **Fixed** `_flow_claude_fix_c1`: replaced `sed -i ''` (BSD-only) with portable temp-file approach for GNU sed compat (Linux CI)
+- **Merged** PR #474 (Release v7.12.0) — both CI checks green (ZSH Plugin Tests + Full Test Suite)
+- **Tagged** v7.12.0 → GitHub release → Homebrew auto-updated (7.11.0 → 7.12.0) ✅
+- **CI:** All green (main + Version Guard + Homebrew Release + Deploy Documentation)
+
+## Previous Session (2026-06-19) — flow claude check docs + merge cleanup ✅ COMPLETE
 
 **Session activity:**
 - **Merged** PR #473 (`feature/flow-claude` → dev) — `flow claude check` C1–C6 + `--fix` + tutorial 49 + command ref
@@ -440,4 +448,4 @@
 **Status:** v7.10.2 SHIPPED (main + Homebrew tap) — docs polish + dep maintenance | full suite REQUIRED on main — 64 passed / 0 failed / 1 skipped | 14 dispatchers + at bridge | 216 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19)
 ## streak: 1
-## last_active: 2026-06-19 08:50
+## last_active: 2026-06-19 10:30
