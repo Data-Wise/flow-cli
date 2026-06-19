@@ -446,13 +446,21 @@ _flow() {
           claude_subcmds=(
             'check:Run all environment checks'
             'doctor:Alias for check'
+            'watch:Background health watcher with desktop notifications'
           )
           claude_opts=(
             '--fix:Auto-repair safe mismatches (C1 settings parity only)'
             '--help:Show help'
           )
+          local -a watch_opts
+          watch_opts=(
+            '--interval:Check interval in minutes (default: 30)'
+            '--stop:Stop the background watcher'
+            '--status:Show watcher status and last result'
+          )
           _describe -t commands 'claude subcommand' claude_subcmds
           _describe -t options 'option' claude_opts
+          _describe -t watch-options 'watch option' watch_opts
           ;;
         *)
           _files
