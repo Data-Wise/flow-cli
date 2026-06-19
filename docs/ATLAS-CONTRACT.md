@@ -19,7 +19,7 @@
 
 ## Required Commands (Hot Path)
 
-These 6 commands are bridged with ZSH-native fallbacks when Atlas is not installed. flow-cli calls these in performance-critical paths and MUST NOT block if Atlas is unavailable.
+These 7 commands are bridged with ZSH-native fallbacks when Atlas is not installed. flow-cli calls these in performance-critical paths and MUST NOT block if Atlas is unavailable.
 
 | Command | Usage in flow-cli | Fallback (no Atlas) | Output Format |
 |---------|-------------------|---------------------|---------------|
@@ -174,6 +174,8 @@ atlas project list --suggest
 
 Prints ONE project name — the most-recently-touched active project. Prints nothing (empty output) if no active projects exist. Exits 0.
 
+---
+
 ## `atlas inbox --count` Contract (v0.9.3+)
 
 ```
@@ -182,6 +184,8 @@ atlas inbox --count
 
 Prints a bare integer (count of pending inbox captures, i.e. `status=inbox`). Exits 0.
 
+---
+
 ## `atlas trail --limit` Contract (v0.9.3+)
 
 ```
@@ -189,6 +193,8 @@ atlas trail --limit <n>
 ```
 
 Caps the breadcrumb entries shown to the `n` most recent. Exits 0. Output format is text (unchanged from `atlas trail`).
+
+---
 
 ## `atlas session status --format=json` Contract (v0.9.3+)
 
@@ -209,6 +215,8 @@ Emits a JSON object when a session is active:
 ```
 
 Emits `null` (the literal JSON value) when no session is active. Always exits 0.
+
+---
 
 ## `atlas config show` Contract (consumed by `flow doctor`)
 
@@ -255,8 +263,7 @@ The flow-cli wrapper provides:
 
 ## Testing
 
-Contract compliance is verified by `tests/test-atlas-contract.zsh`.
+Contract compliance is verified by two test files:
 
-- Tests validate exit codes, output formats, and command availability
-- Tests skip gracefully when Atlas is not installed (`[SKIP] Atlas not installed`)
-- Hot path fallbacks are tested independently of Atlas availability
+- **`tests/test-atlas-contract.zsh`** — validates exit codes, output formats, and command availability; skips gracefully when Atlas is not installed (`[SKIP] Atlas not installed`); hot path fallbacks tested independently of Atlas availability
+- **`tests/test-doctor-atlas-calls.zsh`** — static regression guard (grep-based, no Atlas needed); enforces that `doctor.zsh` uses spec-compliant calls (`atlas config show`, `command -v atlas-mcp`) and does not regress to the out-of-spec calls removed in v1.1.0
