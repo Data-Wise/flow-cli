@@ -22,7 +22,7 @@ _flow_claude_help() {
   print ""
   print "${b}Usage:${r}"
   print "  flow claude check          Run all environment checks"
-  print "  flow claude check --fix    Run checks + auto-repair safe mismatches (C1 only)"
+  print "  flow claude check --fix    Run checks + auto-repair safe mismatches (C1, C6)"
   print "  flow claude doctor         Alias for check"
   print ""
   print "${b}Checks:${r}"
@@ -31,6 +31,7 @@ _flow_claude_help() {
   print "  C3  Memory index drift    .md file count vs MEMORY.md entry count"
   print "  C4  CLAUDE.md length      warns when > 100 lines"
   print "  C5  Shell env parity      CLAUDE_AUTOCOMPACT_PCT_OVERRIDE exported"
+  print "  C6  Output token limit    CLAUDE_CODE_MAX_OUTPUT_TOKENS > 8192 (auto-fixable with --fix)"
   print ""
   print "${b}Exit codes:${r} 0=all pass  1=any ERROR  2=any WARN (no ERROR)"
 }
@@ -126,7 +127,7 @@ _flow_claude_check() {
     has_warn=1
   else
     local drift_found=0
-    for proj_memory in "$memory_dir"/*/memory; do
+    for proj_memory in "$memory_dir"/*/memory(/N); do
       [[ -d "$proj_memory" ]] || continue
       local memory_md="$proj_memory/MEMORY.md"
       # Count .md files excluding MEMORY.md itself
@@ -171,6 +172,33 @@ _flow_claude_check() {
     _flow_log_info "C5 Shell env parity    CLAUDE_AUTOCOMPACT_PCT_OVERRIDE not set in current session"
   fi
 
+  # ── C6: Output token limit ──────────────────────────────────────────────
+  local token_val=""
+  # Check settings.json first (canonical)
+  if [[ -f "$settings_json" ]] && command -v jq &>/dev/null; then
+    token_val=$(jq -r '.env.CLAUDE_CODE_MAX_OUTPUT_TOKENS // ""' "$settings_json" 2>/dev/null)
+  fi
+  # Fall back to zshrc
+  if [[ -z "$token_val" ]] && [[ -f "$zshrc_path" ]]; then
+    token_val=$(grep -E "^export CLAUDE_CODE_MAX_OUTPUT_TOKENS=" "$zshrc_path" 2>/dev/null | tail -1 | sed 's/^export CLAUDE_CODE_MAX_OUTPUT_TOKENS=//;s/[\"'\'']//g')
+  fi
+
+  if [[ -z "$token_val" ]]; then
+    _flow_log_warning "C6 Output token limit  CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses"
+    has_warn=1
+    if (( fix )); then
+      _flow_claude_fix_c6 "$zshrc_path"
+    fi
+  elif (( token_val <= 8192 )); then
+    _flow_log_warning "C6 Output token limit  CLAUDE_CODE_MAX_OUTPUT_TOKENS=${token_val} — still at default cap (set > 8192)"
+    has_warn=1
+    if (( fix )); then
+      _flow_claude_fix_c6 "$zshrc_path"
+    fi
+  else
+    _flow_log_success "C6 Output token limit  CLAUDE_CODE_MAX_OUTPUT_TOKENS=${token_val}"
+  fi
+
   # ── Summary ──────────────────────────────────────────────────────────────
   print ""
   if (( has_error )); then
@@ -183,6 +211,12 @@ _flow_claude_check() {
     _flow_log_success "Result: all checks passed"
     return 0
   fi
+}
+
+# Repair C6: set CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000 in zshrc
+_flow_claude_fix_c6() {
+  local zshrc="$1"
+  _flow_claude_fix_c1 "CLAUDE_CODE_MAX_OUTPUT_TOKENS" "32000" "$zshrc"
 }
 
 # Repair C1: update or append an export line in zshrc

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# tests/test-flow-claude.zsh — Tests for flow claude check (C1-C5)
+# tests/test-flow-claude.zsh — Tests for flow claude check (C1-C6)
 
 SCRIPT_DIR="${0:A:h}"
 PROJECT_ROOT="${SCRIPT_DIR:h}"
@@ -19,8 +19,8 @@ _tc_setup() {
   _TC_TMP=$(mktemp -d)
   export FLOW_CLAUDE_HOME="$_TC_TMP/claude"
   export FLOW_CLAUDE_ZSHRC="$_TC_TMP/zshrc"
-  mkdir -p "$FLOW_CLAUDE_HOME/hooks"
-  touch "$FLOW_CLAUDE_ZSHRC"
+  mkdir -p "$FLOW_CLAUDE_HOME/hooks" "$FLOW_CLAUDE_HOME/projects"
+  print 'export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000' > "$FLOW_CLAUDE_ZSHRC"
 }
 
 _tc_teardown() {
@@ -33,6 +33,8 @@ _tc_teardown() {
 test_case "C1: passes when settings.json has no env block"
 _tc_setup
 print '{}' > "$FLOW_CLAUDE_HOME/settings.json"
+local hook="$FLOW_CLAUDE_HOME/hooks/post-compact-reinject.sh"
+print '#!/bin/bash' > "$hook" && chmod +x "$hook"
 local out rc
 out=$(_flow_claude_check 2>&1); rc=$?
 if command -v jq &>/dev/null; then
@@ -61,7 +63,7 @@ _tc_teardown
 test_case "C1: passes when key matches zshrc"
 _tc_setup
 print '{"env":{"MY_TEST_VAR":"99"}}' > "$FLOW_CLAUDE_HOME/settings.json"
-print 'export MY_TEST_VAR=99' > "$FLOW_CLAUDE_ZSHRC"
+print 'export MY_TEST_VAR=99' >> "$FLOW_CLAUDE_ZSHRC"
 local hook="$FLOW_CLAUDE_HOME/hooks/post-compact-reinject.sh"
 print '#!/bin/bash\necho ok' > "$hook" && chmod +x "$hook"
 local out rc
@@ -144,7 +146,7 @@ local hook="$FLOW_CLAUDE_HOME/hooks/post-compact-reinject.sh"
 print '#!/bin/bash' > "$hook" && chmod +x "$hook"
 local mem="$FLOW_CLAUDE_HOME/projects/testproj/memory"
 mkdir -p "$mem"
-print '- [a](a.md) — x\n- [b](b.md) — y' > "$mem/MEMORY.md"
+print -- '- [a](a.md) — x\n- [b](b.md) — y' > "$mem/MEMORY.md"
 print 'a' > "$mem/a.md"
 print 'b' > "$mem/b.md"
 local out rc
@@ -160,7 +162,7 @@ local hook="$FLOW_CLAUDE_HOME/hooks/post-compact-reinject.sh"
 print '#!/bin/bash' > "$hook" && chmod +x "$hook"
 local mem="$FLOW_CLAUDE_HOME/projects/testproj/memory"
 mkdir -p "$mem"
-print '- [a](a.md) — x' > "$mem/MEMORY.md"
+print -- '- [a](a.md) — x' > "$mem/MEMORY.md"
 print 'a' > "$mem/a.md"
 print 'b' > "$mem/b.md"  # extra file not in index
 local out rc
@@ -218,6 +220,58 @@ unset CLAUDE_AUTOCOMPACT_PCT_OVERRIDE
 local out
 out=$(_flow_claude_check 2>&1)
 assert_contains "$out" "not set" "C5 shows not-set"
+_tc_teardown
+
+# ── C6: Output token limit ────────────────────────────────────────────────
+
+test_case "C6: warns when CLAUDE_CODE_MAX_OUTPUT_TOKENS not set"
+_tc_setup
+print '{}' > "$FLOW_CLAUDE_HOME/settings.json"
+> "$FLOW_CLAUDE_ZSHRC"  # clear default token so C6 warns
+local hook="$FLOW_CLAUDE_HOME/hooks/post-compact-reinject.sh"
+print '#!/bin/bash' > "$hook" && chmod +x "$hook"
+local out rc
+out=$(_flow_claude_check 2>&1); rc=$?
+assert_contains "$out" "Output token limit" "C6 output present"
+assert_contains "$out" "not set" "C6 reports missing"
+[[ $rc -ge 2 ]] && test_pass "non-zero exit when C6 missing" || test_fail "non-zero exit when C6 missing" "rc=$rc"
+_tc_teardown
+
+test_case "C6: passes when CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000 in zshrc"
+_tc_setup
+print '{}' > "$FLOW_CLAUDE_HOME/settings.json"
+print 'export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000' > "$FLOW_CLAUDE_ZSHRC"
+local hook="$FLOW_CLAUDE_HOME/hooks/post-compact-reinject.sh"
+print '#!/bin/bash' > "$hook" && chmod +x "$hook"
+local out rc
+out=$(_flow_claude_check 2>&1); rc=$?
+assert_contains "$out" "Output token limit" "C6 output present"
+assert_contains "$out" "32000" "C6 shows value"
+[[ $rc -eq 0 ]] && test_pass "exit 0 when C6 passes" || test_fail "exit 0 when C6 passes" "rc=$rc out=$out"
+_tc_teardown
+
+test_case "C6: warns when value is at default 8192"
+_tc_setup
+print '{}' > "$FLOW_CLAUDE_HOME/settings.json"
+print 'export CLAUDE_CODE_MAX_OUTPUT_TOKENS=8192' > "$FLOW_CLAUDE_ZSHRC"
+local hook="$FLOW_CLAUDE_HOME/hooks/post-compact-reinject.sh"
+print '#!/bin/bash' > "$hook" && chmod +x "$hook"
+local out rc
+out=$(_flow_claude_check 2>&1); rc=$?
+assert_contains "$out" "8192" "C6 shows value"
+assert_contains "$out" "still at default" "C6 flags default cap"
+[[ $rc -ge 2 ]] && test_pass "non-zero exit at default cap" || test_fail "non-zero exit at default cap" "rc=$rc"
+_tc_teardown
+
+test_case "C6: --fix appends CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000 to zshrc"
+_tc_setup
+print '{}' > "$FLOW_CLAUDE_HOME/settings.json"
+local hook="$FLOW_CLAUDE_HOME/hooks/post-compact-reinject.sh"
+print '#!/bin/bash' > "$hook" && chmod +x "$hook"
+_flow_claude_check --fix 2>&1
+local zshrc_content
+zshrc_content=$(cat "$FLOW_CLAUDE_ZSHRC")
+assert_contains "$zshrc_content" "CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000" "C6 --fix writes to zshrc"
 _tc_teardown
 
 # ── Exit codes ─────────────────────────────────────────────────────────────
