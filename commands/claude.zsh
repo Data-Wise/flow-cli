@@ -230,8 +230,10 @@ _flow_claude_fix_c1() {
   fi
 
   if grep -qE "^export ${key}=" "$zshrc" 2>/dev/null; then
-    # Replace existing line — use | as delimiter to avoid / conflicts in values
-    sed -i '' "s|^export ${key}=.*|export ${key}=${val}|" "$zshrc"
+    # Replace existing line — portable temp-file approach (BSD sed needs '' suffix, GNU sed doesn't)
+    local tmp_file
+    tmp_file=$(mktemp "${zshrc}.XXXXXX")
+    sed "s|^export ${key}=.*|export ${key}=${val}|" "$zshrc" > "$tmp_file" && mv "$tmp_file" "$zshrc"
     _flow_log_success "  --fix: updated $key in zshrc"
   else
     # Append new export line
