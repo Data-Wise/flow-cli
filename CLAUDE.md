@@ -77,6 +77,7 @@ catch <text>      # Quick capture
 js                # Just start (auto-picks project)
 flow doctor       # Health check
 flow doctor --fix # Interactive install missing tools
+flow claude check # Claude Code environment health (settings, hooks, memory, CLAUDE.md)
 ```
 
 ### Dopamine Features

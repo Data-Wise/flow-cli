@@ -56,6 +56,7 @@ _flow() {
     # AI-Powered
     'ai:Ask AI anything'
     'do:Natural language commands'
+    'claude:Claude Code environment health checker'
     # Plugins
     'plugin:Manage flow-cli plugins'
     # Configuration
@@ -439,6 +440,19 @@ _flow() {
             'path:Show config file paths'
           )
           _describe -t commands 'config command' config_cmds
+          ;;
+        claude)
+          local -a claude_subcmds claude_opts
+          claude_subcmds=(
+            'check:Run all environment checks'
+            'doctor:Alias for check'
+          )
+          claude_opts=(
+            '--fix:Auto-repair safe mismatches (C1 settings parity only)'
+            '--help:Show help'
+          )
+          _describe -t commands 'claude subcommand' claude_subcmds
+          _describe -t options 'option' claude_opts
           ;;
         *)
           _files

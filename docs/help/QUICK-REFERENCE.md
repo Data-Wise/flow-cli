@@ -365,6 +365,26 @@ cc help
 
 ---
 
+## flow claude (Claude Code health checker)
+
+```bash
+# Run all environment checks
+flow claude check
+# Output: ✓ Settings parity     settings.json env matches zshrc
+#         ✗ Hook health         post-compact-reinject.sh: not found
+#         ✓ Memory index drift  all memory dirs in sync
+#         ✓ CLAUDE.md length    98 lines — within limit
+#         ℹ Shell env parity    CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported
+
+# Run checks and auto-repair settings.json parity mismatches
+flow claude check --fix
+
+# Alias
+flow claude doctor
+```
+
+---
+
 ## R Dispatcher (r)
 
 ```bash

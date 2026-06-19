@@ -223,7 +223,7 @@ run_check "no orphan flow-cli dispatcher page (page without a dispatcher)" '
         [[ "$base" == "flow" ]] && continue                     # flow is the index, not a dispatcher
         # Top-level commands (not dispatchers) that ship their own page:
         case "$base" in
-          agenda|dash|morning|today|week) continue ;;
+          agenda|dash|morning|today|week|flow-claude) continue ;;
         esac
         print -r -- "$cmds" | grep -qx "$base" || orphan+="$base "
     done
