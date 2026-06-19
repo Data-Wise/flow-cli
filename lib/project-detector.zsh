@@ -242,7 +242,7 @@ _flow_project_icon() {
 #
 # Notes:
 #   - Requires yq for YAML parsing (warns and returns 0 if not installed)
-#   - Required fields: course.name, branches.draft, branches.production
+#   - Required fields: course.name, branches.draft (or git.draft_branch), branches.production (or git.production_branch)
 #   - Called automatically by _flow_detect_project_type for teaching projects
 #   - Part of teaching workflow v2 validation layer
 # =============================================================================
@@ -261,13 +261,15 @@ _flow_validate_teaching_config() {
     return 1
   }
 
-  yq -e '.branches.draft' "$config" &>/dev/null || {
-    _flow_log_error "Missing required field: branches.draft"
+  yq -e '.branches.draft' "$config" &>/dev/null \
+    || yq -e '.git.draft_branch' "$config" &>/dev/null || {
+    _flow_log_error "Missing required field: branches.draft or git.draft_branch"
     return 1
   }
 
-  yq -e '.branches.production' "$config" &>/dev/null || {
-    _flow_log_error "Missing required field: branches.production"
+  yq -e '.branches.production' "$config" &>/dev/null \
+    || yq -e '.git.production_branch' "$config" &>/dev/null || {
+    _flow_log_error "Missing required field: branches.production or git.production_branch"
     return 1
   }
 
