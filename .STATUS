@@ -5,11 +5,21 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Released (v7.12.0)
+## Phase: Release Pending (v7.13.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-19) — v7.12.0 SHIPPED [main + Homebrew] ✅
+## Current Session (2026-06-19) — v7.13.0 Release Pipeline 🚀
+
+**Session activity:**
+- **Bumped** version to v7.13.0 (flow.plugin.zsh, package.json, CLAUDE.md, man pages)
+- **Updated** CHANGELOG.md + docs/CHANGELOG.md with 7.13.0 release date (2026-06-19)
+- **Inserted** 7.12.0 entry in docs/CHANGELOG.md (was missing)
+- **Updated** docs/reference/MASTER-DISPATCHER-GUIDE.md version footer
+- **Docs:** `docs/commands/claude.md` + `docs/tutorials/49-flow-claude-check.md` updated for C7-C11 + watch daemon (v7.13.0)
+- **PR:** In progress — gh pr create --base main --head dev
+
+## Previous Session (2026-06-19) — v7.12.0 SHIPPED [main + Homebrew] ✅
 
 **Session activity:**
 - **Fixed** `_flow_claude_fix_c1`: replaced `sed -i ''` (BSD-only) with portable temp-file approach for GNU sed compat (Linux CI)

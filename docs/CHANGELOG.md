@@ -8,7 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
-## [7.13.0] — TBD — flow claude: C7-C11 checks + watch daemon
+## [7.13.0] — 2026-06-19 — flow claude: C7-C11 checks + watch daemon
 
 ### Added
 
@@ -19,6 +19,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 - **C10 missing hook files**: parses `settings.json` hook commands; errors on any absolute-path script that isn't present on disk
 - **C11 plugin health**: checks `~/.claude/plugins/*/plugin.json` exists and is valid JSON (skips `cache/` subdir); warns on broken plugins
 - **`flow claude watch [--interval N] [--stop] [--status]`**: background health watcher — runs `flow claude check` on a configurable interval (default: 30 min), writes state to `~/.flow/claude-health-state.json`, and fires a desktop notification via `terminal-notifier` when status changes between pass/warn/error; gracefully silent on Linux where `terminal-notifier` is absent
+
+## [7.12.0] — 2026-06-19 — flow claude check: Claude Code environment health
+
+### Added
+
+- **`flow claude check` (C1–C6)** (`commands/claude.zsh`): new environment health command — `flow claude check` (alias: `flow claude doctor`) runs six checks and reports status with exit codes `0`=all pass, `1`=any ERROR, `2`=any WARN.
+  - **C1 Settings parity** — `settings.json` `.env` keys vs zshrc exports; warns on missing or mismatched values; auto-fixable with `--fix`
+  - **C2 Hook health** — `post-compact-reinject.sh` exists, is executable, and passes `shellcheck`; ERROR-level
+  - **C3 Memory index drift** — `.md` file count vs `MEMORY.md` entry count per `~/.claude/projects/*/memory`
+  - **C4 CLAUDE.md length** — warns when `~/.claude/CLAUDE.md` exceeds 100 lines (mirrors the `claude-md-length` rule)
+  - **C5 Shell env parity** — reports `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` INFO-level (set or unset)
+  - **C6 Output token limit** — warns when `CLAUDE_CODE_MAX_OUTPUT_TOKENS` unset or ≤ 8192; reads `settings.json` first (jq), falls back to zshrc grep; auto-fixable with `--fix`
+- **`flow claude check --fix`**: repairs C1 (sync zshrc to `settings.json` env block) and C6 (append/update `CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000`) without touching `settings.json`
+- **Tutorial 49** (`docs/tutorials/49-flow-claude-check.md`): step-by-step guide with `--fix` workflow and all six checks documented
+- **`docs/commands/claude.md`**: command reference with check table, exit codes, `--fix` behavior, and dependency notes
+- **`docs/troubleshooting/CLAUDE-CODE-ENVIRONMENT.md`**: diagnostic guide using `flow claude check` to triage Claude Code environment issues
+
+### Fixed
+
+- **`_flow_claude_fix_c1` sed portability** (`commands/claude.zsh`): replaced `sed -i ''` (BSD-only) with portable temp-file approach for GNU sed compatibility on Linux CI
 
 ## [7.11.0] — 2026-06-19 — at-dispatcher completions + atlas doctor fixes
 

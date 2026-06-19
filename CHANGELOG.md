@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [7.13.0] — TBD — flow claude: C7-C11 checks + watch daemon
+## [7.13.0] — 2026-06-19 — flow claude: C7-C11 checks + watch daemon
 
 ### Added
 
