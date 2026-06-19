@@ -55,7 +55,7 @@ flow claude check
 
 You'll see an eleven-line report. Each line is one check:
 
-```
+```text
 ✓ Settings parity          AUTOCOMPACT=65 matches in settings.json + zshrc
 ✗ Hook health              post-compact-reinject.sh: shellcheck failed (line 12)
 ⚠ Memory index drift       ~/.claude/projects/-Users-dt--config/memory/: 8 files, 6 MEMORY.md entries
@@ -94,7 +94,7 @@ both locations agree.
 
 **Example failure:**
 
-```
+```text
 ⚠ Settings parity   CLAUDE_AUTOCOMPACT_PCT_OVERRIDE: settings.json=65, zshrc=missing
 ```
 
@@ -109,7 +109,7 @@ drops your context.
 
 **Example failure:**
 
-```
+```text
 ✗ Hook health   post-compact-reinject.sh: not executable
 ```
 
@@ -122,7 +122,7 @@ index rots.
 
 **Example failure:**
 
-```
+```text
 ⚠ Memory index drift   memory/: 8 .md files, 6 MEMORY.md entries (2 unindexed)
 ```
 
@@ -136,7 +136,7 @@ The global rule sets two thresholds for `~/.claude/CLAUDE.md`:
 
 **Example failures:**
 
-```
+```text
 ⚠ CLAUDE.md length   148 lines — approaching 180-line hard limit (trim before adding)
 ✗ CLAUDE.md length   195 lines — exceeds 180-line hard limit
 ```
@@ -156,7 +156,7 @@ Claude Code defaults to 8192 output tokens per response. When a task requires a 
 response — writing a large file, generating a comprehensive diff, explaining a complex
 system — it hits this cap mid-output and errors with:
 
-```
+```text
 API Error: Claude's response exceeded the 8192 output token maximum.
 To configure this behavior, set the CLAUDE_CODE_MAX_OUTPUT_TOKENS environment variable.
 ```
@@ -166,7 +166,7 @@ and that its value is greater than 8192.
 
 **Example failure:**
 
-```
+```text
 ⚠ Output token limit   CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses
 ```
 
@@ -179,7 +179,7 @@ version strings that no longer match the running flow-cli version.
 
 **Example failure:**
 
-```
+```text
 ⚠ Per-project CLAUDE.md   ~/projects/my-app/CLAUDE.md: 205 lines — exceeds 180-line limit
 ```
 
@@ -194,7 +194,7 @@ warns when the decoded path doesn't exist on disk.
 
 **Example failure:**
 
-```
+```text
 ⚠ Orphaned memory dirs   slug 'users-dt-projects-old-app': /Users/dt/projects/old-app not found
 ```
 
@@ -208,7 +208,7 @@ C9 checks that every stem in `rules/` appears in `CLAUDE.md`.
 
 **Example failure:**
 
-```
+```text
 ⚠ Rules drift   ~/.claude/rules/my-new-rule.md not referenced in ~/.claude/CLAUDE.md
 ```
 
@@ -220,7 +220,7 @@ exist on disk, Claude Code silently skips them. C10 parses the hook declarations
 
 **Example failure:**
 
-```
+```text
 ✗ Missing hook files   settings.json references missing: /Users/dt/.claude/hooks/on-start.sh
 ```
 
@@ -233,7 +233,7 @@ means the plugin is silently skipped. C11 checks each directory under
 
 **Example failure:**
 
-```
+```text
 ⚠ Plugin health   ~/.claude/plugins/myplugin: plugin.json missing or invalid JSON
 ```
 
@@ -259,7 +259,7 @@ only), hook scripts, MEMORY.md, or CLAUDE.md.
 
 **Example output after `--fix`:**
 
-```
+```text
 ✓ Settings parity          Fixed: CLAUDE_AUTOCOMPACT_PCT_OVERRIDE aligned in zshrc
 ✗ Hook health              post-compact-reinject.sh: not executable (manual fix needed)
 ⚠ Memory index drift       memory/: 8 .md files, 6 MEMORY.md entries (2 unindexed)
@@ -345,7 +345,7 @@ flow claude watch --interval 120
 flow claude watch --stop
 ```
 
-**How notifications work:** The daemon only notifies on _state transitions_ — when the
+**How notifications work:** The daemon only notifies on *state transitions* — when the
 environment goes from healthy to degraded, or degraded back to healthy. It won't
 spam you with a notification every 60 seconds when nothing changes.
 

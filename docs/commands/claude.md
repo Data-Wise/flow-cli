@@ -41,7 +41,7 @@ flow claude watch --status      # Show daemon state and last check result
 
 ## Output Format
 
-```
+```text
 flow claude check
 
 ✓ Settings parity          AUTOCOMPACT=65 matches in settings.json + zshrc
