@@ -7184,6 +7184,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#watch-daemon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Watch Daemon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8589,6 +8600,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#watch-daemon" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Watch Daemon
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8642,10 +8664,14 @@
 <p>The <code>flow claude</code> command inspects the Claude Code environment for settings that silently cause problems: env var mismatches between <code>settings.json</code> and your shell, hook failures, memory index drift, and output token limits that truncate long responses mid-run.</p>
 <hr />
 <h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="w">           </span><span class="c1"># Run all checks, print report, exit with status</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="w"> </span>--fix<span class="w">     </span><span class="c1"># Run checks + auto-repair safe mismatches</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>flow<span class="w"> </span>claude<span class="w"> </span>doctor<span class="w">          </span><span class="c1"># Alias for check</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>flow<span class="w"> </span>claude<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">    </span><span class="c1"># Alias for check --fix</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="w">               </span><span class="c1"># Run all checks, print report, exit with status</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="w"> </span>--fix<span class="w">         </span><span class="c1"># Run checks + auto-repair safe mismatches</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>flow<span class="w"> </span>claude<span class="w"> </span>doctor<span class="w">              </span><span class="c1"># Alias for check</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>flow<span class="w"> </span>claude<span class="w"> </span>doctor<span class="w"> </span>--fix<span class="w">        </span><span class="c1"># Alias for check --fix</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w">               </span><span class="c1"># Start background health daemon (notifies on change)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w"> </span>--interval<span class="w"> </span>N<span class="w">  </span><span class="c1"># Poll every N seconds (default: 60)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w"> </span>--stop<span class="w">        </span><span class="c1"># Stop the daemon</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w"> </span>--status<span class="w">      </span><span class="c1"># Show daemon state and last check result</span>
 </code></pre></div>
 <hr />
 <h2 id="checks">Checks<a class="headerlink" href="#checks" title="Permanent link">&para;</a></h2>
@@ -8680,8 +8706,8 @@
 <tr>
 <td>C4</td>
 <td>CLAUDE.md length</td>
-<td><code>~/.claude/CLAUDE.md</code> line count ≤ 100 (project rule: trim before adding)</td>
-<td>WARN</td>
+<td>&gt;100 lines → WARN (approaching 180-line limit); &gt;180 lines → ERROR (hard limit exceeded)</td>
+<td>WARN/ERROR</td>
 </tr>
 <tr>
 <td>C5</td>
@@ -8695,18 +8721,53 @@
 <td><code>CLAUDE_CODE_MAX_OUTPUT_TOKENS</code> set in settings.json or zshrc and value &gt; 8192</td>
 <td>WARN</td>
 </tr>
+<tr>
+<td>C7</td>
+<td>Per-project CLAUDE.md</td>
+<td>Scans <code>$FLOW_CLAUDE_PROJECTS_ROOT</code> (depth 4); warns on &gt;180 lines or stale version refs</td>
+<td>WARN</td>
+</tr>
+<tr>
+<td>C8</td>
+<td>Orphaned memory dirs</td>
+<td>Decodes each memory slug back to a filesystem path; warns if the project no longer exists</td>
+<td>WARN</td>
+</tr>
+<tr>
+<td>C9</td>
+<td>Rules drift</td>
+<td>Every <code>~/.claude/rules/*.md</code> stem must appear in main <code>~/.claude/CLAUDE.md</code></td>
+<td>WARN</td>
+</tr>
+<tr>
+<td>C10</td>
+<td>Missing hook files</td>
+<td>Parses <code>settings.json</code> hook commands; errors on absent absolute-path scripts</td>
+<td>ERROR</td>
+</tr>
+<tr>
+<td>C11</td>
+<td>Plugin health</td>
+<td>Checks <code>~/.claude/plugins/*/plugin.json</code> exists and is valid JSON (skips <code>cache/</code>)</td>
+<td>WARN</td>
+</tr>
 </tbody>
 </table>
 <hr />
 <h2 id="output-format">Output Format<a class="headerlink" href="#output-format" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow claude check
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>✓ Settings parity         AUTOCOMPACT=65 matches in settings.json + zshrc
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>✗ Hook health             post-compact-reinject.sh: shellcheck failed (line 12)
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>⚠ Memory index drift      ~/.claude/projects/-Users-dt--config/memory/: 8 files, 6 MEMORY.md entries
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>⚠ CLAUDE.md length        148 lines — exceeds 100-line rule (trim before adding)
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>ℹ Shell env parity        CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported in current session
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>⚠ Output token limit      CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses (run --fix to set 32000)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>✓ Settings parity          AUTOCOMPACT=65 matches in settings.json + zshrc
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>✗ Hook health              post-compact-reinject.sh: shellcheck failed (line 12)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>⚠ Memory index drift       ~/.claude/projects/-Users-dt--config/memory/: 8 files, 6 MEMORY.md entries
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>⚠ CLAUDE.md length         148 lines — approaching 180-line hard limit (trim before adding)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>ℹ Shell env parity         CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported in current session
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>⚠ Output token limit       CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses (run --fix to set 32000)
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>⚠ Per-project CLAUDE.md   ~/projects/my-app/CLAUDE.md: 205 lines — exceeds 180-line limit
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>⚠ Orphaned memory dirs     slug &#39;users-dt-projects-old-app&#39;: /Users/dt/projects/old-app not found
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>⚠ Rules drift              ~/.claude/rules/my-rule.md not referenced in ~/.claude/CLAUDE.md
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>✗ Missing hook files       settings.json references missing script: /Users/dt/.claude/hooks/on-start.sh
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>⚠ Plugin health            ~/.claude/plugins/myplugin: plugin.json missing or invalid JSON
 </code></pre></div>
 <hr />
 <h2 id="-fix-mode"><code>--fix</code> Mode<a class="headerlink" href="#-fix-mode" title="Permanent link">&para;</a></h2>
@@ -8728,7 +8789,7 @@
 <td>Appends <code>export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000</code> if missing, or updates the value if ≤ 8192</td>
 </tr>
 <tr>
-<td>C2, C3, C4, C5</td>
+<td>C2, C3, C4, C5, C7–C11</td>
 <td>Reported only — no auto-repair</td>
 </tr>
 </tbody>
@@ -8766,9 +8827,14 @@
 <p><strong>C1 — Settings parity:</strong> <code>settings.json</code> env block is silently ignored in some Claude Code launch paths. If zshrc exports diverge, the active value is unpredictable depending on how Claude was launched.</p>
 <p><strong>C2 — Hook health:</strong> <code>post-compact-reinject.sh</code> runs after every context compaction and reinjects system context (memory, project state). A broken hook means that context is lost mid-session — silently.</p>
 <p><strong>C3 — Memory index drift:</strong> <code>MEMORY.md</code> is the index Claude reads to decide which memory files to load. If files exist that aren't indexed, they're invisible to Claude. If MEMORY.md lists files that don't exist, the index rots and misleads.</p>
-<p><strong>C4 — CLAUDE.md length:</strong> The global rule caps <code>~/.claude/CLAUDE.md</code> at 100 lines. Beyond that it starts consuming context on every turn. Every line over 100 is paying a per-turn tax.</p>
+<p><strong>C4 — CLAUDE.md length:</strong> The global rule caps <code>~/.claude/CLAUDE.md</code> at 180 lines (hard limit) with a warning at 100 lines (approaching limit). Beyond 100 lines it starts consuming meaningful context on every turn — every line over that threshold is a per-turn tax.</p>
 <p><strong>C5 — Shell env parity:</strong> Claude Code Electron apps inherit env from the shell that launched them, not from <code>settings.json</code>. This check verifies that <code>CLAUDE_AUTOCOMPACT_PCT_OVERRIDE</code> is actually in the shell's env — a proxy for "will Electron-launched Claude see my settings?"</p>
 <p><strong>C6 — Output token limit:</strong> Claude Code defaults to 8192 output tokens per response. Long file writes, comprehensive diffs, or detailed analysis can exceed this, interrupting the session with <code>API Error: Claude's response exceeded the 8192 output token maximum</code>. Setting <code>CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000</code> raises the ceiling.</p>
+<p><strong>C7 — Per-project CLAUDE.md:</strong> Project-level <code>CLAUDE.md</code> files load into context for every session in that project. An oversized or stale project CLAUDE.md has the same per-turn cost as a bloated global one. C7 scans <code>$FLOW_CLAUDE_PROJECTS_ROOT</code> (up to depth 4) and flags any project CLAUDE.md that exceeds 180 lines or contains stale version references.</p>
+<p><strong>C8 — Orphaned memory dirs:</strong> The memory system accumulates slug-encoded project entries under <code>~/.claude/projects/</code>. If the underlying project directory no longer exists, the slug is dead weight — context space spent on a project that's gone. C8 decodes each slug back to a filesystem path and warns when the path is missing.</p>
+<p><strong>C9 — Rules drift:</strong> <code>~/.claude/rules/*.md</code> files are only active when referenced from the global <code>CLAUDE.md</code>. A rule file that isn't listed there is silently ignored — meaning new rules never take effect without this link. C9 checks that every stem in <code>rules/</code> appears in <code>CLAUDE.md</code>.</p>
+<p><strong>C10 — Missing hook files:</strong> <code>settings.json</code> can declare hook scripts via absolute paths. If those scripts are absent on disk, Claude Code silently skips them — missing hooks that were expected to fire. C10 parses the hook declarations and errors if any referenced script doesn't exist.</p>
+<p><strong>C11 — Plugin health:</strong> Plugins require a valid <code>plugin.json</code> manifest to be loaded. An invalid or missing manifest means the plugin is silently ignored. C11 validates each installed plugin's manifest before a session starts (skipping the <code>cache/</code> subdirectory).</p>
 <hr />
 <h2 id="manual-fix-for-c2-hook-health">Manual Fix for C2 (Hook Health)<a class="headerlink" href="#manual-fix-for-c2-hook-health" title="Permanent link">&para;</a></h2>
 <p>The hook file must exist, be executable, and pass <code>shellcheck</code>:</p>
@@ -8793,6 +8859,38 @@
 </code></pre></div>
 <p>Recommended value: <code>32000</code>. Maximum for Sonnet 4.6: ~64000.</p>
 <hr />
+<h2 id="watch-daemon">Watch Daemon<a class="headerlink" href="#watch-daemon" title="Permanent link">&para;</a></h2>
+<p><code>flow claude watch</code> runs <code>flow claude check</code> on a schedule in the background and sends
+a desktop notification (via <code>terminal-notifier</code>) when health state changes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w">               </span><span class="c1"># Start daemon (default: 60s interval)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w"> </span>--interval<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="c1"># Poll every 30 seconds</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w"> </span>--stop<span class="w">        </span><span class="c1"># Stop the daemon</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w"> </span>--status<span class="w">      </span><span class="c1"># Print daemon PID, uptime, and last check result</span>
+</code></pre></div>
+<p><strong>State files:</strong></p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.flow/claude-watch.pid</code></td>
+<td>Daemon PID (absent when stopped)</td>
+</tr>
+<tr>
+<td><code>~/.flow/claude-health-state.json</code></td>
+<td>Last check result + severity</td>
+</tr>
+</tbody>
+</table>
+<p>The daemon only notifies on state <strong>transitions</strong> (healthy → degraded, or degraded →
+healthy), not on every poll. This avoids notification spam when the environment is stable.</p>
+<p><strong>Requires:</strong> <code>terminal-notifier</code> (<code>brew install terminal-notifier</code>). The daemon starts
+but skips desktop notifications if <code>terminal-notifier</code> is absent.</p>
+<hr />
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -8805,13 +8903,18 @@
 <tbody>
 <tr>
 <td><code>jq</code></td>
-<td>C1, C6 (settings.json parsing)</td>
+<td>C1, C6, C10 (JSON parsing)</td>
 <td>Skips JSON checks, reports "jq required"</td>
 </tr>
 <tr>
 <td><code>shellcheck</code></td>
 <td>C2 (hook validation)</td>
 <td>Reports existence + executable only, skips lint</td>
+</tr>
+<tr>
+<td><code>terminal-notifier</code></td>
+<td>watch daemon</td>
+<td>Daemon runs; desktop notifications silently skipped</td>
 </tr>
 </tbody>
 </table>
@@ -8824,7 +8927,7 @@
 </ul>
 <hr />
 <p><strong>Last Updated:</strong> 2026-06-19
-<strong>Version:</strong> v7.12.0
+<strong>Version:</strong> v7.13.0
 <strong>Status:</strong> Implemented in <code>commands/claude.zsh</code></p>
 
 
