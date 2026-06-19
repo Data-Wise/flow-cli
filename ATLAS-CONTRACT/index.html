@@ -8336,6 +8336,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Output Format Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per-command-format-support-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-Command Format Support Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format-descriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Format Descriptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -8354,6 +8382,50 @@
     <span class="md-ellipsis">
       
         Project List Contract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atlas-inbox-count-contract-v093" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atlas inbox --count Contract (v0.9.3+)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atlas-trail-limit-contract-v093" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atlas trail --limit Contract (v0.9.3+)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atlas-session-status-formatjson-contract-v093" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atlas session status --format=json Contract (v0.9.3+)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atlas-config-show-contract-consumed-by-flow-doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atlas config show Contract (consumed by flow doctor)
       
     </span>
   </a>
@@ -8419,8 +8491,8 @@
 
 
 <h1 id="atlas-cli-api-contract">Atlas CLI API Contract<a class="headerlink" href="#atlas-cli-api-contract" title="Permanent link">&para;</a></h1>
-<p><strong>Version:</strong> 1.0.0
-<strong>Parties:</strong> flow-cli (v7.4.x) &lt;-&gt; Atlas CLI <code>@data-wise/atlas</code> (v0.9.x)
+<p><strong>Version:</strong> 1.1.0
+<strong>Parties:</strong> flow-cli (v7.10.x) &lt;-&gt; Atlas CLI <code>@data-wise/atlas</code> (v0.9.3)
 <strong>Status:</strong> Active</p>
 <hr />
 <h2 id="version-compatibility">Version Compatibility<a class="headerlink" href="#version-compatibility" title="Permanent link">&para;</a></h2>
@@ -8434,9 +8506,14 @@
 </thead>
 <tbody>
 <tr>
+<td>v7.10.x</td>
+<td>v0.9.3</td>
+<td>Contract v1.1 — 5 new integration flags (<code>session status --format</code>, <code>project list --count</code>, <code>project list --suggest</code>, <code>inbox --count</code>, <code>trail --limit</code>)</td>
+</tr>
+<tr>
 <td>v7.4.x</td>
 <td>v0.9.x</td>
-<td>Current contract version</td>
+<td>Contract v1.0 — original contract</td>
 </tr>
 <tr>
 <td>v7.3.x</td>
@@ -8452,7 +8529,7 @@
 </table>
 <hr />
 <h2 id="required-commands-hot-path">Required Commands (Hot Path)<a class="headerlink" href="#required-commands-hot-path" title="Permanent link">&para;</a></h2>
-<p>These 6 commands are bridged with ZSH-native fallbacks when Atlas is not installed. flow-cli calls these in performance-critical paths and MUST NOT block if Atlas is unavailable.</p>
+<p>These 7 commands are bridged with ZSH-native fallbacks when Atlas is not installed. flow-cli calls these in performance-critical paths and MUST NOT block if Atlas is unavailable.</p>
 <table>
 <thead>
 <tr>
@@ -8488,6 +8565,12 @@
 <td>text</td>
 </tr>
 <tr>
+<td><code>atlas inbox --count</code></td>
+<td><code>_flow_inbox_count</code></td>
+<td>echo "0"</td>
+<td>bare integer (pending inbox count)</td>
+</tr>
+<tr>
 <td><code>atlas where [project]</code></td>
 <td><code>_flow_where</code></td>
 <td>filesystem detection</td>
@@ -8514,9 +8597,19 @@
 </thead>
 <tbody>
 <tr>
+<td><code>atlas session status</code></td>
+<td>Current session state</td>
+<td><code>table</code> (default); <code>--format=json</code> → <code>{project,durationMinutes,state,task,startedAt}</code> or <code>null</code> when idle</td>
+</tr>
+<tr>
 <td><code>atlas stats</code></td>
 <td>Project statistics</td>
 <td>table</td>
+</tr>
+<tr>
+<td><code>atlas config show</code></td>
+<td>Full configuration as pretty JSON</td>
+<td>JSON — top-level <code>storage</code> key is the backend (<code>filesystem</code> | <code>sqlite</code>)</td>
 </tr>
 <tr>
 <td><code>atlas plan</code></td>
@@ -8556,6 +8649,11 @@
 <tr>
 <td><code>atlas trail</code></td>
 <td>Show breadcrumb trail</td>
+<td>text</td>
+</tr>
+<tr>
+<td><code>atlas trail --limit &lt;n&gt;</code></td>
+<td>Breadcrumb trail, capped at n entries (most recent first)</td>
 <td>text</td>
 </tr>
 </tbody>
@@ -8636,7 +8734,57 @@ contract — the atlas-side <code>schedule</code> command is a separate atlas PR
 ships with the silent no-op until it lands.</p>
 <hr />
 <h2 id="output-format-specifications">Output Format Specifications<a class="headerlink" href="#output-format-specifications" title="Permanent link">&para;</a></h2>
-<p>Atlas CLI supports 4 output formats via the <code>--format</code> flag:</p>
+<p>Format support is <strong>per-command</strong>, not universal. The <code>--format</code> flag is only valid for the commands listed below.</p>
+<h3 id="per-command-format-support-matrix">Per-Command Format Support Matrix<a class="headerlink" href="#per-command-format-support-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Supported <code>--format</code> values</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>atlas project list</code></td>
+<td><code>table</code>, <code>json</code>, <code>names</code></td>
+<td><code>table</code></td>
+<td><code>names</code> = one name per line, no headers</td>
+</tr>
+<tr>
+<td><code>atlas project show</code></td>
+<td><code>table</code>, <code>json</code>, <code>names</code>, <code>shell</code></td>
+<td><code>table</code></td>
+<td><code>shell</code> = key=value pairs</td>
+</tr>
+<tr>
+<td><code>atlas session status</code></td>
+<td><code>table</code>, <code>json</code></td>
+<td><code>table</code></td>
+<td><code>json</code> emits <code>{project,durationMinutes,state,task,startedAt}</code> or <code>null</code> when idle</td>
+</tr>
+<tr>
+<td><code>atlas stats</code></td>
+<td><code>table</code>, <code>json</code>, <code>text</code>, <code>md</code></td>
+<td><code>table</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>atlas session export</code></td>
+<td><code>ical</code>, <code>json</code></td>
+<td><code>ical</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>atlas plan</code></td>
+<td><em>(n/a)</em></td>
+<td>n/a</td>
+<td>Use <code>--json</code> flag for machine-readable output</td>
+</tr>
+</tbody>
+</table>
+<h3 id="format-descriptions">Format Descriptions<a class="headerlink" href="#format-descriptions" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -8703,6 +8851,52 @@ ships with the silent no-op until it lands.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>atlas project list --status=&lt;filter&gt; --format=names
 </code></pre></div>
 <p>Valid <code>--status</code> values: <code>active</code>, <code>parked</code>, <code>archived</code>, <code>all</code>.</p>
+<p><strong><code>--count</code> flag (v0.9.3+):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>atlas project list --count
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>atlas project list --status=active --count
+</code></pre></div>
+<p>Prints a bare integer (count of matched projects). Combinable with <code>--status</code>. Exits 0.</p>
+<p><strong><code>--suggest</code> flag (v0.9.3+):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>atlas project list --suggest
+</code></pre></div>
+<p>Prints ONE project name — the most-recently-touched active project. Prints nothing (empty output) if no active projects exist. Exits 0.</p>
+<hr />
+<h2 id="atlas-inbox-count-contract-v093"><code>atlas inbox --count</code> Contract (v0.9.3+)<a class="headerlink" href="#atlas-inbox-count-contract-v093" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>atlas inbox --count
+</code></pre></div>
+<p>Prints a bare integer (count of pending inbox captures, i.e. <code>status=inbox</code>). Exits 0.</p>
+<hr />
+<h2 id="atlas-trail-limit-contract-v093"><code>atlas trail --limit</code> Contract (v0.9.3+)<a class="headerlink" href="#atlas-trail-limit-contract-v093" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>atlas trail --limit &lt;n&gt;
+</code></pre></div>
+<p>Caps the breadcrumb entries shown to the <code>n</code> most recent. Exits 0. Output format is text (unchanged from <code>atlas trail</code>).</p>
+<hr />
+<h2 id="atlas-session-status-formatjson-contract-v093"><code>atlas session status --format=json</code> Contract (v0.9.3+)<a class="headerlink" href="#atlas-session-status-formatjson-contract-v093" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>atlas session status --format=json
+</code></pre></div>
+<p>Emits a JSON object when a session is active:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;project-name&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">&quot;durationMinutes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;task text or null&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nt">&quot;startedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-06-14T09:00:00.000Z&quot;</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">}</span>
+</code></pre></div>
+<p>Emits <code>null</code> (the literal JSON value) when no session is active. Always exits 0.</p>
+<hr />
+<h2 id="atlas-config-show-contract-consumed-by-flow-doctor"><code>atlas config show</code> Contract (consumed by <code>flow doctor</code>)<a class="headerlink" href="#atlas-config-show-contract-consumed-by-flow-doctor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>atlas config show
+</code></pre></div>
+<p>Prints the <strong>entire</strong> atlas configuration as pretty-printed JSON
+(<code>JSON.stringify(config, null, 2)</code> — always JSON, there is no <code>--format</code> flag on
+this command). The top-level <strong><code>storage</code></strong> key is the active backend
+(<code>filesystem</code> | <code>sqlite</code>); other keys include scan paths and <code>preferences</code>. Exits 0.</p>
+<p><code>flow doctor</code> consumes this for two things: (a) a <strong>liveness check</strong> — a non-empty
+result is the connectivity signal, because a binary on <code>PATH</code> alone does not prove
+atlas actually runs (e.g. a broken interpreter shebang); and (b) reading the
+storage backend. Note there is <strong>no <code>atlas config get &lt;key&gt;</code> subcommand</strong> — read a
+single value by parsing <code>config show</code>.</p>
 <hr />
 <h2 id="breaking-change-policy">Breaking Change Policy<a class="headerlink" href="#breaking-change-policy" title="Permanent link">&para;</a></h2>
 <table>
@@ -8743,11 +8937,10 @@ ships with the silent no-op until it lands.</p>
 </ul>
 <hr />
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
-<p>Contract compliance is verified by <code>tests/test-atlas-contract.zsh</code>.</p>
+<p>Contract compliance is verified by two test files:</p>
 <ul>
-<li>Tests validate exit codes, output formats, and command availability</li>
-<li>Tests skip gracefully when Atlas is not installed (<code>[SKIP] Atlas not installed</code>)</li>
-<li>Hot path fallbacks are tested independently of Atlas availability</li>
+<li><strong><code>tests/test-atlas-contract.zsh</code></strong> — validates exit codes, output formats, and command availability; skips gracefully when Atlas is not installed (<code>[SKIP] Atlas not installed</code>); hot path fallbacks tested independently of Atlas availability</li>
+<li><strong><code>tests/test-doctor-atlas-calls.zsh</code></strong> — static regression guard (grep-based, no Atlas needed); enforces that <code>doctor.zsh</code> uses spec-compliant calls (<code>atlas config show</code>, <code>command -v atlas-mcp</code>) and does not regress to the out-of-spec calls removed in v1.1.0</li>
 </ul>
 
 
