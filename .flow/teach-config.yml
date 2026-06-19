@@ -9,10 +9,6 @@ git:
   auto_pr: true
   require_clean: true
 
-branches:
-  draft: draft
-  production: main
-
 workflow:
   teaching_mode: false
   auto_commit: false
