@@ -66,16 +66,16 @@ _flow_claude_check() {
     if [[ -z "$env_block" ]]; then
       _flow_log_success "C1 Settings parity     no env block in settings.json"
     else
+      local key val zshrc_val
       while IFS= read -r pair; do
-        local key="${pair%%=*}"
-        local val="${pair#*=}"
+        key="${pair%%=*}"
+        val="${pair#*=}"
         if ! grep -qE "^export ${key}=" "$zshrc_path" 2>/dev/null; then
           mismatches+=("$key missing from zshrc")
           if (( fix )); then
             _flow_claude_fix_c1 "$key" "$val" "$zshrc_path"
           fi
         else
-          local zshrc_val
           zshrc_val=$(grep -E "^export ${key}=" "$zshrc_path" 2>/dev/null | tail -1 | sed "s/^export ${key}=//;s/[\"']//g")
           if [[ "$zshrc_val" != "$val" ]]; then
             mismatches+=("$key: settings.json=$val zshrc=$zshrc_val")
@@ -126,18 +126,17 @@ _flow_claude_check() {
     _flow_log_warning "C3 Memory index drift  $memory_dir not found"
     has_warn=1
   else
-    local drift_found=0
+    local drift_found=0 memory_md file_count entry_count proj_name
     for proj_memory in "$memory_dir"/*/memory(/N); do
       [[ -d "$proj_memory" ]] || continue
-      local memory_md="$proj_memory/MEMORY.md"
+      memory_md="$proj_memory/MEMORY.md"
       # Count .md files excluding MEMORY.md itself
-      local file_count
       file_count=$(find "$proj_memory" -maxdepth 1 -name "*.md" -not -name "MEMORY.md" 2>/dev/null | wc -l | tr -d ' ')
       if [[ -f "$memory_md" ]]; then
-        local entry_count=0
+        entry_count=0
         entry_count=$(grep -c '^- \[' "$memory_md" 2>/dev/null) || true
         if [[ "$file_count" != "$entry_count" ]]; then
-          local proj_name="${proj_memory%/memory}"
+          proj_name="${proj_memory%/memory}"
           proj_name="${proj_name##*/}"
           _flow_log_warning "C3 Memory index drift  $proj_name: $file_count files, $entry_count MEMORY.md entries"
           has_warn=1
