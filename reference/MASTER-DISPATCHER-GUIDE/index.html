@@ -1863,6 +1863,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/49-flow-claude-check/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    49. Claude Check
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -8004,6 +8032,89 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#claude-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        claude Command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="claude Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#synopsis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checks-c1c6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checks (C1–C6)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-fix-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        --fix Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#source-of-truth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source of Truth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dispatcher-comparison-table" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8952,6 +9063,34 @@
     
   
     at (Atlas bridge)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../commands/claude/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    claude (env check)
   
 
     
@@ -11897,6 +12036,89 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#claude-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        claude Command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="claude Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#synopsis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synopsis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checks-c1c6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checks (C1–C6)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-fix-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        --fix Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Codes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#source-of-truth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Source of Truth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#dispatcher-comparison-table" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -14185,6 +14407,114 @@ content generation (<code>teach slides --week N</code>, <code>teach lecture --we
 </details>
 
 <hr />
+<h2 id="claude-command">claude Command<a class="headerlink" href="#claude-command" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Claude Code environment health diagnostics</p>
+</blockquote>
+<p>The <code>flow claude</code> command inspects the Claude Code environment for configuration drift, hook failures, and settings that silently cause problems (wrong compaction threshold, truncated responses, stale memory index).</p>
+<h3 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-213-1" name="__codelineno-213-1" href="#__codelineno-213-1"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="w">           </span><span class="c1"># Run all 6 checks, print report</span>
+<a id="__codelineno-213-2" name="__codelineno-213-2" href="#__codelineno-213-2"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="w"> </span>--fix<span class="w">     </span><span class="c1"># Run checks + auto-repair C1 and C6</span>
+<a id="__codelineno-213-3" name="__codelineno-213-3" href="#__codelineno-213-3"></a>flow<span class="w"> </span>claude<span class="w"> </span>doctor<span class="w">          </span><span class="c1"># Alias for check</span>
+</code></pre></div>
+<h3 id="checks-c1c6">Checks (C1–C6)<a class="headerlink" href="#checks-c1c6" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Logic</th>
+<th>Severity</th>
+<th><code>--fix</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>Settings parity</td>
+<td><code>settings.json</code> <code>.env</code> keys match zshrc exports</td>
+<td>WARN</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Hook health</td>
+<td><code>post-compact-reinject.sh</code> exists, executable, shellcheck</td>
+<td>ERROR</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Memory index drift</td>
+<td><code>.md</code> files vs <code>MEMORY.md</code> entry count</td>
+<td>WARN</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>CLAUDE.md length</td>
+<td><code>~/.claude/CLAUDE.md</code> ≤ 100 lines</td>
+<td>WARN</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>Shell env parity</td>
+<td><code>CLAUDE_AUTOCOMPACT_PCT_OVERRIDE</code> exported in shell</td>
+<td>INFO</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>C6</td>
+<td>Output token limit</td>
+<td><code>CLAUDE_CODE_MAX_OUTPUT_TOKENS</code> set and &gt; 8192</td>
+<td>WARN</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-fix-behavior"><code>--fix</code> Behavior<a class="headerlink" href="#-fix-behavior" title="Permanent link">&para;</a></h3>
+<p><code>--fix</code> writes zshrc only — never touches <code>settings.json</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-214-1" name="__codelineno-214-1" href="#__codelineno-214-1"></a><span class="c1"># C1: aligns zshrc export to match settings.json value</span>
+<a id="__codelineno-214-2" name="__codelineno-214-2" href="#__codelineno-214-2"></a><span class="c1"># C6: appends or updates CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000</span>
+<a id="__codelineno-214-3" name="__codelineno-214-3" href="#__codelineno-214-3"></a>
+<a id="__codelineno-214-4" name="__codelineno-214-4" href="#__codelineno-214-4"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="w"> </span>--fix
+<a id="__codelineno-214-5" name="__codelineno-214-5" href="#__codelineno-214-5"></a><span class="c1"># ✓ Settings parity      Fixed: AUTOCOMPACT in zshrc now matches settings.json</span>
+<a id="__codelineno-214-6" name="__codelineno-214-6" href="#__codelineno-214-6"></a><span class="c1"># ⚠ Hook health          post-compact-reinject.sh: shellcheck failed (manual fix needed)</span>
+<a id="__codelineno-214-7" name="__codelineno-214-7" href="#__codelineno-214-7"></a><span class="c1"># ✓ Output token limit   Set CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000 in ~/.config/zsh/.zshrc</span>
+</code></pre></div>
+<h3 id="exit-codes">Exit Codes<a class="headerlink" href="#exit-codes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>All checks pass</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Any ERROR (C2)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Any WARN, no ERRORs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="source-of-truth">Source of Truth<a class="headerlink" href="#source-of-truth" title="Permanent link">&para;</a></h3>
+<p><code>settings.json</code> env block is canonical. zshrc export is a fallback for issue #63186 (env block silently ignored in some Claude Code launch paths). <code>--fix</code> always brings zshrc into alignment with settings.json, never the reverse.</p>
+<h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>jq</code> — required for C1/C6 JSON parsing; degrades gracefully if absent</li>
+<li><code>shellcheck</code> — optional for C2; skips lint sub-check if absent</li>
+</ul>
+<p><strong>Reference:</strong> <a href="../../commands/claude/">commands/claude.md</a></p>
+<hr />
 <h2 id="dispatcher-comparison-table">Dispatcher Comparison Table<a class="headerlink" href="#dispatcher-comparison-table" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -14319,14 +14649,14 @@ content generation (<code>teach slides --week N</code>, <code>teach lecture --we
 </table>
 <h3 id="dispatcher-shortcuts">Dispatcher Shortcuts<a class="headerlink" href="#dispatcher-shortcuts" title="Permanent link">&para;</a></h3>
 <p>Each dispatcher has built-in shortcuts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-213-1" name="__codelineno-213-1" href="#__codelineno-213-1"></a>g<span class="w"> </span>st<span class="w">          </span><span class="c1"># git status</span>
-<a id="__codelineno-213-2" name="__codelineno-213-2" href="#__codelineno-213-2"></a>g<span class="w"> </span>co<span class="w">          </span><span class="c1"># git checkout</span>
-<a id="__codelineno-213-3" name="__codelineno-213-3" href="#__codelineno-213-3"></a>r<span class="w"> </span>t<span class="w">           </span><span class="c1"># r test</span>
-<a id="__codelineno-213-4" name="__codelineno-213-4" href="#__codelineno-213-4"></a>qu<span class="w"> </span>p<span class="w">          </span><span class="c1"># qu preview</span>
-<a id="__codelineno-213-5" name="__codelineno-213-5" href="#__codelineno-213-5"></a>cc<span class="w"> </span>y<span class="w">          </span><span class="c1"># cc yolo</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-215-1" name="__codelineno-215-1" href="#__codelineno-215-1"></a>g<span class="w"> </span>st<span class="w">          </span><span class="c1"># git status</span>
+<a id="__codelineno-215-2" name="__codelineno-215-2" href="#__codelineno-215-2"></a>g<span class="w"> </span>co<span class="w">          </span><span class="c1"># git checkout</span>
+<a id="__codelineno-215-3" name="__codelineno-215-3" href="#__codelineno-215-3"></a>r<span class="w"> </span>t<span class="w">           </span><span class="c1"># r test</span>
+<a id="__codelineno-215-4" name="__codelineno-215-4" href="#__codelineno-215-4"></a>qu<span class="w"> </span>p<span class="w">          </span><span class="c1"># qu preview</span>
+<a id="__codelineno-215-5" name="__codelineno-215-5" href="#__codelineno-215-5"></a>cc<span class="w"> </span>y<span class="w">          </span><span class="c1"># cc yolo</span>
 </code></pre></div>
 <h3 id="quick-access">Quick Access<a class="headerlink" href="#quick-access" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-214-1" name="__codelineno-214-1" href="#__codelineno-214-1"></a>als<span class="w">           </span><span class="c1"># List all aliases by category</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-216-1" name="__codelineno-216-1" href="#__codelineno-216-1"></a>als<span class="w">           </span><span class="c1"># List all aliases by category</span>
 </code></pre></div>
 <blockquote>
 <p><strong>Full Reference:</strong> See archived <a href="./#aliases">ALIAS-REFERENCE-CARD.md</a>
@@ -14579,30 +14909,30 @@ himalaya-mcp for AI-assisted analysis.</p>
 </tbody>
 </table>
 <h3 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-215-1" name="__codelineno-215-1" href="#__codelineno-215-1"></a>em<span class="w">                         </span><span class="c1"># Quick pulse check</span>
-<a id="__codelineno-215-2" name="__codelineno-215-2" href="#__codelineno-215-2"></a>em<span class="w"> </span>pick<span class="w">                    </span><span class="c1"># Browse with fzf (Enter=read, Ctrl-S=summarize, Ctrl-F=star, Ctrl-M=move,</span>
-<a id="__codelineno-215-3" name="__codelineno-215-3" href="#__codelineno-215-3"></a><span class="w">                           </span><span class="c1">#   Ctrl-D=delete, Ctrl-O=todo, Ctrl-E=event)</span>
-<a id="__codelineno-215-4" name="__codelineno-215-4" href="#__codelineno-215-4"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w">                </span><span class="c1"># AI-draft reply, opens in $EDITOR, then preview gate</span>
-<a id="__codelineno-215-5" name="__codelineno-215-5" href="#__codelineno-215-5"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--force<span class="w">        </span><span class="c1"># Skip preview gate (v2.0)</span>
-<a id="__codelineno-215-6" name="__codelineno-215-6" href="#__codelineno-215-6"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;decline politely&#39;</span><span class="w">  </span><span class="c1"># AI draft with custom instructions</span>
-<a id="__codelineno-215-7" name="__codelineno-215-7" href="#__codelineno-215-7"></a>em<span class="w"> </span>send<span class="w"> </span>user@example.com<span class="w"> </span><span class="s2">&quot;Meeting&quot;</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;suggest Tuesday 2pm&#39;</span>
-<a id="__codelineno-215-8" name="__codelineno-215-8" href="#__codelineno-215-8"></a>em<span class="w"> </span>forward<span class="w"> </span><span class="m">42</span><span class="w"> </span>user@example.com<span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;FYI re: our discussion&#39;</span>
-<a id="__codelineno-215-9" name="__codelineno-215-9" href="#__codelineno-215-9"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--backend<span class="w"> </span>gemini<span class="w">  </span><span class="c1"># Override AI backend per-command</span>
-<a id="__codelineno-215-10" name="__codelineno-215-10" href="#__codelineno-215-10"></a>em<span class="w"> </span>respond<span class="w">                 </span><span class="c1"># Batch process actionable emails</span>
-<a id="__codelineno-215-11" name="__codelineno-215-11" href="#__codelineno-215-11"></a>em<span class="w"> </span>star<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Toggle star on email</span>
-<a id="__codelineno-215-12" name="__codelineno-215-12" href="#__codelineno-215-12"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w"> </span>Archive<span class="w">         </span><span class="c1"># Move email to folder</span>
-<a id="__codelineno-215-13" name="__codelineno-215-13" href="#__codelineno-215-13"></a>em<span class="w"> </span>thread<span class="w"> </span><span class="m">42</span><span class="w">               </span><span class="c1"># Show conversation thread</span>
-<a id="__codelineno-215-14" name="__codelineno-215-14" href="#__codelineno-215-14"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">42</span><span class="w"> </span>2h<span class="w">            </span><span class="c1"># Snooze for 2 hours</span>
-<a id="__codelineno-215-15" name="__codelineno-215-15" href="#__codelineno-215-15"></a>em<span class="w"> </span>digest<span class="w">                  </span><span class="c1"># AI-grouped daily summary</span>
-<a id="__codelineno-215-16" name="__codelineno-215-16" href="#__codelineno-215-16"></a>em<span class="w"> </span>delete<span class="w"> </span>--folder<span class="w"> </span>Spam<span class="w">    </span><span class="c1"># Delete all spam (with confirmation)</span>
-<a id="__codelineno-215-17" name="__codelineno-215-17" href="#__codelineno-215-17"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w">              </span><span class="c1"># Restore from Trash to INBOX</span>
-<a id="__codelineno-215-18" name="__codelineno-215-18" href="#__codelineno-215-18"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Extract action items from email</span>
-<a id="__codelineno-215-19" name="__codelineno-215-19" href="#__codelineno-215-19"></a>em<span class="w"> </span>attach<span class="w"> </span>list<span class="w"> </span><span class="m">42</span><span class="w">          </span><span class="c1"># Show attachment table (v2.0)</span>
-<a id="__codelineno-215-20" name="__codelineno-215-20" href="#__codelineno-215-20"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>file.ics<span class="w">  </span><span class="c1"># Download specific attachment (v2.0)</span>
-<a id="__codelineno-215-21" name="__codelineno-215-21" href="#__codelineno-215-21"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">42</span><span class="w">             </span><span class="c1"># Parse ICS and add to Calendar.app (v2.0)</span>
-<a id="__codelineno-215-22" name="__codelineno-215-22" href="#__codelineno-215-22"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Work&quot;</span><span class="w">    </span><span class="c1"># Create mail folder (v2.0)</span>
-<a id="__codelineno-215-23" name="__codelineno-215-23" href="#__codelineno-215-23"></a>em<span class="w"> </span>watch<span class="w"> </span>start<span class="w">             </span><span class="c1"># Start IMAP IDLE watcher (v2.0, experimental)</span>
-<a id="__codelineno-215-24" name="__codelineno-215-24" href="#__codelineno-215-24"></a>em<span class="w"> </span>doctor<span class="w">                  </span><span class="c1"># Check all dependencies</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-217-1" name="__codelineno-217-1" href="#__codelineno-217-1"></a>em<span class="w">                         </span><span class="c1"># Quick pulse check</span>
+<a id="__codelineno-217-2" name="__codelineno-217-2" href="#__codelineno-217-2"></a>em<span class="w"> </span>pick<span class="w">                    </span><span class="c1"># Browse with fzf (Enter=read, Ctrl-S=summarize, Ctrl-F=star, Ctrl-M=move,</span>
+<a id="__codelineno-217-3" name="__codelineno-217-3" href="#__codelineno-217-3"></a><span class="w">                           </span><span class="c1">#   Ctrl-D=delete, Ctrl-O=todo, Ctrl-E=event)</span>
+<a id="__codelineno-217-4" name="__codelineno-217-4" href="#__codelineno-217-4"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w">                </span><span class="c1"># AI-draft reply, opens in $EDITOR, then preview gate</span>
+<a id="__codelineno-217-5" name="__codelineno-217-5" href="#__codelineno-217-5"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--force<span class="w">        </span><span class="c1"># Skip preview gate (v2.0)</span>
+<a id="__codelineno-217-6" name="__codelineno-217-6" href="#__codelineno-217-6"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;decline politely&#39;</span><span class="w">  </span><span class="c1"># AI draft with custom instructions</span>
+<a id="__codelineno-217-7" name="__codelineno-217-7" href="#__codelineno-217-7"></a>em<span class="w"> </span>send<span class="w"> </span>user@example.com<span class="w"> </span><span class="s2">&quot;Meeting&quot;</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;suggest Tuesday 2pm&#39;</span>
+<a id="__codelineno-217-8" name="__codelineno-217-8" href="#__codelineno-217-8"></a>em<span class="w"> </span>forward<span class="w"> </span><span class="m">42</span><span class="w"> </span>user@example.com<span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;FYI re: our discussion&#39;</span>
+<a id="__codelineno-217-9" name="__codelineno-217-9" href="#__codelineno-217-9"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--backend<span class="w"> </span>gemini<span class="w">  </span><span class="c1"># Override AI backend per-command</span>
+<a id="__codelineno-217-10" name="__codelineno-217-10" href="#__codelineno-217-10"></a>em<span class="w"> </span>respond<span class="w">                 </span><span class="c1"># Batch process actionable emails</span>
+<a id="__codelineno-217-11" name="__codelineno-217-11" href="#__codelineno-217-11"></a>em<span class="w"> </span>star<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Toggle star on email</span>
+<a id="__codelineno-217-12" name="__codelineno-217-12" href="#__codelineno-217-12"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w"> </span>Archive<span class="w">         </span><span class="c1"># Move email to folder</span>
+<a id="__codelineno-217-13" name="__codelineno-217-13" href="#__codelineno-217-13"></a>em<span class="w"> </span>thread<span class="w"> </span><span class="m">42</span><span class="w">               </span><span class="c1"># Show conversation thread</span>
+<a id="__codelineno-217-14" name="__codelineno-217-14" href="#__codelineno-217-14"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">42</span><span class="w"> </span>2h<span class="w">            </span><span class="c1"># Snooze for 2 hours</span>
+<a id="__codelineno-217-15" name="__codelineno-217-15" href="#__codelineno-217-15"></a>em<span class="w"> </span>digest<span class="w">                  </span><span class="c1"># AI-grouped daily summary</span>
+<a id="__codelineno-217-16" name="__codelineno-217-16" href="#__codelineno-217-16"></a>em<span class="w"> </span>delete<span class="w"> </span>--folder<span class="w"> </span>Spam<span class="w">    </span><span class="c1"># Delete all spam (with confirmation)</span>
+<a id="__codelineno-217-17" name="__codelineno-217-17" href="#__codelineno-217-17"></a>em<span class="w"> </span>restore<span class="w"> </span><span class="m">42</span><span class="w">              </span><span class="c1"># Restore from Trash to INBOX</span>
+<a id="__codelineno-217-18" name="__codelineno-217-18" href="#__codelineno-217-18"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Extract action items from email</span>
+<a id="__codelineno-217-19" name="__codelineno-217-19" href="#__codelineno-217-19"></a>em<span class="w"> </span>attach<span class="w"> </span>list<span class="w"> </span><span class="m">42</span><span class="w">          </span><span class="c1"># Show attachment table (v2.0)</span>
+<a id="__codelineno-217-20" name="__codelineno-217-20" href="#__codelineno-217-20"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>file.ics<span class="w">  </span><span class="c1"># Download specific attachment (v2.0)</span>
+<a id="__codelineno-217-21" name="__codelineno-217-21" href="#__codelineno-217-21"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">42</span><span class="w">             </span><span class="c1"># Parse ICS and add to Calendar.app (v2.0)</span>
+<a id="__codelineno-217-22" name="__codelineno-217-22" href="#__codelineno-217-22"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Work&quot;</span><span class="w">    </span><span class="c1"># Create mail folder (v2.0)</span>
+<a id="__codelineno-217-23" name="__codelineno-217-23" href="#__codelineno-217-23"></a>em<span class="w"> </span>watch<span class="w"> </span>start<span class="w">             </span><span class="c1"># Start IMAP IDLE watcher (v2.0, experimental)</span>
+<a id="__codelineno-217-24" name="__codelineno-217-24" href="#__codelineno-217-24"></a>em<span class="w"> </span>doctor<span class="w">                  </span><span class="c1"># Check all dependencies</span>
 </code></pre></div>
 <h3 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h3>
 <p>Seven-layer stack: <code>em()</code> dispatcher → himalaya adapter → himalaya CLI, with safety gate,
@@ -14711,17 +15041,17 @@ enhancement based on the installed himalaya CLI version.</p>
 </tbody>
 </table>
 <p><strong>Examples:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-216-1" name="__codelineno-216-1" href="#__codelineno-216-1"></a><span class="c1"># Quick capture an idea</span>
-<a id="__codelineno-216-2" name="__codelineno-216-2" href="#__codelineno-216-2"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;Add dark mode to dashboard&quot;</span>
-<a id="__codelineno-216-3" name="__codelineno-216-3" href="#__codelineno-216-3"></a>
-<a id="__codelineno-216-4" name="__codelineno-216-4" href="#__codelineno-216-4"></a><span class="c1"># Check where you are</span>
-<a id="__codelineno-216-5" name="__codelineno-216-5" href="#__codelineno-216-5"></a>at<span class="w"> </span>where
-<a id="__codelineno-216-6" name="__codelineno-216-6" href="#__codelineno-216-6"></a>
-<a id="__codelineno-216-7" name="__codelineno-216-7" href="#__codelineno-216-7"></a><span class="c1"># Leave a breadcrumb for future you</span>
-<a id="__codelineno-216-8" name="__codelineno-216-8" href="#__codelineno-216-8"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">&quot;Left off debugging the cache layer&quot;</span>
-<a id="__codelineno-216-9" name="__codelineno-216-9" href="#__codelineno-216-9"></a>
-<a id="__codelineno-216-10" name="__codelineno-216-10" href="#__codelineno-216-10"></a><span class="c1"># Show captured items</span>
-<a id="__codelineno-216-11" name="__codelineno-216-11" href="#__codelineno-216-11"></a>at<span class="w"> </span>inbox
+<div class="highlight"><pre><span></span><code><a id="__codelineno-218-1" name="__codelineno-218-1" href="#__codelineno-218-1"></a><span class="c1"># Quick capture an idea</span>
+<a id="__codelineno-218-2" name="__codelineno-218-2" href="#__codelineno-218-2"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;Add dark mode to dashboard&quot;</span>
+<a id="__codelineno-218-3" name="__codelineno-218-3" href="#__codelineno-218-3"></a>
+<a id="__codelineno-218-4" name="__codelineno-218-4" href="#__codelineno-218-4"></a><span class="c1"># Check where you are</span>
+<a id="__codelineno-218-5" name="__codelineno-218-5" href="#__codelineno-218-5"></a>at<span class="w"> </span>where
+<a id="__codelineno-218-6" name="__codelineno-218-6" href="#__codelineno-218-6"></a>
+<a id="__codelineno-218-7" name="__codelineno-218-7" href="#__codelineno-218-7"></a><span class="c1"># Leave a breadcrumb for future you</span>
+<a id="__codelineno-218-8" name="__codelineno-218-8" href="#__codelineno-218-8"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">&quot;Left off debugging the cache layer&quot;</span>
+<a id="__codelineno-218-9" name="__codelineno-218-9" href="#__codelineno-218-9"></a>
+<a id="__codelineno-218-10" name="__codelineno-218-10" href="#__codelineno-218-10"></a><span class="c1"># Show captured items</span>
+<a id="__codelineno-218-11" name="__codelineno-218-11" href="#__codelineno-218-11"></a>at<span class="w"> </span>inbox
 </code></pre></div>
 <h3 id="intermediate-requires-atlas-cli">Intermediate (Requires Atlas CLI)<a class="headerlink" href="#intermediate-requires-atlas-cli" title="Permanent link">&para;</a></h3>
 <h4 id="full-command-reference">Full Command Reference<a class="headerlink" href="#full-command-reference" title="Permanent link">&para;</a></h4>
@@ -14776,55 +15106,55 @@ enhancement based on the installed himalaya CLI version.</p>
 </tbody>
 </table>
 <p><strong>Examples:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-217-1" name="__codelineno-217-1" href="#__codelineno-217-1"></a><span class="c1"># Get project statistics</span>
-<a id="__codelineno-217-2" name="__codelineno-217-2" href="#__codelineno-217-2"></a>at<span class="w"> </span>stats
-<a id="__codelineno-217-3" name="__codelineno-217-3" href="#__codelineno-217-3"></a><span class="c1"># Output: Projects: 12 | Active: 3 | Parked: 5 | Archived: 4</span>
-<a id="__codelineno-217-4" name="__codelineno-217-4" href="#__codelineno-217-4"></a><span class="c1">#         This week: 23 commits, 5 captures, 2 wins</span>
-<a id="__codelineno-217-5" name="__codelineno-217-5" href="#__codelineno-217-5"></a>
-<a id="__codelineno-217-6" name="__codelineno-217-6" href="#__codelineno-217-6"></a><span class="c1"># Park a project before switching</span>
-<a id="__codelineno-217-7" name="__codelineno-217-7" href="#__codelineno-217-7"></a>at<span class="w"> </span>park
-<a id="__codelineno-217-8" name="__codelineno-217-8" href="#__codelineno-217-8"></a><span class="c1"># Output: ✅ Parked: flow-cli (context saved)</span>
-<a id="__codelineno-217-9" name="__codelineno-217-9" href="#__codelineno-217-9"></a>
-<a id="__codelineno-217-10" name="__codelineno-217-10" href="#__codelineno-217-10"></a><span class="c1"># See what&#39;s parked</span>
-<a id="__codelineno-217-11" name="__codelineno-217-11" href="#__codelineno-217-11"></a>at<span class="w"> </span>parked
-<a id="__codelineno-217-12" name="__codelineno-217-12" href="#__codelineno-217-12"></a><span class="c1"># Output: flow-cli    (2h ago)  &quot;Working on atlas bridge&quot;</span>
-<a id="__codelineno-217-13" name="__codelineno-217-13" href="#__codelineno-217-13"></a><span class="c1">#         my-app      (1d ago)  &quot;Auth module half done&quot;</span>
-<a id="__codelineno-217-14" name="__codelineno-217-14" href="#__codelineno-217-14"></a>
-<a id="__codelineno-217-15" name="__codelineno-217-15" href="#__codelineno-217-15"></a><span class="c1"># Resume a parked project</span>
-<a id="__codelineno-217-16" name="__codelineno-217-16" href="#__codelineno-217-16"></a>at<span class="w"> </span>unpark<span class="w"> </span>flow-cli
-<a id="__codelineno-217-17" name="__codelineno-217-17" href="#__codelineno-217-17"></a><span class="c1"># Output: ✅ Resumed: flow-cli</span>
-<a id="__codelineno-217-18" name="__codelineno-217-18" href="#__codelineno-217-18"></a><span class="c1">#         Context: Working on atlas bridge</span>
-<a id="__codelineno-217-19" name="__codelineno-217-19" href="#__codelineno-217-19"></a>
-<a id="__codelineno-217-20" name="__codelineno-217-20" href="#__codelineno-217-20"></a><span class="c1"># Focus mode</span>
-<a id="__codelineno-217-21" name="__codelineno-217-21" href="#__codelineno-217-21"></a>at<span class="w"> </span>focus
-<a id="__codelineno-217-22" name="__codelineno-217-22" href="#__codelineno-217-22"></a><span class="c1"># Output: 🎯 Focus: flow-cli</span>
-<a id="__codelineno-217-23" name="__codelineno-217-23" href="#__codelineno-217-23"></a><span class="c1">#         Session: 1h 23m</span>
-<a id="__codelineno-217-24" name="__codelineno-217-24" href="#__codelineno-217-24"></a><span class="c1">#         Captures: 3 pending</span>
-<a id="__codelineno-217-25" name="__codelineno-217-25" href="#__codelineno-217-25"></a>
-<a id="__codelineno-217-26" name="__codelineno-217-26" href="#__codelineno-217-26"></a><span class="c1"># Activity trail</span>
-<a id="__codelineno-217-27" name="__codelineno-217-27" href="#__codelineno-217-27"></a>at<span class="w"> </span>trail
-<a id="__codelineno-217-28" name="__codelineno-217-28" href="#__codelineno-217-28"></a><span class="c1"># Output: [Chronological activity across all projects]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-219-1" name="__codelineno-219-1" href="#__codelineno-219-1"></a><span class="c1"># Get project statistics</span>
+<a id="__codelineno-219-2" name="__codelineno-219-2" href="#__codelineno-219-2"></a>at<span class="w"> </span>stats
+<a id="__codelineno-219-3" name="__codelineno-219-3" href="#__codelineno-219-3"></a><span class="c1"># Output: Projects: 12 | Active: 3 | Parked: 5 | Archived: 4</span>
+<a id="__codelineno-219-4" name="__codelineno-219-4" href="#__codelineno-219-4"></a><span class="c1">#         This week: 23 commits, 5 captures, 2 wins</span>
+<a id="__codelineno-219-5" name="__codelineno-219-5" href="#__codelineno-219-5"></a>
+<a id="__codelineno-219-6" name="__codelineno-219-6" href="#__codelineno-219-6"></a><span class="c1"># Park a project before switching</span>
+<a id="__codelineno-219-7" name="__codelineno-219-7" href="#__codelineno-219-7"></a>at<span class="w"> </span>park
+<a id="__codelineno-219-8" name="__codelineno-219-8" href="#__codelineno-219-8"></a><span class="c1"># Output: ✅ Parked: flow-cli (context saved)</span>
+<a id="__codelineno-219-9" name="__codelineno-219-9" href="#__codelineno-219-9"></a>
+<a id="__codelineno-219-10" name="__codelineno-219-10" href="#__codelineno-219-10"></a><span class="c1"># See what&#39;s parked</span>
+<a id="__codelineno-219-11" name="__codelineno-219-11" href="#__codelineno-219-11"></a>at<span class="w"> </span>parked
+<a id="__codelineno-219-12" name="__codelineno-219-12" href="#__codelineno-219-12"></a><span class="c1"># Output: flow-cli    (2h ago)  &quot;Working on atlas bridge&quot;</span>
+<a id="__codelineno-219-13" name="__codelineno-219-13" href="#__codelineno-219-13"></a><span class="c1">#         my-app      (1d ago)  &quot;Auth module half done&quot;</span>
+<a id="__codelineno-219-14" name="__codelineno-219-14" href="#__codelineno-219-14"></a>
+<a id="__codelineno-219-15" name="__codelineno-219-15" href="#__codelineno-219-15"></a><span class="c1"># Resume a parked project</span>
+<a id="__codelineno-219-16" name="__codelineno-219-16" href="#__codelineno-219-16"></a>at<span class="w"> </span>unpark<span class="w"> </span>flow-cli
+<a id="__codelineno-219-17" name="__codelineno-219-17" href="#__codelineno-219-17"></a><span class="c1"># Output: ✅ Resumed: flow-cli</span>
+<a id="__codelineno-219-18" name="__codelineno-219-18" href="#__codelineno-219-18"></a><span class="c1">#         Context: Working on atlas bridge</span>
+<a id="__codelineno-219-19" name="__codelineno-219-19" href="#__codelineno-219-19"></a>
+<a id="__codelineno-219-20" name="__codelineno-219-20" href="#__codelineno-219-20"></a><span class="c1"># Focus mode</span>
+<a id="__codelineno-219-21" name="__codelineno-219-21" href="#__codelineno-219-21"></a>at<span class="w"> </span>focus
+<a id="__codelineno-219-22" name="__codelineno-219-22" href="#__codelineno-219-22"></a><span class="c1"># Output: 🎯 Focus: flow-cli</span>
+<a id="__codelineno-219-23" name="__codelineno-219-23" href="#__codelineno-219-23"></a><span class="c1">#         Session: 1h 23m</span>
+<a id="__codelineno-219-24" name="__codelineno-219-24" href="#__codelineno-219-24"></a><span class="c1">#         Captures: 3 pending</span>
+<a id="__codelineno-219-25" name="__codelineno-219-25" href="#__codelineno-219-25"></a>
+<a id="__codelineno-219-26" name="__codelineno-219-26" href="#__codelineno-219-26"></a><span class="c1"># Activity trail</span>
+<a id="__codelineno-219-27" name="__codelineno-219-27" href="#__codelineno-219-27"></a>at<span class="w"> </span>trail
+<a id="__codelineno-219-28" name="__codelineno-219-28" href="#__codelineno-219-28"></a><span class="c1"># Output: [Chronological activity across all projects]</span>
 </code></pre></div>
 <h3 id="architecture_1">Architecture<a class="headerlink" href="#architecture_1" title="Permanent link">&para;</a></h3>
 <p><code>at</code> uses a <strong>bridge pattern</strong>: it is a thin shell function defined in <code>lib/atlas-bridge.zsh</code> that delegates to the <code>atlas</code> CLI when available. This differs from dispatchers (like <code>g</code>, <code>r</code>, <code>teach</code>) which implement their logic directly in ZSH.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-218-1" name="__codelineno-218-1" href="#__codelineno-218-1"></a>at &lt;subcommand&gt; [args]
-<a id="__codelineno-218-2" name="__codelineno-218-2" href="#__codelineno-218-2"></a>  │
-<a id="__codelineno-218-3" name="__codelineno-218-3" href="#__codelineno-218-3"></a>  ├─ Atlas installed? → atlas &lt;subcommand&gt; [args]  (passthrough)
-<a id="__codelineno-218-4" name="__codelineno-218-4" href="#__codelineno-218-4"></a>  │
-<a id="__codelineno-218-5" name="__codelineno-218-5" href="#__codelineno-218-5"></a>  └─ Atlas missing?
-<a id="__codelineno-218-6" name="__codelineno-218-6" href="#__codelineno-218-6"></a>       ├─ catch/inbox/where/crumb → built-in flow-cli fallback
-<a id="__codelineno-218-7" name="__codelineno-218-7" href="#__codelineno-218-7"></a>       └─ anything else → error + install instructions
+<div class="highlight"><pre><span></span><code><a id="__codelineno-220-1" name="__codelineno-220-1" href="#__codelineno-220-1"></a>at &lt;subcommand&gt; [args]
+<a id="__codelineno-220-2" name="__codelineno-220-2" href="#__codelineno-220-2"></a>  │
+<a id="__codelineno-220-3" name="__codelineno-220-3" href="#__codelineno-220-3"></a>  ├─ Atlas installed? → atlas &lt;subcommand&gt; [args]  (passthrough)
+<a id="__codelineno-220-4" name="__codelineno-220-4" href="#__codelineno-220-4"></a>  │
+<a id="__codelineno-220-5" name="__codelineno-220-5" href="#__codelineno-220-5"></a>  └─ Atlas missing?
+<a id="__codelineno-220-6" name="__codelineno-220-6" href="#__codelineno-220-6"></a>       ├─ catch/inbox/where/crumb → built-in flow-cli fallback
+<a id="__codelineno-220-7" name="__codelineno-220-7" href="#__codelineno-220-7"></a>       └─ anything else → error + install instructions
 </code></pre></div>
 <h3 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h3>
 <p>Atlas CLI is optional. Install for the full feature set:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-219-1" name="__codelineno-219-1" href="#__codelineno-219-1"></a><span class="c1"># Homebrew</span>
-<a id="__codelineno-219-2" name="__codelineno-219-2" href="#__codelineno-219-2"></a>brew<span class="w"> </span>install<span class="w"> </span>data-wise/tap/atlas
-<a id="__codelineno-219-3" name="__codelineno-219-3" href="#__codelineno-219-3"></a>
-<a id="__codelineno-219-4" name="__codelineno-219-4" href="#__codelineno-219-4"></a><span class="c1"># npm</span>
-<a id="__codelineno-219-5" name="__codelineno-219-5" href="#__codelineno-219-5"></a>npm<span class="w"> </span>i<span class="w"> </span>-g<span class="w"> </span>@data-wise/atlas
-<a id="__codelineno-219-6" name="__codelineno-219-6" href="#__codelineno-219-6"></a>
-<a id="__codelineno-219-7" name="__codelineno-219-7" href="#__codelineno-219-7"></a><span class="c1"># Verify</span>
-<a id="__codelineno-219-8" name="__codelineno-219-8" href="#__codelineno-219-8"></a>at<span class="w"> </span>stats
+<div class="highlight"><pre><span></span><code><a id="__codelineno-221-1" name="__codelineno-221-1" href="#__codelineno-221-1"></a><span class="c1"># Homebrew</span>
+<a id="__codelineno-221-2" name="__codelineno-221-2" href="#__codelineno-221-2"></a>brew<span class="w"> </span>install<span class="w"> </span>data-wise/tap/atlas
+<a id="__codelineno-221-3" name="__codelineno-221-3" href="#__codelineno-221-3"></a>
+<a id="__codelineno-221-4" name="__codelineno-221-4" href="#__codelineno-221-4"></a><span class="c1"># npm</span>
+<a id="__codelineno-221-5" name="__codelineno-221-5" href="#__codelineno-221-5"></a>npm<span class="w"> </span>i<span class="w"> </span>-g<span class="w"> </span>@data-wise/atlas
+<a id="__codelineno-221-6" name="__codelineno-221-6" href="#__codelineno-221-6"></a>
+<a id="__codelineno-221-7" name="__codelineno-221-7" href="#__codelineno-221-7"></a><span class="c1"># Verify</span>
+<a id="__codelineno-221-8" name="__codelineno-221-8" href="#__codelineno-221-8"></a>at<span class="w"> </span>stats
 </code></pre></div>
 <h3 id="configuration_2">Configuration<a class="headerlink" href="#configuration_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -14857,9 +15187,9 @@ enhancement based on the installed himalaya CLI version.</p>
 <li><strong>Workflows:</strong> See <a href="../../help/WORKFLOWS/">WORKFLOWS.md</a></li>
 </ul>
 <hr />
-<p><strong>Version:</strong> v7.10.2
-<strong>Last Updated:</strong> 2026-02-22
-<strong>Total:</strong> 14 dispatchers + at bridge fully documented</p>
+<p><strong>Version:</strong> v7.12.0
+<strong>Last Updated:</strong> 2026-06-19
+<strong>Total:</strong> 14 dispatchers + at bridge + claude command fully documented</p>
 
 
 
