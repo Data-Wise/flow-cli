@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.11.0] — 2026-06-19 — at-dispatcher completions + atlas doctor fixes
+
+### Added
+
+- **`at` dispatcher tab completions** (`completions/_at`): new completions file, auto-discovered via the existing fpath entry in `flow.plugin.zsh`. Covers all subcommands (`session`, `inbox`, `trail`, `project`, `catch`, `crumb`, `stats`, `plan`, `park`, `unpark`, `focus`, `triage`, `dash`) plus flags (`--format`, `--count`, `--limit`, `--suggest`, `--json`).
+- **`_at_help()` flag entries**: five new entries for atlas v0.9.3 flags — `session status --format json`, `inbox --count`, `trail --limit N`, `project list --count`, `project list --suggest`.
+- **`at` man page flag docs** (`man/man1/at.1`): `.TP` entries for all four new flags with examples in the EXAMPLES section.
+
+### Fixed
+
+- **`flow doctor` reported "atlas connected" on a broken install** (`commands/doctor.zsh`): the check previously passed as soon as `command -v atlas` succeeded, even if the atlas binary had a broken shebang or failed interpreter. Now gated on `atlas config show` returning a non-empty response.
+- **`flow doctor` called nonexistent `atlas config get backend`**: replaced with `atlas config show` + `.storage` parse (jq when available, anchored sed fallback).
+- **`flow doctor` called nonexistent `atlas mcp status`**: `atlas-mcp` is a separate binary. Replaced with `command -v atlas-mcp`.
+- **`_flow_validate_teaching_config` rejected valid `git.*` branch schema** (`lib/project-detector.zsh`): validator now accepts `git.draft_branch` / `git.production_branch` alongside `branches.draft` / `branches.production`.
+
+### Documentation
+
+- **Atlas CLI API Contract v1.1.0** (`docs/ATLAS-CONTRACT.md`): per-command `--format` matrix, `atlas config show` contract, v0.9.3 flag contracts (`--count`, `--suggest`, `--limit`, `--format=json`), and static regression guard `tests/test-doctor-atlas-calls.zsh`.
+- `TEACH-CONFIG-SCHEMA.md` and `TEACHING-WORKFLOW.md` updated to document both accepted branch schema forms.
+
 ## [7.10.2] — 2026-06-18 — Documentation polish + dependency maintenance
 
 ### Documentation

@@ -566,3 +566,21 @@ winshistory() {
 # ══════════════════════════════════════════════════════════════════════════════
 # END WORKFLOW FUNCTIONS
 # ══════════════════════════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PROJECT DOCS — savant (private, local-only docs site; no public Pages)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# savant-docs — serve savant's private docs site locally and auto-open the browser.
+# Runs in a subshell so your current directory is unchanged. Ctrl-C to stop.
+# Extra args pass through, e.g.:  savant-docs -a 127.0.0.1:8001
+savant-docs() {
+    ( cd ~/projects/dev-tools/savant && mkdocs serve -o "$@" )
+}
+
+# savant-docs-build — one-off static build into savant/site/ and open it.
+# Note: opens via file:// so Material search / instant-nav won't work — use
+# `savant-docs` (the server) for full functionality.
+savant-docs-build() {
+    ( cd ~/projects/dev-tools/savant && mkdocs build && open site/index.html )
+}

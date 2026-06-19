@@ -5,9 +5,34 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Released (v7.9.0)
+## Phase: Released (v7.10.2)
 ## Priority: 2
 ## Progress: 100
+
+## Current Session (2026-06-19) — flow claude subcommand spec [dev]
+
+**Session activity:**
+- **Brainstormed + grilled** (max depth, interactive) expanding flow-cli to manage Claude Code environment health: settings parity, hook health, memory index drift, CLAUDE.md length rule, shell env parity for Claude Work/Chat
+- **5-question grilled design decisions:** `flow claude` as new top-level subcommand (not `doctor --claude`); all 4 checks in scope; settings.json canonical (fix direction: zshrc → match settings.json); Work/Chat in scope as best-effort shell-env check; craft rules stay out of scope
+- **Spec written:** `docs/specs/SPEC-flow-claude-subcommand.md` — 5 checks (C1–C5), `--fix` updates zshrc export only, jq for JSON parsing, shellcheck optional dependency, exit codes 0/1/2
+
+## Previous Session (2026-06-19) — atlas-surface-standard items 4-6 [feature/at-dispatcher-surface]
+
+**Session activity:**
+- **Worktree created:** `~/.git-worktrees/flow-cli/at-dispatcher-surface` on `feature/at-dispatcher-surface` (from dev)
+- **Item 4 — _at_help() in lib/atlas-bridge.zsh:** added 5 flag entries: `session status --format json`, `inbox --count`, `trail --limit N`, `project list --count`, `project list --suggest`
+- **Item 5 — man/man1/at.1:** added .TP docs for `--format json`, `--count`, `--limit N`, `--suggest` in appropriate sections; added 4 flag examples to EXAMPLES section
+- **Item 6 — completions/_at:** new file, auto-discovered via existing fpath (flow.plugin.zsh:138); covers all subcommands + flags
+- **Tests:** 63 pass / 0 fail / 1 timeout / 1 skip (man-page version-sync: 12/12); .TH line unchanged
+- **PR #471** (draft): https://github.com/Data-Wise/flow-cli/pull/471
+
+## Current Session (2026-06-18) — v7.10.2 SHIPPED (docs polish + dep maintenance) [main + Homebrew]
+
+**Session activity:**
+- **Scheduling docs overhaul:** new top-level **Planning & Scheduling** mkdocs tab (gathered tutorial 48 + AGENDA-SCHEDULE-GUIDE + capture/routine, removed dup guide entry + empty Learn ADHD subsection); planning arc cross-linked (44→48→43, 02→48) + added missing `T48` node to the learning-path map; clarified flow-cli ↔ Atlas in 43/44/48 (value-line + guide link, was 0 links); tutorials index count fix (47) + completed All Tutorials table.
+- **Agenda tutorial (48) + guide made friendlier with REAL output:** captured live agenda renders via sandbox + `_flow_has_atlas` override (memory: [[capture-real-agenda-output-for-docs]]); added empty/populated/overdue screens + 3 real-world recipes; guide gained real today/week renders.
+- **Dependabot cleared:** merged #469 prettier 3.8.4 + #462 checkout v6 (update-branch → CI green → merge, not --admin); dev synced with main each time.
+- **Released v7.10.2** (`release.sh 7.10.2`): version files + man `.TH` + 47 doc footers + CHANGELOG ×2 + index What's New → PR #470 → CI green (64/0/1) → merged main (`50bae7f0`) → main CI green + docs deployed → GitHub release → Homebrew tap auto-updated (v7.10.2.tar.gz) → dev/main synced. All docs + dev/CI deps, no runtime changes.
 
 ## Current Session (2026-06-14) — v7.10.1 SHIPPED (main + Homebrew + agenda tutorial #48); v7.10.0 + CI gate prior [dev]
 
@@ -389,8 +414,8 @@
 
 ---
 
-**Last Updated:** 2026-06-14
-**Status:** v7.10.1 SHIPPED (main + Homebrew tap) | full suite REQUIRED on main (PRs #465/#466) — 64 passed / 0 failed / 1 skipped (tool-absent rc 77) | 14 dispatchers + at bridge | 216 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-06-13), --category fix squashed the bug (2026-06-13), fixed the bug (2026-06-13), Fixed the regression bug (2026-06-13), Fixed the regression bug (2026-06-13)
+**Last Updated:** 2026-06-18
+**Status:** v7.10.2 SHIPPED (main + Homebrew tap) — docs polish + dep maintenance | full suite REQUIRED on main — 64 passed / 0 failed / 1 skipped | 14 dispatchers + at bridge | 216 test files | 12000+ test functions | 0 lint errors | 0 broken links
+## wins: Fixed the regression bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-17)
 ## streak: 1
-## last_active: 2026-06-13 22:10
+## last_active: 2026-06-19 07:30

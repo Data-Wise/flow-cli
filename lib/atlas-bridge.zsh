@@ -960,11 +960,13 @@ _at_help() {
   echo "${_C_BLUE}📋 SESSION${_C_NC}"
   echo "  ${_C_CYAN}at session start${_C_NC} ${_C_DIM}<project>${_C_NC}  ${_C_DIM}Start work session${_C_NC}"
   echo "  ${_C_CYAN}at session end${_C_NC} ${_C_DIM}[note]${_C_NC}      ${_C_DIM}End session with optional note${_C_NC}"
+  echo "  ${_C_CYAN}at session status --format json${_C_NC}  ${_C_DIM}Machine-readable session state${_C_NC}"
   echo ""
 
   echo "${_C_BLUE}📥 CAPTURE${_C_NC}"
   echo "  ${_C_CYAN}at catch${_C_NC} ${_C_DIM}<text>${_C_NC}             ${_C_DIM}Quick capture (works without Atlas)${_C_NC}"
   echo "  ${_C_CYAN}at inbox${_C_NC}                    ${_C_DIM}Show captured items${_C_NC}"
+  echo "  ${_C_CYAN}at inbox --count${_C_NC}            ${_C_DIM}Bare integer count for scripting${_C_NC}"
   echo "  ${_C_CYAN}at triage${_C_NC}                   ${_C_DIM}Process inbox items${_C_NC}"
   echo ""
 
@@ -972,6 +974,7 @@ _at_help() {
   echo "  ${_C_CYAN}at where${_C_NC} ${_C_DIM}[project]${_C_NC}         ${_C_DIM}Where was I? (works without Atlas)${_C_NC}"
   echo "  ${_C_CYAN}at crumb${_C_NC} ${_C_DIM}<text>${_C_NC}            ${_C_DIM}Leave breadcrumb (works without Atlas)${_C_NC}"
   echo "  ${_C_CYAN}at trail${_C_NC}                    ${_C_DIM}Show breadcrumb trail${_C_NC}"
+  echo "  ${_C_CYAN}at trail --limit N${_C_NC}          ${_C_DIM}Newest-N breadcrumbs${_C_NC}"
   echo "  ${_C_CYAN}at focus${_C_NC} ${_C_DIM}[project]${_C_NC}         ${_C_DIM}Set focus project${_C_NC}"
   echo ""
 
@@ -982,6 +985,8 @@ _at_help() {
   echo "  ${_C_CYAN}at unpark${_C_NC} ${_C_DIM}[project]${_C_NC}        ${_C_DIM}Resume a parked project${_C_NC}"
   echo "  ${_C_CYAN}at parked${_C_NC}                   ${_C_DIM}List parked projects${_C_NC}"
   echo "  ${_C_CYAN}at dash${_C_NC}                     ${_C_DIM}Project dashboard${_C_NC}"
+  echo "  ${_C_CYAN}at project list --count${_C_NC}     ${_C_DIM}Bare integer project count${_C_NC}"
+  echo "  ${_C_CYAN}at project list --suggest${_C_NC}   ${_C_DIM}One active project name suggestion${_C_NC}"
   echo ""
 
   if ! _flow_has_atlas; then
