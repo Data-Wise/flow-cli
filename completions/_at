@@ -1,0 +1,40 @@
+#compdef at
+
+_at() {
+  local -a subcommands
+  subcommands=(
+    'session:Session management (start, end, status)'
+    'catch:Quick capture a thought or task'
+    'c:Quick capture (alias)'
+    'inbox:Show captured items'
+    'i:Inbox alias'
+    'triage:Process inbox interactively'
+    'where:Where was I? (context recovery)'
+    'w:Where alias'
+    'crumb:Leave a breadcrumb'
+    'b:Breadcrumb alias'
+    'trail:Show breadcrumb trail'
+    'focus:Set focus project'
+    'stats:Project statistics'
+    'plan:Planning view'
+    'park:Park a project'
+    'unpark:Resume a parked project'
+    'parked:List parked projects'
+    'dash:Project dashboard'
+    'project:Project management'
+    'help:Show help'
+  )
+  _arguments -s \
+    '-h[Show help]' '--help[Show help]' \
+    '--format[Output format]:format:(table json names text)' \
+    '--count[Output bare integer count]' \
+    '--suggest[Suggest one active project name]' \
+    '--limit[Limit results]:n:' \
+    '--days[Days of history]:n:' \
+    '--project[Project filter]:project:' \
+    '1:subcommand:->subcommands' && return 0
+  case "$state" in
+    subcommands) _describe -t subcommands 'subcommand' subcommands ;;
+  esac
+}
+_at "$@"

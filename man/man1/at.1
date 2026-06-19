@@ -68,14 +68,31 @@ Start a tracked work session for the given project.
 .TP
 .B session end \fR[\fInote\fR]
 End the current work session with an optional summary note.
+.TP
+.B session status
+Show current session state.
+.TP
+.B \-\-format \fIjson\fR
+Output session status as machine-readable JSON (use with
+.BR "session status" ).
 .SS Capture & Triage
 .TP
 .B triage
 Process inbox items interactively (prioritize, assign, or discard).
+.TP
+.B \-\-count
+Output a bare integer count instead of formatted output (use with
+.BR inbox ).
 .SS Context
 .TP
 .B trail
 Show the full breadcrumb trail for the current or specified project.
+.TP
+.B \-\-limit \fIN\fR
+Limit trail output to the newest
+.I N
+breadcrumbs (use with
+.BR trail ).
 .TP
 .B focus \fR[\fIproject\fR]
 Set or show the current focus project.
@@ -98,6 +115,14 @@ List all currently parked projects.
 .TP
 .B dash\fR, \fBdashboard
 Show a dashboard of all projects at a glance.
+.TP
+.B \-\-count
+Output a bare integer project count instead of formatted output (use with
+.BR "project list" ).
+.TP
+.B \-\-suggest
+Output one active project name suggestion (use with
+.BR "project list" ).
 .SH ENVIRONMENT
 .TP
 .B FLOW_ATLAS_ENABLED
@@ -167,6 +192,35 @@ Disable Atlas for a session:
 .RS
 .nf
 FLOW_ATLAS_ENABLED=no at catch "note stored locally"
+.fi
+.RE
+.PP
+Check session state in scripts (machine-readable JSON):
+.RS
+.nf
+.B at session status --format json
+.fi
+.RE
+.PP
+Get a bare integer count of pending captures:
+.RS
+.nf
+.B at inbox --count
+.fi
+.RE
+.PP
+Show only the 5 most recent breadcrumbs:
+.RS
+.nf
+.B at trail --limit 5
+.fi
+.RE
+.PP
+Get a bare project count or a suggestion for scripting:
+.RS
+.nf
+.B at project list --count
+.B at project list --suggest
 .fi
 .RE
 .SH SEE ALSO
