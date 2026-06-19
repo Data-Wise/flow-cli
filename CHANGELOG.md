@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.13.0] — TBD — flow claude: C7-C11 checks + watch daemon
+
+### Added
+
+- **C4 two-tier threshold** (`commands/claude.zsh`): >100 lines → WARN "approaching 180-line limit"; >180 lines → ERROR "exceeds 180-line hard limit" (was a single >100 check)
+- **C7 per-project CLAUDE.md audit**: scans `$FLOW_CLAUDE_PROJECTS_ROOT` (default: `~/projects`) up to depth 4; warns on files >180 lines or version refs that don't match `git describe --tags`; injectable via `FLOW_CLAUDE_PROJECTS_ROOT`
+- **C8 orphaned memory dirs**: decodes `~/.claude/projects/` slug names back to filesystem paths (`/a-b-c` → `/a/b/c`); warns on stale dirs whose decoded path no longer exists
+- **C9 rules drift**: checks that every `~/.claude/rules/*.md` stem is referenced in `~/.claude/CLAUDE.md`; warns on unreferenced rules
+- **C10 missing hook files**: parses `settings.json` hook commands; errors on any absolute-path script that isn't present on disk
+- **C11 plugin health**: checks `~/.claude/plugins/*/plugin.json` exists and is valid JSON (skips `cache/` subdir); warns on broken plugins
+- **`flow claude watch [--interval N] [--stop] [--status]`**: background health watcher — runs `flow claude check` on a configurable interval (default: 30 min), writes state to `~/.flow/claude-health-state.json`, and fires a desktop notification via `terminal-notifier` when status changes between pass/warn/error; gracefully silent on Linux where `terminal-notifier` is absent
+
 ## [7.12.0] — 2026-06-19 — flow claude check: Claude Code environment health
 
 ### Added
