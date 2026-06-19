@@ -23,8 +23,8 @@ flow-cli uses a **shared test framework** (`tests/test-framework.zsh`) with comp
 
 | Metric | Count |
 |--------|-------|
-| Test files | 217 |
-| Test suites (run-all.sh) | 66 total — 65 passed, 1 skipped, 0 failed |
+| Test files | 218 |
+| Test suites (run-all.sh) | 67 total — 66 passed, 1 skipped, 0 failed |
 | Test functions | 12,000+ |
 | Expected skips | 1 (`e2e-em-dispatcher` — needs configured IMAP account) |
 | CI | runs the full suite on every PR (green on the Ubuntu runner) |
@@ -264,7 +264,7 @@ zsh tests/test-work.zsh
 ./tests/run-all.sh
 ```
 
-66 suites, ~12000 assertions. Expected: **65 passed, 0 failed, 0 timeout, 1 skipped**.
+67 suites, ~12000 assertions. Expected: **66 passed, 0 failed, 0 timeout, 1 skipped**.
 The 1 skip is `e2e-em-dispatcher` (needs a configured IMAP account; skips cleanly
 otherwise). `run-all.sh` exits **0** when there are no failures or timeouts.
 
@@ -408,4 +408,4 @@ When adding new functionality:
 
 **Established:** v5.0.0 (2026-01-11)
 **Overhauled:** v7.4.0 (2026-02-16) — shared framework, mock registry, dogfood scanner
-**Test Count:** 217 test files, 12000+ assertions, 65/65 suites passing
+**Test Count:** 218 test files, 12000+ assertions, 66/66 suites passing

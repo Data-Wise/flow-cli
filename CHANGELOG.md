@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.12.0] — 2026-06-19 — flow claude check: Claude Code environment health
+
 ### Added
 
 - **`flow claude check` (C1–C6)** (`commands/claude.zsh`): new environment health command — `flow claude check` (alias: `flow claude doctor`) runs six checks and reports status with exit codes `0`=all pass, `1`=any ERROR, `2`=any WARN.
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **C3 ZSH glob `no matches found` on empty projects dir** (`commands/claude.zsh`): glob `"$memory_dir"/*/memory` fatal-errored when `projects/` existed but had no subdirs. Fixed with `(/N)` qualifier (directory-only + null-glob).
+- **ZSH stdout leak in `flow claude check`** (`commands/claude.zsh`): `local var` inside a loop re-declares an already-local variable each iteration, causing ZSH to print the old value to stdout. Affected C1 (while-loop: `zshrc_val=32000` leaked) and C3 (for-loop: `file_count=N` leaked). Fixed by hoisting all loop-internal `local` declarations above the loop bodies.
 
 ## [7.11.0] — 2026-06-19 — at-dispatcher completions + atlas doctor fixes
 
