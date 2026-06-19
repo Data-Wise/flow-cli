@@ -411,7 +411,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.10.0 SHIPPED + CI full-suite gate MERGED (PR #465 → dev `b57c0d87`); both worktrees removed; no active worktrees. **Pending:** 3 squash-merged branches (manpage-refresh/tok-autosync/scholar-fix) await manual `git branch -D`; CI-gate **Phase 3** (promote `full-suite` to required check after dev soak). |
+| `~/.git-worktrees/flow-cli/feature-flow-claude-v2` | `feature/flow-claude-v2` | ORCHESTRATE written — awaiting impl in new session |
 
 ---
 
