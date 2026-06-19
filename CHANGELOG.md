@@ -9,6 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.12.0] — 2026-06-19 — flow claude check: Claude Code environment health
+
+### Added
+
+- **`flow claude check` (C1–C6)** (`commands/claude.zsh`): new environment health command — `flow claude check` (alias: `flow claude doctor`) runs six checks and reports status with exit codes `0`=all pass, `1`=any ERROR, `2`=any WARN.
+  - **C1 Settings parity** — `settings.json` `.env` keys vs zshrc exports; warns on missing or mismatched values; auto-fixable with `--fix`
+  - **C2 Hook health** — `post-compact-reinject.sh` exists, is executable, and passes `shellcheck`; ERROR-level
+  - **C3 Memory index drift** — `.md` file count vs `MEMORY.md` entry count per `~/.claude/projects/*/memory`
+  - **C4 CLAUDE.md length** — warns when `~/.claude/CLAUDE.md` exceeds 100 lines (mirrors the `claude-md-length` rule)
+  - **C5 Shell env parity** — reports `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` INFO-level (set or unset)
+  - **C6 Output token limit** — warns when `CLAUDE_CODE_MAX_OUTPUT_TOKENS` unset or ≤ 8192; reads `settings.json` first (jq), falls back to zshrc grep; auto-fixable with `--fix`
+- **`flow claude check --fix`**: repairs C1 (sync zshrc to `settings.json` env block) and C6 (append/update `CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000`) without touching `settings.json`
+- **Tutorial 49** (`docs/tutorials/49-flow-claude-check.md`): step-by-step guide with `--fix` workflow and all six checks documented
+- **`docs/commands/claude.md`**: command reference with check table, exit codes, `--fix` behavior, and dependency notes
+- **`docs/troubleshooting/CLAUDE-CODE-ENVIRONMENT.md`**: diagnostic guide using `flow claude check` to triage Claude Code environment issues
+
+### Fixed
+
+- **C3 ZSH glob `no matches found` on empty projects dir** (`commands/claude.zsh`): glob `"$memory_dir"/*/memory` fatal-errored when `projects/` existed but had no subdirs. Fixed with `(/N)` qualifier (directory-only + null-glob).
+- **ZSH stdout leak in `flow claude check`** (`commands/claude.zsh`): `local var` inside a loop re-declares an already-local variable each iteration, causing ZSH to print the old value to stdout. Affected C1 (while-loop: `zshrc_val=32000` leaked) and C3 (for-loop: `file_count=N` leaked). Fixed by hoisting all loop-internal `local` declarations above the loop bodies.
+
 ## [7.11.0] — 2026-06-19 — at-dispatcher completions + atlas doctor fixes
 
 ### Added

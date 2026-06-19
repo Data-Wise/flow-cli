@@ -1156,3 +1156,5 @@ brew() {
     return $rc
 }
 export HOMEBREW_NO_ENV_HINTS=1
+
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000

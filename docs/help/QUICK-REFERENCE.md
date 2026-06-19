@@ -365,6 +365,26 @@ cc help
 
 ---
 
+## flow claude (Claude Code health checker)
+
+```bash
+# Run all environment checks
+flow claude check
+# Output: ✓ Settings parity     settings.json env matches zshrc
+#         ✗ Hook health         post-compact-reinject.sh: not found
+#         ✓ Memory index drift  all memory dirs in sync
+#         ✓ CLAUDE.md length    98 lines — within limit
+#         ℹ Shell env parity    CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported
+
+# Run checks and auto-repair settings.json parity mismatches
+flow claude check --fix
+
+# Alias
+flow claude doctor
+```
+
+---
+
 ## R Dispatcher (r)
 
 ```bash
@@ -1330,6 +1350,40 @@ at crumb "context note"
 
 ---
 
+## Claude Environment (flow claude)
+
+```bash
+# Run all checks
+flow claude check
+
+# Auto-repair safe mismatches (C1: settings parity, C6: token limit)
+flow claude check --fix
+
+# Alias
+flow claude doctor
+flow claude doctor --fix
+```
+
+### Checks at a Glance
+
+| ID | Check | Severity | Auto-fixable |
+|----|-------|----------|-------------|
+| C1 | settings.json env ↔ zshrc parity | WARN | ✓ |
+| C2 | post-compact-reinject.sh hook health | ERROR | ✗ |
+| C3 | Memory index drift (files vs MEMORY.md) | WARN | ✗ |
+| C4 | CLAUDE.md length ≤ 100 lines | WARN | ✗ |
+| C5 | `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` in shell env | INFO | ✗ |
+| C6 | `CLAUDE_CODE_MAX_OUTPUT_TOKENS` > 8192 | WARN | ✓ |
+
+### Exit Codes
+
+```bash
+# 0 = all pass, 1 = any ERROR, 2 = WARN only
+flow claude check && echo "clean"
+```
+
+---
+
 ## Dopamine Features
 
 ### Win Logging (ADHD Motivation)
@@ -1407,6 +1461,9 @@ export FLOW_PROJECTS_ROOT="$HOME/projects"
 
 # Atlas integration (auto|yes|no)
 export FLOW_ATLAS_ENABLED="auto"
+
+# Claude Code output token limit (default 8192 causes mid-run truncation)
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000
 
 # Quiet mode (suppress welcome message)
 export FLOW_QUIET=1

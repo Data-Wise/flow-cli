@@ -5,11 +5,33 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Released (v7.10.2)
+## Phase: Released (v7.11.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-19) — flow claude subcommand spec [dev]
+## Current Session (2026-06-19) — flow claude check docs + merge cleanup ✅ COMPLETE
+
+**Session activity:**
+- **Merged** PR #473 (`feature/flow-claude` → dev) — `flow claude check` C1–C6 + `--fix` + tutorial 49 + command ref
+- **Deleted** `ORCHESTRATE-flow-claude.md` (post-merge cleanup)
+- **Updated CHANGELOG.md** — Unreleased section: `flow claude check` (C1–C6), `--fix`, C3 glob fix, docs added
+- **Updated CLAUDE.md** — 217 test files, 65/65 suites
+- **Updated TESTING.md** — 217 files, 66 suites, 65 passed, 1 skipped (3 locations)
+- **Updated MASTER-API-REFERENCE.md** — added claude command helpers section
+
+## Previous Session (2026-06-19) — v7.11.0 SHIPPED [main + Homebrew]
+
+**Session activity:**
+- **Fixed** teach-config validator to accept `git.draft_branch`/`git.production_branch` as dual schema (was only accepting `branches.*`)
+- **Fixed** `flow doctor` atlas calls: `atlas config show` (replaces nonexistent `atlas config get backend`), `command -v atlas-mcp` (replaces nonexistent `atlas mcp status`), liveness check gated on non-empty response
+- **Added** `completions/_at` (ZSH completions for `at` dispatcher, auto-discovered via fpath)
+- **Added** `_at_help()` entries + `at.1` man page docs for v0.9.3 flags
+- **Published** Atlas Contract v1.1.0 (`docs/ATLAS-CONTRACT.md`)
+- **Merged** PR #468 (atlas-contract v1.1.0), PR #471 (at completions), PR #472 (Release v7.11.0)
+- **Tagged** v7.11.0 → GitHub release → Homebrew auto-updated (7.10.2 → 7.11.0) ✅
+- **CI:** All green (main + homebrew-release + docs)
+
+## Previous Session (2026-06-19) — flow claude subcommand spec [dev]
 
 **Session activity:**
 - **Brainstormed + grilled** (max depth, interactive) expanding flow-cli to manage Claude Code environment health: settings parity, hook health, memory index drift, CLAUDE.md length rule, shell env parity for Claude Work/Chat
@@ -416,6 +438,6 @@
 
 **Last Updated:** 2026-06-18
 **Status:** v7.10.2 SHIPPED (main + Homebrew tap) — docs polish + dep maintenance | full suite REQUIRED on main — 64 passed / 0 failed / 1 skipped | 14 dispatchers + at bridge | 216 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-17)
+## wins: Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19)
 ## streak: 1
-## last_active: 2026-06-19 07:30
+## last_active: 2026-06-19 08:50

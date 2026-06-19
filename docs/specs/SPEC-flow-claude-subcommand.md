@@ -43,6 +43,7 @@ flow claude check --fix  # run checks + auto-repair safe mismatches
 | C3 | Memory index drift | Count `.md` files in `~/.claude/projects/*/memory/` directories; compare vs entry count in each `MEMORY.md` index. | WARN | No — report mismatched dirs |
 | C4 | CLAUDE.md length | `wc -l ~/.claude/CLAUDE.md` — warn if > 100 lines (project rule: trim before adding). | WARN | No — report with rule reminder |
 | C5 | Shell env parity | Verify `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` is exported in the current shell session (proxy for env reaching Claude Work/Chat Electron apps launched from this shell). | INFO | No — informational only |
+| C6 | Output token limit | `CLAUDE_CODE_MAX_OUTPUT_TOKENS` is set in settings.json `.env` block or zshrc and its value exceeds 8192 (the default cap that triggers "response exceeded 8192 output token maximum" errors). Recommended: 32000. | WARN | Yes — `--fix` adds/updates `export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000` in zshrc |
 
 ---
 
@@ -52,6 +53,7 @@ Safe writes only. `--fix` never touches `settings.json`.
 
 **What it fixes:**
 - C1: String-replace the `export KEY=VAL` line in zshrc to match the value in settings.json. Uses exact line match, not regex glob.
+- C6: If `CLAUDE_CODE_MAX_OUTPUT_TOKENS` is missing from zshrc, append `export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000`. If present but ≤ 8192, update the value to 32000.
 
 **What it never touches:**
 - `~/.claude/settings.json` (complex nested JSON — manual edit)
@@ -105,4 +107,5 @@ flow claude check
 ⚠ Memory index drift      ~/.claude/projects/-Users-dt--config/memory/: 8 files, 6 MEMORY.md entries
 ✓ CLAUDE.md length        148 lines — exceeds 100-line rule (trim before adding)
 ℹ Shell env parity        CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported in current session
+⚠ Output token limit      CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses (run --fix to set 32000)
 ```

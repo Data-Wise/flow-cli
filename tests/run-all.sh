@@ -89,6 +89,7 @@ echo ""
 echo "Core command tests:"
 # These tests source flow.plugin.zsh in non-interactive mode
 # (FLOW_PLUGIN_DIR, FLOW_QUIET, FLOW_ATLAS_ENABLED=no, exec < /dev/null)
+run_test ./tests/test-flow-claude.zsh
 run_test ./tests/test-dash.zsh
 run_test ./tests/test-schedule.zsh
 run_test ./tests/test-agenda.zsh

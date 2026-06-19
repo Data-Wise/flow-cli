@@ -171,8 +171,11 @@ flow() {
     mcp)
       mcp "$@"
       ;;
-    cc|claude)
+    cc)
       cc "$@"
+      ;;
+    claude)
+      flow_claude "$@"
       ;;
     tm|terminal)
       tm "$@"

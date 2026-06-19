@@ -1,0 +1,120 @@
+.TH FLOW-CLAUDE 1 "June 2026" "flow-cli 7.12.0" "User Commands"
+.SH NAME
+flow-claude \- Claude Code environment health checker
+.SH SYNOPSIS
+.B flow claude
+[\fIsubcommand\fR] [\fIoptions\fR]
+.SH DESCRIPTION
+The
+.B flow claude
+subcommand audits your Claude Code environment for common configuration
+drift and health issues. It checks that settings.json env exports are
+mirrored in your zshrc, verifies hook scripts are present and valid,
+detects memory index drift, enforces CLAUDE.md length limits, and
+reports shell environment variable parity.
+.SH SUBCOMMANDS
+.TP
+.B check
+Run all environment checks (C1\(enC5) and report results. Exits 0 if all
+pass, 1 if any ERROR, 2 if any WARN (and no ERROR).
+.TP
+.B doctor
+Alias for
+.BR check .
+.SH OPTIONS
+.TP
+.B \-\-fix
+Auto-repair safe mismatches. Currently only repairs C1 (settings parity):
+adds or updates
+.B export KEY=VALUE
+lines in your zshrc to match
+.IR ~/.claude/settings.json .
+.TP
+.B \-\-help, \-h
+Show help and exit.
+.SH CHECKS
+.TP
+.B C1 \(em Settings parity
+Parses
+.I ~/.claude/settings.json
+.B .env
+block via
+.BR jq (1)
+and compares each key against exports in your zshrc. Reports WARN on
+mismatch. Repairable with
+.BR \-\-fix .
+.TP
+.B C2 \(em Hook health
+Checks that
+.I ~/.claude/hooks/post-compact-reinject.sh
+exists, is executable, and passes
+.BR shellcheck (1)
+(if installed). Reports ERROR on failure.
+.TP
+.B C3 \(em Memory index drift
+For each
+.I ~/.claude/projects/*/memory/
+directory, compares the number of
+.B .md
+files (excluding MEMORY.md) against the count of
+.B - [
+index entries in MEMORY.md. Reports WARN on mismatch.
+.TP
+.B C4 \(em CLAUDE.md length
+Reports WARN when
+.I ~/.claude/CLAUDE.md
+exceeds 100 lines (the configured limit from
+.IR ~/.claude/rules/claude-md-length.md ).
+.TP
+.B C5 \(em Shell env parity
+Reports INFO on whether
+.B CLAUDE_AUTOCOMPACT_PCT_OVERRIDE
+is exported in the current shell session. Informational only.
+.SH EXIT STATUS
+.TP
+.B 0
+All checks passed.
+.TP
+.B 1
+One or more ERROR checks failed.
+.TP
+.B 2
+One or more WARN checks triggered, no ERRORs.
+.SH EXAMPLES
+Run all checks:
+.PP
+.RS
+.B flow claude check
+.RE
+.PP
+Run checks and auto-repair settings parity:
+.PP
+.RS
+.B flow claude check --fix
+.RE
+.PP
+Run via the doctor alias:
+.PP
+.RS
+.B flow claude doctor
+.RE
+.SH ENVIRONMENT
+.TP
+.B FLOW_CLAUDE_HOME
+Override the default
+.I ~/.claude
+directory (used for testing).
+.TP
+.B FLOW_CLAUDE_ZSHRC
+Override the default zshrc path (used for testing).
+.TP
+.B ZDOTDIR
+If set, zshrc defaults to
+.IR $ZDOTDIR/.zshrc .
+.SH SEE ALSO
+.BR flow (1),
+.BR flow-doctor (1),
+.BR jq (1),
+.BR shellcheck (1)
+.SH AUTHOR
+flow-cli contributors. See https://github.com/Data-Wise/flow-cli

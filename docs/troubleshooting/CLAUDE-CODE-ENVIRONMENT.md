@@ -188,6 +188,19 @@ open -a Terminal
 
 ## Diagnostic Commands
 
+### flow claude check (Recommended)
+
+Run the built-in environment health checker — catches the most common Claude Code configuration issues in one command:
+
+```bash
+flow claude check
+
+# Auto-repair settings parity + output token limit:
+flow claude check --fix
+```
+
+Checks C1–C6: settings.json/zshrc parity, hook health, memory index drift, CLAUDE.md length, shell env, and output token limit. See [commands/claude.md](../commands/claude.md) for full reference.
+
 ### Check flow-cli Status in Current Shell
 
 ```bash
