@@ -302,6 +302,7 @@ nav:
           - install: commands/install.md
           - upgrade: commands/upgrade.md
           - at (Atlas bridge): commands/at.md
+          - claude (env check): commands/claude.md
           - dashboard: commands/dashboard.md
       - Quick Reference Cards:
           - 🌳 Worktree (wt): reference/REFCARD-WORKTREE-DISPATCHER.md

@@ -3062,6 +3062,66 @@ v off
 
 ---
 
+## claude Command
+
+> Claude Code environment health diagnostics
+
+The `flow claude` command inspects the Claude Code environment for configuration drift, hook failures, and settings that silently cause problems (wrong compaction threshold, truncated responses, stale memory index).
+
+### Synopsis
+
+```bash
+flow claude check           # Run all 6 checks, print report
+flow claude check --fix     # Run checks + auto-repair C1 and C6
+flow claude doctor          # Alias for check
+```
+
+### Checks (C1–C6)
+
+| ID | Name | Logic | Severity | `--fix` |
+|----|------|-------|----------|---------|
+| C1 | Settings parity | `settings.json` `.env` keys match zshrc exports | WARN | ✓ |
+| C2 | Hook health | `post-compact-reinject.sh` exists, executable, shellcheck | ERROR | ✗ |
+| C3 | Memory index drift | `.md` files vs `MEMORY.md` entry count | WARN | ✗ |
+| C4 | CLAUDE.md length | `~/.claude/CLAUDE.md` ≤ 100 lines | WARN | ✗ |
+| C5 | Shell env parity | `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` exported in shell | INFO | ✗ |
+| C6 | Output token limit | `CLAUDE_CODE_MAX_OUTPUT_TOKENS` set and > 8192 | WARN | ✓ |
+
+### `--fix` Behavior
+
+`--fix` writes zshrc only — never touches `settings.json`.
+
+```bash
+# C1: aligns zshrc export to match settings.json value
+# C6: appends or updates CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000
+
+flow claude check --fix
+# ✓ Settings parity      Fixed: AUTOCOMPACT in zshrc now matches settings.json
+# ⚠ Hook health          post-compact-reinject.sh: shellcheck failed (manual fix needed)
+# ✓ Output token limit   Set CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000 in ~/.config/zsh/.zshrc
+```
+
+### Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | All checks pass |
+| 1 | Any ERROR (C2) |
+| 2 | Any WARN, no ERRORs |
+
+### Source of Truth
+
+`settings.json` env block is canonical. zshrc export is a fallback for issue #63186 (env block silently ignored in some Claude Code launch paths). `--fix` always brings zshrc into alignment with settings.json, never the reverse.
+
+### Dependencies
+
+- `jq` — required for C1/C6 JSON parsing; degrades gracefully if absent
+- `shellcheck` — optional for C2; skips lint sub-check if absent
+
+**Reference:** [commands/claude.md](../commands/claude.md)
+
+---
+
 ## Dispatcher Comparison Table
 
 | Dispatcher | Complexity | Daily Use | Key Feature |
@@ -3405,6 +3465,6 @@ at stats
 
 ---
 
-**Version:** v7.10.2
-**Last Updated:** 2026-02-22
-**Total:** 14 dispatchers + at bridge fully documented
+**Version:** v7.12.0
+**Last Updated:** 2026-06-19
+**Total:** 14 dispatchers + at bridge + claude command fully documented
