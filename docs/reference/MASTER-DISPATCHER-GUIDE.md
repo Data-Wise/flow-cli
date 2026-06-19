@@ -3465,6 +3465,6 @@ at stats
 
 ---
 
-**Version:** v7.12.0
+**Version:** v7.13.0
 **Last Updated:** 2026-06-19
 **Total:** 14 dispatchers + at bridge + claude command fully documented

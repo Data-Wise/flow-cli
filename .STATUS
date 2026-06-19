@@ -5,11 +5,29 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Released (v7.11.0)
+## Phase: Release Pending (v7.13.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-19) — flow claude check docs + merge cleanup ✅ COMPLETE
+## Current Session (2026-06-19) — v7.13.0 Release Pipeline 🚀
+
+**Session activity:**
+- **Bumped** version to v7.13.0 (flow.plugin.zsh, package.json, CLAUDE.md, man pages)
+- **Updated** CHANGELOG.md + docs/CHANGELOG.md with 7.13.0 release date (2026-06-19)
+- **Inserted** 7.12.0 entry in docs/CHANGELOG.md (was missing)
+- **Updated** docs/reference/MASTER-DISPATCHER-GUIDE.md version footer
+- **Docs:** `docs/commands/claude.md` + `docs/tutorials/49-flow-claude-check.md` updated for C7-C11 + watch daemon (v7.13.0)
+- **PR:** In progress — gh pr create --base main --head dev
+
+## Previous Session (2026-06-19) — v7.12.0 SHIPPED [main + Homebrew] ✅
+
+**Session activity:**
+- **Fixed** `_flow_claude_fix_c1`: replaced `sed -i ''` (BSD-only) with portable temp-file approach for GNU sed compat (Linux CI)
+- **Merged** PR #474 (Release v7.12.0) — both CI checks green (ZSH Plugin Tests + Full Test Suite)
+- **Tagged** v7.12.0 → GitHub release → Homebrew auto-updated (7.11.0 → 7.12.0) ✅
+- **CI:** All green (main + Version Guard + Homebrew Release + Deploy Documentation)
+
+## Previous Session (2026-06-19) — flow claude check docs + merge cleanup ✅ COMPLETE
 
 **Session activity:**
 - **Merged** PR #473 (`feature/flow-claude` → dev) — `flow claude check` C1–C6 + `--fix` + tutorial 49 + command ref
@@ -403,7 +421,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| Main repo | `dev` | v7.10.0 SHIPPED + CI full-suite gate MERGED (PR #465 → dev `b57c0d87`); both worktrees removed; no active worktrees. **Pending:** 3 squash-merged branches (manpage-refresh/tok-autosync/scholar-fix) await manual `git branch -D`; CI-gate **Phase 3** (promote `full-suite` to required check after dev soak). |
+| `~/.git-worktrees/flow-cli/feature-flow-claude-v2` | `feature/flow-claude-v2` | ORCHESTRATE written — awaiting impl in new session |
 
 ---
 
@@ -440,4 +458,4 @@
 **Status:** v7.10.2 SHIPPED (main + Homebrew tap) — docs polish + dep maintenance | full suite REQUIRED on main — 64 passed / 0 failed / 1 skipped | 14 dispatchers + at bridge | 216 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19)
 ## streak: 1
-## last_active: 2026-06-19 08:50
+## last_active: 2026-06-19 10:30
