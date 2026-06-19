@@ -144,6 +144,7 @@ nav:
           - 39. Quarto Publishing: tutorials/39-qu-dispatcher.md
           - 40. Workflow (v/vibe): tutorials/40-v-dispatcher.md
           - 42. Git Shortcuts (g): tutorials/42-g-dispatcher.md
+          - 49. Claude Check: tutorials/49-flow-claude-check.md
       - Editor (Neovim):
           - 15. Nvim Quick Start: tutorials/15-nvim-quick-start.md
           - 16. Vim Motions: tutorials/16-vim-motions.md
