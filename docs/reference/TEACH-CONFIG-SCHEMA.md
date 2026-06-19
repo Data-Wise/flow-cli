@@ -534,6 +534,12 @@ The `_teach_validate_config()` function enforces these rules:
 ### Required Fields
 
 - `course.name` - Must be non-empty
+- **Draft branch** (one of):
+  - `branches.draft` — preferred schema
+  - `git.draft_branch` — legacy schema (also accepted)
+- **Production branch** (one of):
+  - `branches.production` — preferred schema
+  - `git.production_branch` — legacy schema (also accepted)
 
 ### Enum Validation
 

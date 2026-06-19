@@ -346,8 +346,8 @@ shortcuts:
 
 **Required Fields:**
 - `course.name` - Course display name
-- `branches.draft` - Draft branch name
-- `branches.production` - Production branch name
+- Draft branch — either `branches.draft` or `git.draft_branch`
+- Production branch — either `branches.production` or `git.production_branch`
 
 **Optional Fields:**
 - `course.full_name` - Full course title
