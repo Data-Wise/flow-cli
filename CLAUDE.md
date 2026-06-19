@@ -137,7 +137,7 @@ flow-cli/
 ├── docs/                     # Documentation (MkDocs)
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh)
-├── tests/                    # 216 test files, 12000+ test functions
+├── tests/                    # 217 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -182,7 +182,7 @@ flow-cli/
 
 ## Testing
 
-**216 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (64/64 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
+**217 test files, 12000+ test functions.** Run: `./tests/run-all.sh` (65/65 passing, 1 expected interactive/tmux timeout) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -216,7 +216,7 @@ export FLOW_FORCE_DISPATCHER_OBS=1           # Force-keep one dispatcher (FLOW_F
 
 ## Current Status
 
-**Version:** v7.11.0 | **Tests:** 12000+ (64/64 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.11.0 | **Tests:** 12000+ (65/65 suite, 1 interactive timeout) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 

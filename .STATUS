@@ -9,13 +9,15 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-19) — flow claude subcommand [feature/flow-claude] 🔄 ACTIVE
+## Current Session (2026-06-19) — flow claude check docs + merge cleanup ✅ COMPLETE
 
-**Worktree:** `~/.git-worktrees/flow-cli/feature-flow-claude`
 **Session activity:**
-- **v7.11.0 shipped** (see previous session)
-- **Worktree created + ORCHESTRATE committed** — 6 waves: command file, dispatch wiring, completions, man page, tests, docs
-- **Implementation in progress** in separate worktree session
+- **Merged** PR #473 (`feature/flow-claude` → dev) — `flow claude check` C1–C6 + `--fix` + tutorial 49 + command ref
+- **Deleted** `ORCHESTRATE-flow-claude.md` (post-merge cleanup)
+- **Updated CHANGELOG.md** — Unreleased section: `flow claude check` (C1–C6), `--fix`, C3 glob fix, docs added
+- **Updated CLAUDE.md** — 217 test files, 65/65 suites
+- **Updated TESTING.md** — 217 files, 66 suites, 65 passed, 1 skipped (3 locations)
+- **Updated MASTER-API-REFERENCE.md** — added claude command helpers section
 
 ## Previous Session (2026-06-19) — v7.11.0 SHIPPED [main + Homebrew]
 

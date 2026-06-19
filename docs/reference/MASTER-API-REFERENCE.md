@@ -7549,6 +7549,87 @@ URL line is omitted when `$url` is empty or `"null"`.
 
 ---
 
+---
+
+### claude Command Helpers
+
+**File:** `commands/claude.zsh`
+**Functions:** 4 (v7.11.0+ — `flow claude check` C1–C6 environment health)
+
+#### `_flow_claude_check`
+
+Run all six Claude Code environment health checks (C1–C6).
+
+**Signature:**
+
+```zsh
+_flow_claude_check [--fix]
+```
+
+**Parameters:**
+- `--fix` (optional) — auto-repair C1 (settings parity) and C6 (output token limit) by writing to zshrc
+
+**Injectable env vars (for testing):**
+- `FLOW_CLAUDE_HOME` — override `~/.claude` path
+- `FLOW_CLAUDE_ZSHRC` — override `~/.config/zsh/.zshrc` path
+
+**Exit codes:**
+- `0` — all checks pass
+- `1` — any ERROR (C2 hook health)
+- `2` — any WARN, no ERRORs
+
+**Example:**
+
+```zsh
+_flow_claude_check
+_flow_claude_check --fix
+```
+
+---
+
+#### `_flow_claude_fix_c1`
+
+Update or append an export line in zshrc to match a settings.json env value.
+
+**Signature:**
+
+```zsh
+_flow_claude_fix_c1 <key> <value> <zshrc_path>
+```
+
+**Parameters:**
+- `$1` — env variable name (e.g. `CLAUDE_CODE_MAX_OUTPUT_TOKENS`)
+- `$2` — value to set
+- `$3` — absolute path to the zshrc file
+
+**Behavior:** replaces existing `export KEY=...` line or appends new line. Uses `|` as sed delimiter to handle `/` in values.
+
+---
+
+#### `_flow_claude_fix_c6`
+
+Set `CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000` in zshrc (delegates to `_flow_claude_fix_c1`).
+
+**Signature:**
+
+```zsh
+_flow_claude_fix_c6 <zshrc_path>
+```
+
+---
+
+#### `_flow_claude_help`
+
+Print help text for `flow claude`.
+
+**Signature:**
+
+```zsh
+_flow_claude_help
+```
+
+---
+
 ## See Also
 
 - [MASTER-DISPATCHER-GUIDE.md](MASTER-DISPATCHER-GUIDE.md) - Complete dispatcher reference
