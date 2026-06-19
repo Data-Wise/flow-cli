@@ -214,10 +214,12 @@ command -v radian >/dev/null && alias R='radian'
 # Run 'cc help' to see all available commands:
 #   cc, cc yolo, cc plan, cc ask, cc file, cc diff, cc resume, etc.
 
-# Token optimization: compact at 55% context (default is ~83.5%)
+# Token optimization: compact at 65% context (default is ~83.5%)
 # Fallback for settings.json env block which may be silently ignored (issue #63186)
-export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=55
+export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65
 
+# Default main-loop model: opusplan (Opus in plan mode, Sonnet for execution).
+# Set in ~/.claude/settings.json ("model": "opusplan"); kept here as documentation.
 # Model tiering: main loop = Opus/opusplan; subagents route per-task via their own
 # definitions (craft orchestrator-v2 already does haiku-for-reads / sonnet-for-writes).
 # NOT setting CLAUDE_CODE_SUBAGENT_MODEL: it has highest priority and would OVERRIDE
