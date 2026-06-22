@@ -1033,7 +1033,6 @@ dashupdate() {
 # sequences that garble Claude Code's TUI (focus/DA query responses as literal text).
 [[ "$TERM_PROGRAM" == "iTerm.app" && -f ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh ]] && \
   source ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh
-export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 
 # Smart Function Dispatchers (ADHD-Optimized)
 # NOTE 2025-12-25: Dispatchers in flow-cli plugin (loaded via flow.plugin.zsh)
