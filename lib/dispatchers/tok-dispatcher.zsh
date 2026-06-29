@@ -83,6 +83,12 @@ tok() {
         *)          _flow_log_error "Usage: tok sync <gh|push|repos> [name]"; return 1 ;;
       esac
       ;;
+    mint)
+      case "$1" in
+        setup)  shift; _tok_mint_setup "$@" ;;
+        *)      _tok_mint "$@" ;;
+      esac
+      ;;
     doctor|dr)    _tok_doctor "$@" ;;
     help|--help|-h) _tok_help ;;
     *)
@@ -106,7 +112,7 @@ tok() {
       fi
 
       _flow_log_error "Unknown token provider: $subcommand"
-      _flow_log_info "Supported: github, npm, pypi"
+      _flow_log_info "Supported: github, npm, pypi, mint"
       _flow_log_muted "Or use: tok <name> --refresh"
       echo ""
       _tok_help
@@ -137,7 +143,10 @@ ${_C_GREEN}🔥 MOST COMMON${_C_NC} ${_C_DIM}(80% of daily use)${_C_NC}:
   ${_C_CYAN}tok rotate${_C_NC}          Rotate existing token
   ${_C_CYAN}tok doctor${_C_NC}          Token health check
 
-${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_YELLOW}💡 QUICK EXAMPLES${_C_NC}:
+  ${_C_DIM}\$${_C_NC} tok mint                      ${_C_DIM}# Mint GitHub App token (ghs_)${_C_NC}
+  ${_C_DIM}\$${_C_NC} tok mint --org MyOrg         ${_C_DIM}# Mint for a specific org${_C_NC}
+  ${_C_DIM}\$${_C_NC} tok mint setup               ${_C_DIM}# Store GitHub App credentials${_C_NC}
   ${_C_DIM}\$${_C_NC} tok github                    ${_C_DIM}# Create new GitHub PAT${_C_NC}
   ${_C_DIM}\$${_C_NC} tok expiring                  ${_C_DIM}# Check what's expiring${_C_NC}
   ${_C_DIM}\$${_C_NC} tok github-token --refresh    ${_C_DIM}# Rotate a token${_C_NC}
@@ -146,6 +155,11 @@ ${_C_BLUE}📋 TOKEN WIZARDS${_C_NC}:
   ${_C_CYAN}tok github${_C_NC}          GitHub PAT wizard
   ${_C_CYAN}tok npm${_C_NC}             NPM token wizard
   ${_C_CYAN}tok pypi${_C_NC}            PyPI token wizard
+
+${_C_GREEN}🔐 GITHUB APP TOKENS${_C_NC}:
+  ${_C_CYAN}tok mint [--org ORG]${_C_NC}  Mint short-lived ghs_ token from GitHub App
+  ${_C_CYAN}tok mint setup${_C_NC}        Store App ID + private key in Keychain
+  ${_C_CYAN}tok mint --dry-run${_C_NC}    Generate JWT without exchanging for token
 
 ${_C_BLUE}📋 TOKEN AUTOMATION${_C_NC}:
   ${_C_CYAN}tok expiring${_C_NC}        Check expiration status
@@ -1399,6 +1413,214 @@ EOF
 
   # Post-store auto-sync: fan out to configured GitHub Actions secrets.
   _tok_autosync_hook "$token_name" "$token_value"
+}
+
+# ───────────────────────────────────────────────────────────────────
+# TOKEN MINT - GitHub App installation token (ghs_) (issue #479)
+# ───────────────────────────────────────────────────────────────────
+
+# Mint a short-lived GitHub App installation token.
+# Reads github_app_id + github_app_private_key from Keychain,
+# generates an RS256 JWT, resolves the installation, and exchanges
+# for a ghs_ token.
+_tok_mint() {
+  local org="Data-Wise"
+  local dry_run=false
+  local verbose=false
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --org) shift; org="$1" ;;
+      --dry-run) dry_run=true ;;
+      --verbose|-v) verbose=true ;;
+      *) _flow_log_error "Unknown option: $1"
+         echo "Usage: tok mint [--org ORG] [--dry-run] [--verbose]"
+         return 1 ;;
+    esac
+    shift
+  done
+
+  local app_id private_key
+  app_id=$(security find-generic-password -a "github_app_id" -s "$_DOT_KEYCHAIN_SERVICE" -w 2>/dev/null)
+  if [[ $? -ne 0 || -z "$app_id" ]]; then
+    _flow_log_error "GitHub App ID not found in Keychain"
+    _flow_log_info "Run: tok mint setup"
+    return 2
+  fi
+
+  private_key=$(security find-generic-password -a "github_app_private_key" -s "$_DOT_KEYCHAIN_SERVICE" -w 2>/dev/null)
+  if [[ $? -ne 0 || -z "$private_key" ]]; then
+    _flow_log_error "GitHub App private key not found in Keychain"
+    _flow_log_info "Run: tok mint setup"
+    return 2
+  fi
+
+  local jwt
+  jwt=$(_tok_mint_jwt "$app_id" "$private_key") || {
+    _flow_log_error "Failed to generate JWT"
+    return 3
+  }
+
+  if [[ "$dry_run" == true ]]; then
+    local b64_header="${jwt%%.*}"
+    local b64_payload
+    b64_payload=$(echo "$jwt" | cut -d. -f2)
+    local decoded_header decoded_payload
+    decoded_header=$(printf '%s' "$b64_header" | openssl enc -base64 -d -A 2>/dev/null || echo "decode error")
+    decoded_payload=$(printf '%s' "$b64_payload" | openssl enc -base64 -d -A 2>/dev/null || echo "decode error")
+    echo "${FLOW_COLORS[header]}╭────────────────────────────────────────────────────╮${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[bold]}JWT (DRY RUN)${FLOW_COLORS[reset]}                                ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}├────────────────────────────────────────────────────┤${FLOW_COLORS[reset]}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Org:       $org"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Issuer:    $app_id"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Header:    $decoded_header"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Payload:   $decoded_payload"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  JWT:       ${jwt:0:40}..."
+    echo "${FLOW_COLORS[header]}╰────────────────────────────────────────────────────╯${FLOW_COLORS[reset]}"
+    return 0
+  fi
+
+  if [[ "$verbose" == true ]]; then
+    _flow_log_info "Resolving installation for org: $org"
+  fi
+
+  local install_response
+  install_response=$(curl -s -H "Authorization: Bearer $jwt" \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/orgs/$org/installation" 2>/dev/null)
+
+  local install_id
+  install_id=$(echo "$install_response" | grep -o '"id":[0-9]*' | head -1 | cut -d: -f2)
+  if [[ -z "$install_id" ]]; then
+    _flow_log_error "App not installed on org: $org"
+    [[ "$verbose" == true ]] && echo "$install_response"
+    return 4
+  fi
+
+  if [[ "$verbose" == true ]]; then
+    _flow_log_info "Installation ID: $install_id"
+  fi
+
+  local token_response
+  token_response=$(curl -s -X POST \
+    -H "Authorization: Bearer $jwt" \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/app/installations/$install_id/access_tokens" 2>/dev/null)
+
+  local token
+  token=$(echo "$token_response" | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+  if [[ -z "$token" ]]; then
+    _flow_log_error "Token exchange failed"
+    [[ "$verbose" == true ]] && echo "$token_response"
+    return 5
+  fi
+
+  echo "$token"
+
+  if [[ "$verbose" == true ]]; then
+    local expires_at
+    expires_at=$(echo "$token_response" | grep -o '"expires_at":"[^"]*"' | cut -d'"' -f4)
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Token:     ${token:0:20}..."
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Expires:   ${expires_at:-unknown}"
+    echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  Org:       $org"
+  fi
+}
+
+# Generate an RS256 JWT for a GitHub App.
+# Uses a temp file for the private key (openssl dgst -sign requires a file).
+_tok_mint_jwt() {
+  local app_id="$1"
+  local private_key="$2"
+  local now exp header payload b64_header b64_payload tmp_key signature
+
+  now=$(date +%s)
+  exp=$((now + 600))
+
+  header='{"alg":"RS256","typ":"JWT"}'
+  payload="{\"iat\":$now,\"exp\":$exp,\"iss\":\"$app_id\"}"
+
+  b64_header=$(printf '%s' "$header" | openssl enc -base64 -A | tr '+/' '-_' | tr -d '=')
+  b64_payload=$(printf '%s' "$payload" | openssl enc -base64 -A | tr '+/' '-_' | tr -d '=')
+
+  tmp_key=$(mktemp)
+  printf '%s' "$private_key" > "$tmp_key"
+
+  signature=$(printf '%s.%s' "$b64_header" "$b64_payload" | \
+    openssl dgst -sha256 -sign "$tmp_key" -binary 2>/dev/null | \
+    openssl enc -base64 -A | tr '+/' '-_' | tr -d '=')
+
+  rm -f "$tmp_key"
+
+  [[ -z "$signature" ]] && return 1
+
+  echo "${b64_header}.${b64_payload}.${signature}"
+}
+
+# Guided setup: prompt for App ID + private key, validate, store in Keychain.
+_tok_mint_setup() {
+  _flow_log_info "GitHub App Token Setup"
+  echo ""
+
+  echo -n "${FLOW_COLORS[bold]}GitHub App ID:${FLOW_COLORS[reset]} "
+  local app_id
+  read app_id
+  if [[ -z "$app_id" ]]; then
+    _flow_log_error "App ID is required"
+    return 1
+  fi
+
+  echo -n "${FLOW_COLORS[bold]}Path to private key PEM file:${FLOW_COLORS[reset]} "
+  local key_path
+  read key_path
+  key_path=${key_path/#\~/$HOME}
+
+  if [[ ! -f "$key_path" ]]; then
+    _flow_log_error "File not found: $key_path"
+    return 1
+  fi
+
+  _flow_log_info "Validating credentials..."
+
+  local private_key
+  private_key=$(<"$key_path")
+
+  local test_jwt
+  test_jwt=$(_tok_mint_jwt "$app_id" "$private_key") || {
+    _flow_log_error "Failed to generate test JWT"
+    return 3
+  }
+
+  local app_response
+  app_response=$(curl -s -H "Authorization: Bearer $test_jwt" \
+    -H "Accept: application/vnd.github.v3+json" \
+    "https://api.github.com/app" 2>/dev/null)
+
+  if echo "$app_response" | grep -q '"slug"'; then
+    local app_slug
+    app_slug=$(echo "$app_response" | grep -o '"slug":"[^"]*"' | cut -d'"' -f4)
+    _flow_log_success "Credentials validated! App: $app_slug"
+  else
+    _flow_log_warning "JWT generated but app verification failed"
+    _flow_log_info "Check that App ID matches the private key"
+  fi
+
+  echo ""
+  _flow_log_info "Storing in Keychain..."
+
+  cat "$key_path" | security add-generic-password \
+    -a "github_app_private_key" \
+    -s "$_DOT_KEYCHAIN_SERVICE" \
+    -w - \
+    -U 2>/dev/null
+
+  security add-generic-password \
+    -a "github_app_id" \
+    -s "$_DOT_KEYCHAIN_SERVICE" \
+    -w "$app_id" \
+    -U 2>/dev/null
+
+  _flow_log_success "Stored github_app_id and github_app_private_key"
+  _flow_log_info "Run: tok mint [--org Data-Wise]"
 }
 
 # ───────────────────────────────────────────────────────────────────

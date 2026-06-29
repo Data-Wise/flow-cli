@@ -59,6 +59,47 @@ Selects the secret storage backend.  Values:
 .B both
 (Keychain primary + Bitwarden mirror).
 .SH COMMANDS
+.SS GitHub App Tokens
+Generate ephemeral GitHub App installation tokens without a PAT.
+.TP
+.B mint
+Mint a short-lived GitHub App installation access token
+.RI ( ghs_* ).
+Reads the App ID and private key from Keychain (stored under
+.I github_app_id
+and
+.I github_app_private_key
+in the
+.B flow-cli-secrets
+service), generates an RS256 JWT signed with the private key,
+resolves the installation via
+.IR "GET /orgs/{org}/installation" ,
+and exchanges the JWT for a token via
+.IR "POST /app/installations/:id/access_tokens" .
+The token is printed to stdout.
+.RS
+.PP
+Options:
+.RS
+.TP
+.B \-\-org \fIorg
+GitHub organization (default: \fBData-Wise\fR).
+.TP
+.B \-\-dry\-run
+Generate the RS256 JWT and show decoded header, payload, and JWT
+preview without resolving or exchanging for a token.
+.TP
+.B \-\-verbose\fR, \fB\-v
+Print token preview, expiration timestamp, and org to stderr (safe
+to ignore when piping stdout).
+.RE
+.RE
+.TP
+.B mint setup
+Interactive wizard.  Prompts for the GitHub App ID and path to the
+private key PEM file, generates a test JWT and validates it against
+.IR "api.github.com/app" ,
+then stores both credentials in macOS Keychain.
 .SS Token Wizards
 Interactive guided flows that open the provider's website, validate the
 token, store it with expiry metadata, and auto-sync to GitHub Actions.
@@ -150,6 +191,34 @@ See also
 .B help\fR, \fB\-\-help\fR, \fB\-h
 Show the help screen.
 .SH EXAMPLES
+Store GitHub App credentials (one-time setup):
+.RS
+.nf
+tok mint setup
+.fi
+.RE
+.PP
+Mint a token for the default org:
+.RS
+.nf
+tok mint
+.fi
+.RE
+.PP
+Mint a token for a specific org with details:
+.RS
+.nf
+tok mint --org Data-Wise --verbose
+.fi
+.RE
+.PP
+Inspect the JWT without minting a token:
+.RS
+.nf
+tok mint --dry-run
+.fi
+.RE
+.PP
 Create a new GitHub PAT:
 .RS
 .nf

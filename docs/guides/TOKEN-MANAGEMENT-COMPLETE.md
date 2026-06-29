@@ -17,6 +17,8 @@ tags:
 
 1. [Architecture Overview](#1-architecture-overview)
 2. [Adding Tokens](#2-adding-tokens)
+    - [GitHub Personal Access Token](#21-github-personal-access-token)
+    - [GitHub App Installation Token](#23-github-app-installation-token)
 3. [Retrieving and Using Tokens](#3-retrieving-and-using-tokens)
 4. [Updating Tokens](#4-updating-tokens)
 5. [Rotating Tokens](#5-rotating-tokens)
@@ -287,6 +289,65 @@ Expires: 2026-04-24 (90 days)
 ```
 
 **Token format:** `github_pat_*` (different from classic `ghp_*`)
+
+### 2.3 GitHub App Installation Token
+
+**When to use:**
+- MCP servers needing `ghs_` tokens
+- CI/CD that needs short-lived tokens (1hr expiry)
+- Replacing static PATs for security
+- Any scenario where you'd use `actions/create-github-app-token@v3` locally
+
+**What you need:**
+- A GitHub App installed on your org (App ID + private key PEM)
+- `openssl` and `curl` (both ship with macOS)
+
+**One-time setup:**
+
+```bash
+tok mint setup
+```
+
+Prompts for:
+1. **App ID** — from GitHub App settings page
+2. **Private key path** — path to downloaded `.pem` file
+
+It validates by generating a test JWT and calling `GET /app`, then stores
+both credentials in macOS Keychain.
+
+**Mint a token:**
+
+```bash
+# Default org (Data-Wise)
+tok mint
+
+# Specific org
+tok mint --org MyOrg
+
+# With details
+tok mint --verbose
+
+# Dry run (inspect JWT, no token generated)
+tok mint --dry-run
+```
+
+**How it works:**
+1. Reads credentials from Keychain
+2. Builds RS256 JWT (`iat`, `exp` + 10min, `iss` = App ID)
+3. Resolves installation: `GET /orgs/{org}/installation`
+4. Exchanges JWT: `POST /app/installations/:id/access_tokens`
+5. Prints `ghs_` token to stdout
+
+**Use in scripts:**
+
+```bash
+export GITHUB_TOKEN=$(tok mint)
+export GITHUB_MCP_PAT=$(tok mint)
+```
+
+**Note:** Tokens expire server-side in 1 hour. Mint per session.
+
+---
 
 ### 2.2 npm Token
 
