@@ -8,6 +8,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+### Added
+
+- **`tok mint`** — Generate short-lived GitHub App installation tokens (`ghs_`)
+  (`lib/dispatchers/tok-dispatcher.zsh`). Reads `github_app_id` and
+  `github_app_private_key` from Keychain, builds an RS256 JWT, resolves the
+  org installation, and exchanges for a `ghs_` token. Supports `--org`,
+  `--dry-run`, and `--verbose` flags. Interactive `tok mint setup` wizard for
+  one-time credential storage ([#479](https://github.com/Data-Wise/flow-cli/issues/479)).
+
 ## [7.13.0] — 2026-06-19 — flow claude: C7-C11 checks + watch daemon
 
 ### Added

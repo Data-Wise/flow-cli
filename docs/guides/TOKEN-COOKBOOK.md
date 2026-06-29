@@ -24,6 +24,7 @@ For full reference, see the [refcard](../reference/REFCARD-TOKEN-SECRETS.md) and
 8. [Proactively Rotate Tokens Nearing Expiry](#8-proactively-rotate-tokens-nearing-expiry)
 9. [Set Up the Sync Config From Scratch](#9-set-up-the-sync-config-from-scratch)
 10. [Verify What Landed on a Repo After a Push](#10-verify-what-landed-on-a-repo-after-a-push)
+11. [Mint a Short-Lived GitHub App Token (ghs_)](#11-mint-a-short-lived-github-app-token-ghs_)
 
 ---
 
@@ -286,6 +287,52 @@ gh secret list --repo data-wise/flow-cli
 
 ---
 
+## 11. Mint a Short-Lived GitHub App Token (`ghs_`)
+
+> **Goal:** Generate an ephemeral installation token from a GitHub App, no PAT required.
+
+```bash
+# ─────────────────────────────────────────────────────────────────
+# Step 1: One-time setup — store App ID + private key in Keychain
+# ─────────────────────────────────────────────────────────────────
+tok mint setup
+# Prompts:
+#   GitHub App ID: 123456
+#   Path to private key PEM file: ~/Downloads/my-app.private-key.pem
+# Validates credentials against api.github.com/app
+# Stores in Keychain (service: flow-cli-secrets)
+
+# ─────────────────────────────────────────────────────────────────
+# Step 2: Mint a token
+# ─────────────────────────────────────────────────────────────────
+tok mint
+# Output: ghs_A1B2C3_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+
+# ─────────────────────────────────────────────────────────────────
+# Step 3: Use the token immediately
+# ─────────────────────────────────────────────────────────────────
+export GITHUB_TOKEN=$(tok mint)
+curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/user
+
+# ─────────────────────────────────────────────────────────────────
+# Step 4: Mint for a different org + see details
+# ─────────────────────────────────────────────────────────────────
+tok mint --org MyOrg --verbose
+# Token: ghs_D4E5F6_... | Expires: 2026-06-29T06:30:00Z | Org: MyOrg
+
+# ─────────────────────────────────────────────────────────────────
+# Step 5: Dry run — inspect the JWT without minting
+# ─────────────────────────────────────────────────────────────────
+tok mint --dry-run
+# Shows decoded header, payload, and JWT preview
+```
+
+Tokens expire in 1 hour (GitHub server-side). Mint a fresh one per
+session or per command. Requires `openssl` and `curl` (both ship with
+macOS).
+
+---
+
 ## See Also
 
 - [47-tok-auto-sync.md](../tutorials/47-tok-auto-sync.md) — Step-by-step tutorial for the auto-sync feature
@@ -297,4 +344,4 @@ gh secret list --repo data-wise/flow-cli
 ---
 
 **Feature:** tok auto-sync — flow-cli
-**Last Updated:** 2026-06-03
+**Last Updated:** 2026-06-29

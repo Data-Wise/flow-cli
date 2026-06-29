@@ -641,6 +641,34 @@ sec help
 
 ## Tokens (tok)
 
+### GitHub App Token Minting (v7.14.0)
+
+```bash
+# Interactive setup: store App ID + private key in Keychain
+tok mint setup
+# Output: [Prompts for App ID + PEM path, validates, stores]
+
+# Mint default org (Data-Wise)
+tok mint
+# Output: ghs_A1B2C3_eyJhbGci...
+
+# Mint for a specific org
+tok mint --org MyOrg
+# Output: ghs_D4E5F6_eyJhbGci...
+
+# Dry-run: show JWT without exchanging for token
+tok mint --dry-run
+# Output: [Decoded JWT header + payload + JWT preview]
+
+# Show token details
+tok mint --verbose
+# Output: Token: ghs_A1B2C3_eyJhbGci... | Expires: 2026-06-29T06:28:03Z | Org: Data-Wise
+```
+
+Requires `github_app_id` and `github_app_private_key` in Keychain
+(store via `tok mint setup`). The token is printed to stdout for piping
+(use `--verbose` for metadata on stderr).
+
 ### Token Management (v5.17.0)
 
 ```bash

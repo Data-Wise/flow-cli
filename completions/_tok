@@ -14,6 +14,7 @@ _tok() {
     'rotate:Token rotation'
     'refresh:Refresh expiring tokens'
     'expiring:Show expiring tokens'
+    'mint:Mint GitHub App installation token (ghs_)'
     'sync:Sync to GitHub secrets'
     'doctor:Token-specific diagnostics'
     'dr:Token-specific diagnostics (alias)'
@@ -31,6 +32,17 @@ _tok() {
       ;;
     args)
       case "$line[1]" in
+        mint)
+          if [[ ${#line[@]} -eq 1 ]]; then
+            local -a mint_args
+            mint_args=(
+              '--org:GitHub organization (default: Data-Wise)'
+              '--dry-run:Generate JWT without exchanging'
+              '--verbose:Show token details'
+            )
+            _describe -t args 'mint options' mint_args
+          fi
+          ;;
         rotate)
           if [[ ${#line[@]} -eq 1 ]]; then
             local -a token_types

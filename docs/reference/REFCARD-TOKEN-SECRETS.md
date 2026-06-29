@@ -38,6 +38,9 @@ sec status
 | `tok github` | Create GitHub token | Interactive wizard |
 | `tok npm` | Create npm token | Interactive wizard |
 | `tok pypi` | Create PyPI token | Interactive wizard |
+| `tok mint` | Mint GitHub App token (`ghs_`) | `tok mint --org Data-Wise` |
+| `tok mint setup` | Store App credentials in Keychain | Interactive wizard |
+| `tok mint --dry-run` | Show JWT without exchanging | `tok mint --dry-run` |
 | `sec <name>` | Get secret | `GITHUB_TOKEN=$(sec github-token)` |
 | `sec list` | List all secrets | Shows names only |
 | `sec add <name>` | Add arbitrary secret | Prompts for value |
@@ -100,6 +103,26 @@ tok expiring
 # ✅  npm-token expires in 67 days
 ```
 
+### Mint a GitHub App Token
+
+```bash
+# One-time setup
+tok mint setup
+# Follow prompts: enter App ID, path to PEM file, validates automatically
+
+# Then mint tokens as needed
+tok mint
+# Output: ghs_A1B2C3_eyJhbGci...
+
+# With details
+tok mint --org Data-Wise --verbose
+# Token: ghs_A1B2C3_eyJhbGci... | Expires: 2026-06-29T06:28:03Z
+
+# Dry run to inspect the JWT
+tok mint --dry-run
+# Shows decoded header + payload + JWT preview (no API call)
+```
+
 ### Rotate Expiring Token
 
 ```bash
@@ -113,6 +136,16 @@ tok rotate
 # 4. Paste new token
 # 5. Updates both Bitwarden & Keychain
 # 6. Old token backed up for 7 days
+```
+
+### Use Minted Token in Scripts
+
+```bash
+# One-liner: export and use in same command
+export GITHUB_MCP_PAT=$(tok mint)
+
+# For CI-like usage with specific org
+export GITHUB_TOKEN=$(tok mint --org Data-Wise)
 ```
 
 ### Delete Old Token
