@@ -9,7 +9,7 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-30) — mkdocs improvements + contributing docs ✅
+## Current Session (2026-06-30) — mkdocs improvements + Dependabot maintenance ✅
 
 **Session activity:**
 - **Added** breadcrumbs (`navigation.path`), instant prefetch, and validation block to `mkdocs.yml`
@@ -20,6 +20,8 @@
 - **Updated** `DOCUMENTATION-STYLE-GUIDE.md` — new MkDocs Configuration section
 - **Merged** PR #482 to main; docs auto-deploy triggered
 - **Cleaned** 3 stale worktrees: `at-dispatcher-surface`, `feature-flow-claude`, `feature-tok-mint` (all merged)
+- **Merged** 3 Dependabot PRs: #477 (actions/checkout 6→7), #478 (lint-staged 17.0.7→17.0.8), #481 (prettier 3.8.4→3.9.4)
+- **Synced** dev with main (6 files: 4 workflow files + package.json + package-lock.json)
 
 ## Previous Session (2026-06-30) — housekeeping + tok mint ✅
 
@@ -440,7 +442,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| `~/.git-worktrees/flow-cli/feature-flow-claude-v2` | `feature/flow-claude-v2` | ORCHESTRATE written — awaiting impl in new session |
+| — | — | All worktrees clean (as of 2026-06-30) |
 
 ---
 
@@ -449,14 +451,6 @@
 ### API Documentation Improvement
 - Current coverage: ~50% (348 functions documented)
 - Target: 80%
-
-### CI runs smoke tests only — full suite not gated (filed 2026-05-13)
-- `.github/workflows/test.yml:39-44` runs only `test-flow.zsh` + `test-install.sh`
-- Comment is explicit: "Smoke tests only - run full suite locally with: `./tests/run-all.sh`"
-- The required status check "ZSH Plugin Tests" on `main` therefore does NOT verify the 205-file suite
-- Surfaced during PR #446: the test-doctor regression from commit `0880f924` would have passed CI green despite test-doctor exiting 124 under the harness
-- Impact: relies on developer discipline to run `./tests/run-all.sh` locally before opening PRs
-- Options to consider: (B) add `test-doctor.zsh` specifically (~30s job time), or (C) add full `./tests/run-all.sh` as a separate slower job (~4min). Either is a separate workflow PR, not bundled with feature work
 
 ### Future Enhancements
 - Token automation Phases 2-4 (multi-token, gamification)
@@ -473,8 +467,8 @@
 
 ---
 
-**Last Updated:** 2026-06-18
-**Status:** v7.10.2 SHIPPED (main + Homebrew tap) — docs polish + dep maintenance | full suite REQUIRED on main — 64 passed / 0 failed / 1 skipped | 14 dispatchers + at bridge | 216 test files | 12000+ test functions | 0 lint errors | 0 broken links
+**Last Updated:** 2026-06-30
+**Status:** v7.13.0 active | mkdocs improvements (breadcrumbs, validation, not_in_nav) + Dependabot deps current | full suite REQUIRED on main — 64 passed / 0 failed / 1 skipped | 14 dispatchers + at bridge | 219 test files | 12000+ test functions | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19)
 ## streak: 1
 ## last_active: 2026-06-19 10:30
