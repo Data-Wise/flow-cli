@@ -297,8 +297,11 @@ EOF
 
 1. **Create markdown file in `docs/`**
 2. **Add to `mkdocs.yml` navigation**
-3. **Test locally:** `mkdocs serve`
-4. **Deploy:** `mkdocs gh-deploy --force`
+3. **Check for warnings:** `mkdocs build` (watch for `omitted_files` and broken anchor warnings)
+4. **Test locally:** `mkdocs serve`
+5. **Deploy:** Automatic — docs CI deploys to GitHub Pages on push to `main` (never run `mkdocs gh-deploy` manually; branch guard blocks the gh-pages push)
+
+**Files intentionally not in nav** (accessible via links but not in sidebar): add them to the `not_in_nav` block in `mkdocs.yml` instead of the `exclude` plugin. The `exclude` plugin removes files from the site entirely — use it only for files that should not be reachable at all (planning docs, internal specs). See [`DOCUMENTATION-STYLE-GUIDE.md`](DOCUMENTATION-STYLE-GUIDE.md) for the mkdocs configuration reference.
 
 ### Documentation Guidelines
 
@@ -399,12 +402,11 @@ gh release create vX.Y.Z --title "vX.Y.Z - Title" --notes "Release notes"
 ### Manual Deployment (if needed)
 
 ```bash
-# Documentation
-mkdocs gh-deploy --force
-
 # Homebrew (via workflow dispatch)
 gh workflow run homebrew-release.yml -f version=X.Y.Z
 ```
+
+> **Note:** `mkdocs gh-deploy` is blocked by branch guard (it pushes directly to `gh-pages`). Docs deploy automatically via CI on push to `main`. If docs CI is broken, fix the workflow — don't bypass with a manual deploy.
 
 ### CI Files Location
 

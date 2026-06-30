@@ -1,6 +1,6 @@
 # Documentation Dashboard
 
-**Auto-generated:** 2026-01-28 12:05
+**Auto-generated:** 2026-01-28 12:05 (counts updated 2026-06-30)
 **Status:** Tracking documentation coverage and health
 
 ---
@@ -27,7 +27,7 @@
 | Category | Total | Documented | Coverage |
 |----------|-------|------------|----------|
 | Core Library | 77 | 20 | 26.0% |
-| Dispatchers | 12 | 12 | 100.0% |
+| Dispatchers | 14 | 14 | 100.0% |
 | Git Helpers | 17 | 0 | 0.0% |
 | Keychain Helpers | 6 | 0 | 0.0% |
 | Teaching Libraries | 67 | 6 | 9.0% |

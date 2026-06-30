@@ -1033,7 +1033,6 @@ dashupdate() {
 # sequences that garble Claude Code's TUI (focus/DA query responses as literal text).
 [[ "$TERM_PROGRAM" == "iTerm.app" && -f ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh ]] && \
   source ~/projects/dev-tools/iterm2-context-switcher/zsh/iterm2-integration.zsh
-export PATH="/opt/homebrew/opt/imagemagick@6/bin:$PATH"
 
 # Smart Function Dispatchers (ADHD-Optimized)
 # NOTE 2025-12-25: Dispatchers in flow-cli plugin (loaded via flow.plugin.zsh)
@@ -1157,4 +1156,8 @@ brew() {
 }
 export HOMEBREW_NO_ENV_HINTS=1
 
-export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000
+# Antigravity Workflow Plugin Hooks
+# Shows ⚠️ [stuck?] nudge after a command fails twice in a row; logs to ~/.config/obs/obs.log
+# if [ -f "/Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh" ]; then
+#     source /Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh
+# fi

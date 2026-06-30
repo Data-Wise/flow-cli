@@ -5,19 +5,37 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Release Pending (v7.13.0)
+## Phase: Released (v7.13.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-19) — v7.13.0 Release Pipeline 🚀
+## Current Session (2026-06-30) — mkdocs improvements + contributing docs ✅
 
 **Session activity:**
-- **Bumped** version to v7.13.0 (flow.plugin.zsh, package.json, CLAUDE.md, man pages)
-- **Updated** CHANGELOG.md + docs/CHANGELOG.md with 7.13.0 release date (2026-06-19)
-- **Inserted** 7.12.0 entry in docs/CHANGELOG.md (was missing)
-- **Updated** docs/reference/MASTER-DISPATCHER-GUIDE.md version footer
-- **Docs:** `docs/commands/claude.md` + `docs/tutorials/49-flow-claude-check.md` updated for C7-C11 + watch daemon (v7.13.0)
-- **PR:** In progress — gh pr create --base main --head dev
+- **Added** breadcrumbs (`navigation.path`), instant prefetch, and validation block to `mkdocs.yml`
+- **Fixed** `internal/*.md` glob (Python fnmatch footgun — was silently excluding public pages)
+- **Fixed** broken link in `EMAIL-DISPATCHER-GUIDE.md` (referenced excluded file)
+- **Added** `not_in_nav` block for `ATLAS-CONTRACT.md` + 6 adhd templates
+- **Updated** `CONTRIBUTING.md` — fixed `mkdocs gh-deploy --force` step; added `not_in_nav` guidance
+- **Updated** `DOCUMENTATION-STYLE-GUIDE.md` — new MkDocs Configuration section
+- **Merged** PR #482 to main; docs auto-deploy triggered
+
+## Previous Session (2026-06-30) — housekeeping + tok mint ✅
+
+**Session activity:**
+- **Fixed** brew update failure — stale rebase in `r-lib/homebrew-rig` tap
+- **Cleaned** `zsh/.zshrc` — removed duplicate PATH, commented out antigravity hooks
+- **Merged** PR #480 `feature/tok-mint` → dev (GitHub App installation tokens)
+
+## Previous Session (2026-06-19) — v7.13.0 SHIPPED [main + Homebrew] ✅
+
+**Session activity:**
+- **Docs updated:** `docs/commands/claude.md` + `docs/tutorials/49-flow-claude-check.md` — C4 two-tier threshold, C7-C11 checks, watch daemon (v7.13.0)
+- **Doc pre-flight clean:** fixed 14 MD040 (bare code fences) + 1 MD049 (underscore emphasis); MkDocs strict build 0 warnings
+- **Bumped** version to v7.13.0 (flow.plugin.zsh, package.json, CLAUDE.md, 16 man pages)
+- **CHANGELOG.md** + **docs/CHANGELOG.md**: 7.13.0 date stamped; inserted missing 7.12.0 entry in docs mirror
+- **PR #476** merged to main (squash, `a4c505b1`) — both CI checks green
+- **Tagged** v7.13.0 → GitHub release → Homebrew auto-updated (7.12.0 → 7.13.0) ✅
 
 ## Previous Session (2026-06-19) — v7.12.0 SHIPPED [main + Homebrew] ✅
 

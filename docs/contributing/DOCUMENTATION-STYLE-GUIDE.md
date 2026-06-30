@@ -702,7 +702,7 @@ flow status
 
 **Solution:**
 - Use relative links
-- Test with `mkdocs build --strict`
+- Test with `mkdocs build` (the `validation` block in `mkdocs.yml` will surface anchor and omitted-file warnings)
 - Link checker in CI/CD
 
 ### Mistake 4: Walls of Text
@@ -717,13 +717,74 @@ flow status
 
 ---
 
+## MkDocs Configuration
+
+### Validation Block
+
+`mkdocs.yml` has a `validation` block that surfaces warnings on build:
+
+```yaml
+validation:
+  nav:
+    omitted_files: warn   # files in docs/ but missing from nav
+  links:
+    anchors: warn         # links to non-existent headings
+```
+
+Run `mkdocs build` (not `--strict`, which turns warnings into errors) to check for issues before committing doc changes. The validation block replaced silent failures — warnings now appear in build output.
+
+### Excluding Files
+
+Two mechanisms exist; choose based on whether the file should still be reachable:
+
+| Need | Tool | How |
+|------|------|-----|
+| File accessible via links, just not in sidebar | `not_in_nav` block in `mkdocs.yml` | Lists paths relative to `docs/` |
+| File should not be part of the site at all | `exclude` plugin glob | Glob pattern under `plugins.exclude.glob` |
+
+**`not_in_nav` example** (template files linked from a public page):
+
+```yaml
+not_in_nav: |
+  internal/conventions/adhd/GETTING-STARTED-TEMPLATE.md
+  internal/conventions/adhd/HELP-PAGE-TEMPLATE.md
+```
+
+**`exclude` plugin example** (planning artifacts):
+
+```yaml
+plugins:
+  - exclude:
+      glob:
+        - 'specs/**'
+        - 'internal/conventions/code/**'
+```
+
+### fnmatch Footgun
+
+Python's `fnmatch` (used by the exclude plugin and `not_in_nav`) treats `*` as matching path separators. This means `internal/*.md` matches `internal/conventions/adhd/README.md`, not just direct children of `internal/`. When you intend to exclude only one file, name it explicitly:
+
+```yaml
+# Wrong — excludes ALL .md files under internal/ including subdirs
+- 'internal/*.md'
+
+# Correct — excludes only this specific file
+- 'internal/EM-V2-ARCHITECTURE.md'
+```
+
+### Breadcrumbs
+
+The `navigation.path` feature (enabled in `mkdocs.yml`) renders a breadcrumb trail above each page title. Breadcrumbs are most useful in deep hierarchies (3+ levels) where users need a quick way to navigate back to a parent section. They render automatically — no per-page configuration needed.
+
+---
+
 ## Tools and Resources
 
 ### Writing Tools
 
 - **Spell check:** Use editor spell check
 - **Markdown linter:** markdownlint
-- **Link checker:** `mkdocs build --strict`
+- **Validation check:** `mkdocs build` (uses validation block in `mkdocs.yml`)
 - **Preview:** `mkdocs serve`
 
 ### Reference Materials

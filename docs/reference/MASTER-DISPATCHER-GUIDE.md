@@ -1578,6 +1578,54 @@ export GITHUB_TOKEN=$(sec GITHUB_TOKEN)
 **Complexity:** Intermediate → Advanced
 **Most Used:** Yes (token lifecycle)
 
+### GitHub App Token Minting (v7.14.0)
+
+**What it does:** Mints short-lived `ghs_` installation tokens from a GitHub App
+(stored in Keychain). No PAT needed.
+
+#### Setup (one-time)
+
+```bash
+tok mint setup
+```
+
+Interactive wizard:
+1. Prompts for **App ID** (from GitHub App settings)
+2. Prompts for **path to private key PEM file** (downloaded from GitHub App)
+3. Generates a test JWT and validates against `api.github.com/app`
+4. Stores both credentials in macOS Keychain (`flow-cli-secrets` service)
+
+#### Mint a Token
+
+```bash
+# Default org: Data-Wise
+tok mint
+
+# Specific org
+tok mint --org MyOrg
+
+# Dry run — decode JWT without exchanging
+tok mint --dry-run
+
+# Verbose — show token preview + expiration
+tok mint --verbose
+```
+
+The token is printed to stdout (pipe into scripts). Use `--verbose` for
+expiration metadata (printed to stderr, safe to ignore in pipes).
+
+#### How It Works
+
+1. Reads `github_app_id` and `github_app_private_key` from Keychain
+2. Builds RS256 JWT (`iat` + 10min `exp` + `iss: app_id`)
+3. Resolves installation ID via `GET /orgs/{org}/installation`
+4. Exchanges JWT for token via `POST /app/installations/:id/access_tokens`
+5. Prints `ghs_` token to stdout
+
+Requires `openssl` (built-in on macOS) and `curl`.
+
+---
+
 ### Basics (Beginner)
 
 **What it does:** Creates, rotates, and monitors API tokens with guided wizards.
@@ -1841,6 +1889,11 @@ A copyable seed lives at
 - `tok github` - Create GitHub token (wizard)
 - `tok npm` - Create npm token (wizard)
 - `tok pypi` - Create PyPI token (wizard)
+- `tok mint` - Mint GitHub App installation token (`ghs_`)
+- `tok mint --org <org>` - Mint for a specific org (default: Data-Wise)
+- `tok mint --dry-run` - Generate JWT without exchanging for token
+- `tok mint --verbose` - Show token preview + expiration
+- `tok mint setup` - Store App ID + private key in Keychain (one-time)
 - `tok expiring` - Check token expiration (cached)
 - `tok expiring --force` - Force fresh check
 - `tok rotate <provider>` - Rotate token
