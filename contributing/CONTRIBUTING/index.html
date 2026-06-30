@@ -9073,6 +9073,54 @@
           
             <div class="md-content" data-md-component="content">
               
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    🛠️ Contributing
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
               <article class="md-content__inner md-typeset">
                 
                   
@@ -9349,9 +9397,11 @@
 <ol>
 <li><strong>Create markdown file in <code>docs/</code></strong></li>
 <li><strong>Add to <code>mkdocs.yml</code> navigation</strong></li>
+<li><strong>Check for warnings:</strong> <code>mkdocs build</code> (watch for <code>omitted_files</code> and broken anchor warnings)</li>
 <li><strong>Test locally:</strong> <code>mkdocs serve</code></li>
-<li><strong>Deploy:</strong> <code>mkdocs gh-deploy --force</code></li>
+<li><strong>Deploy:</strong> Automatic — docs CI deploys to GitHub Pages on push to <code>main</code> (never run <code>mkdocs gh-deploy</code> manually; branch guard blocks the gh-pages push)</li>
 </ol>
+<p><strong>Files intentionally not in nav</strong> (accessible via links but not in sidebar): add them to the <code>not_in_nav</code> block in <code>mkdocs.yml</code> instead of the <code>exclude</code> plugin. The <code>exclude</code> plugin removes files from the site entirely — use it only for files that should not be reachable at all (planning docs, internal specs). See <a href="../DOCUMENTATION-STYLE-GUIDE/"><code>DOCUMENTATION-STYLE-GUIDE.md</code></a> for the mkdocs configuration reference.</p>
 <h3 id="documentation-guidelines">Documentation Guidelines<a class="headerlink" href="#documentation-guidelines" title="Permanent link">&para;</a></h3>
 <p><strong>ADHD-Friendly Writing:</strong></p>
 <ul>
@@ -9464,12 +9514,12 @@
 <a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>gh<span class="w"> </span>release<span class="w"> </span>create<span class="w"> </span>vX.Y.Z<span class="w"> </span>--title<span class="w"> </span><span class="s2">&quot;vX.Y.Z - Title&quot;</span><span class="w"> </span>--notes<span class="w"> </span><span class="s2">&quot;Release notes&quot;</span>
 </code></pre></div>
 <h3 id="manual-deployment-if-needed">Manual Deployment (if needed)<a class="headerlink" href="#manual-deployment-if-needed" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Documentation</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>mkdocs<span class="w"> </span>gh-deploy<span class="w"> </span>--force
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Homebrew (via workflow dispatch)</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>gh<span class="w"> </span>workflow<span class="w"> </span>run<span class="w"> </span>homebrew-release.yml<span class="w"> </span>-f<span class="w"> </span><span class="nv">version</span><span class="o">=</span>X.Y.Z
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Homebrew (via workflow dispatch)</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>gh<span class="w"> </span>workflow<span class="w"> </span>run<span class="w"> </span>homebrew-release.yml<span class="w"> </span>-f<span class="w"> </span><span class="nv">version</span><span class="o">=</span>X.Y.Z
 </code></pre></div>
+<blockquote>
+<p><strong>Note:</strong> <code>mkdocs gh-deploy</code> is blocked by branch guard (it pushes directly to <code>gh-pages</code>). Docs deploy automatically via CI on push to <code>main</code>. If docs CI is broken, fix the workflow — don't bypass with a manual deploy.</p>
+</blockquote>
 <h3 id="ci-files-location">CI Files Location<a class="headerlink" href="#ci-files-location" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>.github/workflows/
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>├── test.yml              # ZSH plugin tests
@@ -9562,7 +9612,7 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>

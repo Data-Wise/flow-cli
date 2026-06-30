@@ -5735,6 +5735,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#11-mint-a-short-lived-github-app-token-ghs_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Mint a Short-Lived GitHub App Token (ghs_)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8644,6 +8655,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#11-mint-a-short-lived-github-app-token-ghs_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Mint a Short-Lived GitHub App Token (ghs_)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8664,6 +8686,72 @@
           
           
             <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    🔧 Workflows & Guides
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../ATLAS-INTEGRATION-GUIDE/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Tools & Integrations
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
               
               <article class="md-content__inner md-typeset">
                 
@@ -8703,6 +8791,7 @@ For full reference, see the <a href="../../reference/REFCARD-TOKEN-SECRETS/">ref
 <li><a href="#8-proactively-rotate-tokens-nearing-expiry">Proactively Rotate Tokens Nearing Expiry</a></li>
 <li><a href="#9-set-up-the-sync-config-from-scratch">Set Up the Sync Config From Scratch</a></li>
 <li><a href="#10-verify-what-landed-on-a-repo-after-a-push">Verify What Landed on a Repo After a Push</a></li>
+<li><a href="#11-mint-a-short-lived-github-app-token-ghs_">Mint a Short-Lived GitHub App Token (ghs_)</a></li>
 </ol>
 <hr />
 <h2 id="1-rotate-a-github-app-key-and-fan-it-out-everywhere">1. Rotate a GitHub App Key and Fan It Out Everywhere<a class="headerlink" href="#1-rotate-a-github-app-key-and-fan-it-out-everywhere" title="Permanent link">&para;</a></h2>
@@ -8900,6 +8989,48 @@ For full reference, see the <a href="../../reference/REFCARD-TOKEN-SECRETS/">ref
 </code></pre></div>
 <p><code>gh secret list</code> is the trust-but-verify step. GitHub never exposes secret values once written, so confirmation is by name and timestamp. If a <code>tok sync gh</code> auth check is needed first, note that <code>tok sync gh</code> is unchanged — it only verifies your <code>gh</code> authentication and does not touch the mapping.</p>
 <hr />
+<h2 id="11-mint-a-short-lived-github-app-token-ghs_">11. Mint a Short-Lived GitHub App Token (<code>ghs_</code>)<a class="headerlink" href="#11-mint-a-short-lived-github-app-token-ghs_" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p><strong>Goal:</strong> Generate an ephemeral installation token from a GitHub App, no PAT required.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># Step 1: One-time setup — store App ID + private key in Keychain</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>tok<span class="w"> </span>mint<span class="w"> </span>setup
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Prompts:</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1">#   GitHub App ID: 123456</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1">#   Path to private key PEM file: ~/Downloads/my-app.private-key.pem</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Validates credentials against api.github.com/app</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># Stores in Keychain (service: flow-cli-secrets)</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1"># Step 2: Mint a token</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>tok<span class="w"> </span>mint
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="c1"># Output: ghs_A1B2C3_eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="c1"># Step 3: Use the token immediately</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>tok<span class="w"> </span>mint<span class="k">)</span>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: token </span><span class="nv">$GITHUB_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span>https://api.github.com/user
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="c1"># Step 4: Mint for a different org + see details</span>
+<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a>tok<span class="w"> </span>mint<span class="w"> </span>--org<span class="w"> </span>MyOrg<span class="w"> </span>--verbose
+<a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a><span class="c1"># Token: ghs_D4E5F6_... | Expires: 2026-06-29T06:30:00Z | Org: MyOrg</span>
+<a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a>
+<a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a><span class="c1"># Step 5: Dry run — inspect the JWT without minting</span>
+<a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>tok<span class="w"> </span>mint<span class="w"> </span>--dry-run
+<a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a><span class="c1"># Shows decoded header, payload, and JWT preview</span>
+</code></pre></div>
+<p>Tokens expire in 1 hour (GitHub server-side). Mint a fresh one per
+session or per command. Requires <code>openssl</code> and <code>curl</code> (both ship with
+macOS).</p>
+<hr />
 <h2 id="see-also">See Also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../tutorials/47-tok-auto-sync/">47-tok-auto-sync.md</a> — Step-by-step tutorial for the auto-sync feature</li>
@@ -8910,7 +9041,7 @@ For full reference, see the <a href="../../reference/REFCARD-TOKEN-SECRETS/">ref
 </ul>
 <hr />
 <p><strong>Feature:</strong> tok auto-sync — flow-cli
-<strong>Last Updated:</strong> 2026-06-03</p>
+<strong>Last Updated:</strong> 2026-06-29</p>
 
 
 
@@ -8986,7 +9117,7 @@ For full reference, see the <a href="../../reference/REFCARD-TOKEN-SECRETS/">ref
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
