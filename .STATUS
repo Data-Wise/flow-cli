@@ -19,6 +19,7 @@
 - **Updated** `CONTRIBUTING.md` — fixed `mkdocs gh-deploy --force` step; added `not_in_nav` guidance
 - **Updated** `DOCUMENTATION-STYLE-GUIDE.md` — new MkDocs Configuration section
 - **Merged** PR #482 to main; docs auto-deploy triggered
+- **Cleaned** 3 stale worktrees: `at-dispatcher-surface`, `feature-flow-claude`, `feature-tok-mint` (all merged)
 
 ## Previous Session (2026-06-30) — housekeeping + tok mint ✅
 
