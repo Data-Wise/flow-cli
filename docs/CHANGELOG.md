@@ -10,12 +10,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ### Added
 
+- **Breadcrumbs** (`mkdocs.yml`): enabled `navigation.path` — renders clickable trail (Home > Section > Page) above each doc page title
+- **Instant prefetch** (`mkdocs.yml`): enabled `navigation.instant.prefetch` — prefetches pages on link hover for faster perceived navigation
+- **MkDocs validation block** (`mkdocs.yml`): `validation.nav.omitted_files: warn` and `validation.links.anchors: warn` now surface silent issues on `mkdocs build`
+- **`not_in_nav` block** (`mkdocs.yml`): marks `ATLAS-CONTRACT.md` and six adhd template files as intentionally out of nav (accessible via links, suppresses omitted_files warnings)
 - **`tok mint`** — Generate short-lived GitHub App installation tokens (`ghs_`)
   (`lib/dispatchers/tok-dispatcher.zsh`). Reads `github_app_id` and
   `github_app_private_key` from Keychain, builds an RS256 JWT, resolves the
   org installation, and exchanges for a `ghs_` token. Supports `--org`,
   `--dry-run`, and `--verbose` flags. Interactive `tok mint setup` wizard for
   one-time credential storage ([#479](https://github.com/Data-Wise/flow-cli/issues/479)).
+
+### Fixed
+
+- **`internal/*.md` exclude glob** (`mkdocs.yml`): narrowed from `internal/*.md` (Python fnmatch matches subdirectories) to the specific file `internal/EM-V2-ARCHITECTURE.md` — previously silently excluded public pages `internal/conventions/adhd/README.md` and `GIF-GUIDELINES.md`
+- **Broken link** (`docs/guides/EMAIL-DISPATCHER-GUIDE.md`): removed References entry linking to `internal/EM-V2-ARCHITECTURE.md` which is excluded from the site
+- **CONTRIBUTING.md deploy instruction**: replaced incorrect `mkdocs gh-deploy --force` step with note that docs auto-deploy via CI (manual deploy is blocked by branch guard)
+- **DOCUMENTATION-STYLE-GUIDE.md**: updated `--strict` link-check reference to `mkdocs build` (validation block replaces `--strict`); added MkDocs Configuration section documenting breadcrumbs, `not_in_nav`, `exclude` plugin, and the fnmatch footgun
 
 ## [7.13.0] — 2026-06-19 — flow claude: C7-C11 checks + watch daemon
 
