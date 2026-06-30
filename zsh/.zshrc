@@ -1156,4 +1156,8 @@ brew() {
 }
 export HOMEBREW_NO_ENV_HINTS=1
 
-export CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000
+# Antigravity Workflow Plugin Hooks
+# Shows ⚠️ [stuck?] nudge after a command fails twice in a row; logs to ~/.config/obs/obs.log
+# if [ -f "/Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh" ]; then
+#     source /Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh
+# fi
