@@ -27,7 +27,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 - **Broken link** (`docs/guides/EMAIL-DISPATCHER-GUIDE.md`): removed References entry linking to `internal/EM-V2-ARCHITECTURE.md` which is excluded from the site
 - **CONTRIBUTING.md deploy instruction**: replaced incorrect `mkdocs gh-deploy --force` step with note that docs auto-deploy via CI (manual deploy is blocked by branch guard)
 - **DOCUMENTATION-STYLE-GUIDE.md**: updated `--strict` link-check reference to `mkdocs build` (validation block replaces `--strict`); added MkDocs Configuration section documenting breadcrumbs, `not_in_nav`, `exclude` plugin, and the fnmatch footgun
-
 ## [7.13.0] — 2026-06-19 — flow claude: C7-C11 checks + watch daemon
 
 ### Added
