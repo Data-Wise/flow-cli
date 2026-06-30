@@ -9,7 +9,19 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-19) — v7.13.0 SHIPPED [main + Homebrew] ✅
+## Current Session (2026-06-30) — housekeeping + brew fix ✅
+
+**Session activity:**
+- **Fixed** brew update failure — stale rebase in `r-lib/homebrew-rig` tap (`git reset --hard origin/main`)
+- **Deleted** `docs/specs/PROPOSAL-prevent-output-token-limit.md` — already actioned in `settings.json`
+- **Reverted** half-baked `tok mint` dispatcher routing from `dev` — full impl lives on `feature/tok-mint`, needs PR
+- **Cleaned** `zsh/.zshrc` — removed duplicate `/opt/homebrew/bin` PATH (Qwen installer artifact), commented out antigravity hooks
+- **Pushed** to dev (`e5b572bc`)
+
+**Pending:**
+- `feature/tok-mint` — complete, ready to PR to dev (closes #479)
+
+## Previous Session (2026-06-19) — v7.13.0 SHIPPED [main + Homebrew] ✅
 
 **Session activity:**
 - **Docs updated:** `docs/commands/claude.md` + `docs/tutorials/49-flow-claude-check.md` — C4 two-tier threshold, C7-C11 checks, watch daemon (v7.13.0)
