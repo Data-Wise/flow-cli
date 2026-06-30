@@ -71,6 +71,8 @@ plugins:
         - 'internal/conventions/documentation/**'
         - 'internal/conventions/project/**'
         - 'internal/VHS-TAPE-STYLE-GUIDE.md'
+        - 'internal/*.md'
+        - 'TEST-COMPLETION-REPORT.md'
         - 'assets/gifs/nvim/README.md'
 
 markdown_extensions:
