@@ -31,6 +31,8 @@ theme:
         name: Switch to light mode
   features:
     - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.path
     - navigation.tracking
     - navigation.tabs
     - navigation.sections
@@ -344,6 +346,12 @@ nav:
               - Config Consolidation: FEATURE-REQUEST-config-consolidation.md
               - Quarto Cache Clearing: FEATURE-REQUEST-qu-sass-cache-clearing.md
               - Scholar Config: FEATURE-REQUEST-scholar-config-consolidation.md
+
+validation:
+  nav:
+    omitted_files: warn
+  links:
+    anchors: warn
 
 extra:
   social:
