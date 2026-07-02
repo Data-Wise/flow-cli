@@ -60,7 +60,7 @@ even if you believe tests pass.
 route `agenda` through the shared schedule engine. TDD — characterization tests
 BEFORE any consolidation, then red unit tests for the new accessors.
 
-- [ ] 1.0 **Characterization tests first (Axis 2 — parity guard):**
+- [x] 1.0 **Characterization tests first (Axis 2 — parity guard):**
       `tests/test-status-field-parity.zsh` — snapshot the CURRENT output of
       `_dash_get_status_field` (`dash.zsh:1325`), the inline greps
       (`morning.zsh:84`, `adhd.zsh:104`, `capture.zsh:406`), and
