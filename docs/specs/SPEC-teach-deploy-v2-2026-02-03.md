@@ -1,6 +1,6 @@
 # SPEC: teach deploy v2 — STAT-545 Port + New Features
 
-**Status:** draft
+**Status:** Implemented — `teach deploy` v2 shipped; see `docs/guides/TEACH-DEPLOY-GUIDE.md` and `CHANGELOG.md` (verified 2026-07-02 via docs-gap audit, `docs/specs/PLAN-docs-gap-2026-07-02.md`)
 **Created:** 2026-02-03
 **From Brainstorm:** BRAINSTORM-teach-deploy-v2-2026-02-03.md
 **Target Version:** v6.4.0

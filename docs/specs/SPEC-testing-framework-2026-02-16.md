@@ -1,7 +1,7 @@
 # SPEC: Comprehensive Testing Framework for Zsh/Bash Projects
 
 **Date:** 2026-02-16
-**Status:** Draft
+**Status:** Implemented — "Enhanced Native" framework realized as specced: `tests/test-framework.zsh` (assertion/mock helpers), `tests/dogfood-test-quality.zsh` (anti-pattern scanner), CI full-suite gate blocking broken commits (`docs/guides/TESTING.md`) (verified 2026-07-02 via docs-gap audit, `docs/specs/PLAN-docs-gap-2026-07-02.md`)
 **Branch:** feature/testing-overhaul
 **Scope:** flow-cli (primary), extensible to all dev-tools projects
 
