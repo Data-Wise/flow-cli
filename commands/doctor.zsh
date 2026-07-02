@@ -130,6 +130,11 @@ doctor() {
     _doctor_log_quiet ""
 
     # ──────────────────────────────────────────────────────────────
+    # INSTALLATION (Homebrew distribution health)
+    # ──────────────────────────────────────────────────────────────
+    _doctor_check_installation
+
+    # ──────────────────────────────────────────────────────────────
     # REQUIRED
     # ──────────────────────────────────────────────────────────────
     _doctor_log_quiet "${FLOW_COLORS[bold]}⚡ REQUIRED${FLOW_COLORS[reset]} ${FLOW_COLORS[muted]}(core functionality)${FLOW_COLORS[reset]}"
@@ -1159,6 +1164,88 @@ _doctor_update_docs() {
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
+
+# =============================================================================
+# INSTALLATION / DISTRIBUTION HEALTH
+# =============================================================================
+# Catches the class of bug fixed in homebrew-tap PR #135: a Homebrew formula
+# install that silently fails to link (man-page name collision, stale Cellar
+# keg after a formula fix) leaves the user on an old version with no error
+# message — `brew upgrade` reports "already installed" even when broken.
+# Checks are read-only and only apply when flow-cli was installed via brew;
+# git-clone / plugin-manager installs skip silently (nothing to check).
+
+_doctor_check_installation() {
+  _doctor_log_quiet "${FLOW_COLORS[bold]}📦 INSTALLATION${FLOW_COLORS[reset]}"
+
+  if ! command -v brew >/dev/null 2>&1; then
+    _doctor_log_quiet "  ${FLOW_COLORS[muted]}○ Homebrew not present — skipping${FLOW_COLORS[reset]}"
+    _doctor_log_quiet ""
+    return 0
+  fi
+
+  if ! brew list --formula 2>/dev/null | grep -qx "flow-cli"; then
+    _doctor_log_quiet "  ${FLOW_COLORS[muted]}○ flow-cli not installed via Homebrew — skipping${FLOW_COLORS[reset]}"
+    _doctor_log_quiet ""
+    return 0
+  fi
+
+  local brew_prefix
+  brew_prefix=$(brew --prefix 2>/dev/null)
+  local opt_path="${brew_prefix}/opt/flow-cli"
+  local installed_version
+  installed_version=$(brew list --versions flow-cli 2>/dev/null | awk '{print $2}')
+
+  # 1. Link integrity — installed-but-unlinked is the exact symptom of the
+  #    man-page-collision bug: `brew install`/`upgrade` "succeeds" but the
+  #    opt symlink is never created, so `source $(brew --prefix)/opt/flow-cli/...` fails.
+  if [[ -L "$opt_path" && -d "${opt_path}/." ]]; then
+    _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} Homebrew link ${FLOW_COLORS[muted]}(v${installed_version})${FLOW_COLORS[reset]}"
+  else
+    _doctor_log_quiet "  ${FLOW_COLORS[error]}✗${FLOW_COLORS[reset]} flow-cli installed but not linked ${FLOW_COLORS[muted]}← brew link flow-cli (or: brew reinstall flow-cli)${FLOW_COLORS[reset]}"
+  fi
+
+  # 2. Version drift — the shell's already-sourced $FLOW_VERSION vs. what
+  #    Homebrew currently has installed. Catches "reinstalled/upgraded but
+  #    forgot to restart the shell" silently running stale code.
+  if [[ -n "$installed_version" && -n "$FLOW_VERSION" && "$installed_version" != "$FLOW_VERSION" ]]; then
+    _doctor_log_quiet "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]} Shell has v${FLOW_VERSION} loaded, Homebrew has v${installed_version} installed ${FLOW_COLORS[muted]}← restart your shell${FLOW_COLORS[reset]}"
+  fi
+
+  # 3. Man-page link check — does every man page flow-cli's own Cellar keg
+  #    ships actually resolve (via the shared man1 symlink) back into
+  #    flow-cli's keg? A page that "exists" at the shared path but resolves
+  #    into a DIFFERENT formula's Cellar dir means flow-cli's own page lost
+  #    a case-insensitive name collision and was silently never linked (the
+  #    PR #135 class of bug — deliberately scoped to flow-cli's own pages,
+  #    not a whole-Cellar audit: Homebrew's own keg-only-formula convention
+  #    (e.g. lua vs lua@5.4) produces same-name kegs constantly and is not a
+  #    bug — only formulae that both actually attempt to link collide).
+  local _doctor_brew_cellar
+  _doctor_brew_cellar=$(brew --cellar 2>/dev/null)
+  local flow_man1_dir="${_doctor_brew_cellar}/flow-cli/${installed_version}/share/man/man1"
+  if [[ -d "$flow_man1_dir" ]]; then
+    local shared_man1="${brew_prefix}/share/man/man1"
+    local not_linked=()
+    # `local` is hoisted OUT of the loop deliberately: redeclaring a local
+    # var on every glob-driven iteration triggers a spurious "name=value"
+    # echo to stdout on some zsh builds (reproduced independent of this
+    # codebase — a fresh `zsh -f` script with the same shape shows it too).
+    local mp_name link_target
+    for manpage in "$flow_man1_dir"/*.1(N); do
+      mp_name="${manpage:t}"
+      link_target=$(readlink "${shared_man1}/${mp_name}" 2>/dev/null)
+      [[ "$link_target" == *"/flow-cli/"* ]] || not_linked+=("$mp_name")
+    done
+    if (( ${#not_linked[@]} > 0 )); then
+      _doctor_log_quiet "  ${FLOW_COLORS[warning]}⚠${FLOW_COLORS[reset]} flow-cli man page(s) not linked (collision with another formula) ${FLOW_COLORS[muted]}${not_linked[*]}${FLOW_COLORS[reset]}"
+    else
+      _doctor_log_quiet "  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} All flow-cli man pages linked cleanly"
+    fi
+  fi
+
+  _doctor_log_quiet ""
+}
 
 _doctor_check_cmd() {
   local cmd="$1"

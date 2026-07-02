@@ -164,6 +164,7 @@ run_test ./tests/e2e-scholar-config-sync.zsh
 run_test ./tests/e2e-tok-sync.zsh
 run_test ./tests/e2e-agenda.zsh
 run_test ./tests/e2e-agenda-atlas.zsh
+run_test ./tests/e2e-doctor-install.zsh
 
 echo ""
 echo "Atlas contract tests:"
