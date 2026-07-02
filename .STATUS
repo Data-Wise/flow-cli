@@ -9,7 +9,18 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-02) — closed stale issue #423, filled 4 command doc gaps ✅
+## Current Session (2026-07-02) — retired code-workspace spec, closed 3 stale issues, triaged real backlog ✅
+
+**Session activity (part 4):**
+- **Retired `SPEC-code-workspace-2026-02-13.md`** (`code ws` dispatcher) — draft, 4.5mo untouched, zero implementation, zero demand signal; overloading the `code` binary carries real risk without a validated need. Moved to `docs/specs/_archive/`, marked retired. Cleared the (now-empty) `.STATUS` Next Action queue.
+- **Audited the remaining 4 open issues the same way #423 was checked** (4 parallel agents, one per issue, grep + git log + doc cross-check):
+  - **#298** (Teaching config consolidation) — FULLY_SHIPPED (`_teach_get_style()`/`_teach_get_command_override()`/schema/doctor reporting, commits `970f3f4b2`/`795f86ad7`). Closed.
+  - **#331** (Himalaya email integration) — FULLY_SHIPPED, exceeds scope (the `em` dispatcher implements it + AI drafting, safety gates, calendar extraction, etc. that #331 never proposed; dozens of commits tag `(#331)`). Closed. One minor gap noted, not blocking: no shipped Tokyo Night color-theme `config.toml` preset.
+  - **#359** (`teach check` cross-tool validation) — **NOT_STARTED**, genuine backlog. No dispatcher case, no function, zero commits, explicitly flagged as unbuilt future work in `SPEC-teach-map-2026-02-08.md`.
+  - **#275** (`teach dashboard` website content) — **NOT_STARTED**, genuine backlog. Spec was written + approved (2026-01-19, v5.15.0 target) then archived/deleted in a stale-spec cleanup without any code landing.
+- **Net result**: 3 stale-but-shipped issues closed this session (#423, #298, #331), 2 genuine backlog items surfaced and confirmed real (#359, #275) — down from 5 open issues to 2, both accurately scoped.
+
+## Previous Session (2026-07-02) — closed stale issue #423, filled 4 command doc gaps ✅
 
 **Session activity (part 3):**
 - **Stress-tested issue #423** ("Scholar Config Sync wiring + new teach wrappers") against v7.14.0 — found it was already fully shipped (3 commits explicitly tagged `#423`: config injection, `config check/diff/show/scaffold`, `solution`/`sync`/`validate-r` wrappers, doctor config-sync check, docs). Closed with evidence linking the implementing commits. Writeup: `docs/specs/BRAINSTORM-issue-423-stress-test-2026-07-02.md`.
@@ -493,7 +504,8 @@
 
 ## Next Action
 
-_(none queued — repo is clean, v7.14.0 shipped)_
+1. Issue #359 — `teach check` cross-tool validation summary (2-3h, verified not started)
+2. Issue #275 — `teach dashboard` subcommand for dynamic website content (8-12h, verified not started; original spec archived, would need a fresh spec)
 
 ## Parked
 
