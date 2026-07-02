@@ -5,7 +5,7 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Released (v7.13.0)
+## Phase: Released (v7.14.0)
 ## Priority: 2
 ## Progress: 100
 
@@ -21,6 +21,9 @@
   - **Updated** docs (API reference, agenda/schedule guide with a real captured multi-source transcript, dispatcher guide, CHANGELOG, CONTRIBUTING, CLAUDE.md counts)
 - **Caught a real CI-only bug** before merge: a test hid `jq` via `PATH="$STUB_BIN:/bin"`, correct on macOS (`/bin` has no `jq`) but wrong on Ubuntu's usr-merged `/bin` (→ `/usr/bin/jq`, preinstalled on `ubuntu-latest`) — fixed to `PATH="$STUB_BIN"` alone, no system-directory assumption.
 - **Merged** PR #483 → dev (squash, `8012aaea`), both CI checks green. Worktree + local/remote feature branch cleaned up.
+- **Released v7.14.0**: reconciled a pre-existing CHANGELOG mirror drift (missing `tok mint` entry, restored to root) → `release.sh 7.14.0` (version bump: `flow.plugin.zsh`, `package.json`, `CLAUDE.md`, 23 man pages, guard 12/12) → CHANGELOG `[Unreleased]`→`[7.14.0]` (mirrored) → refreshed `docs/index.md` What's New (was 3 releases stale at v7.10.2) → PR #484 (`dev`→`main`) → CI green (4/4 jobs) → merged (squash, `769d744a`) → tagged `v7.14.0` → GitHub release published → Homebrew formula verified (`v7.14.0.tar.gz`) → docs deployed (200 OK) → `dev` synced with `main`.
+- **Scheduled + disabled a cloud-agent routine** (`flow-cli doc gap & staleness sweep`) — created as a 1-hour backup while the release was still in flight, then disabled once the release finished locally instead (never fired; confirmed via timestamp — disabled at 07:01 UTC, scheduled for 07:51 UTC).
+- **Post-release audit**: checked for session interference (reflog/commit-author review — all commits accounted for, no concurrent/unexpected activity) and secret leaks (pattern-scanned the full release diff, the published GitHub release body, and file list — clean; the `ghs_`/`github_app_private_key` mentions in the `tok mint` changelog entry are prose describing the feature, not actual credential values).
 
 ## Previous Session (2026-06-30) — mkdocs improvements + Dependabot maintenance ✅
 
