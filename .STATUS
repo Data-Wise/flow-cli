@@ -491,7 +491,7 @@
 ---
 
 **Last Updated:** 2026-07-02
-**Status:** v7.14.0 active (Homebrew man-page fix live via homebrew-tap PR #135) | doctor INSTALLATION checks added (PR #485) | full suite — 74 passed / 0 failed / 1 timeout (interactive/tmux baseline) / 1 skipped (himalaya absent) | 14 dispatchers + at bridge | 230 test files | 75 registered suites | 0 lint errors | 0 broken links
+**Status:** v7.14.0 active (Homebrew man-page fix live via homebrew-tap PR #135) | doctor INSTALLATION checks added (PR #485) | full suite — 75 passed / 0 failed / 1 timeout (interactive/tmux baseline) / 1 skipped (himalaya absent) | 14 dispatchers + at bridge | 231 test files | 76 registered suites | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19)
 ## streak: 1
 ## last_active: 2026-06-19 10:30
