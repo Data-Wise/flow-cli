@@ -139,12 +139,23 @@ test_no_jq_is_graceful_noop() {
     _reset_atlas_caches
     local old_path="$PATH"
     _install_stub_atlas capable
-    # Minimal explicit PATH (stub atlas dir + /bin only) rather than trying to
-    # subtract jq's directory from $PATH — this box has jq on more than one
-    # PATH entry (e.g. both /opt/homebrew/bin and /usr/bin), so a single
-    # subtraction doesn't reliably hide it. /bin has no jq and covers the
-    # POSIX utilities the harness itself needs.
-    PATH="$STUB_BIN:/bin"
+    # PATH = $STUB_BIN only — no real system directory (no subtraction from
+    # $PATH, no "/bin should be jq-free" assumption). $STUB_BIN is a fresh
+    # mktemp dir under this test's exclusive control containing only the
+    # atlas stub, so it is guaranteed jq-free on every platform.
+    #
+    # This is deliberately NOT "$STUB_BIN:/bin": that assumption held on
+    # macOS (a real, separate /bin with no jq) but broke on Ubuntu's
+    # `ubuntu-latest` CI runner — Ubuntu has been usr-merged since 19.10, so
+    # /bin is a symlink to /usr/bin, which ships jq preinstalled. /bin/jq
+    # then resolved on CI, the no-op branch never triggered, and this test
+    # failed (same bug class as the documented macos-only-shell-isms-break-
+    # linux-ci gotcha — a PATH/filesystem assumption that only holds on
+    # macOS). Verified $STUB_BIN alone is sufficient: _schedule_atlas_items
+    # only needs `atlas` (found — the stub) and `jq` (not found, by
+    # construction) on PATH for this code path; nothing else is invoked
+    # before the early return.
+    PATH="$STUB_BIN"
     local out
     out=$(_schedule_atlas_items 7 2>&1)
     local rc=$?
