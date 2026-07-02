@@ -29,27 +29,27 @@ even if you believe tests pass.
 
 ## Phase Overview
 
-| Phase | Increment | Priority | Effort | Status |
-|-------|-----------|----------|--------|--------|
-| 0 | Pre-step — `$path` bug fix (isolated) | High | ~20min | |
-| 1 | Track A — internal refactor (characterization-guarded) | High | ~2-3h | |
-| 2 | Track C — atlas agenda source + contract (dark-ready) | High | ~2-3h | |
-| 3 | `.STATUS` template + enforcer (warn-only) | Medium | ~1h | |
-| 4 | Documentation & Discoverability | High | ~1-2h | |
+| Phase | Increment                                              | Priority | Effort | Status |
+| ----- | ------------------------------------------------------ | -------- | ------ | ------ |
+| 0     | Pre-step — `$path` bug fix (isolated)                  | High     | ~20min |        |
+| 1     | Track A — internal refactor (characterization-guarded) | High     | ~2-3h  |        |
+| 2     | Track C — atlas agenda source + contract (dark-ready)  | High     | ~2-3h  |        |
+| 3     | `.STATUS` template + enforcer (warn-only)              | Medium   | ~1h    |        |
+| 4     | Documentation & Discoverability                        | High     | ~1-2h  |        |
 
 ## Phase 0: Pre-step — `$path` → `project_path` bug fix (D2, isolated)
 
 **Scope:** ONLY this bug. Do not touch the shared accessors yet — that's Phase 1.
 
-- [ ] 0.1 **Red test first:** `tests/test-path-bug-fix.zsh` — proves `next`/
+- [x] 0.1 **Red test first:** `tests/test-path-bug-fix.zsh` — proves `next`/
       `morning` focus/progress display is blank or wrong today for a project
       with nonzero progress (the actual broken behavior, not a synthetic case)
-- [ ] 0.2 Fix: `morning.zsh:83`, `adhd.zsh:103` — read `$project_path` (the
+- [x] 0.2 Fix: `morning.zsh:83`, `adhd.zsh:103` — read `$project_path` (the
       field the fallback actually emits, `atlas-bridge.zsh:397`) instead of
       `$path` (ZSH's PATH array)
-- [ ] 0.3 Green: `test-path-bug-fix.zsh` passes; full `./tests/run-all.sh`
-- [ ] 0.4 **Isolated commit** — `fix(planning): read $project_path not $path in morning/next`
-- [ ] 0.5 **STOP.** Report: test output, diff, full-suite result. Wait for the
+- [x] 0.3 Green: `test-path-bug-fix.zsh` passes; full `./tests/run-all.sh`
+- [x] 0.4 **Isolated commit** — `fix(planning): read $project_path not $path in morning/next`
+- [x] 0.5 **STOP.** Report: test output, diff, full-suite result. Wait for the
       reviewer's go-ahead before Phase 1.
 
 **Key files:** `commands/morning.zsh`, `commands/adhd.zsh` (2-line fix each), `tests/test-path-bug-fix.zsh` (NEW)
@@ -110,8 +110,7 @@ question** (D4) — do not design it here.
 - [ ] 2.4 Wire into `_schedule_collect` (`schedule.zsh:378`) alongside
       `_schedule_parse_status` + `_schedule_teach_items`; **no-op when absent**
 - [ ] 2.5 `at` dispatcher: `agenda` JSON passthrough in `lib/atlas-bridge.zsh`
-- [ ] 2.6 Extend `docs/ATLAS-CONTRACT.md`: proposed `atlas task list --format json`
-      + `atlas agenda [today|week|--all] --format json`; bump contract version;
+- [ ] 2.6 Extend `docs/ATLAS-CONTRACT.md`: proposed `atlas task list --format json` + `atlas agenda [today|week|--all] --format json`; bump contract version;
       explicitly note `.STATUS`-ingestion as **atlas's open design question**,
       not prescribed here
 - [ ] 2.7 Extend `tests/test-atlas-contract.zsh`: assert the fixture
