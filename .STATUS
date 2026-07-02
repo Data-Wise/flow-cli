@@ -493,11 +493,12 @@
 
 ## Next Action
 
-1. Code workspace manager — `code ws` dispatcher (`SPEC-code-workspace-2026-02-13.md`, ~4mo old — review before impl)
+_(none queued — repo is clean, v7.14.0 shipped)_
 
 ## Parked
 
 - API documentation push (50% → 80% coverage of 348 functions) — parked 2026-07-02, no active driver
+- ~~Code workspace manager (`code ws` dispatcher)~~ — retired 2026-07-02, spec moved to `docs/specs/_archive/SPEC-code-workspace-2026-02-13.md` (never implemented, no demand signal in 4.5mo)
 
 ---
 
