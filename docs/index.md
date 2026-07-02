@@ -26,6 +26,9 @@ tags:
     ```
     **That's it!** No configuration required.
 
+    **New here?** `setup` walks you through configuration interactively, or run `tutorial` for
+    12 hands-on lessons at your own pace — both are guided, no docs required to start.
+
 !!! success "🎉 What's New in v7.14.0"
     **Agenda now spans three data sources.** Alongside `.STATUS` `## Schedule:` blocks and teaching dates, the engine gained a third, capability-probed source for atlas-tracked deadlines (`Task.dueDate`) — shipped **dark-ready** (tested, silent no-op until an atlas release implements the `agenda` command; see the [Atlas Contract](ATLAS-CONTRACT.md)).
     **De-duplicated planning internals:** `dash`, `morning`, `next`, `capture`, and `agenda` now share one `.STATUS` field accessor, one project-path resolver, and one project-suggestion scan instead of five divergent implementations — plus a fix for a bug that silently blanked focus/progress/icon for every project.
@@ -195,12 +198,21 @@ Choose your path based on what you need right now:
     [→ Token Cookbook](guides/TOKEN-COOKBOOK.md) ·
     [→ Auto-sync Tutorial](tutorials/47-tok-auto-sync.md)
 
+-   :calendar:{ .lg .middle }
+    **Daily & Weekly Cookbook**
+
+    ---
+
+    Copy-paste routines for the two cadences flow-cli is built around
+
+    [→ Cookbook](guides/WORKFLOW-COOKBOOK.md)
+
 -   :compass:{ .lg .middle }
     **Command Reference**
 
     ---
 
-    Quick lookup for all commands
+    Quick lookup for all commands — also try `ref` in your terminal
 
     [→ Reference](help/QUICK-REFERENCE.md)
 
@@ -262,6 +274,7 @@ hop <project>     # Quick switch (tmux)
 dash              # Dashboard (what's happening now)
 agenda            # What's due soon (deadlines, exams, milestones)
 catch "idea"      # Quick capture
+ref               # Quick-reference card (forgot the syntax? this is faster than docs)
 ```
 
 [→ All commands](help/QUICK-REFERENCE.md){ .md-button }
