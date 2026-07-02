@@ -209,15 +209,15 @@ Per SPEC §6 — currency-check each file before editing; update genuine deltas 
 
 ## Acceptance Criteria (SPEC §8)
 
-- [ ] `source flow.plugin.zsh` — clean load, no errors
-- [ ] `./tests/run-all.sh` — **reviewer-run independently**, green (1 expected interactive/tmux timeout); new suites pass; CLAUDE.md counts updated
-- [ ] Characterization suite unchanged pre/post-refactor (parity proven)
-- [ ] `check-status.zsh` warn-only: exit 0 always, prints violations on a bad fixture, clean on template + real `.STATUS`
-- [ ] Dogfood **no atlas** (capability-flag override): `agenda`/`dash`/`morning` identical to pre-change (degradation proven)
-- [ ] Dogfood **atlas stub on PATH**: research deadlines merged; `$path` fix restores focus/progress
-- [ ] `mkdocs build --strict` — 0 warnings
-- [ ] `/craft:docs:lint` clean
-- [ ] Documentation & Discoverability phase complete
+- [x] `source flow.plugin.zsh` — clean load, no errors
+- [x] `./tests/run-all.sh` — **reviewer-run independently**, green (1 expected interactive/tmux timeout); new suites pass; CLAUDE.md counts updated
+- [x] Characterization suite unchanged pre/post-refactor (parity proven)
+- [x] `check-status.zsh` warn-only: exit 0 always, prints violations on a bad fixture, clean on template + real `.STATUS`
+- [x] Dogfood **no atlas** (capability-flag override): `agenda`/`dash`/`morning` identical to pre-change (degradation proven)
+- [x] Dogfood **atlas stub on PATH**: research deadlines merged; `$path` fix restores focus/progress
+- [x] `mkdocs build --strict` — 0 warnings
+- [x] markdownlint (flow-cli's own `.markdownlint.yaml`, reviewer-run) — 20 findings, all confirmed pre-existing/untouched by this branch; zero new findings
+- [x] Documentation & Discoverability phase complete
 
 ## Commit Strategy
 
