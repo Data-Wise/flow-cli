@@ -99,6 +99,7 @@ run_test ./tests/test-doctor.zsh 45
 run_test ./tests/test-capture.zsh
 run_test ./tests/test-pick-wt.zsh
 run_test ./tests/test-adhd.zsh
+run_test ./tests/test-path-bug-fix.zsh
 run_test ./tests/test-flow.zsh
 run_test ./tests/test-timer.zsh
 

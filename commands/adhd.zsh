@@ -100,12 +100,12 @@ next() {
 
     if [[ -n "$info" ]]; then
       eval "$info"
-      if [[ -n "$path" ]] && [[ -f "$path/.STATUS" ]]; then
-        focus=$(command grep -m1 "^## Focus:" "$path/.STATUS" 2>/dev/null | command cut -d: -f2- | sed 's/^ *//')
+      if [[ -n "$project_path" ]] && [[ -f "$project_path/.STATUS" ]]; then
+        focus=$(command grep -m1 "^## Focus:" "$project_path/.STATUS" 2>/dev/null | command cut -d: -f2- | sed 's/^ *//')
       fi
     fi
 
-    local icon=$(_flow_project_icon "$(_flow_detect_project_type "$path" 2>/dev/null)")
+    local icon=$(_flow_project_icon "$(_flow_detect_project_type "$project_path" 2>/dev/null)")
     printf "  %s %-15s" "$icon" "$project"
     [[ -n "$focus" ]] && printf " → %s" "$focus"
     echo ""

@@ -80,13 +80,13 @@ _flow_morning_projects() {
     
     if [[ -n "$info" ]]; then
       eval "$info"
-      if [[ -n "$path" ]] && [[ -f "$path/.STATUS" ]]; then
-        focus=$(grep -m1 "^## Focus:" "$path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
-        progress=$(grep -m1 "^## Progress:" "$path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//' | tr -d '%')
+      if [[ -n "$project_path" ]] && [[ -f "$project_path/.STATUS" ]]; then
+        focus=$(grep -m1 "^## Focus:" "$project_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
+        progress=$(grep -m1 "^## Progress:" "$project_path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//' | tr -d '%')
       fi
     fi
-    
-    local icon=$(_flow_project_icon "$(_flow_detect_project_type "$path" 2>/dev/null)")
+
+    local icon=$(_flow_project_icon "$(_flow_detect_project_type "$project_path" 2>/dev/null)")
     
     printf "     %s %-15s" "$icon" "$project"
     [[ -n "$progress" ]] && printf " [%3d%%]" "$progress"
