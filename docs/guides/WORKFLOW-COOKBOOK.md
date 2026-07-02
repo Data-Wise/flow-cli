@@ -9,6 +9,13 @@ Each recipe follows the same structure: **When** — **Commands** — **Why**.
 For full command reference see [`docs/help/QUICK-REFERENCE.md`](../help/QUICK-REFERENCE.md) and
 [`docs/reference/MASTER-DISPATCHER-GUIDE.md`](../reference/MASTER-DISPATCHER-GUIDE.md).
 
+!!! tip "Interactive version"
+    This cookbook also exists as a click-through walkthrough — a Daily/Weekly toggle, a
+    step-by-step card per recipe, and a big-picture panel showing both loops as ring diagrams so
+    you can see where a step sits in the overall cycle. It was generated as a Claude Artifact
+    during the session that authored this doc; regenerate it by asking Claude to rebuild the
+    interactive workflow cookbook from this file if the link has expired.
+
 ---
 
 ## The Two Cadences at a Glance
