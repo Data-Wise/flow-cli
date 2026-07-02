@@ -8683,13 +8683,13 @@
 <strong>That's it!</strong> No configuration required.</p>
 </div>
 <div class="admonition success">
-<p class="admonition-title">🎉 What's New in v7.10.2</p>
-<p><strong>Forward-looking schedule layer:</strong> the <strong><code>agenda</code></strong> command surfaces dated activity across all projects — deadlines, lectures, exams, milestones, and recurring blocks — bucketed into OVERDUE / TODAY / THIS WEEK / LATER (<code>agt</code>/<code>agw</code>/<code>agm</code> aliases).
-<strong><code>dash</code> UPCOMING</strong> + dated enrichment of <code>morning</code> / <code>today</code> / <code>week</code>, all driven by one shared engine. Works fully without <code>yq</code> and without atlas.
-<strong>Data sources:</strong> a no-<code>yq</code> <code>## Schedule:</code> section in each project's <code>.STATUS</code>, plus teaching dates from <code>.flow/teach-config.yml</code>.
-<strong>New in v7.10.2:</strong> a dedicated <strong>Planning &amp; Scheduling</strong> documentation section, a rewritten Agenda tutorial with real command output and copy-paste recipes, clearer flow-cli ↔ Atlas framing, plus routine dependency maintenance. <strong>64 suites</strong> passing (216 files, 12000+ assertions).
-<a class="md-button md-button--primary" href="tutorials/48-agenda-schedule/">→ Agenda &amp; Schedule Tutorial</a>
-<a class="md-button" href="guides/AGENDA-SCHEDULE-GUIDE/">→ Agenda &amp; Schedule Guide</a>
+<p class="admonition-title">🎉 What's New in v7.14.0</p>
+<p><strong>Agenda now spans three data sources.</strong> Alongside <code>.STATUS</code> <code>## Schedule:</code> blocks and teaching dates, the engine gained a third, capability-probed source for atlas-tracked deadlines (<code>Task.dueDate</code>) — shipped <strong>dark-ready</strong> (tested, silent no-op until an atlas release implements the <code>agenda</code> command; see the <a href="ATLAS-CONTRACT/">Atlas Contract</a>).
+<strong>De-duplicated planning internals:</strong> <code>dash</code>, <code>morning</code>, <code>next</code>, <code>capture</code>, and <code>agenda</code> now share one <code>.STATUS</code> field accessor, one project-path resolver, and one project-suggestion scan instead of five divergent implementations — plus a fix for a bug that silently blanked focus/progress/icon for every project.
+<strong>New <code>.STATUS</code> schema checker:</strong> <code>templates/.STATUS.template</code> + a warn-only <code>check-status.zsh</code> pre-commit validator (prints violations, never blocks).
+<strong>74 suites</strong> passing (245 files, 12000+ assertions).
+<a class="md-button md-button--primary" href="guides/AGENDA-SCHEDULE-GUIDE/">→ Agenda &amp; Schedule Guide</a>
+<a class="md-button" href="ATLAS-CONTRACT/">→ Atlas Contract</a>
 <a class="md-button" href="CHANGELOG/">→ Changelog</a></p>
 </div>
 <hr />
@@ -9005,7 +9005,7 @@
 <li><strong><a href="PHILOSOPHY/">Philosophy</a></strong> - Design principles deep dive</li>
 </ul>
 <hr />
-<p><strong>v7.10.2</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
+<p><strong>v7.14.0</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
 
 
 

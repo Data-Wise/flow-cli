@@ -1030,7 +1030,18 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[Unreleased]">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7140-2026-07-02-planning-coordination-shared-accessors-dark-ready-atlas-agenda-status-enforcer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [7.14.0] — 2026-07-02 — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[7.14.0] — 2026-07-02 — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -11192,7 +11203,18 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[Unreleased]">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7140-2026-07-02-planning-coordination-shared-accessors-dark-ready-atlas-agenda-status-enforcer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [7.14.0] — 2026-07-02 — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[7.14.0] — 2026-07-02 — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -14066,6 +14088,7 @@
 <p>The format follows <a href="https://keepachangelog.com/">Keep a Changelog</a>, and this project adheres to <a href="https://semver.org/">Semantic Versioning</a>.</p>
 <hr />
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
+<h2 id="7140-2026-07-02-planning-coordination-shared-accessors-dark-ready-atlas-agenda-status-enforcer">[7.14.0] — 2026-07-02 — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer<a class="headerlink" href="#7140-2026-07-02-planning-coordination-shared-accessors-dark-ready-atlas-agenda-status-enforcer" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Breadcrumbs</strong> (<code>mkdocs.yml</code>): enabled <code>navigation.path</code> — renders clickable trail (Home &gt; Section &gt; Page) above each doc page title</li>
@@ -14078,6 +14101,10 @@
   org installation, and exchanges for a <code>ghs_</code> token. Supports <code>--org</code>,
   <code>--dry-run</code>, and <code>--verbose</code> flags. Interactive <code>tok mint setup</code> wizard for
   one-time credential storage (<a href="https://github.com/Data-Wise/flow-cli/issues/479">#479</a>).</li>
+<li><strong>Shared <code>.STATUS</code>/project accessors</strong> (<code>lib/core.zsh</code>): <code>_flow_status_field</code>, <code>_flow_resolve_project_path</code>, <code>_flow_suggest_project</code> — replace 4 divergent <code>.STATUS</code> field readers, 2 project-path resolvers, and 5 project-suggestion scans with one implementation each, guarded by a byte-parity characterization suite. <code>dash</code>, <code>morning</code>, <code>next</code>, <code>capture</code>, and <code>agenda</code> now share the same accessors instead of reimplementing them.</li>
+<li><strong>Atlas agenda source, dark-ready</strong> (<code>lib/schedule.zsh</code>): <code>_schedule_atlas_items</code> — a third, capability-probed schedule source (alongside <code>.STATUS</code> <code>## Schedule:</code> blocks and teach-config) that will surface atlas-tracked deadlines (<code>Task.dueDate</code>) once atlas ships an <code>agenda</code> command. Ships as tested, inert code — no atlas release implements it yet, so this is a silent no-op today. See <code>docs/ATLAS-CONTRACT.md</code> (<code>atlas agenda</code>, proposed).</li>
+<li><strong><code>agenda</code> routed through the shared schedule pipeline</strong> (<code>lib/schedule.zsh</code>, <code>commands/agenda.zsh</code>): <code>_schedule_window_records</code> gained <code>category</code>/<code>keep_holidays</code> parameters so <code>agenda</code>'s collect→filter→sort→holiday-drop chain is now the same shared pipeline <code>dash</code>/<code>morning</code>/<code>today</code>/<code>week</code> already use. Added a <code>(date, label, project)</code> dedupe pass — the first duplicate-possible scenario now that a third source exists.</li>
+<li><strong><code>.STATUS</code> template + warn-only schema checker</strong>: <code>templates/.STATUS.template</code> documents the canonical <code>.STATUS</code> shape (header fields, <code>## Schedule:</code> grammar, <code>## daily_goal:</code>, <code>## Active Worktrees</code>, session-log convention); <code>scripts/check-status.zsh</code> validates it as a warn-only <code>lint-staged</code> pre-commit check (prints violations, never blocks — flow-cli-scoped, not an ecosystem standard).</li>
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
@@ -14085,6 +14112,8 @@
 <li><strong>Broken link</strong> (<code>docs/guides/EMAIL-DISPATCHER-GUIDE.md</code>): removed References entry linking to <code>internal/EM-V2-ARCHITECTURE.md</code> which is excluded from the site</li>
 <li><strong>CONTRIBUTING.md deploy instruction</strong>: replaced incorrect <code>mkdocs gh-deploy --force</code> step with note that docs auto-deploy via CI (manual deploy is blocked by branch guard)</li>
 <li><strong>DOCUMENTATION-STYLE-GUIDE.md</strong>: updated <code>--strict</code> link-check reference to <code>mkdocs build</code> (validation block replaces <code>--strict</code>); added MkDocs Configuration section documenting breadcrumbs, <code>not_in_nav</code>, <code>exclude</code> plugin, and the fnmatch footgun</li>
+<li><strong><code>$path</code> → <code>$project_path</code> bug</strong> (<code>commands/morning.zsh</code>, <code>commands/adhd.zsh</code>): <code>next</code>/<code>morning</code> read ZSH's PATH-tied <code>$path</code> array instead of the <code>project_path</code> field the project resolver actually emits — <code>.STATUS</code> focus/progress and the project-type icon were silently blank or wrong for every project with nonzero progress. Landed as an isolated pre-step ahead of the shared-accessor refactor above.</li>
+<li><strong><code>_flow_where_fallback</code> crash</strong> (<code>lib/atlas-bridge.zsh</code>): <code>local status=...</code> crashed (<code>status</code> is a zsh read-only special variable, even as a function-local) — <code>at where</code> never actually printed <code>Status:</code>/<code>Focus:</code>. Fixed as an unavoidable side effect of the shared-accessor migration above.</li>
 </ul>
 <h2 id="7130-2026-06-19-flow-claude-c7-c11-checks-watch-daemon">[7.13.0] — 2026-06-19 — flow claude: C7-C11 checks + watch daemon<a class="headerlink" href="#7130-2026-06-19-flow-claude-c7-c11-checks-watch-daemon" title="Permanent link">&para;</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>

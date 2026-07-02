@@ -8368,6 +8368,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#atlas-agenda-proposed-dark-this-cycle-track-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        atlas agenda (proposed, dark this cycle — Track C)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#atlas-schedule-push-proposed" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8555,8 +8566,8 @@
 
 
 <h1 id="atlas-cli-api-contract">Atlas CLI API Contract<a class="headerlink" href="#atlas-cli-api-contract" title="Permanent link">&para;</a></h1>
-<p><strong>Version:</strong> 1.1.0
-<strong>Parties:</strong> flow-cli (v7.10.x) &lt;-&gt; Atlas CLI <code>@data-wise/atlas</code> (v0.9.3)
+<p><strong>Version:</strong> 1.2.0
+<strong>Parties:</strong> flow-cli (v7.14.x) &lt;-&gt; Atlas CLI <code>@data-wise/atlas</code> (v0.9.3+, <code>agenda</code> proposed)
 <strong>Status:</strong> Active</p>
 <hr />
 <h2 id="version-compatibility">Version Compatibility<a class="headerlink" href="#version-compatibility" title="Permanent link">&para;</a></h2>
@@ -8569,6 +8580,11 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>v7.14.x</td>
+<td>v0.9.3+</td>
+<td>Contract v1.2 — adds the <em>proposed</em> <code>atlas agenda</code> opportunistic read source (Track C, dark-ready — see below). No atlas release implements it yet; flow-cli ships this as tested, capability-probed, inert code.</td>
+</tr>
 <tr>
 <td>v7.10.x</td>
 <td>v0.9.3</td>
@@ -8741,8 +8757,81 @@ the data model and degrades fully without atlas.</p>
 <td>Ingest forward-looking dated items</td>
 <td>flow-cli → atlas</td>
 </tr>
+<tr>
+<td><code>atlas agenda &lt;window-days&gt; --format=json</code></td>
+<td>Read atlas-tracked deadlines (<code>Task.dueDate</code>) for a window</td>
+<td>atlas → flow-cli</td>
+</tr>
 </tbody>
 </table>
+<h3 id="atlas-agenda-proposed-dark-this-cycle-track-c"><code>atlas agenda</code> (proposed, dark this cycle — Track C)<a class="headerlink" href="#atlas-agenda-proposed-dark-this-cycle-track-c" title="Permanent link">&para;</a></h3>
+<p>The schedule engine (<code>lib/schedule.zsh</code>) merges a third source into
+<code>_schedule_collect</code> alongside <code>.STATUS</code> <code>## Schedule:</code> blocks and
+<code>.flow/teach-config.yml</code>: atlas-tracked deadlines (research tasks, grant
+reports, anything atlas's own <code>Task.dueDate</code> model tracks) that don't live in
+a project's <code>.STATUS</code> file at all.</p>
+<p><strong>Capability probe.</strong> flow-cli runs <code>atlas agenda --help</code> once per session and
+caches the result (<code>_FLOW_ATLAS_HAS_AGENDA</code>, mirroring <code>_FLOW_ATLAS_HAS_SCHEDULE</code>).
+If atlas is absent, or present but lacks an <code>agenda</code> subcommand,
+<code>_schedule_atlas_items</code> returns nothing and the engine falls back to
+<code>.STATUS</code> + teach-config only — <strong>no behavior change without atlas</strong>.</p>
+<p><strong>Call.</strong> <code>_flow_atlas_json agenda "$window"</code> — <code>$window</code> is the same
+look-ahead window (in days) the engine itself uses (<code>SCHEDULE_DEFAULT_WINDOW</code>,
+0/7/30/3650), passed positionally. <code>_flow_atlas_json</code> appends <code>--format=json</code>.</p>
+<p><strong>Response.</strong> A JSON array of records — atlas does NOT include a <code>source</code>
+field; flow-cli's mapping (<code>_schedule_atlas_items</code>) stamps <code>source=atlas</code> on
+every record it ingests, same idea as <code>status</code>/<code>teach-config</code> tagging their
+own origin:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-07-05&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;Submit grant report&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;research&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;grant-writing&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">},</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-07-12&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;NIH progress report&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;research&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;grant-writing&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">}</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">]</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>date</code></td>
+<td>ISO <code>YYYY-MM-DD</code></td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>Human text</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>teaching</code> · <code>research</code> · <code>general</code> · <code>recurring</code> · <code>holiday</code></td>
+</tr>
+<tr>
+<td><code>project</code></td>
+<td>Project name (flow-cli maps this to a local path the same way as any other project)</td>
+</tr>
+<tr>
+<td><code>recurrence</code></td>
+<td><code>none</code> or <code>weekly:&lt;dow&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Mapped into the engine's internal <code>date\|label\|type\|project\|recurrence\|source</code>
+record shape with <code>source</code> hardcoded to <code>atlas</code> during mapping (not read from
+the JSON). Deduped against <code>.STATUS</code>/teach-config records downstream on
+<code>(date, label, project)</code> like any other source — no special-casing.</p>
+<p><strong>Out of scope here (atlas's own open question).</strong> How atlas populates
+<code>Task.dueDate</code> in the first place — whether it ever reads <code>.STATUS</code>
+<code>## Schedule:</code> blocks itself, imports from somewhere else, or is purely
+user-entered — is entirely atlas's design space. This contract only pins the
+<strong>read interface</strong> flow-cli calls; it does not prescribe atlas's ingestion
+mechanism.</p>
+<p><strong>Deliberately dark this cycle.</strong> No atlas release implements <code>agenda</code> yet
+(Track B, tracked separately). flow-cli ships this as tested, capability-
+probed, inert code — same posture <code>schedule push</code> shipped with. Zero user-
+visible payoff until atlas's <code>agenda</code> command exists; zero rework required
+when it does, beyond flipping the capability probe to "yes".</p>
 <h3 id="atlas-schedule-push-proposed"><code>atlas schedule push</code> (proposed)<a class="headerlink" href="#atlas-schedule-push-proposed" title="Permanent link">&para;</a></h3>
 <p>The <code>agenda</code> layer (<code>lib/schedule.zsh</code>) aggregates dated activity from each
 project's <code>.STATUS</code> <code>## Schedule:</code> block and <code>.flow/teach-config.yml</code>, then
@@ -8753,10 +8842,10 @@ caches the result (<code>_FLOW_ATLAS_HAS_SCHEDULE</code>). If atlas is absent, o
 but lacks a <code>schedule</code> subcommand, <code>_flow_schedule_to_atlas</code> returns without
 calling atlas.</p>
 <p><strong>Payload.</strong> A JSON array of normalized records:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">[</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-20&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;Submit JRSS-B revision&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;research&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;manuscript-x&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="s2">&quot;status&quot;</span><span class="p">},</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-26&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;Grading window&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;recurring&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;stat-101&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;weekly:fri&quot;</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="s2">&quot;status&quot;</span><span class="p">}</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">[</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-20&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;Submit JRSS-B revision&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;research&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;manuscript-x&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="s2">&quot;status&quot;</span><span class="p">},</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-26&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;Grading window&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;recurring&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;stat-101&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;weekly:fri&quot;</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="s2">&quot;status&quot;</span><span class="p">}</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">]</span>
 </code></pre></div>
 <table>
 <thead>
@@ -8908,49 +8997,49 @@ ships with the silent no-op until it lands.</p>
 <p>Exit codes are stable. New codes may be added in future versions, but existing meanings MUST NOT change.</p>
 <hr />
 <h2 id="project-list-contract">Project List Contract<a class="headerlink" href="#project-list-contract" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>atlas project list --format=names
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>atlas project list --format=names
 </code></pre></div>
 <p>MUST return plain text with one project name per line. If it returns JSON, flow-cli treats this as a failure and falls back to filesystem scan.</p>
 <p>Filtered listing:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>atlas project list --status=&lt;filter&gt; --format=names
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>atlas project list --status=&lt;filter&gt; --format=names
 </code></pre></div>
 <p>Valid <code>--status</code> values: <code>active</code>, <code>parked</code>, <code>archived</code>, <code>all</code>.</p>
 <p><strong><code>--count</code> flag (v0.9.3+):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>atlas project list --count
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>atlas project list --status=active --count
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>atlas project list --count
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>atlas project list --status=active --count
 </code></pre></div>
 <p>Prints a bare integer (count of matched projects). Combinable with <code>--status</code>. Exits 0.</p>
 <p><strong><code>--suggest</code> flag (v0.9.3+):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>atlas project list --suggest
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>atlas project list --suggest
 </code></pre></div>
 <p>Prints ONE project name — the most-recently-touched active project. Prints nothing (empty output) if no active projects exist. Exits 0.</p>
 <hr />
 <h2 id="atlas-inbox-count-contract-v093"><code>atlas inbox --count</code> Contract (v0.9.3+)<a class="headerlink" href="#atlas-inbox-count-contract-v093" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>atlas inbox --count
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>atlas inbox --count
 </code></pre></div>
 <p>Prints a bare integer (count of pending inbox captures, i.e. <code>status=inbox</code>). Exits 0.</p>
 <hr />
 <h2 id="atlas-trail-limit-contract-v093"><code>atlas trail --limit</code> Contract (v0.9.3+)<a class="headerlink" href="#atlas-trail-limit-contract-v093" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>atlas trail --limit &lt;n&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>atlas trail --limit &lt;n&gt;
 </code></pre></div>
 <p>Caps the breadcrumb entries shown to the <code>n</code> most recent. Exits 0. Output format is text (unchanged from <code>atlas trail</code>).</p>
 <hr />
 <h2 id="atlas-session-status-formatjson-contract-v093"><code>atlas session status --format=json</code> Contract (v0.9.3+)<a class="headerlink" href="#atlas-session-status-formatjson-contract-v093" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>atlas session status --format=json
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>atlas session status --format=json
 </code></pre></div>
 <p>Emits a JSON object when a session is active:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;project-name&gt;&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">&quot;durationMinutes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;task text or null&gt;&quot;</span><span class="p">,</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nt">&quot;startedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-06-14T09:00:00.000Z&quot;</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;project-name&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;durationMinutes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;task text or null&gt;&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">&quot;startedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-06-14T09:00:00.000Z&quot;</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">}</span>
 </code></pre></div>
 <p>Emits <code>null</code> (the literal JSON value) when no session is active. Always exits 0.</p>
 <hr />
 <h2 id="atlas-config-show-contract-consumed-by-flow-doctor"><code>atlas config show</code> Contract (consumed by <code>flow doctor</code>)<a class="headerlink" href="#atlas-config-show-contract-consumed-by-flow-doctor" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>atlas config show
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>atlas config show
 </code></pre></div>
 <p>Prints the <strong>entire</strong> atlas configuration as pretty-printed JSON
 (<code>JSON.stringify(config, null, 2)</code> — always JSON, there is no <code>--format</code> flag on

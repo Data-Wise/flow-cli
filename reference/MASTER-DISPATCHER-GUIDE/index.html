@@ -12736,6 +12736,13 @@ The same schedule engine (<code>lib/schedule.zsh</code>) also enriches other sur
 <code>dash</code> gains an <strong>UPCOMING</strong> section (after QUICK WINS), and <code>morning</code>/<code>today</code>/
 <code>week</code> show dated blocks. See the
 <a href="../../guides/AGENDA-SCHEDULE-GUIDE/">Agenda &amp; Schedule guide</a>.</p>
+<p>The engine merges three sources: <code>.STATUS</code> <code>## Schedule:</code> blocks, teaching
+config dates, and — dark-ready as of v7.14.0 — atlas-tracked deadlines
+(<code>Task.dueDate</code>), once atlas ships an <code>agenda</code> command (see
+<a href="../../ATLAS-CONTRACT/"><code>docs/ATLAS-CONTRACT.md</code></a>). Without atlas, or with an
+atlas that doesn't implement <code>agenda</code> yet, the atlas source is a <strong>silent
+no-op</strong> — <code>agenda</code>/<code>dash</code>/<code>morning</code> behave identically to today, driven by
+<code>.STATUS</code> + teach-config alone.</p>
 <hr />
 <h2 id="how-to-use-this-guide">How to Use This Guide<a class="headerlink" href="#how-to-use-this-guide" title="Permanent link">&para;</a></h2>
 <h3 id="for-beginners">For Beginners<a class="headerlink" href="#for-beginners" title="Permanent link">&para;</a></h3>
