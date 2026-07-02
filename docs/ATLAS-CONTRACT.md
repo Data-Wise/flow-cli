@@ -1,7 +1,7 @@
 # Atlas CLI API Contract
 
-**Version:** 1.1.0
-**Parties:** flow-cli (v7.10.x) <-> Atlas CLI `@data-wise/atlas` (v0.9.3)
+**Version:** 1.2.0
+**Parties:** flow-cli (v7.14.x) <-> Atlas CLI `@data-wise/atlas` (v0.9.3+, `agenda` proposed)
 **Status:** Active
 
 ---
@@ -10,6 +10,7 @@
 
 | flow-cli | Atlas CLI | Notes |
 |----------|-----------|-------|
+| v7.14.x  | v0.9.3+   | Contract v1.2 — adds the *proposed* `atlas agenda` opportunistic read source (Track C, dark-ready — see below). No atlas release implements it yet; flow-cli ships this as tested, capability-probed, inert code. |
 | v7.10.x  | v0.9.3    | Contract v1.1 — 5 new integration flags (`session status --format`, `project list --count`, `project list --suggest`, `inbox --count`, `trail --limit`) |
 | v7.4.x   | v0.9.x    | Contract v1.0 — original contract |
 | v7.3.x   | v0.8.x    | Legacy — no `crumb` command |
@@ -63,6 +64,63 @@ the data model and degrades fully without atlas.
 | Command | Description | Direction |
 |---------|-------------|-----------|
 | `atlas schedule push --format=json --data=<json>` | Ingest forward-looking dated items | flow-cli → atlas |
+| `atlas agenda <window-days> --format=json` | Read atlas-tracked deadlines (`Task.dueDate`) for a window | atlas → flow-cli |
+
+### `atlas agenda` (proposed, dark this cycle — Track C)
+
+The schedule engine (`lib/schedule.zsh`) merges a third source into
+`_schedule_collect` alongside `.STATUS` `## Schedule:` blocks and
+`.flow/teach-config.yml`: atlas-tracked deadlines (research tasks, grant
+reports, anything atlas's own `Task.dueDate` model tracks) that don't live in
+a project's `.STATUS` file at all.
+
+**Capability probe.** flow-cli runs `atlas agenda --help` once per session and
+caches the result (`_FLOW_ATLAS_HAS_AGENDA`, mirroring `_FLOW_ATLAS_HAS_SCHEDULE`).
+If atlas is absent, or present but lacks an `agenda` subcommand,
+`_schedule_atlas_items` returns nothing and the engine falls back to
+`.STATUS` + teach-config only — **no behavior change without atlas**.
+
+**Call.** `_flow_atlas_json agenda "$window"` — `$window` is the same
+look-ahead window (in days) the engine itself uses (`SCHEDULE_DEFAULT_WINDOW`,
+0/7/30/3650), passed positionally. `_flow_atlas_json` appends `--format=json`.
+
+**Response.** A JSON array of records — atlas does NOT include a `source`
+field; flow-cli's mapping (`_schedule_atlas_items`) stamps `source=atlas` on
+every record it ingests, same idea as `status`/`teach-config` tagging their
+own origin:
+
+```json
+[
+  {"date":"2026-07-05","label":"Submit grant report","type":"research","project":"grant-writing","recurrence":"none"},
+  {"date":"2026-07-12","label":"NIH progress report","type":"research","project":"grant-writing","recurrence":"none"}
+]
+```
+
+| Field | Meaning |
+|-------|---------|
+| `date` | ISO `YYYY-MM-DD` |
+| `label` | Human text |
+| `type` | `teaching` · `research` · `general` · `recurring` · `holiday` |
+| `project` | Project name (flow-cli maps this to a local path the same way as any other project) |
+| `recurrence` | `none` or `weekly:<dow>` |
+
+Mapped into the engine's internal `date\|label\|type\|project\|recurrence\|source`
+record shape with `source` hardcoded to `atlas` during mapping (not read from
+the JSON). Deduped against `.STATUS`/teach-config records downstream on
+`(date, label, project)` like any other source — no special-casing.
+
+**Out of scope here (atlas's own open question).** How atlas populates
+`Task.dueDate` in the first place — whether it ever reads `.STATUS`
+`## Schedule:` blocks itself, imports from somewhere else, or is purely
+user-entered — is entirely atlas's design space. This contract only pins the
+**read interface** flow-cli calls; it does not prescribe atlas's ingestion
+mechanism.
+
+**Deliberately dark this cycle.** No atlas release implements `agenda` yet
+(Track B, tracked separately). flow-cli ships this as tested, capability-
+probed, inert code — same posture `schedule push` shipped with. Zero user-
+visible payoff until atlas's `agenda` command exists; zero rework required
+when it does, beyond flipping the capability probe to "yes".
 
 ### `atlas schedule push` (proposed)
 
