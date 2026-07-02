@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.13.0
+- **Current Version:** v7.14.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
@@ -217,8 +217,8 @@ export FLOW_FORCE_DISPATCHER_OBS=1           # Force-keep one dispatcher (FLOW_F
 
 ## Current Status
 
-**Version:** v7.13.0 | **Tests:** 12000+ (74/74 suite, 1 skipped — tool absence) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.14.0 | **Tests:** 12000+ (74/74 suite, 1 skipped — tool absence) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-07-01 (test counts refreshed — planning-coordination work)
+**Last Updated:** 2026-07-02 (v7.14.0)

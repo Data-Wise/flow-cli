@@ -26,13 +26,13 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.10.2"
-    **Forward-looking schedule layer:** the **`agenda`** command surfaces dated activity across all projects — deadlines, lectures, exams, milestones, and recurring blocks — bucketed into OVERDUE / TODAY / THIS WEEK / LATER (`agt`/`agw`/`agm` aliases).
-    **`dash` UPCOMING** + dated enrichment of `morning` / `today` / `week`, all driven by one shared engine. Works fully without `yq` and without atlas.
-    **Data sources:** a no-`yq` `## Schedule:` section in each project's `.STATUS`, plus teaching dates from `.flow/teach-config.yml`.
-    **New in v7.10.2:** a dedicated **Planning & Scheduling** documentation section, a rewritten Agenda tutorial with real command output and copy-paste recipes, clearer flow-cli ↔ Atlas framing, plus routine dependency maintenance. **64 suites** passing (216 files, 12000+ assertions).
-    [→ Agenda & Schedule Tutorial](tutorials/48-agenda-schedule.md){ .md-button .md-button--primary }
-    [→ Agenda & Schedule Guide](guides/AGENDA-SCHEDULE-GUIDE.md){ .md-button }
+!!! success "🎉 What's New in v7.14.0"
+    **Agenda now spans three data sources.** Alongside `.STATUS` `## Schedule:` blocks and teaching dates, the engine gained a third, capability-probed source for atlas-tracked deadlines (`Task.dueDate`) — shipped **dark-ready** (tested, silent no-op until an atlas release implements the `agenda` command; see the [Atlas Contract](ATLAS-CONTRACT.md)).
+    **De-duplicated planning internals:** `dash`, `morning`, `next`, `capture`, and `agenda` now share one `.STATUS` field accessor, one project-path resolver, and one project-suggestion scan instead of five divergent implementations — plus a fix for a bug that silently blanked focus/progress/icon for every project.
+    **New `.STATUS` schema checker:** `templates/.STATUS.template` + a warn-only `check-status.zsh` pre-commit validator (prints violations, never blocks).
+    **74 suites** passing (245 files, 12000+ assertions).
+    [→ Agenda & Schedule Guide](guides/AGENDA-SCHEDULE-GUIDE.md){ .md-button .md-button--primary }
+    [→ Atlas Contract](ATLAS-CONTRACT.md){ .md-button }
     [→ Changelog](CHANGELOG.md){ .md-button }
 
 ---
@@ -293,4 +293,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.10.2** · Pure ZSH · Zero Dependencies · MIT License
+**v7.14.0** · Pure ZSH · Zero Dependencies · MIT License

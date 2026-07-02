@@ -8,6 +8,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.14.0] — 2026-07-02 — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer
+
 ### Added
 
 - **Breadcrumbs** (`mkdocs.yml`): enabled `navigation.path` — renders clickable trail (Home > Section > Page) above each doc page title
