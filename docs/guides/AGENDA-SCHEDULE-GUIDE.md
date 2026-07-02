@@ -83,6 +83,23 @@ is due:
 
 ## Where items come from
 
+Three sources feed the same engine and are merged, deduped, and rendered
+identically no matter which surface you're looking at:
+
+```mermaid
+flowchart LR
+    A["📄 .STATUS<br/>## Schedule: blocks<br/>(no yq needed)"] --> E
+    B["🎓 .flow/teach-config.yml<br/>teaching dates<br/>(needs yq)"] --> E
+    C["☁️ atlas agenda<br/>Task.dueDate<br/>(dark-ready — no atlas<br/>release implements it yet)"] -.->|"silent no-op<br/>without atlas"| E
+    E["_schedule_collect<br/>(lib/schedule.zsh)"] --> F["dedupe on<br/>(date, label, project)"]
+    F --> G["agenda / dash UPCOMING /<br/>morning / today / week"]
+```
+
+The dotted line marks the atlas source as **optional and currently inert** —
+see [Atlas integration](#atlas-integration-optional-dark-ready) below. The
+other two sources work fully without atlas and without `yq` (the teaching
+path is the only one that needs `yq`; it's skipped gracefully when absent).
+
 ### 1. `## Schedule:` in a project's `.STATUS` (no `yq` needed)
 
 Add a `## Schedule:` section to any project's `.STATUS` file:
@@ -126,6 +143,16 @@ agenda still works, the teaching items are just skipped.
     that only has `weeks[].date` yields no week items.
 
 Holidays are typed `holiday` and hidden unless you pass `--all`.
+
+### 3. Atlas-tracked deadlines (dark-ready, optional)
+
+A third source, `_schedule_atlas_items` (`lib/schedule.zsh`), reads
+atlas-tracked deadlines (`Task.dueDate`) — things you track in atlas rather
+than in a project's `.STATUS`. See
+[Atlas integration](#atlas-integration-optional-dark-ready) below for details
+and a real merged example. **No atlas release implements this yet** — until
+it does, this source is a silent no-op and changes nothing about the two
+sources above.
 
 ---
 
@@ -192,13 +219,64 @@ each command answers.
 
 ---
 
-## Atlas integration (optional)
+## Atlas integration (optional, dark-ready)
+
+Atlas integration is two independent, opportunistic paths — a push (flow-cli
+→ atlas, shipped) and a read (atlas → flow-cli, dark-ready as of v7.14.0).
+Both degrade to a silent no-op without atlas; neither is required for
+`agenda` to work.
+
+### Push: flow-cli → atlas (shipped)
 
 When atlas is installed **and** exposes a `schedule` subcommand, `agenda` pushes
 the collected items opportunistically and asynchronously
 (`atlas schedule push --format=json`). When atlas is absent — or present but
 without that subcommand — the push is a silent no-op. flow-cli owns the model;
-atlas is just a sync target. See [ATLAS-CONTRACT](../ATLAS-CONTRACT.md).
+atlas is just a sync target.
+
+### Read: atlas → flow-cli (dark-ready, v7.14.0)
+
+`_schedule_atlas_items` (source #3 above) reads atlas-tracked deadlines back
+into the engine via `atlas agenda <window-days> --format=json`, probed once per
+session (`atlas agenda --help`) and cached. **No atlas release implements
+`agenda` yet** — real atlas doesn't have the command, so this ships as tested,
+capability-probed, inert code. Zero user-visible change until atlas ships it;
+zero rework required here when it does.
+
+Below is a real captured run (not a fabricated transcript) against a stub
+`atlas` returning one deadline, merged alongside a `.STATUS` Schedule item and
+a teaching week — this is what it looks like once atlas *does* implement
+`agenda`:
+
+```text
+$ agenda -m
+
+  📅 AGENDA (next 30 days)
+
+  THIS WEEK (4)
+  🔁 in 2d       Grading window (manuscript-x)
+  🔬 in 4d       Submit JRSS-B revision (manuscript-x)
+  🎓 in 5d       Week 1 (stat-101)
+  🔬 in 7d       NIH progress report (manuscript-x)
+
+  LATER (4)
+  🔁 in 9d       Grading window (manuscript-x)
+  🔁 in 16d      Grading window (manuscript-x)
+  🔁 in 23d      Grading window (manuscript-x)
+  🔁 in 30d      Grading window (manuscript-x)
+
+  8 items • 'agenda -h' for options
+```
+
+"NIH progress report" is the only atlas-sourced item (`🔬`, same research
+icon as any other research-typed record — the source is invisible to the
+rendered output, by design). "Submit JRSS-B revision" and the weekly
+"Grading window" come from `.STATUS`; "Week 1" comes from teach-config. If an
+atlas record matches a local one exactly on `(date, label, project)`, it's
+deduped — the local `.STATUS` record always wins.
+
+See [ATLAS-CONTRACT](../ATLAS-CONTRACT.md) for the full `atlas agenda`
+contract (request/response shape, capability probe).
 
 ---
 

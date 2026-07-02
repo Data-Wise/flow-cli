@@ -66,6 +66,14 @@ The same schedule engine (`lib/schedule.zsh`) also enriches other surfaces:
 `week` show dated blocks. See the
 [Agenda & Schedule guide](../guides/AGENDA-SCHEDULE-GUIDE.md).
 
+The engine merges three sources: `.STATUS` `## Schedule:` blocks, teaching
+config dates, and — dark-ready as of v7.14.0 — atlas-tracked deadlines
+(`Task.dueDate`), once atlas ships an `agenda` command (see
+[`docs/ATLAS-CONTRACT.md`](../ATLAS-CONTRACT.md)). Without atlas, or with an
+atlas that doesn't implement `agenda` yet, the atlas source is a **silent
+no-op** — `agenda`/`dash`/`morning` behave identically to today, driven by
+`.STATUS` + teach-config alone.
+
 ---
 
 ## How to Use This Guide

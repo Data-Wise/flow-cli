@@ -127,7 +127,7 @@ question** (D4) — do not design it here.
       on `PATH` returning the fixture
 - [x] 2.9 Green: dependency + e2e + full integration (dedupe on
       `date|label|project`, no double-count — new: `tests/integration/
-  agenda-merged-sources.zsh` didn't exist yet, so dedup coverage was
+agenda-merged-sources.zsh` didn't exist yet, so dedup coverage was
       added as e2e-agenda-atlas.zsh Section 3 instead); full `./tests/run-all.sh`
 - [x] 2.10 Commit — `feat(agenda): merge atlas agenda source into schedule engine (dark-ready)` (+ `docs(contract):` for ATLAS-CONTRACT)
 - [x] 2.11 **STOP.** Report: files changed, tests added, pass/fail/skip counts,
@@ -163,20 +163,20 @@ question** (D4) — do not design it here.
 
 Per SPEC §6 — currency-check each file before editing; update genuine deltas only.
 
-- [ ] Guide — `docs/reference/MASTER-DISPATCHER-GUIDE.md` (atlas source + degradation)
-- [ ] Guide — `docs/guides/AGENDA-SCHEDULE-GUIDE.md` (data-source diagram + merged example w/ real captured output — memory `capture-real-agenda-output-for-docs`)
-- [ ] API ref — `docs/reference/MASTER-API-REFERENCE.md` (`_flow_status_field`, `_flow_resolve_project_path`, `_flow_suggest_project`, `_schedule_atlas_items`)
-- [ ] REFCARD — `docs/help/QUICK-REFERENCE.md` (agenda spans research + dev)
-- [ ] Contract — `docs/ATLAS-CONTRACT.md` version bump (done in Phase 2; verify)
-- [ ] `CONTRIBUTING.md` — note `.STATUS` template + warn-only `check-status.zsh`
-- [ ] CHANGELOG — `CHANGELOG.md` + `docs/CHANGELOG.md` `[Unreleased]`, **mirrored**
-- [ ] CLAUDE.md — refresh test-file/suite counts after new suites
-- [ ] Website — `mkdocs build --strict` 0 warnings (no nav change expected)
-- [ ] Hygiene — mark `docs/specs/SPEC-agenda-schedule-2026-06-13.md` **Implemented**
-- [ ] `/craft:docs:lint` clean
+- [x] Guide — `docs/reference/MASTER-DISPATCHER-GUIDE.md` (atlas source + degradation)
+- [x] Guide — `docs/guides/AGENDA-SCHEDULE-GUIDE.md` (data-source diagram + merged example w/ real captured output — memory `capture-real-agenda-output-for-docs`)
+- [x] API ref — `docs/reference/MASTER-API-REFERENCE.md` (`_flow_status_field`, `_flow_resolve_project_path`, `_flow_suggest_project`, `_schedule_atlas_items`)
+- [x] REFCARD — `docs/help/QUICK-REFERENCE.md` (agenda spans research + dev)
+- [x] Contract — `docs/ATLAS-CONTRACT.md` version bump (done in Phase 2; verified — v1.2.0, `atlas agenda` documented)
+- [x] `CONTRIBUTING.md` — note `.STATUS` template + warn-only `check-status.zsh`
+- [x] CHANGELOG — `CHANGELOG.md` + `docs/CHANGELOG.md` `[Unreleased]`, **mirrored**
+- [x] CLAUDE.md — refresh test-file/suite counts after new suites
+- [x] Website — `mkdocs build --strict` 0 warnings (no nav change expected)
+- [x] Hygiene — mark `docs/specs/SPEC-agenda-schedule-2026-06-13.md` **Implemented**
+- [x] `/craft:docs:lint` clean (scoped to files touched this phase — see report)
 - Demo — N/A (no new user-facing command surface; extends existing `agenda`)
 - Catalog/hub — N/A (no new command/skill/agent)
-- [ ] **STOP.** Report results. Wait for the reviewer's final go-ahead before any PR is opened (agent does NOT open the PR).
+- [x] **STOP.** Report results. Wait for the reviewer's final go-ahead before any PR is opened (agent does NOT open the PR).
 
 ## Friction Prevention
 
