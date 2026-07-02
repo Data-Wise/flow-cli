@@ -127,7 +127,7 @@ question** (D4) — do not design it here.
       on `PATH` returning the fixture
 - [x] 2.9 Green: dependency + e2e + full integration (dedupe on
       `date|label|project`, no double-count — new: `tests/integration/
-    agenda-merged-sources.zsh` didn't exist yet, so dedup coverage was
+  agenda-merged-sources.zsh` didn't exist yet, so dedup coverage was
       added as e2e-agenda-atlas.zsh Section 3 instead); full `./tests/run-all.sh`
 - [x] 2.10 Commit — `feat(agenda): merge atlas agenda source into schedule engine (dark-ready)` (+ `docs(contract):` for ATLAS-CONTRACT)
 - [x] 2.11 **STOP.** Report: files changed, tests added, pass/fail/skip counts,
@@ -140,22 +140,22 @@ question** (D4) — do not design it here.
 
 **Scope:** flow-cli-scoped only — NOT an ecosystem-wide standard.
 
-- [ ] 3.1 **Red test first:** `tests/test-status-schema.zsh`
-- [ ] 3.2 Write `templates/.STATUS.template` — canonical structure + inline
+- [x] 3.1 **Red test first:** `tests/test-status-schema.zsh`
+- [x] 3.2 Write `templates/.STATUS.template` — canonical structure + inline
       comments (header fields, `## Schedule:` grammar, `## daily_goal:`,
       `## Active Worktrees`, session-log convention; documents the dual
       dialect `_flow_status_field` supports)
-- [ ] 3.3 Write `scripts/check-status.zsh` (model: `scripts/check-math.zsh`) —
+- [x] 3.3 Write `scripts/check-status.zsh` (model: `scripts/check-math.zsh`) —
       validates required fields, `Progress` int 0–100, `Schedule` grammar,
       `Status` in allowed set. **exit 0 always (warn-only, D11)** — print
       violations, never block
-- [ ] 3.4 Wire into `lint-staged`: extensionless `.STATUS` filename match
+- [x] 3.4 Wire into `lint-staged`: extensionless `.STATUS` filename match
       (not a glob) alongside the `check-math.zsh` entry
-- [ ] 3.5 Green: `check-status.zsh` rejects (prints, doesn't block) a
+- [x] 3.5 Green: `check-status.zsh` rejects (prints, doesn't block) a
       malformed fixture; passes clean on the template and on flow-cli's own
       `.STATUS`; full `./tests/run-all.sh`
-- [ ] 3.6 Commit — `feat(status): add .STATUS template + warn-only schema enforcer`
-- [ ] 3.7 **STOP.** Report results. Wait for the reviewer's go-ahead.
+- [x] 3.6 Commit — `feat(status): add .STATUS template + warn-only schema enforcer`
+- [x] 3.7 **STOP.** Report results. Wait for the reviewer's go-ahead.
 
 **Key files:** `templates/.STATUS.template` (NEW), `scripts/check-status.zsh` (NEW), `package.json` (lint-staged entry), `tests/test-status-schema.zsh` (NEW)
 

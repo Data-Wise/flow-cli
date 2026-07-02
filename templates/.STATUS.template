@@ -1,0 +1,70 @@
+# <project-name> - <one-line description>
+#
+# This is a flow-cli .STATUS file. It drives `dash`, `morning`, `next`,
+# `agenda`, and `flow goal` — keep the header fields below accurate; flow-cli
+# reads them directly (no external tools required).
+#
+# Dual dialect: every field below may be written either as markdown
+# ("## Field: value", shown here) or as plain YAML-ish ("field: value", no
+# "## " prefix, lowercase). _flow_status_field (lib/core.zsh) reads both —
+# pick whichever your project already uses and stay consistent within a file.
+#
+# flow-cli-scoped convention (SPEC-planning-coordination-2026-07-01 §3.6) —
+# this is NOT an ecosystem-wide standard. scripts/check-status.zsh validates
+# this shape as a warn-only pre-commit check (D11): it prints violations, it
+# never blocks a commit.
+
+## Project: <project-name>
+## Type: <e.g. zsh-plugin | node-cli | r-package | quarto-site>
+## Status: active
+## Focus: <what you're doing right now, one line>
+## Phase: Planning
+## Priority: 2
+## Progress: 0
+
+# --- Optional fields --------------------------------------------------------
+
+# Per-project daily win goal (flow-cli's dopamine features — `win`/`yay`).
+# Overrides the global default when present. Must be a bare integer.
+## daily_goal: 3
+
+# --- Schedule (optional) -----------------------------------------------------
+# Forward-looking dated items surfaced by `agenda` / the dash UPCOMING
+# section. One list item per line:
+#
+#   - <when> | <label> [| <type>]
+#
+#   when  = YYYY-MM-DD                (concrete date)
+#         | weekly:<dow>              (recurring, e.g. weekly:fri)
+#   label = free text (must not itself contain " | "; a literal "|" inside
+#           the label is sanitized to "/" downstream)
+#   type  = teaching | research | general | recurring | holiday
+#           (optional — defaults to "general" for a dated entry, "recurring"
+#           for a weekly: entry)
+#
+# Lines that don't match this grammar are silently skipped by the schedule
+# engine (not fatal, just invisible) — check-status.zsh flags them so you
+# notice before they go missing from `agenda`.
+#
+## Schedule:
+# - 2026-08-15 | Submit conference abstract | research
+# - weekly:fri | Grading window | recurring
+
+# --- Active Worktrees (optional) --------------------------------------------
+# Free-form section some projects use to track open `git worktree`s. Not
+# machine-parsed by flow-cli today; documented here for convention only.
+#
+## Active Worktrees
+# - feature/some-branch -> ~/.git-worktrees/<project>/feature-some-branch
+
+# --- Session log (convention, append-only) ----------------------------------
+# Most-recent-first. Each entry is a "## Current Session (YYYY-MM-DD) —
+# <summary>" heading (rename the previous "Current Session" to "Previous
+# Session" when you start a new one) followed by a short bullet list. This is
+# read by humans and `dash`/`morning`'s Focus/Progress fields above — it is
+# NOT machine-parsed beyond the header fields at the top of this file.
+
+## Current Session (YYYY-MM-DD) — <short summary>
+
+**Session activity:**
+- <what happened>

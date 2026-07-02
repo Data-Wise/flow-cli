@@ -173,6 +173,7 @@ run_test ./tests/test-doctor-atlas-calls.zsh
 echo ""
 echo "Additional unit tests:"
 run_test ./tests/test-status-fields.zsh
+run_test ./tests/test-status-schema.zsh
 run_test ./tests/test-lint-e2e.zsh
 run_test ./tests/test-teach-prompt-unit.zsh
 run_test ./tests/test-scholar-config-sync.zsh

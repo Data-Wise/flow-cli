@@ -35,6 +35,9 @@
     ],
     "*.qmd": [
       "zsh scripts/check-math.zsh"
+    ],
+    ".STATUS": [
+      "zsh scripts/check-status.zsh"
     ]
   }
 }
