@@ -3,7 +3,7 @@
 > Copy-paste routines for the two cadences flow-cli is built around: the daily loop and the
 > weekly review.
 >
-> **Version:** v7.14.0 | **Last Updated:** 2026-07-02
+> **Version:** v7.15.0 | **Last Updated:** 2026-07-02
 
 Each recipe follows the same structure: **When** — **Commands** — **Why**.
 For full command reference see [`docs/help/QUICK-REFERENCE.md`](../help/QUICK-REFERENCE.md) and

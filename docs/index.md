@@ -29,11 +29,11 @@ tags:
     **New here?** `setup` walks you through configuration interactively, or run `tutorial` for
     12 hands-on lessons at your own pace — both are guided, no docs required to start.
 
-!!! success "🎉 What's New in v7.14.0"
-    **Agenda now spans three data sources** — `.STATUS` schedules, teaching dates, and (dark-ready) atlas deadlines.
-    **Planning commands de-duplicated** — `dash`, `morning`, `next`, `capture`, `agenda` share one accessor set, plus a bug fix.
-    Full details, the `.STATUS` schema checker, and test counts → [Changelog](CHANGELOG.md).
-    [→ Agenda & Schedule Guide](guides/AGENDA-SCHEDULE-GUIDE.md){ .md-button .md-button--primary }
+!!! success "🎉 What's New in v7.15.0"
+    **`doctor` now catches Homebrew distribution failures** — opt/Cellar symlink drift, stale kegs, and man-page collisions that silently break `brew upgrade`.
+    **Doc gaps filled** — `ref`, `setup`, `tutorial` now have full command docs, plus a new [Daily & Weekly Cookbook](guides/WORKFLOW-COOKBOOK.md).
+    Full details → [Changelog](CHANGELOG.md).
+    [→ Cookbook](guides/WORKFLOW-COOKBOOK.md){ .md-button .md-button--primary }
 
 ---
 
@@ -326,4 +326,4 @@ ref               # Quick-reference card (forgot the syntax? this is faster than
 
 ---
 
-**v7.14.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.15.0** · Pure ZSH · Zero Dependencies · MIT License
