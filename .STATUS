@@ -9,7 +9,20 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-06-30) — mkdocs improvements + Dependabot maintenance ✅
+## Current Session (2026-07-02) — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer ✅
+
+**Session activity:**
+- **Brainstormed + grilled** (16 decisions, D1-D16) the flow-cli slice of a 3-repo (flow-cli/atlas/obsidian-cli-ops) daily-planning coordination proposal — `docs/specs/BRAINSTORM-planning-coordination-2026-07-01.md` + `docs/specs/SPEC-planning-coordination-2026-07-01.md`. Hard-scoped to flow-cli only this cycle; atlas Track B and obs Track D deferred to their own specs.
+- **Phase-gated implementation** (background agent, 5 phases, each independently reviewed — diff read, full suite reproduced, technical claims empirically verified before authorizing the next phase):
+  - **Fixed** `$path`→`project_path` bug (`morning.zsh`, `adhd.zsh`) — `next`/`morning` were silently reading ZSH's PATH array instead of the project path, blanking focus/progress/icon for every project
+  - **Added** 3 shared accessors (`_flow_status_field`, `_flow_resolve_project_path`, `_flow_suggest_project` in `lib/core.zsh`), replacing 4×/2×/5× divergent implementations, guarded by a characterization/parity test suite. Found + fixed 2 real zsh bugs along the way (`status` is a read-only special var even function-local; redeclaring `local` inside a loop echoes stale values to stdout)
+  - **Added** `_schedule_atlas_items` — a third, capability-probed schedule source for atlas `Task.dueDate` deadlines. Ships **dark-ready** (tested, inert — no atlas release implements `agenda` yet); contract pinned in `ATLAS-CONTRACT.md` v1.2.0
+  - **Added** `templates/.STATUS.template` + `scripts/check-status.zsh` — a warn-only (never blocks) `.STATUS` schema checker wired into `lint-staged`
+  - **Updated** docs (API reference, agenda/schedule guide with a real captured multi-source transcript, dispatcher guide, CHANGELOG, CONTRIBUTING, CLAUDE.md counts)
+- **Caught a real CI-only bug** before merge: a test hid `jq` via `PATH="$STUB_BIN:/bin"`, correct on macOS (`/bin` has no `jq`) but wrong on Ubuntu's usr-merged `/bin` (→ `/usr/bin/jq`, preinstalled on `ubuntu-latest`) — fixed to `PATH="$STUB_BIN"` alone, no system-directory assumption.
+- **Merged** PR #483 → dev (squash, `8012aaea`), both CI checks green. Worktree + local/remote feature branch cleaned up.
+
+## Previous Session (2026-06-30) — mkdocs improvements + Dependabot maintenance ✅
 
 **Session activity:**
 - **Added** breadcrumbs (`navigation.path`), instant prefetch, and validation block to `mkdocs.yml`
@@ -442,7 +455,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| `~/.git-worktrees/flow-cli/feature-planning-coordination` | `feature/planning-coordination` | Planning done (2026-07-01) — SPEC + ORCHESTRATE committed; awaiting impl in a new session (Tracks A+C; atlas/obs contract-only) |
+| — | — | All worktrees clean (as of 2026-07-02) |
 
 ---
 
