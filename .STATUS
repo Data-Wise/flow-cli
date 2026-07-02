@@ -5,11 +5,21 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Releasing (v7.15.0)
+## Phase: Released (v7.15.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-02) — retired code-workspace spec, closed 3 stale issues, triaged real backlog ✅
+## Current Session (2026-07-02) — v7.15.0 SHIPPED [main + Homebrew] ✅
+
+**Session activity (part 5, release):**
+- **Released v7.15.0**: closed the CHANGELOG gap (this session's doc work — cookbook, ref/setup/tutorial docs, homepage reorg — wasn't yet reflected in `[Unreleased]`) → `release.sh 7.15.0` (package.json, CLAUDE.md, flow.plugin.zsh, 23 man pages) → caught and fixed 2 things `release.sh` doesn't cover: `package-lock.json` was 2 versions stale (7.13.0, fixed via `npm install --package-lock-only`, version-field-only diff verified) and `docs/index.md`'s own version stamps (What's New callout + footer, refreshed to headline the actual 7.15.0 content instead of stale 7.14.0 copy).
+- **Verified before merge**: full suite 74/0/1/1 (matches documented baseline), `mkdocs build --strict` clean, 12/12 man-page version-sync guard checks, leak-scanned the diff (clean — the `ghp_DEMO_TOKEN_NOT_REAL_...` and `github_app_private_key` hits are prose/Keychain-field-name references, not real credentials).
+- **PR #486** (`dev`→`main`) merged after both CI checks green → tagged `v7.15.0` → GitHub release published → Version Guard + Homebrew Release workflows both succeeded (formula auto-updated in `homebrew-tap`) → Deploy Documentation live.
+- **Live-verified end-to-end**: `brew upgrade flow-cli` → 7.14.0→7.15.0 on this machine, shell-loaded `$FLOW_VERSION` matches the Cellar keg, and the new `doctor` INSTALLATION section (this release's headline feature) runs and passes post-upgrade — closes the loop on the man-page-collision bug fixed earlier this session.
+- **Debugged own tooling mid-release**: a `Monitor` call watching post-release CI appeared to hang — root-caused to `gh run list --branch main` silently excluding release-tag-triggered workflow runs (they don't attach to a branch ref); the actual CI had finished in under 2 minutes. Not a process bug, a monitoring-script bug.
+- **`dev` synced with `main`** (fast-forwarded past the release merge commit).
+
+## Previous Session (2026-07-02) — retired code-workspace spec, closed 3 stale issues, triaged real backlog ✅
 
 **Session activity (part 4):**
 - **Retired `SPEC-code-workspace-2026-02-13.md`** (`code ws` dispatcher) — draft, 4.5mo untouched, zero implementation, zero demand signal; overloading the `code` binary carries real risk without a validated need. Moved to `docs/specs/_archive/`, marked retired. Cleared the (now-empty) `.STATUS` Next Action queue.
