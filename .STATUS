@@ -9,7 +9,14 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-02) — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer ✅
+## Current Session (2026-07-02) — Homebrew man-page fix + doctor INSTALLATION checks ✅
+
+**Session activity (part 2, continued from planning-coordination below):**
+- **Diagnosed + fixed a real Homebrew distribution bug**: flow-cli's `r`-dispatcher man page (`r.1`) collided case-insensitively with the `r` (R-language) formula's `R.1` on APFS, silently breaking `brew link`/`brew upgrade` for anyone with both installed — `brew upgrade flow-cli` reported "already installed" while actually broken. Fixed in `homebrew-tap` (`Formula/flow-cli.rb`, PR #135, merged `05a2e17c`): exclude `r.1` unconditionally from the Homebrew install. Verified via `brew reinstall flow-cli` — clean, 0 errors.
+- **Added `doctor` INSTALLATION section** (PR #485, merged squash `352d6f6ea`) to catch this class of bug going forward: opt/Cellar symlink integrity, shell-loaded version vs. installed Cellar keg drift, and flow-cli's own man pages resolving cleanly (scoped to flow-cli's pages specifically — avoids false positives from Homebrew's own keg-only convention, e.g. `lua`/`lua@5.4`, discovered by testing live against this machine's real install). New `tests/e2e-doctor-install.zsh` (7 scenarios). Along the way found + worked around a zsh quirk: redeclaring `local` inside a glob-driven `for` loop spuriously echoes `name=value` to stdout on this machine's zsh build — hoisted `local` out of the loop.
+- **homebrew-tap**: worktree `fix/flow-cli-r-man-conflict` removed, branch deleted (squash-merged); `.STATUS` updated (left uncommitted — `main` is PR-only in that repo).
+
+## Previous Session (2026-07-02) — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer ✅
 
 **Session activity:**
 - **Brainstormed + grilled** (16 decisions, D1-D16) the flow-cli slice of a 3-repo (flow-cli/atlas/obsidian-cli-ops) daily-planning coordination proposal — `docs/specs/BRAINSTORM-planning-coordination-2026-07-01.md` + `docs/specs/SPEC-planning-coordination-2026-07-01.md`. Hard-scoped to flow-cli only this cycle; atlas Track B and obs Track D deferred to their own specs.
@@ -483,8 +490,8 @@
 
 ---
 
-**Last Updated:** 2026-06-30
-**Status:** v7.13.0 active | mkdocs improvements (breadcrumbs, validation, not_in_nav) + Dependabot deps current | full suite REQUIRED on main — 64 passed / 0 failed / 1 skipped | 14 dispatchers + at bridge | 219 test files | 12000+ test functions | 0 lint errors | 0 broken links
+**Last Updated:** 2026-07-02
+**Status:** v7.14.0 active (Homebrew man-page fix live via homebrew-tap PR #135) | doctor INSTALLATION checks added (PR #485) | full suite — 74 passed / 0 failed / 1 timeout (interactive/tmux baseline) / 1 skipped (himalaya absent) | 14 dispatchers + at bridge | 230 test files | 75 registered suites | 0 lint errors | 0 broken links
 ## wins: Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19)
 ## streak: 1
 ## last_active: 2026-06-19 10:30
