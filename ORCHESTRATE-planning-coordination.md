@@ -99,33 +99,38 @@ ships as tested, inert code (real atlas has no `agenda` command yet). Pin the
 proposed contract; leave `.STATUS`-ingestion mechanism as **atlas's own open
 question** (D4) — do not design it here.
 
-- [ ] 2.1 **Red tests first:** `tests/test-schedule-atlas-source.zsh`,
+- [x] 2.1 **Red tests first:** `tests/test-schedule-atlas-source.zsh`,
       `tests/e2e-agenda-atlas.zsh` (register in `run-all.sh`)
-- [ ] 2.2 Create `tests/fixtures/atlas-agenda-stub.json` — the atlas-present
+- [x] 2.2 Create `tests/fixtures/atlas-agenda-stub.json` — the atlas-present
       test fixture (canned `agenda --format json` response)
-- [ ] 2.3 Add `_schedule_atlas_items <window>` in `lib/schedule.zsh`;
+- [x] 2.3 Add `_schedule_atlas_items <window>` in `lib/schedule.zsh`;
       capability cache `_FLOW_ATLAS_HAS_AGENDA` (mirror `_FLOW_ATLAS_HAS_SCHEDULE`);
       call `_flow_atlas_json agenda "$window"`; map to
       `date|label|type|project|recurrence|source` with `source=atlas`
-- [ ] 2.4 Wire into `_schedule_collect` (`schedule.zsh:378`) alongside
+- [x] 2.4 Wire into `_schedule_collect` (`schedule.zsh:378`) alongside
       `_schedule_parse_status` + `_schedule_teach_items`; **no-op when absent**
-- [ ] 2.5 `at` dispatcher: `agenda` JSON passthrough in `lib/atlas-bridge.zsh`
-- [ ] 2.6 Extend `docs/ATLAS-CONTRACT.md`: proposed `atlas task list --format json` + `atlas agenda [today|week|--all] --format json`; bump contract version;
+- [x] 2.5 `at` dispatcher: `agenda` JSON passthrough in `lib/atlas-bridge.zsh`
+      — verified the generic `atlas "$@"` passthrough (already existing)
+      already handles `at agenda ... --format=json` correctly; no code change
+      needed, confirmed via a stub-atlas dogfood check
+- [x] 2.6 Extend `docs/ATLAS-CONTRACT.md`: proposed
+      `atlas agenda <window-days> --format json`; bump contract version;
       explicitly note `.STATUS`-ingestion as **atlas's open design question**,
       not prescribed here
-- [ ] 2.7 Extend `tests/test-atlas-contract.zsh`: assert the fixture
+- [x] 2.7 Extend `tests/test-atlas-contract.zsh`: assert the fixture
       (2.2)'s shape matches what the contract doc (2.6) documents — a
       contract edit without a fixture update must fail this test (D16)
-- [ ] 2.8 **Test both atlas states (D15):** absent via capability-flag
+- [x] 2.8 **Test both atlas states (D15):** absent via capability-flag
       override (`_FLOW_ATLAS_HAS_AGENDA` / `_flow_has_atlas`, NOT
       `FLOW_ATLAS_ENABLED=no` alone — env var is known-insufficient per memory
       `capture-real-agenda-output-for-docs`); present via a stub `atlas` shim
       on `PATH` returning the fixture
-- [ ] 2.9 Green: dependency + e2e + full integration
-      (`agenda-merged-sources.zsh` now with atlas third source, dedupe on
-      `date|label|project`, no double-count); full `./tests/run-all.sh`
-- [ ] 2.10 Commit — `feat(agenda): merge atlas agenda source into schedule engine (dark-ready)` (+ `docs(contract):` for ATLAS-CONTRACT)
-- [ ] 2.11 **STOP.** Report: files changed, tests added, pass/fail/skip counts,
+- [x] 2.9 Green: dependency + e2e + full integration (dedupe on
+      `date|label|project`, no double-count — new: `tests/integration/
+    agenda-merged-sources.zsh` didn't exist yet, so dedup coverage was
+      added as e2e-agenda-atlas.zsh Section 3 instead); full `./tests/run-all.sh`
+- [x] 2.10 Commit — `feat(agenda): merge atlas agenda source into schedule engine (dark-ready)` (+ `docs(contract):` for ATLAS-CONTRACT)
+- [x] 2.11 **STOP.** Report: files changed, tests added, pass/fail/skip counts,
       dogfood confirmation that no-atlas behavior is unchanged. Wait for the
       reviewer's go-ahead.
 

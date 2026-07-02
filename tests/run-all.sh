@@ -92,6 +92,7 @@ echo "Core command tests:"
 run_test ./tests/test-flow-claude.zsh
 run_test ./tests/test-dash.zsh
 run_test ./tests/test-schedule.zsh
+run_test ./tests/test-schedule-atlas-source.zsh
 run_test ./tests/test-agenda.zsh
 run_test ./tests/test-cadence-agenda.zsh
 run_test ./tests/test-work.zsh
@@ -162,6 +163,7 @@ run_test ./tests/e2e-atlas-bridge.zsh
 run_test ./tests/e2e-scholar-config-sync.zsh
 run_test ./tests/e2e-tok-sync.zsh
 run_test ./tests/e2e-agenda.zsh
+run_test ./tests/e2e-agenda-atlas.zsh
 
 echo ""
 echo "Atlas contract tests:"

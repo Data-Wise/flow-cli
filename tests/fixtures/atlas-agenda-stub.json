@@ -1,0 +1,16 @@
+[
+  {
+    "date": "2026-07-05",
+    "label": "Submit grant report",
+    "type": "research",
+    "project": "grant-writing",
+    "recurrence": "none"
+  },
+  {
+    "date": "2026-07-12",
+    "label": "NIH progress report",
+    "type": "research",
+    "project": "grant-writing",
+    "recurrence": "none"
+  }
+]

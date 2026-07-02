@@ -51,6 +51,10 @@ typeset -g _SCHEDULE_CACHE_TIME=0
 # Atlas `schedule` subcommand capability probe (cached per session).
 typeset -g _FLOW_ATLAS_HAS_SCHEDULE=""
 
+# Atlas `agenda` subcommand capability probe (cached per session) — dark-ready
+# read source, SPEC-planning-coordination-2026-07-01 §3.4.
+typeset -g _FLOW_ATLAS_HAS_AGENDA=""
+
 # ============================================================================
 # DATE HELPERS
 # ============================================================================
@@ -443,8 +447,42 @@ _schedule_collect() {
     fi
   done < <(_flow_list_projects)
 
+  # 3. Atlas agenda source (dark-ready; silent no-op without atlas — SPEC §3.4)
+  while IFS= read -r rec; do
+    [[ -z "$rec" ]] && continue
+    local -a af=("${(@s:|:)rec}")
+    rtype="${af[3]}"
+    if [[ -n "$category" ]]; then
+      local aproj_path aproj_cat=""
+      aproj_path=$(_dash_find_project_path "${af[4]}")
+      [[ -n "$aproj_path" ]] && aproj_cat=$(_dash_detect_category "$aproj_path")
+      _schedule_category_match "$category" "$rtype" "$aproj_cat" || continue
+    fi
+    out+=("$rec")
+  done < <(_schedule_atlas_items "$window")
+
+  # Dedupe on (date, label, project) — fields 1/2/4. With only .STATUS +
+  # teach-config as sources, duplicates were structurally impossible; the
+  # atlas source (3.) makes them possible for the first time (the same
+  # deadline tracked both locally and in atlas), so this is new with Track C.
+  # First occurrence wins — .STATUS/teach-config are collected before atlas,
+  # so a local record always takes priority over an atlas duplicate.
   local records=""
-  (( ${#out[@]} > 0 )) && records=$(print -rl -- "${out[@]}")
+  if (( ${#out[@]} > 0 )); then
+    local -A seen_keys=()
+    local -a deduped=()
+    local dkey
+    local -a df
+    for rec in "${out[@]}"; do
+      df=("${(@s:|:)rec}")
+      dkey="${df[1]}|${df[2]}|${df[4]}"
+      if (( ! ${+seen_keys[$dkey]} )); then
+        seen_keys[$dkey]=1
+        deduped+=("$rec")
+      fi
+    done
+    records=$(print -rl -- "${deduped[@]}")
+  fi
 
   _SCHEDULE_CACHE_RECORDS="$records"
   _SCHEDULE_CACHE_KEY="$cache_key"
@@ -672,5 +710,59 @@ _flow_schedule_to_atlas() {
   local json=$(_schedule_records_to_json "${records[@]}")
 
   _flow_atlas_async schedule push --format=json --data="$json"
+  return 0
+}
+
+# =============================================================================
+# Function: _schedule_atlas_items
+# Purpose: Read atlas-tracked deadlines (Task.dueDate) for a window (dark-ready
+#          read source, opportunistic + capability-detected). See
+#          docs/ATLAS-CONTRACT.md's `atlas agenda` section.
+# =============================================================================
+# Arguments:
+#   $1 - window in days (same look-ahead window the engine itself uses)
+#
+# Returns:
+#   0 - Always (silent no-op on any absence: atlas, `agenda` capability, jq)
+#
+# Output:
+#   stdout - record stream in the engine's date|label|type|project|recurrence|source
+#            shape, with `source` hardcoded to `atlas` (not read from the JSON)
+#
+# Notes:
+#   - DARK THIS CYCLE: no atlas release implements `agenda` yet (Track B,
+#     tracked separately). This is tested, inert code — same posture as
+#     `atlas schedule push` before it shipped.
+#   - Capability probe (`atlas agenda --help`) is cached in
+#     _FLOW_ATLAS_HAS_AGENDA, mirroring _FLOW_ATLAS_HAS_SCHEDULE.
+#   - Requires `jq` to parse the JSON array response; absence of jq is just
+#     another silent-no-op path, same as atlas absence — no hard dependency
+#     added to the engine (lib/schedule.zsh stays "pure ZSH, works fully
+#     without atlas" for everyone who doesn't have jq either).
+#   - How atlas populates Task.dueDate (including whether it ever reads
+#     .STATUS itself) is NOT this function's concern — that is atlas's own
+#     open design question (D4), documented as such in ATLAS-CONTRACT.md.
+# =============================================================================
+_schedule_atlas_items() {
+  local window="$1"
+
+  _flow_has_atlas || return 0
+  command -v jq >/dev/null 2>&1 || return 0
+
+  if [[ -z "$_FLOW_ATLAS_HAS_AGENDA" ]]; then
+    if atlas agenda --help >/dev/null 2>&1; then
+      _FLOW_ATLAS_HAS_AGENDA="yes"
+    else
+      _FLOW_ATLAS_HAS_AGENDA="no"
+    fi
+  fi
+  [[ "$_FLOW_ATLAS_HAS_AGENDA" == "yes" ]] || return 0
+
+  local json
+  json=$(_flow_atlas_json agenda "$window")
+  [[ -z "$json" ]] && return 0
+
+  print -r -- "$json" \
+    | jq -r '.[]? | "\(.date)|\(.label)|\(.type)|\(.project)|\(.recurrence)|atlas"' 2>/dev/null
   return 0
 }
