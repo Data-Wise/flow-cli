@@ -20,6 +20,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
   org installation, and exchanges for a `ghs_` token. Supports `--org`,
   `--dry-run`, and `--verbose` flags. Interactive `tok mint setup` wizard for
   one-time credential storage ([#479](https://github.com/Data-Wise/flow-cli/issues/479)).
+- **Shared `.STATUS`/project accessors** (`lib/core.zsh`): `_flow_status_field`, `_flow_resolve_project_path`, `_flow_suggest_project` — replace 4 divergent `.STATUS` field readers, 2 project-path resolvers, and 5 project-suggestion scans with one implementation each, guarded by a byte-parity characterization suite. `dash`, `morning`, `next`, `capture`, and `agenda` now share the same accessors instead of reimplementing them.
+- **Atlas agenda source, dark-ready** (`lib/schedule.zsh`): `_schedule_atlas_items` — a third, capability-probed schedule source (alongside `.STATUS` `## Schedule:` blocks and teach-config) that will surface atlas-tracked deadlines (`Task.dueDate`) once atlas ships an `agenda` command. Ships as tested, inert code — no atlas release implements it yet, so this is a silent no-op today. See `docs/ATLAS-CONTRACT.md` (`atlas agenda`, proposed).
+- **`agenda` routed through the shared schedule pipeline** (`lib/schedule.zsh`, `commands/agenda.zsh`): `_schedule_window_records` gained `category`/`keep_holidays` parameters so `agenda`'s collect→filter→sort→holiday-drop chain is now the same shared pipeline `dash`/`morning`/`today`/`week` already use. Added a `(date, label, project)` dedupe pass — the first duplicate-possible scenario now that a third source exists.
+- **`.STATUS` template + warn-only schema checker**: `templates/.STATUS.template` documents the canonical `.STATUS` shape (header fields, `## Schedule:` grammar, `## daily_goal:`, `## Active Worktrees`, session-log convention); `scripts/check-status.zsh` validates it as a warn-only `lint-staged` pre-commit check (prints violations, never blocks — flow-cli-scoped, not an ecosystem standard).
 
 ### Fixed
 
@@ -27,6 +31,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 - **Broken link** (`docs/guides/EMAIL-DISPATCHER-GUIDE.md`): removed References entry linking to `internal/EM-V2-ARCHITECTURE.md` which is excluded from the site
 - **CONTRIBUTING.md deploy instruction**: replaced incorrect `mkdocs gh-deploy --force` step with note that docs auto-deploy via CI (manual deploy is blocked by branch guard)
 - **DOCUMENTATION-STYLE-GUIDE.md**: updated `--strict` link-check reference to `mkdocs build` (validation block replaces `--strict`); added MkDocs Configuration section documenting breadcrumbs, `not_in_nav`, `exclude` plugin, and the fnmatch footgun
+- **`$path` → `$project_path` bug** (`commands/morning.zsh`, `commands/adhd.zsh`): `next`/`morning` read ZSH's PATH-tied `$path` array instead of the `project_path` field the project resolver actually emits — `.STATUS` focus/progress and the project-type icon were silently blank or wrong for every project with nonzero progress. Landed as an isolated pre-step ahead of the shared-accessor refactor above.
+- **`_flow_where_fallback` crash** (`lib/atlas-bridge.zsh`): `local status=...` crashed (`status` is a zsh read-only special variable, even as a function-local) — `at where` never actually printed `Status:`/`Focus:`. Fixed as an unavoidable side effect of the shared-accessor migration above.
+
 ## [7.13.0] — 2026-06-19 — flow claude: C7-C11 checks + watch daemon
 
 ### Added

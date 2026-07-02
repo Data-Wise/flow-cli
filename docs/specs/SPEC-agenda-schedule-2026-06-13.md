@@ -2,8 +2,9 @@
 
 | | |
 |---|---|
-| **Status** | draft |
+| **Status** | Implemented |
 | **Created** | 2026-06-13 |
+| **Implemented** | v7.10.0 (`agenda` + dash UPCOMING + schedule engine); atlas agenda source (dark-ready) added in v7.14.0 — see `SPEC-planning-coordination-2026-07-01.md` §3.4 |
 | **Author** | dt + Claude (brainstorm) |
 | **From brainstorm** | `/workflow:brainstorm -d -s` session, 2026-06-13 |
 | **Plan file** | `~/.claude/plans/eventual-bouncing-phoenix.md` |

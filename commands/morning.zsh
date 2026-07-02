@@ -80,13 +80,13 @@ _flow_morning_projects() {
     
     if [[ -n "$info" ]]; then
       eval "$info"
-      if [[ -n "$path" ]] && [[ -f "$path/.STATUS" ]]; then
-        focus=$(grep -m1 "^## Focus:" "$path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//')
-        progress=$(grep -m1 "^## Progress:" "$path/.STATUS" 2>/dev/null | cut -d: -f2- | sed 's/^ *//' | tr -d '%')
+      if [[ -n "$project_path" ]] && [[ -f "$project_path/.STATUS" ]]; then
+        focus=$(_flow_status_field "$project_path" "Focus")
+        progress=$(_flow_status_field "$project_path" "Progress" | tr -d '%')
       fi
     fi
-    
-    local icon=$(_flow_project_icon "$(_flow_detect_project_type "$path" 2>/dev/null)")
+
+    local icon=$(_flow_project_icon "$(_flow_detect_project_type "$project_path" 2>/dev/null)")
     
     printf "     %s %-15s" "$icon" "$project"
     [[ -n "$progress" ]] && printf " [%3d%%]" "$progress"
@@ -151,17 +151,8 @@ _flow_morning_suggest() {
   if _flow_has_atlas; then
     suggestion=$(_flow_atlas project list --status=active --format=names 2>/dev/null | head -1)
   else
-    # Find priority project from filesystem
-    for status_file in "$FLOW_PROJECTS_ROOT"/**/.STATUS(N); do
-      local status=$(grep -m1 "^## Status:" "$status_file" | cut -d: -f2 | tr -d ' ' | tr '[:upper:]' '[:lower:]')
-      local priority=$(grep -m1 "^## Priority:" "$status_file" | cut -d: -f2 | tr -d ' ')
-      
-      if [[ "$status" == "active" ]] && [[ "$priority" == "1" || "$priority" == "P1" ]]; then
-        local dir="${status_file:h}"
-        suggestion="${dir:t}"
-        break
-      fi
-    done
+    # Find priority project (shared scan, lib/core.zsh — P1/priority 1)
+    suggestion=$(_flow_suggest_project priority)
   fi
   
   if [[ -n "$suggestion" ]]; then

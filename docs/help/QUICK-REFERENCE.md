@@ -157,6 +157,12 @@ agenda -h
 Add dated items to any project's `.STATUS` (no `yq` needed). Teaching dates come
 from `.flow/teach-config.yml` automatically.
 
+!!! tip "Not just for research/teaching"
+    `agenda` spans every project category — `dev`, `r`, `quarto`, `apps` — not
+    only `research`/`teach`. A plain `## Schedule:` block with `general` or
+    `recurring` items works the same way on any project; filter by category
+    (`agenda dev`, `agenda apps`, …) exactly like `agenda research`/`agenda teach`.
+
 ```markdown
 ## Schedule:
 - 2026-06-20 | Submit JRSS-B revision | research

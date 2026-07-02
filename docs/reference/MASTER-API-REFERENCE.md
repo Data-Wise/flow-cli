@@ -20,7 +20,7 @@ This document provides complete API documentation for all flow-cli library funct
 ### Coverage Status
 
 **Total Functions:** 880
-**Documented:** 178 (20.2%)
+**Documented:** 182 (20.7%)
 **Auto-Generated:** Will be updated by `scripts/generate-api-docs.sh`
 
 ### Library Organization
@@ -114,6 +114,7 @@ When adding new functions:
 
 - [Core Library](#core-library) - Essential utilities
 - [Atlas Integration](#atlas-integration) - State engine
+- [Schedule Engine](#schedule-engine) - Forward-looking schedule layer (`agenda`)
 - [Project Detection](#project-detection) - Project type detection
 - [Terminal UI](#terminal-ui) - TUI components
 - [Tool Inventory](#tool-inventory) - Dependency tracking
@@ -523,6 +524,144 @@ type=$(_flow_detect_project_type "$PWD")
 echo "Project type: $type"
 # Output: Project type: node
 ```
+
+---
+
+#### `_flow_status_field`
+
+Read one field from a project's `.STATUS` file (shared accessor — replaces 4
+divergent field readers that used to exist across `dash`/`morning`/`next`/`capture`).
+
+**Signature:**
+
+```zsh
+_flow_status_field <project-root-dir> <field>
+```
+
+**Parameters:**
+
+- `$1` - Project root directory (NOT the `.STATUS` file path itself — this
+  function appends `/.STATUS`)
+- `$2` - Field name, e.g. `Focus`, `Progress`, `Status`
+
+**Returns:**
+
+- 0 - `.STATUS` file found (value may still be empty if the field is absent)
+- 1 - `.STATUS` file not found
+
+**Output:**
+
+- Field's value with leading whitespace trimmed, or empty
+
+**Example:**
+
+```zsh
+_flow_status_field "$project_path" "Focus"
+_flow_status_field "$project_path" "Progress" | tr -d '%'   # site strips %
+```
+
+**Notes:**
+
+- Handles both the `## Field:` markdown dialect and the plain `field:`
+  YAML-ish dialect (case-sensitive field-name match in both)
+- Does NOT strip `%` — callers that need a bare number (e.g. Progress) strip
+  it themselves. A universal strip here would corrupt any other field that
+  legitimately contains `%` (e.g. `## Focus: hit 80% coverage`)
+- `Status`/`status` gets synonym normalization (lowercase, spaces removed;
+  `underreview`/`inprogress`/`wip` → `active`, `onhold` → `paused`)
+- `_dash_get_status_field` (`commands/dash.zsh`) is now a thin delegating
+  wrapper around this function
+
+---
+
+#### `_flow_resolve_project_path`
+
+Find a project's absolute path by name (shared resolver — merges
+`_dash_find_project_path`'s taxonomy with `_flow_get_project_fallback`'s).
+
+**Signature:**
+
+```zsh
+_flow_resolve_project_path <name>
+```
+
+**Parameters:**
+
+- `$1` - Project name
+
+**Returns:**
+
+- 0 - Project found
+- 1 - Project not found
+
+**Output:**
+
+- A single shell-evaluable line: `project_path="/abs/path"` (never `path=` —
+  that collides with ZSH's PATH-tied array)
+
+**Example:**
+
+```zsh
+local out project_path
+if out=$(_flow_resolve_project_path "flow-cli"); then
+    eval "$out"
+    echo "Found at: $project_path"
+fi
+```
+
+**Notes:**
+
+- Search order: `dev-tools`, `apps`, `r-packages/active`, `r-packages/stable`,
+  `research`, `teaching`, `quarto/manuscripts`, `quarto/presentations`, then
+  an exact match directly under `$FLOW_PROJECTS_ROOT`, then a generic
+  `quarto/` fallback
+- `_dash_find_project_path` and `_flow_get_project_fallback` are now thin
+  delegating wrappers around this function
+
+---
+
+#### `_flow_suggest_project`
+
+Suggest a project to work on (shared active/priority/random scan — replaces
+5 separate reimplementations in `dash`, `morning`, and `adhd.zsh`).
+
+**Signature:**
+
+```zsh
+_flow_suggest_project [strategy]
+```
+
+**Parameters:**
+
+- `$1` (optional) - Strategy [default: `active`]:
+  - `active` - first active project
+  - `active-with-focus` - first active project with a non-empty Focus
+  - `priority` - first active project with Priority `1`/`P1`
+  - `random-active` - random pick from the active list (or the first 5 of
+    all projects if none are active)
+
+**Returns:**
+
+- 0 - A project was found
+- 1 - No qualifying project found
+
+**Output:**
+
+- The suggested project name, or empty
+
+**Example:**
+
+```zsh
+suggested=$(_flow_suggest_project active-with-focus)
+suggested=$(_flow_suggest_project priority)
+```
+
+**Notes:**
+
+- Not byte-parity guarded like `_flow_status_field` — the 5 call sites this
+  replaces (dash "right now"/footer, morning priority scan, adhd `next`/`js`)
+  genuinely differ in selection logic; each strategy is pinned by its own
+  unit test instead
 
 ---
 
@@ -1485,6 +1624,65 @@ at crumb "Debugging auth flow"
 - Provides essential fallback commands without Atlas
 - 'at' chosen for easy typing (2 characters)
 - Shows helpful error message if Atlas not available and unknown command used
+
+---
+
+## Schedule Engine
+
+**File:** `lib/schedule.zsh`
+**Purpose:** Forward-looking schedule layer powering `agenda`, the dash UPCOMING
+section, and dated enrichment of `morning`/`today`/`week`
+**Note:** This section is not yet exhaustive — only the atlas-source addition
+below is documented here so far; `_schedule_collect`, `_schedule_window_records`,
+`_schedule_classify`, and the rest of the pipeline are documented inline in
+`lib/schedule.zsh` itself and in `docs/guides/AGENDA-SCHEDULE-GUIDE.md`.
+
+#### `_schedule_atlas_items`
+
+Read atlas-tracked deadlines (`Task.dueDate`) for a window — a third,
+capability-probed schedule source (alongside `.STATUS` `## Schedule:` blocks
+and teach-config). **Dark-ready:** no atlas release implements the `agenda`
+command yet, so this ships as tested, inert code — a silent no-op today. See
+`docs/ATLAS-CONTRACT.md` (`atlas agenda`, proposed).
+
+**Signature:**
+
+```zsh
+_schedule_atlas_items <window>
+```
+
+**Parameters:**
+
+- `$1` - Window in days (the same look-ahead window the engine itself uses)
+
+**Returns:**
+
+- 0 - Always (silent no-op on any absence: atlas, `agenda` capability, `jq`)
+
+**Output:**
+
+- Record stream in the engine's `date|label|type|project|recurrence|source`
+  shape, with `source` hardcoded to `atlas` (not read from the JSON)
+
+**Example:**
+
+```zsh
+_schedule_atlas_items 7
+# (empty today — no atlas release implements `agenda` yet)
+```
+
+**Notes:**
+
+- Capability probe (`atlas agenda --help`) is cached per session in
+  `_FLOW_ATLAS_HAS_AGENDA`, mirroring `_FLOW_ATLAS_HAS_SCHEDULE`
+- Requires `jq` to parse the JSON array response; absence of `jq` is just
+  another silent-no-op path, same as atlas absence — no hard dependency
+  added to the engine
+- Wired into `_schedule_collect` as a third source, called once per collect
+  (not once per project — atlas returns cross-project results in one call)
+- How atlas populates `Task.dueDate` (including whether it ever reads
+  `.STATUS` itself) is explicitly out of scope here — atlas's own open
+  design question
 
 ---
 
