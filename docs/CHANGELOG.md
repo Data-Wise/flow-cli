@@ -8,6 +8,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.15.0] — 2026-07-02 — Homebrew distribution health + doc gap fills
+
+### Added
+
+- **`doctor` INSTALLATION section** — detects Homebrew distribution failures that leave a user silently on a broken or stale install: opt/Cellar symlink integrity (installed-but-unlinked), shell-loaded version vs. installed Cellar keg drift, and flow-cli's own man pages losing a case-insensitive name collision to another formula (the class of bug fixed in homebrew-tap PR #135). Skips silently for non-Homebrew installs.
+- **`docs/guides/WORKFLOW-COOKBOOK.md`** — daily and weekly routine cookbook with a Mermaid diagram, 13 recipes (7 daily, 6 weekly) each sourced from the real command it documents.
+- **Command docs for `ref`, `setup`, `tutorial`** (`docs/commands/`) — the last 3 user-facing commands flagged undocumented by `docs/DOC-DASHBOARD.md`, now wired into the MkDocs nav.
+- **`sec tutorial` subsection** (`docs/SECRET-MANAGEMENT.md`) — documents the 7-lesson interactive token/secret management tutorial.
+
+### Fixed
+
+- **`MASTER-DISPATCHER-GUIDE.md` `claude` section** — was stale at checks C1-C6 since v7.13.0 shipped C7-C11 and the `flow claude watch` daemon (PR #475); synced synopsis, check table, exit codes, and dependencies.
+
+### Changed
+
+- **Homepage (`docs/index.md`) reorganized for scan-ability** — the flat 8-card "Next Steps" grid is now three labeled clusters ("New here?" / "Solve a specific problem" / "Already using it?"); surfaced `setup`, `tutorial`, `ref`, and the new Workflow Cookbook, none of which were linked from the homepage; trimmed the "What's New" admonition from 5 dense bullets to 2 headline items + a changelog pointer.
+
 ## [7.14.0] — 2026-07-02 — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer
 
 ### Added

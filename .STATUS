@@ -5,11 +5,37 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Released (v7.13.0)
+## Phase: Releasing (v7.15.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-02) — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer ✅
+## Current Session (2026-07-02) — retired code-workspace spec, closed 3 stale issues, triaged real backlog ✅
+
+**Session activity (part 4):**
+- **Retired `SPEC-code-workspace-2026-02-13.md`** (`code ws` dispatcher) — draft, 4.5mo untouched, zero implementation, zero demand signal; overloading the `code` binary carries real risk without a validated need. Moved to `docs/specs/_archive/`, marked retired. Cleared the (now-empty) `.STATUS` Next Action queue.
+- **Audited the remaining 4 open issues the same way #423 was checked** (4 parallel agents, one per issue, grep + git log + doc cross-check):
+  - **#298** (Teaching config consolidation) — FULLY_SHIPPED (`_teach_get_style()`/`_teach_get_command_override()`/schema/doctor reporting, commits `970f3f4b2`/`795f86ad7`). Closed.
+  - **#331** (Himalaya email integration) — FULLY_SHIPPED, exceeds scope (the `em` dispatcher implements it + AI drafting, safety gates, calendar extraction, etc. that #331 never proposed; dozens of commits tag `(#331)`). Closed. One minor gap noted, not blocking: no shipped Tokyo Night color-theme `config.toml` preset.
+  - **#359** (`teach check` cross-tool validation) — **NOT_STARTED**, genuine backlog. No dispatcher case, no function, zero commits, explicitly flagged as unbuilt future work in `SPEC-teach-map-2026-02-08.md`.
+  - **#275** (`teach dashboard` website content) — **NOT_STARTED**, genuine backlog. Spec was written + approved (2026-01-19, v5.15.0 target) then archived/deleted in a stale-spec cleanup without any code landing.
+- **Net result**: 3 stale-but-shipped issues closed this session (#423, #298, #331), 2 genuine backlog items surfaced and confirmed real (#359, #275) — down from 5 open issues to 2, both accurately scoped.
+
+## Previous Session (2026-07-02) — closed stale issue #423, filled 4 command doc gaps ✅
+
+**Session activity (part 3):**
+- **Stress-tested issue #423** ("Scholar Config Sync wiring + new teach wrappers") against v7.14.0 — found it was already fully shipped (3 commits explicitly tagged `#423`: config injection, `config check/diff/show/scaffold`, `solution`/`sync`/`validate-r` wrappers, doctor config-sync check, docs). Closed with evidence linking the implementing commits. Writeup: `docs/specs/BRAINSTORM-issue-423-stress-test-2026-07-02.md`.
+- **Audited command/dispatcher doc coverage** — all 14 dispatchers fully documented; found 4 genuinely undocumented user-facing commands (`ref`, `setup`, `tutorial`, `sec tutorial`) confirmed against `docs/DOC-DASHBOARD.md`'s missing-doc tracker and absence from `mkdocs.yml` nav. Also found 8 teach-* "missing doc" dashboard entries were false positives (documented collectively, not 1:1).
+- **Dispatched 2 parallel agents**: one wrote `docs/commands/ref.md`, `setup.md`, `tutorial.md` + a `sec tutorial` subsection in `SECRET-MANAGEMENT.md` (sourced from full `.zsh` reads, no invented flags) and wired all 3 new pages into `mkdocs.yml` nav; the other audited the last 2 weeks of `commands/`/`lib/dispatchers/` commits against docs — found `MASTER-DISPATCHER-GUIDE.md`'s `claude` section stale at C1–C6 (v7.13.0's C7–C11 checks + `flow claude watch` daemon, PR #475, never propagated there).
+- **Fixed the stale `claude` section** — synced synopsis, C7–C11 table, watch-daemon description, exit codes, dependencies. Fixed 8 MD029 ordered-list lint errors in `tutorial.md`. Verified: `mkdocs build --strict` → 0 warnings, `markdownlint-cli2` → 0 errors.
+
+## Previous Session (2026-07-02) — Homebrew man-page fix + doctor INSTALLATION checks ✅
+
+**Session activity (part 2, continued from planning-coordination below):**
+- **Diagnosed + fixed a real Homebrew distribution bug**: flow-cli's `r`-dispatcher man page (`r.1`) collided case-insensitively with the `r` (R-language) formula's `R.1` on APFS, silently breaking `brew link`/`brew upgrade` for anyone with both installed — `brew upgrade flow-cli` reported "already installed" while actually broken. Fixed in `homebrew-tap` (`Formula/flow-cli.rb`, PR #135, merged `05a2e17c`): exclude `r.1` unconditionally from the Homebrew install. Verified via `brew reinstall flow-cli` — clean, 0 errors.
+- **Added `doctor` INSTALLATION section** (PR #485, merged squash `352d6f6ea`) to catch this class of bug going forward: opt/Cellar symlink integrity, shell-loaded version vs. installed Cellar keg drift, and flow-cli's own man pages resolving cleanly (scoped to flow-cli's pages specifically — avoids false positives from Homebrew's own keg-only convention, e.g. `lua`/`lua@5.4`, discovered by testing live against this machine's real install). New `tests/e2e-doctor-install.zsh` (7 scenarios). Along the way found + worked around a zsh quirk: redeclaring `local` inside a glob-driven `for` loop spuriously echoes `name=value` to stdout on this machine's zsh build — hoisted `local` out of the loop.
+- **homebrew-tap**: worktree `fix/flow-cli-r-man-conflict` removed, branch deleted (squash-merged); `.STATUS` updated (left uncommitted — `main` is PR-only in that repo).
+
+## Previous Session (2026-07-02) — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer ✅
 
 **Session activity:**
 - **Brainstormed + grilled** (16 decisions, D1-D16) the flow-cli slice of a 3-repo (flow-cli/atlas/obsidian-cli-ops) daily-planning coordination proposal — `docs/specs/BRAINSTORM-planning-coordination-2026-07-01.md` + `docs/specs/SPEC-planning-coordination-2026-07-01.md`. Hard-scoped to flow-cli only this cycle; atlas Track B and obs Track D deferred to their own specs.
@@ -21,6 +47,9 @@
   - **Updated** docs (API reference, agenda/schedule guide with a real captured multi-source transcript, dispatcher guide, CHANGELOG, CONTRIBUTING, CLAUDE.md counts)
 - **Caught a real CI-only bug** before merge: a test hid `jq` via `PATH="$STUB_BIN:/bin"`, correct on macOS (`/bin` has no `jq`) but wrong on Ubuntu's usr-merged `/bin` (→ `/usr/bin/jq`, preinstalled on `ubuntu-latest`) — fixed to `PATH="$STUB_BIN"` alone, no system-directory assumption.
 - **Merged** PR #483 → dev (squash, `8012aaea`), both CI checks green. Worktree + local/remote feature branch cleaned up.
+- **Released v7.14.0**: reconciled a pre-existing CHANGELOG mirror drift (missing `tok mint` entry, restored to root) → `release.sh 7.14.0` (version bump: `flow.plugin.zsh`, `package.json`, `CLAUDE.md`, 23 man pages, guard 12/12) → CHANGELOG `[Unreleased]`→`[7.14.0]` (mirrored) → refreshed `docs/index.md` What's New (was 3 releases stale at v7.10.2) → PR #484 (`dev`→`main`) → CI green (4/4 jobs) → merged (squash, `769d744a`) → tagged `v7.14.0` → GitHub release published → Homebrew formula verified (`v7.14.0.tar.gz`) → docs deployed (200 OK) → `dev` synced with `main`.
+- **Scheduled + disabled a cloud-agent routine** (`flow-cli doc gap & staleness sweep`) — created as a 1-hour backup while the release was still in flight, then disabled once the release finished locally instead (never fired; confirmed via timestamp — disabled at 07:01 UTC, scheduled for 07:51 UTC).
+- **Post-release audit**: checked for session interference (reflog/commit-author review — all commits accounted for, no concurrent/unexpected activity) and secret leaks (pattern-scanned the full release diff, the published GitHub release body, and file list — clean; the `ghs_`/`github_app_private_key` mentions in the `tok mint` changelog entry are prose describing the feature, not actual credential values).
 
 ## Previous Session (2026-06-30) — mkdocs improvements + Dependabot maintenance ✅
 
@@ -475,13 +504,20 @@
 
 ## Next Action
 
-1. API documentation push (50% → 80% coverage of 348 functions)
-2. Code workspace manager — `code ws` dispatcher (`SPEC-code-workspace-2026-02-13.md`, ~4mo old — review before impl)
+1. Issue #359 — `teach check` cross-tool validation summary (2-3h, verified not started)
+2. Issue #275 — `teach dashboard` subcommand for dynamic website content (8-12h, verified not started; original spec archived, would need a fresh spec)
+
+## Parked
+
+- API documentation push (50% → 80% coverage of 348 functions) — parked 2026-07-02, no active driver
+- ~~Code workspace manager (`code ws` dispatcher)~~ — retired 2026-07-02, spec moved to `docs/specs/_archive/SPEC-code-workspace-2026-02-13.md` (never implemented, no demand signal in 4.5mo)
 
 ---
 
-**Last Updated:** 2026-06-30
-**Status:** v7.13.0 active | mkdocs improvements (breadcrumbs, validation, not_in_nav) + Dependabot deps current | full suite REQUIRED on main — 64 passed / 0 failed / 1 skipped | 14 dispatchers + at bridge | 219 test files | 12000+ test functions | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19)
+**Last Updated:** 2026-07-02
+**Status:** v7.14.0 active (Homebrew man-page fix live via homebrew-tap PR #135) | doctor INSTALLATION checks added (PR #485) | full suite — 75 passed / 0 failed / 1 timeout (interactive/tmux baseline) / 1 skipped (himalaya absent) | 14 dispatchers + at bridge | 231 test files | 76 registered suites | 0 lint errors | 0 broken links
+## wins: Fixed the regression bug (2026-07-02), --category fix squashed the bug (2026-07-02), fixed the bug (2026-07-02), Fixed the regression bug (2026-07-02), --category fix squashed the bug (2026-07-02)
 ## streak: 1
-## last_active: 2026-06-19 10:30
+## last_active: 2026-07-02 12:31
+
+# Last teach config: 2026-07-02

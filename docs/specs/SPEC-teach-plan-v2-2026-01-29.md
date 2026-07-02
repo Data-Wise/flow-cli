@@ -1,6 +1,6 @@
 # Implementation Spec: teach plan Command (v2 - Revised for Centralized Format)
 
-**Status:** draft
+**Status:** Implemented — `teach plan` centralized-format command shipped, `test-teach-plan.zsh` + `test-teach-plan-security.zsh` passing (verified 2026-07-02 via docs-gap audit, `docs/specs/PLAN-docs-gap-2026-07-02.md`)
 **Created:** 2026-01-29
 **Supersedes:** SPEC-teach-plan-create-2026-01-27.md (outdated per-file format)
 **From Issue:** #278

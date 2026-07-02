@@ -26,14 +26,14 @@ tags:
     ```
     **That's it!** No configuration required.
 
-!!! success "🎉 What's New in v7.14.0"
-    **Agenda now spans three data sources.** Alongside `.STATUS` `## Schedule:` blocks and teaching dates, the engine gained a third, capability-probed source for atlas-tracked deadlines (`Task.dueDate`) — shipped **dark-ready** (tested, silent no-op until an atlas release implements the `agenda` command; see the [Atlas Contract](ATLAS-CONTRACT.md)).
-    **De-duplicated planning internals:** `dash`, `morning`, `next`, `capture`, and `agenda` now share one `.STATUS` field accessor, one project-path resolver, and one project-suggestion scan instead of five divergent implementations — plus a fix for a bug that silently blanked focus/progress/icon for every project.
-    **New `.STATUS` schema checker:** `templates/.STATUS.template` + a warn-only `check-status.zsh` pre-commit validator (prints violations, never blocks).
-    **74 suites** passing (245 files, 12000+ assertions).
-    [→ Agenda & Schedule Guide](guides/AGENDA-SCHEDULE-GUIDE.md){ .md-button .md-button--primary }
-    [→ Atlas Contract](ATLAS-CONTRACT.md){ .md-button }
-    [→ Changelog](CHANGELOG.md){ .md-button }
+    **New here?** `setup` walks you through configuration interactively, or run `tutorial` for
+    12 hands-on lessons at your own pace — both are guided, no docs required to start.
+
+!!! success "🎉 What's New in v7.15.0"
+    **`doctor` now catches Homebrew distribution failures** — opt/Cellar symlink drift, stale kegs, and man-page collisions that silently break `brew upgrade`.
+    **Doc gaps filled** — `ref`, `setup`, `tutorial` now have full command docs, plus a new [Daily & Weekly Cookbook](guides/WORKFLOW-COOKBOOK.md).
+    Full details → [Changelog](CHANGELOG.md).
+    [→ Cookbook](guides/WORKFLOW-COOKBOOK.md){ .md-button .md-button--primary }
 
 ---
 
@@ -144,7 +144,9 @@ flow goal        # Daily progress (🌱🔥🔥🔥 streaks!)
 
 ## 🧭 Next Steps
 
-Choose your path based on what you need right now:
+Three questions, pick the one that matches where you are — not eight options at once.
+
+### 🆕 New here?
 
 <div class="grid cards" markdown>
 
@@ -157,12 +159,21 @@ Choose your path based on what you need right now:
 
     [→ Quick Start](getting-started/quick-start.md)
 
+-   :wrench:{ .lg .middle }
+    **Interactive Setup Wizard**
+
+    ---
+
+    Guided configuration — run `setup` in your terminal
+
+    [→ Setup Command](commands/setup.md)
+
 -   :books:{ .lg .middle }
     **Step-by-Step Tutorials**
 
     ---
 
-    30-minute guided learning path
+    12 hands-on lessons — run `tutorial`, or read online
 
     [→ Tutorial 01](tutorials/01-first-session.md)
 
@@ -171,9 +182,15 @@ Choose your path based on what you need right now:
 
     ---
 
-    Win tracking, streaks, goals
+    How the win/streak/goal loop works
 
     [→ Dopamine Guide](tutorials/06-dopamine-features.md)
+
+</div>
+
+### 🔧 Solve a specific problem
+
+<div class="grid cards" markdown>
 
 -   :email:{ .lg .middle }
     **Email Management**
@@ -195,15 +212,6 @@ Choose your path based on what you need right now:
     [→ Token Cookbook](guides/TOKEN-COOKBOOK.md) ·
     [→ Auto-sync Tutorial](tutorials/47-tok-auto-sync.md)
 
--   :compass:{ .lg .middle }
-    **Command Reference**
-
-    ---
-
-    Quick lookup for all commands
-
-    [→ Reference](help/QUICK-REFERENCE.md)
-
 -   :teacher:{ .lg .middle }
     **Teaching Workflow**
 
@@ -221,6 +229,30 @@ Choose your path based on what you need right now:
     Solve specific problems fast
 
     [→ Workflows](guides/WORKFLOWS-QUICK-WINS.md)
+
+</div>
+
+### 📚 Already using it? Look something up
+
+<div class="grid cards" markdown>
+
+-   :compass:{ .lg .middle }
+    **Command Reference**
+
+    ---
+
+    Quick lookup for all commands — also try `ref` in your terminal
+
+    [→ Reference](help/QUICK-REFERENCE.md)
+
+-   :calendar:{ .lg .middle }
+    **Daily & Weekly Cookbook**
+
+    ---
+
+    Copy-paste routines for the two cadences flow-cli is built around
+
+    [→ Cookbook](guides/WORKFLOW-COOKBOOK.md)
 
 </div>
 
@@ -262,6 +294,7 @@ hop <project>     # Quick switch (tmux)
 dash              # Dashboard (what's happening now)
 agenda            # What's due soon (deadlines, exams, milestones)
 catch "idea"      # Quick capture
+ref               # Quick-reference card (forgot the syntax? this is faster than docs)
 ```
 
 [→ All commands](help/QUICK-REFERENCE.md){ .md-button }
@@ -293,4 +326,4 @@ catch "idea"      # Quick capture
 
 ---
 
-**v7.14.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.15.0** · Pure ZSH · Zero Dependencies · MIT License

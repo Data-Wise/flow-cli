@@ -1,6 +1,6 @@
 # SPEC: LaTeX Macro Configuration Support
 
-**Status:** draft
+**Status:** Implemented — `lib/macro-parser.zsh` + `tests/test-macro-parser.zsh` exist and pass (verified 2026-07-02 via docs-gap audit, `docs/specs/PLAN-docs-gap-2026-07-02.md`)
 **Created:** 2026-01-28
 **Issue:** #305
 **From Brainstorm:** BRAINSTORM-latex-macros-2026-01-28.md (inline, not saved separately)

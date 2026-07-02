@@ -1,6 +1,6 @@
 # SPEC: teach doctor v2 — Fast Default, Full Opt-in, renv-Aware
 
-**Status:** draft
+**Status:** Implemented — `teach doctor` fast-default/full-opt-in/renv-aware behavior shipped; see `CHANGELOG.md` and `docs/reference/REFCARD-DOCTOR.md` (verified 2026-07-02 via docs-gap audit, `docs/specs/PLAN-docs-gap-2026-07-02.md`)
 **Created:** 2026-02-07
 **From Brainstorm:** BRAINSTORM-teach-doctor-improvements-2026-02-07.md
 **Target Version:** v6.5.0

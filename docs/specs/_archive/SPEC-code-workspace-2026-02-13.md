@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | draft |
+| **Status** | retired — 2026-07-02, never implemented, no demand signal in 4.5mo, `code` binary overload risk not worth it without validated need |
 | **Created** | 2026-02-13 |
 | **From Brainstorm** | ~/BRAINSTORM-code-workspace-2026-02-13.md |
 | **Component** | `lib/code-workspace.zsh` |

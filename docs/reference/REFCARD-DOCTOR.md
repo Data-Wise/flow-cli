@@ -96,11 +96,20 @@ After each run, teach doctor writes `.flow/doctor-status.json`. The health dot s
 - `zsh` - Shell
 - `git` - Version control
 
-### 2. Required Tools
+### 2. Installation (Homebrew distribution health)
+
+- Homebrew opt/Cellar link integrity (installed-but-unlinked detection)
+- Shell-loaded version vs. installed Cellar keg version drift
+- flow-cli's own man pages resolving cleanly (vs. losing a case-insensitive
+  name collision to another formula)
+
+Skips silently for non-Homebrew installs (git-clone, plugin manager).
+
+### 3. Required Tools
 
 - `fzf` - Fuzzy finder
 
-### 3. Recommended Tools
+### 4. Recommended Tools
 
 - `eza` - Enhanced ls
 - `bat` - Enhanced cat
@@ -108,7 +117,7 @@ After each run, teach doctor writes `.flow/doctor-status.json`. The health dot s
 - `fd` - Enhanced find
 - `rg` (ripgrep) - Enhanced grep
 
-### 4. Optional Tools
+### 5. Optional Tools
 
 - `dust` - Disk usage
 - `duf` - Disk free
@@ -117,12 +126,12 @@ After each run, teach doctor writes `.flow/doctor-status.json`. The health dot s
 - `gh` - GitHub CLI
 - `jq` - JSON processor
 
-### 5. Integrations
+### 6. Integrations
 
 - `atlas` - State management
 - `radian` - R console (if R exists)
 
-### 6. Email (conditional — when `em` loaded)
+### 7. Email (conditional — when `em` loaded)
 
 - `himalaya` - Email CLI backend (required, version >= 1.0.0)
 - `w3m`/`lynx`/`pandoc` - HTML rendering (any-of, recommended)
@@ -132,33 +141,33 @@ After each run, teach doctor writes `.flow/doctor-status.json`. The health dot s
 - `claude`/`gemini` - AI backend (conditional on `$FLOW_EMAIL_AI`)
 - Config summary: AI backend, timeout, page size, folder, config file
 
-### 7. ZSH Plugin Manager
+### 8. ZSH Plugin Manager
 
 Checks:
 - antidote/zinit/oh-my-zsh installed
 - Plugin bundle file
 
-### 8. ZSH Plugins
+### 9. ZSH Plugins
 
 - powerlevel10k
 - zsh-autosuggestions
 - zsh-syntax-highlighting
 - zsh-completions
 
-### 9. flow-cli Status
+### 10. flow-cli Status
 
 - Plugin loaded
 - Version
 - Atlas connection
 
-### 10. GitHub Token
+### 11. GitHub Token
 
 - Token configured
 - Token validity
 - Token expiration
 - Token-dependent services (gh CLI, Claude MCP)
 
-### 11. Aliases
+### 12. Aliases
 
 - Total alias count
 - Shadow detection

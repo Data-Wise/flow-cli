@@ -1,6 +1,6 @@
 # SPEC: `teach map` -- Unified Ecosystem Discovery
 
-**Status:** draft
+**Status:** Implemented — shipped v6.6.0 (`CHANGELOG.md`: "`teach map` — unified ecosystem discovery command"); documented in `docs/reference/MASTER-DISPATCHER-GUIDE.md` (verified 2026-07-02 via docs-gap audit, `docs/specs/PLAN-docs-gap-2026-07-02.md`)
 **Created:** 2026-02-08
 **Issue:** #358
 **From Brainstorm:** BRAINSTORM-teach-map-2026-02-08.md

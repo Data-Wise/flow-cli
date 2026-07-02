@@ -1,6 +1,6 @@
 # SPEC: Rename `dot` → `dots` + Split into 3 Dispatchers
 
-**Status:** draft
+**Status:** Implemented — shipped exactly as targeted in v7.1.0 (`README.md`: "Dispatcher split — `dot` → `dots` (dotfiles) + `sec` (secrets) + `tok` (tokens)") (verified 2026-07-02 via docs-gap audit, `docs/specs/PLAN-docs-gap-2026-07-02.md`)
 **Created:** 2026-02-14
 **Version Target:** v7.1.0
 **From Brainstorm:** BRAINSTORM-dot-rename-2026-02-14.md
