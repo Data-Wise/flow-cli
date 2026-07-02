@@ -233,6 +233,49 @@ if ! skip_without_warm_atlas; then
 fi
 
 # ============================================================================
+# ATLAS AGENDA SOURCE (Track C, dark-ready — SPEC-planning-coordination-2026-07-01 §3.4)
+# ============================================================================
+# Pins tests/fixtures/atlas-agenda-stub.json's shape to the `atlas agenda`
+# JSON example documented in ATLAS-CONTRACT.md — a contract edit without a
+# matching fixture update fails this test loudly instead of drifting silently
+# (D16). Always runs (doesn't need real atlas — the fixture stands in for it).
+
+test_case "atlas-agenda-stub.json fixture keys match the ATLAS-CONTRACT.md documented example"
+if ! command -v jq >/dev/null 2>&1; then
+  test_skip "jq not installed"
+else
+  local fixture="$PROJECT_ROOT/tests/fixtures/atlas-agenda-stub.json"
+  local contract_doc="$PROJECT_ROOT/docs/ATLAS-CONTRACT.md"
+
+  if [[ ! -f "$fixture" ]]; then
+    assert_exit_code 1 0 "fixture file missing: $fixture"
+  else
+    # Extract the fenced ```json block under the "### `atlas agenda`" heading.
+    local contract_json
+    contract_json=$(awk '/### `atlas agenda`/{found=1} found && /^```json/{incode=1; next} incode && /^```/{exit} incode' "$contract_doc")
+
+    local contract_keys fixture_keys
+    contract_keys=$(print -r -- "$contract_json" | jq -r '.[0] | keys | sort | join(",")' 2>/dev/null)
+    fixture_keys=$(jq -r '.[0] | keys | sort | join(",")' "$fixture" 2>/dev/null)
+
+    assert_not_empty "$contract_keys" "contract doc must have a parseable atlas agenda JSON example (got none — heading text or fence may have drifted)"
+    assert_not_empty "$fixture_keys" "fixture must be valid JSON with at least one object"
+    assert_equals "$fixture_keys" "$contract_keys" "fixture keys ($fixture_keys) must match the contract doc's documented example ($contract_keys)"
+  fi
+fi
+test_pass
+
+test_case "atlas-agenda-stub.json is a valid JSON array (jq-parseable)"
+if ! command -v jq >/dev/null 2>&1; then
+  test_skip "jq not installed"
+else
+  local fixture="$PROJECT_ROOT/tests/fixtures/atlas-agenda-stub.json"
+  jq -e 'type == "array" and length > 0' "$fixture" >/dev/null 2>&1
+  assert_exit_code $? 0 "fixture must be a non-empty JSON array"
+fi
+test_pass
+
+# ============================================================================
 # HELP BROWSER INTEGRATION
 # ============================================================================
 

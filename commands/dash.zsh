@@ -228,51 +228,30 @@ _dash_right_now() {
     suggestion="Keep going on"
     suggested_project="$current_project"
   else
-    # Not working - suggest starting
-    # Find first active project with a focus/next item
-    local projects=$(_flow_list_projects)
+    # Not working - suggest starting. Shared scan (_flow_suggest_project,
+    # lib/core.zsh): prefer an active project that has a Focus, falling back
+    # to any active project.
     local found=0
-    
-    while IFS= read -r project; do
-      [[ -z "$project" ]] && continue
-      
-      local proj_path=$(_dash_find_project_path "$project")
-      if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
-        local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
-        if [[ "$proj_status" == "active" ]]; then
-          local focus=$(_dash_get_project_focus "$proj_path/.STATUS")
-          if [[ -n "$focus" ]]; then
-            suggested_project="$project"
-            next_action="$focus"
-            found=1
-            break
-          fi
-        fi
+    local suggested=$(_flow_suggest_project active-with-focus)
+    if [[ -n "$suggested" ]]; then
+      suggested_project="$suggested"
+      local resolved project_path
+      resolved=$(_flow_resolve_project_path "$suggested_project")
+      eval "$resolved"
+      next_action=$(_dash_get_project_focus "$project_path/.STATUS")
+      found=1
+    else
+      suggested=$(_flow_suggest_project active)
+      if [[ -n "$suggested" ]]; then
+        suggested_project="$suggested"
+        found=1
       fi
-    done <<< "$projects"
-    
+    fi
+
     if (( found )); then
       suggestion="Start work on"
     else
-      # No active project with focus - suggest first active
-      while IFS= read -r project; do
-        [[ -z "$project" ]] && continue
-        local proj_path=$(_dash_find_project_path "$project")
-        if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
-          local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
-          if [[ "$proj_status" == "active" ]]; then
-            suggested_project="$project"
-            found=1
-            break
-          fi
-        fi
-      done <<< "$projects"
-      
-      if (( found )); then
-        suggestion="Start work on"
-      else
-        suggestion="No active projects"
-      fi
+      suggestion="No active projects"
     fi
   fi
   
@@ -1170,21 +1149,9 @@ _dash_footer() {
   if [[ -n "$current_project" ]]; then
     suggestion="💡 Type 'finish' when done  •  'dash -i' to switch  •  'h' for help"
   else
-    # Find first active project to suggest
-    local projects=$(_flow_list_projects)
-    local suggested=""
-    while IFS= read -r project; do
-      [[ -z "$project" ]] && continue
-      local proj_path=$(_dash_find_project_path "$project")
-      if [[ -n "$proj_path" ]] && [[ -f "$proj_path/.STATUS" ]]; then
-        local proj_status=$(_dash_get_project_status "$proj_path/.STATUS")
-        if [[ "$proj_status" == "active" ]]; then
-          suggested="$project"
-          break
-        fi
-      fi
-    done <<< "$projects"
-    
+    # Find first active project to suggest (shared scan, lib/core.zsh)
+    local suggested=$(_flow_suggest_project active)
+
     if [[ -n "$suggested" ]]; then
       suggestion="💡 Try: 'work $suggested' to start  •  'dash -i' for picker  •  'h' for help"
     else
@@ -1280,29 +1247,16 @@ ${_C_DIM}See also:${_C_NC} work help, status help, pick help
 # HELPERS
 # ============================================================================
 
-# Find project path by name
+# Find project path by name — delegates to the shared resolver
+# (_flow_resolve_project_path, lib/core.zsh) which merges this function's
+# original taxonomy with _flow_get_project_fallback's. Kept as a thin
+# wrapper so the ~10 internal callers in this file don't need to change.
 _dash_find_project_path() {
   local name="$1"
-  local search_dirs=(
-    "$FLOW_PROJECTS_ROOT/dev-tools"
-    "$FLOW_PROJECTS_ROOT/apps"
-    "$FLOW_PROJECTS_ROOT/r-packages/active"
-    "$FLOW_PROJECTS_ROOT/r-packages/stable"
-    "$FLOW_PROJECTS_ROOT/research"
-    "$FLOW_PROJECTS_ROOT/teaching"
-    "$FLOW_PROJECTS_ROOT/quarto/manuscripts"
-    "$FLOW_PROJECTS_ROOT/quarto/presentations"
-    "$FLOW_PROJECTS_ROOT"
-  )
-
-  for dir in "${search_dirs[@]}"; do
-    if [[ -d "$dir/$name" ]]; then
-      echo "$dir/$name"
-      return 0
-    fi
-  done
-
-  return 1
+  local resolved project_path
+  resolved=$(_flow_resolve_project_path "$name") || return 1
+  eval "$resolved"
+  echo "$project_path"
 }
 
 # Detect category from path
@@ -1320,45 +1274,15 @@ _dash_detect_category() {
   esac
 }
 
-# Parse .STATUS field (supports both "## Field:" and "field:" formats)
-# Uses ZSH builtins only - no external commands
+# Parse .STATUS field (supports both "## Field:" and "field:" formats).
+# Delegates to the shared accessor (_flow_status_field, lib/core.zsh), which
+# takes a project ROOT rather than a full file path — this wrapper adapts so
+# the ~15 internal callers passing "$proj_path/.STATUS" don't need to change.
 _dash_get_status_field() {
   local file="$1"
   local field="$2"
-  local value="" line
-
-  [[ ! -f "$file" ]] && return 1
-
-  # Read file and find matching line
-  while IFS= read -r line; do
-    # Try markdown format (## Field:)
-    if [[ "$line" == "## ${field}:"* ]]; then
-      value="${line#*: }"  # Remove everything up to ": "
-      value="${value#"${value%%[![:space:]]*}"}"  # Trim leading whitespace
-      break
-    fi
-    # Try YAML format (field:)
-    if [[ "$line" == "${field}:"* ]]; then
-      value="${line#*: }"
-      value="${value#"${value%%[![:space:]]*}"}"
-      break
-    fi
-  done < "$file"
-
-  # Normalize status values
-  if [[ "$field" == "Status" || "$field" == "status" ]]; then
-    value="${value:l}"      # ZSH: lowercase
-    value="${value// /}"    # ZSH: remove spaces
-    # Map variations
-    case "$value" in
-      underreview) value="active" ;;
-      inprogress) value="active" ;;
-      wip) value="active" ;;
-      onhold) value="paused" ;;
-    esac
-  fi
-
-  echo "$value"
+  local root="${file%/.STATUS}"
+  _flow_status_field "$root" "$field"
 }
 
 # Get project status

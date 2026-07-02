@@ -81,6 +81,19 @@ flow-cli/
 
 **Important:** The actual ZSH configuration files live in `~/.config/zsh/` (not in this repo).
 
+### `.STATUS` Files
+
+Every flow-cli-tracked project (including this repo's own root `.STATUS`) follows a
+documented shape: `templates/.STATUS.template` is the canonical reference — header
+fields (`## Project/Type/Status/Focus/Phase/Priority/Progress`), the `## Schedule:`
+grammar `agenda` reads, `## daily_goal:`, and the session-log convention.
+
+`scripts/check-status.zsh` validates `.STATUS` files against this shape and runs
+automatically via `lint-staged` on every commit that touches a `.STATUS` file. It is
+**warn-only** — it prints violations but never blocks a commit (flow-cli-scoped
+convention, not an ecosystem-wide standard). Run it manually against any file with
+`zsh scripts/check-status.zsh path/to/.STATUS`.
+
 ---
 
 ## Development Workflow
