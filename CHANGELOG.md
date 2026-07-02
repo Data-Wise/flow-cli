@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`doctor` INSTALLATION section** — detects Homebrew distribution failures that leave a user silently on a broken or stale install: opt/Cellar symlink integrity (installed-but-unlinked), shell-loaded version vs. installed Cellar keg drift, and flow-cli's own man pages losing a case-insensitive name collision to another formula (the class of bug fixed in homebrew-tap PR #135). Skips silently for non-Homebrew installs.
+
 ## [7.14.0] — 2026-07-02 — planning-coordination: shared accessors + dark-ready atlas agenda + .STATUS enforcer
 
 ### Added
