@@ -442,7 +442,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| — | — | All worktrees clean (as of 2026-06-30) |
+| `~/.git-worktrees/flow-cli/feature-planning-coordination` | `feature/planning-coordination` | Planning done (2026-07-01) — SPEC + ORCHESTRATE committed; awaiting impl in a new session (Tracks A+C; atlas/obs contract-only) |
 
 ---
 
