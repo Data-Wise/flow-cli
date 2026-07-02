@@ -101,6 +101,9 @@ run_test ./tests/test-pick-wt.zsh
 run_test ./tests/test-adhd.zsh
 run_test ./tests/test-path-bug-fix.zsh
 run_test ./tests/test-status-field-parity.zsh
+run_test ./tests/test-status-field-accessor.zsh
+run_test ./tests/test-project-path-resolver.zsh
+run_test ./tests/test-suggest-project.zsh
 run_test ./tests/test-flow.zsh
 run_test ./tests/test-timer.zsh
 

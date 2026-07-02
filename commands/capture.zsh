@@ -399,11 +399,13 @@ _flow_read_goal() {
   local today=$(_flow_today)
 
   # First: Check project .STATUS for daily_goal (v3.5.0)
+  # Reads via the shared accessor (_flow_status_field, lib/core.zsh); note
+  # this drops the old case-insensitive grep -i — every real .STATUS uses
+  # lowercase "## daily_goal:" (templates/docs), so this is not load-bearing.
   if _flow_in_project; then
     local root=$(_flow_find_project_root)
-    local status_file="$root/.STATUS"
-    if [[ -f "$status_file" ]]; then
-      local project_goal=$(command grep -i "^## daily_goal:" "$status_file" 2>/dev/null | head -1 | sed 's/^## [^:]*: *//')
+    if [[ -f "$root/.STATUS" ]]; then
+      local project_goal=$(_flow_status_field "$root" "daily_goal")
       if [[ -n "$project_goal" ]] && [[ "$project_goal" =~ ^[0-9]+$ ]]; then
         echo "$project_goal"
         return

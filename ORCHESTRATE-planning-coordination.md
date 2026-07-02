@@ -67,27 +67,27 @@ BEFORE any consolidation, then red unit tests for the new accessors.
       `_flow_where_fallback` (`atlas-bridge.zsh:836`) across 4 `.STATUS`
       dialect + missing-field fixtures. Land GREEN on today's code (register
       in `run-all.sh`) BEFORE writing any new accessor.
-- [ ] 1.1 **Red tests:** `tests/test-status-field-accessor.zsh`,
+- [x] 1.1 **Red tests:** `tests/test-status-field-accessor.zsh`,
       `tests/test-project-path-resolver.zsh`, `tests/test-suggest-project.zsh`
       (register in `tests/run-all.sh`)
-- [ ] 1.2 Add `_flow_status_field <root> <field>` to `lib/core.zsh`
+- [x] 1.2 Add `_flow_status_field <root> <field>` to `lib/core.zsh`
       (handles `## Field:` + `field:` dialects; strips `%`)
-- [ ] 1.3 Add `_flow_resolve_project_path <name>` — merges
+- [x] 1.3 Add `_flow_resolve_project_path <name>` — merges
       `_dash_find_project_path` (`dash.zsh:1284`) + `_flow_get_project_fallback`
       (`atlas-bridge.zsh:370`); **always emits `project_path=`**
-- [ ] 1.4 Add `_flow_suggest_project` — one active/priority scan replacing the 5
+- [x] 1.4 Add `_flow_suggest_project` — one active/priority scan replacing the 5
       reimplementations (`dash.zsh:181`, `:1139`, `morning.zsh:144`, `adhd.zsh`
       `next`, `js`)
-- [ ] 1.5 Migrate call sites: `dash.zsh:1325`, `capture.zsh:406`,
+- [x] 1.5 Migrate call sites: `dash.zsh:1325`, `capture.zsh:406`,
       `atlas-bridge.zsh:836`, `morning.zsh:84`, `adhd.zsh:104` → `_flow_status_field`
-- [ ] 1.6 Route `agenda` (`agenda.zsh:62`) through `_schedule_window_records`
+- [x] 1.6 Route `agenda` (`agenda.zsh:62`) through `_schedule_window_records`
       (`schedule.zsh:549`); keep `_schedule_classify` for bucketing
-- [ ] 1.7 **Parity check:** `test-status-field-parity.zsh` still GREEN
+- [x] 1.7 **Parity check:** `test-status-field-parity.zsh` still GREEN
       post-refactor — any diff is a silent-behavior-loss regression, not an
       acceptable "improvement"; investigate before proceeding
-- [ ] 1.8 Green: all new/parity unit suites + full `./tests/run-all.sh`
-- [ ] 1.9 Commit — `refactor(planning): shared .STATUS/project accessors` (+ separate `test:` commit for the characterization/red suites if helpful for review)
-- [ ] 1.10 **STOP.** Report: files changed, tests added, pass/fail/skip counts,
+- [x] 1.8 Green: all new/parity unit suites + full `./tests/run-all.sh`
+- [x] 1.9 Commit — `refactor(planning): shared .STATUS/project accessors` (+ separate `test:` commit for the characterization/red suites if helpful for review)
+- [x] 1.10 **STOP.** Report: files changed, tests added, pass/fail/skip counts,
       parity-suite diff (should be none). Wait for the reviewer's go-ahead.
 
 **Key files:** `lib/core.zsh` (update), `commands/{morning,adhd,dash,capture,agenda}.zsh` (update), `lib/atlas-bridge.zsh` (update), `tests/test-status-field-parity.zsh` / `tests/test-status-field-accessor.zsh` / `tests/test-project-path-resolver.zsh` / `tests/test-suggest-project.zsh` (NEW)

@@ -367,38 +367,23 @@ _flow_get_project() {
 #   - Search order: root, dev-tools, r-packages/*, research, teaching, quarto
 #   - Uses project_path/proj_status to avoid ZSH reserved names
 # =============================================================================
+# Delegates to the shared resolver (_flow_resolve_project_path, lib/core.zsh)
+# which merges this function's original search dirs with
+# _dash_find_project_path's fuller taxonomy (adds apps + quarto/manuscripts +
+# quarto/presentations). Kept as a thin wrapper so _flow_get_project's output
+# contract (name=/project_path=/proj_status=) is unchanged for callers.
 _flow_get_project_fallback() {
   local name="$1"
-  local path
+  local resolved project_path
 
-  # Try exact match first
-  if [[ -d "$FLOW_PROJECTS_ROOT/$name" ]]; then
-    path="$FLOW_PROJECTS_ROOT/$name"
-  else
-    # Search in common subdirectories
-    local search_dirs=(
-      "$FLOW_PROJECTS_ROOT/dev-tools"
-      "$FLOW_PROJECTS_ROOT/r-packages/active"
-      "$FLOW_PROJECTS_ROOT/r-packages/stable"
-      "$FLOW_PROJECTS_ROOT/research"
-      "$FLOW_PROJECTS_ROOT/teaching"
-      "$FLOW_PROJECTS_ROOT/quarto"
-    )
-    for dir in "${search_dirs[@]}"; do
-      if [[ -d "$dir/$name" ]]; then
-        path="$dir/$name"
-        break
-      fi
-    done
-  fi
+  resolved=$(_flow_resolve_project_path "$name") || return 1
+  eval "$resolved"
+  [[ -z "$project_path" ]] && return 1
 
-  if [[ -n "$path" ]]; then
-    echo "name=\"$name\""
-    echo "project_path=\"$path\""  # Avoid 'path' - conflicts with ZSH's PATH-tied variable
-    echo "proj_status=\"active\""  # Avoid 'status' - conflicts with ZSH builtin
-    return 0
-  fi
-  return 1
+  echo "name=\"$name\""
+  echo "project_path=\"$project_path\""  # Avoid 'path' - conflicts with ZSH's PATH-tied variable
+  echo "proj_status=\"active\""  # Avoid 'status' - conflicts with ZSH builtin
+  return 0
 }
 
 # =============================================================================
@@ -849,20 +834,26 @@ _flow_where_fallback() {
 
   echo "📁 Project: $project"
 
-  # Show status if available
-  local status_file
+  # Show status if available. Reads via the shared accessor
+  # (_flow_status_field, lib/core.zsh) — NOTE: this also fixes a pre-existing
+  # crash. The prior inline version declared `local status=...`, but `status`
+  # is a zsh read-only special variable even as a function-local, so this
+  # line always errored and Status:/Focus: never actually printed. Found
+  # while characterizing (tests/test-status-field-parity.zsh) ahead of this
+  # migration; fixed as an unavoidable side effect of touching this line.
+  local status_dir
   for search_dir in "$PWD" "$FLOW_PROJECTS_ROOT/$project"; do
     if [[ -f "$search_dir/.STATUS" ]]; then
-      status_file="$search_dir/.STATUS"
+      status_dir="$search_dir"
       break
     fi
   done
 
-  if [[ -f "$status_file" ]]; then
-    local status=$(command grep -m1 "^## Status:" "$status_file" | command cut -d: -f2 | tr -d ' ')
-    local focus=$(command grep -m1 "^## Focus:" "$status_file" | command cut -d: -f2-)
+  if [[ -n "$status_dir" ]]; then
+    local proj_status=$(_flow_status_field "$status_dir" "Status" | tr -d ' ')
+    local focus=$(_flow_status_field "$status_dir" "Focus")
 
-    [[ -n "$status" ]] && echo "   Status: $status"
+    [[ -n "$proj_status" ]] && echo "   Status: $proj_status"
     [[ -n "$focus" ]] && echo "   Focus: $focus"
   fi
 }

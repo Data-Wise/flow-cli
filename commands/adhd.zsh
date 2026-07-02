@@ -33,8 +33,8 @@ js() {
     fi
     
     if [[ -z "$project" ]]; then
-      # Fallback: pick randomly from active projects
-      project=$(echo "$projects" | sort -R | head -1)
+      # Fallback: pick randomly from active projects (shared scan, lib/core.zsh)
+      project=$(_flow_suggest_project random-active)
     fi
   fi
   
@@ -101,7 +101,7 @@ next() {
     if [[ -n "$info" ]]; then
       eval "$info"
       if [[ -n "$project_path" ]] && [[ -f "$project_path/.STATUS" ]]; then
-        focus=$(command grep -m1 "^## Focus:" "$project_path/.STATUS" 2>/dev/null | command cut -d: -f2- | sed 's/^ *//')
+        focus=$(_flow_status_field "$project_path" "Focus")
       fi
     fi
 

@@ -839,3 +839,235 @@ _flow_tty_handoff_cleanup() {
     printf '\e[?1004l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?2004l' > /dev/tty
     while read -t 0.05 -k 1 _flow_discard 2>/dev/null; do : ; done < /dev/tty
 }
+
+# ============================================================================
+# PLANNING ACCESSORS (shared .STATUS/project helpers — SPEC-planning-
+# coordination-2026-07-01 §3.1)
+# ============================================================================
+# Consolidates 4 divergent .STATUS field readers, 2 project-path resolvers,
+# and 5 project-suggestion scans into one implementation each. Existing
+# per-file wrappers (_dash_get_status_field, _dash_find_project_path,
+# _flow_get_project_fallback) now delegate here to avoid touching their many
+# internal call sites; see tests/test-status-field-parity.zsh for the
+# byte-parity guard on the field reader.
+
+# =============================================================================
+# Function: _flow_status_field
+# Purpose: Read one field from a project's .STATUS file (shared accessor)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Project root directory (NOT the .STATUS file path itself —
+#        this function appends /.STATUS)
+#   $2 - (required) Field name, e.g. "Focus", "Progress", "Status"
+#
+# Returns:
+#   0 - .STATUS file found (value may still be empty if the field is absent)
+#   1 - .STATUS file not found
+#
+# Output:
+#   stdout - the field's value (leading whitespace trimmed), or empty
+#
+# Example:
+#   _flow_status_field "$project_path" "Focus"
+#   _flow_status_field "$project_path" "Progress" | tr -d '%'   # site strips %
+#
+# Notes:
+#   - Handles both the "## Field:" markdown dialect and the plain "field:"
+#     YAML-ish dialect (matches field name case-sensitively in both).
+#   - Does NOT strip '%' — callers that need a bare number (e.g. Progress)
+#     strip it themselves, same as today (_dash_get_project_progress,
+#     morning.zsh). A universal strip here would corrupt any other field
+#     that legitimately contains '%' (e.g. "## Focus: hit 80% coverage").
+#   - "Status"/"status" gets the same synonym normalization
+#     _dash_get_status_field has always applied (lowercase, spaces removed,
+#     underreview/inprogress/wip -> active, onhold -> paused) — required so
+#     _dash_get_status_field can delegate here without changing behavior.
+# =============================================================================
+_flow_status_field() {
+  local root="$1"
+  local field="$2"
+  local file="$root/.STATUS"
+  local value="" line
+
+  [[ ! -f "$file" ]] && return 1
+
+  while IFS= read -r line; do
+    if [[ "$line" == "## ${field}:"* ]]; then
+      value="${line#*: }"
+      value="${value#"${value%%[![:space:]]*}"}"
+      break
+    fi
+    if [[ "$line" == "${field}:"* ]]; then
+      value="${line#*: }"
+      value="${value#"${value%%[![:space:]]*}"}"
+      break
+    fi
+  done < "$file"
+
+  if [[ "$field" == "Status" || "$field" == "status" ]]; then
+    value="${value:l}"
+    value="${value// /}"
+    case "$value" in
+      underreview) value="active" ;;
+      inprogress) value="active" ;;
+      wip) value="active" ;;
+      onhold) value="paused" ;;
+    esac
+  fi
+
+  echo "$value"
+  return 0
+}
+
+# =============================================================================
+# Function: _flow_resolve_project_path
+# Purpose: Find a project's absolute path by name (shared resolver)
+# =============================================================================
+# Arguments:
+#   $1 - (required) Project name
+#
+# Returns:
+#   0 - Project found
+#   1 - Project not found
+#
+# Output:
+#   stdout - a single shell-evaluable line: project_path="/abs/path"
+#            (never `path=` — that collides with ZSH's PATH-tied array)
+#
+# Example:
+#   local out project_path
+#   if out=$(_flow_resolve_project_path "flow-cli"); then
+#       eval "$out"
+#       echo "Found at: $project_path"
+#   fi
+#
+# Environment:
+#   FLOW_PROJECTS_ROOT - Base directory for projects
+#
+# Notes:
+#   - Merges _dash_find_project_path's category taxonomy (dev-tools, apps,
+#     r-packages/active|stable, research, teaching, quarto/manuscripts,
+#     quarto/presentations) with _flow_get_project_fallback's exact-root-match
+#     and generic quarto/ fallback.
+#   - Search order matches _dash_find_project_path's original order (root
+#     checked last, after the category subdirs) since that is the
+#     better-tested, more complete taxonomy; the generic "quarto/" fallback
+#     is appended at the very end as a pure superset for projects that live
+#     directly under quarto/ rather than manuscripts/ or presentations/.
+# =============================================================================
+_flow_resolve_project_path() {
+  local name="$1"
+  local dir
+
+  local -a search_dirs=(
+    "$FLOW_PROJECTS_ROOT/dev-tools"
+    "$FLOW_PROJECTS_ROOT/apps"
+    "$FLOW_PROJECTS_ROOT/r-packages/active"
+    "$FLOW_PROJECTS_ROOT/r-packages/stable"
+    "$FLOW_PROJECTS_ROOT/research"
+    "$FLOW_PROJECTS_ROOT/teaching"
+    "$FLOW_PROJECTS_ROOT/quarto/manuscripts"
+    "$FLOW_PROJECTS_ROOT/quarto/presentations"
+    "$FLOW_PROJECTS_ROOT"
+    "$FLOW_PROJECTS_ROOT/quarto"
+  )
+
+  for dir in "${search_dirs[@]}"; do
+    if [[ -d "$dir/$name" ]]; then
+      echo "project_path=\"$dir/$name\""
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+# =============================================================================
+# Function: _flow_suggest_project
+# Purpose: Suggest a project to work on (shared active/priority/random scan)
+# =============================================================================
+# Arguments:
+#   $1 - (optional) Strategy [default: "active"]:
+#          active             - first active project
+#          active-with-focus  - first active project with a non-empty Focus
+#          priority           - first active project with Priority 1/P1
+#          random-active      - random pick from the active list (or the
+#                                first 5 of all projects if none are active)
+#
+# Returns:
+#   0 - A project was found
+#   1 - No qualifying project found
+#
+# Output:
+#   stdout - the suggested project name, or empty
+#
+# Example:
+#   suggested=$(_flow_suggest_project active-with-focus)
+#   suggested=$(_flow_suggest_project priority)
+#
+# Notes:
+#   - NOT byte-parity guarded like _flow_status_field — the 5 call sites this
+#     replaces (dash.zsh:181/:1139, morning.zsh:144, adhd.zsh next/js)
+#     genuinely differ in selection logic; each strategy is pinned by its own
+#     unit test in tests/test-suggest-project.zsh instead.
+#   - Uses _flow_list_projects("active") when available, falling back to the
+#     unfiltered list (matching existing callers' fallback pattern) since the
+#     filesystem fallback ignores the status filter param.
+# =============================================================================
+_flow_suggest_project() {
+  local strategy="${1:-active}"
+  local projects
+  projects=$(_flow_list_projects "active" 2>/dev/null)
+  [[ -z "$projects" ]] && projects=$(_flow_list_projects 2>/dev/null)
+  [[ -z "$projects" ]] && return 1
+
+  if [[ "$strategy" == "random-active" ]]; then
+    local pick
+    pick=$(echo "$projects" | sort -R | head -1)
+    [[ -z "$pick" ]] && return 1
+    echo "$pick"
+    return 0
+  fi
+
+  # NOTE: resolved/project_path/pstatus/focus/priority are declared ONCE
+  # here, outside the loop — redeclaring `local` on an already-local
+  # variable on every iteration of a `while ... done <<< ...` loop triggers
+  # a reproducible zsh quirk where the PREVIOUS iteration's value gets
+  # echoed to stdout when the variable is redeclared. See
+  # tests/test-suggest-project.zsh discovery notes / MEMORY zsh-gotchas.
+  local project resolved project_path pstatus focus priority
+  while IFS= read -r project; do
+    [[ -z "$project" ]] && continue
+
+    resolved=$(_flow_resolve_project_path "$project") || continue
+    eval "$resolved"
+    [[ -z "$project_path" || ! -f "$project_path/.STATUS" ]] && continue
+
+    pstatus=$(_flow_status_field "$project_path" "Status")
+    [[ "$pstatus" != "active" ]] && continue
+
+    case "$strategy" in
+      active)
+        echo "$project"
+        return 0
+        ;;
+      active-with-focus)
+        focus=$(_flow_status_field "$project_path" "Focus")
+        if [[ -n "$focus" ]]; then
+          echo "$project"
+          return 0
+        fi
+        ;;
+      priority)
+        priority=$(_flow_status_field "$project_path" "Priority")
+        priority="${priority// /}"
+        if [[ "$priority" == "1" || "$priority" == "P1" ]]; then
+          echo "$project"
+          return 0
+        fi
+        ;;
+    esac
+  done <<< "$projects"
+
+  return 1
+}

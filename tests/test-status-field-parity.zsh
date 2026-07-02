@@ -15,14 +15,16 @@
 # It must be GREEN on today's code, before `_flow_status_field` exists. After
 # the refactor migrates these call sites onto the shared accessor, this same
 # suite must stay green (parity) — see task 1.7. The one sanctioned exception
-# is `_flow_where_fallback`: today it CRASHES on `local status=...` (`status`
-# is a zsh read-only special variable, even as a function-local) and never
-# prints Status:/Focus: at all. That crash is characterized explicitly below
-# (test_where_fallback_currently_crashes_on_status) and is EXPECTED to change
-# post-refactor — the migration renames the colliding local and fixes it as
-# an unavoidable side effect of touching that exact line. This is a discovered
-# bug fix, not a silent behavior-loss regression; flagged in the Phase 1
-# report per the "don't adjust the test to hide a diff" rule.
+# is `_flow_where_fallback`: it originally CRASHED on `local status=...`
+# (`status` is a zsh read-only special variable, even as a function-local)
+# and never printed Status:/Focus: at all. That crash was characterized first
+# (see git history for `test_where_fallback_currently_crashes_on_status`),
+# THEN updated to `test_where_fallback_status_and_focus_now_print` once the
+# atlas-bridge.zsh:836 migration (task 1.5) fixed it as an unavoidable side
+# effect of renaming the colliding local. This is a discovered bug fix, not a
+# silent behavior-loss regression — flagged explicitly in the Phase 1 report
+# rather than silently hiding the diff, per the "don't adjust the test"
+# rule's one sanctioned exception.
 
 SCRIPT_DIR="${0:A:h}"
 PROJECT_ROOT="${SCRIPT_DIR:h}"
@@ -227,18 +229,29 @@ test_capture_reads_daily_goal_from_status() {
 }
 
 # ============================================================================
-# TESTS: _flow_where_fallback (lib/atlas-bridge.zsh) — CRASH characterization
+# TESTS: _flow_where_fallback (lib/atlas-bridge.zsh)
 # ============================================================================
+#
+# UPDATED post-refactor (the one sanctioned exception to "don't adjust the
+# characterization test", per this file's header comment): pre-refactor, this
+# assertion captured `_flow_where_fallback` CRASHING on `local status=...`
+# (status is a zsh read-only special variable, even function-local) and
+# never printing Status:/Focus: at all — see git history for the original
+# `test_where_fallback_currently_crashes_on_status`. The atlas-bridge.zsh:836
+# migration (task 1.5) necessarily renamed that colliding local as part of
+# routing the read through `_flow_status_field`, which fixed the crash as an
+# unavoidable side effect. This is a discovered bug fix, not a silent
+# behavior-loss regression — flagged in the Phase 1 report.
 
-test_where_fallback_currently_crashes_on_status() {
-    test_case "_flow_where_fallback today: 'local status=' crashes before printing Status:/Focus: (zsh read-only var)"
+test_where_fallback_status_and_focus_now_print() {
+    test_case "_flow_where_fallback: Status:/Focus: now print correctly (crash fixed by the migration)"
     local output
     (cd "$TEST_ROOT/proj_where" && FLOW_PROJECTS_ROOT="$TEST_ROOT" _flow_where_fallback "proj_where" 2>/dev/null) > /tmp/.where_result.$$
     output=$(< /tmp/.where_result.$$)
     rm -f /tmp/.where_result.$$
-    assert_contains "$output" "📁 Project: proj_where" "project line still prints" && \
-    assert_not_contains "$output" "Status:" "Status: line never reached — crashes first" && \
-    assert_not_contains "$output" "Focus:" "Focus: line never reached — crashes first" && test_pass
+    assert_contains "$output" "📁 Project: proj_where" "project line prints" && \
+    assert_contains "$output" "Status: active" "Status: now prints" && \
+    assert_contains "$output" "Focus: Ship it" "Focus: now prints" && test_pass
 }
 
 # ============================================================================
@@ -282,7 +295,7 @@ main() {
 
     echo ""
     echo "${CYAN}--- _flow_where_fallback ---${RESET}"
-    test_where_fallback_currently_crashes_on_status
+    test_where_fallback_status_and_focus_now_print
 
     cleanup
     test_suite_end

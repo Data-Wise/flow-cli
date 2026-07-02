@@ -57,14 +57,11 @@ agenda() {
       ;;
   esac
 
-  # Pipeline: collect -> window filter -> sort
+  # Pipeline: routed through the shared surface pipeline (_schedule_window_records,
+  # schedule.zsh) so collect -> window-filter -> sort -> holiday-drop logic
+  # lives once (SPEC §3.3). Holidays are noise unless explicitly requested (--all).
   local records
-  records=$(_schedule_collect "$window" "$category" | _schedule_filter_window "$window" | _schedule_sort)
-
-  # Holidays are noise unless explicitly requested (--all)
-  if (( ! show_all )) && [[ -n "$records" ]]; then
-    records=$(print -r -- "$records" | _schedule_drop_holidays)
-  fi
+  records=$(_schedule_window_records "$window" "$category" "$show_all")
 
   # Bucketize (THIS WEEK vs LATER split on the fixed 7-day horizon)
   local -a b_overdue=() b_today=() b_week=() b_later=()

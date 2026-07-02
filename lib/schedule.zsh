@@ -537,22 +537,37 @@ _schedule_render_line() {
 # =============================================================================
 # Function: _schedule_window_records
 # Purpose: The shared surface pipeline — collect, window-filter, sort, and drop
-#          holidays — in one place (dash UPCOMING, morning/today/week, counts).
+#          holidays — in one place (dash UPCOMING, morning/today/week, counts,
+#          and `agenda` — SPEC-planning-coordination-2026-07-01 §3.3).
 # Arguments:
 #   $1 - window in days [default: SCHEDULE_DEFAULT_WINDOW]
+#   $2 - category filter [default: "" (none)] — forwarded to _schedule_collect
+#   $3 - keep_holidays (0|1) [default: 0 — drop holidays, existing behavior]
 # Output:
 #   stdout - the resulting record stream (empty when nothing is due)
 # Notes:
 #   - Returns 0 with no output when the engine is unavailable or nothing matches,
 #     so callers can `records=$(_schedule_window_records …); [[ -z … ]] && return`.
+#   - $2/$3 are additive: every pre-existing caller passes only $1, so
+#     category defaults to none and holidays are still dropped — unchanged
+#     behavior for dash/morning/today/week/counts. `agenda --all` is the one
+#     caller that passes keep_holidays=1.
 # =============================================================================
 _schedule_window_records() {
   local window="${1:-$SCHEDULE_DEFAULT_WINDOW}"
+  local category="${2:-}"
+  local keep_holidays="${3:-0}"
   typeset -f _schedule_collect >/dev/null 2>&1 || return 0
-  _schedule_collect "$window" \
-    | _schedule_filter_window "$window" \
-    | _schedule_sort \
-    | _schedule_drop_holidays
+  if (( keep_holidays )); then
+    _schedule_collect "$window" "$category" \
+      | _schedule_filter_window "$window" \
+      | _schedule_sort
+  else
+    _schedule_collect "$window" "$category" \
+      | _schedule_filter_window "$window" \
+      | _schedule_sort \
+      | _schedule_drop_holidays
+  fi
 }
 
 # =============================================================================
