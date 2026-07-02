@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Instant prefetch** (`mkdocs.yml`): enabled `navigation.instant.prefetch` — prefetches pages on link hover for faster perceived navigation
 - **MkDocs validation block** (`mkdocs.yml`): `validation.nav.omitted_files: warn` and `validation.links.anchors: warn` now surface silent issues on `mkdocs build`
 - **`not_in_nav` block** (`mkdocs.yml`): marks `ATLAS-CONTRACT.md` and six adhd template files as intentionally out of nav (accessible via links, suppresses omitted_files warnings)
+- **`tok mint`** — Generate short-lived GitHub App installation tokens (`ghs_`)
+  (`lib/dispatchers/tok-dispatcher.zsh`). Reads `github_app_id` and
+  `github_app_private_key` from Keychain, builds an RS256 JWT, resolves the
+  org installation, and exchanges for a `ghs_` token. Supports `--org`,
+  `--dry-run`, and `--verbose` flags. Interactive `tok mint setup` wizard for
+  one-time credential storage ([#479](https://github.com/Data-Wise/flow-cli/issues/479)).
 - **Shared `.STATUS`/project accessors** (`lib/core.zsh`): `_flow_status_field`, `_flow_resolve_project_path`, `_flow_suggest_project` — replace 4 divergent `.STATUS` field readers, 2 project-path resolvers, and 5 project-suggestion scans with one implementation each, guarded by a byte-parity characterization suite. `dash`, `morning`, `next`, `capture`, and `agenda` now share the same accessors instead of reimplementing them.
 - **Atlas agenda source, dark-ready** (`lib/schedule.zsh`): `_schedule_atlas_items` — a third, capability-probed schedule source (alongside `.STATUS` `## Schedule:` blocks and teach-config) that will surface atlas-tracked deadlines (`Task.dueDate`) once atlas ships an `agenda` command. Ships as tested, inert code — no atlas release implements it yet, so this is a silent no-op today. See `docs/ATLAS-CONTRACT.md` (`atlas agenda`, proposed).
 - **`agenda` routed through the shared schedule pipeline** (`lib/schedule.zsh`, `commands/agenda.zsh`): `_schedule_window_records` gained `category`/`keep_holidays` parameters so `agenda`'s collect→filter→sort→holiday-drop chain is now the same shared pipeline `dash`/`morning`/`today`/`week` already use. Added a `(date, label, project)` dedupe pass — the first duplicate-possible scenario now that a third source exists.
