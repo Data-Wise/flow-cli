@@ -166,6 +166,40 @@ $ sec list
 ℹ Usage: sec <name>
 ```
 
+## Interactive Tutorial (`sec tutorial`)
+
+New to token and secret management? `sec tutorial` runs an interactive, ADHD-friendly walkthrough — 7 lessons, each with a real (but safe) example, plus progress tracking so you can stop and resume.
+
+```bash
+sec tutorial
+```
+
+**Estimated time:** 10-15 minutes.
+
+### Safe Demo Mode
+
+The tutorial creates a **fake** demo token (`demo-github-token`, value `ghp_DEMO_TOKEN_NOT_REAL_...`) in Keychain to practice with — no real GitHub/npm/PyPI token is ever created or contacted. The demo token is deleted again in the final lesson.
+
+### The 7 Lessons
+
+| # | Lesson | Covers |
+|---|--------|--------|
+| 1 | **Introduction** | What the tutorial teaches, prerequisites (flow-cli, Bitwarden CLI, Keychain access), estimated time |
+| 2 | **Architecture Overview** | Dual-storage model — Bitwarden (cloud sync, source of truth) + Keychain (instant, Touch ID cache); the metadata JSON format; why the `-j` flag is safe to read without a Touch ID prompt |
+| 3 | **Adding a Token (Demo)** | Walks through `sec add`, then actually stores the fake demo token in Keychain so you can see a real `security add-generic-password` call succeed (or the Accessibility-permission fix if it fails) |
+| 4 | **Retrieving Tokens** | `sec <name>` usage patterns — exporting as an env var, `gh auth login --with-token`, `curl` auth headers, `npm config set` — then retrieves the demo token live |
+| 5 | **Checking Expiration** | How `tok expiring` reads the Keychain metadata (no Touch ID needed) to compute token age; computes and prints the demo token's age |
+| 6 | **Rotating Tokens** | What `tok rotate` does end to end — backup, browser handoff to the provider's token-creation page, validation, dual-backend update, manual revoke-old-token step. Explained only; the fake demo token is not rotated |
+| 7 | **Cleanup & Best Practices** | Deletes the demo token (`sec delete`), then reviews token hygiene, Keychain security, Bitwarden security, and automation patterns (`tok expiring --quiet`, `export TOKEN=$(sec <name>)`, monthly `sec list` audits) |
+
+### Progress Tracking
+
+Progress is stored as JSON in `~/.flow/tutorial-secret-state.json` (`completed_steps`, `current_step`, `started`, `last_accessed`). Each run walks all 7 steps in order top to bottom; the conclusion screen reports how many of the 7 you've completed so far and offers to reset progress interactively.
+
+At the end, the tutorial prints next steps: create a real token (`tok github`), set a 90-day rotation reminder, and pointers to the full guide (`docs/guides/TOKEN-MANAGEMENT-COMPLETE.md`) and quick reference (`docs/reference/REFCARD-TOKEN-SECRETS.md`).
+
+---
+
 ## Using Secrets in Chezmoi Templates
 
 Chezmoi supports Bitwarden integration natively. Your secrets can be used in templates.

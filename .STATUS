@@ -9,7 +9,15 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-02) — Homebrew man-page fix + doctor INSTALLATION checks ✅
+## Current Session (2026-07-02) — closed stale issue #423, filled 4 command doc gaps ✅
+
+**Session activity (part 3):**
+- **Stress-tested issue #423** ("Scholar Config Sync wiring + new teach wrappers") against v7.14.0 — found it was already fully shipped (3 commits explicitly tagged `#423`: config injection, `config check/diff/show/scaffold`, `solution`/`sync`/`validate-r` wrappers, doctor config-sync check, docs). Closed with evidence linking the implementing commits. Writeup: `docs/specs/BRAINSTORM-issue-423-stress-test-2026-07-02.md`.
+- **Audited command/dispatcher doc coverage** — all 14 dispatchers fully documented; found 4 genuinely undocumented user-facing commands (`ref`, `setup`, `tutorial`, `sec tutorial`) confirmed against `docs/DOC-DASHBOARD.md`'s missing-doc tracker and absence from `mkdocs.yml` nav. Also found 8 teach-* "missing doc" dashboard entries were false positives (documented collectively, not 1:1).
+- **Dispatched 2 parallel agents**: one wrote `docs/commands/ref.md`, `setup.md`, `tutorial.md` + a `sec tutorial` subsection in `SECRET-MANAGEMENT.md` (sourced from full `.zsh` reads, no invented flags) and wired all 3 new pages into `mkdocs.yml` nav; the other audited the last 2 weeks of `commands/`/`lib/dispatchers/` commits against docs — found `MASTER-DISPATCHER-GUIDE.md`'s `claude` section stale at C1–C6 (v7.13.0's C7–C11 checks + `flow claude watch` daemon, PR #475, never propagated there).
+- **Fixed the stale `claude` section** — synced synopsis, C7–C11 table, watch-daemon description, exit codes, dependencies. Fixed 8 MD029 ordered-list lint errors in `tutorial.md`. Verified: `mkdocs build --strict` → 0 warnings, `markdownlint-cli2` → 0 errors.
+
+## Previous Session (2026-07-02) — Homebrew man-page fix + doctor INSTALLATION checks ✅
 
 **Session activity (part 2, continued from planning-coordination below):**
 - **Diagnosed + fixed a real Homebrew distribution bug**: flow-cli's `r`-dispatcher man page (`r.1`) collided case-insensitively with the `r` (R-language) formula's `R.1` on APFS, silently breaking `brew link`/`brew upgrade` for anyone with both installed — `brew upgrade flow-cli` reported "already installed" while actually broken. Fixed in `homebrew-tap` (`Formula/flow-cli.rb`, PR #135, merged `05a2e17c`): exclude `r.1` unconditionally from the Homebrew install. Verified via `brew reinstall flow-cli` — clean, 0 errors.
@@ -485,8 +493,11 @@
 
 ## Next Action
 
-1. API documentation push (50% → 80% coverage of 348 functions)
-2. Code workspace manager — `code ws` dispatcher (`SPEC-code-workspace-2026-02-13.md`, ~4mo old — review before impl)
+1. Code workspace manager — `code ws` dispatcher (`SPEC-code-workspace-2026-02-13.md`, ~4mo old — review before impl)
+
+## Parked
+
+- API documentation push (50% → 80% coverage of 348 functions) — parked 2026-07-02, no active driver
 
 ---
 
@@ -495,3 +506,5 @@
 ## wins: Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19), fixed the bug (2026-06-19), Fixed the regression bug (2026-06-19), --category fix squashed the bug (2026-06-19)
 ## streak: 1
 ## last_active: 2026-06-19 10:30
+
+# Last teach config: 2026-07-02

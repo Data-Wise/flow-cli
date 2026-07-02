@@ -309,6 +309,9 @@ nav:
           - at (Atlas bridge): commands/at.md
           - claude (env check): commands/claude.md
           - dashboard: commands/dashboard.md
+          - ref: commands/ref.md
+          - setup: commands/setup.md
+          - tutorial: commands/tutorial.md
       - Quick Reference Cards:
           - 🌳 Worktree (wt): reference/REFCARD-WORKTREE-DISPATCHER.md
           - 📁 Dotfiles (dots): reference/REFCARD-DOTFILE-DISPATCHER.md

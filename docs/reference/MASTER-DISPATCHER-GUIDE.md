@@ -3132,12 +3132,16 @@ The `flow claude` command inspects the Claude Code environment for configuration
 ### Synopsis
 
 ```bash
-flow claude check           # Run all 6 checks, print report
+flow claude check           # Run all 11 checks, print report
 flow claude check --fix     # Run checks + auto-repair C1 and C6
 flow claude doctor          # Alias for check
+flow claude watch               # Start background health daemon (notifies on change)
+flow claude watch --interval N  # Poll every N seconds (default: 60)
+flow claude watch --stop        # Stop the daemon
+flow claude watch --status      # Show daemon state and last check result
 ```
 
-### Checks (C1–C6)
+### Checks (C1–C11)
 
 | ID | Name | Logic | Severity | `--fix` |
 |----|------|-------|----------|---------|
@@ -3147,6 +3151,17 @@ flow claude doctor          # Alias for check
 | C4 | CLAUDE.md length | `~/.claude/CLAUDE.md` ≤ 100 lines | WARN | ✗ |
 | C5 | Shell env parity | `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` exported in shell | INFO | ✗ |
 | C6 | Output token limit | `CLAUDE_CODE_MAX_OUTPUT_TOKENS` set and > 8192 | WARN | ✓ |
+| C7 | Per-project CLAUDE.md | Scans `$FLOW_CLAUDE_PROJECTS_ROOT` (depth 4); warns on >180 lines or stale version refs | WARN | ✗ |
+| C8 | Orphaned memory dirs | Decodes each memory slug back to a filesystem path; warns if the project no longer exists | WARN | ✗ |
+| C9 | Rules drift | Every `~/.claude/rules/*.md` stem must appear in main `~/.claude/CLAUDE.md` | WARN | ✗ |
+| C10 | Missing hook files | Parses `settings.json` hook commands; errors on absent absolute-path scripts | ERROR | ✗ |
+| C11 | Plugin health | Checks `~/.claude/plugins/*/plugin.json` exists and is valid JSON (skips `cache/`) | WARN | ✗ |
+
+`flow claude watch` runs `flow claude check` on a schedule in the background and sends desktop
+notifications on status change (via `terminal-notifier` when available). See
+[commands/claude.md](../commands/claude.md#watch-daemon) and
+[tutorials/49-flow-claude-check.md](../tutorials/49-flow-claude-check.md) for the daemon's state
+files, PID handling, and full worked examples.
 
 ### `--fix` Behavior
 
@@ -3167,7 +3182,7 @@ flow claude check --fix
 | Code | Meaning |
 |------|---------|
 | 0 | All checks pass |
-| 1 | Any ERROR (C2) |
+| 1 | Any ERROR (C2, C10) |
 | 2 | Any WARN, no ERRORs |
 
 ### Source of Truth
@@ -3176,8 +3191,9 @@ flow claude check --fix
 
 ### Dependencies
 
-- `jq` — required for C1/C6 JSON parsing; degrades gracefully if absent
+- `jq` — required for C1/C6/C10 JSON parsing; degrades gracefully if absent
 - `shellcheck` — optional for C2; skips lint sub-check if absent
+- `terminal-notifier` — optional for `flow claude watch`; daemon runs, desktop notifications silently skipped if absent
 
 **Reference:** [commands/claude.md](../commands/claude.md)
 
