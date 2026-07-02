@@ -1,6 +1,6 @@
 # PLAN — flow-cli documentation gap & staleness analysis
 
-**Date:** 2026-07-02 · **Status:** Investigation complete, fixes not yet applied
+**Date:** 2026-07-02 · **Status:** Implemented — items 1–4 of "Recommended next steps" applied same session (`e9396bfca`). Item 5 (full remaining ~10-spec sweep) intentionally still out of scope, unstarted.
 **Trigger:** post-v7.14.0-release audit (the cloud-agent routine that would have done this was created then disabled — see `.STATUS` — this plan supersedes it, done directly instead)
 
 ## Method
