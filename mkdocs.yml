@@ -299,6 +299,7 @@ nav:
           - morning: commands/morning.md
           - dash: commands/dash.md
           - status: commands/status.md
+          - handoff: commands/handoff.md
           - sync: commands/sync.md
           - doctor: commands/doctor.md
           - config: commands/config.md

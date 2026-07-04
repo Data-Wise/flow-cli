@@ -32,6 +32,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **Modular `teach` dispatcher** — `lib/dispatchers/teach-dispatcher.zsh` is now a 307-line loader that sources 10 focused modules under `lib/dispatchers/teach/` (main, content, help, init-config, slides, style, backup, status, archive, map). The monolithic 5,611-line file is gone; characterization tests in `tests/test-teach-dispatcher-characterization.zsh` guard routing behavior.
+- **`flow handoff <slug>`** — scaffolds a structured `docs/planning/HANDOFF-<slug>.md` for
+  transferring context between Claude chat/planning sessions and Claude Code sessions (or
+  between Claude Code sessions across a context reset). Pre-fills the Relevant Files section
+  from `git diff --name-only` against a base branch, refuses to overwrite an existing handoff,
+  and optionally files a GitHub issue (`--issue`) from the same content. See
+  `docs/commands/handoff.md` and `docs/planning/PROPOSAL-claude-chat-to-code-handoff.md` for
+  the rationale.
 
 ## [7.15.0] — 2026-07-02 — Homebrew distribution health + doc gap fills
 

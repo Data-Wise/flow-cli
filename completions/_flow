@@ -34,6 +34,7 @@ _flow() {
     'inbox:View your inbox'
     'win:Log a win'
     'status:View/update .STATUS file'
+    'handoff:Scaffold a structured Claude-chat-to-Claude-Code handoff document'
     # Actions
     'test:Run tests (context-aware)'
     'build:Build project (context-aware)'
