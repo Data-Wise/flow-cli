@@ -584,3 +584,49 @@ savant-docs() {
 savant-docs-build() {
     ( cd ~/projects/dev-tools/savant && mkdocs build && open site/index.html )
 }
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 11: MCP BRIDGE RELIABILITY (stopgap — see docs-standards ADR-001 rev.3,
+# atlas McpDoctorUseCase parked pending priority; this is the manual-fix shortcut)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# mcprestart — one-command quit+relaunch of Claude Desktop to reset a stalled or
+# dead MCP bridge (4-min-timeout stall, or instant "tool not found" death).
+# Logs every invocation to ~/.mcprestart.log so flicker frequency is *measured*,
+# not recalled — validates/refutes the "5+/month" estimate going forward.
+mcprestart() {
+    local log_file="$HOME/.mcprestart.log"
+    local ts=$(date '+%Y-%m-%d %H:%M:%S')
+
+    echo "🔄 Relaunching Claude Desktop (MCP bridge reset)..."
+    echo "$ts | mcprestart invoked" >> "$log_file"
+
+    osascript -e 'quit app "Claude"' 2>/dev/null
+    sleep 2
+    open -a "Claude"
+
+    echo "✅ Done — bridge should reconnect on launch."
+    echo "📊 Logged to $log_file (run 'mcprestart-log' to review)"
+}
+
+# mcprestart-log — show flicker frequency: recent entries + a total count,
+# so "how often is this actually happening" is a lookup, not a memory.
+# Validates/refutes the "5+/month" estimate from the ADR-001 discussion.
+mcprestart-log() {
+    local log_file="$HOME/.mcprestart.log"
+
+    if [[ ! -f "$log_file" ]]; then
+        echo "No log yet — run 'mcprestart' at least once."
+        return 0
+    fi
+
+    echo "🔁 MCP RESTART LOG"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "Last 10 restarts:"
+    tail -10 "$log_file"
+    echo ""
+    echo "Total restarts logged: $(wc -l < "$log_file" | tr -d ' ')"
+    local this_month=$(date '+%Y-%m')
+    echo "This month ($this_month): $(grep -c "^$this_month" "$log_file" 2>/dev/null || echo 0)"
+}
