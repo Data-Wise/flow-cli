@@ -32,7 +32,8 @@ The following files exceed the project’s implicit complexity budget:
 
 | File | Lines | Functions | Concern |
 |------|-------|-----------|---------|
-| `lib/dispatchers/teach-dispatcher.zsh` | 5,611 | 82 | Single dispatcher covers 20+ subcommands; doc/test blast radius is enormous |
+| `lib/dispatchers/teach-dispatcher.zsh` | 307 | 0 | Loader only; functions moved to `lib/dispatchers/teach/*.zsh` (Phase 1 complete) |
+| `lib/dispatchers/teach/*.zsh` (combined) | 5,452 | 82 | Modular split; largest module is `teach-help.zsh` (~1,268 lines) |
 | `lib/dispatchers/email-dispatcher.zsh` | 3,214 | 56 | Email subsystem (31 commands) is larger than most entire plugins |
 | `commands/doctor.zsh` | 2,027 | 24 | Knows about every integration; grows with every new dispatcher |
 | `lib/dotfile-helpers.zsh` | 1,832 | ~20 | Cross-cutting dotfile/secrets logic |
@@ -187,7 +188,7 @@ The first extraction in Phase 2 can borrow from Option A: move `teach` and `em` 
 
 ### Phase 1 — Internal refactoring (v7.16.x, no repo split)
 
-1. Break `teach-dispatcher.zsh` into `lib/dispatchers/teach-*.zsh` modules by subcommand group (deploy, doctor, config, etc.).
+1. Break `teach-dispatcher.zsh` into `lib/dispatchers/teach/*.zsh` modules by subcommand group (main, content, help, init-config, slides, style, backup, status, archive, map).
 2. Break `email-dispatcher.zsh` into `lib/dispatchers/em-*.zsh` modules (send, organize, manage, ai).
 3. Refactor `doctor.zsh` into a registration framework: `_doctor_register_check <category> <fn>`.
 4. Extract shared helpers into stable `lib/core-*.zsh` modules with documented public functions.
@@ -241,14 +242,20 @@ Rollback to the monorepo should occur if any of the following happen before v8.0
 
 ## 10. Next-Action Checklist
 
-- [ ] Review and approve this spec; update `.STATUS` Next Action to reflect Phase 1
-- [ ] Create worktree `feature/restructure-phase1` from `dev`
-- [ ] Write characterization tests for `teach-dispatcher.zsh` current behavior
-- [ ] Draft module split plan for `teach-dispatcher.zsh` (target 4–6 modules)
+Phase 1 (teach dispatcher split) — **DONE** in PR #490:
+
+- [x] Review and approve this spec; update `.STATUS` Next Action to reflect Phase 1
+- [x] Create worktree `feature/restructure-phase1` from `dev`
+- [x] Write characterization tests for `teach-dispatcher.zsh` current behavior
+- [x] Split `teach-dispatcher.zsh` into a loader + 10 modules (`lib/dispatchers/teach/*.zsh`)
+- [x] Run `./tests/run-all.sh` after each refactor; full suite green (75/0/0/1)
+- [x] Update active docs + `CLAUDE.md` to reflect the modular layout
+
+Remaining Phase 1/2 work:
+
 - [ ] Draft module split plan for `email-dispatcher.zsh` (target 3–4 modules)
 - [ ] Implement `_doctor_register_check` framework with backward-compatible defaults
-- [ ] Run `./tests/run-all.sh` after each refactor; target full suite green
-- [ ] Update `CLAUDE.md` architecture section to document core/extensions boundary
+- [ ] Update `CLAUDE.md` architecture section to document the core/extensions boundary
 - [ ] Schedule Phase 2 kickoff once Phase 1 metrics are met
 
 ---

@@ -138,7 +138,7 @@ flow-cli/
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh, check-status.zsh)
 ├── templates/                # .STATUS.template (canonical shape reference)
-├── tests/                    # 231 test files, 12000+ test functions
+├── tests/                    # 232 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -183,7 +183,7 @@ flow-cli/
 
 ## Testing
 
-**231 test files, 76 registered suites, 12000+ test functions.** Run: `./tests/run-all.sh` (75/75 passing, 1 skipped — required external tool absent, e.g. himalaya) or individual suites in `tests/`.
+**232 test files, 76 registered suites, 12000+ test functions.** Run: `./tests/run-all.sh` (75 passed / 0 failed / 0 timeout / 1 skipped — required external tool absent, e.g. himalaya) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 

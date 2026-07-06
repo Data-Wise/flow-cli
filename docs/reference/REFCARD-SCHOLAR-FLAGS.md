@@ -2,7 +2,7 @@
 
 > All flags available for `teach` Scholar wrapper commands (lecture, slides, exam, quiz, assignment, syllabus, rubric, feedback, demo).
 >
-> **Version:** v7.10.2 | **Source:** `lib/dispatchers/teach-dispatcher.zsh`
+> **Version:** v7.15.0 | **Source:** `lib/dispatchers/teach-dispatcher.zsh` (loader) → `lib/dispatchers/teach/teach-main.zsh` / `teach-content.zsh`
 
 ## Selection Flags (Universal)
 

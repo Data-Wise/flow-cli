@@ -63,7 +63,8 @@ lib/
     ├── dots-dispatcher.zsh       # Dotfile management
     ├── sec-dispatcher.zsh        # Secret management
     ├── tok-dispatcher.zsh        # Token management
-    ├── teach-dispatcher.zsh
+    ├── teach-dispatcher.zsh      # Teaching: loader
+    │   └── teach/                # Teaching: 10 modules (main, content, help, init-config, slides, style, backup, status, archive, map)
     ├── teach-dates.zsh           # Teaching: date automation
     ├── teach-deploy-enhanced.zsh # Teaching: deploy v2 engine
     ├── teach-doctor-impl.zsh     # Teaching: doctor v2 implementation

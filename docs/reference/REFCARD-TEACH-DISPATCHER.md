@@ -2,7 +2,7 @@
 
 > All 34 `teach` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v7.10.2 | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh`
+> **Version:** v7.15.0 | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh` (loader) → `lib/dispatchers/teach/*.zsh`
 
 ## Command Taxonomy
 

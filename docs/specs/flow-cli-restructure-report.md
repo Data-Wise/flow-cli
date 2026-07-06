@@ -51,9 +51,9 @@ The two biggest dispatchers alone are larger than many whole ZSH plugins.
 ## RECOMMENDED PLAN
 
 ```
-PHASE 1  (v7.16.x)  --  REFACTOR IN PLACE
-  |-- Break teach-dispatcher.zsh into 4-6 modules
-  |-- Break email-dispatcher.zsh into 3-4 modules
+PHASE 1  (v7.16.x)  --  REFACTOR IN PLACE  [teach DONE, email pending]
+  |-- Break teach-dispatcher.zsh into 10 modules  [DONE] 307-line loader
+  |-- Break email-dispatcher.zsh into 3-4 modules  [NEXT]
   |-- Make doctor.zsh a plugin-health framework
   |-- Archive stale generated docs
   |-- Goal: teach < 2,000 lines, email < 1,500 lines
@@ -84,7 +84,7 @@ PHASE 3  (v8.x)  --  MATURE
 
 ## ONE THING TO DO NOW
 
-Create a worktree `feature/restructure-phase1` and write characterization tests for `teach-dispatcher.zsh` so the in-place refactor can begin safely.
+Create a worktree `feature/email-dispatcher-restructure` and write characterization tests for `email-dispatcher.zsh` before splitting it into `lib/dispatchers/em/*.zsh` modules.
 
 ---
 
