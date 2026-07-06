@@ -8,6 +8,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+### Changed
+
+- **Modular `teach` dispatcher** — `lib/dispatchers/teach-dispatcher.zsh` is now a 307-line loader that sources 10 focused modules under `lib/dispatchers/teach/` (main, content, help, init-config, slides, style, backup, status, archive, map). The monolithic 5,611-line file is gone; characterization tests in `tests/test-teach-dispatcher-characterization.zsh` guard routing behavior.
+
+### Added
+
+- **`tests/test-teach-dispatcher-characterization.zsh`** — 35 routing checks that mock action functions and verify every public `teach <cmd>` path before and after the split.
+
 ## [7.15.0] — 2026-07-02 — Homebrew distribution health + doc gap fills
 
 ### Added
