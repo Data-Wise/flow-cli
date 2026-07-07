@@ -79,7 +79,7 @@ Send without preview confirmation.
 .B --prompt \fIinstructions\fR
 AI-compose from prompt instructions.
 .TP
-.B --backend \fIclaude\fR|\fIgemini\fR
+.B --backend \fIclaude\fR|\fIagy\fR|\fIgemini\fR
 Override AI backend for this operation.
 .RE
 .TP
@@ -102,7 +102,7 @@ Send immediately without preview.
 .B --prompt \fIinstructions\fR
 Custom instructions for AI draft.
 .TP
-.B --backend \fIclaude\fR|\fIgemini\fR
+.B --backend \fIclaude\fR|\fIagy\fR|\fIgemini\fR
 Override AI backend for this operation.
 .RE
 .TP
@@ -113,7 +113,7 @@ Forward an email.
 .B --prompt \fItext\fR
 AI-compose a custom forwarding note.
 .TP
-.B --backend \fIclaude\fR|\fIgemini\fR
+.B --backend \fIclaude\fR|\fIagy\fR|\fIgemini\fR
 Override AI backend.
 .TP
 .B --force
@@ -244,8 +244,11 @@ Show current AI backend setting.
 .B ai claude
 Switch to Claude as the AI backend.
 .TP
+.B ai agy
+Switch to Antigravity (agy) as the AI backend.
+.TP
 .B ai gemini
-Switch to Gemini as the AI backend.
+Switch to Gemini as the AI backend (legacy; superseded by agy).
 .TP
 .B ai none
 Disable AI features.

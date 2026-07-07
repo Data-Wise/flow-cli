@@ -1117,7 +1117,7 @@ em send --prompt "thank Alice for the report, ask about timeline"
 em forward 42 colleague@unm.edu --prompt "FYI, see the budget section"
 
 # Override AI backend for any command
-em reply 42 --prompt "be brief" --backend gemini
+em reply 42 --prompt "be brief" --backend agy
 ```
 
 ### Forward
@@ -1311,7 +1311,7 @@ em cache prune                # Remove expired entries only
 em cache warm 20              # Pre-warm latest 20 emails (background)
 
 # Configuration
-export FLOW_EMAIL_AI=claude     # AI backend (claude/gemini/none)
+export FLOW_EMAIL_AI=claude     # AI backend (claude/agy/gemini legacy/none)
 export FLOW_EMAIL_PAGE_SIZE=25  # Inbox page size
 ```
 

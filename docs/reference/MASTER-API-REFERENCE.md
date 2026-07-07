@@ -6256,7 +6256,7 @@ _em_forward <msg_id> [to] [--prompt text] [--backend name] [--force]
 - `$1` - Email message ID
 - `$2` - Recipient email address (optional)
 - `--prompt` - AI forwarding note with custom instructions
-- `--backend` - Override AI backend (claude/gemini)
+- `--backend` - Override AI backend (claude/agy/gemini legacy)
 - `--force` / `--yes` - Skip safety gate
 
 **Returns:**

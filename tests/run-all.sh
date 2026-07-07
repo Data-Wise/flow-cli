@@ -82,6 +82,8 @@ run_test ./tests/test-dot-chezmoi-safety.zsh
 run_test ./tests/test-em-dispatcher.zsh
 run_test ./tests/test-em-prompt-flag.zsh
 run_test ./tests/test-em-help-guards.zsh
+run_test ./tests/test-em-ai-switch.zsh
+run_test ./tests/test-em-ai-agy.zsh
 run_test ./tests/test-tok.zsh
 run_test ./tests/test-tok-sync.zsh
 

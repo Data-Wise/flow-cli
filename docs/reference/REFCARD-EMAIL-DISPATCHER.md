@@ -488,7 +488,7 @@ em re 42 --no-ai                # Reply without AI
 em re 42 --all                  # Reply-all
 em re 42 --batch                # Non-interactive (preview+confirm)
 em re 42 --prompt "decline, suggest office hours"  # AI draft with instructions
-em re 42 --backend gemini       # Override AI backend for this reply
+em re 42 --backend agy          # Override AI backend for this reply
 
 # ─────────────────────────────────────────────────────────────
 # Composing
@@ -711,7 +711,7 @@ em re 42 --batch                # Preview, then [y/N]
 
 # AI-guided with custom instructions
 em re 42 --prompt "decline politely"    # Custom AI draft
-em re 42 --prompt "be brief" --backend gemini  # With backend override
+em re 42 --prompt "be brief" --backend agy  # With backend override
 ```
 
 ### Forwarding
