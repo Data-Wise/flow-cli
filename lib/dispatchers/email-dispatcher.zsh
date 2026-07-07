@@ -22,7 +22,7 @@
 #
 # Backend:      himalaya CLI (https://github.com/pimalaya/himalaya)
 # Adapter:      lib/em-himalaya.zsh (isolates CLI specifics)
-# AI:           lib/em-ai.zsh (claude / gemini / fallback chain)
+# AI:           lib/em-ai.zsh (claude / agy / gemini legacy / fallback chain)
 # Cache:        lib/em-cache.zsh (TTL-based AI result caching)
 # Render:       lib/em-render.zsh (HTML/markdown/plain detection)
 # Editor:       $EDITOR (nvim recommended)
@@ -49,7 +49,7 @@ fi
 # CONFIGURATION
 # ═══════════════════════════════════════════════════════════════════
 
-: ${FLOW_EMAIL_AI:=claude}              # AI backend: claude | gemini | none
+: ${FLOW_EMAIL_AI:=claude}              # AI backend: claude | agy | gemini (legacy) | none
 : ${FLOW_EMAIL_PAGE_SIZE:=25}           # Default inbox page size
 : ${FLOW_EMAIL_FOLDER:=INBOX}           # Default folder
 : ${FLOW_EMAIL_TRASH_FOLDER:=Trash}     # Trash folder (Exchange: "Deleted Items")
@@ -281,12 +281,13 @@ ${_C_BLUE}AI-POWERED COMPOSITION${_C_NC}:
   ${_C_CYAN}em reply <ID> --prompt 'instructions'${_C_NC}       AI draft with custom instructions
   ${_C_CYAN}em send <to> <subj> --prompt 'instructions'${_C_NC} AI compose from instructions
   ${_C_CYAN}em forward <ID> <to> --prompt 'text'${_C_NC}        AI forward with custom note
-  ${_C_DIM}--backend claude|gemini${_C_NC}                     Override AI backend per-command
+  ${_C_DIM}--backend claude|agy|gemini${_C_NC}                 Override AI backend per-command
 
 ${_C_BLUE}AI BACKEND${_C_NC}:
   ${_C_CYAN}em ai${_C_NC}              Show current AI backend
   ${_C_CYAN}em ai claude${_C_NC}       Switch to Claude
-  ${_C_CYAN}em ai gemini${_C_NC}       Switch to Gemini
+  ${_C_CYAN}em ai agy${_C_NC}          Switch to Antigravity (agy)
+  ${_C_CYAN}em ai gemini${_C_NC}       Switch to Gemini (legacy)
   ${_C_CYAN}em ai none${_C_NC}         Disable AI
   ${_C_CYAN}em ai toggle${_C_NC}       Cycle backends
   ${_C_CYAN}em ai auto${_C_NC}         Smart per-op routing
@@ -3132,8 +3133,10 @@ _em_doctor() {
     # Optional (AI)
     if [[ "$FLOW_EMAIL_AI" == "claude" ]]; then
         _em_doctor_check "claude" "optional" "AI drafts (claude)" "npm install -g @anthropic-ai/claude-code"
+    elif [[ "$FLOW_EMAIL_AI" == "agy" ]]; then
+        _em_doctor_check "agy" "optional" "AI drafts (agy)" "brew install agy"
     elif [[ "$FLOW_EMAIL_AI" == "gemini" ]]; then
-        _em_doctor_check "gemini" "optional" "AI drafts (gemini)" "pip install google-generativeai"
+        _em_doctor_check "gemini" "optional" "AI drafts (gemini, legacy)" "pip install google-generativeai"
     fi
 
     echo -e "${_C_DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${_C_NC}"
@@ -3145,9 +3148,13 @@ _em_doctor() {
     echo -e "  AI backend:  ${_C_CYAN}${FLOW_EMAIL_AI}${_C_NC}"
     echo -e "  AI timeout:  ${_C_CYAN}${FLOW_EMAIL_AI_TIMEOUT}s${_C_NC}"
     # Extra args
+    local _agy_extra="${_EM_AI_BACKENDS[agy_extra_args]:-}"
     local _gemini_extra="${_EM_AI_BACKENDS[gemini_extra_args]:-}"
+    if [[ -n "$_agy_extra" ]]; then
+        echo -e "  Agy args:    ${_C_CYAN}${_agy_extra}${_C_NC}"
+    fi
     if [[ -n "$_gemini_extra" ]]; then
-        echo -e "  Gemini args: ${_C_CYAN}${_gemini_extra}${_C_NC}"
+        echo -e "  Gemini args: ${_C_CYAN}${_gemini_extra}${_C_NC} (legacy)"
     fi
     echo -e "  Page size:   ${_C_CYAN}${FLOW_EMAIL_PAGE_SIZE}${_C_NC}"
     echo -e "  Folder:      ${_C_CYAN}${FLOW_EMAIL_FOLDER}${_C_NC}"
