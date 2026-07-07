@@ -410,7 +410,7 @@ graph TB
 
 1. **Adapter isolation** — All himalaya CLI specifics live in `em-himalaya.zsh`. If himalaya changes CLI flags, fix only this file.
 2. **Safety gates** — Every send operation goes through `_em_confirm_send()` with `[y/N]` default-No.
-3. **AI pluggable** — Backend configurable via `FLOW_EMAIL_AI` (claude/gemini/none) with per-operation timeouts.
+3. **AI pluggable** — Backend configurable via `FLOW_EMAIL_AI` (claude/agy/gemini legacy/none) with per-operation timeouts.
 4. **Preview cleanup** — 6 sed filters strip email noise (CID refs, Safe Links, MIME markers) in both `em pick` preview and `em read`.
 
 ---

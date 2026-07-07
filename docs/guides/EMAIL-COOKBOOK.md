@@ -302,7 +302,7 @@ em send --prompt "thank Alice for the report, ask when the budget section will b
 em forward 42 colleague@unm.edu --prompt "FYI, see the budget section on page 3"
 
 # Use a different AI backend for this one reply
-em reply 42 --prompt "be brief and direct" --backend gemini
+em reply 42 --prompt "be brief and direct" --backend agy
 ```
 
 **Explanation:**
@@ -316,7 +316,7 @@ When `--prompt` is used, TTY detection is bypassed (treated as batch mode), maki
 em reply 42 --prompt "acknowledge receipt" --force
 ```
 
-**Pro tip:** Combine `--prompt` with `--backend` to use Gemini for quick tasks (faster, lower quota usage) and Claude for nuanced replies. The `--backend` flag overrides `FLOW_EMAIL_AI` for that single command only — your global setting stays unchanged.
+**Pro tip:** Combine `--prompt` with `--backend` to use agy for quick tasks (faster, lower quota usage) and Claude for nuanced replies. The `--backend` flag overrides `FLOW_EMAIL_AI` for that single command only — your global setting stays unchanged. (`gemini` is also still available as a legacy backend for existing configs.)
 
 ---
 
@@ -332,7 +332,8 @@ em ai
 
 # Switch to a specific backend
 em ai claude
-em ai gemini
+em ai agy
+em ai gemini    # legacy backend, still supported for existing configs
 em ai none      # disable AI entirely
 
 # Cycle through available backends one at a time
@@ -344,9 +345,9 @@ em ai auto
 
 **Explanation:**
 
-`em ai` changes `FLOW_EMAIL_AI` in the current shell session without touching your config file. The change takes effect immediately for all subsequent `em` commands. The fallback chain is: claude -> gemini -> none (graceful timeout). Use `em ai none` when you need sub-second response times and do not want any AI operations blocking your workflow.
+`em ai` changes `FLOW_EMAIL_AI` in the current shell session without touching your config file. The change takes effect immediately for all subsequent `em` commands. The fallback chain is: claude -> agy -> gemini -> none (graceful timeout). Use `em ai none` when you need sub-second response times and do not want any AI operations blocking your workflow.
 
-**Pro tip:** Set `FLOW_EMAIL_AI=gemini` in `.flow/email.conf` for a specific project if that project's email volume is high and you want to preserve Claude quota for code tasks. Project config overrides global config automatically.
+**Pro tip:** Set `FLOW_EMAIL_AI=agy` in `.flow/email.conf` for a specific project if that project's email volume is high and you want to preserve Claude quota for code tasks. Project config overrides global config automatically. (`agy` succeeds `gemini` as the recommended fast/legacy-successor backend — Google's gemini CLI has been deprecated in favor of Antigravity/agy.)
 
 ---
 

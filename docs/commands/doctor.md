@@ -156,7 +156,7 @@ flow doctor --verbose
 | **glow**                 | recommended | Markdown rendering        | brew        |
 | **email-oauth2-proxy**   | recommended | OAuth2 for Gmail/Outlook  | pip         |
 | **terminal-notifier**    | optional    | Desktop notifications     | brew        |
-| **claude/gemini**        | conditional | AI backend (per `$FLOW_EMAIL_AI`) | varies |
+| **claude/agy/gemini**    | conditional | AI backend (per `$FLOW_EMAIL_AI`; gemini is legacy) | varies |
 
 > This section only appears when `em()` is loaded. Shared deps (fzf, bat, jq) are checked in earlier sections and skipped here.
 

@@ -459,7 +459,7 @@ em send alice@unm.edu "Meeting" --prompt "suggest Tuesday 2pm, keep it brief"
 Use `--backend` to switch AI providers for a single command without changing your global setting:
 
 ```zsh
-em reply 42 --prompt "acknowledge receipt" --backend gemini
+em reply 42 --prompt "acknowledge receipt" --backend agy
 ```
 
 This overrides `FLOW_EMAIL_AI` for that one command only.

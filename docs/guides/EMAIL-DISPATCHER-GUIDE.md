@@ -85,7 +85,8 @@ compose, triage, or analyze email content.
 | [email-oauth2-proxy](https://github.com/simonrob/email-oauth2-proxy) | OAuth2 for Gmail/Outlook | `pip install email-oauth2-proxy` |
 | terminal-notifier | Desktop notifications | `brew install terminal-notifier` |
 | claude CLI | AI drafts (primary) | See [Claude Code docs](https://claude.ai/docs) |
-| gemini CLI | AI drafts (fallback) | `pip install google-generativeai` |
+| agy CLI | AI drafts (fallback) | `brew install agy` |
+| gemini CLI | AI drafts (legacy fallback) | `pip install google-generativeai` |
 
 ### Check Your Setup
 
@@ -869,7 +870,7 @@ em doctor                        # Verify watcher dependencies
 
 ## AI Features Deep Dive
 
-The `em` dispatcher includes optional AI features powered by Claude or Gemini. All AI operations are:
+The `em` dispatcher includes optional AI features powered by Claude, Antigravity (agy), or Gemini (legacy). All AI operations are:
 - **Cached** - Results stored with TTL to avoid redundant API calls
 - **Timeout-protected** - Operations have per-type timeouts (10-30s)
 - **Fallback-enabled** - Tries alternate backends on failure
@@ -881,7 +882,9 @@ Configure via environment variable:
 
 ```bash
 export FLOW_EMAIL_AI="claude"    # Default (claude CLI)
-export FLOW_EMAIL_AI="gemini"    # Google Gemini CLI
+export FLOW_EMAIL_AI="agy"       # Antigravity CLI (agy)
+export FLOW_EMAIL_AI="gemini"    # Google Gemini CLI (legacy — gemini CLI is deprecated
+                                  # upstream in favor of agy; kept for existing configs)
 export FLOW_EMAIL_AI="none"      # Disable AI features
 ```
 
@@ -892,12 +895,22 @@ export FLOW_EMAIL_AI="none"      # Disable AI features
    - Timeout: 30s for drafts, 15s for summaries
    - Best for: Professional tone, detailed replies
 
-2. **gemini** (fallback) - Uses Gemini CLI
+2. **agy** (fallback) - Uses Antigravity CLI (`agy -p`)
+   - Requires: `agy` in PATH (`brew install agy`)
+   - Timeout: same as Claude
+   - Best for: Quick responses, factual content — the successor to the gemini backend
+   - Note: agy's raw output includes a status-block footer that `em` automatically strips,
+     and responses are sanity-checked before use (agy has been observed to return a canned
+     "system operational" response on bad input while still exiting successfully) — a failed
+     check falls through to the next backend in the chain automatically, no action needed
+
+3. **gemini** (legacy fallback) - Uses Gemini CLI
    - Requires: `gemini` in PATH
    - Timeout: same as Claude
-   - Best for: Quick responses, factual content
+   - Deprecated upstream in favor of `agy`; retained here only for existing
+     `FLOW_EMAIL_AI=gemini` configs — new setups should use `agy`
 
-3. **none** - Disables all AI features
+4. **none** - Disables all AI features
    - `em reply` opens blank draft
    - `em respond` unavailable
    - `em classify` / `em summarize` unavailable
@@ -907,7 +920,7 @@ export FLOW_EMAIL_AI="none"      # Disable AI features
 If the primary backend fails (timeout, not installed, API error), `em` automatically tries the next available backend:
 
 ```text
-claude → gemini → fail gracefully
+claude → agy → gemini → fail gracefully
 ```
 
 ## AI Backend Switching
@@ -918,8 +931,9 @@ Switch AI backends at runtime without restarting your shell or editing config fi
 
 ```bash
 em ai                 # Show current backend status
-em ai gemini          # Switch to Gemini (faster startup)
+em ai agy             # Switch to Antigravity (agy)
 em ai claude          # Switch back to Claude
+em ai gemini          # Switch to Gemini (legacy)
 em ai toggle          # Cycle through available backends
 em ai none            # Disable AI entirely
 ```
@@ -932,11 +946,11 @@ Running `em ai` with no arguments shows:
 Email AI Backend
 
   Current:     claude
-  Available:   claude gemini
+  Available:   claude agy gemini
   Timeout:     30s
-  Gemini args: -e none
+  Gemini args: -e none (legacy)
 
-  Switch: em ai claude | em ai gemini | em ai toggle
+  Switch: em ai claude | em ai agy | em ai gemini | em ai toggle
 ```
 
 ### Gemini Speed Optimization

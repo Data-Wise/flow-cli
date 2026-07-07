@@ -9,7 +9,7 @@
 #
 # Used by:      lib/dispatchers/email-dispatcher.zsh, lib/em-cache.zsh
 #
-# Backends:     claude CLI, gemini CLI (extensible)
+# Backends:     claude CLI, agy CLI, gemini CLI (legacy) (extensible)
 # Design:       Per-operation backend selection, timeout, fallback chain,
 #               cache integration to avoid redundant AI calls.
 #
@@ -23,6 +23,9 @@ typeset -gA _EM_AI_BACKENDS=(
     [claude_cmd]="claude"
     [claude_flags]="-p --output-format text"
     [claude_extra_args]=""
+    [agy_cmd]="agy"
+    [agy_flags]="-p"
+    [agy_extra_args]="${FLOW_EMAIL_AGY_EXTRA_ARGS:-}"
     [gemini_cmd]="gemini"
     [gemini_flags]=""
     [gemini_extra_args]="${FLOW_EMAIL_GEMINI_EXTRA_ARGS:--e none}"
@@ -82,7 +85,7 @@ _em_ai_query() {
     local timeout_s
     timeout_s=$(_em_ai_timeout_for_op "$operation")
     local result=""
-    result=$(_em_ai_execute "$backend" "$prompt" "$input" "$timeout_s")
+    result=$(_em_ai_execute "$backend" "$prompt" "$input" "$timeout_s" "$operation")
     local exit_code=$?
 
     # --- Step 4: Fallback on failure ---
@@ -90,7 +93,7 @@ _em_ai_query() {
         local fallback
         for fallback in $(_em_ai_fallback_chain "$backend"); do
             _flow_log_debug "em-ai: trying fallback backend: $fallback" 2>/dev/null
-            result=$(_em_ai_execute "$fallback" "$prompt" "$input" "$timeout_s")
+            result=$(_em_ai_execute "$fallback" "$prompt" "$input" "$timeout_s" "$operation")
             exit_code=$?
             [[ $exit_code -eq 0 ]] && break
         done
@@ -140,9 +143,9 @@ _em_ai_validate_extra_args() {
 
 _em_ai_execute() {
     # Execute a single AI backend call
-    # Args: backend, prompt, input, timeout_seconds
+    # Args: backend, prompt, input, timeout_seconds, operation (optional, for agy validation)
     # Security (Finding 13): extra_args validated via _em_ai_validate_extra_args
-    local backend="$1" prompt="$2" input="$3" timeout_s="${4:-15}"
+    local backend="$1" prompt="$2" input="$3" timeout_s="${4:-15}" operation="${5:-}"
 
     case "$backend" in
         claude)
@@ -161,6 +164,47 @@ _em_ai_execute() {
                 _flow_log_warning "AI timed out (claude, ${timeout_s}s)" 2>/dev/null
             fi
             return $rc
+            ;;
+        agy)
+            if ! command -v agy &>/dev/null; then
+                return 1
+            fi
+            local extra="${_EM_AI_BACKENDS[agy_extra_args]:-}"
+            # Finding 13: validate before word-splitting and interpolating into command
+            if ! _em_ai_validate_extra_args "$extra"; then
+                return 1
+            fi
+            # IMPORTANT: capture agy's output via a temp file, NOT $(...) command
+            # substitution. agy has been observed to spawn a process that keeps
+            # the stdout pipe open after the main agy process exits/is killed —
+            # $(...) then blocks forever (or dies silently) waiting for EOF on
+            # that pipe, even though `timeout` correctly killed the direct agy
+            # process. Redirecting to a real file sidesteps the pipe entirely.
+            local tmpfile
+            tmpfile=$(mktemp "${TMPDIR:-/tmp}/em-ai-agy.XXXXXX") || return 1
+            echo "$input" | timeout "$timeout_s" \
+                agy -p "$prompt" ${=extra} >"$tmpfile" 2>/dev/null
+            local rc=$?
+            local raw
+            raw=$(<"$tmpfile")
+            rm -f "$tmpfile"
+            if [[ $rc -eq 124 ]]; then
+                _flow_log_warning "AI timed out (agy, ${timeout_s}s)" 2>/dev/null
+                return $rc
+            fi
+            if [[ $rc -ne 0 ]]; then
+                return $rc
+            fi
+            # agy has no clean-output flag and can exit 0 on degenerate input
+            # (e.g. bad --model, ignored prompt) — never trust its exit code alone.
+            local cleaned
+            cleaned=$(_em_ai_agy_clean_output "$raw")
+            if ! _em_ai_agy_looks_valid "$operation" "$cleaned"; then
+                _flow_log_warning "em-ai: agy returned an unusable response, falling back" 2>/dev/null
+                return 1
+            fi
+            echo "$cleaned"
+            return 0
             ;;
         gemini)
             if ! command -v gemini &>/dev/null; then
@@ -190,6 +234,56 @@ _em_ai_execute() {
 }
 
 # ═══════════════════════════════════════════════════════════════════
+# AGY OUTPUT VALIDATION
+# ═══════════════════════════════════════════════════════════════════
+# agy (Antigravity CLI) has no clean-output flag: it appends an
+# unrequested markdown status block to every response, and has been
+# observed to exit 0 with a canned "system operational" response on
+# degenerate input (e.g. an invalid --model). These helpers strip the
+# boilerplate and reject responses that look like the canned fallback,
+# since agy's own exit code cannot be trusted to signal failure.
+
+_em_ai_agy_clean_output() {
+    # Strip agy's appended status block from its response.
+    # Args: raw_output
+    local raw="$1"
+    # Cut everything from the first "---" separator line or a
+    # "**🟢 DONE" / "⏭️ NEXT" style marker onward.
+    echo "$raw" | sed -E '/^---[[:space:]]*$/,$d; /\*\*?(🟢|⏭️|⚠️|🔗)/,$d'
+}
+
+_em_ai_agy_looks_valid() {
+    # Sanity-check an agy response beyond its (untrustworthy) exit code.
+    # Args: operation, cleaned_output
+    # Returns: 0 if the response looks like a real answer, 1 if it looks
+    # like agy's canned "system operational" boilerplate.
+    local operation="$1" output="$2"
+
+    [[ -z "$output" ]] && return 1
+
+    # Known canned-response phrases observed when agy ignores the prompt.
+    if [[ "$output" == *"system is operational"* || "$output" == *"System is operational"* \
+        || "$output" == *"what are we working on"* || "$output" == *"What are we working on"* \
+        || "$output" == *"ready for causal inference"* ]]; then
+        return 1
+    fi
+
+    # classify/summarize expect a short single line/word — a suspiciously
+    # long response for these operations is more likely boilerplate than
+    # a real answer.
+    case "$operation" in
+        classify)
+            [[ ${#output} -gt 40 ]] && return 1
+            ;;
+        summarize)
+            [[ ${#output} -gt 200 ]] && return 1
+            ;;
+    esac
+
+    return 0
+}
+
+# ═══════════════════════════════════════════════════════════════════
 # BACKEND SELECTION HELPERS
 # ═══════════════════════════════════════════════════════════════════
 
@@ -208,8 +302,9 @@ _em_ai_timeout_for_op() {
 
 _em_ai_fallback_chain() {
     # Return fallback backends (excluding the one that just failed)
+    # agy is preferred over gemini (legacy, kept for existing configs).
     local failed_backend="$1"
-    local -a chain=(claude gemini)
+    local -a chain=(claude agy gemini)
     local fb
     for fb in "${chain[@]}"; do
         [[ "$fb" != "$failed_backend" ]] && command -v "$fb" &>/dev/null && echo "$fb"
@@ -221,6 +316,7 @@ _em_ai_available() {
     # Returns: space-separated list of available backends
     local -a available=()
     command -v claude &>/dev/null && available+=(claude)
+    command -v agy &>/dev/null && available+=(agy)
     command -v gemini &>/dev/null && available+=(gemini)
     echo "${available[*]}"
 }
@@ -412,12 +508,12 @@ _em_ai_switch() {
 
     # Validate backend
     case "$backend" in
-        claude|gemini|none|auto) ;;  # known backends
+        claude|agy|gemini|none|auto) ;;  # known backends
         *)
             if ! command -v "$backend" &>/dev/null; then
                 _flow_log_error "Unknown backend: $backend"
                 echo "Available: $(_em_ai_available)"
-                echo "Valid: claude, gemini, none, auto"
+                echo "Valid: claude, agy, gemini, none, auto"
                 return 1
             fi
             ;;
@@ -455,13 +551,17 @@ _em_ai_status() {
     # Show extra_args if set
     local gemini_extra="${_EM_AI_BACKENDS[gemini_extra_args]:-}"
     local claude_extra="${_EM_AI_BACKENDS[claude_extra_args]:-}"
-    if [[ -n "$gemini_extra" ]]; then
-        echo -e "  Gemini args: ${_C_DIM}${gemini_extra}${_C_NC}"
-    fi
+    local agy_extra="${_EM_AI_BACKENDS[agy_extra_args]:-}"
     if [[ -n "$claude_extra" ]]; then
         echo -e "  Claude args: ${_C_DIM}${claude_extra}${_C_NC}"
     fi
+    if [[ -n "$agy_extra" ]]; then
+        echo -e "  Agy args:    ${_C_DIM}${agy_extra}${_C_NC}"
+    fi
+    if [[ -n "$gemini_extra" ]]; then
+        echo -e "  Gemini args: ${_C_DIM}${gemini_extra}${_C_NC} (legacy)"
+    fi
 
     echo ""
-    echo -e "  ${_C_DIM}Switch: em ai claude | em ai gemini | em ai toggle${_C_NC}"
+    echo -e "  ${_C_DIM}Switch: em ai claude | em ai agy | em ai gemini | em ai toggle${_C_NC}"
 }
