@@ -11902,8 +11902,13 @@ compose, triage, or analyze email content.</p>
 <td>See <a href="https://claude.ai/docs">Claude Code docs</a></td>
 </tr>
 <tr>
-<td>gemini CLI</td>
+<td>agy CLI</td>
 <td>AI drafts (fallback)</td>
+<td><code>brew install agy</code></td>
+</tr>
+<tr>
+<td>gemini CLI</td>
+<td>AI drafts (legacy fallback)</td>
 <td><code>pip install google-generativeai</code></td>
 </tr>
 </tbody>
@@ -12525,7 +12530,7 @@ runs silently in the background and only logs to file.</p>
 </blockquote>
 <hr />
 <h2 id="ai-features-deep-dive">AI Features Deep Dive<a class="headerlink" href="#ai-features-deep-dive" title="Permanent link">&para;</a></h2>
-<p>The <code>em</code> dispatcher includes optional AI features powered by Claude or Gemini. All AI operations are:
+<p>The <code>em</code> dispatcher includes optional AI features powered by Claude, Antigravity (agy), or Gemini (legacy). All AI operations are:
 - <strong>Cached</strong> - Results stored with TTL to avoid redundant API calls
 - <strong>Timeout-protected</strong> - Operations have per-type timeouts (10-30s)
 - <strong>Fallback-enabled</strong> - Tries alternate backends on failure
@@ -12533,8 +12538,10 @@ runs silently in the background and only logs to file.</p>
 <h3 id="ai-backends">AI Backends<a class="headerlink" href="#ai-backends" title="Permanent link">&para;</a></h3>
 <p>Configure via environment variable:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span><span class="s2">&quot;claude&quot;</span><span class="w">    </span><span class="c1"># Default (claude CLI)</span>
-<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span><span class="s2">&quot;gemini&quot;</span><span class="w">    </span><span class="c1"># Google Gemini CLI</span>
-<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="w">      </span><span class="c1"># Disable AI features</span>
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span><span class="s2">&quot;agy&quot;</span><span class="w">       </span><span class="c1"># Antigravity CLI (agy)</span>
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span><span class="s2">&quot;gemini&quot;</span><span class="w">    </span><span class="c1"># Google Gemini CLI (legacy — gemini CLI is deprecated</span>
+<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="w">                                  </span><span class="c1"># upstream in favor of agy; kept for existing configs)</span>
+<a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="w">      </span><span class="c1"># Disable AI features</span>
 </code></pre></div>
 <p><strong>Backend Selection:</strong></p>
 <ol>
@@ -12545,12 +12552,25 @@ runs silently in the background and only logs to file.</p>
 <p>Best for: Professional tone, detailed replies</p>
 </li>
 <li>
-<p><strong>gemini</strong> (fallback) - Uses Gemini CLI</p>
+<p><strong>agy</strong> (fallback) - Uses Antigravity CLI (<code>agy -p</code>)</p>
+</li>
+<li>Requires: <code>agy</code> in PATH (<code>brew install agy</code>)</li>
+<li>Timeout: same as Claude</li>
+<li>Best for: Quick responses, factual content — the successor to the gemini backend</li>
+<li>
+<p>Note: agy's raw output includes a status-block footer that <code>em</code> automatically strips,
+     and responses are sanity-checked before use (agy has been observed to return a canned
+     "system operational" response on bad input while still exiting successfully) — a failed
+     check falls through to the next backend in the chain automatically, no action needed</p>
+</li>
+<li>
+<p><strong>gemini</strong> (legacy fallback) - Uses Gemini CLI</p>
 </li>
 <li>Requires: <code>gemini</code> in PATH</li>
 <li>Timeout: same as Claude</li>
 <li>
-<p>Best for: Quick responses, factual content</p>
+<p>Deprecated upstream in favor of <code>agy</code>; retained here only for existing
+     <code>FLOW_EMAIL_AI=gemini</code> configs — new setups should use <code>agy</code></p>
 </li>
 <li>
 <p><strong>none</strong> - Disables all AI features</p>
@@ -12561,27 +12581,28 @@ runs silently in the background and only logs to file.</p>
 </ol>
 <p><strong>Fallback Chain:</strong></p>
 <p>If the primary backend fails (timeout, not installed, API error), <code>em</code> automatically tries the next available backend:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>claude → gemini → fail gracefully
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>claude → agy → gemini → fail gracefully
 </code></pre></div>
 <h2 id="ai-backend-switching">AI Backend Switching<a class="headerlink" href="#ai-backend-switching" title="Permanent link">&para;</a></h2>
 <p>Switch AI backends at runtime without restarting your shell or editing config files.</p>
 <h3 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>em<span class="w"> </span>ai<span class="w">                 </span><span class="c1"># Show current backend status</span>
-<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>em<span class="w"> </span>ai<span class="w"> </span>gemini<span class="w">          </span><span class="c1"># Switch to Gemini (faster startup)</span>
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>em<span class="w"> </span>ai<span class="w"> </span>agy<span class="w">             </span><span class="c1"># Switch to Antigravity (agy)</span>
 <a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>em<span class="w"> </span>ai<span class="w"> </span>claude<span class="w">          </span><span class="c1"># Switch back to Claude</span>
-<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>em<span class="w"> </span>ai<span class="w"> </span>toggle<span class="w">          </span><span class="c1"># Cycle through available backends</span>
-<a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>em<span class="w"> </span>ai<span class="w"> </span>none<span class="w">            </span><span class="c1"># Disable AI entirely</span>
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>em<span class="w"> </span>ai<span class="w"> </span>gemini<span class="w">          </span><span class="c1"># Switch to Gemini (legacy)</span>
+<a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>em<span class="w"> </span>ai<span class="w"> </span>toggle<span class="w">          </span><span class="c1"># Cycle through available backends</span>
+<a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a>em<span class="w"> </span>ai<span class="w"> </span>none<span class="w">            </span><span class="c1"># Disable AI entirely</span>
 </code></pre></div>
 <h3 id="status-display">Status Display<a class="headerlink" href="#status-display" title="Permanent link">&para;</a></h3>
 <p>Running <code>em ai</code> with no arguments shows:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>Email AI Backend
 <a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>
 <a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>  Current:     claude
-<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a>  Available:   claude gemini
+<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a>  Available:   claude agy gemini
 <a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>  Timeout:     30s
-<a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>  Gemini args: -e none
+<a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>  Gemini args: -e none (legacy)
 <a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a>
-<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>  Switch: em ai claude | em ai gemini | em ai toggle
+<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>  Switch: em ai claude | em ai agy | em ai gemini | em ai toggle
 </code></pre></div>
 <h3 id="gemini-speed-optimization">Gemini Speed Optimization<a class="headerlink" href="#gemini-speed-optimization" title="Permanent link">&para;</a></h3>
 <p>Gemini CLI supports extra arguments via <code>FLOW_EMAIL_GEMINI_EXTRA_ARGS</code>. The default <code>-e none</code> skips extension

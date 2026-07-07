@@ -10505,14 +10505,14 @@
 <hr />
 <h2 id="technical-implementation">Technical Implementation<a class="headerlink" href="#technical-implementation" title="Permanent link">&para;</a></h2>
 <h3 id="file-location">File Location<a class="headerlink" href="#file-location" title="Permanent link">&para;</a></h3>
-<p>All help functions are in: <code>lib/dispatchers/teach-dispatcher.zsh</code></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Help functions (lines ~100-2000)</span>
+<p>Help functions live in <code>lib/dispatchers/teach/teach-help.zsh</code>; the entry point and command routing live in <code>lib/dispatchers/teach/teach-main.zsh</code> (both loaded by the <code>lib/dispatchers/teach-dispatcher.zsh</code> loader).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Help functions (lib/dispatchers/teach/teach-help.zsh)</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>_teach_dispatcher_help<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>...<span class="w"> </span><span class="o">}</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>_teach_lecture_help<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>...<span class="w"> </span><span class="o">}</span>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>_teach_exam_help<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>...<span class="w"> </span><span class="o">}</span>
 <a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># ... 15 more help functions</span>
 <a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Command routing (lines ~2700-3200)</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Command routing (lib/dispatchers/teach/teach-main.zsh)</span>
 <a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>teach<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$subcommand</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
 <a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">        </span>lecture<span class="p">|</span>lec<span class="o">)</span>

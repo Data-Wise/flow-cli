@@ -9333,7 +9333,7 @@
 <ol>
 <li><strong>Project config</strong> (<code>.flow/teach-config.yml</code>) - Highest priority, project-specific</li>
 <li><strong>User config</strong> (<code>~/.flow/teach-config.yml</code>) - Personal defaults across all projects</li>
-<li><strong>Plugin defaults</strong> - Embedded fallbacks in <code>teach-dispatcher.zsh</code></li>
+<li><strong>Plugin defaults</strong> - Embedded fallbacks in <code>lib/dispatchers/teach/teach-main.zsh</code> (loaded via the <code>teach-dispatcher.zsh</code> loader)</li>
 </ol>
 <p><strong>Access via API:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">course_name</span><span class="o">=</span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s2">&quot;course.name&quot;</span><span class="w"> </span><span class="s2">&quot;Unknown Course&quot;</span><span class="k">)</span>

@@ -9916,7 +9916,7 @@
 <ol>
 <li><strong>Adapter isolation</strong> — All himalaya CLI specifics live in <code>em-himalaya.zsh</code>. If himalaya changes CLI flags, fix only this file.</li>
 <li><strong>Safety gates</strong> — Every send operation goes through <code>_em_confirm_send()</code> with <code>[y/N]</code> default-No.</li>
-<li><strong>AI pluggable</strong> — Backend configurable via <code>FLOW_EMAIL_AI</code> (claude/gemini/none) with per-operation timeouts.</li>
+<li><strong>AI pluggable</strong> — Backend configurable via <code>FLOW_EMAIL_AI</code> (claude/agy/gemini legacy/none) with per-operation timeouts.</li>
 <li><strong>Preview cleanup</strong> — 6 sed filters strip email noise (CID refs, Safe Links, MIME markers) in both <code>em pick</code> preview and <code>em read</code>.</li>
 </ol>
 <hr />

@@ -15128,9 +15128,9 @@ himalaya-mcp for AI-assisted analysis.</p>
 <td>Delete folder (type-to-confirm)</td>
 </tr>
 <tr>
-<td><code>em move &lt;FOLDER&gt; &lt;ID&gt;</code></td>
+<td><code>em move &lt;ID&gt; [FOLDER]</code></td>
 <td><code>em mv</code></td>
-<td>Move email to folder</td>
+<td>Move email to folder (fzf picker if no folder)</td>
 </tr>
 <tr>
 <td><code>em restore &lt;ID&gt;</code></td>
@@ -15138,14 +15138,14 @@ himalaya-mcp for AI-assisted analysis.</p>
 <td>Restore from Trash to INBOX</td>
 </tr>
 <tr>
-<td><code>em flag &lt;ID&gt;</code></td>
+<td><code>em flag &lt;ID&gt;...</code></td>
 <td><code>em fl</code></td>
-<td>Star email for follow-up</td>
+<td>One-way: set starred (batch-capable)</td>
 </tr>
 <tr>
-<td><code>em unflag &lt;ID&gt;</code></td>
+<td><code>em unflag &lt;ID&gt;...</code></td>
 <td></td>
-<td>Remove star</td>
+<td>One-way: clear starred (batch-capable)</td>
 </tr>
 <tr>
 <td><code>em respond</code></td>
@@ -15230,22 +15230,17 @@ himalaya-mcp for AI-assisted analysis.</p>
 <tr>
 <td><code>em ai [backend]</code></td>
 <td></td>
-<td>Show/switch AI backend (claude, gemini, none, toggle, auto)</td>
+<td>Show/switch AI backend (claude, agy, gemini legacy, none, toggle, auto)</td>
 </tr>
 <tr>
-<td><code>em star &lt;ID&gt;</code></td>
-<td><code>em flag</code></td>
-<td>Toggle star (Flagged) on email</td>
+<td><code>em star &lt;ID&gt;...</code></td>
+<td></td>
+<td>Toggle starred status per-ID (batch-capable)</td>
 </tr>
 <tr>
 <td><code>em starred</code></td>
 <td></td>
 <td>List all starred/flagged emails</td>
-</tr>
-<tr>
-<td><code>em move &lt;ID&gt; [FOLDER]</code></td>
-<td><code>em mv</code></td>
-<td>Move email to folder (fzf picker if no folder)</td>
 </tr>
 <tr>
 <td><code>em thread &lt;ID&gt;</code></td>
@@ -15288,7 +15283,7 @@ himalaya-mcp for AI-assisted analysis.</p>
 <a id="__codelineno-219-6" name="__codelineno-219-6" href="#__codelineno-219-6"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;decline politely&#39;</span><span class="w">  </span><span class="c1"># AI draft with custom instructions</span>
 <a id="__codelineno-219-7" name="__codelineno-219-7" href="#__codelineno-219-7"></a>em<span class="w"> </span>send<span class="w"> </span>user@example.com<span class="w"> </span><span class="s2">&quot;Meeting&quot;</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;suggest Tuesday 2pm&#39;</span>
 <a id="__codelineno-219-8" name="__codelineno-219-8" href="#__codelineno-219-8"></a>em<span class="w"> </span>forward<span class="w"> </span><span class="m">42</span><span class="w"> </span>user@example.com<span class="w"> </span>--prompt<span class="w"> </span><span class="s1">&#39;FYI re: our discussion&#39;</span>
-<a id="__codelineno-219-9" name="__codelineno-219-9" href="#__codelineno-219-9"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--backend<span class="w"> </span>gemini<span class="w">  </span><span class="c1"># Override AI backend per-command</span>
+<a id="__codelineno-219-9" name="__codelineno-219-9" href="#__codelineno-219-9"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--backend<span class="w"> </span>agy<span class="w">     </span><span class="c1"># Override AI backend per-command</span>
 <a id="__codelineno-219-10" name="__codelineno-219-10" href="#__codelineno-219-10"></a>em<span class="w"> </span>respond<span class="w">                 </span><span class="c1"># Batch process actionable emails</span>
 <a id="__codelineno-219-11" name="__codelineno-219-11" href="#__codelineno-219-11"></a>em<span class="w"> </span>star<span class="w"> </span><span class="m">42</span><span class="w">                 </span><span class="c1"># Toggle star on email</span>
 <a id="__codelineno-219-12" name="__codelineno-219-12" href="#__codelineno-219-12"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">42</span><span class="w"> </span>Archive<span class="w">         </span><span class="c1"># Move email to folder</span>
@@ -15322,7 +15317,7 @@ enhancement based on the installed himalaya CLI version.</p>
 <tr>
 <td><code>FLOW_EMAIL_AI</code></td>
 <td><code>claude</code></td>
-<td>AI backend (claude/gemini/none)</td>
+<td>AI backend (claude/agy/gemini legacy/none)</td>
 </tr>
 <tr>
 <td><code>FLOW_EMAIL_PAGE_SIZE</code></td>
@@ -15351,7 +15346,7 @@ enhancement based on the installed himalaya CLI version.</p>
 <li><strong>v2.0:</strong> <code>em send</code>, <code>em reply</code>, and <code>em forward</code> show full preview + <code>[y/N/e]</code> gate before sending. Use <code>--force</code> to bypass.</li>
 <li><strong>Smart TTY detection:</strong> Non-interactive contexts (no TTY) auto-route to batch path, preventing <code>$EDITOR</code> hangs.</li>
 <li><strong><code>--prompt</code> flag:</strong> Available on <code>reply</code>, <code>send</code>, and <code>forward</code>. Forces batch mode. Implies <code>--ai</code> on <code>em send</code>.</li>
-<li><strong><code>--backend</code> flag:</strong> Override AI backend per-command (e.g. <code>--backend gemini</code>).</li>
+<li><strong><code>--backend</code> flag:</strong> Override AI backend per-command (e.g. <code>--backend agy</code>).</li>
 <li>Every delete requires <code>[y/N]</code> confirmation (default: No). <code>--purge</code> requires typing "yes".</li>
 <li>Folder/query deletes show count + first 5 subjects before confirming.</li>
 <li><code>em delete-folder</code> requires typing the folder name in full.</li>
