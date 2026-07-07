@@ -9,7 +9,38 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-07) — agy em-ai backend + em ADHD-UX audit + v7.16.0 released
+## Current Session (2026-07-07) — himalaya-mcp cross-ref verified + worktree cleanup + em move bug fix + Phase 3
+
+**Session activity:**
+- **himalaya-mcp/`em` docs cross-reference**: verified already shipped in an earlier session —
+  `docs/guides/EMAIL-DISPATCHER-GUIDE.md` links to himalaya-mcp; himalaya-mcp's
+  `docs/guide/migrating-from-em.md` has a full command map + safety-model comparison back to
+  `em`. No action needed; the "Not yet done" note from the prior session was stale.
+- **Stale worktree cleanup**: removed 4 untouched worktrees. `feature/ai-rewrite-trigger` and
+  `feature/email-dispatcher-restructure` (both spec/plan-only, superseded by this session's
+  himalaya-mcp findings) — worktree + branch deleted. `feature/flow-handoff-command` and
+  `feature/mcprestart-stopgap` (real, complete features) — reviewed, rebased, tested, merged
+  as PR #495 and PR #496.
+- **Post-merge doc-gap fix** (direct commit `f892d0180` to `dev`): PR #495 shipped without its
+  usual doc surfaces — added `flow handoff` to `man/man1/flow.1`, `QUICK-REFERENCE.md`,
+  `MASTER-API-REFERENCE.md`; fixed a dead link to the mkdocs-excluded `specs/` dir.
+- **`em move` was broken in production, found while starting Phase 3** (PR #497): `_em_move`
+  and its adapter `_em_hml_move` were each defined twice (zsh last-definition-wins); the live
+  pair was mutually incompatible — `_em_move` called `_em_hml_move` with the numeric message ID
+  in the source-folder position. Every `em move <ID> <folder>` call was silently broken. Same
+  failure class as PR #493's case-label bug, this time a duplicate function definition. Fixed;
+  kept the multi-ID interface (`em move <FOLDER> <ID>...`); wired the previously-orphaned
+  `tests/test-em-move-restore.zsh` into `run-all.sh` (3/8 → 8/8); corrected the same stale
+  interface across 6 doc files + man page that had inherited the bug's wrong interface.
+- **Phase 3 shipped** (same PR #497, per `docs/specs/SPEC-em-ux-refactor-2026-07-07.md`):
+  `em undo` (single-step, 1hr window, built on `lib/em-cache.zsh`'s existing API), `em move
+  --recent <ID>...` (quick-pick from last 3 destinations, no fzf), centralized `ALIASES`
+  section in `em help`. 16 new tests (`tests/test-em-undo.zsh`).
+- Full suite: 80/0/0/1 throughout, `mkdocs build --strict` clean, man-page guard 12/12.
+- Worktrees `feature/em-move-fix-phase3`, `feature/ai-rewrite-trigger`,
+  `feature/email-dispatcher-restructure` removed after merge/cleanup; no worktrees remain.
+
+## Previous Session (2026-07-07) — agy em-ai backend + em ADHD-UX audit + v7.16.0 released
 
 **Session activity:**
 - **agy em-ai backend** (PR #491, merged): added `agy` (Antigravity CLI) ahead of `gemini`
