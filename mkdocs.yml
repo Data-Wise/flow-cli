@@ -354,6 +354,7 @@ nav:
 
 not_in_nav: |
   ATLAS-CONTRACT.md
+  planning/PROPOSAL-claude-chat-to-code-handoff.md
   internal/conventions/adhd/GETTING-STARTED-TEMPLATE.md
   internal/conventions/adhd/HELP-PAGE-TEMPLATE.md
   internal/conventions/adhd/QUICK-START-TEMPLATE.md

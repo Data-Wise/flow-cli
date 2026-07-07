@@ -237,6 +237,20 @@ flow doctor --verbose
 
 ---
 
+### Session Handoff
+
+```bash
+# Scaffold a structured handoff note
+flow handoff auth-refactor
+# Output: docs/planning/HANDOFF-auth-refactor.md created
+
+# Also file a GitHub issue from the same content
+flow handoff auth-refactor --issue
+# Output: [Handoff file created] + [Issue #NNN filed]
+```
+
+---
+
 ## Git Dispatcher (g)
 
 ### Basic Git Commands

@@ -32,8 +32,8 @@ in one place, every time.
 
 See [docs/planning/PROPOSAL-claude-chat-to-code-handoff.md](../planning/PROPOSAL-claude-chat-to-code-handoff.md)
 for the research behind the template's structure, and
-[docs/specs/SPEC-flow-handoff-command.md](../specs/SPEC-flow-handoff-command.md) for the full
-implementation spec.
+[SPEC-flow-handoff-command.md](https://github.com/Data-Wise/flow-cli/blob/main/docs/specs/SPEC-flow-handoff-command.md)
+for the full implementation spec (specs aren't published on the docs site).
 
 ---
 
