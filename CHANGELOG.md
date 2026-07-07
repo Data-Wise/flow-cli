@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`em undo`** — single-step undo of the last `em star`/`flag`/`unflag`/`move` action (1-hour window, no multi-level undo stack). Uses `lib/em-cache.zsh`'s existing cache API.
+- **`em move --recent <ID>...`** — quick-pick the target folder from the last 3 move destinations, no `fzf` required.
+- **Centralized `ALIASES` section in `em help`** — single-source list of all short-form command aliases, instead of scattered per-command mentions.
+
+### Fixed
+
+- **`em move` was broken in production** — `_em_move` and its adapter `_em_hml_move` were each defined twice in the same file (zsh's last-definition-wins semantics), and the two live (later) definitions were incompatible with each other: the live `_em_move` called `_em_hml_move` with a numeric message ID in the source-folder position. Every `em move <ID> <folder>` call would attempt to move a message from a non-existent folder named after the ID. Removed the dead pair, kept the multi-ID interface (`em move <FOLDER> <ID>...`) that matches `em move --help`, `MASTER-DISPATCHER-GUIDE.md`, and the existing (previously unregistered) `tests/test-em-move-restore.zsh`. That test file — which would have caught this — was never wired into `tests/run-all.sh`; it is now.
+- Corrected a dozen-plus stale `em move <ID> [FOLDER]` / `em flag <ID> # Alias for em star` references across `docs/help/QUICK-REFERENCE.md`, `docs/reference/MASTER-DISPATCHER-GUIDE.md`, `docs/reference/REFCARD-EMAIL-DISPATCHER.md` (which had both a stale and a correct `em move` row), `docs/guides/EMAIL-DISPATCHER-GUIDE.md`, `docs/guides/EMAIL-COOKBOOK.md`, and `man/man1/em.1` — all inherited the same wrong interface the code bug had.
+
 ## [7.16.0] — 2026-07-07 — agy em-ai backend + em ADHD-UX fixes
 
 ### Added

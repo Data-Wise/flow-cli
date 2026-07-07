@@ -85,6 +85,8 @@ run_test ./tests/test-em-help-guards.zsh
 run_test ./tests/test-em-flag-star.zsh
 run_test ./tests/test-em-ai-switch.zsh
 run_test ./tests/test-em-ai-agy.zsh
+run_test ./tests/test-em-move-restore.zsh
+run_test ./tests/test-em-undo.zsh
 run_test ./tests/test-tok.zsh
 run_test ./tests/test-tok-sync.zsh
 

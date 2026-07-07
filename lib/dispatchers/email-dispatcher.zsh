@@ -110,6 +110,7 @@ em() {
         restore)       shift; _em_restore "$@" ;;
         flag|fl)       shift; _em_flag "$@" ;;
         unflag)        shift; _em_unflag "$@" ;;
+        undo)          shift; _em_undo "$@" ;;
 
         # ─────────────────────────────────────────────────────────────
         # FOLDERS
@@ -223,10 +224,12 @@ ${_C_BLUE}MANAGE${_C_NC}:
   ${_C_CYAN}em delete <ID>${_C_NC}       Delete email (move to Trash)
   ${_C_CYAN}em delete --pick${_C_NC}     Interactive multi-select delete
   ${_C_CYAN}em delete --purge${_C_NC}    Permanent delete (requires \"yes\")
-  ${_C_CYAN}em move <ID> [F]${_C_NC}    Move to folder (fzf picker if no folder)
+  ${_C_CYAN}em move <FOLDER> <ID>...${_C_NC} Move to folder (multi-ID, --pick for fzf)
   ${_C_CYAN}em restore <ID>${_C_NC}     Restore from Trash to INBOX
   ${_C_CYAN}em flag <ID>...${_C_NC}     One-way: set starred (batch-capable)
   ${_C_CYAN}em unflag <ID>...${_C_NC}   One-way: clear starred (batch-capable)
+  ${_C_CYAN}em undo${_C_NC}             Undo the last star/flag/unflag/move (1hr window)
+  ${_C_CYAN}em move --recent <ID>...${_C_NC} Pick target from last 3 move destinations
 "
             ;;
         safety)
@@ -354,10 +357,11 @@ ${_C_BLUE}MANAGE${_C_NC}:
   ${_C_CYAN}em delete <ID>${_C_NC}       Delete email (move to Trash)
   ${_C_CYAN}em delete --pick${_C_NC}     Interactive multi-select delete
   ${_C_CYAN}em delete --purge${_C_NC}    Permanent delete (requires \"yes\")
-  ${_C_CYAN}em move <ID> [F]${_C_NC}    Move to folder (fzf picker if no folder)
+  ${_C_CYAN}em move <FOLDER> <ID>...${_C_NC} Move to folder (multi-ID, --pick for fzf)
   ${_C_CYAN}em restore <ID>${_C_NC}     Restore from Trash to INBOX
   ${_C_CYAN}em flag <ID>...${_C_NC}     One-way: set starred (batch-capable)
   ${_C_CYAN}em unflag <ID>...${_C_NC}   One-way: clear starred (batch-capable)
+  ${_C_CYAN}em undo${_C_NC}             Undo the last star/flag/unflag/move (1hr window)
 
 ${_C_BLUE}AI FEATURES${_C_NC}:
   ${_C_CYAN}em respond${_C_NC}        Batch AI drafts for actionable emails
@@ -378,6 +382,14 @@ ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
   ${_C_CYAN}em cache stats${_C_NC}    Show AI cache statistics
   ${_C_CYAN}em cache clear${_C_NC}    Clear AI cache
   ${_C_CYAN}em doctor${_C_NC}         Check dependencies
+
+${_C_MAGENTA}ALIASES${_C_NC}: short forms for the most-used commands:
+  ${_C_DIM}i${_C_NC}=inbox  ${_C_DIM}r${_C_NC}=read  ${_C_DIM}s${_C_NC}=send  ${_C_DIM}re${_C_NC}=reply  ${_C_DIM}fwd${_C_NC}=forward
+  ${_C_DIM}f${_C_NC}=find  ${_C_DIM}p${_C_NC}=pick  ${_C_DIM}del/rm${_C_NC}=delete  ${_C_DIM}mv${_C_NC}=move  ${_C_DIM}fl${_C_NC}=flag
+  ${_C_DIM}cf${_C_NC}=create-folder  ${_C_DIM}df${_C_NC}=delete-folder  ${_C_DIM}resp${_C_NC}=respond  ${_C_DIM}cl${_C_NC}=classify
+  ${_C_DIM}sum${_C_NC}=summarize  ${_C_DIM}c${_C_NC}=catch  ${_C_DIM}td${_C_NC}=todo  ${_C_DIM}ev${_C_NC}=event  ${_C_DIM}th${_C_NC}=thread
+  ${_C_DIM}snz${_C_NC}=snooze  ${_C_DIM}dg${_C_NC}=digest  ${_C_DIM}u${_C_NC}=unread  ${_C_DIM}d${_C_NC}=dash  ${_C_DIM}cal${_C_NC}=calendar
+  ${_C_DIM}w${_C_NC}=watch  ${_C_DIM}a${_C_NC}=attach  ${_C_DIM}dr${_C_NC}=doctor  ${_C_DIM}h${_C_NC}=help
 
 ${_C_MAGENTA}SAFETY${_C_NC}: Three tiers of confirmation, scaled to how reversible the action is:
   ${_C_DIM}1. Reversible (delete)${_C_NC}       ${_C_YELLOW}[y/N/e]${_C_NC} single keypress (default: No, e=edit)
@@ -1803,15 +1815,18 @@ _em_move() {
     [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_move_help; return 0; }
     _em_require_himalaya || return 1
 
-    local src_folder="${FLOW_EMAIL_FOLDER:-INBOX}" pick=false target=""
+    local src_folder="${FLOW_EMAIL_FOLDER:-INBOX}" pick=false recent=false target=""
     local -a ids=()
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --from)  shift; src_folder="$1"; shift ;;
-            --pick)  pick=true; shift ;;
+            --from)   shift; src_folder="$1"; shift ;;
+            --pick)   pick=true; shift ;;
+            --recent) recent=true; shift ;;
             *)
-                if [[ -z "$target" ]]; then
+                if [[ "$pick" == true || "$recent" == true ]]; then
+                    ids+=("$1")
+                elif [[ -z "$target" ]]; then
                     target="$1"
                 else
                     ids+=("$1")
@@ -1826,10 +1841,6 @@ _em_move() {
         if ! command -v fzf &>/dev/null; then
             _flow_log_error "fzf required for --pick mode"
             return 1
-        fi
-        # IDs come after --pick (target is actually an ID in this mode)
-        if [[ -n "$target" ]]; then
-            ids=("$target" "${ids[@]}")
         fi
         if [[ ${#ids[@]} -eq 0 ]]; then
             _flow_log_error "Email ID required with --pick"
@@ -1846,6 +1857,37 @@ _em_move() {
         [[ -z "$target" ]] && return 0
     fi
 
+    # --recent mode: quick-pick from last 3 move destinations, no fzf required
+    if [[ "$recent" == true ]]; then
+        if [[ ${#ids[@]} -eq 0 ]]; then
+            _flow_log_error "Email ID required with --recent"
+            echo "Usage: ${_C_CYAN}em move --recent <ID> [<ID>...]${_C_NC}"
+            return 1
+        fi
+        local recent_list
+        recent_list=$(_em_recent_folders_get)
+        if [[ -z "$recent_list" ]]; then
+            _flow_log_error "No recent folders yet — use 'em move <FOLDER> <ID>...' first"
+            return 1
+        fi
+        echo -e "${_C_BOLD}Recent folders:${_C_NC}"
+        local -a recent_arr
+        recent_arr=("${(@f)recent_list}")
+        local i=1 f
+        for f in "${recent_arr[@]}"; do
+            echo "  $i) $f"
+            (( i++ ))
+        done
+        printf "  Select [1-%d]: " "${#recent_arr[@]}"
+        local choice
+        read -r choice
+        if [[ ! "$choice" =~ ^[0-9]+$ ]] || (( choice < 1 || choice > ${#recent_arr[@]} )); then
+            _flow_log_info "Cancelled"
+            return 0
+        fi
+        target="${recent_arr[$choice]}"
+    fi
+
     if [[ -z "$target" ]]; then
         _flow_log_error "Target folder required"
         echo "Usage: ${_C_CYAN}em move <FOLDER> <ID> [<ID>...]${_C_NC}"
@@ -1860,6 +1902,8 @@ _em_move() {
     _em_hml_move "$src_folder" "$target" "${ids[@]}"
     if [[ $? -eq 0 ]]; then
         _flow_log_success "Moved ${#ids[@]} email(s) to $target"
+        _em_undo_record "move" "$src_folder" "$target" "${ids[*]}"
+        _em_recent_folders_add "$target"
     else
         _flow_log_error "Move failed"
         return 1
@@ -1873,9 +1917,11 @@ ${_C_BOLD}em move${_C_NC} — Move emails between folders
 ${_C_CYAN}em move <FOLDER> <ID> [<ID>...]${_C_NC}         Move email(s) to folder
 ${_C_CYAN}em move --from <SRC> <FOLDER> <ID>${_C_NC}      Move from non-default source
 ${_C_CYAN}em move --pick <ID> [<ID>...]${_C_NC}           fzf folder picker
+${_C_CYAN}em move --recent <ID> [<ID>...]${_C_NC}         Quick-pick from last 3 destinations
 
 ${_C_DIM}Aliases: em mv${_C_NC}
 ${_C_DIM}Default source: \$FLOW_EMAIL_FOLDER (${FLOW_EMAIL_FOLDER:-INBOX})${_C_NC}
+${_C_DIM}Undo the last move with: em undo${_C_NC}
 "
 }
 
@@ -1938,6 +1984,7 @@ _em_flag() {
         _em_hml_flags add "$msg_id" Flagged
         _flow_log_success "Flagged email #$msg_id"
     done
+    _em_undo_record "flag" "$*"
 }
 
 _em_unflag() {
@@ -1954,6 +2001,76 @@ _em_unflag() {
         _em_hml_flags remove "$msg_id" Flagged
         _flow_log_success "Unflagged email #$msg_id"
     done
+    _em_undo_record "unflag" "$*"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# UNDO — single-step undo of the last star/flag/move action
+# ═══════════════════════════════════════════════════════════════════
+
+_em_undo() {
+    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_undo_help; return 0; }
+    _em_require_himalaya || return 1
+
+    local raw
+    raw=$(_em_undo_get)
+    if [[ -z "$raw" ]]; then
+        _flow_log_info "Nothing to undo"
+        return 1
+    fi
+
+    local -a parts
+    parts=("${(@s:|:)raw}")
+    local action="${parts[1]}"
+
+    case "$action" in
+        star)
+            local ids="${parts[2]}"
+            _em_star ${=ids} >/dev/null
+            _flow_log_success "Undid star toggle: ${ids}"
+            ;;
+        flag)
+            local ids="${parts[2]}"
+            local id
+            for id in ${=ids}; do
+                _em_hml_flags remove "$id" Flagged
+            done
+            _flow_log_success "Undid flag: unflagged ${ids}"
+            ;;
+        unflag)
+            local ids="${parts[2]}"
+            local id
+            for id in ${=ids}; do
+                _em_hml_flags add "$id" Flagged
+            done
+            _flow_log_success "Undid unflag: re-flagged ${ids}"
+            ;;
+        move)
+            local src="${parts[2]}" dst="${parts[3]}" ids="${parts[4]}"
+            if _em_hml_move "$dst" "$src" ${=ids}; then
+                _flow_log_success "Undid move: ${ids} back to ${src}"
+            else
+                _flow_log_error "Undo move failed"
+                return 1
+            fi
+            ;;
+        *)
+            _flow_log_error "Unrecognized undo state: $action"
+            return 1
+            ;;
+    esac
+
+    _em_undo_clear
+}
+
+_em_undo_help() {
+    echo -e "
+${_C_BOLD}em undo${_C_NC} — Undo the last star/flag/unflag/move action
+
+${_C_CYAN}em undo${_C_NC}   Reverse the single most recent star, flag, unflag, or move
+
+${_C_DIM}One-step only — no multi-level undo stack. Undo window: 1 hour.${_C_NC}
+"
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -2472,6 +2589,7 @@ _em_star() {
             echo -e "  ${_C_YELLOW}★${_C_NC} Starred #${msg_id}"
         fi
     done
+    _em_undo_record "star" "$*"
 }
 
 _em_starred() {
@@ -2496,53 +2614,6 @@ _em_starred() {
     local count
     count=$(echo "$json" | jq 'length' 2>/dev/null)
     echo -e "\n  ${_C_DIM}${count:-0} starred${_C_NC}"
-}
-
-_em_move() {
-    [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_move_help; return 0; }
-    _em_require_himalaya || return 1
-    local msg_id="$1" target_folder="$2"
-
-    if [[ -z "$msg_id" ]]; then
-        _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em move <ID> [folder]${_C_NC}"
-        return 1
-    fi
-
-    local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
-
-    # No folder specified → fzf picker
-    if [[ -z "$target_folder" ]]; then
-        if ! command -v fzf &>/dev/null; then
-            _flow_log_error "Folder required (fzf not available for picker)"
-            echo "Usage: ${_C_CYAN}em move <ID> <folder>${_C_NC}"
-            return 1
-        fi
-
-        target_folder=$(_em_hml_folders 2>/dev/null \
-            | fzf --prompt="Move #${msg_id} to > " --height=15 --no-multi \
-            | awk '{print $1}')
-
-        if [[ -z "$target_folder" ]]; then
-            return 0  # User cancelled
-        fi
-    fi
-
-    # Safety: confirm before moving
-    printf "  Move #%s to %b%s%b? [y/N] " "$msg_id" "${_C_CYAN}" "$target_folder" "${_C_NC}"
-    local confirm
-    read -r confirm
-    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-        _flow_log_info "Cancelled"
-        return 0
-    fi
-
-    if _em_hml_move "$msg_id" "$target_folder" "$folder"; then
-        _flow_log_success "Moved #${msg_id} → ${target_folder}"
-    else
-        _flow_log_error "Failed to move #${msg_id}"
-        return 1
-    fi
 }
 
 _em_thread() {

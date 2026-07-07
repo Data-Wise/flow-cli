@@ -35,6 +35,7 @@ HELP_CALLED=0
 _em_help() { HELP_CALLED=1; }
 _em_delete_help() { HELP_CALLED=1; }
 _em_move_help() { HELP_CALLED=1; }
+_em_undo_help() { HELP_CALLED=1; }
 _em_restore_help() { HELP_CALLED=1; }
 _em_respond_help() { HELP_CALLED=1; }
 
@@ -70,6 +71,7 @@ test_pairs=(
     "summarize:_em_summarize"
     "delete:_em_delete"
     "move:_em_move"
+    "undo:_em_undo"
     "restore:_em_restore"
     "html:_em_html"
     "attach:_em_attach"

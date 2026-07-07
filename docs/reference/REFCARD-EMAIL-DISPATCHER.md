@@ -86,9 +86,8 @@ mindmap
 | **em summarize** | `sum` | `em summarize <ID>` | One-line summary (AI) |
 | **em ai** | — | `em ai [claude\|gemini\|none\|auto\|toggle]` | Runtime AI backend switching |
 | **em catch** | `c` | `em catch <ID>` | Capture email as task (AI summary → catch) |
-| **em star** | `flag` | `em star <ID>` | Toggle starred (Flagged) status |
+| **em star** | — | `em star <ID>...` | Toggle starred (Flagged) status, multi-ID |
 | **em starred** | — | `em starred [FOLDER]` | List starred emails |
-| **em move** | `mv` | `em move <ID> [FOLDER]` | Move to folder (fzf picker if no folder) |
 | **em thread** | `th` | `em thread <ID>` | Show conversation thread |
 | **em snooze** | `snz` | `em snooze <ID> <TIME>` | Snooze email (2h, 1d, tomorrow, monday) |
 | **em snoozed** | — | `em snoozed` | List snoozed emails with status |
@@ -108,10 +107,11 @@ mindmap
 | **em delete** | `del, rm` | `em delete <ID> [--folder F] [--query Q] [--pick] [--purge]` | Delete email(s) — move to Trash (or permanent with --purge) |
 | **em create-folder** | `cf` | `em create-folder <name>` | Create a new mail folder |
 | **em delete-folder** | `df` | `em delete-folder <name>` | Delete folder (type-to-confirm) |
-| **em move** | `mv` | `em move <FOLDER> <ID> [--from F]` | Move email(s) to folder |
+| **em move** | `mv` | `em move <FOLDER> <ID>... [--from F\|--pick\|--recent]` | Move email(s) to folder |
 | **em restore** | — | `em restore <ID> [--to F]` | Restore from Trash (default: to INBOX) |
 | **em flag** | `fl` | `em flag <ID> [<ID>...]` | Star/flag email(s) |
 | **em unflag** | — | `em unflag <ID> [<ID>...]` | Unstar/unflag email(s) |
+| **em undo** | — | `em undo` | Undo last star/flag/unflag/move (1-step, 1hr window) |
 | **em todo** | `td` | `em todo <ID> [<ID>...]` | Extract action items (AI) → Reminders.app |
 | **em event** | `ev` | `em event <ID> [<ID>...]` | Extract calendar events (AI) → Calendar.app |
 
@@ -531,8 +531,6 @@ em catch 42                     # AI summarize → pipe to catch
 # Organizing
 em star 42                      # Toggle star (flagged)
 em starred                      # List starred emails
-em move 42 Archive              # Move to Archive
-em move 42                      # fzf folder picker
 em thread 42                    # Show conversation thread
 em snooze 42 2h                 # Snooze for 2 hours
 em snooze 42 tomorrow           # Snooze until tomorrow 9am
@@ -547,9 +545,12 @@ em delete --query "newsletter"  # Delete by search
 em delete --purge 42            # PERMANENT delete (requires "yes")
 em move Archive 42              # Move to Archive
 em mv Archive 10 20 30          # Batch move
+em move --pick 42               # fzf folder picker
+em move --recent 42             # Quick-pick from last 3 destinations
 em restore 42                   # Restore from Trash → INBOX
 em flag 42                      # Star/flag email
 em unflag 42                    # Remove star
+em undo                         # Undo the last star/flag/unflag/move
 em todo 42                      # AI → extract action items
 em event 42                     # AI → extract calendar events
 
