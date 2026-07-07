@@ -9,7 +9,40 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-06) — Phase 1: split teach-dispatcher.zsh + docs sync [dev]
+## Current Session (2026-07-07) — agy (Antigravity CLI) em-ai backend [merged, PR #491]
+
+**Session activity:**
+- **Investigated flow-cli/himalaya-mcp email overlap** (separate from the agy work below):
+  quantified ~82% of `em`'s commands already have a himalaya-mcp MCP-tool equivalent; an
+  adversarial review found himalaya-mcp has no argv-callable CLI for that functionality (only
+  MCP stdio tool handlers), so a proposed "em delegates to himalaya-mcp" design was ruled
+  unbuildable. Landed on a docs-only cross-reference plan instead — not yet implemented,
+  captured in scratch plan notes only.
+- **Added `agy` (Antigravity CLI) as an em-ai backend** (PR #491, merged to `dev`,
+  squash `f55fd3690`): ahead of `gemini` in the fallback chain (`claude → agy → gemini →
+  none`) since gemini CLI is deprecated upstream in favor of Antigravity; gemini kept, not
+  removed, for existing configs.
+- **Found + fixed a real bug during live verification, not just the planned validation
+  wrapper**: capturing `agy`'s output via `$(...)` command substitution hangs or dies
+  silently (agy leaves a descendant process attached to its stdout pipe, so `$(...)` blocks
+  waiting for an EOF that never comes) — independent of `timeout`. Fixed by routing through a
+  temp file. Reproduced 3x pre-fix, verified clean post-fix via a live `_em_ai_execute agy`
+  call against the real binary.
+- Added `_em_ai_agy_clean_output`/`_em_ai_agy_looks_valid` — agy has no clean-output flag
+  (appends an unrequested markdown status block) and has been observed to exit 0 with a
+  canned "system operational" response on bad input, so its exit code alone isn't trustworthy.
+- Updated doctor's health check + the full doc surface for `--backend`/`FLOW_EMAIL_AI`
+  (guide, cookbook, doctor reference, 3 master reference docs, refcard, quick reference,
+  1 tutorial, man page, changelog root+docs mirror) — a second docs pass (via
+  `/craft:docs:update`) caught 6 files the first sweep missed.
+- Registered `tests/test-em-ai-switch.zsh` in `run-all.sh` — discovered it had never been
+  wired into the suite (pre-existing gap, fixed as part of this change since the new
+  `test-em-ai-agy.zsh` relies on the same suite for its regression-guard role).
+- Verified: full suite 77/0/0/1 (twice), `mkdocs build --strict` clean (twice), new tests
+  24/24 + 8/8.
+- Worktree `feature/em-agy-backend` removed after merge.
+
+## Previous Session (2026-07-06) — Phase 1: split teach-dispatcher.zsh + docs sync [dev]
 
 **Session activity:**
 - **Implemented Phase 1 of SPEC-flow-cli-restructure-2026-07-06**: split `lib/dispatchers/teach-dispatcher.zsh` (5,611 lines, 82 functions) into a 307-line loader + 10 modules under `lib/dispatchers/teach/`.
