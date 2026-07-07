@@ -146,15 +146,15 @@ Move email to folder. Opens fzf folder picker if FOLDER is omitted.
 .B restore \fIID\fR
 Restore email from Trash to INBOX.
 .TP
-.B flag\fR, \fBfl \fIID\fR
-Star email for follow-up.
+.B flag\fR, \fBfl \fIID\fR...
+One-way: set starred status (batch-capable, multiple IDs allowed).
 .TP
-.B unflag \fIID\fR
-Remove star from email.
+.B unflag \fIID\fR...
+One-way: clear starred status (batch-capable, multiple IDs allowed).
 .SS Organize
 .TP
-.B star \fIID\fR
-Toggle starred (flagged) status.
+.B star \fIID\fR...
+Toggle starred status per-ID (batch-capable, multiple IDs allowed).
 .TP
 .B starred
 List all starred emails.
@@ -273,7 +273,10 @@ Clear the AI draft cache.
 Check all email-related dependencies (himalaya, w3m/lynx, pandoc, AI CLIs).
 .TP
 .B help\fR, \fBh\fR, \fB--help\fR, \fB-h
-Show help page.
+Show full help page.
+.TP
+.B help \fITOPIC\fR
+Show help for one topic only (inbox, compose, organize, manage, safety, ai, search).
 .SH ENVIRONMENT
 .TP
 .B FLOW_EMAIL_AI

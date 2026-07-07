@@ -20,6 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   upstream in favor of Antigravity/`agy`, but nothing is removed here.
 
 - **`tests/test-teach-dispatcher-characterization.zsh`** — 35 routing checks that mock action functions and verify every public `teach <cmd>` path before and after the split.
+- **`em help <topic>`** — filter help output to one section (`inbox`, `compose`, `organize`, `manage`, `safety`, `ai`, `search`) instead of the full ~90-line dump; unrecognized topics list the valid names. No-arg `em help` output is unchanged.
+- **`em help`'s SAFETY section** now documents the three confirmation tiers (`[y/N/e]` / type `yes` / type folder name) as an intentional graduated-friction design, not an incidental discovery.
+
+### Fixed
+
+- **`em flag`/`em star` dead-code bug** — a duplicate `case` label in `em()`'s dispatcher silently made `em flag` always resolve to the one-way `_em_flag` handler, never the toggle `_em_star` handler its `star|flag)` alias implied. Fixed the routing; `em flag`/`em unflag` remain one-way batch operations, `em star` remains the toggle — now also extended to accept multiple IDs like `flag`/`unflag` already did. See `docs/specs/SPEC-em-ux-refactor-2026-07-07.md`.
 
 ### Changed
 

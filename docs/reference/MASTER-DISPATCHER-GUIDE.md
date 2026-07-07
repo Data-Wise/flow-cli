@@ -3300,10 +3300,10 @@ calendar ICS parsing, and IMAP IDLE background watching.
 | `em delete --purge <ID>` | | Permanent delete (requires typing "yes") |
 | `em create-folder <name>` | `em cf` | Create a new mail folder |
 | `em delete-folder <name>` | `em df` | Delete folder (type-to-confirm) |
-| `em move <FOLDER> <ID>` | `em mv` | Move email to folder |
+| `em move <ID> [FOLDER]` | `em mv` | Move email to folder (fzf picker if no folder) |
 | `em restore <ID>` | | Restore from Trash to INBOX |
-| `em flag <ID>` | `em fl` | Star email for follow-up |
-| `em unflag <ID>` | | Remove star |
+| `em flag <ID>...` | `em fl` | One-way: set starred (batch-capable) |
+| `em unflag <ID>...` | | One-way: clear starred (batch-capable) |
 | `em respond` | `em resp` | Batch AI drafts for actionable emails |
 | `em classify <ID>` | | AI category classification |
 | `em summarize <ID>` | `em sum` | One-line AI summary |
@@ -3321,9 +3321,8 @@ calendar ICS parsing, and IMAP IDLE background watching.
 | `em watch start\|stop\|status\|log` | `em w` | IMAP IDLE background watcher [experimental] |
 | `em cache stats\|prune\|clear\|warm` | | Manage AI cache |
 | `em ai [backend]` | | Show/switch AI backend (claude, agy, gemini legacy, none, toggle, auto) |
-| `em star <ID>` | `em flag` | Toggle star (Flagged) on email |
+| `em star <ID>...` | | Toggle starred status per-ID (batch-capable) |
 | `em starred` | | List all starred/flagged emails |
-| `em move <ID> [FOLDER]` | `em mv` | Move email to folder (fzf picker if no folder) |
 | `em thread <ID>` | `em th` | Show conversation thread for email |
 | `em snooze <ID> <TIME>` | `em snz` | Snooze email (2h, 1d, tomorrow, monday, etc.) |
 | `em snoozed` | | List snoozed emails with status |

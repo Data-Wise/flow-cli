@@ -131,9 +131,8 @@ em() {
         # ─────────────────────────────────────────────────────────────
         # ORGANIZE
         # ─────────────────────────────────────────────────────────────
-        star|flag)    shift; _em_star "$@" ;;
+        star)         shift; _em_star "$@" ;;
         starred)      shift; _em_starred "$@" ;;
-        move|mv)      shift; _em_move "$@" ;;
         thread|th)    shift; _em_thread "$@" ;;
         snooze|snz)   shift; _em_snooze "$@" ;;
         snoozed)      shift; _em_snoozed "$@" ;;
@@ -163,7 +162,7 @@ em() {
         # ─────────────────────────────────────────────────────────────
         # HELP
         # ─────────────────────────────────────────────────────────────
-        help|h|--help|-h) _em_help ;;
+        help|h|--help|-h) shift; _em_help "$@" ;;
 
         *)
             _flow_log_error "Unknown command: $1"
@@ -177,7 +176,112 @@ em() {
 # HELP SYSTEM
 # ═══════════════════════════════════════════════════════════════════
 
+_em_help_topic() {
+    # Print just one section of `em help`, for `em help <topic>`.
+    # Returns 1 (unhandled) for an unrecognized topic so the caller can
+    # fall back to the full help dump.
+    local topic="${1:l}"
+    case "$topic" in
+        inbox|reading)
+            echo -e "
+${_C_BLUE}📋 INBOX & READING${_C_NC}:
+  ${_C_CYAN}em inbox [N]${_C_NC}      List N recent emails (default: ${FLOW_EMAIL_PAGE_SIZE})
+  ${_C_CYAN}em read <ID>${_C_NC}      Read email (smart rendering)
+  ${_C_CYAN}em read --html <ID>${_C_NC} Read HTML version (w3m/lynx)
+  ${_C_CYAN}em read --md <ID>${_C_NC}   Read as clean Markdown (pandoc)
+  ${_C_CYAN}em read --raw <ID>${_C_NC}  Dump raw MIME source
+  ${_C_CYAN}em unread${_C_NC}         Show unread count
+  ${_C_CYAN}em html <ID>${_C_NC}      Render HTML email ${_C_DIM}(alias for read --html)${_C_NC}
+"
+            ;;
+        compose|reply)
+            echo -e "
+${_C_BLUE}COMPOSE & REPLY${_C_NC}:
+  ${_C_CYAN}em send${_C_NC}           Compose new (opens \$EDITOR, preview before send)
+  ${_C_CYAN}em send --force${_C_NC}   Compose + send without preview
+  ${_C_CYAN}em reply <ID>${_C_NC}     Reply with AI draft (--no-ai, --all, --batch, --force)
+  ${_C_CYAN}em forward <ID> [to]${_C_NC} Forward email (--prompt, --backend, --force)
+"
+            ;;
+        organize)
+            echo -e "
+${_C_BLUE}ORGANIZE${_C_NC}:
+  ${_C_CYAN}em star <ID>...${_C_NC}  Toggle starred (flagged) status (per-ID)
+  ${_C_CYAN}em starred${_C_NC}       List starred emails
+  ${_C_CYAN}em thread <ID>${_C_NC}   Show conversation thread
+  ${_C_CYAN}em snooze <ID> <T>${_C_NC} Snooze (2h, 1d, tomorrow, monday)
+  ${_C_CYAN}em snoozed${_C_NC}       List snoozed emails
+  ${_C_CYAN}em digest${_C_NC}        AI-grouped daily summary (--week)
+
+${_C_DIM}Related: em flag/em unflag are one-way set/clear (batch-capable);${_C_NC}
+${_C_DIM}em star is the toggle (also batch-capable) — see 'em help manage'${_C_NC}
+"
+            ;;
+        manage)
+            echo -e "
+${_C_BLUE}MANAGE${_C_NC}:
+  ${_C_CYAN}em delete <ID>${_C_NC}       Delete email (move to Trash)
+  ${_C_CYAN}em delete --pick${_C_NC}     Interactive multi-select delete
+  ${_C_CYAN}em delete --purge${_C_NC}    Permanent delete (requires \"yes\")
+  ${_C_CYAN}em move <ID> [F]${_C_NC}    Move to folder (fzf picker if no folder)
+  ${_C_CYAN}em restore <ID>${_C_NC}     Restore from Trash to INBOX
+  ${_C_CYAN}em flag <ID>...${_C_NC}     One-way: set starred (batch-capable)
+  ${_C_CYAN}em unflag <ID>...${_C_NC}   One-way: clear starred (batch-capable)
+"
+            ;;
+        safety)
+            echo -e "
+${_C_MAGENTA}SAFETY${_C_NC}: Three tiers of confirmation, scaled to how reversible the action is:
+  ${_C_DIM}1. Reversible (delete)${_C_NC}       ${_C_YELLOW}[y/N/e]${_C_NC} single keypress (default: No, e=edit)
+  ${_C_DIM}2. Irreversible (--purge)${_C_NC}     Type the word ${_C_YELLOW}yes${_C_NC} in full
+  ${_C_DIM}3. Bulk irreversible (delete-folder)${_C_NC} Type the folder name in full
+  Send/reply/forward use the same two-phase gate as tier 1: preview then ${_C_YELLOW}[y/N/e]${_C_NC}.
+"
+            ;;
+        ai)
+            echo -e "
+${_C_BLUE}AI-POWERED COMPOSITION${_C_NC}:
+  ${_C_CYAN}em reply <ID> --prompt 'instructions'${_C_NC}       AI draft with custom instructions
+  ${_C_CYAN}em send <to> <subj> --prompt 'instructions'${_C_NC} AI compose from instructions
+  ${_C_CYAN}em forward <ID> <to> --prompt 'text'${_C_NC}        AI forward with custom note
+  ${_C_DIM}--backend claude|agy|gemini${_C_NC}                 Override AI backend per-command
+
+${_C_BLUE}AI BACKEND${_C_NC}:
+  ${_C_CYAN}em ai${_C_NC}              Show current AI backend
+  ${_C_CYAN}em ai claude${_C_NC}       Switch to Claude
+  ${_C_CYAN}em ai agy${_C_NC}          Switch to Antigravity (agy)
+  ${_C_CYAN}em ai gemini${_C_NC}       Switch to Gemini (legacy)
+  ${_C_CYAN}em ai none${_C_NC}         Disable AI
+  ${_C_CYAN}em ai toggle${_C_NC}       Cycle backends
+  ${_C_CYAN}em ai auto${_C_NC}         Smart per-op routing
+
+${_C_MAGENTA}CURRENT${_C_NC}: \$FLOW_EMAIL_AI=${_C_CYAN}${FLOW_EMAIL_AI}${_C_NC}  ${_C_DIM}Timeout: ${FLOW_EMAIL_AI_TIMEOUT}s${_C_NC}
+"
+            ;;
+        search|browse)
+            echo -e "
+${_C_BLUE}SEARCH & BROWSE${_C_NC}:
+  ${_C_CYAN}em find <query>${_C_NC}   Search emails
+  ${_C_CYAN}em pick [FOLDER]${_C_NC}  fzf browser with preview
+"
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+    return 0
+}
+
 _em_help() {
+    if [[ -n "$1" ]]; then
+        if _em_help_topic "$1"; then
+            return 0
+        fi
+        _flow_log_error "Unknown help topic: $1"
+        echo "Topics: inbox, compose, organize, manage, safety, ai, search"
+        echo "Run ${_C_CYAN}em help${_C_NC} for the full command reference"
+        return 1
+    fi
     echo -e "
 ${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
 ${_C_BOLD}│ em - Email Dispatcher (himalaya)             │${_C_NC}
@@ -239,7 +343,7 @@ ${_C_BLUE}WATCH${_C_NC} ${_C_DIM}[experimental]${_C_NC}:
   ${_C_CYAN}em watch log${_C_NC}       Show recent notifications
 
 ${_C_BLUE}ORGANIZE${_C_NC}:
-  ${_C_CYAN}em star <ID>${_C_NC}     Toggle starred (flagged) status
+  ${_C_CYAN}em star <ID>...${_C_NC}  Toggle starred (flagged) status (per-ID)
   ${_C_CYAN}em starred${_C_NC}       List starred emails
   ${_C_CYAN}em thread <ID>${_C_NC}   Show conversation thread
   ${_C_CYAN}em snooze <ID> <T>${_C_NC} Snooze (2h, 1d, tomorrow, monday)
@@ -252,8 +356,8 @@ ${_C_BLUE}MANAGE${_C_NC}:
   ${_C_CYAN}em delete --purge${_C_NC}    Permanent delete (requires \"yes\")
   ${_C_CYAN}em move <ID> [F]${_C_NC}    Move to folder (fzf picker if no folder)
   ${_C_CYAN}em restore <ID>${_C_NC}     Restore from Trash to INBOX
-  ${_C_CYAN}em flag <ID>${_C_NC}        Star for follow-up
-  ${_C_CYAN}em unflag <ID>${_C_NC}      Remove star
+  ${_C_CYAN}em flag <ID>...${_C_NC}     One-way: set starred (batch-capable)
+  ${_C_CYAN}em unflag <ID>...${_C_NC}   One-way: clear starred (batch-capable)
 
 ${_C_BLUE}AI FEATURES${_C_NC}:
   ${_C_CYAN}em respond${_C_NC}        Batch AI drafts for actionable emails
@@ -275,7 +379,11 @@ ${_C_BLUE}INFO & MANAGEMENT${_C_NC}:
   ${_C_CYAN}em cache clear${_C_NC}    Clear AI cache
   ${_C_CYAN}em doctor${_C_NC}         Check dependencies
 
-${_C_MAGENTA}SAFETY${_C_NC}: Two-phase gate — preview then ${_C_YELLOW}[y/N/e]${_C_NC} confirm (default: No, e=edit)
+${_C_MAGENTA}SAFETY${_C_NC}: Three tiers of confirmation, scaled to how reversible the action is:
+  ${_C_DIM}1. Reversible (delete)${_C_NC}       ${_C_YELLOW}[y/N/e]${_C_NC} single keypress (default: No, e=edit)
+  ${_C_DIM}2. Irreversible (--purge)${_C_NC}     Type the word ${_C_YELLOW}yes${_C_NC} in full
+  ${_C_DIM}3. Bulk irreversible (delete-folder)${_C_NC} Type the folder name in full
+  Send/reply/forward use the same two-phase gate as tier 1: preview then ${_C_YELLOW}[y/N/e]${_C_NC}.
 
 ${_C_BLUE}AI-POWERED COMPOSITION${_C_NC}:
   ${_C_CYAN}em reply <ID> --prompt 'instructions'${_C_NC}       AI draft with custom instructions
@@ -2337,27 +2445,33 @@ ${_C_DIM}Safety: every send requires explicit [y/N] confirmation${_C_NC}
 _em_star() {
     [[ "$1" == "--help" || "$1" == "-h" || "$1" == "help" ]] && { _em_help; return 0; }
     _em_require_himalaya || return 1
-    local msg_id="$1"
-    if [[ -z "$msg_id" ]]; then
+    if [[ $# -eq 0 ]]; then
         _flow_log_error "Email ID required"
-        echo "Usage: ${_C_CYAN}em star <ID>${_C_NC}"
+        echo "Usage: ${_C_CYAN}em star <ID> [<ID>...]${_C_NC}"
         return 1
     fi
 
     local folder="${FLOW_EMAIL_FOLDER:-INBOX}"
 
-    # Check current flags to determine toggle direction
-    local flags
-    flags=$(_em_hml_list "$folder" 100 2>/dev/null \
-        | jq -r --arg id "$msg_id" '.[] | select(.id == ($id | tonumber)) | .flags | join(",")' 2>/dev/null)
+    # Fetch the folder's envelope list once so every ID toggles against the
+    # same consistent snapshot (mixed starting states -> mixed correct end
+    # states, independent of each other).
+    local envelopes
+    envelopes=$(_em_hml_list "$folder" 100 2>/dev/null)
 
-    if [[ "$flags" == *"Flagged"* ]]; then
-        _em_hml_flags remove "$msg_id" Flagged
-        echo -e "  ${_C_DIM}☆${_C_NC} Unstarred #${msg_id}"
-    else
-        _em_hml_flags add "$msg_id" Flagged
-        echo -e "  ${_C_YELLOW}★${_C_NC} Starred #${msg_id}"
-    fi
+    local msg_id flags
+    for msg_id in "$@"; do
+        flags=$(echo "$envelopes" \
+            | jq -r --arg id "$msg_id" '.[] | select(.id == ($id | tonumber)) | .flags | join(",")' 2>/dev/null)
+
+        if [[ "$flags" == *"Flagged"* ]]; then
+            _em_hml_flags remove "$msg_id" Flagged
+            echo -e "  ${_C_DIM}☆${_C_NC} Unstarred #${msg_id}"
+        else
+            _em_hml_flags add "$msg_id" Flagged
+            echo -e "  ${_C_YELLOW}★${_C_NC} Starred #${msg_id}"
+        fi
+    done
 }
 
 _em_starred() {
