@@ -5,11 +5,39 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Released (v7.15.0)
+## Phase: Released (v7.16.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-07) — agy (Antigravity CLI) em-ai backend [merged, PR #491]
+## Current Session (2026-07-07) — agy em-ai backend + em ADHD-UX audit + v7.16.0 released
+
+**Session activity:**
+- **agy em-ai backend** (PR #491, merged): added `agy` (Antigravity CLI) ahead of `gemini`
+  (kept as legacy) in the fallback chain. Found + fixed a real bug during live verification:
+  capturing agy's output via `$(...)` command substitution hangs/dies silently (agy leaves a
+  descendant process attached to stdout) — fixed via temp-file capture instead.
+- **PR #492** (merged): `em help`/`em doctor` had their own separate, missed copy of the
+  backend list, still showing `--backend claude|gemini` with no `agy`.
+- **`em` ADHD-UX audit** → `docs/specs/SPEC-em-ux-refactor-2026-07-07.md`, grilled to 3 locked
+  decisions (bundle Phase 1+2, extend `em star` to multi-ID, implement in-session).
+- **PR #493** (merged): fixed a duplicate `case`-label dead-code bug (`em flag` silently always
+  resolved to the wrong handler, never `_em_star`'s toggle); extended `em star` to multi-ID;
+  added `em help <topic>` filtering; documented the 3-tier confirmation system; fixed matching
+  doc drift (stale "`em flag` is an alias for `em star`" line, duplicate `em move` row) in
+  `MASTER-DISPATCHER-GUIDE.md`. New regression-guard test verified via planted-defect positive
+  control (reintroduced the bug, confirmed the guard catches it, restored the fix).
+- **Released v7.16.0** (PR #494, `dev`→`main`, merge commit): `scripts/release.sh 7.16.0`,
+  CHANGELOG `[Unreleased]`→`[7.16.0]` (root+docs mirror), refreshed `docs/index.md`'s stale
+  v7.15.0 What's New callout + footer. Tagged, GitHub release published, CI green on `main`,
+  Homebrew formula confirmed updated to v7.16.0 (`homebrew-tap`), `dev` synced with `main`.
+- Full suite across all changes: 78/0/0/1 (stable baseline + 2 new test suites this session:
+  `test-em-ai-agy.zsh`, `test-em-flag-star.zsh`), `mkdocs build --strict` clean throughout,
+  man-page version-sync guard 12/12.
+- Worktrees `feature/em-agy-backend` and `feature/em-ux-refactor` removed after merge.
+- Not yet done: himalaya-mcp/`em` docs-only cross-reference (from an earlier investigation this
+  session, ruled out as a delegation design but the doc cross-reference itself wasn't shipped).
+
+## Previous Session (2026-07-07) — agy (Antigravity CLI) em-ai backend [merged, PR #491]
 
 **Session activity:**
 - **Investigated flow-cli/himalaya-mcp email overlap** (separate from the agy work below):
