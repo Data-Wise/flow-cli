@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 **flow-cli** - Pure ZSH plugin for ADHD-optimized workflow management. Zero dependencies. Standalone (works without Oh-My-Zsh or any plugin manager).
 
 - **Architecture:** Pure ZSH plugin (no Node.js runtime required)
-- **Current Version:** v7.15.0
+- **Current Version:** v7.16.0
 - **Install:** Homebrew (recommended), or any plugin manager
 - **Source:** `source /opt/homebrew/opt/flow-cli/flow.plugin.zsh` (via Homebrew)
 - **Optional:** Atlas integration for enhanced state management
@@ -138,7 +138,7 @@ flow-cli/
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh, check-status.zsh)
 ├── templates/                # .STATUS.template (canonical shape reference)
-├── tests/                    # 231 test files, 12000+ test functions
+├── tests/                    # 232 test files, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -183,7 +183,7 @@ flow-cli/
 
 ## Testing
 
-**231 test files, 76 registered suites, 12000+ test functions.** Run: `./tests/run-all.sh` (75/75 passing, 1 skipped — required external tool absent, e.g. himalaya) or individual suites in `tests/`.
+**232 test files, 76 registered suites, 12000+ test functions.** Run: `./tests/run-all.sh` (75 passed / 0 failed / 0 timeout / 1 skipped — required external tool absent, e.g. himalaya) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -217,7 +217,7 @@ export FLOW_FORCE_DISPATCHER_OBS=1           # Force-keep one dispatcher (FLOW_F
 
 ## Current Status
 
-**Version:** v7.15.0 | **Tests:** 12000+ (75/75 suite, 1 skipped — tool absence) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.16.0 | **Tests:** 12000+ (75/75 suite, 1 skipped — tool absence) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 

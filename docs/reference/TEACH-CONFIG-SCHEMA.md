@@ -38,7 +38,7 @@ flowchart LR
 
 1. **Project config** (`.flow/teach-config.yml`) - Highest priority, project-specific
 2. **User config** (`~/.flow/teach-config.yml`) - Personal defaults across all projects
-3. **Plugin defaults** - Embedded fallbacks in `teach-dispatcher.zsh`
+3. **Plugin defaults** - Embedded fallbacks in `lib/dispatchers/teach/teach-main.zsh` (loaded via the `teach-dispatcher.zsh` loader)
 
 **Access via API:**
 

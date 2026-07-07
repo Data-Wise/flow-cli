@@ -78,6 +78,16 @@ test_ai_switch_gemini() {
     fi
 }
 
+test_ai_switch_agy() {
+    test_case "_em_ai_switch agy succeeds"
+    _em_ai_switch "agy" &>/dev/null
+    if [[ $? -eq 0 && "$FLOW_EMAIL_AI" == "agy" ]]; then
+        test_pass
+    else
+        test_fail "Expected FLOW_EMAIL_AI=agy, got '$FLOW_EMAIL_AI'"
+    fi
+}
+
 test_ai_switch_none() {
     test_case "_em_ai_switch none succeeds"
     _em_ai_switch "none" &>/dev/null
@@ -142,16 +152,16 @@ test_ai_toggle_cycles() {
     test_case "_em_ai_toggle cycles through available backends"
 
     # Override _em_ai_available directly (avoids create_mock eval issues)
-    _em_ai_available() { echo "claude gemini"; }
+    _em_ai_available() { echo "claude agy gemini"; }
 
     # Start from claude
     export FLOW_EMAIL_AI="claude"
     _em_ai_toggle &>/dev/null
 
-    if [[ "$FLOW_EMAIL_AI" == "gemini" ]]; then
+    if [[ "$FLOW_EMAIL_AI" == "agy" ]]; then
         test_pass
     else
-        test_fail "Expected toggle from claude -> gemini, got '$FLOW_EMAIL_AI'"
+        test_fail "Expected toggle from claude -> agy, got '$FLOW_EMAIL_AI'"
     fi
 
     _restore_ai_available
@@ -161,7 +171,7 @@ test_ai_toggle_wraps_around() {
     test_case "_em_ai_toggle wraps from last to first"
 
     # Override _em_ai_available directly
-    _em_ai_available() { echo "claude gemini"; }
+    _em_ai_available() { echo "claude agy gemini"; }
 
     # Start from gemini (should wrap to claude)
     export FLOW_EMAIL_AI="gemini"
@@ -339,6 +349,15 @@ test_backends_has_claude_extra_args() {
     fi
 }
 
+test_backends_has_agy_extra_args() {
+    test_case "_EM_AI_BACKENDS has agy_extra_args key"
+    if [[ -n "${_EM_AI_BACKENDS[agy_extra_args]+set}" ]]; then
+        test_pass
+    else
+        test_fail "agy_extra_args key missing from _EM_AI_BACKENDS"
+    fi
+}
+
 test_gemini_extra_args_default() {
     test_case "gemini_extra_args defaults to '-e none'"
     local gemini_args="${_EM_AI_BACKENDS[gemini_extra_args]}"
@@ -360,6 +379,7 @@ main() {
 
     echo "${CYAN}Section 1: _em_ai_switch Valid Backends${RESET}"
     test_ai_switch_claude
+    test_ai_switch_agy
     test_ai_switch_gemini
     test_ai_switch_none
     test_ai_switch_auto
@@ -398,6 +418,7 @@ main() {
     echo "${CYAN}Section 7: extra_args in _EM_AI_BACKENDS${RESET}"
     test_backends_has_gemini_extra_args
     test_backends_has_claude_extra_args
+    test_backends_has_agy_extra_args
     test_gemini_extra_args_default
     echo ""
 

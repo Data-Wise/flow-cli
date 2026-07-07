@@ -201,7 +201,7 @@ run_check "coverage detector ignores helper files with no public function" '
 # ── the real assertions: dispatcher <-> man-page coverage ───────────────────
 
 run_check "every dispatcher command has a man page" '
-    cmds=$(_msync_dispatcher_cmds "$DISP_DIR"/*.zsh(N) "$ATLAS")
+    cmds=$(_msync_dispatcher_cmds "$DISP_DIR"/*.zsh(N) "$DISP_DIR"/*/*.zsh(N) "$ATLAS")
     [[ -n "$cmds" ]] || { echo "no dispatcher commands detected"; exit 1; }
     missing=""
     for c in ${(f)cmds}; do
@@ -215,7 +215,7 @@ run_check "every dispatcher command has a man page" '
 '
 
 run_check "no orphan flow-cli dispatcher page (page without a dispatcher)" '
-    cmds=$(_msync_dispatcher_cmds "$DISP_DIR"/*.zsh(N) "$ATLAS")
+    cmds=$(_msync_dispatcher_cmds "$DISP_DIR"/*.zsh(N) "$DISP_DIR"/*/*.zsh(N) "$ATLAS")
     orphan=""
     for p in "$MAN_DIR"/*.1(N); do
         [[ "$(_th_product "$p")" == "flow-cli" ]] || continue   # skip vendored

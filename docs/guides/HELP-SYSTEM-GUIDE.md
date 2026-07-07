@@ -532,16 +532,16 @@ done
 
 ### File Location
 
-All help functions are in: `lib/dispatchers/teach-dispatcher.zsh`
+Help functions live in `lib/dispatchers/teach/teach-help.zsh`; the entry point and command routing live in `lib/dispatchers/teach/teach-main.zsh` (both loaded by the `lib/dispatchers/teach-dispatcher.zsh` loader).
 
 ```zsh
-# Help functions (lines ~100-2000)
+# Help functions (lib/dispatchers/teach/teach-help.zsh)
 _teach_dispatcher_help() { ... }
 _teach_lecture_help() { ... }
 _teach_exam_help() { ... }
 # ... 15 more help functions
 
-# Command routing (lines ~2700-3200)
+# Command routing (lib/dispatchers/teach/teach-main.zsh)
 teach() {
     case "$subcommand" in
         lecture|lec)

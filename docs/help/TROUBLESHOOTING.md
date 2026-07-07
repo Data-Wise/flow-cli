@@ -689,7 +689,7 @@ teach init
 g help  # If this works, reload:
 exec zsh
 
-# If still failing:
+# If still failing, source the teach dispatcher loader (it loads lib/dispatchers/teach/*.zsh):
 source ~/projects/dev-tools/flow-cli/lib/dispatchers/teach-dispatcher.zsh
 teach help
 ```

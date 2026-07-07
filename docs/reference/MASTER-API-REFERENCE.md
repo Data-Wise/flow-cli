@@ -63,7 +63,8 @@ lib/
     ├── dots-dispatcher.zsh       # Dotfile management
     ├── sec-dispatcher.zsh        # Secret management
     ├── tok-dispatcher.zsh        # Token management
-    ├── teach-dispatcher.zsh
+    ├── teach-dispatcher.zsh      # Teaching: loader
+    │   └── teach/                # Teaching: 10 modules (main, content, help, init-config, slides, style, backup, status, archive, map)
     ├── teach-dates.zsh           # Teaching: date automation
     ├── teach-deploy-enhanced.zsh # Teaching: deploy v2 engine
     ├── teach-doctor-impl.zsh     # Teaching: doctor v2 implementation
@@ -6255,7 +6256,7 @@ _em_forward <msg_id> [to] [--prompt text] [--backend name] [--force]
 - `$1` - Email message ID
 - `$2` - Recipient email address (optional)
 - `--prompt` - AI forwarding note with custom instructions
-- `--backend` - Override AI backend (claude/gemini)
+- `--backend` - Override AI backend (claude/agy/gemini legacy)
 - `--force` / `--yes` - Skip safety gate
 
 **Returns:**

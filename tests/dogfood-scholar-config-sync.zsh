@@ -64,6 +64,13 @@ FLOW_QUIET=1
 FLOW_PLUGIN_DIR="$PROJECT_ROOT"
 source "${PROJECT_ROOT}/flow.plugin.zsh" 2>/dev/null
 
+# After the Phase 1 split, teach dispatcher code lives in the loader plus modules.
+TEACH_DISPATCHER_FILES=("$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh" "$PROJECT_ROOT"/lib/dispatchers/teach/*.zsh)
+
+_teach_grep() {
+    grep -q "$1" "${TEACH_DISPATCHER_FILES[@]}"
+}
+
 echo ""
 echo "${CYAN}── Code Structure ──${RESET}"
 
@@ -73,27 +80,27 @@ echo "${CYAN}── Code Structure ──${RESET}"
 
 # 1. Config injection code exists in teach-dispatcher
 run_test "Config injection block in teach-dispatcher" '
-    grep -q "Config injection.*Scholar Config Sync" "$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh"
+    grep -q "Config injection.*Scholar Config Sync" "${TEACH_DISPATCHER_FILES[@]}"
 '
 
 # 2. _teach_find_config call in injection block
 run_test "_teach_find_config wired for injection" '
-    grep -q "_teach_find_config" "$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh"
+    grep -q "_teach_find_config" "${TEACH_DISPATCHER_FILES[@]}"
 '
 
 # 3. --config flag appended
 run_test "--config flag in command assembly" '
-    grep -q "\-\-config" "$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh"
+    grep -q "\-\-config" "${TEACH_DISPATCHER_FILES[@]}"
 '
 
 # 4. Stale config warning in preflight
 run_test "Stale config warning in _teach_preflight" '
-    grep -q "_flow_config_changed" "$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh"
+    grep -q "_flow_config_changed" "${TEACH_DISPATCHER_FILES[@]}"
 '
 
 # 5. Legacy deprecation warning
 run_test "Legacy deprecation warning exists" '
-    grep -q "Deprecated.*teaching-style.local.md" "$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh"
+    grep -q "Deprecated.*teaching-style.local.md" "${TEACH_DISPATCHER_FILES[@]}"
 '
 
 # 6. Doctor config sync function
@@ -119,21 +126,21 @@ echo "${CYAN}── Command Routing ──${RESET}"
 # 8. Config subcommands in dispatcher case statement
 for subcmd in check diff show scaffold; do
     run_test "teach config $subcmd routed" "
-        grep -q '$subcmd)' \"\$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh\"
+        _teach_grep '$subcmd)'
     "
 done
 
 # 9. New wrapper commands in dispatcher
 for cmd in solution sync validate-r; do
     run_test "teach $cmd in dispatcher case" "
-        grep -q '${cmd})' \"\$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh\"
+        _teach_grep '${cmd})'
     "
 done
 
 # 10. New commands in _teach_build_command mapping
 for cmd in solution sync validate-r config; do
     run_test "$cmd in _teach_build_command" "
-        grep -q '${cmd}).*scholar_cmd=' \"\$PROJECT_ROOT/lib/dispatchers/teach-dispatcher.zsh\"
+        _teach_grep '${cmd}).*scholar_cmd='
     "
 done
 

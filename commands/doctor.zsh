@@ -1389,8 +1389,10 @@ _doctor_check_email() {
   if [[ -n "$FLOW_EMAIL_AI" && "$FLOW_EMAIL_AI" != "none" ]]; then
     if [[ "$FLOW_EMAIL_AI" == "claude" ]]; then
       _doctor_check_email_cmd "claude" "npm:@anthropic-ai/claude-code" "optional" "AI drafts"
+    elif [[ "$FLOW_EMAIL_AI" == "agy" ]]; then
+      _doctor_check_email_cmd "agy" "brew:agy" "optional" "AI drafts (Antigravity CLI)"
     elif [[ "$FLOW_EMAIL_AI" == "gemini" ]]; then
-      _doctor_check_email_cmd "gemini" "pip:google-generativeai" "optional" "AI drafts"
+      _doctor_check_email_cmd "gemini" "pip:google-generativeai" "optional" "AI drafts (legacy backend)"
     fi
   fi
 

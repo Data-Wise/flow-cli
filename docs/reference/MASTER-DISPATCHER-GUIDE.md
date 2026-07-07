@@ -3300,10 +3300,10 @@ calendar ICS parsing, and IMAP IDLE background watching.
 | `em delete --purge <ID>` | | Permanent delete (requires typing "yes") |
 | `em create-folder <name>` | `em cf` | Create a new mail folder |
 | `em delete-folder <name>` | `em df` | Delete folder (type-to-confirm) |
-| `em move <FOLDER> <ID>` | `em mv` | Move email to folder |
+| `em move <ID> [FOLDER]` | `em mv` | Move email to folder (fzf picker if no folder) |
 | `em restore <ID>` | | Restore from Trash to INBOX |
-| `em flag <ID>` | `em fl` | Star email for follow-up |
-| `em unflag <ID>` | | Remove star |
+| `em flag <ID>...` | `em fl` | One-way: set starred (batch-capable) |
+| `em unflag <ID>...` | | One-way: clear starred (batch-capable) |
 | `em respond` | `em resp` | Batch AI drafts for actionable emails |
 | `em classify <ID>` | | AI category classification |
 | `em summarize <ID>` | `em sum` | One-line AI summary |
@@ -3320,10 +3320,9 @@ calendar ICS parsing, and IMAP IDLE background watching.
 | `em calendar <ID>` | `em cal` | Parse ICS attachment; add to Apple Calendar |
 | `em watch start\|stop\|status\|log` | `em w` | IMAP IDLE background watcher [experimental] |
 | `em cache stats\|prune\|clear\|warm` | | Manage AI cache |
-| `em ai [backend]` | | Show/switch AI backend (claude, gemini, none, toggle, auto) |
-| `em star <ID>` | `em flag` | Toggle star (Flagged) on email |
+| `em ai [backend]` | | Show/switch AI backend (claude, agy, gemini legacy, none, toggle, auto) |
+| `em star <ID>...` | | Toggle starred status per-ID (batch-capable) |
 | `em starred` | | List all starred/flagged emails |
-| `em move <ID> [FOLDER]` | `em mv` | Move email to folder (fzf picker if no folder) |
 | `em thread <ID>` | `em th` | Show conversation thread for email |
 | `em snooze <ID> <TIME>` | `em snz` | Snooze email (2h, 1d, tomorrow, monday, etc.) |
 | `em snoozed` | | List snoozed emails with status |
@@ -3342,7 +3341,7 @@ em reply 42 --force        # Skip preview gate (v2.0)
 em reply 42 --prompt 'decline politely'  # AI draft with custom instructions
 em send user@example.com "Meeting" --prompt 'suggest Tuesday 2pm'
 em forward 42 user@example.com --prompt 'FYI re: our discussion'
-em reply 42 --backend gemini  # Override AI backend per-command
+em reply 42 --backend agy     # Override AI backend per-command
 em respond                 # Batch process actionable emails
 em star 42                 # Toggle star on email
 em move 42 Archive         # Move email to folder
@@ -3370,7 +3369,7 @@ enhancement based on the installed himalaya CLI version.
 
 | Variable | Default | Description |
 | ---------- | --------- | ------------- |
-| `FLOW_EMAIL_AI` | `claude` | AI backend (claude/gemini/none) |
+| `FLOW_EMAIL_AI` | `claude` | AI backend (claude/agy/gemini legacy/none) |
 | `FLOW_EMAIL_PAGE_SIZE` | `25` | Default inbox page size |
 | `FLOW_EMAIL_FOLDER` | `INBOX` | Default folder |
 | `FLOW_EMAIL_TRASH_FOLDER` | `Trash` | Trash folder (Exchange: "Deleted Items") |
@@ -3381,7 +3380,7 @@ enhancement based on the installed himalaya CLI version.
 - **v2.0:** `em send`, `em reply`, and `em forward` show full preview + `[y/N/e]` gate before sending. Use `--force` to bypass.
 - **Smart TTY detection:** Non-interactive contexts (no TTY) auto-route to batch path, preventing `$EDITOR` hangs.
 - **`--prompt` flag:** Available on `reply`, `send`, and `forward`. Forces batch mode. Implies `--ai` on `em send`.
-- **`--backend` flag:** Override AI backend per-command (e.g. `--backend gemini`).
+- **`--backend` flag:** Override AI backend per-command (e.g. `--backend agy`).
 - Every delete requires `[y/N]` confirmation (default: No). `--purge` requires typing "yes".
 - Folder/query deletes show count + first 5 subjects before confirming.
 - `em delete-folder` requires typing the folder name in full.

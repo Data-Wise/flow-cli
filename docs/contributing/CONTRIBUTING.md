@@ -63,7 +63,7 @@ flow-cli/
 │       ├── dots-dispatcher.zsh   # Dotfiles (chezmoi)
 │       ├── sec-dispatcher.zsh    # Secrets (Keychain)
 │       ├── tok-dispatcher.zsh    # Tokens (API keys)
-│       ├── teach-dispatcher.zsh  # Teaching workflow
+│               ├── teach-dispatcher.zsh  # Teaching workflow (loader → teach/*.zsh)
 │       ├── prompt-dispatcher.zsh # Prompt engine
 │       ├── v-dispatcher.zsh      # Vibe coding
 │       └── em-dispatcher.zsh     # Email (himalaya)

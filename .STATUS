@@ -5,11 +5,66 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: --help
-## Phase: Releasing (v7.15.0)
+## Phase: Released (v7.15.0)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-02) — retired code-workspace spec, closed 3 stale issues, triaged real backlog ✅
+## Current Session (2026-07-07) — agy (Antigravity CLI) em-ai backend [merged, PR #491]
+
+**Session activity:**
+- **Investigated flow-cli/himalaya-mcp email overlap** (separate from the agy work below):
+  quantified ~82% of `em`'s commands already have a himalaya-mcp MCP-tool equivalent; an
+  adversarial review found himalaya-mcp has no argv-callable CLI for that functionality (only
+  MCP stdio tool handlers), so a proposed "em delegates to himalaya-mcp" design was ruled
+  unbuildable. Landed on a docs-only cross-reference plan instead — not yet implemented,
+  captured in scratch plan notes only.
+- **Added `agy` (Antigravity CLI) as an em-ai backend** (PR #491, merged to `dev`,
+  squash `f55fd3690`): ahead of `gemini` in the fallback chain (`claude → agy → gemini →
+  none`) since gemini CLI is deprecated upstream in favor of Antigravity; gemini kept, not
+  removed, for existing configs.
+- **Found + fixed a real bug during live verification, not just the planned validation
+  wrapper**: capturing `agy`'s output via `$(...)` command substitution hangs or dies
+  silently (agy leaves a descendant process attached to its stdout pipe, so `$(...)` blocks
+  waiting for an EOF that never comes) — independent of `timeout`. Fixed by routing through a
+  temp file. Reproduced 3x pre-fix, verified clean post-fix via a live `_em_ai_execute agy`
+  call against the real binary.
+- Added `_em_ai_agy_clean_output`/`_em_ai_agy_looks_valid` — agy has no clean-output flag
+  (appends an unrequested markdown status block) and has been observed to exit 0 with a
+  canned "system operational" response on bad input, so its exit code alone isn't trustworthy.
+- Updated doctor's health check + the full doc surface for `--backend`/`FLOW_EMAIL_AI`
+  (guide, cookbook, doctor reference, 3 master reference docs, refcard, quick reference,
+  1 tutorial, man page, changelog root+docs mirror) — a second docs pass (via
+  `/craft:docs:update`) caught 6 files the first sweep missed.
+- Registered `tests/test-em-ai-switch.zsh` in `run-all.sh` — discovered it had never been
+  wired into the suite (pre-existing gap, fixed as part of this change since the new
+  `test-em-ai-agy.zsh` relies on the same suite for its regression-guard role).
+- Verified: full suite 77/0/0/1 (twice), `mkdocs build --strict` clean (twice), new tests
+  24/24 + 8/8.
+- Worktree `feature/em-agy-backend` removed after merge.
+
+## Previous Session (2026-07-06) — Phase 1: split teach-dispatcher.zsh + docs sync [dev]
+
+**Session activity:**
+- **Implemented Phase 1 of SPEC-flow-cli-restructure-2026-07-06**: split `lib/dispatchers/teach-dispatcher.zsh` (5,611 lines, 82 functions) into a 307-line loader + 10 modules under `lib/dispatchers/teach/`.
+- **Added characterization tests**: `tests/test-teach-dispatcher-characterization.zsh` (35 checks) captures all public `teach <cmd>` routing before and after the split; passes green.
+- **Updated structural dogfood test**: `tests/dogfood-scholar-config-sync.zsh` now searches the loader + modules.
+- **Updated man-page coverage guard**: `tests/test-manpage-version-sync.zsh` now scans `lib/dispatchers/*/*.zsh` so subdir dispatchers are covered.
+- **Merged PR #490**: teach dispatcher split squash-merged to `dev`; old worktree removed.
+- **Synced active docs** for the modular layout: TROUBLESHOOTING, TEACH-CONFIG-SCHEMA, HELP-SYSTEM-GUIDE, REFCARD-SCHOLAR-FLAGS, REFCARD-TEACH-DISPATCHER, MASTER-API-REFERENCE, CONTRIBUTING, CLAUDE.md, plus the restructure spec/report.
+- **Updated CHANGELOG**: added [Unreleased] entry for the modular teach dispatcher (root + docs mirror).
+- **Verified**: full suite `74 passed / 0 failed / 1 timeout (test-doctor interactive baseline) / 1 skipped (himalaya absent)`; `mkdocs build --strict` clean; man-page version-sync guard 12/12.
+
+## Previous Session (2026-07-02) — v7.15.0 SHIPPED [main + Homebrew] ✅
+
+**Session activity (part 5, release):**
+- **Released v7.15.0**: closed the CHANGELOG gap (this session's doc work — cookbook, ref/setup/tutorial docs, homepage reorg — wasn't yet reflected in `[Unreleased]`) → `release.sh 7.15.0` (package.json, CLAUDE.md, flow.plugin.zsh, 23 man pages) → caught and fixed 2 things `release.sh` doesn't cover: `package-lock.json` was 2 versions stale (7.13.0, fixed via `npm install --package-lock-only`, version-field-only diff verified) and `docs/index.md`'s own version stamps (What's New callout + footer, refreshed to headline the actual 7.15.0 content instead of stale 7.14.0 copy).
+- **Verified before merge**: full suite 74/0/1/1 (matches documented baseline), `mkdocs build --strict` clean, 12/12 man-page version-sync guard checks, leak-scanned the diff (clean — the `ghp_DEMO_TOKEN_NOT_REAL_...` and `github_app_private_key` hits are prose/Keychain-field-name references, not real credentials).
+- **PR #486** (`dev`→`main`) merged after both CI checks green → tagged `v7.15.0` → GitHub release published → Version Guard + Homebrew Release workflows both succeeded (formula auto-updated in `homebrew-tap`) → Deploy Documentation live.
+- **Live-verified end-to-end**: `brew upgrade flow-cli` → 7.14.0→7.15.0 on this machine, shell-loaded `$FLOW_VERSION` matches the Cellar keg, and the new `doctor` INSTALLATION section (this release's headline feature) runs and passes post-upgrade — closes the loop on the man-page-collision bug fixed earlier this session.
+- **Debugged own tooling mid-release**: a `Monitor` call watching post-release CI appeared to hang — root-caused to `gh run list --branch main` silently excluding release-tag-triggered workflow runs (they don't attach to a branch ref); the actual CI had finished in under 2 minutes. Not a process bug, a monitoring-script bug.
+- **`dev` synced with `main`** (fast-forwarded past the release merge commit).
+
+## Previous Session (2026-07-02) — retired code-workspace spec, closed 3 stale issues, triaged real backlog ✅
 
 **Session activity (part 4):**
 - **Retired `SPEC-code-workspace-2026-02-13.md`** (`code ws` dispatcher) — draft, 4.5mo untouched, zero implementation, zero demand signal; overloading the `code` binary carries real risk without a validated need. Moved to `docs/specs/_archive/`, marked retired. Cleared the (now-empty) `.STATUS` Next Action queue.
@@ -514,10 +569,10 @@
 
 ---
 
-**Last Updated:** 2026-07-02
-**Status:** v7.14.0 active (Homebrew man-page fix live via homebrew-tap PR #135) | doctor INSTALLATION checks added (PR #485) | full suite — 75 passed / 0 failed / 1 timeout (interactive/tmux baseline) / 1 skipped (himalaya absent) | 14 dispatchers + at bridge | 231 test files | 76 registered suites | 0 lint errors | 0 broken links
-## wins: Fixed the regression bug (2026-07-02), --category fix squashed the bug (2026-07-02), fixed the bug (2026-07-02), Fixed the regression bug (2026-07-02), --category fix squashed the bug (2026-07-02)
+**Last Updated:** 2026-07-06
+**Status:** v7.15.0 active | Phase 1 restructure in progress (teach dispatcher split merged in PR #490; email dispatcher split queued) | full suite — 74 passed / 0 failed / 1 timeout (interactive/tmux baseline) / 1 skipped (himalaya absent) | 14 dispatchers + at bridge | 232 test files | 76 registered suites | 0 lint errors | 0 broken links
+## wins: Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06), fixed the bug (2026-07-06), Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06)
 ## streak: 1
-## last_active: 2026-07-02 12:31
+## last_active: 2026-07-06 12:53
 
 # Last teach config: 2026-07-02

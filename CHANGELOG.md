@@ -9,6 +9,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.16.0] — 2026-07-07 — agy em-ai backend + em ADHD-UX fixes
+
+### Added
+
+- **`agy` (Antigravity CLI) as an em-ai backend** — added ahead of `gemini` in the fallback
+  chain (`claude → agy → gemini → none`). `agy`'s output is automatically cleaned (it appends
+  an unrequested status-block footer with no clean-output flag to suppress it) and
+  sanity-checked before use, since `agy` has been observed to exit successfully with a canned
+  response on degenerate input rather than failing loudly. `gemini` is retained as a legacy
+  backend for existing `FLOW_EMAIL_AI=gemini` configs — Google's gemini CLI is deprecated
+  upstream in favor of Antigravity/`agy`, but nothing is removed here.
+
+- **`tests/test-teach-dispatcher-characterization.zsh`** — 35 routing checks that mock action functions and verify every public `teach <cmd>` path before and after the split.
+- **`em help <topic>`** — filter help output to one section (`inbox`, `compose`, `organize`, `manage`, `safety`, `ai`, `search`) instead of the full ~90-line dump; unrecognized topics list the valid names. No-arg `em help` output is unchanged.
+- **`em help`'s SAFETY section** now documents the three confirmation tiers (`[y/N/e]` / type `yes` / type folder name) as an intentional graduated-friction design, not an incidental discovery.
+
+### Fixed
+
+- **`em flag`/`em star` dead-code bug** — a duplicate `case` label in `em()`'s dispatcher silently made `em flag` always resolve to the one-way `_em_flag` handler, never the toggle `_em_star` handler its `star|flag)` alias implied. Fixed the routing; `em flag`/`em unflag` remain one-way batch operations, `em star` remains the toggle — now also extended to accept multiple IDs like `flag`/`unflag` already did. See `docs/specs/SPEC-em-ux-refactor-2026-07-07.md`.
+
+### Changed
+
+- **Modular `teach` dispatcher** — `lib/dispatchers/teach-dispatcher.zsh` is now a 307-line loader that sources 10 focused modules under `lib/dispatchers/teach/` (main, content, help, init-config, slides, style, backup, status, archive, map). The monolithic 5,611-line file is gone; characterization tests in `tests/test-teach-dispatcher-characterization.zsh` guard routing behavior.
+
 ## [7.15.0] — 2026-07-02 — Homebrew distribution health + doc gap fills
 
 ### Added
