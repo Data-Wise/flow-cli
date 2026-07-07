@@ -29,11 +29,11 @@ tags:
     **New here?** `setup` walks you through configuration interactively, or run `tutorial` for
     12 hands-on lessons at your own pace — both are guided, no docs required to start.
 
-!!! success "🎉 What's New in v7.15.0"
-    **`doctor` now catches Homebrew distribution failures** — opt/Cellar symlink drift, stale kegs, and man-page collisions that silently break `brew upgrade`.
-    **Doc gaps filled** — `ref`, `setup`, `tutorial` now have full command docs, plus a new [Daily & Weekly Cookbook](guides/WORKFLOW-COOKBOOK.md).
+!!! success "🎉 What's New in v7.16.0"
+    **`agy` (Antigravity CLI) added as an em-ai backend** — ahead of `gemini` (now legacy) in the fallback chain, with automatic output cleaning and validation.
+    **`em flag`/`em star` bug fixed** — a dead-code dispatch bug silently made `em flag` behave differently than intended; `em star` now also supports multiple IDs.
+    **`em help <topic>`** — filter help to one section instead of scanning the full command reference.
     Full details → [Changelog](CHANGELOG.md).
-    [→ Cookbook](guides/WORKFLOW-COOKBOOK.md){ .md-button .md-button--primary }
 
 ---
 
@@ -326,4 +326,4 @@ ref               # Quick-reference card (forgot the syntax? this is faster than
 
 ---
 
-**v7.15.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.16.0** · Pure ZSH · Zero Dependencies · MIT License

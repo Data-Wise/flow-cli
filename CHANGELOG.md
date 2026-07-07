@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.16.0] — 2026-07-07 — agy em-ai backend + em ADHD-UX fixes
+
 ### Added
 
 - **`agy` (Antigravity CLI) as an em-ai backend** — added ahead of `gemini` in the fallback

@@ -8,6 +8,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.16.0] — 2026-07-07 — agy em-ai backend + em ADHD-UX fixes
+
 ### Added
 
 - **`agy` (Antigravity CLI) as an em-ai backend** — added ahead of `gemini` in the fallback
