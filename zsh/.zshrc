@@ -216,7 +216,7 @@ command -v radian >/dev/null && alias R='radian'
 
 # Token optimization: compact at 65% context (default is ~83.5%)
 # Fallback for settings.json env block which may be silently ignored (issue #63186)
-export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65
+export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50
 
 # Default main-loop model: opusplan (Opus in plan mode, Sonnet for execution).
 # Set in ~/.claude/settings.json ("model": "opusplan"); kept here as documentation.
