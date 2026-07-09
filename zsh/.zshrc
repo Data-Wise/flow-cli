@@ -1156,6 +1156,12 @@ brew() {
 }
 export HOMEBREW_NO_ENV_HINTS=1
 
+# savant: uv-managed venv location providing openpyxl for the xlsx-render dogfood
+# tests (kept off the system Python deliberately — PEP 668 externally-managed
+# guard). Not on PATH by default; opt in per-command:
+#   PATH="$SAVANT_RENDER_VENV/bin:$PATH" npm test
+export SAVANT_RENDER_VENV="$HOME/.venvs/savant-render"
+
 # Antigravity Workflow Plugin Hooks
 # Shows ⚠️ [stuck?] nudge after a command fails twice in a row; logs to ~/.config/obs/obs.log
 # if [ -f "/Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh" ]; then
