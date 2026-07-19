@@ -573,9 +573,32 @@ winshistory() {
 
 # savant-docs — serve savant's private docs site locally and auto-open the browser.
 # Runs in a subshell so your current directory is unchanged. Ctrl-C to stop.
+# Port-smart (fixes the recurring "Address already in use" crash): if a port
+# already serves the savant site, just open it; otherwise walk up from 8000 to
+# the first free port. An explicit -a/--dev-addr passes through untouched.
 # Extra args pass through, e.g.:  savant-docs -a 127.0.0.1:8001
 savant-docs() {
-    ( cd ~/projects/dev-tools/savant && mkdocs serve -o "$@" )
+    # explicit address given → old behavior exactly, no auto-picking
+    if [[ " $* " == *" -a "* || " $* " == *" --dev-addr "* ]]; then
+        ( cd ~/projects/dev-tools/savant && mkdocs serve -o "$@" )
+        return
+    fi
+    local port=8000
+    while lsof -nP -iTCP:$port -sTCP:LISTEN >/dev/null 2>&1; do
+        # occupied — if it's already the savant site, open it instead of crashing
+        if curl -fsS --max-time 1 "http://127.0.0.1:$port/" 2>/dev/null | grep -qi "Savant Plugin"; then
+            echo "savant-docs: already serving at http://127.0.0.1:$port — opening browser"
+            open "http://127.0.0.1:$port"
+            return 0
+        fi
+        (( port++ ))
+        if (( port > 8020 )); then
+            echo "savant-docs: no free port in 8000-8020 and none serving savant — see 'lsof -nP -iTCP -sTCP:LISTEN'" >&2
+            return 1
+        fi
+    done
+    (( port != 8000 )) && echo "savant-docs: port 8000 busy → using $port"
+    ( cd ~/projects/dev-tools/savant && mkdocs serve -o -a 127.0.0.1:$port "$@" )
 }
 
 # savant-docs-build — one-off static build into savant/site/ and open it.
