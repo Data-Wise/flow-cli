@@ -343,17 +343,17 @@ _teach_load_config_variables() {
     if [[ -f "$config_file" ]]; then
         # Extract course code
         local course_code
-        course_code=$(grep -E '^  code:' "$config_file" 2>/dev/null | head -1 | sed 's/.*code:[ ]*//' | tr -d '"'"'")
+        course_code=$(grep -E '^  code:' "$config_file" 2>/dev/null | head -1 | sed 's/.*code:[ ]*//' | command tr -d '"'"'")
         [[ -n "$course_code" ]] && eval "${array_name}[COURSE]=\"\$course_code\""
 
         # Extract instructor
         local instructor
-        instructor=$(grep -E '^  instructor:' "$config_file" 2>/dev/null | head -1 | sed 's/.*instructor:[ ]*//' | tr -d '"'"'")
+        instructor=$(grep -E '^  instructor:' "$config_file" 2>/dev/null | head -1 | sed 's/.*instructor:[ ]*//' | command tr -d '"'"'")
         [[ -n "$instructor" ]] && eval "${array_name}[INSTRUCTOR]=\"\$instructor\""
 
         # Extract semester
         local semester
-        semester=$(grep -E '^  name:' "$config_file" 2>/dev/null | head -1 | sed 's/.*name:[ ]*//' | tr -d '"'"'")
+        semester=$(grep -E '^  name:' "$config_file" 2>/dev/null | head -1 | sed 's/.*name:[ ]*//' | command tr -d '"'"'")
         [[ -n "$semester" ]] && eval "${array_name}[SEMESTER]=\"\$semester\""
     fi
 }
@@ -429,8 +429,8 @@ _teach_slugify() {
     local input="$1"
 
     echo "$input" \
-        | tr '[:upper:]' '[:lower:]' \
-        | tr -cs '[:alnum:]' '-' \
+        | command tr '[:upper:]' '[:lower:]' \
+        | command tr -cs '[:alnum:]' '-' \
         | sed 's/^-//; s/-$//'
 }
 

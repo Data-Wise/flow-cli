@@ -593,7 +593,7 @@ _report_concept_graph_text() {
 
     # Sort weeks and output
     local sorted_weeks
-    sorted_weeks=($(echo "${(k)concept_by_week[@]}" | tr ' ' '\n' | sort -n))
+    sorted_weeks=($(echo "${(k)concept_by_week[@]}" | command tr ' ' '\n' | sort -n))
 
     for week in $sorted_weeks; do
         [[ "$week" -eq 0 ]] && continue
@@ -719,7 +719,7 @@ _report_week_breakdown() {
 
     # Build JSON array
     local sorted_weeks
-    sorted_weeks=($(echo "${(k)week_concepts[@]}" | tr ' ' '\n' | sort -n))
+    sorted_weeks=($(echo "${(k)week_concepts[@]}" | command tr ' ' '\n' | sort -n))
 
     for week in $sorted_weeks; do
         [[ "$week" -eq 0 ]] && continue

@@ -632,7 +632,7 @@ _em_safety_gate() {
     body_text=$(echo "$draft_content" | awk '/^$/{found=1;next} found{print}')
 
     # Check for empty body
-    if [[ -z "$body_text" || "$(echo "$body_text" | tr -d '[:space:]')" == "" ]]; then
+    if [[ -z "$body_text" || "$(echo "$body_text" | command tr -d '[:space:]')" == "" ]]; then
         _flow_log_warning "Empty email body"
     fi
 
@@ -646,7 +646,7 @@ _em_safety_gate() {
     if [[ -n "$body_text" ]]; then
         echo "$body_text" | head -15
         local total_lines
-        total_lines=$(echo "$body_text" | wc -l | tr -d ' ')
+        total_lines=$(echo "$body_text" | wc -l | command tr -d ' ')
         (( total_lines > 15 )) && echo -e "  ${_C_DIM}... ($((total_lines - 15)) more lines)${_C_NC}"
     fi
     echo -e "${_C_DIM}$(printf '%.0s─' {1..60})${_C_NC}"

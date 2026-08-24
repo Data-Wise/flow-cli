@@ -1539,15 +1539,15 @@ _tok_mint_jwt() {
   header='{"alg":"RS256","typ":"JWT"}'
   payload="{\"iat\":$now,\"exp\":$exp,\"iss\":\"$app_id\"}"
 
-  b64_header=$(printf '%s' "$header" | openssl enc -base64 -A | tr '+/' '-_' | tr -d '=')
-  b64_payload=$(printf '%s' "$payload" | openssl enc -base64 -A | tr '+/' '-_' | tr -d '=')
+  b64_header=$(printf '%s' "$header" | openssl enc -base64 -A | command tr '+/' '-_' | command tr -d '=')
+  b64_payload=$(printf '%s' "$payload" | openssl enc -base64 -A | command tr '+/' '-_' | command tr -d '=')
 
   tmp_key=$(mktemp)
   printf '%s' "$private_key" > "$tmp_key"
 
   signature=$(printf '%s.%s' "$b64_header" "$b64_payload" | \
     openssl dgst -sha256 -sign "$tmp_key" -binary 2>/dev/null | \
-    openssl enc -base64 -A | tr '+/' '-_' | tr -d '=')
+    openssl enc -base64 -A | command tr '+/' '-_' | command tr -d '=')
 
   rm -f "$tmp_key"
 

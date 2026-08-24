@@ -411,7 +411,7 @@ _em_hml_search() {
     # himalaya only supports single-word subject search;
     # pick the longest word as the most distinctive keyword
     local keyword
-    keyword=$(echo "$query" | tr ' ' '\n' | awk '{ print length, $0 }' | sort -rn | head -1 | cut -d' ' -f2-)
+    keyword=$(echo "$query" | command tr ' ' '\n' | awk '{ print length, $0 }' | sort -rn | head -1 | cut -d' ' -f2-)
     [[ -z "$keyword" ]] && keyword="$query"
     himalaya envelope list -f "$folder" --output json \
         subject "$keyword" 2>/dev/null

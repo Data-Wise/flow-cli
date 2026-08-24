@@ -869,7 +869,7 @@ _flow_tty_handoff_cleanup() {
 #
 # Example:
 #   _flow_status_field "$project_path" "Focus"
-#   _flow_status_field "$project_path" "Progress" | tr -d '%'   # site strips %
+#   _flow_status_field "$project_path" "Progress" | command tr -d '%'   # site strips %
 #
 # Notes:
 #   - Handles both the "## Field:" markdown dialect and the plain "field:"

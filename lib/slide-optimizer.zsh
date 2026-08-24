@@ -136,7 +136,7 @@ _slide_analyze_structure() {
         local content="${rest#*|}"
 
         # Calculate metrics
-        local word_count=$(echo "$content" | wc -w | tr -d '[:space:]')
+        local word_count=$(echo "$content" | wc -w | command tr -d '[:space:]')
         local code_chunks=$(echo "$content" | grep -c '```{' 2>/dev/null || true)
         code_chunks=${code_chunks//[^0-9]/}
         : ${code_chunks:=0}
@@ -259,7 +259,7 @@ _slide_extract_sections() {
         echo "$json" | jq -r '.sections[] | "\(.level)|\(.heading)|\(.word_count)|\(.code_chunks)|\(.examples)|\(.definitions)"' 2>/dev/null
     else
         # Basic regex extraction for each section object
-        echo "$json" | tr ',' '\n' | while IFS= read -r chunk; do
+        echo "$json" | command tr ',' '\n' | while IFS= read -r chunk; do
             if [[ "$chunk" =~ '"level":([0-9]+)' ]]; then
                 local level="${match[1]}"
             fi
@@ -350,7 +350,7 @@ _slide_identify_key_concepts() {
         if [[ "$line" =~ '\*\*([^*]+)\*\*' ]]; then
             local term="${match[1]}"
             # Only include if it looks like a concept (2-5 words, starts with capital)
-            local wc=$(echo "$term" | wc -w | tr -d ' ')
+            local wc=$(echo "$term" | wc -w | command tr -d ' ')
             if [[ $wc -ge 2 && $wc -le 5 && "$term" =~ '^[A-Z]' ]]; then
                 term="${term//\"/\\\"}"
                 [[ "$first" == "true" ]] && first=false || concepts+=','
@@ -599,7 +599,7 @@ _slide_apply_breaks() {
             fi
 
             # Count words in section
-            local line_words=$(echo "$line" | wc -w | tr -d ' ')
+            local line_words=$(echo "$line" | wc -w | command tr -d ' ')
             current_section_words=$(( current_section_words + line_words ))
 
             # Insert break if section is too long and we're at a paragraph boundary

@@ -257,12 +257,12 @@ _show_worker_status() {
     # For now, just show queue status
     local remaining=0
     if [[ -f "$queue_file" ]]; then
-        remaining=$(wc -l < "$queue_file" | tr -d ' ')
+        remaining=$(wc -l < "$queue_file" | command tr -d ' ')
     fi
 
     local completed=0
     if [[ -f "$results_file" ]]; then
-        completed=$(wc -l < "$results_file" | tr -d ' ')
+        completed=$(wc -l < "$results_file" | command tr -d ' ')
     fi
 
     echo "  Active workers: ${num_workers}"
@@ -455,7 +455,7 @@ _display_error_details() {
     local results_json="$1"
 
     # Count failures
-    local failed_count=$(echo "$results_json" | grep -o '"status":[^0]' | wc -l | tr -d ' ')
+    local failed_count=$(echo "$results_json" | grep -o '"status":[^0]' | wc -l | command tr -d ' ')
 
     if [[ $failed_count -eq 0 ]]; then
         return 0

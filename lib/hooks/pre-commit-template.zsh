@@ -180,7 +180,7 @@ _check_images() {
   local image_refs
   image_refs=$(grep -oE '!\[.*?\]\([^)]+\)|include_graphics\(["\x27]([^"\x27]+)["\x27]\)' "$file" | \
                sed -E 's/.*\(([^)]+)\).*/\1/' | \
-               tr -d '"' | tr -d "'")
+               tr -d '"' | command tr -d "'")
 
   if [[ -z "$image_refs" ]]; then
     return 0  # No images to check

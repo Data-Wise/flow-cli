@@ -36,7 +36,7 @@ _dots_doctor_integration() {
       # Check for uncommitted changes
       local status_output=$(chezmoi status 2>/dev/null)
       if [[ -n "$status_output" ]]; then
-        local count=$(echo "$status_output" | wc -l | tr -d ' ')
+        local count=$(echo "$status_output" | wc -l | command tr -d ' ')
         _flow_log_warning "$count uncommitted changes"
       else
         _flow_log_success "No uncommitted changes"

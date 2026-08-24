@@ -545,7 +545,7 @@ _parallel_render() {
     fi
 
     # Check for failures
-    local failed_count=$(echo "$results_json" | grep -o '"status":[^0]' | wc -l | tr -d ' ')
+    local failed_count=$(echo "$results_json" | grep -o '"status":[^0]' | wc -l | command tr -d ' ')
 
     # Cleanup
     trap - INT TERM EXIT
@@ -600,7 +600,7 @@ _monitor_progress() {
         # Count completed jobs
         local completed=0
         if [[ -f "$results_file" ]]; then
-            completed=$(wc -l < "$results_file" | tr -d ' ')
+            completed=$(wc -l < "$results_file" | command tr -d ' ')
         fi
 
         # Update progress

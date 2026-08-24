@@ -850,7 +850,7 @@ _flow_where_fallback() {
   done
 
   if [[ -n "$status_dir" ]]; then
-    local proj_status=$(_flow_status_field "$status_dir" "Status" | tr -d ' ')
+    local proj_status=$(_flow_status_field "$status_dir" "Status" | command tr -d ' ')
     local focus=$(_flow_status_field "$status_dir" "Focus")
 
     [[ -n "$proj_status" ]] && echo "   Status: $proj_status"
