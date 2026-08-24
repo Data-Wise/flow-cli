@@ -8903,10 +8903,11 @@
 12 hands-on lessons at your own pace — both are guided, no docs required to start.</p>
 </div>
 <div class="admonition success">
-<p class="admonition-title">🎉 What's New in v7.17.0</p>
+<p class="admonition-title">🎉 What's New in v7.17.1</p>
 <p><strong><code>teach deploy --dry-run</code> is genuinely read-only</strong> — it no longer aborts in CI mode, no longer prompts to commit (a pty wrapper used to auto-accept that and create a real commit), and it now names the uncommitted files its plan excludes.
 <strong><code>teach deploy --direct</code> merges with <code>--no-ff</code></strong> — every deploy is one revertable commit again, so <code>teach deploy --rollback</code> can undo a multi-commit deploy as a unit.
 <strong><code>em undo</code></strong> — single-step undo of the last <code>em star</code>/<code>flag</code>/<code>unflag</code>/<code>move</code>, plus <code>em move --recent</code> for quick folder re-picks.
+<strong>Shipped pipelines are alias-proof</strong> — a user alias on a coreutil (e.g. <code>tr</code>) could hijack internal pipelines and replace counts with unrelated output; all 101 sites now use <code>command tr</code>.
 Full details → <a href="CHANGELOG/">Changelog</a>.</p>
 </div>
 <hr />
@@ -9248,7 +9249,7 @@ Full details → <a href="CHANGELOG/">Changelog</a>.</p>
 <li><strong><a href="PHILOSOPHY/">Philosophy</a></strong> - Design principles deep dive</li>
 </ul>
 <hr />
-<p><strong>v7.17.0</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
+<p><strong>v7.17.1</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
 
 
 
