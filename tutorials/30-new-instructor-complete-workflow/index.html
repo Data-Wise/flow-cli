@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7516,6 +7516,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9953,7 +9981,7 @@
 </code></pre></div>
 <h3 id="step-12-initialize-teaching-project">Step 1.2: Initialize Teaching Project<a class="headerlink" href="#step-12-initialize-teaching-project" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Initialize with interactive setup</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT-201&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT-201"</span>
 </code></pre></div>
 <p><strong>What this does:</strong>
 - Creates <code>.flow/teach-config.yml</code> with default settings
@@ -9973,11 +10001,11 @@
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>  Next steps:
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    1. Review config: teach config
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    2. Check environment: teach doctor
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    3. Generate content: teach exam &quot;Topic&quot;
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    3. Generate content: teach exam "Topic"
 </code></pre></div>
 <h3 id="step-13-initialize-with-templates-optional">Step 1.3: Initialize with Templates (Optional)<a class="headerlink" href="#step-13-initialize-with-templates-optional" title="Permanent link">&para;</a></h3>
 <p>If you prefer working with content templates:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT-201&quot;</span><span class="w"> </span>--with-templates
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT-201"</span><span class="w"> </span>--with-templates
 </code></pre></div>
 <p>This adds:
 - <code>.flow/templates/content/</code> - Content starters (lecture, lab, slides)
@@ -10002,19 +10030,19 @@
 <h3 id="step-22-key-configuration-fields">Step 2.2: Key Configuration Fields<a class="headerlink" href="#step-22-key-configuration-fields" title="Permanent link">&para;</a></h3>
 <p>Update these sections in the config file:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT-201&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">full_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">201</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Intermediate</span><span class="nv"> </span><span class="s">Statistics&quot;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">2026&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT-201"</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nt">full_name</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT</span><span class="nv"> </span><span class="s">201</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Intermediate</span><span class="nv"> </span><span class="s">Statistics"</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring</span><span class="nv"> </span><span class="s">2026"</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nt">year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nt">credits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nt">instructor</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Your</span><span class="nv"> </span><span class="s">Name&quot;</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;A</span><span class="nv"> </span><span class="s">second</span><span class="nv"> </span><span class="s">course</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">statistics</span><span class="nv"> </span><span class="s">covering</span><span class="nv"> </span><span class="s">ANOVA,</span><span class="nv"> </span><span class="s">regression,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">experimental</span><span class="nv"> </span><span class="s">design.&quot;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nt">instructor</span><span class="p">:</span><span class="w"> </span><span class="s">"Your</span><span class="nv"> </span><span class="s">Name"</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"A</span><span class="nv"> </span><span class="s">second</span><span class="nv"> </span><span class="s">course</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">statistics</span><span class="nv"> </span><span class="s">covering</span><span class="nv"> </span><span class="s">ANOVA,</span><span class="nv"> </span><span class="s">regression,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">experimental</span><span class="nv"> </span><span class="s">design."</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
 <a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># Location settings</span>
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="nt">locations</span><span class="p">:</span>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">  </span><span class="nt">lectures</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;lectures&#39;</span><span class="w">        </span><span class="c1"># Where lecture .qmd files live</span>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">  </span><span class="nt">concepts</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;.teach/concepts.json&#39;</span>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">  </span><span class="nt">slides_output</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;_site/slides&#39;</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">  </span><span class="nt">lectures</span><span class="p">:</span><span class="w"> </span><span class="s">'lectures'</span><span class="w">        </span><span class="c1"># Where lecture .qmd files live</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">  </span><span class="nt">concepts</span><span class="p">:</span><span class="w"> </span><span class="s">'.teach/concepts.json'</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">  </span><span class="nt">slides_output</span><span class="p">:</span><span class="w"> </span><span class="s">'_site/slides'</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
 <a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="c1"># Git workflow settings</span>
 <a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="nt">git</span><span class="p">:</span>
@@ -10043,15 +10071,15 @@
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">latex_macros</span><span class="p">:</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">sources</span><span class="p">:</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;_macros.qmd&quot;</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qmd&quot;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">"_macros.qmd"</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="s">"qmd"</span>
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">auto_discover</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
 <h3 id="step-24-add-semester-calendar">Step 2.4: Add Semester Calendar<a class="headerlink" href="#step-24-add-semester-calendar" title="Permanent link">&para;</a></h3>
 <p>Add your semester dates:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">semester_info</span><span class="p">:</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2026-01-15&#39;</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2026-05-10&#39;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">'2026-01-15'</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">'2026-05-10'</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">break_weeks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">9</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Spring break</span>
 </code></pre></div>
 <h3 id="verification-checkpoint-2">✅ Verification: Checkpoint 2<a class="headerlink" href="#verification-checkpoint-2" title="Permanent link">&para;</a></h3>
@@ -10083,7 +10111,7 @@
 <p>Lesson plans define your weekly topics and serve as the source of truth for AI content generation.</p>
 <h3 id="step-31-create-your-first-week">Step 3.1: Create Your First Week<a class="headerlink" href="#step-31-create-your-first-week" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Create week 1 with conceptual style</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Introduction to Statistics&quot;</span><span class="w"> </span>--style<span class="w"> </span>conceptual
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Introduction to Statistics"</span><span class="w"> </span>--style<span class="w"> </span>conceptual
 </code></pre></div>
 <p><strong>What this does:</strong>
 - Creates <code>.flow/lesson-plans.yml</code> (if it doesn't exist)
@@ -10100,13 +10128,13 @@
 </code></pre></div>
 <h3 id="step-32-create-multiple-weeks">Step 3.2: Create Multiple Weeks<a class="headerlink" href="#step-32-create-multiple-weeks" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Week 2 - Computational style (more code/examples)</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">2</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Probability Fundamentals&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">2</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Probability Fundamentals"</span><span class="w"> </span>--style<span class="w"> </span>computational
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Week 3 - Rigorous style (proofs and theory)</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">3</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Hypothesis Testing&quot;</span><span class="w"> </span>--style<span class="w"> </span>rigorous
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">3</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Hypothesis Testing"</span><span class="w"> </span>--style<span class="w"> </span>rigorous
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
 <a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Week 4 - Applied style (real-world applications)</span>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">4</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Simple Linear Regression&quot;</span><span class="w"> </span>--style<span class="w"> </span>applied
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">4</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Simple Linear Regression"</span><span class="w"> </span>--style<span class="w"> </span>applied
 </code></pre></div>
 <h3 id="step-33-understanding-styles">Step 3.3: Understanding Styles<a class="headerlink" href="#step-33-understanding-styles" title="Permanent link">&para;</a></h3>
 <table>
@@ -10177,7 +10205,7 @@
 <h3 id="option-a-manual-creation-with-templates">Option A: Manual Creation with Templates<a class="headerlink" href="#option-a-manual-creation-with-templates" title="Permanent link">&para;</a></h3>
 <p>If you initialized with <code>--with-templates</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Create lecture from template</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-01<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Introduction&quot;</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-01<span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Introduction"</span>
 <a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
 <a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># This creates: lectures/week-01.qmd with boilerplate</span>
 </code></pre></div>
@@ -10191,7 +10219,7 @@
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Or specify custom topic</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Getting Started with Statistics&quot;</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Getting Started with Statistics"</span>
 </code></pre></div>
 <p><strong>What this does:</strong>
 - Reads lesson plan for week 1
@@ -10221,7 +10249,7 @@
 <a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
 <a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Generate lab assignment</span>
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Descriptive Statistics Lab&quot;</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Descriptive Statistics Lab"</span>
 <a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>
 <a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="c1"># Generate quiz</span>
 <a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="m">1</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
@@ -10263,12 +10291,12 @@
 </code></pre></div>
 <h3 id="step-52-create-from-template">Step 5.2: Create from Template<a class="headerlink" href="#step-52-create-from-template" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Create lecture for week 2 from template</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-02<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Probability&quot;</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-02<span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Probability"</span>
 <a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
 <a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># This creates: lectures/week-02.qmd with:</span>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="c1">#   - {{WEEK}} replaced with &quot;2&quot;</span>
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1">#   - {{TOPIC}} replaced with &quot;Probability&quot;</span>
-<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1">#   - {{COURSE}} replaced with &quot;STAT-201&quot;</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="c1">#   - {{WEEK}} replaced with "2"</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1">#   - {{TOPIC}} replaced with "Probability"</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1">#   - {{COURSE}} replaced with "STAT-201"</span>
 <a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="c1">#   - {{DATE}} auto-calculated</span>
 </code></pre></div>
 <h3 id="step-53-set-up-latex-macros-if-using-math">Step 5.3: Set Up LaTeX Macros (If Using Math)<a class="headerlink" href="#step-53-set-up-latex-macros-if-using-math" title="Permanent link">&para;</a></h3>
@@ -10288,7 +10316,7 @@
 </code></pre></div>
 <p>Create <code>_macros.qmd</code> in your project root:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>---
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="gu">title: &quot;LaTeX Macros&quot;</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="gu">title: "LaTeX Macros"</span>
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="gu">---</span>
 <a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
 <a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>$$
@@ -10315,7 +10343,7 @@
 <h2 id="checkpoint-6-preview-and-deploy-10-min">Checkpoint 6: Preview and Deploy (10 min)<a class="headerlink" href="#checkpoint-6-preview-and-deploy-10-min" title="Permanent link">&para;</a></h2>
 <h3 id="step-61-local-preview">Step 6.1: Local Preview<a class="headerlink" href="#step-61-local-preview" title="Permanent link">&para;</a></h3>
 <p>Before deploying, preview your site locally:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Preview in browser (Quarto&#39;s preview server)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Preview in browser (Quarto's preview server)</span>
 <a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--preview
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Or use Quarto directly</span>
@@ -10447,28 +10475,28 @@
 <a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a><span class="c1"># 3. Deploy to students</span>
 <a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a>teach<span class="w"> </span>deploy
 <a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a>
-<a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a><span class="c1"># 4. Check it&#39;s live</span>
+<a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a><span class="c1"># 4. Check it's live</span>
 <a id="__codelineno-40-13" name="__codelineno-40-13" href="#__codelineno-40-13"></a>open<span class="w"> </span>https://yourusername.github.io/stat-201-spring-2026
 </code></pre></div>
 <h3 id="2-generate-assessments">2. Generate Assessments<a class="headerlink" href="#2-generate-assessments" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># Create midterm exam</span>
-<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Chapters 1-5&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">25</span><span class="w"> </span>--points<span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Chapters 1-5"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">25</span><span class="w"> </span>--points<span class="w"> </span><span class="m">100</span>
 <a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>
 <a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="c1"># Create weekly quiz</span>
 <a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="m">3</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
 <a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>
 <a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="c1"># Create homework assignment</span>
-<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="m">3</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Regression Analysis&quot;</span>
+<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="m">3</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Regression Analysis"</span>
 </code></pre></div>
 <h3 id="3-use-scholar-ai-integration">3. Use Scholar AI Integration<a class="headerlink" href="#3-use-scholar-ai-integration" title="Permanent link">&para;</a></h3>
 <p>If you have Claude Code + Scholar:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># All teach commands support AI generation:</span>
 <a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="m">5</span><span class="w"> </span>--style<span class="w"> </span>rigorous
-<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="m">5</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;revealjs&quot;</span>
-<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Final Exam&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">50</span><span class="w"> </span>--difficulty<span class="w"> </span>hard
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="m">5</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">"revealjs"</span>
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Final Exam"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">50</span><span class="w"> </span>--difficulty<span class="w"> </span>hard
 <a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>
 <a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a><span class="c1"># Generate solution keys and validate R code:</span>
-<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>teach<span class="w"> </span>solution<span class="w"> </span><span class="s2">&quot;Homework 3&quot;</span>
+<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>teach<span class="w"> </span>solution<span class="w"> </span><span class="s2">"Homework 3"</span>
 <a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a>teach<span class="w"> </span>validate-r
 <a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>
 <a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a><span class="c1"># Check and sync config:</span>
@@ -10477,7 +10505,7 @@
 </code></pre></div>
 <h3 id="4-archive-at-semester-end">4. Archive at Semester End<a class="headerlink" href="#4-archive-at-semester-end" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># Archive entire semester</span>
-<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>teach<span class="w"> </span>archive<span class="w"> </span>--semester<span class="w"> </span><span class="s2">&quot;Spring 2026&quot;</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>teach<span class="w"> </span>archive<span class="w"> </span>--semester<span class="w"> </span><span class="s2">"Spring 2026"</span>
 <a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>
 <a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="c1"># Creates: .flow/archives/spring-2026/</span>
 <a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="c1">#   - All lectures</span>
@@ -10488,7 +10516,7 @@
 <h3 id="5-set-up-weekly-routine">5. Set Up Weekly Routine<a class="headerlink" href="#5-set-up-weekly-routine" title="Permanent link">&para;</a></h3>
 <p>Create an alias in your <code>.zshrc</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># Weekly teaching workflow</span>
-<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="nb">alias</span><span class="w"> </span>teach-week<span class="o">=</span><span class="s1">&#39;teach lecture $1 &amp;&amp; teach slides $1 &amp;&amp; teach deploy --preview&#39;</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="nb">alias</span><span class="w"> </span>teach-week<span class="o">=</span><span class="s1">'teach lecture $1 &amp;&amp; teach slides $1 &amp;&amp; teach deploy --preview'</span>
 <a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>
 <a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a><span class="c1"># Usage: teach-week 5</span>
 </code></pre></div>
@@ -10511,7 +10539,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="c1"># Initialize git</span>
 <a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>git<span class="w"> </span>init
 <a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit&quot;</span>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Initial commit"</span>
 <a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>git<span class="w"> </span>branch<span class="w"> </span>draft
 </code></pre></div>
 <h3 id="scholar-not-found">"Scholar not found"<a class="headerlink" href="#scholar-not-found" title="Permanent link">&para;</a></h3>
@@ -10584,9 +10612,9 @@
 <li>✅ Set up weekly workflows</li>
 </ul>
 <p><strong>Key Commands:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT-201&quot;</span><span class="w">              </span><span class="c1"># Initialize</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT-201"</span><span class="w">              </span><span class="c1"># Initialize</span>
 <a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>teach<span class="w"> </span>config<span class="w">                       </span><span class="c1"># Configure</span>
-<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w">  </span><span class="c1"># Create lesson plans</span>
+<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">1</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"..."</span><span class="w">  </span><span class="c1"># Create lesson plans</span>
 <a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="m">1</span><span class="w">                    </span><span class="c1"># Generate content</span>
 <a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--preview<span class="w">             </span><span class="c1"># Preview locally</span>
 <a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>teach<span class="w"> </span>deploy<span class="w">                       </span><span class="c1"># Deploy to production</span>
@@ -10674,7 +10702,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

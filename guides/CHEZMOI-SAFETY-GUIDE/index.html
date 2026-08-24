@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7508,6 +7508,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9936,8 +9964,8 @@
 </code></pre></div>
 <h3 id="managing-ignore-patterns">Managing Ignore Patterns<a class="headerlink" href="#managing-ignore-patterns" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Add ignore patterns</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.log&quot;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.sqlite&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.log"</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.sqlite"</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># List all patterns</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>dots<span class="w"> </span>ignore<span class="w"> </span>list
@@ -9989,9 +10017,9 @@
 <h3 id="2-ignore-pattern-management">2. Ignore Pattern Management<a class="headerlink" href="#2-ignore-pattern-management" title="Permanent link">&para;</a></h3>
 <p><strong>Simple commands for managing <code>.chezmoiignore</code>:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Add patterns</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.log&quot;</span><span class="w">           </span><span class="c1"># Exclude log files</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;node_modules&quot;</span><span class="w">    </span><span class="c1"># Exclude directories</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.tmp&quot;</span><span class="w">           </span><span class="c1"># Exclude temporary files</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.log"</span><span class="w">           </span><span class="c1"># Exclude log files</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"node_modules"</span><span class="w">    </span><span class="c1"># Exclude directories</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.tmp"</span><span class="w">           </span><span class="c1"># Exclude temporary files</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># List patterns with line numbers</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>dots<span class="w"> </span>ignore<span class="w"> </span>list
@@ -10000,7 +10028,7 @@
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">#  3  *.tmp</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># Remove patterns</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>dots<span class="w"> </span>ignore<span class="w"> </span>remove<span class="w"> </span><span class="s2">&quot;*.tmp&quot;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>dots<span class="w"> </span>ignore<span class="w"> </span>remove<span class="w"> </span><span class="s2">"*.tmp"</span>
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># Edit manually in $EDITOR</span>
 <a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>dots<span class="w"> </span>ignore<span class="w"> </span>edit
@@ -10102,9 +10130,9 @@
 <p>Manage ignore patterns in <code>.chezmoiignore</code>.</p>
 <h4 id="dots-ignore-add-pattern"><code>dots ignore add &lt;pattern&gt;</code><a class="headerlink" href="#dots-ignore-add-pattern" title="Permanent link">&para;</a></h4>
 <p>Add new ignore pattern.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.log&quot;</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;node_modules&quot;</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;.DS_Store&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.log"</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"node_modules"</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">".DS_Store"</span>
 </code></pre></div>
 <p><strong>Features:</strong></p>
 <ul>
@@ -10124,7 +10152,7 @@
 </code></pre></div>
 <h4 id="dots-ignore-remove-pattern-alias-rm"><code>dots ignore remove &lt;pattern&gt;</code> (alias: <code>rm</code>)<a class="headerlink" href="#dots-ignore-remove-pattern-alias-rm" title="Permanent link">&para;</a></h4>
 <p>Remove ignore pattern.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>dots<span class="w"> </span>ignore<span class="w"> </span>remove<span class="w"> </span><span class="s2">&quot;*.log&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>dots<span class="w"> </span>ignore<span class="w"> </span>remove<span class="w"> </span><span class="s2">"*.log"</span>
 </code></pre></div>
 <p><strong>Features:</strong></p>
 <ul>
@@ -10202,8 +10230,8 @@
 </code></pre></div>
 <p><strong>Recommendation:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Add to ignore patterns</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.sqlite&quot;</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;large-config.json&quot;</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.sqlite"</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"large-config.json"</span>
 </code></pre></div>
 <h3 id="generated-file-detection">Generated File Detection<a class="headerlink" href="#generated-file-detection" title="Permanent link">&para;</a></h3>
 <p><strong>Patterns:</strong> <code>*.log</code>, <code>*.sqlite</code>, <code>*.db</code>, <code>*.cache</code></p>
@@ -10219,12 +10247,12 @@
 <a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>Auto-add ignore patterns? (Y/n):
 </code></pre></div>
 <p><strong>Common Patterns to Exclude:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.log&quot;</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.sqlite&quot;</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.db&quot;</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.cache&quot;</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.tmp&quot;</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.swp&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.log"</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.sqlite"</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.db"</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.cache"</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.tmp"</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.swp"</span>
 </code></pre></div>
 <h3 id="git-metadata-detection">Git Metadata Detection<a class="headerlink" href="#git-metadata-detection" title="Permanent link">&para;</a></h3>
 <p><strong>Pattern:</strong> <code>/.git/</code> in file path</p>
@@ -10316,7 +10344,7 @@
 <p><strong>Problem:</strong> <code>dots add</code> hangs on large directories.</p>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Add directory to ignore patterns first</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;node_modules&quot;</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"node_modules"</span>
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
 <a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Then add parent without the large subdirectory</span>
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>dots<span class="w"> </span>add<span class="w"> </span>~/.config/my-app
@@ -10333,8 +10361,8 @@
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>list
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
 <a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># Pattern might need adjustment</span>
-<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>dots<span class="w"> </span>ignore<span class="w"> </span>remove<span class="w"> </span><span class="s2">&quot;*.log&quot;</span>
-<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;**/*.log&quot;</span><span class="w">  </span><span class="c1"># Recursive matching</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>dots<span class="w"> </span>ignore<span class="w"> </span>remove<span class="w"> </span><span class="s2">"*.log"</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"**/*.log"</span><span class="w">  </span><span class="c1"># Recursive matching</span>
 <a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>
 <a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="c1"># Force re-apply</span>
 <a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>chezmoi<span class="w"> </span>re-add
@@ -10343,8 +10371,8 @@
 <p><strong>Problem:</strong> <code>dots size</code> is slow even with cache.</p>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Check cache status</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Cache time: </span><span class="nv">$_DOT_SIZE_CACHE_TIME</span><span class="s2">&quot;</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Current time: </span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Cache time: </span><span class="nv">$_DOT_SIZE_CACHE_TIME</span><span class="s2">"</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Current time: </span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="s2">"</span>
 <a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="c1"># Verbose mode for debugging</span>
 <a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>flow<span class="w"> </span>doctor<span class="w"> </span>--dot<span class="w"> </span>--verbose
@@ -10361,7 +10389,7 @@
 <p><strong>Problem:</strong> Size calculations fail on Linux or macOS.</p>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Check stat version</span>
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>stat<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span>GNU<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GNU&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;BSD&quot;</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>stat<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span>GNU<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"GNU"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"BSD"</span>
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
 <a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># Test helper function</span>
 <a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="nb">source</span><span class="w"> </span>lib/core.zsh
@@ -10401,7 +10429,7 @@
 <a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>dots<span class="w"> </span>size
 <a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
 <a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="c1"># Add to ignore</span>
-<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;large-file.db&quot;</span>
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"large-file.db"</span>
 <a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>
 <a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="c1"># Remove from chezmoi</span>
 <a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>chezmoi<span class="w"> </span>remove<span class="w"> </span>large-file.db
@@ -10508,10 +10536,10 @@
 <a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>dots<span class="w"> </span>ignore<span class="w"> </span>edit
 <a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>
 <a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="c1"># Common patterns to start with</span>
-<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.log&quot;</span>
-<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;*.sqlite&quot;</span>
-<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;node_modules&quot;</span>
-<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;.DS_Store&quot;</span>
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.log"</span>
+<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"*.sqlite"</span>
+<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"node_modules"</span>
+<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">".DS_Store"</span>
 </code></pre></div>
 <h3 id="4-monitor-repository-size">4. Monitor Repository Size<a class="headerlink" href="#4-monitor-repository-size" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Check monthly or after bulk adds</span>
@@ -10520,7 +10548,7 @@
 <h3 id="5-clean-up-large-files">5. Clean Up Large Files<a class="headerlink" href="#5-clean-up-large-files" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># If repository grows too large</span>
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>dots<span class="w"> </span>size<span class="w">  </span><span class="c1"># Identify culprits</span>
-<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;large-file.db&quot;</span>
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"large-file.db"</span>
 <a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>chezmoi<span class="w"> </span>remove<span class="w"> </span>large-file.db
 </code></pre></div>
 <hr />
@@ -10531,20 +10559,20 @@
 </code></pre></div>
 <h3 id="batch-ignore-operations">Batch Ignore Operations<a class="headerlink" href="#batch-ignore-operations" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="c1"># Add multiple patterns at once</span>
-<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="nv">patterns</span><span class="o">=(</span><span class="s2">&quot;*.log&quot;</span><span class="w"> </span><span class="s2">&quot;*.sqlite&quot;</span><span class="w"> </span><span class="s2">&quot;*.db&quot;</span><span class="w"> </span><span class="s2">&quot;*.cache&quot;</span><span class="o">)</span>
-<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="k">for</span><span class="w"> </span>pattern<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">patterns</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="w">  </span>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pattern</span><span class="s2">&quot;</span>
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="nv">patterns</span><span class="o">=(</span><span class="s2">"*.log"</span><span class="w"> </span><span class="s2">"*.sqlite"</span><span class="w"> </span><span class="s2">"*.db"</span><span class="w"> </span><span class="s2">"*.cache"</span><span class="o">)</span>
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="k">for</span><span class="w"> </span>pattern<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">patterns</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="w">  </span>dots<span class="w"> </span>ignore<span class="w"> </span>add<span class="w"> </span><span class="s2">"</span><span class="nv">$pattern</span><span class="s2">"</span>
 <a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="k">done</span>
 </code></pre></div>
 <h3 id="integration-with-scripts">Integration with Scripts<a class="headerlink" href="#integration-with-scripts" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="ch">#!/bin/zsh</span>
 <a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="c1"># Automated dotfile addition with safety</span>
 <a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>
-<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="k">if</span><span class="w"> </span>_dot_preview_add<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="w">  </span>chezmoi<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
-<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✅ Added successfully&quot;</span>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="k">if</span><span class="w"> </span>_dot_preview_add<span class="w"> </span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="w">  </span>chezmoi<span class="w"> </span>add<span class="w"> </span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"✅ Added successfully"</span>
 <a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="k">else</span>
-<a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;❌ Add cancelled&quot;</span>
+<a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"❌ Add cancelled"</span>
 <a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="k">fi</span>
 </code></pre></div>
@@ -10554,11 +10582,11 @@
 <a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="nv">exit_code</span><span class="o">=</span><span class="nv">$?</span>
 <a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>
 <a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$exit_code</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✅ All checks passed&quot;</span>
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"✅ All checks passed"</span>
 <a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="k">elif</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$exit_code</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠️ Warnings detected&quot;</span>
+<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"⚠️ Warnings detected"</span>
 <a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a><span class="k">else</span>
-<a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;❌ Errors found&quot;</span>
+<a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"❌ Errors found"</span>
 <a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a><span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a><span class="k">fi</span>
 </code></pre></div>
@@ -10662,7 +10690,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

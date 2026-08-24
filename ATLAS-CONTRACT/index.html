@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -6797,6 +6797,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../commands/sync/" class="md-nav__link">
         
   
@@ -8895,8 +8923,8 @@ field; flow-cli's mapping (<code>_schedule_atlas_items</code>) stamps <code>sour
 every record it ingests, same idea as <code>status</code>/<code>teach-config</code> tagging their
 own origin:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">[</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-07-05&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;Submit grant report&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;research&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;grant-writing&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">},</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-07-12&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;NIH progress report&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;research&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;grant-writing&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">}</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">"date"</span><span class="p">:</span><span class="s2">"2026-07-05"</span><span class="p">,</span><span class="nt">"label"</span><span class="p">:</span><span class="s2">"Submit grant report"</span><span class="p">,</span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"research"</span><span class="p">,</span><span class="nt">"project"</span><span class="p">:</span><span class="s2">"grant-writing"</span><span class="p">,</span><span class="nt">"recurrence"</span><span class="p">:</span><span class="s2">"none"</span><span class="p">},</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">"date"</span><span class="p">:</span><span class="s2">"2026-07-12"</span><span class="p">,</span><span class="nt">"label"</span><span class="p">:</span><span class="s2">"NIH progress report"</span><span class="p">,</span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"research"</span><span class="p">,</span><span class="nt">"project"</span><span class="p">:</span><span class="s2">"grant-writing"</span><span class="p">,</span><span class="nt">"recurrence"</span><span class="p">:</span><span class="s2">"none"</span><span class="p">}</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">]</span>
 </code></pre></div>
 <table>
@@ -8955,8 +8983,8 @@ but lacks a <code>schedule</code> subcommand, <code>_flow_schedule_to_atlas</cod
 calling atlas.</p>
 <p><strong>Payload.</strong> A JSON array of normalized records:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">[</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-20&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;Submit JRSS-B revision&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;research&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;manuscript-x&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="s2">&quot;status&quot;</span><span class="p">},</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2026-06-26&quot;</span><span class="p">,</span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;Grading window&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;recurring&quot;</span><span class="p">,</span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="s2">&quot;stat-101&quot;</span><span class="p">,</span><span class="nt">&quot;recurrence&quot;</span><span class="p">:</span><span class="s2">&quot;weekly:fri&quot;</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="s2">&quot;status&quot;</span><span class="p">}</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="p">{</span><span class="nt">"date"</span><span class="p">:</span><span class="s2">"2026-06-20"</span><span class="p">,</span><span class="nt">"label"</span><span class="p">:</span><span class="s2">"Submit JRSS-B revision"</span><span class="p">,</span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"research"</span><span class="p">,</span><span class="nt">"project"</span><span class="p">:</span><span class="s2">"manuscript-x"</span><span class="p">,</span><span class="nt">"recurrence"</span><span class="p">:</span><span class="s2">"none"</span><span class="p">,</span><span class="nt">"source"</span><span class="p">:</span><span class="s2">"status"</span><span class="p">},</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="p">{</span><span class="nt">"date"</span><span class="p">:</span><span class="s2">"2026-06-26"</span><span class="p">,</span><span class="nt">"label"</span><span class="p">:</span><span class="s2">"Grading window"</span><span class="p">,</span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"recurring"</span><span class="p">,</span><span class="nt">"project"</span><span class="p">:</span><span class="s2">"stat-101"</span><span class="p">,</span><span class="nt">"recurrence"</span><span class="p">:</span><span class="s2">"weekly:fri"</span><span class="p">,</span><span class="nt">"source"</span><span class="p">:</span><span class="s2">"status"</span><span class="p">}</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">]</span>
 </code></pre></div>
 <table>
@@ -9141,11 +9169,11 @@ ships with the silent no-op until it lands.</p>
 </code></pre></div>
 <p>Emits a JSON object when a session is active:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;project-name&gt;&quot;</span><span class="p">,</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;durationMinutes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;task text or null&gt;&quot;</span><span class="p">,</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">&quot;startedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-06-14T09:00:00.000Z&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">"project"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;project-name&gt;"</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">"durationMinutes"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">"task"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;task text or null&gt;"</span><span class="p">,</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">"startedAt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-06-14T09:00:00.000Z"</span>
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">}</span>
 </code></pre></div>
 <p>Emits <code>null</code> (the literal JSON value) when no session is active. Always exits 0.</p>
@@ -9285,7 +9313,7 @@ single value by parsing <code>config show</code>.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

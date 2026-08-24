@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7192,6 +7192,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9283,7 +9311,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check tm dispatcher is available</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>tm<span class="w"> </span><span class="nb">help</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Check which terminal you&#39;re using</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Check which terminal you're using</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>tm<span class="w"> </span>which
 </code></pre></div>
 <hr />
@@ -9302,32 +9330,32 @@
 <h3 id="step-11-setting-tab-titles">Step 1.1: Setting Tab Titles<a class="headerlink" href="#step-11-setting-tab-titles" title="Permanent link">&para;</a></h3>
 <p>Give your terminal tabs meaningful names:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Set a descriptive title</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;Working on auth feature&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">"Working on auth feature"</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Shorter syntax</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>tm<span class="w"> </span>t<span class="w"> </span><span class="s2">&quot;Bug fix #123&quot;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>tm<span class="w"> </span>t<span class="w"> </span><span class="s2">"Bug fix #123"</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Using the alias</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>tmt<span class="w"> </span><span class="s2">&quot;Code review&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>tmt<span class="w"> </span><span class="s2">"Code review"</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
 - Your tab/window title updates immediately
 - Uses universal OSC 2 escape sequence
 - Works in all terminals</p>
 <p><strong>Try it now:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;Tutorial in progress&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">"Tutorial in progress"</span>
 </code></pre></div>
 <p>Look at your terminal tab - it should show "Tutorial in progress"!</p>
 <h3 id="step-12-switching-iterm2-profiles-iterm2-only">Step 1.2: Switching iTerm2 Profiles (iTerm2 Only)<a class="headerlink" href="#step-12-switching-iterm2-profiles-iterm2-only" title="Permanent link">&para;</a></h3>
 <p>Change your terminal's visual appearance:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Switch to a different profile</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Coding Dark&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">"Coding Dark"</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Back to default</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Default&quot;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">"Default"</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Using shortcut</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>tm<span class="w"> </span>p<span class="w"> </span><span class="s2">&quot;Writing&quot;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>tm<span class="w"> </span>p<span class="w"> </span><span class="s2">"Writing"</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
 - Colors, fonts, and settings change instantly
@@ -9362,7 +9390,7 @@
 <p><strong>Sample output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Terminal: iTerm2
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Project: flow-cli (zsh)
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Suggested: Coding profile, &quot;flow-cli&quot; title
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Suggested: Coding profile, "flow-cli" title
 </code></pre></div>
 <h3 id="step-23-applying-context-automatically">Step 2.3: Applying Context Automatically<a class="headerlink" href="#step-23-applying-context-automatically" title="Permanent link">&para;</a></h3>
 <p>Apply the detected context to your terminal:</p>
@@ -9398,7 +9426,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>font
 </code></pre></div>
 <h3 id="step-34-set-font">Step 3.4: Set Font<a class="headerlink" href="#step-34-set-font" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>font<span class="w"> </span><span class="s2">&quot;JetBrains Mono&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>tm<span class="w"> </span>ghost<span class="w"> </span>font<span class="w"> </span><span class="s2">"JetBrains Mono"</span>
 </code></pre></div>
 <hr />
 <h2 id="part-4-using-aliases">Part 4: Using Aliases<a class="headerlink" href="#part-4-using-aliases" title="Permanent link">&para;</a></h2>
@@ -9441,10 +9469,10 @@
 </table>
 <p><strong>Examples:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Quick title</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>tmt<span class="w"> </span><span class="s2">&quot;Feature branch&quot;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>tmt<span class="w"> </span><span class="s2">"Feature branch"</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Quick profile switch</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>tmp<span class="w"> </span><span class="s2">&quot;Default&quot;</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>tmp<span class="w"> </span><span class="s2">"Default"</span>
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># Quick context apply</span>
 <a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>tms
@@ -9459,30 +9487,30 @@
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>tm<span class="w"> </span>switch
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># Or manually set title</span>
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli: adding tm dispatcher&quot;</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">"flow-cli: adding tm dispatcher"</span>
 </code></pre></div>
 <h3 id="workflow-2-multiple-tabs">Workflow 2: Multiple Tabs<a class="headerlink" href="#workflow-2-multiple-tabs" title="Permanent link">&para;</a></h3>
 <p>When working with multiple terminal tabs:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Tab 1: Main development</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli: main&quot;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">"flow-cli: main"</span>
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
 <a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Tab 2: Tests</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli: tests&quot;</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">"flow-cli: tests"</span>
 <a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Tab 3: Docs</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">&quot;flow-cli: docs&quot;</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>tm<span class="w"> </span>title<span class="w"> </span><span class="s2">"flow-cli: docs"</span>
 </code></pre></div>
 <p>Now you can easily identify each tab!</p>
 <h3 id="workflow-3-visual-mode-switching">Workflow 3: Visual Mode Switching<a class="headerlink" href="#workflow-3-visual-mode-switching" title="Permanent link">&para;</a></h3>
 <p>For iTerm2 users with custom profiles:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Coding mode (dark theme)</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Coding Dark&quot;</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">"Coding Dark"</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Writing mode (light theme)</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Writing Light&quot;</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">"Writing Light"</span>
 <a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
 <a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Review mode</span>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">&quot;Review&quot;</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>tm<span class="w"> </span>profile<span class="w"> </span><span class="s2">"Review"</span>
 </code></pre></div>
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
@@ -9628,7 +9656,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

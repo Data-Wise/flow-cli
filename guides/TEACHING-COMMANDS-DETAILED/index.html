@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7341,6 +7341,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9667,9 +9695,9 @@ Sets up a complete teaching workflow for a course repository. This one-time setu
 </tbody>
 </table>
 <p><strong>Syntax:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span><span class="w">              </span><span class="c1"># Interactive mode</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span><span class="w">           </span><span class="c1"># Non-interactive (safe defaults)</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach<span class="w"> </span>init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span><span class="w">    </span><span class="c1"># Preview without changes</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"Course Name"</span><span class="w">              </span><span class="c1"># Interactive mode</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"Course Name"</span><span class="w">           </span><span class="c1"># Non-interactive (safe defaults)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach<span class="w"> </span>init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">"Course Name"</span><span class="w">    </span><span class="c1"># Preview without changes</span>
 </code></pre></div>
 <p><strong>When to use:</strong>
 - First time setting up a course repository
@@ -9683,17 +9711,17 @@ Sets up a complete teaching workflow for a course repository. This one-time setu
 <li>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">545&quot;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;spring&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT</span><span class="nv"> </span><span class="s">545"</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">"spring"</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="nt">year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nt">branches</span><span class="p">:</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;draft&quot;</span><span class="w">           </span><span class="c1"># Where you make edits</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">production</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;production&quot;</span><span class="w"> </span><span class="c1"># What students see</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="s">"draft"</span><span class="w">           </span><span class="c1"># Where you make edits</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">production</span><span class="p">:</span><span class="w"> </span><span class="s">"production"</span><span class="w"> </span><span class="c1"># What students see</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nt">semester_info</span><span class="p">:</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-13&quot;</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-05-08&quot;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-01-13"</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-05-08"</span>
 </code></pre></div>
 </li>
 <li>
@@ -9752,7 +9780,7 @@ Sets up a complete teaching workflow for a course repository. This one-time setu
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Initialize a new course - interactive</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/stat-545
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 545"</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Output:</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># 🎓 Teaching Workflow Setup</span>
@@ -9772,7 +9800,7 @@ Sets up a complete teaching workflow for a course repository. This one-time setu
 <a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="c1"># $ git push -u origin draft production</span>
 </code></pre></div>
 <p><strong>Non-interactive (safe defaults):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 440&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"STAT 440"</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># Uses all defaults, completes in seconds</span>
 </code></pre></div>
 <hr />
@@ -9971,10 +9999,10 @@ Moves your changes from the <code>draft</code> branch (where you edit) to the <c
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>work<span class="w"> </span>stat-545<span class="w">          </span><span class="c1"># Starts work session on draft branch</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Make edits...</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Fix: &quot;Lineare regression&quot; → &quot;Linear regression&quot; in lectures/week05.qmd</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Fix: "Lineare regression" → "Linear regression" in lectures/week05.qmd</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>git<span class="w"> </span>add<span class="w"> </span>lectures/week05.qmd
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: correct spelling in week 5&quot;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"fix: correct spelling in week 5"</span>
 <a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># Deploy immediately</span>
 <a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>teach<span class="w"> </span>deploy
@@ -10004,7 +10032,7 @@ Moves your changes from the <code>draft</code> branch (where you edit) to the <c
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>❌ Uncommitted changes found
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Commit or stash changes first:
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>$ git add .
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>$ git commit -m &quot;your message&quot;
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>$ git commit -m "your message"
 </code></pre></div>
 <p><strong>Merge conflicts:</strong>
 - Automatically resolves most conflicts
@@ -10139,14 +10167,14 @@ Shows a dashboard of your current course including semester info, week number, b
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>│  Status: 🟢 Active &amp; On Schedule                   │
 <a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>│                                                    │
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>│  Branch: draft (✅ Safe to edit)                   │
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>│  Last change: &quot;Add week 8 lecture notes&quot; (2h ago)  │
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>│  Last change: "Add week 8 lecture notes" (2h ago)  │
 <a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>│                                                    │
 <a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>│  Deployment:                                       │
 <a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>│    Last deploy: 2026-01-10 14:30                   │
 <a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>│    Files pending: 3                                │
 <a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>│    Status: Up to date                              │
 <a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>│                                                    │
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>│  💡 Tip: Run &#39;teach deploy&#39; to publish changes     │
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>│  💡 Tip: Run 'teach deploy' to publish changes     │
 <a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>│                                                    │
 <a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>╰────────────────────────────────────────────────────╯
 </code></pre></div>
@@ -10357,13 +10385,13 @@ Creates a permanent snapshot of your semester at its completion. Useful for:
 <a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="c1">#    $ teach config</span>
 <a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="c1">#</span>
 <a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="c1"># 2. Change these fields:</span>
-<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="c1">#    - course.semester: &quot;fall&quot;</span>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="c1">#    - course.semester: "fall"</span>
 <a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="c1">#    - course.year: 2026</span>
-<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="c1">#    - semester_info.start_date: &quot;2026-08-25&quot;</span>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="c1">#    - semester_info.start_date: "2026-08-25"</span>
 <a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="c1">#</span>
 <a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="c1"># 3. Commit and deploy:</span>
 <a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="c1">#    $ git add .flow/teach-config.yml</span>
-<a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="c1">#    $ git commit -m &quot;prep: update for Fall 2026&quot;</span>
+<a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="c1">#    $ git commit -m "prep: update for Fall 2026"</span>
 <a id="__codelineno-15-30" name="__codelineno-15-30" href="#__codelineno-15-30"></a><span class="c1">#    $ teach deploy</span>
 </code></pre></div>
 <hr />
@@ -10382,64 +10410,64 @@ Opens the <code>.flow/teach-config.yml</code> file in your editor for customizat
 <p><strong>Configuration file reference:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Basic course info</span>
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">545&quot;</span><span class="w">           </span><span class="c1"># Full course name</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="nt">code</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;stat-545&quot;</span><span class="w">           </span><span class="c1"># Short code (used for shortcuts)</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;spring&quot;</span><span class="w">         </span><span class="c1"># spring|summer|fall|winter</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT</span><span class="nv"> </span><span class="s">545"</span><span class="w">           </span><span class="c1"># Full course name</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="nt">code</span><span class="p">:</span><span class="w"> </span><span class="s">"stat-545"</span><span class="w">           </span><span class="c1"># Short code (used for shortcuts)</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">"spring"</span><span class="w">         </span><span class="c1"># spring|summer|fall|winter</span>
 <a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span><span class="nt">year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026</span>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nt">full_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Statistical</span><span class="nv"> </span><span class="s">Methods</span><span class="nv"> </span><span class="s">I&quot;</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nt">instructor</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Your</span><span class="nv"> </span><span class="s">Name&quot;</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nt">full_name</span><span class="p">:</span><span class="w"> </span><span class="s">"Statistical</span><span class="nv"> </span><span class="s">Methods</span><span class="nv"> </span><span class="s">I"</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nt">instructor</span><span class="p">:</span><span class="w"> </span><span class="s">"Your</span><span class="nv"> </span><span class="s">Name"</span>
 <a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
 <a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># Semester schedule</span>
 <a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="nt">semester_info</span><span class="p">:</span>
-<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-13&quot;</span><span class="w">   </span><span class="c1"># YYYY-MM-DD</span>
-<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-05-08&quot;</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-01-13"</span><span class="w">   </span><span class="c1"># YYYY-MM-DD</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-05-08"</span>
 <a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="w">  </span><span class="nt">breaks</span><span class="p">:</span>
-<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">Break&quot;</span>
-<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="w">      </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-03-10&quot;</span>
-<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="w">      </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-03-17&quot;</span>
-<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Reading</span><span class="nv"> </span><span class="s">Week&quot;</span>
-<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="w">      </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-04-14&quot;</span>
-<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a><span class="w">      </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-04-18&quot;</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring</span><span class="nv"> </span><span class="s">Break"</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="w">      </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-03-10"</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="w">      </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-03-17"</span>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Reading</span><span class="nv"> </span><span class="s">Week"</span>
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="w">      </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-04-14"</span>
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a><span class="w">      </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-04-18"</span>
 <a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>
 <a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="c1"># Git branch names</span>
 <a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="nt">branches</span><span class="p">:</span>
-<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="w">  </span><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;draft&quot;</span><span class="w">             </span><span class="c1"># Your working branch</span>
-<a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a><span class="w">  </span><span class="nt">production</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;production&quot;</span><span class="w">   </span><span class="c1"># Students see this</span>
+<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="w">  </span><span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="s">"draft"</span><span class="w">             </span><span class="c1"># Your working branch</span>
+<a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a><span class="w">  </span><span class="nt">production</span><span class="p">:</span><span class="w"> </span><span class="s">"production"</span><span class="w">   </span><span class="c1"># Students see this</span>
 <a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>
 <a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a><span class="c1"># Custom shortcuts (auto-loaded in work sessions)</span>
 <a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a><span class="nt">shortcuts</span><span class="p">:</span>
-<a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a><span class="w">  </span><span class="nt">s545</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;work</span><span class="nv"> </span><span class="s">stat-545&quot;</span><span class="w">      </span><span class="c1"># Quick work shortcut</span>
-<a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a><span class="w">  </span><span class="nt">s545d</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./scripts/quick-deploy.sh&quot;</span><span class="w">  </span><span class="c1"># Quick deploy</span>
+<a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a><span class="w">  </span><span class="nt">s545</span><span class="p">:</span><span class="w"> </span><span class="s">"work</span><span class="nv"> </span><span class="s">stat-545"</span><span class="w">      </span><span class="c1"># Quick work shortcut</span>
+<a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a><span class="w">  </span><span class="nt">s545d</span><span class="p">:</span><span class="w"> </span><span class="s">"./scripts/quick-deploy.sh"</span><span class="w">  </span><span class="c1"># Quick deploy</span>
 </code></pre></div>
 <p><strong>Common edits:</strong></p>
 <p><strong>After semester ends:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># OLD</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;spring&quot;</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">"spring"</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nt">year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-13&quot;</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-01-13"</span>
 <a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
 <a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="c1"># NEW</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fall&quot;</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">"fall"</span>
 <a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="nt">year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026</span>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-08-25&quot;</span>
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-12-10&quot;</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-08-25"</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-12-10"</span>
 </code></pre></div>
 <p><strong>Adding breaks:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nt">breaks</span><span class="p">:</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Thanksgiving&quot;</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-11-23&quot;</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-11-30&quot;</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Winter</span><span class="nv"> </span><span class="s">Break&quot;</span>
-<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">    </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-12-20&quot;</span>
-<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">    </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2027-01-08&quot;</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Thanksgiving"</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-11-23"</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-11-30"</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Winter</span><span class="nv"> </span><span class="s">Break"</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">    </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-12-20"</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">    </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">"2027-01-08"</span>
 </code></pre></div>
 <hr />
 <h3 id="7-teach-exam-create-exam-template">7. <code>teach exam</code> - Create Exam Template<a class="headerlink" href="#7-teach-exam-create-exam-template" title="Permanent link">&para;</a></h3>
 <p><strong>What it does:</strong>
 Creates a new exam/quiz template using the <code>examark</code> tool (if installed). Sets up structured question format with point values, duration, and automatic grading capabilities.</p>
 <p><strong>Syntax:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Final Exam&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Midterm 1"</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Final Exam"</span>
 </code></pre></div>
 <p><strong>When to use:</strong>
 - Creating new exams or quizzes
@@ -10471,7 +10499,7 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <li>Canvas QTI compatible (for upload)</li>
 </ol>
 <p><strong>Example workflow:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Midterm 1"</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1"># Prompts:</span>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Exam name: Linear Regression Midterm</span>
@@ -10482,7 +10510,7 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
 <a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="c1"># Output file structure:</span>
 <a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>---
-<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>title:<span class="w"> </span><span class="s2">&quot;Linear Regression Midterm&quot;</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>title:<span class="w"> </span><span class="s2">"Linear Regression Midterm"</span>
 <a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>duration:<span class="w"> </span><span class="m">90</span>
 <a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>points:<span class="w"> </span><span class="m">100</span>
 <a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>---
@@ -10517,7 +10545,7 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>
 <a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="c1"># 3. Commit changes</span>
 <a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refine: week 8 lecture notes and office hours&quot;</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"refine: week 8 lecture notes and office hours"</span>
 <a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>
 <a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="c1"># 4. Deploy immediately</span>
 <a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>teach<span class="w"> </span>deploy
@@ -10539,7 +10567,7 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># 2. Check current week</span>
 <a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>teach<span class="w"> </span>week
 <a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="c1"># → Shows Week 9 of 16</span>
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="c1"># → Helps confirm you&#39;re on schedule</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="c1"># → Helps confirm you're on schedule</span>
 <a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>
 <a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="c1"># 3. Create week 9 materials</span>
 <a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="c1"># Create: lectures/week09.qmd (40% of time)</span>
@@ -10548,7 +10576,7 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>
 <a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="c1"># 4. Commit materials</span>
 <a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>git<span class="w"> </span>add<span class="w"> </span>lectures/assignments/solutions
-<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add week 9 course materials&quot;</span>
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: add week 9 course materials"</span>
 <a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a>
 <a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="c1"># 5. Deploy</span>
 <a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a>teach<span class="w"> </span>deploy
@@ -10568,7 +10596,7 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>work<span class="w"> </span>stat-545
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="c1"># ... make any final updates ...</span>
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: final semester wrap-up notes&quot;</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"docs: final semester wrap-up notes"</span>
 <a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>teach<span class="w"> </span>deploy
 <a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>
 <a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="c1"># 2. Verify everything is live</span>
@@ -10583,12 +10611,12 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a><span class="c1"># 4. Update config for next semester</span>
 <a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a>teach<span class="w"> </span>config
 <a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a><span class="c1"># Edit:</span>
-<a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a><span class="c1"># - course.semester: &quot;fall&quot;</span>
+<a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a><span class="c1"># - course.semester: "fall"</span>
 <a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a><span class="c1"># - course.year: 2026</span>
-<a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a><span class="c1"># - semester_info.start_date: &quot;2026-08-25&quot;</span>
+<a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a><span class="c1"># - semester_info.start_date: "2026-08-25"</span>
 <a id="__codelineno-24-23" name="__codelineno-24-23" href="#__codelineno-24-23"></a>
 <a id="__codelineno-24-24" name="__codelineno-24-24" href="#__codelineno-24-24"></a>git<span class="w"> </span>add<span class="w"> </span>.flow/teach-config.yml
-<a id="__codelineno-24-25" name="__codelineno-24-25" href="#__codelineno-24-25"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;prep: configure for Fall 2026&quot;</span>
+<a id="__codelineno-24-25" name="__codelineno-24-25" href="#__codelineno-24-25"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"prep: configure for Fall 2026"</span>
 <a id="__codelineno-24-26" name="__codelineno-24-26" href="#__codelineno-24-26"></a>teach<span class="w"> </span>deploy
 <a id="__codelineno-24-27" name="__codelineno-24-27" href="#__codelineno-24-27"></a>
 <a id="__codelineno-24-28" name="__codelineno-24-28" href="#__codelineno-24-28"></a><span class="c1"># 5. Done!</span>
@@ -10603,15 +10631,15 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
 <a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># 2. Quick fix</span>
 <a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1"># Edit one file: solutions/assignment-03.qmd</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="c1"># Change one line: Answer was &quot;0.042&quot; → &quot;0.420&quot;</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="c1"># Change one line: Answer was "0.042" → "0.420"</span>
 <a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>
 <a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="c1"># 3. Immediate deploy</span>
 <a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>git<span class="w"> </span>add<span class="w"> </span>solutions/assignment-03.qmd
-<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: correct answer in assignment 3&quot;</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"fix: correct answer in assignment 3"</span>
 <a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>teach<span class="w"> </span>deploy
 <a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>
 <a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="c1"># 4. Students see fix within 2 minutes</span>
-<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="c1"># No need to email them, they&#39;ll see it when they check</span>
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="c1"># No need to email them, they'll see it when they check</span>
 <a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>
 <a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a><span class="c1"># Result: Problem solved in 2 minutes, students notified automatically</span>
 </code></pre></div>
@@ -10622,10 +10650,10 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <p><strong>Problem:</strong> The teaching configuration file doesn't exist</p>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Initialize teaching workflow for this course</span>
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"Course Name"</span>
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
 <a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Or with non-interactive mode</span>
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"Course Name"</span>
 </code></pre></div>
 <p><strong>What this creates:</strong>
 - <code>.flow/teach-config.yml</code> - Configuration file
@@ -10637,8 +10665,8 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Option 1: Let teach deploy switch for you</span>
 <a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>teach<span class="w"> </span>deploy
-<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="c1"># → Will prompt: &quot;Switch to draft branch? [Y/n]&quot;</span>
-<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># → Type &#39;y&#39; to switch automatically</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="c1"># → Will prompt: "Switch to draft branch? [Y/n]"</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># → Type 'y' to switch automatically</span>
 <a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>
 <a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1"># Option 2: Switch manually</span>
 <a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>git<span class="w"> </span>checkout<span class="w"> </span>draft
@@ -10656,7 +10684,7 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>git<span class="w"> </span>add<span class="w"> </span>.
 <a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>
 <a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="c1"># Commit with message</span>
-<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: update lecture notes&quot;</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"fix: update lecture notes"</span>
 <a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>
 <a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="c1"># Now deploy</span>
 <a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>teach<span class="w"> </span>deploy
@@ -10782,7 +10810,7 @@ Creates a new exam/quiz template using the <code>examark</code> tool (if install
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

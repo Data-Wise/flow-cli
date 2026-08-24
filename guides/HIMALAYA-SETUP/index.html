@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7070,6 +7070,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9073,51 +9101,51 @@
 <p>Create <code>~/.config/himalaya/config.toml</code>:</p>
 <h3 id="option-a-app-password-simple">Option A: App Password (Simple)<a class="headerlink" href="#option-a-app-password-simple" title="Permanent link">&para;</a></h3>
 <p>For providers supporting app passwords (Gmail, Fastmail, etc.):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">display-name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">downloads-dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;~/Downloads&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">display-name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Your Name"</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">downloads-dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"~/Downloads"</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">[accounts.main]</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">display-name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"you@example.com"</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">display-name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Your Name"</span>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># Folder aliases</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">folder</span><span class="p">.</span><span class="n">aliases</span><span class="p">.</span><span class="n">inbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;INBOX&quot;</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">folder</span><span class="p">.</span><span class="n">aliases</span><span class="p">.</span><span class="n">sent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Sent&quot;</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">folder</span><span class="p">.</span><span class="n">aliases</span><span class="p">.</span><span class="n">drafts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Drafts&quot;</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">folder</span><span class="p">.</span><span class="n">aliases</span><span class="p">.</span><span class="n">trash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Trash&quot;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">folder</span><span class="p">.</span><span class="n">aliases</span><span class="p">.</span><span class="n">inbox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"INBOX"</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">folder</span><span class="p">.</span><span class="n">aliases</span><span class="p">.</span><span class="n">sent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Sent"</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">folder</span><span class="p">.</span><span class="n">aliases</span><span class="p">.</span><span class="n">drafts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Drafts"</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">folder</span><span class="p">.</span><span class="n">aliases</span><span class="p">.</span><span class="n">trash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Trash"</span>
 <a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
 <a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># Display</span>
 <a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">envelope</span><span class="p">.</span><span class="n">list</span><span class="p">.</span><span class="n">page-size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">25</span>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="n">envelope</span><span class="p">.</span><span class="n">list</span><span class="p">.</span><span class="n">datetime-fmt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;%F %R&quot;</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="n">envelope</span><span class="p">.</span><span class="n">list</span><span class="p">.</span><span class="n">datetime-fmt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"%F %R"</span>
 <a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="n">envelope</span><span class="p">.</span><span class="n">list</span><span class="p">.</span><span class="n">datetime-local-tz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
 <a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
 <a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="c1"># Message settings</span>
-<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">message</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;From&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;To&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Cc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Subject&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Date&quot;</span><span class="p">]</span>
-<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="n">message</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;From&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;To&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Cc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Subject&quot;</span><span class="p">]</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">message</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"From"</span><span class="p">,</span><span class="w"> </span><span class="s2">"To"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Cc"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Subject"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Date"</span><span class="p">]</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="n">message</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="n">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">"From"</span><span class="p">,</span><span class="w"> </span><span class="s2">"To"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Cc"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Subject"</span><span class="p">]</span>
 <a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">save-copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="n">message</span><span class="p">.</span><span class="n">delete</span><span class="p">.</span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;folder&quot;</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="n">message</span><span class="p">.</span><span class="n">delete</span><span class="p">.</span><span class="n">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"folder"</span>
 <a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
 <a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="c1"># IMAP</span>
-<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="n">backend</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;imap&quot;</span>
-<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="n">backend</span><span class="p">.</span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;imap.example.com&quot;</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="n">backend</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"imap"</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="n">backend</span><span class="p">.</span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"imap.example.com"</span>
 <a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="n">backend</span><span class="p">.</span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">993</span>
-<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="n">backend</span><span class="p">.</span><span class="n">encryption</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tls&quot;</span>
-<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="n">backend</span><span class="p">.</span><span class="n">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
-<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;password&quot;</span>
-<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;security find-generic-password -a you@example.com -s himalaya -w&quot;</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a><span class="n">backend</span><span class="p">.</span><span class="n">encryption</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"tls"</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="n">backend</span><span class="p">.</span><span class="n">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"you@example.com"</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"password"</span>
+<a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"security find-generic-password -a you@example.com -s himalaya -w"</span>
 <a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>
 <a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a><span class="c1"># SMTP</span>
-<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;smtp&quot;</span>
-<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;smtp.example.com&quot;</span>
+<a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"smtp"</span>
+<a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"smtp.example.com"</span>
 <a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">465</span>
-<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">encryption</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;tls&quot;</span>
-<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
-<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;password&quot;</span>
-<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;security find-generic-password -a you@example.com -s himalaya -w&quot;</span>
+<a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">encryption</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"tls"</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"you@example.com"</span>
+<a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"password"</span>
+<a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"security find-generic-password -a you@example.com -s himalaya -w"</span>
 </code></pre></div>
 <p>Store your app password in macOS Keychain:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>security<span class="w"> </span>add-generic-password<span class="w"> </span>-a<span class="w"> </span>you@example.com<span class="w"> </span>-s<span class="w"> </span>himalaya<span class="w"> </span>-w<span class="w"> </span><span class="s2">&quot;your-app-password&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>security<span class="w"> </span>add-generic-password<span class="w"> </span>-a<span class="w"> </span>you@example.com<span class="w"> </span>-s<span class="w"> </span>himalaya<span class="w"> </span>-w<span class="w"> </span><span class="s2">"your-app-password"</span>
 </code></pre></div>
 <h3 id="option-b-oauth2-via-proxy-microsoft-365-google-workspace">Option B: OAuth2 via Proxy (Microsoft 365, Google Workspace)<a class="headerlink" href="#option-b-oauth2-via-proxy-microsoft-365-google-workspace" title="Permanent link">&para;</a></h3>
 <p>For providers requiring OAuth2, use <a href="https://github.com/simonrob/email-oauth2-proxy">email-oauth2-proxy</a>:</p>
@@ -9154,28 +9182,28 @@
 </code></pre></div>
 <p><strong>3. Configure himalaya</strong> to connect through the proxy (no TLS — proxy handles it):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># IMAP via proxy</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">backend</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;imap&quot;</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">backend</span><span class="p">.</span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">backend</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"imap"</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">backend</span><span class="p">.</span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"127.0.0.1"</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">backend</span><span class="p">.</span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1993</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">backend</span><span class="p">.</span><span class="n">encryption</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;none&quot;</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">backend</span><span class="p">.</span><span class="n">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;password&quot;</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;echo you@example.com&quot;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">backend</span><span class="p">.</span><span class="n">encryption</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">backend</span><span class="p">.</span><span class="n">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"you@example.com"</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"password"</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"echo you@example.com"</span>
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
 <a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># SMTP via proxy</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;smtp&quot;</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;127.0.0.1&quot;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"smtp"</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"127.0.0.1"</span>
 <a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1587</span>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">encryption</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;none&quot;</span>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;password&quot;</span>
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;echo you@example.com&quot;</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">encryption</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"none"</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">login</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"you@example.com"</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"password"</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="n">message</span><span class="p">.</span><span class="n">send</span><span class="p">.</span><span class="n">backend</span><span class="p">.</span><span class="n">auth</span><span class="p">.</span><span class="n">cmd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"echo you@example.com"</span>
 </code></pre></div>
 <p><strong>4. Set up the proxy as a LaunchAgent</strong> (starts on login):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>~/Library/LaunchAgents/com.emailproxy.plist<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="s">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="s">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="s">&lt;plist version=&quot;1.0&quot;&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>~/Library/LaunchAgents/com.emailproxy.plist<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="s">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="s">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="s">&lt;plist version="1.0"&gt;</span>
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="s">&lt;dict&gt;</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="s">    &lt;key&gt;Label&lt;/key&gt;</span>
 <a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="s">    &lt;string&gt;com.emailproxy&lt;/string&gt;</span>
@@ -9208,7 +9236,7 @@
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Watch proxy log for device code</span>
 <a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>tail<span class="w"> </span>-f<span class="w"> </span>~/.local/share/email-oauth2-proxy/proxy.log
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># You&#39;ll see: &quot;Visit https://microsoft.com/devicelogin and use code XXXXXXXX&quot;</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># You'll see: "Visit https://microsoft.com/devicelogin and use code XXXXXXXX"</span>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Open that URL and enter the code</span>
 </code></pre></div>
 <hr />
@@ -9376,7 +9404,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

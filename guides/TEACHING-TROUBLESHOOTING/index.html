@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7285,6 +7285,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9570,7 +9598,7 @@
 </code></pre></div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Should show Scholar skills</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>claude<span class="w"> </span>--list-skills<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="s2">&quot;scholar:&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>claude<span class="w"> </span>--list-skills<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="s2">"scholar:"</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Expected output:</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1">#   scholar:exam-generate</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1">#   scholar:quiz-generate</span>
@@ -9585,7 +9613,7 @@
 <p><strong>Causes (ordered by likelihood):</strong></p>
 <p><strong>1. Missing config fields</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Check required Scholar fields</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>teach<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="s2">&quot;scholar:&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>teach<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="s2">"scholar:"</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Required fields:</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1">#   scholar.course_info.level: undergraduate|graduate|both</span>
@@ -9601,7 +9629,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Default timeout: 60s (may be too short for complex content)</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># Increase timeout in Claude settings or retry with simpler prompt</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Simple topic&quot;</span><span class="w"> </span>--verbose<span class="w">   </span><span class="c1"># Watch for timeout messages</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Simple topic"</span><span class="w"> </span>--verbose<span class="w">   </span><span class="c1"># Watch for timeout messages</span>
 </code></pre></div>
 <p><strong>3. Network issues</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Check Claude Code connectivity</span>
@@ -9609,11 +9637,11 @@
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>ping<span class="w"> </span>anthropic.com
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
 <a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Test with simple prompt</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Generate a test question&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>claude
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Generate a test question"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>claude
 </code></pre></div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Generate simple content first</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Basic Math&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">"Basic Math"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">3</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Check file created</span>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>ls<span class="w"> </span>-lh<span class="w"> </span>quizzes/quiz-*.qmd
@@ -9643,7 +9671,7 @@
 </code></pre></div>
 <p><strong>2. Export format mismatch</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Check export format in config</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>teach<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;latex_macros:&quot;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>teach<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">"latex_macros:"</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Should match:</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>scholar:
@@ -9655,7 +9683,7 @@
 </code></pre></div>
 <p><strong>Fix:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># 1. Create macro source file</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>_macros.qmd<span class="w"> </span><span class="s">&lt;&lt;&#39;EOF&#39;</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>_macros.qmd<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="s">$$</span>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="s">\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}</span>
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="s">\newcommand{\V}[1]{\text{Var}\left(#1\right)}</span>
@@ -9670,14 +9698,14 @@
 <a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>teach<span class="w"> </span>macros<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>qmd
 <a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
 <a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="c1"># 4. Verify CLAUDE.md updated</span>
-<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="s2">&quot;LaTeX Macros&quot;</span><span class="w"> </span>CLAUDE.md
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="s2">"LaTeX Macros"</span><span class="w"> </span>CLAUDE.md
 </code></pre></div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Generate content with macros</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Expected Value&quot;</span><span class="w"> </span>--verbose
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Expected Value"</span><span class="w"> </span>--verbose
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
 <a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Check macro usage</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;\\E\{|\\V\{|\\Cov\{&#39;</span><span class="w"> </span>exams/exam-*.qmd
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'\\E\{|\\V\{|\\Cov\{'</span><span class="w"> </span>exams/exam-*.qmd
 </code></pre></div>
 <hr />
 <h3 id="conflicting-content-flags">"Conflicting content flags"<a class="headerlink" href="#conflicting-content-flags" title="Permanent link">&para;</a></h3>
@@ -9689,14 +9717,14 @@
 - Flags have priority: <code>--rigorous</code> &gt; <code>--conceptual</code> &gt; <code>--computational</code></p>
 <p><strong>Flag priority rules:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Only ONE flag is used (highest priority wins)</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--conceptual<span class="w"> </span>--computational<span class="w">   </span><span class="c1"># Uses: conceptual</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--rigorous<span class="w"> </span>--conceptual<span class="w">        </span><span class="c1"># Uses: rigorous</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--conceptual<span class="w"> </span>--computational<span class="w">   </span><span class="c1"># Uses: conceptual</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--rigorous<span class="w"> </span>--conceptual<span class="w">        </span><span class="c1"># Uses: rigorous</span>
 </code></pre></div>
 <p><strong>Fix:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Remove conflicting flags, use only one</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Regression&quot;</span><span class="w"> </span>--conceptual<span class="w">       </span><span class="c1"># ✓ Good</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Regression&quot;</span><span class="w"> </span>--computational<span class="w">    </span><span class="c1"># ✓ Good</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Regression&quot;</span><span class="w"> </span>--rigorous<span class="w">         </span><span class="c1"># ✓ Good</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Regression"</span><span class="w"> </span>--conceptual<span class="w">       </span><span class="c1"># ✓ Good</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Regression"</span><span class="w"> </span>--computational<span class="w">    </span><span class="c1"># ✓ Good</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Regression"</span><span class="w"> </span>--rigorous<span class="w">         </span><span class="c1"># ✓ Good</span>
 <a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
 <a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="c1"># Configure default in teach-config.yml</span>
 <a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>teach<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>scholar.style.default_style<span class="w"> </span>conceptual
@@ -9706,7 +9734,7 @@
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>teach<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>default_style
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Test generation</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Statistics&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">"Statistics"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">3</span>
 </code></pre></div>
 <hr />
 <h2 id="deployment-issues">Deployment Issues<a class="headerlink" href="#deployment-issues" title="Permanent link">&para;</a></h2>
@@ -9801,7 +9829,7 @@
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>quarto<span class="w"> </span>check
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
 <a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Check R packages (if using)</span>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;R package&quot;</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"R package"</span>
 <a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>
 <a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="c1"># Install missing packages</span>
 <a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>teach<span class="w"> </span>doctor<span class="w"> </span>--fix
@@ -9846,7 +9874,7 @@
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
 <a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># If missing updates, re-deploy with index</span>
 <a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>teach<span class="w"> </span>deploy<span class="w"> </span>lectures/week-05.qmd<span class="w"> </span>--auto-commit
-<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="c1"># Don&#39;t use --skip-index</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="c1"># Don't use --skip-index</span>
 </code></pre></div>
 <p><strong>Fix:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># 1. Full site rebuild</span>
@@ -9881,14 +9909,14 @@
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>
 <a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="c1"># ✓ CORRECT</span>
 <a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="nt">week</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Linear</span><span class="nv"> </span><span class="s">Models:</span><span class="nv"> </span><span class="s">Simple</span><span class="nv"> </span><span class="s">Regression&quot;</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Linear</span><span class="nv"> </span><span class="s">Models:</span><span class="nv"> </span><span class="s">Simple</span><span class="nv"> </span><span class="s">Regression"</span>
 </code></pre></div>
 <p><strong>2. Week number conflicts</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Check existing weeks</span>
 <a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>list
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
 <a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># Error if week already exists</span>
-<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">3</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;New Topic&quot;</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">3</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"New Topic"</span>
 <a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="c1"># Error: Week 3 already exists</span>
 <a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>
 <a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="c1"># Fix: Edit existing or delete first</span>
@@ -9898,7 +9926,7 @@
 </code></pre></div>
 <p><strong>Fix:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># 1. Validate lesson plans file</span>
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>yq<span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s1">&#39;.weeks&#39;</span><span class="w"> </span>.flow/lesson-plans.yml
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>yq<span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s1">'.weeks'</span><span class="w"> </span>.flow/lesson-plans.yml
 <a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
 <a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># 2. Fix YAML errors</span>
 <a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="nv">$EDITOR</span><span class="w"> </span>.flow/lesson-plans.yml
@@ -9907,7 +9935,7 @@
 <a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>teach<span class="w"> </span>plan<span class="w"> </span>list<span class="w"> </span>--json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
 <a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>
 <a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="c1"># 4. Create plan</span>
-<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">5</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--style<span class="w"> </span>rigorous
+<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">5</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--style<span class="w"> </span>rigorous
 </code></pre></div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>teach<span class="w"> </span>plan<span class="w"> </span>show<span class="w"> </span><span class="m">5</span><span class="w">        </span><span class="c1"># Display week 5 details</span>
@@ -9960,7 +9988,7 @@
 <a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="c1"># Layer 1: YAML Front Matter Validation</span>
 <a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="c1"># ═══════════════════════════════════════</span>
 <a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="c1">#   ✓ lectures/week-01.qmd: valid</span>
-<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="c1">#   ✗ lectures/week-02.qmd: missing &#39;date&#39; field</span>
+<a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="c1">#   ✗ lectures/week-02.qmd: missing 'date' field</span>
 <a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="c1">#</span>
 <a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a><span class="c1"># Layer 2: Markdown Syntax Check</span>
 <a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="c1"># ═══════════════════════════════════════</span>
@@ -10007,11 +10035,11 @@
 </code></pre></div>
 <p><strong>2. Variable substitution failures</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># Check teach-config.yml has required fields</span>
-<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>teach<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;name|semester|year&quot;</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>teach<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"name|semester|year"</span>
 <a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>
 <a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="c1"># Required for variable substitution:</span>
 <a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>course:
-<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a><span class="w">  </span>name:<span class="w"> </span><span class="s2">&quot;STAT 440&quot;</span>
+<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a><span class="w">  </span>name:<span class="w"> </span><span class="s2">"STAT 440"</span>
 <a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="w">  </span>semester:<span class="w"> </span>Fall
 <a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a><span class="w">  </span>year:<span class="w"> </span><span class="m">2025</span>
 </code></pre></div>
@@ -10024,7 +10052,7 @@
 <a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a><span class="c1"># Should show: lecture, lab, assignment, slides</span>
 <a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>
 <a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="c1"># 3. Create with variables</span>
-<a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Regression&quot;</span>
+<a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Regression"</span>
 <a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a>
 <a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a><span class="c1"># 4. Check output</span>
 <a id="__codelineno-42-12" name="__codelineno-42-12" href="#__codelineno-42-12"></a>ls<span class="w"> </span>-lh<span class="w"> </span>lectures/week-05-lecture.qmd
@@ -10032,7 +10060,7 @@
 </code></pre></div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># Variables should be substituted</span>
-<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;STAT 440|Fall 2025|Regression&quot;</span><span class="w"> </span>lectures/week-05-lecture.qmd
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"STAT 440|Fall 2025|Regression"</span><span class="w"> </span>lectures/week-05-lecture.qmd
 </code></pre></div>
 <hr />
 <h2 id="git-integration-issues">Git Integration Issues<a class="headerlink" href="#git-integration-issues" title="Permanent link">&para;</a></h2>
@@ -10051,7 +10079,7 @@
 <p><strong>How to commit before deploy:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="c1"># Option 1: Manual commit</span>
 <a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Update week 05 lecture&quot;</span>
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Update week 05 lecture"</span>
 <a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>teach<span class="w"> </span>deploy
 <a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>
 <a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a><span class="c1"># Option 2: Auto-commit</span>
@@ -10062,7 +10090,7 @@
 </code></pre></div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>git<span class="w"> </span>status<span class="w">                  </span><span class="c1"># Should be clean</span>
-<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Working tree&quot;</span>
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"Working tree"</span>
 <a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="c1"># Should show: ✓ Working tree clean</span>
 </code></pre></div>
 <hr />
@@ -10073,13 +10101,13 @@
 - Deploy interrupted by hook</p>
 <p><strong>Check hook status:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="c1"># List installed hooks</span>
-<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;Git Hooks&quot;</span>
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">"Git Hooks"</span>
 <a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>
 <a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="c1"># View hook content</span>
 <a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>cat<span class="w"> </span>.git/hooks/pre-commit
 <a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>
 <a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="c1"># Check if flow-cli managed</span>
-<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>grep<span class="w"> </span><span class="s2">&quot;auto-generated by teach hooks install&quot;</span><span class="w"> </span>.git/hooks/pre-commit
+<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>grep<span class="w"> </span><span class="s2">"auto-generated by teach hooks install"</span><span class="w"> </span>.git/hooks/pre-commit
 </code></pre></div>
 <p><strong>Disabling problematic hooks:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="c1"># Temporary disable (make non-executable)</span>
@@ -10102,11 +10130,11 @@
 <a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>teach<span class="w"> </span>hooks<span class="w"> </span>install
 <a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a>
 <a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a><span class="c1"># Verify</span>
-<a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Hook installed&quot;</span>
+<a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"Hook installed"</span>
 </code></pre></div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="c1"># Test hook execution</span>
-<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>git<span class="w"> </span>commit<span class="w"> </span>--allow-empty<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Test hooks&quot;</span>
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>git<span class="w"> </span>commit<span class="w"> </span>--allow-empty<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Test hooks"</span>
 <a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>
 <a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="c1"># Should succeed without errors</span>
 </code></pre></div>
@@ -10120,7 +10148,7 @@
 <p><strong>Causes:</strong></p>
 <p><strong>1. Cache not being used</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="c1"># Check cache status</span>
-<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="s2">&quot;Cache Health&quot;</span>
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="s2">"Cache Health"</span>
 <a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>
 <a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a><span class="c1"># Should show:</span>
 <a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a><span class="c1">#   ✓ Freeze cache exists (2.3MB)</span>
@@ -10138,7 +10166,7 @@
 </code></pre></div>
 <p><strong>3. Large course with many files</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="c1"># Count files being analyzed</span>
-<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.qmd&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>find<span class="w"> </span>.<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.qmd"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
 <a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a><span class="c1"># If &gt; 50 files, consider selective analysis</span>
 <a id="__codelineno-53-4" name="__codelineno-53-4" href="#__codelineno-53-4"></a>
 <a id="__codelineno-53-5" name="__codelineno-53-5" href="#__codelineno-53-5"></a>teach<span class="w"> </span>analyze<span class="w"> </span>lectures/<span class="w">        </span><span class="c1"># Analyze directory only</span>
@@ -10213,7 +10241,7 @@
 <a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>-5
 <a id="__codelineno-56-4" name="__codelineno-56-4" href="#__codelineno-56-4"></a>
 <a id="__codelineno-56-5" name="__codelineno-56-5" href="#__codelineno-56-5"></a><span class="c1"># 2. Identify last good commit</span>
-<a id="__codelineno-56-6" name="__codelineno-56-6" href="#__codelineno-56-6"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--grep<span class="o">=</span><span class="s2">&quot;Deploy&quot;</span><span class="w">    </span><span class="c1"># Find previous deploy</span>
+<a id="__codelineno-56-6" name="__codelineno-56-6" href="#__codelineno-56-6"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--grep<span class="o">=</span><span class="s2">"Deploy"</span><span class="w">    </span><span class="c1"># Find previous deploy</span>
 <a id="__codelineno-56-7" name="__codelineno-56-7" href="#__codelineno-56-7"></a>
 <a id="__codelineno-56-8" name="__codelineno-56-8" href="#__codelineno-56-8"></a><span class="c1"># 3. Create revert commit</span>
 <a id="__codelineno-56-9" name="__codelineno-56-9" href="#__codelineno-56-9"></a>git<span class="w"> </span>revert<span class="w"> </span>&lt;bad-commit-sha&gt;
@@ -10235,7 +10263,7 @@
 <a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>open<span class="w"> </span>https://&lt;user&gt;.github.io/&lt;repo&gt;/
 <a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a>
 <a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a><span class="c1"># Verify content reverted</span>
-<a id="__codelineno-57-5" name="__codelineno-57-5" href="#__codelineno-57-5"></a>curl<span class="w"> </span>-s<span class="w"> </span>https://&lt;user&gt;.github.io/&lt;repo&gt;/lectures/week-05.html<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">&quot;title&quot;</span>
+<a id="__codelineno-57-5" name="__codelineno-57-5" href="#__codelineno-57-5"></a>curl<span class="w"> </span>-s<span class="w"> </span>https://&lt;user&gt;.github.io/&lt;repo&gt;/lectures/week-05.html<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s2">"title"</span>
 </code></pre></div>
 <hr />
 <h3 id="restore-from-backup">Restore from backup<a class="headerlink" href="#restore-from-backup" title="Permanent link">&para;</a></h3>
@@ -10289,7 +10317,7 @@
 </code></pre></div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="c1"># Config should validate</span>
-<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Config: valid&quot;</span>
+<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>teach<span class="w"> </span>doctor<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"Config: valid"</span>
 <a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a>
 <a id="__codelineno-61-4" name="__codelineno-61-4" href="#__codelineno-61-4"></a><span class="c1"># Content should be intact</span>
 <a id="__codelineno-61-5" name="__codelineno-61-5" href="#__codelineno-61-5"></a>teach<span class="w"> </span>plan<span class="w"> </span>list
@@ -10430,7 +10458,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

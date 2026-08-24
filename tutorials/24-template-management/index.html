@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7106,6 +7106,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9101,7 +9129,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check version</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>flow<span class="w"> </span>--version<span class="w">  </span><span class="c1"># Should show 5.20.0+</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Check you&#39;re in a course directory</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Check you're in a course directory</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>ls<span class="w"> </span>.flow/teach-config.yml
 </code></pre></div>
 <hr />
@@ -9285,7 +9313,7 @@
 </table>
 <p><strong>Specify topic explicitly:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Pass topic as argument</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Linear Regression&quot;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Linear Regression"</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Or be prompted</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05
@@ -9293,10 +9321,10 @@
 </code></pre></div>
 <p><strong>Example template content:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nn">---</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Week</span><span class="nv"> </span><span class="s">{{WEEK}}:</span><span class="nv"> </span><span class="s">{{TOPIC}}&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nt">course</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{COURSE}}&quot;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{DATE}}&quot;</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nt">instructor</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{INSTRUCTOR}}&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">"Week</span><span class="nv"> </span><span class="s">{{WEEK}}:</span><span class="nv"> </span><span class="s">{{TOPIC}}"</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nt">course</span><span class="p">:</span><span class="w"> </span><span class="s">"{{COURSE}}"</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"{{DATE}}"</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nt">instructor</span><span class="p">:</span><span class="w"> </span><span class="s">"{{INSTRUCTOR}}"</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nn">---</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Learning Objectives</span>
@@ -9352,7 +9380,7 @@
 <a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>│   lab.qmd: v1.0 (up to date)                               │
 <a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>│                                                             │
 <a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>│ Skipped (project override):                                 │
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>│   assignment.qmd: [P] won&#39;t overwrite your customizations   │
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>│   assignment.qmd: [P] won't overwrite your customizations   │
 <a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>╰─────────────────────────────────────────────────────────────╯
 </code></pre></div>
 <p><strong>Force sync (overwrite project templates):</strong></p>
@@ -9384,7 +9412,7 @@
 <h2 id="step-8-initialize-course-with-templates">Step 8: Initialize Course with Templates<a class="headerlink" href="#step-8-initialize-course-with-templates" title="Permanent link">&para;</a></h2>
 <p>When creating a new course:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Create course with full template structure</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w"> </span>--with-templates
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 545"</span><span class="w"> </span>--with-templates
 </code></pre></div>
 <p><strong>Creates:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>.flow/
@@ -9445,8 +9473,8 @@
 <h2 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h2>
 <h3 id="weekly-content-creation">Weekly Content Creation<a class="headerlink" href="#weekly-content-creation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Create all materials for week 5</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;Hypothesis Testing&quot;</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lab<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;t-tests in R&quot;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lecture<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">"Hypothesis Testing"</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>lab<span class="w"> </span>week-05<span class="w"> </span>--topic<span class="w"> </span><span class="s2">"t-tests in R"</span>
 <a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>teach<span class="w"> </span>templates<span class="w"> </span>new<span class="w"> </span>slides<span class="w"> </span>week-05
 </code></pre></div>
 <h3 id="template-customization-workflow">Template Customization Workflow<a class="headerlink" href="#template-customization-workflow" title="Permanent link">&para;</a></h3>
@@ -9474,7 +9502,7 @@
 </code></pre></div>
 <h3 id="variables-not-substituted">Variables not substituted<a class="headerlink" href="#variables-not-substituted" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Check variable syntax (must be {{VAR}} not ${VAR})</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>grep<span class="w"> </span><span class="s1">&#39;{{&#39;</span><span class="w"> </span>.flow/templates/content/lecture.qmd
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>grep<span class="w"> </span><span class="s1">'{{'</span><span class="w"> </span>.flow/templates/content/lecture.qmd
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Validate template</span>
 <a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>teach<span class="w"> </span>templates<span class="w"> </span>validate<span class="w"> </span>lecture.qmd
@@ -9577,7 +9605,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

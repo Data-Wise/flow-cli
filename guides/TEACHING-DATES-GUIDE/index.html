@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -8162,6 +8162,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -11197,10 +11225,10 @@
 <h3 id="why-you-need-this">Why You Need This<a class="headerlink" href="#why-you-need-this" title="Permanent link">&para;</a></h3>
 <p>Teaching a course involves managing dates in multiple places:</p>
 <p><strong>Without date automation:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>❌ syllabus.qmd:        &quot;Homework 1 due Jan 22&quot;
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>❌ assignments/hw1.qmd:  due: &quot;2025-01-20&quot;  # ← Mismatch!
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>❌ schedule.qmd:        &quot;Week 2: January 22, 2025&quot;
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>❌ lectures/week02.qmd: &quot;Due: Jan 22, 2025&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>❌ syllabus.qmd:        "Homework 1 due Jan 22"
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>❌ assignments/hw1.qmd:  due: "2025-01-20"  # ← Mismatch!
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>❌ schedule.qmd:        "Week 2: January 22, 2025"
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>❌ lectures/week02.qmd: "Due: Jan 22, 2025"
 </code></pre></div>
 <p><strong>Problems:</strong>
 - 📅 40+ dates to update manually each semester
@@ -11317,8 +11345,8 @@
 <h3 id="semester_info-section-overview">semester_info Section Overview<a class="headerlink" href="#semester_info-section-overview" title="Permanent link">&para;</a></h3>
 <p>All dates live in the <code>semester_info</code> section of <code>teach-config.yml</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">semester_info</span><span class="p">:</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span><span class="w">      </span><span class="c1"># Required: First day of semester</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-02&quot;</span><span class="w">        </span><span class="c1"># Required: Last day of semester</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span><span class="w">      </span><span class="c1"># Required: First day of semester</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-02"</span><span class="w">        </span><span class="c1"># Required: Last day of semester</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">weeks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w">                     </span><span class="c1"># Array of week objects</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nt">holidays</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w">                  </span><span class="c1"># Array of holiday/break objects</span>
@@ -11328,13 +11356,13 @@
 <h3 id="required-fields">Required Fields<a class="headerlink" href="#required-fields" title="Permanent link">&para;</a></h3>
 <p>Minimum configuration for date automation to work:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">semester_info</span><span class="p">:</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-02&quot;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-02"</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">weeks</span><span class="p">:</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Introduction&quot;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Introduction"</span>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="c1"># ... weeks 2-15</span>
 </code></pre></div>
 <p><strong>Validation:</strong>
@@ -11346,14 +11374,14 @@
 <p>Each week can have additional metadata:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">weeks</span><span class="p">:</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Statistical</span><span class="nv"> </span><span class="s">Computing&quot;</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;First</span><span class="nv"> </span><span class="s">week</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">cover</span><span class="nv"> </span><span class="s">syllabus&quot;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Statistical</span><span class="nv"> </span><span class="s">Computing"</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">"First</span><span class="nv"> </span><span class="s">week</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">cover</span><span class="nv"> </span><span class="s">syllabus"</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-20&quot;</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Data</span><span class="nv"> </span><span class="s">Manipulation</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">dplyr&quot;</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chapter</span><span class="nv"> </span><span class="s">3&quot;</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-20"</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Data</span><span class="nv"> </span><span class="s">Manipulation</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">dplyr"</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">"Chapter</span><span class="nv"> </span><span class="s">3"</span>
 </code></pre></div>
 <p><strong>Fields:</strong>
 - <code>number</code> (required): Week number (integer)
@@ -11364,17 +11392,17 @@
 <h4 id="holidays-array">Holidays Array<a class="headerlink" href="#holidays-array" title="Permanent link">&para;</a></h4>
 <p>Track breaks and no-class days:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">holidays</span><span class="p">:</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">Break&quot;</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-10&quot;</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;break&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring</span><span class="nv"> </span><span class="s">Break"</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-10"</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"break"</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Memorial</span><span class="nv"> </span><span class="s">Day&quot;</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-26&quot;</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;holiday&quot;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Memorial</span><span class="nv"> </span><span class="s">Day"</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-26"</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"holiday"</span>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;No</span><span class="nv"> </span><span class="s">class</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">conference&quot;</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-04-15&quot;</span>
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;no_class&quot;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"No</span><span class="nv"> </span><span class="s">class</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">conference"</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-04-15"</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"no_class"</span>
 </code></pre></div>
 <p><strong>Types:</strong>
 - <code>break</code> - Multi-day break (Spring/Fall break)
@@ -11385,7 +11413,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">deadlines</span><span class="p">:</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="c1"># Absolute date (fixed)</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">hw1</span><span class="p">:</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-22&quot;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-22"</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="c1"># Relative date (computed from week)</span>
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="nt">hw2</span><span class="p">:</span>
@@ -11407,22 +11435,22 @@
 <h4 id="exams-array">Exams Array<a class="headerlink" href="#exams-array" title="Permanent link">&para;</a></h4>
 <p>Track exams with full details:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">exams</span><span class="p">:</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Midterm</span><span class="nv"> </span><span class="s">Exam&quot;</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-05&quot;</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM&quot;</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132&quot;</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Bring</span><span class="nv"> </span><span class="s">calculator,</span><span class="nv"> </span><span class="s">closed</span><span class="nv"> </span><span class="s">book&quot;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Midterm</span><span class="nv"> </span><span class="s">Exam"</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-05"</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM"</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">"Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132"</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">"Bring</span><span class="nv"> </span><span class="s">calculator,</span><span class="nv"> </span><span class="s">closed</span><span class="nv"> </span><span class="s">book"</span>
 <a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Final</span><span class="nv"> </span><span class="s">Exam&quot;</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-08&quot;</span>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10:00</span><span class="nv"> </span><span class="s">AM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">12:00</span><span class="nv"> </span><span class="s">PM&quot;</span>
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Same</span><span class="nv"> </span><span class="s">as</span><span class="nv"> </span><span class="s">midterm&quot;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Final</span><span class="nv"> </span><span class="s">Exam"</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-08"</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"10:00</span><span class="nv"> </span><span class="s">AM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">12:00</span><span class="nv"> </span><span class="s">PM"</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">"Same</span><span class="nv"> </span><span class="s">as</span><span class="nv"> </span><span class="s">midterm"</span>
 </code></pre></div>
 <h3 id="date-formats-supported">Date Formats Supported<a class="headerlink" href="#date-formats-supported" title="Permanent link">&para;</a></h3>
 <h4 id="iso-dates-yyyy-mm-dd">ISO Dates (YYYY-MM-DD)<a class="headerlink" href="#iso-dates-yyyy-mm-dd" title="Permanent link">&para;</a></h4>
 <p><strong>Recommended format</strong> - unambiguous and sortable:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-22&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-22"</span>
 </code></pre></div>
 <p>Used in:
 - ✅ Config file (<code>teach-config.yml</code>)
@@ -11441,10 +11469,10 @@
 <h4 id="date-range-formats">Date Range Formats<a class="headerlink" href="#date-range-formats" title="Permanent link">&para;</a></h4>
 <p>For events spanning multiple days:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">spring_break</span><span class="p">:</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">Break&quot;</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-10&quot;</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-14&quot;</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;break&quot;</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring</span><span class="nv"> </span><span class="s">Break"</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-10"</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-14"</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"break"</span>
 </code></pre></div>
 <hr />
 <h2 id="supported-date-patterns">Supported Date Patterns<a class="headerlink" href="#supported-date-patterns" title="Permanent link">&para;</a></h2>
@@ -11452,11 +11480,11 @@
 <p>The date parser recognizes these YAML fields:</p>
 <h4 id="standard-date-fields">Standard Date Fields<a class="headerlink" href="#standard-date-fields" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nn">---</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-22&quot;</span><span class="w">              </span><span class="c1"># Document date</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-22&quot;</span><span class="w">               </span><span class="c1"># Assignment due date</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nt">published</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-15&quot;</span><span class="w">         </span><span class="c1"># Publication date</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nt">modified</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-20&quot;</span><span class="w">          </span><span class="c1"># Last modified</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nt">exam_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-05&quot;</span><span class="w">         </span><span class="c1"># Exam date</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-22"</span><span class="w">              </span><span class="c1"># Document date</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-22"</span><span class="w">               </span><span class="c1"># Assignment due date</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nt">published</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-15"</span><span class="w">         </span><span class="c1"># Publication date</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nt">modified</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-20"</span><span class="w">          </span><span class="c1"># Last modified</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nt">exam_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-05"</span><span class="w">         </span><span class="c1"># Exam date</span>
 <a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nn">---</span>
 </code></pre></div>
 <p><strong>Recognized fields:</strong>
@@ -11466,31 +11494,31 @@
 <h4 id="custom-date-fields">Custom Date Fields<a class="headerlink" href="#custom-date-fields" title="Permanent link">&para;</a></h4>
 <p>You can add custom fields:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nn">---</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nt">office_hours_start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nt">project_checkpoint_1</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-02-15&quot;</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nt">peer_review_due</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-01&quot;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nt">office_hours_start</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nt">project_checkpoint_1</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-02-15"</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nt">peer_review_due</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-01"</span>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nn">---</span>
 </code></pre></div>
 <p>The parser will extract any field ending in <code>_date</code> or named <code>due</code>.</p>
 <h4 id="examples-from-real-courses">Examples from Real Courses<a class="headerlink" href="#examples-from-real-courses" title="Permanent link">&para;</a></h4>
 <p><strong>Assignment:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nn">---</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Homework</span><span class="nv"> </span><span class="s">1:</span><span class="nv"> </span><span class="s">Data</span><span class="nv"> </span><span class="s">Wrangling&quot;</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-22&quot;</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">"Homework</span><span class="nv"> </span><span class="s">1:</span><span class="nv"> </span><span class="s">Data</span><span class="nv"> </span><span class="s">Wrangling"</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-22"</span>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nt">points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nn">---</span>
 </code></pre></div>
 <p><strong>Syllabus:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nn">---</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Course</span><span class="nv"> </span><span class="s">Syllabus&quot;</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">2025&quot;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">"Course</span><span class="nv"> </span><span class="s">Syllabus"</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring</span><span class="nv"> </span><span class="s">2025"</span>
 <a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nn">---</span>
 </code></pre></div>
 <p><strong>Lecture:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nn">---</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Week</span><span class="nv"> </span><span class="s">2:</span><span class="nv"> </span><span class="s">dplyr</span><span class="nv"> </span><span class="s">Basics&quot;</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-20&quot;</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">"Week</span><span class="nv"> </span><span class="s">2:</span><span class="nv"> </span><span class="s">dplyr</span><span class="nv"> </span><span class="s">Basics"</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-20"</span>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="nt">week</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 <a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="nn">---</span>
 </code></pre></div>
@@ -11731,7 +11759,7 @@
 <a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>✓<span class="w"> </span>Config<span class="w"> </span>file<span class="w"> </span>exists
 <a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>✓<span class="w"> </span>All<span class="w"> </span>dates<span class="w"> </span>valid<span class="w"> </span>ISO<span class="w"> </span>format
 <a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>✓<span class="w"> </span>Week<span class="w"> </span>dates<span class="w"> </span>chronological
-<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>⚠️<span class="w">  </span>Warning:<span class="w"> </span>holiday<span class="w"> </span><span class="s2">&quot;Spring Break&quot;</span><span class="w"> </span>on<span class="w"> </span>Saturday
+<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>⚠️<span class="w">  </span>Warning:<span class="w"> </span>holiday<span class="w"> </span><span class="s2">"Spring Break"</span><span class="w"> </span>on<span class="w"> </span>Saturday
 <a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a>✅<span class="w"> </span>Validation<span class="w"> </span>complete:<span class="w"> </span><span class="m">0</span><span class="w"> </span>errors,<span class="w"> </span><span class="m">1</span><span class="w"> </span>warning
 </code></pre></div>
 <hr />
@@ -11752,7 +11780,7 @@
 <a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>
 <a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="c1"># 5. Commit</span>
 <a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>git<span class="w"> </span>add<span class="w"> </span>-A
-<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: sync dates to config&quot;</span>
+<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: sync dates to config"</span>
 </code></pre></div>
 <p><strong>Frequency:</strong> Run before each deployment or weekly.</p>
 <h3 id="semester-start-initial-date-setup">Semester Start: Initial Date Setup<a class="headerlink" href="#semester-start-initial-date-setup" title="Permanent link">&para;</a></h3>
@@ -11779,7 +11807,7 @@
 <a id="__codelineno-36-20" name="__codelineno-36-20" href="#__codelineno-36-20"></a>
 <a id="__codelineno-36-21" name="__codelineno-36-21" href="#__codelineno-36-21"></a><span class="c1"># 5. Commit setup</span>
 <a id="__codelineno-36-22" name="__codelineno-36-22" href="#__codelineno-36-22"></a>git<span class="w"> </span>add<span class="w"> </span>-A
-<a id="__codelineno-36-23" name="__codelineno-36-23" href="#__codelineno-36-23"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: initialize Spring 2025 dates&quot;</span>
+<a id="__codelineno-36-23" name="__codelineno-36-23" href="#__codelineno-36-23"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: initialize Spring 2025 dates"</span>
 </code></pre></div>
 <p><strong>Time:</strong> ~15 minutes (vs 2 hours manually)</p>
 <h3 id="mid-semester-updating-assignment-due-dates">Mid-Semester: Updating Assignment Due Dates<a class="headerlink" href="#mid-semester-updating-assignment-due-dates" title="Permanent link">&para;</a></h3>
@@ -11805,7 +11833,7 @@
 <a id="__codelineno-37-19" name="__codelineno-37-19" href="#__codelineno-37-19"></a>
 <a id="__codelineno-37-20" name="__codelineno-37-20" href="#__codelineno-37-20"></a><span class="c1"># 3. Commit</span>
 <a id="__codelineno-37-21" name="__codelineno-37-21" href="#__codelineno-37-21"></a>git<span class="w"> </span>add<span class="w"> </span>.flow/teach-config.yml<span class="w"> </span>assignments/hw3.qmd
-<a id="__codelineno-37-22" name="__codelineno-37-22" href="#__codelineno-37-22"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: extend hw3 deadline by 2 days&quot;</span>
+<a id="__codelineno-37-22" name="__codelineno-37-22" href="#__codelineno-37-22"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: extend hw3 deadline by 2 days"</span>
 <a id="__codelineno-37-23" name="__codelineno-37-23" href="#__codelineno-37-23"></a>
 <a id="__codelineno-37-24" name="__codelineno-37-24" href="#__codelineno-37-24"></a><span class="c1"># 4. Deploy</span>
 <a id="__codelineno-37-25" name="__codelineno-37-25" href="#__codelineno-37-25"></a>teach<span class="w"> </span>deploy
@@ -11824,7 +11852,7 @@
 <a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>
 <a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a><span class="c1"># Change:</span>
 <a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a>course:
-<a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="w">  </span>semester:<span class="w"> </span><span class="s2">&quot;Spring&quot;</span>
+<a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="w">  </span>semester:<span class="w"> </span><span class="s2">"Spring"</span>
 <a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a><span class="w">  </span>year:<span class="w"> </span><span class="m">2026</span>
 <a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a>
 <a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a><span class="c1"># 3. Recalculate dates</span>
@@ -11842,7 +11870,7 @@
 <a id="__codelineno-38-25" name="__codelineno-38-25" href="#__codelineno-38-25"></a>
 <a id="__codelineno-38-26" name="__codelineno-38-26" href="#__codelineno-38-26"></a><span class="c1"># 7. Commit</span>
 <a id="__codelineno-38-27" name="__codelineno-38-27" href="#__codelineno-38-27"></a>git<span class="w"> </span>add<span class="w"> </span>-A
-<a id="__codelineno-38-28" name="__codelineno-38-28" href="#__codelineno-38-28"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: roll over to Spring 2026&quot;</span>
+<a id="__codelineno-38-28" name="__codelineno-38-28" href="#__codelineno-38-28"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: roll over to Spring 2026"</span>
 </code></pre></div>
 <p><strong>Time:</strong> ~5 minutes (vs 2+ hours of manual find/replace)</p>
 <h3 id="selective-sync-update-only-assignments">Selective Sync: Update Only Assignments<a class="headerlink" href="#selective-sync-update-only-assignments" title="Permanent link">&para;</a></h3>
@@ -11864,11 +11892,11 @@
 <a id="__codelineno-39-15" name="__codelineno-39-15" href="#__codelineno-39-15"></a><span class="c1"># 3. Apply</span>
 <a id="__codelineno-39-16" name="__codelineno-39-16" href="#__codelineno-39-16"></a>teach<span class="w"> </span>dates<span class="w"> </span>sync<span class="w"> </span>--assignments
 <a id="__codelineno-39-17" name="__codelineno-39-17" href="#__codelineno-39-17"></a>
-<a id="__codelineno-39-18" name="__codelineno-39-18" href="#__codelineno-39-18"></a><span class="c1"># Prompts for each, press &#39;y&#39;</span>
+<a id="__codelineno-39-18" name="__codelineno-39-18" href="#__codelineno-39-18"></a><span class="c1"># Prompts for each, press 'y'</span>
 <a id="__codelineno-39-19" name="__codelineno-39-19" href="#__codelineno-39-19"></a>
 <a id="__codelineno-39-20" name="__codelineno-39-20" href="#__codelineno-39-20"></a><span class="c1"># 4. Commit</span>
 <a id="__codelineno-39-21" name="__codelineno-39-21" href="#__codelineno-39-21"></a>git<span class="w"> </span>add<span class="w"> </span>assignments/<span class="w"> </span>.flow/teach-config.yml
-<a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: update assignment deadlines&quot;</span>
+<a id="__codelineno-39-22" name="__codelineno-39-22" href="#__codelineno-39-22"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: update assignment deadlines"</span>
 </code></pre></div>
 <hr />
 <h2 id="date-synchronization-details">Date Synchronization Details<a class="headerlink" href="#date-synchronization-details" title="Permanent link">&para;</a></h2>
@@ -11966,15 +11994,15 @@
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="nt">weeks</span><span class="p">:</span>
 <a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="w">    </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">R</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">RStudio&quot;</span>
-<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="w">    </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chapter</span><span class="nv"> </span><span class="s">1&quot;</span>
-<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Go</span><span class="nv"> </span><span class="s">slow,</span><span class="nv"> </span><span class="s">many</span><span class="nv"> </span><span class="s">students</span><span class="nv"> </span><span class="s">new</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">R&quot;</span>
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="w">    </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">R</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">RStudio"</span>
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="w">    </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">"Chapter</span><span class="nv"> </span><span class="s">1"</span>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">"Go</span><span class="nv"> </span><span class="s">slow,</span><span class="nv"> </span><span class="s">many</span><span class="nv"> </span><span class="s">students</span><span class="nv"> </span><span class="s">new</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">R"</span>
 <a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a>
 <a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="w">    </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-20&quot;</span>
-<a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Data</span><span class="nv"> </span><span class="s">Wrangling</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">dplyr&quot;</span>
-<a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a><span class="w">    </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chapters</span><span class="nv"> </span><span class="s">3-4&quot;</span>
+<a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="w">    </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-20"</span>
+<a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="w">    </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Data</span><span class="nv"> </span><span class="s">Wrangling</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">dplyr"</span>
+<a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a><span class="w">    </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">"Chapters</span><span class="nv"> </span><span class="s">3-4"</span>
 </code></pre></div>
 <h3 id="holidays-array_1">holidays Array<a class="headerlink" href="#holidays-array_1" title="Permanent link">&para;</a></h3>
 <p><strong>Structure:</strong></p>
@@ -11986,18 +12014,18 @@
 </code></pre></div>
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="nt">holidays</span><span class="p">:</span>
-<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Martin</span><span class="nv"> </span><span class="s">Luther</span><span class="nv"> </span><span class="s">King</span><span class="nv"> </span><span class="s">Jr.</span><span class="nv"> </span><span class="s">Day&quot;</span>
-<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-20&quot;</span>
-<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;holiday&quot;</span>
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Martin</span><span class="nv"> </span><span class="s">Luther</span><span class="nv"> </span><span class="s">King</span><span class="nv"> </span><span class="s">Jr.</span><span class="nv"> </span><span class="s">Day"</span>
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-20"</span>
+<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"holiday"</span>
 <a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a>
-<a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">Break&quot;</span>
-<a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-10&quot;</span>
-<a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;break&quot;</span>
-<a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Week-long</span><span class="nv"> </span><span class="s">break,</span><span class="nv"> </span><span class="s">no</span><span class="nv"> </span><span class="s">assignments</span><span class="nv"> </span><span class="s">due&quot;</span>
+<a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring</span><span class="nv"> </span><span class="s">Break"</span>
+<a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-10"</span>
+<a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"break"</span>
+<a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">"Week-long</span><span class="nv"> </span><span class="s">break,</span><span class="nv"> </span><span class="s">no</span><span class="nv"> </span><span class="s">assignments</span><span class="nv"> </span><span class="s">due"</span>
 <a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a>
-<a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Instructor</span><span class="nv"> </span><span class="s">at</span><span class="nv"> </span><span class="s">conference&quot;</span>
-<a id="__codelineno-48-12" name="__codelineno-48-12" href="#__codelineno-48-12"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-04-15&quot;</span>
-<a id="__codelineno-48-13" name="__codelineno-48-13" href="#__codelineno-48-13"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;no_class&quot;</span>
+<a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Instructor</span><span class="nv"> </span><span class="s">at</span><span class="nv"> </span><span class="s">conference"</span>
+<a id="__codelineno-48-12" name="__codelineno-48-12" href="#__codelineno-48-12"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-04-15"</span>
+<a id="__codelineno-48-13" name="__codelineno-48-13" href="#__codelineno-48-13"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"no_class"</span>
 </code></pre></div>
 <h3 id="deadlines-object_1">deadlines Object<a class="headerlink" href="#deadlines-object_1" title="Permanent link">&para;</a></h3>
 <p><strong>Structure:</strong></p>
@@ -12027,7 +12055,7 @@
 <a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="w">    </span><span class="nt">points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
 <a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a>
 <a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a><span class="w">  </span><span class="nt">final_project</span><span class="p">:</span>
-<a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="w">    </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-08&quot;</span><span class="w">  </span><span class="c1"># Fixed: finals week</span>
+<a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="w">    </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-08"</span><span class="w">  </span><span class="c1"># Fixed: finals week</span>
 <a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a><span class="w">    </span><span class="nt">points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
 </code></pre></div>
 <h3 id="exams-array_1">exams Array<a class="headerlink" href="#exams-array_1" title="Permanent link">&para;</a></h3>
@@ -12041,21 +12069,21 @@
 </code></pre></div>
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="nt">exams</span><span class="p">:</span>
-<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Midterm</span><span class="nv"> </span><span class="s">1&quot;</span>
-<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-02-19&quot;</span>
-<a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM&quot;</span>
-<a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132&quot;</span>
-<a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Closed</span><span class="nv"> </span><span class="s">book,</span><span class="nv"> </span><span class="s">calculator</span><span class="nv"> </span><span class="s">allowed&quot;</span>
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Midterm</span><span class="nv"> </span><span class="s">1"</span>
+<a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-02-19"</span>
+<a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM"</span>
+<a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">"Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132"</span>
+<a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a><span class="w">    </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">"Closed</span><span class="nv"> </span><span class="s">book,</span><span class="nv"> </span><span class="s">calculator</span><span class="nv"> </span><span class="s">allowed"</span>
 <a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a>
-<a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Midterm</span><span class="nv"> </span><span class="s">2&quot;</span>
-<a id="__codelineno-52-9" name="__codelineno-52-9" href="#__codelineno-52-9"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-04-02&quot;</span>
-<a id="__codelineno-52-10" name="__codelineno-52-10" href="#__codelineno-52-10"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM&quot;</span>
-<a id="__codelineno-52-11" name="__codelineno-52-11" href="#__codelineno-52-11"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132&quot;</span>
+<a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Midterm</span><span class="nv"> </span><span class="s">2"</span>
+<a id="__codelineno-52-9" name="__codelineno-52-9" href="#__codelineno-52-9"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-04-02"</span>
+<a id="__codelineno-52-10" name="__codelineno-52-10" href="#__codelineno-52-10"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM"</span>
+<a id="__codelineno-52-11" name="__codelineno-52-11" href="#__codelineno-52-11"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">"Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132"</span>
 <a id="__codelineno-52-12" name="__codelineno-52-12" href="#__codelineno-52-12"></a>
-<a id="__codelineno-52-13" name="__codelineno-52-13" href="#__codelineno-52-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Final</span><span class="nv"> </span><span class="s">Exam&quot;</span>
-<a id="__codelineno-52-14" name="__codelineno-52-14" href="#__codelineno-52-14"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-08&quot;</span>
-<a id="__codelineno-52-15" name="__codelineno-52-15" href="#__codelineno-52-15"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10:00</span><span class="nv"> </span><span class="s">AM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">12:00</span><span class="nv"> </span><span class="s">PM&quot;</span>
-<a id="__codelineno-52-16" name="__codelineno-52-16" href="#__codelineno-52-16"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Check</span><span class="nv"> </span><span class="s">registrar</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">room&quot;</span>
+<a id="__codelineno-52-13" name="__codelineno-52-13" href="#__codelineno-52-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Final</span><span class="nv"> </span><span class="s">Exam"</span>
+<a id="__codelineno-52-14" name="__codelineno-52-14" href="#__codelineno-52-14"></a><span class="w">    </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-08"</span>
+<a id="__codelineno-52-15" name="__codelineno-52-15" href="#__codelineno-52-15"></a><span class="w">    </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"10:00</span><span class="nv"> </span><span class="s">AM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">12:00</span><span class="nv"> </span><span class="s">PM"</span>
+<a id="__codelineno-52-16" name="__codelineno-52-16" href="#__codelineno-52-16"></a><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">"Check</span><span class="nv"> </span><span class="s">registrar</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">room"</span>
 </code></pre></div>
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
@@ -12070,7 +12098,7 @@
 <a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">01/22/2025</span>
 <a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a>
 <a id="__codelineno-54-4" name="__codelineno-54-4" href="#__codelineno-54-4"></a><span class="c1"># Right:</span>
-<a id="__codelineno-54-5" name="__codelineno-54-5" href="#__codelineno-54-5"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-22&quot;</span>
+<a id="__codelineno-54-5" name="__codelineno-54-5" href="#__codelineno-54-5"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-22"</span>
 </code></pre></div>
 <h4 id="missing-config-fields">Missing Config Fields<a class="headerlink" href="#missing-config-fields" title="Permanent link">&para;</a></h4>
 <p><strong>Problem:</strong></p>
@@ -12084,8 +12112,8 @@
 </code></pre></div>
 <p>Or manually add:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="nt">semester_info</span><span class="p">:</span>
-<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-02&quot;</span>
+<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-02"</span>
 <a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a><span class="w">  </span><span class="nt">weeks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 </code></pre></div>
 <h4 id="file-not-found">File Not Found<a class="headerlink" href="#file-not-found" title="Permanent link">&para;</a></h4>
@@ -12107,7 +12135,7 @@
 <p><strong>Cause:</strong> Relative date references week that doesn't exist</p>
 <p><strong>Fix:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="c1"># Check week count</span>
-<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>yq<span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s1">&#39;.semester_info.weeks | length&#39;</span><span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>yq<span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s1">'.semester_info.weeks | length'</span><span class="w"> </span>.flow/teach-config.yml
 <a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a>
 <a id="__codelineno-61-4" name="__codelineno-61-4" href="#__codelineno-61-4"></a><span class="c1"># If &lt; 15, add more weeks</span>
 <a id="__codelineno-61-5" name="__codelineno-61-5" href="#__codelineno-61-5"></a>teach<span class="w"> </span>dates<span class="w"> </span>init<span class="w">  </span><span class="c1"># Regenerates 15 weeks</span>
@@ -12134,7 +12162,7 @@
 <p><strong>Fix:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="c1"># Add to file:</span>
 <a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a><span class="nn">---</span>
-<a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-22&quot;</span>
+<a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-22"</span>
 <a id="__codelineno-64-4" name="__codelineno-64-4" href="#__codelineno-64-4"></a><span class="nn">---</span>
 </code></pre></div>
 <p><strong>Cause 2:</strong> Filename doesn't match config key</p>
@@ -12152,10 +12180,10 @@
 <p><strong>Cause:</strong> Week 2 not defined in <code>semester_info.weeks</code></p>
 <p><strong>Fix:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="c1"># Check weeks</span>
-<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>yq<span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s1">&#39;.semester_info.weeks[] | select(.number == 2)&#39;</span><span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>yq<span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s1">'.semester_info.weeks[] | select(.number == 2)'</span><span class="w"> </span>.flow/teach-config.yml
 <a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a>
 <a id="__codelineno-66-4" name="__codelineno-66-4" href="#__codelineno-66-4"></a><span class="c1"># If empty, add week:</span>
-<a id="__codelineno-66-5" name="__codelineno-66-5" href="#__codelineno-66-5"></a>yq<span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s1">&#39;.semester_info.weeks += [{&quot;number&quot;: 2, &quot;start_date&quot;: &quot;2025-01-20&quot;}]&#39;</span><span class="w"> </span>-i<span class="w"> </span>.flow/teach-config.yml
+<a id="__codelineno-66-5" name="__codelineno-66-5" href="#__codelineno-66-5"></a>yq<span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s1">'.semester_info.weeks += [{"number": 2, "start_date": "2025-01-20"}]'</span><span class="w"> </span>-i<span class="w"> </span>.flow/teach-config.yml
 </code></pre></div>
 <h4 id="sedyq-corruption">sed/yq Corruption<a class="headerlink" href="#sedyq-corruption" title="Permanent link">&para;</a></h4>
 <p><strong>Problem:</strong> File corrupted after sync</p>
@@ -12244,9 +12272,9 @@
 <a id="__codelineno-69-14" name="__codelineno-69-14" href="#__codelineno-69-14"></a><span class="c1"># Add:</span>
 <a id="__codelineno-69-15" name="__codelineno-69-15" href="#__codelineno-69-15"></a>deadlines:
 <a id="__codelineno-69-16" name="__codelineno-69-16" href="#__codelineno-69-16"></a><span class="w">  </span>hw1:
-<a id="__codelineno-69-17" name="__codelineno-69-17" href="#__codelineno-69-17"></a><span class="w">    </span>due_date:<span class="w"> </span><span class="s2">&quot;2025-01-22&quot;</span><span class="w">  </span><span class="c1"># Copy from hw1.qmd</span>
+<a id="__codelineno-69-17" name="__codelineno-69-17" href="#__codelineno-69-17"></a><span class="w">    </span>due_date:<span class="w"> </span><span class="s2">"2025-01-22"</span><span class="w">  </span><span class="c1"># Copy from hw1.qmd</span>
 <a id="__codelineno-69-18" name="__codelineno-69-18" href="#__codelineno-69-18"></a><span class="w">  </span>hw2:
-<a id="__codelineno-69-19" name="__codelineno-69-19" href="#__codelineno-69-19"></a><span class="w">    </span>due_date:<span class="w"> </span><span class="s2">&quot;2025-02-05&quot;</span><span class="w">  </span><span class="c1"># Copy from hw2.qmd</span>
+<a id="__codelineno-69-19" name="__codelineno-69-19" href="#__codelineno-69-19"></a><span class="w">    </span>due_date:<span class="w"> </span><span class="s2">"2025-02-05"</span><span class="w">  </span><span class="c1"># Copy from hw2.qmd</span>
 <a id="__codelineno-69-20" name="__codelineno-69-20" href="#__codelineno-69-20"></a><span class="w">  </span><span class="c1"># ... etc</span>
 <a id="__codelineno-69-21" name="__codelineno-69-21" href="#__codelineno-69-21"></a>
 <a id="__codelineno-69-22" name="__codelineno-69-22" href="#__codelineno-69-22"></a><span class="c1"># 5. Validate (should be no mismatches)</span>
@@ -12268,13 +12296,13 @@
 <a id="__codelineno-69-38" name="__codelineno-69-38" href="#__codelineno-69-38"></a>
 <a id="__codelineno-69-39" name="__codelineno-69-39" href="#__codelineno-69-39"></a><span class="c1"># 8. Commit</span>
 <a id="__codelineno-69-40" name="__codelineno-69-40" href="#__codelineno-69-40"></a>git<span class="w"> </span>add<span class="w"> </span>-A
-<a id="__codelineno-69-41" name="__codelineno-69-41" href="#__codelineno-69-41"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: centralize course dates in config&quot;</span>
+<a id="__codelineno-69-41" name="__codelineno-69-41" href="#__codelineno-69-41"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: centralize course dates in config"</span>
 </code></pre></div>
 <h3 id="migrating-from-manual-date-management">Migrating from Manual Date Management<a class="headerlink" href="#migrating-from-manual-date-management" title="Permanent link">&para;</a></h3>
 <p><strong>Before (manual):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="c1"># Semester rollover workflow:</span>
 <a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a><span class="c1"># 1. Copy course directory</span>
-<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a><span class="c1"># 2. Find all instances of &quot;2025&quot; → replace with &quot;2026&quot;</span>
+<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a><span class="c1"># 2. Find all instances of "2025" → replace with "2026"</span>
 <a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a><span class="c1"># 3. Find all dates, manually update</span>
 <a id="__codelineno-70-5" name="__codelineno-70-5" href="#__codelineno-70-5"></a><span class="c1"># 4. Cross-check syllabus vs assignments</span>
 <a id="__codelineno-70-6" name="__codelineno-70-6" href="#__codelineno-70-6"></a><span class="c1"># 5. Fix inconsistencies</span>
@@ -12290,7 +12318,7 @@
 <a id="__codelineno-71-7" name="__codelineno-71-7" href="#__codelineno-71-7"></a>teach<span class="w"> </span>dates<span class="w"> </span>sync<span class="w"> </span>--force
 <a id="__codelineno-71-8" name="__codelineno-71-8" href="#__codelineno-71-8"></a>
 <a id="__codelineno-71-9" name="__codelineno-71-9" href="#__codelineno-71-9"></a><span class="c1"># 3. Commit</span>
-<a id="__codelineno-71-10" name="__codelineno-71-10" href="#__codelineno-71-10"></a>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: Spring 2026&quot;</span>
+<a id="__codelineno-71-10" name="__codelineno-71-10" href="#__codelineno-71-10"></a>git<span class="w"> </span>add<span class="w"> </span>-A<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: Spring 2026"</span>
 <a id="__codelineno-71-11" name="__codelineno-71-11" href="#__codelineno-71-11"></a>
 <a id="__codelineno-71-12" name="__codelineno-71-12" href="#__codelineno-71-12"></a><span class="c1"># Time: 5 minutes</span>
 </code></pre></div>
@@ -12323,7 +12351,7 @@
 <a id="__codelineno-74-6" name="__codelineno-74-6" href="#__codelineno-74-6"></a><span class="w">    </span>week:<span class="w"> </span><span class="m">2</span>
 <a id="__codelineno-74-7" name="__codelineno-74-7" href="#__codelineno-74-7"></a><span class="w">    </span>offset_days:<span class="w"> </span><span class="m">4</span>
 <a id="__codelineno-74-8" name="__codelineno-74-8" href="#__codelineno-74-8"></a>
-<a id="__codelineno-74-9" name="__codelineno-74-9" href="#__codelineno-74-9"></a><span class="c1"># Don&#39;t add exams (keep manual in files)</span>
+<a id="__codelineno-74-9" name="__codelineno-74-9" href="#__codelineno-74-9"></a><span class="c1"># Don't add exams (keep manual in files)</span>
 </code></pre></div>
 <hr />
 <h2 id="advanced-topics">Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permanent link">&para;</a></h2>
@@ -12333,10 +12361,10 @@
 <a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a><span class="nt">weeks</span><span class="p">:</span>
 <a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a><span class="w">    </span><span class="nt">meetings</span><span class="p">:</span>
-<a id="__codelineno-75-5" name="__codelineno-75-5" href="#__codelineno-75-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-75-6" name="__codelineno-75-6" href="#__codelineno-75-6"></a><span class="w">        </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Introduction&quot;</span>
-<a id="__codelineno-75-7" name="__codelineno-75-7" href="#__codelineno-75-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-15&quot;</span>
-<a id="__codelineno-75-8" name="__codelineno-75-8" href="#__codelineno-75-8"></a><span class="w">        </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Setup</span><span class="nv"> </span><span class="s">&amp;</span><span class="nv"> </span><span class="s">RStudio&quot;</span>
+<a id="__codelineno-75-5" name="__codelineno-75-5" href="#__codelineno-75-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-75-6" name="__codelineno-75-6" href="#__codelineno-75-6"></a><span class="w">        </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Introduction"</span>
+<a id="__codelineno-75-7" name="__codelineno-75-7" href="#__codelineno-75-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-15"</span>
+<a id="__codelineno-75-8" name="__codelineno-75-8" href="#__codelineno-75-8"></a><span class="w">        </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Setup</span><span class="nv"> </span><span class="s">&amp;</span><span class="nv"> </span><span class="s">RStudio"</span>
 </code></pre></div>
 <p><strong>Current workaround:</strong> Use single meeting date (Monday) and handle others manually</p>
 <h3 id="external-calendar-import-future">External Calendar Import (Future)<a class="headerlink" href="#external-calendar-import-future" title="Permanent link">&para;</a></h3>
@@ -12348,10 +12376,10 @@
 <h3 id="custom-date-fields_1">Custom Date Fields<a class="headerlink" href="#custom-date-fields_1" title="Permanent link">&para;</a></h3>
 <p>Add your own date fields to YAML frontmatter:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="nn">---</span>
-<a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Homework</span><span class="nv"> </span><span class="s">1&quot;</span>
-<a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-22&quot;</span>
-<a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a><span class="nt">available</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-15&quot;</span><span class="w">        </span><span class="c1"># Custom field</span>
-<a id="__codelineno-77-5" name="__codelineno-77-5" href="#__codelineno-77-5"></a><span class="nt">peer_review_due</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-24&quot;</span><span class="w">  </span><span class="c1"># Custom field</span>
+<a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">"Homework</span><span class="nv"> </span><span class="s">1"</span>
+<a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-22"</span>
+<a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a><span class="nt">available</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-15"</span><span class="w">        </span><span class="c1"># Custom field</span>
+<a id="__codelineno-77-5" name="__codelineno-77-5" href="#__codelineno-77-5"></a><span class="nt">peer_review_due</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-24"</span><span class="w">  </span><span class="c1"># Custom field</span>
 <a id="__codelineno-77-6" name="__codelineno-77-6" href="#__codelineno-77-6"></a><span class="nn">---</span>
 </code></pre></div>
 <p><strong>To sync custom fields:</strong></p>
@@ -12372,8 +12400,8 @@
 <p><strong>Structure your config logically:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a><span class="nt">semester_info</span><span class="p">:</span>
 <a id="__codelineno-79-2" name="__codelineno-79-2" href="#__codelineno-79-2"></a><span class="w">  </span><span class="c1"># 1. Semester boundaries (top)</span>
-<a id="__codelineno-79-3" name="__codelineno-79-3" href="#__codelineno-79-3"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-79-4" name="__codelineno-79-4" href="#__codelineno-79-4"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-02&quot;</span>
+<a id="__codelineno-79-3" name="__codelineno-79-3" href="#__codelineno-79-3"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-79-4" name="__codelineno-79-4" href="#__codelineno-79-4"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-02"</span>
 <a id="__codelineno-79-5" name="__codelineno-79-5" href="#__codelineno-79-5"></a>
 <a id="__codelineno-79-6" name="__codelineno-79-6" href="#__codelineno-79-6"></a><span class="w">  </span><span class="c1"># 2. Weeks (core structure)</span>
 <a id="__codelineno-79-7" name="__codelineno-79-7" href="#__codelineno-79-7"></a><span class="w">  </span><span class="nt">weeks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">...</span><span class="p p-Indicator">]</span>
@@ -12389,7 +12417,7 @@
 </code></pre></div>
 <p><strong>Add comments for clarity:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="c1"># Spring 2026 semester dates</span>
-<a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-12&quot;</span>
+<a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-01-12"</span>
 <a id="__codelineno-80-3" name="__codelineno-80-3" href="#__codelineno-80-3"></a>
 <a id="__codelineno-80-4" name="__codelineno-80-4" href="#__codelineno-80-4"></a><span class="nt">deadlines</span><span class="p">:</span>
 <a id="__codelineno-80-5" name="__codelineno-80-5" href="#__codelineno-80-5"></a><span class="w">  </span><span class="c1"># Regular homework (due Fridays)</span>
@@ -12399,7 +12427,7 @@
 <a id="__codelineno-80-9" name="__codelineno-80-9" href="#__codelineno-80-9"></a>
 <a id="__codelineno-80-10" name="__codelineno-80-10" href="#__codelineno-80-10"></a><span class="w">  </span><span class="c1"># Major project (due end of semester)</span>
 <a id="__codelineno-80-11" name="__codelineno-80-11" href="#__codelineno-80-11"></a><span class="w">  </span><span class="nt">final_project</span><span class="p">:</span>
-<a id="__codelineno-80-12" name="__codelineno-80-12" href="#__codelineno-80-12"></a><span class="w">    </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-05-08&quot;</span>
+<a id="__codelineno-80-12" name="__codelineno-80-12" href="#__codelineno-80-12"></a><span class="w">    </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-05-08"</span>
 </code></pre></div>
 <h3 id="naming-conventions">Naming Conventions<a class="headerlink" href="#naming-conventions" title="Permanent link">&para;</a></h3>
 <p><strong>Assignment IDs:</strong>
@@ -12434,15 +12462,15 @@
 <p><strong>Option 1: Separate commits</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a><span class="c1"># Commit 1: Config change</span>
 <a id="__codelineno-82-2" name="__codelineno-82-2" href="#__codelineno-82-2"></a>git<span class="w"> </span>add<span class="w"> </span>.flow/teach-config.yml
-<a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: update hw3 deadline&quot;</span>
+<a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: update hw3 deadline"</span>
 <a id="__codelineno-82-4" name="__codelineno-82-4" href="#__codelineno-82-4"></a>
 <a id="__codelineno-82-5" name="__codelineno-82-5" href="#__codelineno-82-5"></a><span class="c1"># Commit 2: File sync</span>
 <a id="__codelineno-82-6" name="__codelineno-82-6" href="#__codelineno-82-6"></a>git<span class="w"> </span>add<span class="w"> </span>assignments/hw3.qmd
-<a id="__codelineno-82-7" name="__codelineno-82-7" href="#__codelineno-82-7"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: sync hw3 date to config&quot;</span>
+<a id="__codelineno-82-7" name="__codelineno-82-7" href="#__codelineno-82-7"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: sync hw3 date to config"</span>
 </code></pre></div>
 <p><strong>Option 2: Combined commit</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>git<span class="w"> </span>add<span class="w"> </span>.flow/teach-config.yml<span class="w"> </span>assignments/
-<a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: extend hw3 deadline by 2 days&quot;</span>
+<a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: extend hw3 deadline by 2 days"</span>
 </code></pre></div>
 <p><strong>Recommendation:</strong> Use combined commits (less noise)</p>
 <p><strong>Branch strategy:</strong></p>
@@ -12456,7 +12484,7 @@
 <a id="__codelineno-84-7" name="__codelineno-84-7" href="#__codelineno-84-7"></a>
 <a id="__codelineno-84-8" name="__codelineno-84-8" href="#__codelineno-84-8"></a><span class="c1"># Commit</span>
 <a id="__codelineno-84-9" name="__codelineno-84-9" href="#__codelineno-84-9"></a>git<span class="w"> </span>add<span class="w"> </span>-A
-<a id="__codelineno-84-10" name="__codelineno-84-10" href="#__codelineno-84-10"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: roll over to Spring 2026&quot;</span>
+<a id="__codelineno-84-10" name="__codelineno-84-10" href="#__codelineno-84-10"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: roll over to Spring 2026"</span>
 <a id="__codelineno-84-11" name="__codelineno-84-11" href="#__codelineno-84-11"></a>
 <a id="__codelineno-84-12" name="__codelineno-84-12" href="#__codelineno-84-12"></a><span class="c1"># PR/merge</span>
 <a id="__codelineno-84-13" name="__codelineno-84-13" href="#__codelineno-84-13"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>spring-2026-dates
@@ -12523,46 +12551,46 @@
 <h3 id="complete-teach-configyml-example">Complete teach-config.yml Example<a class="headerlink" href="#complete-teach-configyml-example" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="c1"># Course metadata</span>
 <a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">545</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Statistical</span><span class="nv"> </span><span class="s">Programming&quot;</span>
-<a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring&quot;</span>
+<a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT</span><span class="nv"> </span><span class="s">545</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Statistical</span><span class="nv"> </span><span class="s">Programming"</span>
+<a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring"</span>
 <a id="__codelineno-88-5" name="__codelineno-88-5" href="#__codelineno-88-5"></a><span class="w">  </span><span class="nt">year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2025</span>
 <a id="__codelineno-88-6" name="__codelineno-88-6" href="#__codelineno-88-6"></a><span class="w">  </span><span class="nt">credits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
 <a id="__codelineno-88-7" name="__codelineno-88-7" href="#__codelineno-88-7"></a>
 <a id="__codelineno-88-8" name="__codelineno-88-8" href="#__codelineno-88-8"></a><span class="c1"># Semester schedule</span>
 <a id="__codelineno-88-9" name="__codelineno-88-9" href="#__codelineno-88-9"></a><span class="nt">semester_info</span><span class="p">:</span>
-<a id="__codelineno-88-10" name="__codelineno-88-10" href="#__codelineno-88-10"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-88-11" name="__codelineno-88-11" href="#__codelineno-88-11"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-02&quot;</span>
+<a id="__codelineno-88-10" name="__codelineno-88-10" href="#__codelineno-88-10"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-88-11" name="__codelineno-88-11" href="#__codelineno-88-11"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-02"</span>
 <a id="__codelineno-88-12" name="__codelineno-88-12" href="#__codelineno-88-12"></a>
 <a id="__codelineno-88-13" name="__codelineno-88-13" href="#__codelineno-88-13"></a><span class="w">  </span><span class="nt">weeks</span><span class="p">:</span>
 <a id="__codelineno-88-14" name="__codelineno-88-14" href="#__codelineno-88-14"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<a id="__codelineno-88-15" name="__codelineno-88-15" href="#__codelineno-88-15"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-88-16" name="__codelineno-88-16" href="#__codelineno-88-16"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">R</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">RStudio&quot;</span>
-<a id="__codelineno-88-17" name="__codelineno-88-17" href="#__codelineno-88-17"></a><span class="w">      </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chapter</span><span class="nv"> </span><span class="s">1&quot;</span>
+<a id="__codelineno-88-15" name="__codelineno-88-15" href="#__codelineno-88-15"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-88-16" name="__codelineno-88-16" href="#__codelineno-88-16"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">R</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">RStudio"</span>
+<a id="__codelineno-88-17" name="__codelineno-88-17" href="#__codelineno-88-17"></a><span class="w">      </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">"Chapter</span><span class="nv"> </span><span class="s">1"</span>
 <a id="__codelineno-88-18" name="__codelineno-88-18" href="#__codelineno-88-18"></a>
 <a id="__codelineno-88-19" name="__codelineno-88-19" href="#__codelineno-88-19"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<a id="__codelineno-88-20" name="__codelineno-88-20" href="#__codelineno-88-20"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-20&quot;</span>
-<a id="__codelineno-88-21" name="__codelineno-88-21" href="#__codelineno-88-21"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Data</span><span class="nv"> </span><span class="s">Wrangling</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">dplyr&quot;</span>
-<a id="__codelineno-88-22" name="__codelineno-88-22" href="#__codelineno-88-22"></a><span class="w">      </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chapters</span><span class="nv"> </span><span class="s">3-4&quot;</span>
+<a id="__codelineno-88-20" name="__codelineno-88-20" href="#__codelineno-88-20"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-20"</span>
+<a id="__codelineno-88-21" name="__codelineno-88-21" href="#__codelineno-88-21"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Data</span><span class="nv"> </span><span class="s">Wrangling</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">dplyr"</span>
+<a id="__codelineno-88-22" name="__codelineno-88-22" href="#__codelineno-88-22"></a><span class="w">      </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">"Chapters</span><span class="nv"> </span><span class="s">3-4"</span>
 <a id="__codelineno-88-23" name="__codelineno-88-23" href="#__codelineno-88-23"></a>
 <a id="__codelineno-88-24" name="__codelineno-88-24" href="#__codelineno-88-24"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-<a id="__codelineno-88-25" name="__codelineno-88-25" href="#__codelineno-88-25"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-27&quot;</span>
-<a id="__codelineno-88-26" name="__codelineno-88-26" href="#__codelineno-88-26"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Data</span><span class="nv"> </span><span class="s">Visualization</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">ggplot2&quot;</span>
-<a id="__codelineno-88-27" name="__codelineno-88-27" href="#__codelineno-88-27"></a><span class="w">      </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chapter</span><span class="nv"> </span><span class="s">5&quot;</span>
+<a id="__codelineno-88-25" name="__codelineno-88-25" href="#__codelineno-88-25"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-27"</span>
+<a id="__codelineno-88-26" name="__codelineno-88-26" href="#__codelineno-88-26"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Data</span><span class="nv"> </span><span class="s">Visualization</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">ggplot2"</span>
+<a id="__codelineno-88-27" name="__codelineno-88-27" href="#__codelineno-88-27"></a><span class="w">      </span><span class="nt">reading</span><span class="p">:</span><span class="w"> </span><span class="s">"Chapter</span><span class="nv"> </span><span class="s">5"</span>
 <a id="__codelineno-88-28" name="__codelineno-88-28" href="#__codelineno-88-28"></a>
 <a id="__codelineno-88-29" name="__codelineno-88-29" href="#__codelineno-88-29"></a><span class="w">    </span><span class="c1"># ... weeks 4-15</span>
 <a id="__codelineno-88-30" name="__codelineno-88-30" href="#__codelineno-88-30"></a>
 <a id="__codelineno-88-31" name="__codelineno-88-31" href="#__codelineno-88-31"></a><span class="w">  </span><span class="nt">holidays</span><span class="p">:</span>
-<a id="__codelineno-88-32" name="__codelineno-88-32" href="#__codelineno-88-32"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Martin</span><span class="nv"> </span><span class="s">Luther</span><span class="nv"> </span><span class="s">King</span><span class="nv"> </span><span class="s">Jr.</span><span class="nv"> </span><span class="s">Day&quot;</span>
-<a id="__codelineno-88-33" name="__codelineno-88-33" href="#__codelineno-88-33"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-20&quot;</span>
-<a id="__codelineno-88-34" name="__codelineno-88-34" href="#__codelineno-88-34"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;holiday&quot;</span>
+<a id="__codelineno-88-32" name="__codelineno-88-32" href="#__codelineno-88-32"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Martin</span><span class="nv"> </span><span class="s">Luther</span><span class="nv"> </span><span class="s">King</span><span class="nv"> </span><span class="s">Jr.</span><span class="nv"> </span><span class="s">Day"</span>
+<a id="__codelineno-88-33" name="__codelineno-88-33" href="#__codelineno-88-33"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-20"</span>
+<a id="__codelineno-88-34" name="__codelineno-88-34" href="#__codelineno-88-34"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"holiday"</span>
 <a id="__codelineno-88-35" name="__codelineno-88-35" href="#__codelineno-88-35"></a>
-<a id="__codelineno-88-36" name="__codelineno-88-36" href="#__codelineno-88-36"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">Break&quot;</span>
-<a id="__codelineno-88-37" name="__codelineno-88-37" href="#__codelineno-88-37"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-10&quot;</span>
-<a id="__codelineno-88-38" name="__codelineno-88-38" href="#__codelineno-88-38"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;break&quot;</span>
+<a id="__codelineno-88-36" name="__codelineno-88-36" href="#__codelineno-88-36"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring</span><span class="nv"> </span><span class="s">Break"</span>
+<a id="__codelineno-88-37" name="__codelineno-88-37" href="#__codelineno-88-37"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-10"</span>
+<a id="__codelineno-88-38" name="__codelineno-88-38" href="#__codelineno-88-38"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"break"</span>
 <a id="__codelineno-88-39" name="__codelineno-88-39" href="#__codelineno-88-39"></a>
-<a id="__codelineno-88-40" name="__codelineno-88-40" href="#__codelineno-88-40"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Good</span><span class="nv"> </span><span class="s">Friday&quot;</span>
-<a id="__codelineno-88-41" name="__codelineno-88-41" href="#__codelineno-88-41"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-04-18&quot;</span>
-<a id="__codelineno-88-42" name="__codelineno-88-42" href="#__codelineno-88-42"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;holiday&quot;</span>
+<a id="__codelineno-88-40" name="__codelineno-88-40" href="#__codelineno-88-40"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Good</span><span class="nv"> </span><span class="s">Friday"</span>
+<a id="__codelineno-88-41" name="__codelineno-88-41" href="#__codelineno-88-41"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-04-18"</span>
+<a id="__codelineno-88-42" name="__codelineno-88-42" href="#__codelineno-88-42"></a><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">"holiday"</span>
 <a id="__codelineno-88-43" name="__codelineno-88-43" href="#__codelineno-88-43"></a>
 <a id="__codelineno-88-44" name="__codelineno-88-44" href="#__codelineno-88-44"></a><span class="w">  </span><span class="nt">deadlines</span><span class="p">:</span>
 <a id="__codelineno-88-45" name="__codelineno-88-45" href="#__codelineno-88-45"></a><span class="w">    </span><span class="c1"># Regular homework (Fridays)</span>
@@ -12583,35 +12611,35 @@
 <a id="__codelineno-88-60" name="__codelineno-88-60" href="#__codelineno-88-60"></a>
 <a id="__codelineno-88-61" name="__codelineno-88-61" href="#__codelineno-88-61"></a><span class="w">    </span><span class="c1"># Project milestones (absolute dates)</span>
 <a id="__codelineno-88-62" name="__codelineno-88-62" href="#__codelineno-88-62"></a><span class="w">    </span><span class="nt">project_proposal</span><span class="p">:</span>
-<a id="__codelineno-88-63" name="__codelineno-88-63" href="#__codelineno-88-63"></a><span class="w">      </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-02-28&quot;</span>
+<a id="__codelineno-88-63" name="__codelineno-88-63" href="#__codelineno-88-63"></a><span class="w">      </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-02-28"</span>
 <a id="__codelineno-88-64" name="__codelineno-88-64" href="#__codelineno-88-64"></a><span class="w">      </span><span class="nt">points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
 <a id="__codelineno-88-65" name="__codelineno-88-65" href="#__codelineno-88-65"></a>
 <a id="__codelineno-88-66" name="__codelineno-88-66" href="#__codelineno-88-66"></a><span class="w">    </span><span class="nt">project_final</span><span class="p">:</span>
-<a id="__codelineno-88-67" name="__codelineno-88-67" href="#__codelineno-88-67"></a><span class="w">      </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-08&quot;</span>
+<a id="__codelineno-88-67" name="__codelineno-88-67" href="#__codelineno-88-67"></a><span class="w">      </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-08"</span>
 <a id="__codelineno-88-68" name="__codelineno-88-68" href="#__codelineno-88-68"></a><span class="w">      </span><span class="nt">points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
 <a id="__codelineno-88-69" name="__codelineno-88-69" href="#__codelineno-88-69"></a>
 <a id="__codelineno-88-70" name="__codelineno-88-70" href="#__codelineno-88-70"></a><span class="w">  </span><span class="nt">exams</span><span class="p">:</span>
-<a id="__codelineno-88-71" name="__codelineno-88-71" href="#__codelineno-88-71"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Midterm</span><span class="nv"> </span><span class="s">1&quot;</span>
-<a id="__codelineno-88-72" name="__codelineno-88-72" href="#__codelineno-88-72"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-02-19&quot;</span>
-<a id="__codelineno-88-73" name="__codelineno-88-73" href="#__codelineno-88-73"></a><span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM&quot;</span>
-<a id="__codelineno-88-74" name="__codelineno-88-74" href="#__codelineno-88-74"></a><span class="w">      </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132&quot;</span>
-<a id="__codelineno-88-75" name="__codelineno-88-75" href="#__codelineno-88-75"></a><span class="w">      </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Closed</span><span class="nv"> </span><span class="s">book,</span><span class="nv"> </span><span class="s">one</span><span class="nv"> </span><span class="s">page</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">notes</span><span class="nv"> </span><span class="s">allowed&quot;</span>
+<a id="__codelineno-88-71" name="__codelineno-88-71" href="#__codelineno-88-71"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Midterm</span><span class="nv"> </span><span class="s">1"</span>
+<a id="__codelineno-88-72" name="__codelineno-88-72" href="#__codelineno-88-72"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-02-19"</span>
+<a id="__codelineno-88-73" name="__codelineno-88-73" href="#__codelineno-88-73"></a><span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM"</span>
+<a id="__codelineno-88-74" name="__codelineno-88-74" href="#__codelineno-88-74"></a><span class="w">      </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">"Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132"</span>
+<a id="__codelineno-88-75" name="__codelineno-88-75" href="#__codelineno-88-75"></a><span class="w">      </span><span class="nt">notes</span><span class="p">:</span><span class="w"> </span><span class="s">"Closed</span><span class="nv"> </span><span class="s">book,</span><span class="nv"> </span><span class="s">one</span><span class="nv"> </span><span class="s">page</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">notes</span><span class="nv"> </span><span class="s">allowed"</span>
 <a id="__codelineno-88-76" name="__codelineno-88-76" href="#__codelineno-88-76"></a>
-<a id="__codelineno-88-77" name="__codelineno-88-77" href="#__codelineno-88-77"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Midterm</span><span class="nv"> </span><span class="s">2&quot;</span>
-<a id="__codelineno-88-78" name="__codelineno-88-78" href="#__codelineno-88-78"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-04-02&quot;</span>
-<a id="__codelineno-88-79" name="__codelineno-88-79" href="#__codelineno-88-79"></a><span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM&quot;</span>
-<a id="__codelineno-88-80" name="__codelineno-88-80" href="#__codelineno-88-80"></a><span class="w">      </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132&quot;</span>
+<a id="__codelineno-88-77" name="__codelineno-88-77" href="#__codelineno-88-77"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Midterm</span><span class="nv"> </span><span class="s">2"</span>
+<a id="__codelineno-88-78" name="__codelineno-88-78" href="#__codelineno-88-78"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-04-02"</span>
+<a id="__codelineno-88-79" name="__codelineno-88-79" href="#__codelineno-88-79"></a><span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM"</span>
+<a id="__codelineno-88-80" name="__codelineno-88-80" href="#__codelineno-88-80"></a><span class="w">      </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">"Gilman</span><span class="nv"> </span><span class="s">Hall</span><span class="nv"> </span><span class="s">132"</span>
 <a id="__codelineno-88-81" name="__codelineno-88-81" href="#__codelineno-88-81"></a>
-<a id="__codelineno-88-82" name="__codelineno-88-82" href="#__codelineno-88-82"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Final</span><span class="nv"> </span><span class="s">Exam&quot;</span>
-<a id="__codelineno-88-83" name="__codelineno-88-83" href="#__codelineno-88-83"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-08&quot;</span>
-<a id="__codelineno-88-84" name="__codelineno-88-84" href="#__codelineno-88-84"></a><span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;10:00</span><span class="nv"> </span><span class="s">AM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">12:00</span><span class="nv"> </span><span class="s">PM&quot;</span>
-<a id="__codelineno-88-85" name="__codelineno-88-85" href="#__codelineno-88-85"></a><span class="w">      </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Per</span><span class="nv"> </span><span class="s">registrar</span><span class="nv"> </span><span class="s">(TBD)&quot;</span>
+<a id="__codelineno-88-82" name="__codelineno-88-82" href="#__codelineno-88-82"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Final</span><span class="nv"> </span><span class="s">Exam"</span>
+<a id="__codelineno-88-83" name="__codelineno-88-83" href="#__codelineno-88-83"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-08"</span>
+<a id="__codelineno-88-84" name="__codelineno-88-84" href="#__codelineno-88-84"></a><span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"10:00</span><span class="nv"> </span><span class="s">AM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">12:00</span><span class="nv"> </span><span class="s">PM"</span>
+<a id="__codelineno-88-85" name="__codelineno-88-85" href="#__codelineno-88-85"></a><span class="w">      </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="s">"Per</span><span class="nv"> </span><span class="s">registrar</span><span class="nv"> </span><span class="s">(TBD)"</span>
 </code></pre></div>
 <h3 id="example-course-schedule">Example Course Schedule<a class="headerlink" href="#example-course-schedule" title="Permanent link">&para;</a></h3>
 <p><strong>File:</strong> <code>schedule.qmd</code></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a>---
-<a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a>title: &quot;Course Schedule&quot;
-<a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a><span class="gu">date: &quot;2025-01-13&quot;</span>
+<a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a>title: "Course Schedule"
+<a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a><span class="gu">date: "2025-01-13"</span>
 <a id="__codelineno-89-4" name="__codelineno-89-4" href="#__codelineno-89-4"></a><span class="gu">---</span>
 <a id="__codelineno-89-5" name="__codelineno-89-5" href="#__codelineno-89-5"></a>
 <a id="__codelineno-89-6" name="__codelineno-89-6" href="#__codelineno-89-6"></a><span class="gh"># STAT 545 Schedule - Spring 2025</span>
@@ -12645,9 +12673,9 @@
 <h3 id="example-assignment-with-dates">Example Assignment with Dates<a class="headerlink" href="#example-assignment-with-dates" title="Permanent link">&para;</a></h3>
 <p><strong>File:</strong> <code>assignments/hw1.qmd</code></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a><span class="nn">---</span>
-<a id="__codelineno-90-2" name="__codelineno-90-2" href="#__codelineno-90-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Homework</span><span class="nv"> </span><span class="s">1:</span><span class="nv"> </span><span class="s">Data</span><span class="nv"> </span><span class="s">Wrangling&quot;</span>
-<a id="__codelineno-90-3" name="__codelineno-90-3" href="#__codelineno-90-3"></a><span class="nt">subtitle</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">545</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Spring</span><span class="nv"> </span><span class="s">2025&quot;</span>
-<a id="__codelineno-90-4" name="__codelineno-90-4" href="#__codelineno-90-4"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-22&quot;</span>
+<a id="__codelineno-90-2" name="__codelineno-90-2" href="#__codelineno-90-2"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">"Homework</span><span class="nv"> </span><span class="s">1:</span><span class="nv"> </span><span class="s">Data</span><span class="nv"> </span><span class="s">Wrangling"</span>
+<a id="__codelineno-90-3" name="__codelineno-90-3" href="#__codelineno-90-3"></a><span class="nt">subtitle</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT</span><span class="nv"> </span><span class="s">545</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">Spring</span><span class="nv"> </span><span class="s">2025"</span>
+<a id="__codelineno-90-4" name="__codelineno-90-4" href="#__codelineno-90-4"></a><span class="nt">due</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-22"</span>
 <a id="__codelineno-90-5" name="__codelineno-90-5" href="#__codelineno-90-5"></a><span class="nt">points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
 <a id="__codelineno-90-6" name="__codelineno-90-6" href="#__codelineno-90-6"></a><span class="nt">format</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">html</span>
 <a id="__codelineno-90-7" name="__codelineno-90-7" href="#__codelineno-90-7"></a><span class="nn">---</span>
@@ -12864,7 +12892,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

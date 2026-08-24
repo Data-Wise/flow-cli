@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7035,6 +7035,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9051,11 +9079,11 @@
 <h3 id="teach-solution-topic"><code>teach solution &lt;topic&gt;</code><a class="headerlink" href="#teach-solution-topic" title="Permanent link">&para;</a></h3>
 <p>Generate a standalone solution key for any topic.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Generate solution key</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>solution<span class="w"> </span><span class="s2">&quot;Bayesian inference&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach<span class="w"> </span>sol<span class="w"> </span><span class="s2">&quot;Chapter 5 problems&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>solution<span class="w"> </span><span class="s2">"Bayesian inference"</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach<span class="w"> </span>sol<span class="w"> </span><span class="s2">"Chapter 5 problems"</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># With config override</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach<span class="w"> </span>solution<span class="w"> </span><span class="s2">&quot;Linear regression&quot;</span><span class="w"> </span>--config<span class="w"> </span>custom.yml
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach<span class="w"> </span>solution<span class="w"> </span><span class="s2">"Linear regression"</span><span class="w"> </span>--config<span class="w"> </span>custom.yml
 </code></pre></div>
 <p><strong>How it works:</strong> Invokes Scholar's <code>/teaching:solution</code> skill with the topic argument. Config is auto-injected. Output goes to the course's solutions directory.</p>
 <h3 id="teach-sync"><code>teach sync</code><a class="headerlink" href="#teach-sync" title="Permanent link">&para;</a></h3>
@@ -9076,7 +9104,7 @@
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Output:</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># ✅ lectures/week-01.qmd — 3 R chunks, all valid</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># ⚠️ lectures/week-05.qmd — chunk 2: undefined variable &#39;dat&#39;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># ⚠️ lectures/week-05.qmd — chunk 2: undefined variable 'dat'</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># ✅ assignments/hw3.qmd — 5 R chunks, all valid</span>
 </code></pre></div>
 <p><strong>What it checks:</strong></p>
@@ -9089,9 +9117,9 @@
 <hr />
 <h2 id="config-auto-injection">Config Auto-Injection<a class="headerlink" href="#config-auto-injection" title="Permanent link">&para;</a></h2>
 <p>All wrapper commands automatically append <code>--config &lt;path&gt;</code> when <code>.flow/teach-config.yml</code> exists:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>teach exam &quot;Midterm&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>teach exam "Midterm"
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  ↓ internally becomes:
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>claude /teaching:exam &quot;Midterm&quot; --config &quot;/path/to/.flow/teach-config.yml&quot;
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>claude /teaching:exam "Midterm" --config "/path/to/.flow/teach-config.yml"
 </code></pre></div>
 <h3 id="config-management">Config Management<a class="headerlink" href="#config-management" title="Permanent link">&para;</a></h3>
 <table>
@@ -9142,7 +9170,7 @@
 <hr />
 <h2 id="common-workflows">Common Workflows<a class="headerlink" href="#common-workflows" title="Permanent link">&para;</a></h2>
 <h3 id="first-time-setup">First-Time Setup<a class="headerlink" href="#first-time-setup" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 440&quot;</span><span class="w">        </span><span class="c1"># Creates .flow/teach-config.yml</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 440"</span><span class="w">        </span><span class="c1"># Creates .flow/teach-config.yml</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach<span class="w"> </span>config<span class="w"> </span>scaffold<span class="w">        </span><span class="c1"># Copy default prompts</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>teach<span class="w"> </span>config<span class="w"> </span>check<span class="w">           </span><span class="c1"># Validate</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>teach<span class="w"> </span>doctor<span class="w">                 </span><span class="c1"># Verify 5/5 green</span>
@@ -9151,7 +9179,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>teach<span class="w"> </span>config<span class="w"> </span>edit<span class="w">            </span><span class="c1"># Customize prompts</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>config<span class="w"> </span>check<span class="w">           </span><span class="c1"># Validate changes</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>teach<span class="w"> </span>sync<span class="w">                   </span><span class="c1"># Ensure Scholar sees updates</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span><span class="w">       </span><span class="c1"># Generate with custom config</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Midterm 1"</span><span class="w">       </span><span class="c1"># Generate with custom config</span>
 </code></pre></div>
 <h3 id="validate-before-deploy">Validate Before Deploy<a class="headerlink" href="#validate-before-deploy" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>teach<span class="w"> </span>validate-r<span class="w">             </span><span class="c1"># Check R code</span>
@@ -9242,7 +9270,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

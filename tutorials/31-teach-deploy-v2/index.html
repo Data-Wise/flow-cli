@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7117,6 +7117,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9176,20 +9204,20 @@
 <p>Edit a lecture file:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># After editing lectures/week-05.qmd</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># → &quot;content: week-05 lecture&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># → "content: week-05 lecture"</span>
 </code></pre></div>
 <p>Edit a config file:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># After editing _quarto.yml</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># → &quot;config: quarto settings&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># → "config: quarto settings"</span>
 </code></pre></div>
 <p>Edit multiple files:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># After editing 3 different files</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># → &quot;deploy: 3 file updates&quot;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># → "deploy: 3 file updates"</span>
 </code></pre></div>
 <p>Override with a custom message:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix typo in regression notes&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Fix typo in regression notes"</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># → Uses your custom message</span>
 </code></pre></div>
 <h2 id="step-3-preview-with-dry-run">Step 3: Preview with Dry-Run<a class="headerlink" href="#step-3-preview-with-dry-run" title="Permanent link">&para;</a></h2>
@@ -9269,7 +9297,7 @@
 </code></pre></div>
 <h2 id="step-6-ci-mode-for-automation">Step 6: CI Mode for Automation<a class="headerlink" href="#step-6-ci-mode-for-automation" title="Permanent link">&para;</a></h2>
 <p>Run deployments in scripts or CI without interactive prompts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Automated weekly deploy&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Automated weekly deploy"</span>
 </code></pre></div>
 <p>The <code>--ci</code> flag:</p>
 <ul>
@@ -9279,7 +9307,7 @@
 </ul>
 <p>Example GitHub Actions workflow:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy course website</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">teach deploy --ci -d -m &quot;Automated deploy from CI&quot;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">teach deploy --ci -d -m "Automated deploy from CI"</span>
 </code></pre></div>
 <h2 id="step-7-combining-flags">Step 7: Combining Flags<a class="headerlink" href="#step-7-combining-flags" title="Permanent link">&para;</a></h2>
 <p>Practical flag combinations for common workflows:</p>
@@ -9288,7 +9316,7 @@
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># Deploys and creates a git tag (v1.2.0, v1.2.1, etc.)</span>
 </code></pre></div>
 <p>CI direct deploy with custom message:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Weekly content update&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Weekly content update"</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="c1"># Non-interactive, direct, custom message</span>
 </code></pre></div>
 <p>Preview partial deploy:</p>
@@ -9372,7 +9400,7 @@
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="nt">Options</span><span class="p">:</span>
 <a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">1. Fix issues, then teach deploy again</span>
 <a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">2. Skip</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...</span>
-<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">    </span><span class="nt">3. Force</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git commit --no-verify -m &quot;message&quot;</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">    </span><span class="nt">3. Force</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git commit --no-verify -m "message"</span>
 <a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>
 <a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Changes are still staged.</span>
 </code></pre></div>
@@ -9409,7 +9437,7 @@
 <a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>teach<span class="w"> </span>dep<span class="w"> </span>--history<span class="w">       </span><span class="c1"># View past deploys</span>
 <a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>teach<span class="w"> </span>dep<span class="w"> </span>--rollback<span class="w"> </span><span class="m">1</span><span class="w">    </span><span class="c1"># Undo last deploy</span>
 <a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>teach<span class="w"> </span>dep<span class="w"> </span>--ci<span class="w"> </span>-d<span class="w">         </span><span class="c1"># CI mode</span>
-<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>teach<span class="w"> </span>dep<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;msg&quot;</span><span class="w">     </span><span class="c1"># Custom message</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>teach<span class="w"> </span>dep<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">"msg"</span><span class="w">     </span><span class="c1"># Custom message</span>
 </code></pre></div>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
@@ -9501,7 +9529,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

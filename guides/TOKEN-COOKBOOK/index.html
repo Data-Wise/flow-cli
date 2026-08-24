@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7008,6 +7008,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9017,7 +9045,7 @@ For full reference, see the <a href="../../reference/REFCARD-TOKEN-SECRETS/">ref
 <hr />
 <h2 id="7-migrate-a-pypi-publish-to-oidc-trusted-publishing">7. Migrate a PyPI Publish to OIDC Trusted Publishing<a class="headerlink" href="#7-migrate-a-pypi-publish-to-oidc-trusted-publishing" title="Permanent link">&para;</a></h2>
 <p><strong>Goal:</strong> Stop syncing a stored <code>PYPI_TOKEN</code> secret and switch the repo to OIDC Trusted Publishing.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Step 1: Mark the row &#39;oidc&#39; in the sync config. tok will never push it.</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Step 1: Mark the row 'oidc' in the sync config. tok will never push it.</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">$EDITOR</span><span class="w"> </span>~/.config/flow/tok-sync.conf
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">#   pypi    PYPI_TOKEN    data-wise/nexus-cli    oidc</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
@@ -9036,7 +9064,7 @@ For full reference, see the <a href="../../reference/REFCARD-TOKEN-SECRETS/">ref
 <a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1">#       id-token: write          # required for OIDC</span>
 <a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="c1">#     steps:</span>
 <a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1">#       - uses: pypa/gh-action-pypi-publish@release/v1</span>
-<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1">#         # no &#39;password:&#39; / token needed — PyPI trusts the repo via OIDC</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1">#         # no 'password:' / token needed — PyPI trusts the repo via OIDC</span>
 </code></pre></div>
 <p>OIDC-flagged rows are <strong>never pushed</strong> — <code>tok</code> lists them but refuses to write a stored secret, then prints the workflow snippet you need. Once the workflow uses <code>pypa/gh-action-pypi-publish</code> with <code>id-token: write</code>, you can delete the old <code>PYPI_TOKEN</code> secret from the repo.</p>
 <hr />
@@ -9097,7 +9125,7 @@ For full reference, see the <a href="../../reference/REFCARD-TOKEN-SECRETS/">ref
 <a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1">#   NPM_TOKEN       Updated 2026-05-21</span>
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Step 2: gh shows names + update timestamps only — secret VALUES are never</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1">#         readable back. A fresh &#39;Updated&#39; date confirms the push landed.</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1">#         readable back. A fresh 'Updated' date confirms the push landed.</span>
 </code></pre></div>
 <p><code>gh secret list</code> is the trust-but-verify step. GitHub never exposes secret values once written, so confirmation is by name and timestamp. If a <code>tok sync gh</code> auth check is needed first, note that <code>tok sync gh</code> is unchanged — it only verifies your <code>gh</code> authentication and does not touch the mapping.</p>
 <hr />
@@ -9125,7 +9153,7 @@ For full reference, see the <a href="../../reference/REFCARD-TOKEN-SECRETS/">ref
 <a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="c1"># Step 3: Use the token immediately</span>
 <a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
 <a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="k">$(</span>tok<span class="w"> </span>mint<span class="k">)</span>
-<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: token </span><span class="nv">$GITHUB_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span>https://api.github.com/user
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: token </span><span class="nv">$GITHUB_TOKEN</span><span class="s2">"</span><span class="w"> </span>https://api.github.com/user
 <a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>
 <a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="c1"># ─────────────────────────────────────────────────────────────────</span>
 <a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="c1"># Step 4: Mint for a different org + see details</span>
@@ -9232,7 +9260,7 @@ macOS).</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

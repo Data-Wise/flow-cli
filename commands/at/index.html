@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -6812,6 +6812,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sync/" class="md-nav__link">
         
   
@@ -9238,12 +9266,12 @@
 </code></pre></div>
 <p><strong>Quick examples:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Quick capture (works with or without Atlas)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;Fix login redirect bug&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">"Fix login redirect bug"</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>at<span class="w"> </span>inbox
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Context tracking (works with or without Atlas)</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>at<span class="w"> </span>where
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">&quot;Debugging the cache layer&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">"Debugging the cache layer"</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Project intelligence (requires Atlas)</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>at<span class="w"> </span>stats
@@ -9374,10 +9402,10 @@
 <p>Capture ideas before they disappear. Works with or without Atlas.</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Basic capture</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;Add dark mode to settings page&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">"Add dark mode to settings page"</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># With project association (Atlas only)</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;Fix pagination&quot;</span><span class="w"> </span>--project<span class="o">=</span>flow-cli
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">"Fix pagination"</span><span class="w"> </span>--project<span class="o">=</span>flow-cli
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># View inbox</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>at<span class="w"> </span>inbox
@@ -9407,8 +9435,8 @@
 </code></pre></div>
 <h3 id="crumb">crumb<a class="headerlink" href="#crumb" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Leave a breadcrumb</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">&quot;Left off debugging auth middleware&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">&quot;About to refactor — save point&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">"Left off debugging auth middleware"</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>at<span class="w"> </span>crumb<span class="w"> </span><span class="s2">"About to refactor — save point"</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># View trail (Atlas only)</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>at<span class="w"> </span>trail
@@ -9433,7 +9461,7 @@
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Park a specific project</span>
 <a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>at<span class="w"> </span>park<span class="w"> </span>flow-cli
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># See what&#39;s parked</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># See what's parked</span>
 <a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>at<span class="w"> </span>parked
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
 <a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># Resume a parked project</span>
@@ -9466,9 +9494,9 @@
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>  │          │  (lib/atlas-bridge.zsh)
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>  └────┬─────┘
 <a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>       │
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>       ├── &quot;help&quot; ──► _at_help()        [Always: flow-cli styled help]
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>       ├── "help" ──► _at_help()        [Always: flow-cli styled help]
 <a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>       │
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>       ├── Atlas installed? ──► Yes ──► atlas &quot;$@&quot;   [Passthrough to Atlas CLI]
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>       ├── Atlas installed? ──► Yes ──► atlas "$@"   [Passthrough to Atlas CLI]
 <a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>       │
 <a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>       └── No Atlas:
 <a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>           ├── catch/inbox/where/crumb ──► ZSH fallbacks
@@ -9560,28 +9588,28 @@
 </code></pre></div>
 <h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Auto-detect (default) — uses Atlas if installed</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">"auto"</span>
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
 <a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Always use Atlas (error if not installed)</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">"yes"</span>
 <a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Disable Atlas (even if installed)</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">&quot;no&quot;</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_ATLAS_ENABLED</span><span class="o">=</span><span class="s2">"no"</span>
 </code></pre></div>
 <hr />
 <h2 id="without-atlas">Without Atlas<a class="headerlink" href="#without-atlas" title="Permanent link">&para;</a></h2>
 <p>When Atlas is not installed, <code>at</code> provides helpful feedback:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Essential commands work via fallbacks</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>$<span class="w"> </span>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">&quot;Quick idea&quot;</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>$<span class="w"> </span>at<span class="w"> </span>catch<span class="w"> </span><span class="s2">"Quick idea"</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="o">[</span>success<span class="o">]</span><span class="w"> </span>Captured:<span class="w"> </span>Quick<span class="w"> </span>idea
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
 <a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># Warm-path commands show install instructions</span>
 <a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>$<span class="w"> </span>at<span class="w"> </span>stats
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">  </span><span class="o">[</span>error<span class="o">]</span><span class="w"> </span><span class="s1">&#39;at stats&#39;</span><span class="w"> </span>requires<span class="w"> </span>Atlas<span class="w"> </span>CLI
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">  </span><span class="o">[</span>error<span class="o">]</span><span class="w"> </span><span class="s1">'at stats'</span><span class="w"> </span>requires<span class="w"> </span>Atlas<span class="w"> </span>CLI
 <a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span>Install:<span class="w"> </span>npm<span class="w"> </span>i<span class="w"> </span>-g<span class="w"> </span>@data-wise/atlas
 <a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">    </span>Or:<span class="w">      </span>brew<span class="w"> </span>install<span class="w"> </span>data-wise/tap/atlas
 <a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
-<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="c1"># Unknown commands list what&#39;s available</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="c1"># Unknown commands list what's available</span>
 <a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>$<span class="w"> </span>at<span class="w"> </span>something
 <a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">  </span><span class="o">[</span>error<span class="o">]</span><span class="w"> </span>Atlas<span class="w"> </span>not<span class="w"> </span>installed
 <a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="w">    </span>Available<span class="w"> </span>without<span class="w"> </span>Atlas:<span class="w"> </span>catch,<span class="w"> </span>inbox,<span class="w"> </span>where,<span class="w"> </span>crumb
@@ -9746,7 +9774,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

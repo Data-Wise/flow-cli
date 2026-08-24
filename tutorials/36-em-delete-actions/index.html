@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7063,6 +7063,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9055,7 +9083,7 @@
 </ul>
 <p><strong>Configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_TRASH_FOLDER</span><span class="o">=</span>Trash<span class="w">           </span><span class="c1"># Default</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># export FLOW_EMAIL_TRASH_FOLDER=&quot;Deleted Items&quot;  # Exchange / Outlook</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># export FLOW_EMAIL_TRASH_FOLDER="Deleted Items"  # Exchange / Outlook</span>
 </code></pre></div>
 <p>You can also use the short alias <code>em del</code> or <code>em rm</code>.</p>
 <hr />
@@ -9090,7 +9118,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>em<span class="w"> </span>move<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w"> </span><span class="m">43</span><span class="w"> </span><span class="m">44</span>
 </code></pre></div>
 <p>When the source email is not in INBOX, specify the source folder with <code>--from</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>em<span class="w"> </span>move<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w"> </span>--from<span class="w"> </span><span class="s2">&quot;Sent Items&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>em<span class="w"> </span>move<span class="w"> </span>Archive<span class="w"> </span><span class="m">42</span><span class="w"> </span>--from<span class="w"> </span><span class="s2">"Sent Items"</span>
 </code></pre></div>
 <p>You can also use the short alias <code>em mv</code>.</p>
 <hr />
@@ -9160,7 +9188,7 @@
 <hr />
 <h2 id="configuration-reference">Configuration Reference<a class="headerlink" href="#configuration-reference" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_TRASH_FOLDER</span><span class="o">=</span>Trash<span class="w">    </span><span class="c1"># Trash folder name</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="c1"># Exchange: export FLOW_EMAIL_TRASH_FOLDER=&quot;Deleted Items&quot;</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="c1"># Exchange: export FLOW_EMAIL_TRASH_FOLDER="Deleted Items"</span>
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI</span><span class="o">=</span>claude<span class="w">             </span><span class="c1"># AI backend: claude | gemini | none</span>
 <a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_AI_TIMEOUT</span><span class="o">=</span><span class="m">30</span><span class="w">         </span><span class="c1"># AI timeout in seconds</span>
@@ -9281,7 +9309,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

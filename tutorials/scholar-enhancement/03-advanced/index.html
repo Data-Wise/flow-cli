@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7434,6 +7434,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../commands/sync/" class="md-nav__link">
         
   
@@ -9784,7 +9812,7 @@
 <h2 id="step-2-basic-revision">Step 2: Basic Revision<a class="headerlink" href="#step-2-basic-revision" title="Permanent link">&para;</a></h2>
 <p>Let's revise existing slides.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Create test slides first</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Linear Regression&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>-o<span class="w"> </span>test-slides.qmd
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Linear Regression"</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>-o<span class="w"> </span>test-slides.qmd
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Now revise them</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>teach<span class="w"> </span>slides<span class="w"> </span>--revise<span class="w"> </span>test-slides.qmd
@@ -9875,7 +9903,7 @@
 3. Result: Improved content with new additions</p>
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>teach<span class="w"> </span>slides<span class="w"> </span>--revise<span class="w"> </span>slides.qmd<span class="w"> </span>--diagrams
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># → Select &quot;Add missing content&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># → Select "Add missing content"</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># → Adds missing sections + diagrams throughout</span>
 </code></pre></div>
 <hr />
@@ -9885,13 +9913,13 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Check YAML frontmatter</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">format</span><span class="p">:</span> <span class="n">revealjs</span> <span class="err">→</span> <span class="n">slides</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">format</span><span class="p">:</span> <span class="n">beamer</span> <span class="err">→</span> <span class="n">slides</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">title</span><span class="p">:</span> <span class="s2">&quot;*Exam*&quot;</span> <span class="err">→</span> <span class="n">exam</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">title</span><span class="p">:</span> <span class="s2">&quot;*Quiz*&quot;</span> <span class="err">→</span> <span class="n">quiz</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">title</span><span class="p">:</span> <span class="s2">"*Exam*"</span> <span class="err">→</span> <span class="n">exam</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">title</span><span class="p">:</span> <span class="s2">"*Quiz*"</span> <span class="err">→</span> <span class="n">quiz</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Check content patterns</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="s2">&quot;# Homework&quot;</span> <span class="err">→</span> <span class="n">assignment</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="s2">&quot;Course: &quot;</span> <span class="err">→</span> <span class="n">syllabus</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="s2">&quot;Criteria&quot;</span> <span class="err">→</span> <span class="n">rubric</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="s2">"# Homework"</span> <span class="err">→</span> <span class="n">assignment</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="s2">"Course: "</span> <span class="err">→</span> <span class="n">syllabus</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="s2">"Criteria"</span> <span class="err">→</span> <span class="n">rubric</span>
 </code></pre></div>
 <p><strong>Detected Types:</strong>
 - slides
@@ -9953,7 +9981,7 @@ Course-specific information that Scholar uses to:
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="m">8</span><span class="w"> </span>--context
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Generate exam aligned with syllabus</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Multiple Regression&quot;</span><span class="w"> </span>--context<span class="w"> </span>--style<span class="w"> </span>rigorous
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Multiple Regression"</span><span class="w"> </span>--context<span class="w"> </span>--style<span class="w"> </span>rigorous
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Revise with course awareness</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>teach<span class="w"> </span>lecture<span class="w"> </span>--revise<span class="w"> </span>lecture.md<span class="w"> </span>--context
@@ -9961,10 +9989,10 @@ Course-specific information that Scholar uses to:
 <p><strong>Context Example:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># .flow/teach-config.yml</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">440&quot;</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring&quot;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT</span><span class="nv"> </span><span class="s">440"</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring"</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">year</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Undergraduate&quot;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="s">"Undergraduate"</span>
 </code></pre></div>
 <p><strong>With Context:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="gh"># Multiple Regression</span>
@@ -10007,7 +10035,7 @@ Course-specific information that Scholar uses to:
 <h2 id="step-10-complex-flag-combinations">Step 10: Complex Flag Combinations<a class="headerlink" href="#step-10-complex-flag-combinations" title="Permanent link">&para;</a></h2>
 <p>Master advanced flag patterns.</p>
 <h3 id="pattern-1-preset-override-chain">Pattern 1: Preset Override Chain<a class="headerlink" href="#pattern-1-preset-override-chain" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--no-proof<span class="w"> </span>--diagrams<span class="w"> </span>--examples
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--no-proof<span class="w"> </span>--diagrams<span class="w"> </span>--examples
 </code></pre></div>
 <p><strong>Resolution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>1. Start: rigorous preset
@@ -10024,7 +10052,7 @@ Course-specific information that Scholar uses to:
 </code></pre></div>
 <p><strong>Use Case:</strong> Lecture slides (concepts only, no hands-on)</p>
 <h3 id="pattern-3-short-form-chain">Pattern 3: Short Form Chain<a class="headerlink" href="#pattern-3-short-form-chain" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>-e<span class="w"> </span>-m<span class="w"> </span>-x<span class="w"> </span>-c<span class="w"> </span>-d
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>-e<span class="w"> </span>-m<span class="w"> </span>-x<span class="w"> </span>-c<span class="w"> </span>-d
 </code></pre></div>
 <p><strong>Expands to:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>--explanation --math --examples --code --diagrams
@@ -10039,19 +10067,19 @@ Course-specific information that Scholar uses to:
 <h3 id="batch-revision">Batch Revision<a class="headerlink" href="#batch-revision" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Revise all week 8 materials</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>week-08-*.qmd<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span>teach<span class="w"> </span>slides<span class="w"> </span>--revise<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>--context<span class="w"> </span>--diagrams
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span>teach<span class="w"> </span>slides<span class="w"> </span>--revise<span class="w"> </span><span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span><span class="w"> </span>--context<span class="w"> </span>--diagrams
 <a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="k">done</span>
 </code></pre></div>
 <h3 id="batch-generation">Batch Generation<a class="headerlink" href="#batch-generation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Generate all assignments for semester</span>
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">for</span><span class="w"> </span>week<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..16<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span>teach<span class="w"> </span>assignment<span class="w"> </span>-w<span class="w"> </span><span class="nv">$week</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;hw/hw-</span><span class="nv">$week</span><span class="s2">.qmd&quot;</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span>teach<span class="w"> </span>assignment<span class="w"> </span>-w<span class="w"> </span><span class="nv">$week</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">"hw/hw-</span><span class="nv">$week</span><span class="s2">.qmd"</span>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="k">done</span>
 </code></pre></div>
 <h3 id="batch-style-override">Batch Style Override<a class="headerlink" href="#batch-style-override" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Regenerate all exams in rigorous style</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">for</span><span class="w"> </span>week<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..16<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span>teach<span class="w"> </span>exam<span class="w"> </span>-w<span class="w"> </span><span class="nv">$week</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;exams/exam-</span><span class="nv">$week</span><span class="s2">.qmd&quot;</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span>teach<span class="w"> </span>exam<span class="w"> </span>-w<span class="w"> </span><span class="nv">$week</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>-o<span class="w"> </span><span class="s2">"exams/exam-</span><span class="nv">$week</span><span class="s2">.qmd"</span>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="k">done</span>
 </code></pre></div>
 <p><strong>Pro Tip:</strong> Add <code>--dry-run</code> to preview first!</p>
@@ -10098,7 +10126,7 @@ Course-specific information that Scholar uses to:
 <h3 id="optimization-strategies">Optimization Strategies<a class="headerlink" href="#optimization-strategies" title="Permanent link">&para;</a></h3>
 <p><strong>1. Use Lesson Plans</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Slow (type full topic each time)</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Multiple Linear Regression with Diagnostics&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Multiple Linear Regression with Diagnostics"</span><span class="w"> </span>--style<span class="w"> </span>computational
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Fast (short command via lesson plan)</span>
 <a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="m">8</span>
@@ -10126,39 +10154,39 @@ Preview commands without calling Scholar:</p>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
 <a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="nv">WEEK</span><span class="o">=</span><span class="nv">$1</span>
 <a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Generating Week </span><span class="nv">$WEEK</span><span class="s2"> materials...&quot;</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Generating Week </span><span class="nv">$WEEK</span><span class="s2"> materials..."</span>
 <a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>
 <a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="c1"># Slides</span>
-<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;slides/week-</span><span class="nv">$WEEK</span><span class="s2">.qmd&quot;</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">"slides/week-</span><span class="nv">$WEEK</span><span class="s2">.qmd"</span>
 <a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>
 <a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="c1"># Lecture notes</span>
-<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>teach<span class="w"> </span>lecture<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;lectures/week-</span><span class="nv">$WEEK</span><span class="s2">.md&quot;</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>teach<span class="w"> </span>lecture<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">"lectures/week-</span><span class="nv">$WEEK</span><span class="s2">.md"</span>
 <a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>
 <a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="c1"># Quiz</span>
-<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>teach<span class="w"> </span>quiz<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;quizzes/quiz-</span><span class="nv">$WEEK</span><span class="s2">.qmd&quot;</span>
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>teach<span class="w"> </span>quiz<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">"quizzes/quiz-</span><span class="nv">$WEEK</span><span class="s2">.qmd"</span>
 <a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>
 <a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a><span class="c1"># Homework</span>
-<a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a>teach<span class="w"> </span>assignment<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;homework/hw-</span><span class="nv">$WEEK</span><span class="s2">.qmd&quot;</span>
+<a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a>teach<span class="w"> </span>assignment<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">"homework/hw-</span><span class="nv">$WEEK</span><span class="s2">.qmd"</span>
 <a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a>
-<a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Week </span><span class="nv">$WEEK</span><span class="s2"> complete!&quot;</span>
+<a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Week </span><span class="nv">$WEEK</span><span class="s2"> complete!"</span>
 </code></pre></div>
 <h3 id="workflow-2-revision-pipeline">Workflow 2: Revision Pipeline<a class="headerlink" href="#workflow-2-revision-pipeline" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="ch">#!/bin/bash</span>
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="c1"># revise-all.sh - Revise all course materials</span>
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Revising all materials...&quot;</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Revising all materials..."</span>
 <a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>
 <a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="c1"># Update all slides</span>
 <a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>slides/*.qmd<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">  </span>teach<span class="w"> </span>slides<span class="w"> </span>--revise<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>--context<span class="w"> </span>--diagrams
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">  </span>teach<span class="w"> </span>slides<span class="w"> </span>--revise<span class="w"> </span><span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span><span class="w"> </span>--context<span class="w"> </span>--diagrams
 <a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="k">done</span>
 <a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
 <a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="c1"># Update all exams</span>
 <a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>exams/*.qmd<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="w">  </span>teach<span class="w"> </span>exam<span class="w"> </span>--revise<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>--context<span class="w"> </span>--math
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="w">  </span>teach<span class="w"> </span>exam<span class="w"> </span>--revise<span class="w"> </span><span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span><span class="w"> </span>--context<span class="w"> </span>--math
 <a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a><span class="k">done</span>
 <a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>
-<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Revision complete!&quot;</span>
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Revision complete!"</span>
 </code></pre></div>
 <h3 id="workflow-3-style-variant-generator">Workflow 3: Style Variant Generator<a class="headerlink" href="#workflow-3-style-variant-generator" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="ch">#!/bin/bash</span>
@@ -10167,20 +10195,20 @@ Preview commands without calling Scholar:</p>
 <a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="nv">WEEK</span><span class="o">=</span><span class="nv">$1</span>
 <a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>
 <a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1"># Conceptual (intro students)</span>
-<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>--style<span class="w"> </span>conceptual<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;slides/week-</span><span class="nv">$WEEK</span><span class="s2">-intro.qmd&quot;</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>--style<span class="w"> </span>conceptual<span class="w"> </span>-o<span class="w"> </span><span class="s2">"slides/week-</span><span class="nv">$WEEK</span><span class="s2">-intro.qmd"</span>
 <a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>
 <a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="c1"># Computational (main section)</span>
-<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;slides/week-</span><span class="nv">$WEEK</span><span class="s2">-main.qmd&quot;</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>-o<span class="w"> </span><span class="s2">"slides/week-</span><span class="nv">$WEEK</span><span class="s2">-main.qmd"</span>
 <a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>
 <a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="c1"># Rigorous (honors section)</span>
-<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;slides/week-</span><span class="nv">$WEEK</span><span class="s2">-honors.qmd&quot;</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="nv">$WEEK</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>-o<span class="w"> </span><span class="s2">"slides/week-</span><span class="nv">$WEEK</span><span class="s2">-honors.qmd"</span>
 </code></pre></div>
 <hr />
 <h2 id="advanced-patterns">Advanced Patterns<a class="headerlink" href="#advanced-patterns" title="Permanent link">&para;</a></h2>
 <h3 id="pattern-1-progressive-refinement">Pattern 1: Progressive Refinement<a class="headerlink" href="#pattern-1-progressive-refinement" title="Permanent link">&para;</a></h3>
 <p>Start broad, refine with revisions:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># 1. Generate initial version</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--style<span class="w"> </span>computational
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
 <a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># 2. Add missing content</span>
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>teach<span class="w"> </span>slides<span class="w"> </span>--revise<span class="w"> </span>slides.qmd<span class="w">  </span><span class="c1"># Select option 1</span>
@@ -10215,7 +10243,7 @@ Preview commands without calling Scholar:</p>
 <h3 id="issue-revision-doesnt-detect-file-type">Issue: Revision Doesn't Detect File Type<a class="headerlink" href="#issue-revision-doesnt-detect-file-type" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Add explicit content type in filename or frontmatter</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>---
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>title:<span class="w"> </span><span class="s2">&quot;Week 8 Slides&quot;</span><span class="w">  </span><span class="c1"># Add &quot;slides&quot; keyword</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>title:<span class="w"> </span><span class="s2">"Week 8 Slides"</span><span class="w">  </span><span class="c1"># Add "slides" keyword</span>
 <a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>format:<span class="w"> </span>revealjs<span class="w">        </span><span class="c1"># Explicit format</span>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>---
 </code></pre></div>
@@ -10229,9 +10257,9 @@ Preview commands without calling Scholar:</p>
 </code></pre></div>
 <h3 id="issue-too-many-flags">Issue: Too Many Flags<a class="headerlink" href="#issue-too-many-flags" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Use style presets to reduce flags</span>
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--explanation<span class="w"> </span>--examples<span class="w"> </span>--code<span class="w"> </span>--practice-problems
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--explanation<span class="w"> </span>--examples<span class="w"> </span>--code<span class="w"> </span>--practice-problems
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="c1"># → Same as:</span>
-<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--style<span class="w"> </span>computational
 </code></pre></div>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
@@ -10265,7 +10293,7 @@ Preview commands without calling Scholar:</p>
 <h3 id="tip-1-revision-with-custom-instructions">Tip 1: Revision with Custom Instructions<a class="headerlink" href="#tip-1-revision-with-custom-instructions" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>teach<span class="w"> </span>slides<span class="w"> </span>--revise<span class="w"> </span>slides.qmd
 <a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1"># Select option 6 (Custom)</span>
-<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="c1"># Type: &quot;Add more real-world examples from recent research&quot;</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="c1"># Type: "Add more real-world examples from recent research"</span>
 </code></pre></div>
 <h3 id="tip-2-context-from-multiple-sources">Tip 2: Context from Multiple Sources<a class="headerlink" href="#tip-2-context-from-multiple-sources" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Scholar combines context from all available files</span>
@@ -10278,7 +10306,7 @@ Preview commands without calling Scholar:</p>
 <h3 id="tip-3-quick-style-preview">Tip 3: Quick Style Preview<a class="headerlink" href="#tip-3-quick-style-preview" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Generate same content in all 4 styles quickly</span>
 <a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="k">for</span><span class="w"> </span>style<span class="w"> </span><span class="k">in</span><span class="w"> </span>conceptual<span class="w"> </span>computational<span class="w"> </span>rigorous<span class="w"> </span>applied<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--style<span class="w"> </span><span class="nv">$style</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;preview-</span><span class="nv">$style</span><span class="s2">.qmd&quot;</span><span class="w"> </span>--dry-run
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--style<span class="w"> </span><span class="nv">$style</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">"preview-</span><span class="nv">$style</span><span class="s2">.qmd"</span><span class="w"> </span>--dry-run
 <a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="k">done</span>
 <a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>
 <a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="c1"># Review previews, pick best style</span>
@@ -10391,7 +10419,7 @@ Preview commands without calling Scholar:</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

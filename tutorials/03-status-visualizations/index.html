@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7297,6 +7297,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9472,7 +9500,7 @@
 </ul>
 <p><strong>Verify your setup:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check you have projects with progress</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;%&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"%"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Should see percentage values for projects</span>
 </code></pre></div>
@@ -9590,7 +9618,7 @@
 <li>[x] What different ranges mean</li>
 </ul>
 <p><strong>Verify:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;%&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"%"</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># Expected: See projects with different progress levels</span>
 </code></pre></div>
 <hr />
@@ -9599,7 +9627,7 @@
 <p>When starting fresh:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/new-project
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>status<span class="w"> </span>new-project<span class="w"> </span>--create
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>status<span class="w"> </span>new-project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Initial setup&quot;</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>status<span class="w"> </span>new-project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Initial setup"</span><span class="w"> </span><span class="m">0</span>
 </code></pre></div>
 <p><strong>What happened:</strong> Project created at 0%:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>📋 READY TO START (1):
@@ -9608,13 +9636,13 @@
 <h3 id="step-22-small-incremental-updates">Step 2.2: Small Incremental Updates<a class="headerlink" href="#step-22-small-incremental-updates" title="Permanent link">&para;</a></h3>
 <p>Update progress in small chunks:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># First day: Basic setup</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>status<span class="w"> </span>new-project<span class="w"> </span>active<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Setup environment&quot;</span><span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>status<span class="w"> </span>new-project<span class="w"> </span>active<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Setup environment"</span><span class="w"> </span><span class="m">10</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Next day: Start coding</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>status<span class="w"> </span>new-project<span class="w"> </span>active<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;First feature&quot;</span><span class="w"> </span><span class="m">25</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>status<span class="w"> </span>new-project<span class="w"> </span>active<span class="w"> </span>P2<span class="w"> </span><span class="s2">"First feature"</span><span class="w"> </span><span class="m">25</span>
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Week later: Halfway</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>status<span class="w"> </span>new-project<span class="w"> </span>active<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Core complete&quot;</span><span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>status<span class="w"> </span>new-project<span class="w"> </span>active<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Core complete"</span><span class="w"> </span><span class="m">50</span>
 </code></pre></div>
 <p><strong>Why small increments?</strong></p>
 <ul>
@@ -9630,19 +9658,19 @@
 </code></pre></div>
 <p><strong>Example progression:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Week 1-2: Fast progress</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Core features&quot;</span><span class="w"> </span><span class="m">80</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Core features"</span><span class="w"> </span><span class="m">80</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Week 3: Slows down</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Bug fixes&quot;</span><span class="w"> </span><span class="m">85</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Bug fixes"</span><span class="w"> </span><span class="m">85</span>
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Week 4: Tedious work</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Edge cases&quot;</span><span class="w"> </span><span class="m">90</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Edge cases"</span><span class="w"> </span><span class="m">90</span>
 <a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
 <a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Week 5: Final polish</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Documentation&quot;</span><span class="w"> </span><span class="m">95</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Documentation"</span><span class="w"> </span><span class="m">95</span>
 <a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
 <a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="c1"># Week 6: Complete</span>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>status<span class="w"> </span>project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Done!&quot;</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>status<span class="w"> </span>project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Done!"</span><span class="w"> </span><span class="m">100</span>
 </code></pre></div>
 <blockquote>
 <p><strong>Tip:</strong> Don't be discouraged when 80-100% takes as long as 0-80%!</p>
@@ -9699,7 +9727,7 @@
 </ul>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Update a project with new milestone</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Reached 75% milestone&quot;</span><span class="w"> </span><span class="m">75</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Reached 75% milestone"</span><span class="w"> </span><span class="m">75</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>dash
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Expected: See updated progress</span>
 </code></pre></div>
@@ -9708,30 +9736,30 @@
 <h3 id="step-31-celebrate-progress">Step 3.1: Celebrate Progress<a class="headerlink" href="#step-31-celebrate-progress" title="Permanent link">&para;</a></h3>
 <p>When you cross milestones:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Hit 50%!</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Halfway done!&quot;</span><span class="w"> </span><span class="m">50</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>win<span class="w"> </span><span class="s2">&quot;Reached 50% on mediationverse package!&quot;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Halfway done!"</span><span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>win<span class="w"> </span><span class="s2">"Reached 50% on mediationverse package!"</span>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1"># Hit 75%!</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Almost there!&quot;</span><span class="w"> </span><span class="m">75</span>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>win<span class="w"> </span><span class="s2">&quot;75% complete - final push!&quot;</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Almost there!"</span><span class="w"> </span><span class="m">75</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>win<span class="w"> </span><span class="s2">"75% complete - final push!"</span>
 <a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
 <a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="c1"># Hit 100%!</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>status<span class="w"> </span>.<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Complete!&quot;</span><span class="w"> </span><span class="m">100</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>win<span class="w"> </span><span class="s2">&quot;COMPLETED mediationverse package!!!&quot;</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>status<span class="w"> </span>.<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Complete!"</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>win<span class="w"> </span><span class="s2">"COMPLETED mediationverse package!!!"</span>
 </code></pre></div>
 <h3 id="step-32-track-velocity">Step 3.2: Track Velocity<a class="headerlink" href="#step-32-track-velocity" title="Permanent link">&para;</a></h3>
 <p>How fast are you progressing?</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Monday</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Start work&quot;</span><span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Start work"</span><span class="w"> </span><span class="m">10</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Friday</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Week complete&quot;</span><span class="w"> </span><span class="m">30</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Week complete"</span><span class="w"> </span><span class="m">30</span>
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># Velocity: 20% per week</span>
 <a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="c1"># Estimate: 3.5 weeks to complete (70% remaining / 20% per week)</span>
 </code></pre></div>
 <p><strong>Track in your task description:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Week 2 - on track (+20%)&quot;</span><span class="w"> </span><span class="m">30</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Week 2 - on track (+20%)"</span><span class="w"> </span><span class="m">30</span>
 </code></pre></div>
 <h3 id="step-33-use-visual-momentum">Step 3.3: Use Visual Momentum<a class="headerlink" href="#step-33-use-visual-momentum" title="Permanent link">&para;</a></h3>
 <p>Seeing multiple projects advance creates momentum:</p>
@@ -9747,12 +9775,12 @@
 <a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># stat-440: 60% ⬆️ +20%</span>
 <a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="c1"># flow-cli: 90% ⬆️ +10%</span>
 <a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
-<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>win<span class="w"> </span><span class="s2">&quot;Productive week! All projects advanced!&quot;</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>win<span class="w"> </span><span class="s2">"Productive week! All projects advanced!"</span>
 </code></pre></div>
 <h3 id="step-34-handle-setbacks">Step 3.4: Handle Setbacks<a class="headerlink" href="#step-34-handle-setbacks" title="Permanent link">&para;</a></h3>
 <p>Sometimes progress goes backward:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Discovered major bug, need to redo work</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Fix critical bug - set back&quot;</span><span class="w"> </span><span class="m">70</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Fix critical bug - set back"</span><span class="w"> </span><span class="m">70</span>
 <a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
 <a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Previous was 85%, now 70% (-15%)</span>
 </code></pre></div>
@@ -9774,7 +9802,7 @@
 <h3 id="technique-1-sub-project-breakdown">Technique 1: Sub-Project Breakdown<a class="headerlink" href="#technique-1-sub-project-breakdown" title="Permanent link">&para;</a></h3>
 <p>For large projects, track components:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Main project</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Package development&quot;</span><span class="w"> </span><span class="m">75</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Package development"</span><span class="w"> </span><span class="m">75</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Mental breakdown (not tracked in tool):</span>
 <a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1"># - Core functions: 90% (mostly done)</span>
@@ -9784,15 +9812,15 @@
 <a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="c1"># Average: (90+80+60+50)/4 = 70%</span>
 <a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
 <a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="c1"># Update based on weighted average</span>
-<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Focus on docs/vignettes&quot;</span><span class="w"> </span><span class="m">70</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Focus on docs/vignettes"</span><span class="w"> </span><span class="m">70</span>
 </code></pre></div>
 <h3 id="technique-2-must-have-vs-nice-to-have">Technique 2: Must-Have vs Nice-to-Have<a class="headerlink" href="#technique-2-must-have-vs-nice-to-have" title="Permanent link">&para;</a></h3>
 <p>Adjust progress based on scope:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Original plan (100% = everything)</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;All features&quot;</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"All features"</span><span class="w"> </span><span class="m">60</span>
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Scope reduction (100% = must-haves only)</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Core features only&quot;</span><span class="w"> </span><span class="m">85</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Core features only"</span><span class="w"> </span><span class="m">85</span>
 <a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
 <a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># Suddenly much closer to done!</span>
 </code></pre></div>
@@ -9800,11 +9828,11 @@
 <p>Two ways to track:</p>
 <p><strong>Time-based (not recommended):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Week 1 of 10 = 10%</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Week 1&quot;</span><span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Week 1"</span><span class="w"> </span><span class="m">10</span>
 </code></pre></div>
 <p><strong>Work-based (recommended):</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># 3 of 10 features done = 30%</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;3/10 features&quot;</span><span class="w"> </span><span class="m">30</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"3/10 features"</span><span class="w"> </span><span class="m">30</span>
 </code></pre></div>
 <blockquote>
 <p><strong>Tip:</strong> Work-based is more accurate because work rarely distributes evenly over time.</p>
@@ -9812,14 +9840,14 @@
 <h3 id="technique-4-done-is-better-than-perfect">Technique 4: Done is Better Than Perfect<a class="headerlink" href="#technique-4-done-is-better-than-perfect" title="Permanent link">&para;</a></h3>
 <p>Don't wait for 100% perfection:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># 95% complete, could polish forever</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Good enough to ship&quot;</span><span class="w"> </span><span class="m">95</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Good enough to ship"</span><span class="w"> </span><span class="m">95</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
 <a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Ship it!</span>
-<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>status<span class="w"> </span>project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Shipped v1.0!&quot;</span><span class="w"> </span><span class="m">100</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>win<span class="w"> </span><span class="s2">&quot;Shipped project v1.0 - done is better than perfect!&quot;</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>status<span class="w"> </span>project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Shipped v1.0!"</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>win<span class="w"> </span><span class="s2">"Shipped project v1.0 - done is better than perfect!"</span>
 <a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>
 <a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="c1"># Future improvements are a new project</span>
-<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>status<span class="w"> </span>project-v2<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Enhancements for v2&quot;</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>status<span class="w"> </span>project-v2<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Enhancements for v2"</span><span class="w"> </span><span class="m">0</span>
 </code></pre></div>
 <hr />
 <h2 id="exercises">Exercises<a class="headerlink" href="#exercises" title="Permanent link">&para;</a></h2>
@@ -9847,13 +9875,13 @@ List all major tasks, estimate time for each, calculate total, set milestones.
 <a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="c1"># 6. Final checks (10%) - 1 day</span>
 <a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>
 <a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="c1"># Start tracking</span>
-<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>status<span class="w"> </span>newpackage<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Planning complete&quot;</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>status<span class="w"> </span>newpackage<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Planning complete"</span><span class="w"> </span><span class="m">0</span>
 <a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>
 <a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a><span class="c1"># After setup</span>
-<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a>status<span class="w"> </span>newpackage<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Package skeleton created&quot;</span><span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a>status<span class="w"> </span>newpackage<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Package skeleton created"</span><span class="w"> </span><span class="m">5</span>
 <a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a>
 <a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a><span class="c1"># After core</span>
-<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>status<span class="w"> </span>newpackage<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Main functions working&quot;</span><span class="w"> </span><span class="m">35</span>
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>status<span class="w"> </span>newpackage<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Main functions working"</span><span class="w"> </span><span class="m">35</span>
 <a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a>
 <a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a><span class="c1"># Continue incrementally...</span>
 </code></pre></div>
@@ -9866,19 +9894,19 @@ List all major tasks, estimate time for each, calculate total, set milestones.
 <summary>Solution</summary>
 
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Before: thought you were at 80%</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Found major issue&quot;</span><span class="w"> </span><span class="m">80</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Found major issue"</span><span class="w"> </span><span class="m">80</span>
 <a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
 <a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># After analysis: need to redo significant work</span>
-<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Revising approach - realistic reset&quot;</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Revising approach - realistic reset"</span><span class="w"> </span><span class="m">60</span>
 <a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
 <a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1"># Document why</span>
-<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>win<span class="w"> </span><span class="s2">&quot;Discovered issue early - better to fix now than later&quot;</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>win<span class="w"> </span><span class="s2">"Discovered issue early - better to fix now than later"</span>
 <a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
 <a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="c1"># Make steady progress forward</span>
-<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Fixed root cause&quot;</span><span class="w"> </span><span class="m">70</span>
-<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Re-implemented correctly&quot;</span><span class="w"> </span><span class="m">80</span>
-<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Validated thoroughly&quot;</span><span class="w"> </span><span class="m">90</span>
-<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>status<span class="w"> </span>project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Done right this time!&quot;</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Fixed root cause"</span><span class="w"> </span><span class="m">70</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Re-implemented correctly"</span><span class="w"> </span><span class="m">80</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Validated thoroughly"</span><span class="w"> </span><span class="m">90</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>status<span class="w"> </span>project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Done right this time!"</span><span class="w"> </span><span class="m">100</span>
 </code></pre></div>
 
 </details>
@@ -9889,24 +9917,24 @@ List all major tasks, estimate time for each, calculate total, set milestones.
 <summary>Solution</summary>
 
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># 0%: Start</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Project started&quot;</span><span class="w"> </span><span class="m">0</span>
-<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>win<span class="w"> </span><span class="s2">&quot;Started new project - excited to build this!&quot;</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Project started"</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>win<span class="w"> </span><span class="s2">"Started new project - excited to build this!"</span>
 <a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># 25%: Foundation</span>
-<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Foundation solid&quot;</span><span class="w"> </span><span class="m">25</span>
-<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>win<span class="w"> </span><span class="s2">&quot;25% complete - strong foundation!&quot;</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Foundation solid"</span><span class="w"> </span><span class="m">25</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>win<span class="w"> </span><span class="s2">"25% complete - strong foundation!"</span>
 <a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>
 <a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="c1"># 50%: Halfway</span>
-<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Halfway there!&quot;</span><span class="w"> </span><span class="m">50</span>
-<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>win<span class="w"> </span><span class="s2">&quot;50% COMPLETE! - past the hardest part!&quot;</span>
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Halfway there!"</span><span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>win<span class="w"> </span><span class="s2">"50% COMPLETE! - past the hardest part!"</span>
 <a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>
 <a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a><span class="c1"># 75%: Polish phase</span>
-<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Polishing now&quot;</span><span class="w"> </span><span class="m">75</span>
-<a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a>win<span class="w"> </span><span class="s2">&quot;75% done - can see the finish line!&quot;</span>
+<a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a>status<span class="w"> </span>project<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Polishing now"</span><span class="w"> </span><span class="m">75</span>
+<a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a>win<span class="w"> </span><span class="s2">"75% done - can see the finish line!"</span>
 <a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a>
 <a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a><span class="c1"># 100%: Complete</span>
-<a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a>status<span class="w"> </span>project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;DONE!&quot;</span><span class="w"> </span><span class="m">100</span>
-<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a>win<span class="w"> </span><span class="s2">&quot;PROJECT COMPLETE! Shipped and proud!&quot;</span>
+<a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a>status<span class="w"> </span>project<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"DONE!"</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a>win<span class="w"> </span><span class="s2">"PROJECT COMPLETE! Shipped and proud!"</span>
 <a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a>
 <a id="__codelineno-28-21" name="__codelineno-28-21" href="#__codelineno-28-21"></a><span class="c1"># View all celebrations</span>
 <a id="__codelineno-28-22" name="__codelineno-28-22" href="#__codelineno-28-22"></a>wins
@@ -9923,9 +9951,9 @@ List all major tasks, estimate time for each, calculate total, set milestones.
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="c1"># Update more frequently with smaller increments</span>
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
 <a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Instead of jumping from 85% to 90%:</span>
-<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Fixed bug #1&quot;</span><span class="w"> </span><span class="m">86</span>
-<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Fixed bug #2&quot;</span><span class="w"> </span><span class="m">87</span>
-<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Added validation&quot;</span><span class="w"> </span><span class="m">88</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Fixed bug #1"</span><span class="w"> </span><span class="m">86</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Fixed bug #2"</span><span class="w"> </span><span class="m">87</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Added validation"</span><span class="w"> </span><span class="m">88</span>
 <a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>
 <a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="c1"># Smaller wins feel better!</span>
 </code></pre></div>
@@ -9947,9 +9975,9 @@ List all major tasks, estimate time for each, calculate total, set milestones.
 <p><strong>Cause:</strong> Not tracking concrete deliverables</p>
 <p><strong>Fix:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Track specific completions:</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;3 of 10 functions complete&quot;</span><span class="w"> </span><span class="m">30</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;7 of 15 tests passing&quot;</span><span class="w"> </span><span class="m">47</span>
-<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;2 of 4 vignettes written&quot;</span><span class="w"> </span><span class="m">80</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"3 of 10 functions complete"</span><span class="w"> </span><span class="m">30</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"7 of 15 tests passing"</span><span class="w"> </span><span class="m">47</span>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"2 of 4 vignettes written"</span><span class="w"> </span><span class="m">80</span>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>
 <a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="c1"># % = (completed / total) * 100</span>
 </code></pre></div>
@@ -9992,16 +10020,16 @@ List all major tasks, estimate time for each, calculate total, set milestones.
 </table>
 <p><strong>Key insights:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Track progress incrementally</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Task complete (+5%)&quot;</span><span class="w"> </span><span class="m">35</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Task complete (+5%)"</span><span class="w"> </span><span class="m">35</span>
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Celebrate milestones</span>
-<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>win<span class="w"> </span><span class="s2">&quot;Reached 50%!&quot;</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>win<span class="w"> </span><span class="s2">"Reached 50%!"</span>
 <a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
 <a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1"># Be honest about setbacks</span>
-<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Reset to fix properly&quot;</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Reset to fix properly"</span><span class="w"> </span><span class="m">60</span>
 <a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
-<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="c1"># Ship at 95-100%, don&#39;t wait for perfection</span>
-<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>status<span class="w"> </span>.<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Good enough!&quot;</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="c1"># Ship at 95-100%, don't wait for perfection</span>
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>status<span class="w"> </span>.<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Good enough!"</span><span class="w"> </span><span class="m">100</span>
 </code></pre></div>
 <p><strong>Progress tips:</strong></p>
 <ul>
@@ -10119,7 +10147,7 @@ List all major tasks, estimate time for each, calculate total, set milestones.
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

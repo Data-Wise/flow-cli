@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7179,6 +7179,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9236,7 +9264,7 @@
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">pwd</span><span class="w">  </span><span class="c1"># Show directory</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Run initialization</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"STAT 545"</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Show what was created</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>ls<span class="w"> </span>-la<span class="w"> </span>.flow/
@@ -9278,14 +9306,14 @@
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>work<span class="w"> </span>demo-course
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># 2. Make a simple edit</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;## Updated lecture&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>lectures/week08.qmd
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"## Updated lecture"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>lectures/week08.qmd
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># 3. Check status</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>git<span class="w"> </span>status
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># 4. Commit</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refine: week 8 lecture notes&quot;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"refine: week 8 lecture notes"</span>
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># 5. Deploy</span>
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>teach<span class="w"> </span>deploy
@@ -9320,7 +9348,7 @@
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>git<span class="w"> </span>tag<span class="w"> </span>-l<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>final
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Show what comes next</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>cat<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>cat<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
 <a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="s">Next steps for new semester:</span>
 <a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="s">1. teach config</span>
 <a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="s">2. Update: course.semester, course.year</span>
@@ -9389,7 +9417,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Using ffmpeg</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>brew<span class="w"> </span>install<span class="w"> </span>ffmpeg
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>ffmpeg<span class="w"> </span>-i<span class="w"> </span>recording.mov<span class="w"> </span>-vf<span class="w"> </span><span class="s2">&quot;fps=10,scale=1280:-1:flags=lanczos&quot;</span><span class="w"> </span>-c:v<span class="w"> </span>pngquant<span class="w"> </span>-f<span class="w"> </span>image2pipe<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span>ffmpeg<span class="w"> </span>-f<span class="w"> </span>image2pipe<span class="w"> </span>-i<span class="w"> </span>-<span class="w"> </span>output.gif
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>ffmpeg<span class="w"> </span>-i<span class="w"> </span>recording.mov<span class="w"> </span>-vf<span class="w"> </span><span class="s2">"fps=10,scale=1280:-1:flags=lanczos"</span><span class="w"> </span>-c:v<span class="w"> </span>pngquant<span class="w"> </span>-f<span class="w"> </span>image2pipe<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span>ffmpeg<span class="w"> </span>-f<span class="w"> </span>image2pipe<span class="w"> </span>-i<span class="w"> </span>-<span class="w"> </span>output.gif
 </code></pre></div>
 <hr />
 <h2 id="demo-scripts-ready-to-copy-paste">Demo Scripts (Ready to Copy-Paste)<a class="headerlink" href="#demo-scripts-ready-to-copy-paste" title="Permanent link">&para;</a></h2>
@@ -9398,44 +9426,44 @@
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">set</span><span class="w"> </span>-e
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>clear
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Demo: teach init - Course Setup&quot;</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;=================================&quot;</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Demo: teach init - Course Setup"</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"================================="</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>sleep<span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
 <a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="nb">cd</span><span class="w"> </span>/tmp/demo-new-course
 <a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>git<span class="w"> </span>init<span class="w"> </span>.
 <a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> teach init -y &#39;STAT 545&#39;&quot;</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> teach init -y 'STAT 545'"</span>
 <a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>sleep<span class="w"> </span><span class="m">1</span>
-<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"STAT 545"</span>
 <a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
-<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> ls -la .flow/&quot;</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> ls -la .flow/"</span>
 <a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>ls<span class="w"> </span>-la<span class="w"> </span>.flow/
 <a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>
-<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> cat scripts/quick-deploy.sh | head -20&quot;</span>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> cat scripts/quick-deploy.sh | head -20"</span>
 <a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>head<span class="w"> </span>-20<span class="w"> </span>scripts/quick-deploy.sh
 <a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a>
-<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ Course setup complete in seconds!&quot;</span>
+<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"✓ Course setup complete in seconds!"</span>
 </code></pre></div>
 <h3 id="script-2-teach-status">Script 2: teach status<a class="headerlink" href="#script-2-teach-status" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="ch">#!/bin/bash</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>clear
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Demo: teach status - Course Dashboard&quot;</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;======================================&quot;</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Demo: teach status - Course Dashboard"</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"======================================"</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
 <a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/demo-course
 <a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> teach status&quot;</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> teach status"</span>
 <a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>teach<span class="w"> </span>status
 <a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> teach week&quot;</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> teach week"</span>
 <a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>teach<span class="w"> </span>week
 </code></pre></div>
 <h3 id="script-3-full-workflow">Script 3: Full Workflow<a class="headerlink" href="#script-3-full-workflow" title="Permanent link">&para;</a></h3>
@@ -9443,49 +9471,49 @@
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">set</span><span class="w"> </span>-e
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>clear
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Demo: Complete Teaching Workflow&quot;</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;==================================&quot;</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Demo: Complete Teaching Workflow"</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"=================================="</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
 <a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
 <a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/demo-course
 <a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Step 1: Check course status&quot;</span>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> teach status&quot;</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Step 1: Check course status"</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> teach status"</span>
 <a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>sleep<span class="w"> </span><span class="m">2</span>
 <a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>teach<span class="w"> </span>status
 <a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
-<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Step 2: Start work session&quot;</span>
-<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> work demo-course&quot;</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Step 2: Start work session"</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> work demo-course"</span>
 <a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>sleep<span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>work<span class="w"> </span>demo-course
 <a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
-<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Step 3: Make edits&quot;</span>
-<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> vim lectures/week08.qmd&quot;</span>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Step 3: Make edits"</span>
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> vim lectures/week08.qmd"</span>
 <a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>sleep<span class="w"> </span><span class="m">2</span>
-<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Adding new content to week 8&quot;</span>
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"# Adding new content to week 8"</span>
 <a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>
-<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Step 4: Commit changes&quot;</span>
-<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> git add . &amp;&amp; git commit -m &#39;add week 8 materials&#39;&quot;</span>
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Step 4: Commit changes"</span>
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> git add . &amp;&amp; git commit -m 'add week 8 materials'"</span>
 <a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refine: add week 8 course materials&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"refine: add week 8 course materials"</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
 <a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>
-<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Step 5: Deploy to students&quot;</span>
-<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>$<span class="s2"> teach deploy&quot;</span>
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Step 5: Deploy to students"</span>
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span>$<span class="s2"> teach deploy"</span>
 <a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>sleep<span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>teach<span class="w"> </span>deploy
 <a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>
-<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ Materials live in seconds with teach deploy -d!&quot;</span>
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"✓ Materials live in seconds with teach deploy -d!"</span>
 </code></pre></div>
 <hr />
 <h2 id="visual-workflow-diagram">Visual Workflow Diagram<a class="headerlink" href="#visual-workflow-diagram" title="Permanent link">&para;</a></h2>
 <h3 id="setup-edit-deploy-students">Setup → Edit → Deploy → Students<a class="headerlink" href="#setup-edit-deploy-students" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>┌─────────────────────────────────────────────────────────┐
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>│<span class="w"> </span>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">                                   </span>│
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>│<span class="w"> </span>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 545"</span><span class="w">                                   </span>│
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>│<span class="w"> </span><span class="o">(</span>One-time:<span class="w"> </span>creates<span class="w"> </span>config,<span class="w"> </span>scripts,<span class="w"> </span>branches<span class="o">)</span><span class="w">           </span>│
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>└────────────────────┬────────────────────────────────────┘
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">                     </span>↓
@@ -9544,20 +9572,20 @@
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>git<span class="w"> </span>init<span class="w"> </span>.
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>touch<span class="w"> </span>README.md
 <a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;initial commit&quot;</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"initial commit"</span>
 <a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
 <a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="c1"># Initialize teaching workflow</span>
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 101 - Intro to Statistics&quot;</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"STAT 101 - Intro to Statistics"</span>
 <a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
 <a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="c1"># Create sample content</span>
 <a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>lectures<span class="w"> </span>assignments<span class="w"> </span>solutions
-<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Week 1 Lecture&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>lectures/week01.qmd
-<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Assignment 1&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>assignments/assignment-01.qmd
-<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Solutions 1&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>solutions/assignment-01.qmd
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"# Week 1 Lecture"</span><span class="w"> </span>&gt;<span class="w"> </span>lectures/week01.qmd
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"# Assignment 1"</span><span class="w"> </span>&gt;<span class="w"> </span>assignments/assignment-01.qmd
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"# Solutions 1"</span><span class="w"> </span>&gt;<span class="w"> </span>solutions/assignment-01.qmd
 <a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>
 <a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="c1"># Commit and deploy</span>
 <a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;add sample materials&quot;</span>
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"add sample materials"</span>
 <a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>teach<span class="w"> </span>deploy
 <a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>
 <a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a><span class="c1"># Now ready for demos!</span>
@@ -9646,13 +9674,13 @@
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="gif-too-large">GIF too large?<a class="headerlink" href="#gif-too-large" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Reduce quality/fps</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>ffmpeg<span class="w"> </span>-i<span class="w"> </span>recording.mov<span class="w"> </span>-vf<span class="w"> </span><span class="s2">&quot;fps=5,scale=960:-1:flags=lanczos&quot;</span><span class="w"> </span>-c:v<span class="w"> </span>pngquant<span class="w"> </span>-f<span class="w"> </span>image2pipe<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span>ffmpeg<span class="w"> </span>-f<span class="w"> </span>image2pipe<span class="w"> </span>-i<span class="w"> </span>-<span class="w"> </span>output.gif
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>ffmpeg<span class="w"> </span>-i<span class="w"> </span>recording.mov<span class="w"> </span>-vf<span class="w"> </span><span class="s2">"fps=5,scale=960:-1:flags=lanczos"</span><span class="w"> </span>-c:v<span class="w"> </span>pngquant<span class="w"> </span>-f<span class="w"> </span>image2pipe<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span>ffmpeg<span class="w"> </span>-f<span class="w"> </span>image2pipe<span class="w"> </span>-i<span class="w"> </span>-<span class="w"> </span>output.gif
 </code></pre></div>
 <h3 id="asciinema-cast-wont-convert">Asciinema cast won't convert?<a class="headerlink" href="#asciinema-cast-wont-convert" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Check file format</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>file<span class="w"> </span>teaching-demo.cast
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
-<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Ensure it&#39;s valid</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Ensure it's valid</span>
 <a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>asciinema<span class="w"> </span>play<span class="w"> </span>teaching-demo.cast<span class="w">  </span><span class="c1"># Should work</span>
 </code></pre></div>
 <h3 id="need-to-re-record-part-of-demo">Need to re-record part of demo?<a class="headerlink" href="#need-to-re-record-part-of-demo" title="Permanent link">&para;</a></h3>
@@ -9750,7 +9778,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

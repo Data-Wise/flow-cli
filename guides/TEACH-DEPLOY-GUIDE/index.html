@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7684,6 +7684,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -10298,7 +10326,7 @@
 <li><strong>GitHub CLI (gh)</strong> - For creating pull requests</li>
 </ol>
 <p>Install missing tools:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check what&#39;s missing</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check what's missing</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>doctor
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Install homebrew packages</span>
@@ -10333,7 +10361,7 @@
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># First commit</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit&quot;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Initial commit"</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>draft
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># Create main branch</span>
@@ -10418,7 +10446,7 @@
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--direct
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># With custom commit message</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Week 5 lecture updates&quot;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>teach<span class="w"> </span>deploy<span class="w"> </span>-d<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Week 5 lecture updates"</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># CI-friendly direct deploy</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--ci<span class="w"> </span>-d
@@ -10478,14 +10506,14 @@
 <h3 id="history-file">History File<a class="headerlink" href="#history-file" title="Permanent link">&para;</a></h3>
 <p>Stored at <code>.flow/deploy-history.yml</code> (git-tracked, append-only):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">deploys</span><span class="p">:</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">timestamp</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2026-02-03T14:30:22-06:00&#39;</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;direct&#39;</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="nt">commit_hash</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;a1b2c3d4&#39;</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="nt">commit_before</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;e5f6g7h8&#39;</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nt">branch_from</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;draft&#39;</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="nt">branch_to</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;main&#39;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">timestamp</span><span class="p">:</span><span class="w"> </span><span class="s">'2026-02-03T14:30:22-06:00'</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">'direct'</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="nt">commit_hash</span><span class="p">:</span><span class="w"> </span><span class="s">'a1b2c3d4'</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="nt">commit_before</span><span class="p">:</span><span class="w"> </span><span class="s">'e5f6g7h8'</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nt">branch_from</span><span class="p">:</span><span class="w"> </span><span class="s">'draft'</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="nt">branch_to</span><span class="p">:</span><span class="w"> </span><span class="s">'main'</span>
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="nt">file_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="nt">commit_message</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;content:</span><span class="nv"> </span><span class="s">week-05</span><span class="nv"> </span><span class="s">lecture&#39;</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="nt">commit_message</span><span class="p">:</span><span class="w"> </span><span class="s">'content:</span><span class="nv"> </span><span class="s">week-05</span><span class="nv"> </span><span class="s">lecture'</span>
 </code></pre></div>
 <hr />
 <h2 id="dry-run-preview-v640">Dry-Run Preview (v6.4.0)<a class="headerlink" href="#dry-run-preview-v640" title="Permanent link">&para;</a></h2>
@@ -10497,7 +10525,7 @@
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--dry-run<span class="w"> </span>--direct
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Preview with custom message</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--preview<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Week 5&quot;</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>teach<span class="w"> </span>deploy<span class="w"> </span>--preview<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Week 5"</span>
 </code></pre></div>
 <p><strong>Output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>DRY RUN — No changes will be made
@@ -10507,7 +10535,7 @@
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>  scripts/analysis.R (dependency)
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>  home_lectures.qmd (index update)
 <a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>Would commit: &quot;content: week-05 lecture, analysis script&quot;
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>Would commit: "content: week-05 lecture, analysis script"
 <a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>Would merge: draft -&gt; production (direct mode)
 <a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>Would log: deploy #12 to .flow/deploy-history.yml
 <a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>Would update: .STATUS (teaching_week: 5)
@@ -10690,7 +10718,7 @@
 <a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span><span class="nt">Options</span><span class="p">:</span>
 <a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">1. Fix issues, then teach deploy again</span>
 <a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">2. Skip</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QUARTO_PRE_COMMIT_RENDER=0 teach deploy ...</span>
-<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="w">    </span><span class="nt">3. Force</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git commit --no-verify -m &quot;message&quot;</span>
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="w">    </span><span class="nt">3. Force</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">git commit --no-verify -m "message"</span>
 <a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>
 <a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">Changes are still staged.</span>
 </code></pre></div>
@@ -10769,7 +10797,7 @@
 <a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="l l-Scalar l-Scalar-Plain">Deploy blocked</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Prerequisite validation failed</span>
 <a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="l l-Scalar l-Scalar-Plain">Fix missing prerequisites before deploying</span>
 <a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a>
-<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="nt">Tip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run &#39;teach validate --deep&#39; to see full details</span>
+<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="nt">Tip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run 'teach validate --deep' to see full details</span>
 </code></pre></div>
 <h3 id="auto-commit">Auto-Commit<a class="headerlink" href="#auto-commit" title="Permanent link">&para;</a></h3>
 <p>Automatically commit changes without prompts:</p>
@@ -10807,7 +10835,7 @@
 <a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a><span class="w">  </span><span class="nt">require_clean</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">        </span><span class="c1"># Require clean working directory</span>
 <a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a>
 <a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT-101</span><span class="nv"> </span><span class="s">Regression</span><span class="nv"> </span><span class="s">Analysis&quot;</span>
+<a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT-101</span><span class="nv"> </span><span class="s">Regression</span><span class="nv"> </span><span class="s">Analysis"</span>
 </code></pre></div>
 <h3 id="branch-setup">Branch Setup<a class="headerlink" href="#branch-setup" title="Permanent link">&para;</a></h3>
 <p>GitHub Pages deploys from <code>main</code> branch:</p>
@@ -10822,9 +10850,9 @@
 </code></pre></div>
 <h3 id="custom-domain">Custom Domain<a class="headerlink" href="#custom-domain" title="Permanent link">&para;</a></h3>
 <p><strong>1. Add CNAME file to repository:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;stat101.university.edu&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>CNAME
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"stat101.university.edu"</span><span class="w"> </span>&gt;<span class="w"> </span>CNAME
 <a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>git<span class="w"> </span>add<span class="w"> </span>CNAME
-<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add custom domain&quot;</span>
+<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Add custom domain"</span>
 </code></pre></div>
 <p><strong>2. Configure DNS:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>CNAME record: www → username.github.io
@@ -10841,9 +10869,9 @@
 <p><strong>1. Create gh-pages branch:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>--orphan<span class="w"> </span>gh-pages
 <a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>git<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>.
-<a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;GitHub Pages placeholder&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>index.html
+<a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"GitHub Pages placeholder"</span><span class="w"> </span>&gt;<span class="w"> </span>index.html
 <a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>git<span class="w"> </span>add<span class="w"> </span>index.html
-<a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initialize GitHub Pages&quot;</span>
+<a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Initialize GitHub Pages"</span>
 <a id="__codelineno-58-6" name="__codelineno-58-6" href="#__codelineno-58-6"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>gh-pages
 </code></pre></div>
 <p><strong>2. Configure GitHub Pages source:</strong></p>
@@ -10913,7 +10941,7 @@
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="c1"># Option 1: Commit changes</span>
 <a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Update content&quot;</span>
+<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Update content"</span>
 <a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a>
 <a id="__codelineno-70-5" name="__codelineno-70-5" href="#__codelineno-70-5"></a><span class="c1"># Option 2: Stash changes</span>
 <a id="__codelineno-70-6" name="__codelineno-70-6" href="#__codelineno-70-6"></a>git<span class="w"> </span>stash
@@ -10928,7 +10956,7 @@
 </code></pre></div>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="c1"># Setup SSH key</span>
-<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
+<a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">"your_email@example.com"</span>
 <a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a>
 <a id="__codelineno-72-4" name="__codelineno-72-4" href="#__codelineno-72-4"></a><span class="c1"># Add to GitHub</span>
 <a id="__codelineno-72-5" name="__codelineno-72-5" href="#__codelineno-72-5"></a>cat<span class="w"> </span>~/.ssh/id_ed25519.pub
@@ -10965,7 +10993,7 @@
 </ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="c1"># Ensure file has proper frontmatter</span>
 <a id="__codelineno-76-2" name="__codelineno-76-2" href="#__codelineno-76-2"></a><span class="nn">---</span>
-<a id="__codelineno-76-3" name="__codelineno-76-3" href="#__codelineno-76-3"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Week</span><span class="nv"> </span><span class="s">5:</span><span class="nv"> </span><span class="s">Regression&quot;</span>
+<a id="__codelineno-76-3" name="__codelineno-76-3" href="#__codelineno-76-3"></a><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">"Week</span><span class="nv"> </span><span class="s">5:</span><span class="nv"> </span><span class="s">Regression"</span>
 <a id="__codelineno-76-4" name="__codelineno-76-4" href="#__codelineno-76-4"></a><span class="nn">---</span>
 </code></pre></div>
 <ol>
@@ -11016,7 +11044,7 @@
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a><span class="c1"># Check dependencies</span>
 <a id="__codelineno-82-2" name="__codelineno-82-2" href="#__codelineno-82-2"></a>teach<span class="w"> </span>deploy<span class="w"> </span>lectures/week-05.qmd
-<a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a><span class="c1"># Review &quot;Finding dependencies...&quot; output</span>
+<a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a><span class="c1"># Review "Finding dependencies..." output</span>
 <a id="__codelineno-82-4" name="__codelineno-82-4" href="#__codelineno-82-4"></a>
 <a id="__codelineno-82-5" name="__codelineno-82-5" href="#__codelineno-82-5"></a><span class="c1"># If dependencies missed:</span>
 <a id="__codelineno-82-6" name="__codelineno-82-6" href="#__codelineno-82-6"></a><span class="c1">#   1. Check include syntax: {{&lt; include _macros.qmd &gt;}}</span>
@@ -11051,7 +11079,7 @@
 <a id="__codelineno-83-19" name="__codelineno-83-19" href="#__codelineno-83-19"></a>
 <a id="__codelineno-83-20" name="__codelineno-83-20" href="#__codelineno-83-20"></a><span class="w">  </span><span class="nt">deploy</span><span class="p">:</span>
 <a id="__codelineno-83-21" name="__codelineno-83-21" href="#__codelineno-83-21"></a><span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">validate</span>
-<a id="__codelineno-83-22" name="__codelineno-83-22" href="#__codelineno-83-22"></a><span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.event_name == &#39;push&#39;</span>
+<a id="__codelineno-83-22" name="__codelineno-83-22" href="#__codelineno-83-22"></a><span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.event_name == 'push'</span>
 <a id="__codelineno-83-23" name="__codelineno-83-23" href="#__codelineno-83-23"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
 <a id="__codelineno-83-24" name="__codelineno-83-24" href="#__codelineno-83-24"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
 <a id="__codelineno-83-25" name="__codelineno-83-25" href="#__codelineno-83-25"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v3</span>
@@ -11071,11 +11099,11 @@
 <p>Use Netlify/Vercel for PR previews:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a><span class="c1"># netlify.toml</span>
 <a id="__codelineno-84-2" name="__codelineno-84-2" href="#__codelineno-84-2"></a><span class="p p-Indicator">[</span><span class="nv">build</span><span class="p p-Indicator">]</span>
-<a id="__codelineno-84-3" name="__codelineno-84-3" href="#__codelineno-84-3"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">command = &quot;quarto render&quot;</span>
-<a id="__codelineno-84-4" name="__codelineno-84-4" href="#__codelineno-84-4"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">publish = &quot;_site&quot;</span>
+<a id="__codelineno-84-3" name="__codelineno-84-3" href="#__codelineno-84-3"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">command = "quarto render"</span>
+<a id="__codelineno-84-4" name="__codelineno-84-4" href="#__codelineno-84-4"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">publish = "_site"</span>
 <a id="__codelineno-84-5" name="__codelineno-84-5" href="#__codelineno-84-5"></a>
 <a id="__codelineno-84-6" name="__codelineno-84-6" href="#__codelineno-84-6"></a><span class="l l-Scalar l-Scalar-Plain">[context.deploy-preview]</span>
-<a id="__codelineno-84-7" name="__codelineno-84-7" href="#__codelineno-84-7"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">command = &quot;quarto render&quot;</span>
+<a id="__codelineno-84-7" name="__codelineno-84-7" href="#__codelineno-84-7"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">command = "quarto render"</span>
 </code></pre></div>
 <p>Deploy preview URL appears in PR comments:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>✓ Deploy Preview ready!
@@ -11216,7 +11244,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

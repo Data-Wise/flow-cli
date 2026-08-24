@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -6803,6 +6803,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9420,17 +9448,17 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="ch">#!/usr/bin/env zsh</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># tests/test-&lt;feature&gt;.zsh</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nv">PROJECT_ROOT</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">0</span><span class="p">:</span><span class="nv">A</span><span class="p">:</span><span class="nv">h</span><span class="p">:</span><span class="nv">h</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">0</span><span class="p">:</span><span class="nv">A</span><span class="p">:</span><span class="nv">h</span><span class="si">}</span><span class="s2">/test-framework.zsh&quot;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nv">PROJECT_ROOT</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">0</span><span class="p">:</span><span class="nv">A</span><span class="p">:</span><span class="nv">h</span><span class="p">:</span><span class="nv">h</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">0</span><span class="p">:</span><span class="nv">A</span><span class="p">:</span><span class="nv">h</span><span class="si">}</span><span class="s2">/test-framework.zsh"</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>test_suite<span class="w"> </span><span class="s2">&quot;Feature Name Tests&quot;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>test_suite<span class="w"> </span><span class="s2">"Feature Name Tests"</span>
 </code></pre></div>
 <h3 id="test-case-pattern">Test Case Pattern<a class="headerlink" href="#test-case-pattern" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>test_example<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">&quot;description of what&#39;s being tested&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">"description of what's being tested"</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>some_command<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="k">)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span>assert_contains<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;expected output&quot;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span>assert_contains<span class="w"> </span><span class="s2">"</span><span class="nv">$result</span><span class="s2">"</span><span class="w"> </span><span class="s2">"expected output"</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span>test_pass
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="o">}</span>
@@ -9510,14 +9538,14 @@
 <h3 id="mock-registry">Mock Registry<a class="headerlink" href="#mock-registry" title="Permanent link">&para;</a></h3>
 <p>Track function calls and arguments:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Create a mock (replaces function, tracks calls)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>create_mock<span class="w"> </span><span class="s2">&quot;_flow_open_editor&quot;</span><span class="w"> </span><span class="s1">&#39;echo &quot;$1&quot; &gt; /tmp/editor-capture&#39;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>create_mock<span class="w"> </span><span class="s2">"_flow_open_editor"</span><span class="w"> </span><span class="s1">'echo "$1" &gt; /tmp/editor-capture'</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Run code that calls the mocked function</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>some_function_that_opens_editor
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Assert mock was called</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>assert_mock_called<span class="w"> </span><span class="s2">&quot;_flow_open_editor&quot;</span><span class="w"> </span><span class="m">1</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>assert_mock_args<span class="w"> </span><span class="s2">&quot;_flow_open_editor&quot;</span><span class="w"> </span><span class="s2">&quot;expected args&quot;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>assert_mock_called<span class="w"> </span><span class="s2">"_flow_open_editor"</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>assert_mock_args<span class="w"> </span><span class="s2">"_flow_open_editor"</span><span class="w"> </span><span class="s2">"expected args"</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># Clean up (restores originals)</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>reset_mocks
@@ -9527,7 +9555,7 @@
 <p>Run tests in isolated subshells to prevent global state leakage:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>test_isolated_feature<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="c1"># Sources flow.plugin.zsh in subshell, runs function, captures output</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span>run_isolated<span class="w"> </span><span class="s2">&quot;my_test_function&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span>run_isolated<span class="w"> </span><span class="s2">"my_test_function"</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="o">}</span>
 </code></pre></div>
 <p><code>run_isolated</code> sets <code>FLOW_QUIET=1</code>, <code>FLOW_ATLAS_ENABLED=no</code>, and sources the plugin in a subshell.</p>
@@ -9561,19 +9589,19 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/usr/bin/env zsh</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># tests/test-&lt;feature&gt;.zsh - Description</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nv">PROJECT_ROOT</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">0</span><span class="p">:</span><span class="nv">A</span><span class="p">:</span><span class="nv">h</span><span class="p">:</span><span class="nv">h</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">0</span><span class="p">:</span><span class="nv">A</span><span class="p">:</span><span class="nv">h</span><span class="si">}</span><span class="s2">/test-framework.zsh&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nv">PROJECT_ROOT</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">0</span><span class="p">:</span><span class="nv">A</span><span class="p">:</span><span class="nv">h</span><span class="p">:</span><span class="nv">h</span><span class="si">}</span><span class="s2">"</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">0</span><span class="p">:</span><span class="nv">A</span><span class="p">:</span><span class="nv">h</span><span class="si">}</span><span class="s2">/test-framework.zsh"</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># ── Setup ──────────────────────────────────────────────</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nv">TEST_ROOT</span><span class="o">=</span><span class="k">$(</span>mktemp<span class="w"> </span>-d<span class="k">)</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>cleanup<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_ROOT</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>cleanup<span class="o">()</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_ROOT</span><span class="s2">"</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="o">}</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nb">trap</span><span class="w"> </span>cleanup<span class="w"> </span>EXIT
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># ── Tests ──────────────────────────────────────────────</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>test_suite<span class="w"> </span><span class="s2">&quot;Feature Name&quot;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>test_suite<span class="w"> </span><span class="s2">"Feature Name"</span>
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
 <a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>test_feature_does_thing<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">&quot;feature does the expected thing&quot;</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">"feature does the expected thing"</span>
 <a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="c1"># test logic</span>
 <a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span>test_pass
 <a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="o">}</span>
@@ -9599,37 +9627,37 @@
 <h3 id="3-mock-environment-setup">3. Mock Environment Setup<a class="headerlink" href="#3-mock-environment-setup" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Create temporary project structure</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">TEST_ROOT</span><span class="o">=</span><span class="k">$(</span>mktemp<span class="w"> </span>-d<span class="k">)</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_ROOT</span><span class="s2">/dev-tools/mock-proj&quot;</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;## Status: active\n## Progress: 50\n&quot;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEST_ROOT</span><span class="s2">/dev-tools/mock-proj/.STATUS&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_ROOT</span><span class="s2">/dev-tools/mock-proj"</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nb">printf</span><span class="w"> </span><span class="s2">"## Status: active\n## Progress: 50\n"</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_ROOT</span><span class="s2">/dev-tools/mock-proj/.STATUS"</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Mock function with tracking</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>create_mock<span class="w"> </span><span class="s2">&quot;_flow_open_editor&quot;</span><span class="w"> </span><span class="s1">&#39;echo &quot;$1&quot; &gt; &quot;&#39;</span><span class="nv">$CAPTURE_FILE</span><span class="s1">&#39;&quot;&#39;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>create_mock<span class="w"> </span><span class="s2">"_flow_open_editor"</span><span class="w"> </span><span class="s1">'echo "$1" &gt; "'</span><span class="nv">$CAPTURE_FILE</span><span class="s1">'"'</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># Override env</span>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROJECTS_ROOT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$TEST_ROOT</span><span class="s2">&quot;</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_PROJECTS_ROOT</span><span class="o">=</span><span class="s2">"</span><span class="nv">$TEST_ROOT</span><span class="s2">"</span>
 </code></pre></div>
 <h3 id="4-ansi-code-handling">4. ANSI Code Handling<a class="headerlink" href="#4-ansi-code-handling" title="Permanent link">&para;</a></h3>
 <p>Strip ANSI color codes for reliable text matching:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>pick<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="k">)</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">result_clean</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/\x1b\[[0-9;]*m//g&#39;</span><span class="k">)</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>assert_contains<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result_clean</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;PICK - Interactive Project Picker&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">result_clean</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$result</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">'s/\x1b\[[0-9;]*m//g'</span><span class="k">)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>assert_contains<span class="w"> </span><span class="s2">"</span><span class="nv">$result_clean</span><span class="s2">"</span><span class="w"> </span><span class="s2">"PICK - Interactive Project Picker"</span>
 </code></pre></div>
 <h3 id="5-testing-source-code-vs-mocked-functions">5. Testing Source Code vs Mocked Functions<a class="headerlink" href="#5-testing-source-code-vs-mocked-functions" title="Permanent link">&para;</a></h3>
 <p>When testing that source code contains specific patterns, <strong>read the file directly</strong> instead of using <code>functions</code> (which shows the mock body):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>test_source_has_pattern<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">&quot;work.zsh handles cc/claude/ccy cases&quot;</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">matches</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;cc\|claude\|ccy&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PROJECT_ROOT</span><span class="s2">/commands/work.zsh&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">((</span><span class="w"> </span>matches<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>test_pass<span class="p">;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span>test_fail<span class="w"> </span><span class="s2">&quot;pattern not found&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">"work.zsh handles cc/claude/ccy cases"</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">matches</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s1">'cc\|claude\|ccy'</span><span class="w"> </span><span class="s2">"</span><span class="nv">$PROJECT_ROOT</span><span class="s2">/commands/work.zsh"</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">((</span><span class="w"> </span>matches<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>test_pass<span class="p">;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span>test_fail<span class="w"> </span><span class="s2">"pattern not found"</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="o">}</span>
 </code></pre></div>
 <p>For behavioral tests on mocked functions, restore the real function first:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>test_real_behavior<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">&quot;real function behavior&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">"real function behavior"</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span>reset_mocks
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PROJECT_ROOT</span><span class="s2">/commands/work.zsh&quot;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">output</span><span class="o">=</span><span class="k">$(</span>_flow_open_editor<span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="s2">&quot;/tmp&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="k">)</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span>assert_contains<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$output</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;expected&quot;</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span>create_mock<span class="w"> </span><span class="s2">&quot;_flow_open_editor&quot;</span><span class="w"> </span><span class="s2">&quot;return 0&quot;</span><span class="w">  </span><span class="c1"># Re-apply mock for remaining tests</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nb">source</span><span class="w"> </span><span class="s2">"</span><span class="nv">$PROJECT_ROOT</span><span class="s2">/commands/work.zsh"</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">output</span><span class="o">=</span><span class="k">$(</span>_flow_open_editor<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"/tmp"</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="k">)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span>assert_contains<span class="w"> </span><span class="s2">"</span><span class="nv">$output</span><span class="s2">"</span><span class="w"> </span><span class="s2">"expected"</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span>create_mock<span class="w"> </span><span class="s2">"_flow_open_editor"</span><span class="w"> </span><span class="s2">"return 0"</span><span class="w">  </span><span class="c1"># Re-apply mock for remaining tests</span>
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="o">}</span>
 </code></pre></div>
 <hr />
@@ -9680,7 +9708,7 @@ otherwise). <code>run-all.sh</code> exits <strong>0</strong> when there are no f
 cleanly</strong> rather than fail. Exit <strong>77</strong> (the automake "skip" convention) tells
 <code>run-all.sh</code> to count the suite as ⏭️ skipped, not ❌ failed:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Whole-suite guard — put after sourcing, before the tests:</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>yq<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SKIP: yq not installed&quot;</span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">77</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>yq<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"SKIP: yq not installed"</span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">77</span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
 </code></pre></div>
 <p>For a <strong>mixed</strong> suite (most cases are tool-independent), gate only the
 tool-dependent cases instead of skipping the whole file — e.g. include the <code>tm</code>
@@ -9704,10 +9732,10 @@ atlas, and on the runner (which has neither atlas nor the other tools above).</p
 <h2 id="debugging-test-failures">Debugging Test Failures<a class="headerlink" href="#debugging-test-failures" title="Permanent link">&para;</a></h2>
 <h3 id="enable-verbose-output">Enable Verbose Output<a class="headerlink" href="#enable-verbose-output" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>test_something<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">&quot;feature works&quot;</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span>test_case<span class="w"> </span><span class="s2">"feature works"</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="nv">result</span><span class="o">=</span><span class="k">$(</span>some_command<span class="k">)</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;[DEBUG] Got: &#39;</span><span class="nv">$result</span><span class="s2">&#39;&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span>assert_equals<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$result</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;expected&quot;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"[DEBUG] Got: '</span><span class="nv">$result</span><span class="s2">'"</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span>assert_equals<span class="w"> </span><span class="s2">"</span><span class="nv">$result</span><span class="s2">"</span><span class="w"> </span><span class="s2">"expected"</span>
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span>test_pass
 <a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="o">}</span>
 </code></pre></div>
@@ -9798,8 +9826,8 @@ promoted to a <strong>required</strong> status check on <code>dev</code>, then <
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v6</span>
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure git identity</span>
 <a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">          </span><span class="no">git config --global user.email &quot;ci@flow-cli.test&quot;</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">          </span><span class="no">git config --global user.name &quot;flow-cli CI&quot;</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">          </span><span class="no">git config --global user.email "ci@flow-cli.test"</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">          </span><span class="no">git config --global user.name "flow-cli CI"</span>
 <a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">      </span><span class="c1"># ... mock project structure ...</span>
 <a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run full suite (non-blocking)</span>
 <a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./tests/run-all.sh</span>
@@ -9917,7 +9945,7 @@ promoted to a <strong>required</strong> status check on <code>dev</code>, then <
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

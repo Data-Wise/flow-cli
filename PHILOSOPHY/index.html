@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -6803,6 +6803,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../commands/sync/" class="md-nav__link">
         
   
@@ -9011,26 +9039,26 @@
 <h3 id="6-graceful-degradation">6. Graceful Degradation<a class="headerlink" href="#6-graceful-degradation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Always check if tool exists</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>eza<span class="w"> </span><span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nb">alias</span><span class="w"> </span><span class="nv">ls</span><span class="o">=</span><span class="s1">&#39;eza --icons&#39;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nb">alias</span><span class="w"> </span><span class="nv">ls</span><span class="o">=</span><span class="s1">'eza --icons'</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">else</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nb">alias</span><span class="w"> </span><span class="nv">ls</span><span class="o">=</span><span class="s1">&#39;ls -G&#39;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nb">alias</span><span class="w"> </span><span class="nv">ls</span><span class="o">=</span><span class="s1">'ls -G'</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h2 id="anti-patterns">Anti-Patterns<a class="headerlink" href="#anti-patterns" title="Permanent link">&para;</a></h2>
 <h3 id="dont-do-this">Don't Do This<a class="headerlink" href="#dont-do-this" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># ❌ Multiple files defining same alias</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># ~/.zshrc:           alias gst=&#39;git status&#39;</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># ~/workflow/aliases: alias gst=&#39;git status -sb&#39;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># ~/.zshrc:           alias gst='git status'</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># ~/workflow/aliases: alias gst='git status -sb'</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># ❌ Aliases for complex logic</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">deploy</span><span class="o">=</span><span class="s1">&#39;git push &amp;&amp; ssh server &quot;cd /app &amp;&amp; git pull &amp;&amp; restart&quot;&#39;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">deploy</span><span class="o">=</span><span class="s1">'git push &amp;&amp; ssh server "cd /app &amp;&amp; git pull &amp;&amp; restart"'</span>
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># ❌ Cryptic names without help</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">xyzzy</span><span class="o">=</span><span class="s1">&#39;complex-internal-function&#39;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">xyzzy</span><span class="o">=</span><span class="s1">'complex-internal-function'</span>
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># ❌ Blocking operations at startup</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>api.example.com/motd<span class="k">)</span><span class="w">  </span><span class="c1"># Don&#39;t do this in .zshrc</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>api.example.com/motd<span class="k">)</span><span class="w">  </span><span class="c1"># Don't do this in .zshrc</span>
 </code></pre></div>
 <h3 id="do-this-instead">Do This Instead<a class="headerlink" href="#do-this-instead" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># ✅ Single source of truth</span>
@@ -9038,7 +9066,7 @@
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># ✅ Functions for complex logic</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>deploy<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span>git<span class="w"> </span>push<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ssh<span class="w"> </span>server<span class="w"> </span><span class="s2">&quot;cd /app &amp;&amp; git pull &amp;&amp; restart&quot;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span>git<span class="w"> </span>push<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>ssh<span class="w"> </span>server<span class="w"> </span><span class="s2">"cd /app &amp;&amp; git pull &amp;&amp; restart"</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="o">}</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># ✅ Discoverable with help</span>
@@ -9073,9 +9101,9 @@
 <a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>└── reload  Refresh shell
 <a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
 <a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>DEPRECATED (2025-12-25):
-<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>├── v       Use &#39;flow&#39; command directly
-<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>├── cc      Use &#39;ccy&#39; function in .zshrc
-<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>└── gm      Use &#39;gem*&#39; aliases in .zshrc
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>├── v       Use 'flow' command directly
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>├── cc      Use 'ccy' function in .zshrc
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>└── gm      Use 'gem*' aliases in .zshrc
 </code></pre></div>
 <hr />
 <h2 id="testing-philosophy">Testing Philosophy<a class="headerlink" href="#testing-philosophy" title="Permanent link">&para;</a></h2>
@@ -9183,7 +9211,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

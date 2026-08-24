@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7274,6 +7274,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9473,7 +9501,7 @@ them everywhere consistently. It works fully <strong>without atlas</strong> and 
 <code>yq</code></strong> — and when Atlas <em>is</em> enabled, schedule items can additionally sync to the
 project database for cross-tool views (the <code>atlas push</code> step in the
 <a href="../../guides/ATLAS-INTEGRATION-GUIDE/">Atlas Integration Guide</a>).</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>  .STATUS  &quot;## Schedule:&quot;  ─┐
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>  .STATUS  "## Schedule:"  ─┐
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                            ├─►  schedule engine  ─►  agenda / dash / morning / today / week
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  .flow/teach-config.yml  ─┘        (one source of truth, many surfaces)
 </code></pre></div>
@@ -9536,7 +9564,7 @@ If <code>type</code> is omitted it defaults to <code>general</code> for dated it
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  🔬 in 3d       Submit JRSS-B revision (myproject)
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  📌 in 4d       Project beta milestone (myproject)
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  2 items • &#39;agenda -h&#39; for options
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  2 items • 'agenda -h' for options
 </code></pre></div>
 <p><strong>What happened:</strong> your two items are grouped into a bucket, tagged with type
 icons (🔬 research, 📌 general), and shown with a friendly relative-day label
@@ -9551,7 +9579,7 @@ the directory — you didn't have to type it. Items past due would sit in a red
 </ul>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>agenda
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># Expected: a &quot;📅 AGENDA (next 7 days)&quot; header with your items listed</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1"># Expected: a "📅 AGENDA (next 7 days)" header with your items listed</span>
 </code></pre></div>
 <hr />
 <h2 id="part-2-windows-recurring-blocks-and-filters">Part 2: Windows, Recurring Blocks, and Filters<a class="headerlink" href="#part-2-windows-recurring-blocks-and-filters" title="Permanent link">&para;</a></h2>
@@ -9560,7 +9588,7 @@ the directory — you didn't have to type it. Items past due would sit in a red
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>agenda<span class="w"> </span>today<span class="w">        </span><span class="c1"># due today + overdue only</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>agenda<span class="w"> </span>-w<span class="w">           </span><span class="c1"># next 7 days (same as default)</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>agenda<span class="w"> </span>-m<span class="w">           </span><span class="c1"># next 30 days (adds a LATER bucket)</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>agenda<span class="w"> </span>--overdue<span class="w">    </span><span class="c1"># ONLY things past due — your &quot;what&#39;s on fire?&quot; view</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>agenda<span class="w"> </span>--overdue<span class="w">    </span><span class="c1"># ONLY things past due — your "what's on fire?" view</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>agenda<span class="w"> </span>--all<span class="w">        </span><span class="c1"># everything, including holidays</span>
 </code></pre></div>
 <p><code>agenda --overdue</code> is the one to reach for when you're behind — it strips
@@ -9570,7 +9598,7 @@ everything except what's actually late:</p>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  OVERDUE (1)
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  🔬 overdue 2d  Rebuttal to reviewers (myproject)
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>  1 item • &#39;agenda -h&#39; for options
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>  1 item • 'agenda -h' for options
 </code></pre></div>
 <p>And <code>agenda -m</code> adds a dim <strong>LATER</strong> bucket for items 8–30 days out, so recurring
 blocks (like a weekly meeting) show every upcoming occurrence.</p>
@@ -9590,9 +9618,9 @@ meeting is typed <code>research</code> but still gets a trailing 🔁 to flag th
 <h3 id="step-23-filter-by-type-or-category">Step 2.3: Filter by type or category<a class="headerlink" href="#step-23-filter-by-type-or-category" title="Permanent link">&para;</a></h3>
 <p>A filter argument matches either an item's <strong>type</strong> or the project's detected
 <strong>category</strong> — whichever hits first:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>agenda<span class="w"> </span>research<span class="w">     </span><span class="c1"># every item tagged &quot;| research&quot;, in ANY project</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>agenda<span class="w"> </span>research<span class="w">     </span><span class="c1"># every item tagged "| research", in ANY project</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>agenda<span class="w"> </span>recurring<span class="w">    </span><span class="c1"># just the recurring blocks</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>agenda<span class="w"> </span>teach<span class="w">        </span><span class="c1"># items in teaching-category projects (&quot;teaching&quot; works too)</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>agenda<span class="w"> </span>teach<span class="w">        </span><span class="c1"># items in teaching-category projects ("teaching" works too)</span>
 </code></pre></div>
 <blockquote>
 <p><strong>Note:</strong> <code>agenda research</code> finds a manuscript deadline even if you keep it in
@@ -9600,7 +9628,7 @@ a <code>dev</code>-category repo — the type tag wins.</p>
 </blockquote>
 <h3 id="checkpoint_1">Checkpoint<a class="headerlink" href="#checkpoint_1" title="Permanent link">&para;</a></h3>
 <p><strong>Verify:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>agenda<span class="w"> </span>--overdue<span class="w">    </span><span class="c1"># should list only past-due items (maybe none — that&#39;s good)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>agenda<span class="w"> </span>--overdue<span class="w">    </span><span class="c1"># should list only past-due items (maybe none — that's good)</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>agenda<span class="w"> </span>recurring<span class="w">    </span><span class="c1"># should show your weekly: blocks expanded to dates</span>
 </code></pre></div>
 <hr />
@@ -9614,10 +9642,10 @@ commands.</p>
 items, 7 days + overdue). It <strong>self-suppresses</strong> when nothing is due, so it never
 adds noise.</p>
 <h3 id="step-32-cadence-commands">Step 3.2: Cadence commands<a class="headerlink" href="#step-32-cadence-commands" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>morning<span class="w">      </span><span class="c1"># adds an &quot;Upcoming (next 7 days)&quot; block (top 5)</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>morning<span class="w"> </span>-q<span class="w">   </span><span class="c1"># quick mode → a one-line &quot;📅 N due soon&quot;</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>today<span class="w">        </span><span class="c1"># adds &quot;📅 Due today&quot; (today + overdue)</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>week<span class="w">         </span><span class="c1"># adds &quot;📅 This week&#39;s deadlines&quot;, grouped by weekday</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>morning<span class="w">      </span><span class="c1"># adds an "Upcoming (next 7 days)" block (top 5)</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>morning<span class="w"> </span>-q<span class="w">   </span><span class="c1"># quick mode → a one-line "📅 N due soon"</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>today<span class="w">        </span><span class="c1"># adds "📅 Due today" (today + overdue)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>week<span class="w">         </span><span class="c1"># adds "📅 This week's deadlines", grouped by weekday</span>
 </code></pre></div>
 <h3 id="step-33-the-aliases">Step 3.3: The aliases<a class="headerlink" href="#step-33-the-aliases" title="Permanent link">&para;</a></h3>
 <p>For glance-speed, three aliases skip the typing:</p>
@@ -9679,7 +9707,7 @@ everything else still works.)</p>
 </code></pre></div>
 <hr />
 <h2 id="putting-it-all-together">Putting It All Together<a class="headerlink" href="#putting-it-all-together" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Morning triage: what&#39;s on fire, then what&#39;s today</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Morning triage: what's on fire, then what's today</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>agenda<span class="w"> </span>--overdue
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>agt
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
@@ -9716,13 +9744,13 @@ them — add only the one-offs and recurring blocks:</p>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="k">-</span><span class="w"> </span>weekly:fri | Grading window | recurring
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>agenda<span class="w"> </span>teach<span class="w">    </span><span class="c1"># everything in teaching-category projects</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>week<span class="w">            </span><span class="c1"># this week&#39;s deadlines, grouped by weekday</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>week<span class="w">            </span><span class="c1"># this week's deadlines, grouped by weekday</span>
 </code></pre></div>
 <h3 id="juggling-many-projects">🧪 Juggling many projects<a class="headerlink" href="#juggling-many-projects" title="Permanent link">&para;</a></h3>
 <p>Keep deadlines in each project's <code>.STATUS</code>; <code>agenda</code> merges them all and tags each
 line with its project name, so you triage across everything at once:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>agenda<span class="w">             </span><span class="c1"># every project · next 7 days + overdue</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>agenda<span class="w"> </span>--overdue<span class="w">   </span><span class="c1"># the cross-project &quot;what&#39;s late?&quot; list</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>agenda<span class="w"> </span>--overdue<span class="w">   </span><span class="c1"># the cross-project "what's late?" list</span>
 </code></pre></div>
 <p>A merged view spanning three projects looks like this:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>  📅 AGENDA (next 7 days)
@@ -9735,7 +9763,7 @@ line with its project name, so you triage across everything at once:</p>
 <a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>  📌 in 3d       Renew domain (website)
 <a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>  🎓 in 6d       Lecture 9 prep (stat-101)
 <a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>
-<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>  4 items • &#39;agenda -h&#39; for options
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>  4 items • 'agenda -h' for options
 </code></pre></div>
 <blockquote>
 <p><strong>Tip:</strong> start tiny. One real deadline in one project beats a perfectly
@@ -9776,7 +9804,7 @@ the type filter finds it regardless of project category.</p>
 <details>
 <summary>Solution</summary>
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># In any project&#39;s .STATUS:</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># In any project's .STATUS:</span>
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="c1">#   - 2026-07-15 | Submit revision | research</span>
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>agenda<span class="w"> </span>research<span class="w">      </span><span class="c1"># shows it, even from a dev/quarto/apps project</span>
 </code></pre></div>
@@ -9829,7 +9857,7 @@ of <code>weeks[].start_date</code>.</p>
 </table>
 <p><strong>Key commands:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>agenda<span class="w">             </span><span class="c1"># next 7 days + overdue</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>agenda<span class="w"> </span>--overdue<span class="w">   </span><span class="c1"># only what&#39;s past due</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>agenda<span class="w"> </span>--overdue<span class="w">   </span><span class="c1"># only what's past due</span>
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>agenda<span class="w"> </span>-m<span class="w"> </span>research<span class="w"> </span><span class="c1"># 30-day window, research items</span>
 <a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>agt<span class="w"> </span>/<span class="w"> </span>agw<span class="w"> </span>/<span class="w"> </span>agm<span class="w">    </span><span class="c1"># today / week / month aliases</span>
 </code></pre></div>
@@ -9945,7 +9973,7 @@ of <code>weeks[].start_date</code>.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

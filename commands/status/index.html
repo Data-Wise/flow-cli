@@ -18,14 +18,14 @@
         <link rel="prev" href="../dash/">
       
       
-        <link rel="next" href="../sync/">
+        <link rel="next" href="../handoff/">
       
       
         
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7275,6 +7275,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sync/" class="md-nav__link">
         
   
@@ -9481,7 +9509,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span>status<span class="w"> </span>&lt;project&gt;<span class="w"> </span>&lt;status&gt;<span class="w"> </span>&lt;priority&gt;<span class="w"> </span>&lt;task&gt;<span class="w"> </span>&lt;progress&gt;
 </code></pre></div>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Complete sims&quot;</span><span class="w"> </span><span class="m">90</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Complete sims"</span><span class="w"> </span><span class="m">90</span>
 </code></pre></div>
 <h3 id="create-mode">Create Mode<a class="headerlink" href="#create-mode" title="Permanent link">&para;</a></h3>
 <p>Initialize a new <code>.STATUS</code> file:</p>
@@ -9585,7 +9613,7 @@
 </blockquote>
 <h3 id="task">task<a class="headerlink" href="#task" title="Permanent link">&para;</a></h3>
 <p>Next action description (quoted string):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Run final simulations&quot;</span><span class="w"> </span><span class="m">85</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Run final simulations"</span><span class="w"> </span><span class="m">85</span>
 </code></pre></div>
 <p><strong>Good task descriptions:</strong></p>
 <ul>
@@ -9609,7 +9637,7 @@
 </ul>
 <h3 id="progress">progress<a class="headerlink" href="#progress" title="Permanent link">&para;</a></h3>
 <p>Progress percentage (0-100):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Task&quot;</span><span class="w"> </span><span class="m">75</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Task"</span><span class="w"> </span><span class="m">75</span>
 </code></pre></div>
 <p><strong>Progress guidelines:</strong></p>
 <table>
@@ -9702,15 +9730,15 @@
 </code></pre></div>
 <p><strong>Output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">{</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">&quot;project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mediationverse&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P0&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span><span class="nt">&quot;progress&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Run final simulations&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nt">&quot;updated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025-12-24T15:30:00Z&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r-packages&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;r-package&quot;</span><span class="p">,</span>
-<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">  </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;~/projects/r-packages/active/mediationverse&quot;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">"project"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mediationverse"</span><span class="p">,</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="s2">"P0"</span><span class="p">,</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span><span class="nt">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span><span class="nt">"task"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Run final simulations"</span><span class="p">,</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nt">"updated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2025-12-24T15:30:00Z"</span><span class="p">,</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nt">"category"</span><span class="p">:</span><span class="w"> </span><span class="s2">"r-packages"</span><span class="p">,</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"r-package"</span><span class="p">,</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">  </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~/projects/r-packages/active/mediationverse"</span>
 <a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="-help-h">--help, -h<a class="headerlink" href="#-help-h" title="Permanent link">&para;</a></h3>
@@ -9722,41 +9750,41 @@
 <h3 id="example-1-start-tracking-new-project">Example 1: Start Tracking New Project<a class="headerlink" href="#example-1-start-tracking-new-project" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/research/new-study
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>flow<span class="w"> </span>status<span class="w"> </span>new-study<span class="w"> </span>--create
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>flow<span class="w"> </span>status<span class="w"> </span>new-study<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Literature review&quot;</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>flow<span class="w"> </span>status<span class="w"> </span>new-study<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Literature review"</span><span class="w"> </span><span class="m">0</span>
 </code></pre></div>
 <h3 id="example-2-daily-updates">Example 2: Daily Updates<a class="headerlink" href="#example-2-daily-updates" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Morning: Start work</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>flow<span class="w"> </span>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Begin simulations&quot;</span><span class="w"> </span><span class="m">80</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>flow<span class="w"> </span>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Begin simulations"</span><span class="w"> </span><span class="m">80</span>
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Midday: Progress update</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>flow<span class="w"> </span>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Halfway through sims&quot;</span><span class="w"> </span><span class="m">85</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>flow<span class="w"> </span>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Halfway through sims"</span><span class="w"> </span><span class="m">85</span>
 <a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
 <a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># End of day: Save state</span>
-<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>flow<span class="w"> </span>status<span class="w"> </span>mediationverse<span class="w"> </span>paused<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Resume tomorrow - 2 sims left&quot;</span><span class="w"> </span><span class="m">90</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>flow<span class="w"> </span>status<span class="w"> </span>mediationverse<span class="w"> </span>paused<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Resume tomorrow - 2 sims left"</span><span class="w"> </span><span class="m">90</span>
 </code></pre></div>
 <h3 id="example-3-project-state-changes">Example 3: Project State Changes<a class="headerlink" href="#example-3-project-state-changes" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Start working</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Initial task&quot;</span><span class="w"> </span><span class="m">0</span>
-<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Actually started!&quot;</span><span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Initial task"</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Actually started!"</span><span class="w"> </span><span class="m">5</span>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
 <a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1"># Make progress</span>
-<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Core complete&quot;</span><span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Core complete"</span><span class="w"> </span><span class="m">50</span>
 <a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
 <a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># Hit a blocker</span>
-<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>blocked<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Waiting for data from collaborator&quot;</span><span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>blocked<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Waiting for data from collaborator"</span><span class="w"> </span><span class="m">50</span>
 <a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
 <a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="c1"># Unblocked, resume</span>
-<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Got data - final push!&quot;</span><span class="w"> </span><span class="m">75</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Got data - final push!"</span><span class="w"> </span><span class="m">75</span>
 <a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>
 <a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="c1"># Complete</span>
-<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Done!&quot;</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>flow<span class="w"> </span>status<span class="w"> </span>proj<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Done!"</span><span class="w"> </span><span class="m">100</span>
 </code></pre></div>
 <h3 id="example-4-batch-updates">Example 4: Batch Updates<a class="headerlink" href="#example-4-batch-updates" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Update multiple projects (shell script)</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>flow<span class="w"> </span>status<span class="w"> </span>proj1<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Task A&quot;</span><span class="w"> </span><span class="m">80</span>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>flow<span class="w"> </span>status<span class="w"> </span>proj2<span class="w"> </span>paused<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;On hold&quot;</span><span class="w"> </span><span class="m">50</span>
-<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>flow<span class="w"> </span>status<span class="w"> </span>proj3<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Task B&quot;</span><span class="w"> </span><span class="m">60</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>flow<span class="w"> </span>status<span class="w"> </span>proj4<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Not started&quot;</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>flow<span class="w"> </span>status<span class="w"> </span>proj1<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Task A"</span><span class="w"> </span><span class="m">80</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>flow<span class="w"> </span>status<span class="w"> </span>proj2<span class="w"> </span>paused<span class="w"> </span>P1<span class="w"> </span><span class="s2">"On hold"</span><span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>flow<span class="w"> </span>status<span class="w"> </span>proj3<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Task B"</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>flow<span class="w"> </span>status<span class="w"> </span>proj4<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Not started"</span><span class="w"> </span><span class="m">0</span>
 <a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
 <a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># Verify</span>
 <a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>flow<span class="w"> </span>dash
@@ -9765,15 +9793,15 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># After working</span>
 <a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>work<span class="w"> </span>mediationverse
 <a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1"># ... do work ...</span>
-<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>flow<span class="w"> </span>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Completed feature X&quot;</span><span class="w"> </span><span class="m">90</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>flow<span class="w"> </span>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Completed feature X"</span><span class="w"> </span><span class="m">90</span>
 <a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
 <a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="c1"># After git commit</span>
-<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add feature X&quot;</span>
-<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>flow<span class="w"> </span>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Feature X committed&quot;</span><span class="w"> </span><span class="m">95</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: add feature X"</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>flow<span class="w"> </span>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Feature X committed"</span><span class="w"> </span><span class="m">95</span>
 <a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>
 <a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="c1"># After testing</span>
 <a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>npm<span class="w"> </span><span class="nb">test</span>
-<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>flow<span class="w"> </span>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;All tests passing!&quot;</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>flow<span class="w"> </span>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"All tests passing!"</span><span class="w"> </span><span class="m">100</span>
 </code></pre></div>
 <hr />
 <h2 id="files">Files<a class="headerlink" href="#files" title="Permanent link">&para;</a></h2>
@@ -9871,10 +9899,10 @@
 <h3 id="version-control">Version Control<a class="headerlink" href="#version-control" title="Permanent link">&para;</a></h3>
 <p><strong>Add <code>.STATUS</code> to git:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>git<span class="w"> </span>add<span class="w"> </span>.STATUS
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update project status&quot;</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"docs: update project status"</span>
 </code></pre></div>
 <p><strong>Or gitignore it:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;.STATUS&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">".STATUS"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
 </code></pre></div>
 <p>Choose based on whether you want to share status with collaborators.</p>
 <hr />
@@ -9968,7 +9996,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

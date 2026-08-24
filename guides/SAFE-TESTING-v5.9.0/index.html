@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -6803,6 +6803,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9519,23 +9547,23 @@
 <h3 id="what-dry-run-means">What --dry-run Means<a class="headerlink" href="#what-dry-run-means" title="Permanent link">&para;</a></h3>
 <p><code>--dry-run</code> is a widely-used convention meaning: <strong>"Show me what you WOULD do, but don't actually do it."</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Without --dry-run: Actually creates exam file</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">  </span>→<span class="w"> </span>Creates<span class="w"> </span>exams/topic-exam.qmd
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Topic"</span><span class="w">  </span>→<span class="w"> </span>Creates<span class="w"> </span>exams/topic-exam.qmd
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># With --dry-run: Shows what WOULD be created</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--dry-run<span class="w">  </span>→<span class="w"> </span>Prints<span class="w"> </span>preview,<span class="w"> </span>creates<span class="w"> </span>NOTHING
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--dry-run<span class="w">  </span>→<span class="w"> </span>Prints<span class="w"> </span>preview,<span class="w"> </span>creates<span class="w"> </span>NOTHING
 </code></pre></div>
 <h3 id="why-dry-run-is-trustworthy">Why --dry-run Is Trustworthy<a class="headerlink" href="#why-dry-run-is-trustworthy" title="Permanent link">&para;</a></h3>
 <p>The implementation literally checks for the flag and exits early:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Simplified logic inside teach exam</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dry_run</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Would create: exams/</span><span class="nv">$topic</span><span class="s2">-exam.qmd&quot;</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Content preview:&quot;</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$generated_content</span><span class="s2">&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$dry_run</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Would create: exams/</span><span class="nv">$topic</span><span class="s2">-exam.qmd"</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Content preview:"</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$generated_content</span><span class="s2">"</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">0</span><span class="w">  </span><span class="c1"># ← EXIT HERE, never reaches file write</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">fi</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># This code only runs if NOT dry-run</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$generated_content</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;exams/</span><span class="nv">$topic</span><span class="s2">-exam.qmd&quot;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$generated_content</span><span class="s2">"</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"exams/</span><span class="nv">$topic</span><span class="s2">-exam.qmd"</span>
 </code></pre></div>
 <hr />
 <h2 id="understanding-git-as-a-safety-net">🎓 Understanding Git as a Safety Net<a class="headerlink" href="#understanding-git-as-a-safety-net" title="Permanent link">&para;</a></h2>
@@ -9558,21 +9586,21 @@
 <a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>└─────────────────────────────────────────────────────────────┘
 </code></pre></div>
 <h3 id="recovery-commands-explained">Recovery Commands Explained<a class="headerlink" href="#recovery-commands-explained" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># &quot;Undo all uncommitted changes&quot; - Restores files to last commit</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># "Undo all uncommitted changes" - Restores files to last commit</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Think: &quot;Make my files look like the last snapshot&quot;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Think: "Make my files look like the last snapshot"</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># &quot;Save my work temporarily&quot; - Like a clipboard for changes</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;description&quot;</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Think: &quot;Put my changes in a drawer for later&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># "Save my work temporarily" - Like a clipboard for changes</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">"description"</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Think: "Put my changes in a drawer for later"</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># &quot;Get my saved work back&quot;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># "Get my saved work back"</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>git<span class="w"> </span>stash<span class="w"> </span>pop
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># Think: &quot;Take my changes out of the drawer&quot;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># Think: "Take my changes out of the drawer"</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># &quot;Nuclear reset&quot; - Discard EVERYTHING since last commit</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># "Nuclear reset" - Discard EVERYTHING since last commit</span>
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># Think: &quot;Time machine back to last commit, forget everything since&quot;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># Think: "Time machine back to last commit, forget everything since"</span>
 </code></pre></div>
 <hr />
 <h2 id="understanding-where-files-get-written">🎓 Understanding Where Files Get Written<a class="headerlink" href="#understanding-where-files-get-written" title="Permanent link">&para;</a></h2>
@@ -9602,8 +9630,8 @@
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Result: Same output every time, no side effects</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># NOT idempotent: Each run creates a NEW file</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">  </span><span class="c1"># Creates topic-exam-2.qmd or overwrites!</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Topic"</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Topic"</span><span class="w">  </span><span class="c1"># Creates topic-exam-2.qmd or overwrites!</span>
 </code></pre></div>
 <h3 id="all-v590-read-operations-are-idempotent">All v5.9.0 Read Operations Are Idempotent<a class="headerlink" href="#all-v590-read-operations-are-idempotent" title="Permanent link">&para;</a></h3>
 <table>
@@ -9650,7 +9678,7 @@
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>git<span class="w"> </span>status
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># 3. Stash any uncommitted work (safety net)</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;pre-v5.9.0-test&quot;</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">"pre-v5.9.0-test"</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
 <a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># 4. Verify stash saved</span>
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>git<span class="w"> </span>stash<span class="w"> </span>list
@@ -9682,8 +9710,8 @@
 <a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>_teach_has_scholar_config<span class="w"> </span>.flow/teach-config.yml
 <a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
 <a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># Get config values (read-only)</span>
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>_teach_config_get<span class="w"> </span><span class="s2">&quot;course.name&quot;</span>
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>_teach_config_get<span class="w"> </span><span class="s2">&quot;course.semester&quot;</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>_teach_config_get<span class="w"> </span><span class="s2">"course.name"</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>_teach_config_get<span class="w"> </span><span class="s2">"course.semester"</span>
 </code></pre></div>
 <p><strong>What it does:</strong> Reads and validates YAML
 <strong>Risk:</strong> ⚪ NONE</p>
@@ -9708,16 +9736,16 @@
 <p>These commands <strong>preview output without writing</strong>:</p>
 <h3 id="6-teach-exam-dry-run">6. teach exam --dry-run<a class="headerlink" href="#6-teach-exam-dry-run" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Preview exam generation (NO files written)</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Regression Diagnostics&quot;</span><span class="w"> </span>--dry-run
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Regression Diagnostics"</span><span class="w"> </span>--dry-run
 </code></pre></div>
 <p><strong>What it does:</strong> Shows what WOULD be generated
 <strong>Risk:</strong> ⚪ NONE (--dry-run prevents file creation)</p>
 <h3 id="7-teach-quiz-dry-run">7. teach quiz --dry-run<a class="headerlink" href="#7-teach-quiz-dry-run" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Hypothesis Testing&quot;</span><span class="w"> </span>--dry-run<span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">"Hypothesis Testing"</span><span class="w"> </span>--dry-run<span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
 </code></pre></div>
 <p><strong>Risk:</strong> ⚪ NONE</p>
 <h3 id="8-teach-slides-dry-run">8. teach slides --dry-run<a class="headerlink" href="#8-teach-slides-dry-run" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--dry-run
 </code></pre></div>
 <p><strong>Risk:</strong> ⚪ NONE</p>
 <hr />
@@ -9768,52 +9796,52 @@
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># Safe v5.9.0 Test - Real Course</span>
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1"># Run from course directory (e.g., stat-440)</span>
 <a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;═══════════════════════════════════════════════&quot;</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;flow-cli v5.9.0 Safe Testing - </span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$PWD</span><span class="k">)</span><span class="s2">&quot;</span>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;═══════════════════════════════════════════════&quot;</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"═══════════════════════════════════════════════"</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"flow-cli v5.9.0 Safe Testing - </span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$PWD</span><span class="k">)</span><span class="s2">"</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"═══════════════════════════════════════════════"</span>
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
 <a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="c1"># Source plugin</span>
 <a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="nb">source</span><span class="w"> </span>~/projects/dev-tools/flow-cli/flow.plugin.zsh
 <a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>
-<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[1] teach status (read-only)&quot;</span>
-<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;─────────────────────────────&quot;</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"\n[1] teach status (read-only)"</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"─────────────────────────────"</span>
 <a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>teach<span class="w"> </span>status
 <a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>
-<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[2] Config validation (read-only)&quot;</span>
-<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;───────────────────────────────────&quot;</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"\n[2] Config validation (read-only)"</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"───────────────────────────────────"</span>
 <a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>_teach_validate_config<span class="w"> </span>.flow/teach-config.yml
 <a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>
-<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[3] Config values (read-only)&quot;</span>
-<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;──────────────────────────────&quot;</span>
-<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Course: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">&#39;course.name&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
-<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Semester: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">&#39;course.semester&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
-<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Year: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">&#39;course.year&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"\n[3] Config values (read-only)"</span>
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"──────────────────────────────"</span>
+<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Course: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">'course.name'</span><span class="k">)</span><span class="s2">"</span>
+<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Semester: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">'course.semester'</span><span class="k">)</span><span class="s2">"</span>
+<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Year: </span><span class="k">$(</span>_teach_config_get<span class="w"> </span><span class="s1">'course.year'</span><span class="k">)</span><span class="s2">"</span>
 <a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>
-<a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[4] Hash detection (read-only)&quot;</span>
-<a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;────────────────────────────────&quot;</span>
-<a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hash: </span><span class="k">$(</span>_flow_config_hash<span class="w"> </span>.flow/teach-config.yml<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">16</span><span class="k">)</span><span class="s2">...&quot;</span>
+<a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"\n[4] Hash detection (read-only)"</span>
+<a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"────────────────────────────────"</span>
+<a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Hash: </span><span class="k">$(</span>_flow_config_hash<span class="w"> </span>.flow/teach-config.yml<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">16</span><span class="k">)</span><span class="s2">..."</span>
 <a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>
-<a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[5] Flag validation (read-only)&quot;</span>
-<a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;─────────────────────────────────&quot;</span>
+<a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"\n[5] Flag validation (read-only)"</span>
+<a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"─────────────────────────────────"</span>
 <a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a><span class="k">if</span><span class="w"> </span>_teach_validate_flags<span class="w"> </span>exam<span class="w"> </span>--questions<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ Valid flags accepted&quot;</span>
+<a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"✓ Valid flags accepted"</span>
 <a id="__codelineno-17-34" name="__codelineno-17-34" href="#__codelineno-17-34"></a><span class="k">else</span>
-<a id="__codelineno-17-35" name="__codelineno-17-35" href="#__codelineno-17-35"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✗ Flag validation failed&quot;</span>
+<a id="__codelineno-17-35" name="__codelineno-17-35" href="#__codelineno-17-35"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"✗ Flag validation failed"</span>
 <a id="__codelineno-17-36" name="__codelineno-17-36" href="#__codelineno-17-36"></a><span class="k">fi</span>
 <a id="__codelineno-17-37" name="__codelineno-17-37" href="#__codelineno-17-37"></a>
 <a id="__codelineno-17-38" name="__codelineno-17-38" href="#__codelineno-17-38"></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>_teach_validate_flags<span class="w"> </span>exam<span class="w"> </span>--bad-flag<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-17-39" name="__codelineno-17-39" href="#__codelineno-17-39"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ Invalid flags rejected&quot;</span>
+<a id="__codelineno-17-39" name="__codelineno-17-39" href="#__codelineno-17-39"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"✓ Invalid flags rejected"</span>
 <a id="__codelineno-17-40" name="__codelineno-17-40" href="#__codelineno-17-40"></a><span class="k">else</span>
-<a id="__codelineno-17-41" name="__codelineno-17-41" href="#__codelineno-17-41"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✗ Invalid flag not caught&quot;</span>
+<a id="__codelineno-17-41" name="__codelineno-17-41" href="#__codelineno-17-41"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"✗ Invalid flag not caught"</span>
 <a id="__codelineno-17-42" name="__codelineno-17-42" href="#__codelineno-17-42"></a><span class="k">fi</span>
 <a id="__codelineno-17-43" name="__codelineno-17-43" href="#__codelineno-17-43"></a>
-<a id="__codelineno-17-44" name="__codelineno-17-44" href="#__codelineno-17-44"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n[6] Help system (read-only)&quot;</span>
-<a id="__codelineno-17-45" name="__codelineno-17-45" href="#__codelineno-17-45"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;─────────────────────────────&quot;</span>
+<a id="__codelineno-17-44" name="__codelineno-17-44" href="#__codelineno-17-44"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"\n[6] Help system (read-only)"</span>
+<a id="__codelineno-17-45" name="__codelineno-17-45" href="#__codelineno-17-45"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"─────────────────────────────"</span>
 <a id="__codelineno-17-46" name="__codelineno-17-46" href="#__codelineno-17-46"></a>teach<span class="w"> </span>exam<span class="w"> </span>--help<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
 <a id="__codelineno-17-47" name="__codelineno-17-47" href="#__codelineno-17-47"></a>
-<a id="__codelineno-17-48" name="__codelineno-17-48" href="#__codelineno-17-48"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;\n═══════════════════════════════════════════════&quot;</span>
-<a id="__codelineno-17-49" name="__codelineno-17-49" href="#__codelineno-17-49"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✓ All safe tests complete - no files modified&quot;</span>
-<a id="__codelineno-17-50" name="__codelineno-17-50" href="#__codelineno-17-50"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;═══════════════════════════════════════════════&quot;</span>
+<a id="__codelineno-17-48" name="__codelineno-17-48" href="#__codelineno-17-48"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"\n═══════════════════════════════════════════════"</span>
+<a id="__codelineno-17-49" name="__codelineno-17-49" href="#__codelineno-17-49"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"✓ All safe tests complete - no files modified"</span>
+<a id="__codelineno-17-50" name="__codelineno-17-50" href="#__codelineno-17-50"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"═══════════════════════════════════════════════"</span>
 </code></pre></div>
 <hr />
 <h2 id="testing-on-stat-440">Testing on stat-440<a class="headerlink" href="#testing-on-stat-440" title="Permanent link">&para;</a></h2>
@@ -9821,7 +9849,7 @@
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/stat-440
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># 2. Safety stash</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;pre-test&quot;</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">"pre-test"</span>
 <a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
 <a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># 3. Run safe tests</span>
 <a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="nb">source</span><span class="w"> </span>~/projects/dev-tools/flow-cli/flow.plugin.zsh
@@ -9829,10 +9857,10 @@
 <a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>_teach_validate_config<span class="w"> </span>.flow/teach-config.yml
 <a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
 <a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="c1"># 4. Preview generation (--dry-run = safe)</span>
-<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Model Diagnostics&quot;</span><span class="w"> </span>--dry-run
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Model Diagnostics"</span><span class="w"> </span>--dry-run
 <a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>
 <a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="c1"># 5. Verify no changes</span>
-<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>git<span class="w"> </span>status<span class="w">  </span><span class="c1"># Should show &quot;nothing to commit&quot;</span>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>git<span class="w"> </span>status<span class="w">  </span><span class="c1"># Should show "nothing to commit"</span>
 <a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>
 <a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="c1"># 6. Restore stash if needed</span>
 <a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>git<span class="w"> </span>stash<span class="w"> </span>pop
@@ -9986,7 +10014,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -8128,6 +8128,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -11361,36 +11389,36 @@
 <strong>Time:</strong> ~3 minutes | <strong>Load:</strong> 🟢 Easy | <strong>Safety:</strong> 🟢 Safe</p>
 <h3 id="commands_4">Commands<a class="headerlink" href="#commands_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Option 1: Quick (if already checked)</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"message"</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Option 2: Safe (docs + tests + commit)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"message"</span>
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Option 3: Ultra-safe (full check + commit)</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rcheck<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rcheck<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"message"</span>
 </code></pre></div>
 <h3 id="visual-flow_4">Visual Flow<a class="headerlink" href="#visual-flow_4" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Code ready → git commit → Done in 30s
 </code></pre></div>
 <h3 id="commit-message-templates">Commit Message Templates<a class="headerlink" href="#commit-message-templates" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Feature</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add sensitivity analysis function&quot;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: add sensitivity analysis function"</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Bug fix</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: handle NA values in mediation estimate&quot;</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"fix: handle NA values in mediation estimate"</span>
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Documentation</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;docs: update README with new examples&quot;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"docs: update README with new examples"</span>
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
 <a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># Tests</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test: add tests for interaction effects&quot;</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"test: add tests for interaction effects"</span>
 <a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
 <a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1"># Refactor</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;refactor: simplify bootstrap algorithm&quot;</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"refactor: simplify bootstrap algorithm"</span>
 </code></pre></div>
 <h3 id="decision-tree">Decision Tree<a class="headerlink" href="#decision-tree" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Did<span class="w"> </span>you<span class="w"> </span>run<span class="w"> </span>rcheck?
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├─<span class="w"> </span>Yes<span class="w"> </span>→<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>├─<span class="w"> </span>Yes<span class="w"> </span>→<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"message"</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>├─<span class="w"> </span>No<span class="w"> </span>→<span class="w"> </span>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w"> </span><span class="k">then</span><span class="w"> </span>commit<span class="w"> </span><span class="o">(</span>safer<span class="o">)</span>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>└─<span class="w"> </span>Not<span class="w"> </span>sure<span class="w"> </span>→<span class="w"> </span>Full<span class="w"> </span>check<span class="w"> </span>first<span class="w"> </span><span class="o">(</span>safest<span class="o">)</span>
 </code></pre></div>
@@ -11419,7 +11447,7 @@
 </ul>
 <h4 id="step-2-run-single-test-1-min">Step 2: Run Single Test (1 min)<a class="headerlink" href="#step-2-run-single-test-1-min" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Run specific test file in R:</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>devtools::test_file<span class="o">(</span><span class="s2">&quot;tests/testthat/test-myfunction.R&quot;</span><span class="o">)</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>devtools::test_file<span class="o">(</span><span class="s2">"tests/testthat/test-myfunction.R"</span><span class="o">)</span>
 </code></pre></div>
 <h4 id="step-3-interactive-debugging-varies">Step 3: Interactive Debugging (varies)<a class="headerlink" href="#step-3-interactive-debugging-varies" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>rload<span class="w">                </span><span class="c1"># Load package</span>
@@ -11540,7 +11568,7 @@
 💡 Take regular breaks to maintain focus</p>
 <h3 id="after-focus-session">After Focus Session<a class="headerlink" href="#after-focus-session" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Update status and commit progress</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Progress on X&quot;</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Progress on X"</span>
 </code></pre></div>
 <hr />
 <h2 id="9-start-new-feature">9️⃣ Start New Feature<a class="headerlink" href="#9-start-new-feature" title="Permanent link">&para;</a></h2>
@@ -11555,35 +11583,35 @@
 <h4 id="2-create-function-file-30s">[ ] 2. Create Function File (30s)<a class="headerlink" href="#2-create-function-file-30s" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Create R/myfunction.R manually</span>
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="c1"># OR use usethis:</span>
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>usethis::use_r<span class="o">(</span><span class="s2">&quot;myfunction&quot;</span><span class="o">)</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>usethis::use_r<span class="o">(</span><span class="s2">"myfunction"</span><span class="o">)</span>
 </code></pre></div>
 <h4 id="3-create-test-file-30s">[ ] 3. Create Test File (30s)<a class="headerlink" href="#3-create-test-file-30s" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Create tests/testthat/test-myfunction.R</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="c1"># OR use usethis:</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>usethis::use_test<span class="o">(</span><span class="s2">&quot;myfunction&quot;</span><span class="o">)</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>usethis::use_test<span class="o">(</span><span class="s2">"myfunction"</span><span class="o">)</span>
 </code></pre></div>
 <h4 id="4-document-template-30s">[ ] 4. Document Template (30s)<a class="headerlink" href="#4-document-template-30s" title="Permanent link">&para;</a></h4>
 <p>Add roxygen skeleton:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1">#&#39; Function Title</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="c1">#&#39;</span>
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1">#&#39; @param x Description</span>
-<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1">#&#39; @return Description</span>
-<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="c1">#&#39; @export</span>
-<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="c1">#&#39; @examples</span>
-<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1">#&#39; myfunction(x = 1)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1">#' Function Title</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="c1">#'</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1">#' @param x Description</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1">#' @return Description</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="c1">#' @export</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="c1">#' @examples</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1">#' myfunction(x = 1)</span>
 <a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="n">myfunction</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="w">  </span><span class="c1"># TODO: Implement</span>
 <a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="p">}</span>
 </code></pre></div>
 <h4 id="5-first-test-30s">[ ] 5. First Test (30s)<a class="headerlink" href="#5-first-test-30s" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="nf">test_that</span><span class="p">(</span><span class="s">&quot;myfunction works&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="nf">test_that</span><span class="p">(</span><span class="s">"myfunction works"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="w">  </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">myfunction</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="w">  </span><span class="nf">expect_true</span><span class="p">(</span><span class="o">!</span><span class="nf">is.null</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
 <a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="p">})</span>
 </code></pre></div>
 <h4 id="6-verify-setup">[ ] 6. Verify Setup<a class="headerlink" href="#6-verify-setup" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>rload<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest<span class="w">       </span><span class="c1"># Load + test</span>
-<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1"># Should load successfully, test might fail (that&#39;s OK!)</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="c1"># Should load successfully, test might fail (that's OK!)</span>
 </code></pre></div>
 <h3 id="quick-start-template">Quick Start Template<a class="headerlink" href="#quick-start-template" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Create files, then verify:</span>
@@ -11624,7 +11652,7 @@
 <a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>git<span class="w"> </span>reset<span class="w"> </span>HEAD~1
 <a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="c1"># Fix the issue</span>
 <a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>rtest<span class="w">                </span><span class="c1"># Verify tests pass</span>
-<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;fix: ...&quot;</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"fix: ..."</span>
 </code></pre></div>
 <h4 id="option-b-code-error">Option B: Code Error<a class="headerlink" href="#option-b-code-error" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># Use editor to fix syntax error</span>
@@ -11657,7 +11685,7 @@
 <hr />
 <h2 id="quick-decision-tree">🎯 Quick Decision Tree<a class="headerlink" href="#quick-decision-tree" title="Permanent link">&para;</a></h2>
 <p><strong>Use this when you're not sure what to do:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>What<span class="w"> </span><span class="k">do</span><span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span><span class="k">do</span>?
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>What<span class="w"> </span><span class="k">do</span><span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>do?
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>
 <a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>├─<span class="w"> </span>Just<span class="w"> </span>made<span class="w"> </span>code<span class="w"> </span>changes
 <a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>│<span class="w">  </span>└─<span class="w"> </span>Run:<span class="w"> </span>rtest
@@ -11669,13 +11697,13 @@
 <a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>│<span class="w">  </span>└─<span class="w"> </span>Run:<span class="w"> </span>rdoc<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>rtest
 <a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a>│
 <a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a>├─<span class="w"> </span>Ready<span class="w"> </span>to<span class="w"> </span>commit
-<a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a>│<span class="w">  </span>├─<span class="w"> </span>Did<span class="w"> </span>full<span class="w"> </span>check?<span class="w"> </span>→<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;msg&quot;</span>
+<a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a>│<span class="w">  </span>├─<span class="w"> </span>Did<span class="w"> </span>full<span class="w"> </span>check?<span class="w"> </span>→<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"msg"</span>
 <a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a>│<span class="w">  </span>└─<span class="w"> </span>Not<span class="w"> </span>sure<span class="w"> </span>→<span class="w"> </span>rcheck<span class="w"> </span><span class="k">then</span><span class="w"> </span>commit
 <a id="__codelineno-43-15" name="__codelineno-43-15" href="#__codelineno-43-15"></a>│
 <a id="__codelineno-43-16" name="__codelineno-43-16" href="#__codelineno-43-16"></a>├─<span class="w"> </span>Tests<span class="w"> </span>are<span class="w"> </span>failing
 <a id="__codelineno-43-17" name="__codelineno-43-17" href="#__codelineno-43-17"></a>│<span class="w">  </span>└─<span class="w"> </span>See<span class="w"> </span>workflow<span class="w"> </span><span class="c1">#6 (Fix Failing Tests)</span>
 <a id="__codelineno-43-18" name="__codelineno-43-18" href="#__codelineno-43-18"></a>│
-<a id="__codelineno-43-19" name="__codelineno-43-19" href="#__codelineno-43-19"></a>├─<span class="w"> </span>Don<span class="err">&#39;</span>t<span class="w"> </span>know<span class="w"> </span>where<span class="w"> </span>I<span class="w"> </span>am
+<a id="__codelineno-43-19" name="__codelineno-43-19" href="#__codelineno-43-19"></a>├─<span class="w"> </span>Don<span class="err">'</span>t<span class="w"> </span>know<span class="w"> </span>where<span class="w"> </span>I<span class="w"> </span>am
 <a id="__codelineno-43-20" name="__codelineno-43-20" href="#__codelineno-43-20"></a>│<span class="w">  </span>└─<span class="w"> </span>Run:<span class="w"> </span>rpkg
 <a id="__codelineno-43-21" name="__codelineno-43-21" href="#__codelineno-43-21"></a>│
 <a id="__codelineno-43-22" name="__codelineno-43-22" href="#__codelineno-43-22"></a>├─<span class="w"> </span>Need<span class="w"> </span>to<span class="w"> </span>focus
@@ -11814,7 +11842,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>rcheck<span class="w"> </span>→<span class="w"> </span>f60<span class="w"> </span>focus<span class="w"> </span>session<span class="w"> </span>→<span class="w"> </span>Switch<span class="w"> </span>tasks<span class="w"> </span>→<span class="w"> </span>Check<span class="w"> </span>results<span class="w"> </span>→<span class="w"> </span>commit
 </code></pre></div>
 <p><strong>End of Day (5 min)</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>rtest<span class="w"> </span>→<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;wip: progress on X&quot;</span><span class="w"> </span>→<span class="w"> </span>Update<span class="w"> </span>.STATUS<span class="w"> </span><span class="k">for</span><span class="w"> </span>tomorrow
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>rtest<span class="w"> </span>→<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"wip: progress on X"</span><span class="w"> </span>→<span class="w"> </span>Update<span class="w"> </span>.STATUS<span class="w"> </span><span class="k">for</span><span class="w"> </span>tomorrow
 </code></pre></div>
 <hr />
 <h2 id="11-git-feature-branch-workflow-v410">1️⃣1️⃣ Git Feature Branch Workflow (v4.1.0+)<a class="headerlink" href="#11-git-feature-branch-workflow-v410" title="Permanent link">&para;</a></h2>
@@ -11825,7 +11853,7 @@
 <a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>g<span class="w"> </span>feature<span class="w"> </span>start<span class="w"> </span>auth-improvements
 <a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>
 <a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="c1"># Work on your feature...</span>
-<a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a>g<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>g<span class="w"> </span>commit<span class="w"> </span><span class="s2">&quot;Add OAuth2 support&quot;</span>
+<a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a>g<span class="w"> </span>add<span class="w"> </span>.<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>g<span class="w"> </span>commit<span class="w"> </span><span class="s2">"Add OAuth2 support"</span>
 <a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a>
 <a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="c1"># Stay synced with dev</span>
 <a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a>g<span class="w"> </span>feature<span class="w"> </span>sync
@@ -12057,7 +12085,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7156,6 +7156,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sync/" class="md-nav__link">
         
   
@@ -9173,13 +9201,13 @@
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Initialize a new course</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/my-course
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach-init<span class="w"> </span><span class="s2">"STAT 545"</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Non-interactive mode (accept safe defaults)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"STAT 545"</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Preview migration plan (existing Quarto project)</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>teach-init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>teach-init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">"STAT 545"</span>
 </code></pre></div>
 <hr />
 <h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
@@ -9223,7 +9251,7 @@
 <hr />
 <h2 id="non-interactive-mode">Non-Interactive Mode<a class="headerlink" href="#non-interactive-mode" title="Permanent link">&para;</a></h2>
 <p>Use <code>-y</code> or <code>--yes</code> for automation or when you want to accept safe defaults:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"STAT 545"</span>
 </code></pre></div>
 <p><strong>Safe defaults in non-interactive mode:</strong></p>
 <table>
@@ -9300,7 +9328,7 @@
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│<span class="w"> </span>📋<span class="w"> </span>What<span class="w"> </span>Just<span class="w"> </span>Happened:<span class="w">                                      </span>│
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│<span class="w">   </span>✅<span class="w"> </span>Created<span class="w"> </span>rollback<span class="w"> </span>tag:<span class="w"> </span>spring-2026-pre-migration<span class="w">        </span>│
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│<span class="w">   </span>✅<span class="w"> </span>Renamed<span class="w"> </span>main<span class="w"> </span>→<span class="w"> </span>production<span class="w">                              </span>│
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│<span class="w">   </span>✅<span class="w"> </span>Created<span class="w"> </span>draft<span class="w"> </span>branch<span class="w"> </span><span class="o">(</span>you<span class="err">&#39;</span>re<span class="w"> </span>on<span class="w"> </span>it<span class="w"> </span>now<span class="o">)</span><span class="w">                </span>│
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>│<span class="w">   </span>✅<span class="w"> </span>Created<span class="w"> </span>draft<span class="w"> </span>branch<span class="w"> </span><span class="o">(</span>you<span class="err">'</span>re<span class="w"> </span>on<span class="w"> </span>it<span class="w"> </span>now<span class="o">)</span><span class="w">                </span>│
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>│<span class="w">   </span>✅<span class="w"> </span>Created<span class="w"> </span>files:<span class="w"> </span>.flow/,<span class="w"> </span>scripts/,<span class="w"> </span>MIGRATION-COMPLETE.md<span class="w"> </span>│
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>│<span class="w">                                                             </span>│
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>├─────────────────────────────────────────────────────────────┤
@@ -9322,28 +9350,28 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkdir<span class="w"> </span>~/teaching/stat-579
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/stat-579
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>git<span class="w"> </span>init
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 579 - Causal Inference&quot;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>teach-init<span class="w"> </span><span class="s2">"STAT 579 - Causal Inference"</span>
 </code></pre></div>
 <h3 id="create-and-push-to-github-in-one-step">Create and Push to GitHub in One Step<a class="headerlink" href="#create-and-push-to-github-in-one-step" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Create and push to GitHub in one step</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w"> </span>--github
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>teach-init<span class="w"> </span><span class="s2">"STAT 545"</span><span class="w"> </span>--github
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># With flow-cli (preferred method):</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w"> </span>--github
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 545"</span><span class="w"> </span>--github
 </code></pre></div>
 <h3 id="existing-quarto-course">Existing Quarto Course<a class="headerlink" href="#existing-quarto-course" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/stat-545
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>teach-init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">  </span><span class="c1"># Preview first</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>teach-init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">             </span><span class="c1"># Execute migration</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>teach-init<span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">"STAT 545"</span><span class="w">  </span><span class="c1"># Preview first</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>teach-init<span class="w"> </span><span class="s2">"STAT 545"</span><span class="w">             </span><span class="c1"># Execute migration</span>
 </code></pre></div>
 <h3 id="with-renv-r-package-management">With renv (R Package Management)<a class="headerlink" href="#with-renv-r-package-management" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/my-r-course
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>teach-init<span class="w"> </span><span class="s2">&quot;My R Course&quot;</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Prompts: &quot;Exclude renv/ from git? [Y/n]&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>teach-init<span class="w"> </span><span class="s2">"My R Course"</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Prompts: "Exclude renv/ from git? [Y/n]"</span>
 </code></pre></div>
 <h3 id="non-interactive-automation">Non-Interactive (Automation)<a class="headerlink" href="#non-interactive-automation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># CI/CD or scripted setup</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 440&quot;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>teach-init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"STAT 440"</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Uses safe defaults:</span>
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># - Strategy 1 (in-place conversion)</span>
@@ -9355,17 +9383,17 @@
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>After initialization, edit <code>.flow/teach-config.yml</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">course</span><span class="p">:</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STAT</span><span class="nv"> </span><span class="s">545&quot;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"STAT</span><span class="nv"> </span><span class="s">545"</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">slug</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat-545</span>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">semester</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Spring 2026</span>
 <a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nt">semester</span><span class="p">:</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-01-13&quot;</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-05-06&quot;</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-01-13"</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-05-06"</span>
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span><span class="nt">breaks</span><span class="p">:</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Spring</span><span class="nv"> </span><span class="s">Break&quot;</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">      </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-03-09&quot;</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">      </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-03-13&quot;</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Spring</span><span class="nv"> </span><span class="s">Break"</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">      </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-03-09"</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">      </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-03-13"</span>
 <a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
 <a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="nt">shortcuts</span><span class="p">:</span>
 <a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">  </span><span class="nt">quick</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stat</span>
@@ -9377,7 +9405,7 @@
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>work<span class="w"> </span>stat-545
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># 2. Edit course materials</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># (you&#39;re on draft branch - safe!)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># (you're on draft branch - safe!)</span>
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
 <a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># 3. Deploy when ready</span>
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>./scripts/quick-deploy.sh
@@ -9495,7 +9523,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

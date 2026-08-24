@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7163,6 +7163,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9265,7 +9293,7 @@ mid-run. None of these fail loudly — they just produce confusing behavior.
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>ℹ Shell env parity         CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported in current session
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>⚠ Output token limit       CLAUDE_CODE_MAX_OUTPUT_TOKENS not set — default 8192 cap may truncate responses
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>⚠ Per-project CLAUDE.md   ~/projects/my-app/CLAUDE.md: 205 lines — exceeds 180-line limit
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>⚠ Orphaned memory dirs     slug &#39;users-dt-projects-old-app&#39;: /Users/dt/projects/old-app not found
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>⚠ Orphaned memory dirs     slug 'users-dt-projects-old-app': /Users/dt/projects/old-app not found
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>⚠ Rules drift              ~/.claude/rules/my-rule.md not referenced in ~/.claude/CLAUDE.md
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>✗ Missing hook files       settings.json references missing: /Users/dt/.claude/hooks/on-start.sh
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>⚠ Plugin health            ~/.claude/plugins/myplugin: plugin.json missing or invalid JSON
@@ -9352,7 +9380,7 @@ app, which inherits env from the terminal that launched it.</p>
 <p>Claude Code defaults to 8192 output tokens per response. When a task requires a long
 response — writing a large file, generating a comprehensive diff, explaining a complex
 system — it hits this cap mid-output and errors with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>API Error: Claude&#39;s response exceeded the 8192 output token maximum.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>API Error: Claude's response exceeded the 8192 output token maximum.
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>To configure this behavior, set the CLAUDE_CODE_MAX_OUTPUT_TOKENS environment variable.
 </code></pre></div>
 <p>C6 checks that <code>CLAUDE_CODE_MAX_OUTPUT_TOKENS</code> is set (in <code>settings.json</code> or zshrc)
@@ -9375,7 +9403,7 @@ weight — context space spent loading history for a project that's gone.</p>
 <p>C8 decodes each slug back to a filesystem path (reversing the <code>-</code> → <code>/</code> encoding) and
 warns when the decoded path doesn't exist on disk.</p>
 <p><strong>Example failure:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>⚠ Orphaned memory dirs   slug &#39;users-dt-projects-old-app&#39;: /Users/dt/projects/old-app not found
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>⚠ Orphaned memory dirs   slug 'users-dt-projects-old-app': /Users/dt/projects/old-app not found
 </code></pre></div>
 <h3 id="c9-rules-drift-warn">C9 — Rules Drift (WARN)<a class="headerlink" href="#c9-rules-drift-warn" title="Permanent link">&para;</a></h3>
 <p><code>~/.claude/rules/*.md</code> files are only active when referenced from <code>~/.claude/CLAUDE.md</code>.
@@ -9422,7 +9450,7 @@ only), hook scripts, MEMORY.md, or CLAUDE.md.</p>
 <a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>ℹ Shell env parity         CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65 exported
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>✓ Output token limit       Fixed: CLAUDE_CODE_MAX_OUTPUT_TOKENS=32000 added to zshrc
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>⚠ Per-project CLAUDE.md   ~/projects/my-app/CLAUDE.md: 205 lines (manual fix needed)
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>⚠ Orphaned memory dirs     slug &#39;users-dt-projects-old-app&#39; orphaned (manual cleanup)
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>⚠ Orphaned memory dirs     slug 'users-dt-projects-old-app' orphaned (manual cleanup)
 <a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>⚠ Rules drift              my-new-rule.md not referenced (add to CLAUDE.md manually)
 <a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>✗ Missing hook files       /Users/dt/.claude/hooks/on-start.sh missing (manual fix)
 <a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>⚠ Plugin health            myplugin: plugin.json invalid (manual fix needed)
@@ -9451,8 +9479,8 @@ reference material. The rule: trim before adding — every line must earn its pl
 <p><code>--fix</code> updates zshrc. To also set it in <code>settings.json</code> (canonical):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>// ~/.claude/settings.json
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>{
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>  &quot;env&quot;: {
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    &quot;CLAUDE_CODE_MAX_OUTPUT_TOKENS&quot;: &quot;32000&quot;
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>  "env": {
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "32000"
 <a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>  }
 <a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>}
 </code></pre></div>
@@ -9465,7 +9493,7 @@ changes.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Start the daemon (polls every 60 seconds by default)</span>
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Check if it&#39;s running + see last result</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Check if it's running + see last result</span>
 <a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>flow<span class="w"> </span>claude<span class="w"> </span>watch<span class="w"> </span>--status
 <a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
 <a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># Adjust poll interval (e.g., every 2 minutes)</span>
@@ -9512,7 +9540,7 @@ skips the desktop notification step.</p>
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>claude
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Warn but proceed</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="p">;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;⚠ Fix hook before proceeding&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>flow<span class="w"> </span>claude<span class="w"> </span>check<span class="p">;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"⚠ Fix hook before proceeding"</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span>
 </code></pre></div>
 <hr />
 <h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
@@ -9627,7 +9655,7 @@ skips the desktop notification step.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

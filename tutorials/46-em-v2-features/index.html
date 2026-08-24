@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7253,6 +7253,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9478,7 +9506,7 @@
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  To:      sender@example.com
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  Subject: Re: Q2 data analysis
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  Thanks for the update. I&#39;ll review by Friday...
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  Thanks for the update. I'll review by Friday...
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>────────────────────────────────────────────────────────────
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>  Reply? [y/N/e]
@@ -9583,7 +9611,7 @@
 <h3 id="download-one-specific-file">Download one specific file<a class="headerlink" href="#download-one-specific-file" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>em<span class="w"> </span>attach<span class="w"> </span>get<span class="w"> </span><span class="m">42</span><span class="w"> </span>report-q2-2026.pdf
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>  Downloading &#39;report-q2-2026.pdf&#39; from email #42...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>  Downloading 'report-q2-2026.pdf' from email #42...
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>  Saved: /Users/you/Downloads/report-q2-2026.pdf
 </code></pre></div>
 <p>Download to a custom directory:</p>
@@ -9597,7 +9625,7 @@
 </code></pre></div>
 <p>The bare <code>em attach &lt;ID&gt;</code> command still works exactly as before. The <code>list</code> and <code>get</code> subcommands are additive.</p>
 <p><strong>Tip:</strong> If you try <code>em attach get</code> with a filename that does not exist in the email, the error message tells you what to do:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>  File &#39;wrong-name.pdf&#39; not found in attachments
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>  File 'wrong-name.pdf' not found in attachments
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>  Use em attach list 42 to see available files
 </code></pre></div>
 <hr />
@@ -9634,7 +9662,7 @@
 <h3 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
 <p>On the first call to any himalaya-backed feature in a session, em runs <code>himalaya --version</code> once and caches the result. Subsequent calls in the same session use the cached value at no additional cost.</p>
 <p>Features that require specific himalaya versions gate themselves:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>  em: &#39;attach list&#39; requires himalaya &gt;= 1.2.0 (installed: 1.1.0)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>  em: 'attach list' requires himalaya &gt;= 1.2.0 (installed: 1.1.0)
 <a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>  Upgrade: brew upgrade himalaya
 </code></pre></div>
 <p>This means you can upgrade himalaya independently and gain features without changing any em configuration.</p>
@@ -9658,7 +9686,7 @@
 </code></pre></div>
 <h3 id="forward-with-an-ai-generated-note">Forward with an AI-generated note<a class="headerlink" href="#forward-with-an-ai-generated-note" title="Permanent link">&para;</a></h3>
 <p>If you add <code>--prompt</code>, the AI writes the forwarding note for you. The editor is skipped — you go straight to the preview gate:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>em<span class="w"> </span>forward<span class="w"> </span><span class="m">42</span><span class="w"> </span>colleague@unm.edu<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;FYI, see the budget section on page 3&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>em<span class="w"> </span>forward<span class="w"> </span><span class="m">42</span><span class="w"> </span>colleague@unm.edu<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"FYI, see the budget section on page 3"</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>Generating AI forwarding note...
 <a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>✅ AI note ready
@@ -9678,22 +9706,22 @@
 </code></pre></div>
 <h3 id="reply-with-custom-instructions">Reply with custom instructions<a class="headerlink" href="#reply-with-custom-instructions" title="Permanent link">&para;</a></h3>
 <p>The same <code>--prompt</code> flag works on <code>em reply</code>. Instead of the AI guessing tone from the email category, you tell it exactly what you want:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;decline politely, suggest office hours next week&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"decline politely, suggest office hours next week"</span>
 </code></pre></div>
 <p>The AI uses your instructions as the primary guide while keeping its category-aware tone as a secondary influence.</p>
 <h3 id="compose-from-instructions">Compose from instructions<a class="headerlink" href="#compose-from-instructions" title="Permanent link">&para;</a></h3>
 <p>On <code>em send</code>, <code>--prompt</code> implies <code>--ai</code> — no need to pass both:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>em<span class="w"> </span>send<span class="w"> </span>alice@unm.edu<span class="w"> </span><span class="s2">&quot;Meeting&quot;</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;suggest Tuesday 2pm, keep it brief&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>em<span class="w"> </span>send<span class="w"> </span>alice@unm.edu<span class="w"> </span><span class="s2">"Meeting"</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"suggest Tuesday 2pm, keep it brief"</span>
 </code></pre></div>
 <h3 id="override-the-ai-backend">Override the AI backend<a class="headerlink" href="#override-the-ai-backend" title="Permanent link">&para;</a></h3>
 <p>Use <code>--backend</code> to switch AI providers for a single command without changing your global setting:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;acknowledge receipt&quot;</span><span class="w"> </span>--backend<span class="w"> </span>agy
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"acknowledge receipt"</span><span class="w"> </span>--backend<span class="w"> </span>agy
 </code></pre></div>
 <p>This overrides <code>FLOW_EMAIL_AI</code> for that one command only.</p>
 <h3 id="tty-detection">TTY detection<a class="headerlink" href="#tty-detection" title="Permanent link">&para;</a></h3>
 <p>When <code>--prompt</code> is used (or when stdin/stdout is not a terminal), em automatically routes to the batch path. This means <code>--prompt</code> works reliably from scripts, cron jobs, and Claude Code without needing <code>--batch</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="c1"># Works in a non-interactive context</span>
-<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;acknowledge receipt&quot;</span><span class="w"> </span>--force
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"acknowledge receipt"</span><span class="w"> </span>--force
 </code></pre></div>
 <hr />
 <h2 id="checkpoint">Checkpoint<a class="headerlink" href="#checkpoint" title="Permanent link">&para;</a></h2>
@@ -9798,7 +9826,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

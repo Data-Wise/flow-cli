@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7224,6 +7224,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9408,13 +9436,13 @@
 <li>Runs ENTIRELY in the shell with no external dependencies</li>
 </ul>
 <p><strong>Commands:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span><span class="w">     </span><span class="c1"># Initialize course repo</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 545"</span><span class="w">     </span><span class="c1"># Initialize course repo</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>deploy<span class="w">              </span><span class="c1"># Deploy draft → production</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>teach<span class="w"> </span>status<span class="w">              </span><span class="c1"># Show course status</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>teach<span class="w"> </span>week<span class="w">                </span><span class="c1"># Current week info</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>teach<span class="w"> </span>archive<span class="w">             </span><span class="c1"># Create semester snapshot</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>teach<span class="w"> </span>config<span class="w">              </span><span class="c1"># Update settings</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm&quot;</span><span class="w">      </span><span class="c1"># Create exam (placeholder for Scholar integration)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Midterm"</span><span class="w">      </span><span class="c1"># Create exam (placeholder for Scholar integration)</span>
 </code></pre></div>
 <p><strong>Key Features:</strong></p>
 <ul>
@@ -9449,13 +9477,13 @@
 <li>OPTIONAL enhancement to flow-cli teaching workflow</li>
 </ul>
 <p><strong>Commands (v2.0.1 - COMPLETE ✅):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>/teaching:exam<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">        </span><span class="c1"># Generate comprehensive exams</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>/teaching:quiz<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">        </span><span class="c1"># Create quick quizzes</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>/teaching:exam<span class="w"> </span><span class="s2">"Topic"</span><span class="w">        </span><span class="c1"># Generate comprehensive exams</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>/teaching:quiz<span class="w"> </span><span class="s2">"Topic"</span><span class="w">        </span><span class="c1"># Create quick quizzes</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>/teaching:syllabus<span class="w">            </span><span class="c1"># Build course syllabus</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>/teaching:assignment<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">  </span><span class="c1"># Create homework assignments</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>/teaching:rubric<span class="w"> </span><span class="s2">&quot;Name&quot;</span><span class="w">       </span><span class="c1"># Generate grading rubrics</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>/teaching:slides<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">      </span><span class="c1"># Create lecture slides</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>/teaching:feedback<span class="w"> </span><span class="s2">&quot;Work&quot;</span><span class="w">     </span><span class="c1"># Generate student feedback</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>/teaching:assignment<span class="w"> </span><span class="s2">"Topic"</span><span class="w">  </span><span class="c1"># Create homework assignments</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>/teaching:rubric<span class="w"> </span><span class="s2">"Name"</span><span class="w">       </span><span class="c1"># Generate grading rubrics</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>/teaching:slides<span class="w"> </span><span class="s2">"Topic"</span><span class="w">      </span><span class="c1"># Create lecture slides</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>/teaching:feedback<span class="w"> </span><span class="s2">"Work"</span><span class="w">     </span><span class="c1"># Generate student feedback</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>/teaching:demo<span class="w">                </span><span class="c1"># Create demo course environment</span>
 </code></pre></div>
 <p><strong>Key Features (v2.0.1 - COMPLETE ✅):</strong></p>
@@ -9499,7 +9527,7 @@
 <h2 id="integration-model">Integration Model<a class="headerlink" href="#integration-model" title="Permanent link">&para;</a></h2>
 <h3 id="scenario-1-using-only-flow-cli-available-now">Scenario 1: Using ONLY flow-cli ✅ AVAILABLE NOW<a class="headerlink" href="#scenario-1-using-only-flow-cli-available-now" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 1. Initialize teaching repo</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 545"</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 2. Create course materials manually (in editor)</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>work<span class="w"> </span>stat-545
@@ -9512,11 +9540,11 @@
 <hr />
 <h3 id="scenario-2-using-flow-cli-with-scholar-available-now">Scenario 2: Using flow-cli WITH Scholar ✅ AVAILABLE NOW<a class="headerlink" href="#scenario-2-using-flow-cli-with-scholar-available-now" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 1. Initialize teaching repo</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 545"</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># 2. Generate exam questions via Scholar (in Claude Code)</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>claude
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>&gt;<span class="w"> </span>/teaching:exam<span class="w"> </span><span class="s2">&quot;Hypothesis Testing&quot;</span><span class="w"> </span>--format<span class="w"> </span>quarto
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>&gt;<span class="w"> </span>/teaching:exam<span class="w"> </span><span class="s2">"Hypothesis Testing"</span><span class="w"> </span>--format<span class="w"> </span>quarto
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># 3. Review and edit generated materials</span>
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>work<span class="w"> </span>stat-545
@@ -9818,7 +9846,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

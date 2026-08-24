@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7538,6 +7538,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -10019,7 +10047,7 @@
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>teach<span class="w"> </span>validate<span class="w"> </span>--lint<span class="w"> </span>lectures/week-01-intro.qmd
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># 5. Review output and fix violations</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># See &quot;Common Patterns &amp; Fixes&quot; section below</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># See "Common Patterns &amp; Fixes" section below</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1"># 6. (Optional) Run on all lecture files</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>teach<span class="w"> </span>validate<span class="w"> </span>--lint<span class="w"> </span>lectures/*.qmd
@@ -10120,21 +10148,21 @@
 <p><strong>Why it matters:</strong> Bare code blocks silently fail syntax highlighting and can cause Quarto render errors.</p>
 <h4 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h4>
 <p>❌ <strong>Bad: Bare code block</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Here&#39;s some R code:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Here's some R code:
 </code></pre></div>
 <p>x &lt;- rnorm(100)
 mean(x)</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>**Problem:** Quarto doesn&#39;t know this is R code → no syntax highlighting, no execution.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>**Problem:** Quarto doesn't know this is R code → no syntax highlighting, no execution.
 </code></pre></div>
 <p>✅ <strong>Good: Tagged code block</strong></p>
-<p><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Here&#39;s some R code:
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Here's some R code:
 </code></pre></div>
 x &lt;- rnorm(100)
 mean(x)
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>**Works:** Quarto recognizes R → highlights syntax, executes code.
 </code></pre></div></p>
 <p>✅ <strong>Alternative: Non-executable text</strong></p>
-<p><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Here&#39;s pseudocode:
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Here's pseudocode:
 </code></pre></div>
 FOR i = 1 to 100
   PRINT i
@@ -10250,13 +10278,13 @@ END
 <h4 id="examples_2">Examples<a class="headerlink" href="#examples_2" title="Permanent link">&para;</a></h4>
 <p>❌ <strong>Bad: Invalid callout type</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>::: {.callout-info}
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>&lt;!-- &#39;info&#39; is not a standard Quarto callout --&gt;
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>This won&#39;t be styled correctly.
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>&lt;!-- 'info' is not a standard Quarto callout --&gt;
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>This won't be styled correctly.
 <a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>:::
 </code></pre></div>
 <p>✅ <strong>Good: Valid callout type</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>::: {.callout-note}
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>&lt;!-- &#39;note&#39; is a standard type --&gt;
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>&lt;!-- 'note' is a standard type --&gt;
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>This renders with proper styling.
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>:::
 </code></pre></div>
@@ -10301,7 +10329,7 @@ END
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Find all bare code blocks</span>
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nb">cd</span><span class="w"> </span>~/teaching/stat-545
-<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;^\`\`\`</span>$<span class="s2">&quot;</span><span class="w"> </span>lectures/*.qmd
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"^\`\`\`</span>$<span class="s2">"</span><span class="w"> </span>lectures/*.qmd
 <a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
 <a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1"># Example output:</span>
 <a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="c1"># lectures/week-01.qmd:45:```</span>
@@ -10314,10 +10342,10 @@ END
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="c1"># WARNING: Review first, this replaces ALL bare blocks</span>
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
 <a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Dry run (shows changes without applying)</span>
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;s/^```$/```{r}/p&#39;</span><span class="w"> </span>lectures/week-01.qmd
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">'s/^```$/```{r}/p'</span><span class="w"> </span>lectures/week-01.qmd
 <a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
 <a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="c1"># Apply changes</span>
-<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="s1">&#39;s/^```$/```{r}/&#39;</span><span class="w"> </span>lectures/week-01.qmd
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="s1">'s/^```$/```{r}/'</span><span class="w"> </span>lectures/week-01.qmd
 </code></pre></div>
 <p><strong>Fix Strategy B: Manual review (recommended)</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Use lint to find violations</span>
@@ -10355,8 +10383,8 @@ END
 </code></pre></div>
 <p><strong>Count trick:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Count openers vs closers</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;^:::&quot;</span><span class="w"> </span>lectures/week-03.qmd<span class="w">  </span><span class="c1"># Total ::: lines</span>
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;^::: {&quot;</span><span class="w"> </span>lectures/week-03.qmd<span class="w">  </span><span class="c1"># Openers only</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">"^:::"</span><span class="w"> </span>lectures/week-03.qmd<span class="w">  </span><span class="c1"># Total ::: lines</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">"^::: {"</span><span class="w"> </span>lectures/week-03.qmd<span class="w">  </span><span class="c1"># Openers only</span>
 <a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="c1"># Should be equal or 2x (if closers are also :::)</span>
 </code></pre></div>
@@ -10365,13 +10393,13 @@ END
 <p><strong>Decision Point:</strong> Convert to standard types OR disable the rule.</p>
 <h4 id="option-a-convert-to-standard-types-recommended">Option A: Convert to Standard Types (Recommended)<a class="headerlink" href="#option-a-convert-to-standard-types-recommended" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Find all custom callout types</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;\.callout-info&quot;</span><span class="w"> </span>lectures/*.qmd
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"\.callout-info"</span><span class="w"> </span>lectures/*.qmd
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Convert .callout-info → .callout-note</span>
-<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="s1">&#39;s/\.callout-info/.callout-note/g&#39;</span><span class="w"> </span>lectures/*.qmd
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="s1">'s/\.callout-info/.callout-note/g'</span><span class="w"> </span>lectures/*.qmd
 <a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
 <a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1"># Convert .callout-success → .callout-tip</span>
-<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="s1">&#39;s/\.callout-success/.callout-tip/g&#39;</span><span class="w"> </span>lectures/*.qmd
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="s1">'s/\.callout-success/.callout-tip/g'</span><span class="w"> </span>lectures/*.qmd
 </code></pre></div>
 <h4 id="option-b-disable-lint_callout_valid-not-recommended">Option B: Disable LINT_CALLOUT_VALID (Not Recommended)<a class="headerlink" href="#option-b-disable-lint_callout_valid-not-recommended" title="Permanent link">&para;</a></h4>
 <p>If you have custom Quarto extensions that define additional callout types:</p>
@@ -10402,7 +10430,7 @@ END
 </code></pre></div>
 <p><strong>Mass fix strategy:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Downgrade all H3 → H2 (review first!)</span>
-<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="s1">&#39;s/^### /## /&#39;</span><span class="w"> </span>lectures/week-05.qmd
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="s1">'s/^### /## /'</span><span class="w"> </span>lectures/week-05.qmd
 </code></pre></div>
 <hr />
 <h2 id="configuration-options">Configuration Options<a class="headerlink" href="#configuration-options" title="Permanent link">&para;</a></h2>
@@ -10452,24 +10480,24 @@ END
 <a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>.teach/hooks
 <a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>
 <a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="c1"># 2. Create pre-commit hook</span>
-<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>.teach/hooks/pre-commit<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>.teach/hooks/pre-commit<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
 <a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a><span class="s">#!/bin/bash</span>
-<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="s"># Lint staged .qmd files (warn, don&#39;t block)</span>
+<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="s"># Lint staged .qmd files (warn, don't block)</span>
 <a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>
-<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a><span class="s">echo &quot;🔍 Running lint checks on staged .qmd files...&quot;</span>
+<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a><span class="s">echo "🔍 Running lint checks on staged .qmd files..."</span>
 <a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a>
-<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a><span class="s">changed_files=$(git diff --cached --name-only --diff-filter=ACM | grep &#39;\.qmd$&#39;)</span>
+<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a><span class="s">changed_files=$(git diff --cached --name-only --diff-filter=ACM | grep '\.qmd$')</span>
 <a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a>
-<a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a><span class="s">if [[ -n &quot;$changed_files&quot; ]]; then</span>
+<a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a><span class="s">if [[ -n "$changed_files" ]]; then</span>
 <a id="__codelineno-41-14" name="__codelineno-41-14" href="#__codelineno-41-14"></a><span class="s">    teach validate --lint --quiet $changed_files || true</span>
 <a id="__codelineno-41-15" name="__codelineno-41-15" href="#__codelineno-41-15"></a><span class="s">    # || true = warn but never block commit</span>
 <a id="__codelineno-41-16" name="__codelineno-41-16" href="#__codelineno-41-16"></a>
 <a id="__codelineno-41-17" name="__codelineno-41-17" href="#__codelineno-41-17"></a><span class="s">    if [[ $? -ne 0 ]]; then</span>
-<a id="__codelineno-41-18" name="__codelineno-41-18" href="#__codelineno-41-18"></a><span class="s">        echo &quot;&quot;</span>
-<a id="__codelineno-41-19" name="__codelineno-41-19" href="#__codelineno-41-19"></a><span class="s">        echo &quot;⚠️  Lint violations found (see above)&quot;</span>
-<a id="__codelineno-41-20" name="__codelineno-41-20" href="#__codelineno-41-20"></a><span class="s">        echo &quot;💡 Tip: Fix with &#39;teach validate --lint &lt;file&gt;&#39;&quot;</span>
-<a id="__codelineno-41-21" name="__codelineno-41-21" href="#__codelineno-41-21"></a><span class="s">        echo &quot;⏩ Continuing with commit (violations not blocking)&quot;</span>
-<a id="__codelineno-41-22" name="__codelineno-41-22" href="#__codelineno-41-22"></a><span class="s">        echo &quot;&quot;</span>
+<a id="__codelineno-41-18" name="__codelineno-41-18" href="#__codelineno-41-18"></a><span class="s">        echo ""</span>
+<a id="__codelineno-41-19" name="__codelineno-41-19" href="#__codelineno-41-19"></a><span class="s">        echo "⚠️  Lint violations found (see above)"</span>
+<a id="__codelineno-41-20" name="__codelineno-41-20" href="#__codelineno-41-20"></a><span class="s">        echo "💡 Tip: Fix with 'teach validate --lint &lt;file&gt;'"</span>
+<a id="__codelineno-41-21" name="__codelineno-41-21" href="#__codelineno-41-21"></a><span class="s">        echo "⏩ Continuing with commit (violations not blocking)"</span>
+<a id="__codelineno-41-22" name="__codelineno-41-22" href="#__codelineno-41-22"></a><span class="s">        echo ""</span>
 <a id="__codelineno-41-23" name="__codelineno-41-23" href="#__codelineno-41-23"></a><span class="s">    fi</span>
 <a id="__codelineno-41-24" name="__codelineno-41-24" href="#__codelineno-41-24"></a><span class="s">fi</span>
 <a id="__codelineno-41-25" name="__codelineno-41-25" href="#__codelineno-41-25"></a><span class="s">EOF</span>
@@ -10545,14 +10573,14 @@ END
 <a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a>cat<span class="w"> </span>lint-report.txt
 <a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a>
 <a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a><span class="c1"># 4. Fix all issues (batch edits where possible)</span>
-<a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a><span class="c1"># Use patterns from &quot;Common Patterns &amp; Fixes&quot; section</span>
+<a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a><span class="c1"># Use patterns from "Common Patterns &amp; Fixes" section</span>
 <a id="__codelineno-44-14" name="__codelineno-44-14" href="#__codelineno-44-14"></a>
 <a id="__codelineno-44-15" name="__codelineno-44-15" href="#__codelineno-44-15"></a><span class="c1"># 5. Verify clean state</span>
 <a id="__codelineno-44-16" name="__codelineno-44-16" href="#__codelineno-44-16"></a>teach<span class="w"> </span>validate<span class="w"> </span>--lint<span class="w"> </span>lectures/*.qmd<span class="w"> </span>labs/*.qmd
 <a id="__codelineno-44-17" name="__codelineno-44-17" href="#__codelineno-44-17"></a>
 <a id="__codelineno-44-18" name="__codelineno-44-18" href="#__codelineno-44-18"></a><span class="c1"># 6. Commit</span>
 <a id="__codelineno-44-19" name="__codelineno-44-19" href="#__codelineno-44-19"></a>git<span class="w"> </span>add<span class="w"> </span>-A
-<a id="__codelineno-44-20" name="__codelineno-44-20" href="#__codelineno-44-20"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: fix all lint violations for v5.24.0&quot;</span>
+<a id="__codelineno-44-20" name="__codelineno-44-20" href="#__codelineno-44-20"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: fix all lint violations for v5.24.0"</span>
 <a id="__codelineno-44-21" name="__codelineno-44-21" href="#__codelineno-44-21"></a>git<span class="w"> </span>push
 </code></pre></div>
 <p><strong>Pros:</strong> Done immediately, clean slate going forward.</p>
@@ -10565,7 +10593,7 @@ END
 <a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>brew<span class="w"> </span>upgrade<span class="w"> </span>flow-cli
 <a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>
 <a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="c1"># 2. Enable pre-commit hook (warn mode)</span>
-<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="c1"># See &quot;Pre-Commit Hook&quot; section above</span>
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="c1"># See "Pre-Commit Hook" section above</span>
 <a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>
 <a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a><span class="c1"># 3. Fix files as you edit them</span>
 <a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="c1"># Example: Updating week 5 lecture</span>
@@ -10578,7 +10606,7 @@ END
 <a id="__codelineno-45-15" name="__codelineno-45-15" href="#__codelineno-45-15"></a>
 <a id="__codelineno-45-16" name="__codelineno-45-16" href="#__codelineno-45-16"></a><span class="c1"># 5. Commit clean file</span>
 <a id="__codelineno-45-17" name="__codelineno-45-17" href="#__codelineno-45-17"></a>git<span class="w"> </span>add<span class="w"> </span>lectures/week-05-regression.qmd
-<a id="__codelineno-45-18" name="__codelineno-45-18" href="#__codelineno-45-18"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat(week-05): update regression examples + fix lint&quot;</span>
+<a id="__codelineno-45-18" name="__codelineno-45-18" href="#__codelineno-45-18"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat(week-05): update regression examples + fix lint"</span>
 <a id="__codelineno-45-19" name="__codelineno-45-19" href="#__codelineno-45-19"></a>git<span class="w"> </span>push
 </code></pre></div>
 <p><strong>Pros:</strong> Low friction, spreads work across semester, no dedicated time block.</p>
@@ -10597,12 +10625,12 @@ END
 <a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a>
 <a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="c1"># 3. Fix violations in priority content</span>
 <a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a>
-<a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a><span class="c1"># 4. Document non-priority files as &quot;archived&quot;</span>
+<a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a><span class="c1"># 4. Document non-priority files as "archived"</span>
 <a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>_archive
 <a id="__codelineno-46-13" name="__codelineno-46-13" href="#__codelineno-46-13"></a>git<span class="w"> </span>mv<span class="w"> </span>lectures/old-*<span class="w"> </span>_archive/
 <a id="__codelineno-46-14" name="__codelineno-46-14" href="#__codelineno-46-14"></a>
 <a id="__codelineno-46-15" name="__codelineno-46-15" href="#__codelineno-46-15"></a><span class="c1"># 5. Add .gitignore exception (optional)</span>
-<a id="__codelineno-46-16" name="__codelineno-46-16" href="#__codelineno-46-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;_archive/*.qmd&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+<a id="__codelineno-46-16" name="__codelineno-46-16" href="#__codelineno-46-16"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"_archive/*.qmd"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
 </code></pre></div>
 <p><strong>Pros:</strong> Focuses effort on content students actually see.</p>
 <p><strong>Cons:</strong> Uneven quality across materials, technical debt in archived files.</p>
@@ -10638,7 +10666,7 @@ END
 <p><strong>Solution:</strong> Ensure proper nesting. Inner divs must close before outer divs.</p>
 <p><strong>Debug trick:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="c1"># Count all ::: lines</span>
-<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;^:::&quot;</span><span class="w"> </span>lectures/week-02.qmd
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">"^:::"</span><span class="w"> </span>lectures/week-02.qmd
 <a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>
 <a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="c1"># Should see openers with {...}, closers without</span>
 <a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a><span class="c1"># 34: ::: {.column-page}</span>
@@ -10672,7 +10700,7 @@ END
 <h3 id="validator-conflicts">Validator Conflicts<a class="headerlink" href="#validator-conflicts" title="Permanent link">&para;</a></h3>
 <p><strong>Issue:</strong> Custom validators not found</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>teach<span class="w"> </span>validate<span class="w"> </span>--validators<span class="w"> </span>lint-shared,my-custom<span class="w"> </span>lectures/week-01.qmd
-<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a><span class="c1"># Error: Validator &#39;my-custom&#39; not found</span>
+<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a><span class="c1"># Error: Validator 'my-custom' not found</span>
 </code></pre></div>
 <p><strong>Diagnosis:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="c1"># Check validator directory</span>
@@ -10708,7 +10736,7 @@ END
 <p><strong>Fixes:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="c1"># 1. Fixed bare R code blocks (batch edit)</span>
 <a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a><span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span>lectures/*.qmd<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a><span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="s1">&#39;s/^```$/```{r}/&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span>
+<a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a><span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="s1">'s/^```$/```{r}/'</span><span class="w"> </span><span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span>
 <a id="__codelineno-61-4" name="__codelineno-61-4" href="#__codelineno-61-4"></a><span class="k">done</span>
 <a id="__codelineno-61-5" name="__codelineno-61-5" href="#__codelineno-61-5"></a>
 <a id="__codelineno-61-6" name="__codelineno-61-6" href="#__codelineno-61-6"></a><span class="c1"># 2. Fixed unbalanced divs (manual review)</span>
@@ -10717,7 +10745,7 @@ END
 <a id="__codelineno-61-9" name="__codelineno-61-9" href="#__codelineno-61-9"></a>vim<span class="w"> </span>+201<span class="w"> </span>labs/lab-07.qmd
 <a id="__codelineno-61-10" name="__codelineno-61-10" href="#__codelineno-61-10"></a>
 <a id="__codelineno-61-11" name="__codelineno-61-11" href="#__codelineno-61-11"></a><span class="c1"># 3. Fixed invalid callouts</span>
-<a id="__codelineno-61-12" name="__codelineno-61-12" href="#__codelineno-61-12"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="s1">&#39;s/\.callout-info/.callout-note/g&#39;</span><span class="w"> </span>lectures/*.qmd
+<a id="__codelineno-61-12" name="__codelineno-61-12" href="#__codelineno-61-12"></a>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">''</span><span class="w"> </span><span class="s1">'s/\.callout-info/.callout-note/g'</span><span class="w"> </span>lectures/*.qmd
 </code></pre></div>
 <p><strong>Outcome:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="c1"># Final verification</span>
@@ -10732,7 +10760,7 @@ END
 <p><strong>Timeline:</strong> 2 weeks (Incremental strategy)</p>
 <p><strong>Approach:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="c1"># Week 1: Setup pre-commit hook</span>
-<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a><span class="c1"># See &quot;Pre-Commit Hook&quot; section</span>
+<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a><span class="c1"># See "Pre-Commit Hook" section</span>
 <a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a>
 <a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a><span class="c1"># Week 2: Fix files during regular updates</span>
 <a id="__codelineno-63-5" name="__codelineno-63-5" href="#__codelineno-63-5"></a><span class="c1"># - Updated week 1-3 lectures → fixed 4 violations</span>
@@ -10803,7 +10831,7 @@ END
 <li>[ ] <strong>Commit changes</strong></li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>git<span class="w"> </span>add<span class="w"> </span>-A
-<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;chore: migrate to flow-cli v5.24.0 lint validation&quot;</span>
+<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"chore: migrate to flow-cli v5.24.0 lint validation"</span>
 <a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>git<span class="w"> </span>push
 </code></pre></div>
 <h3 id="optional-enhancements">Optional Enhancements<a class="headerlink" href="#optional-enhancements" title="Permanent link">&para;</a></h3>
@@ -10951,7 +10979,7 @@ END
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

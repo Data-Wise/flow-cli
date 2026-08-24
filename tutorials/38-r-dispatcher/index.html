@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7036,6 +7036,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9067,7 +9095,7 @@
 </code></pre></div>
 <p>Runs <code>spelling::spell_check_package()</code> to catch typos in documentation. CRAN reviewers check for spelling errors.</p>
 <p>Both <code>covr</code> and <code>spelling</code> must be installed:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nf">install.packages</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;covr&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;spelling&quot;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nf">install.packages</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">"covr"</span><span class="p">,</span><span class="w"> </span><span class="s">"spelling"</span><span class="p">))</span>
 </code></pre></div>
 <hr />
 <h2 id="step-5-building-documentation">Step 5: Building Documentation<a class="headerlink" href="#step-5-building-documentation" title="Permanent link">&para;</a></h2>
@@ -9100,7 +9128,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>r<span class="w"> </span>clean<span class="w">     </span><span class="c1"># Remove .Rhistory and .RData</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>r<span class="w"> </span>deep<span class="w">      </span><span class="c1"># Remove man/, NAMESPACE, docs/ (with confirmation)</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>r<span class="w"> </span>tex<span class="w">       </span><span class="c1"># Remove LaTeX build artifacts (.aux, .log, .out, etc.)</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>r<span class="w"> </span>commit<span class="w"> </span><span class="s2">&quot;Fix validation&quot;</span><span class="w">  </span><span class="c1"># Document, test, then git commit</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>r<span class="w"> </span>commit<span class="w"> </span><span class="s2">"Fix validation"</span><span class="w">  </span><span class="c1"># Document, test, then git commit</span>
 </code></pre></div>
 <p><strong>Bonus:</strong> <code>r info</code> shows package metadata, <code>r tree</code> shows directory structure.</p>
 <hr />
@@ -9113,7 +9141,7 @@
 <p>The dispatcher auto-detects radian in your PATH. If found, <code>r</code> uses it. If not, standard R in quiet mode. No configuration needed.</p>
 <h3 id="what-if-devtools-is-not-installed">What if devtools is not installed?<a class="headerlink" href="#what-if-devtools-is-not-installed" title="Permanent link">&para;</a></h3>
 <p>Install the full toolkit:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nf">install.packages</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;devtools&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usethis&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;covr&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;spelling&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pkgdown&quot;</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nf">install.packages</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">"devtools"</span><span class="p">,</span><span class="w"> </span><span class="s">"usethis"</span><span class="p">,</span><span class="w"> </span><span class="s">"covr"</span><span class="p">,</span><span class="w"> </span><span class="s">"spelling"</span><span class="p">,</span><span class="w"> </span><span class="s">"pkgdown"</span><span class="p">))</span>
 </code></pre></div>
 <hr />
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
@@ -9203,7 +9231,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

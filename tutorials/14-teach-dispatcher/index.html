@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7512,6 +7512,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9921,7 +9949,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check teach dispatcher is available</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span><span class="nb">help</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Check if you&#39;re in a course directory</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Check if you're in a course directory</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">pwd</span>
 </code></pre></div>
 <hr />
@@ -9968,7 +9996,7 @@
 <h3 id="step-21-run-teach-init">Step 2.1: Run teach init<a class="headerlink" href="#step-21-run-teach-init" title="Permanent link">&para;</a></h3>
 <p>Navigate to your course repository and initialize:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>~/projects/teaching/my-course
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"STAT 545"</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
 1. Creates <code>draft</code> and <code>main</code> branches
@@ -9978,7 +10006,7 @@
 5. Commits the setup</p>
 <h3 id="step-22-non-interactive-mode">Step 2.2: Non-Interactive Mode<a class="headerlink" href="#step-22-non-interactive-mode" title="Permanent link">&para;</a></h3>
 <p>For scripting or when you know the defaults are fine:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">&quot;STAT 545&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>teach<span class="w"> </span>init<span class="w"> </span>-y<span class="w"> </span><span class="s2">"STAT 545"</span>
 </code></pre></div>
 <p>The <code>-y</code> flag accepts all defaults without prompting.</p>
 <h3 id="step-23-verify-setup">Step 2.3: Verify Setup<a class="headerlink" href="#step-23-verify-setup" title="Permanent link">&para;</a></h3>
@@ -10071,8 +10099,8 @@
 </code></pre></div>
 <p><strong>Example with errors:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>❌ Config validation failed:
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  • Invalid semester &#39;fall&#39; - must be Spring, Summer, Fall, or Winter
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  • Invalid year &#39;25&#39; - must be between 2020 and 2100
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  • Invalid semester 'fall' - must be Spring, Summer, Fall, or Winter
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  • Invalid year '25' - must be between 2020 and 2100
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  • Grading percentages sum to 80% - should be ~100%
 </code></pre></div>
 <h3 id="step-34-hash-based-change-detection">Step 3.4: Hash-Based Change Detection<a class="headerlink" href="#step-34-hash-based-change-detection" title="Permanent link">&para;</a></h3>
@@ -10150,20 +10178,20 @@
 <p><strong>📚 Want to learn more?</strong> Check out the comprehensive <a href="../scholar-enhancement/">Scholar Enhancement Tutorial Series</a> to master all 47 flags, style presets, lesson plans, and advanced workflows.</p>
 </blockquote>
 <h3 id="step-51-generate-exam-questions">Step 5.1: Generate Exam Questions<a class="headerlink" href="#step-51-generate-exam-questions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm 1&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">25</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Midterm 1"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">25</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
 - Invokes Scholar's <code>/teaching:exam</code> command
 - Generates questions based on your course config
 - Outputs to <code>exams/midterm-1.md</code></p>
 <h3 id="step-52-create-quiz">Step 5.2: Create Quiz<a class="headerlink" href="#step-52-create-quiz" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Week 3&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">"Week 3"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
 </code></pre></div>
 <h3 id="step-53-generate-lecture-outline">Step 5.3: Generate Lecture Outline<a class="headerlink" href="#step-53-generate-lecture-outline" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Data Wrangling&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Data Wrangling"</span>
 </code></pre></div>
 <h3 id="step-54-create-assignment">Step 5.4: Create Assignment<a class="headerlink" href="#step-54-create-assignment" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">&quot;Homework 3&quot;</span><span class="w"> </span>--due-date<span class="w"> </span><span class="s2">&quot;2026-01-31&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">"Homework 3"</span><span class="w"> </span>--due-date<span class="w"> </span><span class="s2">"2026-01-31"</span>
 </code></pre></div>
 <h3 id="available-scholar-commands">Available Scholar Commands<a class="headerlink" href="#available-scholar-commands" title="Permanent link">&para;</a></h3>
 <table>
@@ -10254,13 +10282,13 @@
 <h3 id="step-72-configure-dates">Step 7.2: Configure Dates<a class="headerlink" href="#step-72-configure-dates" title="Permanent link">&para;</a></h3>
 <p>Edit <code>teach-config.yml</code> to add deadlines:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nt">semester_info</span><span class="p">:</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-02&quot;</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">  </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span><span class="nt">end_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-02"</span>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
 <a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">  </span><span class="nt">weeks</span><span class="p">:</span>
 <a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-01-13&quot;</span>
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">R&quot;</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">      </span><span class="nt">start_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-01-13"</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="w">      </span><span class="nt">topic</span><span class="p">:</span><span class="w"> </span><span class="s">"Introduction</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">R"</span>
 <a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="w">    </span><span class="c1"># ... weeks 2-15</span>
 <a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>
 <a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="w">  </span><span class="nt">deadlines</span><span class="p">:</span>
@@ -10269,12 +10297,12 @@
 <a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="w">      </span><span class="nt">offset_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">       </span><span class="c1"># + 4 days = Friday</span>
 <a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>
 <a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="w">    </span><span class="nt">final_project</span><span class="p">:</span>
-<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="w">      </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-05-08&quot;</span><span class="w">  </span><span class="c1"># Absolute date</span>
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a><span class="w">      </span><span class="nt">due_date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-05-08"</span><span class="w">  </span><span class="c1"># Absolute date</span>
 <a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>
 <a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="w">  </span><span class="nt">exams</span><span class="p">:</span>
-<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Midterm&quot;</span>
-<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2025-03-05&quot;</span>
-<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a><span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM&quot;</span>
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Midterm"</span>
+<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a><span class="w">      </span><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="s">"2025-03-05"</span>
+<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a><span class="w">      </span><span class="nt">time</span><span class="p">:</span><span class="w"> </span><span class="s">"2:00</span><span class="nv"> </span><span class="s">PM</span><span class="nv"> </span><span class="s">-</span><span class="nv"> </span><span class="s">3:50</span><span class="nv"> </span><span class="s">PM"</span>
 </code></pre></div>
 <h3 id="step-73-sync-dates-to-files">Step 7.3: Sync Dates to Files<a class="headerlink" href="#step-73-sync-dates-to-files" title="Permanent link">&para;</a></h3>
 <p>Preview changes first:</p>
@@ -10423,12 +10451,12 @@
 <h2 id="common-workflows">Common Workflows<a class="headerlink" href="#common-workflows" title="Permanent link">&para;</a></h2>
 <h3 id="morning-prep">Morning Prep<a class="headerlink" href="#morning-prep" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>work<span class="w"> </span>stat-545<span class="w">          </span><span class="c1"># Start session</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>teach<span class="w"> </span>week<span class="w">             </span><span class="c1"># See today&#39;s topic</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>teach<span class="w"> </span>week<span class="w">             </span><span class="c1"># See today's topic</span>
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1"># Edit lecture notes</span>
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>teach<span class="w"> </span>deploy<span class="w">           </span><span class="c1"># Push before class</span>
 </code></pre></div>
 <h3 id="creating-an-exam">Creating an Exam<a class="headerlink" href="#creating-an-exam" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Final&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">40</span><span class="w"> </span>--duration<span class="w"> </span><span class="m">180</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Final"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">40</span><span class="w"> </span>--duration<span class="w"> </span><span class="m">180</span>
 <a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="c1"># Review and edit generated questions</span>
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>teach<span class="w"> </span>deploy<span class="w">           </span><span class="c1"># (when ready to post)</span>
 </code></pre></div>
@@ -10439,7 +10467,7 @@
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="config-validation-failed">"Config validation failed"<a class="headerlink" href="#config-validation-failed" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Check what&#39;s wrong</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Check what's wrong</span>
 <a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>teach<span class="w"> </span>status<span class="w"> </span>--verbose
 <a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
 <a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Common fixes:</span>
@@ -10450,7 +10478,7 @@
 </code></pre></div>
 <h3 id="not-a-teaching-project">"Not a teaching project"<a class="headerlink" href="#not-a-teaching-project" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Initialize first</span>
-<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">&quot;Course Name&quot;</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>teach<span class="w"> </span>init<span class="w"> </span><span class="s2">"Course Name"</span>
 </code></pre></div>
 <h3 id="on-main-production-branch">"On main (production) branch"<a class="headerlink" href="#on-main-production-branch" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Switch to draft for editing</span>
@@ -10577,7 +10605,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7409,6 +7409,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9874,7 +9902,7 @@
 <h2 id="part-5-quick-actions">Part 5: Quick Actions<a class="headerlink" href="#part-5-quick-actions" title="Permanent link">&para;</a></h2>
 <h3 id="step-51-ask-a-quick-question">Step 5.1: Ask a Quick Question<a class="headerlink" href="#step-51-ask-a-quick-question" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Get an answer without full session</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;how do I handle missing data in R?&quot;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">"how do I handle missing data in R?"</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
 - Claude answers in print mode
@@ -9893,7 +9921,7 @@
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>cc<span class="w"> </span>file<span class="w"> </span>R/myfunction.R
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
 <a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># With custom prompt</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>cc<span class="w"> </span>file<span class="w"> </span>R/myfunction.R<span class="w"> </span><span class="s2">&quot;explain the algorithm&quot;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>cc<span class="w"> </span>file<span class="w"> </span>R/myfunction.R<span class="w"> </span><span class="s2">"explain the algorithm"</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
 - Claude analyzes the file
@@ -9901,7 +9929,7 @@
 - Useful for understanding unfamiliar code</p>
 <h3 id="step-54-r-package-helper">Step 5.4: R Package Helper<a class="headerlink" href="#step-54-r-package-helper" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># In an R package directory</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>cc<span class="w"> </span>rpkg<span class="w"> </span><span class="s2">&quot;add input validation&quot;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>cc<span class="w"> </span>rpkg<span class="w"> </span><span class="s2">"add input validation"</span>
 </code></pre></div>
 <p><strong>What happens:</strong>
 - Reads DESCRIPTION file
@@ -10073,11 +10101,11 @@
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>cc<span class="w"> </span>diff
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Or analyze specific file</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>cc<span class="w"> </span>file<span class="w"> </span>src/complex-function.js<span class="w"> </span><span class="s2">&quot;review for bugs&quot;</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>cc<span class="w"> </span>file<span class="w"> </span>src/complex-function.js<span class="w"> </span><span class="s2">"review for bugs"</span>
 </code></pre></div>
 <h3 id="quick-questions">Quick Questions<a class="headerlink" href="#quick-questions" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Get quick answers without full session</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">&quot;what&#39;s the best way to mock API calls in jest?&quot;</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>cc<span class="w"> </span>ask<span class="w"> </span><span class="s2">"what's the best way to mock API calls in jest?"</span>
 </code></pre></div>
 <h3 id="parallel-work-with-worktrees">Parallel Work with Worktrees<a class="headerlink" href="#parallel-work-with-worktrees" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Work on feature in isolated worktree</span>
@@ -10089,7 +10117,7 @@
 <hr />
 <h2 id="decision-guide">Decision Guide<a class="headerlink" href="#decision-guide" title="Permanent link">&para;</a></h2>
 <h3 id="which-mode">Which Mode?<a class="headerlink" href="#which-mode" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>What&#39;s your task?
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>What's your task?
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>├─ Trusted, familiar codebase
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>│  └─ cc yolo (or ccy)
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>├─ Exploring, planning
@@ -10221,7 +10249,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

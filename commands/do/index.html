@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -6812,6 +6812,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sync/" class="md-nav__link">
         
   
@@ -9008,7 +9036,7 @@
 <p>Natural language to shell command translation</p>
 </blockquote>
 <h2 id="synopsis">Synopsis<a class="headerlink" href="#synopsis" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="s2">&quot;&lt;natural language description&gt;&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="s2">"&lt;natural language description&gt;"</span>
 </code></pre></div>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p><code>flow do</code> translates plain English descriptions into shell commands using AI. It understands your project context and generates appropriate commands for your environment.</p>
@@ -9038,7 +9066,7 @@
 <h2 id="safety-features">Safety Features<a class="headerlink" href="#safety-features" title="Permanent link">&para;</a></h2>
 <h3 id="dangerous-command-detection">Dangerous Command Detection<a class="headerlink" href="#dangerous-command-detection" title="Permanent link">&para;</a></h3>
 <p>Commands that could cause data loss are flagged:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;delete all files&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"delete all files"</span>
 </code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>⚠️  DANGEROUS COMMAND DETECTED
@@ -9058,57 +9086,57 @@
 </ul>
 <h3 id="dry-run-mode">Dry Run Mode<a class="headerlink" href="#dry-run-mode" title="Permanent link">&para;</a></h3>
 <p>Always preview before executing uncertain commands:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;remove all backup files&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">"remove all backup files"</span>
 </code></pre></div>
 <p>Output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>🔍 Translating: &quot;remove all backup files&quot;
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>📝 Command: find . -name &quot;*.bak&quot; -delete
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>🔍 Translating: "remove all backup files"
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>📝 Command: find . -name "*.bak" -delete
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>⚠️  DRY RUN - command not executed
 </code></pre></div>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="file-operations">File Operations<a class="headerlink" href="#file-operations" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;find large files over 100MB&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"find large files over 100MB"</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1"># → find . -size +100M -type f</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show files modified in the last hour&quot;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"show files modified in the last hour"</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># → find . -mmin -60 -type f</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;count lines in all zsh files&quot;</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># → find . -name &quot;*.zsh&quot; -exec wc -l {} +</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"count lines in all zsh files"</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># → find . -name "*.zsh" -exec wc -l {} +</span>
 </code></pre></div>
 <h3 id="git-operations">Git Operations<a class="headerlink" href="#git-operations" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show commits from last week&quot;</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># → git log --since=&#39;1 week ago&#39; --oneline</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"show commits from last week"</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># → git log --since='1 week ago' --oneline</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;find who last modified this file&quot;</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># → git log -1 --format=&#39;%an&#39; -- &lt;file&gt;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"find who last modified this file"</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># → git log -1 --format='%an' -- &lt;file&gt;</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show branches merged into main&quot;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"show branches merged into main"</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># → git branch --merged main</span>
 </code></pre></div>
 <h3 id="system-information">System Information<a class="headerlink" href="#system-information" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;check disk usage&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"check disk usage"</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># → df -h</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show running node processes&quot;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"show running node processes"</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># → pgrep -fl node</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;what&#39;s using port 3000&quot;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"what's using port 3000"</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># → lsof -i :3000</span>
 </code></pre></div>
 <h3 id="project-specific">Project-Specific<a class="headerlink" href="#project-specific" title="Permanent link">&para;</a></h3>
 <p>The AI considers your project type:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># In an R package directory:</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;run the tests&quot;</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># → Rscript -e &quot;devtools::test()&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"run the tests"</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># → Rscript -e "devtools::test()"</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># In a Node.js project:</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;run the tests&quot;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"run the tests"</span>
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># → npm test</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1"># In a Quarto project:</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;build the document&quot;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"build the document"</span>
 <a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1"># → quarto render</span>
 </code></pre></div>
 <h2 id="workflow-tips">Workflow Tips<a class="headerlink" href="#workflow-tips" title="Permanent link">&para;</a></h2>
@@ -9120,10 +9148,10 @@
 </ol>
 <h3 id="chaining-with-other-commands">Chaining with Other Commands<a class="headerlink" href="#chaining-with-other-commands" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Preview first, then run</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;find duplicate files&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;find duplicate files&quot;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">"find duplicate files"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"find duplicate files"</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Use output in pipes (careful!)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;list all TODO comments&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"list all TODO comments"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
 </code></pre></div>
 <h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
 <ul>
@@ -9224,7 +9252,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

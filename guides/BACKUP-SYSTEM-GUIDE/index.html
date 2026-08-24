@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7756,6 +7756,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -10405,8 +10433,8 @@
 <ol>
 <li><strong>Scholar generates content</strong></li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm&quot;</span><span class="w">      </span><span class="c1"># Creates backup before saving</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">     </span><span class="c1"># Creates backup before saving</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Midterm"</span><span class="w">      </span><span class="c1"># Creates backup before saving</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Topic"</span><span class="w">     </span><span class="c1"># Creates backup before saving</span>
 </code></pre></div>
 <ol>
 <li><strong>Manual content modification</strong> (if using backup helpers)</li>
@@ -10590,9 +10618,9 @@
 <h3 id="automatic-creation">Automatic Creation<a class="headerlink" href="#automatic-creation" title="Permanent link">&para;</a></h3>
 <p>Most commands automatically create backups:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Scholar commands</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm&quot;</span><span class="w">       </span><span class="c1"># Backup created automatically</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w">      </span><span class="c1"># Backup created automatically</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">&quot;HW3&quot;</span><span class="w">     </span><span class="c1"># Backup created automatically</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Midterm"</span><span class="w">       </span><span class="c1"># Backup created automatically</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Topic"</span><span class="w">      </span><span class="c1"># Backup created automatically</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">"HW3"</span><span class="w">     </span><span class="c1"># Backup created automatically</span>
 </code></pre></div>
 <h3 id="manual-creation">Manual Creation<a class="headerlink" href="#manual-creation" title="Permanent link">&para;</a></h3>
 <p>For advanced users, manual backup functions:</p>
@@ -10624,10 +10652,10 @@
 </code></pre></div>
 <h3 id="via-filesystem">Via Filesystem<a class="headerlink" href="#via-filesystem" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># List all backups</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;.backups&quot;</span><span class="w"> </span>-exec<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">".backups"</span><span class="w"> </span>-exec<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
 <a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
 <a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Count backups</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;.backups&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">".backups"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
 <a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
 <a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># Find specific content backups</span>
 <a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>ls<span class="w"> </span>-lht<span class="w"> </span>lectures/.backups/
@@ -10692,7 +10720,7 @@
 <a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>cat<span class="w"> </span>lectures/.backups/week-05.2026-01-17-0915/week-05.qmd
 <a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>
 <a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="c1"># 2. Extract needed section</span>
-<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>awk<span class="w"> </span><span class="s1">&#39;/^## Section 2/,/^## Section 3/&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>awk<span class="w"> </span><span class="s1">'/^## Section 2/,/^## Section 3/'</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">    </span>lectures/.backups/week-05.2026-01-17-0915/week-05.qmd<span class="w"> </span>&gt;<span class="w"> </span>section2.md
 <a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>
 <a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="c1"># 3. Manually merge into current file</span>
@@ -10733,7 +10761,7 @@
 </code></pre></div>
 <h3 id="delete-all-old-backups">Delete All Old Backups<a class="headerlink" href="#delete-all-old-backups" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># Delete backups older than 30 days</span>
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.2025-*&quot;</span><span class="w"> </span>-path<span class="w"> </span><span class="s2">&quot;*/.backups/*&quot;</span><span class="w"> </span>-exec<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.2025-*"</span><span class="w"> </span>-path<span class="w"> </span><span class="s2">"*/.backups/*"</span><span class="w"> </span>-exec<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
 <a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># Delete all backups for specific content</span>
 <a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>rm<span class="w"> </span>-rf<span class="w"> </span>lectures/.backups/week-05.*
@@ -10755,7 +10783,7 @@
 <h2 id="archive-management">Archive Management<a class="headerlink" href="#archive-management" title="Permanent link">&para;</a></h2>
 <h3 id="semester-end-archive">Semester-End Archive<a class="headerlink" href="#semester-end-archive" title="Permanent link">&para;</a></h3>
 <p>At end of semester:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>teach<span class="w"> </span>archive<span class="w"> </span><span class="s2">&quot;Spring 2025&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>teach<span class="w"> </span>archive<span class="w"> </span><span class="s2">"Spring 2025"</span>
 </code></pre></div>
 <p><strong>Process:</strong></p>
 <ol>
@@ -10862,7 +10890,7 @@
 </code></pre></div>
 <h3 id="2-archive-every-semester">2. Archive Every Semester<a class="headerlink" href="#2-archive-every-semester" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># At semester end</span>
-<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>teach<span class="w"> </span>archive<span class="w"> </span><span class="s2">&quot;Spring 2025&quot;</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>teach<span class="w"> </span>archive<span class="w"> </span><span class="s2">"Spring 2025"</span>
 <a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>
 <a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="c1"># Verify archive</span>
 <a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>ls<span class="w"> </span>-lh<span class="w"> </span>.flow/archives/Spring-2025/
@@ -10871,8 +10899,8 @@
 <h3 id="3-dont-rely-on-backups-alone">3. Don't Rely on Backups Alone<a class="headerlink" href="#3-dont-rely-on-backups-alone" title="Permanent link">&para;</a></h3>
 <p>Backups complement git, not replace:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># Use both</span>
-<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>g<span class="w"> </span>commit<span class="w"> </span><span class="s2">&quot;feat: add Week 5 lecture&quot;</span><span class="w">   </span><span class="c1"># Git version control</span>
-<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Week 6&quot;</span><span class="w">                </span><span class="c1"># Automatic backup</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>g<span class="w"> </span>commit<span class="w"> </span><span class="s2">"feat: add Week 5 lecture"</span><span class="w">   </span><span class="c1"># Git version control</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Week 6"</span><span class="w">                </span><span class="c1"># Automatic backup</span>
 <a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>
 <a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a><span class="c1"># Result:</span>
 <a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a><span class="c1"># - Git history for large-scale recovery</span>
@@ -10888,7 +10916,7 @@
 <a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a><span class="w">  </span><span class="nv">delete_count</span><span class="o">=</span><span class="k">$(($(</span>ls<span class="w"> </span>-1<span class="w"> </span><span class="nv">$backup_dir</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">keep_count</span><span class="k">))</span>
 <a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">((</span><span class="w"> </span>delete_count<span class="w"> </span>&gt;<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a><span class="w">    </span>ls<span class="w"> </span>-1t<span class="w"> </span><span class="nv">$backup_dir</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="nv">$delete_count</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a><span class="w">      </span>xargs<span class="w"> </span>-I<span class="w"> </span><span class="o">{}</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">/{}&quot;</span>
+<a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a><span class="w">      </span>xargs<span class="w"> </span>-I<span class="w"> </span><span class="o">{}</span><span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">"</span><span class="nv">$backup_dir</span><span class="s2">/{}"</span>
 <a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="w">  </span><span class="k">fi</span>
 <a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="k">done</span>
 </code></pre></div>
@@ -10898,15 +10926,15 @@
 <a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>
 <a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="c1"># Or commit to git</span>
 <a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>g<span class="w"> </span>add<span class="w"> </span>.flow/teach-config.yml
-<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>g<span class="w"> </span>commit<span class="w"> </span><span class="s2">&quot;docs: update backup retention policies&quot;</span>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>g<span class="w"> </span>commit<span class="w"> </span><span class="s2">"docs: update backup retention policies"</span>
 </code></pre></div>
 <h3 id="6-test-restores">6. Test Restores<a class="headerlink" href="#6-test-restores" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="c1"># Periodically test restore process</span>
 <a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="c1"># 1. Make backup</span>
-<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Test&quot;</span>
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Test"</span>
 <a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>
 <a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="c1"># 2. Modify content</span>
-<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;test change&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>lectures/test.qmd
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"test change"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>lectures/test.qmd
 <a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a>
 <a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="c1"># 3. Restore</span>
 <a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a>cp<span class="w"> </span>lectures/.backups/test.LATEST/test.qmd<span class="w"> </span>lectures/test.qmd
@@ -10917,7 +10945,7 @@
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="backups-not-created">Backups Not Created<a class="headerlink" href="#backups-not-created" title="Permanent link">&para;</a></h3>
 <p><strong>Check if backups enabled:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>yq<span class="w"> </span><span class="s1">&#39;.backups.enabled // true&#39;</span><span class="w"> </span>.flow/teach-config.yml
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>yq<span class="w"> </span><span class="s1">'.backups.enabled // true'</span><span class="w"> </span>.flow/teach-config.yml
 </code></pre></div>
 <p><strong>Verify Scholar integration:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>teach<span class="w"> </span>doctor
@@ -10953,12 +10981,12 @@
 <ol>
 <li><strong>Archive old semester:</strong></li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>teach<span class="w"> </span>archive<span class="w"> </span><span class="s2">&quot;Fall 2024&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>teach<span class="w"> </span>archive<span class="w"> </span><span class="s2">"Fall 2024"</span>
 </code></pre></div>
 <ol>
 <li><strong>Delete very old backups:</strong></li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.2024-*&quot;</span><span class="w"> </span>-path<span class="w"> </span><span class="s2">&quot;*/.backups/*&quot;</span><span class="w"> </span>-exec<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.2024-*"</span><span class="w"> </span>-path<span class="w"> </span><span class="s2">"*/.backups/*"</span><span class="w"> </span>-exec<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span>
 </code></pre></div>
 <ol>
 <li><strong>Change retention policy:</strong></li>
@@ -10984,7 +11012,7 @@
 </code></pre></div>
 <h3 id="lost-backup-metadata">Lost Backup Metadata<a class="headerlink" href="#lost-backup-metadata" title="Permanent link">&para;</a></h3>
 <p><strong>Find all backups:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;.backups&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">".backups"</span>
 </code></pre></div>
 <p><strong>Reconstruct from timestamps:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="c1"># List by modification time</span>
@@ -11001,26 +11029,26 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="ch">#!/usr/bin/env zsh</span>
 <a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a><span class="c1"># backup-report.sh</span>
 <a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a>
-<a id="__codelineno-64-4" name="__codelineno-64-4" href="#__codelineno-64-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;📦 Backup Report - </span><span class="k">$(</span>date<span class="w"> </span>+%Y-%m-%d<span class="k">)</span><span class="s2">&quot;</span>
-<a id="__codelineno-64-5" name="__codelineno-64-5" href="#__codelineno-64-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<a id="__codelineno-64-4" name="__codelineno-64-4" href="#__codelineno-64-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"📦 Backup Report - </span><span class="k">$(</span>date<span class="w"> </span>+%Y-%m-%d<span class="k">)</span><span class="s2">"</span>
+<a id="__codelineno-64-5" name="__codelineno-64-5" href="#__codelineno-64-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
 <a id="__codelineno-64-6" name="__codelineno-64-6" href="#__codelineno-64-6"></a>
 <a id="__codelineno-64-7" name="__codelineno-64-7" href="#__codelineno-64-7"></a><span class="c1"># Total backups</span>
-<a id="__codelineno-64-8" name="__codelineno-64-8" href="#__codelineno-64-8"></a><span class="nv">total</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-path<span class="w"> </span><span class="s2">&quot;*/.backups/*&quot;</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.20*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
-<a id="__codelineno-64-9" name="__codelineno-64-9" href="#__codelineno-64-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Total backups: </span><span class="nv">$total</span><span class="s2">&quot;</span>
+<a id="__codelineno-64-8" name="__codelineno-64-8" href="#__codelineno-64-8"></a><span class="nv">total</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-path<span class="w"> </span><span class="s2">"*/.backups/*"</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.20*"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+<a id="__codelineno-64-9" name="__codelineno-64-9" href="#__codelineno-64-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Total backups: </span><span class="nv">$total</span><span class="s2">"</span>
 <a id="__codelineno-64-10" name="__codelineno-64-10" href="#__codelineno-64-10"></a>
 <a id="__codelineno-64-11" name="__codelineno-64-11" href="#__codelineno-64-11"></a><span class="c1"># Last backup time</span>
-<a id="__codelineno-64-12" name="__codelineno-64-12" href="#__codelineno-64-12"></a><span class="nv">last</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-path<span class="w"> </span><span class="s2">&quot;*/.backups/*&quot;</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.20*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-64-13" name="__codelineno-64-13" href="#__codelineno-64-13"></a><span class="w">       </span>sort<span class="w"> </span>-r<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/.*\.//&#39;</span><span class="k">)</span>
-<a id="__codelineno-64-14" name="__codelineno-64-14" href="#__codelineno-64-14"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Last backup: </span><span class="nv">$last</span><span class="s2">&quot;</span>
+<a id="__codelineno-64-12" name="__codelineno-64-12" href="#__codelineno-64-12"></a><span class="nv">last</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span>.<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-path<span class="w"> </span><span class="s2">"*/.backups/*"</span><span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.20*"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-64-13" name="__codelineno-64-13" href="#__codelineno-64-13"></a><span class="w">       </span>sort<span class="w"> </span>-r<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">'s/.*\.//'</span><span class="k">)</span>
+<a id="__codelineno-64-14" name="__codelineno-64-14" href="#__codelineno-64-14"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Last backup: </span><span class="nv">$last</span><span class="s2">"</span>
 <a id="__codelineno-64-15" name="__codelineno-64-15" href="#__codelineno-64-15"></a>
 <a id="__codelineno-64-16" name="__codelineno-64-16" href="#__codelineno-64-16"></a><span class="c1"># Backup sizes by type</span>
-<a id="__codelineno-64-17" name="__codelineno-64-17" href="#__codelineno-64-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
-<a id="__codelineno-64-18" name="__codelineno-64-18" href="#__codelineno-64-18"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;By content type:&quot;</span>
+<a id="__codelineno-64-17" name="__codelineno-64-17" href="#__codelineno-64-17"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<a id="__codelineno-64-18" name="__codelineno-64-18" href="#__codelineno-64-18"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"By content type:"</span>
 <a id="__codelineno-64-19" name="__codelineno-64-19" href="#__codelineno-64-19"></a><span class="k">for</span><span class="w"> </span>dir<span class="w"> </span><span class="k">in</span><span class="w"> </span>exams<span class="w"> </span>lectures<span class="w"> </span>assignments<span class="w"> </span>quizzes<span class="w"> </span>slides<span class="w"> </span>syllabi<span class="w"> </span>rubrics<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-64-20" name="__codelineno-64-20" href="#__codelineno-64-20"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">/.backups&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-64-21" name="__codelineno-64-21" href="#__codelineno-64-21"></a><span class="w">    </span><span class="nv">size</span><span class="o">=</span><span class="k">$(</span>du<span class="w"> </span>-sh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">/.backups&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
-<a id="__codelineno-64-22" name="__codelineno-64-22" href="#__codelineno-64-22"></a><span class="w">    </span><span class="nv">count</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">/.backups&quot;</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.20*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
-<a id="__codelineno-64-23" name="__codelineno-64-23" href="#__codelineno-64-23"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  </span><span class="nv">$dir</span><span class="s2">: </span><span class="nv">$count</span><span class="s2"> backups (</span><span class="nv">$size</span><span class="s2">)&quot;</span>
+<a id="__codelineno-64-20" name="__codelineno-64-20" href="#__codelineno-64-20"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">"</span><span class="nv">$dir</span><span class="s2">/.backups"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-64-21" name="__codelineno-64-21" href="#__codelineno-64-21"></a><span class="w">    </span><span class="nv">size</span><span class="o">=</span><span class="k">$(</span>du<span class="w"> </span>-sh<span class="w"> </span><span class="s2">"</span><span class="nv">$dir</span><span class="s2">/.backups"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $1}'</span><span class="k">)</span>
+<a id="__codelineno-64-22" name="__codelineno-64-22" href="#__codelineno-64-22"></a><span class="w">    </span><span class="nv">count</span><span class="o">=</span><span class="k">$(</span>find<span class="w"> </span><span class="s2">"</span><span class="nv">$dir</span><span class="s2">/.backups"</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">"*.20*"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+<a id="__codelineno-64-23" name="__codelineno-64-23" href="#__codelineno-64-23"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"  </span><span class="nv">$dir</span><span class="s2">: </span><span class="nv">$count</span><span class="s2"> backups (</span><span class="nv">$size</span><span class="s2">)"</span>
 <a id="__codelineno-64-24" name="__codelineno-64-24" href="#__codelineno-64-24"></a><span class="w">  </span><span class="k">fi</span>
 <a id="__codelineno-64-25" name="__codelineno-64-25" href="#__codelineno-64-25"></a><span class="k">done</span>
 </code></pre></div>
@@ -11032,20 +11060,20 @@
 <a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a><span class="nv">KEEP_COUNT</span><span class="o">=</span><span class="m">5</span>
 <a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a>
 <a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a><span class="k">for</span><span class="w"> </span>content_dir<span class="w"> </span><span class="k">in</span><span class="w"> </span>lectures<span class="w"> </span>exams<span class="w"> </span>assignments<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-65-8" name="__codelineno-65-8" href="#__codelineno-65-8"></a><span class="w">  </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$content_dir</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">continue</span>
+<a id="__codelineno-65-8" name="__codelineno-65-8" href="#__codelineno-65-8"></a><span class="w">  </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-d<span class="w"> </span><span class="s2">"</span><span class="nv">$content_dir</span><span class="s2">"</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">continue</span>
 <a id="__codelineno-65-9" name="__codelineno-65-9" href="#__codelineno-65-9"></a>
 <a id="__codelineno-65-10" name="__codelineno-65-10" href="#__codelineno-65-10"></a><span class="w">  </span><span class="c1"># Find all .backups folders</span>
-<a id="__codelineno-65-11" name="__codelineno-65-11" href="#__codelineno-65-11"></a><span class="w">  </span>find<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$content_dir</span><span class="s2">&quot;</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;.backups&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>backup_dir<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-65-11" name="__codelineno-65-11" href="#__codelineno-65-11"></a><span class="w">  </span>find<span class="w"> </span><span class="s2">"</span><span class="nv">$content_dir</span><span class="s2">"</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span><span class="s2">".backups"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>backup_dir<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <a id="__codelineno-65-12" name="__codelineno-65-12" href="#__codelineno-65-12"></a><span class="w">    </span><span class="c1"># Get unique content names</span>
-<a id="__codelineno-65-13" name="__codelineno-65-13" href="#__codelineno-65-13"></a><span class="w">    </span>ls<span class="w"> </span>-1<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s/\.[0-9-]*$//&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>name<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-65-13" name="__codelineno-65-13" href="#__codelineno-65-13"></a><span class="w">    </span>ls<span class="w"> </span>-1<span class="w"> </span><span class="s2">"</span><span class="nv">$backup_dir</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">'s/\.[0-9-]*$//'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="k">while</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>name<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <a id="__codelineno-65-14" name="__codelineno-65-14" href="#__codelineno-65-14"></a><span class="w">      </span><span class="c1"># Count backups for this content</span>
-<a id="__codelineno-65-15" name="__codelineno-65-15" href="#__codelineno-65-15"></a><span class="w">      </span><span class="nv">count</span><span class="o">=</span><span class="k">$(</span>ls<span class="w"> </span>-1d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">/</span><span class="nv">$name</span><span class="s2">&quot;</span>.*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+<a id="__codelineno-65-15" name="__codelineno-65-15" href="#__codelineno-65-15"></a><span class="w">      </span><span class="nv">count</span><span class="o">=</span><span class="k">$(</span>ls<span class="w"> </span>-1d<span class="w"> </span><span class="s2">"</span><span class="nv">$backup_dir</span><span class="s2">/</span><span class="nv">$name</span><span class="s2">"</span>.*<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
 <a id="__codelineno-65-16" name="__codelineno-65-16" href="#__codelineno-65-16"></a>
 <a id="__codelineno-65-17" name="__codelineno-65-17" href="#__codelineno-65-17"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="o">((</span><span class="w"> </span>count<span class="w"> </span>&gt;<span class="w"> </span>KEEP_COUNT<span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-65-18" name="__codelineno-65-18" href="#__codelineno-65-18"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Cleaning </span><span class="nv">$name</span><span class="s2">: </span><span class="nv">$count</span><span class="s2"> → </span><span class="nv">$KEEP_COUNT</span><span class="s2"> backups&quot;</span>
+<a id="__codelineno-65-18" name="__codelineno-65-18" href="#__codelineno-65-18"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Cleaning </span><span class="nv">$name</span><span class="s2">: </span><span class="nv">$count</span><span class="s2"> → </span><span class="nv">$KEEP_COUNT</span><span class="s2"> backups"</span>
 <a id="__codelineno-65-19" name="__codelineno-65-19" href="#__codelineno-65-19"></a>
 <a id="__codelineno-65-20" name="__codelineno-65-20" href="#__codelineno-65-20"></a><span class="w">        </span><span class="c1"># Keep newest KEEP_COUNT, delete rest</span>
-<a id="__codelineno-65-21" name="__codelineno-65-21" href="#__codelineno-65-21"></a><span class="w">        </span>ls<span class="w"> </span>-1dt<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$backup_dir</span><span class="s2">/</span><span class="nv">$name</span><span class="s2">&quot;</span>.*<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+<span class="k">$((</span><span class="nv">KEEP_COUNT</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-65-21" name="__codelineno-65-21" href="#__codelineno-65-21"></a><span class="w">        </span>ls<span class="w"> </span>-1dt<span class="w"> </span><span class="s2">"</span><span class="nv">$backup_dir</span><span class="s2">/</span><span class="nv">$name</span><span class="s2">"</span>.*<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+<span class="k">$((</span><span class="nv">KEEP_COUNT</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-65-22" name="__codelineno-65-22" href="#__codelineno-65-22"></a><span class="w">          </span>xargs<span class="w"> </span>rm<span class="w"> </span>-rf
 <a id="__codelineno-65-23" name="__codelineno-65-23" href="#__codelineno-65-23"></a><span class="w">      </span><span class="k">fi</span>
 <a id="__codelineno-65-24" name="__codelineno-65-24" href="#__codelineno-65-24"></a><span class="w">    </span><span class="k">done</span>
@@ -11188,7 +11216,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

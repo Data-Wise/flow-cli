@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7003,6 +7003,34 @@
   
   
     <li class="md-nav__item">
+      <a href="commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="commands/sync/" class="md-nav__link">
         
   
@@ -8868,24 +8896,24 @@
 <p class="admonition-title">⚡ Get Started in 30 Seconds</p>
 <p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>brew<span class="w"> </span>tap<span class="w"> </span>data-wise/tap<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>brew<span class="w"> </span>install<span class="w"> </span>flow-cli
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>work<span class="w"> </span>my-project<span class="w">         </span><span class="c1"># Start session</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>win<span class="w"> </span><span class="s2">&quot;installed flow!&quot;</span><span class="w">   </span><span class="c1"># Log your first win</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>win<span class="w"> </span><span class="s2">"installed flow!"</span><span class="w">   </span><span class="c1"># Log your first win</span>
 </code></pre></div>
 <strong>That's it!</strong> No configuration required.</p>
 <p><strong>New here?</strong> <code>setup</code> walks you through configuration interactively, or run <code>tutorial</code> for
 12 hands-on lessons at your own pace — both are guided, no docs required to start.</p>
 </div>
 <div class="admonition success">
-<p class="admonition-title">🎉 What's New in v7.16.0</p>
-<p><strong><code>agy</code> (Antigravity CLI) added as an em-ai backend</strong> — ahead of <code>gemini</code> (now legacy) in the fallback chain, with automatic output cleaning and validation.
-<strong><code>em flag</code>/<code>em star</code> bug fixed</strong> — a dead-code dispatch bug silently made <code>em flag</code> behave differently than intended; <code>em star</code> now also supports multiple IDs.
-<strong><code>em help &lt;topic&gt;</code></strong> — filter help to one section instead of scanning the full command reference.
+<p class="admonition-title">🎉 What's New in v7.17.0</p>
+<p><strong><code>teach deploy --dry-run</code> is genuinely read-only</strong> — it no longer aborts in CI mode, no longer prompts to commit (a pty wrapper used to auto-accept that and create a real commit), and it now names the uncommitted files its plan excludes.
+<strong><code>teach deploy --direct</code> merges with <code>--no-ff</code></strong> — every deploy is one revertable commit again, so <code>teach deploy --rollback</code> can undo a multi-commit deploy as a unit.
+<strong><code>em undo</code></strong> — single-step undo of the last <code>em star</code>/<code>flag</code>/<code>unflag</code>/<code>move</code>, plus <code>em move --recent</code> for quick folder re-picks.
 Full details → <a href="CHANGELOG/">Changelog</a>.</p>
 </div>
 <hr />
 <h2 id="see-it-in-action">⚡ See It in Action<a class="headerlink" href="#see-it-in-action" title="Permanent link">&para;</a></h2>
 <p>The entire workflow in 3 commands:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>work<span class="w"> </span>my-project<span class="w">    </span><span class="c1"># Start session</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>win<span class="w"> </span><span class="s2">&quot;Fixed bug&quot;</span><span class="w">    </span><span class="c1"># Log win → dopamine hit</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>win<span class="w"> </span><span class="s2">"Fixed bug"</span><span class="w">    </span><span class="c1"># Log win → dopamine hit</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>finish<span class="w">             </span><span class="c1"># Done</span>
 </code></pre></div>
 <p><strong>Expected output:</strong></p>
@@ -8893,7 +8921,7 @@ Full details → <a href="CHANGELOG/">Changelog</a>.</p>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>🚀 Starting session: my-project
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>   📍 ~/projects/my-project
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>$ win &quot;Fixed the login bug&quot;
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>$ win "Fixed the login bug"
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>🔧 fix: Fixed the login bug
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>   ✨ Win #1 today!
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
@@ -8945,9 +8973,9 @@ Full details → <a href="CHANGELOG/">Changelog</a>.</p>
 <hr />
 <h2 id="built-in-dopamine-system">🏆 Built-in Dopamine System<a class="headerlink" href="#built-in-dopamine-system" title="Permanent link">&para;</a></h2>
 <p>Every win gets categorized and tracked:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>win<span class="w"> </span><span class="s2">&quot;Fixed login bug&quot;</span><span class="w">       </span><span class="c1"># → 🔧 fix</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>win<span class="w"> </span><span class="s2">&quot;Deployed to prod&quot;</span><span class="w">      </span><span class="c1"># → 🚀 ship</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>win<span class="w"> </span><span class="s2">&quot;Added tests&quot;</span><span class="w">           </span><span class="c1"># → 🧪 test</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>win<span class="w"> </span><span class="s2">"Fixed login bug"</span><span class="w">       </span><span class="c1"># → 🔧 fix</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>win<span class="w"> </span><span class="s2">"Deployed to prod"</span><span class="w">      </span><span class="c1"># → 🚀 ship</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>win<span class="w"> </span><span class="s2">"Added tests"</span><span class="w">           </span><span class="c1"># → 🧪 test</span>
 </code></pre></div>
 <p><strong>See your progress:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>yay<span class="w">              </span><span class="c1"># Recent wins</span>
@@ -8976,12 +9004,12 @@ Full details → <a href="CHANGELOG/">Changelog</a>.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/data-wise/flow-cli.git<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="si">}</span>/plugins/flow-cli
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Add &#39;flow-cli&#39; to plugins array in .zshrc</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Add 'flow-cli' to plugins array in .zshrc</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/data-wise/flow-cli.git<span class="w"> </span>~/.flow-cli
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;source ~/.flow-cli/flow.plugin.zsh&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'source ~/.flow-cli/flow.plugin.zsh'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc
 </code></pre></div>
 </div>
 </div>
@@ -9168,9 +9196,9 @@ Full details → <a href="CHANGELOG/">Changelog</a>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>work<span class="w"> </span>&lt;project&gt;<span class="w">    </span><span class="c1"># Start session</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>finish<span class="w"> </span><span class="o">[</span>note<span class="o">]</span><span class="w">     </span><span class="c1"># End session</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>hop<span class="w"> </span>&lt;project&gt;<span class="w">     </span><span class="c1"># Quick switch (tmux)</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>dash<span class="w">              </span><span class="c1"># Dashboard (what&#39;s happening now)</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>agenda<span class="w">            </span><span class="c1"># What&#39;s due soon (deadlines, exams, milestones)</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>catch<span class="w"> </span><span class="s2">&quot;idea&quot;</span><span class="w">      </span><span class="c1"># Quick capture</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>dash<span class="w">              </span><span class="c1"># Dashboard (what's happening now)</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>agenda<span class="w">            </span><span class="c1"># What's due soon (deadlines, exams, milestones)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>catch<span class="w"> </span><span class="s2">"idea"</span><span class="w">      </span><span class="c1"># Quick capture</span>
 <a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>ref<span class="w">               </span><span class="c1"># Quick-reference card (forgot the syntax? this is faster than docs)</span>
 </code></pre></div>
 <p><a class="md-button" href="help/QUICK-REFERENCE/">→ All commands</a></p>
@@ -9220,7 +9248,7 @@ Full details → <a href="CHANGELOG/">Changelog</a>.</p>
 <li><strong><a href="PHILOSOPHY/">Philosophy</a></strong> - Design principles deep dive</li>
 </ul>
 <hr />
-<p><strong>v7.16.0</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
+<p><strong>v7.17.0</strong> · Pure ZSH · Zero Dependencies · MIT License</p>
 
 
 
@@ -9302,7 +9330,7 @@ Full details → <a href="CHANGELOG/">Changelog</a>.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

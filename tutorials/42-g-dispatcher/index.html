@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7047,6 +7047,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9020,10 +9048,10 @@
 <h2 id="step-3-staging-committing">Step 3: Staging &amp; Committing<a class="headerlink" href="#step-3-staging-committing" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>g<span class="w"> </span>a<span class="w"> </span>&lt;files&gt;<span class="w">          </span><span class="c1"># git add</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>g<span class="w"> </span>aa<span class="w">                 </span><span class="c1"># git add --all</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>g<span class="w"> </span>c<span class="w"> </span><span class="s2">&quot;feat: new api&quot;</span><span class="w">  </span><span class="c1"># git commit -m &quot;feat: new api&quot;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>g<span class="w"> </span>c<span class="w"> </span><span class="s2">"feat: new api"</span><span class="w">  </span><span class="c1"># git commit -m "feat: new api"</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>g<span class="w"> </span>c<span class="w">                  </span><span class="c1"># git commit (opens editor)</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>g<span class="w"> </span>amend<span class="w">              </span><span class="c1"># git commit --amend --no-edit</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>g<span class="w"> </span>amendm<span class="w"> </span><span class="s2">&quot;new msg&quot;</span><span class="w">   </span><span class="c1"># git commit --amend -m &quot;new msg&quot;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>g<span class="w"> </span>amendm<span class="w"> </span><span class="s2">"new msg"</span><span class="w">   </span><span class="c1"># git commit --amend -m "new msg"</span>
 </code></pre></div>
 <hr />
 <h2 id="step-4-branch-management">Step 4: Branch Management<a class="headerlink" href="#step-4-branch-management" title="Permanent link">&para;</a></h2>
@@ -9059,7 +9087,7 @@
 <p><strong>Common pattern:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>g<span class="w"> </span>st<span class="w">           </span><span class="c1"># Stash WIP</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>g<span class="w"> </span>sw<span class="w"> </span>main<span class="w">      </span><span class="c1"># Switch to main</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>g<span class="w"> </span>c<span class="w"> </span><span class="s2">&quot;fix: bug&quot;</span><span class="w"> </span><span class="c1"># Fix and commit</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>g<span class="w"> </span>c<span class="w"> </span><span class="s2">"fix: bug"</span><span class="w"> </span><span class="c1"># Fix and commit</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>g<span class="w"> </span>p<span class="w">            </span><span class="c1"># Push</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>g<span class="w"> </span>sw<span class="w"> </span>feature/x<span class="w"> </span><span class="c1"># Return to feature</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>g<span class="w"> </span>pop<span class="w">          </span><span class="c1"># Restore stash</span>
@@ -9400,7 +9428,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

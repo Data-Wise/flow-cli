@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7472,6 +7472,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -10009,20 +10037,20 @@
 </table>
 <p><strong>Usage:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Use preset as-is</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--style<span class="w"> </span>computational
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Use preset + override specific flags</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--no-practice-problems<span class="w"> </span>--diagrams
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--no-practice-problems<span class="w"> </span>--diagrams
 </code></pre></div>
 <p><strong>Overriding Examples:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Conceptual lecture with proofs (not in preset)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Probability&quot;</span><span class="w"> </span>--style<span class="w"> </span>conceptual<span class="w"> </span>--proof
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Probability"</span><span class="w"> </span>--style<span class="w"> </span>conceptual<span class="w"> </span>--proof
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Computational lecture without code (remove from preset)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Regression&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--no-code
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Regression"</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--no-code
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Rigorous lecture with code (add to preset)</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Measure Theory&quot;</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--code
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Measure Theory"</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--code
 </code></pre></div>
 <hr />
 <h2 id="command-specific-flags">Command-Specific Flags<a class="headerlink" href="#command-specific-flags" title="Permanent link">&para;</a></h2>
@@ -10071,7 +10099,7 @@
 </tbody>
 </table>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Neural Networks&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">10</span><span class="w"> </span>--template<span class="w"> </span>quarto<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Neural Networks"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">10</span><span class="w"> </span>--template<span class="w"> </span>quarto<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--difficulty<span class="w"> </span>hard<span class="w"> </span>--examples<span class="w"> </span><span class="m">5</span><span class="w"> </span>--math<span class="w"> </span>--code
 </code></pre></div>
 <hr />
@@ -10198,23 +10226,23 @@
 </tbody>
 </table>
 <p><strong>Types Format:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>&quot;mc:3,sa:2,problem:3&quot;  # 3 multiple choice, 2 short answer, 3 problems
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>&quot;short answer:5,problem:3&quot;  # 5 short answer, 3 problems
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>"mc:3,sa:2,problem:3"  # 3 multiple choice, 2 short answer, 3 problems
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>"short answer:5,problem:3"  # 5 short answer, 3 problems
 </code></pre></div>
 <p><strong>Examples:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Basic exam</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Hypothesis Testing&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Hypothesis Testing"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Detailed exam with types</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">8</span><span class="w"> </span>--duration<span class="w"> </span><span class="m">60</span><span class="w"> </span>--types<span class="w"> </span><span class="s2">&quot;short answer:5,problem:3&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">8</span><span class="w"> </span>--duration<span class="w"> </span><span class="m">60</span><span class="w"> </span>--types<span class="w"> </span><span class="s2">"short answer:5,problem:3"</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># QTI format for LMS import</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Final Exam&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">30</span><span class="w"> </span>--format<span class="w"> </span>qti
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Final Exam"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">30</span><span class="w"> </span>--format<span class="w"> </span>qti
 </code></pre></div>
 <p><strong>LaTeX Macro Integration:</strong></p>
 <p>When <code>teach macros</code> is configured, exams automatically inject consistent notation:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync<span class="w">  </span><span class="c1"># Ensure macros are up-to-date</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Linear Regression&quot;</span><span class="w"> </span>--math<span class="w">  </span><span class="c1"># Auto-uses \E{Y}, \Var{Y}, etc.</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Linear Regression"</span><span class="w"> </span>--math<span class="w">  </span><span class="c1"># Auto-uses \E{Y}, \Var{Y}, etc.</span>
 </code></pre></div>
 <hr />
 <h3 id="teach-quiz">teach quiz<a class="headerlink" href="#teach-quiz" title="Permanent link">&para;</a></h3>
@@ -10257,10 +10285,10 @@
 </table>
 <p><strong>Examples:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Short quiz</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Correlation&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">"Correlation"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">5</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Timed QTI quiz</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--time-limit<span class="w"> </span><span class="m">20</span><span class="w"> </span>--format<span class="w"> </span>qti
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--time-limit<span class="w"> </span><span class="m">20</span><span class="w"> </span>--format<span class="w"> </span>qti
 </code></pre></div>
 <hr />
 <h3 id="teach-assignment">teach assignment<a class="headerlink" href="#teach-assignment" title="Permanent link">&para;</a></h3>
@@ -10297,10 +10325,10 @@
 </table>
 <p><strong>Examples:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Basic assignment</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">&quot;Data Wrangling&quot;</span><span class="w"> </span>--code<span class="w"> </span>--practice-problems<span class="w"> </span>--points<span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">"Data Wrangling"</span><span class="w"> </span>--code<span class="w"> </span>--practice-problems<span class="w"> </span>--points<span class="w"> </span><span class="m">50</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># With due date</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">&quot;ML Intro&quot;</span><span class="w"> </span>--due-date<span class="w"> </span><span class="s2">&quot;2026-02-20&quot;</span><span class="w"> </span>--points<span class="w"> </span><span class="m">50</span><span class="w"> </span>--explanation
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">"ML Intro"</span><span class="w"> </span>--due-date<span class="w"> </span><span class="s2">"2026-02-20"</span><span class="w"> </span>--points<span class="w"> </span><span class="m">50</span><span class="w"> </span>--explanation
 </code></pre></div>
 <hr />
 <h3 id="teach-syllabus">teach syllabus<a class="headerlink" href="#teach-syllabus" title="Permanent link">&para;</a></h3>
@@ -10354,7 +10382,7 @@
 </tbody>
 </table>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>teach<span class="w"> </span>rubric<span class="w"> </span><span class="s2">&quot;Research Paper&quot;</span><span class="w"> </span>--criteria<span class="w"> </span><span class="m">6</span><span class="w"> </span>--explanation
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>teach<span class="w"> </span>rubric<span class="w"> </span><span class="s2">"Research Paper"</span><span class="w"> </span>--criteria<span class="w"> </span><span class="m">6</span><span class="w"> </span>--explanation
 </code></pre></div>
 <hr />
 <h3 id="teach-feedback">teach feedback<a class="headerlink" href="#teach-feedback" title="Permanent link">&para;</a></h3>
@@ -10378,7 +10406,7 @@
 </tbody>
 </table>
 <p><strong>Example:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>teach<span class="w"> </span>feedback<span class="w"> </span><span class="s2">&quot;Assignment 3 - Student Name&quot;</span><span class="w"> </span>--format<span class="w"> </span>text
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>teach<span class="w"> </span>feedback<span class="w"> </span><span class="s2">"Assignment 3 - Student Name"</span><span class="w"> </span>--format<span class="w"> </span>text
 </code></pre></div>
 <hr />
 <h3 id="teach-demo">teach demo<a class="headerlink" href="#teach-demo" title="Permanent link">&para;</a></h3>
@@ -10437,27 +10465,27 @@
 </table>
 <p><strong>Examples:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Preview command</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dry-run
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dry-run
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Verbose execution</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Final Exam&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">30</span><span class="w"> </span>--verbose
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Final Exam"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">30</span><span class="w"> </span>--verbose
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
 <a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Custom output</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Regression&quot;</span><span class="w"> </span>--output<span class="w"> </span>custom-slides.qmd
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Regression"</span><span class="w"> </span>--output<span class="w"> </span>custom-slides.qmd
 </code></pre></div>
 <hr />
 <h2 id="quick-examples-with-stat-101-demo-course">Quick Examples with STAT-101 Demo Course<a class="headerlink" href="#quick-examples-with-stat-101-demo-course" title="Permanent link">&para;</a></h2>
 <h3 id="conceptual-lecture">Conceptual Lecture<a class="headerlink" href="#conceptual-lecture" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Theory-focused intro lecture</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Introduction to Statistics&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">1</span><span class="w"> </span>--style<span class="w"> </span>conceptual
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Introduction to Statistics"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">1</span><span class="w"> </span>--style<span class="w"> </span>conceptual
 </code></pre></div>
 <h3 id="computational-lab">Computational Lab<a class="headerlink" href="#computational-lab" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Code-heavy data visualization lab</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Data Visualization&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">2</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--code
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Data Visualization"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">2</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--code
 </code></pre></div>
 <h3 id="rigorous-math-lecture">Rigorous Math Lecture<a class="headerlink" href="#rigorous-math-lecture" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Proof-based probability lecture</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Probability Foundations&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">3</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--proof<span class="w"> </span>--math
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Probability Foundations"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">3</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--proof<span class="w"> </span>--math
 </code></pre></div>
 <h3 id="slides-from-lecture">Slides from Lecture<a class="headerlink" href="#slides-from-lecture" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Convert lecture to optimized slides</span>
@@ -10465,56 +10493,56 @@
 </code></pre></div>
 <h3 id="math-heavy-exam">Math-Heavy Exam<a class="headerlink" href="#math-heavy-exam" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Rigorous exam with consistent notation</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Linear Regression&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">12</span><span class="w"> </span>--math<span class="w"> </span>--style<span class="w"> </span>rigorous
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Linear Regression"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">12</span><span class="w"> </span>--math<span class="w"> </span>--style<span class="w"> </span>rigorous
 </code></pre></div>
 <h3 id="quick-quiz">Quick Quiz<a class="headerlink" href="#quick-quiz" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># 5-question formative quiz</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">&quot;Correlation&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">5</span><span class="w"> </span>--time-limit<span class="w"> </span><span class="m">15</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>teach<span class="w"> </span>quiz<span class="w"> </span><span class="s2">"Correlation"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">5</span><span class="w"> </span>--time-limit<span class="w"> </span><span class="m">15</span>
 </code></pre></div>
 <h3 id="hands-on-assignment">Hands-On Assignment<a class="headerlink" href="#hands-on-assignment" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Computational assignment with code</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">&quot;Data Wrangling&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">4</span><span class="w"> </span>--code<span class="w"> </span>--practice-problems<span class="w"> </span>--points<span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>teach<span class="w"> </span>assignment<span class="w"> </span><span class="s2">"Data Wrangling"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">4</span><span class="w"> </span>--code<span class="w"> </span>--practice-problems<span class="w"> </span>--points<span class="w"> </span><span class="m">50</span>
 </code></pre></div>
 <hr />
 <h2 id="flag-combinations">Flag Combinations<a class="headerlink" href="#flag-combinations" title="Permanent link">&para;</a></h2>
 <p>Recommended flag combinations for common teaching scenarios.</p>
 <h3 id="intro-course-conceptual-focus">Intro Course (Conceptual Focus)<a class="headerlink" href="#intro-course-conceptual-focus" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Week 1: Conceptual foundation</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Statistical Thinking&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">1</span><span class="w"> </span>--style<span class="w"> </span>conceptual<span class="w"> </span>--examples
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Statistical Thinking"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">1</span><span class="w"> </span>--style<span class="w"> </span>conceptual<span class="w"> </span>--examples
 <a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
 <a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Week 2: Add some rigor</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Probability Basics&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">2</span><span class="w"> </span>--style<span class="w"> </span>conceptual<span class="w"> </span>--math<span class="w"> </span>--definitions
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Probability Basics"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">2</span><span class="w"> </span>--style<span class="w"> </span>conceptual<span class="w"> </span>--math<span class="w"> </span>--definitions
 </code></pre></div>
 <h3 id="computational-course-rpython">Computational Course (R/Python)<a class="headerlink" href="#computational-course-rpython" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Lab session with code</span>
-<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Data Manipulation&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">3</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--code<span class="w"> </span>--practice-problems
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Data Manipulation"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">3</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--code<span class="w"> </span>--practice-problems
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
 <a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># No practice problems (lecture only)</span>
-<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Advanced Plotting&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">4</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--no-practice-problems
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Advanced Plotting"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">4</span><span class="w"> </span>--style<span class="w"> </span>computational<span class="w"> </span>--no-practice-problems
 </code></pre></div>
 <h3 id="theory-course-math-heavy">Theory Course (Math-Heavy)<a class="headerlink" href="#theory-course-math-heavy" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Rigorous proof-based lecture</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Measure Theory&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">5</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--proof<span class="w"> </span>--math<span class="w"> </span>--no-examples
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Measure Theory"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">5</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--proof<span class="w"> </span>--math<span class="w"> </span>--no-examples
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Rigorous with computational examples</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Asymptotic Theory&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">6</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--code<span class="w"> </span>--examples
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Asymptotic Theory"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">6</span><span class="w"> </span>--style<span class="w"> </span>rigorous<span class="w"> </span>--code<span class="w"> </span>--examples
 </code></pre></div>
 <h3 id="applied-course-real-world">Applied Course (Real-World)<a class="headerlink" href="#applied-course-real-world" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Case study with applications</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;A/B Testing&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">7</span><span class="w"> </span>--style<span class="w"> </span>applied<span class="w"> </span>--code<span class="w"> </span>--diagrams
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"A/B Testing"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">7</span><span class="w"> </span>--style<span class="w"> </span>applied<span class="w"> </span>--code<span class="w"> </span>--diagrams
 <a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
 <a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># No code (conceptual case study)</span>
-<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Experimental Design&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">8</span><span class="w"> </span>--style<span class="w"> </span>applied<span class="w"> </span>--no-code<span class="w"> </span>--examples
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Experimental Design"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">8</span><span class="w"> </span>--style<span class="w"> </span>applied<span class="w"> </span>--no-code<span class="w"> </span>--examples
 </code></pre></div>
 <h3 id="exam-preparation">Exam Preparation<a class="headerlink" href="#exam-preparation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Conceptual review exam (definitions + explanations)</span>
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Midterm Review&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span><span class="w"> </span>--explanation<span class="w"> </span>--definitions<span class="w"> </span>--duration<span class="w"> </span><span class="m">90</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Midterm Review"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">10</span><span class="w"> </span>--explanation<span class="w"> </span>--definitions<span class="w"> </span>--duration<span class="w"> </span><span class="m">90</span>
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Computational exam (code + calculations)</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;R Programming Exam&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">8</span><span class="w"> </span>--code<span class="w"> </span>--examples<span class="w"> </span>--duration<span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"R Programming Exam"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">8</span><span class="w"> </span>--code<span class="w"> </span>--examples<span class="w"> </span>--duration<span class="w"> </span><span class="m">60</span>
 <a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>
 <a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="c1"># Rigorous exam (proofs + math)</span>
-<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Probability Theory&quot;</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">6</span><span class="w"> </span>--math<span class="w"> </span>--proof<span class="w"> </span>--duration<span class="w"> </span><span class="m">120</span><span class="w"> </span>--style<span class="w"> </span>rigorous
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Probability Theory"</span><span class="w"> </span>--questions<span class="w"> </span><span class="m">6</span><span class="w"> </span>--math<span class="w"> </span>--proof<span class="w"> </span>--duration<span class="w"> </span><span class="m">120</span><span class="w"> </span>--style<span class="w"> </span>rigorous
 </code></pre></div>
 <h3 id="slide-optimization-workflows">Slide Optimization Workflows<a class="headerlink" href="#slide-optimization-workflows" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Preview suggested breaks</span>
@@ -10550,7 +10578,7 @@
 <a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="k">Select</span><span class="w"> </span><span class="n">week</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">16</span><span class="p">):</span>
 <a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span>
 <a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>
-<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="n">Topic</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">lesson</span><span class="w"> </span><span class="n">plan</span><span class="p">:</span><span class="w"> </span><span class="ss">&quot;Linear Regression&quot;</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="n">Topic</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">lesson</span><span class="w"> </span><span class="n">plan</span><span class="p">:</span><span class="w"> </span><span class="ss">"Linear Regression"</span>
 <a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="n">Use</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">topic</span><span class="o">?</span><span class="w"> </span><span class="p">[</span><span class="n">Y</span><span class="o">/</span><span class="n">n</span><span class="p">]</span>
 <a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span>
 <a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>
@@ -10581,18 +10609,18 @@
 <a id="__codelineno-27-36" name="__codelineno-27-36" href="#__codelineno-27-36"></a><span class="n">Generate</span><span class="w"> </span><span class="n">lecture</span><span class="o">?</span><span class="w"> </span><span class="p">[</span><span class="n">Y</span><span class="o">/</span><span class="n">n</span><span class="p">]</span>
 <a id="__codelineno-27-37" name="__codelineno-27-37" href="#__codelineno-27-37"></a><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span>
 <a id="__codelineno-27-38" name="__codelineno-27-38" href="#__codelineno-27-38"></a>
-<a id="__codelineno-27-39" name="__codelineno-27-39" href="#__codelineno-27-39"></a><span class="err">🎓</span><span class="w"> </span><span class="n">Generating</span><span class="w"> </span><span class="n">lecture</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="ss">&quot;Linear Regression&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">Week</span><span class="w"> </span><span class="mi">5</span><span class="p">)...</span>
+<a id="__codelineno-27-39" name="__codelineno-27-39" href="#__codelineno-27-39"></a><span class="err">🎓</span><span class="w"> </span><span class="n">Generating</span><span class="w"> </span><span class="n">lecture</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="ss">"Linear Regression"</span><span class="w"> </span><span class="p">(</span><span class="n">Week</span><span class="w"> </span><span class="mi">5</span><span class="p">)...</span>
 </code></pre></div>
 <hr />
 <h2 id="flag-validation-error-messages">Flag Validation &amp; Error Messages<a class="headerlink" href="#flag-validation-error-messages" title="Permanent link">&para;</a></h2>
 <h3 id="conflict-detection">Conflict Detection<a class="headerlink" href="#conflict-detection" title="Permanent link">&para;</a></h3>
 <p>Using both a flag and its negation triggers an error:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>$<span class="w"> </span>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--math<span class="w"> </span>--no-math
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>$<span class="w"> </span>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--math<span class="w"> </span>--no-math
 <a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>❌<span class="w"> </span>Conflicting<span class="w"> </span>flags:<span class="w"> </span>--math<span class="w"> </span>and<span class="w"> </span>--no-math
 </code></pre></div>
 <h3 id="invalid-style">Invalid Style<a class="headerlink" href="#invalid-style" title="Permanent link">&para;</a></h3>
 <p>Unknown style preset:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>$<span class="w"> </span>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--style<span class="w"> </span>advanced
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>$<span class="w"> </span>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--style<span class="w"> </span>advanced
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>❌<span class="w"> </span>Unknown<span class="w"> </span>style<span class="w"> </span>preset:<span class="w"> </span>advanced
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>Valid<span class="w"> </span>styles:<span class="w"> </span>conceptual,<span class="w"> </span>computational,<span class="w"> </span>rigorous,<span class="w"> </span>applied
 </code></pre></div>
@@ -10600,14 +10628,14 @@
 <p>Week without topic (and no lesson plan):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>$<span class="w"> </span>teach<span class="w"> </span>lecture<span class="w"> </span>--week<span class="w"> </span><span class="m">99</span>
 <a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>❌<span class="w"> </span>Week<span class="w"> </span><span class="m">99</span><span class="w"> </span>not<span class="w"> </span>found<span class="w"> </span><span class="k">in</span><span class="w"> </span>lesson<span class="w"> </span>plans
-<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>Hint:<span class="w"> </span>Run<span class="w"> </span><span class="s1">&#39;teach plan create 99 --topic &quot;Your Topic&quot;&#39;</span><span class="w"> </span>first
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>Hint:<span class="w"> </span>Run<span class="w"> </span><span class="s1">'teach plan create 99 --topic "Your Topic"'</span><span class="w"> </span>first
 </code></pre></div>
 <hr />
 <h2 id="advanced-usage-template-prompt-integration">Advanced Usage: Template &amp; Prompt Integration<a class="headerlink" href="#advanced-usage-template-prompt-integration" title="Permanent link">&para;</a></h2>
 <h3 id="custom-templates-v610">Custom Templates (v6.1.0+)<a class="headerlink" href="#custom-templates-v610" title="Permanent link">&para;</a></h3>
 <p>Override default template with <code>--template</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Use custom template from .flow/templates/content/</span>
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--template<span class="w"> </span>detailed<span class="w"> </span>--week<span class="w"> </span><span class="m">8</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--template<span class="w"> </span>detailed<span class="w"> </span>--week<span class="w"> </span><span class="m">8</span>
 </code></pre></div>
 <p><strong>Template Resolution:</strong>
 1. <code>.flow/templates/content/&lt;type&gt;/&lt;name&gt;.qmd</code> (project-local)
@@ -10616,7 +10644,7 @@
 <h3 id="custom-prompts-v610">Custom Prompts (v6.1.0+)<a class="headerlink" href="#custom-prompts-v610" title="Permanent link">&para;</a></h3>
 <p>Auto-inject course-specific prompts:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># Prompts auto-resolved by 3-tier system</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;Regression&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"Regression"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">5</span>
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Resolution order:</span>
 <a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="c1"># 1. .flow/prompts/lecture.md (course-specific)</span>
@@ -10632,8 +10660,8 @@
 <h2 id="integration-with-other-commands">Integration with Other Commands<a class="headerlink" href="#integration-with-other-commands" title="Permanent link">&para;</a></h2>
 <h3 id="lesson-plans">Lesson Plans<a class="headerlink" href="#lesson-plans" title="Permanent link">&para;</a></h3>
 <p>When <code>--week</code> is specified, Scholar wrappers automatically load from <code>.flow/lesson-plans.yml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Plan defines: topic=&quot;ANOVA&quot;, style=&quot;computational&quot;</span>
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">8</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Plan defines: topic="ANOVA", style="computational"</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>teach<span class="w"> </span>plan<span class="w"> </span>create<span class="w"> </span><span class="m">8</span><span class="w"> </span>--topic<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--style<span class="w"> </span>computational
 <a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
 <a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># Auto-uses plan data (no need to specify topic/style)</span>
 <a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>teach<span class="w"> </span>lecture<span class="w"> </span>--week<span class="w"> </span><span class="m">8</span>
@@ -10650,7 +10678,7 @@
 <a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>teach<span class="w"> </span>macros<span class="w"> </span>sync
 <a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
 <a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># Generate exam (auto-injects _macros.qmd)</span>
-<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">&quot;Linear Models&quot;</span><span class="w"> </span>--math<span class="w"> </span>--week<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>teach<span class="w"> </span>exam<span class="w"> </span><span class="s2">"Linear Models"</span><span class="w"> </span>--math<span class="w"> </span>--week<span class="w"> </span><span class="m">5</span>
 </code></pre></div>
 <p><strong>Ensures:</strong>
 - <code>\E{Y}</code> instead of <code>E[Y]</code> or <code>\mathbb{E}[Y]</code>
@@ -10744,7 +10772,7 @@
 </table>
 <h3 id="debugging">Debugging<a class="headerlink" href="#debugging" title="Permanent link">&para;</a></h3>
 <p>Enable verbose mode for detailed execution info:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--verbose
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--verbose
 </code></pre></div>
 <p><strong>Output includes:</strong>
 - Resolved flags and style
@@ -10754,7 +10782,7 @@
 - File generation status</p>
 <h3 id="dry-run">Dry Run<a class="headerlink" href="#dry-run" title="Permanent link">&para;</a></h3>
 <p>Preview Scholar command without execution:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">&quot;ANOVA&quot;</span><span class="w"> </span>--week<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dry-run
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>teach<span class="w"> </span>lecture<span class="w"> </span><span class="s2">"ANOVA"</span><span class="w"> </span>--week<span class="w"> </span><span class="m">8</span><span class="w"> </span>--dry-run
 </code></pre></div>
 <p><strong>Shows:</strong>
 - Final Scholar command
@@ -10853,7 +10881,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

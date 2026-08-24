@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7308,6 +7308,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9494,7 +9522,7 @@
 </ul>
 <p><strong>Verify your setup:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check you have multiple projects</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;ACTIVE|READY&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"ACTIVE|READY"</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Should see at least 2-3 projects</span>
 </code></pre></div>
@@ -9582,7 +9610,7 @@
 </ul>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Count active projects</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;ACTIVE NOW&quot;</span><span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;%&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"ACTIVE NOW"</span><span class="w"> </span>-A<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">"%"</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Expected: Number of your active projects (should be 2-4 ideally)</span>
 </code></pre></div>
 <hr />
@@ -9660,7 +9688,7 @@
 </ul>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">pwd</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># Expected: You&#39;re in a different project than you started</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="c1"># Expected: You're in a different project than you started</span>
 </code></pre></div>
 <hr />
 <h2 id="part-3-managing-project-states">Part 3: Managing Project States<a class="headerlink" href="#part-3-managing-project-states" title="Permanent link">&para;</a></h2>
@@ -9685,15 +9713,15 @@
 <a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>✅ Updated!
 </code></pre></div>
 <p>Or quick mode:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>status<span class="w"> </span>medfit<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Resume later&quot;</span><span class="w"> </span><span class="m">30</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>status<span class="w"> </span>medfit<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Resume later"</span><span class="w"> </span><span class="m">30</span>
 </code></pre></div>
 <h3 id="step-32-reactivate-projects">Step 3.2: Reactivate Projects<a class="headerlink" href="#step-32-reactivate-projects" title="Permanent link">&para;</a></h3>
 <p>When ready to resume:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>status<span class="w"> </span>medfit<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Add package vignettes&quot;</span><span class="w"> </span><span class="m">30</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>status<span class="w"> </span>medfit<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Add package vignettes"</span><span class="w"> </span><span class="m">30</span>
 </code></pre></div>
 <h3 id="step-33-mark-projects-as-blocked">Step 3.3: Mark Projects as Blocked<a class="headerlink" href="#step-33-mark-projects-as-blocked" title="Permanent link">&para;</a></h3>
 <p>If waiting on something:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>status<span class="w"> </span>collider<span class="w"> </span>blocked<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Waiting for reviewer comments&quot;</span><span class="w"> </span><span class="m">90</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>status<span class="w"> </span>collider<span class="w"> </span>blocked<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Waiting for reviewer comments"</span><span class="w"> </span><span class="m">90</span>
 </code></pre></div>
 <p><strong>What happened:</strong> Project moves to BLOCKED section in dashboard:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>🚫 BLOCKED (1):
@@ -9702,13 +9730,13 @@
 <h3 id="step-34-set-realistic-priorities">Step 3.4: Set Realistic Priorities<a class="headerlink" href="#step-34-set-realistic-priorities" title="Permanent link">&para;</a></h3>
 <p>Review and adjust priorities:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Critical (do today)</span>
-<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Final simulations&quot;</span><span class="w"> </span><span class="m">85</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Final simulations"</span><span class="w"> </span><span class="m">85</span>
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Important (this week)</span>
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>status<span class="w"> </span>product-of-three<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Review sims&quot;</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>status<span class="w"> </span>product-of-three<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Review sims"</span><span class="w"> </span><span class="m">60</span>
 <a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
 <a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># Normal (when you can)</span>
-<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>status<span class="w"> </span>medfit<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Resume later&quot;</span><span class="w"> </span><span class="m">30</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>status<span class="w"> </span>medfit<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Resume later"</span><span class="w"> </span><span class="m">30</span>
 </code></pre></div>
 <p><strong>Priority guidelines:</strong></p>
 <table>
@@ -9779,7 +9807,7 @@
 <a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>f50
 <a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>
 <a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="c1"># 4. Work, then update</span>
-<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Completed analysis&quot;</span><span class="w"> </span><span class="m">95</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Completed analysis"</span><span class="w"> </span><span class="m">95</span>
 </code></pre></div>
 <p><strong>Time:</strong> &lt;20 seconds
 <strong>Result:</strong> Focused research session</p>
@@ -9796,8 +9824,8 @@
 <a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>rdoc
 <a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>
 <a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="c1"># 4. Commit progress</span>
-<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>gaa<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>gcmsg<span class="w"> </span><span class="s2">&quot;feat: add new mediator&quot;</span>
-<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Testing complete&quot;</span><span class="w"> </span><span class="m">90</span>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>gaa<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>gcmsg<span class="w"> </span><span class="s2">"feat: add new mediator"</span>
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Testing complete"</span><span class="w"> </span><span class="m">90</span>
 </code></pre></div>
 <p><strong>Time:</strong> Varies by development
 <strong>Result:</strong> Incremental package progress</p>
@@ -9811,19 +9839,19 @@
 <a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>dash<span class="w"> </span>packages
 <a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>
 <a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="c1"># 3. Update all statuses</span>
-<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>status<span class="w"> </span>stat-440<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Grade finals&quot;</span><span class="w"> </span><span class="m">80</span>
-<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>status<span class="w"> </span>collider<span class="w"> </span>blocked<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Waiting&quot;</span><span class="w"> </span><span class="m">90</span>
-<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Almost done&quot;</span><span class="w"> </span><span class="m">95</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>status<span class="w"> </span>stat-440<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Grade finals"</span><span class="w"> </span><span class="m">80</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>status<span class="w"> </span>collider<span class="w"> </span>blocked<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Waiting"</span><span class="w"> </span><span class="m">90</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Almost done"</span><span class="w"> </span><span class="m">95</span>
 <a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>
-<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="c1"># 4. Pause what you can&#39;t do this week</span>
-<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a>status<span class="w"> </span>medfit<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Next week&quot;</span><span class="w"> </span><span class="m">30</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="c1"># 4. Pause what you can't do this week</span>
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a>status<span class="w"> </span>medfit<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Next week"</span><span class="w"> </span><span class="m">30</span>
 </code></pre></div>
 <p><strong>Time:</strong> 5-10 minutes weekly
 <strong>Result:</strong> Realistic priorities set</p>
 <h3 id="workflow-5-context-switching">Workflow 5: Context Switching<a class="headerlink" href="#workflow-5-context-switching" title="Permanent link">&para;</a></h3>
 <p>When interrupted:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># 1. Update current project</span>
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>status<span class="w"> </span>.<span class="w"> </span>paused<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Resume after meeting&quot;</span><span class="w"> </span><span class="m">75</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>status<span class="w"> </span>.<span class="w"> </span>paused<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Resume after meeting"</span><span class="w"> </span><span class="m">75</span>
 <a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
 <a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># 2. Switch to urgent task</span>
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>just-start
@@ -9834,7 +9862,7 @@
 <a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>
 <a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="c1"># 4. Return to original</span>
 <a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>work<span class="w"> </span>mediationverse
-<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Resume work&quot;</span><span class="w"> </span><span class="m">75</span>
+<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Resume work"</span><span class="w"> </span><span class="m">75</span>
 </code></pre></div>
 <hr />
 <h2 id="exercises">Exercises<a class="headerlink" href="#exercises" title="Permanent link">&para;</a></h2>
@@ -9855,13 +9883,13 @@ Run `dash`, count active projects. Pause anything not P0/P1 or not immediately a
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>dash
 <a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
 <a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># 2. Pause low-priority active projects</span>
-<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>status<span class="w"> </span>medfit<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Do later&quot;</span><span class="w"> </span><span class="m">30</span>
-<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>status<span class="w"> </span>causal-inference<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Next semester&quot;</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>status<span class="w"> </span>medfit<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Do later"</span><span class="w"> </span><span class="m">30</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>status<span class="w"> </span>causal-inference<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Next semester"</span><span class="w"> </span><span class="m">0</span>
 <a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
 <a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="c1"># 3. Keep only critical/important active</span>
-<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Final push&quot;</span><span class="w"> </span><span class="m">85</span>
-<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>status<span class="w"> </span>stat-440<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Urgent grading&quot;</span><span class="w"> </span><span class="m">60</span>
-<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>status<span class="w"> </span>flow-cli<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Documentation&quot;</span><span class="w"> </span><span class="m">95</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>status<span class="w"> </span>mediationverse<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Final push"</span><span class="w"> </span><span class="m">85</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>status<span class="w"> </span>stat-440<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Urgent grading"</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>status<span class="w"> </span>flow-cli<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Documentation"</span><span class="w"> </span><span class="m">95</span>
 <a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>
 <a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="c1"># 4. Verify</span>
 <a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>dash
@@ -9880,21 +9908,21 @@ Run `dash`, count active projects. Pause anything not P0/P1 or not immediately a
 <a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>work<span class="w"> </span>stat-440
 <a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>f50
 <a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="c1"># ... work ...</span>
-<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Graded 20 exams&quot;</span><span class="w"> </span><span class="m">70</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Graded 20 exams"</span><span class="w"> </span><span class="m">70</span>
 <a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>
 <a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="c1"># Afternoon: Research focus</span>
 <a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>dash<span class="w"> </span>research
 <a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>work<span class="w"> </span>collider
 <a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a>f50
 <a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a><span class="c1"># ... work ...</span>
-<a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Finished analysis&quot;</span><span class="w"> </span><span class="m">95</span>
+<a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Finished analysis"</span><span class="w"> </span><span class="m">95</span>
 <a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a>
 <a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a><span class="c1"># Evening: Package development</span>
 <a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a>dash<span class="w"> </span>packages
 <a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a>work<span class="w"> </span>mediationverse
 <a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a>f25
 <a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a><span class="c1"># ... work ...</span>
-<a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;All tests pass&quot;</span><span class="w"> </span><span class="m">90</span>
+<a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"All tests pass"</span><span class="w"> </span><span class="m">90</span>
 </code></pre></div>
 
 </details>
@@ -9906,24 +9934,24 @@ Run `dash`, count active projects. Pause anything not P0/P1 or not immediately a
 
 <div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># 1. Pause current project</span>
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="nb">cd</span><span class="w"> </span>~/projects/current-project
-<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>status<span class="w"> </span>.<span class="w"> </span>paused<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Emergency interrupt - resume ASAP&quot;</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>status<span class="w"> </span>.<span class="w"> </span>paused<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Emergency interrupt - resume ASAP"</span><span class="w"> </span><span class="m">60</span>
 <a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>
 <a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="c1"># 2. Create new urgent project</span>
 <a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="nb">cd</span><span class="w"> </span>~/projects/urgent-project
 <a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>status<span class="w"> </span>urgent-project<span class="w"> </span>--create
-<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>status<span class="w"> </span>urgent-project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Critical fix&quot;</span><span class="w"> </span><span class="m">0</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>status<span class="w"> </span>urgent-project<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Critical fix"</span><span class="w"> </span><span class="m">0</span>
 <a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>
 <a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="c1"># 3. Work on it</span>
 <a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>work<span class="w"> </span>.
 <a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a><span class="c1"># ... fix the issue ...</span>
-<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">&quot;Fixed critical bug&quot;</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P0<span class="w"> </span><span class="s2">"Fixed critical bug"</span><span class="w"> </span><span class="m">100</span>
 <a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a>
 <a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a><span class="c1"># 4. Mark complete and return</span>
-<a id="__codelineno-31-16" name="__codelineno-31-16" href="#__codelineno-31-16"></a>status<span class="w"> </span>.<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Done - archive if needed&quot;</span><span class="w"> </span><span class="m">100</span>
+<a id="__codelineno-31-16" name="__codelineno-31-16" href="#__codelineno-31-16"></a>status<span class="w"> </span>.<span class="w"> </span>ready<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Done - archive if needed"</span><span class="w"> </span><span class="m">100</span>
 <a id="__codelineno-31-17" name="__codelineno-31-17" href="#__codelineno-31-17"></a>
 <a id="__codelineno-31-18" name="__codelineno-31-18" href="#__codelineno-31-18"></a><span class="c1"># 5. Resume original work</span>
 <a id="__codelineno-31-19" name="__codelineno-31-19" href="#__codelineno-31-19"></a>work<span class="w"> </span>current-project
-<a id="__codelineno-31-20" name="__codelineno-31-20" href="#__codelineno-31-20"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">&quot;Resume work&quot;</span><span class="w"> </span><span class="m">60</span>
+<a id="__codelineno-31-20" name="__codelineno-31-20" href="#__codelineno-31-20"></a>status<span class="w"> </span>.<span class="w"> </span>active<span class="w"> </span>P1<span class="w"> </span><span class="s2">"Resume work"</span><span class="w"> </span><span class="m">60</span>
 </code></pre></div>
 
 </details>
@@ -9937,7 +9965,7 @@ Run `dash`, count active projects. Pause anything not P0/P1 or not immediately a
 <a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>dash<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>ACTIVE
 <a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="c1"># Pick 2-3 most important</span>
 <a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># Pause the rest</span>
-<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>status<span class="w"> </span>project-name<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">&quot;Do later&quot;</span><span class="w"> </span>X
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>status<span class="w"> </span>project-name<span class="w"> </span>paused<span class="w"> </span>P2<span class="w"> </span><span class="s2">"Do later"</span><span class="w"> </span>X
 </code></pre></div>
 <h3 id="cant-decide-what-to-work-on">"Can't decide what to work on"<a class="headerlink" href="#cant-decide-what-to-work-on" title="Permanent link">&para;</a></h3>
 <p><strong>Cause:</strong> Unclear priorities</p>
@@ -10119,7 +10147,7 @@ Run `dash`, count active projects. Pause anything not P0/P1 or not immediately a
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7431,6 +7431,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9844,7 +9872,7 @@
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>───────────────────────────────────────────
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="gu">@@ -10,6 +10,7 @@</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w"> </span>export PATH=$HOME/bin:$PATH
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="gi">+export MY_NEW_VAR=&quot;hello&quot;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="gi">+export MY_NEW_VAR="hello"</span>
 <a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>───────────────────────────────────────────
 <a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
 <a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>ℹ Apply changes?
@@ -9950,7 +9978,7 @@
 <p><strong>Output:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>Enter secret value: [hidden input]
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>✓ Secret &#39;github-token&#39; stored in Keychain
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>✓ Secret 'github-token' stored in Keychain
 </code></pre></div>
 <h3 id="retrieve-a-secret">Retrieve a Secret<a class="headerlink" href="#retrieve-a-secret" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Get a secret (Touch ID prompt may appear)</span>
@@ -9972,18 +10000,18 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>sec<span class="w"> </span>delete<span class="w"> </span>old-token
 </code></pre></div>
 <p><strong>Output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>✓ Secret &#39;old-token&#39; deleted
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>✓ Secret 'old-token' deleted
 </code></pre></div>
 <h3 id="import-from-bitwarden-one-time-migration">Import from Bitwarden (One-Time Migration)<a class="headerlink" href="#import-from-bitwarden-one-time-migration" title="Permanent link">&para;</a></h3>
 <p>If you have secrets in Bitwarden, you can import them to Keychain:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Unlock Bitwarden first</span>
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>sec<span class="w"> </span>unlock
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Import all secrets from &#39;flow-cli-secrets&#39; folder</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># Import all secrets from 'flow-cli-secrets' folder</span>
 <a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>sec<span class="w"> </span>import
 </code></pre></div>
 <p><strong>Output:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>ℹ Import secrets from Bitwarden folder &#39;flow-cli-secrets&#39;?
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>ℹ Import secrets from Bitwarden folder 'flow-cli-secrets'?
 <a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>Continue? [y/N] y
 <a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
 <a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>✓ Imported: github-token
@@ -10012,7 +10040,7 @@
 <a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>✓<span class="w"> </span>Vault<span class="w"> </span>unlocked<span class="w"> </span>successfully
 <a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>
 <a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">  </span>Session<span class="w"> </span>active<span class="w"> </span><span class="k">in</span><span class="w"> </span>this<span class="w"> </span>shell<span class="w"> </span>only
-<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>ℹ<span class="w"> </span>Use<span class="w"> </span><span class="s1">&#39;sec &lt;name&gt;&#39;</span><span class="w"> </span>to<span class="w"> </span>retrieve<span class="w"> </span>secrets
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>ℹ<span class="w"> </span>Use<span class="w"> </span><span class="s1">'sec &lt;name&gt;'</span><span class="w"> </span>to<span class="w"> </span>retrieve<span class="w"> </span>secrets
 </code></pre></div>
 <h3 id="list-secrets">List Secrets<a class="headerlink" href="#list-secrets" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>sec<span class="w"> </span>list
@@ -10032,14 +10060,14 @@
 <a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span>
 <a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
 <a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1"># Use in a command</span>
-<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span>https://api.github.com/user
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span>https://api.github.com/user
 </code></pre></div>
 <h3 id="using-secrets-in-templates">Using Secrets in Templates<a class="headerlink" href="#using-secrets-in-templates" title="Permanent link">&para;</a></h3>
 <p>Create a template file in chezmoi:</p>
 <p><strong>File:</strong> <code>~/.local/share/chezmoi/dot_zshrc.tmpl</code></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># API Keys (from Bitwarden)</span>
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>github-token<span class="s2">&quot; }}&quot;</span>
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">&quot;{{ bitwarden &quot;</span>item<span class="s2">&quot; &quot;</span>anthropic-api-key<span class="s2">&quot; }}&quot;</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">"{{ bitwarden "</span>item<span class="s2">" "</span>github-token<span class="s2">" }}"</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">"{{ bitwarden "</span>item<span class="s2">" "</span>anthropic-api-key<span class="s2">" }}"</span>
 </code></pre></div>
 <p><strong>Apply with secrets:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Unlock vault first</span>
@@ -10078,7 +10106,7 @@
 <a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a><span class="err">ℹ</span><span class="w"> </span><span class="n">Setting</span><span class="w"> </span><span class="n">expiration</span><span class="p">...</span>
 <a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a><span class="w">  </span><span class="n">Expires</span><span class="p">:</span><span class="w"> </span><span class="mi">2026</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">10</span><span class="w"> </span><span class="p">(</span><span class="mi">90</span><span class="w"> </span><span class="n">days</span><span class="p">)</span>
 <a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a>
-<a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a><span class="err">✓</span><span class="w"> </span><span class="n">Stored</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s1">&#39;github-token&#39;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">Bitwarden</span>
+<a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a><span class="err">✓</span><span class="w"> </span><span class="n">Stored</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="s1">'github-token'</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">Bitwarden</span>
 <a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a>
 <a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a><span class="err">💡</span><span class="w"> </span><span class="n">Tip</span><span class="p">:</span><span class="w"> </span><span class="n">tok</span><span class="w"> </span><span class="n">github</span><span class="o">-</span><span class="n">token</span><span class="w"> </span><span class="c1">--refresh to rotate later</span>
 </code></pre></div>
@@ -10120,7 +10148,7 @@
 <a id="__codelineno-39-10" name="__codelineno-39-10" href="#__codelineno-39-10"></a>✓<span class="w"> </span>Token<span class="w"> </span>validated!
 <a id="__codelineno-39-11" name="__codelineno-39-11" href="#__codelineno-39-11"></a><span class="w">  </span>Scope:<span class="w"> </span>project:mypackage
 <a id="__codelineno-39-12" name="__codelineno-39-12" href="#__codelineno-39-12"></a>
-<a id="__codelineno-39-13" name="__codelineno-39-13" href="#__codelineno-39-13"></a>✓<span class="w"> </span>Updated<span class="w"> </span><span class="s1">&#39;pypi-token&#39;</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>Bitwarden
+<a id="__codelineno-39-13" name="__codelineno-39-13" href="#__codelineno-39-13"></a>✓<span class="w"> </span>Updated<span class="w"> </span><span class="s1">'pypi-token'</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>Bitwarden
 <a id="__codelineno-39-14" name="__codelineno-39-14" href="#__codelineno-39-14"></a><span class="w">  </span>New<span class="w"> </span>expiration:<span class="w"> </span><span class="m">2026</span>-04-10<span class="w"> </span><span class="o">(</span><span class="m">90</span><span class="w"> </span>days<span class="o">)</span>
 <a id="__codelineno-39-15" name="__codelineno-39-15" href="#__codelineno-39-15"></a>
 <a id="__codelineno-39-16" name="__codelineno-39-16" href="#__codelineno-39-16"></a>⚠️<span class="w">  </span>Remember<span class="w"> </span>to<span class="w"> </span>revoke<span class="w"> </span>the<span class="w"> </span>old<span class="w"> </span>token<span class="w"> </span>at:
@@ -10153,19 +10181,19 @@
 <a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>
 <a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="w">  </span>Contents:
 <a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="w">  </span>─────────────────────────────────
-<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span><span class="s2">&quot;</span>
-<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">NPM_TOKEN</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>sec<span class="w"> </span>npm-token<span class="k">)</span><span class="s2">&quot;</span>
-<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>sec<span class="w"> </span>anthropic-api-key<span class="k">)</span><span class="s2">&quot;</span>
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>sec<span class="w"> </span>github-token<span class="k">)</span><span class="s2">"</span>
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">NPM_TOKEN</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>sec<span class="w"> </span>npm-token<span class="k">)</span><span class="s2">"</span>
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">ANTHROPIC_API_KEY</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>sec<span class="w"> </span>anthropic-api-key<span class="k">)</span><span class="s2">"</span>
 <a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a><span class="w">  </span>─────────────────────────────────
 <a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a>
-<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>💡<span class="w"> </span>Run<span class="w"> </span><span class="s1">&#39;direnv allow&#39;</span><span class="w"> </span>to<span class="w"> </span>activate
+<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>💡<span class="w"> </span>Run<span class="w"> </span><span class="s1">'direnv allow'</span><span class="w"> </span>to<span class="w"> </span>activate
 </code></pre></div>
 <hr />
 <h2 id="part-8-error-handling">Part 8: Error Handling<a class="headerlink" href="#part-8-error-handling" title="Permanent link">&para;</a></h2>
 <h3 id="common-errors">Common Errors<a class="headerlink" href="#common-errors" title="Permanent link">&para;</a></h3>
 <p><strong>File not tracked:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>✗ File not found in managed dotfiles: .zshrc
-<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>ℹ Use &#39;chezmoi add &lt;file&gt;&#39; to start tracking a new file
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>ℹ Use 'chezmoi add &lt;file&gt;' to start tracking a new file
 </code></pre></div>
 <p><strong>Vault locked:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>✗ Bitwarden vault is locked
@@ -10173,7 +10201,7 @@
 </code></pre></div>
 <p><strong>Secret not found:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>✗ Secret not found: wrong-name
-<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>Tip: Use &#39;sec list&#39; to see available items
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>Tip: Use 'sec list' to see available items
 </code></pre></div>
 <p><strong>Session expired:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>✗ Session expired
@@ -10324,7 +10352,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

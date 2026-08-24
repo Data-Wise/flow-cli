@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -6812,6 +6812,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9565,8 +9593,8 @@
 - <code>_teach_validate_content_flags()</code> - Conflict detection
 - <code>_teach_parse_topic_week()</code> - Topic/week extraction</p>
 <p><strong>Global State:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">TEACH_TOPIC</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">        </span><span class="c1"># Explicit topic string</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">TEACH_WEEK</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">         </span><span class="c1"># Week number</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">TEACH_TOPIC</span><span class="o">=</span><span class="s2">""</span><span class="w">        </span><span class="c1"># Explicit topic string</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">TEACH_WEEK</span><span class="o">=</span><span class="s2">""</span><span class="w">         </span><span class="c1"># Week number</span>
 </code></pre></div>
 <h3 id="phase-2-preset-system">Phase 2: Preset System<a class="headerlink" href="#phase-2-preset-system" title="Permanent link">&para;</a></h3>
 <p><strong>Purpose:</strong> Resolve content from style presets and overrides</p>
@@ -9586,7 +9614,7 @@
 - <code>_teach_resolve_content()</code> - Content resolution algorithm
 - <code>_teach_build_content_instructions()</code> - Instruction builder</p>
 <p><strong>Global State:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">TEACH_CONTENT_RESOLVED</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># Space-separated content list</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">TEACH_CONTENT_RESOLVED</span><span class="o">=</span><span class="s2">""</span><span class="w">  </span><span class="c1"># Space-separated content list</span>
 </code></pre></div>
 <p><strong>Resolution Algorithm:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="m">1</span>.<span class="w"> </span>Initialize<span class="w"> </span><span class="nv">content_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[]</span>
@@ -9620,13 +9648,13 @@
 - <code>_teach_prompt_missing_plan()</code> - User confirmation
 - <code>_teach_integrate_lesson_plan()</code> - Main orchestrator</p>
 <p><strong>Global State:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">TEACH_PLAN_TOPIC</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">           </span><span class="c1"># Topic from plan</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">TEACH_PLAN_STYLE</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">           </span><span class="c1"># Style from plan</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nv">TEACH_PLAN_OBJECTIVES</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">      </span><span class="c1"># Pipe-separated</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nv">TEACH_PLAN_SUBTOPICS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">       </span><span class="c1"># Pipe-separated</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nv">TEACH_PLAN_KEY_CONCEPTS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">    </span><span class="c1"># Pipe-separated</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nv">TEACH_PLAN_PREREQUISITES</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">   </span><span class="c1"># Pipe-separated</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nv">TEACH_RESOLVED_STYLE</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">       </span><span class="c1"># Final style</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">TEACH_PLAN_TOPIC</span><span class="o">=</span><span class="s2">""</span><span class="w">           </span><span class="c1"># Topic from plan</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nv">TEACH_PLAN_STYLE</span><span class="o">=</span><span class="s2">""</span><span class="w">           </span><span class="c1"># Style from plan</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nv">TEACH_PLAN_OBJECTIVES</span><span class="o">=</span><span class="s2">""</span><span class="w">      </span><span class="c1"># Pipe-separated</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nv">TEACH_PLAN_SUBTOPICS</span><span class="o">=</span><span class="s2">""</span><span class="w">       </span><span class="c1"># Pipe-separated</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nv">TEACH_PLAN_KEY_CONCEPTS</span><span class="o">=</span><span class="s2">""</span><span class="w">    </span><span class="c1"># Pipe-separated</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="nv">TEACH_PLAN_PREREQUISITES</span><span class="o">=</span><span class="s2">""</span><span class="w">   </span><span class="c1"># Pipe-separated</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="nv">TEACH_RESOLVED_STYLE</span><span class="o">=</span><span class="s2">""</span><span class="w">       </span><span class="c1"># Final style</span>
 </code></pre></div>
 <h3 id="phase-4-interactive-mode">Phase 4: Interactive Mode<a class="headerlink" href="#phase-4-interactive-mode" title="Permanent link">&para;</a></h3>
 <p><strong>Purpose:</strong> Step-by-step wizards for topic and style selection</p>
@@ -9647,7 +9675,7 @@
 - <code>_teach_select_topic_interactive()</code> - Topic menu (from schedule)
 - <code>_teach_interactive_wizard()</code> - Main wizard orchestrator</p>
 <p><strong>UI Flow:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>1. Banner: &quot;Interactive Teaching Content Generator&quot;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>1. Banner: "Interactive Teaching Content Generator"
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>2. If no week/topic → Show topic selection menu
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>3. User selects week [1-N]
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>4. If no style → Show style selection menu
@@ -9685,21 +9713,21 @@
 - <code>_teach_show_diff_preview()</code> - Git diff display (26 lines)
 - <code>_teach_revise_workflow()</code> - Main orchestrator (48 lines)</p>
 <p><strong>Global State:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">TEACH_REVISE_MODE</span><span class="o">=</span><span class="s2">&quot;improve&quot;</span><span class="w">       </span><span class="c1"># Always &quot;improve&quot; for now</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">TEACH_REVISE_FILE</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">              </span><span class="c1"># File being revised</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">TEACH_REVISE_INSTRUCTIONS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">      </span><span class="c1"># User-selected instruction</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">TEACH_REVISE_MODE</span><span class="o">=</span><span class="s2">"improve"</span><span class="w">       </span><span class="c1"># Always "improve" for now</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">TEACH_REVISE_FILE</span><span class="o">=</span><span class="s2">""</span><span class="w">              </span><span class="c1"># File being revised</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">TEACH_REVISE_INSTRUCTIONS</span><span class="o">=</span><span class="s2">""</span><span class="w">      </span><span class="c1"># User-selected instruction</span>
 </code></pre></div>
 <p><strong>Content Type Detection:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Check YAML frontmatter</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>format:<span class="w"> </span>revealjs<span class="w"> </span>→<span class="w"> </span>slides
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>format:<span class="w"> </span>beamer<span class="w"> </span>→<span class="w"> </span>slides
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>title:<span class="w"> </span><span class="s2">&quot;*Exam*&quot;</span><span class="w"> </span>→<span class="w"> </span>exam
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>title:<span class="w"> </span><span class="s2">&quot;*Quiz*&quot;</span><span class="w"> </span>→<span class="w"> </span>quiz
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>title:<span class="w"> </span><span class="s2">"*Exam*"</span><span class="w"> </span>→<span class="w"> </span>exam
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>title:<span class="w"> </span><span class="s2">"*Quiz*"</span><span class="w"> </span>→<span class="w"> </span>quiz
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Check content patterns</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="s2">&quot;# Homework&quot;</span><span class="w"> </span>→<span class="w"> </span>assignment
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="s2">&quot;Course: &quot;</span><span class="w"> </span>→<span class="w"> </span>syllabus
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="s2">&quot;Criteria|Rubric&quot;</span><span class="w"> </span>→<span class="w"> </span>rubric
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="s2">"# Homework"</span><span class="w"> </span>→<span class="w"> </span>assignment
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="s2">"Course: "</span><span class="w"> </span>→<span class="w"> </span>syllabus
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="s2">"Criteria|Rubric"</span><span class="w"> </span>→<span class="w"> </span>rubric
 </code></pre></div>
 <h3 id="phase-6-context-integration">Phase 6: Context Integration<a class="headerlink" href="#phase-6-context-integration" title="Permanent link">&para;</a></h3>
 <p><strong>Purpose:</strong> Gather course context from materials</p>
@@ -9723,7 +9751,7 @@
 <p><strong>Components:</strong>
 - <code>_teach_build_context()</code> - Context gathering (40 lines)</p>
 <p><strong>Global State:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">TEACH_CONTEXT</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># Course context text</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">TEACH_CONTEXT</span><span class="o">=</span><span class="s2">""</span><span class="w">  </span><span class="c1"># Course context text</span>
 </code></pre></div>
 <p><strong>Context Format:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Course Information:
@@ -9842,39 +9870,39 @@
 <p>The wrapper executes phases in this specific order:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>_teach_scholar_wrapper<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="c1"># 1. PHASE 5: Revision workflow (if --revise)</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$revise_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">        </span>_teach_revise_workflow<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$revise_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$revise_file</span><span class="s2">"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">        </span>_teach_revise_workflow<span class="w"> </span><span class="s2">"</span><span class="nv">$revise_file</span><span class="s2">"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="k">fi</span>
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
 <a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="c1"># 2. PHASE 6: Context integration (if --context)</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$use_context</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$use_context</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">        </span><span class="nv">course_context</span><span class="o">=</span><span class="k">$(</span>_teach_build_context<span class="k">)</span>
 <a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="k">fi</span>
 <a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
 <a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="c1"># 3. PHASE 1: Flag validation</span>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span>_teach_validate_content_flags<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span>_teach_validate_content_flags<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
 <a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="c1"># 4. PHASE 1: Topic/week parsing</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">    </span>_teach_parse_topic_week<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">    </span>_teach_parse_topic_week<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
 <a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="c1"># 5. PHASE 4: Interactive wizard (if -i)</span>
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$interactive</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">        </span><span class="nv">wizard_style</span><span class="o">=</span><span class="k">$(</span>_teach_interactive_wizard<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$subcommand</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$topic</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$style</span><span class="s2">&quot;</span><span class="k">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$interactive</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">        </span><span class="nv">wizard_style</span><span class="o">=</span><span class="k">$(</span>_teach_interactive_wizard<span class="w"> </span><span class="s2">"</span><span class="nv">$subcommand</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$topic</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$style</span><span class="s2">"</span><span class="k">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">    </span><span class="k">fi</span>
 <a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
 <a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w">    </span><span class="c1"># 6. PHASE 3: Lesson plan integration (if --week)</span>
-<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEACH_WEEK</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">        </span>_teach_integrate_lesson_plan<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TEACH_WEEK</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$style</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$TEACH_WEEK</span><span class="s2">"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">        </span>_teach_integrate_lesson_plan<span class="w"> </span><span class="s2">"</span><span class="nv">$TEACH_WEEK</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$style</span><span class="s2">"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
 <a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">    </span><span class="k">fi</span>
 <a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
 <a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">    </span><span class="c1"># 7. PHASE 2: Content resolution</span>
-<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">    </span>_teach_resolve_content<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$final_style</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">    </span>_teach_resolve_content<span class="w"> </span><span class="s2">"</span><span class="nv">$final_style</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
 <a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>
 <a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">    </span><span class="c1"># 8. PHASE 2: Build instructions</span>
 <a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">content_instructions</span><span class="o">=</span><span class="k">$(</span>_teach_build_content_instructions<span class="k">)</span>
 <a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>
 <a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="w">    </span><span class="c1"># 9. Build and execute Scholar command</span>
-<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">scholar_cmd</span><span class="o">=</span><span class="s2">&quot;claude run /teaching:</span><span class="nv">$subcommand</span><span class="s2">&quot;</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">scholar_cmd</span><span class="o">=</span><span class="s2">"claude run /teaching:</span><span class="nv">$subcommand</span><span class="s2">"</span>
 <a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="w">    </span><span class="c1"># ... add revision, context, instructions</span>
 <a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a><span class="o">}</span>
 </code></pre></div>
@@ -9893,28 +9921,28 @@
 <h2 id="state-management">State Management<a class="headerlink" href="#state-management" title="Permanent link">&para;</a></h2>
 <h3 id="global-variables">Global Variables<a class="headerlink" href="#global-variables" title="Permanent link">&para;</a></h3>
 <p><strong>Phase 1 Variables:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_TOPIC</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">        </span><span class="c1"># Explicit topic</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_WEEK</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">         </span><span class="c1"># Week number</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_TOPIC</span><span class="o">=</span><span class="s2">""</span><span class="w">        </span><span class="c1"># Explicit topic</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_WEEK</span><span class="o">=</span><span class="s2">""</span><span class="w">         </span><span class="c1"># Week number</span>
 </code></pre></div>
 <p><strong>Phase 2 Variables:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_CONTENT_RESOLVED</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># Resolved content list</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_CONTENT_RESOLVED</span><span class="o">=</span><span class="s2">""</span><span class="w">  </span><span class="c1"># Resolved content list</span>
 </code></pre></div>
 <p><strong>Phase 3 Variables:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_TOPIC</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">           </span><span class="c1"># From lesson plan</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_STYLE</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">           </span><span class="c1"># From lesson plan</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_OBJECTIVES</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">      </span><span class="c1"># From lesson plan</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_SUBTOPICS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">       </span><span class="c1"># From lesson plan</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_KEY_CONCEPTS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">    </span><span class="c1"># From lesson plan</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_PREREQUISITES</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">   </span><span class="c1"># From lesson plan</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_RESOLVED_STYLE</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">       </span><span class="c1"># Final style</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_TOPIC</span><span class="o">=</span><span class="s2">""</span><span class="w">           </span><span class="c1"># From lesson plan</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_STYLE</span><span class="o">=</span><span class="s2">""</span><span class="w">           </span><span class="c1"># From lesson plan</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_OBJECTIVES</span><span class="o">=</span><span class="s2">""</span><span class="w">      </span><span class="c1"># From lesson plan</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_SUBTOPICS</span><span class="o">=</span><span class="s2">""</span><span class="w">       </span><span class="c1"># From lesson plan</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_KEY_CONCEPTS</span><span class="o">=</span><span class="s2">""</span><span class="w">    </span><span class="c1"># From lesson plan</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_PLAN_PREREQUISITES</span><span class="o">=</span><span class="s2">""</span><span class="w">   </span><span class="c1"># From lesson plan</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_RESOLVED_STYLE</span><span class="o">=</span><span class="s2">""</span><span class="w">       </span><span class="c1"># Final style</span>
 </code></pre></div>
 <p><strong>Phase 5 Variables:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_REVISE_MODE</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">          </span><span class="c1"># Always &quot;improve&quot;</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_REVISE_FILE</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">          </span><span class="c1"># File being revised</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_REVISE_INSTRUCTIONS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># Revision instruction</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_REVISE_MODE</span><span class="o">=</span><span class="s2">""</span><span class="w">          </span><span class="c1"># Always "improve"</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_REVISE_FILE</span><span class="o">=</span><span class="s2">""</span><span class="w">          </span><span class="c1"># File being revised</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_REVISE_INSTRUCTIONS</span><span class="o">=</span><span class="s2">""</span><span class="w">  </span><span class="c1"># Revision instruction</span>
 </code></pre></div>
 <p><strong>Phase 6 Variables:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_CONTEXT</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># Course context</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">typeset</span><span class="w"> </span>-g<span class="w"> </span><span class="nv">TEACH_CONTEXT</span><span class="o">=</span><span class="s2">""</span><span class="w">  </span><span class="c1"># Course context</span>
 </code></pre></div>
 <h3 id="state-lifecycle">State Lifecycle<a class="headerlink" href="#state-lifecycle" title="Permanent link">&para;</a></h3>
 <pre class="mermaid"><code>stateDiagram-v2
@@ -9993,10 +10021,10 @@
 <h3 id="2-composition-pattern">2. Composition Pattern<a class="headerlink" href="#2-composition-pattern" title="Permanent link">&para;</a></h3>
 <p>Phases are composable and optional:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Minimal</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Topic&quot;</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Topic"</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># + Style</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">&quot;Topic&quot;</span><span class="w"> </span>--style<span class="w"> </span>computational
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>teach<span class="w"> </span>slides<span class="w"> </span><span class="s2">"Topic"</span><span class="w"> </span>--style<span class="w"> </span>computational
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># + Week</span>
 <a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>teach<span class="w"> </span>slides<span class="w"> </span>-w<span class="w"> </span><span class="m">8</span><span class="w"> </span>--style<span class="w"> </span>computational
@@ -10175,7 +10203,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

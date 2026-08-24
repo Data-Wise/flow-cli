@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7181,6 +7181,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9243,13 +9271,13 @@
 <hr />
 <h2 id="step-1-check-prerequisites">Step 1: Check Prerequisites<a class="headerlink" href="#step-1-check-prerequisites" title="Permanent link">&para;</a></h2>
 <p>First, verify Claude CLI is installed:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>claude<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;✅ Claude CLI found&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;❌ Install: npm i -g @anthropic-ai/claude-code&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>claude<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"✅ Claude CLI found"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"❌ Install: npm i -g @anthropic-ai/claude-code"</span>
 </code></pre></div>
 <hr />
 <h2 id="step-2-ask-ai-questions">Step 2: Ask AI Questions<a class="headerlink" href="#step-2-ask-ai-questions" title="Permanent link">&para;</a></h2>
 <h3 id="basic-query">Basic Query<a class="headerlink" href="#basic-query" title="Permanent link">&para;</a></h3>
 <p>Ask AI anything about your project:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">&quot;what testing framework should I use for this project?&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>flow<span class="w"> </span>ai<span class="w"> </span><span class="s2">"what testing framework should I use for this project?"</span>
 </code></pre></div>
 <p>The AI receives context about:</p>
 <ul>
@@ -9260,49 +9288,49 @@
 </ul>
 <h3 id="explain-mode">Explain Mode<a class="headerlink" href="#explain-mode" title="Permanent link">&para;</a></h3>
 <p>Get explanations of code or concepts:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span><span class="s2">&quot;what does this regex do: ^##\s*Focus:&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span><span class="s2">"what does this regex do: ^##\s*Focus:"</span>
 </code></pre></div>
 <h3 id="fix-mode">Fix Mode<a class="headerlink" href="#fix-mode" title="Permanent link">&para;</a></h3>
 <p>Get help fixing problems:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span><span class="s2">&quot;my tests are failing with &#39;command not found&#39;&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span><span class="s2">"my tests are failing with 'command not found'"</span>
 </code></pre></div>
 <h3 id="suggest-mode">Suggest Mode<a class="headerlink" href="#suggest-mode" title="Permanent link">&para;</a></h3>
 <p>Get improvement suggestions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--suggest<span class="w"> </span><span class="s2">&quot;make this function more efficient&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--suggest<span class="w"> </span><span class="s2">"make this function more efficient"</span>
 </code></pre></div>
 <h3 id="create-mode">Create Mode<a class="headerlink" href="#create-mode" title="Permanent link">&para;</a></h3>
 <p>Generate code from descriptions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span><span class="s2">&quot;a function that validates email addresses&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--create<span class="w"> </span><span class="s2">"a function that validates email addresses"</span>
 </code></pre></div>
 <hr />
 <h2 id="step-3-natural-language-commands">Step 3: Natural Language Commands<a class="headerlink" href="#step-3-natural-language-commands" title="Permanent link">&para;</a></h2>
 <p>The <code>flow do</code> command translates plain English into shell commands.</p>
 <h3 id="try-these-examples">Try These Examples<a class="headerlink" href="#try-these-examples" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Show recent git activity</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show commits from last week&quot;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"show commits from last week"</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Find files</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;find all markdown files modified today&quot;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"find all markdown files modified today"</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Count code</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;count lines of code in zsh files&quot;</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"count lines of code in zsh files"</span>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
 <a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># Check disk usage</span>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;show largest files in current directory&quot;</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"show largest files in current directory"</span>
 </code></pre></div>
 <h3 id="dry-run-mode">Dry Run Mode<a class="headerlink" href="#dry-run-mode" title="Permanent link">&para;</a></h3>
 <p>See what command would run without executing:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">&quot;delete all .bak files&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span>--dry-run<span class="w"> </span><span class="s2">"delete all .bak files"</span>
 </code></pre></div>
 <p>Output:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>🔍 Translating: &quot;delete all .bak files&quot;
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>📝 Command: find . -name &quot;*.bak&quot; -delete
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>🔍 Translating: "delete all .bak files"
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>📝 Command: find . -name "*.bak" -delete
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>⚠️  DRY RUN - command not executed
 </code></pre></div>
 <h3 id="safety-features">Safety Features<a class="headerlink" href="#safety-features" title="Permanent link">&para;</a></h3>
 <p>Dangerous commands require confirmation:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">&quot;remove all files&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>flow<span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="s2">"remove all files"</span>
 </code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>⚠️  DANGEROUS COMMAND DETECTED
@@ -9321,7 +9349,7 @@
 <a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>stuck<span class="w"> </span>--ai
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Describe your specific problem</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>stuck<span class="w"> </span>--ai<span class="w"> </span><span class="s2">&quot;can&#39;t figure out why the tests pass locally but fail in CI&quot;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>stuck<span class="w"> </span>--ai<span class="w"> </span><span class="s2">"can't figure out why the tests pass locally but fail in CI"</span>
 </code></pre></div>
 <p>The AI will:</p>
 <ol>
@@ -9346,11 +9374,11 @@
 <h2 id="step-5-advanced-usage">Step 5: Advanced Usage<a class="headerlink" href="#step-5-advanced-usage" title="Permanent link">&para;</a></h2>
 <h3 id="include-extra-context">Include Extra Context<a class="headerlink" href="#include-extra-context" title="Permanent link">&para;</a></h3>
 <p>Force context inclusion even for simple queries:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--context<span class="w"> </span><span class="s2">&quot;should I use async here?&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--context<span class="w"> </span><span class="s2">"should I use async here?"</span>
 </code></pre></div>
 <h3 id="verbose-mode">Verbose Mode<a class="headerlink" href="#verbose-mode" title="Permanent link">&para;</a></h3>
 <p>See what context is being sent to AI:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;how do I add a new command?&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>flow<span class="w"> </span>ai<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">"how do I add a new command?"</span>
 </code></pre></div>
 <p>Output:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>📋 Context being sent:
@@ -9364,10 +9392,10 @@
 </code></pre></div>
 <h3 id="combine-modes">Combine Modes<a class="headerlink" href="#combine-modes" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Explain with context</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span>--context<span class="w"> </span><span class="s2">&quot;the _flow_detect_type function&quot;</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>flow<span class="w"> </span>ai<span class="w"> </span>--explain<span class="w"> </span>--context<span class="w"> </span><span class="s2">"the _flow_detect_type function"</span>
 <a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
 <a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Fix with verbose output</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">&quot;completion not working&quot;</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>flow<span class="w"> </span>ai<span class="w"> </span>--fix<span class="w"> </span>--verbose<span class="w"> </span><span class="s2">"completion not working"</span>
 </code></pre></div>
 <hr />
 <h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
@@ -9549,7 +9577,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

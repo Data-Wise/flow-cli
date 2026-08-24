@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -7085,6 +7085,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commands/handoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    handoff
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commands/sync/" class="md-nav__link">
         
   
@@ -9073,7 +9101,7 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Step 1: Quick pulse — unread count + 10 latest (no AI, instant)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>em
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Step 2: See what&#39;s actionable before drafting anything</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Step 2: See what's actionable before drafting anything</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>em<span class="w"> </span>respond<span class="w"> </span>--dry-run
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># Step 3: Generate AI drafts for all actionable emails</span>
@@ -9121,11 +9149,11 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <p><strong>Problem:</strong> You need to find an email from two months ago, read it, and either reply, file it, or delete it.</p>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Search across subject, from, and body</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;grant proposal&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">"grant proposal"</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Or use IMAP search syntax for precise queries</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;from:alice before:2026-01-01&quot;</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">&quot;subject:STAT-101&quot;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">"from:alice before:2026-01-01"</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>em<span class="w"> </span>find<span class="w"> </span><span class="s2">"subject:STAT-101"</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># Read the email you found (use the ID shown in search results)</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>em<span class="w"> </span><span class="nb">read</span><span class="w"> </span><span class="m">87</span>
@@ -9133,7 +9161,7 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Now act on it</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">87</span><span class="w">                         </span><span class="c1"># AI-drafted reply</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">87</span><span class="w"> </span>Archive<span class="w">                  </span><span class="c1"># File it away</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>em<span class="w"> </span>move<span class="w"> </span>Archive<span class="w"> </span><span class="m">87</span><span class="w">                  </span><span class="c1"># File it away</span>
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>em<span class="w"> </span>delete<span class="w"> </span><span class="m">87</span><span class="w">                        </span><span class="c1"># Move to Trash (y/N confirm)</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>em<span class="w"> </span>snooze<span class="w"> </span><span class="m">87</span><span class="w"> </span>monday<span class="w">                 </span><span class="c1"># Come back to it Monday 9am</span>
 </code></pre></div>
@@ -9144,7 +9172,7 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <h2 id="4-process-calendar-invites">4. Process Calendar Invites<a class="headerlink" href="#4-process-calendar-invites" title="Permanent link">&para;</a></h2>
 <p><strong>Problem:</strong> You receive a meeting invitation with an ICS attachment and want to add it to Apple Calendar without leaving the terminal.</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Step 1: See the email (attachment indicator &#39;+&#39; in dashboard)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Step 1: See the email (attachment indicator '+' in dashboard)</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>em
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Step 2: Check what attachments are on the email</span>
@@ -9153,7 +9181,7 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Step 3: Parse the ICS attachment and add to Apple Calendar</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>em<span class="w"> </span>calendar<span class="w"> </span><span class="m">55</span>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># Output: parsed event details (title, time, location, organizer)</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Prompt: &quot;Add to Apple Calendar? [y/N]&quot; → y</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Prompt: "Add to Apple Calendar? [y/N]" → y</span>
 </code></pre></div>
 <p><strong>Explanation:</strong></p>
 <p><code>em calendar</code> (alias: <code>em cal</code>) reads the ICS file attached to an email, displays the parsed event fields, and optionally calls <code>osascript</code> to add the event to Apple Calendar. No copy-pasting into Calendar.app required.</p>
@@ -9189,20 +9217,21 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>em<span class="w"> </span>folders
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Create a new folder</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">&quot;Research 2026&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>em<span class="w"> </span>create-folder<span class="w"> </span><span class="s2">"Research 2026"</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Move emails into it (one at a time or batch)</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">101</span><span class="w"> </span><span class="s2">&quot;Research 2026&quot;</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>em<span class="w"> </span>mv<span class="w"> </span><span class="s2">&quot;Research 2026&quot;</span><span class="w"> </span><span class="m">102</span><span class="w"> </span><span class="m">103</span><span class="w"> </span><span class="m">104</span><span class="w">   </span><span class="c1"># batch move: folder first, then IDs</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Move emails into it (folder first, then ID(s))</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>em<span class="w"> </span>move<span class="w"> </span><span class="s2">"Research 2026"</span><span class="w"> </span><span class="m">101</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>em<span class="w"> </span>mv<span class="w"> </span><span class="s2">"Research 2026"</span><span class="w"> </span><span class="m">102</span><span class="w"> </span><span class="m">103</span><span class="w"> </span><span class="m">104</span><span class="w">   </span><span class="c1"># batch move</span>
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Or move with fzf folder picker (no folder arg = interactive)</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>em<span class="w"> </span>move<span class="w"> </span><span class="m">105</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># List and clean up an old folder</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>em<span class="w"> </span>inbox<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># Delete the folder (type the name to confirm — safety gate)</span>
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>em<span class="w"> </span>delete-folder<span class="w"> </span><span class="s2">&quot;Old Archive&quot;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Or pick the target folder interactively</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>em<span class="w"> </span>move<span class="w"> </span>--pick<span class="w"> </span><span class="m">105</span><span class="w">          </span><span class="c1"># fzf picker</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>em<span class="w"> </span>move<span class="w"> </span>--recent<span class="w"> </span><span class="m">105</span><span class="w">        </span><span class="c1"># quick-pick from last 3 destinations</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># List and clean up an old folder</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>em<span class="w"> </span>inbox<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="s2">"Old Archive"</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="c1"># Delete the folder (type the name to confirm — safety gate)</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>em<span class="w"> </span>delete-folder<span class="w"> </span><span class="s2">"Old Archive"</span>
 </code></pre></div>
 <p><strong>Explanation:</strong></p>
 <p><code>em folders</code> lists every mailbox on the server — useful before creating or deleting to avoid typos. <code>em create-folder</code> and <code>em delete-folder</code> (aliases: <code>cf</code>, <code>df</code>) wrap himalaya's folder CRUD. The delete command requires you to type the folder name in full before proceeding, preventing accidental data loss.</p>
@@ -9229,12 +9258,12 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <h2 id="8-batch-reply-to-students">8. Batch Reply to Students<a class="headerlink" href="#8-batch-reply-to-students" title="Permanent link">&para;</a></h2>
 <p><strong>Problem:</strong> You have 40+ student emails in a dedicated folder and need to generate AI drafts and reply to all of them efficiently.</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Step 1: Preview what&#39;s in the folder and what is actionable</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>em<span class="w"> </span>inbox<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="s2">&quot;Student Emails&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>em<span class="w"> </span>respond<span class="w"> </span>--dry-run<span class="w"> </span>--folder<span class="w"> </span><span class="s2">&quot;Student Emails&quot;</span><span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Step 1: Preview what's in the folder and what is actionable</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>em<span class="w"> </span>inbox<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="s2">"Student Emails"</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>em<span class="w"> </span>respond<span class="w"> </span>--dry-run<span class="w"> </span>--folder<span class="w"> </span><span class="s2">"Student Emails"</span><span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Step 2: Generate drafts for all actionable student emails</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>em<span class="w"> </span>respond<span class="w"> </span>--folder<span class="w"> </span><span class="s2">&quot;Student Emails&quot;</span><span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>em<span class="w"> </span>respond<span class="w"> </span>--folder<span class="w"> </span><span class="s2">"Student Emails"</span><span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Step 3: Review each draft — send, edit, or skip</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>em<span class="w"> </span>respond<span class="w"> </span>--review
@@ -9257,22 +9286,22 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <p><strong>Problem:</strong> You need to reply to an email with a specific tone or approach, but typing the whole reply manually feels draining. You want AI to draft it based on your brief instructions.</p>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Reply with custom AI instructions</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;decline politely, suggest office hours next week&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"decline politely, suggest office hours next week"</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Compose a new email from instructions (implies --ai)</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>em<span class="w"> </span>send<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;thank Alice for the report, ask when the budget section will be ready&quot;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>em<span class="w"> </span>send<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"thank Alice for the report, ask when the budget section will be ready"</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Forward with AI-generated note</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>em<span class="w"> </span>forward<span class="w"> </span><span class="m">42</span><span class="w"> </span>colleague@unm.edu<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;FYI, see the budget section on page 3&quot;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>em<span class="w"> </span>forward<span class="w"> </span><span class="m">42</span><span class="w"> </span>colleague@unm.edu<span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"FYI, see the budget section on page 3"</span>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
 <a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># Use a different AI backend for this one reply</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;be brief and direct&quot;</span><span class="w"> </span>--backend<span class="w"> </span>agy
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"be brief and direct"</span><span class="w"> </span>--backend<span class="w"> </span>agy
 </code></pre></div>
 <p><strong>Explanation:</strong></p>
 <p><code>--prompt</code> tells the AI what you want the draft to say. The AI uses your instructions as the primary guide while factoring in the original email context and category-specific tone. In all three commands (reply, send, forward), <code>--prompt</code> bypasses the <code>$EDITOR</code> step and goes straight to the preview gate (<code>[y/N/e]</code>), so the flow is: AI drafts → you review → send or edit.</p>
 <p>When <code>--prompt</code> is used, TTY detection is bypassed (treated as batch mode), making it safe for scripts and piped workflows:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Works in a pipe or cron job</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">&quot;acknowledge receipt&quot;</span><span class="w"> </span>--force
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w"> </span>--prompt<span class="w"> </span><span class="s2">"acknowledge receipt"</span><span class="w"> </span>--force
 </code></pre></div>
 <p><strong>Pro tip:</strong> Combine <code>--prompt</code> with <code>--backend</code> to use agy for quick tasks (faster, lower quota usage) and Claude for nuanced replies. The <code>--backend</code> flag overrides <code>FLOW_EMAIL_AI</code> for that single command only — your global setting stays unchanged. (<code>gemini</code> is also still available as a legacy backend for existing configs.)</p>
 <hr />
@@ -9301,7 +9330,7 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <h2 id="11-weekly-email-digest">11. Weekly Email Digest<a class="headerlink" href="#11-weekly-email-digest" title="Permanent link">&para;</a></h2>
 <p><strong>Problem:</strong> It is Friday afternoon and you want a grouped summary of everything that came in this week before you close down.</p>
 <p><strong>Solution:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Today&#39;s digest — AI-grouped by category</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Today's digest — AI-grouped by category</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>em<span class="w"> </span>digest
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Full week digest</span>
@@ -9321,7 +9350,7 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>em<span class="w"> </span>send
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># AI-assisted compose (drafts from subject line)</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>em<span class="w"> </span>send<span class="w"> </span>--ai<span class="w"> </span><span class="s2">&quot;Agenda for Tuesday lab meeting&quot;</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>em<span class="w"> </span>send<span class="w"> </span>--ai<span class="w"> </span><span class="s2">"Agenda for Tuesday lab meeting"</span>
 <a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
 <a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Reply flow with preview gate</span>
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>em<span class="w"> </span>reply<span class="w"> </span><span class="m">42</span><span class="w">              </span><span class="c1"># AI draft in $EDITOR, then preview</span>
@@ -9353,7 +9382,7 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Capture the email as a task (AI summary → flow catch)</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>em<span class="w"> </span>catch<span class="w"> </span><span class="m">60</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># Adds a task to your catch queue: &quot;Reply to Alice re: exam rubric&quot;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># Adds a task to your catch queue: "Reply to Alice re: exam rubric"</span>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># Extract action items to Reminders.app</span>
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>em<span class="w"> </span>todo<span class="w"> </span><span class="m">60</span>
@@ -9398,10 +9427,10 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
 <p><strong>Problem:</strong> You are on an Exchange or Outlook account and <code>em delete</code> is not working because the Trash folder is named <code>Deleted Items</code>, not <code>Trash</code>.</p>
 <p><strong>Solution:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Set the correct trash folder name for Exchange/Outlook</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_TRASH_FOLDER</span><span class="o">=</span><span class="s2">&quot;Deleted Items&quot;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FLOW_EMAIL_TRASH_FOLDER</span><span class="o">=</span><span class="s2">"Deleted Items"</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
 <a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Or persist it in your config file</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;FLOW_EMAIL_TRASH_FOLDER=&quot;Deleted Items&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.config/flow/email.conf
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'FLOW_EMAIL_TRASH_FOLDER="Deleted Items"'</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.config/flow/email.conf
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
 <a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># Verify all dependencies are healthy (includes account detection)</span>
 <a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>em<span class="w"> </span>doctor
@@ -9587,7 +9616,7 @@ For full reference, see the <a href="../../reference/REFCARD-EMAIL-DISPATCHER/">
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.path", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
