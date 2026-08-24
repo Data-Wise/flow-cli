@@ -415,6 +415,18 @@ _deploy_dry_run_report() {
     echo "${FLOW_COLORS[warn]}  DRY RUN — No changes will be made${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
 
+    # The file list below is committed work only (prod...draft). A dry run
+    # deliberately skips the uncommitted-changes handler, so unlike a real
+    # deploy — which offers to commit first — dirty files are NOT represented
+    # here. Say so, otherwise the count silently understates what would ship.
+    if ! _git_is_clean 2>/dev/null; then
+        local _uncommitted
+        _uncommitted=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+        echo ""
+        echo "${FLOW_COLORS[warn]}  Note:${FLOW_COLORS[reset]} $_uncommitted uncommitted file(s) are NOT included below."
+        echo "${FLOW_COLORS[dim]}        A real deploy would offer to commit them first.${FLOW_COLORS[reset]}"
+    fi
+
     # Show files that would be deployed
     local files_changed
     files_changed=$(git diff --name-status "$prod_branch"..."$draft_branch" 2>/dev/null)

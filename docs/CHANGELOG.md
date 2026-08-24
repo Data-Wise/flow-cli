@@ -16,6 +16,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ### Fixed
 
+- **`teach deploy --dry-run` now reports what it is NOT showing** — because a dry run skips the
+  uncommitted-changes handler, its file list is committed work only. A real deploy would offer to
+  commit dirty files first and ship them too, so the plan could silently understate what would
+  deploy. It now names the count of excluded uncommitted files.
+
 - **`teach deploy --direct` now merges with `--no-ff`** — without it a deploy of N draft commits
   fast-forwards production to draft's own tip, leaving no single commit that represents the
   deploy. `teach deploy --rollback` reverts the deploy's commit, so on a fast-forwarded deploy it

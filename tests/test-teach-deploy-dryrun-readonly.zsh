@@ -125,6 +125,11 @@ _assert_readonly "$repo" "dry run (synced)" "$before"
 [[ "$out" != *"Commit and continue"* ]] \
   && _ok "dry run never offers to commit" \
   || _bad "dry run prompted to commit" "the pty auto-accept hazard is back"
+# Skipping the handler means the file list is committed work only, so a dirty
+# tree is silently under-reported unless the report says so.
+[[ "$out" == *"uncommitted file(s) are NOT included"* ]] \
+  && _ok "dry run says which files are excluded" \
+  || _bad "no uncommitted-exclusion note" "the 'Would deploy N files' count understates silently"
 rm -rf "${repo:h}"
 
 # --- 3. CONTROL: a real deploy still refuses a dirty tree -------------------
