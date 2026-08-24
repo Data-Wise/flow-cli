@@ -17,6 +17,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **`teach deploy --dry-run` now reports what it is NOT showing** — because a dry run skips the
+  uncommitted-changes handler, its file list is committed work only. A real deploy would offer to
+  commit dirty files first and ship them too, so the plan could silently understate what would
+  deploy. It now names the count of excluded uncommitted files.
+
+- **`teach deploy --direct` now merges with `--no-ff`** — without it a deploy of N draft commits
+  fast-forwards production to draft's own tip, leaving no single commit that represents the
+  deploy. `teach deploy --rollback` reverts the deploy's commit, so on a fast-forwarded deploy it
+  could only undo the last of the N. `git-helpers.zsh` already assumed otherwise, filtering "merge
+  commits from `--no-ff` deploys" when detecting production conflicts. Covered by
+  `tests/test-teach-deploy-merge-topology.zsh`, which asserts the production tip has two parents
+  and that the second is draft's tip. Note that draft and production legitimately point at the
+  same commit AFTER a deploy — the deploy syncs draft from production — so ref equality is not
+  evidence of a fast-forward; parent count is.
+
+- **`teach deploy --dry-run` is now read-only and no longer blocked in CI mode** — `ci_mode`
+  auto-detects whenever stdin is not a TTY, so every automation or agent caller gets it. In that
+  mode two preflight conditions aborted the run *before the plan could render*: "production has new
+  commits" and "uncommitted changes". Neither can affect a dry run, which mutates nothing. The
+  uncommitted-changes handler had a worse edge: interactively it **prompts to commit**, and a pty
+  wrapper (`script -q /dev/null …`) answers the default `Y` and silently creates a real commit —
+  observed once against a live course repo. Both mutation-oriented gates now skip when `dry_run` is
+  true; real deploys still abort on both, asserted by controls in
+  `tests/test-teach-deploy-dryrun-readonly.zsh` (10 assertions, each checking repository state
+  before and after).
+
 - **`em move` was broken in production** — `_em_move` and its adapter `_em_hml_move` were each defined twice in the same file (zsh's last-definition-wins semantics), and the two live (later) definitions were incompatible with each other: the live `_em_move` called `_em_hml_move` with a numeric message ID in the source-folder position. Every `em move <ID> <folder>` call would attempt to move a message from a non-existent folder named after the ID. Removed the dead pair, kept the multi-ID interface (`em move <FOLDER> <ID>...`) that matches `em move --help`, `MASTER-DISPATCHER-GUIDE.md`, and the existing (previously unregistered) `tests/test-em-move-restore.zsh`. That test file — which would have caught this — was never wired into `tests/run-all.sh`; it is now.
 - Corrected a dozen-plus stale `em move <ID> [FOLDER]` / `em flag <ID> # Alias for em star` references across `docs/help/QUICK-REFERENCE.md`, `docs/reference/MASTER-DISPATCHER-GUIDE.md`, `docs/reference/REFCARD-EMAIL-DISPATCHER.md` (which had both a stale and a correct `em move` row), `docs/guides/EMAIL-DISPATCHER-GUIDE.md`, `docs/guides/EMAIL-COOKBOOK.md`, and `man/man1/em.1` — all inherited the same wrong interface the code bug had.
 

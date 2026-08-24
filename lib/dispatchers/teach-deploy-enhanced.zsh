@@ -50,6 +50,7 @@ _check_math_blanks() {
 # Sets: DEPLOY_DRAFT_BRANCH, DEPLOY_PROD_BRANCH, DEPLOY_COURSE_NAME, DEPLOY_AUTO_PR, DEPLOY_REQUIRE_CLEAN
 _deploy_preflight_checks() {
     local ci_mode="${1:-false}"
+    local dry_run="${2:-false}"
 
     # Check if in git repo
     if ! _git_in_repo; then
@@ -172,9 +173,15 @@ _deploy_preflight_checks() {
         echo "${FLOW_COLORS[success]}  [ok]${FLOW_COLORS[reset]} No production conflicts"
     else
         echo "${FLOW_COLORS[warn]}  [!!]${FLOW_COLORS[reset]} Production has new commits"
-        if [[ "$ci_mode" == "true" ]]; then
+        # A dry run mutates nothing, so a divergent production is information,
+        # not a stop condition — report it and let the plan render. Only a real
+        # CI-mode deploy aborts here, since it cannot prompt to resolve.
+        if [[ "$ci_mode" == "true" && "$dry_run" != "true" ]]; then
             _teach_error "CI mode: production conflicts detected. Resolve manually."
             return 1
+        fi
+        if [[ "$dry_run" == "true" ]]; then
+            echo "${FLOW_COLORS[dim]}       (dry run — a real deploy would need this resolved first)${FLOW_COLORS[reset]}"
         fi
     fi
 
@@ -321,7 +328,12 @@ _deploy_direct_merge() {
 
     # Merge draft into production
     local merge_err
-    merge_err=$(git merge "$draft_branch" --no-edit -m "$commit_message" 2>&1)
+    # --no-ff: always create a merge commit, so each deploy is ONE revertable
+    # point in production history. Without it a deploy spanning N commits
+    # fast-forwards and leaves no single commit representing the deploy,
+    # which breaks --rollback granularity. git-helpers.zsh:693 already
+    # assumes deploys produce merge commits.
+    merge_err=$(git merge "$draft_branch" --no-ff --no-edit -m "$commit_message" 2>&1)
     if [[ $? -ne 0 ]]; then
         _teach_error "Merge conflict! Aborting merge." "$merge_err"
         git merge --abort 2>/dev/null
@@ -402,6 +414,18 @@ _deploy_dry_run_report() {
     echo ""
     echo "${FLOW_COLORS[warn]}  DRY RUN — No changes will be made${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[dim]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
+
+    # The file list below is committed work only (prod...draft). A dry run
+    # deliberately skips the uncommitted-changes handler, so unlike a real
+    # deploy — which offers to commit first — dirty files are NOT represented
+    # here. Say so, otherwise the count silently understates what would ship.
+    if ! _git_is_clean 2>/dev/null; then
+        local _uncommitted
+        _uncommitted=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+        echo ""
+        echo "${FLOW_COLORS[warn]}  Note:${FLOW_COLORS[reset]} $_uncommitted uncommitted file(s) are NOT included below."
+        echo "${FLOW_COLORS[dim]}        A real deploy would offer to commit them first.${FLOW_COLORS[reset]}"
+    fi
 
     # Show files that would be deployed
     local files_changed
@@ -646,7 +670,7 @@ _teach_deploy_enhanced() {
     # ============================================
     {
 
-    _deploy_preflight_checks "$ci_mode" || return 1
+    _deploy_preflight_checks "$ci_mode" "$dry_run" || return 1
 
     # Read exported variables from preflight
     local draft_branch="$DEPLOY_DRAFT_BRANCH"
@@ -658,7 +682,11 @@ _teach_deploy_enhanced() {
     # ============================================
     # UNCOMMITTED CHANGES HANDLER (all modes)
     # ============================================
-    if [[ "$require_clean" != "false" ]] && ! _git_is_clean; then
+    # A dry run never commits and never merges, so a dirty tree cannot affect
+    # its outcome. Skipping the handler entirely keeps --dry-run read-only:
+    # in CI mode it used to abort here, and interactively it prompted to commit
+    # (auto-accepted by any pty wrapper, silently creating a commit).
+    if [[ "$dry_run" != "true" ]] && [[ "$require_clean" != "false" ]] && ! _git_is_clean; then
         if [[ "$ci_mode" == "true" ]]; then
             _teach_error "Uncommitted changes detected" \
                 "Commit changes before deploying in CI mode"
