@@ -299,7 +299,7 @@ _sec_status() {
       echo ""
       echo "${FLOW_COLORS[info]}Keychain:${FLOW_COLORS[reset]}"
       echo "  • Status: ${FLOW_COLORS[success]}active${FLOW_COLORS[reset]}"
-      echo "  • Location: $(security list-keychains 2>/dev/null | head -1 | tr -d ' \"')"
+      echo "  • Location: $(security list-keychains 2>/dev/null | head -1 | command tr -d ' \"')"
 
       # Count secrets
       local secret_count=$(_sec_count_keychain 2>/dev/null || echo "0")
@@ -329,7 +329,7 @@ _sec_status() {
       echo ""
       echo "${FLOW_COLORS[info]}Keychain:${FLOW_COLORS[reset]}"
       echo "  • Status: ${FLOW_COLORS[success]}active${FLOW_COLORS[reset]} (primary)"
-      echo "  • Location: $(security list-keychains 2>/dev/null | head -1 | tr -d ' \"')"
+      echo "  • Location: $(security list-keychains 2>/dev/null | head -1 | command tr -d ' \"')"
       local kc_count=$(_sec_count_keychain 2>/dev/null || echo "0")
       echo "  • Secrets: $kc_count"
       echo ""
@@ -1465,7 +1465,7 @@ _sec_sync_github() {
   echo "Will sync ${#selected_secrets[@]} secret(s) to ${repo_name}:"
   for name in "${selected_secrets[@]}"; do
     # Convert to SCREAMING_SNAKE_CASE for GitHub
-    local gh_name=$(echo "${name}" | tr '[:lower:]-' '[:upper:]_')
+    local gh_name=$(echo "${name}" | command tr '[:lower:]-' '[:upper:]_')
     echo "  ${FLOW_COLORS[muted]}${name}${FLOW_COLORS[reset]} → ${FLOW_COLORS[accent]}${gh_name}${FLOW_COLORS[reset]}"
   done
   echo ""
@@ -1494,7 +1494,7 @@ _sec_sync_github() {
     fi
 
     # Convert to SCREAMING_SNAKE_CASE
-    local gh_name=$(echo "${name}" | tr '[:lower:]-' '[:upper:]_')
+    local gh_name=$(echo "${name}" | command tr '[:lower:]-' '[:upper:]_')
 
     # Set GitHub secret
     if echo "$secret_value" | gh secret set "$gh_name" --repo "$repo_name" 2>/dev/null; then

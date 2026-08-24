@@ -355,7 +355,7 @@ _dotf_get_modified_count() {
     return
   fi
 
-  local count=$(chezmoi status 2>/dev/null | wc -l | tr -d ' ')
+  local count=$(chezmoi status 2>/dev/null | wc -l | command tr -d ' ')
 
   # Sanitize: strip whitespace and validate numeric format
   count="${count##*( )}"    # Remove leading spaces
@@ -438,7 +438,7 @@ _dotf_get_tracked_count() {
     return
   fi
 
-  local count=$(chezmoi managed 2>/dev/null | wc -l | tr -d ' ')
+  local count=$(chezmoi managed 2>/dev/null | wc -l | command tr -d ' ')
 
   # Sanitize: strip whitespace and validate numeric format
   count="${count##*( )}"    # Remove leading spaces
@@ -572,7 +572,7 @@ _dotf_get_status_line() {
       local behind_count=""
       local chezmoi_dir="${HOME}/.local/share/chezmoi"
       if [[ -d "$chezmoi_dir/.git" ]]; then
-        behind_count=$(cd "$chezmoi_dir" && git rev-list HEAD..@{u} 2>/dev/null | wc -l | tr -d ' ')
+        behind_count=$(cd "$chezmoi_dir" && git rev-list HEAD..@{u} 2>/dev/null | wc -l | command tr -d ' ')
         # Sanitize: strip whitespace and validate numeric format
         behind_count="${behind_count##*( )}"
         behind_count="${behind_count%%*( )}"
@@ -593,7 +593,7 @@ _dotf_get_status_line() {
       local ahead_count=""
       local chezmoi_dir="${HOME}/.local/share/chezmoi"
       if [[ -d "$chezmoi_dir/.git" ]]; then
-        ahead_count=$(cd "$chezmoi_dir" && git rev-list @{u}..HEAD 2>/dev/null | wc -l | tr -d ' ')
+        ahead_count=$(cd "$chezmoi_dir" && git rev-list @{u}..HEAD 2>/dev/null | wc -l | command tr -d ' ')
         # Sanitize: strip whitespace and validate numeric format
         ahead_count="${ahead_count##*( )}"
         ahead_count="${ahead_count%%*( )}"
@@ -680,7 +680,7 @@ _dotf_resolve_file_path() {
 
   # Count matches
   local match_count
-  match_count=$(echo "$matched_files" | wc -l | tr -d ' ')
+  match_count=$(echo "$matched_files" | wc -l | command tr -d ' ')
 
   # Sanitize: strip whitespace and validate numeric format
   match_count="${match_count##*( )}"
@@ -1374,7 +1374,7 @@ _dotf_check_git_in_path() {
     if [[ -d "$target/.git" ]] && command -v git &>/dev/null; then
         # Fast path: check for git submodules
         local submodule_count
-        submodule_count=$(git -C "$target" submodule status 2>/dev/null | wc -l | tr -d ' ')
+        submodule_count=$(git -C "$target" submodule status 2>/dev/null | wc -l | command tr -d ' ')
 
         # Sanitize count
         submodule_count="${submodule_count##*( )}"
@@ -1393,7 +1393,7 @@ _dotf_check_git_in_path() {
         # Slow path: use find with timeout for non-git directories
         # Check directory size first
         local file_count
-        file_count=$(find "$target" -type f 2>/dev/null | head -1000 | wc -l | tr -d ' ')
+        file_count=$(find "$target" -type f 2>/dev/null | head -1000 | wc -l | command tr -d ' ')
 
         # Sanitize count
         file_count="${file_count##*( )}"

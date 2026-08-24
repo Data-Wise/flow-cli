@@ -205,10 +205,10 @@ _wt_overview() {
                     # Detect session status
                     local wt_session_icon=""
                     if [[ -d "$wt_path/.claude" ]]; then
-                        local session_age=$(find "$wt_path/.claude" -type f -mtime -1 2>/dev/null | wc -l | tr -d ' ')
+                        local session_age=$(find "$wt_path/.claude" -type f -mtime -1 2>/dev/null | wc -l | command tr -d ' ')
                         if [[ "$session_age" -gt 0 ]]; then
                             # Active session (< 24h)
-                            local active_count=$(find "$wt_path/.claude" -type f -mmin -30 2>/dev/null | wc -l | tr -d ' ')
+                            local active_count=$(find "$wt_path/.claude" -type f -mmin -30 2>/dev/null | wc -l | command tr -d ' ')
                             if [[ "$active_count" -gt 0 ]]; then
                                 wt_session_icon="🟢"
                             else
@@ -307,7 +307,7 @@ _wt_get_path() {
 
     # Fallback: check expected hierarchical path
     local project=$(basename "$git_root")
-    local folder=$(echo "$branch" | tr '/' '-')
+    local folder=$(echo "$branch" | command tr '/' '-')
     local expected_path="$FLOW_WORKTREE_DIR/$project/$folder"
 
     if [[ -d "$expected_path" ]]; then
@@ -342,7 +342,7 @@ _wt_create() {
     fi
 
     local project=$(basename "$git_root")
-    local folder=$(echo "$branch" | tr '/' '-')
+    local folder=$(echo "$branch" | command tr '/' '-')
     local target_dir="$FLOW_WORKTREE_DIR/$project/$folder"
 
     # Create project directory if needed

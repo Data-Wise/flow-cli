@@ -53,7 +53,7 @@ _cache_status() {
     fi
 
     # Count files
-    local file_count=$(find "$freeze_dir" -type f 2>/dev/null | wc -l | tr -d ' ')
+    local file_count=$(find "$freeze_dir" -type f 2>/dev/null | wc -l | command tr -d ' ')
 
     # Get size
     local size_bytes=0
@@ -587,7 +587,7 @@ _cache_analyze() {
             while IFS= read -r subdir; do
                 local subdir_name=$(basename "$subdir")
                 local subdir_size=$(du -sh "$subdir" 2>/dev/null | awk '{print $1}')
-                local subdir_files=$(find "$subdir" -type f 2>/dev/null | wc -l | tr -d ' ')
+                local subdir_files=$(find "$subdir" -type f 2>/dev/null | wc -l | command tr -d ' ')
 
                 printf "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}   %-30s %8s  (%s files)\n" \
                     "$subdir_name" "$subdir_size" "$subdir_files"
@@ -705,7 +705,7 @@ _cache_clean() {
         dirs_to_delete+=("_site")
         if command -v du &>/dev/null; then
             local site_size=$(du -sh "$site_dir" 2>/dev/null | awk '{print $1}')
-            local site_files=$(find "$site_dir" -type f 2>/dev/null | wc -l | tr -d ' ')
+            local site_files=$(find "$site_dir" -type f 2>/dev/null | wc -l | command tr -d ' ')
             total_files=$((total_files + site_files))
         fi
     fi

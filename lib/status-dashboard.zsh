@@ -231,8 +231,8 @@ _teach_show_status_dashboard() {
     # Index health (content count)
     local lecture_count=0
     local assignment_count=0
-    [[ -d "lectures" ]] && lecture_count=$(find lectures -maxdepth 2 \( -name "*.md" -o -name "*.qmd" \) 2>/dev/null | wc -l | tr -d ' ')
-    [[ -d "assignments" ]] && assignment_count=$(find assignments -maxdepth 2 \( -name "*.md" -o -name "*.qmd" \) 2>/dev/null | wc -l | tr -d ' ')
+    [[ -d "lectures" ]] && lecture_count=$(find lectures -maxdepth 2 \( -name "*.md" -o -name "*.qmd" \) 2>/dev/null | wc -l | command tr -d ' ')
+    [[ -d "assignments" ]] && assignment_count=$(find assignments -maxdepth 2 \( -name "*.md" -o -name "*.qmd" \) 2>/dev/null | wc -l | command tr -d ' ')
     [[ "$lecture_count" =~ ^[0-9]+$ ]] || lecture_count=0
     [[ "$assignment_count" =~ ^[0-9]+$ ]] || assignment_count=0
 

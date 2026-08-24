@@ -344,7 +344,7 @@ _teach_count_backups() {
         return 0
     fi
 
-    find "$backup_dir" -maxdepth 1 -type d -name "*.20*" 2>/dev/null | wc -l | tr -d ' '
+    find "$backup_dir" -maxdepth 1 -type d -name "*.20*" 2>/dev/null | wc -l | command tr -d ' '
 }
 
 # =============================================================================
@@ -603,7 +603,7 @@ _teach_confirm_delete() {
     fi
 
     # Count files
-    local file_count=$(find "$backup_path" -type f 2>/dev/null | wc -l | tr -d ' ')
+    local file_count=$(find "$backup_path" -type f 2>/dev/null | wc -l | command tr -d ' ')
     echo "  Files:    $file_count"
 
     echo ""
@@ -669,7 +669,7 @@ _teach_preview_cleanup() {
     echo ""
 
     local backups=$(_teach_list_backups "$content_path")
-    local backup_count=$(echo "$backups" | wc -l | tr -d ' ')
+    local backup_count=$(echo "$backups" | wc -l | command tr -d ' ')
 
     if [[ "$backup_count" -eq 0 ]]; then
         echo "  ${FLOW_COLORS[dim]}No backups to clean${FLOW_COLORS[reset]}"

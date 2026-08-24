@@ -390,7 +390,7 @@ _update_index_link() {
         local link_text="- [$title]($basename)"
 
         # Get file line count to detect append case
-        local file_lines=$(wc -l < "$index_file" | tr -d ' ')
+        local file_lines=$(wc -l < "$index_file" | command tr -d ' ')
 
         # If insert_line is 0 or > file_lines, append at end
         # (sed can't insert past EOF, so use echo >> instead)

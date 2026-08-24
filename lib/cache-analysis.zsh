@@ -40,7 +40,7 @@ _analyze_cache_size() {
     fi
 
     # Count files
-    local file_count=$(find "$cache_dir" -type f 2>/dev/null | wc -l | tr -d ' ')
+    local file_count=$(find "$cache_dir" -type f 2>/dev/null | wc -l | command tr -d ' ')
 
     # Get size in bytes (portable: use du -sk for KB, then convert)
     local size_kb=0
@@ -109,7 +109,7 @@ _analyze_cache_by_directory() {
         local dir_size_human=$(_cache_format_bytes "$dir_size_bytes")
 
         # Count files
-        local dir_files=$(find "$subdir" -type f 2>/dev/null | wc -l | tr -d ' ')
+        local dir_files=$(find "$subdir" -type f 2>/dev/null | wc -l | command tr -d ' ')
 
         # Calculate percentage
         local percentage=0

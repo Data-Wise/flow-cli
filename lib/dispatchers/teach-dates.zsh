@@ -194,7 +194,7 @@ _teach_dates_sync() {
 
     local file_num=1
     for file in "${(@k)file_mismatches}"; do
-        local count=$(echo "${file_mismatches[$file]}" | wc -w | tr -d ' ')
+        local count=$(echo "${file_mismatches[$file]}" | wc -w | command tr -d ' ')
         printf "  %d. %s (%d mismatch)\n" "$file_num" "$file" "$count"
         ((file_num++))
     done

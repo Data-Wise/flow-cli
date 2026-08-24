@@ -222,7 +222,7 @@ _teach_health_indicator() {
         jq -r '.status // empty' "$status_file" 2>/dev/null
     else
         # Fallback: grep for status field
-        grep -o '"status": *"[^"]*"' "$status_file" 2>/dev/null | head -1 | grep -o '"[^"]*"$' | tr -d '"'
+        grep -o '"status": *"[^"]*"' "$status_file" 2>/dev/null | head -1 | grep -o '"[^"]*"$' | command tr -d '"'
     fi
 }
 
@@ -566,7 +566,7 @@ _teach_doctor_check_git() {
             _teach_doctor_pass "Working tree clean"
             json_results+=("{\"check\":\"working_tree\",\"status\":\"pass\",\"message\":\"clean\"}")
         else
-            local changes=$(echo "$porcelain" | wc -l | tr -d ' ')
+            local changes=$(echo "$porcelain" | wc -l | command tr -d ' ')
             _teach_doctor_warn "$changes uncommitted changes"
             json_results+=("{\"check\":\"working_tree\",\"status\":\"warn\",\"message\":\"$changes uncommitted\"}")
         fi
@@ -1002,7 +1002,7 @@ _teach_doctor_check_cache() {
         fi
 
         # Check cache file count
-        local cache_files=$(find _freeze -type f 2>/dev/null | wc -l | tr -d ' ')
+        local cache_files=$(find _freeze -type f 2>/dev/null | wc -l | command tr -d ' ')
         if [[ "$json" == "false" && "$quiet" == "false" ]]; then
             echo "    ${FLOW_COLORS[muted]}→ $cache_files cached files${FLOW_COLORS[reset]}"
         fi
@@ -1144,12 +1144,12 @@ _teach_doctor_check_macros() {
                 # Show unused macros: first 5 by default, all in verbose
                 if [[ "$quiet" == "false" ]]; then
                     if [[ "$verbose" == "true" ]]; then
-                        echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                        echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | command tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
                     elif (( unused_count > 5 )); then
-                        local preview=$(echo "$unused" | head -5 | tr '\n' ' ' | sed 's/ $//')
+                        local preview=$(echo "$unused" | head -5 | command tr '\n' ' ' | sed 's/ $//')
                         echo "    ${FLOW_COLORS[muted]}→ $preview ... (+$((unused_count - 5)) more, use --verbose)${FLOW_COLORS[reset]}"
                     else
-                        echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
+                        echo "    ${FLOW_COLORS[muted]}→ Unused: $(echo "$unused" | command tr '\n' ' ' | sed 's/ $//')${FLOW_COLORS[reset]}"
                     fi
                 fi
             else

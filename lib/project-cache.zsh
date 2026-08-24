@@ -272,7 +272,7 @@ _proj_cache_stats() {
     local age=$((now - cache_time))
     local age_str=$(_proj_format_duration "$age")
 
-    local count=$(tail -n +2 "$PROJ_CACHE_FILE" 2>/dev/null | wc -l | tr -d ' ')
+    local count=$(tail -n +2 "$PROJ_CACHE_FILE" 2>/dev/null | wc -l | command tr -d ' ')
 
     local status_icon
     local status_text

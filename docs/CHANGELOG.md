@@ -8,6 +8,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.17.1] — 2026-08-23 — alias-proof shipped pipelines
+
+### Fixed
+
+- **A user alias on a coreutil could hijack shipped pipelines.** Dispatchers run in the user's
+  *interactive* shell, where aliases are live and expand at parse time. On a machine with
+  `tr='track-activity report'`, every `... | tr -d ' '` in `lib/` ran that command instead, and its
+  output landed in the variable where a count belonged — `teach deploy --dry-run` printed
+  `Would deploy Monthly Terminal Report (2026-08):` instead of `Would deploy 675 files:`. All 101
+  pipeline sites across 34 files now use `command tr`, which bypasses aliases and functions.
+  Guarded by `tests/test-alias-shadowing.zsh`, including a negative control so the test cannot pass
+  vacuously if the environment stops reproducing the hijack.
+
 ## [7.17.0] — 2026-08-23 — teach deploy safety + CI coverage
 
 ### Added
