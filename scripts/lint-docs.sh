@@ -34,7 +34,12 @@ echo "Config: .markdownlint.yaml"
 echo ""
 
 # Find all markdown files
-MARKDOWN_FILES=$(find docs -name "*.md" -type f | sort)
+# .markdownlintignore is a markdownlint-cli **v1** file. This script runs
+# markdownlint-cli2, which does not read it — so the repo's intent to skip
+# .archive/ was silently inert and 49 of the reported errors came from
+# archived docs nobody maintains. Excluded via a negated glob instead, which
+# is what cli2 actually honours.
+MARKDOWN_FILES=$(find docs -name "*.md" -type f -not -path "*/.archive/*" | sort)
 FILE_COUNT=$(echo "$MARKDOWN_FILES" | wc -l | tr -d ' ')
 
 echo -e "${BLUE}Found $FILE_COUNT markdown files to lint${NC}"
@@ -46,7 +51,7 @@ if $FIX_MODE; then
     echo ""
 
     # markdownlint-cli2 with --fix flag
-    if markdownlint-cli2 --fix "docs/**/*.md" 2>&1; then
+    if markdownlint-cli2 --fix "docs/**/*.md" "!docs/**/.archive/**" 2>&1; then
         echo ""
         echo -e "${GREEN}✓ Auto-fix completed${NC}"
         echo -e "${YELLOW}Please review changes with: git diff${NC}"
@@ -60,7 +65,7 @@ else
     echo ""
 
     # Lint all files
-    if markdownlint-cli2 "docs/**/*.md"; then
+    if markdownlint-cli2 "docs/**/*.md" "!docs/**/.archive/**"; then
         echo ""
         echo -e "${GREEN}✓ All markdown files passed linting!${NC}"
         exit 0

@@ -46,6 +46,25 @@ jobs:
           zsh ./tests/test-flow.zsh
           bash ./tests/test-install.sh
 
+      - name: Markdown lint (advisory)
+        continue-on-error: true
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          # ADVISORY, not a gate. scripts/lint-docs.sh existed but was wired
+          # into nothing — not CI, not run-all.sh — so 394 markdown errors were
+          # invisible. Non-blocking because making it blocking today would fail
+          # every run; 138 of those are MD040 (fenced blocks needing a language
+          # tag), which is real work, not a config toggle.
+          #
+          # Do NOT reach for `--fix` to clear these. It renumbers ordered lists
+          # (MD029) and rewrote `#| label:` to `# | label:` in
+          # docs/plans/2026-01-31-teach-validate-lint.md, breaking a Quarto
+          # chunk directive. Measured: 302 of 443 auto-"fixed" across 48 files,
+          # with genuine content edits in ~20 including a security spec whose
+          # items 3-9 were renumbered to 1-7.
+          npm install -g markdownlint-cli2 >/dev/null 2>&1 || true
+          bash ./scripts/lint-docs.sh || true
+
       - name: Man-page version-sync guard
         run: |
           cd ~/projects/dev-tools/flow-cli
@@ -69,6 +88,51 @@ jobs:
   # after a soak). The check name below ("Full Test Suite") must match the
   # required-check name configured in branch protection.
   # ---------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
+  # extended-suite: the SOAK job. 74 suites existed in tests/ but were wired
+  # into nothing — not run-all.sh, not CI — so they had never run on a runner.
+  # They pass locally, but "passes on the author's Mac" is not evidence about
+  # ubuntu-latest, so this starts NON-BLOCKING on purpose. Promote into
+  # run-all.sh (and delete tests/run-extended.sh) once it is reliably green.
+  # This mirrors how full-suite itself was introduced.
+  # ---------------------------------------------------------------------------
+  extended-suite:
+    name: Extended Suite (soak, non-blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Ensure zsh is installed
+        run: |
+          if ! command -v zsh >/dev/null 2>&1; then
+            sudo apt-get update && sudo apt-get install -y zsh
+          fi
+
+      - name: Configure git identity
+        run: |
+          git config --global user.email "ci@flow-cli.test"
+          git config --global user.name "flow-cli CI"
+          git config --global init.defaultBranch main
+
+      - name: Create mock project structure
+        run: |
+          mkdir -p ~/projects/dev-tools/flow-cli/.git
+          mkdir -p ~/projects/r-packages/active/mediationverse/.git
+          mkdir -p ~/projects/r-packages/stable/rmediation/.git
+          mkdir -p ~/projects/teaching/stat-440/.git
+          mkdir -p ~/projects/research/mediation-planning/.git
+          mkdir -p ~/projects/quarto/manuscripts/paper1/.git
+          mkdir -p ~/projects/apps/examify/.git
+          cp -r . ~/projects/dev-tools/flow-cli/
+
+      - name: Run extended suite
+        run: |
+          cd ~/projects/dev-tools/flow-cli
+          bash ./tests/run-extended.sh
+
   full-suite:
     name: Full Test Suite
     runs-on: ubuntu-latest
