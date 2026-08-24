@@ -300,8 +300,8 @@ _dots_size() {
   echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}                                                   ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
 
   # Check for nested .git directories
-  local git_count=$(find "$chezmoi_dir" -name ".git" -type d -not -path "$chezmoi_dir/.git" 2>/dev/null | wc -l | tr -d ' ')
-  local git_dotf_count=$(find "$chezmoi_dir" -name "dot_git" -type d 2>/dev/null | wc -l | tr -d ' ')
+  local git_count=$(find "$chezmoi_dir" -name ".git" -type d -not -path "$chezmoi_dir/.git" 2>/dev/null | wc -l | command tr -d ' ')
+  local git_dotf_count=$(find "$chezmoi_dir" -name "dot_git" -type d 2>/dev/null | wc -l | command tr -d ' ')
   local total_git_dirs=$((git_count + git_dotf_count))
 
   if (( total_git_dirs > 0 )); then
@@ -311,7 +311,7 @@ _dots_size() {
   fi
 
   # Check for large files (>100KB)
-  local large_count=$(find "$chezmoi_dir" -type f -not -path "$chezmoi_dir/.git/*" -size +100k 2>/dev/null | wc -l | tr -d ' ')
+  local large_count=$(find "$chezmoi_dir" -type f -not -path "$chezmoi_dir/.git/*" -size +100k 2>/dev/null | wc -l | command tr -d ' ')
   if (( large_count > 0 )); then
     echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[warning]}⚠️  Found $large_count files larger than 100KB${FLOW_COLORS[reset]}          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
     echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[muted]}Review with: dots size | grep '⚠️'${FLOW_COLORS[reset]}            ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
@@ -648,7 +648,7 @@ _dots_show_file_diff() {
   echo ""
   echo "${FLOW_COLORS[header]}─────────────────────────────────────────────────${FLOW_COLORS[reset]}"
   chezmoi diff "$file" 2>/dev/null | head -20
-  local line_count=$(chezmoi diff "$file" 2>/dev/null | wc -l | tr -d ' ')
+  local line_count=$(chezmoi diff "$file" 2>/dev/null | wc -l | command tr -d ' ')
   if [[ $line_count -gt 20 ]]; then
     echo "${FLOW_COLORS[muted]}... (${line_count} lines total, showing first 20)${FLOW_COLORS[reset]}"
   fi
@@ -1268,7 +1268,7 @@ _dots_doctor_check_chezmoi_health() {
   fi
 
   # 5. Check managed file count
-  local managed_count=$(chezmoi managed 2>/dev/null | wc -l | tr -d ' ')
+  local managed_count=$(chezmoi managed 2>/dev/null | wc -l | command tr -d ' ')
   if (( managed_count > 0 )); then
     echo "${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}  ${FLOW_COLORS[success]}✓${FLOW_COLORS[reset]} $managed_count files managed                          ${FLOW_COLORS[header]}│${FLOW_COLORS[reset]}"
   else
@@ -1295,7 +1295,7 @@ _dots_doctor_check_chezmoi_health() {
   local large_files=$(find "$chezmoi_dir" -type f -not -path "$chezmoi_dir/.git/*" -size +100k 2>/dev/null)
   local large_count=0
   if [[ -n "$large_files" ]]; then
-    large_count=$(echo "$large_files" | wc -l | tr -d ' ')
+    large_count=$(echo "$large_files" | wc -l | command tr -d ' ')
   fi
 
   if (( large_count > 0 )); then
@@ -1323,10 +1323,10 @@ _dots_doctor_check_chezmoi_health() {
   local git_count=0
   local git_dotf_count=0
   if [[ -n "$git_dirs" ]]; then
-    git_count=$(echo "$git_dirs" | wc -l | tr -d ' ')
+    git_count=$(echo "$git_dirs" | wc -l | command tr -d ' ')
   fi
   if [[ -n "$git_dotf_dirs" ]]; then
-    git_dotf_count=$(echo "$git_dotf_dirs" | wc -l | tr -d ' ')
+    git_dotf_count=$(echo "$git_dotf_dirs" | wc -l | command tr -d ' ')
   fi
   local total_git=$((git_count + git_dotf_count))
 
@@ -1573,7 +1573,7 @@ fi
 
   for name in "${selected_secrets[@]}"; do
     # Convert to SCREAMING_SNAKE_CASE
-    local env_name=$(echo "${name}" | tr '[:lower:]-' '[:upper:]_')
+    local env_name=$(echo "${name}" | command tr '[:lower:]-' '[:upper:]_')
     envrc_content+="export ${env_name}=\$(sec get ${name})
 "
   done
@@ -1600,7 +1600,7 @@ fi
   echo ""
   echo "Environment variables:"
   for name in "${selected_secrets[@]}"; do
-    local env_name=$(echo "${name}" | tr '[:lower:]-' '[:upper:]_')
+    local env_name=$(echo "${name}" | command tr '[:lower:]-' '[:upper:]_')
     echo "  ${FLOW_COLORS[accent]}\$${env_name}${FLOW_COLORS[reset]}"
   done
   echo ""

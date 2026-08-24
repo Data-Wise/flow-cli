@@ -116,7 +116,7 @@ _teach_show_status_full() {
 
         # Check for open PRs (requires gh CLI)
         if command -v gh >/dev/null 2>&1; then
-            local pr_count=$(gh pr list --state open 2>/dev/null | wc -l | tr -d ' ')
+            local pr_count=$(gh pr list --state open 2>/dev/null | wc -l | command tr -d ' ')
             if [[ "$pr_count" -gt 0 ]]; then
                 echo "  Open PRs:     ${FLOW_COLORS[warning]}$pr_count pending${FLOW_COLORS[reset]}"
                 # Show first PR details
@@ -215,7 +215,7 @@ _teach_show_status_full() {
     local found_content=false
     for dir label in "${(@kv)content_dirs}"; do
         if [[ -d "$dir" ]]; then
-            local count=$(find "$dir" -maxdepth 2 -name "*.md" -o -name "*.qmd" 2>/dev/null | wc -l | tr -d ' ')
+            local count=$(find "$dir" -maxdepth 2 -name "*.md" -o -name "*.qmd" 2>/dev/null | wc -l | command tr -d ' ')
             if [[ "$count" -gt 0 ]]; then
                 printf "  %-20s %s files\n" "$label:" "$count"
                 found_content=true

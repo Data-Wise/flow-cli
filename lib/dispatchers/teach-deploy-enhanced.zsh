@@ -421,7 +421,7 @@ _deploy_dry_run_report() {
     # here. Say so, otherwise the count silently understates what would ship.
     if ! _git_is_clean 2>/dev/null; then
         local _uncommitted
-        _uncommitted=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+        _uncommitted=$(git status --porcelain 2>/dev/null | wc -l | command tr -d ' ')
         echo ""
         echo "${FLOW_COLORS[warn]}  Note:${FLOW_COLORS[reset]} $_uncommitted uncommitted file(s) are NOT included below."
         echo "${FLOW_COLORS[dim]}        A real deploy would offer to commit them first.${FLOW_COLORS[reset]}"
@@ -432,7 +432,7 @@ _deploy_dry_run_report() {
     files_changed=$(git diff --name-status "$prod_branch"..."$draft_branch" 2>/dev/null)
 
     if [[ -n "$files_changed" ]]; then
-        local file_count=$(echo "$files_changed" | wc -l | tr -d ' ')
+        local file_count=$(echo "$files_changed" | wc -l | command tr -d ' ')
         echo ""
         echo "  Would deploy $file_count files:"
 
@@ -1035,7 +1035,7 @@ _teach_deploy_enhanced() {
         if typeset -f _deploy_history_append >/dev/null 2>&1; then
             local _commit_after="${DEPLOY_COMMIT_AFTER:-$(git rev-parse --short=8 HEAD 2>/dev/null)}"
             local _commit_before="${DEPLOY_COMMIT_BEFORE:-}"
-            local _file_count="${DEPLOY_FILE_COUNT:-$(git diff --name-only HEAD~1 HEAD 2>/dev/null | wc -l | tr -d ' ')}"
+            local _file_count="${DEPLOY_FILE_COUNT:-$(git diff --name-only HEAD~1 HEAD 2>/dev/null | wc -l | command tr -d ' ')}"
             local _elapsed="${DEPLOY_DURATION:-0}"
             _deploy_history_append "direct" "$_commit_after" "$_commit_before" "$draft_branch" "$prod_branch" "$_file_count" "$smart_message" "null" "null" "$_elapsed"
             echo "  ${FLOW_COLORS[dim]}History logged: #$(( $(_deploy_history_count) )) ($(date '+%Y-%m-%d %H:%M'))${FLOW_COLORS[reset]}"
@@ -1182,7 +1182,7 @@ _teach_deploy_enhanced() {
         local modified=$(echo "$files_changed" | grep -c "^M" || echo 0)
         local added=$(echo "$files_changed" | grep -c "^A" || echo 0)
         local deleted=$(echo "$files_changed" | grep -c "^D" || echo 0)
-        local total=$(echo "$files_changed" | wc -l | tr -d ' ')
+        local total=$(echo "$files_changed" | wc -l | command tr -d ' ')
 
         echo ""
         echo "${FLOW_COLORS[dim]}Summary: $total files ($added added, $modified modified, $deleted deleted)${FLOW_COLORS[reset]}"

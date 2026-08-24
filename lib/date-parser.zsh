@@ -84,7 +84,7 @@ _date_parse_quarto_yaml() {
 
   # Extract date value from YAML frontmatter
   local date_value
-  date_value=$(yq eval ".${field} // \"\"" "$file" 2>/dev/null | tr -d '"')
+  date_value=$(yq eval ".${field} // \"\"" "$file" 2>/dev/null | command tr -d '"')
 
   # Return empty if not found or null
   if [[ -z "$date_value" || "$date_value" == "null" ]]; then
@@ -601,7 +601,7 @@ _date_load_config() {
 
       if [[ -n "$exam_date" && "$exam_date" != "null" ]]; then
         # Normalize exam name to key (lowercase, spaces to underscores)
-        local exam_key=$(echo "$exam_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
+        local exam_key=$(echo "$exam_name" | command tr '[:upper:]' '[:lower:]' | command tr ' ' '_')
         printf 'CONFIG_DATES[exam_%s]="%s"\n' "$exam_key" "$exam_date"
       fi
     done
@@ -650,7 +650,7 @@ _date_load_config() {
       holiday_date=$(yq eval ".semester_info.holidays[$i].date" "$config_file" 2>/dev/null)
 
       if [[ -n "$holiday_date" && "$holiday_date" != "null" ]]; then
-        local holiday_key=$(echo "$holiday_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '_')
+        local holiday_key=$(echo "$holiday_name" | command tr '[:upper:]' '[:lower:]' | command tr ' ' '_')
         printf 'CONFIG_DATES[holiday_%s]="%s"\n' "$holiday_key" "$holiday_date"
       fi
     done

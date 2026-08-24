@@ -128,7 +128,7 @@ _em_confirm_send() {
 
     # Check for empty body
     local body_lines
-    body_lines=$(awk '/^$/{found=1;next} found{print}' "$draft_file" | wc -l | tr -d ' ')
+    body_lines=$(awk '/^$/{found=1;next} found{print}' "$draft_file" | wc -l | command tr -d ' ')
     if [[ "$body_lines" -eq 0 ]]; then
         _flow_log_warning "Empty email body"
         printf "  Send anyway? [y/N] "

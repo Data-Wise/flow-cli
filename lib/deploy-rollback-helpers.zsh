@@ -201,7 +201,7 @@ _deploy_perform_rollback() {
     # Record rollback in deploy history
     if typeset -f _deploy_history_append >/dev/null 2>&1; then
         local file_count=0
-        file_count=$(git diff --name-only "${full_hash}^" "$full_hash" 2>/dev/null | wc -l | tr -d ' ')
+        file_count=$(git diff --name-only "${full_hash}^" "$full_hash" 2>/dev/null | wc -l | command tr -d ' ')
         _deploy_history_append \
             "rollback" \
             "$commit_after" \

@@ -47,8 +47,8 @@ _flow_progress_bar() {
   local empty=$(( width - filled ))
 
   printf "%s%s %d%%" \
-    "$(printf '%*s' "$filled" '' | tr ' ' "$filled_char")" \
-    "$(printf '%*s' "$empty" '' | tr ' ' "$empty_char")" \
+    "$(printf '%*s' "$filled" '' | command tr ' ' "$filled_char")" \
+    "$(printf '%*s' "$empty" '' | command tr ' ' "$empty_char")" \
     "$percent"
 }
 
@@ -213,7 +213,7 @@ _flow_box() {
   [[ -n "$title" ]] && printf " %s " "$title"
   local title_len=${#title}
   local remaining=$(( inner_width - title_len - 2 ))
-  printf "%${remaining}s" '' | tr ' ' '─'
+  printf "%${remaining}s" '' | command tr ' ' '─'
   printf "╮\n"
 
   # Content
@@ -223,7 +223,7 @@ _flow_box() {
 
   # Bottom border
   printf "╰"
-  printf "%${width}s" '' | tr ' ' '─'
+  printf "%${width}s" '' | command tr ' ' '─'
   printf "╯\n"
 }
 

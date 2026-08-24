@@ -110,11 +110,11 @@ _detect_r_packages_from_description() {
 
     # Get Imports section
     local imports
-    imports=$(awk '/^Imports:/{flag=1;next}/^[A-Z]/{flag=0}flag' "$desc_file" | tr -d ' ' | tr ',' '\n' | grep -v '^$')
+    imports=$(awk '/^Imports:/{flag=1;next}/^[A-Z]/{flag=0}flag' "$desc_file" | command tr -d ' ' | command tr ',' '\n' | grep -v '^$')
 
     # Get Depends section (excluding R itself)
     local depends
-    depends=$(awk '/^Depends:/{flag=1;next}/^[A-Z]/{flag=0}flag' "$desc_file" | tr -d ' ' | tr ',' '\n' | grep -v '^$' | grep -v '^R(')
+    depends=$(awk '/^Depends:/{flag=1;next}/^[A-Z]/{flag=0}flag' "$desc_file" | command tr -d ' ' | command tr ',' '\n' | grep -v '^$' | grep -v '^R(')
 
     packages=$(echo -e "${imports}\n${depends}" | sort -u)
 

@@ -215,7 +215,7 @@ EOF
     while IFS= read -r backup; do
         local backup_name=$(basename "$backup")
         local size=$(du -sh "$backup" 2>/dev/null | awk '{print $1}')
-        local file_count=$(find "$backup" -type f 2>/dev/null | wc -l | tr -d ' ')
+        local file_count=$(find "$backup" -type f 2>/dev/null | wc -l | command tr -d ' ')
 
         # Extract timestamp from backup name
         local timestamp=$(echo "$backup_name" | grep -o '[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}-[0-9]\{4\}' || echo "")
@@ -564,7 +564,7 @@ _teach_backup_update_metadata() {
     local backup_name=$(basename "$backup_path")
     local timestamp=$(date +%s)
     local size=$(du -sh "$backup_path" 2>/dev/null | awk '{print $1}')
-    local file_count=$(find "$backup_path" -type f 2>/dev/null | wc -l | tr -d ' ')
+    local file_count=$(find "$backup_path" -type f 2>/dev/null | wc -l | command tr -d ' ')
 
     # Add to metadata (simplified - full JSON manipulation would need jq)
     # For now, just append a simple entry
