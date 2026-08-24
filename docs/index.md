@@ -29,10 +29,11 @@ tags:
     **New here?** `setup` walks you through configuration interactively, or run `tutorial` for
     12 hands-on lessons at your own pace — both are guided, no docs required to start.
 
-!!! success "🎉 What's New in v7.17.0"
+!!! success "🎉 What's New in v7.17.1"
     **`teach deploy --dry-run` is genuinely read-only** — it no longer aborts in CI mode, no longer prompts to commit (a pty wrapper used to auto-accept that and create a real commit), and it now names the uncommitted files its plan excludes.
     **`teach deploy --direct` merges with `--no-ff`** — every deploy is one revertable commit again, so `teach deploy --rollback` can undo a multi-commit deploy as a unit.
     **`em undo`** — single-step undo of the last `em star`/`flag`/`unflag`/`move`, plus `em move --recent` for quick folder re-picks.
+    **Shipped pipelines are alias-proof** — a user alias on a coreutil (e.g. `tr`) could hijack internal pipelines and replace counts with unrelated output; all 101 sites now use `command tr`.
     Full details → [Changelog](CHANGELOG.md).
 
 ---
@@ -326,4 +327,4 @@ ref               # Quick-reference card (forgot the syntax? this is faster than
 
 ---
 
-**v7.17.0** · Pure ZSH · Zero Dependencies · MIT License
+**v7.17.1** · Pure ZSH · Zero Dependencies · MIT License
