@@ -130,6 +130,9 @@ run_test ./tests/automated-teach-style-dogfood.zsh
 run_test ./tests/dogfood-teach-deploy-v2.zsh
 run_test ./tests/test-teach-deploy-v2-unit.zsh
 run_test ./tests/test-teach-deploy-v2-integration.zsh
+run_test ./tests/test-teach-deploy-dryrun-readonly.zsh
+run_test ./tests/test-teach-deploy-merge-topology.zsh
+run_test ./tests/test-changelog-parity.zsh
 run_test ./tests/test-production-conflict-detection.zsh
 
 echo ""
