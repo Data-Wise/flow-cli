@@ -328,7 +328,12 @@ _deploy_direct_merge() {
 
     # Merge draft into production
     local merge_err
-    merge_err=$(git merge "$draft_branch" --no-edit -m "$commit_message" 2>&1)
+    # --no-ff: always create a merge commit, so each deploy is ONE revertable
+    # point in production history. Without it a deploy spanning N commits
+    # fast-forwards and leaves no single commit representing the deploy,
+    # which breaks --rollback granularity. git-helpers.zsh:693 already
+    # assumes deploys produce merge commits.
+    merge_err=$(git merge "$draft_branch" --no-ff --no-edit -m "$commit_message" 2>&1)
     if [[ $? -ne 0 ]]; then
         _teach_error "Merge conflict! Aborting merge." "$merge_err"
         git merge --abort 2>/dev/null

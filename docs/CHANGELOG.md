@@ -16,6 +16,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ### Fixed
 
+- **`teach deploy --direct` now merges with `--no-ff`** — without it a deploy of N draft commits
+  fast-forwards production to draft's own tip, leaving no single commit that represents the
+  deploy. `teach deploy --rollback` reverts the deploy's commit, so on a fast-forwarded deploy it
+  could only undo the last of the N. `git-helpers.zsh` already assumed otherwise, filtering "merge
+  commits from `--no-ff` deploys" when detecting production conflicts. Covered by
+  `tests/test-teach-deploy-merge-topology.zsh`, which asserts the production tip has two parents
+  and that the second is draft's tip. Note that draft and production legitimately point at the
+  same commit AFTER a deploy — the deploy syncs draft from production — so ref equality is not
+  evidence of a fast-forward; parent count is.
+
 - **`teach deploy --dry-run` is now read-only and no longer blocked in CI mode** — `ci_mode`
   auto-detects whenever stdin is not a TTY, so every automation or agent caller gets it. In that
   mode two preflight conditions aborted the run *before the plan could render*: "production has new
