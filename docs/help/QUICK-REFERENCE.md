@@ -237,6 +237,20 @@ flow doctor --verbose
 
 ---
 
+### Session Handoff
+
+```bash
+# Scaffold a structured handoff note
+flow handoff auth-refactor
+# Output: docs/planning/HANDOFF-auth-refactor.md created
+
+# Also file a GitHub issue from the same content
+flow handoff auth-refactor --issue
+# Output: [Handoff file created] + [Issue #NNN filed]
+```
+
+---
+
 ## Git Dispatcher (g)
 
 ### Basic Git Commands
@@ -1210,8 +1224,9 @@ em star 42              # Toggle star (Flagged) on email
 em starred              # List all starred emails
 
 # Move to folder
-em move 42 Archive      # Move with explicit folder
-em move 42              # Move with fzf folder picker (requires fzf)
+em move Archive 42      # Move with explicit folder
+em move --pick 42       # Move with fzf folder picker (requires fzf)
+em move --recent 42     # Quick-pick from last 3 destinations
 
 # Conversation thread
 em thread 42            # Show chronological thread for email
@@ -1289,6 +1304,9 @@ em restore 42 --to Archive       # Restore to specific folder
 em flag 42                       # Star/flag email
 em fl 42 43                      # Batch flag
 em unflag 42                     # Remove star
+
+# Undo the last star/flag/unflag/move (one step, 1hr window)
+em undo
 
 # AI extraction
 em todo 42                       # Extract action items → Reminders.app

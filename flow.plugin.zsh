@@ -56,6 +56,7 @@ source "$FLOW_PLUGIN_DIR/lib/em-render.zsh"
 source "$FLOW_PLUGIN_DIR/lib/em-ics.zsh"
 source "$FLOW_PLUGIN_DIR/lib/em-watch.zsh"
 source "$FLOW_PLUGIN_DIR/lib/tok-sync.zsh"
+source "$FLOW_PLUGIN_DIR/lib/handoff-helpers.zsh"
 
 # ============================================================================
 # COMMANDS
@@ -186,7 +187,7 @@ _flow_plugin_init
 
 # Export loaded marker
 export FLOW_PLUGIN_LOADED=1
-export FLOW_VERSION="7.16.0"
+export FLOW_VERSION="7.17.0"
 
 # Register exit hook for plugin cleanup
 add-zsh-hook zshexit _flow_plugin_cleanup

@@ -1,4 +1,10 @@
 site_name: Flow CLI Documentation
+
+# Fail the docs build on warnings (broken internal links, bad refs) instead of
+# deploying them. docs.yml runs `mkdocs gh-deploy --force` on push to main, so
+# without this a broken link ships silently. Verified before enabling: the
+# current tree builds with 0 warnings under --strict.
+strict: true
 site_description: Minimalist ZSH workflow tools with smart dispatchers. Track work sessions, manage multiple projects, visualize productivity metrics with ADHD-friendly design.
 site_author: DT
 site_url: https://data-wise.github.io/flow-cli
@@ -299,6 +305,7 @@ nav:
           - morning: commands/morning.md
           - dash: commands/dash.md
           - status: commands/status.md
+          - handoff: commands/handoff.md
           - sync: commands/sync.md
           - doctor: commands/doctor.md
           - config: commands/config.md
@@ -353,6 +360,7 @@ nav:
 
 not_in_nav: |
   ATLAS-CONTRACT.md
+  planning/PROPOSAL-claude-chat-to-code-handoff.md
   internal/conventions/adhd/GETTING-STARTED-TEMPLATE.md
   internal/conventions/adhd/HELP-PAGE-TEMPLATE.md
   internal/conventions/adhd/QUICK-START-TEMPLATE.md

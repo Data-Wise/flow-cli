@@ -1,6 +1,6 @@
 .\" Man page for flow command
 .\" Updated: June 2026
-.TH FLOW 1 "June 2026" "flow-cli 7.16.0" "User Commands"
+.TH FLOW 1 "June 2026" "flow-cli 7.17.0" "User Commands"
 .SH NAME
 flow \- ADHD-friendly workflow CLI for developers
 .SH SYNOPSIS
@@ -130,6 +130,12 @@ Auto-install all missing dependencies without prompts.
 .B doctor --ai
 AI-assisted troubleshooting using Claude CLI.
 .TP
+.B handoff \fIslug\fR \fR[\fI--issue\fR]
+Scaffold a structured docs/planning/HANDOFF-\fIslug\fR.md for transferring context
+between Claude chat/planning sessions and Claude Code (or across a context reset).
+Pre-fills Relevant Files from the diff against the base branch; refuses to overwrite
+an existing handoff. \fB--issue\fR also files a GitHub issue from the same content.
+.TP
 .B help \fR[\fIcommand\fR]
 Show help. Without args, shows overview. With command, shows specific help.
 .TP
@@ -222,6 +228,13 @@ Fix missing dependencies:
 .RS
 .nf
 flow doctor --fix
+.fi
+.RE
+.PP
+Scaffold a handoff note before a context reset:
+.RS
+.nf
+flow handoff auth-refactor
 .fi
 .RE
 .SH SHORTCUTS

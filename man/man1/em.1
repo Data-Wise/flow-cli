@@ -1,6 +1,6 @@
 .\" Man page for em dispatcher (Email / himalaya)
 .\" Generated: June 2026
-.TH EM 1 "June 2026" "flow-cli 7.16.0" "User Commands"
+.TH EM 1 "June 2026" "flow-cli 7.17.0" "User Commands"
 .SH NAME
 em \- Email dispatcher (himalaya wrapper)
 .SH SYNOPSIS
@@ -140,8 +140,10 @@ Interactive multi-select delete via fzf.
 Permanent delete (requires typing "yes" to confirm).
 .RE
 .TP
-.B move\fR, \fBmv \fIID\fR [\fIFOLDER\fR]
-Move email to folder. Opens fzf folder picker if FOLDER is omitted.
+.B move\fR, \fBmv \fIFOLDER\fR \fIID\fR...
+Move email(s) to folder (multi-ID). \fB--from\fR \fISRC\fR to override the source folder,
+\fB--pick\fR for an fzf folder picker, \fB--recent\fR to quick-pick from the last 3
+destination folders.
 .TP
 .B restore \fIID\fR
 Restore email from Trash to INBOX.
@@ -151,6 +153,10 @@ One-way: set starred status (batch-capable, multiple IDs allowed).
 .TP
 .B unflag \fIID\fR...
 One-way: clear starred status (batch-capable, multiple IDs allowed).
+.TP
+.B undo
+Undo the single most recent star, flag, unflag, or move action. One-step only
+(no multi-level undo stack); 1-hour undo window.
 .SS Organize
 .TP
 .B star \fIID\fR...
@@ -366,7 +372,7 @@ Manage folders:
 .nf
 em folders
 em create-folder Archive
-em move 42 Archive
+em move Archive 42
 .fi
 .RE
 .PP

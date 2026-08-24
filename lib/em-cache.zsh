@@ -25,6 +25,8 @@ typeset -gA _EM_CACHE_TTL=(
     [drafts]=3600           # 1 hour — drafts might need refreshing
     [schedules]=86400       # 24 hours
     [unread]=60             # 1 minute — unread count changes often
+    [undo_state]=3600       # 1 hour — undo window for last star/flag/move action
+    [recent_folders]=2592000 # 30 days — recently-used move destinations persist
 )
 
 # ═══════════════════════════════════════════════════════════════════
@@ -126,6 +128,73 @@ _em_cache_invalidate() {
     for op_dir in "$cache_base"/*(N/); do
         rm -f "$op_dir/$key.txt"
     done
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# UNDO STATE — single-step undo of the last star/flag/move action
+# ═══════════════════════════════════════════════════════════════════
+#
+# Record format (pipe-delimited, one line): action|arg1|arg2|...|ids (space-separated)
+#   star|<ids>              undo = re-toggle same ids (symmetric)
+#   flag|<ids>               undo = unflag same ids
+#   unflag|<ids>              undo = flag same ids
+#   move|<src>|<dst>|<ids>    undo = move dst->src same ids
+#
+# Explicitly capped at one step — recording a new action overwrites the
+# previous one, no multi-level stack.
+
+_em_undo_record() {
+    # Args: action, ...args, then a literal "--" separator, then ids...
+    # Simpler form used by callers: _em_undo_record "star" "$ids_string"
+    #                                _em_undo_record "move" "$src" "$dst" "$ids_string"
+    local action="$1"; shift
+    local payload="$action"
+    local part
+    for part in "$@"; do
+        payload="${payload}|${part}"
+    done
+    _em_cache_set "undo_state" "last" "$payload"
+}
+
+_em_undo_get() {
+    _em_cache_get "undo_state" "last"
+}
+
+_em_undo_clear() {
+    local cache_base="$(_em_cache_dir)/undo_state"
+    local key=$(_em_cache_key "last")
+    rm -f "$cache_base/$key.txt"
+}
+
+# ═══════════════════════════════════════════════════════════════════
+# RECENT FOLDERS — last N=3 move destinations, most-recent-first
+# ═══════════════════════════════════════════════════════════════════
+
+_em_recent_folders_add() {
+    # Args: folder — push to front, dedup, cap at 3
+    local folder="$1"
+    [[ -z "$folder" ]] && return 0
+
+    local existing
+    existing=$(_em_cache_get "recent_folders" "list" 2>/dev/null)
+
+    local -a folders=("$folder")
+    local line
+    while IFS= read -r line; do
+        [[ -z "$line" || "$line" == "$folder" ]] && continue
+        folders+=("$line")
+    done <<< "$existing"
+
+    # Cap at 3
+    (( ${#folders[@]} > 3 )) && folders=("${folders[@]:0:3}")
+
+    local joined
+    joined=$(printf '%s\n' "${folders[@]}")
+    _em_cache_set "recent_folders" "list" "$joined"
+}
+
+_em_recent_folders_get() {
+    _em_cache_get "recent_folders" "list" 2>/dev/null
 }
 
 _em_cache_clear() {

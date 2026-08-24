@@ -116,7 +116,7 @@ em read --md 87    # Clean Markdown rendering (better for Outlook emails)
 
 # Now act on it
 em reply 87                         # AI-drafted reply
-em move 87 Archive                  # File it away
+em move Archive 87                  # File it away
 em delete 87                        # Move to Trash (y/N confirm)
 em snooze 87 monday                 # Come back to it Monday 9am
 ```
@@ -200,12 +200,13 @@ em folders
 # Create a new folder
 em create-folder "Research 2026"
 
-# Move emails into it (one at a time or batch)
-em move 101 "Research 2026"
-em mv "Research 2026" 102 103 104   # batch move: folder first, then IDs
+# Move emails into it (folder first, then ID(s))
+em move "Research 2026" 101
+em mv "Research 2026" 102 103 104   # batch move
 
-# Or move with fzf folder picker (no folder arg = interactive)
-em move 105
+# Or pick the target folder interactively
+em move --pick 105          # fzf picker
+em move --recent 105        # quick-pick from last 3 destinations
 
 # List and clean up an old folder
 em inbox 50 "Old Archive"

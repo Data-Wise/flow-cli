@@ -573,9 +573,32 @@ winshistory() {
 
 # savant-docs — serve savant's private docs site locally and auto-open the browser.
 # Runs in a subshell so your current directory is unchanged. Ctrl-C to stop.
+# Port-smart (fixes the recurring "Address already in use" crash): if a port
+# already serves the savant site, just open it; otherwise walk up from 8000 to
+# the first free port. An explicit -a/--dev-addr passes through untouched.
 # Extra args pass through, e.g.:  savant-docs -a 127.0.0.1:8001
 savant-docs() {
-    ( cd ~/projects/dev-tools/savant && mkdocs serve -o "$@" )
+    # explicit address given → old behavior exactly, no auto-picking
+    if [[ " $* " == *" -a "* || " $* " == *" --dev-addr "* ]]; then
+        ( cd ~/projects/dev-tools/savant && mkdocs serve -o "$@" )
+        return
+    fi
+    local port=8000
+    while lsof -nP -iTCP:$port -sTCP:LISTEN >/dev/null 2>&1; do
+        # occupied — if it's already the savant site, open it instead of crashing
+        if curl -fsS --max-time 1 "http://127.0.0.1:$port/" 2>/dev/null | grep -qi "Savant Plugin"; then
+            echo "savant-docs: already serving at http://127.0.0.1:$port — opening browser"
+            open "http://127.0.0.1:$port"
+            return 0
+        fi
+        (( port++ ))
+        if (( port > 8020 )); then
+            echo "savant-docs: no free port in 8000-8020 and none serving savant — see 'lsof -nP -iTCP -sTCP:LISTEN'" >&2
+            return 1
+        fi
+    done
+    (( port != 8000 )) && echo "savant-docs: port 8000 busy → using $port"
+    ( cd ~/projects/dev-tools/savant && mkdocs serve -o -a 127.0.0.1:$port "$@" )
 }
 
 # savant-docs-build — one-off static build into savant/site/ and open it.
@@ -583,4 +606,50 @@ savant-docs() {
 # `savant-docs` (the server) for full functionality.
 savant-docs-build() {
     ( cd ~/projects/dev-tools/savant && mkdocs build && open site/index.html )
+}
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CATEGORY 11: MCP BRIDGE RELIABILITY (stopgap — see docs-standards ADR-001 rev.3,
+# atlas McpDoctorUseCase parked pending priority; this is the manual-fix shortcut)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# mcprestart — one-command quit+relaunch of Claude Desktop to reset a stalled or
+# dead MCP bridge (4-min-timeout stall, or instant "tool not found" death).
+# Logs every invocation to ~/.mcprestart.log so flicker frequency is *measured*,
+# not recalled — validates/refutes the "5+/month" estimate going forward.
+mcprestart() {
+    local log_file="$HOME/.mcprestart.log"
+    local ts=$(date '+%Y-%m-%d %H:%M:%S')
+
+    echo "🔄 Relaunching Claude Desktop (MCP bridge reset)..."
+    echo "$ts | mcprestart invoked" >> "$log_file"
+
+    osascript -e 'quit app "Claude"' 2>/dev/null
+    sleep 2
+    open -a "Claude"
+
+    echo "✅ Done — bridge should reconnect on launch."
+    echo "📊 Logged to $log_file (run 'mcprestart-log' to review)"
+}
+
+# mcprestart-log — show flicker frequency: recent entries + a total count,
+# so "how often is this actually happening" is a lookup, not a memory.
+# Validates/refutes the "5+/month" estimate from the ADR-001 discussion.
+mcprestart-log() {
+    local log_file="$HOME/.mcprestart.log"
+
+    if [[ ! -f "$log_file" ]]; then
+        echo "No log yet — run 'mcprestart' at least once."
+        return 0
+    fi
+
+    echo "🔁 MCP RESTART LOG"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "Last 10 restarts:"
+    tail -10 "$log_file"
+    echo ""
+    echo "Total restarts logged: $(wc -l < "$log_file" | tr -d ' ')"
+    local this_month=$(date '+%Y-%m')
+    echo "This month ($this_month): $(grep -c "^$this_month" "$log_file" 2>/dev/null || echo 0)"
 }

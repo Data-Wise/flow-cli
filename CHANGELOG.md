@@ -9,6 +9,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.17.0] — 2026-08-23 — teach deploy safety + CI coverage
+
+### Added
+
+- **`em undo`** — single-step undo of the last `em star`/`flag`/`unflag`/`move` action (1-hour window, no multi-level undo stack). Uses `lib/em-cache.zsh`'s existing cache API.
+- **`em move --recent <ID>...`** — quick-pick the target folder from the last 3 move destinations, no `fzf` required.
+- **Centralized `ALIASES` section in `em help`** — single-source list of all short-form command aliases, instead of scattered per-command mentions.
+
+### Fixed
+
+- **`teach deploy --dry-run` now reports what it is NOT showing** — because a dry run skips the
+  uncommitted-changes handler, its file list is committed work only. A real deploy would offer to
+  commit dirty files first and ship them too, so the plan could silently understate what would
+  deploy. It now names the count of excluded uncommitted files.
+
+- **`teach deploy --direct` now merges with `--no-ff`** — without it a deploy of N draft commits
+  fast-forwards production to draft's own tip, leaving no single commit that represents the
+  deploy. `teach deploy --rollback` reverts the deploy's commit, so on a fast-forwarded deploy it
+  could only undo the last of the N. `git-helpers.zsh` already assumed otherwise, filtering "merge
+  commits from `--no-ff` deploys" when detecting production conflicts. Covered by
+  `tests/test-teach-deploy-merge-topology.zsh`, which asserts the production tip has two parents
+  and that the second is draft's tip. Note that draft and production legitimately point at the
+  same commit AFTER a deploy — the deploy syncs draft from production — so ref equality is not
+  evidence of a fast-forward; parent count is.
+
+- **`teach deploy --dry-run` is now read-only and no longer blocked in CI mode** — `ci_mode`
+  auto-detects whenever stdin is not a TTY, so every automation or agent caller gets it. In that
+  mode two preflight conditions aborted the run *before the plan could render*: "production has new
+  commits" and "uncommitted changes". Neither can affect a dry run, which mutates nothing. The
+  uncommitted-changes handler had a worse edge: interactively it **prompts to commit**, and a pty
+  wrapper (`script -q /dev/null …`) answers the default `Y` and silently creates a real commit —
+  observed once against a live course repo. Both mutation-oriented gates now skip when `dry_run` is
+  true; real deploys still abort on both, asserted by controls in
+  `tests/test-teach-deploy-dryrun-readonly.zsh` (10 assertions, each checking repository state
+  before and after).
+
+- **`em move` was broken in production** — `_em_move` and its adapter `_em_hml_move` were each defined twice in the same file (zsh's last-definition-wins semantics), and the two live (later) definitions were incompatible with each other: the live `_em_move` called `_em_hml_move` with a numeric message ID in the source-folder position. Every `em move <ID> <folder>` call would attempt to move a message from a non-existent folder named after the ID. Removed the dead pair, kept the multi-ID interface (`em move <FOLDER> <ID>...`) that matches `em move --help`, `MASTER-DISPATCHER-GUIDE.md`, and the existing (previously unregistered) `tests/test-em-move-restore.zsh`. That test file — which would have caught this — was never wired into `tests/run-all.sh`; it is now.
+- Corrected a dozen-plus stale `em move <ID> [FOLDER]` / `em flag <ID> # Alias for em star` references across `docs/help/QUICK-REFERENCE.md`, `docs/reference/MASTER-DISPATCHER-GUIDE.md`, `docs/reference/REFCARD-EMAIL-DISPATCHER.md` (which had both a stale and a correct `em move` row), `docs/guides/EMAIL-DISPATCHER-GUIDE.md`, `docs/guides/EMAIL-COOKBOOK.md`, and `man/man1/em.1` — all inherited the same wrong interface the code bug had.
+
+### Changed
+
+- **CI now runs 60 suites that had never executed on a runner** — `tests/run-all.sh` takes an
+  explicit list rather than a glob, so 118 `test-*.zsh` files were wired into nothing. Audited:
+  74 pass locally, of which 60 also pass on `ubuntu-latest`; those 60 run in a new non-blocking
+  `Extended Suite` soak job (`tests/run-extended.sh`). The 14 that need brew/atlas/keychain are
+  excluded and named in that file, with the fix noted (exit `77`, the clean-skip code).
+- **`CHANGELOG.md` and `docs/CHANGELOG.md` parity is now gated** on the `[Unreleased]` section
+  (`tests/test-changelog-parity.zsh`), so an entry can no longer land in one file only. The two
+  files have pre-existing bidirectional drift in their historical sections — 23 versions only in
+  root, 41 only in `docs/`, and of 33 shared only 12 have identical bodies — which needs a human
+  and is deliberately not auto-reconciled.
+- **Docs build is gated.** `mkdocs.yml` gains `strict: true`, so broken links fail the build
+  instead of deploying; `docs.yml` runs `gh-deploy --force` on push. `scripts/lint-docs.sh` now
+  runs in CI as advisory. Fixed a real bug there: `.markdownlintignore` is a markdownlint-cli **v1**
+  file while the script runs cli2, which never read it — the intent to skip `.archive/` was inert,
+  accounting for 49 of the reported errors.
+
+
 ## [7.16.0] — 2026-07-07 — agy em-ai backend + em ADHD-UX fixes
 
 ### Added
@@ -32,6 +90,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **Modular `teach` dispatcher** — `lib/dispatchers/teach-dispatcher.zsh` is now a 307-line loader that sources 10 focused modules under `lib/dispatchers/teach/` (main, content, help, init-config, slides, style, backup, status, archive, map). The monolithic 5,611-line file is gone; characterization tests in `tests/test-teach-dispatcher-characterization.zsh` guard routing behavior.
+- **`flow handoff <slug>`** — scaffolds a structured `docs/planning/HANDOFF-<slug>.md` for
+  transferring context between Claude chat/planning sessions and Claude Code sessions (or
+  between Claude Code sessions across a context reset). Pre-fills the Relevant Files section
+  from `git diff --name-only` against a base branch, refuses to overwrite an existing handoff,
+  and optionally files a GitHub issue (`--issue`) from the same content. See
+  `docs/commands/handoff.md` and `docs/planning/PROPOSAL-claude-chat-to-code-handoff.md` for
+  the rationale.
 
 ## [7.15.0] — 2026-07-02 — Homebrew distribution health + doc gap fills
 

@@ -123,6 +123,7 @@ When adding new functions:
 - [Config Validation](#config-validation) - Configuration
 - [Git Helpers](#git-helpers) - Git integration
 - [Doctor Cache](#doctor-cache) - Token validation caching (v5.17.0+)
+- [Handoff Helpers](#handoff-helpers) - Session context-transfer scaffolding
 - [Commands Internal API](#commands-internal-api) - Command helper functions
 - [Teaching Libraries](#teaching-libraries) - AI-powered teaching workflow (v5.16.0+)
 - [Email Libraries](#email-libraries) - em dispatcher internals (v2.0)
@@ -6712,6 +6713,53 @@ _em_ai_validate_extra_args <args_string>
 **Behavior:**
 - Compares each token against an allowlist of known safe flags (e.g., `-e none`, `--model`)
 - Prevents injection of arbitrary shell commands through config file
+
+---
+
+## Handoff Helpers
+
+**File:** `lib/handoff-helpers.zsh`
+**Purpose:** Scaffold structured handoff notes for context transfer between Claude sessions
+**Functions:** 2
+**Version:** v7.16.1+ (unreleased)
+
+### Overview
+
+`flow handoff <slug>` implements the protocol in
+`docs/planning/PROPOSAL-claude-chat-to-code-handoff.md`: it writes
+`docs/planning/HANDOFF-<slug>.md` from a fixed schema (Summary, Key Decisions, Traps to
+Avoid, Working Agreements, Relevant Files, Open Work, Verification Note, Origin), pre-filling
+Relevant Files from `git diff --name-only` against the base branch (default `dev`, falls back
+to `main`).
+
+### Core Functions
+
+#### `_flow_handoff`
+
+```zsh
+_flow_handoff <slug> [--issue]
+```
+
+**Parameters:**
+- `$1` - Slug for the handoff file (`docs/planning/HANDOFF-<slug>.md`)
+- `--issue` - Also file a GitHub issue via `gh` using the handoff content as the body
+
+**Returns:**
+- `0` - Handoff file created (and issue filed, if requested)
+- `1` - Slug missing, handoff already exists for that slug, or `--issue` requested without `gh` available
+
+**Notes:**
+- Refuses to overwrite an existing handoff for the same slug
+- Uses `git diff --name-only`, not `--stat`, to avoid a zsh special-variable collision
+  (a local var named `fpath` collides with zsh's function-autoload array)
+
+#### `_flow_handoff_help`
+
+```zsh
+_flow_handoff_help
+```
+
+Prints usage for `flow handoff`.
 
 ---
 

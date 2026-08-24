@@ -17,7 +17,7 @@ em read 42            # Smart rendering (HTML/markdown/plain)
 em reply 42           # AI draft in $EDITOR
 em respond            # Batch AI drafts for actionable emails
 em star 42            # Toggle star/flag
-em move 42 Archive    # Move to folder
+em move Archive 42    # Move to folder
 em thread 42          # Conversation thread view
 em snooze 42 2h       # Snooze for later
 em digest             # AI-grouped daily summary
@@ -1225,8 +1225,10 @@ Toggle the IMAP `Flagged` flag on an email:
 
 ```bash
 em star 42              # Toggle star on email #42
-em flag 42              # Alias for em star
 ```
+
+`em flag`/`em unflag` are separate one-way commands (set/clear only, batch-capable) —
+not aliases of `em star`. See the Flag / Unflag section below.
 
 **Output:**
 
@@ -1261,21 +1263,35 @@ em starred — flagged emails
 Move an email to a different folder:
 
 ```bash
-em move 42 Archive      # Move to Archive (with confirmation)
-em move 42              # fzf folder picker (requires fzf)
-em mv 42 Trash          # Alias
+em move Archive 42          # Move email #42 to Archive
+em mv Trash 42               # Alias
+em move Archive 10 20 30     # Batch move (multi-ID)
+em move --from Sent Archive 42  # Move from a non-default source folder
+em move --pick 42            # fzf folder picker
+em move --recent 42          # Quick-pick from the last 3 destination folders
 ```
 
-**With explicit folder:**
+**Output:**
 
 ```text
-Move #42 → Archive? [y/N] y
-✅ Moved #42 to Archive
+✅ Moved 1 email(s) to Archive
 ```
 
-**Without folder (fzf picker):**
+**`--pick` (fzf folder picker):**
 
 Opens an interactive folder picker. Select a folder with Enter, or press Escape to cancel.
+
+**`--recent` (quick-pick, no fzf required):**
+
+```text
+Recent folders:
+  1) Archive
+  2) Projects
+  3) Newsletter
+  Select [1-3]: 1
+```
+
+Undo a move (or star/flag/unflag) with `em undo` — one step, 1-hour window.
 
 ### Thread
 
@@ -1528,8 +1544,6 @@ Archive
 ### Delete Emails
 
 ```bash
-em move 42 Archive      # Move email to Archive (with confirmation)
-em move 42              # Move with fzf folder picker
 em inbox Sent           # List sent emails
 em pick Archive         # Browse archive folder
 # Delete by ID (moves to Trash)
@@ -1585,6 +1599,13 @@ em mv Archive 10 20 30           # Batch move
 
 # Move from specific source folder
 em move --from Sent Archive 42   # Sent → Archive
+
+# fzf folder picker / recent-folders quick-pick
+em move --pick 42                # fzf picker
+em move --recent 42              # Pick from last 3 destinations
+
+# Undo the last star/flag/unflag/move (one step, 1hr window)
+em undo
 ```
 
 ### Restore from Trash

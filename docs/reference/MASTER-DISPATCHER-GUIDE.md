@@ -3300,10 +3300,11 @@ calendar ICS parsing, and IMAP IDLE background watching.
 | `em delete --purge <ID>` | | Permanent delete (requires typing "yes") |
 | `em create-folder <name>` | `em cf` | Create a new mail folder |
 | `em delete-folder <name>` | `em df` | Delete folder (type-to-confirm) |
-| `em move <ID> [FOLDER]` | `em mv` | Move email to folder (fzf picker if no folder) |
+| `em move <FOLDER> <ID>...` | `em mv` | Move email(s) to folder (`--pick` for fzf, `--recent` for last 3) |
 | `em restore <ID>` | | Restore from Trash to INBOX |
 | `em flag <ID>...` | `em fl` | One-way: set starred (batch-capable) |
 | `em unflag <ID>...` | | One-way: clear starred (batch-capable) |
+| `em undo` | | Undo last star/flag/unflag/move (1-step, 1hr window) |
 | `em respond` | `em resp` | Batch AI drafts for actionable emails |
 | `em classify <ID>` | | AI category classification |
 | `em summarize <ID>` | `em sum` | One-line AI summary |
@@ -3344,7 +3345,7 @@ em forward 42 user@example.com --prompt 'FYI re: our discussion'
 em reply 42 --backend agy     # Override AI backend per-command
 em respond                 # Batch process actionable emails
 em star 42                 # Toggle star on email
-em move 42 Archive         # Move email to folder
+em move Archive 42         # Move email to folder
 em thread 42               # Show conversation thread
 em snooze 42 2h            # Snooze for 2 hours
 em digest                  # AI-grouped daily summary

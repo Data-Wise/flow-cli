@@ -216,7 +216,7 @@ command -v radian >/dev/null && alias R='radian'
 
 # Token optimization: compact at 65% context (default is ~83.5%)
 # Fallback for settings.json env block which may be silently ignored (issue #63186)
-export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=65
+export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50
 
 # Default main-loop model: opusplan (Opus in plan mode, Sonnet for execution).
 # Set in ~/.claude/settings.json ("model": "opusplan"); kept here as documentation.
@@ -1155,6 +1155,12 @@ brew() {
     return $rc
 }
 export HOMEBREW_NO_ENV_HINTS=1
+
+# savant: uv-managed venv location providing openpyxl for the xlsx-render dogfood
+# tests (kept off the system Python deliberately — PEP 668 externally-managed
+# guard). Not on PATH by default; opt in per-command:
+#   PATH="$SAVANT_RENDER_VENV/bin:$PATH" npm test
+export SAVANT_RENDER_VENV="$HOME/.venvs/savant-render"
 
 # Antigravity Workflow Plugin Hooks
 # Shows ⚠️ [stuck?] nudge after a command fails twice in a row; logs to ~/.config/obs/obs.log
