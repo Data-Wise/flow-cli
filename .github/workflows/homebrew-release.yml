@@ -120,6 +120,11 @@ jobs:
             echo "No changes to commit (formula already at v${VERSION})"
             exit 0
           fi
+          # Tap main is branch-protected (PR-only + required status checks), so
+          # a direct push is rejected with GH006. Push a bot branch, open a PR,
+          # and enable auto-merge so it lands once the required checks pass.
+          BRANCH="bot/flow-cli-${VERSION}"
+          git checkout -b "$BRANCH"
           git commit -m "flow-cli: update to v${VERSION}"
 
           # Auth via URL-embedded App token; clear GITHUB_TOKEN so the
@@ -127,15 +132,19 @@ jobs:
           PUSH_URL="https://x-access-token:${TAP_TOKEN}@github.com/Data-Wise/homebrew-tap.git"
           git remote set-url origin "$PUSH_URL"
           unset GITHUB_TOKEN
+          # Force-push is safe: bot/flow-cli-* is a bot-owned, per-version
+          # branch; overwriting it just makes re-runs idempotent.
+          git push --force -u origin "$BRANCH"
 
-          for attempt in 1 2 3; do
-            if git push origin HEAD:main; then
-              echo "Pushed to main (attempt $attempt)"
-              exit 0
-            fi
-            echo "Push failed (attempt $attempt/3), rebasing..."
-            git pull --rebase origin main
-          done
+          export GH_TOKEN="$TAP_TOKEN"
+          if ! gh pr view "$BRANCH" --repo Data-Wise/homebrew-tap --json state -q .state 2>/dev/null | grep -q OPEN; then
+            gh pr create --repo Data-Wise/homebrew-tap \
+              --base main --head "$BRANCH" \
+              --title "flow-cli: update to v${VERSION}" \
+              --body "Automated formula bump from flow-cli homebrew-release.yml."
+          fi
 
-          echo "::error::Failed to push after 3 attempts"
-          exit 1
+          # Auto-merge waits for the tap's required checks; if they already
+          # completed, fall back to an immediate merge.
+          gh pr merge "$BRANCH" --repo Data-Wise/homebrew-tap --squash --auto \
+            || gh pr merge "$BRANCH" --repo Data-Wise/homebrew-tap --squash
