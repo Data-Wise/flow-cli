@@ -6,6 +6,18 @@ Complete release history for flow-cli.
 
 ---
 
+## v7.3.0 → v7.17.2 (2026-02-20 → 2026-09-05)
+
+!!! note "Curated highlights not yet written for these versions"
+    This page's version-by-version highlights stop at v7.2.0 — they haven't been
+    backfilled for the ~15 releases since. For the complete, authoritative record of
+    every version in between (including the current release, **v7.17.2**), see
+    [CHANGELOG.md](CHANGELOG.md) or the [GitHub Releases](https://github.com/Data-Wise/flow-cli/releases) page.
+
+[Full Changelog →](CHANGELOG.md){ .md-button } [GitHub Releases →](https://github.com/Data-Wise/flow-cli/releases){ .md-button }
+
+---
+
 ## v7.2.0 - Explicit Editor Flag (2026-02-16)
 
 !!! success "🎯 work -e: Explicit Editor Control — Released 2026-02-16"
