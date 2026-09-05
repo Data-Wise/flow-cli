@@ -8,6 +8,33 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.17.2] — 2026-09-05 — CI hardening + PATH fix
+
+### Fixed
+
+- **`uv` tool shims (radian, arxiv_latex_cleaner) were installed but unreachable.** `~/.local/bin` is
+  where `uv` installs them, but nothing in the zsh config put that directory on `PATH`. Added to
+  `.zshenv` (not `.zshrc`) so non-interactive shells — scripts, Claude Code — resolve them too,
+  guarded against unbounded growth across nested shells. (#513)
+- **The Homebrew tap release workflow's direct push to `main` started failing (GH006)** once
+  `Data-Wise/homebrew-tap` enabled branch protection. The workflow now pushes a
+  `bot/flow-cli-<version>` branch, opens a PR, and enables auto-merge so it lands once the tap's
+  required checks pass. (#499)
+
+### Changed
+
+- **The tap release App token is now scoped to `contents: write` + `pull-requests: write`**
+  instead of inheriting every permission the App's installation holds on `homebrew-tap` — the
+  two permissions the job actually uses (formula push, PR open/auto-merge). (#514)
+- **Dependabot's `github-actions` updates now target `dev` explicitly.** Without a
+  `target-branch`, dependabot re-derives the base from the repo default (`main`) and resets it on
+  every rebase, so a manual PR retarget could never stick. (#515)
+- **Dropped the npm dependabot ecosystem.** `package.json` has no runtime dependencies — only 3
+  devDependencies that never reach a user, since flow-cli ships as zsh through Homebrew. Of the
+  last 16 npm dependabot PRs, 9 were closed unmerged; the 3 github-actions updates in the same
+  window all merged and covered real security surface. (#515)
+- Bumped `prettier` 3.9.4 → 3.9.6 and `lint-staged` 17.0.8 → 17.4.1 (devDependencies only). (#512, #515)
+
 ## [7.17.1] — 2026-08-23 — alias-proof shipped pipelines
 
 ### Fixed
