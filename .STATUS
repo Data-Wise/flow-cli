@@ -4,12 +4,135 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: --help
-## Phase: Released (v7.16.0)
+## Focus: Post-v7.17.2 maintenance — stale-issue triage, PR #500 rebase decision, markdown-lint backlog
+## Phase: Released (v7.17.2)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-07-07) — himalaya-mcp cross-ref verified + worktree cleanup + em move bug fix + Phase 3
+## Current Session (2026-09-05) — .STATUS resync after a two-month gap
+
+**Session activity:**
+- **`.STATUS` had gone stale since 2026-07-07.** The header still read `Phase: Released
+  (v7.16.0)` while three releases (v7.17.0, v7.17.1, v7.17.2) had shipped, and `Focus:` held
+  the literal string `--help` — a bad write, not a focus. Both corrected. The three v7.17.x
+  session entries below are reconstructed from `CHANGELOG.md`, the merged PR bodies, and the
+  release tags, not from a live session log.
+- **State verified at time of writing:** `dev` clean and in sync with origin (0/0), no
+  worktrees, v7.17.2 tagged and released 2026-09-05 04:53 UTC, CI green on `main`. `dev` is
+  1 commit ahead of `main` (`91ef2c0f`, the RELEASES.md pointer — unreleased). `main`'s 3
+  extra commits are `dev→main` release merge commits, which by design never flow back;
+  `git merge-base --is-ancestor` reads that as divergence, but `git log dev..main` showing
+  *only* merge commits is the tell that nothing real diverged.
+- **Test baseline refreshed from evidence**, not carried forward: CI run `33946019980` on
+  `dev` (2026-09-05) — 84 passed / 0 failed / 0 timeout / 1 skipped (himalaya absent), across
+  85 registered suites. Extended soak 60/0. Man-page guard 12/12.
+- **Surfaced, not acted on:** PR #500 (`actions/setup-python` 6→7) is green on both required
+  checks but `BEHIND` base — needs a rebase, and may be moot after #515's dependabot rework.
+  Issues #487/#488/#489 look stale against work that shipped in PR #496/#497 and the
+  ai-rewrite worktree that was deleted as superseded. `.token-optimizer/` is untracked and
+  not in `.gitignore`.
+- **Known advisory failure:** the Markdown lint step in `test.yml` is `continue-on-error: true`
+  by design and currently fails — 394 errors, 138 of them MD040 (fenced blocks missing a
+  language tag). Real work, not a config toggle; making it blocking today would fail every run.
+- Note on `CLAUDE.md` drift: its "76 registered suites" and "75 passed" baseline are genuinely
+  stale (now 85 suites / 84 passed). Its "232 test files" is **not** — that counts every `.zsh`
+  under `tests/` (241 today), a different glob from the 179 `test-*.zsh` suite files. Two
+  metrics, not one stale number. Left unchanged this session (out of scope).
+- `Progress: 100` tracks the **release phase** (v7.17.2 shipped), not the open maintenance items
+  under `## Next Action` — those are follow-ups on a completed release, not an unfinished one.
+- The machine-owned trailer at the bottom of this file (`## wins:`, `## streak:`,
+  `## last_active:`, `# Last teach config:`) is two months stale and was deliberately **not**
+  hand-edited — flow-cli's own `win`/`yay`/`finish` write it, and `last_active` corrects itself
+  on the next session-close.
+
+## Previous Session (2026-09-04) — v7.17.2 SHIPPED: CI hardening + PATH fix ✅
+
+**Session activity:**
+- **Tap release workflow unblocked** (PR #499): `Data-Wise/homebrew-tap` enabled branch
+  protection on `main`, so the release workflow's direct push started failing with GH006
+  (first seen on atlas v0.14.0, 2026-07-19). The tap step now commits to a per-version
+  `bot/flow-cli-<version>` branch, opens a PR idempotently via `gh`, and enables squash
+  auto-merge with an immediate-merge fallback. Fixed ecosystem-wide in the same pass
+  (atlas#101, homebrew-tap#168, craft, folio, scribe).
+- **Tap App token scoped down** (PR #514): `homebrew-release.yml` minted its credential with
+  no `permission-*` inputs, so the token inherited every permission the App installation held
+  on the tap — for a whole job running `sed`, `git` and `gh` against it. Now declares the two
+  it actually uses: `contents: write` (formula push) + `pull-requests: write` (open/auto-merge
+  the bump PR). Both confirmed already-granted from the App's 7 authored tap PRs.
+- **Dependabot pinned to `dev`, npm ecosystem dropped** (PR #515): without `target-branch`,
+  dependabot re-derives its base from the repo default (`main`) and **resets it on every
+  rebase** — confirmed live on #503, so a manual per-PR retarget can never stick. npm updates
+  dropped outright: `package.json` has no runtime dependencies, only 3 devDependencies that
+  never reach a user (flow-cli ships as zsh via Homebrew); 9 of the last 16 npm dependabot PRs
+  were closed unmerged, each costing a full CI run.
+- **`~/.local/bin` added to `PATH`** (PR #513): `uv` installs tool shims there (`radian`,
+  `arxiv_latex_cleaner`) but nothing put the directory on `PATH` — installed yet unreachable,
+  surfaced while restoring a new Mac. One guarded line in `zsh/.zshenv` (not `.zshrc`, so
+  non-interactive shells and Claude Code resolve them too), substring-guarded so nested shells
+  don't grow `PATH` unboundedly.
+- Dependency bumps: prettier 3.9.4 → 3.9.6, lint-staged 17.0.8 → 17.4.1 (devDependencies only).
+- Post-release: `91ef2c0f` pointed the RELEASES.md v7.3.0–v7.17.2 gap at `CHANGELOG.md`
+  rather than backfilling it. Still unreleased on `dev`.
+
+## Previous Session (2026-08-23) — v7.17.1 SHIPPED: alias-proof shipped pipelines ✅
+
+**Session activity:**
+- **A user alias on a coreutil could hijack every shipped pipeline** (PR #509). Dispatchers run
+  in the user's *interactive* shell, where aliases are live and expand at parse time. This
+  machine has `tr='track-activity report'`, so every `... | tr -d ' '` in `lib/` ran that
+  command and *its* output landed in the variable where a count belonged — `teach deploy
+  --dry-run` printed `Would deploy Monthly Terminal Report (2026-08):` where `675` belonged.
+- Root cause found by tracing the garbled uncommitted-file count shipped in v7.17.0; the
+  **pre-existing** `file_count` line had the identical bug. One root cause, two symptoms — the
+  new feature just made it visible.
+- Fix: 101 pipeline sites across 34 files switched to `command tr`, which bypasses aliases and
+  functions. Guarded by `tests/test-alias-shadowing.zsh`, including a **negative control** so
+  the test cannot pass vacuously if the environment stops reproducing the hijack.
+
+## Previous Session (2026-08-23) — v7.17.0 SHIPPED: teach deploy safety + CI coverage ✅
+
+**Session activity:**
+- **`teach deploy --dry-run` was neither read-only nor usable in CI mode** (PR #505). `ci_mode`
+  auto-detects whenever stdin is not a TTY, so *every* automation or agent caller gets it, and
+  two preflight gates aborted before the plan could render ("production has new commits",
+  "uncommitted changes") — neither of which can affect a run that mutates nothing. The
+  uncommitted-changes handler had a worse edge: interactively it **prompts to commit**, and a
+  pty wrapper (`script -q /dev/null …`) answers the default `Y` and silently created a real
+  commit against a live course repo, observed once. Both gates now skip when `dry_run` is true;
+  real deploys still abort on both. `tests/test-teach-deploy-dryrun-readonly.zsh` — 10
+  assertions, each checking repository state before *and* after.
+- **`teach deploy --direct` now merges with `--no-ff`** (same PR): without it, a deploy of N
+  draft commits fast-forwards production to draft's tip, leaving no single commit representing
+  the deploy — so `--rollback`, which reverts the deploy commit, could only undo the last of the
+  N. `git-helpers.zsh` already assumed `--no-ff` topology when filtering production conflicts.
+  Guarded by `tests/test-teach-deploy-merge-topology.zsh`. **Non-obvious:** draft and production
+  legitimately point at the same commit *after* a deploy (the deploy syncs draft from
+  production), so ref equality is not evidence of a fast-forward — parent count is.
+- **`teach deploy --dry-run` now names what it is NOT showing** — a dry run skips the
+  uncommitted-changes handler, so its file list is committed work only, while a real deploy
+  would offer to commit dirty files and ship them too. It now reports the excluded count.
+- **Four CI coverage gaps closed** (PR #506), from a read-only audit:
+  1. The two suites added in #505 merged green while CI never executed their 12 assertions —
+     `run-all.sh` takes an explicit `run_test` list, not a glob. Both wired.
+  2. Audited all 118 `test-*.zsh` files unreferenced by `run-all.sh`: 74 passed on a runner and
+     had simply never run; 37 genuinely broken.
+  3. + 4. Changelog parity and docs gating.
+  Framing from the same audit: the blocking full-suite gate is real coverage, not theater — the
+  `rc 77` clean-skip protocol is barely used.
+- Also shipped in v7.17.0: `em undo` (single-step, 1-hour window, on `lib/em-cache.zsh`'s
+  existing API), `em move --recent <ID>...` (quick-pick from the last 3 destinations, no `fzf`),
+  and a centralized `ALIASES` section in `em help` — the Phase 3 work specced in
+  `docs/specs/SPEC-em-ux-refactor-2026-07-07.md`.
+
+## Previous Session (2026-07-08 → 2026-07-19) — scattered housekeeping [dev]
+
+**Session activity:**
+- `19b7024f` — lowered `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` 65 → 50.
+- `113a604d` — `SAVANT_RENDER_VENV` env var for the openpyxl dogfood venv.
+- `dbe37ba1` — savant-docs port-smart serve: reuse a live savant server, or walk to a free port.
+- No release, no feature work; the repo was quiet between v7.16.0 and the 2026-08-23 push.
+
+## Previous Session (2026-07-07) — himalaya-mcp cross-ref verified + worktree cleanup + em move bug fix + Phase 3
 
 **Session activity:**
 - **himalaya-mcp/`em` docs cross-reference**: verified already shipped in an earlier session —
@@ -243,7 +366,7 @@
 - **Tests:** 63 pass / 0 fail / 1 timeout / 1 skip (man-page version-sync: 12/12); .TH line unchanged
 - **PR #471** (draft): https://github.com/Data-Wise/flow-cli/pull/471
 
-## Current Session (2026-06-18) — v7.10.2 SHIPPED (docs polish + dep maintenance) [main + Homebrew]
+## Previous Session (2026-06-18) — v7.10.2 SHIPPED (docs polish + dep maintenance) [main + Homebrew]
 
 **Session activity:**
 - **Scheduling docs overhaul:** new top-level **Planning & Scheduling** mkdocs tab (gathered tutorial 48 + AGENDA-SCHEDULE-GUIDE + capture/routine, removed dup guide entry + empty Learn ADHD subsection); planning arc cross-linked (44→48→43, 02→48) + added missing `T48` node to the learning-path map; clarified flow-cli ↔ Atlas in 43/44/48 (value-line + guide link, was 0 links); tutorials index count fix (47) + completed All Tutorials table.
@@ -251,7 +374,7 @@
 - **Dependabot cleared:** merged #469 prettier 3.8.4 + #462 checkout v6 (update-branch → CI green → merge, not --admin); dev synced with main each time.
 - **Released v7.10.2** (`release.sh 7.10.2`): version files + man `.TH` + 47 doc footers + CHANGELOG ×2 + index What's New → PR #470 → CI green (64/0/1) → merged main (`50bae7f0`) → main CI green + docs deployed → GitHub release → Homebrew tap auto-updated (v7.10.2.tar.gz) → dev/main synced. All docs + dev/CI deps, no runtime changes.
 
-## Current Session (2026-06-14) — v7.10.1 SHIPPED (main + Homebrew + agenda tutorial #48); v7.10.0 + CI gate prior [dev]
+## Previous Session (2026-06-14) — v7.10.1 SHIPPED (main + Homebrew + agenda tutorial #48); v7.10.0 + CI gate prior [dev]
 
 **Session activity:**
 - **Agenda feature → v7.10.0 SHIPPED:** reviewed + hardened the schedule layer (adversarial A–F fixes, `e2e-agenda`/`dogfood-agenda` pair, shared-pipeline refactor `_schedule_window_records`/`_schedule_render_capped`); fixed a pre-existing `dash` non-TTY abort (`$(( cond ? 's' : '' ))` ×3). PR #463→dev → release PR #464→main (`477b5c59`) → GitHub release v7.10.0 → Homebrew tap auto-updated → docs deployed. Plus ~50-doc version sweep + CHANGELOG ×2 + index What's-New + `agenda` in index Core Commands (`955b1fe3`).
@@ -598,7 +721,7 @@
 
 | Worktree | Branch | Status |
 |----------|--------|--------|
-| — | — | All worktrees clean (as of 2026-07-02) |
+| — | — | All worktrees clean (as of 2026-09-05) |
 
 ---
 
@@ -618,8 +741,21 @@
 
 ## Next Action
 
-1. Issue #359 — `teach check` cross-tool validation summary (2-3h, verified not started)
-2. Issue #275 — `teach dashboard` subcommand for dynamic website content (8-12h, verified not started; original spec archived, would need a fresh spec)
+**Verified against repo state 2026-09-05.**
+
+1. **Triage the three probably-stale issues** (~20 min) — #489 (PR+merge `feature/mcprestart-stopgap`)
+   and #487 (AI rewrite trigger `:rw`/`:rwq`) both describe work this file records as merged
+   (PR #496) or deleted as superseded; #488's shipped half is done, its atlas half parked. Confirm
+   against `git log` before closing.
+2. **Decide PR #500** (`actions/setup-python` 6→7) — green on both required checks but `BEHIND`
+   base. Rebase and merge, or close it as covered by #515's dependabot rework.
+3. **Add `.token-optimizer/` to `.gitignore`** (~1 min) — currently untracked and noisy in every
+   `git status`.
+4. Issue #359 — `teach check` cross-tool validation summary (2-3h, verified not started 2026-07-02)
+5. Issue #275 — `teach dashboard` subcommand for dynamic website content (8-12h, verified not
+   started; original spec archived, would need a fresh spec)
+6. **Markdown-lint backlog** (advisory, non-blocking by design) — 394 errors, 138 of them MD040
+   (fenced blocks needing a language tag). Real work; `test.yml` documents why it stays advisory.
 
 ## Parked
 
@@ -628,8 +764,8 @@
 
 ---
 
-**Last Updated:** 2026-07-06
-**Status:** v7.15.0 active | Phase 1 restructure in progress (teach dispatcher split merged in PR #490; email dispatcher split queued) | full suite — 74 passed / 0 failed / 1 timeout (interactive/tmux baseline) / 1 skipped (himalaya absent) | 14 dispatchers + at bridge | 232 test files | 76 registered suites | 0 lint errors | 0 broken links
+**Last Updated:** 2026-09-05
+**Status:** v7.17.2 released 2026-09-05 (tagged, Homebrew tap PR auto-merged, CI green on `main`) | `dev` clean, 1 commit ahead of `main` (unreleased RELEASES.md pointer), no worktrees | full suite — 84 passed / 0 failed / 0 timeout / 1 skipped (himalaya absent) across 85 registered suites, per CI run 33946019980 on `dev` | extended soak 60 passed / 0 failed | man-page guard 12/12 | markdown lint ADVISORY and failing by design (394 errors) | 14 dispatchers + `at` bridge | 179 `test-*.zsh` suite files (241 `.zsh` total under `tests/`)
 ## wins: Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06), fixed the bug (2026-07-06), Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06)
 ## streak: 1
 ## last_active: 2026-07-06 12:53
