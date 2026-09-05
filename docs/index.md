@@ -327,4 +327,4 @@ ref               # Quick-reference card (forgot the syntax? this is faster than
 
 ---
 
-**v7.17.1** · Pure ZSH · Zero Dependencies · MIT License
+**v7.17.2** · Pure ZSH · Zero Dependencies · MIT License

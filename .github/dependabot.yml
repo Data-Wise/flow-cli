@@ -1,25 +1,21 @@
 version: 2
 updates:
-  # Enable version updates for npm
-  - package-ecosystem: 'npm'
-    directory: '/'
-    schedule:
-      interval: 'weekly'
-      day: 'monday'
-      time: '09:00'
-    open-pull-requests-limit: 5
-    reviewers:
-      - 'dt'
-    commit-message:
-      prefix: 'chore(deps)'
-      include: 'scope'
-    labels:
-      - 'dependencies'
-      - 'automated'
-
   # GitHub Actions updates
+  #
+  # npm version updates were removed here (2026-09-04): package.json has no
+  # runtime `dependencies`, only 3 devDependencies (husky, lint-staged,
+  # prettier) that never reach a user — flow-cli ships as zsh through
+  # Homebrew. Of the last 16 npm dependabot PRs, 9 were closed unmerged and
+  # only 6 merged, each costing a full CI run (ZSH Plugin Tests alone ~7min).
+  # github-actions updates merged 3/3 and cover real security surface (e.g.
+  # #444 bumped actions/create-github-app-token, the action #514 later
+  # hardened) — kept.
   - package-ecosystem: 'github-actions'
     directory: '/'
+    # Open PRs against the integration branch. Without this, dependabot derives
+    # the base from the repo default (main) and RESETS it on every rebase, so a
+    # manual retarget to dev can never stick (observed on #503 and #512).
+    target-branch: 'dev'
     schedule:
       interval: 'weekly'
       day: 'monday'

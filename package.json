@@ -1,6 +1,6 @@
 {
   "name": "flow-cli",
-  "version": "7.17.1",
+  "version": "7.17.2",
   "description": "ADHD-optimized ZSH workflow plugin",
   "private": true,
   "scripts": {
@@ -26,8 +26,8 @@
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^17.0.8",
-    "prettier": "^3.9.4"
+    "lint-staged": "^17.4.1",
+    "prettier": "^3.9.6"
   },
   "lint-staged": {
     "*.{json,md,yml,yaml}": [
