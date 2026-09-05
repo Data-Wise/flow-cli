@@ -23,6 +23,13 @@
 # ENVIRONMENT VARIABLES (from .zshrc)
 # ============================================
 
+# PATH
+# uv installs tool shims here (radian, arxiv_latex_cleaner, ...). Set in
+# .zshenv, not .zshrc, so non-interactive shells (scripts, Claude Code) can
+# reach them too. Guarded: .zshenv is sourced for every zsh invocation, so an
+# unconditional prepend would grow PATH once per nested shell.
+[[ ":$PATH:" == *":$HOME/.local/bin:"* ]] || export PATH="$HOME/.local/bin:$PATH"
+
 # R Package Development
 export R_PACKAGES_DIR="$HOME/R-packages"
 export QUARTO_DIR="$HOME/quarto-projects"
