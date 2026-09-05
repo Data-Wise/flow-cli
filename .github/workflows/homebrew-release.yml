@@ -73,6 +73,12 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: Data-Wise
           repositories: homebrew-tap
+          # Least privilege: without these the minted token inherits EVERY
+          # permission the App installation holds on homebrew-tap, for the whole
+          # job. This step needs exactly two things — commit/push the formula
+          # edit, and open then auto-merge the bump PR.
+          permission-contents: write
+          permission-pull-requests: write
 
       - name: Checkout homebrew-tap
         uses: actions/checkout@v7
