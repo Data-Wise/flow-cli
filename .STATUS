@@ -4,12 +4,42 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: Docs + tooling current; next is feature work (#359) or the deferred doc-count guard
+## Focus: SECURITY — rotate the DC_API_KEY committed in zsh/.zshrc (public repo); then #359 or the doc-count guard
 ## Phase: Released (v7.17.2)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-09-05) — .STATUS resync after a two-month gap
+## Current Session (2026-09-06) — 🔴 committed secret found; branch + plugin cleanup
+
+**🔴 BLOCKER — live API key committed to a PUBLIC repo.**
+`zsh/.zshrc` exports a hardcoded `DC_API_KEY`. It is present in **HEAD**, not just
+history — on `origin/main`, `origin/dev`, and `origin/feature/email-dispatcher-restructure`.
+First committed 2025-12-17 (`3262c691b`); ~9 months of public exposure on
+github.com/Data-Wise/flow-cli. Every other secret in that file already loads from
+Keychain; this one line is the exception.
+
+Fix, in this order:
+1. **Rotate the key at the provider.** Only this revokes the exposure — no git
+   operation undoes it. Assume scraped.
+2. Store it: `security add-generic-password -a "$USER" -s dc_api_key -U -w '<new key>'`
+3. Commit the fix already sitting uncommitted in the working tree — it swaps the
+   literal for `security find-generic-password -a "$USER" -s dc_api_key -w`.
+4. History rewrite is optional and secondary; it does not un-expose anything.
+
+**Also found:** `zsh/functions/obs.zsh` is a dangling symlink to
+`/Users/dt/projects/dev-tools/obsidian-cli-ops/src/obs.zsh` — the pre-migration
+username. Untracked; `rm` it (`obs` was removed from flow-cli in v7.14).
+
+**Done this session (flow-cli):** deleted all 10 stale local branches after
+verifying each has a merged PR whose merge commit is an ancestor of `dev`
+(`gh-pages` deliberately kept). Local branches now: `dev`, `gh-pages`, `main`.
+
+**Done this session (outside flow-cli):** reconciled Claude plugin config against
+the pre-migration Mac — `Data-Wise/dotfiles` PRs #23 and #24 merged; 34 → 28
+enabled plugins, 18,408 → 11,613 always-on tokens (−37%). See memory
+`claude-plugin-scoping-and-token-cost`.
+
+## Previous Session (2026-09-05) — .STATUS resync after a two-month gap
 
 **Session activity:**
 - **`.STATUS` had gone stale since 2026-07-07.** The header still read `Phase: Released
@@ -820,6 +850,8 @@
 ---
 
 ## Next Action
+
+**FIRST: rotate `DC_API_KEY`** — see the 2026-09-06 session block above. Public repo, in HEAD, ~9 months exposed.
 
 **Verified against repo state 2026-09-05 (evening).** The 2026-09-05 morning list — issue triage,
 the PR #500 decision, `.gitignore`, the branch sweep — is done; see the session entry above.
