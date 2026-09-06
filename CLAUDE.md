@@ -17,7 +17,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ### What It Does
 
 - Instant workflow commands: `work`, `dash`, `finish`, `hop`
-- 14 smart dispatchers: `g`, `mcp`, `qu`, `r`, `cc`, `tm`, `wt`, `dots`, `sec`, `tok`, `teach`, `prompt`, `v`, `em`
+- 14 smart dispatchers (+ optional `at` bridge) — see Active Dispatchers below
 - ADHD-friendly design (sub-10ms response, smart defaults)
 - Session tracking, project switching, quick capture
 - Teaching workflow with Scholar integration
@@ -44,6 +44,8 @@ This file provides guidance to Claude Code when working with code in this reposi
 5. **Integrate** — `git fetch origin dev && git rebase origin/dev` → `./tests/run-all.sh` → `gh pr create --base dev`. After merge: `git worktree remove ...`.
 6. **Release (dev → main)** — `gh pr create --base main --head dev --title "Release vX.Y.Z"`, then tag `vX.Y.Z` and push tags.
 
+**Push after every commit.** A branch that exists only locally has exactly one copy: deleting its worktree destroys the work (this cost the `feature/ai-rewrite-trigger` spec — see issue #487).
+
 ### ABORT Conditions
 
 1. About to commit to main -> Redirect to PR workflow
@@ -53,6 +55,12 @@ This file provides guidance to Claude Code when working with code in this reposi
 5. About to implement code after creating worktree on dev -> STOP, write orchestration plan only
 
 **See:** `docs/contributing/BRANCH-WORKFLOW.md`
+
+### Verifying a branch is merged
+
+Squash merges rewrite the sha, so `git cherry` and the sha in an issue body both misreport a
+merged branch as unmerged. Check two things instead: the remote tip equals the PR's `headRefOid`
+(nothing added after the merge), AND the PR's `mergeCommit` is an ancestor of `dev`.
 
 ---
 
@@ -123,39 +131,26 @@ at <cmd>      # Atlas bridge (project intelligence, optional)
 
 ```zsh
 flow-cli/
-├── flow.plugin.zsh           # Plugin entry point
-├── lib/                      # Core libraries (77 files)
-│   ├── core.zsh              # Colors, logging, utilities
+├── flow.plugin.zsh           # Plugin entry point (source to load)
+├── lib/                      # Core libraries
+│   ├── core.zsh              # Colors, logging, utilities (_flow_log_*, _flow_status_field)
 │   ├── git-helpers.zsh       # Git integration + smart commits
 │   ├── keychain-helpers.zsh  # macOS Keychain secrets
 │   ├── tui.zsh               # Terminal UI components
-│   └── dispatchers/          # 14 smart command dispatchers
-├── commands/                 # 33 command files (work, dash, agenda, doctor, teach-*, etc.)
-├── setup/                    # Installation & setup
-├── completions/              # ZSH completions
-├── hooks/                    # ZSH hooks
-├── docs/                     # Documentation (MkDocs)
-│   └── internal/             # Internal conventions & contributor templates
-├── scripts/                  # Standalone validators (check-math.zsh, check-status.zsh)
+│   └── dispatchers/          # Smart command dispatchers
+├── commands/                 # Core commands (work, dash, agenda, doctor, teach-*, ...)
+├── man/man1/                 # One page per dispatcher (guarded, see Development)
+├── setup/ completions/ hooks/
+├── docs/                     # MkDocs site; docs/internal/ excluded from nav
+├── scripts/                  # Validators (check-math.zsh, check-status.zsh, release.sh)
 ├── templates/                # .STATUS.template (canonical shape reference)
-├── tests/                    # 179 test-*.zsh suites, 12000+ test functions
-│   └── fixtures/demo-course/ # STAT-101 demo course for E2E
+├── tests/                    # Suites + fixtures/demo-course/ (STAT-101, for E2E)
 └── .archive/                 # Archived Node.js CLI
 ```
 
-### Key Files
-
-| File                                        | Purpose                                   |
-| ------------------------------------------- | ----------------------------------------- |
-| `flow.plugin.zsh`                           | Plugin entry point (source to load)       |
-| `lib/core.zsh`                              | Core utilities (logging, colors, helpers) |
-| `lib/dispatchers/*.zsh`                     | 14 smart dispatchers                      |
-| `commands/*.zsh`                            | Core commands (work, dash, finish, etc.)  |
-| `docs/reference/MASTER-DISPATCHER-GUIDE.md` | Complete dispatcher docs                  |
-| `docs/reference/MASTER-API-REFERENCE.md`    | API function reference                    |
-| `docs/reference/MASTER-ARCHITECTURE.md`     | System architecture                       |
-| `scripts/check-math.zsh`                    | Pre-commit math validator (lint-staged)   |
-| `.STATUS`                                   | Current progress/sprint tracking          |
+**Where to look first:** [`MASTER-DISPATCHER-GUIDE.md`](docs/reference/MASTER-DISPATCHER-GUIDE.md) (dispatchers),
+[`MASTER-API-REFERENCE.md`](docs/reference/MASTER-API-REFERENCE.md) (functions),
+[`MASTER-ARCHITECTURE.md`](docs/reference/MASTER-ARCHITECTURE.md) (system), `.STATUS` (current work).
 
 ---
 
@@ -163,11 +158,13 @@ flow-cli/
 
 **Add a command:** core → `commands/<name>.zsh`; dispatcher subcommand → `lib/dispatchers/<name>-dispatcher.zsh`. Use helpers (`_flow_log_*`, `_flow_find_project_root`, `_flow_detect_project_type`); add `completions/_<name>`; every dispatcher MUST have a `_<cmd>_help()` using `lib/core.zsh` colors. New dispatcher = a `command + keyword + options` case block.
 
-**After changes:** update `MASTER-DISPATCHER-GUIDE.md` + `QUICK-REFERENCE.md` + `mkdocs.yml`. **Release:** `./scripts/release.sh X.Y.Z` → commit → tag → push (bumps `flow.plugin.zsh` FLOW_VERSION, `package.json`, `README.md`, `CLAUDE.md`). Docs deploy automatically (don't run `mkdocs gh-deploy`).
+**New dispatcher = new man page:** add `man/man1/<cmd>.1` (model `g.1`); `tests/test-manpage-version-sync.zsh` fails CI on a missing page or `.TH` version drift. Details: [`ZSH-COMMANDS-HELP.md`](docs/internal/conventions/code/ZSH-COMMANDS-HELP.md) (Man Pages).
+
+**After changes:** update `MASTER-DISPATCHER-GUIDE.md` + `QUICK-REFERENCE.md` + `mkdocs.yml`.
+
+**Release:** `./scripts/release.sh X.Y.Z` → commit → tag → push. It bumps `flow.plugin.zsh` FLOW_VERSION, `package.json`, `README.md`, `CLAUDE.md`, and every `man/man1/*.1` `.TH` line. Docs deploy automatically on push to `main` — never run `mkdocs gh-deploy` (the branch guard blocks the gh-pages push).
 
 → Dispatcher template + patterns: [`docs/reference/MASTER-DISPATCHER-GUIDE.md`](docs/reference/MASTER-DISPATCHER-GUIDE.md)
-
-**New dispatcher = new man page:** add `man/man1/<cmd>.1` (model `g.1`); the guard `tests/test-manpage-version-sync.zsh` fails CI on a missing page or `.TH` version drift. Details: [`ZSH-COMMANDS-HELP.md`](docs/internal/conventions/code/ZSH-COMMANDS-HELP.md) (Man Pages).
 
 ---
 
@@ -177,13 +174,16 @@ flow-cli/
 2. **ADHD-Friendly** - Discoverable (built-in help), consistent patterns, smart defaults, fast (cached scanning)
 3. **Dispatcher Pattern** - `command + keyword + options` (e.g., `r test`, `g push`, `teach exam "Topic"`)
 4. **Optional Enhancement** - Atlas integration is optional; graceful degradation (see [`docs/ATLAS-CONTRACT.md`](docs/ATLAS-CONTRACT.md) for API contract)
-5. **Terminal hygiene on handoff** - Any command that runs an interactive TUI (fzf, etc.) and then execs/launches another program (e.g. `pick` → `claude`) MUST restore terminal state first: reset focus-reporting/mouse modes (`\e[?1004l\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?2004l`) and drain pending input before handing off. Otherwise the next TUI inherits enabled modes + stray query responses → garbled characters and broken input. Use the shared helper **`_flow_tty_handoff_cleanup`** (`lib/core.zsh`) after every fzf call — it guards on `/dev/tty` (not stdout `[[ -t 1 ]]`, which is false when the picker's output is command-substituted). All three pickers call it: `pick()`, `_proj_pick_worktree_path` (`cc wt pick`/`ccy`), and `_flow_pick_project` (`work`). The regression guard `tests/test-terminal-hygiene-regression.zsh` enforces that any new fzf→exec picker calls it.
+5. **Terminal hygiene on handoff** - Any command that runs an interactive TUI (fzf, etc.) and then execs another program MUST call **`_flow_tty_handoff_cleanup`** (`lib/core.zsh`) first, or the next TUI inherits enabled mouse/focus modes and stray query responses → garbled input. It guards on `/dev/tty`, not `[[ -t 1 ]]`, which is false when the picker's output is command-substituted. Enforced by `tests/test-terminal-hygiene-regression.zsh`.
+6. **Shipped pipelines use `command`** - Dispatchers run in the user's _interactive_ shell where aliases expand at parse time, so `| tr` can execute a user's alias instead of the coreutil. Use `command tr` (etc.) in `lib/`. Enforced by `tests/test-alias-shadowing.zsh`.
 
 ---
 
 ## Testing
 
-**179 `test-*.zsh` files (241 `.zsh` total under `tests/`), 85 registered suites, 12000+ test functions.** Run: `./tests/run-all.sh` (84 passed / 0 failed / 0 timeout / 1 skipped — required external tool absent, e.g. himalaya) or individual suites in `tests/`.
+**85 registered suites, 12000+ test functions** (179 `test-*.zsh` files; 241 `.zsh` total under `tests/`). Run `./tests/run-all.sh` — baseline 84 passed / 0 failed / 0 timeout / 1 skipped (a required external tool is absent, e.g. himalaya).
+
+`run-all.sh` takes an explicit `run_test` list, not a glob — **a new suite that isn't registered there never runs in CI**, even on a green PR.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -191,8 +191,8 @@ See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
 ## Documentation
 
-**Site:** https://Data-Wise.github.io/flow-cli/
-**Build:** `mkdocs serve` (local). **Deploy is automatic** — `docs.yml` CI deploys to gh-pages on push to `main` (don't run `mkdocs gh-deploy`; the branch guard blocks the gh-pages push).
+**Site:** https://Data-Wise.github.io/flow-cli/ — deploy is automatic (`docs.yml` on push to `main`).
+**Build locally:** `mkdocs serve`, or `mkdocs build --strict` to catch broken links before CI.
 **Key docs:** `docs/guides/`, `docs/reference/`, `docs/help/QUICK-REFERENCE.md`, `docs/CONVENTIONS.md`
 **Internal:** `docs/internal/` (conventions, contributor templates — excluded from site nav)
 
@@ -208,16 +208,10 @@ export FLOW_DEBUG=1                          # Debug mode
 
 # Binary-precedence guard (drops a dispatcher that shadows a PATH binary)
 export FLOW_INTENTIONAL_SHADOWS=(r mcp cc)   # Commands kept even when a same-named binary exists
-export FLOW_FORCE_DISPATCHER_OBS=1           # Force-keep one dispatcher (FLOW_FORCE_DISPATCHER_<NAME>)
+export FLOW_FORCE_DISPATCHER_<NAME>=1        # Force-keep one dispatcher, e.g. FLOW_FORCE_DISPATCHER_TM
 ```
 
 > **Guard caveat:** `FLOW_INTENTIONAL_SHADOWS` defaults to `(r mcp cc)` only when unset. Setting it to an empty array (`=()`) is treated as an explicit override, so `cc` (vs `/usr/bin/cc`) etc. would then be dropped — append (`+=(...)`) rather than reassign if you only want to add entries.
-
----
-
-## Current Status
-
-**Version:** v7.17.2 | **Tests:** 12000+ (84 of 85 suites, 1 skipped — tool absence) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 

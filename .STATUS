@@ -4,7 +4,7 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: Backlog clear — next is feature work (#359 teach check) or the markdown-lint backlog
+## Focus: Docs + tooling current; next is feature work (#359) or the deferred doc-count guard
 ## Phase: Released (v7.17.2)
 ## Priority: 2
 ## Progress: 100
@@ -84,6 +84,46 @@
 - `.gitignore`: added `.token-optimizer/` (per-machine plugin cache).
 - End state: origin holds 4 refs (`dev`, `main`, `gh-pages`, `feature/email-dispatcher-restructure`);
   0 open PRs; 3 open issues, all genuine (#487, #359, #275).
+
+**End of session — docs currency + tooling:**
+- **Stale test counts corrected** across `CLAUDE.md`, `docs/guides/TESTING.md`,
+  `docs/guides/QUALITY-GATES.md` (commit `33c09589`). Three files each carried a different,
+  locally-consistent number: 232 / 231 / 210 files and 76 suites / 75 passed. They drifted at
+  v7.17.0 — PR #506 moved the registered-suite count 76 → 85 by wiring in unrun suites, and
+  nothing pointed at the prose describing that number. Now stated with their glob (179
+  `test-*.zsh`, 241 `.zsh` total) against the CI baseline 84/85.
+- **`CLAUDE.md` optimized** — removed the `## Current Status` section (it re-stated the version,
+  test counts and docs URL already given above it — three duplicate drift surfaces), the second
+  copy of the dispatcher list, a stale "lib/ (77 files)" count (actually 88), a duplicated
+  "docs deploy automatically" line, and the `FLOW_FORCE_DISPATCHER_OBS` example (`obs` was removed
+  in v7.14). Compressed the 887-character terminal-hygiene principle. Added four rules this
+  session actually proved: push after every commit, how to verify a squash-merged branch, `command
+  tr` in shipped pipelines, and that an unregistered suite never runs in CI. Net −6 lines, denser
+  and free of stale facts. All 16 referenced paths verified to exist.
+- **`mkdocs build --strict` hook installed** at `~/.claude/hooks/mkdocs-strict.sh` (machine-level,
+  global `PostToolUse` on `Edit|Write`). Prerequisite first: local `mkdocs` came from
+  `uv tool install` and had **none** of the four plugins `docs.yml` installs in CI, so `--strict`
+  failed on config before ever checking a link — reinstalled with `--with mkdocs-material --with
+  mkdocs-mermaid2-plugin --with mkdocs-exclude`. The hook departs from the craft template in three
+  ways: it gates on exit code rather than `tail -8` (mkdocs-material prints a ~20-line red banner
+  on every build that would bury the result), filters to `*/docs/*` and `mkdocs.yml` (a repo-level
+  guard alone would charge 3.8s to every `.zsh` edit), and builds to a throwaway dir so it cannot
+  clobber a running `mkdocs serve`. Validated with a planted broken link: exit 2 with the WARNING,
+  and silent on both clean cases.
+- **Incident — stale second checkout.** Mid-session this path resolved to a checkout sitting at
+  `bc2b366b` (2026-08-23, pre-v7.17.1) with a stale `origin/dev` ref and no trace of the day's
+  commits in its reflog. It briefly read as version drift (`FLOW_VERSION` 7.17.0, `CLAUDE.md` at
+  v7.17.0, man pages at 7.17.0) — but the man-page guard passing 12/12 was the tell: those surfaces
+  *agreed with each other*, which is consistency at an older point, not drift. Nothing was lost,
+  because every commit had already been pushed; `git pull --ff-only` reconciled it (12 commits) and
+  preserved the unrelated uncommitted `zsh/.zshrc` change. **Green guard + "wrong" versions means
+  wrong tree, not broken code.**
+- **Deferred:** a doc-count sync guard (`tests/test-doc-count-sync.zsh`) modeled on
+  `test-manpage-version-sync.zsh` — asserting docs match `run-all.sh`'s registered count and the
+  `tests/` file counts, the numbers a machine can derive. Not written: it is a new code file, which
+  needs a feature branch, and the branch decision was left with the user. Scope note for whoever
+  picks it up: assert only statically-countable numbers, never `84 passed`, or the guard has to run
+  the whole suite.
 
 ## Previous Session (2026-09-04) — v7.17.2 SHIPPED: CI hardening + PATH fix ✅
 
