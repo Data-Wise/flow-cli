@@ -138,7 +138,7 @@ flow-cli/
 │   └── internal/             # Internal conventions & contributor templates
 ├── scripts/                  # Standalone validators (check-math.zsh, check-status.zsh)
 ├── templates/                # .STATUS.template (canonical shape reference)
-├── tests/                    # 232 test files, 12000+ test functions
+├── tests/                    # 179 test-*.zsh suites, 12000+ test functions
 │   └── fixtures/demo-course/ # STAT-101 demo course for E2E
 └── .archive/                 # Archived Node.js CLI
 ```
@@ -183,7 +183,7 @@ flow-cli/
 
 ## Testing
 
-**232 test files, 76 registered suites, 12000+ test functions.** Run: `./tests/run-all.sh` (75 passed / 0 failed / 0 timeout / 1 skipped — required external tool absent, e.g. himalaya) or individual suites in `tests/`.
+**179 `test-*.zsh` files (241 `.zsh` total under `tests/`), 85 registered suites, 12000+ test functions.** Run: `./tests/run-all.sh` (84 passed / 0 failed / 0 timeout / 1 skipped — required external tool absent, e.g. himalaya) or individual suites in `tests/`.
 
 See `docs/guides/TESTING.md` for patterns, mocks, assertions, TDD workflow.
 
@@ -217,8 +217,8 @@ export FLOW_FORCE_DISPATCHER_OBS=1           # Force-keep one dispatcher (FLOW_F
 
 ## Current Status
 
-**Version:** v7.17.2 | **Tests:** 12000+ (75/75 suite, 1 skipped — tool absence) | **Docs:** https://Data-Wise.github.io/flow-cli/
+**Version:** v7.17.2 | **Tests:** 12000+ (84 of 85 suites, 1 skipped — tool absence) | **Docs:** https://Data-Wise.github.io/flow-cli/
 
 ---
 
-**Last Updated:** 2026-07-02
+**Last Updated:** 2026-09-05
