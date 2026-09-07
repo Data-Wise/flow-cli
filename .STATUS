@@ -4,7 +4,7 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: SECURITY — rotate the DC_API_KEY committed in zsh/.zshrc (public repo); then #359 or the doc-count guard
+## Focus: #359 or the doc-count guard
 ## Phase: Released (v7.17.2)
 ## Priority: 2
 ## Progress: 100
@@ -38,6 +38,16 @@ verifying each has a merged PR whose merge commit is an ancestor of `dev`
 the pre-migration Mac — `Data-Wise/dotfiles` PRs #23 and #24 merged; 34 → 28
 enabled plugins, 18,408 → 11,613 always-on tokens (−37%). See memory
 `claude-plugin-scoping-and-token-cost`.
+
+**Closed out (2026-09-07, cc-config session):** committed the fix already staged in the
+working tree (`cddfd06`) — `DC_API_KEY` now loads from Keychain (`security
+find-generic-password -s dc_api_key`) instead of a hardcoded literal; removed the dangling
+`zsh/functions/obs.zsh` symlink; pushed to `origin/dev`. Rotation-at-provider was NOT done —
+the provider could not be identified (no consumer anywhere in dev-tools reads `$DC_API_KEY`,
+no matching signup email found searching Gmail around the 2025-12-17 commit date or by exact
+key-value/`DC_API_KEY` literal). Decision: treat it as dead, stop chasing it — nothing
+consumes it, so there is no live credential left to rotate. The exposed value stays in git
+history regardless; a history rewrite remains optional/secondary per the note above.
 
 ## Previous Session (2026-09-05) — .STATUS resync after a two-month gap
 
