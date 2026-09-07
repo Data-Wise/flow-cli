@@ -2,6 +2,10 @@
 # ANTIDOTE PLUGIN MANAGER
 # ============================================
 
+if [[ -n "${CODEX_NONINTERACTIVE_SHELL:-}" ]]; then
+  return 0
+fi
+
 # Enable Powerlevel10k instant prompt (should stay at top)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -47,6 +51,9 @@ export QUARTO_DIR="$HOME/quarto-projects"
 # R Console
 export R_PROFILE_USER="$HOME/.Rprofile"
 export RADIAN_THEME="native"
+
+# Atlas CLI man pages
+export MANPATH="$HOME/projects/dev-tools/atlas/man:$MANPATH"
 
 # ============================================
 # HISTORY CONFIGURATION
@@ -576,7 +583,11 @@ if command -v security >/dev/null 2>&1; then
     # Load token specifically for Gemini extensions (uses the 'github_token' keychain item)
     export GITHUB_MCP_PAT=$(security find-generic-password -a "$USER" -s github_token -w 2>/dev/null)
     
-    export DC_API_KEY="1lwAVbNQrOq3m71Ff3BPqxQBQRPuWBdZ9o7b89VAadANreAE"
+    export DC_API_KEY=$(security find-generic-password -a "$USER" -s dc_api_key -w 2>/dev/null)
+
+    # Brave Search API key (for opencode MCP brave-search server)
+    # Store once: security add-generic-password -a "$USER" -s brave_search_api_key -U -w '<key>'
+    export BRAVE_API_KEY=$(security find-generic-password -a "$USER" -s brave_search_api_key -w 2>/dev/null)
 fi
 
 # To store token securely (run once):
@@ -1167,3 +1178,20 @@ export SAVANT_RENDER_VENV="$HOME/.venvs/savant-render"
 # if [ -f "/Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh" ]; then
 #     source /Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh
 # fi
+
+# TeXRA CLI: free Researcher Access plan only covers included-mode models
+# (Grok/DeepSeek/Kimi, not Claude) — default every invocation to that mode.
+alias texra='texra --api-mode included'
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# --- Claude Code multi-account (added 2026-08-29) ---
+alias claude-personal="claude"
+alias claude-work="CLAUDE_CONFIG_DIR=\"$HOME/.claude-work\" claude"
+
+# Work-account variant of the flow-cli 'cc' dispatcher — reuses all cc
+# subcommands (yolo/plan/resume/etc.) but forces the Work config dir.
+# Named cc-work (not ccw) to avoid colliding with existing ccw/ccwp/ccwy
+# (cc wt / cc wt pick / cc wt yolo worktree shortcuts).
+cc-work() {
+  CLAUDE_CONFIG_DIR="$HOME/.claude-work" cc "$@"
+}
