@@ -1173,12 +1173,6 @@ export HOMEBREW_NO_ENV_HINTS=1
 #   PATH="$SAVANT_RENDER_VENV/bin:$PATH" npm test
 export SAVANT_RENDER_VENV="$HOME/.venvs/savant-render"
 
-# Antigravity Workflow Plugin Hooks
-# Shows ⚠️ [stuck?] nudge after a command fails twice in a row; logs to ~/.config/obs/obs.log
-# if [ -f "/Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh" ]; then
-#     source /Users/dt/.gemini/config/plugins/workflow/lib/shell_hooks.zsh
-# fi
-
 # TeXRA CLI: free Researcher Access plan only covers included-mode models
 # (Grok/DeepSeek/Kimi, not Claude) — default every invocation to that mode.
 alias texra='texra --api-mode included'

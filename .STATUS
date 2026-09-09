@@ -861,7 +861,10 @@ history regardless; a history rewrite remains optional/secondary per the note ab
 
 ## Next Action
 
-**FIRST: rotate `DC_API_KEY`** — see the 2026-09-06 session block above. Public repo, in HEAD, ~9 months exposed.
+**`DC_API_KEY` blocker closed (2026-09-07)** — code fix committed (Keychain-backed load),
+rotation not pursued further (no consumer found anywhere in dev-tools, provider unidentifiable).
+Treated as dead; residual historical exposure (unrotated, history not scrubbed) tracked in
+issue #517. See the 2026-09-06/07 session block above.
 
 **Verified against repo state 2026-09-05 (evening).** The 2026-09-05 morning list — issue triage,
 the PR #500 decision, `.gitignore`, the branch sweep — is done; see the session entry above.
