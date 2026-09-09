@@ -39,8 +39,8 @@ export R_PROFILE_USER="$HOME/.Rprofile"
 export RADIAN_THEME="native"
 
 # Editor
-export EDITOR="emacsclient -t"
-export VISUAL="emacsclient -c"
+export EDITOR="nvim"
+export VISUAL="nvim"
 
 # ============================================
 # ESSENTIAL FUNCTIONS - MIGRATED TO PLUGIN 2025-12-23
@@ -57,8 +57,10 @@ export VISUAL="emacsclient -c"
 
 # Load plugin in non-interactive contexts (Claude Code, scripts, etc.)
 # This ensures commands like 'dash', 'work', 'status' work everywhere
-[[ -f ~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh ]] && \
-    source ~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh
+# Path updated 2026-09-08: the old ~/.zsh/plugins/flow-cli/ location predates
+# the Homebrew install and no longer exists (this guard was silently no-op'ing).
+[[ -f /opt/homebrew/opt/flow-cli/flow.plugin.zsh ]] && \
+    source /opt/homebrew/opt/flow-cli/flow.plugin.zsh
 
 # ============================================
 # OPTIONAL FUNCTIONS (lightweight only)

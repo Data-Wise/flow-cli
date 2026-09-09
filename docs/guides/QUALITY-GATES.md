@@ -132,7 +132,7 @@ npm run lint:fix
 | Runner | Ubuntu latest |
 | Tests | `test-flow.zsh` (smoke), `test-install.sh` |
 
-Runs core smoke tests in a clean Ubuntu environment with mock project structure. Full test suite (210 files, 12000+ functions) runs locally via `./tests/run-all.sh`.
+Runs core smoke tests in a clean Ubuntu environment with mock project structure. Full test suite (179 `test-*.zsh` files, 85 suites, 12000+ functions) runs locally via `./tests/run-all.sh`.
 
 ### Install Script Tests (`release.yml`)
 

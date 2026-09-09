@@ -29,11 +29,9 @@ tags:
     **New here?** `setup` walks you through configuration interactively, or run `tutorial` for
     12 hands-on lessons at your own pace — both are guided, no docs required to start.
 
-!!! success "🎉 What's New in v7.17.1"
-    **`teach deploy --dry-run` is genuinely read-only** — it no longer aborts in CI mode, no longer prompts to commit (a pty wrapper used to auto-accept that and create a real commit), and it now names the uncommitted files its plan excludes.
-    **`teach deploy --direct` merges with `--no-ff`** — every deploy is one revertable commit again, so `teach deploy --rollback` can undo a multi-commit deploy as a unit.
-    **`em undo`** — single-step undo of the last `em star`/`flag`/`unflag`/`move`, plus `em move --recent` for quick folder re-picks.
-    **Shipped pipelines are alias-proof** — a user alias on a coreutil (e.g. `tr`) could hijack internal pipelines and replace counts with unrelated output; all 101 sites now use `command tr`.
+!!! success "🎉 What's New in v7.17.2"
+    **`uv` tool shims now resolve everywhere** — `~/.local/bin` (where `uv` installs `radian`, `arxiv_latex_cleaner`, etc.) is on `PATH` in non-interactive shells too (scripts, Claude Code), guarded against unbounded growth across nested shells.
+    **Homebrew tap releases no longer fail on branch protection** — the release workflow opens a PR + auto-merge instead of pushing directly to `main`.
     Full details → [Changelog](CHANGELOG.md).
 
 ---

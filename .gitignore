@@ -19,3 +19,6 @@ WORKTREE-README.md
 
 # Email dispatcher runtime cache
 .flow/email-cache/
+
+# Token-optimizer plugin cache (per-machine, not shared)
+.token-optimizer/
