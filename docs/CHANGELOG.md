@@ -8,6 +8,38 @@ The format follows [Keep a Changelog](https://keepachangelog.com/), and this pro
 
 ## [Unreleased]
 
+## [7.17.3] — 2026-09-09 — zshrc/zshenv fixes + docs currency
+
+### Fixed
+
+- **`DC_API_KEY` was a hardcoded literal in `zsh/.zshrc`**, committed to a public repo since
+  2025-12-17. Now loads from macOS Keychain like every other secret in the file. The exposed
+  value stays in git history (a rewrite is optional/secondary); the key itself is confirmed dead
+  — no consumer anywhere in the dev-tools workspace reads `$DC_API_KEY`, and its issuing provider
+  could not be identified, so rotation at the provider was not pursued further.
+- **Non-interactive shells never actually loaded flow-cli.** `zsh/.zshenv`'s guard pointed at
+  `~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh`, a path that predates the Homebrew install and no
+  longer exists — silently no-op'ing since the 2025-12-23 plugin migration. Repointed at
+  `/opt/homebrew/opt/flow-cli/flow.plugin.zsh`, matching what `.zshrc` already used correctly for
+  interactive shells. Scripts, cron jobs, and Claude Code's own shell tool now get `dash`, `work`,
+  `status`, etc.
+- **`EDITOR`/`VISUAL` were inconsistent across contexts** — `emacsclient` in `.zshenv`
+  (non-interactive default) vs `nvim`/`emacs` in `.zshrc` (interactive override), under a stale
+  comment that matched neither. Unified on `nvim` for both, declared once in `.zshenv` (which
+  always loads before `.zshrc`).
+- **Five PATH exports in `.zshrc` had no existence guard** (pyenv, zsh-claude-workflow commands,
+  emacs bin, homebrew bin, openjdk bin) — re-sourcing `.zshrc` (nested shells, `exec zsh`) grew
+  `PATH` with duplicate entries each time. Guarded with the same
+  `[[ ":$PATH:" == *":<dir>:"* ]] ||` pattern `.zshenv` already used for `.local/bin`.
+
+### Changed
+
+- Removed a dead, fully-commented-out "Antigravity Workflow Plugin Hooks" block from `zsh/.zshrc`
+  that still referenced the pre-migration `/Users/dt/` path.
+- Bumped `actions/setup-python` 6 → 7 in CI. (#500)
+- Synced `README.md`'s and `docs/index.md`'s "What's New" sections to the current release —
+  README's had drifted 7 releases behind (still describing v7.10.1).
+
 ## [7.17.2] — 2026-09-05 — CI hardening + PATH fix
 
 ### Fixed

@@ -9,6 +9,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.17.3] — 2026-09-09 — zshrc/zshenv fixes + docs currency
+
+### Fixed
+
+- **`DC_API_KEY` was a hardcoded literal in `zsh/.zshrc`**, committed to a public repo since
+  2025-12-17. Now loads from macOS Keychain like every other secret in the file. The exposed
+  value stays in git history (a rewrite is optional/secondary); the key itself is confirmed dead
+  — no consumer anywhere in the dev-tools workspace reads `$DC_API_KEY`, and its issuing provider
+  could not be identified, so rotation at the provider was not pursued further.
+- **Non-interactive shells never actually loaded flow-cli.** `zsh/.zshenv`'s guard pointed at
+  `~/.zsh/plugins/flow-cli/flow-cli.plugin.zsh`, a path that predates the Homebrew install and no
+  longer exists — silently no-op'ing since the 2025-12-23 plugin migration. Repointed at
+  `/opt/homebrew/opt/flow-cli/flow.plugin.zsh`, matching what `.zshrc` already used correctly for
+  interactive shells. Scripts, cron jobs, and Claude Code's own shell tool now get `dash`, `work`,
+  `status`, etc.
+- **`EDITOR`/`VISUAL` were inconsistent across contexts** — `emacsclient` in `.zshenv`
+  (non-interactive default) vs `nvim`/`emacs` in `.zshrc` (interactive override), under a stale
+  comment that matched neither. Unified on `nvim` for both, declared once in `.zshenv` (which
+  always loads before `.zshrc`).
+- **Five PATH exports in `.zshrc` had no existence guard** (pyenv, zsh-claude-workflow commands,
+  emacs bin, homebrew bin, openjdk bin) — re-sourcing `.zshrc` (nested shells, `exec zsh`) grew
+  `PATH` with duplicate entries each time. Guarded with the same
+  `[[ ":$PATH:" == *":<dir>:"* ]] ||` pattern `.zshenv` already used for `.local/bin`.
+
+### Changed
+
+- Removed a dead, fully-commented-out "Antigravity Workflow Plugin Hooks" block from `zsh/.zshrc`
+  that still referenced the pre-migration `/Users/dt/` path.
+- Bumped `actions/setup-python` 6 → 7 in CI. (#500)
+- Synced `README.md`'s and `docs/index.md`'s "What's New" sections to the current release —
+  README's had drifted 7 releases behind (still describing v7.10.1).
+
 ## [7.17.2] — 2026-09-05 — CI hardening + PATH fix
 
 ### Fixed
@@ -41,7 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **A user alias on a coreutil could hijack shipped pipelines.** Dispatchers run in the user's
-  *interactive* shell, where aliases are live and expand at parse time. On a machine with
+  _interactive_ shell, where aliases are live and expand at parse time. On a machine with
   `tr='track-activity report'`, every `... | tr -d ' '` in `lib/` ran that command instead, and its
   output landed in the variable where a count belonged — `teach deploy --dry-run` printed
   `Would deploy Monthly Terminal Report (2026-08):` instead of `Would deploy 675 files:`. All 101
@@ -76,7 +108,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **`teach deploy --dry-run` is now read-only and no longer blocked in CI mode** — `ci_mode`
   auto-detects whenever stdin is not a TTY, so every automation or agent caller gets it. In that
-  mode two preflight conditions aborted the run *before the plan could render*: "production has new
+  mode two preflight conditions aborted the run _before the plan could render_: "production has new
   commits" and "uncommitted changes". Neither can affect a dry run, which mutates nothing. The
   uncommitted-changes handler had a worse edge: interactively it **prompts to commit**, and a pty
   wrapper (`script -q /dev/null …`) answers the default `Y` and silently creates a real commit —
@@ -105,7 +137,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   runs in CI as advisory. Fixed a real bug there: `.markdownlintignore` is a markdownlint-cli **v1**
   file while the script runs cli2, which never read it — the intent to skip `.archive/` was inert,
   accounting for 49 of the reported errors.
-
 
 ## [7.16.0] — 2026-07-07 — agy em-ai backend + em ADHD-UX fixes
 

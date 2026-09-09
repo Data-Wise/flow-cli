@@ -5,11 +5,40 @@
 ## Type: zsh-plugin
 ## Status: active
 ## Focus: #359 or the doc-count guard
-## Phase: Released (v7.17.2)
+## Phase: Released (v7.17.3)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-09-06) — 🔴 committed secret found; branch + plugin cleanup
+## Current Session (2026-09-09) — zshrc/zshenv fixes + docs currency + v7.17.3 prep
+
+**Fixed in `zsh/.zshenv`/`zsh/.zshrc`:** non-interactive flow-cli load pointed at a
+pre-Homebrew path that no longer existed (silently no-op'ing since the 2025-12-23 plugin
+migration) — repointed at `/opt/homebrew/opt/flow-cli/flow.plugin.zsh`. Unified `EDITOR`/`VISUAL`
+to `nvim` (was split emacsclient/nvim-emacs across the two files, comment stale either way).
+Guarded 5 unconditioned `PATH` exports against duplication on re-source. Removed a dead
+commented-out block still referencing the pre-migration `/Users/dt/` path.
+
+**Docs currency:** `README.md`'s "What's New" was 7 releases stale (still describing v7.10.1);
+`docs/index.md`'s was 1 release behind. Both synced to v7.17.2's actual changelog content.
+
+**Real bug found via the .zshenv fix itself:** fixing non-interactive loading meant
+`hooks/chpwd.zsh`'s `_flow_chpwd_hook` now actually registers in every zsh invocation on this
+machine (previously unreachable) — exposing an unset-variable bug (`$FLOW_CHPWD_DISABLED` etc.
+referenced without `:-` defaults) that crashes any `set -u` script doing a `cd` once flow-cli is
+Homebrew-installed. Fixed defensively in `hooks/chpwd.zsh`. This is why a local
+`./tests/run-all.sh` run showed 8 failures immediately after the .zshenv fix landed: 6 were this
+artifact (each failing test's own `set -u` + implicit `.zshenv` sourcing via its shebang tripped
+the old stale Homebrew-installed copy of the hook, not the repo's fixed one — confirmed by
+re-running with `ZDOTDIR` pointed at an empty dir, which recovered to 83 passed/2 failed). The
+remaining 2 (`test-atlas-contract`, `e2e-em-dispatcher`) are pre-existing external-tool/live-service
+drift (installed `atlas` CLI version, himalaya IMAP state) unrelated to any file in this diff.
+CI was green on every commit in this session throughout.
+
+**Release prep:** bumped to v7.17.3 via `./scripts/release.sh`, added CHANGELOG.md +
+docs/CHANGELOG.md entries (kept mirrored). Not yet tagged/PR'd as of this write.
+
+
+## Previous Session (2026-09-06) — 🔴 committed secret found; branch + plugin cleanup
 
 **🔴 BLOCKER — live API key committed to a PUBLIC repo.**
 `zsh/.zshrc` exports a hardcoded `DC_API_KEY`. It is present in **HEAD**, not just
@@ -889,8 +918,8 @@ the PR #500 decision, `.gitignore`, the branch sweep — is done; see the sessio
 
 ---
 
-**Last Updated:** 2026-09-05
-**Status:** v7.17.2 released 2026-09-05 (tagged, Homebrew tap PR auto-merged, CI green on `main`) | `dev` clean, 3 commits ahead of `main` (.STATUS resync, RELEASES.md pointer, setup-python bump — all docs/CI, no release warranted) | 0 open PRs | 3 open issues | origin holds 4 refs after the 2026-09-05 branch sweep | full suite — 84 passed / 0 failed / 0 timeout / 1 skipped (himalaya absent) across 85 registered suites, per CI run 33946019980 on `dev` | extended soak 60 passed / 0 failed | man-page guard 12/12 | markdown lint ADVISORY and failing by design (394 errors) | 14 dispatchers + `at` bridge | 179 `test-*.zsh` suite files (241 `.zsh` total under `tests/`)
+**Last Updated:** 2026-09-09
+**Status:** v7.17.3 in release prep 2026-09-09 (version bumped, CHANGELOG synced, not yet tagged/PR'd) | `dev` ahead of `main` by this session's zshrc/zshenv fixes + docs sync + the v7.17.2 release | 0 open PRs | 4 open issues | full suite (ZDOTDIR-isolated, bypassing local stale-Homebrew-install contamination) — 83 passed / 2 failed (test-atlas-contract, e2e-em-dispatcher — pre-existing external-tool drift, unrelated to this diff) / 0 timeout across 85 registered suites | CI green on every commit this session | man-page guard 12/12 | markdown lint ADVISORY and failing by design (394 errors) | 14 dispatchers + `at` bridge | 179 `test-*.zsh` suite files (241 `.zsh` total under `tests/`)
 ## wins: Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06), fixed the bug (2026-07-06), Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06)
 ## streak: 1
 ## last_active: 2026-07-06 12:53
