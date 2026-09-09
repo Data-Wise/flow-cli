@@ -33,15 +33,15 @@ dispatcher, are below.
 |---|---|---|
 | Config file presence + YAML syntax | `[[ -f .flow/teach-config.yml ]]` + `yq '.' "$config_file"` | Same pattern used at `lib/dispatchers/teach/teach-main.zsh:25-29` |
 | Schema validation (required fields, semester/year/date formats, grading %, latex_macros) | `_teach_validate_config()` in `lib/config-validator.zsh:176` | **Local to flow-cli** — no Scholar dependency, despite the issue calling this "Scholar, if available." Already degrades gracefully if `yq` is missing. |
-| Content/`.qmd` validation | `teach validate` → `_teach_validate_content_flags` (`teach-main.zsh:790`) | Existing subcommand, callable programmatically |
-| R-code validation | `teach validate-r` → `_teach_scholar_wrapper "validate-r"` | Requires Scholar plugin; wrapper already handles "Scholar not installed" |
+| Content + render `.qmd` validation | `teach-validate` function (`commands/teach-validate.zsh:52`), default `mode="full"` → `_validate_file_full "yaml,syntax,render,chunks,images"` | **One call already covers both** the issue's separate "content validation" and "Quarto render check" layers — `full` mode's validator list includes `render`. No need for two flow-cli layers. `_teach_validate_content_flags` (`teach-content.zsh:49`) is unrelated — it checks CLI *flag* conflicts (`--foo`/`--no-foo`) for Scholar wrapper commands, not `.qmd` content. |
+| R-code validation | `teach validate-r` → `_teach_scholar_wrapper "validate-r"` (`teach-main.zsh:629`) | Scholar is a **Claude Code plugin**, not a shell binary — there is no clean `command -v`-style availability check, and invoking it means a slow, interactive Claude call. `_flow_has_scholar` does not exist (do not reference it). This layer is an unconditional SKIP by default, pointing at the existing subcommand. |
 | Craft content validator (`teaching_validation.py`) | **Not present anywhere in this machine's Craft checkout or `~/.claude`** — confirmed via `find`, and via `docs/specs/SPEC-teaching-ecosystem-coordination-2026-02-06.md` in the Craft repo (cross-repo, read-only reference) | Must be invoked via `python3` at a path that may not exist; skip layer with a clear "Craft not found" line, don't error |
-| Quarto render check | Reuses `teach validate --render` (referenced at `teach-main.zsh:948,955`) | No new code — call the existing flag |
 
-This means the real "4 layers" are: **config+schema** (flow-cli, always available),
-**content `.qmd`** (flow-cli, always available), **R code** (Scholar, optional),
-**Craft content** (Craft, optional, currently absent on this machine — untestable
-locally beyond the skip path).
+This means the real checks are: **config+schema** (flow-cli, always available),
+**content+render `.qmd`** (flow-cli, always available, one call), **R code**
+(Scholar, always skipped by default — no availability check possible), **Craft
+content** (Craft, optional, currently absent on this machine — untestable locally
+beyond the skip path).
 
 ## Design
 
@@ -92,22 +92,20 @@ _teach_check() {
         ((fail++))
     fi
 
-    # 3. Content (.qmd) validation — reuse existing subcommand, capture pass/fail only
-    if _teach_validate_content_flags >/dev/null 2>&1; then
-        results+=("Content (.qmd)|PASS|flow-cli|")
+    # 3. Content + render (.qmd) — full mode already runs yaml,syntax,render,chunks,images
+    # (see _validate_file_full call inside _teach_validate_run, commands/teach-validate.zsh:530)
+    if teach-validate --quiet >/dev/null 2>&1; then
+        results+=("Content + render (.qmd)|PASS|flow-cli|")
         ((pass++))
     else
-        results+=("Content (.qmd)|WARN|flow-cli|see 'teach validate' for details")
+        results+=("Content + render (.qmd)|WARN|flow-cli|see 'teach validate' for details")
         ((warn++))
     fi
 
-    # 4. R code validation — Scholar, optional
-    if typeset -f _teach_scholar_wrapper >/dev/null 2>&1 && _flow_has_scholar 2>/dev/null; then
-        # runs async/slow (Claude call) — skip by default, note as available
-        results+=("R code|SKIP|scholar|run 'teach validate-r' separately (slow)")
-    else
-        results+=("R code|SKIP|scholar|not installed")
-    fi
+    # 4. R code validation — always skip by default. Scholar is a Claude Code
+    # plugin, not a shell-detectable binary, and teach validate-r is a slow,
+    # Claude-mediated call inappropriate for a fast synchronous health check.
+    results+=("R code|SKIP|scholar|run 'teach validate-r' separately (slow)")
 
     # 5. Craft content validator — optional, cross-repo
     local craft_validator
@@ -130,9 +128,10 @@ _teach_check() {
 ```
 
 `_teach_find_craft_validator()` is a small new helper that checks 1-2 plausible
-install locations and returns empty if not found — mirrors the existing
-"gracefully skip unavailable tools" pattern already used for Scholar
-(`_teach_scholar_wrapper`, `_flow_has_scholar`).
+install locations and returns empty if not found — same "return empty, caller
+decides SKIP" shape as other optional-tool checks in this dispatcher, just
+file-existence based (Scholar has no equivalent binary/file to check for,
+which is why the R-code layer above is an unconditional SKIP instead).
 
 ### Output format
 
@@ -143,13 +142,13 @@ Matches the box style already used by `teach doctor` (box-drawing chars via
 ╭─────────────────────────────────────────────╮
 │  TEACHING PROJECT HEALTH                     │
 ╰─────────────────────────────────────────────╯
-  Config syntax       PASS   [flow-cli]
-  Schema               PASS   [flow-cli]
-  Content (.qmd)       WARN   [flow-cli]  see 'teach validate' for details
-  R code                SKIP  [scholar]   not installed
-  Craft content         SKIP  [craft]     not installed
+  Config syntax             PASS   [flow-cli]
+  Schema                    PASS   [flow-cli]
+  Content + render (.qmd)   WARN   [flow-cli]  see 'teach validate' for details
+  R code                    SKIP   [scholar]   run 'teach validate-r' separately (slow)
+  Craft content             SKIP   [craft]     not installed
 
-  2/5 checks passed, 1 warning, 2 skipped (optional tools not installed)
+  2/4 checks passed, 1 warning, 2 skipped (optional tools not run/installed)
 ```
 
 SKIP is counted separately from PASS/WARN/FAIL — the issue's original mockup only
