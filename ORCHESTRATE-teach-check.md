@@ -6,10 +6,15 @@ Spec: `docs/specs/SPEC-teach-check-2026-09-09.md` (committed to `dev`).
 
 1. **`_teach_find_craft_validator()` helper** — new small function, checks 1-2
    plausible Craft install locations for `teaching_validation.py`, returns empty
-   (not error) if absent. Model on the existing `_flow_has_scholar` pattern.
+   (not error) if absent. No existing "is Scholar/Craft installed" shell helper
+   to model on (Scholar is a Claude plugin, not a binary) — this is a plain
+   file-existence check.
 2. **`_teach_check()` implementation** — new file `lib/dispatchers/teach-check.zsh`,
-   per the spec's sketch: 5 layers (config syntax, schema, content `.qmd`, R code
-   [SKIP by default], Craft content [SKIP if absent]), aggregate pass/warn/fail/skip,
+   per the corrected spec: config syntax (`yq`), schema (`_teach_validate_config`),
+   content+render `.qmd` (`teach-validate --quiet`, full mode already covers
+   yaml+syntax+render+chunks+images), R code (unconditional SKIP — Scholar has
+   no availability check, pointer to `teach validate-r`), Craft content (SKIP if
+   `_teach_find_craft_validator` returns empty). Aggregate pass/warn/fail/skip,
    render via the existing box style (`lib/tui.zsh`), exit 1 only on FAIL.
 3. **`_teach_check_help()`** — usage text, matching sibling `_teach_*_help()`
    functions' format.
