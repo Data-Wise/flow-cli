@@ -609,7 +609,7 @@ fi
 # Lazy load pyenv if installed
 if command -v pyenv 1>/dev/null 2>&1; then
     export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
+    [[ ":$PATH:" == *":$PYENV_ROOT/bin:"* ]] || export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init --path)"
 fi
 
@@ -696,7 +696,7 @@ fi
 # ============================================
 
 # Add zsh-claude-workflow commands to PATH
-export PATH="$HOME/projects/dev-tools/zsh-claude-workflow/commands:$PATH"
+[[ ":$PATH:" == *":$HOME/projects/dev-tools/zsh-claude-workflow/commands:"* ]] || export PATH="$HOME/projects/dev-tools/zsh-claude-workflow/commands:$PATH"
 
 # Aliases for quick access - REMOVED 2025-12-19: Use full commands instead
 # alias ptype='proj-type'
@@ -855,14 +855,14 @@ gemd() {
 alias oc='opencode'
 
 # Emacs (Homebrew)
-export PATH="/opt/homebrew/opt/emacs/bin:$PATH"
+[[ ":$PATH:" == *":/opt/homebrew/opt/emacs/bin:"* ]] || export PATH="/opt/homebrew/opt/emacs/bin:$PATH"
 
 # EDITOR/VISUAL set once in .zshenv (loads before .zshrc, covers both
 # interactive and non-interactive shells) -- no need to redeclare here.
 
 # Optional: start emacs daemon on login via brew services (uncomment to enable)
 # brew services start emacs >/dev/null 2>&1 || true
-export PATH="/opt/homebrew/bin:$PATH"
+[[ ":$PATH:" == *":/opt/homebrew/bin:"* ]] || export PATH="/opt/homebrew/bin:$PATH"
 
 # ============================================
 # CUSTOM WORKFLOW FUNCTIONS
@@ -1175,7 +1175,7 @@ export SAVANT_RENDER_VENV="$HOME/.venvs/savant-render"
 # TeXRA CLI: free Researcher Access plan only covers included-mode models
 # (Grok/DeepSeek/Kimi, not Claude) — default every invocation to that mode.
 alias texra='texra --api-mode included'
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+[[ ":$PATH:" == *":/opt/homebrew/opt/openjdk/bin:"* ]] || export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 # --- Claude Code multi-account (added 2026-08-29) ---
 alias claude-personal="claude"
