@@ -35,18 +35,16 @@ or any other framework. Choose any installation method that works for you.
 
 ## What's New
 
-### v7.10.0 → v7.10.1: Forward-Looking Schedule Layer + Reliability
+### v7.17.2: CI Hardening + PATH Fix
 
-- **`agenda`** — what's due across all projects: deadlines, lectures, exams, milestones, and recurring weekly blocks, bucketed into OVERDUE / TODAY / THIS WEEK / LATER (`agt`/`agw`/`agm`)
-- **`dash` UPCOMING** + dated enrichment of `morning` / `today` / `week` — one shared engine, works fully **without `yq` and without atlas**
-- **Data sources:** a `## Schedule:` block in each project's `.STATUS`, plus teaching dates from `.flow/teach-config.yml`
-- **v7.10.1 reliability:** Linux-portability fixes (caches, email cache, teaching-date math) + the full test suite is now a required CI gate
-
-```bash
-agenda                # what's due soon
-agenda --overdue      # only overdue items
-agenda research       # filter by category
-```
+- **`uv` tool shims now resolve everywhere** — `~/.local/bin` (where `uv` installs `radian`,
+  `arxiv_latex_cleaner`, etc.) is on `PATH` in non-interactive shells too (scripts, Claude Code),
+  guarded against unbounded growth across nested shells
+- **Homebrew tap releases no longer fail on branch protection** — the release workflow opens a
+  PR + auto-merge instead of pushing directly to `main`
+- **Shipped pipelines are alias-proof** (v7.17.1) — a user alias on a coreutil (e.g. `tr`) could
+  hijack internal pipelines; all 101 sites now use `command tr`
+- **`em undo`** (v7.17.1) — single-step undo of the last `em star`/`flag`/`unflag`/`move`
 
 [Full Changelog](docs/CHANGELOG.md) | [All Releases](https://github.com/Data-Wise/flow-cli/releases)
 
