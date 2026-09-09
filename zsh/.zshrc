@@ -857,9 +857,8 @@ alias oc='opencode'
 # Emacs (Homebrew)
 export PATH="/opt/homebrew/opt/emacs/bin:$PATH"
 
-# Use emacs directly as editor (simplest approach)
-export EDITOR="nvim"
-export VISUAL="emacs"
+# EDITOR/VISUAL set once in .zshenv (loads before .zshrc, covers both
+# interactive and non-interactive shells) -- no need to redeclare here.
 
 # Optional: start emacs daemon on login via brew services (uncomment to enable)
 # brew services start emacs >/dev/null 2>&1 || true

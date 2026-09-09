@@ -39,8 +39,11 @@ export R_PROFILE_USER="$HOME/.Rprofile"
 export RADIAN_THEME="native"
 
 # Editor
-export EDITOR="emacsclient -t"
-export VISUAL="emacsclient -c"
+# nvim for EDITOR: needs no running daemon, safe as the default in every
+# context including non-interactive scripts. emacs for VISUAL: full-screen
+# editing, used explicitly rather than as the universal fallback.
+export EDITOR="nvim"
+export VISUAL="emacs"
 
 # ============================================
 # ESSENTIAL FUNCTIONS - MIGRATED TO PLUGIN 2025-12-23
