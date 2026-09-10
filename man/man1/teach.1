@@ -138,6 +138,13 @@ CI mode: exits non-zero on failure, no color.
 .B --verbose
 Verbose output.
 .RE
+.TP
+.B check\fR, \fBchk
+Cross-tool validation summary: runs every available layer (config syntax,
+schema, content + render, R code, Craft content) and prints one aggregated
+pass/warn/fail/skip report. Distinct from
+.B config check
+(a separate, Scholar-strict check). Exits non-zero only on failure.
 .SS Validation
 .TP
 .B validate\fR, \fBval

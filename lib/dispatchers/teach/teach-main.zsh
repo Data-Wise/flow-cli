@@ -1198,6 +1198,13 @@ teach() {
             esac
             ;;
 
+        check|chk)
+            case "$1" in
+                --help|-h|help) _teach_check_help; return 0 ;;
+                *) _teach_check "$@" ;;
+            esac
+            ;;
+
         # Validation (Week 2-3: Validation Commands)
         validate|val|v)
             case "$1" in
