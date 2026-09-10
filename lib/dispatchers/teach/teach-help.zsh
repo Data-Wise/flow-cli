@@ -817,6 +817,45 @@ ${_C_DIM}See also:${_C_NC}
 "
 }
 
+_teach_check_help() {
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
+
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach check - Cross-Tool Validation Summary  │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_BOLD}Usage:${_C_NC} teach check
+${_C_BOLD}Alias:${_C_NC} ${_C_CYAN}chk${_C_NC} → check
+
+Runs every validation layer available for the current teaching project and
+prints one aggregated report. Distinct from ${_C_CYAN}teach config check${_C_NC} (a
+separate, Scholar-strict config check).
+
+${_C_BLUE}LAYERS CHECKED${_C_NC}:
+  1. ${_C_CYAN}Config syntax${_C_NC}            YAML parses (yq)
+  2. ${_C_CYAN}Schema${_C_NC}                   Required fields, formats, grading %
+  3. ${_C_CYAN}Content + render (.qmd)${_C_NC}  Same checks as 'teach validate'
+  4. ${_C_CYAN}R code${_C_NC}                   ${_C_DIM}Always skipped here (slow) — run 'teach validate-r'${_C_NC}
+  5. ${_C_CYAN}Craft content${_C_NC}            ${_C_DIM}Skipped if the Craft plugin isn't installed${_C_NC}
+
+${_C_YELLOW}QUICK EXAMPLE${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach check
+
+${_C_BLUE}EXIT CODES${_C_NC}:
+  ${_C_GREEN}0${_C_NC} - No failures (warnings and skips don't block)
+  ${_C_BOLD}1${_C_NC} - One or more failures found
+
+${_C_DIM}See also:${_C_NC}
+  ${_C_CYAN}teach doctor${_C_NC}    - Environment health (deps, R, git)
+  ${_C_CYAN}teach validate${_C_NC}  - Content validation on its own
+"
+}
+
 
 _teach_slides_help() {
     if [[ -z "$_C_BOLD" ]]; then

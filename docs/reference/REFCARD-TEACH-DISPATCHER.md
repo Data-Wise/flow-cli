@@ -1,14 +1,14 @@
 # Teach Dispatcher Quick Reference
 
-> All 34 `teach` subcommands at a glance. For detailed guides, see linked documentation.
+> All 35 `teach` subcommands at a glance. For detailed guides, see linked documentation.
 >
-> **Version:** v7.15.0 | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh` (loader) → `lib/dispatchers/teach/*.zsh`
+> **Version:** v7.17.3 | **Dispatcher:** `lib/dispatchers/teach-dispatcher.zsh` (loader) → `lib/dispatchers/teach/*.zsh`
 
 ## Command Taxonomy
 
 ```mermaid
 mindmap
-  root((teach<br/>34 commands))
+  root((teach<br/>35 commands))
     Discovery<br/>1 command
       map
     Scholar Wrappers<br/>12 commands
@@ -37,8 +37,9 @@ mindmap
       prompt
       analyze
       migrate-config
-    Infrastructure<br/>9 commands
+    Infrastructure<br/>10 commands
       doctor
+      check
       validate
       dates
       cache
@@ -112,6 +113,7 @@ Health checks, validation, caching, backups, and Git hooks.
 | Command | Aliases | Synopsis | Description | Docs |
 |---------|---------|----------|-------------|------|
 | `teach doctor` | `doc` | `teach doctor [--full] [--fix] [--json] [--ci] [--brief] [--verbose]` | Health checks — quick (5 categories, < 3s) or full (11 categories) | [Tutorial 32](../tutorials/32-teach-doctor.md) |
+| `teach check` | `chk` | `teach check` | Cross-tool validation summary (config, content, R code, Craft) | — |
 | `teach validate` | `val`, `v` | `teach validate [files] [--yaml\|--syntax\|--render] [--watch]` | Validate .qmd files | [Tutorial 45](../tutorials/45-lint-quickstart.md) |
 | `teach dates` | — | `teach dates <action> [args]` | Date management (add, list, show, edit, delete, sync) | [Tutorial 20](../tutorials/20-teaching-dates-automation.md) |
 | `teach cache` | — | `teach cache <action>` | Cache operations (status, clear, rebuild) | [TEACHING-WORKFLOW-V3-GUIDE.md](../guides/TEACHING-WORKFLOW-V3-GUIDE.md) |
@@ -485,6 +487,6 @@ teach status --performance        # Review metrics
 
 ---
 
-**Version:** v7.10.2
-**Last Updated:** 2026-02-27
-**Commands:** 34 total (12 Scholar wrappers + 5 course mgmt + 6 content mgmt + 9 infrastructure + 1 discovery + config subcommands)
+**Version:** v7.17.3
+**Last Updated:** 2026-09-09
+**Commands:** 35 total (12 Scholar wrappers + 5 course mgmt + 6 content mgmt + 10 infrastructure + 1 discovery + config subcommands)

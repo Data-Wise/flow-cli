@@ -970,6 +970,23 @@ teach doctor --brief
 
 ---
 
+### Cross-Tool Validation Summary
+
+```bash
+# Run every validation layer for the current teaching project
+teach check
+# Alias: teach chk
+# Output: Config syntax, Schema, Content + render (.qmd) — always run;
+#         R code, Craft content — SKIP when Scholar/Craft aren't available
+```
+
+Distinct from `teach doctor` (environment health: deps, R, git) and `teach config check`
+(a separate, Scholar-strict config check) — `teach check` aggregates the validation
+layers that already exist across `teach validate`, `teach validate-r`, and Craft's
+content checker into one pass/warn/fail/skip report.
+
+---
+
 ### Scholar Integration
 
 ```bash

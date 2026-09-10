@@ -44,6 +44,13 @@ if [[ -z "$_FLOW_TEACH_DOCTOR_LOADED" ]]; then
     typeset -g _FLOW_TEACH_DOCTOR_LOADED=1
 fi
 
+# Source teach check implementation (issue #359 - cross-tool validation summary)
+if [[ -z "$_FLOW_TEACH_CHECK_LOADED" ]]; then
+    local check_path="${0:A:h}/teach-check.zsh"
+    [[ -f "$check_path" ]] && source "$check_path"
+    typeset -g _FLOW_TEACH_CHECK_LOADED=1
+fi
+
 # Source validation helpers (v4.6.0 - Week 2-3: Validation Commands)
 if [[ -z "$_FLOW_VALIDATION_HELPERS_LOADED" ]]; then
     local validation_helpers_path="${0:A:h:h}/validation-helpers.zsh"
