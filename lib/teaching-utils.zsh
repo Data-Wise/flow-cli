@@ -45,7 +45,7 @@ _calculate_current_week() {
   local config_file="$1"
 
   # Read semester start date from config
-  local start_date=$(yq -r '.semester_info.start_date // empty' "$config_file" 2>/dev/null)
+  local start_date=$(yq -r '.semester_info.start_date // ""' "$config_file" 2>/dev/null)
 
   if [[ -z "$start_date" || "$start_date" == "null" ]]; then
     return 0
@@ -110,7 +110,7 @@ _is_break_week() {
   local week="$2"
 
   # Check if breaks section exists
-  local breaks=$(yq -r '.semester_info.breaks // empty' "$config_file" 2>/dev/null)
+  local breaks=$(yq -r '.semester_info.breaks // ""' "$config_file" 2>/dev/null)
   if [[ -z "$breaks" || "$breaks" == "null" ]]; then
     return 1  # No breaks defined
   fi
