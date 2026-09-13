@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Draft |
+| **Status** | Approved — open questions resolved via grill (2026-09-13) |
 | **Created** | 2026-09-12 |
 | **Author** | dt + Claude |
 | **From** | [Issue #275](https://github.com/Data-Wise/flow-cli/issues/275) |
@@ -152,10 +152,18 @@ Terminal-only, no file writes — shows what `generate` would compute for "today
 
 ### `_teach_dashboard_announce`
 
+**Resolved via grill (`GRILL-teach-dashboard-2026-09-13.md`):** writes to
+`.teach/announcements.json`, NOT into `teach-config.yml` — no existing flow-cli code
+has ever done an automated write into the config file itself, and doing so risks
+losing hand-written comments/formatting on rewrite. Keeps the same `.flow`=config /
+`.teach`=generated split this spec already uses for `semester-data.json`.
+
 Two modes: positional args (`teach dashboard announce "Title" "Message" --expires
 DATE --type note`) for scripting, and no-args for an interactive wizard. Writes into
-`.flow/teach-config.yml`'s `dashboard.announcements[]` via `yq -i` (same technique as
-`dispatchers/teach-deploy-enhanced.zsh:512`, new target file). Auto-generates an `id`
+`.teach/announcements.json` via `yq -i` (same technique as
+`dispatchers/teach-deploy-enhanced.zsh:512`, new target file, same `.teach/` directory
+as the generated `semester-data.json`). `_teach_dashboard_generate` merges this file's
+contents into the `announcements` array of the generated JSON. Auto-generates an `id`
 slug if not given.
 
 ### `_teach_dashboard_status`
@@ -174,7 +182,7 @@ validation; this is dashboard-specific config state.
 - `teach dashboard preview` and `teach dashboard preview --week N` → correct week/break
   resolution, including a week inside a configured break
 - `teach dashboard announce` (positional args) and interactive wizard → both append a
-  well-formed entry to `dashboard.announcements[]`
+  well-formed entry to `.teach/announcements.json`
 - `teach dashboard status` on a config with an expired announcement → flags it
 - `teach dashboard --help` shows usage
 - New test file `tests/test-teach-dashboard.zsh`, registered in `tests/run-all.sh`
@@ -182,22 +190,18 @@ validation; this is dashboard-specific config state.
   `docs/help/QUICK-REFERENCE.md`, `man/man1/teach.1`, `docs/reference/TEACH-CONFIG-SCHEMA.md`
   (new optional fields)
 
-## Open questions for approval
+## Open questions — resolved (see `GRILL-teach-dashboard-2026-09-13.md`)
 
-1. **`.teach/semester-data.json` vs. Quarto's `_site/` copy step** — the issue says the
-   file is "copied to `_site/` by Quarto." That copy step lives in the STAT 545 site's
-   own `_quarto.yml` (`resources:` config), outside this repo's control. This spec only
-   commits to generating the file at a stable, documented path
-   (`.teach/semester-data.json`) — confirm that's sufficient, or whether flow-cli should
-   also validate/scaffold the consuming site's `_quarto.yml` (out of scope as proposed).
-2. **`teach dashboard announce` writing to `teach-config.yml` directly** — this is the
-   first command that mutates the *config* file itself (not a separate status file).
-   Confirm that's acceptable, or whether announcements should live in a separate
-   `.teach/announcements.json` that `generate` merges in (keeps `teach-config.yml`
-   read-mostly, avoids yq-write edge cases like comment/formatting loss on rewrite).
-3. **16-week cap in `_calculate_current_week`** — confirm STAT 545's semester length,
-   or whether this spec's Phase 1 should also parametrize/fix the cap while touching
-   this function.
+1. **`.teach/semester-data.json` vs. Quarto's `_site/` copy step** — RESOLVED as
+   proposed: this spec only commits to generating the file at a stable, documented
+   path (`.teach/semester-data.json`). The STAT 545 site's own `_quarto.yml`
+   `resources:` config (outside this repo) is responsible for the copy step —
+   confirmed out of scope, no flow-cli-side validation/scaffolding needed.
+2. **`teach dashboard announce` writing target** — RESOLVED: separate
+   `.teach/announcements.json`, not `teach-config.yml` directly. See the design
+   section above and the grill ledger for the full reasoning.
+3. **16-week cap in `_calculate_current_week`** — RESOLVED: STAT 545 is confirmed a
+   16-week semester. No cap-parametrization work needed.
 
 ## Out of scope
 
