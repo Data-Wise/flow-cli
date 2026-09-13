@@ -289,21 +289,41 @@ _teach_show_week() {
             _teach_week_help
             return 1
             ;;
-        *) requested_week="$1" ;;
+        *)
+            if [[ ! "$1" =~ ^[0-9]+$ ]]; then
+                _flow_log_error "Invalid week number: '$1' (must be a positive integer)"
+                return 1
+            fi
+            requested_week="$1"
+            ;;
     esac
 
+    local start_date=$(yq -r '.semester_info.start_date // ""' "$config_file" 2>/dev/null)
+
     local week
+    local capped_warning=""
     if [[ -n "$requested_week" ]]; then
         week="$requested_week"
     else
         week=$(_calculate_current_week "$config_file")
         if [[ -z "$week" ]]; then
-            _flow_log_error "No semester_info.start_date configured in $config_file"
+            if [[ -z "$start_date" || "$start_date" == "null" ]]; then
+                _flow_log_error "No semester_info.start_date configured in $config_file"
+            else
+                _flow_log_error "Invalid semester_info.start_date '$start_date' in $config_file (use YYYY-MM-DD)"
+            fi
             return 1
         fi
-    fi
 
-    local start_date=$(yq -r '.semester_info.start_date // ""' "$config_file" 2>/dev/null)
+        # _calculate_current_week caps at 16 ("standard semester") — detect
+        # whether we're actually past that and just showing a truncated value.
+        if [[ "$week" == "16" ]]; then
+            local raw_week=$(_date_to_week "$config_file" "$(date +%Y-%m-%d)" 2>/dev/null)
+            if [[ -n "$raw_week" && "$raw_week" -gt 16 ]]; then
+                capped_warning="  ${FLOW_COLORS[warning]}⚠️  Capped at week 16 — semester may be longer than 16 weeks or already over (actual elapsed: week $raw_week)${FLOW_COLORS[reset]}"
+            fi
+        fi
+    fi
 
     echo ""
     if [[ "$week" == "0" ]]; then
@@ -311,6 +331,7 @@ _teach_show_week() {
     else
         echo "${FLOW_COLORS[bold]}📅 Week $week${FLOW_COLORS[reset]}"
     fi
+    [[ -n "$capped_warning" ]] && echo "$capped_warning"
     [[ -n "$start_date" ]] && echo "  Semester started: $start_date"
 
     local break_name
