@@ -51,6 +51,13 @@ if [[ -z "$_FLOW_TEACH_CHECK_LOADED" ]]; then
     typeset -g _FLOW_TEACH_CHECK_LOADED=1
 fi
 
+# Source teach dashboard implementation (issue #275 - dynamic website content)
+if [[ -z "$_FLOW_TEACH_DASHBOARD_LOADED" ]]; then
+    local dashboard_path="${0:A:h}/teach-dashboard.zsh"
+    [[ -f "$dashboard_path" ]] && source "$dashboard_path"
+    typeset -g _FLOW_TEACH_DASHBOARD_LOADED=1
+fi
+
 # Source validation helpers (v4.6.0 - Week 2-3: Validation Commands)
 if [[ -z "$_FLOW_VALIDATION_HELPERS_LOADED" ]]; then
     local validation_helpers_path="${0:A:h:h}/validation-helpers.zsh"
