@@ -1169,6 +1169,11 @@ teach() {
             _teach_dates_dispatcher "$@"
             ;;
 
+        # Dashboard: dynamic website content (issue #275)
+        dashboard|dash)
+            _teach_dashboard_dispatcher "$@"
+            ;;
+
         # Backup management (v5.14.0 - Task 5)
         backup|bk)
             _teach_backup_command "$@"

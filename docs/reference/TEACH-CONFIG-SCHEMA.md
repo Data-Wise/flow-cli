@@ -196,13 +196,27 @@ Academic calendar configuration for date calculations.
 |-------|------|----------|---------|-------------|------------------|
 | `start_date` | string | ✅ Yes* | — | Semester start | YYYY-MM-DD format |
 | `end_date` | string | ✅ Yes* | — | Semester end | YYYY-MM-DD format |
-| `break_weeks` | array | No | `[]` | Week numbers with breaks | Integers 1-52 |
+| `timezone` | string | No | — | IANA timezone (e.g., `America/Denver`) | Consumed by `teach dashboard generate`; not validated |
+| `break_weeks` | array | No | `[]` | **Dead field** — no code reads this | Integers 1-52 (do not use; see `breaks` below) |
+| `breaks` | array | No | `[]` | Break periods (name + date range) | See **Breaks Schema** below |
 | `holidays` | array | No | `[]` | Holiday definitions | See below |
 | `deadlines` | object | No | `{}` | Assignment deadlines | See below |
 | `exams` | array | No | `[]` | Exam schedule | See below |
 | `weeks` | array | No | `[]` | **Legacy:** Use lesson-plans.yml | See below |
 
 \* Required if using `teach dates` commands
+
+**Breaks Schema:**
+
+| Field | Type | Required | Description | Validation |
+|-------|------|----------|-------------|------------|
+| `name` | string | ✅ Yes | Break name (e.g., "Fall Break") | — |
+| `start` | string | ✅ Yes | Break start date | YYYY-MM-DD |
+| `end` | string | ✅ Yes | Break end date | YYYY-MM-DD |
+| `show_next` | boolean | No | Show this break in "upcoming" views | Default `true` |
+
+Read by `_is_break_week()` (`lib/teaching-utils.zsh`) and `teach dashboard generate`/`preview`.
+Do not confuse with the dead `break_weeks` field above — no code reads `break_weeks`.
 
 **Holiday Schema:**
 
@@ -237,7 +251,13 @@ Must provide **either** `due_date` **OR** both `week` and `offset_days`:
 semester_info:
   start_date: '2026-08-26'
   end_date: '2026-12-15'
-  break_weeks: [10]  # Thanksgiving
+  timezone: 'America/Denver'
+
+  breaks:
+    - name: 'Fall Break'
+      start: '2026-10-12'
+      end: '2026-10-16'
+      show_next: true
 
   holidays:
     - name: 'Labor Day'
@@ -296,6 +316,25 @@ teach plan list
 
 ---
 
+### `dashboard` (optional)
+
+Dynamic website content configuration, consumed by `teach dashboard` (issue #275).
+Does **not** hold announcements — those live in the generated `.teach/announcements.json`,
+never in this file (see `teach dashboard announce`).
+
+| Field | Type | Required | Default | Description | Validation Rules |
+|-------|------|----------|---------|-------------|------------------|
+| `fallback_message` | string | No | — | Shown by the consuming site when no announcements are active | Free-form |
+
+**Example:**
+
+```yaml
+dashboard:
+  fallback_message: 'Check back soon for updates!'
+```
+
+---
+
 ## lesson-plans.yml Schema
 
 Separated lesson plan file for cleaner organization (v6.1.0+).
@@ -330,6 +369,10 @@ weeks:
 | `activities` | array | No | `[]` | In-class activities | See below |
 | `assessments` | array | No | `[]` | Assessment items | See below |
 | `materials` | array | No | `[]` | Required materials | Strings |
+| `focus` | string | No | — | One-line week focus, for the dashboard | Free-form; consumed by `teach dashboard generate`/`preview` |
+| `lecture` | string | No | — | Lecture-day summary, for the dashboard | Free-form |
+| `lab` | string | No | — | Lab-day summary, for the dashboard | Free-form |
+| `assignment` | string | No | — | Assignment note, for the dashboard | Free-form |
 
 **Activity Schema:**
 

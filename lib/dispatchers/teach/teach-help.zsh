@@ -853,6 +853,48 @@ ${_C_DIM}See also:${_C_NC}
 }
 
 
+_teach_dashboard_help() {
+    if [[ -z "$_C_BOLD" ]]; then
+        _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'
+        _C_GREEN='\033[32m'; _C_YELLOW='\033[33m'; _C_BLUE='\033[34m'
+        _C_MAGENTA='\033[35m'; _C_CYAN='\033[36m'
+    fi
+
+    echo -e "
+${_C_BOLD}╭─────────────────────────────────────────────╮${_C_NC}
+${_C_BOLD}│ teach dashboard - Dynamic Website Content    │${_C_NC}
+${_C_BOLD}╰─────────────────────────────────────────────╯${_C_NC}
+
+${_C_BOLD}Usage:${_C_NC} teach dashboard <subcommand> [options]
+${_C_BOLD}Alias:${_C_NC} ${_C_CYAN}dash${_C_NC} → dashboard ${_C_DIM}(scoped under teach — unrelated to flow-cli's top-level 'dash')${_C_NC}
+
+Generates and manages the JSON a course website reads client-side to show
+\"This Week,\" breaks, and announcements without a site rebuild.
+
+${_C_BLUE}SUBCOMMANDS${_C_NC}:
+  ${_C_CYAN}generate${_C_NC}, gen        Write .teach/semester-data.json from .flow/teach-config.yml
+                        ${_C_DIM}--force to overwrite an existing file${_C_NC}
+  ${_C_CYAN}preview${_C_NC}, prev        Show current (or --week N) week/break/topic — no writes
+  ${_C_CYAN}announce${_C_NC}, a          Add an entry to .teach/announcements.json
+                        ${_C_DIM}\"Title\" \"Message\" [--expires DATE] [--type note] [--id ID]${_C_NC}
+                        ${_C_DIM}or no args for an interactive wizard${_C_NC}
+  ${_C_CYAN}status${_C_NC}, st           Config-only health check: dashboard section, announcement counts
+
+${_C_YELLOW}QUICK EXAMPLE${_C_NC}:
+  ${_C_DIM}\$${_C_NC} teach dashboard generate
+  ${_C_DIM}\$${_C_NC} teach dashboard announce \"Midterm moved\" \"Now on Oct 20\" --expires 2026-10-21
+
+${_C_BLUE}EXIT CODES${_C_NC}:
+  ${_C_GREEN}0${_C_NC} - Success
+  ${_C_BOLD}1${_C_NC} - Missing config, refused overwrite, invalid input, or unknown subcommand
+
+${_C_DIM}See also:${_C_NC}
+  ${_C_CYAN}teach check${_C_NC}  - Cross-tool validation summary
+  ${_C_CYAN}teach week${_C_NC}   - Current-week lookup on its own
+"
+}
+
+
 _teach_slides_help() {
     if [[ -z "$_C_BOLD" ]]; then
         _C_BOLD='\033[1m'; _C_DIM='\033[2m'; _C_NC='\033[0m'

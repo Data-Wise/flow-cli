@@ -128,6 +128,7 @@ run_test ./tests/test-teach-dispatcher-definedness.zsh
 run_test ./tests/test-teach-plan.zsh
 run_test ./tests/test-teach-plan-security.zsh
 run_test ./tests/test-teach-check.zsh
+run_test ./tests/test-teach-dashboard.zsh
 run_test ./tests/automated-teach-style-dogfood.zsh
 run_test ./tests/dogfood-teach-deploy-v2.zsh
 run_test ./tests/test-teach-deploy-v2-unit.zsh

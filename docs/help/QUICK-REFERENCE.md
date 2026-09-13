@@ -987,6 +987,32 @@ content checker into one pass/warn/fail/skip report.
 
 ---
 
+### Dynamic Website Content (Dashboard)
+
+```bash
+# Generate .teach/semester-data.json from .flow/teach-config.yml
+teach dashboard generate                # or: teach dash gen
+teach dashboard generate --force         # Overwrite an existing file
+
+# Preview current (or a specific) week — no writes
+teach dashboard preview                  # or: teach dash prev
+teach dashboard preview --week 9
+
+# Add a website announcement (positional or interactive wizard)
+teach dashboard announce "Midterm moved" "Now on Oct 20" --expires 2026-10-21
+teach dashboard announce                 # interactive wizard
+
+# Config-only health check: dashboard section, announcement counts
+teach dashboard status                   # or: teach dash st
+```
+
+Writes to `.teach/semester-data.json` (generated output) and `.teach/announcements.json`
+(not `teach-config.yml` — keeps hand-edited config safe from automated rewrites). A course
+website reads the generated JSON client-side to show "This Week," breaks, and
+announcements without a site rebuild.
+
+---
+
 ### Scholar Integration
 
 ```bash

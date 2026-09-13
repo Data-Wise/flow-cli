@@ -234,6 +234,27 @@ Show the ecosystem map of course tools and integrations (v6.6.0+).
 .TP
 .B dates
 Manage course date schedules (semester start, holidays, deadlines).
+.TP
+.B dashboard\fR, \fBdash \fR[\fIsubcmd\fR]
+Manage the dynamic website content a course site reads client-side
+(\fB.teach/semester-data.json\fR). Subcommands:
+.RS
+.TP
+.B generate\fR, \fBgen \fR[\fB--force\fR]
+Generate \fB.teach/semester-data.json\fR from \fB.flow/teach-config.yml\fR.
+Refuses to overwrite an existing file unless \fB--force\fR is given.
+.TP
+.B preview\fR, \fBprev \fR[\fB--week\fR \fIN\fR]
+Show the current (or given) week's topic/break status. No writes.
+.TP
+.B announce\fR, \fBa \fR[\fItitle message\fR] [\fIoptions\fR]
+Add an entry to \fB.teach/announcements.json\fR (positional args, or an
+interactive wizard when none are given). Never writes to
+\fBteach-config.yml\fR.
+.TP
+.B status\fR, \fBst
+Config-only health check: dashboard section presence, announcement counts.
+.RE
 .SS Configuration
 .TP
 .B config\fR, \fBc \fR[\fIsubcmd\fR]
