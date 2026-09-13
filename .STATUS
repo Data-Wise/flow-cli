@@ -4,12 +4,51 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: #275 or #487 (backlog triage)
+## Focus: #487 (only remaining backlog item)
 ## Phase: Released (v7.17.3)
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-09-12) — `teach check` shipped (#359 closed)
+## Current Session (2026-09-13) — `teach week` fixed (#521) + `teach dashboard` shipped (#275 closed)
+
+**Issue #275 implemented and merged.** Spec (`docs/specs/SPEC-teach-dashboard-2026-09-12.md`,
+corrected the issue's proposal on 5 points before writing code: wrong output directory, reused
+existing week/break helpers instead of reimplementing, flagged the 16-week cap and the dead
+`break_weeks` fixture field) → grilled (`docs/specs/GRILL-teach-dashboard-2026-09-13.md`,
+2 open questions resolved: announcements go to a separate `.teach/announcements.json` not
+`teach-config.yml`; STAT 545 confirmed 16 weeks, no cap fix needed) → worktree
+`feature/teach-dashboard` → new `lib/dispatchers/teach-dashboard.zsh`
+(`generate|gen`/`preview|prev`/`announce|a`/`status|st`) → dispatcher wiring + source guard in
+`teach-dispatcher.zsh` + help text → `tests/test-teach-dashboard.zsh` (6 suites, 29 assertions) →
+docs (`QUICK-REFERENCE.md`, `man/man1/teach.1`, `TEACH-CONFIG-SCHEMA.md` — also fixed a
+pre-existing gap: `semester_info.breaks[]` was live functional code but had never been
+documented, only the dead `break_weeks` field was). Full suite: 86 passed / 2 failed (same
+`e2e-em-dispatcher` + `test-atlas-contract` pre-existing baseline) / 0 timeout. PR #522 → `dev`,
+squash-merged (`43493df`). ORCHESTRATE file removed from the feature branch *before* merging this
+time (lesson from #359's leak) — confirmed clean, no repeat leak. Issue #275 closed manually: the
+squash-merge `--body` replaced the PR body's "Closes #275" text, so it didn't auto-close.
+
+**Issue #521 (`teach week` regression fix), earlier this session, same PR chain as #520 review:**
+reviewed a peer session's PR #520 (4 confirmed correctness/test-coverage findings posted as review
+comments), then — since the fixes went unaddressed before that session ended — closed #520 without
+merging and opened PR #521 from a fresh worktree with the same base restoration plus all 4 review
+fixes: numeric week-arg validation, single `start_date` read reused for both diagnosis and display,
+distinct "not configured" vs. "invalid format" error messages, and a 16-week-cap detection warning
+(cross-checks the uncapped `_date_to_week` against the capped `_calculate_current_week` to detect
+silent truncation). Also fixed the actual root cause both PRs shared: `yq -r '.foo // empty'` is
+invalid syntax on mikefarah yq (errors on every input), silently breaking `_calculate_current_week`
+and `_is_break_week` for every real config since whenever that pattern was introduced — fixed to
+`// ""`. New regression guard `tests/test-teach-dispatcher-definedness.zsh` (extracts every
+`_teach_*` token referenced in `teach-main.zsh`, asserts each is defined) — verified it actually
+catches the original bug. PR #521 squash-merged (`144d8ea2`).
+
+**Issue #517 parked** (historical `DC_API_KEY` exposure in `zsh/.zshrc`) — moved from `## Next
+Action` to `## Parked`: provider unidentified, no consumer, no live credential to rotate,
+history-scrub deferred.
+
+---
+
+## Previous Session (2026-09-12) — `teach check` shipped (#359 closed)
 
 **Issue #359 implemented and merged.** Spec (`docs/specs/SPEC-teach-check-2026-09-09.md`,
 corrected twice against real code before implementation — the issue's own sketch and my first
@@ -917,14 +956,15 @@ issue #517. See the 2026-09-06/07 session block above.
 **Issue #359 shipped and closed (2026-09-12)** — `teach check`, PR #519 merged to `dev`. See
 the 2026-09-12 session block above.
 
-1. **Issue #275** — `teach dashboard` subcommand for dynamic website content (8-12h; original
-   spec archived, needs a fresh one)
-2. **Issue #487** — AI rewrite trigger (`:rw`/`:rwq`): unbuilt, spec lost, four decisions
+**Issue #275 shipped and closed (2026-09-13)** — `teach dashboard`, PR #522 merged to `dev`. See
+the 2026-09-13 session block above.
+
+1. **Issue #487** — AI rewrite trigger (`:rw`/`:rwq`): unbuilt, spec lost, four decisions
    preserved in the issue body. Needs a re-written spec before any implementation.
-3. **Markdown-lint backlog** (advisory, non-blocking by design) — 394 errors, 138 of them MD040
+2. **Markdown-lint backlog** (advisory, non-blocking by design) — 394 errors, 138 of them MD040
    (fenced blocks needing a language tag). `test.yml` documents why it stays advisory; clearing it
    is the precondition for making that gate blocking.
-4. **Decide the fate of `feature/email-dispatcher-restructure`** — either merge its ORCHESTRATE
+3. **Decide the fate of `feature/email-dispatcher-restructure`** — either merge its ORCHESTRATE
    plan's substance somewhere durable, or retire the branch deliberately. Left standing 2026-09-05
    because it is the only copy.
 
@@ -936,8 +976,8 @@ the 2026-09-12 session block above.
 
 ---
 
-**Last Updated:** 2026-09-12
-**Status:** v7.17.3 released and tagged (2026-09-09/10) | `dev` ahead of `main` by `teach check` (#359, PR #519, squash-merged `9f76729`) | 0 open PRs | 3 open issues (#275, #487, #517) | full suite (ZDOTDIR-isolated) — 84 passed / 2 failed (test-atlas-contract, e2e-em-dispatcher — pre-existing external-tool drift, reproduced on `dev` baseline, unrelated to this diff) / 0 timeout across 86 registered suites | man-page guard 12/12 | markdown lint ADVISORY and failing by design (394 errors) | 14 dispatchers + `at` bridge | 180 `test-*.zsh` suite files
+**Last Updated:** 2026-09-13
+**Status:** v7.17.3 released and tagged (2026-09-09/10) | `dev` ahead of `main` by `teach check` (#359, PR #519) + `teach week` fix (#521) + `teach dashboard` (#275, PR #522, squash-merged `43493df`) | 0 open PRs | 1 open issue (#487) + 1 parked (#517) | full suite (ZDOTDIR-isolated) — 86 passed / 2 failed (test-atlas-contract, e2e-em-dispatcher — pre-existing external-tool drift, reproduced on `dev` baseline, unrelated to this diff) / 0 timeout across 86 registered suites | man-page guard passing | markdown lint ADVISORY and failing by design (394 errors) | 14 dispatchers + `at` bridge (`teach dashboard` is a new subcommand, not a new dispatcher) | 179 `test-*.zsh` suite files
 ## wins: Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06), fixed the bug (2026-07-06), Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06)
 ## streak: 1
 ## last_active: 2026-07-06 12:53

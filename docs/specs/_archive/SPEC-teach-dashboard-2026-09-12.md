@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Status** | Approved — open questions resolved via grill (2026-09-13) |
+| **Status** | Done — shipped 2026-09-13 via [PR #522](https://github.com/Data-Wise/flow-cli/pull/522), issue #275 closed |
 | **Created** | 2026-09-12 |
 | **Author** | dt + Claude |
 | **From** | [Issue #275](https://github.com/Data-Wise/flow-cli/issues/275) |
