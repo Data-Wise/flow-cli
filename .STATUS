@@ -921,12 +921,10 @@ the 2026-09-12 session block above.
    spec archived, needs a fresh one)
 2. **Issue #487** — AI rewrite trigger (`:rw`/`:rwq`): unbuilt, spec lost, four decisions
    preserved in the issue body. Needs a re-written spec before any implementation.
-3. **Issue #517** — historical `DC_API_KEY` secret exposure (unrotated, history not scrubbed) —
-   still open, not yet triaged this cycle.
-4. **Markdown-lint backlog** (advisory, non-blocking by design) — 394 errors, 138 of them MD040
+3. **Markdown-lint backlog** (advisory, non-blocking by design) — 394 errors, 138 of them MD040
    (fenced blocks needing a language tag). `test.yml` documents why it stays advisory; clearing it
    is the precondition for making that gate blocking.
-5. **Decide the fate of `feature/email-dispatcher-restructure`** — either merge its ORCHESTRATE
+4. **Decide the fate of `feature/email-dispatcher-restructure`** — either merge its ORCHESTRATE
    plan's substance somewhere durable, or retire the branch deliberately. Left standing 2026-09-05
    because it is the only copy.
 
@@ -934,6 +932,7 @@ the 2026-09-12 session block above.
 
 - API documentation push (50% → 80% coverage of 348 functions) — parked 2026-07-02, no active driver
 - ~~Code workspace manager (`code ws` dispatcher)~~ — retired 2026-07-02, spec moved to `docs/specs/_archive/SPEC-code-workspace-2026-02-13.md` (never implemented, no demand signal in 4.5mo)
+- **Issue #517** — historical `DC_API_KEY` exposure — parked 2026-09-13, nothing actionable left (provider unidentified, no consumer, no live credential to rotate; history-scrub deferred)
 
 ---
 
