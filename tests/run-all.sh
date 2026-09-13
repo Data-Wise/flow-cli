@@ -124,6 +124,7 @@ run_test ./tests/test-plugin-optimization.zsh
 
 echo ""
 echo "Teach command tests:"
+run_test ./tests/test-teach-dispatcher-definedness.zsh
 run_test ./tests/test-teach-plan.zsh
 run_test ./tests/test-teach-plan-security.zsh
 run_test ./tests/test-teach-check.zsh

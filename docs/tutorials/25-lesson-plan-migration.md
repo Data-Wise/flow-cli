@@ -162,7 +162,7 @@ teach migrate-config
 │   .flow/teach-config.yml.bak (backup)                       │
 │                                                             │
 │ Next steps:                                                 │
-│   1. Verify: teach week --list                              │
+│   1. Verify: cat .flow/lesson-plans.yml                      │
 │   2. Test: teach week 1                                     │
 │   3. Delete backup when satisfied                           │
 ╰─────────────────────────────────────────────────────────────╯
@@ -175,13 +175,10 @@ teach migrate-config
 Check the migration worked:
 
 ```bash
-# List all weeks (should work same as before)
-teach week --list
-
 # View specific week
 teach week 1
 
-# Check new file exists
+# Check new file exists (this is the current way to see all migrated weeks)
 cat .flow/lesson-plans.yml
 ```
 

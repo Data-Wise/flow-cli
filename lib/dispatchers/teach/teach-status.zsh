@@ -261,6 +261,99 @@ _teach_show_status_full() {
     echo ""
 }
 
+# Show current (or a specific) week's info: number, semester start, break status,
+# and topic (if a lesson plan is configured).
+# Usage: teach week [WEEK_NUMBER] [--current|-c]
+_teach_show_week() {
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        _teach_week_help
+        return 0
+    fi
+
+    local config_file=".flow/teach-config.yml"
+    if [[ ! -f "$config_file" ]]; then
+        _flow_log_error "Not a teaching project (no .flow/teach-config.yml)"
+        return 1
+    fi
+
+    if ! command -v yq >/dev/null 2>&1; then
+        _flow_log_error "yq required for week calculation"
+        return 1
+    fi
+
+    local requested_week=""
+    case "$1" in
+        --current|-c|"") ;;
+        -*)
+            _flow_log_error "Unknown option: $1"
+            _teach_week_help
+            return 1
+            ;;
+        *)
+            if [[ ! "$1" =~ ^[0-9]+$ ]]; then
+                _flow_log_error "Invalid week number: '$1' (must be a positive integer)"
+                return 1
+            fi
+            requested_week="$1"
+            ;;
+    esac
+
+    local start_date=$(yq -r '.semester_info.start_date // ""' "$config_file" 2>/dev/null)
+
+    local week
+    local capped_warning=""
+    if [[ -n "$requested_week" ]]; then
+        week="$requested_week"
+    else
+        week=$(_calculate_current_week "$config_file")
+        if [[ -z "$week" ]]; then
+            if [[ -z "$start_date" || "$start_date" == "null" ]]; then
+                _flow_log_error "No semester_info.start_date configured in $config_file"
+            else
+                _flow_log_error "Invalid semester_info.start_date '$start_date' in $config_file (use YYYY-MM-DD)"
+            fi
+            return 1
+        fi
+
+        # _calculate_current_week caps at 16 ("standard semester") — detect
+        # whether we're actually past that and just showing a truncated value.
+        if [[ "$week" == "16" ]]; then
+            local raw_week=$(_date_to_week "$config_file" "$(date +%Y-%m-%d)" 2>/dev/null)
+            if [[ -n "$raw_week" && "$raw_week" -gt 16 ]]; then
+                capped_warning="  ${FLOW_COLORS[warning]}⚠️  Capped at week 16 — semester may be longer than 16 weeks or already over (actual elapsed: week $raw_week)${FLOW_COLORS[reset]}"
+            fi
+        fi
+    fi
+
+    echo ""
+    if [[ "$week" == "0" ]]; then
+        echo "${FLOW_COLORS[bold]}📅 Semester has not started yet${FLOW_COLORS[reset]}"
+    else
+        echo "${FLOW_COLORS[bold]}📅 Week $week${FLOW_COLORS[reset]}"
+    fi
+    [[ -n "$capped_warning" ]] && echo "$capped_warning"
+    [[ -n "$start_date" ]] && echo "  Semester started: $start_date"
+
+    local break_name
+    if break_name=$(_is_break_week "$config_file" "$week" 2>/dev/null) && [[ -n "$break_name" ]]; then
+        echo "  ${FLOW_COLORS[warning]}⚠️  Break: $break_name${FLOW_COLORS[reset]}"
+    fi
+
+    # Topic lookup: lesson-plans.yml (current schema) first, then the
+    # deprecated semester_info.weeks[] embedded in teach-config.yml.
+    local topic=""
+    local lesson_plans_file=".flow/lesson-plans.yml"
+    if [[ -f "$lesson_plans_file" ]]; then
+        topic=$(yq -r ".weeks[] | select(.number == $week) | .topic // \"\"" "$lesson_plans_file" 2>/dev/null)
+    fi
+    if [[ -z "$topic" ]]; then
+        topic=$(yq -r ".semester_info.weeks[] | select(.number == $week) | .topic // \"\"" "$config_file" 2>/dev/null)
+    fi
+    [[ -n "$topic" ]] && echo "  Topic: $topic"
+
+    echo ""
+}
+
 # ==============================================================================
 # BACKUP COMMAND (v5.14.0 - Task 5)
 # ==============================================================================
