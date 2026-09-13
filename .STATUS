@@ -4,10 +4,29 @@
 ## Project: flow-cli
 ## Type: zsh-plugin
 ## Status: active
-## Focus: #359 or the doc-count guard
+## Focus: #275 or #487 (backlog triage)
 ## Phase: Released (v7.17.3)
 ## Priority: 2
 ## Progress: 100
+
+## Current Session (2026-09-12) — `teach check` shipped (#359 closed)
+
+**Issue #359 implemented and merged.** Spec (`docs/specs/SPEC-teach-check-2026-09-09.md`,
+corrected twice against real code before implementation — the issue's own sketch and my first
+draft both cited functions that don't exist) → worktree `feature/teach-check` → new
+`lib/dispatchers/teach-check.zsh` (`_teach_check`/`_teach_check_render_report`, config syntax +
+schema + content/render always run, R code + Craft content SKIP when unavailable) → dispatcher
+wiring + help text → `tests/test-teach-check.zsh` (14 assertions, 4 suites) → docs
+(`REFCARD-TEACH-DISPATCHER.md`, `QUICK-REFERENCE.md`, `man/man1/teach.1` — also caught and fixed
+the REFCARD being 2 releases stale at v7.15.0/34 commands). Full suite: 84 passed / 2 failed
+(same `e2e-em-dispatcher` + `test-atlas-contract` pre-existing failures, reproduced on `dev`
+baseline before merging) / 0 timeout. PR #519 → `dev`, squash-merged (`9f76729`), worktree +
+local/remote branch removed, issue #359 closed (flow-cli's convention is close-on-dev-merge, not
+wait-for-release — matches #488/#489 precedent). **Cleanup gap caught this session:** the
+squash-merge carried `ORCHESTRATE-teach-check.md` onto `dev` (local worktree removal doesn't
+catch a file the merge itself re-introduces) — removed here.
+
+---
 
 ## Current Session (2026-09-09) — zshrc/zshenv fixes + docs currency + v7.17.3 prep
 
@@ -895,15 +914,15 @@ rotation not pursued further (no consumer found anywhere in dev-tools, provider 
 Treated as dead; residual historical exposure (unrotated, history not scrubbed) tracked in
 issue #517. See the 2026-09-06/07 session block above.
 
-**Verified against repo state 2026-09-05 (evening).** The 2026-09-05 morning list — issue triage,
-the PR #500 decision, `.gitignore`, the branch sweep — is done; see the session entry above.
+**Issue #359 shipped and closed (2026-09-12)** — `teach check`, PR #519 merged to `dev`. See
+the 2026-09-12 session block above.
 
-1. **Issue #359** — `teach check` cross-tool validation summary (2-3h, verified not started
-   2026-07-02, re-confirmed open 2026-09-05)
-2. **Issue #275** — `teach dashboard` subcommand for dynamic website content (8-12h; original
+1. **Issue #275** — `teach dashboard` subcommand for dynamic website content (8-12h; original
    spec archived, needs a fresh one)
-3. **Issue #487** — AI rewrite trigger (`:rw`/`:rwq`): unbuilt, spec lost, four decisions
+2. **Issue #487** — AI rewrite trigger (`:rw`/`:rwq`): unbuilt, spec lost, four decisions
    preserved in the issue body. Needs a re-written spec before any implementation.
+3. **Issue #517** — historical `DC_API_KEY` secret exposure (unrotated, history not scrubbed) —
+   still open, not yet triaged this cycle.
 4. **Markdown-lint backlog** (advisory, non-blocking by design) — 394 errors, 138 of them MD040
    (fenced blocks needing a language tag). `test.yml` documents why it stays advisory; clearing it
    is the precondition for making that gate blocking.
@@ -918,8 +937,8 @@ the PR #500 decision, `.gitignore`, the branch sweep — is done; see the sessio
 
 ---
 
-**Last Updated:** 2026-09-09
-**Status:** v7.17.3 in release prep 2026-09-09 (version bumped, CHANGELOG synced, not yet tagged/PR'd) | `dev` ahead of `main` by this session's zshrc/zshenv fixes + docs sync + the v7.17.2 release | 0 open PRs | 4 open issues | full suite (ZDOTDIR-isolated, bypassing local stale-Homebrew-install contamination) — 83 passed / 2 failed (test-atlas-contract, e2e-em-dispatcher — pre-existing external-tool drift, unrelated to this diff) / 0 timeout across 85 registered suites | CI green on every commit this session | man-page guard 12/12 | markdown lint ADVISORY and failing by design (394 errors) | 14 dispatchers + `at` bridge | 179 `test-*.zsh` suite files (241 `.zsh` total under `tests/`)
+**Last Updated:** 2026-09-12
+**Status:** v7.17.3 released and tagged (2026-09-09/10) | `dev` ahead of `main` by `teach check` (#359, PR #519, squash-merged `9f76729`) | 0 open PRs | 3 open issues (#275, #487, #517) | full suite (ZDOTDIR-isolated) — 84 passed / 2 failed (test-atlas-contract, e2e-em-dispatcher — pre-existing external-tool drift, reproduced on `dev` baseline, unrelated to this diff) / 0 timeout across 86 registered suites | man-page guard 12/12 | markdown lint ADVISORY and failing by design (394 errors) | 14 dispatchers + `at` bridge | 180 `test-*.zsh` suite files
 ## wins: Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06), fixed the bug (2026-07-06), Fixed the regression bug (2026-07-06), --category fix squashed the bug (2026-07-06)
 ## streak: 1
 ## last_active: 2026-07-06 12:53
