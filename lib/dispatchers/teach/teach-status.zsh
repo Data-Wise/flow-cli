@@ -261,6 +261,78 @@ _teach_show_status_full() {
     echo ""
 }
 
+# Show current (or a specific) week's info: number, semester start, break status,
+# and topic (if a lesson plan is configured).
+# Usage: teach week [WEEK_NUMBER] [--current|-c]
+_teach_show_week() {
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+        _teach_week_help
+        return 0
+    fi
+
+    local config_file=".flow/teach-config.yml"
+    if [[ ! -f "$config_file" ]]; then
+        _flow_log_error "Not a teaching project (no .flow/teach-config.yml)"
+        return 1
+    fi
+
+    if ! command -v yq >/dev/null 2>&1; then
+        _flow_log_error "yq required for week calculation"
+        return 1
+    fi
+
+    local requested_week=""
+    case "$1" in
+        --current|-c|"") ;;
+        -*)
+            _flow_log_error "Unknown option: $1"
+            _teach_week_help
+            return 1
+            ;;
+        *) requested_week="$1" ;;
+    esac
+
+    local week
+    if [[ -n "$requested_week" ]]; then
+        week="$requested_week"
+    else
+        week=$(_calculate_current_week "$config_file")
+        if [[ -z "$week" ]]; then
+            _flow_log_error "No semester_info.start_date configured in $config_file"
+            return 1
+        fi
+    fi
+
+    local start_date=$(yq -r '.semester_info.start_date // ""' "$config_file" 2>/dev/null)
+
+    echo ""
+    if [[ "$week" == "0" ]]; then
+        echo "${FLOW_COLORS[bold]}📅 Semester has not started yet${FLOW_COLORS[reset]}"
+    else
+        echo "${FLOW_COLORS[bold]}📅 Week $week${FLOW_COLORS[reset]}"
+    fi
+    [[ -n "$start_date" ]] && echo "  Semester started: $start_date"
+
+    local break_name
+    if break_name=$(_is_break_week "$config_file" "$week" 2>/dev/null) && [[ -n "$break_name" ]]; then
+        echo "  ${FLOW_COLORS[warning]}⚠️  Break: $break_name${FLOW_COLORS[reset]}"
+    fi
+
+    # Topic lookup: lesson-plans.yml (current schema) first, then the
+    # deprecated semester_info.weeks[] embedded in teach-config.yml.
+    local topic=""
+    local lesson_plans_file=".flow/lesson-plans.yml"
+    if [[ -f "$lesson_plans_file" ]]; then
+        topic=$(yq -r ".weeks[] | select(.number == $week) | .topic // \"\"" "$lesson_plans_file" 2>/dev/null)
+    fi
+    if [[ -z "$topic" ]]; then
+        topic=$(yq -r ".semester_info.weeks[] | select(.number == $week) | .topic // \"\"" "$config_file" 2>/dev/null)
+    fi
+    [[ -n "$topic" ]] && echo "  Topic: $topic"
+
+    echo ""
+}
+
 # ==============================================================================
 # BACKUP COMMAND (v5.14.0 - Task 5)
 # ==============================================================================
