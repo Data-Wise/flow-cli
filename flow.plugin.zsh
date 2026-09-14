@@ -122,17 +122,6 @@ if [[ "$FLOW_LOAD_DISPATCHERS" == "yes" ]]; then
 fi
 
 # ============================================================================
-# EXTERNAL INTEGRATIONS (via symlinks in zsh/functions/)
-# ============================================================================
-
-# Load symlinked integrations if they exist and resolve
-for fn_file in "$FLOW_PLUGIN_DIR/zsh/functions/"*.zsh(N); do
-  if [[ -L "$fn_file" ]] && [[ -e "$fn_file" ]]; then
-    source "$fn_file"
-  fi
-done
-
-# ============================================================================
 # COMPLETIONS
 # ============================================================================
 

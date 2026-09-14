@@ -694,7 +694,7 @@ fi
 # ============================================
 # 📊 PROJECT STATUS (Local Operations)
 # ============================================
-# Note: dashupdate() function defined at line 981
+# Note: dashupdate() is defined further down this file
 # REMOVED 2025-12-19: Use full commands instead
 
 # alias pstat='~/projects/dev-tools/apple-notes-sync/scanner.sh'
@@ -733,7 +733,7 @@ fi
 # 🔄 DEPRECATED (Backward Compatibility)
 # ============================================
 # Use new aliases: pstat*, nsync* instead
-# Note: dashupdate() function exists at line 981 (no alias needed)
+# Note: dashupdate() is defined further down this file (no alias needed)
 
 # REPLACED 2025-12-19: dashsync is now a function in adhd-helpers.zsh
 # REMOVED 2025-12-19: alias dashclip, alias dashexport (deprecated)
