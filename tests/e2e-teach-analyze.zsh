@@ -15,6 +15,40 @@ PLUGIN_DIR="${0:A:h:h}"
 TEST_DIR="${0:A:h}"
 DEMO_COURSE="$TEST_DIR/fixtures/demo-course"
 
+# concepts.json is a tracked fixture, not scratch space: `teach analyze`
+# overwrites it in place (commands/teach-analyze.zsh) every time this suite
+# calls it below, which otherwise leaves the working tree dirty after every
+# run (#526). Snapshot it before the analyze calls and restore it once
+# they're done, including on an early exit, so the suite exercises the real
+# write path without permanently mutating the fixture.
+CONCEPTS_JSON="$DEMO_COURSE/.teach/concepts.json"
+CONCEPTS_BACKUP=""
+
+backup_concepts() {
+    if [[ -f "$CONCEPTS_JSON" ]]; then
+        CONCEPTS_BACKUP=$(mktemp)
+        cp "$CONCEPTS_JSON" "$CONCEPTS_BACKUP"
+    fi
+}
+
+restore_concepts() {
+    if [[ -n "$CONCEPTS_BACKUP" && -f "$CONCEPTS_BACKUP" ]]; then
+        cp "$CONCEPTS_BACKUP" "$CONCEPTS_JSON"
+        rm -f "$CONCEPTS_BACKUP"
+        CONCEPTS_BACKUP=""
+    fi
+}
+
+# EXIT alone is not enough: a SIGTERM from run-all.sh's own `timeout`
+# wrapper (this suite runs close to its budget already, see setup below)
+# kills the process without running EXIT traps, so a timing-out run would
+# leave concepts.json corrupted and leak the mktemp backup (#526 review,
+# empirically confirmed). restore_concepts is idempotent — it clears
+# CONCEPTS_BACKUP after restoring — so calling it from both handlers is
+# safe even if EXIT still fires after TERM/INT.
+trap restore_concepts EXIT
+trap 'restore_concepts; exit 143' TERM INT
+
 # Test counters
 PASS=0
 FAIL=0
@@ -289,6 +323,7 @@ echo -e "${BOLD}${BLUE}========================================${RESET}"
 
 # Setup: source plugin once, clean cache, cache outputs
 cleanup
+backup_concepts
 setup_plugin
 cache_teach_outputs
 
