@@ -15,6 +15,32 @@ PLUGIN_DIR="${0:A:h:h}"
 TEST_DIR="${0:A:h}"
 DEMO_COURSE="$TEST_DIR/fixtures/demo-course"
 
+# concepts.json is a tracked fixture, not scratch space: `teach analyze`
+# overwrites it in place (commands/teach-analyze.zsh) every time this suite
+# calls it below, which otherwise leaves the working tree dirty after every
+# run (#526). Snapshot it before the analyze calls and restore it once
+# they're done, including on an early exit, so the suite exercises the real
+# write path without permanently mutating the fixture.
+CONCEPTS_JSON="$DEMO_COURSE/.teach/concepts.json"
+CONCEPTS_BACKUP=""
+
+backup_concepts() {
+    if [[ -f "$CONCEPTS_JSON" ]]; then
+        CONCEPTS_BACKUP=$(mktemp)
+        cp "$CONCEPTS_JSON" "$CONCEPTS_BACKUP"
+    fi
+}
+
+restore_concepts() {
+    if [[ -n "$CONCEPTS_BACKUP" && -f "$CONCEPTS_BACKUP" ]]; then
+        cp "$CONCEPTS_BACKUP" "$CONCEPTS_JSON"
+        rm -f "$CONCEPTS_BACKUP"
+        CONCEPTS_BACKUP=""
+    fi
+}
+
+trap restore_concepts EXIT
+
 # Test counters
 PASS=0
 FAIL=0
@@ -289,6 +315,7 @@ echo -e "${BOLD}${BLUE}========================================${RESET}"
 
 # Setup: source plugin once, clean cache, cache outputs
 cleanup
+backup_concepts
 setup_plugin
 cache_teach_outputs
 

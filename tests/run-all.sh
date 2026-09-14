@@ -3,6 +3,7 @@
 # Usage: ./tests/run-all.sh
 
 cd "$(dirname "$0")/.."
+REPO_ROOT="$PWD"
 
 echo "========================================="
 echo "  flow-cli Local Test Suite"
@@ -22,6 +23,45 @@ SKIP=0
 # pass that should have happened on a fully-provisioned runner).
 readonly SKIP_RC=77
 
+# Sandboxed CWD a suite can opt into (#526, run_test's 3rd arg = "sandbox"):
+# a scratch project directory so a command that resolves its target via
+# $PWD instead of an explicit argument — e.g. `win`/`focus` walking up via
+# _flow_find_project_root — writes into a throwaway .STATUS instead of this
+# repo's own tracked one. Not the default for every suite: most suites here
+# anchor themselves off $0 instead of $PWD (see comment on run_test below)
+# and were never audited against an unfamiliar CWD, so blanket-sandboxing
+# every suite trades one class of bug for another. Opt in per suite instead.
+# Fields are non-empty so assertions on command output (e.g. `focus`
+# printing "Focus: ...") still have something to find.
+read -r -d '' SANDBOX_STATUS_TEMPLATE <<'EOF'
+## Project: sandbox
+## Type: test
+## Status: active
+## Focus: sandbox testing session
+## Phase: Testing
+## Priority: 2
+## Progress: 0
+EOF
+
+# Run one attempt of $1 (absolute path) with $2 as its interpreter, cd'd into
+# a fresh throwaway project directory. The cd happens in a subshell so it
+# never leaks back into run-all.sh's own CWD — no manual restore needed.
+_run_sandboxed() {
+    local abs_test_file="$1"
+    local interpreter="$2"
+    local timeout_seconds="$3"
+
+    local sandbox
+    sandbox=$(mktemp -d "${TMPDIR:-/tmp}/flow-test-sandbox.XXXXXX")
+    printf '%s\n' "$SANDBOX_STATUS_TEMPLATE" > "$sandbox/.STATUS"
+
+    ( cd "$sandbox" && exec timeout "$timeout_seconds" "$interpreter" "$abs_test_file" ) > /dev/null 2>&1
+    local rc=$?
+
+    rm -rf "$sandbox"
+    return $rc
+}
+
 run_test() {
     local test_file="$1"
     local name=$(basename "$test_file" .zsh)
@@ -30,11 +70,23 @@ run_test() {
     # need more (e.g., test-doctor runs full `doctor` 3× through brew/atlas/
     # plugin checks).
     local timeout_seconds="${2:-30}"
+    # Pass "sandbox" as $3 to cd into a scratch project dir first (#526).
+    local sandbox_mode="${3:-}"
 
     echo -n "Running $name... "
 
+    # Resolve to an absolute path — needed unconditionally so a sandboxed
+    # suite's own $0-based path resolution (many use `${0:A:h}` to find
+    # fixtures or the plugin itself) still lands on the real repo rather
+    # than wherever the sandbox happens to live.
+    local abs_test_file="$REPO_ROOT/${test_file#./}"
+
     # Try zsh first, then bash, with 30s timeout
-    timeout "$timeout_seconds" zsh "$test_file" > /dev/null 2>&1
+    if [[ "$sandbox_mode" == "sandbox" ]]; then
+        _run_sandboxed "$abs_test_file" zsh "$timeout_seconds"
+    else
+        timeout "$timeout_seconds" zsh "$abs_test_file" > /dev/null 2>&1
+    fi
     local exit_code=$?
 
     if [[ $exit_code -eq 124 ]]; then
@@ -50,7 +102,11 @@ run_test() {
         ((PASS++))
     else
         # Try bash as fallback
-        timeout "$timeout_seconds" bash "$test_file" > /dev/null 2>&1
+        if [[ "$sandbox_mode" == "sandbox" ]]; then
+            _run_sandboxed "$abs_test_file" bash "$timeout_seconds"
+        else
+            timeout "$timeout_seconds" bash "$abs_test_file" > /dev/null 2>&1
+        fi
         exit_code=$?
 
         if [[ $exit_code -eq 124 ]]; then
@@ -102,9 +158,9 @@ run_test ./tests/test-agenda.zsh
 run_test ./tests/test-cadence-agenda.zsh
 run_test ./tests/test-work.zsh
 run_test ./tests/test-doctor.zsh 45
-run_test ./tests/test-capture.zsh
+run_test ./tests/test-capture.zsh "" sandbox
 run_test ./tests/test-pick-wt.zsh
-run_test ./tests/test-adhd.zsh
+run_test ./tests/test-adhd.zsh "" sandbox
 run_test ./tests/test-path-bug-fix.zsh
 run_test ./tests/test-status-field-parity.zsh
 run_test ./tests/test-status-field-accessor.zsh
@@ -163,10 +219,10 @@ run_test ./tests/dogfood-agenda.zsh
 echo ""
 echo "E2E tests:"
 run_test ./tests/e2e-teach-plan.zsh
-run_test ./tests/e2e-teach-analyze.zsh
+run_test ./tests/e2e-teach-analyze.zsh "" sandbox
 run_test ./tests/e2e-dot-safety.zsh
 run_test ./tests/e2e-teach-deploy-v2.zsh
-run_test ./tests/e2e-core-commands.zsh
+run_test ./tests/e2e-core-commands.zsh "" sandbox
 run_test ./tests/e2e-plugin-system.zsh
 run_test ./tests/e2e-teach-prompt.zsh
 run_test ./tests/e2e-teach-doctor-v2.zsh
@@ -201,6 +257,20 @@ if [[ $SKIP -gt 0 ]]; then
     echo "Note: $SKIP suite(s) skipped — a required external tool/service was"
     echo "absent (atlas, ait/aiterm, himalaya, R, quarto). Expected on a hosted"
     echo "CI runner; locally they run when the tool is installed."
+fi
+
+# Regression guard (#526): a full run must never leave the working tree
+# dirty. Sandboxing each suite's CWD (above) stops the known writers, but
+# this is the systemic gate — it catches any future suite that resolves a
+# write target via $PWD/an unsandboxed fixture path instead of an explicit
+# scratch dir, whether or not it's one we already know about.
+DIRTY="$(cd "$REPO_ROOT" && git status --short 2>/dev/null)"
+if [[ -n "$DIRTY" ]]; then
+    echo ""
+    echo "❌ Working tree is dirty after the test run — a suite wrote to a"
+    echo "   tracked file instead of a sandboxed scratch path:"
+    echo "$DIRTY" | sed 's/^/   /'
+    FAIL=$((FAIL + 1))
 fi
 
 if [[ $FAIL -gt 0 ]]; then
