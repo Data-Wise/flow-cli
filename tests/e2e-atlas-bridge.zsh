@@ -189,6 +189,31 @@ run_test "at b (alias) leaves breadcrumb" '
     [[ "$output" == *"Breadcrumb"* ]] || [[ "$output" == *"breadcrumb"* ]] || [[ $rc -eq 0 ]] || { echo "Failed (rc=$rc): $output"; return 1; }
 '
 
+# Regression: `at catch --help`/`at crumb --help` used to reach _flow_catch/
+# _flow_crumb directly (bypassing the top-level catch()/crumb() guards) and
+# write the literal string "--help" into inbox.md/trail.log.
+run_test "at catch --help shows help, does not write to inbox" '
+    local before_lines=0
+    [[ -f "$TEST_DATA_DIR/inbox.md" ]] && before_lines=$(wc -l < "$TEST_DATA_DIR/inbox.md")
+    local output
+    output=$(at catch --help 2>&1)
+    [[ "$output" == *"USAGE"* ]] || { echo "No USAGE in output: $output"; return 1; }
+    local after_lines=0
+    [[ -f "$TEST_DATA_DIR/inbox.md" ]] && after_lines=$(wc -l < "$TEST_DATA_DIR/inbox.md")
+    [[ "$before_lines" -eq "$after_lines" ]] || { echo "inbox.md grew: $(tail -1 "$TEST_DATA_DIR/inbox.md")"; return 1; }
+'
+
+run_test "at crumb --help shows help, does not write to trail.log" '
+    local before_lines=0
+    [[ -f "$TEST_DATA_DIR/trail.log" ]] && before_lines=$(wc -l < "$TEST_DATA_DIR/trail.log")
+    local output
+    output=$(at crumb --help 2>&1)
+    [[ "$output" == *"USAGE"* ]] || { echo "No USAGE in output: $output"; return 1; }
+    local after_lines=0
+    [[ -f "$TEST_DATA_DIR/trail.log" ]] && after_lines=$(wc -l < "$TEST_DATA_DIR/trail.log")
+    [[ "$before_lines" -eq "$after_lines" ]] || { echo "trail.log grew: $(tail -1 "$TEST_DATA_DIR/trail.log")"; return 1; }
+'
+
 echo ""
 
 # ============================================================================

@@ -295,6 +295,121 @@ EOF
     assert_equals "$progress" "90" "Progress should update" && test_pass
 }
 
+test_status_set_accepts_hyphen_led_value() {
+    test_case "_flow_status_set --focus accepts free text that starts with a dash"
+
+    # Regression: the original guard rejected ANY value starting with "-",
+    # not just an actual missing/flag-shaped value, so legitimate text like
+    # "-1 off-by-one bug" was misclassified as "missing" and never written.
+    local tmp="$TEST_DIR/set-status4"
+    mkdir -p "$tmp"
+    cat > "$tmp/.STATUS" << 'EOF'
+## Status: active
+## Focus: original focus
+## Progress: 50
+EOF
+
+    _flow_has_atlas() { return 1 }
+    _flow_status_set "$tmp" --focus "-1 off-by-one bug" >/dev/null 2>&1
+    local exit_code=$?
+
+    assert_exit_code "$exit_code" 0 "hyphen-led text is a valid value, should succeed" || return
+    local focus=$(_flow_status_get_field "$tmp/.STATUS" "Focus")
+    assert_equals "$focus" "-1 off-by-one bug" && test_pass
+}
+
+test_status_set_no_partial_write_on_later_failure() {
+    test_case "_flow_status_set --status ok --focus (missing) leaves Status untouched"
+
+    # Regression: each --field value pair used to be written to disk as
+    # soon as it was parsed. A later bad pair in the same call returned 1,
+    # but any earlier pair had already landed on disk with no rollback.
+    local tmp="$TEST_DIR/set-status5"
+    mkdir -p "$tmp"
+    cat > "$tmp/.STATUS" << 'EOF'
+## Status: active
+## Focus: original focus
+## Progress: 50
+EOF
+
+    _flow_has_atlas() { return 1 }
+    _flow_status_set "$tmp" --status blocked --focus >/dev/null 2>&1
+    local exit_code=$?
+
+    assert_exit_code "$exit_code" 1 "should error on the missing --focus value" || return
+    # not "status" — that's zsh's read-only $? alias, not a plain local
+    local status_field=$(_flow_status_get_field "$tmp/.STATUS" "Status")
+    assert_equals "$status_field" "active" "Status must be untouched — nothing applies until every pair validates" && test_pass
+}
+
+test_status_set_field_preserves_last_line_without_trailing_newline() {
+    test_case "_flow_status_set_field does not drop the last line when .STATUS has no trailing newline"
+
+    local tmp="$TEST_DIR/set-status6"
+    mkdir -p "$tmp"
+    printf '## Status: active\n## Focus: original\n## Progress: 50' > "$tmp/.STATUS"
+
+    _flow_status_set_field "$tmp/.STATUS" "Status" "paused"
+
+    local progress=$(_flow_status_get_field "$tmp/.STATUS" "Progress")
+    assert_equals "$progress" "50" "Progress (the last line) must survive a rewrite of a no-trailing-newline file" && test_pass
+}
+
+test_status_set_field_appends_when_field_missing() {
+    test_case "_flow_status_set_field appends a new field rather than silently no-op'ing"
+
+    # Documents the intentional behavior change from the old sed-based
+    # implementation (anchored substitute, silent no-op when no line
+    # matched) to this helper (appends when not found).
+    local tmp="$TEST_DIR/set-status7"
+    mkdir -p "$tmp"
+    printf '## Status: active\n' > "$tmp/.STATUS"
+
+    _flow_status_set_field "$tmp/.STATUS" "Focus" "brand new focus"
+
+    local focus=$(_flow_status_get_field "$tmp/.STATUS" "Focus")
+    assert_equals "$focus" "brand new focus" "a missing field should be appended, not silently dropped" && test_pass
+}
+
+test_status_tags_set_help_does_not_corrupt_tags() {
+    test_case "_flow_status_tags set --help does not write '--help' into ## tags:"
+
+    # Regression (#524-class, same file): _flow_status_tags's set action had
+    # the identical unguarded 'shift 2; local tags="$*"' shape as the bug
+    # this PR fixes elsewhere in this file.
+    local tmp="$TEST_DIR/set-tags1"
+    mkdir -p "$tmp"
+    cat > "$tmp/.STATUS" << 'EOF'
+## Status: active
+## tags: alpha, beta
+EOF
+
+    _flow_status_tags "set" "$tmp" "--help" >/dev/null 2>&1
+    local exit_code=$?
+
+    assert_exit_code "$exit_code" 0 "tag set --help should show help, not error" || return
+    local tags=$(_flow_status_get_field "$tmp/.STATUS" "tags")
+    assert_equals "$tags" "alpha, beta" "tags must be untouched" && test_pass
+}
+
+test_status_tags_set_missing_value_errors() {
+    test_case "_flow_status_tags set with no value errors instead of blanking tags"
+
+    local tmp="$TEST_DIR/set-tags2"
+    mkdir -p "$tmp"
+    cat > "$tmp/.STATUS" << 'EOF'
+## Status: active
+## tags: alpha, beta
+EOF
+
+    _flow_status_tags "set" "$tmp" >/dev/null 2>&1
+    local exit_code=$?
+
+    assert_exit_code "$exit_code" 1 "should error on a missing value" || return
+    local tags=$(_flow_status_get_field "$tmp/.STATUS" "tags")
+    assert_equals "$tags" "alpha, beta" "tags must be untouched" && test_pass
+}
+
 # ============================================================================
 # FUNCTION EXISTS CHECKS
 # ============================================================================
@@ -338,6 +453,12 @@ main() {
     test_status_set_missing_value_does_not_hang
     test_status_set_flag_shaped_value_rejected
     test_status_set_valid_value_still_works
+    test_status_set_accepts_hyphen_led_value
+    test_status_set_no_partial_write_on_later_failure
+    test_status_set_field_preserves_last_line_without_trailing_newline
+    test_status_set_field_appends_when_field_missing
+    test_status_tags_set_help_does_not_corrupt_tags
+    test_status_tags_set_missing_value_errors
 
     cleanup
 

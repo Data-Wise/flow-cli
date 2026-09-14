@@ -309,6 +309,34 @@ EOF
     (( failed == 0 )) && assert_contains "$output" "USAGE" "should print help text" && test_pass
 }
 
+test_win_help_mid_text_is_not_swallowed() {
+    test_case "win text containing '--help' as a later word is logged, not discarded"
+
+    # Regression: the --help|-h case originally lived inside win's arg-parsing
+    # while loop, so it matched "--help" anywhere in the args, not just as
+    # the first word — silently discarding any win text collected before it.
+    local sandbox_data=$(mktemp -d)
+    local sandbox_proj=$(mktemp -d)
+    cat > "$sandbox_proj/.STATUS" << 'EOF'
+## Status: active
+## Progress: 50
+EOF
+    local orig_data_dir="$FLOW_DATA_DIR"
+    local prev_pwd="$PWD"
+    export FLOW_DATA_DIR="$sandbox_data"
+    cd "$sandbox_proj"
+
+    win Fixed the --help flag rendering bug >/dev/null 2>&1
+
+    cd "$prev_pwd"
+    export FLOW_DATA_DIR="$orig_data_dir"
+
+    local result="not logged"
+    [[ -f "$sandbox_data/wins.md" ]] && grep -q -- "--help flag rendering bug" "$sandbox_data/wins.md" && result="logged"
+    rm -rf "$sandbox_data" "$sandbox_proj"
+    assert_equals "$result" "logged" "win text containing --help as a later word must still be logged" && test_pass
+}
+
 # ============================================================================
 # TESTS: yay command
 # ============================================================================
@@ -493,6 +521,7 @@ main() {
     test_win_with_text
     test_win_with_category
     test_win_help_does_not_log_flag
+    test_win_help_mid_text_is_not_swallowed
 
     echo ""
     echo "${CYAN}--- yay command tests ---${RESET}"

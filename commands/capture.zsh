@@ -199,13 +199,21 @@ _flow_detect_win_category() {
 # ============================================================================
 
 win() {
+  # Only the first word is treated as a possible help request. Unlike the
+  # category flags below (which are meant to be recognized anywhere in the
+  # args), --help/-h is common enough inside ordinary win text ("documented
+  # the --help output") that matching it later in the loop silently
+  # discarded any text collected before it.
+  case "$1" in
+    --help|-h) yay --help; return 0 ;;
+  esac
+
   local category=""
   local text=""
 
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --help|-h)     yay --help; return 0 ;;
       --code|-c)     category="code"; shift ;;
       --docs|-d)     category="docs"; shift ;;
       --review|-r)   category="review"; shift ;;

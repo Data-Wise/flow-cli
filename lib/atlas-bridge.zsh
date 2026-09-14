@@ -1037,10 +1037,14 @@ at() {
         atlas "$@"
       else
         case "$1" in
-          catch|c)   shift; _flow_catch "$@" ;;
+          catch|c)   shift
+                     [[ "$1" == "--help" || "$1" == "-h" ]] && { _catch_help; return 0 }
+                     _flow_catch "$@" ;;
           inbox|i)   _flow_inbox ;;
           where|w)   shift; _flow_where "$@" ;;
-          crumb|b)   shift; _flow_crumb "$@" ;;
+          crumb|b)   shift
+                     [[ "$1" == "--help" || "$1" == "-h" ]] && { _crumb_help; return 0 }
+                     _flow_crumb "$@" ;;
           stats|plan|park|unpark|parked|dash|dashboard|focus|triage|trail)
             _flow_log_error "'at $1' requires Atlas CLI"
             echo "  Install: ${_C_CYAN}npm i -g @data-wise/atlas${_C_NC}"
