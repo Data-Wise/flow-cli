@@ -1123,7 +1123,7 @@ _radian_version_check() {
     # X.Y.Z shapes, so a plain semver regex can't tell them apart -- R has not
     # shipped a major version 0 or 1 release in decades, radian has never left
     # major version 0, so major >= 2 is the actual discriminator).
-    [[ "$r_ver" =~ ^[2-9][0-9]*\.[0-9]+\.[0-9]+$ ]] || return 0
+    [[ "$r_ver" =~ ^([1-9][0-9]+|[2-9])\.[0-9]+\.[0-9]+$ ]] || return 0
     cache_dir="${HOME}/.cache"
     cached="${cache_dir}/radian_r_version"
     mkdir -p "$cache_dir"
@@ -1133,7 +1133,7 @@ _radian_version_check() {
         # stale/contaminated cache entry must not be compared against the real
         # R version, or the warning is nonsense (this is exactly how a past
         # version of this check produced "R changed: 0.6.16 -> 4.6.1").
-        if [[ "$old" =~ ^[2-9][0-9]*\.[0-9]+\.[0-9]+$ && "$old" != "$r_ver" ]]; then
+        if [[ "$old" =~ ^([1-9][0-9]+|[2-9])\.[0-9]+\.[0-9]+$ && "$old" != "$r_ver" ]]; then
             print -P "%F{yellow}⚠️  R changed: ${old} → ${r_ver}. If radian breaks, run: pipx reinstall radian%f"
         fi
     fi
