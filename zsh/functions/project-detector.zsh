@@ -1,1 +1,0 @@
-/Users/dt/projects/dev-tools/zsh-claude-workflow/lib/project-detector.sh

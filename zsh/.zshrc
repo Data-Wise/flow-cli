@@ -692,24 +692,9 @@ fi
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 # ============================================
-# ZSH-CLAUDE WORKFLOW
-# ============================================
-
-# Add zsh-claude-workflow commands to PATH
-[[ ":$PATH:" == *":$HOME/projects/dev-tools/zsh-claude-workflow/commands:"* ]] || export PATH="$HOME/projects/dev-tools/zsh-claude-workflow/commands:$PATH"
-
-# Aliases for quick access - REMOVED 2025-12-19: Use full commands instead
-# alias ptype='proj-type'
-# alias pinfo='proj-info'
-# alias cctx='claude-ctx'
-# alias cinit='claude-init'
-# alias cshow='claude-show'
-# alias pclaude='proj-claude'
-
-# ============================================
 # 📊 PROJECT STATUS (Local Operations)
 # ============================================
-# Note: dashupdate() function defined at line 962
+# Note: dashupdate() is defined further down this file
 # REMOVED 2025-12-19: Use full commands instead
 
 # alias pstat='~/projects/dev-tools/apple-notes-sync/scanner.sh'
@@ -748,7 +733,7 @@ fi
 # 🔄 DEPRECATED (Backward Compatibility)
 # ============================================
 # Use new aliases: pstat*, nsync* instead
-# Note: dashupdate() function exists at line 998 (no alias needed)
+# Note: dashupdate() is defined further down this file (no alias needed)
 
 # REPLACED 2025-12-19: dashsync is now a function in adhd-helpers.zsh
 # REMOVED 2025-12-19: alias dashclip, alias dashexport (deprecated)
