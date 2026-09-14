@@ -212,6 +212,39 @@ test_focus_help_flag() {
     assert_not_empty "$output" "focus --help should produce output" && test_pass
 }
 
+test_focus_help_preserves_status_no_atlas() {
+    test_case "focus --help does not corrupt .STATUS on the no-atlas fallback path"
+
+    # test_focus_help_flag above runs with whatever atlas is on this machine's
+    # PATH, so it never exercises the fallback branch (#524: invisible to
+    # anyone who has atlas installed). Force the fallback explicitly.
+    local orig_has_atlas="${functions[_flow_has_atlas]}"
+    _flow_has_atlas() { return 1 }
+
+    local sandbox=$(mktemp -d)
+    cat > "$sandbox/.STATUS" << 'EOF'
+## Status: active
+## Focus: original focus
+## Progress: 50
+EOF
+    local prev_pwd="$PWD"
+    cd "$sandbox"
+
+    focus --help >/dev/null 2>&1
+
+    local result=$(grep '^## Focus:' "$sandbox/.STATUS")
+
+    cd "$prev_pwd"
+    rm -rf "$sandbox"
+    if [[ -n "$orig_has_atlas" ]]; then
+        eval "_flow_has_atlas() { $orig_has_atlas }"
+    else
+        unfunction _flow_has_atlas
+    fi
+
+    assert_equals "$result" "## Focus: original focus" "focus --help must not overwrite Focus with '--help'" && test_pass
+}
+
 # ============================================================================
 # TESTS: brk (break) command
 # ============================================================================
@@ -315,6 +348,7 @@ main() {
     test_focus_runs
     test_focus_shows_header
     test_focus_help_flag
+    test_focus_help_preserves_status_no_atlas
 
     echo ""
     echo "${CYAN}--- brk command tests ---${RESET}"

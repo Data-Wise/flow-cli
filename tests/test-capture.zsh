@@ -142,6 +142,32 @@ test_catch_no_args_no_tty() {
     fi
 }
 
+test_catch_help_does_not_capture_flag() {
+    test_case "catch --help shows help instead of capturing '--help' as an idea"
+
+    # Regression for #524-adjacent bug: catch's free-text arg ($*) can't
+    # tell "the --help flag" from "text containing --help" unless $1 is
+    # checked before it's swallowed into $text.
+    local sandbox_data=$(mktemp -d)
+    local orig_data_dir="$FLOW_DATA_DIR"
+    export FLOW_DATA_DIR="$sandbox_data"
+
+    local output=$(catch --help 2>&1)
+
+    export FLOW_DATA_DIR="$orig_data_dir"
+
+    assert_not_contains "$output" "Captured: --help" "must not log --help as a captured idea" || {
+        rm -rf "$sandbox_data"
+        return
+    }
+    if [[ -f "$sandbox_data/inbox.md" ]]; then
+        test_fail "catch --help wrote to inbox.md: $(cat "$sandbox_data/inbox.md")"
+    else
+        assert_contains "$output" "USAGE" "should print help text" && test_pass
+    fi
+    rm -rf "$sandbox_data"
+}
+
 # ============================================================================
 # TESTS: crumb behavior
 # ============================================================================
@@ -154,6 +180,25 @@ test_crumb_with_text() {
 
     assert_exit_code "$exit_code" 0 "crumb with text should exit 0" || return
     assert_not_contains "$output" "command not found" && test_pass
+}
+
+test_crumb_help_does_not_log_flag() {
+    test_case "crumb --help shows help instead of logging '--help' as a breadcrumb"
+
+    local sandbox_data=$(mktemp -d)
+    local orig_data_dir="$FLOW_DATA_DIR"
+    export FLOW_DATA_DIR="$sandbox_data"
+
+    local output=$(crumb --help 2>&1)
+
+    export FLOW_DATA_DIR="$orig_data_dir"
+
+    if [[ -f "$sandbox_data/trail.log" ]]; then
+        test_fail "crumb --help wrote to trail.log: $(cat "$sandbox_data/trail.log")"
+    else
+        assert_contains "$output" "USAGE" "should print help text" && test_pass
+    fi
+    rm -rf "$sandbox_data"
 }
 
 # ============================================================================
@@ -228,6 +273,68 @@ test_win_with_category() {
     else
         test_fail "Expected confirmation in output, got: ${output:0:200}"
     fi
+}
+
+test_win_help_does_not_log_flag() {
+    test_case "win --help shows help instead of logging '--help' as a win"
+
+    # win writes to both FLOW_DATA_DIR/wins.md and the current project's
+    # .STATUS (## wins / ## streak / ## last_active) — sandbox both.
+    local sandbox_data=$(mktemp -d)
+    local sandbox_proj=$(mktemp -d)
+    cat > "$sandbox_proj/.STATUS" << 'EOF'
+## Status: active
+## Progress: 50
+EOF
+    local orig_data_dir="$FLOW_DATA_DIR"
+    local prev_pwd="$PWD"
+    export FLOW_DATA_DIR="$sandbox_data"
+    cd "$sandbox_proj"
+
+    local output=$(win --help 2>&1)
+
+    cd "$prev_pwd"
+    export FLOW_DATA_DIR="$orig_data_dir"
+
+    local failed=0
+    if [[ -f "$sandbox_data/wins.md" ]]; then
+        test_fail "win --help wrote to wins.md: $(cat "$sandbox_data/wins.md")"
+        failed=1
+    fi
+    if grep -q '## wins:' "$sandbox_proj/.STATUS" 2>/dev/null; then
+        test_fail "win --help added a wins: field to .STATUS"
+        failed=1
+    fi
+    rm -rf "$sandbox_data" "$sandbox_proj"
+    (( failed == 0 )) && assert_contains "$output" "USAGE" "should print help text" && test_pass
+}
+
+test_win_help_mid_text_is_not_swallowed() {
+    test_case "win text containing '--help' as a later word is logged, not discarded"
+
+    # Regression: the --help|-h case originally lived inside win's arg-parsing
+    # while loop, so it matched "--help" anywhere in the args, not just as
+    # the first word — silently discarding any win text collected before it.
+    local sandbox_data=$(mktemp -d)
+    local sandbox_proj=$(mktemp -d)
+    cat > "$sandbox_proj/.STATUS" << 'EOF'
+## Status: active
+## Progress: 50
+EOF
+    local orig_data_dir="$FLOW_DATA_DIR"
+    local prev_pwd="$PWD"
+    export FLOW_DATA_DIR="$sandbox_data"
+    cd "$sandbox_proj"
+
+    win Fixed the --help flag rendering bug >/dev/null 2>&1
+
+    cd "$prev_pwd"
+    export FLOW_DATA_DIR="$orig_data_dir"
+
+    local result="not logged"
+    [[ -f "$sandbox_data/wins.md" ]] && grep -q -- "--help flag rendering bug" "$sandbox_data/wins.md" && result="logged"
+    rm -rf "$sandbox_data" "$sandbox_proj"
+    assert_equals "$result" "logged" "win text containing --help as a later word must still be logged" && test_pass
 }
 
 # ============================================================================
@@ -393,10 +500,12 @@ main() {
     echo "${CYAN}--- catch behavior tests ---${RESET}"
     test_catch_with_text
     test_catch_no_args_no_tty
+    test_catch_help_does_not_capture_flag
 
     echo ""
     echo "${CYAN}--- crumb behavior tests ---${RESET}"
     test_crumb_with_text
+    test_crumb_help_does_not_log_flag
 
     echo ""
     echo "${CYAN}--- trail behavior tests ---${RESET}"
@@ -411,6 +520,8 @@ main() {
     echo "${CYAN}--- win command tests ---${RESET}"
     test_win_with_text
     test_win_with_category
+    test_win_help_does_not_log_flag
+    test_win_help_mid_text_is_not_swallowed
 
     echo ""
     echo "${CYAN}--- yay command tests ---${RESET}"

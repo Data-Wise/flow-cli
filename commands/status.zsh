@@ -217,6 +217,41 @@ _flow_status_set() {
   shift
   local name=$(_flow_project_name "$project_path")
 
+  # Validate every --status/--focus/--progress pair BEFORE anything is
+  # written or atlas is called. Two things this closes:
+  #   - Without this, a missing value used to write an empty field and
+  #     `shift 2` would fail, leaving $1 unchanged — an infinite loop
+  #     re-running sed over .STATUS.
+  #   - Validating inline (mid-write, in the old code) meant an earlier
+  #     flag in the same call could already be written to disk before a
+  #     later bad flag aborted the command — a partial, non-atomic update
+  #     reported as a single failure. Validating all pairs up front, before
+  #     the atlas/no-atlas branch, means either every pair is applied or
+  #     none is, and atlas gets the same guarantee as the local fallback.
+  # The value check only rejects EMPTY or another recognized flag name —
+  # not "starts with -" — so free text like `--focus "-1 fix off-by-one"`
+  # is accepted; only an actually-missing value or a flag swallowing the
+  # next flag is rejected.
+  local -a set_args=("$@")
+  local idx=1
+  while (( idx <= ${#set_args[@]} )); do
+    case "${set_args[idx]}" in
+      --status|--focus|--progress)
+        local next="${set_args[idx+1]:-}"
+        case "$next" in
+          ""|--status|--focus|--progress|--help|-h)
+            _flow_log_error "${set_args[idx]} requires a value"
+            return 1
+            ;;
+        esac
+        (( idx += 2 ))
+        ;;
+      *)
+        (( idx += 1 ))
+        ;;
+    esac
+  done
+
   # Use atlas if available
   if _flow_has_atlas; then
     _flow_atlas status "$name" "$@"
@@ -224,19 +259,13 @@ _flow_status_set() {
     # Parse arguments and update file
     local status_file="$project_path/.STATUS"
     [[ ! -f "$status_file" ]] && { _flow_log_error "No .STATUS file"; return 1; }
-    
+
     while [[ $# -gt 0 ]]; do
       case "$1" in
-        --status)
-          sed -i '' "s/^## Status:.*$/## Status: $2/" "$status_file"
-          shift 2
-          ;;
-        --focus)
-          sed -i '' "s/^## Focus:.*$/## Focus: $2/" "$status_file"
-          shift 2
-          ;;
-        --progress)
-          sed -i '' "s/^## Progress:.*$/## Progress: $2/" "$status_file"
+        --status|--focus|--progress)
+          # --focus -> "Focus", matching the .STATUS heading
+          local heading="${(C)1#--}"
+          _flow_status_set_field "$status_file" "$heading" "$2"
           shift 2
           ;;
         *)
@@ -244,7 +273,7 @@ _flow_status_set() {
           ;;
       esac
     done
-    
+
     _flow_log_success "Updated $name status"
   fi
 }
@@ -398,8 +427,12 @@ _flow_status_set_field() {
 
   [[ ! -f "$status_file" ]] && return 1
 
-  # Read all lines and update matching field
-  while IFS= read -r line; do
+  # Read all lines and update matching field. The `|| [[ -n "$line" ]]`
+  # clause makes the loop body run once more for a final line that has no
+  # trailing newline — without it, `read` returns nonzero on that partial
+  # read and the last line of .STATUS is silently dropped from new_lines,
+  # then permanently lost when the file is rewritten below.
+  while IFS= read -r line || [[ -n "$line" ]]; do
     if [[ "${line:l}" == "## ${field:l}:"* ]]; then
       new_lines+=("## ${field}: ${value}")
       found=1
@@ -455,6 +488,10 @@ _flow_status_tags() {
       _flow_status_get_field "$status_file" "tags"
       ;;
     set)
+      case "${3:-}" in
+        --help|-h) _flow_status_help; return 0 ;;
+        "")        _flow_log_error "tag set requires a value"; return 1 ;;
+      esac
       shift 2
       local tags="$*"
       _flow_status_set_field "$status_file" "tags" "$tags"

@@ -272,8 +272,14 @@ _stuck_help() {
 # ============================================================================
 
 focus() {
+  # Only $1 is inspected: `focus --help` is a help request, but
+  # `focus fix the --help flag` is legitimate focus text.
+  case "$1" in
+    --help|-h) _focus_help; return 0 ;;
+  esac
+
   local text="$*"
-  
+
   # Get current project
   local project=""
   if _flow_in_project; then
@@ -319,6 +325,19 @@ focus() {
       fi
     fi
   fi
+}
+
+_focus_help() {
+  echo ""
+  echo "${FLOW_COLORS[bold]}focus${FLOW_COLORS[reset]} - Set or show what you're working on"
+  echo ""
+  echo "${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "  focus                  Show the current focus"
+  echo "  focus <text>           Set the focus (writes ## Focus: in .STATUS)"
+  echo ""
+  echo "${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "  -h, --help   Show this help"
+  echo ""
 }
 
 # ============================================================================
