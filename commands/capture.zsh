@@ -13,8 +13,14 @@ zmodload -F zsh/datetime b:strftime
 # ============================================================================
 
 catch() {
+  # Only $1 is inspected — text after the first word may legitimately
+  # contain a flag (`catch look into --strict mode`).
+  case "$1" in
+    --help|-h) _catch_help; return 0 ;;
+  esac
+
   local text="$*"
-  
+
   if [[ -z "$text" ]]; then
     # Interactive mode
     if _flow_has_gum; then
@@ -49,8 +55,12 @@ inbox() {
 # ============================================================================
 
 crumb() {
+  case "$1" in
+    --help|-h) _crumb_help; return 0 ;;
+  esac
+
   local text="$*"
-  
+
   if [[ -z "$text" ]]; then
     read "text?🍞 Breadcrumb: "
     [[ -z "$text" ]] && return 1
@@ -62,6 +72,36 @@ crumb() {
   fi
   
   _flow_crumb "$text" "$project"
+}
+
+_catch_help() {
+  echo ""
+  echo "  ${FLOW_COLORS[header]}catch / c - Quick capture${FLOW_COLORS[reset]}"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "    catch <text>     Capture an idea or task to the inbox"
+  echo "    catch            Prompt for the text interactively"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "    -h, --help       Show this help"
+  echo ""
+  echo "  ${FLOW_COLORS[muted]}View captures with: inbox${FLOW_COLORS[reset]}"
+  echo ""
+}
+
+_crumb_help() {
+  echo ""
+  echo "  ${FLOW_COLORS[header]}crumb / b - Leave a breadcrumb${FLOW_COLORS[reset]}"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}USAGE${FLOW_COLORS[reset]}"
+  echo "    crumb <text>     Record where you are, to pick up later"
+  echo "    crumb            Prompt for the text interactively"
+  echo ""
+  echo "  ${FLOW_COLORS[bold]}OPTIONS${FLOW_COLORS[reset]}"
+  echo "    -h, --help       Show this help"
+  echo ""
+  echo "  ${FLOW_COLORS[muted]}View the trail with: trail${FLOW_COLORS[reset]}"
+  echo ""
 }
 
 # ============================================================================
@@ -165,6 +205,7 @@ win() {
   # Parse arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
+      --help|-h)     yay --help; return 0 ;;
       --code|-c)     category="code"; shift ;;
       --docs|-d)     category="docs"; shift ;;
       --review|-r)   category="review"; shift ;;

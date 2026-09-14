@@ -227,16 +227,17 @@ _flow_status_set() {
     
     while [[ $# -gt 0 ]]; do
       case "$1" in
-        --status)
-          sed -i '' "s/^## Status:.*$/## Status: $2/" "$status_file"
-          shift 2
-          ;;
-        --focus)
-          sed -i '' "s/^## Focus:.*$/## Focus: $2/" "$status_file"
-          shift 2
-          ;;
-        --progress)
-          sed -i '' "s/^## Progress:.*$/## Progress: $2/" "$status_file"
+        --status|--focus|--progress)
+          # Guard before consuming $2. Without this, a missing value writes an
+          # empty field and `shift 2` fails, leaving $1 unchanged — an infinite
+          # loop re-running sed over .STATUS.
+          if [[ $# -lt 2 ]] || [[ "$2" == -* ]]; then
+            _flow_log_error "$1 requires a value"
+            return 1
+          fi
+          # --focus -> "Focus", matching the .STATUS heading
+          local heading="${(C)1#--}"
+          _flow_status_set_field "$status_file" "$heading" "$2"
           shift 2
           ;;
         *)

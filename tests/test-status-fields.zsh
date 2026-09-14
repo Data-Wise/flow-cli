@@ -215,6 +215,87 @@ EOF
 }
 
 # ============================================================================
+# TEST: _flow_status_set (arg-parsing dispatcher, no-atlas fallback)
+# Regression for #524: a missing value after --status/--focus/--progress
+# used to hang (shift 2 on a 1-element array fails, $1 never advances) and,
+# short of a hang, could write a following flag's name into the field as
+# if it were the value.
+# ============================================================================
+
+test_status_set_missing_value_does_not_hang() {
+    test_case "_flow_status_set --focus with no value errors instead of hanging"
+
+    local tmp="$TEST_DIR/set-status1"
+    mkdir -p "$tmp"
+    cat > "$tmp/.STATUS" << 'EOF'
+## Status: active
+## Focus: original focus
+## Progress: 50
+EOF
+
+    # Run in a subshell so a regression (infinite loop) only times out this
+    # one assertion, not the whole suite file.
+    local out
+    out=$(timeout 5 zsh -c "
+        source '$PROJECT_ROOT/lib/core.zsh' 2>/dev/null
+        source '$PROJECT_ROOT/commands/status.zsh'
+        _flow_has_atlas() { return 1 }
+        _flow_status_set '$tmp' --focus
+    " 2>&1)
+    local exit_code=$?
+
+    if [[ $exit_code -eq 124 ]]; then
+        test_fail "_flow_status_set --focus with no value hung (timeout)"
+        return
+    fi
+    assert_exit_code "$exit_code" 1 "should error on a missing value" || return
+
+    local result=$(_flow_status_get_field "$tmp/.STATUS" "Focus")
+    assert_equals "$result" "original focus" "Focus must be untouched, not blanked" && test_pass
+}
+
+test_status_set_flag_shaped_value_rejected() {
+    test_case "_flow_status_set --focus followed by another flag doesn't consume it as the value"
+
+    local tmp="$TEST_DIR/set-status2"
+    mkdir -p "$tmp"
+    cat > "$tmp/.STATUS" << 'EOF'
+## Status: active
+## Focus: original focus
+## Progress: 50
+EOF
+
+    _flow_has_atlas() { return 1 }
+    _flow_status_set "$tmp" --focus --progress 90 >/dev/null 2>&1
+    local exit_code=$?
+
+    assert_exit_code "$exit_code" 1 "should error on a flag-shaped value" || return
+
+    local focus=$(_flow_status_get_field "$tmp/.STATUS" "Focus")
+    assert_equals "$focus" "original focus" "Focus must be untouched" && test_pass
+}
+
+test_status_set_valid_value_still_works() {
+    test_case "_flow_status_set --focus <text> --progress <n> still updates both fields"
+
+    local tmp="$TEST_DIR/set-status3"
+    mkdir -p "$tmp"
+    cat > "$tmp/.STATUS" << 'EOF'
+## Status: active
+## Focus: original focus
+## Progress: 50
+EOF
+
+    _flow_has_atlas() { return 1 }
+    _flow_status_set "$tmp" --focus "new focus" --progress 90 >/dev/null 2>&1
+
+    local focus=$(_flow_status_get_field "$tmp/.STATUS" "Focus")
+    local progress=$(_flow_status_get_field "$tmp/.STATUS" "Progress")
+    assert_equals "$focus" "new focus" "Focus should update" || return
+    assert_equals "$progress" "90" "Progress should update" && test_pass
+}
+
+# ============================================================================
 # FUNCTION EXISTS CHECKS
 # ============================================================================
 
@@ -252,6 +333,11 @@ main() {
     test_set_field_case_insensitive_update
     test_set_field_missing_file
     test_set_field_special_chars
+
+    test_suite_start "--- _flow_status_set (arg-guard) tests ---"
+    test_status_set_missing_value_does_not_hang
+    test_status_set_flag_shaped_value_rejected
+    test_status_set_valid_value_still_works
 
     cleanup
 
