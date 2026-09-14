@@ -2191,6 +2191,57 @@ Prompts for each fixable issue: missing deps, R packages, git hooks, stale cache
 
 ---
 
+#### Dashboard: Dynamic Website Content (v7.17.0)
+
+Generates the JSON a course website reads client-side to show "This Week," breaks, and
+announcements without a full site rebuild (issue #275).
+
+**Generate the dashboard data file:**
+
+```bash
+teach dashboard generate
+teach dashboard generate --force   # overwrite .teach/semester-data.json
+
+```
+
+Reads `.flow/teach-config.yml` (course/semester/timezone) plus `.flow/lesson-plans.yml` (or the
+legacy `semester_info.weeks[]`) and writes `.teach/semester-data.json` — the current week's
+data, the full weeks array, breaks, and any announcements, in one schema-versioned JSON blob.
+Requires `yq` and `jq`.
+
+**Preview a week without generating the file:**
+
+```bash
+teach dashboard preview
+teach dashboard preview --week 5
+
+```
+
+**Post a site announcement:**
+
+```bash
+teach dashboard announce "Midterm moved" "Now Thursday 2/20, same room." --expires 2026-02-21
+teach dashboard announce   # interactive wizard (prompts for title/message/expires/type)
+
+```
+
+Appends to `.teach/announcements.json` (auto-created); `--type` defaults to `note`, `--id`
+defaults to a slug of the title.
+
+**Check dashboard health:**
+
+```bash
+teach dashboard status
+
+```
+
+Reports whether a `dashboard:` config section exists, how many announcements are stored (and
+how many are expired), and how stale `.teach/semester-data.json` is.
+
+`teach dash` is the short alias for all four subcommands.
+
+---
+
 ### Advanced
 
 #### Scholar Configuration
