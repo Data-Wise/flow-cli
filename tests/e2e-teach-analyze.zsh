@@ -39,7 +39,15 @@ restore_concepts() {
     fi
 }
 
+# EXIT alone is not enough: a SIGTERM from run-all.sh's own `timeout`
+# wrapper (this suite runs close to its budget already, see setup below)
+# kills the process without running EXIT traps, so a timing-out run would
+# leave concepts.json corrupted and leak the mktemp backup (#526 review,
+# empirically confirmed). restore_concepts is idempotent — it clears
+# CONCEPTS_BACKUP after restoring — so calling it from both handlers is
+# safe even if EXIT still fires after TERM/INT.
 trap restore_concepts EXIT
+trap 'restore_concepts; exit 143' TERM INT
 
 # Test counters
 PASS=0

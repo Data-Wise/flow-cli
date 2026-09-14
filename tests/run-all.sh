@@ -5,6 +5,12 @@
 cd "$(dirname "$0")/.."
 REPO_ROOT="$PWD"
 
+# Pre-run baseline (#526 review): a bare post-run `git status --short` would
+# misattribute any unrelated pre-existing uncommitted change to test
+# pollution. Snapshotting now lets the end-of-run guard report only what
+# actually changed during this invocation.
+BASELINE_STATUS="$(git status --short 2>/dev/null)"
+
 echo "========================================="
 echo "  flow-cli Local Test Suite"
 echo "========================================="
@@ -43,6 +49,16 @@ read -r -d '' SANDBOX_STATUS_TEMPLATE <<'EOF'
 ## Progress: 0
 EOF
 
+# Tracks whichever sandbox dir is currently in use so an interrupt (Ctrl-C)
+# mid-suite doesn't leak it (#526 review) — _run_sandboxed's own `rm -rf`
+# never runs if run-all.sh itself is killed before that line.
+CURRENT_SANDBOX=""
+_cleanup_sandbox_on_interrupt() {
+    [[ -n "$CURRENT_SANDBOX" ]] && rm -rf "$CURRENT_SANDBOX"
+    exit 130
+}
+trap _cleanup_sandbox_on_interrupt INT TERM
+
 # Run one attempt of $1 (absolute path) with $2 as its interpreter, cd'd into
 # a fresh throwaway project directory. The cd happens in a subshell so it
 # never leaks back into run-all.sh's own CWD — no manual restore needed.
@@ -53,12 +69,14 @@ _run_sandboxed() {
 
     local sandbox
     sandbox=$(mktemp -d "${TMPDIR:-/tmp}/flow-test-sandbox.XXXXXX")
+    CURRENT_SANDBOX="$sandbox"
     printf '%s\n' "$SANDBOX_STATUS_TEMPLATE" > "$sandbox/.STATUS"
 
     ( cd "$sandbox" && exec timeout "$timeout_seconds" "$interpreter" "$abs_test_file" ) > /dev/null 2>&1
     local rc=$?
 
     rm -rf "$sandbox"
+    CURRENT_SANDBOX=""
     return $rc
 }
 
@@ -219,7 +237,11 @@ run_test ./tests/dogfood-agenda.zsh
 echo ""
 echo "E2E tests:"
 run_test ./tests/e2e-teach-plan.zsh
-run_test ./tests/e2e-teach-analyze.zsh "" sandbox
+# Not tagged "sandbox": this suite's write target ($DEMO_COURSE/.teach/
+# concepts.json) is $0-anchored, never $PWD-derived, so CWD-sandboxing
+# would be a no-op here — it protects the fixture with its own
+# backup_concepts/restore_concepts trap instead (#526 review).
+run_test ./tests/e2e-teach-analyze.zsh
 run_test ./tests/e2e-dot-safety.zsh
 run_test ./tests/e2e-teach-deploy-v2.zsh
 run_test ./tests/e2e-core-commands.zsh "" sandbox
@@ -248,6 +270,31 @@ run_test ./tests/test-teach-prompt-unit.zsh
 run_test ./tests/test-scholar-config-sync.zsh
 
 echo ""
+
+# Regression guard (#526): a full run must never leave the working tree
+# dirty. Sandboxing each suite's CWD (above) stops the known writers, but
+# this is the systemic gate — it catches any future suite that resolves a
+# write target via $PWD/an unsandboxed fixture path instead of an explicit
+# scratch dir, whether or not it's one we already know about.
+#
+# Diffed against BASELINE_STATUS (captured before any suite ran), not a
+# bare post-run snapshot — otherwise an unrelated pre-existing uncommitted
+# change in the developer's own tree would be misattributed to test
+# pollution. Computed and counted into FAIL *before* the "Results:" line
+# below is printed, so that line always reflects the true outcome instead
+# of reporting "0 failed" alongside a separate, uncounted dirty-tree error.
+CURRENT_STATUS="$(cd "$REPO_ROOT" && git status --short 2>/dev/null)"
+if [[ "$CURRENT_STATUS" != "$BASELINE_STATUS" ]]; then
+    NEW_DIRT="$(comm -13 <(sort <<<"$BASELINE_STATUS") <(sort <<<"$CURRENT_STATUS"))"
+    if [[ -n "$NEW_DIRT" ]]; then
+        echo "❌ Working tree changed during the test run — a suite wrote to a"
+        echo "   tracked file instead of a sandboxed scratch path:"
+        echo "$NEW_DIRT" | sed 's/^/   /'
+        echo ""
+        ((FAIL++))
+    fi
+fi
+
 echo "========================================="
 echo "  Results: $PASS passed, $FAIL failed, $TIMEOUT timeout, $SKIP skipped"
 echo "========================================="
@@ -257,20 +304,6 @@ if [[ $SKIP -gt 0 ]]; then
     echo "Note: $SKIP suite(s) skipped — a required external tool/service was"
     echo "absent (atlas, ait/aiterm, himalaya, R, quarto). Expected on a hosted"
     echo "CI runner; locally they run when the tool is installed."
-fi
-
-# Regression guard (#526): a full run must never leave the working tree
-# dirty. Sandboxing each suite's CWD (above) stops the known writers, but
-# this is the systemic gate — it catches any future suite that resolves a
-# write target via $PWD/an unsandboxed fixture path instead of an explicit
-# scratch dir, whether or not it's one we already know about.
-DIRTY="$(cd "$REPO_ROOT" && git status --short 2>/dev/null)"
-if [[ -n "$DIRTY" ]]; then
-    echo ""
-    echo "❌ Working tree is dirty after the test run — a suite wrote to a"
-    echo "   tracked file instead of a sandboxed scratch path:"
-    echo "$DIRTY" | sed 's/^/   /'
-    FAIL=$((FAIL + 1))
 fi
 
 if [[ $FAIL -gt 0 ]]; then
