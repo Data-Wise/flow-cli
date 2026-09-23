@@ -12,16 +12,16 @@
 #   claude-sync --no-push    # Re-add + commit only, don't push
 #   claude-sync --add <path> # Add a new ~/.claude/... path to tracking
 
-# Commit what chezmoi staged under the ~/.claude source dir. chezmoi commits by
+# Commit what chezmoi staged for <target> (default ~/.claude). chezmoi commits by
 # itself only when git.autoCommit is configured, which is not assumed here.
-# Commits only that subtree, so unrelated staged dotfile edits stay staged.
+# Commits only that target's source path, so unrelated staged dotfile edits stay staged.
 _claude_sync_commit() {
-    local src="$1" claude_src
-    claude_src=$(chezmoi source-path ~/.claude 2>/dev/null)
-    [[ -n "$claude_src" ]] || return 1
-    git -C "$src" add -A -- "$claude_src" || return 1
-    git -C "$src" diff --cached --quiet -- "$claude_src" && return 0
-    git -C "$src" commit -q -m "chore(claude): claude-sync $(date +%Y-%m-%d)" -- "$claude_src"
+    local src="$1" target="${2:-$HOME/.claude}" target_src
+    target_src=$(chezmoi source-path "$target" 2>/dev/null)
+    [[ -n "$target_src" ]] || return 1
+    git -C "$src" add -A -- "$target_src" || return 1
+    git -C "$src" diff --cached --quiet -- "$target_src" && return 0
+    git -C "$src" commit -q -m "chore(claude): claude-sync $(date +%Y-%m-%d)" -- "$target_src"
 }
 
 claude-sync() {
@@ -60,7 +60,7 @@ claude-sync() {
             local add_src
             add_src=$(chezmoi source-path 2>/dev/null)
             chezmoi add "$extra_path" && \
-                _claude_sync_commit "$add_src" && \
+                _claude_sync_commit "$add_src" "$extra_path" && \
                 git -C "$add_src" push origin main
             return $?
             ;;

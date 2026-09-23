@@ -39,17 +39,19 @@ chezmoi() {
     local sub="$1"; shift
     case "$sub" in
         source-path)
-            if [[ -n "$1" ]]; then print -r -- "$SRC/dot_claude"; else print -r -- "$SRC"; fi ;;
+            if [[ -z "$1" ]]; then print -r -- "$SRC"
+            elif [[ "$1" == "$HOME/.claude"* ]]; then print -r -- "$SRC/dot_claude${1#$HOME/.claude}"
+            else print -r -- "$SRC/dot_${1#$HOME/.}"; fi ;;
         managed)
             print -r -- ".claude"; print -r -- ".claude/CLAUDE.md" ;;
         add|re-add)
             local p rel
             for p in "$@"; do
-                rel="${p#$HOME/.claude/}"
+                rel="$(chezmoi source-path "$p")"
                 if [[ -d "$p" ]]; then
-                    mkdir -p "$SRC/dot_claude/$rel" && cp -R "$p/." "$SRC/dot_claude/$rel/"
+                    mkdir -p "$rel" && cp -R "$p/." "$rel/"
                 else
-                    mkdir -p "$SRC/dot_claude/${rel:h}" && cp "$p" "$SRC/dot_claude/$rel"
+                    mkdir -p "${rel:h}" && cp "$p" "$rel"
                 fi
             done ;;
         diff) ;;
@@ -155,6 +157,17 @@ test_add_commits_before_push() {
     test_pass
 }
 
+test_add_outside_claude_commits_that_path() {
+    test_case "--add of a path outside ~/.claude still commits it"
+    make_sandbox
+    print -r -- "set -o vi" > "$HOME/.inputrc"
+    claude-sync --add "$HOME/.inputrc" >/dev/null 2>&1
+    local remote_files; remote_files=$(git -C "$ORIGIN" ls-tree -r --name-only main)
+    teardown_sandbox
+    assert_contains "$remote_files" "dot_inputrc" || return
+    test_pass
+}
+
 # ──────────────────────────────────────────────────────────────────────────────
 # MAIN
 # ──────────────────────────────────────────────────────────────────────────────
@@ -169,6 +182,7 @@ main() {
     test_second_run_reports_already_synced
     test_does_not_commit_unrelated_dotfiles
     test_add_commits_before_push
+    test_add_outside_claude_commits_that_path
 
     test_suite_end
     exit $?
