@@ -169,7 +169,7 @@ test_add_outside_claude_commits_that_path() {
 }
 
 test_skips_tmpdir_project_memory() {
-    test_case "memory dirs of \$TMPDIR projects (-private-var-folders-*) are not synced"
+    test_case "memory dirs of flow-cli test sandboxes (*-flow-test-sandbox-*) are not synced"
     make_sandbox
     local tmp_proj="$HOME/.claude/projects/-private-var-folders-xn-abc-T-flow-test-sandbox-1a2b3c"
     mkdir -p "$tmp_proj/memory" && : > "$tmp_proj/memory/.keep"
@@ -182,7 +182,7 @@ test_skips_tmpdir_project_memory() {
 }
 
 test_does_not_commit_stale_tmpdir_copies_in_source() {
-    test_case "copies of \$TMPDIR project memory already in the source dir are not committed"
+    test_case "copies of test-sandbox memory already in the source dir are not committed"
     make_sandbox
     local stale="$SRC/dot_claude/projects/private_-private-var-folders-xn-abc-T-flow-test-sandbox-9z8y7x/memory"
     mkdir -p "$stale" && : > "$stale/.keep"
@@ -191,6 +191,18 @@ test_does_not_commit_stale_tmpdir_copies_in_source() {
     teardown_sandbox
     assert_contains "$remote_files" "dot_claude/projects/p1/memory/one.md" || return
     assert_not_contains "$remote_files" "private-var-folders" || return
+    test_pass
+}
+
+test_syncs_real_memory_of_tmpdir_rooted_project() {
+    test_case "a \$TMPDIR-rooted project that is not a test sandbox still syncs"
+    make_sandbox
+    local tmp_root="$HOME/.claude/projects/-private-var-folders-xn-abc-T"
+    mkdir -p "$tmp_root/memory" && print -r -- "real" > "$tmp_root/memory/note.md"
+    claude-sync >/dev/null 2>&1
+    local remote_files; remote_files=$(git -C "$ORIGIN" ls-tree -r --name-only main)
+    teardown_sandbox
+    assert_contains "$remote_files" "dot_claude/projects/-private-var-folders-xn-abc-T/memory/note.md" || return
     test_pass
 }
 
@@ -211,6 +223,7 @@ main() {
     test_add_outside_claude_commits_that_path
     test_skips_tmpdir_project_memory
     test_does_not_commit_stale_tmpdir_copies_in_source
+    test_syncs_real_memory_of_tmpdir_rooted_project
 
     test_suite_end
     exit $?
