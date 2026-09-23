@@ -35,6 +35,13 @@ This file provides guidance to Claude Code when working with code in this reposi
 - **dev**: Planning & Integration Hub. All features start here.
 - **feature/**: Isolated implementation branches (via worktrees).
 
+**GitHub-side:** `main` has the `main-protection` ruleset (PR + required status checks). Since
+2026-09-23 `dev` has a deletion-only ruleset (`protect-dev-from-deletion`, id 23893566 — no
+push/PR/review rules, so commits to `dev` are still policed only by the local hook) and the repo
+auto-deletes merged head branches. The `dev` ruleset is load-bearing: release PRs use `dev` as
+head, and auto-delete removes an unprotected head branch on merge, so dropping it would delete
+`dev` at the next `dev→main` release.
+
 ### Mandatory Workflow Steps
 
 1. **Plan on `dev`** — `git checkout dev && git pull origin dev`. Analyze, write a `docs/specs/SPEC-*.md`, wait for approval, commit the spec to `dev`. **Never write feature code on `dev`.**
