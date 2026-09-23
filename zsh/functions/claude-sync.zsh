@@ -19,9 +19,12 @@ _claude_sync_commit() {
     local src="$1" target="${2:-$HOME/.claude}" target_src
     target_src=$(chezmoi source-path "$target" 2>/dev/null)
     [[ -n "$target_src" ]] || return 1
-    git -C "$src" add -A -- "$target_src" || return 1
-    git -C "$src" diff --cached --quiet -- "$target_src" && return 0
-    git -C "$src" commit -q -m "chore(claude): claude-sync $(date +%Y-%m-%d)" -- "$target_src"
+    # Also exclude $TMPDIR-project memory already copied into the source dir by
+    # an earlier run: skipping it at `chezmoi add` time alone would not stop it.
+    local -a spec=( "$target_src" ':(exclude,glob)**/*-private-var-folders-*/**' )
+    git -C "$src" add -A -- "${spec[@]}" || return 1
+    git -C "$src" diff --cached --quiet -- "${spec[@]}" && return 0
+    git -C "$src" commit -q -m "chore(claude): claude-sync $(date +%Y-%m-%d)" -- "${spec[@]}"
 }
 
 claude-sync() {

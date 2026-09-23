@@ -181,6 +181,19 @@ test_skips_tmpdir_project_memory() {
     test_pass
 }
 
+test_does_not_commit_stale_tmpdir_copies_in_source() {
+    test_case "copies of \$TMPDIR project memory already in the source dir are not committed"
+    make_sandbox
+    local stale="$SRC/dot_claude/projects/private_-private-var-folders-xn-abc-T-flow-test-sandbox-9z8y7x/memory"
+    mkdir -p "$stale" && : > "$stale/.keep"
+    claude-sync >/dev/null 2>&1
+    local remote_files; remote_files=$(git -C "$ORIGIN" ls-tree -r --name-only main)
+    teardown_sandbox
+    assert_contains "$remote_files" "dot_claude/projects/p1/memory/one.md" || return
+    assert_not_contains "$remote_files" "private-var-folders" || return
+    test_pass
+}
+
 # ──────────────────────────────────────────────────────────────────────────────
 # MAIN
 # ──────────────────────────────────────────────────────────────────────────────
@@ -197,6 +210,7 @@ main() {
     test_add_commits_before_push
     test_add_outside_claude_commits_that_path
     test_skips_tmpdir_project_memory
+    test_does_not_commit_stale_tmpdir_copies_in_source
 
     test_suite_end
     exit $?
