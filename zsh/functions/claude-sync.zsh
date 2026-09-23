@@ -19,9 +19,12 @@ _claude_sync_commit() {
     local src="$1" target="${2:-$HOME/.claude}" target_src
     target_src=$(chezmoi source-path "$target" 2>/dev/null)
     [[ -n "$target_src" ]] || return 1
-    git -C "$src" add -A -- "$target_src" || return 1
-    git -C "$src" diff --cached --quiet -- "$target_src" && return 0
-    git -C "$src" commit -q -m "chore(claude): claude-sync $(date +%Y-%m-%d)" -- "$target_src"
+    # Also exclude $TMPDIR-project memory already copied into the source dir by
+    # an earlier run: skipping it at `chezmoi add` time alone would not stop it.
+    local -a spec=( "$target_src" ':(exclude,glob)**/*-private-var-folders-*/**' )
+    git -C "$src" add -A -- "${spec[@]}" || return 1
+    git -C "$src" diff --cached --quiet -- "${spec[@]}" && return 0
+    git -C "$src" commit -q -m "chore(claude): claude-sync $(date +%Y-%m-%d)" -- "${spec[@]}"
 }
 
 claude-sync() {
@@ -69,6 +72,9 @@ claude-sync() {
     # Default: sync tracked ~/.claude paths, commit (auto), push (unless --no-push)
     local file_targets=( ~/.claude/CLAUDE.md(N) )
     local dir_targets=( ~/.claude/projects/*/memory(N/) )
+    # Skip projects rooted in macOS $TMPDIR (/private/var/folders/...): test
+    # sandboxes and throwaway sessions, whose memory is never worth keeping.
+    dir_targets=( ${dir_targets:#*/projects/-private-var-folders-*} )
 
     # Skip if nothing tracked yet
     local tracked
