@@ -9,12 +9,12 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-09-23) — `claude-sync` now commits (#529) + skips $TMPDIR memory (#530)
+## Current Session (2026-09-23) — `claude-sync` now commits (#529) + skips test-sandbox memory (#530, #531)
 
 **`claude-sync` never committed on this machine.** It relied on chezmoi `git.autoCommit`, which
 is not configured, so `chezmoi add`/`re-add` only staged into `~/.local/share/chezmoi`; the
 ahead-of-`origin/main` check then printed `nothing to push (already synced)` while 50 changes
-accumulated (committed by hand as dotfiles `fc776f6`). Both PRs merged to `dev`, run from the
+accumulated (committed by hand as dotfiles `fc776f6`). All three PRs merged to `dev`, run from the
 rforge session; the main checkout is fast-forwarded, so the fix is live via `~/.config/zsh`.
 
 - **PR #529 (`09b4876bb`):** new `_claude_sync_commit` stages and commits only the target's
@@ -23,16 +23,24 @@ rforge session; the main checkout is fast-forwarded, so the fix is live via `~/.
   `~/.claude` was staged but never committed). Header now names flow-cli as the source (it said
   chezmoi-managed). New `tests/test-claude-sync.zsh` (fake `chezmoi`, real git vs a throwaway
   bare origin), registered in `run-all.sh`.
-- **PR #530 (`b568038d6`):** skips `~/.claude/projects/-private-var-folders-*` memory dirs (test
-  sandboxes / throwaway `$TMPDIR` sessions; 10 of 68 on this machine) at `chezmoi add` time, and
-  (review fix) excludes them in the commit pathspec too, since an earlier run had already copied
-  7 into the chezmoi source. Dry run on the real source: 5 `.keep` files staged without the
-  exclude, 0 with it. `test-claude-sync.zsh` 9/9.
+- **PR #530 (`b568038d6`, pattern superseded by #531):** skipped `-private-var-folders-*` memory
+  dirs at `chezmoi add` time and (review fix) in the commit pathspec, since an earlier run had
+  already copied some into the chezmoi source. Dry run on the real source: 5 `.keep` files staged
+  without the exclude, 0 with it.
+- **PR #531 (`508a62550`):** #530's prefix was too broad — a session whose cwd was `$TMPDIR`
+  itself (`-private-var-folders-...-T`) holds real memory; two here have 5 files, one edited
+  2026-09-21. Both skips now match only `*-flow-test-sandbox-*` (the `mktemp` name `run-all.sh`
+  line 71 uses). Real dirs: 71 total, 11 skipped, both real ones synced again.
+  `test-claude-sync.zsh` 10/10.
 - **Suite:** 86 passed / 3 failed — `test-doctor`, `e2e-em-dispatcher`, `test-atlas-contract`,
-  all failing on `dev` without these changes too (local environment). CI green on both PRs;
+  all failing on `dev` without these changes too (local environment). CI green on all three PRs;
   the optional Extended Suite flaked once on `test-sync` and passed on re-run.
-- **Loose end:** 7 stale `-private-var-folders-*` copies remain untracked in the chezmoi source;
-  harmless now (never committed), removable with `chezmoi forget`.
+- **Chezmoi source tidied:** `chezmoi forget` removed the 5 empty `*-flow-test-sandbox-*` copies;
+  the 2 real `-private-var-folders-...-T` memory dirs stay tracked (committed in dotfiles `fc776f6`).
+- **Repo settings (no PR):** `dev` got a deletion-only ruleset `protect-dev-from-deletion`
+  (id 23893566) and the repo now auto-deletes merged head branches, same as craft/savant/rforge;
+  documented in `CLAUDE.md` Branch Architecture (`fbc6fc8e4`). Consequence: a squash-merged
+  local branch loses its upstream, so `git branch -d` refuses it and needs `-D`.
 
 ## Previous Session (2026-09-13) — `teach week` fixed (#521) + `teach dashboard` shipped (#275 closed)
 
