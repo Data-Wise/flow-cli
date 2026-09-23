@@ -1183,3 +1183,6 @@ alias claude-work="CLAUDE_CONFIG_DIR=\"$HOME/.claude-work\" claude"
 cc-work() {
   CLAUDE_CONFIG_DIR="$HOME/.claude-work" cc "$@"
 }
+
+# opencode
+export PATH="$HOME/.opencode/bin:$PATH"
