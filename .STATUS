@@ -9,7 +9,32 @@
 ## Priority: 2
 ## Progress: 100
 
-## Current Session (2026-09-13) — `teach week` fixed (#521) + `teach dashboard` shipped (#275 closed)
+## Current Session (2026-09-23) — `claude-sync` now commits (#529) + skips $TMPDIR memory (#530)
+
+**`claude-sync` never committed on this machine.** It relied on chezmoi `git.autoCommit`, which
+is not configured, so `chezmoi add`/`re-add` only staged into `~/.local/share/chezmoi`; the
+ahead-of-`origin/main` check then printed `nothing to push (already synced)` while 50 changes
+accumulated (committed by hand as dotfiles `fc776f6`). Both PRs merged to `dev`, run from the
+rforge session; the main checkout is fast-forwarded, so the fix is live via `~/.config/zsh`.
+
+- **PR #529 (`09b4876bb`):** new `_claude_sync_commit` stages and commits only the target's
+  chezmoi source path (default `~/.claude`), so unrelated staged dotfile edits stay staged.
+  Default and `--no-push` now commit; `--add` commits the added path (review fix: a path outside
+  `~/.claude` was staged but never committed). Header now names flow-cli as the source (it said
+  chezmoi-managed). New `tests/test-claude-sync.zsh` (fake `chezmoi`, real git vs a throwaway
+  bare origin), registered in `run-all.sh`.
+- **PR #530 (`b568038d6`):** skips `~/.claude/projects/-private-var-folders-*` memory dirs (test
+  sandboxes / throwaway `$TMPDIR` sessions; 10 of 68 on this machine) at `chezmoi add` time, and
+  (review fix) excludes them in the commit pathspec too, since an earlier run had already copied
+  7 into the chezmoi source. Dry run on the real source: 5 `.keep` files staged without the
+  exclude, 0 with it. `test-claude-sync.zsh` 9/9.
+- **Suite:** 86 passed / 3 failed — `test-doctor`, `e2e-em-dispatcher`, `test-atlas-contract`,
+  all failing on `dev` without these changes too (local environment). CI green on both PRs;
+  the optional Extended Suite flaked once on `test-sync` and passed on re-run.
+- **Loose end:** 7 stale `-private-var-folders-*` copies remain untracked in the chezmoi source;
+  harmless now (never committed), removable with `chezmoi forget`.
+
+## Previous Session (2026-09-13) — `teach week` fixed (#521) + `teach dashboard` shipped (#275 closed)
 
 **Issue #275 implemented and merged.** Spec (`docs/specs/SPEC-teach-dashboard-2026-09-12.md`,
 corrected the issue's proposal on 5 points before writing code: wrong output directory, reused
