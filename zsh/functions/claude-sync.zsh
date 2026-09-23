@@ -4,14 +4,25 @@
 # Keeps ~/.claude/CLAUDE.md and per-project memory dirs in sync with the
 # dotfiles repo (Data-Wise/dotfiles via chezmoi).
 #
-# Source: managed by chezmoi at dot_config/zsh/functions/claude-sync.zsh
-# Apply destination: ~/.config/zsh/functions/claude-sync.zsh
+# Source: flow-cli zsh/functions/claude-sync.zsh (~/.config/zsh links to flow-cli/zsh)
 #
 # Usage:
-#   claude-sync              # Re-add tracked files + push (silent if nothing changed)
+#   claude-sync              # Re-add tracked files, commit, push (silent if nothing changed)
 #   claude-sync --status     # Show drift between live ~ and chezmoi source
 #   claude-sync --no-push    # Re-add + commit only, don't push
 #   claude-sync --add <path> # Add a new ~/.claude/... path to tracking
+
+# Commit what chezmoi staged for <target> (default ~/.claude). chezmoi commits by
+# itself only when git.autoCommit is configured, which is not assumed here.
+# Commits only that target's source path, so unrelated staged dotfile edits stay staged.
+_claude_sync_commit() {
+    local src="$1" target="${2:-$HOME/.claude}" target_src
+    target_src=$(chezmoi source-path "$target" 2>/dev/null)
+    [[ -n "$target_src" ]] || return 1
+    git -C "$src" add -A -- "$target_src" || return 1
+    git -C "$src" diff --cached --quiet -- "$target_src" && return 0
+    git -C "$src" commit -q -m "chore(claude): claude-sync $(date +%Y-%m-%d)" -- "$target_src"
+}
 
 claude-sync() {
     local action="default"
@@ -46,8 +57,11 @@ claude-sync() {
                 echo "claude-sync: --add needs an existing path" >&2
                 return 2
             fi
+            local add_src
+            add_src=$(chezmoi source-path 2>/dev/null)
             chezmoi add "$extra_path" && \
-                git -C "$(chezmoi source-path)" push origin main
+                _claude_sync_commit "$add_src" "$extra_path" && \
+                git -C "$add_src" push origin main
             return $?
             ;;
     esac
@@ -71,21 +85,26 @@ claude-sync() {
     # Directories: use `add` (recurses, picks up new files written this session)
     (( ${#dir_targets[@]} > 0 )) && chezmoi add "${dir_targets[@]}" 2>/dev/null
 
+    # Use `git -C "$(chezmoi source-path)"` instead of `chezmoi cd &&` —
+    # `chezmoi cd` is interactive-only and silently no-ops in a sourced
+    # function, which previously caused git commands to run in the wrong
+    # repo's CWD.
+    local src
+    src=$(chezmoi source-path 2>/dev/null)
+    if [[ -z "$src" || ! -d "$src/.git" ]]; then
+        echo "claude-sync: can't locate chezmoi source git repo" >&2
+        return 1
+    fi
+
+    if ! _claude_sync_commit "$src"; then
+        echo "claude-sync: commit failed in $src" >&2
+        return 1
+    fi
+
     # Push if commits were made
     if [[ "$action" != "no-push" ]]; then
-        # Use `git -C "$(chezmoi source-path)"` instead of `chezmoi cd &&` —
-        # `chezmoi cd` is interactive-only and silently no-ops in a sourced
-        # function, which previously caused git commands to run in the wrong
-        # repo's CWD.
-        local src
-        src=$(chezmoi source-path 2>/dev/null)
-        if [[ -z "$src" || ! -d "$src/.git" ]]; then
-            echo "claude-sync: can't locate chezmoi source git repo" >&2
-            return 1
-        fi
-
-        # Local-ahead check: chezmoi auto-commits even when content didn't
-        # change, so this can be true with no actual remote-bound work.
+        # Local-ahead check: covers this run's commit and any earlier
+        # unpushed ones (e.g. from --no-push).
         if [[ -z "$(git -C "$src" log origin/main..HEAD --oneline 2>/dev/null)" ]]; then
             echo "claude-sync: nothing to push (already synced)"
             return 0
