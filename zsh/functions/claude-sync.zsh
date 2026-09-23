@@ -69,6 +69,9 @@ claude-sync() {
     # Default: sync tracked ~/.claude paths, commit (auto), push (unless --no-push)
     local file_targets=( ~/.claude/CLAUDE.md(N) )
     local dir_targets=( ~/.claude/projects/*/memory(N/) )
+    # Skip projects rooted in macOS $TMPDIR (/private/var/folders/...): test
+    # sandboxes and throwaway sessions, whose memory is never worth keeping.
+    dir_targets=( ${dir_targets:#*/projects/-private-var-folders-*} )
 
     # Skip if nothing tracked yet
     local tracked

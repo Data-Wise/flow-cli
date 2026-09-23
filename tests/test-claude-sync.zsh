@@ -168,6 +168,19 @@ test_add_outside_claude_commits_that_path() {
     test_pass
 }
 
+test_skips_tmpdir_project_memory() {
+    test_case "memory dirs of \$TMPDIR projects (-private-var-folders-*) are not synced"
+    make_sandbox
+    local tmp_proj="$HOME/.claude/projects/-private-var-folders-xn-abc-T-flow-test-sandbox-1a2b3c"
+    mkdir -p "$tmp_proj/memory" && : > "$tmp_proj/memory/.keep"
+    claude-sync >/dev/null 2>&1
+    local remote_files; remote_files=$(git -C "$ORIGIN" ls-tree -r --name-only main)
+    teardown_sandbox
+    assert_contains "$remote_files" "dot_claude/projects/p1/memory/one.md" || return
+    assert_not_contains "$remote_files" "private-var-folders" || return
+    test_pass
+}
+
 # ──────────────────────────────────────────────────────────────────────────────
 # MAIN
 # ──────────────────────────────────────────────────────────────────────────────
@@ -183,6 +196,7 @@ main() {
     test_does_not_commit_unrelated_dotfiles
     test_add_commits_before_push
     test_add_outside_claude_commits_that_path
+    test_skips_tmpdir_project_memory
 
     test_suite_end
     exit $?
