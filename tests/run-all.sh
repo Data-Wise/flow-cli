@@ -163,6 +163,7 @@ run_test ./tests/test-em-move-restore.zsh
 run_test ./tests/test-em-undo.zsh
 run_test ./tests/test-tok.zsh
 run_test ./tests/test-tok-sync.zsh
+run_test ./tests/test-claude-sync.zsh
 
 echo ""
 echo "Core command tests:"
