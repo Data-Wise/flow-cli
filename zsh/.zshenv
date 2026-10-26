@@ -116,3 +116,6 @@ fi
 #
 # They will still be available in interactive shells via .zshrc
 [[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
+
+# opencode
+export PATH="$HOME/.opencode/bin:$PATH"

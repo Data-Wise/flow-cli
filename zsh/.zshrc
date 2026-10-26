@@ -1078,9 +1078,6 @@ fpath=(~/.zsh/completions $fpath)
 # Sibling of the iTerm2-integration gating above (same escape-leak-into-TUI class).
 export BUN_DISABLE_KITTY_PROBE=1
 
-# Nexus Desktop - Quick Launcher
-# REMOVED 2026-01-17: alias nexus='cd ~/projects/dev-tools/nexus/nexus-desktop && npm start'
-
 
 # ============================================
 # CLAUDE SKILLS MANAGEMENT - Added 2025-01-02
@@ -1124,5 +1121,3 @@ cc-work() {
   CLAUDE_CONFIG_DIR="$HOME/.claude-work" cc "$@"
 }
 
-# opencode
-export PATH="$HOME/.opencode/bin:$PATH"
