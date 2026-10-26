@@ -158,11 +158,7 @@ test_flow_get_file_size() {
   # Source the helper function
   _flow_get_file_size() {
     local file="$1"
-    if stat --version 2>/dev/null | grep -q GNU; then
-      stat -c%s "$file" 2>/dev/null || echo 0
-    else
-      stat -f%z "$file" 2>/dev/null || echo 0
-    fi
+    stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null || echo 0
   }
 
   local size=$(_flow_get_file_size "$test_file")
@@ -449,11 +445,7 @@ test_preview_size_calculation() {
 
   # Get size (cross-platform)
   local size
-  if stat --version 2>/dev/null | grep -q GNU; then
-    size=$(stat -c%s "$test_dir/file1.bin")
-  else
-    size=$(stat -f%z "$test_dir/file1.bin")
-  fi
+  size=$(stat -c%s "$test_dir/file1.bin" 2>/dev/null || stat -f%z "$test_dir/file1.bin")
 
   if [[ $size -eq 1024 ]]; then
     test_pass
@@ -472,11 +464,7 @@ test_preview_large_file_detection() {
 
   # Get size
   local size
-  if stat --version 2>/dev/null | grep -q GNU; then
-    size=$(stat -c%s "$test_dir/large.bin")
-  else
-    size=$(stat -f%z "$test_dir/large.bin")
-  fi
+  size=$(stat -c%s "$test_dir/large.bin" 2>/dev/null || stat -f%z "$test_dir/large.bin")
 
   if (( size > 51200 )); then
     test_pass
