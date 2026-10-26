@@ -21,6 +21,9 @@ source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
 # See: https://github.com/ohmyzsh/ohmyzsh/issues/12328
 zstyle ':omz:alpha:lib:git' async-prompt no
 
+# Docker Desktop CLI completions (fpath must precede compinit, run by antidote below)
+fpath=($HOME/.docker/completions $fpath)
+
 # Load plugins from .zsh_plugins.txt
 # Note: use-omz + ohmyzsh/ohmyzsh path:lib handles compinit automatically
 antidote load $ZDOTDIR/.zsh_plugins.txt
@@ -1120,4 +1123,3 @@ alias claude-work="CLAUDE_CONFIG_DIR=\"$HOME/.claude-work\" claude"
 cc-work() {
   CLAUDE_CONFIG_DIR="$HOME/.claude-work" cc "$@"
 }
-
