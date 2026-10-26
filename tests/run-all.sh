@@ -72,7 +72,7 @@ _run_sandboxed() {
     CURRENT_SANDBOX="$sandbox"
     printf '%s\n' "$SANDBOX_STATUS_TEMPLATE" > "$sandbox/.STATUS"
 
-    ( cd "$sandbox" && exec timeout "$timeout_seconds" "$interpreter" "$abs_test_file" ) > /dev/null 2>&1
+    ( cd "$sandbox" && exec timeout "$timeout_seconds" "$interpreter" "$abs_test_file" ) > "${TEST_OUT:-/dev/null}" 2>&1
     local rc=$?
 
     rm -rf "$sandbox"
@@ -93,6 +93,11 @@ run_test() {
 
     echo -n "Running $name... "
 
+    # Capture the zsh attempt's output so a final failure can show WHY it
+    # failed (#534: CI printed only a bare ❌, hiding the failing assertion).
+    # The bash fallback below stays discarded — it is a retry, not the signal.
+    TEST_OUT=$(mktemp "${TMPDIR:-/tmp}/flow-test-out.XXXXXX")
+
     # Resolve to an absolute path — needed unconditionally so a sandboxed
     # suite's own $0-based path resolution (many use `${0:A:h}` to find
     # fixtures or the plugin itself) still lands on the real repo rather
@@ -103,9 +108,11 @@ run_test() {
     if [[ "$sandbox_mode" == "sandbox" ]]; then
         _run_sandboxed "$abs_test_file" zsh "$timeout_seconds"
     else
-        timeout "$timeout_seconds" zsh "$abs_test_file" > /dev/null 2>&1
+        timeout "$timeout_seconds" zsh "$abs_test_file" > "$TEST_OUT" 2>&1
     fi
     local exit_code=$?
+    local zsh_out="$TEST_OUT"
+    TEST_OUT=/dev/null
 
     if [[ $exit_code -eq 124 ]]; then
         # 124 = timeout
@@ -139,8 +146,15 @@ run_test() {
         else
             echo "❌"
             ((FAIL++))
+            # Last lines of the zsh run, indented; only on a real failure.
+            if [[ -s "$zsh_out" ]]; then
+                echo "    --- last 40 lines of $name (zsh run) ---"
+                tail -n 40 "$zsh_out" | sed 's/^/    | /'
+                echo "    --- end $name ---"
+            fi
         fi
     fi
+    rm -f "$zsh_out"
 }
 
 echo "Dispatcher tests:"
