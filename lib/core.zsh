@@ -696,14 +696,9 @@ _dotf_secret_uses_keychain() {
 _flow_get_file_size() {
   local file="$1"
 
-  # Detect stat flavor
-  if stat --version 2>/dev/null | grep -q GNU; then
-    # GNU stat (Linux)
-    stat -c%s "$file" 2>/dev/null || echo 0
-  else
-    # BSD stat (macOS)
-    stat -f%z "$file" 2>/dev/null || echo 0
-  fi
+  # Probe the GNU-style form first: uutils (Rust) stat reports a non-GNU
+  # --version yet accepts -c, and on BSD `-c` fails so we fall through to -f.
+  stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null || echo 0
 }
 
 # =============================================================================
