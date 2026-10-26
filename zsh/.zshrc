@@ -50,7 +50,6 @@ export QUARTO_DIR="$HOME/quarto-projects"
 
 # R Console
 export R_PROFILE_USER="$HOME/.Rprofile"
-export RADIAN_THEME="native"
 
 # Atlas CLI man pages
 export MANPATH="$HOME/projects/dev-tools/atlas/man:$MANPATH"
@@ -205,8 +204,8 @@ fi
 # Run 'r help' to see all available commands:
 #   r test, r doc, r check, r build, r cov, r cran, r patch, etc.
 
-# R Console - radian as default
-command -v radian >/dev/null && alias R='radian'
+# R Console - arf as default
+command -v arf >/dev/null && alias R='arf'
 
 # ============================================
 # 📝 QUARTO SHORTCUTS
@@ -1100,65 +1099,6 @@ alias gconf='$EDITOR $GHOSTTY_CONFIG'
 # Quick open
 alias gconfv='subl ~/.config/ghostty/config'
 
-# ============================================
-# R / RADIAN ENVIRONMENT - Added 2026-05-25
-# Permanently fixes the recurring rchitect TRUELENGTH dlsym error
-# after Homebrew R/Python upgrades. See ~/.config/zsh/.zshrc.bak-radian-fix-*
-# ============================================
-
-# Layer 3: Pin R_HOME so rchitect always dlopens the current libR.dylib
-if command -v R >/dev/null 2>&1; then
-    unset R_HOME; export R_HOME="$(Rscript -e "cat(R.home())" 2>/dev/null)"
-    export DYLD_LIBRARY_PATH="${R_HOME}/lib:${DYLD_LIBRARY_PATH}"
-fi
-
-# Layer 2a: Detect R version drift between shell sessions
-# If R was upgraded since last shell start, warn user to rebuild radian
-_radian_version_check() {
-    command -v R >/dev/null 2>&1 || return 0
-    local r_ver cached cache_dir old
-    r_ver=$(R --version 2>/dev/null | head -1 | awk '{print $3}')
-    # Guard against a malformed R --version parse, AND against radian's own
-    # "0.6.x"-style version string ending up here by mistake (both are valid
-    # X.Y.Z shapes, so a plain semver regex can't tell them apart -- R has not
-    # shipped a major version 0 or 1 release in decades, radian has never left
-    # major version 0, so major >= 2 is the actual discriminator).
-    [[ "$r_ver" =~ ^([1-9][0-9]+|[2-9])\.[0-9]+\.[0-9]+$ ]] || return 0
-    cache_dir="${HOME}/.cache"
-    cached="${cache_dir}/radian_r_version"
-    mkdir -p "$cache_dir"
-    if [[ -f "$cached" ]]; then
-        old=$(cat "$cached")
-        # Only warn if the cached value is itself a plausible R version -- a
-        # stale/contaminated cache entry must not be compared against the real
-        # R version, or the warning is nonsense (this is exactly how a past
-        # version of this check produced "R changed: 0.6.16 -> 4.6.1").
-        if [[ "$old" =~ ^([1-9][0-9]+|[2-9])\.[0-9]+\.[0-9]+$ && "$old" != "$r_ver" ]]; then
-            print -P "%F{yellow}⚠️  R changed: ${old} → ${r_ver}. If radian breaks, run: pipx reinstall radian%f"
-        fi
-    fi
-    echo "$r_ver" > "$cached"
-}
-_radian_version_check
-
-# Layer 2b: Wrap brew so post-upgrade we auto-rebuild radian on R changes
-# (Python is now isolated via pipx --fetch-python; no Python-related rebuild needed)
-brew() {
-    local was_upgrade=0
-    [[ "$1" == "upgrade" || "$1" == "reinstall" ]] && was_upgrade=1
-    command brew "$@"
-    local rc=$?
-    if (( was_upgrade )) && command -v pipx >/dev/null 2>&1; then
-        # Only rebuild if R itself was touched (Python is decoupled now)
-        if [[ "$*" =~ (^| )r( |$) ]] || [[ "$*" == "upgrade" && "$#" == 1 ]]; then
-            print -P "%F{cyan}🔄 R may have changed — rebuilding radian via pipx...%f"
-            pipx reinstall radian --python 3.13 --fetch-python=missing >/dev/null 2>&1 && \
-                print -P "%F{green}✅ radian rebuilt successfully%f" || \
-                print -P "%F{red}❌ radian rebuild failed — run: pipx reinstall radian --python 3.13 --fetch-python=missing%f"
-        fi
-    fi
-    return $rc
-}
 export HOMEBREW_NO_ENV_HINTS=1
 
 # savant: uv-managed venv location providing openpyxl for the xlsx-render dogfood
